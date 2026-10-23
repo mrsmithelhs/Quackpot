@@ -67,4 +67,3 @@ Additional questions:
 - Which individual assets should ship as SVG and which should be rendered to PNG?
 - What source/provenance notes are needed for manually generated jsfxr sound effects?
 - What library or build proposals, if any, best support agentic development while satisfying the network-call and static-site constraints?
-

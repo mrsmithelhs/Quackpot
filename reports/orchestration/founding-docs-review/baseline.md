@@ -18,4 +18,3 @@ The following owner decisions were recorded on 2026-10-23 after the design basel
 - A two-lens founding design review must precede development orchestration.
 - Shared review goals are high valence, surprising and shareable "Did you see that?" moments, talkability across different runs, and variety that cannot soft-lock, prematurely end, trivialize, or misreport a run. These are guardrails, not a request for exhaustive fairness simulation.
 - Each reviewer conducts bounded research on enjoyable gacha mechanics from its own lens, excludes sexualized content and character design, cites sources, and maps mechanics to Quackpot and the Receipt.
-

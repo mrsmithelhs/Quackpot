@@ -1,0 +1,36 @@
+{
+  "version": 3,
+  "notes": "Matching guidance for all entries (added 2026-09-15): advisor capability is a property of the provider's tool surface — can this thread launch a higher-tier read-only subagent? — not of the harness's current display name. Read every entry below as naming its capability evidence alongside its environment label. A thread that can no longer name-match because its harness renamed itself should declare its capability evidence rather than defaulting to a Branch C degraded mode.",
+  "providers": [
+    {
+      "id": "claude-code",
+      "label": "Claude Code (Anthropic)",
+      "advisorCapable": true,
+      "spawnMechanism": "call-site model/tier override on an existing read-only role via the Agent tool's model parameter (e.g. subagent_type: \"reviewer\", model: \"opus\"); that parameter's own schema is alias-only (sonnet/opus/haiku/fable), no dated-name passthrough -- observed directly in this thread's own Agent tool schema, distinct from custom-agent frontmatter's separate model field",
+      "structuralReadOnlyVerifiable": true,
+      "nativeAdvisorMechanism": "Verdict: not a usable advisor path from this thread as of 2026-07-25 -- reachability from this desktop-hosted session is unestablished and the one paid probe failed at authentication. Detail: live-verified at zero API cost that a --advisor <model> flag exists in the bundled standalone CLI binary and is unregistered by the parser unless CLAUDE_CODE_ENABLE_EXPERIMENTAL_ADVISOR_TOOL=1 is set, at which point an invalid model name produces a specific local catalog-validation error rather than 'unknown option' -- genuine flag-gating behavior. Beyond that gating, the mechanism's further shape (advisorModel setting, the advisor-tool-2026-03-01 Anthropic API beta, an advisor-tier >= main-model-tier pairing rule, subagents inheriting the configured advisor) is read from strings embedded in that same binary and converges with -- but does not independently confirm -- a prior secondhand research pass already in this repo (reports/bootstrap-dev/2026-07-25-claude-5-generation-research.md); treat it as corroborated-in-two-sources, not behaviorally exercised. The binary exposing these strings reports 2.1.219 via exec-path/AI_AGENT env metadata; its own --version output disagrees (2.1.121) -- see notes. Scope: observed only on the bundled CLI's flag-parser surface, reached via an unauthenticated standalone subprocess; this thread itself runs hosted inside the Claude for Windows desktop app, a different execution surface. The one paid probe attempted (--model sonnet --advisor opus, one-word prompt, intended to test account-level enablement) failed with 'Not logged in' before making any API call -- no cost incurred, no enablement signal obtained; not retried (single-probe budget for this check).",
+      "notes": "Plan-19 Claude arm: effective sandbox was independently confirmed read-only from platform metadata, not merely requested; re-checked at plan-28 (2026-07-25) directly against .claude/agents/reviewer.md and explorer.md frontmatter -- still holds. Plan-28 is a point-in-time observation, not a stable platform property -- the host auto-updates on its own cadence (Claude for Windows desktop app reports v1.24012.9 at time of writing) and this thread's own CLI version reporting is internally inconsistent (`claude --version` -> 2.1.121; exec-path/AI_AGENT env metadata -> 2.1.219; the desktop host is a separate version namespace and only plausibly, not confirmedly, explains the gap -- see nativeAdvisorMechanism, which is scoped to the 2.1.219-reporting binary). Re-check recipe (shell-neutral): run `claude --help` and search the output for the word advisor (expect nothing by default); with CLAUDE_CODE_ENABLE_EXPERIMENTAL_ADVISOR_TOOL set to 1, run `claude --advisor bogus -p <prompt>` (expect a specific local model-validation error, not unknown option, if the native tool is still present and gated the same way) -- see nativeAdvisorMechanism for full scope and the account-enablement probe result. Alias resolution on the Anthropic API path (opus -> Opus 5, sonnet -> Sonnet 5) was hands-on confirmed this pass via a discriminating two-tier Agent-tool probe (model:\"opus\" and model:\"sonnet\" each reported their own distinct, tier-appropriate model ID); resolution on other API paths (Bedrock, Google Cloud, Microsoft Foundry) is provider-dependent per reports/bootstrap-dev/2026-07-25-claude-5-generation-research.md and was not independently verified here.",
+      "sourcePacket": "plan-28"
+    },
+    {
+      "id": "codex-cli",
+      "label": "Codex CLI (OpenAI)",
+      "advisorCapable": true,
+      "spawnMechanism": "call-site tier override on an existing read-only role (e.g. agent_type: \"reviewer\", a requested higher-tier model)",
+      "structuralReadOnlyVerifiable": false,
+      "notes": "Plan-19 Codex arm: effective sandbox reported workspace-write despite a read-only request. Treat as instruction-read-only with mandatory compensating controls (see the advisor-consultation block), never as structurally enforced. Self-identification is also tier-generic on this provider (does not discriminate the requested tier) — this is the concrete case behind the implementer variant's fail-closed self-identification rule. Identity drift (accepted 2026-09-15 from an ExcelTutoring reverse-flow proposal): this provider's desktop host has rebranded at least once — the ChatGPT Desktop app hosting Codex agents changed its reported name relative to the recorded sandbox entry — and threads key their self-match on the harness's displayed identity, which manufactured false Branch C (orchestrator-gate-only) degradations on threads that could in fact launch advisors. A thread hosted in a renamed harness must NOT fail closed on a name mismatch alone: if a callable subagent/agent tool is present in the surface, treat the thread as advisor-capable and declare that evidence (\"a subagent tool is present and callable in this surface\") instead of pattern-matching its own name. Harness renames are expected and, alone, are not evidence of capability loss.",
+      "sourcePacket": "plan-19"
+    },
+    {
+      "id": "kimi-code",
+      "label": "Kimi Code CLI (Moonshot AI)",
+      "advisorCapable": false,
+      "inThreadTierSelection": false,
+      "structuralReadOnlyVerifiable": true,
+      "advisorTierPostHocVerifiable": true,
+      "spawnMechanism": "none in-thread: subagents inherit the session model (Agent schema has no model parameter; custom-agent frontmatter ignores model fields). Designed advisor path is owner-mediated consultation: the implementer prepares the artifact and disposition skeleton, the owner carries it to a separate higher-tier thread.",
+      "notes": "Inheritance confirmed by a discriminating two-tier probe pair (k3 thread -> k3 subagent; kimi-for-coding thread -> kimi-for-coding subagent), 2026-07-22/23. No in-context model self-identification; actual tier is post-hoc verifiable in session wire.jsonl (model/modelAlias/provider recorded for main and each subagent). explore/plan subagent types are structurally read-only (no mutation tools).",
+      "sourcePacket": "plan-26"
+    }
+  ]
+}

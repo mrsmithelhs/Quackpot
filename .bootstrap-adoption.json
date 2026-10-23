@@ -1,0 +1,64 @@
+{
+  "lastBootstrapAudit": "2026-10-23",
+  "bootstrapVersion": "0.1.0",
+  "capabilities": [
+    {
+      "capability": "packet-status-system",
+      "state": "adopted",
+      "capabilityVersion": "1.4.0"
+    },
+    {
+      "capability": "packet-status-set-verb",
+      "state": "adopted",
+      "capabilityVersion": "1.0.0"
+    },
+    {
+      "capability": "dev-console-hub",
+      "state": "adopted",
+      "capabilityVersion": "1.1.0"
+    },
+    {
+      "capability": "agent-starting-prompts",
+      "state": "adopted",
+      "capabilityVersion": "1.8.0"
+    },
+    {
+      "capability": "falsification-check",
+      "state": "adopted",
+      "capabilityVersion": "3.0.0"
+    },
+    {
+      "capability": "reports-archive",
+      "state": "adopted",
+      "capabilityVersion": "1.0.0"
+    },
+    {
+      "capability": "root-agent-guide",
+      "state": "adopted",
+      "capabilityVersion": "1.0.0"
+    },
+    {
+      "capability": "decision-log",
+      "state": "adopted",
+      "capabilityVersion": "1.1.0"
+    },
+    {
+      "capability": "subagent-delegation",
+      "state": "deferred"
+    },
+    {
+      "capability": "review-response-tiers",
+      "state": "deferred"
+    },
+    {
+      "capability": "advisor-consultation",
+      "state": "adopted",
+      "capabilityVersion": "1.0.3"
+    },
+    {
+      "capability": "commit-discipline",
+      "state": "adopted",
+      "capabilityVersion": "2.1.0"
+    }
+  ]
+}

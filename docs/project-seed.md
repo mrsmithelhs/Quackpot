@@ -10,7 +10,7 @@ CourseVGD is a user of Quackpot, not a dependency. The two projects have indepen
 
 These decisions are adopted direction and await reconciliation into the founding document during Stage 3. Do not edit the founding document before that owner triage.
 
-- **SVG-first art.** Author characters, environments, gameplay elements, and suitable animation as SVG source. Serve SVG directly or render an individual asset to PNG where that is a better fit. Do not use SVG as ordinary text rendering unless a text effect is impractical in CSS and JavaScript. This replaces the founding draft's generated banner/background plan; generated-image licensing is no longer a concern.
+- **All art begins as SVG source.** Author every art asset—characters, environments, gameplay elements, and suitable animation—as SVG source. The delivery format is a per-asset choice: serve SVG directly or render it to PNG where that is a better fit. Do not use SVG as ordinary text rendering unless a text effect is impractical in CSS and JavaScript. This replaces the founding draft's generated banner/background plan; generated-image licensing is no longer a concern.
 - **Immersion and vibe over readability.** Quackpot should feel like a game and a learning experience, not a website. It need not render every event as readable text or explain each interaction. Accessibility remains in scope; an accessible presentation may reduce spectacle while conveying core gameplay information.
 - **Tooling proposals are open.** Libraries may be proposed, including CDN loading or a build tool that tree-shakes dependencies into shipped files. This conflicts with founding hard constraint #2 (no network calls) and #7 (no build step unless a later decision adds one). GATE-53B must reconcile those constraints, including whether build-time bundling is preferred to runtime CDN loading. No tooling or network policy change is decided here.
 - **Player's own duck.** The story opens with the player's existing rubber duck. Setup names the duck and selects its look, reusing less extreme gacha duck assets. Recurring conversation moments use a silent duck, camera movement where useful, and the player's replies to carry the inner narrative. This feature is owner-directed; the reviews assess its placement, frequency, comedy timing, and contribution to the Receipt.
@@ -67,3 +67,4 @@ Additional questions:
 - Which individual assets should ship as SVG and which should be rendered to PNG?
 - What source/provenance notes are needed for manually generated jsfxr sound effects?
 - What library or build proposals, if any, best support agentic development while satisfying the network-call and static-site constraints?
+

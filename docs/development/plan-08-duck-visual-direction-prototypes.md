@@ -1,7 +1,7 @@
 ---
 id: plan-08
 title: Duck visual-direction prototypes and owner gallery
-status: ready
+status: in-progress
 depends_on: [plan-02]
 gate: "Owner selects one or more visual directions before production SVG revision."
 superseded_by: null

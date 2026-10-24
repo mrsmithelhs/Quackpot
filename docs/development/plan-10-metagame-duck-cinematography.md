@@ -12,6 +12,8 @@ summary: >-
 ---
 # Plan 10: Physical metagame duck views and cinematic staging
 
+**Owner direction, 2026-10-24:** Plan 08 is accepted with D2 as the physical companion reference. Preserve its solid toy silhouette and outline while studying static views, lighting and apartment compositions. E2's articulated paper motion belongs to the separate digital gacha setting, not this physical prop.
+
 ## Packet Metadata
 
 - Packet id: `plan-10`

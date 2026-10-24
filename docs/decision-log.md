@@ -67,3 +67,11 @@ Use the same `**Date:** YYYY-MM-DD` field for proposals, using the proposal date
 **Rationale:** The repaired log/Receipt and paired-cohort counterexamples pass independent checks. Owner acceptance of investigation evidence enables the next mechanism proposal while preserving design authority and the later representation clarification.
 
 **Related:** `reports/development/plan-01-seeded-economy-simulation/review-03.md`; Plan 03 preflight brief.
+
+### DECISION-005 — Visual investigation closed; layered digital motion direction
+
+**Date:** 2026-10-24
+
+**Decision:** The owner approved Plan 08 closeout with 14 concepts; E3 is omitted by choice after quota failure. D2 is the physical-companion reference and E2 is the digital layered-paper proof direction. No production SVG is accepted yet. The owner wants digital motion to articulate separate paper layers, including race candidates for paddling on water, waddling on land, flapping, tiring and graceful bobbing. Plan 09 will compare these after base-rig acceptance. Motion does not adopt new stamina, race or probability mechanics.
+
+**Rationale:** Distinct physical/digital treatments support the two fictional contexts. The paper treatment may extend to some gacha surroundings, effects or UI, but that broader art direction remains unresolved. Draft Plan 11 proposes composition and generation-budget gates before any production scene/effects/UI SVG work. Plans 04, 09, 10 and 11 remain unassigned drafts until the owner starts them; Plan 08 closure alone is not an assignment.

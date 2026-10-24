@@ -27,7 +27,7 @@ summary: >-
 
 ## Goal, non-goals and rationale
 
-Test whether expressive digital ducks add useful personality and variety across repeated pulls. Use the accepted base rig rather than polishing a placeholder. This is not authorization to animate the physical metagame duck, alter odds, ship near-miss theater, or install all candidate motions in the game.
+Test whether expressive digital ducks add useful personality and variety across repeated pulls and races. The owner wants the E2 paper-style duck's separate layers to appear to move relative to one another. Use the accepted base rig rather than polishing a placeholder. This is not authorization to animate the physical metagame duck, alter odds, ship near-miss theater, or install all candidate motions in the game.
 
 ## Authority and scope
 
@@ -36,6 +36,10 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, design A
 ## Candidate comparison and validation
 
 Compare a still control with a bounded initial set: soft bob, blink, head tilt, wing flutter, squash/rebound, proud turn, startled hop and wobbling settle. Treat these as candidates, not selected behavior; adapt the list at the prebuild gate if the accepted rig cannot support one cleanly. Use one-shot clips with replay controls, plus an optional selected-card idle. Do not animate an entire collection shelf continuously. Hats/accessories must stay attached and information/outcomes must remain identical in reduced motion.
+
+**Owner expansion, 2026-10-24:** The prebuild proposal must also offer a small race-motion comparison: paddling on water, waddling on land, flapping, appearing tired and graceful bobbing. These are candidate visual performances, not new racing mechanics or selected motions. Demonstrate visible articulation between paper groups, rather than translating the entire duck alone. Compare several ducks racing side by side, with readable lanes, mixed motion profiles and a modest repeated-duration sample. Use simple labeled water/land preview grounds; production environment art is outside this packet. Break the work into short comparison batches at the prebuild gate rather than authoring every pull and race clip at once.
+
+Race presentation must preserve already resolved outcomes and fixed-duration/no-reflex-input rules. Do not let a tired animation silently introduce digital stamina or imply a mechanical penalty that does not exist. State whether a motion is cosmetic characterization or represents an approved event/state. Compare poses, layer pivots, overlapping shadows and accessory attachment through each cycle; preserve a clear static/reduced-motion result. Race movement may repeat for its bounded race duration, independently of one-shot reveal clips.
 
 Use local SVG groups and CSS or browser animation APIs; no runtime CDN or remote assets. Test wide and close views, small thumbnails, two representative accessory configurations, reduced motion, interruption/replay and a bounded multi-card performance sample on the owner's target-like desktop. Compare short versus repeated presentation to expose repetition/fatigue rather than assuming “more movement” means more play value. Report measured conditions and limits; no physical classroom-hardware claim without observation.
 

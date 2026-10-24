@@ -47,6 +47,8 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 ## Scope and work plan
 
+**Owner direction, 2026-10-24:** Use Plan 08's E2 layered-paper concept as the digital SVG proof reference. Author separate overlapping paper-like groups (including wing sublayers), with stable pivots and accessory attachment points for later articulated motion. Prove the static base and small-size readability first; no raster texture embedding or production race animation in this packet. D2 is the physical companion reference, with alternate views/lighting handled separately in Plan 10. Broader gacha environments, effects and UI need the composition investigation in Plan 11 before production SVG work; this rig proof does not settle them.
+
 1. Run `check plan-04`; present layer interface, asset paths, representative variants and sound parameter approach; **wait for mechanism approval before building**.
 2. Create the owner-selected digital base plus a few recolor/layer combinations. Prove parts compose without making a new identity for every cosmetic variant. If demonstrating a physical-companion derivative, keep it static and separately identified; coherent alternate views/lighting belong to Plan 10, and a different owner-selected physical-prop style must not be forced into the digital rig.
 3. Create one short local synthesized sound from text-stored jsfxr/ZzFX-style parameters. Test user-gesture audio startup and silent fallback.

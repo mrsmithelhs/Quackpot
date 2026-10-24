@@ -1,11 +1,11 @@
 ---
 id: plan-08
 title: Duck visual-direction prototypes and owner gallery
-status: delivered
+status: complete
 depends_on: [plan-02]
 gate: "Owner selects one or more visual directions before production SVG revision."
 superseded_by: null
-resolution: null
+resolution: "Owner accepted the 14-concept investigation and closeout on 2026-10-24; E3 omitted by choice. D2 physical and E2 layered-paper digital directions inform bounded SVG proofs; production assets and motion remain separately gated."
 summary: >-
   A separate Gemini thread generates five visual styles with three shape variants
   each and builds a local HTML gallery for owner comparison before SVG authoring.

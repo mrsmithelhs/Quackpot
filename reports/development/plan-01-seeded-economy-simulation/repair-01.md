@@ -6,7 +6,7 @@
 
 ## Fresh implementer handoff
 
-Continue Plan 01 in `C:\AI\Quackpot` from commit `53f5ce3` plus the existing owner/orchestrator status and review changes. Read `AGENTS.md`, `docs/development/plan-01-seeded-economy-simulation.md`, `docs/founding/design.md` (hard constraints, Receipt, Time policy, Tuning), `reports/orchestration/founding-docs-review/owner-triage.md` (O1 and S1–S4), the current progress report, and this repair note. Inspect `git status` before writing. The existing packet/index modifications are owner/orchestrator status work: **do not revert, stage, commit, or rewrite them**. The orchestrator must return Plan 01 from `delivered` to `in-progress` before assigning this repair so `node scripts/dev/plan-status.js check plan-01` can pass; if it does not pass, stop. One writer owns `sim/` and the Plan 01 report/results folder. Do not edit the canonical design or select tuning values.
+Continue Plan 01 in `C:\AI\Quackpot` from commit `53f5ce3` plus the committed review/status changes. Read `AGENTS.md`, `docs/development/plan-01-seeded-economy-simulation.md`, `docs/founding/design.md` (hard constraints, Receipt, Time policy, Tuning), `reports/orchestration/founding-docs-review/owner-triage.md` (O1 and S1–S4), the current progress report, and this repair note. Inspect `git status` before writing. Plan 01 has been returned to `in-progress` for this repair; run `node scripts/dev/plan-status.js check plan-01` and stop if it does not pass. The packet/index status files are orchestrator-owned: **do not revert, stage, commit, or rewrite them**. One writer owns `sim/` and the Plan 01 report/results folder. Do not edit the canonical design or select tuning values.
 
 ## Verified blockers
 

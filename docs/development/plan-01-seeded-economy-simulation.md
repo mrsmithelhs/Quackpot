@@ -1,7 +1,7 @@
 ---
 id: plan-01
 title: Seeded economy and Receipt simulation
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Owner reviews the S1-S4 evidence and proposed tuning before any values become design rules."
 superseded_by: null

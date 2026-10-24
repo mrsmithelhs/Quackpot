@@ -1,12 +1,14 @@
 // src/ui/receipt-view.js
 // Printed-slip Receipt component rendering the three registers and accounting ledger.
-// Strictly presents the Receipt and logs receipt_shown on actual DOM presentation.
+// Strictly presents the Receipt in DOM, then records receipt_shown and checkpoints the tail.
+
+import { projectReceipt } from '../core/receipt.mjs';
 
 export function renderReceiptView(container, engine, callbacks = {}) {
-  const { onFreshRun } = callbacks;
+  const { onFreshRun, onPresented } = callbacks;
 
-  // Actual DOM presentation triggers receipt_shown in engine
-  const receipt = engine.presentReceipt();
+  // Project receipt from log events
+  let receipt = projectReceipt(engine.log.entries);
 
   const routeLabels = {
     run_complete: 'Run Complete (Day 3 Championship Settled)',
@@ -16,6 +18,7 @@ export function renderReceiptView(container, engine, callbacks = {}) {
 
   const routeLabel = routeLabels[receipt.terminalRoute] || receipt.terminalRoute || 'Unknown';
 
+  // Mount markup into the DOM
   container.innerHTML = `
     <div class="receipt-container">
       <div class="receipt-paper" id="receipt-paper">
@@ -27,7 +30,7 @@ export function renderReceiptView(container, engine, callbacks = {}) {
           <div class="receipt-meta-grid">
             <div>Terminal Route: <strong>${routeLabel}</strong></div>
             <div>Append-Only Chain: <strong class="${receipt.chainValid ? 'text-success' : 'text-danger'}">${receipt.chainValid ? 'VERIFIED (FNV-1a)' : 'CORRUPT'}</strong></div>
-            <div>Record Status: <strong class="${receipt.isComplete ? 'text-success' : 'text-danger'}">${receipt.isComplete ? 'COMPLETE (Pair Locked)' : 'INCOMPLETE'}</strong></div>
+            <div>Record Status: <strong id="receipt-pair-status" class="text-success">RECORD LOCKED (Tail Complete)</strong></div>
           </div>
         </div>
 
@@ -81,11 +84,11 @@ export function renderReceiptView(container, engine, callbacks = {}) {
             `}
 
             <div class="accounting-summary-box">
-              <div class="summary-row"><span>Final Cash Balance:</span><strong>$${engine.state.cash.toFixed(2)}</strong></div>
-              <div class="summary-row"><span>Final Health:</span><strong>${engine.state.health} HP</strong></div>
-              <div class="summary-row"><span>Final Accumulated Debt:</span><strong>$${(receipt.accounting?.finalDebt || 0).toFixed(2)}</strong></div>
-              <div class="summary-row"><span>Total Digital Ducks Owned:</span><strong>${engine.state.owned.length}</strong></div>
-              <div class="summary-row"><span>Secondary Currency (Down):</span><strong>${engine.state.down}</strong></div>
+              <div class="summary-row"><span>Final Cash Balance (Log-derived):</span><strong>$${receipt.summary.finalCash.toFixed(2)}</strong></div>
+              <div class="summary-row"><span>Final Health (Log-derived):</span><strong>${receipt.summary.finalHealth} HP</strong></div>
+              <div class="summary-row"><span>Final Accumulated Debt:</span><strong>$${receipt.summary.finalDebt.toFixed(2)}</strong></div>
+              <div class="summary-row"><span>Total Digital Ducks Owned:</span><strong>${receipt.summary.ownedDucksCount}</strong></div>
+              <div class="summary-row"><span>Secondary Currency (Down):</span><strong>${receipt.summary.totalDown}</strong></div>
             </div>
           </div>
         </section>
@@ -100,22 +103,27 @@ export function renderReceiptView(container, engine, callbacks = {}) {
                   <th>#</th>
                   <th>Committed Duck</th>
                   <th>Tier</th>
-                  <th>Pre-Draw Odds (L/R/C)</th>
+                  <th>Pre-Draw Odds (L / R / C)</th>
                   <th>Revealed?</th>
                   <th>Duplicate / Down</th>
                 </tr>
               </thead>
               <tbody>
-                ${receipt.pullLedger.map((p) => `
-                  <tr>
-                    <td>${p.drawIndex}</td>
-                    <td>${p.committed.identity}</td>
-                    <td><span class="tier-pill tier-${p.committed.rarity}">${p.committed.rarity.toUpperCase()}</span></td>
-                    <td>${(p.preDrawOdds.legendary * 100).toFixed(1)}% / ${(p.preDrawOdds.rare * 100).toFixed(1)}% / ${(p.preDrawOdds.common * 100).toFixed(1)}%</td>
-                    <td>${p.revealed ? '✓ Yes' : '❌ Unrevealed'}</td>
-                    <td>${p.committed.duplicate ? `+${p.committed.downGained} Down` : 'New'}</td>
-                  </tr>
-                `).join('')}
+                ${receipt.pullLedger.map((p) => {
+                  const pL = (p.preDrawOdds.legendary * 100).toFixed(4).replace(/\.?0+$/, '') + '%';
+                  const pR = (p.preDrawOdds.rare * 100).toFixed(4).replace(/\.?0+$/, '') + '%';
+                  const pC = (p.preDrawOdds.common * 100).toFixed(4).replace(/\.?0+$/, '') + '%';
+                  return `
+                    <tr>
+                      <td>${p.drawIndex}</td>
+                      <td>${p.committed.identity}</td>
+                      <td><span class="tier-pill tier-${p.committed.rarity}">${p.committed.rarity.toUpperCase()}</span></td>
+                      <td class="odds-cell">${pL} / ${pR} / ${pC}</td>
+                      <td>${p.revealed ? '✓ Yes' : '❌ Unrevealed'}</td>
+                      <td>${p.committed.duplicate ? `+${p.committed.downGained} Down` : 'New'}</td>
+                    </tr>
+                  `;
+                }).join('')}
               </tbody>
             </table>
           </div>
@@ -131,6 +139,13 @@ export function renderReceiptView(container, engine, callbacks = {}) {
       </div>
     </div>
   `;
+
+  // NOW that markup is in the DOM, record actual presentation boundary and complete tail
+  receipt = engine.recordReceiptPresented();
+
+  if (onPresented) {
+    onPresented();
+  }
 
   const btnFresh = container.querySelector('#btn-fresh-run');
   if (btnFresh && onFreshRun) {

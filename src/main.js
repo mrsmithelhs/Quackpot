@@ -5,7 +5,7 @@ import './style.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
-import { saveGame, loadGame, clearGame } from './core/storage.mjs';
+import { saveGame, loadGame, clearGame, backupCorruptSave, getInMemoryStatus } from './core/storage.mjs';
 
 import { renderHud } from './ui/hud.js';
 import { renderDeskView } from './ui/desk-view.js';
@@ -23,14 +23,53 @@ import { renderReceiptView } from './ui/receipt-view.js';
 const app = document.querySelector('#app');
 
 if (app) {
+  window.GameEngine = GameEngine;
   let engine = null;
-  let currentStep = 'desk'; // 'desk' | 'd1_morning_gacha' | 'd1_midday_race' | 'd2_afternoon_rent' | 'd3_midday_race' | 'receipt'
-  let activeModal = null; // null | 'starter' | 'zerocash' | 'escalation' | 'retention'
+  let currentStep = 'desk';
+  let activeModal = null;
+  let storageWarningText = null;
+
+  function generateRandomSeed() {
+    if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+      const arr = new Uint32Array(2);
+      crypto.getRandomValues(arr);
+      return `${arr[0].toString(16)}-${arr[1].toString(16)}`;
+    }
+    return `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+  }
+
+  function checkStorageResult(res) {
+    if (res && res.inMemory) {
+      storageWarningText = 'Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload.';
+    } else if (res && res.success && !getInMemoryStatus()) {
+      storageWarningText = null;
+    }
+  }
+
+  function maybeAutosave() {
+    if (engine && engine.autosaveEnabled) {
+      const res = saveGame(engine.toEnvelope());
+      checkStorageResult(res);
+      updateWarningBanner();
+    }
+  }
+
+  function updateWarningBanner() {
+    const banner = document.querySelector('#storage-warning-banner');
+    if (!banner) return;
+    if (storageWarningText) {
+      banner.textContent = storageWarningText;
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
 
   function initApp() {
     // Scaffold UI containers inside #app
     app.innerHTML = `
       <div id="game-wrapper" class="game-wrapper">
+        <div id="storage-warning-banner" class="storage-warning-banner" style="display: none;"></div>
         <div id="hud-container"></div>
         <main id="main-content" class="main-content"></main>
         <div id="modal-container"></div>
@@ -44,10 +83,12 @@ if (app) {
       renderCorruptSaveModal(document.querySelector('#modal-container'), loadResult.errors, {
         onFresh: () => {
           clearGame();
-          startFreshRun();
+          startFreshRun(true);
         },
         onKeepBackup: () => {
-          startFreshRun();
+          // Backup corrupted save without destroying or overwriting it
+          backupCorruptSave();
+          startFreshRun(false); // start in temporary mode without overwriting corrupted save
         },
       });
       return;
@@ -58,19 +99,13 @@ if (app) {
         engine = GameEngine.fromEnvelope(loadResult.envelope);
         console.info('[Quackpot] Restored valid run from storage:', engine.state);
 
-        // Resume based on saved engine phase
-        if (engine.state.phase === 'terminal' || engine.state.phase === 'receipt_presented') {
+        // Authoritative restore of learner progression step and active modal (P1 repair)
+        if (engine.isTerminal()) {
           currentStep = 'receipt';
-        } else if (engine.state.day === 1) {
-          if (engine.state.clock.label.includes('midday')) currentStep = 'd1_midday_race';
-          else if (engine.state.clock.label.includes('afternoon')) {
-            currentStep = 'd1_midday_race';
-            activeModal = 'starter';
-          } else currentStep = 'd1_morning_gacha';
-        } else if (engine.state.day === 2) {
-          currentStep = 'd2_afternoon_rent';
-        } else if (engine.state.day === 3) {
-          currentStep = 'd3_midday_race';
+          activeModal = null;
+        } else {
+          currentStep = engine.state.step || 'desk';
+          activeModal = engine.state.activeModal || null;
         }
 
         renderApp();
@@ -80,23 +115,25 @@ if (app) {
       }
     }
 
-    // Start fresh game by default
-    startFreshRun();
+    // Start fresh game on desk
+    startFreshRun(true);
   }
 
-  function startFreshRun() {
-    engine = new GameEngine(String(Date.now()));
+  function startFreshRun(enableStorageSave = true) {
+    const seed = generateRandomSeed();
+    engine = new GameEngine(seed);
     engine.start();
+    engine.autosaveEnabled = true;
     currentStep = 'desk';
     activeModal = null;
-    maybeAutosave();
-    renderApp();
-  }
+    engine.state.step = 'desk';
+    engine.state.activeModal = null;
 
-  function maybeAutosave() {
-    if (engine && engine.autosaveEnabled) {
-      saveGame(engine.toEnvelope());
+    if (enableStorageSave) {
+      // Do not force immediate write before learner styles companion and confirms autosave
     }
+
+    renderApp();
   }
 
   function updateHud() {
@@ -105,9 +142,13 @@ if (app) {
 
     renderHud(hudContainer, engine, duckSvgUrl, {
       onSave: () => {
-        return saveGame(engine.toEnvelope());
+        const res = saveGame(engine.toEnvelope());
+        checkStorageResult(res);
+        updateWarningBanner();
+        return res;
       },
       onUninstall: () => {
+        if (engine.isTerminal()) return;
         engine.clickUninstall();
         activeModal = 'retention';
         renderApp();
@@ -121,16 +162,19 @@ if (app) {
 
   function renderApp() {
     updateHud();
+    updateWarningBanner();
 
     const mainContainer = document.querySelector('#main-content');
     const modalContainer = document.querySelector('#modal-container');
     if (!mainContainer || !modalContainer) return;
 
-    // Render active view
+    // Render active view based on authoritative progression step
     if (currentStep === 'desk') {
-      renderDeskView(mainContainer, duckSvgUrl, ({ name, style }) => {
+      renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled }) => {
+        engine.autosaveEnabled = autosaveEnabled;
         engine.setupCompanion(name, style);
         currentStep = 'd1_morning_gacha';
+        engine.state.step = currentStep;
         maybeAutosave();
         renderApp();
       });
@@ -146,50 +190,77 @@ if (app) {
           maybeAutosave();
           renderApp();
         },
+        onRevealCardAtIndex: (idx) => {
+          engine.revealDrawAtIndex(idx);
+          maybeAutosave();
+          renderApp();
+        },
         onRevealAll: () => {
           engine.revealAllPending();
           maybeAutosave();
           renderApp();
         },
         onProceed: () => {
-          // Food Bill 1 arrives
           engine.billExpense('food', 5.00);
           engine.advanceDay(1, 'day 1 midday');
           currentStep = 'd1_midday_race';
+          engine.state.step = currentStep;
           maybeAutosave();
           renderApp();
         },
       });
-    } else if (currentStep === 'd1_midday_race') {
+    } else if (currentStep === 'd1_midday_race' || currentStep === 'd1_midday_race_result') {
       renderRaceView(mainContainer, engine, 1, {
         onStartRace: ({ duckId, stance, raceNumber }) => {
           const outcome = engine.runRace(raceNumber, duckId, stance);
+          currentStep = 'd1_midday_race_result';
+          engine.state.step = currentStep;
           maybeAutosave();
+          updateHud();
           return outcome;
         },
         onProceed: () => {
           engine.advanceDay(1, 'day 1 afternoon');
           engine.displayStarterOffer();
           engine.displayGemShop();
+          currentStep = 'd1_afternoon_starter';
+          engine.state.step = currentStep;
           activeModal = 'starter';
+          engine.state.activeModal = activeModal;
           maybeAutosave();
           renderApp();
         },
       });
-    } else if (currentStep === 'd2_afternoon_rent') {
+    } else if (currentStep === 'd1_afternoon_starter') {
+      mainContainer.innerHTML = `
+        <div class="stage-transition-card">
+          <h2>Day 1: Afternoon In Town</h2>
+          <p>Reviewing special shop offers and preparing for the evening.</p>
+        </div>
+      `;
+    } else if (currentStep === 'd2_afternoon_rent' || currentStep === 'd2_afternoon_rent_resolved' || currentStep === 'd2_afternoon_zerocash' || currentStep === 'd2_afternoon_escalation') {
+      const isResolved = (currentStep === 'd2_afternoon_rent_resolved');
       mainContainer.innerHTML = `
         <div class="stage-transition-card">
           <h2>Day 2: Rent Due Date</h2>
           <p>
-            Your landlord arrives to collect this month\'s rent: <strong>$15.00</strong>.
+            ${isResolved
+              ? 'Your rent bill has been fully settled for Day 2.'
+              : 'Your landlord arrives to collect this month\'s rent: <strong>$15.00</strong>.'}
           </p>
           <div class="rent-status-box">
             <div>Current Cash on Hand: <strong>$${engine.state.cash.toFixed(2)}</strong></div>
-            <div>Rent Due: <strong>$15.00</strong></div>
+            <div>Rent Status: <strong>${isResolved ? 'PAID ✓' : '$15.00 Due'}</strong></div>
           </div>
-          <button id="btn-pay-rent" class="btn btn-primary btn-lg">
-            Pay Rent ($15.00)
-          </button>
+          ${!isResolved ? `
+            <button id="btn-pay-rent" class="btn btn-primary btn-lg">
+              Pay Rent ($15.00)
+            </button>
+          ` : `
+            <button id="btn-rent-proceed" class="btn btn-primary btn-lg">
+              Proceed to Evening Wage ➔
+            </button>
+          `}
         </div>
       `;
 
@@ -200,40 +271,64 @@ if (app) {
           maybeAutosave();
 
           if (billResult.paid) {
-            // Rent paid! If cash is now $0, prompt zero-cash check
             if (engine.state.cash === 0) {
               activeModal = 'zerocash';
+              currentStep = 'd2_afternoon_zerocash';
+              engine.state.step = currentStep;
+              engine.state.activeModal = activeModal;
+              maybeAutosave();
               renderApp();
             } else {
+              currentStep = 'd2_afternoon_rent_resolved';
+              engine.state.step = currentStep;
+              maybeAutosave();
               proceedToDay2Evening();
             }
           } else {
-            // Cash insufficient! Launch escalation ladder
             activeModal = 'escalation';
+            currentStep = 'd2_afternoon_escalation';
+            engine.state.step = currentStep;
+            engine.state.activeModal = activeModal;
+            maybeAutosave();
             renderApp();
           }
         });
       }
-    } else if (currentStep === 'd3_midday_race') {
+
+      const btnProceed = mainContainer.querySelector('#btn-rent-proceed');
+      if (btnProceed) {
+        btnProceed.addEventListener('click', () => {
+          proceedToDay2Evening();
+        });
+      }
+    } else if (currentStep === 'd3_midday_race' || currentStep === 'd3_midday_race_result') {
       renderRaceView(mainContainer, engine, 2, {
         onStartRace: ({ duckId, stance, raceNumber }) => {
           const outcome = engine.runRace(raceNumber, duckId, stance);
+          currentStep = 'd3_midday_race_result';
+          engine.state.step = currentStep;
           maybeAutosave();
+          updateHud();
           return outcome;
         },
         onProceed: () => {
           engine.finishRunComplete();
           currentStep = 'receipt';
+          engine.state.step = currentStep;
           activeModal = null;
+          engine.state.activeModal = null;
           maybeAutosave();
           renderApp();
         },
       });
     } else if (currentStep === 'receipt') {
       renderReceiptView(mainContainer, engine, {
+        onPresented: () => {
+          maybeAutosave();
+        },
         onFreshRun: () => {
           clearGame();
-          startFreshRun();
+          startFreshRun(true);
         },
       });
     }
@@ -245,29 +340,45 @@ if (app) {
         onBuy: () => {
           engine.buyStarterPack();
           activeModal = null;
+          engine.state.activeModal = null;
+          maybeAutosave();
           proceedToDay1Evening();
         },
         onDecline: () => {
           engine.declineStarterPack();
           activeModal = null;
+          engine.state.activeModal = null;
+          maybeAutosave();
           proceedToDay1Evening();
         },
       });
     } else if (activeModal === 'zerocash') {
       renderZeroCashPrompt(modalContainer, engine, {
         onContinue: () => {
-          engine.continueToWage();
+          engine.chooseZeroCashOption('continue');
           activeModal = null;
+          currentStep = 'd2_afternoon_rent_resolved';
+          engine.state.step = currentStep;
+          engine.state.activeModal = null;
+          maybeAutosave();
           proceedToDay2Evening();
         },
         onExtraShift: () => {
-          engine.acceptEscalation();
+          engine.chooseZeroCashOption('extra_shift');
           activeModal = null;
+          currentStep = 'd2_afternoon_rent_resolved';
+          engine.state.step = currentStep;
+          engine.state.activeModal = null;
+          maybeAutosave();
           proceedToDay2Evening();
         },
         onSellCouch: () => {
-          engine.acceptEscalation();
+          engine.chooseZeroCashOption('sell_couch');
           activeModal = null;
+          currentStep = 'd2_afternoon_rent_resolved';
+          engine.state.step = currentStep;
+          engine.state.activeModal = null;
+          maybeAutosave();
           proceedToDay2Evening();
         },
       });
@@ -278,10 +389,17 @@ if (app) {
           maybeAutosave();
           if (res.resolved) {
             activeModal = null;
+            currentStep = 'd2_afternoon_rent_resolved';
+            engine.state.step = currentStep;
+            engine.state.activeModal = null;
+            maybeAutosave();
             proceedToDay2Evening();
           } else if (res.route === 'running_on_empty') {
             activeModal = null;
             currentStep = 'receipt';
+            engine.state.step = currentStep;
+            engine.state.activeModal = null;
+            maybeAutosave();
             renderApp();
           } else {
             renderApp();
@@ -293,6 +411,9 @@ if (app) {
           if (res.route === 'running_on_empty') {
             activeModal = null;
             currentStep = 'receipt';
+            engine.state.step = currentStep;
+            engine.state.activeModal = null;
+            maybeAutosave();
             renderApp();
           } else {
             renderApp();
@@ -303,7 +424,8 @@ if (app) {
       renderRetentionModal(modalContainer, engine, {
         onStay: () => {
           engine.stayUninstall();
-          activeModal = null;
+          activeModal = engine.state.activeModal;
+          currentStep = engine.state.step;
           maybeAutosave();
           renderApp();
         },
@@ -311,6 +433,8 @@ if (app) {
           engine.leaveUninstall();
           activeModal = null;
           currentStep = 'receipt';
+          engine.state.step = currentStep;
+          engine.state.activeModal = null;
           maybeAutosave();
           renderApp();
         },
@@ -323,6 +447,7 @@ if (app) {
     engine.advanceDay(2, 'day 2 morning');
     engine.billExpense('food', 5.00); // Day 2 Morning Food ($5.00)
     currentStep = 'd2_afternoon_rent';
+    engine.state.step = currentStep;
     maybeAutosave();
     renderApp();
   }
@@ -332,6 +457,7 @@ if (app) {
     engine.advanceDay(3, 'day 3 morning');
     engine.billExpense('food', 5.00); // Day 3 Morning Food ($5.00)
     currentStep = 'd3_midday_race';
+    engine.state.step = currentStep;
     maybeAutosave();
     renderApp();
   }

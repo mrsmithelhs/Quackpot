@@ -56,7 +56,7 @@ test('engine: Trace 1 (Frugal/Solvent) executes 4 bills totaling $30 and finishe
   assert.equal(engine.state.cash, 0.00); // Frugal zero-cash moment
 
   // Continues to wage without forced sacrifice
-  engine.continueToWage();
+  engine.chooseZeroCashOption('continue');
   engine.creditWage();
   assert.equal(engine.state.cash, 10.00);
 
@@ -90,6 +90,102 @@ test('engine: Trace 1 (Frugal/Solvent) executes 4 bills totaling $30 and finishe
   const anchoring = receipt.findings.find((f) => f.technique === 'anchoring');
   assert.ok(anchoring);
   assert.ok(anchoring.did[0].text.includes('purchase not recorded'));
+});
+
+test('engine [Repair 01 Regression]: zero-cash extra shift and sell couch keep run solvent and active', () => {
+  // Test Extra Shift route
+  const e1 = new GameEngine('seed-zc-shift');
+  e1.start();
+  e1.setupCompanion();
+  e1.billExpense('rent', 15.00); // cash 15 -> 0
+  assert.equal(e1.state.cash, 0);
+
+  const shiftRes = e1.chooseZeroCashOption('extra_shift');
+  assert.equal(shiftRes.resolved, true);
+  assert.equal(e1.state.cash, 10.00);
+  assert.equal(e1.state.health, 85);
+  assert.equal(e1.state.phase, 'playing'); // NOT terminal!
+  assert.equal(e1.state.terminalRoute, null);
+
+  // Test Sell Couch route
+  const e2 = new GameEngine('seed-zc-couch');
+  e2.start();
+  e2.setupCompanion();
+  e2.billExpense('rent', 15.00); // cash 15 -> 0
+  assert.equal(e2.state.cash, 0);
+
+  const couchRes = e2.chooseZeroCashOption('sell_couch');
+  assert.equal(couchRes.resolved, true);
+  assert.equal(e2.state.cash, 10.00);
+  assert.equal(e2.state.health, 100);
+  assert.ok(e2.state.assetsSold.includes('couch'));
+  assert.equal(e2.state.phase, 'playing'); // NOT terminal!
+
+  // Selling couch a second time is rejected
+  assert.throws(() => e2.chooseZeroCashOption('sell_couch'), /Couch already sold/);
+});
+
+test('engine [Repair 01 Regression]: post-terminal actions are rejected', () => {
+  const engine = new GameEngine('seed-post-term');
+  engine.start();
+  engine.setupCompanion();
+  engine.finishRunComplete();
+  engine.recordReceiptPresented();
+
+  assert.equal(engine.isTerminal(), true);
+  assert.throws(() => engine.clickUninstall(), /Cannot uninstall after run is terminal/);
+  assert.throws(() => engine.runRace(1, 'duck-0'), /Cannot race/);
+  assert.throws(() => engine.commitPromotionalTenPull(), /Cannot pull/);
+  assert.throws(() => engine.buyStarterPack(), /Cannot buy/);
+  assert.throws(() => engine.billExpense('food', 5.00), /Cannot bill/);
+});
+
+test('engine [Repair 01 Regression]: race execution is idempotent on reload/rerun', () => {
+  const engine = new GameEngine('seed-race-rerun');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+
+  const outcome1 = engine.runRace(1, engine.state.owned[0], 'safe');
+  assert.equal(engine.state.gems, 50);
+  const logLenAfterRace1 = engine.log.entries.length;
+
+  // Running race 1 again returns cached result with 0 extra gems and 0 extra events
+  const outcome2 = engine.runRace(1, engine.state.owned[0], 'safe');
+  assert.equal(outcome2.place, outcome1.place);
+  assert.equal(engine.state.gems, 50);
+  assert.equal(engine.log.entries.length, logLenAfterRace1);
+});
+
+test('engine [Repair 01 Regression]: repeat retention does not re-credit gems and logs stay_without_reward', () => {
+  const engine = new GameEngine('seed-repeat-retention');
+  engine.start();
+  engine.setupCompanion();
+
+  // First retention attempt: grants 80 gems
+  engine.clickUninstall();
+  engine.stayUninstall();
+  assert.equal(engine.state.gems, 80);
+  assert.equal(engine.state.retentionUsed, true);
+
+  // Second retention attempt: does NOT grant extra gems
+  engine.clickUninstall();
+  engine.stayUninstall();
+  assert.equal(engine.state.gems, 80);
+  assert.ok(engine.log.entries.some((e) => e.type === 'action' && e.payload?.kind === 'stay_without_reward'));
+});
+
+test('engine: revealDrawAtIndex reveals exact committed card by index', () => {
+  const engine = new GameEngine('seed-reveal-idx');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+
+  // Reveal card index 4
+  const revealedCard = engine.revealDrawAtIndex(4);
+  assert.equal(revealedCard.drawIndex, 5);
+  assert.equal(engine.state.pendingReveals[4].revealed, true);
+  assert.equal(engine.state.pendingReveals[0].revealed, false);
 });
 
 test('engine: Trace 2 (Purchase + Escalation Recovery) recovers via extra shift and finishes with $14.01', () => {

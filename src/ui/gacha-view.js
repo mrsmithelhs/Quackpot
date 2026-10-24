@@ -1,10 +1,10 @@
 // src/ui/gacha-view.js
-// Promotional 10-Pull theater with commit-before-reveal card flipping.
+// Promotional 10-Pull theater with truthful commit-before-reveal card flipping.
 
 import { BANNER_1_ROSTER } from '../core/game-engine.mjs';
 
 export function renderGachaView(container, engine, callbacks = {}) {
-  const { onClaimPull, onRevealCard, onRevealAll, onProceed } = callbacks;
+  const { onClaimPull, onRevealCard, onRevealCardAtIndex, onRevealAll, onProceed } = callbacks;
   const pending = engine.state.pendingReveals || [];
   const hasPending = pending.length > 0;
   const allRevealed = hasPending && pending.every((d) => d.revealed);
@@ -59,10 +59,10 @@ export function renderGachaView(container, engine, callbacks = {}) {
 
                 if (!card.revealed) {
                   return `
-                    <div class="duck-card card-back" data-card-idx="${idx}">
+                    <div class="duck-card card-back" data-card-idx="${idx}" title="Click to flip Card #${idx + 1}">
                       <div class="card-back-pattern">🦆</div>
                       <div class="card-back-num">#${idx + 1}</div>
-                      <div class="card-back-tap">Tap to flip</div>
+                      <div class="card-back-tap">Click to flip #${idx + 1}</div>
                     </div>
                   `;
                 }
@@ -125,11 +125,16 @@ export function renderGachaView(container, engine, callbacks = {}) {
     btnProceed.addEventListener('click', onProceed);
   }
 
-  // Individual card clicks to flip
+  // Bind exact card index click handler (P1 repair)
   const cardBacks = container.querySelectorAll('.card-back');
   cardBacks.forEach((el) => {
     el.addEventListener('click', () => {
-      if (onRevealCard) onRevealCard();
+      const idx = Number(el.getAttribute('data-card-idx'));
+      if (typeof onRevealCardAtIndex === 'function') {
+        onRevealCardAtIndex(idx);
+      } else if (typeof onRevealCard === 'function') {
+        onRevealCard();
+      }
     });
   });
 }

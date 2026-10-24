@@ -1,3 +1,4 @@
+// src/core/receipt.mjs
 // Receipt projection: a pure function of the append-only event record.
 // It never reads run state. Each finding has three registers (O1 honesty rule):
 //   displayed - only content recorded as shown (cue_shown / offer_shown / retention_modal_shown / reveal_shown)
@@ -110,8 +111,14 @@ export function projectReceipt(entries) {
       did.push(s ? line(`Starter offer bought (${s.clock.label}).`, s.seq) : line('Starter offer purchase not recorded.', null));
     } else if (id === 'exit_friction') {
       for (const c of cues) displayed.push(line(`Retention offer shown: ${c.payload.gemsOffered} gems or "${c.payload.stayLabel}".`, c.seq));
-      for (const a of ofType('action').filter((e) => ['leave_immediately', 'play_out_the_trap'].includes(e.payload.kind))) {
-        did.push(line(a.payload.kind === 'leave_immediately' ? 'Chose to leave immediately.' : 'Chose to stay and play out the trap.', a.seq));
+      for (const a of ofType('action').filter((e) => ['leave_immediately', 'play_out_the_trap', 'stay_without_reward'].includes(e.payload.kind))) {
+        if (a.payload.kind === 'leave_immediately') {
+          did.push(line('Chose to leave immediately.', a.seq));
+        } else if (a.payload.kind === 'play_out_the_trap') {
+          did.push(line('Chose to stay and play out the trap.', a.seq));
+        } else if (a.payload.kind === 'stay_without_reward') {
+          did.push(line('Chose to stay (retention reward already used).', a.seq));
+        }
       }
       const t = ofType('terminal')[0];
       if (t) did.push(line(`Run then ended with route: ${t.payload.route}.`, t.seq));
@@ -252,6 +259,24 @@ export function projectReceipt(entries) {
     accountingLines.push(line(`Terminal route was running_on_empty following ${unpaidExpense ? `unpaid ${unpaidExpense.kind} bill` : 'exhausted resources'}.`, terminal.seq));
   }
 
+  // Purely event-derived financial, health, and inventory balances (P2 repair)
+  const initialCash = 15.00;
+  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage').reduce((s, e) => s + e.payload.amount, 0);
+  const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
+  const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
+  const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);
+  const derivedFinalCash = Math.max(0, Math.round((initialCash + wagesSum + escalationCashSum - expensesPaidSum - purchasesPaidSum) * 100) / 100);
+
+  const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0);
+  const derivedFinalHealth = Math.max(0, 100 - healthLostSum);
+
+  const uniqueOwnedDucks = new Set(drawsCommitted.filter((d) => !d.payload.duplicate).map((d) => d.payload.identity));
+  const derivedOwnedDucksCount = uniqueOwnedDucks.size;
+
+  const totalDownGained = drawsCommitted.filter((d) => d.payload.duplicate).reduce((s, d) => s + (d.payload.downGained ?? 0), 0);
+  const totalDownSpent = ofType('action').filter((e) => e.payload.kind === 'down_spent').reduce((s, e) => s + (e.payload.amount ?? 0), 0);
+  const derivedDownBalance = Math.max(0, totalDownGained - totalDownSpent);
+
   return {
     chainValid,
     isComplete,
@@ -267,6 +292,13 @@ export function projectReceipt(entries) {
       interestCharges,
       finalDebt,
       lines: accountingLines,
+    },
+    summary: {
+      finalCash: derivedFinalCash,
+      finalHealth: derivedFinalHealth,
+      finalDebt,
+      ownedDucksCount: derivedOwnedDucksCount,
+      totalDown: derivedDownBalance,
     },
   };
 }

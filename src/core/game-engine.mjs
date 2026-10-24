@@ -1,9 +1,11 @@
+// src/core/game-engine.mjs
 // Core Game Engine and State Machine for Quackpot Plan 03 Mechanism Slice.
-// Fully implements the ratified Revision 3 contract:
-// - 3-day bounded demonstration
-// - Non-dominated Two-Stance tactical racing
-// - Truthful commit-before-reveal gacha draws
-// - Canonical escalation ladder (Steps 1-4) with zero-cash wage continuation
+// Fully implements the ratified Revision 3 contract and Repair 01 specifications:
+// - Persisted learner progression state (step, activeModal, interruptedContext, completedRaces, raceResults)
+// - Guarded one-time mutations (promotional pull, races, starter pack, companion setup)
+// - Solvent zero-cash options (continue, extra shift, sell couch) separate from unpaid bill escalations
+// - Frozen terminal state: no retention modal or gameplay mutations after terminal route / Receipt presentation
+// - Truthful repeated retention modal messaging
 // - Strict Receipt presentation logging boundary
 
 import { createRng, restoreRng } from './prng.mjs';
@@ -36,7 +38,7 @@ export const GAME_CONSTANTS = {
   FINALE_FIELD_SPEED: 11.2,
 };
 
-/** Pre-draw odds calculation matching sim/model.mjs linear pity model */
+/** Pre-draw odds calculation matching linear pity model */
 export function calculatePreDrawOdds(pityCount, softPityStart = 35, hardPity = 50) {
   const n = pityCount + 1;
   const baseLegendary = 0.02;
@@ -75,6 +77,9 @@ export class GameEngine {
       day: 1,
       clock: { day: 1, label: 'day 1 morning' },
       phase: 'setup', // 'setup' | 'playing' | 'escalation' | 'terminal' | 'receipt_presented'
+      step: 'desk',   // Exact persisted progression step
+      activeModal: null, // null | 'starter' | 'zerocash' | 'escalation' | 'retention'
+      interruptedContext: null, // { step, activeModal } saved during retention interruption
       cash: GAME_CONSTANTS.START_CASH,
       gems: 0,
       health: GAME_CONSTANTS.START_HEALTH,
@@ -85,34 +90,52 @@ export class GameEngine {
       owned: [], // array of duck id strings
       pendingReveals: [], // queue of committed unrevealed draws
       lastRacedId: null,
+      tenPullCommitted: false,
+      completedRaces: [], // array of completed race numbers: [1, 2]
+      raceResults: {},    // raceNumber -> outcome object
+      lastRaceResult: null,
+      assetsSold: [],     // array of sold asset strings: ['couch', 'tv']
       starterOffered: false,
       starterBought: false,
       retentionOffered: false,
       retentionUsed: false,
       terminalRoute: null,
-      activeBill: null, // pending unpaid bill during escalation
+      activeBill: null,   // pending unpaid bill during escalation
       escalationStepIndex: 0,
     };
   }
 
+  isTerminal() {
+    return this.state.phase === 'terminal' || this.state.phase === 'receipt_presented';
+  }
+
   /** Starts the game run, logs run_started, and transitions to companion setup */
   start() {
+    if (this.isTerminal()) throw new Error('Cannot start run: game is in terminal phase');
+    if (this.log.entries.some((e) => e.type === 'run_started')) return;
     this.log.append('run_started', { seed: this.seed }, this.state.clock);
+    this.state.step = 'desk';
   }
 
   /** Styles and names the physical companion */
   setupCompanion(name = 'Professor Quacks', style = 'classic-yellow') {
+    if (this.isTerminal()) throw new Error('Cannot setup companion: game is in terminal phase');
     this.state.physicalCompanion = { name, style, pawned: false };
     this.log.append('companion_styled', { name, style }, this.state.clock);
     this.state.phase = 'playing';
+    this.state.step = 'd1_morning_gacha';
   }
 
   /**
    * Commits the promotional free 10-pull.
-   * Uses genuine PRNG rolls with openingAdvancesPity: false.
-   * Commits ownership and Down immediately to state, queues draws in pendingReveals.
+   * Guarded against repeated execution.
    */
   commitPromotionalTenPull() {
+    if (this.isTerminal()) throw new Error('Cannot pull: game is in terminal phase');
+    if (this.state.tenPullCommitted) {
+      return this.state.pendingReveals;
+    }
+
     const draws = [];
     const bannerPool = BANNER_1_ROSTER;
     const ownedSet = new Set(this.state.owned);
@@ -150,7 +173,7 @@ export class GameEngine {
         identity: chosenDuck.id,
         duplicate: isDuplicate,
         downGained,
-        advancesPity: false, // Promotional free pull does not advance paid pity
+        advancesPity: false,
       };
 
       const entry = this.log.append('draw_committed', drawPayload, this.state.clock);
@@ -162,20 +185,22 @@ export class GameEngine {
     }
 
     this.state.pendingReveals = draws;
+    this.state.tenPullCommitted = true;
     return draws;
   }
 
   /**
-   * Reveals a committed draw card.
+   * Reveals a committed draw card at a specific index.
    * Appends reveal_shown to the event log.
    */
-  revealNextDraw() {
-    const unrevealedIndex = this.state.pendingReveals.findIndex((d) => !d.revealed);
-    if (unrevealedIndex === -1) return null;
+  revealDrawAtIndex(idx) {
+    if (this.isTerminal()) throw new Error('Cannot reveal draw: game is in terminal phase');
+    if (idx < 0 || idx >= this.state.pendingReveals.length) return null;
 
-    const draw = this.state.pendingReveals[unrevealedIndex];
+    const draw = this.state.pendingReveals[idx];
+    if (draw.revealed) return draw; // Idempotent if already revealed
+
     draw.revealed = true;
-
     this.log.append('reveal_shown', {
       commitSeq: draw.commitSeq,
       rarity: draw.rarity,
@@ -187,11 +212,20 @@ export class GameEngine {
     return draw;
   }
 
+  /** Reveals the next unrevealed card in sequence */
+  revealNextDraw() {
+    const unrevealedIndex = this.state.pendingReveals.findIndex((d) => !d.revealed);
+    if (unrevealedIndex === -1) return null;
+    return this.revealDrawAtIndex(unrevealedIndex);
+  }
+
   /** Reveal all remaining unrevealed draws in sequence */
   revealAllPending() {
     const revealed = [];
-    while (this.state.pendingReveals.some((d) => !d.revealed)) {
-      revealed.push(this.revealNextDraw());
+    for (let i = 0; i < this.state.pendingReveals.length; i++) {
+      if (!this.state.pendingReveals[i].revealed) {
+        revealed.push(this.revealDrawAtIndex(i));
+      }
     }
     return revealed;
   }
@@ -201,8 +235,16 @@ export class GameEngine {
    * raceNumber: 1 (Tutorial) or 2 (Finale).
    * duckId: owned duck ID entered by player.
    * stance: 'safe' | 'sprint'.
+   * Guarded: already-completed races return cached result without duplicating events or payouts.
    */
   runRace(raceNumber, duckId, stance = 'safe') {
+    if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
+    
+    // Idempotent guard: if race already ran, return cached result
+    if (this.state.completedRaces.includes(raceNumber) && this.state.raceResults[raceNumber]) {
+      return this.state.raceResults[raceNumber];
+    }
+
     const isTutorial = (raceNumber === 1);
     const baseFieldSpeed = isTutorial ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
 
@@ -233,7 +275,7 @@ export class GameEngine {
       const uOpp = this.rngRace.next();
       const oppPerf = baseFieldSpeed * (1 + (2 * uOpp - 1) * 0.05);
       opponents.push({
-        lane: i === 1 ? 1 : i + 1, // Lane 1 is rival; player in Lane 2; 3,4,5,6 are others
+        lane: i === 1 ? 1 : i + 1,
         perf: oppPerf,
         isRival: i === 1 && !isTutorial,
       });
@@ -278,12 +320,21 @@ export class GameEngine {
       this.log.append('reward', { kind: 'race_gems', gems: payoutGems, gemsAfter: this.state.gems }, this.state.clock);
     }
 
-    return { place, payoutGems, rivalPlace, playerPerf };
+    const outcome = { place, payoutGems, rivalPlace, playerPerf };
+    this.state.completedRaces.push(raceNumber);
+    this.state.raceResults[raceNumber] = outcome;
+    this.state.lastRaceResult = outcome;
+    this.state.step = isTutorial ? 'd1_midday_race_result' : 'd3_midday_race_result';
+
+    return outcome;
   }
 
   /** Displays the $0.99 Starter Pack offer */
   displayStarterOffer() {
+    if (this.isTerminal()) throw new Error('Cannot display starter offer: game is in terminal phase');
     this.state.starterOffered = true;
+    this.state.step = 'd1_afternoon_starter';
+    this.state.activeModal = 'starter';
     this.log.append('offer_shown', {
       technique: 'anchoring',
       gems: GAME_CONSTANTS.STARTER_GEMS,
@@ -294,10 +345,14 @@ export class GameEngine {
 
   /** Buys the Starter Pack for $0.99 */
   buyStarterPack() {
+    if (this.isTerminal()) throw new Error('Cannot buy starter pack: game is in terminal phase');
+    if (this.state.starterBought) return false;
     if (this.state.cash < GAME_CONSTANTS.STARTER_PRICE) return false;
+
     this.state.cash = Math.round((this.state.cash - GAME_CONSTANTS.STARTER_PRICE) * 100) / 100;
     this.state.gems += GAME_CONSTANTS.STARTER_GEMS;
     this.state.starterBought = true;
+    this.state.activeModal = null;
 
     this.log.append('purchase', {
       kind: 'starter',
@@ -311,11 +366,14 @@ export class GameEngine {
 
   /** Declines the Starter Pack */
   declineStarterPack() {
+    if (this.isTerminal()) throw new Error('Cannot decline starter pack: game is in terminal phase');
+    this.state.activeModal = null;
     this.log.append('action', { kind: 'starter_declined' }, this.state.clock);
   }
 
   /** Displays the Gem Bundle Shop (exercises currency_obfuscation on Receipt) */
   displayGemShop() {
+    if (this.isTerminal()) return;
     this.log.append('cue_shown', {
       technique: 'currency_obfuscation',
       bundles: [
@@ -329,6 +387,7 @@ export class GameEngine {
 
   /** Credits daily wage at end of day */
   creditWage() {
+    if (this.isTerminal()) throw new Error('Cannot credit wage: game is in terminal phase');
     this.state.cash += GAME_CONSTANTS.WAGE_DAILY;
     this.state.cash = Math.round(this.state.cash * 100) / 100;
     this.log.append('income', { kind: 'wage', amount: GAME_CONSTANTS.WAGE_DAILY }, this.state.clock);
@@ -341,6 +400,7 @@ export class GameEngine {
    * - { paid: false, needsEscalation: true }: cash insufficient, active bill pending escalation
    */
   billExpense(kind, amount) {
+    if (this.isTerminal()) throw new Error('Cannot bill expense: game is in terminal phase');
     this.log.append('expense_due', { kind, amount, cashBefore: this.state.cash }, this.state.clock);
 
     if (this.state.cash >= amount) {
@@ -349,6 +409,8 @@ export class GameEngine {
 
       // Check for zero-cash solvency tension if cash hits exactly $0
       if (this.state.cash === 0) {
+        this.state.activeModal = 'zerocash';
+        this.state.step = 'd2_afternoon_zerocash';
         this.log.append('escalation_offered', {
           step: 'zero_cash_check',
           billKind: kind,
@@ -363,16 +425,76 @@ export class GameEngine {
     // Cash insufficient
     this.state.activeBill = { kind, amount };
     this.state.phase = 'escalation';
-    this.state.escalationStepIndex = 1; // Start at step 1/2
+    this.state.escalationStepIndex = 1;
+    this.state.activeModal = 'escalation';
+    this.state.step = 'd2_afternoon_escalation';
     return { paid: false, needsEscalation: true };
   }
 
-  /** Continues to evening wage when cash hits $0 without forced sacrifice */
-  continueToWage() {
-    this.log.append('action', { kind: 'continue_to_wage' }, this.state.clock);
+  /**
+   * Solvent zero-cash recovery options (Repair 01, P1).
+   * Handles choices made at $0.00 cash after bills are paid in full.
+   * Neither invents an unpaid bill nor sets running_on_empty.
+   */
+  chooseZeroCashOption(choice) {
+    if (this.isTerminal()) throw new Error('Cannot choose zero-cash option: game is in terminal phase');
+    if (choice === 'sell_couch' && this.state.assetsSold.includes('couch')) {
+      throw new Error('Couch already sold');
+    }
+    if (this.state.cash !== 0) throw new Error(`Zero-cash option selected when cash is $${this.state.cash}`);
+
+    if (choice === 'continue') {
+      this.state.activeModal = null;
+      this.state.step = 'd2_afternoon_rent_resolved';
+      this.log.append('action', { kind: 'continue_to_wage' }, this.state.clock);
+      return { resolved: true, choice: 'continue', cash: this.state.cash, health: this.state.health };
+    }
+
+    if (choice === 'extra_shift') {
+      if (this.state.health <= 20) throw new Error('Health too low for extra shift');
+      this.state.cash += 10.00;
+      this.state.health -= 15;
+      this.state.activeModal = null;
+      this.state.step = 'd2_afternoon_rent_resolved';
+
+      this.log.append('action', { kind: 'zero_cash_extra_shift' }, this.state.clock);
+      this.log.append('escalation_result', {
+        step: 'extra_shift',
+        effects: { cashGained: 10, healthLost: 15 },
+        cashAfter: this.state.cash,
+        healthAfter: this.state.health,
+      }, this.state.clock);
+
+      return { resolved: true, choice: 'extra_shift', cash: this.state.cash, health: this.state.health };
+    }
+
+    if (choice === 'sell_couch') {
+      if (this.state.assetsSold.includes('couch')) throw new Error('Couch already sold');
+      this.state.assetsSold.push('couch');
+      this.state.cash += 10.00;
+      this.state.activeModal = null;
+      this.state.step = 'd2_afternoon_rent_resolved';
+
+      this.log.append('action', { kind: 'zero_cash_sell_couch' }, this.state.clock);
+      this.log.append('escalation_result', {
+        step: 'sell_couch',
+        effects: { cashGained: 10 },
+        cashAfter: this.state.cash,
+        healthAfter: this.state.health,
+      }, this.state.clock);
+
+      return { resolved: true, choice: 'sell_couch', cash: this.state.cash, health: this.state.health };
+    }
+
+    throw new Error(`Unknown zero-cash choice: "${choice}"`);
   }
 
-  /** Returns the current eligible escalation step */
+  /** Backward-compatible alias for continue to wage */
+  continueToWage() {
+    return this.chooseZeroCashOption('continue');
+  }
+
+  /** Returns the current eligible escalation step for an unpaid bill */
   getCurrentEscalationStep() {
     if (!this.state.activeBill) return null;
     const kind = this.state.activeBill.kind;
@@ -381,24 +503,29 @@ export class GameEngine {
     const idx = this.state.escalationStepIndex;
     if (idx === 1) {
       if (kind === 'food' && this.state.health > 20) return 'skip_lunch';
-      this.state.escalationStepIndex = 2; // Advance to extra_shift if not food
+      this.state.escalationStepIndex = 2;
     }
     if (this.state.escalationStepIndex === 2) {
       if (this.state.health > 20) return 'extra_shift';
       this.state.escalationStepIndex = 3;
     }
-    if (this.state.escalationStepIndex === 3) return 'sell_couch';
-    if (this.state.escalationStepIndex === 4) return 'sell_tv';
+    if (this.state.escalationStepIndex === 3) {
+      if (!this.state.assetsSold.includes('couch')) return 'sell_couch';
+      this.state.escalationStepIndex = 4;
+    }
+    if (this.state.escalationStepIndex === 4) {
+      if (!this.state.assetsSold.includes('tv')) return 'sell_tv';
+      this.state.escalationStepIndex = 5;
+    }
     if (this.state.escalationStepIndex === 5) {
       if (this.state.debt < 50.00) return 'credit_card';
     }
-    return null; // Exhausted
+    return null;
   }
 
-  /**
-   * Accepts the current escalation step.
-   */
+  /** Accepts the current escalation step for an unpaid bill */
   acceptEscalation() {
+    if (this.isTerminal()) throw new Error('Cannot accept escalation: game is in terminal phase');
     const step = this.getCurrentEscalationStep();
     if (!step) return this.exhaustEscalation();
 
@@ -420,6 +547,7 @@ export class GameEngine {
 
       this.log.append('expense_paid', { kind: bill.kind, amount: 0, cashAfter: this.state.cash }, this.state.clock);
       this.state.activeBill = null;
+      this.state.activeModal = null;
       this.state.phase = 'playing';
       return { resolved: true, route: null };
     }
@@ -430,9 +558,11 @@ export class GameEngine {
       eff.cashGained = 10.00;
       eff.healthLost = 15;
     } else if (step === 'sell_couch') {
+      this.state.assetsSold.push('couch');
       this.state.cash += 10.00;
       eff.cashGained = 10.00;
     } else if (step === 'sell_tv') {
+      this.state.assetsSold.push('tv');
       this.state.cash += 15.00;
       eff.cashGained = 15.00;
     } else if (step === 'credit_card') {
@@ -456,7 +586,9 @@ export class GameEngine {
       this.state.cash = Math.round((this.state.cash - bill.amount) * 100) / 100;
       this.log.append('expense_paid', { kind: bill.kind, amount: bill.amount, cashAfter: this.state.cash }, this.state.clock);
       this.state.activeBill = null;
+      this.state.activeModal = null;
       this.state.phase = 'playing';
+      this.state.step = 'd2_afternoon_rent_resolved';
       return { resolved: true, route: null };
     }
 
@@ -467,6 +599,7 @@ export class GameEngine {
 
   /** Declines current escalation step and advances to the next */
   declineEscalation() {
+    if (this.isTerminal()) throw new Error('Cannot decline escalation: game is in terminal phase');
     const step = this.getCurrentEscalationStep();
     this.log.append('action', { kind: 'escalation_declined', step }, this.state.clock);
 
@@ -481,71 +614,114 @@ export class GameEngine {
   exhaustEscalation() {
     this.state.phase = 'terminal';
     this.state.terminalRoute = 'running_on_empty';
+    this.state.step = 'receipt';
+    this.state.activeModal = null;
     this.log.append('terminal', { route: 'running_on_empty' }, this.state.clock);
     return { resolved: false, route: 'running_on_empty' };
   }
 
-  /** Opens retention modal on clicking persistent Uninstall button */
+  /**
+   * Opens retention modal on clicking persistent Uninstall button.
+   * Frozen terminal guard: impossible to call once terminal/Receipt presented.
+   */
   clickUninstall() {
+    if (this.isTerminal()) {
+      throw new Error('Cannot uninstall after run is terminal or Receipt presented');
+    }
+    this.state.interruptedContext = {
+      step: this.state.step,
+      activeModal: this.state.activeModal,
+    };
+    this.state.activeModal = 'retention';
+    this.state.retentionOffered = true;
+
     this.log.append('action', { kind: 'uninstall_chosen' }, this.state.clock);
     this.log.append('retention_modal_shown', {
       technique: 'exit_friction',
-      gemsOffered: GAME_CONSTANTS.RETENTION_GEMS,
+      gemsOffered: this.state.retentionUsed ? 0 : GAME_CONSTANTS.RETENTION_GEMS,
       stayLabel: 'play out the trap',
     }, this.state.clock);
-    this.state.retentionOffered = true;
   }
 
   /** Chooses 'Leave Anyway' from the retention modal */
   leaveUninstall() {
+    if (this.isTerminal()) throw new Error('Cannot leave uninstall: game is already in terminal phase');
     this.log.append('action', { kind: 'leave_immediately' }, this.state.clock);
     this.state.phase = 'terminal';
     this.state.terminalRoute = 'uninstall';
+    this.state.step = 'receipt';
+    this.state.activeModal = null;
     this.log.append('terminal', { route: 'uninstall' }, this.state.clock);
     return 'uninstall';
   }
 
-  /** Chooses 'Play Out The Trap' from retention modal */
+  /**
+   * Chooses 'Play Out The Trap' from retention modal.
+   * Truthful repeat retention: only awards 80 gems once; restores previous context cleanly.
+   */
   stayUninstall() {
-    this.log.append('action', { kind: 'play_out_the_trap' }, this.state.clock);
+    if (this.isTerminal()) throw new Error('Cannot stay: game is in terminal phase');
     if (!this.state.retentionUsed) {
       this.state.gems += GAME_CONSTANTS.RETENTION_GEMS;
       this.state.retentionUsed = true;
+      this.log.append('action', { kind: 'play_out_the_trap' }, this.state.clock);
       this.log.append('reward', {
         kind: 'retention_gems',
         gems: GAME_CONSTANTS.RETENTION_GEMS,
         gemsAfter: this.state.gems,
       }, this.state.clock);
+    } else {
+      this.log.append('action', { kind: 'stay_without_reward' }, this.state.clock);
+    }
+
+    // Restore interrupted step and modal
+    if (this.state.interruptedContext) {
+      this.state.step = this.state.interruptedContext.step || this.state.step;
+      this.state.activeModal = this.state.interruptedContext.activeModal || null;
+      this.state.interruptedContext = null;
+    } else {
+      this.state.activeModal = null;
     }
   }
 
   /** Completes run normally at end of Day 3 */
   finishRunComplete() {
+    if (this.isTerminal()) return this.state.terminalRoute;
     this.state.phase = 'terminal';
     this.state.terminalRoute = 'run_complete';
+    this.state.step = 'receipt';
+    this.state.activeModal = null;
     this.log.append('terminal', { route: 'run_complete' }, this.state.clock);
     return 'run_complete';
   }
 
   /**
-   * Appends receipt_shown strictly upon actual UI presentation in the DOM.
+   * Appends receipt_shown strictly upon actual visual presentation in the DOM.
    * Completes the terminal / receipt_shown tail pair required by verifyCompleteness().
+   * Idempotent on reload: does not append duplicate events if already presented.
    */
-  presentReceipt() {
-    if (this.state.phase !== 'terminal' && this.state.phase !== 'receipt_presented') {
-      throw new Error(`Cannot present Receipt in phase ${this.state.phase}`);
+  recordReceiptPresented() {
+    if (!this.isTerminal()) {
+      throw new Error(`Cannot record Receipt presentation in phase "${this.state.phase}" (must be terminal)`);
     }
 
     if (this.state.phase === 'terminal') {
       this.log.append('receipt_shown', { route: this.state.terminalRoute }, this.state.clock);
       this.state.phase = 'receipt_presented';
+      this.state.step = 'receipt';
     }
 
     return projectReceipt(this.log.entries);
   }
 
+  /** Backward-compatible alias */
+  presentReceipt() {
+    return this.recordReceiptPresented();
+  }
+
   /** Advances clock day */
   advanceDay(dayNumber, label) {
+    if (this.isTerminal()) throw new Error('Cannot advance day: game is in terminal phase');
     this.state.day = dayNumber;
     this.state.clock = { day: dayNumber, label: label ?? `day ${dayNumber} morning` };
   }
@@ -569,7 +745,8 @@ export class GameEngine {
 
   /** Hydrates engine state from a validated storage envelope */
   static fromEnvelope(envelope) {
-    const engine = new GameEngine(JSON.parse(envelope.prngStreams.root).key);
+    const rootStreamObj = JSON.parse(envelope.prngStreams.root);
+    const engine = new GameEngine(rootStreamObj.key);
     engine.autosaveEnabled = envelope.autosaveEnabled ?? true;
     engine.state = structuredClone(envelope.state);
 

@@ -39,6 +39,13 @@ export function renderDeskView(container, duckSvgUrl, onStartApp) {
             </select>
           </div>
 
+          <div class="form-group">
+            <label class="hud-autosave-toggle" style="justify-content: flex-start; margin-top: 0.5rem;">
+              <input type="checkbox" id="desk-autosave-checkbox" checked />
+              <span>Enable automatic saving at safe junctures (recommended)</span>
+            </label>
+          </div>
+
           <div class="desk-actions">
             <button type="submit" id="btn-start-app" class="btn btn-primary btn-lg">
               📱 Open Quackpot & Claim 10-Pull
@@ -55,9 +62,11 @@ export function renderDeskView(container, duckSvgUrl, onStartApp) {
       e.preventDefault();
       const nameInput = container.querySelector('#companion-name-input');
       const styleSelect = container.querySelector('#companion-style-select');
+      const autosaveCheckbox = container.querySelector('#desk-autosave-checkbox');
       const name = nameInput?.value?.trim() || 'Professor Quacks';
       const style = styleSelect?.value || 'classic-yellow';
-      onStartApp({ name, style });
+      const autosaveEnabled = autosaveCheckbox ? autosaveCheckbox.checked : true;
+      onStartApp({ name, style, autosaveEnabled });
     });
   }
 }

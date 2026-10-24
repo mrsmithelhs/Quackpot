@@ -38,16 +38,13 @@ export function renderStarterOffer(container, engine, callbacks = {}) {
   const btnBuy = container.querySelector('#btn-buy-starter');
   const btnDecline = container.querySelector('#btn-decline-starter');
 
-  if (btnBuy && onBuy) {
-    btnBuy.addEventListener('click', onBuy);
-  }
-  if (btnDecline && onDecline) {
-    btnDecline.addEventListener('click', onDecline);
-  }
+  if (btnBuy && onBuy) btnBuy.addEventListener('click', onBuy);
+  if (btnDecline && onDecline) btnDecline.addEventListener('click', onDecline);
 }
 
 export function renderZeroCashPrompt(container, engine, callbacks = {}) {
   const { onContinue, onExtraShift, onSellCouch } = callbacks;
+  const couchSold = engine.state.assetsSold?.includes('couch');
 
   container.innerHTML = `
     <div class="modal-backdrop">
@@ -70,8 +67,8 @@ export function renderZeroCashPrompt(container, engine, callbacks = {}) {
           <button id="btn-zero-shift" class="btn btn-secondary btn-md">
             🌙 Work Extra Night Shift (+$10.00 Cash, -15 HP)
           </button>
-          <button id="btn-zero-couch" class="btn btn-secondary btn-md">
-            🛋️ Sell Apartment Couch (+$10.00 Cash)
+          <button id="btn-zero-couch" class="btn btn-secondary btn-md" ${couchSold ? 'disabled' : ''}>
+            🛋️ ${couchSold ? 'Couch Already Sold' : 'Sell Apartment Couch (+$10.00 Cash)'}
           </button>
         </div>
       </div>
@@ -84,7 +81,7 @@ export function renderZeroCashPrompt(container, engine, callbacks = {}) {
 
   if (btnContinue && onContinue) btnContinue.addEventListener('click', onContinue);
   if (btnShift && onExtraShift) btnShift.addEventListener('click', onExtraShift);
-  if (btnCouch && onSellCouch) btnCouch.addEventListener('click', onSellCouch);
+  if (btnCouch && onSellCouch && !couchSold) btnCouch.addEventListener('click', onSellCouch);
 }
 
 export function renderEscalationModal(container, engine, callbacks = {}) {
@@ -156,25 +153,37 @@ export function renderEscalationModal(container, engine, callbacks = {}) {
 
 export function renderRetentionModal(container, engine, callbacks = {}) {
   const { onStay, onLeave } = callbacks;
+  const isUsed = Boolean(engine.state.retentionUsed);
 
   container.innerHTML = `
     <div class="modal-backdrop">
       <div class="modal-card modal-retention">
-        <div class="modal-badge-retention">WAIT! DON'T UNINSTALL!</div>
-        <h2>A Special Gift Just For You!</h2>
-        <p class="modal-desc">
-          Are you sure you want to leave? If you stay right now, we will immediately credit your account with:
-        </p>
-        <div class="retention-reward-banner">
-          🎁 80 FREE GEMS! 💎
-        </div>
-        <p class="modal-sub">
-          <em>"Play out the trap!"</em> The gacha pond misses you already.
-        </p>
+        <div class="modal-badge-retention">${isUsed ? 'UNINSTALL CONFIRMATION' : 'WAIT! DON\'T UNINSTALL!'}</div>
+        <h2>${isUsed ? 'Are You Sure You Want to Leave?' : 'A Special Gift Just For You!'}</h2>
+        
+        ${!isUsed ? `
+          <p class="modal-desc">
+            Are you sure you want to leave? If you stay right now, we will immediately credit your account with:
+          </p>
+          <div class="retention-reward-banner">
+            🎁 80 FREE GEMS! 💎
+          </div>
+          <p class="modal-sub">
+            <em>"Play out the trap!"</em> The gacha pond misses you already.
+          </p>
+        ` : `
+          <p class="modal-desc">
+            You have already claimed the <strong>80 promotional retention gems</strong> earlier.
+            No additional bonus will be granted if you remain.
+          </p>
+          <p class="modal-sub">
+            Do you wish to stay in your current session or proceed to uninstall?
+          </p>
+        `}
 
         <div class="retention-actions">
           <button id="btn-retention-stay" class="btn btn-gold btn-lg">
-            💎 Take 80 Gems & Stay
+            ${!isUsed ? '💎 Take 80 Gems & Stay' : 'Stay in Game (No Bonus)'}
           </button>
           <button id="btn-retention-leave" class="btn btn-outline-danger btn-md">
             Leave Anyway (Uninstall)
@@ -210,7 +219,7 @@ export function renderCorruptSaveModal(container, errors = [], callbacks = {}) {
             Start Fresh Run (Clear Invalid Save)
           </button>
           <button id="btn-corrupt-backup" class="btn btn-outline btn-md">
-            Keep Corrupt Save as Session Backup
+            Keep Corrupt Save as Backup
           </button>
         </div>
       </div>

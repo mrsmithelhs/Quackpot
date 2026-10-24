@@ -299,6 +299,18 @@ body {
   border: 1px solid #ef4444;
 }
 
+.storage-warning-banner {
+  background-color: #7f1d1d;
+  color: #fef2f2;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 .save-toast {
   position: absolute;
   top: 100%;
@@ -311,6 +323,27 @@ body {
   border-radius: 6px;
   z-index: 10;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.save-toast-warning {
+  background-color: #9a3412 !important;
+  color: #ffedd5 !important;
+}
+
+.hud-terminal-pill {
+  font-size: 0.8rem;
+  background-color: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #475569;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.odds-cell {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #cbd5e1;
 }
 
 /* Desk View */

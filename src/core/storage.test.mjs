@@ -1,11 +1,14 @@
+// src/core/storage.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   saveGame,
   loadGame,
   clearGame,
+  backupCorruptSave,
   validateSave,
   STORAGE_KEY,
+  BACKUP_KEY,
   resetInMemoryStore
 } from './storage.mjs';
 import { EventLog } from './event-log.mjs';
@@ -63,6 +66,58 @@ function makeValidEnvelope() {
   };
 }
 
+function makeEnvelopeWithPulls() {
+  const rng = createRng('test-pull-seed');
+  const rngDraw = rng.fork('draw');
+  const rngRace = rng.fork('race');
+  const rngEvent = rng.fork('event');
+
+  const log = new EventLog();
+  log.append('run_started', { seed: 'test-pull-seed' }, { day: 1, label: 'day 1 morning' });
+  
+  // Commit 2 draws
+  const e1 = log.append('draw_committed', {
+    drawIndex: 1, of: 2, pityBefore: 0, drawNumberInWindow: 1,
+    odds: { common: 0.8, rare: 0.18, legendary: 0.02 },
+    rarity: 'common', identity: 'duck-0', duplicate: false, downGained: 0, advancesPity: false
+  }, { day: 1, label: 'day 1 morning' });
+
+  const e2 = log.append('draw_committed', {
+    drawIndex: 2, of: 2, pityBefore: 0, drawNumberInWindow: 1,
+    odds: { common: 0.8, rare: 0.18, legendary: 0.02 },
+    rarity: 'rare', identity: 'duck-2', duplicate: false, downGained: 0, advancesPity: false
+  }, { day: 1, label: 'day 1 morning' });
+
+  return {
+    schemaVersion: 1,
+    savedAt: 1700000000000,
+    autosaveEnabled: true,
+    state: {
+      day: 1,
+      clock: { day: 1, label: 'day 1 morning' },
+      phase: 'playing',
+      cash: 15.00,
+      gems: 0,
+      health: 100,
+      debt: 0,
+      down: 0,
+      pityCount: 0,
+      owned: ['duck-0', 'duck-2'],
+      pendingReveals: [
+        { commitSeq: e1.seq, identity: 'duck-0', rarity: 'common', duplicate: false, downGained: 0, revealed: false },
+        { commitSeq: e2.seq, identity: 'duck-2', rarity: 'rare', duplicate: false, downGained: 0, revealed: false },
+      ],
+    },
+    prngStreams: {
+      root: rng.serialize(),
+      draw: rngDraw.serialize(),
+      race: rngRace.serialize(),
+      event: rngEvent.serialize(),
+    },
+    eventLog: log.entries,
+  };
+}
+
 test('storage: saves and loads valid game envelope cleanly', () => {
   resetInMemoryStore();
   const mock = createMockStorage();
@@ -80,7 +135,7 @@ test('storage: saves and loads valid game envelope cleanly', () => {
 
 test('storage: semantic validation detects mismatched state values', () => {
   const env = makeValidEnvelope();
-  env.state.cash = 99.99; // Mismatched cash!
+  env.state.cash = 99.99;
 
   const val = validateSave(env);
   assert.equal(val.valid, false);
@@ -96,11 +151,39 @@ test('storage: semantic validation detects corrupted PRNG streams', () => {
   assert.ok(val.errors.some((e) => e.includes('PRNG snapshot')));
 });
 
+test('storage [Repair 01 Regression]: rejects PRNG state word with string "bad"', () => {
+  const env = makeValidEnvelope();
+  const drawObj = JSON.parse(env.prngStreams.draw);
+  drawObj.s[1] = 'bad'; // String instead of uint32
+  env.prngStreams.draw = JSON.stringify(drawObj);
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('invalid uint32 state word')));
+});
+
+test('storage [Repair 01 Regression]: rejects envelope when state.owned is cleared', () => {
+  const env = makeEnvelopeWithPulls();
+  env.state.owned = []; // Cleared owned inventory while draws exist in log
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('State owned inventory mismatch')));
+});
+
+test('storage [Repair 01 Regression]: rejects pending reveal with uncommitted identity "duck-NOT-COMMITTED"', () => {
+  const env = makeEnvelopeWithPulls();
+  env.state.pendingReveals[0].identity = 'duck-NOT-COMMITTED';
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('identity mismatch')));
+});
+
 test('storage: semantic validation detects broken event log hash chain', () => {
   const env = makeValidEnvelope();
-  // Tamper with event log
   const tamperedLog = structuredClone(env.eventLog);
-  tamperedLog[1].payload.amount = 999.00; // breaks hash chain
+  tamperedLog[1].payload.amount = 999.00;
 
   env.eventLog = tamperedLog;
   const val = validateSave(env);
@@ -114,7 +197,6 @@ test('storage: write failure activates in-memory session and leaves stored snaps
   const env1 = makeValidEnvelope();
   saveGame(env1, mock);
 
-  // Enable failure on future writes
   mock.setFailWrites(true);
   const env2 = makeValidEnvelope();
   env2.state.cash = 25.00;
@@ -124,13 +206,19 @@ test('storage: write failure activates in-memory session and leaves stored snaps
   assert.equal(failRes.success, false);
   assert.equal(failRes.inMemory, true);
 
-  // In-memory session holds new save
   const loadMemory = loadGame(mock);
   assert.equal(loadMemory.envelope.savedAt, 1700000005000);
 
-  // But the mock storage item in localStorage still contains the older env1 snapshot!
   const storedJson = JSON.parse(mock.getItem(STORAGE_KEY));
   assert.equal(storedJson.savedAt, 1700000000000);
+});
+
+test('storage [Repair 01]: backupCorruptSave preserves invalid data under backup key', () => {
+  const mock = createMockStorage({ [STORAGE_KEY]: 'corrupt-save-data' });
+  const backupOk = backupCorruptSave(mock);
+  assert.equal(backupOk, true);
+  assert.equal(mock.getItem(BACKUP_KEY), 'corrupt-save-data');
+  assert.equal(mock.getItem(STORAGE_KEY), 'corrupt-save-data');
 });
 
 test('storage: loadGame safely flags malformed JSON without crashing', () => {

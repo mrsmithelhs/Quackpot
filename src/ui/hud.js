@@ -4,6 +4,7 @@
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   const { onSave, onUninstall, onToggleAutosave } = callbacks;
   const state = engine.state;
+  const isTerminal = engine.isTerminal();
 
   container.innerHTML = `
     <header class="hud-header">
@@ -27,15 +28,21 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
 
         <div class="hud-controls">
           <label class="hud-autosave-toggle" title="Toggle automatic saving at safe junctures">
-            <input type="checkbox" id="autosave-toggle" ${engine.autosaveEnabled ? 'checked' : ''} />
+            <input type="checkbox" id="autosave-toggle" ${engine.autosaveEnabled ? 'checked' : ''} ${isTerminal ? 'disabled' : ''} />
             <span>Autosave</span>
           </label>
-          <button id="btn-manual-save" class="btn btn-secondary btn-sm" title="Save current run state locally">
-            💾 Save
+          <button id="btn-manual-save" class="btn btn-secondary btn-sm" title="${isTerminal ? 'Run record locked' : 'Save current run state locally'}" ${isTerminal ? 'disabled' : ''}>
+            💾 ${isTerminal ? 'Locked' : 'Save'}
           </button>
-          <button id="btn-uninstall" class="btn btn-danger btn-sm" title="Uninstall the gacha game">
-            ❌ Uninstall
-          </button>
+          ${!isTerminal ? `
+            <button id="btn-uninstall" class="btn btn-danger btn-sm" title="Uninstall the gacha game">
+              ❌ Uninstall
+            </button>
+          ` : `
+            <div class="hud-terminal-pill" title="Run is complete. Receipt presented.">
+              🏁 Run Locked
+            </div>
+          `}
         </div>
       </div>
 
@@ -77,24 +84,25 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   const toggleAutosave = container.querySelector('#autosave-toggle');
   const saveToast = container.querySelector('#save-notification');
 
-  if (btnSave && onSave) {
+  if (btnSave && onSave && !isTerminal) {
     btnSave.addEventListener('click', () => {
       const result = onSave();
       if (saveToast) {
         saveToast.textContent = result?.inMemory
-          ? '⚠️ Saved to session memory (storage restricted)'
+          ? '⚠️ Temporary session only (storage restricted)'
           : '✓ Saved locally!';
+        saveToast.className = result?.inMemory ? 'save-toast save-toast-warning' : 'save-toast';
         saveToast.style.display = 'block';
-        setTimeout(() => { saveToast.style.display = 'none'; }, 2000);
+        setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
       }
     });
   }
 
-  if (btnUninstall && onUninstall) {
+  if (btnUninstall && onUninstall && !isTerminal) {
     btnUninstall.addEventListener('click', onUninstall);
   }
 
-  if (toggleAutosave && onToggleAutosave) {
+  if (toggleAutosave && onToggleAutosave && !isTerminal) {
     toggleAutosave.addEventListener('change', (e) => {
       onToggleAutosave(e.target.checked);
     });

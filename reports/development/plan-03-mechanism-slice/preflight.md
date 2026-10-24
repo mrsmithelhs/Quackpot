@@ -1,10 +1,10 @@
-# Plan 03 Preflight Proposal: Core Mechanism and Truthful Receipt Slice (Revision 1)
+# Plan 03 Preflight Proposal: Core Mechanism and Truthful Receipt Slice (Revision 2)
 
 **Date:** 2026-10-24  
 **Author:** Implementer (Plan 03 thread)  
 **Packet:** [`docs/development/plan-03-mechanism-slice.md`](file:///c:/AI/Quackpot/docs/development/plan-03-mechanism-slice.md)  
 **Reference brief:** [`reports/development/plan-03-mechanism-slice/preflight-brief.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-brief.md)  
-**Review addressed:** [`reports/development/plan-03-mechanism-slice/preflight-review-01.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-review-01.md)  
+**Reviews addressed:** [`reports/development/plan-03-mechanism-slice/preflight-review-01.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-review-01.md) and Orchestrator Review 02  
 **Status:** Revised preflight proposal submitted for Owner and Orchestrator review. **Implementation code remains paused awaiting approval.**
 
 ---
@@ -29,33 +29,51 @@ This slice is explicitly designed as a **bounded 3-day mechanism demonstration (
 To prevent unrecoverable insolvency while creating a genuine economic squeeze, the economy uses the following coherent parameters:
 - **Starting Cash:** $15.00
 - **Starting Health:** 100 HP
-- **Daily Wage:** +$10.00 earned at the end of each day
-- **Daily Food Expense:** $5.00 due each morning
+- **Daily Wage:** +$10.00 earned at the end of each day (Day 1 evening and Day 2 evening)
+- **Daily Food Expense:** $5.00 due each morning (Day 1 morning, Day 2 morning, Day 3 morning)
 - **Periodic Rent Expense:** $15.00 due on Day 2 afternoon
-- **Pond Race 1 Purse:** 1st place: 50 gems
-- **Starter Pack Offer:** $0.99 for 240 gems labeled `"400% value"`
+- **Total Bills Scheduled (Days 1–3):** 4 bills totaling **$30.00** (three $5.00 food bills + one $15.00 rent bill)
+- **Pond Race Schedule:** Exactly 2 races in the 3-day slice:
+  - **Race 1 (Day 1 Midday):** Opening Tutorial Race (purse: 1st: 50 gems)
+  - **Race 2 (Day 3 Midday):** Championship Finale against Rival Whale in Lane 1 (purse: 1st: 50 gems, 2nd: 20 gems, 3rd: 10 gems)
+- **Starter Pack Offer:** $0.99 for 240 gems labeled `"400% value"` (gems-only, per model default)
 - **Gem Bundle Shop:** Displays odd bundle sizes (e.g. 60 gems for $0.99, 330 gems for $4.99) against a 160-gem pull cost
 - **Retention Offer:** Exactly 80 gems and copy `"play out the trap"`
-- **Escalation Ladder (Canonical Steps 1–4):**
-  1. `skip_lunch`: Available only when food bill is due and Health > 20. Waives food bill (`billWaived: 5`), cash unchanged ($0), Health -15 HP.
-  2. `extra_shift`: Available when any bill cannot be paid and Health > 20. Grants +$10.00 cash, Health -15 HP.
-  3. `sell_couch`: One-time sale. Grants +$10.00 cash, visibly removes couch.
-  4. `sell_tv`: One-time sale. Grants +$15.00 cash, visibly removes TV.
-  5. `credit_card`: Available if debt < $50.00 credit limit. Draws +$15.00 cash, debt +$15.00.
+- **Canonical Escalation Ladder (Steps 1–4):**
+  - **Step 1 (`skip_lunch`):** Available only when food bill is due and Health > 20. Waives food bill (`billWaived: 5`), cash unchanged ($0), Health -15 HP.
+  - **Step 2 (`extra_shift`):** Available when any bill cannot be paid and Health > 20. Grants +$10.00 cash, Health -15 HP (reconciling canonical wages and sleep loss without altering race reflexes; fatigue obscuring choices remains Plan 05).
+  - **Step 3 (`sell_couch`, then `sell_tv`):** One-time asset sales. Selling couch grants +$10.00 cash; selling TV grants +$15.00 cash; visibly empties apartment.
+  - **Step 4 (`credit_card`):** Available if debt < $50.00 limit. Draws +$15.00 cash, debt +$15.00, incurs 5% weekly interest ($0.75) if carried to a statement.
+  - *(Steps 5–7 deferred per design doc D1).*
 
-### 2.3 Explicit State and Balance Progression Table
+### 2.3 Exact Terminal Predicate
+The terminal route is derived strictly from the following conditions:
+- **`terminalRoute = 'uninstall'`**: The player clicks the persistent [Uninstall] button, is presented with the 80-gem retention modal, and clicks [Leave Anyway].
+- **`terminalRoute = 'running_on_empty'`**: A bill is due and cash on hand is insufficient, and either:
+  1. The player explicitly declines all available escalation options in sequence (choosing "Default / Can't Pay"), or
+  2. All eligible escalation steps have been exhausted (couch and TV sold, credit limit reached, health $\le 20$), or
+  3. Health reaches $\le 0$.
+- **`terminalRoute = 'run_complete'`**: The player completes the Day 3 Championship Race and finishes the 3-day slice with all due bills settled.
+
+### 2.4 The Frugal Zero-Cash Moment
+In the frugal branch (Trace 1), paying Day 2 Rent of $15.00 reduces cash from $15.00 to exactly **$0.00**.
+- **Solvency Rule:** Having $0.00 cash after settling a bill does **not** trigger default because no expense is currently due.
+- The player experiences the psychological tension of an empty wallet during Day 2 afternoon, but remains solvent.
+- In the evening, the Day 2 Wage (+$10.00) arrives as scheduled, raising cash to $10.00 before Day 3 morning food ($5.00) comes due.
+
+### 2.5 Explicit State and Balance Progression Table
 
 The table below traces the exact numerical state (Cash, Gems, Health, Debt, and Event Logged) across the four canonical branches:
 
 | Day & Step | Event / Action | Cash Before $\rightarrow$ After | Gems Before $\rightarrow$ After | Health Before $\rightarrow$ After | Log Event Emitted & Fields |
 |---|---|---|---|---|---|
 | **D1: Morning** | Run starts; meet physical duck; free 10-pull | $15.00 $\rightarrow$ $15.00 | 0 $\rightarrow$ 0 | 100 $\rightarrow$ 100 | `draw_committed` (x10), `reveal_shown` (x10) |
-| **D1: Morning** | Food Bill 1 arrives | $15.00 $\rightarrow$ $10.00 | 0 $\rightarrow$ 0 | 100 $\rightarrow$ 100 | `expense_due` (`kind: 'food'`, $5), `expense_paid` ($5, cashAfter: 10) |
-| **D1: Midday** | Race 1: Roster selection; win 1st place | $10.00 $\rightarrow$ $10.00 | 0 $\rightarrow$ 50 | 100 $\rightarrow$ 100 | `race_result` (`place: 1`), `reward` (`gems: 50`) |
+| **D1: Morning** | Food Bill 1 arrives ($5.00) | $15.00 $\rightarrow$ $10.00 | 0 $\rightarrow$ 0 | 100 $\rightarrow$ 100 | `expense_due` (`kind: 'food'`, $5), `expense_paid` ($5, cashAfter: 10) |
+| **D1: Midday** | Race 1: Tutorial race; win 1st place | $10.00 $\rightarrow$ $10.00 | 0 $\rightarrow$ 50 | 100 $\rightarrow$ 100 | `race_choice_offered`, `action`, `race_result` (`place: 1`), `reward` (50 gems) |
 | **D1: Afternoon** | Starter Offer displayed | $10.00 $\rightarrow$ $10.00 | 50 $\rightarrow$ 50 | 100 $\rightarrow$ 100 | `offer_shown` (`technique: 'anchoring'`, gems: 240, price: 0.99, anchorLabel: '400% value') |
 | **D1: Afternoon** | **Choice A: Decline Starter** | $10.00 $\rightarrow$ $10.00 | 50 $\rightarrow$ 50 | 100 $\rightarrow$ 100 | `action` (`kind: 'starter_declined'`) |
 | **D1: Afternoon** | **Choice B: Buy Starter ($0.99)** | $10.00 $\rightarrow$ **$9.01** | 50 $\rightarrow$ **290** | 100 $\rightarrow$ 100 | `purchase` (`kind: 'starter'`, price: 0.99, bundleGems: 240, gemsAfter: 290) |
-| **D1: Evening** | Day 1 Wage arrives | Choice A: $10 $\rightarrow$ **$20.00**<br>Choice B: $9.01 $\rightarrow$ **$19.01** | Unchanged | 100 $\rightarrow$ 100 | `income` (`kind: 'wage'`, amount: 10.00) |
+| **D1: Evening** | Day 1 Wage arrives (+$10.00) | Choice A: $10 $\rightarrow$ **$20.00**<br>Choice B: $9.01 $\rightarrow$ **$19.01** | Unchanged | 100 $\rightarrow$ 100 | `income` (`kind: 'wage'`, amount: 10.00) |
 | **D2: Morning** | Food Bill 2 arrives ($5.00) | Choice A: $20 $\rightarrow$ **$15.00**<br>Choice B: $19.01 $\rightarrow$ **$14.01** | Unchanged | 100 $\rightarrow$ 100 | `expense_due` (`kind: 'food'`, $5), `expense_paid` ($5) |
 | **D2: Afternoon** | Rent Bill arrives ($15.00) | Choice A: $15 $\rightarrow$ **$0.00** (Paid in full!)<br>Choice B: $14.01 $\rightarrow$ **SHORT by $0.99!** | Unchanged | 100 $\rightarrow$ 100 | `expense_due` (`kind: 'rent'`, amount: 15.00, cashBefore: 14.01) |
 
@@ -65,14 +83,16 @@ The table below traces the exact numerical state (Cash, Gems, Health, Debt, and 
   - Rent ($15.00) is paid in full from the $15.00 balance $\rightarrow$ Cash = $0.00.
   - Emits: `expense_paid` (`kind: 'rent'`, amount: 15.00, cashAfter: 0.00).
   - Evening: Day 2 Wage arrives (+$10.00) $\rightarrow$ Cash = $10.00.
-  - Day 3: Morning Food ($5.00) paid $\rightarrow$ Cash = $5.00.
-  - Day 3 Midday: Race 2 / Race 3 finishes $\rightarrow$ Designed slice ending reached:
+  - Day 3 Morning: Food Bill 3 ($5.00) arrives and is paid in cash $\rightarrow$ Cash = **$5.00**.
+  - Day 3 Midday: Race 2 (Championship Finale against Rival Whale) concludes.
+  - Day 3 Afternoon: Designed slice ending reached:
     - Emits: `terminal` (`route: 'run_complete'`).
-    - Emits: `receipt_shown` (`route: 'run_complete'`).
-    - Receipt confirms: 3 bills paid in cash ($25.00 total), 0 unpaid bills, 0 debt, Anchoring cue shown but unpurchased, no retention cue shown.
+    - Receipt View mounts $\rightarrow$ Emits: `receipt_shown` (`route: 'run_complete'`).
+    - Receipt confirms: **4 bills paid in cash totaling $30.00** (three $5 food + one $15 rent), 0 unpaid bills, 0 debt, ending cash $5.00, Anchoring cue shown but unpurchased, no retention cue shown.
 
 - **Trace 2: Purchase with Escalation Recovery (Choice B $\rightarrow$ Extra Shift):**
-  - Rent ($15.00) arrives when Cash is $14.01. Rent cannot be paid!
+  - Rent ($15.00) arrives when Cash is $14.01. Short by $0.99!
+  - Escalation Step 1 (`skip_lunch`) is ineligible (bill is rent).
   - Escalation Step 2 (`extra_shift`) is offered:
     - Emits: `escalation_offered` (`step: 'extra_shift'`, billKind: 'rent', cashBefore: 14.01, healthBefore: 100).
     - Player accepts extra shift:
@@ -84,18 +104,25 @@ The table below traces the exact numerical state (Cash, Gems, Health, Debt, and 
     - Cash: $24.01 - $15.00 = **$9.01**.
     - Emits: `expense_paid` (`kind: 'rent'`, amount: 15.00, cashAfter: 9.01).
   - Evening: Day 2 Wage arrives (+$10.00) $\rightarrow$ Cash = $19.01.
-  - Day 3: Survives to designed finish (`run_complete`).
-  - Receipt confirms: Starter pack purchased for $0.99, 1 emergency escalation step (`extra_shift`), 3 bills paid in cash, final health 85 HP.
+  - Day 3 Morning: Food Bill 3 ($5.00) arrives and is paid in cash $\rightarrow$ Cash = **$14.01**.
+  - Day 3 Midday: Race 2 concludes.
+  - Day 3 Afternoon: Designed slice ending reached:
+    - Emits: `terminal` (`route: 'run_complete'`).
+    - Receipt View mounts $\rightarrow$ Emits: `receipt_shown` (`route: 'run_complete'`).
+    - Receipt confirms: Starter pack purchased for $0.99, 1 emergency escalation step (`extra_shift`), **4 bills paid in cash totaling $30.00**, ending cash $14.01, final health 85 HP.
 
-- **Trace 3: Purchase with Default / Terminal (Choice B $\rightarrow$ Decline Escalation):**
-  - Rent ($15.00) arrives when Cash is $14.01.
-  - Escalation Step 2 (`extra_shift`) is offered.
-  - Player chooses **[Refuse Shift / Can't Pay]**:
-    - Emits: `action` (`kind: 'escalation_declined'`, step: 'extra_shift').
-    - Escalation exhausted without funding rent. Rent remains unpaid.
+- **Trace 3: Purchase with Default / Terminal (Choice B $\rightarrow$ Full Escalation Exhaustion):**
+  - Rent ($15.00) arrives when Cash is $14.01. Short by $0.99!
+  - Escalation progression:
+    - Step 2 (`extra_shift`) offered $\rightarrow$ Player clicks **[Decline]** (`action: 'escalation_declined'`).
+    - Step 3 (`sell_couch`) offered $\rightarrow$ Player clicks **[Decline]** (`action: 'escalation_declined'`).
+    - Step 3 (`sell_tv`) offered $\rightarrow$ Player clicks **[Decline]** (`action: 'escalation_declined'`).
+    - Step 4 (`credit_card`) offered $\rightarrow$ Player clicks **[Decline]** (`action: 'escalation_declined'`).
+  - Terminal predicate met: All available escalation options declined; Rent bill remains unpaid.
+  - Run ends immediately:
     - Emits: `terminal` (`route: 'running_on_empty'`).
-    - Emits: `receipt_shown` (`route: 'running_on_empty'`).
-  - Receipt confirms: Unpaid rent bill ($15.00 due with $14.01 on hand), starter pack purchased for $0.99, terminal route `running_on_empty`.
+    - Receipt View mounts $\rightarrow$ Emits: `receipt_shown` (`route: 'running_on_empty'`).
+  - Receipt confirms: Unpaid rent bill ($15.00 due with $14.01 on hand), 2 food bills paid in cash ($10.00), starter pack purchased for $0.99, terminal route `running_on_empty`.
 
 - **Trace 4: Uninstall & Retention Trap (Available at any juncture):**
   - Player clicks **[Uninstall]** at any point.
@@ -104,7 +131,7 @@ The table below traces the exact numerical state (Cash, Gems, Health, Debt, and 
   - **Sub-branch 4A (Leave):** Player clicks **[Leave Anyway]**:
     - Emits: `action` (`kind: 'leave_immediately'`).
     - Emits: `terminal` (`route: 'uninstall'`).
-    - Emits: `receipt_shown` (`route: 'uninstall'`).
+    - Receipt View mounts $\rightarrow$ Emits: `receipt_shown` (`route: 'uninstall'`).
     - Receipt prints immediately with Exit Friction finding (`Chose to leave immediately`).
   - **Sub-branch 4B (Stay):** Player clicks **[Play Out The Trap]**:
     - Emits: `action` (`kind: 'play_out_the_trap'`).
@@ -114,7 +141,7 @@ The table below traces the exact numerical state (Cash, Gems, Health, Debt, and 
 
 ---
 
-## 3. Probability Rules, Probability Functions, and Roster Boundaries
+## 3. Probability Rules, Opening Distribution, and Roster Mapping
 
 ### 3.1 Delineation of Inputs vs. Tuning
 To prevent treating exploratory guesses as rigid mandates:
@@ -137,7 +164,7 @@ Let $\text{pityCount}$ be the number of draws already made in the current pity w
 - If $\text{softPityStart} \le n < \text{hardPity}$ (i.e. $35 \le n < 50$):
   $$\text{span} = \text{hardPity} - \text{softPityStart} + 1 = 50 - 35 + 1 = 16$$
   $$\text{progress} = \frac{n - \text{softPityStart} + 1}{\text{span}} = \frac{n - 34}{16}$$
-  $$P(\text{legendary}) = \text{base} + (1 - \text{base}) \times \text{progress} = 0.02 + 0.98 \times \frac{n - 34}{16}$$
+  $$P(\text{legendary}) = 0.02 + 0.98 \times \frac{n - 34}{16}$$
   - **Draw 35 ($n = 35$):** $\text{progress} = 1/16 = 0.0625 \implies P(\text{legendary}) = 0.02 + 0.98(0.0625) = \mathbf{0.08125}$.
   - **Draw 49 ($n = 49$):** $\text{progress} = 15/16 = 0.9375 \implies P(\text{legendary}) = 0.02 + 0.98(0.9375) = \mathbf{0.93875}$.
 - If $n \ge \text{hardPity}$ (i.e. $n \ge 50$):
@@ -148,76 +175,90 @@ Let $\text{pityCount}$ be the number of draws already made in the current pity w
   $$P(\text{common}) = (1 - P(\text{legendary})) \times (1 - \text{rareShare})$$
 - **Banner Carry Policy:** `pityCarry: 'carry'` is exercised for the slice.
 
-### 3.3 Promotional Ten-Pull Specification
-An unscripted 10-pull with base 18% rare odds has a $(1 - 0.18)^{10} \approx 13.7\%$ probability of producing zero Rare ducks, leaving the player with only Common ducks.
-The implementer proposes two options for owner determination (**P3-DEC-2**):
-- **Option A (Genuine Seeded Draws with Natural Roster Adaptation - RECOMMENDED):**
-  Execute 10 genuine PRNG draws with `openingAdvancesPity: false`. Log exact unrounded `preDrawOdds` for each draw.
-  - If a Rare is drawn (~86.3% probability), the player enters it in Race 1.
-  - If only Commons are drawn (~13.7% probability), the player enters their best Common duck, and Race 1 field speeds are appropriately calibrated so the opening tutorial win is achievable under either outcome.
-- **Option B (Scripted Promotional Tutorial Grant):**
-  Award 1 fixed Rare + 9 Common identities as a scripted game event (`tutorial_grant`).
-  - *Honesty Rule:* If scripted, it is logged as a direct tutorial grant, not as simulated odds draws, so the Receipt does not report synthetic odds for a predetermined outcome.
+### 3.3 Opening Ten-Pull and Guaranteed Tutorial Win
+Under independent base draws (Common 0.80, Rare 0.18, Legendary 0.02):
+- $P(\text{all Common}) = 0.80^{10} \approx 10.737\%$
+- $P(\text{zero Rare}) = 0.82^{10} \approx 13.745\%$ (contains ~3.008% chance of Legendary with 0 Rare)
+- $P(\ge 1\text{ Rare}) = 1 - 0.82^{10} \approx \mathbf{86.255\%}$
 
-### 3.4 Starter Pack Roster Bonus
-In `sim/model.mjs`, the starter pack provides $0.99 \rightarrow 240\text{ gems}$ with label `"400% value"`.
-- Adding a guaranteed Rare duck ("Turbo Quacker") is an implementer proposal to heighten the temptation to spend.
-- **Owner decision requested under P3-DEC-1:** Approve whether the $0.99 starter pack includes a Rare duck identity alongside 240 gems, or remains gems-only.
+**Recommended Opening Implementation (P3-DEC-2):**
+To preserve authentic PRNG behavior and truthful odds reporting without artificial rigging:
+1. The opening 10-pull executes **10 genuine seeded PRNG draws** with `preDrawOdds()` and `openingAdvancesPity: false`. Exact pre-draw odds are logged per draw.
+2. **Fixed Tutorial Race 1 Opponents:** In Race 1, the AI opponents are assigned a fixed base speed of **8.5** with $\text{noise} = 0.05$ ($\implies \text{opponent performance} \in [8.07, 8.92]$).
+3. **Guaranteed Win Guarantee:**
+   - The lowest possible player duck is Common (base speed **10.0**).
+   - Under the recommended Safe Pace stance ($\pm 5\%$), Common duck performance is strictly $\ge \mathbf{9.50}$.
+   - Because $9.50 > 8.92$, **the player is mathematically guaranteed to win 1st place in Race 1 under ALL possible draw distributions (Common, Rare, or Legendary) against a fixed, uncalibrated field.**
+   - No silent per-roll field calibration is used.
 
-### 3.5 Finite Identities and Duplicate Conversion Integrity
-To avoid inflating roster counts:
-- The game maintains a finite set of unique collectible identities (e.g. 6 identities on Banner 1: `duck-0` through `duck-5`).
-- When a draw rolls an identity already in `state.owned`:
-  - `duplicate: true` is flagged.
-  - The identity is **not** duplicated in `state.roster`.
-  - Duplicate converts to Down currency (`downGained: 1` for Common, `5` for Rare).
-  - The player's racing selection menu displays only unique owned identities.
+### 3.4 Starter Pack Contents (Gems-Only Recommended)
+In `sim/model.mjs` line 43, the starter pack is defined as:
+`starter: { gems: 240, price: 0.99, anchorLabel: '400% value' }`.
+- **Implementer Recommendation (P3-DEC-5):** Keep the starter pack strictly **gems-only** ($0.99 for 240 gems labeled `"400% value"`).
+- This avoids injecting unvetted duck identities into the early economy and matches the tested model default.
+
+### 3.5 Finite Roster and Duplicate Conversion
+- Banner 1 defines a finite pool of 6 collectible identities:
+  - Common (3): `duck-0`, `duck-1`, `duck-3` (Base speed: 10.0)
+  - Rare (2): `duck-2`, `duck-4` (Base speed: 14.0)
+  - Legendary (1): `duck-5` (Base speed: 20.0)
+- **Commit-Time Duplicate Conversion:**
+  - When a draw commits an identity already in `state.owned`:
+    - `duplicate: true` is flagged in the draw payload.
+    - Duplicate converts to Down currency (`downGained: 1` for Common, `5` for Rare, `20` for Legendary).
+    - It is **not** added as an additional racing slot. Only unique identities appear in the race selection roster.
 
 ### 3.6 Receipt Technique Provenance
-- `currency_obfuscation`: Will appear on the Receipt **only if** the Gem Shop view is opened, emitting `cue_shown` with `{ technique: 'currency_obfuscation', bundles: [...], pullCost: 160 }`. Accepting retention gems alone does not fire this finding.
+- `currency_obfuscation`: Emitted on the Receipt **only if** the Gem Shop view is displayed, logging `cue_shown` with `{ technique: 'currency_obfuscation', bundles: [...], pullCost: 160 }`. Accepting retention gems alone does not fire this finding.
 - `exit_friction`: Appears only if `retention_modal_shown` fires.
 - `anchoring`: Appears only if `offer_shown` fires with `technique: 'anchoring'`.
 
 ---
 
-## 4. Pre-Race Choice Analysis and Field Model
+## 4. Single Recommended Pre-Race Choice: Two-Stance Tactical Comparison
 
-### 4.1 Retraction of Purely Arithmetic "Dominance Fix" Claim
-The prior proposal claimed that a 30% duck fatigue penalty solved the dominated-choice finding of Plan 01. That claim is **retracted**:
-- Swapping effective speed from Rare ($11.0 \times 0.70 = 7.70$) to Common ($10.00$) simply replaces one deterministic maximum with another. A policy that always picks $\max(\text{effective speed})$ remains trivial and dominated unless course conditions, uncertainty, or tactical risk/reward create genuine trade-offs.
-- Furthermore, digital duck fatigue is an unapproved mechanic, whereas the owner's request in O4 was for proposals on how *the metagame character's fatigue* could obscure the player's UI choices.
+### 4.1 Recommendation: A Two-Stance Tactical Choice (P3-DEC-3)
+To provide a genuine, non-dominated pre-race choice without inventing unapproved digital duck fatigue stats or trait catalogs, the implementer recommends a **Two-Stance Tactical Choice** selected before each race:
+- **Stance 1: Safe Pace (Steady/Low Variance)**
+- **Stance 2: Sprint Push (Aggressive/High Variance)**
 
-### 4.2 Outcome Calculation and Noise Model
-From `sim/model.mjs`, race performance is calculated as:
-$$\text{perf} = \text{effectiveSpeed} \times \left(1 + (2U - 1) \times \text{noise}\right)$$
-where $U \sim \text{Uniform}(0, 1)$ from `rngRace`, and $\text{noise} = 0.15$ (providing $\pm 15\%$ performance variation).
-Opponent field performance is drawn similarly around `fieldBaseSpeed`:
-$$\text{fieldPerf}_i = \text{fieldMid} \times \left(1 + (2U_1 - 1) \times \text{fieldSpread}\right) \times \left(1 + (2U_2 - 1) \times \text{noise}\right)$$
-where $\text{fieldSpread} = 0.30$.
+### 4.2 Mathematical Model and Non-Dominated Demonstration
+Let $S$ be the base speed of the player's selected duck (Common = 10.0, Rare = 14.0).
+- **Safe Pace:** Target speed $S$; $\text{noise} = 0.05$ ($\pm 5\%$).
+  $$\text{perf}_{\text{safe}} = S \times (1 + (2U - 1) \times 0.05) \in [0.95 S, 1.05 S]$$
+- **Sprint Push:** Target speed $1.10 S$ (+10% peak boost); $\text{noise} = 0.20$ ($\pm 20\%$).
+  $$\text{perf}_{\text{sprint}} = (1.10 S) \times (1 + (2U - 1) \times 0.20) \in [0.88 S, 1.32 S]$$
 
-### 4.3 Proposed Pre-Race Choice Options for Owner Selection (P3-DEC-3)
+#### Comparison Under Two Concrete Visible Conditions:
 
-The implementer presents two bounded, non-dominated mechanics for owner review:
+- **Condition 1: Facing a Weaker Field (Visible Opponent Speed: 9.0 $\pm 5\% \implies [8.55, 9.45]$)**
+  - Player enters Common duck ($S = 10.0$).
+  - *If Safe Pace:* $\text{perf} \in [9.50, 10.50]$.
+    - Minimum Safe performance ($9.50$) > Maximum Opponent performance ($9.45$).
+    - **Win Probability = 100%.** Zero risk.
+  - *If Sprint Push:* $\text{perf} \in [8.80, 13.20]$.
+    - Performance can drop down to $8.80$, below the opponent's peak of $9.45$.
+    - **Win Probability $\approx 85\%$.** Introduces a 15% blunder risk.
+  - **Verdict under Condition 1:** **Safe Pace is strictly optimal.** Choosing Sprint Push is an unforced blunder.
 
-- **Option A: Pre-Race Tactical Stance (No Duck Fatigue):**
-  The player races their primary digital duck but selects one of three distinct tactical stances before the race:
-  1. **Consistent Pace:** Noise reduced to $\pm 5\%$. Low variance, guarantees beating weaker opponents, but cannot upset a faster rival.
-  2. **Aggressive Sprint:** Peak speed +15%, but noise widened to $\pm 25\%$ (risk of drift/spin-out). Creates a high-risk, high-reward choice when facing a faster field.
-  3. **Drafting / Slipstream:** Gains +20% speed bonus if trailing behind a lane rival, but 0% bonus if in the lead.
-  *Advantage:* Keeps digital ducks free of unapproved fatigue mechanics, requires no extra roster balancing, and provides a clear strategic decision without timing taps.
+- **Condition 2: Facing a Faster Rival Field (Visible Opponent Speed: 11.2 $\pm 5\% \implies [10.64, 11.76]$)**
+  - Player enters Common duck ($S = 10.0$).
+  - *If Safe Pace:* $\text{perf} \in [9.50, 10.50]$.
+    - Maximum Safe performance ($10.50$) < Minimum Opponent performance ($10.64$).
+    - **Win Probability = 0%.** Guaranteed loss.
+  - *If Sprint Push:* $\text{perf} \in [8.80, 13.20]$.
+    - Performance can reach up to $13.20$, well above the opponent's peak of $11.76$.
+    - **Win Probability $\approx 38\%$.**
+  - **Verdict under Condition 2:** **Sprint Push is strictly optimal.** It converts a guaranteed defeat into a viable 38% chance at victory.
 
-- **Option B: Track Condition / Course Affinity with Visible Scouting:**
-  Each race announces a track condition (e.g. *Weedy Shallows* vs. *Deep Current*).
-  - Ducks have traits (e.g. *Lightweight*, *Streamlined*).
-  - Matching the track grants +20% speed.
-  *Advantage:* Forces the player to select different ducks from their collection depending on the course, creating organic value for roster breadth.
+**Conclusion:** Neither stance is globally dominated. The correct choice depends entirely on scouting the visible opponent pace relative to your duck's base speed.
 
 ---
 
-## 5. Physical / Digital Boundary Reconciliation and Bounded Recheck
+## 5. Physical / Digital Boundary Reconciliation and Empirical Recheck
 
 ### 5.1 Clear Boundary Separation
-- **The Physical Metagame Prop:** An inanimate rubber duck sitting on the character's apartment desk. motivate the story. It is never an entrant in pond races, has no digital stats, and cannot be pulled from the gacha.
+- **The Physical Metagame Prop:** An inanimate rubber duck sitting on the character's apartment desk. It motivates the story. It is never an entrant in pond races, has no digital stats, and cannot be pulled from the gacha.
 - **The Digital Collectibles:** Virtual game assets inside the fictional app *Quackpot*. They race in the pond and fill the Duck-Dex.
 - **Pawn Offer Disconnection:** Pawning the physical duck affects character cash (+$5.00) and triggers the narrative "empty desk" scene. It **never** mutates `state.digitalRoster` or removes a digital duck.
 
@@ -228,14 +269,10 @@ In `sim/model.mjs`:
 - In `raceDucks()`, `own-duck` (speed 8) was injected into the player's racing roster and removed when `ownDuckSold` became true.
 - Removing `own-duck` leaves the racing roster composed exclusively of digital ducks drawn from the gacha.
 
-### 5.3 Bounded Paired Recheck Specification
-To verify that removing the speed-8 `own-duck` racer introduces no distortion into the accepted Plan 01 evidence:
-- **Hypothesis:** Because the opening free ten-pull awards digital ducks of speed $\ge 10$ (Common 10, Rare 14), any rational or `best` racing policy will never select the speed-8 `own-duck` once digital ducks exist.
-- **Bounded Recheck Script:** A targeted script (`sim/recheck-own-duck-boundary.mjs`) will execute:
-  1. Replay 100 seeds from Scenario S2 (`frugal` and `whale`) with `own-duck` present versus excluded.
-  2. Measure race placements, gem income, and survival rates under the `best` policy.
-  3. Confirm that for all runs where a digital duck is owned, the output is mathematically identical.
-  4. Document the exact results in the implementation progress report.
+### 5.3 Proposed Empirical Paired Recheck
+Rather than presupposing a zero diff across all policies, a targeted recheck script (`sim/recheck-own-duck-boundary.mjs`) will be executed during implementation:
+- It will execute 100 seeds across scenarios for multiple policies (`best`, `random`, `alternate`) comparing outcomes with versus without the speed-8 `own-duck`.
+- Observed differences will be reported directly in the implementation progress report to establish exact empirical bounds.
 
 ---
 
@@ -264,7 +301,7 @@ Every logged event adheres strictly to the existing shape:
 | `draw_committed` | `{ drawIndex, of: 10, pityBefore, drawNumberInWindow, odds: { common, rare, legendary }, rarity, identity, duplicate, downGained, advancesPity }` | Pull Ledger: pre-draw odds & committed outcome |
 | `reveal_shown` | `{ commitSeq, rarity, identity, duplicate, downGained }` | Pull Ledger: displayed outcome verification |
 | `purchase` | `{ kind: 'starter' \| 'bundle', price: 0.99, bundleGems: 240, gemsAfter: X }` | Register 2: *You did* (Recorded purchases) |
-| `action` | `{ kind: 'leave_immediately' \| 'play_out_the_trap' \| 'escalation_accepted' }` | Register 2: *You did* (Player decisions) |
+| `action` | `{ kind: 'leave_immediately' \| 'play_out_the_trap' \| 'escalation_accepted' \| 'escalation_declined' \| 'race_choice' }` | Register 2: *You did* (Player decisions) |
 | `expense_due` | `{ kind: 'rent' \| 'food', amount: 15.00, cashBefore: X }` | Accounting Section: Expenses due |
 | `expense_paid` | `{ kind: 'rent' \| 'food', amount: 15.00, cashAfter: X }` | Accounting Section: Expenses paid in cash |
 | `escalation_result` | `{ step: 'extra_shift', effects: { cashGained: 10, healthLost: 15 }, cashAfter: X, healthAfter: Y }` | Accounting Section: Emergency escalations |
@@ -272,8 +309,7 @@ Every logged event adheres strictly to the existing shape:
 | `receipt_shown` | `{ route: 'uninstall' \| 'running_on_empty' \| 'run_complete' }` | `verifyCompleteness` tail verification |
 
 ### 6.3 Hydration API Specification for `EventLog`
-To enable clean restoration of the frozen, hash-chained log without violating immutability:
-We will add `EventLog.hydrate(entries)` to `src/core/event-log.mjs`:
+To enable clean restoration of the frozen, hash-chained log without violating immutability, `EventLog.hydrate(entries)` will be added to `src/core/event-log.mjs`:
 ```javascript
 export class EventLog {
   // ... existing private fields #entries, #head ...
@@ -294,7 +330,7 @@ export class EventLog {
 ### 6.4 PRNG Stream Serialization
 In `sim/prng.mjs`, `rng.serialize()` returns a JSON string:
 `{"v":1,"alg":"sfc32","key":"seed","s":[a,b,c,d]}`.
-To prevent consumer stream cross-talk, the save envelope captures the serialized state of each active stream:
+To prevent consumer stream cross-talk, the save envelope captures the serialized state of **all four active streams**:
 ```javascript
 prngStreams: {
   root: rng.serialize(),
@@ -305,35 +341,55 @@ prngStreams: {
 ```
 Restoring calls `restoreRng(prngStreams[name])` for each stream, ensuring exact deterministic continuation.
 
+### 6.5 Commit-Before-Reveal Inventory & Duplicate Semantics
+When a ten-pull is committed (`draw_committed` x10):
+- All 10 draws are determined in order.
+- Duplicate classification and Down conversions are evaluated sequentially against the expanding `owned` set at commit time.
+- **Committed Ownership:** The ducks are added to `state.owned` (or Down credited) at commit time and queued into `pendingReveals = [{ drawIndex, identity, rarity, duplicate, downGained, revealed: false }]`.
+- **Reload Integrity:** Reloading or uninstalling mid-reveal does **not** reroll draws, change duplicate classification, or re-award Down currency.
+- **Receipt Provenance:** Unrevealed draws remain in the pull ledger (`revealed: false`) and are strictly omitted from Register 1 (*We displayed*).
+
 ---
 
-## 7. Atomic Resume Boundaries and Storage Resiliency
+## 7. Atomic Checkpoint Boundaries, Receipt Presentation, and Resiliency
 
 ### 7.1 Commit vs. Reveal Checkpoint Boundaries
-Gacha draws have two distinct mutations:
+Gacha draws execute under two distinct checkpoint boundaries:
 1. **Draw Commit Checkpoint:**
    - Player clicks [Pull].
-   - `draw_committed` is appended to the event log.
-   - `rngDraw` advances; state pity counter advances; drawn ducks enter `pendingReveals` queue.
-   - **Storage checkpoint occurs immediately.**
+   - All 10 `draw_committed` events are appended to the event log.
+   - PRNG advances; state updates; unrevealed draws enter `pendingReveals`.
+   - **Storage checkpoint occurs immediately before any card is revealed.**
 2. **Draw Reveal Checkpoint:**
    - As each duck card is flipped on screen, `reveal_shown` is appended to the event log.
-   - Duck is moved from `pendingReveals` to `owned` (or converted to Down).
+   - Duck is marked `revealed: true` in `pendingReveals`.
    - **Storage checkpoint occurs after each reveal.**
-3. **Mid-Reveal Reload Behavior:**
-   - If the player reloads or crashes while `pendingReveals` is non-empty:
-     - On resume, the game detects committed but unrevealed draws.
-     - The game presents a diegetic prompt: *"You have unrevealed ducks waiting! [Open Cards]"*.
-     - If the player chooses [Uninstall] before opening, the Receipt correctly reflects S4 provenance: the draw is visible in the internal pull ledger as committed, but **strictly absent from Register 1 (*We displayed*)**.
+3. **Mid-Reveal Resume:**
+   - If a reload occurs while `pendingReveals` has unrevealed draws:
+     - On resume, the game detects pending reveals.
+     - The game presents: *"You have unrevealed ducks waiting! [Open Cards]"*.
+     - If the player chooses [Uninstall] before opening, the Receipt reflects S4 provenance: the draw is in the internal ledger as committed, but absent from Register 1 (*We displayed*).
 
-### 7.2 Terminal / Receipt Tail Pair Persistence
-`sim/event-log.mjs` `verifyCompleteness()` requires:
-- A `terminal` entry immediately followed by `receipt_shown` with matching `route` as the final two entries in the log.
-- **Atomic Handling:** When a run terminates, both `terminal` and `receipt_shown` are committed to the log sequentially, followed by a final save write. If a reload occurs while viewing the Receipt, the completed run is restored directly into the Receipt view with completeness intact.
+### 7.2 Receipt Presentation as the True Logging Boundary
+`receipt_shown` is strictly an event of **actual visual presentation in the DOM**, not a termination trigger:
+1. When a run ends, `terminal` is appended: `{ type: 'terminal', payload: { route } }`.
+   - `state.phase` becomes `'terminal'`.
+   - Storage checkpoint occurs.
+2. The UI renders the Receipt view.
+3. **Only upon actual mounting and presentation of the Receipt in the DOM**, `receipt_shown` is appended: `{ type: 'receipt_shown', payload: { route } }`.
+   - `state.phase` becomes `'receipt_presented'`.
+   - Storage checkpoint occurs, creating the matching tail pair required by `verifyCompleteness()`.
+4. **Resuming Between Steps:**
+   - If a crash/reload occurs after `terminal` but before `receipt_shown`:
+     - On resume, the game detects `phase === 'terminal'`.
+     - It immediately mounts the Receipt view.
+     - Upon mounting, `receipt_shown` is appended and persisted.
+5. **Idempotent Reload After Completion:**
+   - If `verifyCompleteness(entries)` is already true, subsequent reloads display the Receipt in read-only mode without appending duplicate `receipt_shown` events.
 
 ### 7.3 Storage Architecture and Failure Handling
 - **Storage Choice:** `localStorage` wrapped in an envelope adapter (`src/core/storage.mjs`).
-- **Storage Versioned Envelope:**
+- **Complete Storage Versioned Envelope:**
   ```json
   {
     "schemaVersion": 1,
@@ -342,6 +398,7 @@ Gacha draws have two distinct mutations:
     "state": {
       "day": 2,
       "clock": { "day": 2, "label": "day 2 morning" },
+      "phase": "playing",
       "cash": 14.01,
       "gems": 290,
       "health": 100,
@@ -351,17 +408,27 @@ Gacha draws have two distinct mutations:
       "pityCount": 0,
       "pendingReveals": []
     },
-    "prngStreams": { "root": "...", "draw": "...", "race": "..." },
+    "prngStreams": {
+      "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"seed\",\"s\":[1,2,3,4]}",
+      "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"seed/draw\",\"s\":[5,6,7,8]}",
+      "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"seed/race\",\"s\":[9,10,11,12]}",
+      "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"seed/event\",\"s\":[13,14,15,16]}"
+    },
     "eventLog": [ ... ]
   }
   ```
-- **Structural Integrity vs. Authentication:**
-  - `verifyChain(savedLog)` validates sequence IDs and FNV-1a hash continuity as a structural corruption check. It is explicitly documented that FNV-1a is a corruption detector, not a cryptographic tamper barrier.
-  - State coherence check: verifies that cash, gems, and roster in `state` match the event log projections.
-- **Honest Failure Fallback:**
-  - If `localStorage.setItem()` throws (`QuotaExceededError` or private browsing `SecurityError`), the storage adapter falls back to an in-memory session object.
-  - The UI displays an explicit status notification:
-    > *"Notice: Browser storage is disabled or full. Game progress will persist only while this browser tab stays open, and will be lost on reload or tab close."*
+- **Autosave vs. Explicit Save:**
+  - Start Menu Checkbox: `[x] Enable Autosave (recommended)`. Default: `true`.
+  - Explicit Save Button: Active in HUD during quiescent states; displays "Saved" toast.
+- **Handling Write Failures with Older Snapshot Intact:**
+  - If `localStorage.setItem()` fails (`QuotaExceededError` or `SecurityError`):
+    - The existing snapshot in `localStorage` is **left untouched** (never deleted or overwritten).
+    - An in-memory session object takes over for the current tab.
+    - An observable banner informs the user:
+      > *"Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload."*
+- **Handling Stale/Corrupt Data:**
+  - Incompatible schema (`schemaVersion !== 1`) or broken hash chain (`verifyChain() === false`) prompts: *"Saved game data incompatible or corrupt. [Start Fresh Run]"*, preventing runtime exceptions.
+- **Fresh-Run Seed:** Starting a fresh run generates a new cryptographically random seed string and confirms before overwriting an existing save.
 
 ---
 
@@ -382,7 +449,7 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
   - `hud.js`: Header displaying Cash, Gems, Health, Day, Save button, and persistent Uninstall button.
   - `desk-view.js`: Apartment desk with static physical duck.
   - `gacha-view.js`: Promotional 10-pull and single-pull theater with reveal boundaries.
-  - `race-view.js`: Pre-race choice interface, lane animation, and result display.
+  - `race-view.js`: Pre-race tactical stance choice, lane animation, and result display.
   - `modal-view.js`: Starter pack offer, retention modal, and escalation ladder.
   - `receipt-view.js`: Printed-slip Receipt component rendering the three registers.
 - `src/main.js`: Main controller mounting UI to DOM.
@@ -390,10 +457,10 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
 ### 8.3 Bounded Verification Strategy
 1. **Node Unit & Integration Tests (`npm test`):**
    - Verify all 65 existing tests pass after `src/core/` module relocation.
-   - Run bounded paired recheck (`sim/recheck-own-duck-boundary.mjs`) confirming zero deviation from removing speed-8 `own-duck`.
+   - Run bounded paired recheck (`sim/recheck-own-duck-boundary.mjs`) across 100 seeds for multiple policies, reporting observed differences empirically.
    - Add targeted test suites:
-     - `src/core/storage.test.mjs`: Test save/load, `EventLog.hydrate()`, PRNG restoration, and memory fallback.
-     - `src/core/game-engine.test.mjs`: Test Traces 1–4, commit/reveal reload boundaries, and Receipt honesty.
+     - `src/core/storage.test.mjs`: Test save/load, `EventLog.hydrate()`, all 4 PRNG stream restorations, write failure handling, and memory fallback.
+     - `src/core/game-engine.test.mjs`: Test Traces 1–4, commit/reveal reload boundaries, tactical stances under Conditions 1 and 2, and Receipt honesty.
 2. **Automated Headless Chrome Smoke (`npm run test:smoke`):**
    - Extend `scripts/dev/smoke-browser.mjs` to execute automated CDP journeys under `/Quackpot/`:
      - Verify zero console errors, zero runtime exceptions, zero network calls.
@@ -405,15 +472,16 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
 
 ## 9. Consolidated Owner Decisions Requested
 
-Before implementation code is authored, the implementer requests owner confirmation on the following four decisions:
+Before implementation code is authored, the implementer requests owner confirmation on the following five decisions:
 
 | Decision ID | Item | Implementer Recommendation | Alternatives for Owner Consideration |
 |---|---|---|---|
-| **P3-DEC-1** | Demonstration Duration & Economy | **Adopt the bounded 3-day mechanism demonstration** with starting cash $15, wage $10/day, food $5/day, rent $15 on Day 2, and starter pack at $0.99. | Require a longer 5-day or 7-day loop with multiple rent cycles. |
-| **P3-DEC-2** | Promotional 10-Pull Model | **Option A: Genuine Seeded PRNG Draws with `openingAdvancesPity: false`**, with field speeds accommodating a Common-only opening roll. | Option B: Fixed scripted promotional tutorial grant (logged honestly as a grant, not rolled odds). |
-| **P3-DEC-3** | Pre-Race Choice Mechanic | **Option A: Pre-Race Tactical Stance** (Consistent Pace vs. Aggressive Sprint vs. Drafting), keeping digital ducks free of unapproved fatigue mechanics. | Option B: Course Affinity / Track Conditions matching duck traits.<br>Option C: Roster rotation with consecutive-race penalty under visible opponent scouting. |
-| **P3-DEC-4** | Local Storage Technology | **`localStorage` with versioned envelope schema and explicit in-memory fallback notification**. | `IndexedDB` (asynchronous, deferred for teacher analyzer). |
+| **P3-DEC-1** | Demonstration Duration & Economy | **Adopt the bounded 3-day mechanism demonstration** ($15 starting cash, $10/day wage, $5/day food, $15 rent on Day 2, 4 bills totaling $30). | Require a longer 5-day or 7-day loop with multiple rent cycles. |
+| **P3-DEC-2** | Promotional 10-Pull Model | **Genuine Seeded PRNG Draws (`openingAdvancesPity: false`)** with Race 1 tutorial field fixed at base speed 8.5, guaranteeing the canonical opening win on all draw outcomes without dynamic rigging. | Scripted promotional tutorial grant (logged honestly as a grant, not rolled odds). |
+| **P3-DEC-3** | Pre-Race Choice Mechanic | **Two-Stance Tactical Choice (Safe Pace vs. Sprint Push)**, proven mathematically non-dominated under weaker vs. faster field scouting. | Digital duck fatigue or trait catalog. |
+| **P3-DEC-4** | Local Storage Technology | **`localStorage` with versioned envelope schema, all 4 PRNG streams, and explicit in-memory fallback notification**. | `IndexedDB` (asynchronous, deferred for teacher analyzer). |
+| **P3-DEC-5** | Starter Pack Contents | **Gems-only: $0.99 for 240 gems labeled `"400% value"`**, matching model default. | Add a guaranteed Rare duck identity. |
 
 ---
 
-**Stop Condition:** The implementer will not touch implementation code until the owner and orchestrator review this revised preflight proposal and resolve the four decisions.
+**Stop Condition:** The implementer will not touch implementation code until the owner and orchestrator review this revised preflight proposal and resolve the five decisions.

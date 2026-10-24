@@ -1,8 +1,13 @@
 {
-  "timestamp": "2026-10-24T11:56:03.773Z",
+  "timestamp": "2026-10-24T12:10:28.237Z",
   "browser": "Chrome/155.0.8059.81",
   "origin": "http://127.0.0.1:4173",
   "subpath": "/Quackpot/",
+  "expectedBuildChunks": {
+    "js": "index-y2BSSTqE.js",
+    "css": "index-BkZiZGSR.css",
+    "svg": "duck-placeholder-Mhd15Sdp.svg"
+  },
   "phase1InitialLoad": {
     "requests": [
       {
@@ -123,6 +128,8 @@
     "staticSubpathResolved": true,
     "svgDecoded": true,
     "reloadSucceeded": true,
+    "observedArtifactsMatchedCurrentBuild": true,
+    "cdpAndHttpWaitsBounded": true,
     "deployedPagesSlashRedirectVerified": false
   }
 }

@@ -194,3 +194,101 @@ export async function safeCleanupTempDir(targetDir, expectedParentDir, maxRetrie
     }
   }
 }
+
+/**
+ * Issues an HTTP fetch with an explicit bounded timeout.
+ * Rejects with a descriptive error if the request exceeds timeoutMs.
+ */
+export async function fetchWithTimeout(url, options = {}, timeoutMs = 2000) {
+  const signal = options.signal
+    ? AbortSignal.any([options.signal, AbortSignal.timeout(timeoutMs)])
+    : AbortSignal.timeout(timeoutMs);
+
+  try {
+    return await fetch(url, { ...options, signal });
+  } catch (err) {
+    if (err.name === 'TimeoutError' || (signal.aborted && signal.reason?.name === 'TimeoutError')) {
+      throw new Error(`HTTP request to ${url} timed out after ${timeoutMs}ms`);
+    }
+    throw err;
+  }
+}
+
+/**
+ * Polls an endpoint until it responds with 200/304 or totalTimeoutMs expires.
+ * Every individual request attempt is bounded by perRequestTimeoutMs, preventing
+ * hung sockets from exceeding the outer loop deadline.
+ */
+export async function waitForEndpoint(url, options = {}) {
+  const {
+    totalTimeoutMs = 8000,
+    perRequestTimeoutMs = 1500,
+    retryDelayMs = 150,
+  } = options;
+
+  const start = Date.now();
+  let lastErr = null;
+
+  while (Date.now() - start < totalTimeoutMs) {
+    try {
+      const res = await fetchWithTimeout(url, {}, perRequestTimeoutMs);
+      if (res.ok || res.status === 200 || res.status === 304) {
+        return res;
+      }
+    } catch (err) {
+      lastErr = err;
+    }
+    await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+  }
+
+  throw new Error(
+    `Endpoint ${url} failed to respond within ${totalTimeoutMs}ms. Last error: ${lastErr?.message || 'non-200 status'}`
+  );
+}
+
+/**
+ * Awaits a CDP event with strict timeout and session-close rejection.
+ * Automatically clears timers and removes listeners upon settlement.
+ */
+export function waitForCdpEvent(emitter, eventName, timeoutMs = 6000) {
+  if (!emitter || typeof emitter.on !== 'function') {
+    throw new Error('waitForCdpEvent requires an emitter with on/off methods');
+  }
+
+  return new Promise((resolve, reject) => {
+    let settled = false;
+
+    const cleanup = () => {
+      settled = true;
+      clearTimeout(timer);
+      if (typeof emitter.off === 'function') {
+        emitter.off(eventName, onEvent);
+        emitter.off('close', onClose);
+      }
+    };
+
+    const timer = setTimeout(() => {
+      if (settled) return;
+      cleanup();
+      reject(new Error(`Timed out waiting for CDP event "${eventName}" after ${timeoutMs}ms`));
+    }, timeoutMs);
+
+    const onEvent = (params) => {
+      if (settled) return;
+      cleanup();
+      resolve(params);
+    };
+
+    const onClose = () => {
+      if (settled) return;
+      cleanup();
+      reject(new Error(`CDP session closed while waiting for event "${eventName}"`));
+    };
+
+    emitter.on(eventName, onEvent);
+    if (typeof emitter.on === 'function') {
+      emitter.on('close', onClose);
+    }
+  });
+}
+

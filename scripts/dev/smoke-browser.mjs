@@ -1,9 +1,10 @@
 // scripts/dev/smoke-browser.mjs
 // Local headless browser subpath smoke test for Plan 02.
-// Robust process ownership, isolated temporary browser profile, and strict assertion of load and reload.
+// Robust process ownership, isolated temporary browser profile, bounded event/HTTP waits,
+// and verification that the browser observes asset filenames from this run's build.
 
 import { spawn } from 'node:child_process';
-import { existsSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
@@ -13,6 +14,9 @@ import {
   validateDomState,
   validateConsoleAndErrors,
   safeCleanupTempDir,
+  fetchWithTimeout,
+  waitForEndpoint,
+  waitForCdpEvent,
 } from './smoke-validator.mjs';
 
 const CHROME_PATHS = [
@@ -38,21 +42,6 @@ function findBrowserBinary() {
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function waitForEndpoint(url, timeoutMs = 10000) {
-  const start = Date.now();
-  let lastErr = null;
-  while (Date.now() - start < timeoutMs) {
-    try {
-      const res = await fetch(url);
-      if (res.ok || res.status === 200 || res.status === 304) return res;
-    } catch (err) {
-      lastErr = err;
-    }
-    await sleep(200);
-  }
-  throw new Error(`Endpoint ${url} failed to respond within ${timeoutMs}ms. Last error: ${lastErr?.message}`);
 }
 
 class CdpSession {
@@ -88,6 +77,7 @@ class CdpSession {
           cbReject(new Error('CDP WebSocket closed unexpectedly'));
         }
         this.callbacks.clear();
+        this.emit('close');
       };
       this.ws.onmessage = (event) => {
         const msg = JSON.parse(event.data);
@@ -130,10 +120,24 @@ class CdpSession {
     this.eventHandlers.get(event).push(handler);
   }
 
+  off(event, handler) {
+    if (this.eventHandlers.has(event)) {
+      const list = this.eventHandlers.get(event);
+      const idx = list.indexOf(handler);
+      if (idx !== -1) list.splice(idx, 1);
+    }
+  }
+
+  emit(event, params) {
+    const handlers = this.eventHandlers.get(event) || [];
+    for (const handler of handlers) handler(params);
+  }
+
   close() {
     if (this.ws && !this.closed) {
       this.closed = true;
       this.ws.close();
+      this.emit('close');
     }
   }
 }
@@ -143,13 +147,35 @@ async function runSmoke() {
   const browserBin = findBrowserBinary();
   console.log('Browser binary found:', browserBin);
 
-  // Check endpoints before spawn (fail early on port collisions)
+  // 1. Verify build freshness and parse expected asset chunk filenames
+  const distIndexHtml = path.resolve('dist/index.html');
+  if (!existsSync(distIndexHtml)) {
+    throw new Error(
+      'Build artifact dist/index.html not found. Run "npm run test:smoke" (which builds automatically via pretest:smoke) or run "npm run build" first.'
+    );
+  }
+  const indexHtmlContent = readFileSync(distIndexHtml, 'utf-8');
+  const jsMatch = indexHtmlContent.match(/src="\/Quackpot\/assets\/(index-[^"]+\.js)"/);
+  const cssMatch = indexHtmlContent.match(/href="\/Quackpot\/assets\/(index-[^"]+\.css)"/);
+  const svgMatch = indexHtmlContent.match(/href="\/Quackpot\/assets\/(duck-placeholder-[^"]+\.svg)"/);
+
+  const expectedChunks = {
+    js: jsMatch ? jsMatch[1] : null,
+    css: cssMatch ? cssMatch[1] : null,
+    svg: svgMatch ? svgMatch[1] : null,
+  };
+  if (!expectedChunks.js || !expectedChunks.css || !expectedChunks.svg) {
+    throw new Error(`Failed to parse expected asset chunk names from ${distIndexHtml}`);
+  }
+  console.log('Verified build artifacts to observe from current build:', expectedChunks);
+
+  // 2. Check endpoints before spawn (fail early on port collisions)
   console.log('Checking port availability...');
   await assertPortFree(HOST, PREVIEW_PORT);
   await assertPortFree(HOST, CDP_PORT);
   console.log(`Ports ${PREVIEW_PORT} and ${CDP_PORT} verified free.`);
 
-  // Create isolated temporary browser profile
+  // 3. Create isolated temporary browser profile
   const tmpRoot = os.tmpdir();
   const tempProfileDir = mkdtempSync(path.join(tmpRoot, 'quackpot-smoke-profile-'));
   console.log('Created dedicated browser profile:', tempProfileDir);
@@ -183,7 +209,7 @@ async function runSmoke() {
   process.on('uncaughtException', async (err) => { await cleanup(); console.error(err); process.exit(1); });
 
   try {
-    // 1. Spawn Vite preview
+    // 4. Spawn Vite preview
     const viteBin = path.resolve('node_modules/vite/bin/vite.js');
     console.log(`Spawning Vite preview: ${viteBin} on ${HOST}:${PREVIEW_PORT}...`);
     previewProc = spawn(
@@ -212,7 +238,7 @@ async function runSmoke() {
       if (s.includes('error')) console.error('[Vite Preview Error]', s.trim());
     });
 
-    // 2. Spawn headless Chrome with dedicated profile
+    // 5. Spawn headless Chrome with dedicated profile
     console.log(`Spawning Chrome with CDP port ${CDP_PORT}...`);
     chromeProc = spawn(browserBin, [
       '--headless=new',
@@ -236,19 +262,19 @@ async function runSmoke() {
       }
     });
 
-    // Wait for endpoints
-    console.log('Waiting for Preview endpoint...');
-    await waitForEndpoint(BASE_URL, 8000);
+    // 6. Bounded wait for endpoints
+    console.log('Waiting for Preview endpoint (bounded)...');
+    await waitForEndpoint(BASE_URL, { totalTimeoutMs: 8000, perRequestTimeoutMs: 1500 });
     console.log('Vite preview ready at', BASE_URL);
 
-    console.log('Waiting for Chrome CDP endpoint...');
-    await waitForEndpoint(`http://${HOST}:${CDP_PORT}/json/version`, 8000);
-    const verRes = await fetch(`http://${HOST}:${CDP_PORT}/json/version`);
+    console.log('Waiting for Chrome CDP endpoint (bounded)...');
+    await waitForEndpoint(`http://${HOST}:${CDP_PORT}/json/version`, { totalTimeoutMs: 8000, perRequestTimeoutMs: 1500 });
+    const verRes = await fetchWithTimeout(`http://${HOST}:${CDP_PORT}/json/version`, {}, 2000);
     const browserMeta = await verRes.json();
     console.log(`Chrome CDP ready: ${browserMeta.Browser}`);
 
-    // Create target page
-    const newPageRes = await fetch(`http://${HOST}:${CDP_PORT}/json/new?about:blank`, { method: 'PUT' });
+    // Create target page with bounded request
+    const newPageRes = await fetchWithTimeout(`http://${HOST}:${CDP_PORT}/json/new?about:blank`, { method: 'PUT' }, 2000);
     const targetInfo = await newPageRes.json();
     console.log('Target created:', targetInfo.id);
 
@@ -301,11 +327,9 @@ async function runSmoke() {
       }
     });
 
-    // --- PHASE 1: Initial load at subpath /Quackpot/ ---
+    // --- PHASE 1: Initial load at subpath /Quackpot/ (Bounded Page.loadEventFired wait) ---
     console.log(`\n--- Phase 1: Navigating to ${BASE_URL} ---`);
-    const initialLoadPromise = new Promise((resolve) => {
-      cdp.on('Page.loadEventFired', resolve);
-    });
+    const initialLoadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
     await cdp.send('Page.navigate', { url: BASE_URL });
     await initialLoadPromise;
     await sleep(700);
@@ -321,6 +345,19 @@ async function runSmoke() {
       isReload: false,
     });
     validateConsoleAndErrors(consoleLogs, runtimeExceptions);
+
+    // Verify browser observed exact chunk names from this run's build
+    const phase1Filenames = initialReqList.map((r) => path.basename(new URL(r.url).pathname));
+    if (!phase1Filenames.includes(expectedChunks.js)) {
+      throw new Error(`Build chunk verification failed: ${expectedChunks.js} not observed in initial requests`);
+    }
+    if (!phase1Filenames.includes(expectedChunks.css)) {
+      throw new Error(`Build chunk verification failed: ${expectedChunks.css} not observed in initial requests`);
+    }
+    if (!phase1Filenames.includes(expectedChunks.svg)) {
+      throw new Error(`Build chunk verification failed: ${expectedChunks.svg} not observed in initial requests`);
+    }
+    console.log('✓ Phase 1 observed asset filenames match this run\'s build.');
 
     // Evaluate Phase 1 DOM
     const evalPhase1 = await cdp.send('Runtime.evaluate', {
@@ -349,12 +386,10 @@ async function runSmoke() {
     });
     console.log('✓ Phase 1 initial load validation passed.');
 
-    // --- PHASE 2: Reload Verification ---
+    // --- PHASE 2: Reload Verification (Bounded Page.loadEventFired wait) ---
     console.log(`\n--- Phase 2: Page Reload Verification ---`);
     activeRequestMap = reloadRequests;
-    const reloadPromise = new Promise((resolve) => {
-      cdp.on('Page.loadEventFired', resolve);
-    });
+    const reloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
     await cdp.send('Page.reload', { ignoreCache: false });
     await reloadPromise;
     await sleep(700);
@@ -370,6 +405,19 @@ async function runSmoke() {
       isReload: true,
     });
     validateConsoleAndErrors(consoleLogs, runtimeExceptions);
+
+    // Verify browser observed exact chunk names on reload
+    const phase2Filenames = reloadReqList.map((r) => path.basename(new URL(r.url).pathname));
+    if (!phase2Filenames.includes(expectedChunks.js)) {
+      throw new Error(`Build chunk verification failed on reload: ${expectedChunks.js} not observed`);
+    }
+    if (!phase2Filenames.includes(expectedChunks.css)) {
+      throw new Error(`Build chunk verification failed on reload: ${expectedChunks.css} not observed`);
+    }
+    if (!phase2Filenames.includes(expectedChunks.svg)) {
+      throw new Error(`Build chunk verification failed on reload: ${expectedChunks.svg} not observed`);
+    }
+    console.log('✓ Phase 2 reload asset filenames match this run\'s build.');
 
     // Evaluate Phase 2 DOM
     const evalPhase2 = await cdp.send('Runtime.evaluate', {
@@ -400,7 +448,7 @@ async function runSmoke() {
 
     // --- PHASE 3: Trailing Slash Check (/Quackpot) ---
     console.log(`\n--- Phase 3: Trailing Slash Check (${NO_SLASH_URL}) ---`);
-    const noSlashRes = await fetch(NO_SLASH_URL, { redirect: 'manual' });
+    const noSlashRes = await fetchWithTimeout(NO_SLASH_URL, { redirect: 'manual' }, 2000);
     const trailingSlashObservation = {
       requestedUrl: NO_SLASH_URL,
       statusCode: noSlashRes.status,
@@ -415,6 +463,7 @@ async function runSmoke() {
       browser: browserMeta.Browser,
       origin: EXPECTED_ORIGIN,
       subpath: BASE_PATH,
+      expectedBuildChunks: expectedChunks,
       phase1InitialLoad: {
         requests: initialReqList.map(({ requestId, ...rest }) => rest),
         dom: domPhase1,
@@ -433,7 +482,9 @@ async function runSmoke() {
         staticSubpathResolved: true,
         svgDecoded: true,
         reloadSucceeded: true,
-        deployedPagesSlashRedirectVerified: false, // marked unverified locally
+        observedArtifactsMatchedCurrentBuild: true,
+        cdpAndHttpWaitsBounded: true,
+        deployedPagesSlashRedirectVerified: false,
       },
     };
 
@@ -445,9 +496,10 @@ async function runSmoke() {
     console.log('=============================================================');
     console.log('  [PASS] Isolated process ownership & port check');
     console.log('  [PASS] Dedicated temporary browser profile');
-    console.log('  [PASS] Initial load under /Quackpot/ (5 requests, all 200 OK local)');
+    console.log('  [PASS] Build freshness & chunk filename verification');
+    console.log('  [PASS] Initial load under /Quackpot/ (bounded event wait, all 200 OK)');
     console.log('  [PASS] DOM mounted and SVG decoded (naturalWidth: 120, naturalHeight: 120)');
-    console.log('  [PASS] Reload verification (DOM + 200/304 cache requests)');
+    console.log('  [PASS] Reload verification (bounded event wait, DOM + 200/304 cache requests)');
     console.log('  [PASS] Zero runtime exceptions, zero console errors, zero external requests');
     console.log('  [INFO] Trailing slash /Quackpot returned 404 locally on Vite preview');
     console.log('  [UNVERIFIED] GitHub Pages deployed 301 redirect (requires live deployment)');

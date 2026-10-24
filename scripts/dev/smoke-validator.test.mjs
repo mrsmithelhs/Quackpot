@@ -15,6 +15,9 @@ import {
   validateDomState,
   validateConsoleAndErrors,
   safeCleanupTempDir,
+  fetchWithTimeout,
+  waitForEndpoint,
+  waitForCdpEvent,
 } from './smoke-validator.mjs';
 
 const VALID_ORIGIN = 'http://127.0.0.1:4173';
@@ -249,4 +252,110 @@ test('safeCleanupTempDir: successfully removes directory inside parent', async (
 
   await safeCleanupTempDir(testSubdir, parent);
   assert.equal(fs.existsSync(testSubdir), false);
+});
+
+test('waitForCdpEvent: resolves when event arrives within timeout', async () => {
+  const emitter = {
+    handlers: new Map(),
+    on(event, fn) {
+      if (!this.handlers.has(event)) this.handlers.set(event, []);
+      this.handlers.get(event).push(fn);
+    },
+    off(event, fn) {
+      if (this.handlers.has(event)) {
+        const list = this.handlers.get(event);
+        const idx = list.indexOf(fn);
+        if (idx !== -1) list.splice(idx, 1);
+      }
+    },
+    emit(event, data) {
+      for (const fn of this.handlers.get(event) || []) fn(data);
+    },
+  };
+
+  const waitPromise = waitForCdpEvent(emitter, 'Page.loadEventFired', 1000);
+  emitter.emit('Page.loadEventFired', { timestamp: 12345 });
+  const result = await waitPromise;
+  assert.deepEqual(result, { timestamp: 12345 });
+});
+
+test('waitForCdpEvent: rejects when event does not arrive before timeout', async () => {
+  const emitter = {
+    handlers: new Map(),
+    on(event, fn) {},
+    off(event, fn) {},
+  };
+
+  await assert.rejects(
+    async () => await waitForCdpEvent(emitter, 'Page.loadEventFired', 150),
+    /Timed out waiting for CDP event "Page\.loadEventFired" after 150ms/
+  );
+});
+
+test('waitForCdpEvent: rejects promptly when connection closes before event', async () => {
+  const emitter = {
+    handlers: new Map(),
+    on(event, fn) {
+      if (!this.handlers.has(event)) this.handlers.set(event, []);
+      this.handlers.get(event).push(fn);
+    },
+    off(event, fn) {
+      if (this.handlers.has(event)) {
+        const list = this.handlers.get(event);
+        const idx = list.indexOf(fn);
+        if (idx !== -1) list.splice(idx, 1);
+      }
+    },
+    emit(event, data) {
+      for (const fn of this.handlers.get(event) || []) fn(data);
+    },
+  };
+
+  const waitPromise = waitForCdpEvent(emitter, 'Page.loadEventFired', 2000);
+  emitter.emit('close');
+  await assert.rejects(
+    async () => await waitPromise,
+    /CDP session closed while waiting for event "Page\.loadEventFired"/
+  );
+});
+
+test('fetchWithTimeout / waitForEndpoint: bounds request and rejects promptly on nonresponding local HTTP endpoint', async () => {
+  // Spin up a server that accepts TCP connection but sends no response
+  const sockets = new Set();
+  const hungServer = net.createServer((socket) => {
+    sockets.add(socket);
+    socket.on('close', () => sockets.delete(socket));
+  });
+  await new Promise((resolve) => hungServer.listen(0, '127.0.0.1', resolve));
+  const port = hungServer.address().port;
+  const targetUrl = `http://127.0.0.1:${port}/hung`;
+
+  try {
+    const start = Date.now();
+    await assert.rejects(
+      async () => await fetchWithTimeout(targetUrl, {}, 250),
+      /HTTP request to http:\/\/127\.0\.0\.1:\d+\/hung timed out after 250ms/
+    );
+    const elapsed = Date.now() - start;
+    assert.ok(elapsed < 1200, `Expected timeout in ~250ms, took ${elapsed}ms`);
+
+    // Also test waitForEndpoint loop bounding
+    const loopStart = Date.now();
+    await assert.rejects(
+      async () =>
+        await waitForEndpoint(targetUrl, {
+          totalTimeoutMs: 600,
+          perRequestTimeoutMs: 200,
+          retryDelayMs: 50,
+        }),
+      /failed to respond within 600ms/
+    );
+    const loopElapsed = Date.now() - loopStart;
+    assert.ok(loopElapsed < 1800, `Expected loop timeout in ~600ms, took ${loopElapsed}ms`);
+  } finally {
+    for (const s of sockets) {
+      try { s.destroy(); } catch {}
+    }
+    await new Promise((resolve) => hungServer.close(resolve));
+  }
 });

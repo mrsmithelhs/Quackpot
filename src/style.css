@@ -65,7 +65,7 @@ p.subtitle {
   margin-bottom: 2rem;
 }
 
-.verification-list {
+.spec-list {
   text-align: left;
   background-color: rgba(15, 23, 42, 0.6);
   border: 1px solid var(--border-color);
@@ -75,7 +75,7 @@ p.subtitle {
   list-style-type: none;
 }
 
-.verification-item {
+.spec-item {
   display: flex;
   align-items: baseline;
   gap: 0.75rem;
@@ -84,18 +84,18 @@ p.subtitle {
   color: var(--text-main);
 }
 
-.verification-item:last-child {
+.spec-item:last-child {
   margin-bottom: 0;
 }
 
-.status-badge {
+.spec-label {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
-  background-color: #065f46;
-  color: #34d399;
+  background-color: #1e3a8a;
+  color: #93c5fd;
   letter-spacing: 0.05em;
   flex-shrink: 0;
 }

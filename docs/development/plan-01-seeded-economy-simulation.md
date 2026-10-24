@@ -1,11 +1,11 @@
 ---
 id: plan-01
 title: Seeded economy and Receipt simulation
-status: delivered
+status: complete
 depends_on: []
 gate: "Owner reviews the S1-S4 evidence and proposed tuning before any values become design rules."
 superseded_by: null
-resolution: null
+resolution: "Owner accepted closure on 2026-10-24 as conditional S1-S4 headless evidence after Repair 03. Tuning remains provisional; physical-duck race/pawn coupling must be reconciled before Plan 03 uses the model as its playable contract."
 summary: >-
   Build one reproducible PRNG and a headless model to test pity, economy loops,
   roster duplicates, and event-log Receipt lifecycle from provisional values.

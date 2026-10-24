@@ -1,7 +1,7 @@
 ---
 id: plan-03
 title: Core mechanism and truthful Receipt slice
-status: draft
+status: ready
 depends_on: [plan-01, plan-02]
 gate: "Owner approves the selected trade-off and bounded mechanism outline before coding, then reviews the played slice."
 superseded_by: null
@@ -35,7 +35,7 @@ No full catalog, finalized balance, teacher analyzer, run-usage export schema, n
 
 ## Depends on
 
-Plans 01 and 02 must be complete, with the owner having reviewed the simulation recommendations and ratified a workable layout. If either produces unresolved load-bearing choices, stop for a packet amendment before implementation.
+Plans 01 and 02 are owner-accepted as conditional headless evidence and a local build/layout spike. Tuning was not adopted with Plan 01's closure. The preflight may recommend the limited trial parameters and rules needed for this slice; implementation waits for owner approval of those load-bearing choices. Use `reports/development/plan-03-mechanism-slice/preflight-brief.md` for the starting boundary. Plan 08's visual exploration can run in parallel; final art is not a dependency of this mechanism prototype.
 
 ## Why this packet exists
 
@@ -49,7 +49,7 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 **Owner clarification, 2026-10-24:** Read `reports/orchestration/duck-representation-boundary.md` before the mechanism outline. The physical metagame companion is outside the digital roster and stays inanimate; camera/framing may vary. Resolve the simulation's existing `own-duck` racer assumption before using it as the game contract. Keep pawn cash/story effects separate from gacha inventory.
 
-1. Run `check plan-03`. Propose the exact single trade-off, states, event types, save schema, Receipt projection, and UI wiring. **Wait for owner/orchestrator mechanism approval before coding.** Do not invent final design values from simulation candidates.
+1. Run `check plan-03`. Write `reports/development/plan-03-mechanism-slice/preflight.md` proposing the exact single trade-off, bounded trial parameters, states, event types, save schema, Receipt projection, and UI wiring. **Wait for owner approval of the trade-off/trial rules and orchestrator mechanism review before coding.** Do not invent final design values from simulation candidates.
 2. Implement the smallest playable opening/core loop and one meaningful competing use of resources or time. Include one pre-race choice if a race is in scope; fixed-duration race has no reflex taps. Show only cues whose event records can prove display.
 3. Support start-menu autosave selection and an explicit save icon at many safe junctures. Save run state, seed/PRNG state, and full append-only log locally; reload and resume without silently replaying or dropping an event. Surface shared/cleared-browser limits honestly.
 4. Keep Uninstall visible. Record offer display, 80 gems offered, leave/stay action, and outcomes. Leaving reaches the Receipt immediately. Implement one other bounded terminal path, including zero-cash escalation if that is exercised by the chosen trade-off.

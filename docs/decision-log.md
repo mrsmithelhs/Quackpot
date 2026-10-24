@@ -57,3 +57,13 @@ Use the same `**Date:** YYYY-MM-DD` field for proposals, using the proposal date
 **Decision:** The character owns one physical rubber duck; attachment to it motivates interest in the fictional gacha video game. That physical object is outside the collectible digital roster and stays inanimate. The owner wants to explore expressive animations for digital gacha ducks after the base SVG is settled (Plan 09). For metagame conversations, the owner favors a 2D-first study of coherent static views, camera framing/movement, lighting changes and different compositions within the apartment, including player-driven repositioning of the prop (Plan 10). Inspect zoom quality. A 3D source pipeline is only a future investigation option if a witnessed 2D limitation justifies it; no 3D runtime is selected.
 
 **Rationale:** The physical prop can suggest personality through cinematography and context, while digital collectibles have greater freedom of motion. These require separate representation contracts. Pawning the physical object affects the metagame cash/story, not gacha ownership. The current simulation's physical `own-duck` race slot needs an explicit disposition before its rules are used in the playable slice; see the boundary report.
+
+### DECISION-004 — Plan 01 conditional evidence accepted for closure
+
+**Date:** 2026-10-24
+
+**Decision:** The owner accepted Plan 01 for closure after Repair 03 technical review. Accept the bounded S1–S4 headless evidence with assumptions and censoring limits explicit; do not adopt a final balance table. Reconcile the physical-duck race/pawn coupling before Plan 03 uses the model as a playable contract, with rechecks only for evidence actually affected. Plan 03's preflight proposes the needed trial rules and trade-off for owner approval before coding.
+
+**Rationale:** The repaired log/Receipt and paired-cohort counterexamples pass independent checks. Owner acceptance of investigation evidence enables the next mechanism proposal while preserving design authority and the later representation clarification.
+
+**Related:** `reports/development/plan-01-seeded-economy-simulation/review-03.md`; Plan 03 preflight brief.

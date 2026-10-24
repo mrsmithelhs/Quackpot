@@ -1,0 +1,20 @@
+{
+  "name": "quackpot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static browser gacha game about ducks and microtransaction design",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test scripts/dev/plan-status.test.js sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs",
+    "test:status": "node --test scripts/dev/plan-status.test.js",
+    "test:sim": "node --test sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs",
+    "test:smoke": "node scripts/dev/smoke-browser.mjs",
+    "lint:packet": "node scripts/dev/plan-status.js lint",
+    "check:packet": "node scripts/dev/plan-status.js check"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

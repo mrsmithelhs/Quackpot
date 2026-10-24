@@ -1,0 +1,111 @@
+:root {
+  --bg-color: #0f172a;
+  --panel-bg: #1e293b;
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #f59e0b;
+  --accent-light: #fbbf24;
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.spike-container {
+  max-width: 680px;
+  width: 100%;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.duck-wrapper {
+  margin: 0 auto 1.5rem;
+  display: inline-flex;
+  padding: 1rem;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, rgba(30, 41, 59, 0) 70%);
+  border-radius: 50%;
+}
+
+.duck-img {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+
+h1 {
+  font-size: 1.85rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-light);
+  letter-spacing: -0.025em;
+}
+
+p.subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.verification-list {
+  text-align: left;
+  background-color: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  list-style-type: none;
+}
+
+.verification-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.verification-item:last-child {
+  margin-bottom: 0;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background-color: #065f46;
+  color: #34d399;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.meta-footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

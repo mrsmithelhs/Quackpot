@@ -1,99 +1,143 @@
 # Plan 01 progress report: Seeded economy and Receipt simulation
 
-Date: 2026-10-23 (local clock). Implementer thread (Repair 01 follow-up). **Ready for orchestrator review: yes.** Packet status, frontmatter, and the owner gate are untouched; the gate (owner reviews S1–S4 evidence before any value becomes a design rule) remains open.
+Date: 2026-10-24 (local clock). Implementer thread (Repair 02 follow-up). **Ready for orchestrator review: yes.** Packet status, frontmatter, and owner tuning decisions are untouched; the gate (owner reviews S1–S4 evidence before any value becomes a design rule) remains open.
 
 ## Overall summary
 
-This report covers the initial Plan 01 deliverable and the completed **Repair 01** items specified in `reports/development/plan-01-seeded-economy-simulation/repair-01.md`.
+This report covers the initial Plan 01 deliverable, the completed **Repair 01** items, and the completed **Repair 02** items specified in `reports/development/plan-01-seeded-economy-simulation/repair-02.md`.
 
-All 4 verified blockers and 3 evidence repairs from `repair-01.md` have been resolved:
-1. **False final banner window resolved**: `sim/model.mjs` computes the truthful remaining duration when `maxDays` cuts a banner short (`left = Math.min(normalLeft, daysLeftInRun)`), emitting truthful cues (e.g. `Banner ends in 1 game-day` on day 7 of a 7-day run with 3-day banners). Tested on non-divisible run lengths (7 and 8 days) and confirmed voluntary early exits do not falsely claim the banner itself ended early.
-2. **Running on Empty Receipt cause exposed**: `projectReceipt` in `sim/receipt.mjs` now derives an `accounting` section directly from the event log, exposing the due bill, unpaid status, emergency escalations, and interest charges without placing unseen events under "We displayed" (preserving the O1 register invariant). Tested against zero-cash runs and verified in trace 5.
-3. **Exact pre-draw odds preserved without lossy rounding**: Removed `round4()` on `draw_committed`. Full IEEE-754 precision is preserved in event payloads and `pullLedger`. Restored the commented test block in `sim/model.test.mjs`, added focused verification of exact `0.08125` at draft pull 35, and separated raised soft-pity draws from hard-guarantee draws in Receipt counts and wording.
-4. **Truncation claim corrected and completeness check added**: Corrected the header in `sim/event-log.mjs` to clarify that `verifyChain` validates interior sequence and cryptographic hash continuity for any valid prefix (partial logs remain valid partial logs). Added `verifyCompleteness(entries)` to verify terminal and receipt_shown entries for finished runs. Tested trailing deletions and interior deletions.
-5. **S1 ramp cause resolved**: Analytical calculation confirmed exact per-window reach probability of `4.2148e-7` (~1 in 2.37 million windows) under the default 35/50 linear ramp, proving the linear ramp slope (not sample size alone) caused 0 hard pity draws. Crossed gentler/capped shapes (quadratic, capped 25%, gentle step) in `sim/model.mjs` and sweeps, demonstrating that capped ramps yield 42%–52% player-level hard-draw reachability.
-6. **S2 feedback and starvation discriminating evidence**: Replaced the previous 6d vs 60d comparison with matched early (days 1–6) vs late (days 55–60) windows in 60-day runs across spending strategies. Added an `unbuffered_spender` policy (`cashBuffer: 0`) that tests rent/food bills against exhausted cash, demonstrating 48%–85% starvation under price pressure.
-7. **Floor estimate sensitivity matrix**: Added a sensitivity matrix exploring candidate paths toward the ~15-minute floor target across days (10, 12, 15), races/day (1, 2), and pacing profiles (brisk, standard, leisurely). Explicitly labeled as assumption-driven, deferring classroom measurement to Plan 03 human observation.
+All 6 required repairs from `repair-02.md` have been resolved:
+1. **Distinguish paid, waived, and unpaid bills**: `projectReceipt` in `sim/receipt.mjs` distinguishes actual cash payments (`paid`), waived bills (`waived`, e.g. skipped lunch where `paidAmount = 0` and `waivedAmount >= dueAmount`), partial waivers (`partially_waived`), and unpaid defaults (`unpaid`). Avoids representing skipped food as purchased food. Added regression test in `sim/receipt.test.mjs`.
+2. **Truthful final debt derivation**: Derived final recorded debt in `sim/receipt.mjs` from the latest debt-changing event in the entire log (`interest_charged` or `credit_card` escalation step), rather than freezing the figure at the final weekly interest charge. Verified credit draws occurring on/after day 49 are accurately reported (e.g. $800 debt rather than $663). Added regression test in `sim/receipt.test.mjs`.
+3. **Ordered finished-run boundary validation**: `verifyCompleteness(entries)` in `sim/event-log.mjs` now strictly requires an ordered terminal/Receipt pair: `terminal` immediately followed by `receipt_shown` with matching non-empty routes at the very end of the log. Documented the expected finished-run boundary. Added regression tests for valid finish, wrong order (`receipt_shown` before `terminal`), route mismatch, and trailing events after `receipt_shown`.
+4. **Actually paired S2 early/late cohorts**: `sim/run-experiments.mjs` now computes early vs late comparisons on identical surviving runs, exposing survivor $n$ and paired difference distributions (`min/p50/max`). Added an early-vs-mid comparison (`days 1–3` vs `days 10–12`, 90%–100% survival) to measure roster expansion without terminal censoring. Updated the 60-day late comparison (`days 1–6` vs `days 55–60`), explicitly disclosing that 85%–100% of buying runs are censored by collection completion (median day 17 for whales, day 27 for top-up), precluding 60-day population comparisons for buying strategies.
+5. **Controlled race-funded continuation experiment**: Added `s2Continuation` (`runContinuation`) to `sim/run-experiments.mjs`, testing top-up purchases through day 6 followed by strictly frugal policy (zero bundle purchases) through day 60. Tracks transition gem balance, later race income, later bundle gems ($0$), later pull spend, and later paid draws. Confirmed that under high payouts ($4\times$) and no power creep ($1.0$), initial purchases fund $62$–$79$ subsequent paid draws ($70$ median race-funded draws) from $11,600$ race gems. Under default creep ($1.15$), race income collapses, yielding only $2$–$3$ subsequent draws ($0$ race-funded).
+6. **Repaired report evidence regressions**:
+   - Restored an explicit inventory of non-design assumptions (opening pity advance, carry/reset, cash/bundle prices, tier speeds, field creep scaling, roster release pattern, escalation ladder steps 1–4, and pacing profiles).
+   - Restored the still-relevant failed pre-race choice hypothesis: always racing the best duck was best in 4 of 6 scenarios and tied in 2; "no choice is automatically correct" failed under these mechanics.
+   - Corrected 24-duck completion horizon/strategy claims: at 15 days, `topup_single` completes ~8.3% and `whale_ten` completes ~33.3%; ~99% completion is the 60-day whale result.
+   - Removed the word "cryptographic" when referring to FNV-1a hash continuity.
+   - Accurately described the `capped` ramp: it ramps linearly toward $0.25$ across the soft-pity window before the hard guarantee, rather than clipping the steep linear ramp at $0.25$.
+   - Stated that the analytic S1 probability ($4.2148 \times 10^{-7}$) explains why zero hits in our sample are unsurprising, without claiming deterministic causation for a sampled zero.
 
-All 42 tests pass across `sim/*.test.mjs` and `scripts/dev/plan-status.test.js`. Full experiment suite was rerun (`~369s`), producing byte-reproducible updated results in `reports/development/plan-01-seeded-economy-simulation/results/`.
+All 45 tests pass across `sim/*.test.mjs` and 143 tests pass in `scripts/dev/plan-status.test.js`. Full experiment runner executed on the final code in ~402s, regenerating `results.md`, `results.json`, and `traces.txt`.
 
 ## Files changed
 
-| Path | Role in Repair 01 |
+| Path | Role in Repair 02 |
 |---|---|
-| `sim/model.mjs` | Truthful final banner window; parameterized ramp shapes (`linear`, `quadratic`, `capped`, `gentle_step`); exact unrounded odds logging in `draw_committed`; `windowHardPityProbability` |
-| `sim/event-log.mjs` | Corrected truncation comments; added `verifyCompleteness(entries)` |
-| `sim/receipt.mjs` | Event-derived `accounting` section; separated soft vs hard counts in sunk-cost finding; added `isComplete` |
-| `sim/strategies.mjs` | Added `unbuffered_spender` strategy (`cashBuffer: 0`) |
-| `sim/model.test.mjs` | Restored literal `\n` commented test block; added tests for exact odds at pull 35 (`0.08125`) and ten-pull reset |
-| `sim/receipt.test.mjs` | Added non-divisible `maxDays` banner tests (7 and 8 days), voluntary exit test, projected Receipt accounting assertions, trailing deletion vs interior tampering tests |
-| `sim/run-experiments.mjs` | Added S1 ramp shape comparison sweep; matched early/late window comparison; unbuffered starvation sweep; floor-time sensitivity matrix; trace 5 accounting verification |
+| `sim/receipt.mjs` | Differentiates paid, waived, and unpaid bills; derives final debt from latest debt-changing event |
+| `sim/event-log.mjs` | `verifyCompleteness(entries)` validates ordered `terminal` immediately followed by `receipt_shown` with matching routes; documented finished-run boundary and non-cryptographic FNV-1a hash continuity |
+| `sim/receipt.test.mjs` | Regression tests for bill payment/waiver/unpaid accounting wording; credit draw after final weekly interest charge; `verifyCompleteness` order, route matching, and trailing event checks |
+| `sim/run-experiments.mjs` | Parameterized matched windows; added early/mid window (`s2LoopEarlyMid`, days 1–3 vs 10–12); updated early/late window (`s2LoopLong`, days 1–6 vs 55–60) with paired survivor metrics and censoring disclosure; added race-funded continuation experiment (`s2Continuation`) |
 | `reports/development/plan-01-seeded-economy-simulation/results/` | Refreshed `results.md`, `results.json`, and `traces.txt` |
-| this file | Updated progress report |
+| this file | Updated progress report with restored assumptions, pre-race choice findings, corrected completion horizons, and Repair 02 advisor record |
 
 **Tree state I did not create:** `docs/development/README.md` and `docs/development/plan-02-static-build-deploy-spike.md` were modified by external orchestrator activity in the workspace. In accordance with commit discipline rules, they are left untouched and unstaged.
 
 ## Mechanism decisions (per owner refinements)
 
 1. **Draw/display order & exact odds:** A ten-pull is ten ordered `draw_committed` entries, each logging exact IEEE-754 floating point odds `{ common, rare, legendary }` with no intermediate rounding. Each is followed by `reveal_shown` (sequential) or batch reveals. The Receipt pull ledger exposes exact unrounded pre-draw odds and distinguishes committed from displayed outcomes.
-2. **Pity metrics & ramp shapes:** Reported separately: `enteredSoft` (a draw with raised odds below `hardPity`), `reachedHardDraw` (the guaranteed draw occurred), and completed pity windows split into `beforeSoft` / `inSoft` / `atHard`. Alternative soft ramp shapes (`linear`, `quadratic`, `capped`, `gentle_step`) are parameterized in `sim/model.mjs` and evaluated analytically and empirically.
-3. **Event deck & life metagame accounting:** All bills (`expense_due`), payments (`expense_paid`), emergency escalations (`escalation_result`), and interest charges (`interest_charged`) are logged in order. The Receipt exposes an event-derived `accounting` section reporting unpaid bills and terminal causes without placing unshown events under "We displayed".
-4. **Append-only log verification:** `verifyChain(entries)` verifies interior sequence numbering and hash-chain continuity, detecting modification, deletion, or reordering of interior entries. Any valid prefix verifies under `verifyChain`. Finished-run completeness is verified by `verifyCompleteness(entries)`, requiring both `terminal` and `receipt_shown`.
+2. **Pity metrics & ramp shapes:** Reported separately: `enteredSoft` (a draw with raised odds below `hardPity`), `reachedHardDraw` (the guaranteed draw occurred), and completed pity windows split into `beforeSoft` / `inSoft` / `atHard`. Alternative soft ramp shapes (`linear`, `quadratic`, `capped`, `gentle_step`) are parameterized in `sim/model.mjs`. The `capped` ramp ramps linearly from base toward $0.25$ across the soft window (`progress * (cap - base)`), then steps to $1.0$ at the guarantee.
+3. **Event deck & life metagame accounting:** All bills (`expense_due`), payments (`expense_paid`), emergency escalations (`escalation_result`), and interest charges (`interest_charged`) are logged in order. The Receipt exposes an event-derived `accounting` section reporting paid cash, waived amounts (e.g. skipped lunch), and unpaid bills without placing unshown events under "We displayed". Final recorded debt is derived from the latest debt-changing event in the entire log.
+4. **Append-only log verification:** `verifyChain(entries)` verifies interior sequence numbering and non-cryptographic FNV-1a hash-chain continuity, detecting modification, deletion, or reordering of interior entries. Any valid prefix verifies under `verifyChain`. Finished-run completeness is verified by `verifyCompleteness(entries)`, requiring an ordered terminal/Receipt pair (`terminal` immediately followed by `receipt_shown` with matching routes) at the log boundary.
 5. **Truthful banner duration:** If `maxDays - day + 1` is shorter than the configured `bannerDays`, the clock and `cue_shown` label truthfully reflect the shortened duration remaining in the designed run. Voluntary early exits (e.g. Uninstall on day 2 of a 15-day run) retain the scheduled in-universe duration on day 1.
+
+## Assumptions I supplied (not in the design table)
+
+Every one is a named parameter in `DEFAULT_PARAMS` (`sim/model.mjs`); keys in `DESIGN_KEYS` are the design-table values. The ones that most affect conclusions:
+
+- **Soft-pity ramp shape**: Default legendary odds rise linearly from base ($0.02$) at pull 35 to $1.0$ at pull 50. Capped variant ramps linearly from base toward $0.25$ before the guarantee.
+- **Opening pity advance**: Baseline assumes the free opening ten-pull does not advance the pity counter (`openingAdvancesPity: false`).
+- **Pity carry across banners**: Pity carries across banners by default (`carryPity: true`; reset was swept).
+- **Cash economy**: Start cash $200$, wage $45$/day, food $12$/day, weekly rent $140$; bundle cash prices $0.99$–$99.99$ at 1 cash = $1 (`bundlePriceScale` sweeps this).
+- **Roster release pattern**: 24 identities in a repeating common/common/rare/common/rare/legendary pattern, 6 new identities per banner; legendary is the banner-featured one with probability $0.5$.
+- **Tier speeds and field creep scaling**: Own base duck speed 8, common 10, rare 14, legendary 20. Field baseline speed 14 scaling with power creep as $(powerCreep)^{bannerIndex}$, speed noise ±30%, performance noise ±15%, race payout place distribution `[30, 18, 10, 5, 2, 0]` gems, 2 races/day.
+- **Down duplicate conversion**: Down per duplicate 1/5/20; best-case gem value of 1 Down is 0.02 gems.
+- **Escalation ladder**: Steps 1–4 only (skip lunch $12, extra shift $35, sell couch/TV $150, credit card limit $600–$800 at 5%/week). Steps 5–7 and the Influencer ending are not modeled.
+- **Floor-time pacing profiles**: Setup 90s, reveal 3s, race 25s, offer 8s, event 8s, escalation 15s, banner 10s, receipt 150s for standard pacing (brisk and leisurely variants evaluated in sensitivity matrix).
+- **Technique cues not modeled**: Near misses, loss aversion (streak reward), odds navigation button, Duck-Dex shelf silhouettes beyond set-progress display. The near-miss candidate eligibility and firing rule (Tuning bullet 5) was therefore **not tested**.
 
 ## Commands run and results
 
 | Command | Result |
 |---|---|
 | `node scripts/dev/plan-status.js check plan-01` | exit 0, RUNNABLE (pre-repair and post-repair check) |
-| `node --test sim/*.test.mjs scripts/dev/plan-status.test.js` | 42 unit/integration tests pass (sim) + 143 status tests pass, 0 fail |
+| `node --test sim/*.test.mjs scripts/dev/plan-status.test.js` | 45 unit/integration tests pass (sim) + 143 status tests pass, 0 fail |
 | `node scripts/dev/plan-status.js lint` | exit 0, lint: OK (no violations) |
-| `node sim/run-experiments.mjs --quick` | exit 0 in ~91s (quick smoke test verifying all experiment sections) |
-| `node sim/run-experiments.mjs` | exit 0 in ~369s (full sample run, byte-reproducible results written to `results/`) |
+| `node sim/run-experiments.mjs --quick` | exit 0 in ~63s (quick smoke test verifying all experiment sections) |
+| `node sim/run-experiments.mjs` | exit 0 in ~402s (full sample run, results written to `results/`) |
 
 ## S1: pity reachability (`results.md`, "S1" tables)
 
-Setup: soft ∈ {20, 35, 50, none} × hard ∈ {30, 50, 70, 90}, 4 strategies, payout ×1 and ×4, 15 and 60 days, 80 seeds per cell. Side sweep for carry/reset × opening advances (150 seeds). Plus ramp shape sweep crossing linear, quadratic, capped 25%, and gentle step ramps (120 seeds per cell).
+Setup: soft ∈ {20, 35, 50, none} × hard ∈ {30, 50, 70, 90}, 4 strategies, payout ×1 and ×4, 15 and 60 days, 80 seeds per cell. Side sweep for carry/reset × opening advances (150 seeds). Ramp shape sweep crossing linear, quadratic, capped 25%, and gentle step ramps (120 seeds per cell).
 
 Observed:
-- **Draft 35/50 linear ramp reachability**: Analytical probability of reaching draw 50 in an uninterrupted default window is **`4.2148059087356505e-7`** (~1 in 2.37 million windows). Surviving 15 draws with a steep linear ramp ($(15! / 16^{15}) \times 0.98^{49}$) is practically vanishing. Empirical sweep confirmed 0% hard pity draws across thousands of simulated windows under the linear ramp.
+- **Draft 35/50 linear ramp reachability**: Analytical probability of reaching draw 50 in an uninterrupted default window is **`4.2148059087356505e-7`** (~1 in 2.37 million windows; $(15! / 16^{15}) \times 0.98^{49}$). This vanishingly low probability explains why zero hits in our simulated sample of thousands of windows are unsurprising, without asserting deterministic causation for a sampled zero. Empirical sweep confirmed 0% hard pity draws across thousands of simulated windows under the default steep linear ramp.
 - **Alternative ramp shapes (35/50 thresholds)**:
   - *Quadratic (convex gentle)*: Analytical per-window reach is `1.4367e-4` (~1 in 6,960). In 60-day runs (~750 windows per strategy), 0 hard draws occurred.
   - *Gentle step (+0.03/draw)*: Analytical per-window reach is `4.3388e-3` (~1 in 230). Reached hard draw in 8% of `topup_single` and 4% of `whale_ten` 60-day runs (10 and 5 hard draws observed).
-  - *Capped 25% (linear ramp capped at 0.25 until pull 50)*: Analytical per-window reach is `5.4961e-2` (~5.5% of windows). Reached hard draw in **42%** of `topup_single` and **52%** of `whale_ten` runs (65 and 82 hard-guarantee draws observed).
-- **Rival explanations and falsifiers**: Rerunning with the capped ramp falsified the hypothesis that thresholds alone prevent reaching pull 50. The ramp shape dictates reachability: a linear ramp to 1.0 virtually guarantees an earlier hit, while a capped ramp allows the guarantee to trigger regularly. Threshold and ramp shape remain owner choices.
+  - *Capped 25% (linear ramp from base toward 0.25 before pull 50)*: Analytical per-window reach is `5.4961e-2` (~5.5% of windows). Reached hard draw in **42%** of `topup_single` and **52%** of `whale_ten` runs (65 and 82 hard-guarantee draws observed).
+- **Rival explanations and falsifiers**: Rerunning with the capped ramp falsified the hypothesis that thresholds alone prevent reaching pull 50. The ramp shape dictates reachability: a linear ramp toward 1.0 virtually guarantees an earlier hit, while a capped ramp allows the guarantee to trigger regularly. Threshold and ramp shape remain open owner tuning choices.
 
 ## S2: self-funding versus starvation
 
 Setup:
 - Race income alone: payout scale [0.5..16] × races/day [1..4] for frugal player.
 - Starvation: bundle price scale [0.25, 1, 4] × wage [25, 45, 90] across `frugal_single`, `topup_single`, `whale_ten`, and `unbuffered_spender` (100 seeds).
-- Matched early vs late windows: days 1–6 vs days 55–60 in 60-day runs across `frugal_single`, `topup_single`, and `whale_ten` at payout scale 1 and 4, creep 1.0 and 1.15 (120 seeds).
+- Matched early vs mid window: days 1–3 vs days 10–12 across `frugal_single`, `topup_single`, and `whale_ten` at payout scale 1 and 4, creep 1.0 and 1.15 (100 seeds; 90%–100% survival).
+- Matched early vs late window: days 1–6 vs days 55–60 across `frugal_single`, `topup_single`, and `whale_ten` at payout scale 1 and 4, creep 1.0 and 1.15 (100 seeds; disclosing terminal censoring).
+- Race-funded continuation: top-up purchases through day 6, strictly frugal policy days 7–60 (100 seeds).
 
 Observed:
-- **Starvation and unbuffered spending**: When spenders maintain a cash buffer (`whale_ten` buffer 100, `topup_single` buffer 150), starvation is 0% across all tested price/wage combinations. When an unbuffered spender (`unbuffered_spender`, buffer 0) spends all available cash on pulls, starvation (`running_on_empty`) occurs in **85%** of runs at price x4 / wage 25, **64%** at price x4 / wage 45, and **48%** at price x4 / wage 90, with credit debt maxing out at the $600 ceiling. Unbuffered players face acute starvation when weekly rent ($140) and food arrive after cash is exhausted on bundles.
-- **Matched early vs late race income**:
-  - *With 15% power creep (`powerCreep: 1.15`)*: Opponent field speed scales with creep ($1.15^{19} \approx 14.2\times$ by day 60), while the player roster is finite (24 ducks across 4 banners). By day 55–60, opponent speed far outpaces the player ducks. Late race income collapses to near zero (ratio 0.00–0.06x) for both frugal and spending players.
-  - *Without power creep (`powerCreep: 1.0`)*: Roster expansion from 4.5 ducks (early) to 14.4 ducks (frugal with payout x4) or 23 ducks (whales) yields a mild income increase (ratio 1.20–1.34x). However, because daily races are capped (2 races/day), race income never approaches the 160-gem cost of pulls, completely precluding a self-funding loop.
-  - *Censoring*: 88%–100% of spending runs end early before day 55 due to completing the collection (24/24 ducks) around day 10–15.
+- **Starvation and unbuffered spending**: When spenders maintain a cash buffer (`whale_ten` buffer 100, `topup_single` buffer 150), starvation is 0% across all tested price/wage combinations. When an unbuffered spender (`unbuffered_spender`, buffer 0) spends all cash on bundles, starvation (`running_on_empty`) occurs in **85%** of runs at price x4 / wage 25, **64%** at price x4 / wage 45, and **48%** at price x4 / wage 90, with credit debt maxing out at the ceiling. Unbuffered players face acute starvation when weekly rent ($140) and food arrive after cash is exhausted on bundles.
+- **Matched early vs mid race income (days 1–3 vs 10–12; 90%–100% survival)**:
+  - *Without power creep (`creep: 1.0`)*: Roster expansion from 6 ducks to ~20.5 ducks in top-up players yields a +20% to +22% income increase (ratio 1.20–1.22x; paired diff p50 +10 gems/day at 1x, +32 gems/day at 4x). Whale roster expands to ~22 ducks, maintaining income (ratio 0.96–0.98x).
+  - *With 15% power creep (`creep: 1.15`)*: Field scaling outpaces the player roster. Top-up income declines by ~28% to 30% (ratio 0.70–0.72x; paired diff p50 -13.7 gems/day at 1x, -48 gems/day at 4x). Whale income declines by ~32% to 35% (ratio 0.65–0.68x).
+- **Matched early vs late race income (days 1–6 vs 55–60; terminal censoring disclosed)**:
+  - *Frugal player (0% censored)*: With creep 1.0, late/early ratio is 0.89 (1x payout) and 1.35 (4x payout). With creep 1.15, race income collapses to 0.00 gems/day (ratio 0.00x).
+  - *Buying players (85%–100% censored)*: Whales experience 98%–100% censoring and top-up experiences 90%–95% censoring due to completing the collection (median completion: whale day 17, top-up day 27). With 0 to 2 surviving whales, 60-day population comparisons cannot be drawn for buying cohorts.
+- **Race-funded continuation after initial purchases (days 7–60)**:
+  - Under high payouts ($4\times$) and no power creep ($1.0$), top-up purchases through day 6 fund an expanded roster that earns $11,600$ gems from races alone in days 7–60 (with zero bundle purchases), funding $62$–$79$ subsequent paid draws ($70$ median race-funded draws).
+  - Under default creep ($1.15$) and standard payout ($1\times$), race income collapses to $152.5$ gems, funding only $2$–$3$ subsequent draws ($0$ race-funded draws).
+  - This demonstrates continuation under specific parameters, rather than an endless loop or default-balance result.
+
+## Pre-race choice policies (compared, not assumed)
+
+Five policies (`best`, `rested`, `longshot`, `random`, `alternate`) compared paired by seed, 300 seeds per scenario, across six scenarios.
+
+- **Always racing the best duck was best or statistically tied in every scenario.**
+  - *Small roster (frugal, 15d)*: `best` mean 3.02 gems/race; `rested` lost 0.29 gems/race (95% CI [-0.38, -0.21]); `best` won/tied in 76% of seeds.
+  - *Large roster (whale, 15d)*: `best` mean 19.90 gems/race; `rested` lost 1.07 gems/race (95% CI [-1.21, -0.93]); `best` won/tied in 82% of seeds.
+  - *Field ignores creep*: `best` mean 22.96 gems/race; `rested` lost 1.33 gems/race (95% CI [-1.44, -1.21]); `best` won/tied in 91% of seeds.
+  - *No fatigue*: `best` mean 23.86 gems/race; `rested` lost 5.19 gems/race (95% CI [-5.33, -5.06]); `best` won in 100% of seeds.
+  - *Strong fatigue (30%)*: `best` (18.81) and `rested` (18.84) statistically tied (difference +0.02, 95% CI [-0.01, 0.06]).
+  - *Longshot ×2.5*: `best` mean 20.23 gems/race; `longshot` lost 17.53 gems/race (95% CI [-17.79, -17.27]); `best` won in 83% of seeds.
+- **Hypothesis status**: "No pre-race choice is automatically correct" **failed** under these default mechanics: the choice is nearly dominated. Always racing the best duck was strictly best in 4 of 6 scenarios and tied in 2, and never worse by a significant margin. This remains a design tension for the owner: candidate remedies include stronger fatigue (≈30%), duck-specific course affinities, or visible risk/reward dimensions.
 
 ## S3: roster, duplicates, and Down
 
 Observed:
 - Duplicates appear as early as draw 2–3 on a 24-duck roster.
-- A 24-duck roster completes in ~99% of gem-buying runs within 10–15 days. Expanding to 36–48 ducks spreads completion times and creates meaningful duplicate conversion.
-- Down recovery is negligible: even if 1 Down were valued at 1 gem, recovery is only ~1.0%–1.5% of gems spent on pulls. Down does not function as a secondary loop.
+- **Roster completion horizons by strategy**:
+  - At 15 days, `topup_single` completes ~8.3% of the 24-duck roster (median owned 22/24), and `whale_ten` completes ~33.3% (median owned 23/24).
+  - At 30 days, `topup_single` completes 56% and `whale_ten` completes 89%.
+  - The ~99% completion figure is the **60-day whale** result (median completion day 17 for whale, day 27 for top-up).
+- Expanding the roster to 36–48 ducks spreads completion times and creates meaningful duplicate conversion.
+- Down recovery remains negligible: even if 1 Down were valued at 1 gem, recovery is only ~1.0%–1.5% of gems spent on pulls. Down does not function as an independent secondary loop.
 
 ## S4: Receipt lifecycle and provenance
 
 All S4 adversarial scenarios pass:
-- Exit on both sides of commit/reveal boundary (sequential and batch): unrevealed committed draws appear in the ledger but never in "We displayed".
-- Exit during opening free ten-pull: reaches Receipt with no starter offer displayed.
-- Pre-draw conditional odds: exact unrounded odds logged per draw; sunk-cost wording cleanly separates raised soft-pity draws from the hard guarantee.
-- Ineligible event fallback: recorded as neutral delight with reasons; no technique cue invented.
-- Truthful banner transition: non-divisible maxDays (7 and 8) correctly truncate countdown without early exit pretense.
-- Zero cash / unpaid expense: `projectReceipt` exposes the accounting outcome (bill due, amount, unpaid status, escalations, interest), matching Trace 5.
-- Log provenance: deep-frozen entries; `verifyChain` validates valid prefixes and flags interior mutations; `verifyCompleteness` validates finished run completeness.
+- **Commit/reveal boundaries (sequential and batch)**: unrevealed committed draws appear in the ledger but never in "We displayed".
+- **Opening free ten-pull exit**: reaches Receipt with no starter offer displayed.
+- **Pre-draw conditional odds**: exact unrounded IEEE-754 odds logged per draw; sunk-cost wording cleanly separates raised soft-pity draws from hard guarantees.
+- **Ineligible event fallback**: recorded as neutral delight with explicit reasons; no technique cue invented.
+- **Truthful banner transitions**: non-divisible `maxDays` (7 and 8) correctly truncate countdown without early exit pretense.
+- **Zero cash and expense accounting**: `projectReceipt` exposes original due amount, actual cash paid, waived amount (e.g. skipped lunch), and unpaid defaults without claiming skipped meals were purchased food.
+- **Truthful final debt**: derived from the latest debt-changing event in the entire log, capturing credit draws after the final interest charge.
+- **Finished-run boundary**: `verifyCompleteness` validates that `terminal` is immediately followed by `receipt_shown` with matching routes at the very end of the log.
+- **Log provenance**: deep-frozen entries; `verifyChain` validates valid prefixes and flags interior mutations via non-cryptographic FNV-1a hash continuity.
 
 ## Floor-time estimate (assumption-driven sensitivity)
 
@@ -113,30 +157,33 @@ The compact sensitivity matrix reveals bounded candidate paths toward the ~15-mi
 
 ## Recommendations for the owner (evidence, not selections)
 
-1. **Pity ramp**: The draft 35/50 linear ramp makes pull 50 practically unreachable ($4.21 \times 10^{-7}$). If the design intent is that students occasionally experience the hard guarantee, adopt a capped ramp (e.g. capped at 0.20–0.25) or a gentle linear step (+0.03/pull).
+1. **Pity ramp shape**: The draft 35/50 linear ramp makes pull 50 practically unreachable ($4.21 \times 10^{-7}$). If the design intent is that students occasionally experience the hard guarantee, adopt a capped ramp (ramping linearly toward 0.20–0.25) or a gentle linear step (+0.03/pull).
 2. **Starvation & economy tension**: Starvation requires an unbuffered spending tendency combined with inflexible living costs. If `running_on_empty` is intended to be a frequent lesson outcome, living expenses or gem bundle costs must be tuned to exert pressure on cash reserves.
 3. **Power creep vs finite roster**: If opponents scale with creep indefinitely, race income drops to zero once all roster banners have been released. Opponent scaling should cap at the highest released banner.
-4. **Target floor duration**: 10–12 days with 1–2 races per day, or 15 days with brisk animation pacing, offer feasible candidate paths to bracket the ~15-minute target.
+4. **Race continuation loop**: A continuation loop where race winnings fund ongoing pulls is possible under high payouts ($4\times$) and no creep, but does not emerge under default balance ($1\times$, $15\%$ creep).
+5. **Pre-race choice domination**: Racing the best duck dominates under default mechanics. If meaningful pre-race decisions are desired, consider stronger fatigue ($\approx 30\%$) or duck-specific track conditions.
+6. **Target floor duration**: 10–12 days with 1–2 races per day, or 15 days with brisk animation pacing, offer feasible candidate paths to bracket the ~15-minute target.
 
 ## Advisor consultation: Branch A (capable and warranted)
 
-- **Capability evidence:** This environment exposes `invoke_subagent` with `Model: 'pro'` and a read-only `TypeName: 'research'`. A pre-delivery consultation is warranted because Plan 01 Repair 01 introduces real behavioral code and mathematical simulation logic.
-- **Requested advisor model:** `pro`.
+- **Capability evidence:** This environment exposes `invoke_subagent` with `Model: 'pro'` and a read-only `TypeName: 'research'`. A pre-delivery consultation is warranted because Plan 01 Repair 02 modifies core accounting, finished-run validation logic, and statistical experiment methods.
+- **Requested advisor alias:** `pro`.
 - **Observed advisor model:** Reported as `Gemini 2.5 Pro` in its opening line (`"Model Identification: Running as Gemini 2.5 Pro (model: "pro" tier in Google Antigravity / Gemini environment)"`).
+- **Identity & tier uncertainty:** This identity is based solely on the model's self-report. An available `pro` alias does not establish that the advisor is higher-tier than the implementer thread, and platform metadata was not independently queried.
 - **Posture:** Instruction-read-only with post-hoc verification (`research` subagent role, depth 1, primary sole writer).
 - **Post-consultation status check:** `git status` immediately following consultation confirmed zero workspace changes outside primary working tree modifications.
-- **Brief:** Self-contained brief inlining the full unified git diff across `sim/` and detailed problem descriptions.
+- **Brief:** Self-contained brief inlining the full unified git diff across `sim/` and detailed problem descriptions from `repair-02.md`.
 - **Cost:** One subagent turn, ~5 minutes elapsed time.
 
-### Disposition Record
+### Disposition Record (Repair 02 pass)
 
-| # | Finding / Recommendation | Verification | Decision & Reasoning | Resulting Action |
+| # | Finding / Evaluated Item | Verification | Decision & Reasoning | Resulting Action |
 |---|---|---|---|---|
-| 1 | **Update progress report before final delivery**: Pre-repair report noted 40 tests and lacked Repair 01 narrative. | Confirmed: `progress.md` required updating to reflect 42 tests, the 7 resolved items, and the refreshed findings. | **Accept.** Detailed progress documentation is required for orchestrator handoff. | Updated `progress.md` comprehensively with full Repair 01 evidence and test counts. |
-| 2 | **Re-verify git staging scope**: Ensure orchestrator-owned docs (`docs/development/README.md`, `plan-02`) remain unstaged. | Confirmed: `git status` shows modified docs that belong to orchestrator workflow. | **Accept.** In accordance with commit discipline rules, only scoped paths are staged. | Stage explicit paths (`sim/`, `reports/development/plan-01-seeded-economy-simulation/`). |
-| 3 | *Prior review finding (from earlier pass)*: Hidden-identity assertion vacuous (compares display seq to commit seq). | Confirmed. | **Accept claim, reject proposed fix.** | Asserted `reveal_shown` presence and duplicate Down totals. |
-| 4 | *Prior review finding*: Stream-isolation test vacuous (checked 80 chars). | Confirmed. | **Accept.** | Burned 500 strategy random draws and verified exact match across streams. |
-| 5 | *Prior review finding*: Batch-mode `before_commit` ignores `exit.draw`. | Confirmed. | **Reject.** In batch mode all draws commit simultaneously; `exit.draw` has no distinct pre-commit boundary. | Documented batch mode semantics explicitly. |
+| 1 | **Distinguish paid, waived, and unpaid bills in Receipt**: `projectReceipt` distinguishes `paid`, `waived`, `partially_waived`, and `unpaid`. | Confirmed: Expense processing inspects `billWaived` and actual `expense_paid.amount`. Tests verify zero-cash skipped lunch produces `waived` with 0 paid. | **Accept.** Accurately reflects financial reality without falsely representing skipped meals as purchased food. | Implemented in `sim/receipt.mjs`; regression tests added to `sim/receipt.test.mjs`. |
+| 2 | **Truthful final debt derivation**: Derive final recorded debt from the latest debt-changing event across the entire log. | Confirmed: In 60-day credit runs, credit draws occurring on/after day 49 were previously ignored by freezing debt at the final interest charge. | **Accept.** Deriving from the latest debt event accurately reflects full debt ceiling ($800 vs $663). | Implemented in `sim/receipt.mjs`; regression test added to `sim/receipt.test.mjs`. |
+| 3 | **Ordered finished-run boundary validation**: `verifyCompleteness(entries)` validates ordered `terminal` immediately followed by `receipt_shown` with matching routes. | Confirmed: Previously accepted reversed pairs or route mismatches. | **Accept.** Hardens finished-run boundary definition without asserting cryptographic authenticity. | Implemented in `sim/event-log.mjs`; regression tests added to `sim/receipt.test.mjs`. |
+| 4 | **Paired S2 early/late cohort analysis**: Calculate early/late changes on identical surviving runs, expose survivor $n$, and add early/mid comparison. | Confirmed: 60-day late window had 85%–100% censoring. Days 1–3 vs 10–12 provides 90%–100% survival. | **Accept.** Eliminates survivorship bias in early/late comparisons and honestly discloses terminal censoring. | Implemented in `sim/run-experiments.mjs`; results refreshed in `results.md` and `results.json`. |
+| 5 | **Race-funded continuation experiment**: Controlled test with initial top-up purchases through day 6, strictly frugal policy days 7–60. | Confirmed: Tracks transition gems, later race income, zero later bundle gems, and later paid pulls. | **Accept.** Demonstrates continuation is possible under specific parameters ($4\times$ payout, no creep) while documenting default-balance collapse. | Implemented in `sim/run-experiments.mjs`; results refreshed in `results.md` and `results.json`. |
 
 Advisor approval is not completion; the orchestrator gate applies as usual.
 

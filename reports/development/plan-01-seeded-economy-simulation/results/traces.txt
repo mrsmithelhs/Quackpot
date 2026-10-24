@@ -978,6 +978,8 @@ draw 4/10 pityBefore=2 odds={"common":0.8,"rare":0.18,"legendary":0.02} committe
 [806] d49 receipt_shown route=running_on_empty
 
 --- Receipt accounting section for trace 5 ---
+41 recorded expense bill(s) paid in cash ($1260.00 total).
+14 food expense(s) waived via skipped lunch ($168.00 total).
 Unpaid expense recorded (Day 49, banner 17 ends in 3 game-days): $140.00 for rent was due with $0.00 cash on hand.
 26 emergency escalation step(s) recorded: skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, extra_shift, sell_couch, sell_tv, extra_shift, skip_lunch, skip_lunch, skip_lunch, credit_card, skip_lunch, skip_lunch, extra_shift, credit_card, skip_lunch, extra_shift, credit_card, extra_shift, extra_shift, skip_lunch, extra_shift.
 Total interest charged: $93.00 across 4 billing cycle(s); final debt recorded was $662.00.

@@ -53,30 +53,88 @@ export function estimateSeconds(entries, pacing = PACING) {
     c('event_result') * pacing.event + c('escalation_result') * pacing.escalation + c('banner_started') * pacing.banner + c('retention_modal_shown') * pacing.modal + pacing.receipt;
 }
 
-function runMatchedWindows(label, params, stratName, n) {
+function runMatchedWindows(label, params, stratName, n, earlyRange = [1, 6], lateRange = [55, 60]) {
   const out = [];
   for (let i = 0; i < n; i++) {
     const run = simulate(params, `${label}-${i}`, makeStrategy(stratName));
     const entries = run.log.entries;
-    const earlyRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day <= 6);
-    const lateRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= 55 && e.clock.day <= 60);
+    const survived = run.day >= lateRange[1];
+    const earlyDays = earlyRange[1] - earlyRange[0] + 1;
+    const lateDays = lateRange[1] - lateRange[0] + 1;
+    const earlyRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= earlyRange[0] && e.clock.day <= earlyRange[1]);
+    const lateRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= lateRange[0] && e.clock.day <= lateRange[1]);
     const earlyGems = earlyRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
     const lateGems = lateRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
-    const earlyDays = Math.min(6, run.day);
-    const lateDays = run.day >= 55 ? run.day - 54 : 0;
-    const earlyGpd = earlyDays > 0 ? earlyGems / earlyDays : 0;
-    const lateGpd = lateDays > 0 ? lateGems / lateDays : null;
-    const earlyReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= 6);
+    const earlyGpd = earlyGems / earlyDays;
+    const lateGpd = survived ? lateGems / lateDays : null;
+    const earlyReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= earlyRange[1]);
+    const lateReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= lateRange[1]);
     const earlyOwned = new Set(earlyReveals.map((e) => e.payload.identity)).size;
-    const lateOwned = run.roster.filter((d) => run.owned.has(d.id)).length;
+    const lateOwned = new Set(lateReveals.map((e) => e.payload.identity)).size;
+    const pairedDiff = survived ? lateGpd - earlyGpd : null;
+    const pairedRatio = survived && earlyGpd > 0 ? lateGpd / earlyGpd : null;
     out.push({
-      censoredBeforeLate: run.day < 55,
+      survived,
+      day: run.day,
+      route: run.terminal,
       earlyGpd,
       lateGpd,
+      pairedDiff,
+      pairedRatio,
       earlyOwned,
       lateOwned,
       boughtGems: run.stats.gemsFromBundles,
       pullSpend: run.stats.gemsSpentOnPulls,
+    });
+  }
+  return out;
+}
+
+function runContinuation(label, params, n) {
+  const topup = makeStrategy('topup_single');
+  const frugal = makeStrategy('frugal_single');
+  const strat = {
+    name: 'topup_then_frugal',
+    act(run) {
+      if (run.day <= 6) topup.act(run);
+      else frugal.act(run);
+    },
+    raceChoice(run, i) {
+      return run.day <= 6 ? topup.raceChoice(run, i) : frugal.raceChoice(run, i);
+    },
+    pawn(run) {
+      return run.day <= 6 ? topup.pawn(run) : frugal.pawn(run);
+    },
+  };
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const run = simulate(params, `${label}-${i}`, strat);
+    const entries = run.log.entries;
+    const preD7 = entries.filter((e) => e.clock.day <= 6);
+    let transitionGems = 0;
+    for (const e of preD7) {
+      if (e.payload?.gemsAfter !== undefined) transitionGems = e.payload.gemsAfter;
+    }
+    const postD6 = entries.filter((e) => e.clock.day > 6);
+    const laterRaces = postD6.filter((e) => e.type === 'race_result');
+    const laterRaceGems = laterRaces.reduce((sum, e) => sum + e.payload.payoutGems, 0);
+    const laterBundles = postD6.filter((e) => e.type === 'purchase' && e.payload.kind === 'bundle');
+    const laterBundleGems = laterBundles.reduce((sum, e) => sum + e.payload.bundleGems, 0);
+    const laterPulls = postD6.filter((e) => e.type === 'purchase' && /pull/.test(e.payload.kind) && e.payload.cost > 0);
+    const laterPullSpend = laterPulls.reduce((sum, e) => sum + e.payload.cost, 0);
+    const laterPaidDraws = postD6.filter((e) => e.type === 'draw_committed' && !e.payload.free).length;
+    const raceFundedGems = Math.max(0, laterPullSpend - transitionGems);
+    const raceFundedDraws = Math.floor(raceFundedGems / 160);
+    out.push({
+      seed: `${label}-${i}`,
+      day: run.day,
+      route: run.terminal,
+      transitionGems,
+      laterRaceGems,
+      laterBundleGems,
+      laterPullSpend,
+      laterPaidDraws,
+      raceFundedDraws,
     });
   }
   return out;
@@ -245,56 +303,153 @@ results.s2 = [];
   md.push(table(['price x', 'wage/day', 'strategy', 'running on empty', 'days played', 'min cash', 'final debt', 'cash spent on bundles', 'paid draws'], rows2));
   md.push('');
 
-  // loop gain: matched early (days 1-6) vs later (days 55-60) window comparison
-  const loop = [];
-  results.s2Loop = [];
+  // loop gain 1: matched early (days 1-3) vs mid (days 10-12) window comparison (high survival across all strategies)
+  const loopEarlyMid = [];
+  results.s2LoopEarlyMid = [];
   for (const st of ['frugal_single', 'topup_single', 'whale_ten']) {
     for (const scale of [1, 4]) {
       for (const creep of [1.0, 1.15]) {
-        const runs = runMatchedWindows(`s2loop-${st}-${scale}-${creep}`, { maxDays: 60, payoutScale: scale, powerCreep: creep }, st, N(120, 25));
-        const surviving = runs.filter((r) => !r.censoredBeforeLate);
-        const earlyGpd = dist(runs.map((r) => r.earlyGpd));
-        const lateGpd = dist(surviving.map((r) => r.lateGpd));
+        const runs = runMatchedWindows(`s2em-${st}-${scale}-${creep}`, { maxDays: 15, payoutScale: scale, powerCreep: creep }, st, N(100, 20), [1, 3], [10, 12]);
+        const surviving = runs.filter((r) => r.survived);
+        const survivorN = surviving.length;
+        const totalN = runs.length;
+        const survEarlyGpd = dist(surviving.map((r) => r.earlyGpd));
+        const survLateGpd = dist(surviving.map((r) => r.lateGpd));
+        const pairedDiff = dist(surviving.map((r) => r.pairedDiff));
         const earlyOwned = dist(runs.map((r) => r.earlyOwned));
         const lateOwned = dist(surviving.map((r) => r.lateOwned));
-        const boughtGems = dist(runs.map((r) => r.boughtGems));
-        const pullSpend = dist(runs.map((r) => r.pullSpend));
-        const censoredShare = share(runs, (r) => r.censoredBeforeLate);
-        const ratio = surviving.length && earlyGpd.mean > 0 ? lateGpd.mean / earlyGpd.mean : null;
+        const ratio = surviving.length && survEarlyGpd.mean > 0 ? survLateGpd.mean / survEarlyGpd.mean : null;
         const rec = {
           strategy: st,
           payoutScale: scale,
           powerCreep: creep,
-          n: runs.length,
-          censoredShare,
-          earlyGemsPerDay: earlyGpd,
-          lateGemsPerDay: lateGpd,
+          totalN,
+          survivorN,
           earlyOwned,
           lateOwned,
-          boughtGems,
-          pullSpend,
+          survEarlyGpd,
+          survLateGpd,
+          pairedDiff,
           ratio,
         };
-        results.s2Loop.push(rec);
-        loop.push([
+        results.s2LoopEarlyMid.push(rec);
+        loopEarlyMid.push([
           st,
           scale,
           creep,
+          `${survivorN}/${totalN}`,
           f1(earlyOwned.mean),
           f1(lateOwned.mean),
-          f1(boughtGems.mean),
-          f1(pullSpend.mean),
-          f1(earlyGpd.mean),
-          surviving.length ? f1(lateGpd.mean) : '–',
+          f1(survEarlyGpd.mean),
+          f1(survLateGpd.mean),
+          `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}`,
           ratio !== null ? f2(ratio) : '–',
-          pc(censoredShare),
         ]);
       }
     }
   }
-  md.push('### Matched early vs later window race income (days 1-6 vs days 55-60)\n');
-  md.push('Compares race gems/day between early window (days 1–6) and late window (days 55–60) in 60-day runs across spending policies. Roster columns show mean owned distinct ducks; spend columns show gems bought from bundles and spent on pulls; "censored" = runs ending before day 55.\n');
-  md.push(table(['strategy', 'payout x', 'creep', 'early ducks (d1-6)', 'late ducks (d55-60)', 'bought gems', 'pull spend gems', 'early gems/day', 'late gems/day', 'late/early ratio', 'early censored'], loop));
+  md.push('### Matched early vs mid window race income (days 1–3 vs days 10–12; ~90–100% survival)\n');
+  md.push('Compares race gems/day between days 1–3 (opening banner) and days 10–12 (expanded roster) on identical surviving runs before collection completions censor the buying cohorts. Paired diff = late minus early on the same run.\n');
+  md.push(table(['strategy', 'payout x', 'creep', 'survivors (n/total)', 'early ducks', 'late ducks', 'early gems/day (survivors)', 'late gems/day (survivors)', 'paired diff (min/p50/max)', 'late/early ratio'], loopEarlyMid));
+  md.push('');
+
+  // loop gain 2: matched early (days 1-6) vs later (days 55-60) window comparison (terminal censoring disclosed)
+  const loopLong = [];
+  results.s2LoopLong = [];
+  for (const st of ['frugal_single', 'topup_single', 'whale_ten']) {
+    for (const scale of [1, 4]) {
+      for (const creep of [1.0, 1.15]) {
+        const runs = runMatchedWindows(`s2loop-${st}-${scale}-${creep}`, { maxDays: 60, payoutScale: scale, powerCreep: creep }, st, N(100, 20), [1, 6], [55, 60]);
+        const surviving = runs.filter((r) => r.survived);
+        const survivorN = surviving.length;
+        const totalN = runs.length;
+        const censoredShare = (totalN - survivorN) / totalN;
+        const wholeEarlyGpd = dist(runs.map((r) => r.earlyGpd));
+        const survEarlyGpd = dist(surviving.map((r) => r.earlyGpd));
+        const survLateGpd = dist(surviving.map((r) => r.lateGpd));
+        const pairedDiff = dist(surviving.map((r) => r.pairedDiff));
+        const earlyOwned = dist(runs.map((r) => r.earlyOwned));
+        const lateOwned = dist(surviving.map((r) => r.lateOwned));
+        const ratio = surviving.length && survEarlyGpd.mean > 0 ? survLateGpd.mean / survEarlyGpd.mean : null;
+        const rec = {
+          strategy: st,
+          payoutScale: scale,
+          powerCreep: creep,
+          totalN,
+          survivorN,
+          censoredShare,
+          wholeEarlyGpd,
+          survEarlyGpd,
+          survLateGpd,
+          earlyOwned,
+          lateOwned,
+          pairedDiff,
+          ratio,
+        };
+        results.s2LoopLong.push(rec);
+        loopLong.push([
+          st,
+          scale,
+          creep,
+          `${survivorN}/${totalN}`,
+          pc(censoredShare),
+          f1(wholeEarlyGpd.mean),
+          surviving.length ? f1(survEarlyGpd.mean) : '–',
+          surviving.length ? f1(survLateGpd.mean) : '–',
+          surviving.length ? `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}` : '–',
+          ratio !== null ? f2(ratio) : '–',
+        ]);
+      }
+    }
+  }
+  md.push('### Matched early vs late window race income (days 1–6 vs days 55–60; terminal censoring disclosed)\n');
+  md.push('Compares race gems/day between early window (days 1–6) and late window (days 55–60) on identical surviving runs. Buying cohorts experience 85%–100% terminal censoring from completed collection (median completion: whale day 17, top-up day 27); with 0 or few survivors, 60-day population conclusions cannot be drawn for buying strategies.\n');
+  md.push(table(['strategy', 'payout x', 'creep', 'survivors (n/total)', 'censored %', 'whole cohort early gems/day', 'survivor early gems/day', 'survivor late gems/day', 'paired diff (min/p50/max)', 'late/early ratio'], loopLong));
+  md.push('');
+
+  // Race-funded continuation after initial purchases (top-up days 1-6, frugal days 7-60)
+  const contRows = [];
+  results.s2Continuation = [];
+  const contCases = [
+    { label: 'Default (payout 1x, creep 1.15)', payoutScale: 1, powerCreep: 1.15 },
+    { label: 'High payout (payout 4x, creep 1.15)', payoutScale: 4, powerCreep: 1.15 },
+    { label: 'No creep (payout 1x, creep 1.0)', payoutScale: 1, powerCreep: 1.0 },
+    { label: 'High payout / no creep (payout 4x, creep 1.0)', payoutScale: 4, powerCreep: 1.0 },
+  ];
+  for (const c of contCases) {
+    const runs = runContinuation(`s2cont-${c.payoutScale}-${c.powerCreep}`, { maxDays: 60, payoutScale: c.payoutScale, powerCreep: c.powerCreep }, N(80, 20));
+    const transGems = dist(runs.map((r) => r.transitionGems));
+    const laterRaceGems = dist(runs.map((r) => r.laterRaceGems));
+    const laterBundleGems = dist(runs.map((r) => r.laterBundleGems));
+    const laterPullSpend = dist(runs.map((r) => r.laterPullSpend));
+    const laterPaidDraws = dist(runs.map((r) => r.laterPaidDraws));
+    const raceFundedDraws = dist(runs.map((r) => r.raceFundedDraws));
+    const rec = {
+      label: c.label,
+      payoutScale: c.payoutScale,
+      powerCreep: c.powerCreep,
+      n: runs.length,
+      transGems,
+      laterRaceGems,
+      laterBundleGems,
+      laterPullSpend,
+      laterPaidDraws,
+      raceFundedDraws,
+    };
+    results.s2Continuation.push(rec);
+    contRows.push([
+      c.label,
+      f1(transGems.p50),
+      f1(laterRaceGems.p50),
+      f1(laterBundleGems.mean),
+      f1(laterPullSpend.p50),
+      dcell(laterPaidDraws),
+      f1(raceFundedDraws.p50),
+    ]);
+  }
+  md.push('### Race-funded continuation after initial purchases (Top-up through day 6, frugal days 7–60)\n');
+  md.push('Tests whether initial gem purchases establish an expanded roster that subsequently self-funds ongoing pulls from race income alone. Top-up strategy buys bundles through day 6; day 7–60 strictly follows frugal policy (zero bundle purchases). "Race-funded draws" = floor((later pull spend - transition gems) / 160).\n');
+  md.push(table(['scenario', 'transition gems (p50)', 'later race gems (p50)', 'later bundle gems (mean)', 'later pull spend (p50)', 'later paid draws (min/p5/p50/p95/max)', 'race-funded draws (p50)'], contRows));
   md.push('');
 
   // Down loop check

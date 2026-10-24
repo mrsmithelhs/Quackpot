@@ -161,17 +161,38 @@ export function projectReceipt(entries) {
     const due = expenseDues[i];
     const nextDueSeq = expenseDues[i + 1]?.seq ?? Infinity;
     const paid = expensePaids.find((p) => p.seq > due.seq && p.seq < nextDueSeq && p.payload.kind === due.payload.kind);
+    // Find all escalations for this expense window
+    const relevantEscalations = escalationResults.filter((e) => e.seq > due.seq && e.seq < (paid?.seq ?? nextDueSeq));
+    const waivedAmount = relevantEscalations.reduce((sum, e) => sum + (e.payload.effects?.billWaived ?? 0), 0);
+    const paidAmount = paid ? paid.payload.amount : 0;
+    const dueAmount = due.payload.amount;
+
+    let status = 'unpaid';
+    if (paid) {
+      if (paidAmount === 0 && waivedAmount >= dueAmount) {
+        status = 'waived';
+      } else if (waivedAmount > 0 && paidAmount > 0) {
+        status = 'partially_waived';
+      } else {
+        status = 'paid';
+      }
+    }
+
     const item = {
       seq: due.seq,
       kind: due.payload.kind,
-      amount: due.payload.amount,
+      amount: dueAmount,
+      dueAmount,
+      paidAmount,
+      waivedAmount,
+      status,
       cashBefore: due.payload.cashBefore,
-      paid: !!paid,
+      paid: !!paid && status !== 'unpaid',
       paidSeq: paid?.seq ?? null,
       clock: due.clock,
     };
     expenses.push(item);
-    if (!paid) {
+    if (status === 'unpaid') {
       unpaidExpense = item;
     }
   }
@@ -193,18 +214,39 @@ export function projectReceipt(entries) {
     clock: e.clock,
   }));
 
+  // Find latest recorded debt from all debt-changing events in the entire log
+  const debtEvents = entries.filter((e) => (
+    e.type === 'interest_charged' ||
+    (e.type === 'escalation_result' && e.payload?.step === 'credit_card' && e.payload?.effects?.debtAfter !== undefined)
+  ));
+  const latestDebtEvent = debtEvents.length ? debtEvents[debtEvents.length - 1] : null;
+  const finalDebt = latestDebtEvent
+    ? (latestDebtEvent.type === 'interest_charged' ? latestDebtEvent.payload.debtAfter : latestDebtEvent.payload.effects.debtAfter)
+    : 0;
+
   const accountingLines = [];
+  const paidCashBills = expenses.filter((e) => e.status === 'paid' || e.status === 'partially_waived');
+  const waivedBills = expenses.filter((e) => e.status === 'waived' || e.status === 'partially_waived');
+  const totalCashPaid = paidCashBills.reduce((s, e) => s + e.paidAmount, 0);
+  const totalWaived = waivedBills.reduce((s, e) => s + e.waivedAmount, 0);
+
+  if (paidCashBills.length) {
+    accountingLines.push(line(`${paidCashBills.length} recorded expense bill(s) paid in cash (${money(totalCashPaid)} total).`, paidCashBills[paidCashBills.length - 1].paidSeq));
+  }
+  if (waivedBills.length) {
+    accountingLines.push(line(`${waivedBills.length} food expense(s) waived via skipped lunch (${money(totalWaived)} total).`, waivedBills[0].seq));
+  }
   if (unpaidExpense) {
-    accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.amount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
-  } else if (expenses.length) {
-    accountingLines.push(line(`All ${expenses.length} recorded expense bills were paid.`, expenses[expenses.length - 1].paidSeq ?? expenses[expenses.length - 1].seq));
+    accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.dueAmount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
   }
   if (escalations.length) {
     const steps = escalations.map((e) => e.step).join(', ');
     accountingLines.push(line(`${escalations.length} emergency escalation step(s) recorded: ${steps}.`, escalations[0].seq));
   }
   if (interestCharges.length) {
-    accountingLines.push(line(`Total interest charged: ${money(totalInterest)} across ${interestCharges.length} billing cycle(s); final debt recorded was ${money(interestCharges[interestCharges.length - 1].debtAfter)}.`, interestCharges[0].seq));
+    accountingLines.push(line(`Total interest charged: ${money(totalInterest)} across ${interestCharges.length} billing cycle(s); final debt recorded was ${money(finalDebt)}.`, interestCharges[0].seq));
+  } else if (finalDebt > 0 && latestDebtEvent) {
+    accountingLines.push(line(`Final debt recorded was ${money(finalDebt)} (credit drawn at ${latestDebtEvent.clock.label}).`, latestDebtEvent.seq));
   }
   if (terminal?.payload.route === 'running_on_empty') {
     accountingLines.push(line(`Terminal route was running_on_empty following ${unpaidExpense ? `unpaid ${unpaidExpense.kind} bill` : 'exhausted resources'}.`, terminal.seq));
@@ -223,6 +265,7 @@ export function projectReceipt(entries) {
       escalations,
       totalInterest,
       interestCharges,
+      finalDebt,
       lines: accountingLines,
     },
   };

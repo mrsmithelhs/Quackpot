@@ -69,12 +69,27 @@ export function verifyChain(entries) {
 }
 
 /**
- * Checks whether the log contains terminal and receipt_shown entries for a finished run.
+ * Checks whether the log ends with a valid ordered terminal/Receipt pair
+ * with matching routes for a finished run. The expected finished-run boundary
+ * requires a terminal entry immediately followed by receipt_shown with matching route.
  * Prefix logs remain valid partial logs under verifyChain, but fail completeness.
  */
 export function verifyCompleteness(entries) {
-  if (!Array.isArray(entries) || entries.length === 0) return false;
-  const hasTerminal = entries.some((e) => e.type === 'terminal');
-  const hasReceipt = entries.some((e) => e.type === 'receipt_shown');
-  return hasTerminal && hasReceipt;
+  if (!Array.isArray(entries) || entries.length < 2) return false;
+  const terminalIndex = entries.findIndex((e) => e.type === 'terminal');
+  const receiptIndex = entries.findIndex((e) => e.type === 'receipt_shown');
+  if (terminalIndex === -1 || receiptIndex === -1) return false;
+  // terminal must precede receipt_shown
+  if (terminalIndex >= receiptIndex) return false;
+  const terminal = entries[terminalIndex];
+  const receipt = entries[receiptIndex];
+  // routes must match and be non-empty strings
+  if (!terminal.payload?.route || terminal.payload.route !== receipt.payload?.route) return false;
+  // Ensure no duplicate terminal or receipt_shown entries exist
+  const lastTerminalIndex = entries.findLastIndex((e) => e.type === 'terminal');
+  const lastReceiptIndex = entries.findLastIndex((e) => e.type === 'receipt_shown');
+  if (terminalIndex !== lastTerminalIndex || receiptIndex !== lastReceiptIndex) return false;
+  // Expected boundary: terminal immediately precedes receipt_shown at the tail of the log
+  if (receiptIndex !== terminalIndex + 1 || receiptIndex !== entries.length - 1) return false;
+  return true;
 }

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Run, simulate, preDrawOdds } from './model.mjs';
 import { makeStrategy } from './strategies.mjs';
 import { projectReceipt, receiptText } from './receipt.mjs';
-import { verifyChain, verifyCompleteness } from './event-log.mjs';
+import { verifyChain, verifyCompleteness, EventLog } from './event-log.mjs';
 
 const DISPLAY_TYPES = new Set(['cue_shown', 'offer_shown', 'retention_modal_shown', 'reveal_shown']);
 
@@ -294,4 +294,85 @@ test('pawn offer: accepted and declined are both recorded as actions', () => {
     assert.ok(f);
     assert.ok(run.log.entries.some((e) => e.payload.kind === kind));
   }
+});
+
+test('Repair 02: distinguish paid in cash, waived (skipped lunch), and unpaid bills in accounting projection', () => {
+  // Case 1: Skipped lunch waives food bill (waived, 0 paid in cash)
+  const runWaived = new Run({ startCash: 0, wagePerDay: 0 }, 'waived-rep');
+  runWaived.start();
+  runWaived.payBill('food', 12);
+  runWaived.uninstall('leave');
+  const rWaived = projectReceipt(runWaived.log.entries);
+  assert.equal(rWaived.accounting.expenses.length, 1);
+  const exp0 = rWaived.accounting.expenses[0];
+  assert.equal(exp0.kind, 'food');
+  assert.equal(exp0.dueAmount, 12);
+  assert.equal(exp0.paidAmount, 0);
+  assert.equal(exp0.waivedAmount, 12);
+  assert.equal(exp0.status, 'waived');
+  assert.equal(rWaived.accounting.unpaidExpense, null);
+  // Verify wording does not represent skipped lunch as paid in cash or purchased food
+  assert.ok(rWaived.accounting.lines.some((l) => l.text.includes('food expense(s) waived via skipped lunch ($12.00 total)')));
+  assert.ok(!rWaived.accounting.lines.some((l) => l.text.includes('paid in cash')));
+  assert.ok(!rWaived.accounting.lines.some((l) => l.text.includes('All 1 recorded expense bills were paid')));
+
+  // Case 2: Ordinary payment in cash
+  const runPaid = new Run({ startCash: 200 }, 'paid-rep');
+  runPaid.start();
+  runPaid.payBill('food', 12);
+  runPaid.uninstall('leave');
+  const rPaid = projectReceipt(runPaid.log.entries);
+  assert.equal(rPaid.accounting.expenses[0].status, 'paid');
+  assert.equal(rPaid.accounting.expenses[0].paidAmount, 12);
+  assert.equal(rPaid.accounting.expenses[0].waivedAmount, 0);
+  assert.ok(rPaid.accounting.lines.some((l) => l.text.includes('1 recorded expense bill(s) paid in cash ($12.00 total)')));
+  assert.ok(!rPaid.accounting.lines.some((l) => l.text.includes('waived')));
+
+  // Case 3: Unpaid bill ending in running_on_empty
+  const runUnpaid = simulate({ startCash: 0, wagePerDay: 0, maxDays: 60 }, 'unpaid-rep', makeStrategy('frugal_single'));
+  const rUnpaid = projectReceipt(runUnpaid.log.entries);
+  assert.ok(rUnpaid.accounting.unpaidExpense);
+  assert.equal(rUnpaid.accounting.unpaidExpense.status, 'unpaid');
+  assert.ok(rUnpaid.accounting.lines.some((l) => l.text.includes('Unpaid expense recorded')));
+});
+
+test('Repair 02: final debt reflects latest credit draw, even after the final interest charge', () => {
+  // Reproduction from repair-02.md: creditLimit 800, maxDays 60
+  // Interest occurs on days 7, 14, 21, etc. On day 49 or later bills draw credit up to limit 800.
+  const run = simulate({ startCash: 0, wagePerDay: 0, creditLimit: 800, maxDays: 60 }, 'debt-1', makeStrategy('frugal_single'));
+  const r = projectReceipt(run.log.entries);
+  assert.equal(r.accounting.finalDebt, 800);
+  assert.ok(r.accounting.lines.some((l) => l.text.includes('final debt recorded was $800.00')));
+});
+
+test('Repair 02: verifyCompleteness validates ordered terminal/Receipt pair and matching route', () => {
+  // Valid finished run
+  const run = simulate({ maxDays: 3 }, 'comp-1', makeStrategy('early_uninstaller'));
+  assert.equal(verifyChain(run.log.entries), true);
+  assert.equal(verifyCompleteness(run.log.entries), true);
+
+  // Wrong order: receipt_shown emitted before terminal
+  const logWrongOrder = new EventLog();
+  logWrongOrder.append('run_started', {});
+  logWrongOrder.append('receipt_shown', { route: 'uninstall' });
+  logWrongOrder.append('terminal', { route: 'uninstall' });
+  assert.equal(verifyChain(logWrongOrder.entries), true);
+  assert.equal(verifyCompleteness(logWrongOrder.entries), false);
+
+  // Route mismatch: terminal route differs from receipt_shown route
+  const logMismatchedRoute = new EventLog();
+  logMismatchedRoute.append('run_started', {});
+  logMismatchedRoute.append('terminal', { route: 'running_on_empty' });
+  logMismatchedRoute.append('receipt_shown', { route: 'uninstall' });
+  assert.equal(verifyChain(logMismatchedRoute.entries), true);
+  assert.equal(verifyCompleteness(logMismatchedRoute.entries), false);
+
+  // Extra entries after receipt_shown
+  const logTrailing = new EventLog();
+  logTrailing.append('run_started', {});
+  logTrailing.append('terminal', { route: 'run_complete' });
+  logTrailing.append('receipt_shown', { route: 'run_complete' });
+  logTrailing.append('action', { kind: 'extra' });
+  assert.equal(verifyChain(logTrailing.entries), true);
+  assert.equal(verifyCompleteness(logTrailing.entries), false);
 });

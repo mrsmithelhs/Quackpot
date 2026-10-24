@@ -1,0 +1,169 @@
+=== Trace 1: early_uninstaller, seed trace-early (full run) ===
+[  0] d1 run_started seed=trace-early
+[  1] d1 banner_started banner=0 newIdentities=["duck-0","duck-1","duck-2","duck-3","duck-4","duck-5"] lengthDays=3
+[  2] d1 cue_shown technique=fear_of_missing_out banner=0 label=Banner ends in 3 game-days
+[  3] d1 purchase kind=free_ten_pull cost=0 gemsAfter=0 banner=0 incompleteSets=4
+[  4] d1 draw_committed drawIndex=1 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=false downGained=0 offBanner=false p
+[  5] d1 reveal_shown drawIndex=1 of=10 commitSeq=4 rarity=common identity=duck-0 duplicate=false downGained=0 pityCounterShown=0
+[  6] d1 draw_committed drawIndex=2 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=false downGained=0 offBanner=false p
+[  7] d1 reveal_shown drawIndex=2 of=10 commitSeq=6 rarity=common identity=duck-3 duplicate=false downGained=0 pityCounterShown=0
+[  8] d1 draw_committed drawIndex=3 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-4 duplicate=false downGained=0 offBanner=false pit
+[  9] d1 reveal_shown drawIndex=3 of=10 commitSeq=8 rarity=rare identity=duck-4 duplicate=false downGained=0 pityCounterShown=0
+[ 10] d1 draw_committed drawIndex=4 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=false downGained=0 offBanner=false p
+[ 11] d1 reveal_shown drawIndex=4 of=10 commitSeq=10 rarity=common identity=duck-1 duplicate=false downGained=0 pityCounterShown=0
+[ 12] d1 draw_committed drawIndex=5 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 13] d1 reveal_shown drawIndex=5 of=10 commitSeq=12 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 14] d1 draw_committed drawIndex=6 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-2 duplicate=false downGained=0 offBanner=false pit
+[ 15] d1 reveal_shown drawIndex=6 of=10 commitSeq=14 rarity=rare identity=duck-2 duplicate=false downGained=0 pityCounterShown=0
+[ 16] d1 draw_committed drawIndex=7 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=false pi
+[ 17] d1 reveal_shown drawIndex=7 of=10 commitSeq=16 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=0
+[ 18] d1 draw_committed drawIndex=8 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-4 duplicate=true downGained=5 offBanner=false pity
+[ 19] d1 reveal_shown drawIndex=8 of=10 commitSeq=18 rarity=rare identity=duck-4 duplicate=true downGained=5 pityCounterShown=0
+[ 20] d1 draw_committed drawIndex=9 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 21] d1 reveal_shown drawIndex=9 of=10 commitSeq=20 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 22] d1 draw_committed drawIndex=10 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=false p
+[ 23] d1 reveal_shown drawIndex=10 of=10 commitSeq=22 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=0
+[ 24] d1 offer_shown kind=starter gems=240 price=0.99 anchorLabel=400% value technique=anchoring
+[ 25] d1 wage amount=45 cashAfter=245
+[ 26] d1 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 27] d1 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 28] d1 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 29] d1 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-2","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 30] d1 action kind=race_choice choice=best
+[ 31] d1 race_result choice=best duckId=duck-2 speedUsed=14 place=1 fieldSize=6 payoutGems=30 gemsAfter=30 rivalPlace=null rivalDuckId=null
+[ 32] d1 race_choice_offered options={"best":{"duckId":"duck-4","payoutMultiplier":1},"rested":{"duckId":"duck-4","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 33] d1 action kind=race_choice choice=best
+[ 34] d1 race_result choice=best duckId=duck-4 speedUsed=14 place=6 fieldSize=6 payoutGems=0 gemsAfter=30 rivalPlace=null rivalDuckId=null
+[ 35] d1 expense_due kind=food amount=12 cashBefore=245
+[ 36] d1 expense_paid kind=food amount=12 cashAfter=233
+[ 37] d2 wage amount=45 cashAfter=278
+[ 38] d2 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 39] d2 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 40] d2 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 41] d2 action kind=uninstall_chosen
+[ 42] d2 retention_modal_shown technique=exit_friction gemsOffered=80 stayLabel=play out the trap
+[ 43] d2 action kind=leave_immediately
+[ 44] d2 terminal route=uninstall
+[ 45] d2 receipt_shown route=uninstall
+
+=== Trace 2: frugal_single, seed trace-frugal (first 70 entries; 15-day run has 240) ===
+[  0] d1 run_started seed=trace-frugal
+[  1] d1 banner_started banner=0 newIdentities=["duck-0","duck-1","duck-2","duck-3","duck-4","duck-5"] lengthDays=3
+[  2] d1 cue_shown technique=fear_of_missing_out banner=0 label=Banner ends in 3 game-days
+[  3] d1 purchase kind=free_ten_pull cost=0 gemsAfter=0 banner=0 incompleteSets=4
+[  4] d1 draw_committed drawIndex=1 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-2 duplicate=false downGained=0 offBanner=false pit
+[  5] d1 reveal_shown drawIndex=1 of=10 commitSeq=4 rarity=rare identity=duck-2 duplicate=false downGained=0 pityCounterShown=0
+[  6] d1 draw_committed drawIndex=2 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=false downGained=0 offBanner=false p
+[  7] d1 reveal_shown drawIndex=2 of=10 commitSeq=6 rarity=common identity=duck-0 duplicate=false downGained=0 pityCounterShown=0
+[  8] d1 draw_committed drawIndex=3 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=false downGained=0 offBanner=false p
+[  9] d1 reveal_shown drawIndex=3 of=10 commitSeq=8 rarity=common identity=duck-3 duplicate=false downGained=0 pityCounterShown=0
+[ 10] d1 draw_committed drawIndex=4 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 11] d1 reveal_shown drawIndex=4 of=10 commitSeq=10 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 12] d1 draw_committed drawIndex=5 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=false downGained=0 offBanner=false p
+[ 13] d1 reveal_shown drawIndex=5 of=10 commitSeq=12 rarity=common identity=duck-1 duplicate=false downGained=0 pityCounterShown=0
+[ 14] d1 draw_committed drawIndex=6 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 15] d1 reveal_shown drawIndex=6 of=10 commitSeq=14 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 16] d1 draw_committed drawIndex=7 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=false pi
+[ 17] d1 reveal_shown drawIndex=7 of=10 commitSeq=16 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=0
+[ 18] d1 draw_committed drawIndex=8 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=false pity
+[ 19] d1 reveal_shown drawIndex=8 of=10 commitSeq=18 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=0
+[ 20] d1 draw_committed drawIndex=9 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=false pity
+[ 21] d1 reveal_shown drawIndex=9 of=10 commitSeq=20 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=0
+[ 22] d1 draw_committed drawIndex=10 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=false p
+[ 23] d1 reveal_shown drawIndex=10 of=10 commitSeq=22 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=0
+[ 24] d1 offer_shown kind=starter gems=240 price=0.99 anchorLabel=400% value technique=anchoring
+[ 25] d1 wage amount=45 cashAfter=245
+[ 26] d1 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 27] d1 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 28] d1 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 29] d1 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-2","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 30] d1 action kind=race_choice choice=best
+[ 31] d1 race_result choice=best duckId=duck-2 speedUsed=14 place=1 fieldSize=6 payoutGems=30 gemsAfter=30 rivalPlace=null rivalDuckId=null
+[ 32] d1 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 33] d1 action kind=race_choice choice=best
+[ 34] d1 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=32 rivalPlace=null rivalDuckId=null
+[ 35] d1 expense_due kind=food amount=12 cashBefore=245
+[ 36] d1 expense_paid kind=food amount=12 cashAfter=233
+[ 37] d2 wage amount=45 cashAfter=278
+[ 38] d2 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 39] d2 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 40] d2 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 41] d2 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 42] d2 action kind=race_choice choice=best
+[ 43] d2 race_result choice=best duckId=duck-2 speedUsed=12.6 place=3 fieldSize=6 payoutGems=10 gemsAfter=42 rivalPlace=null rivalDuckId=null
+[ 44] d2 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 45] d2 action kind=race_choice choice=best
+[ 46] d2 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=44 rivalPlace=null rivalDuckId=null
+[ 47] d2 expense_due kind=food amount=12 cashBefore=278
+[ 48] d2 expense_paid kind=food amount=12 cashAfter=266
+[ 49] d3 wage amount=45 cashAfter=311
+[ 50] d3 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 51] d3 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 52] d3 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 53] d3 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 54] d3 action kind=race_choice choice=best
+[ 55] d3 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=46 rivalPlace=null rivalDuckId=null
+[ 56] d3 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 57] d3 action kind=race_choice choice=best
+[ 58] d3 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=48 rivalPlace=null rivalDuckId=null
+[ 59] d3 expense_due kind=food amount=12 cashBefore=311
+[ 60] d3 expense_paid kind=food amount=12 cashAfter=299
+[ 61] d4 banner_started banner=1 newIdentities=["duck-6","duck-7","duck-8","duck-9","duck-10","duck-11"] lengthDays=3
+[ 62] d4 cue_shown technique=fear_of_missing_out banner=1 label=Banner ends in 3 game-days
+[ 63] d4 cue_shown technique=power_creep banner=1 label=New ducks this banner newIdentities=["duck-6","duck-7","duck-8","duck-9","duck-10","duck-11"]
+[ 64] d4 wage amount=45 cashAfter=344
+[ 65] d4 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[ 66] d4 cue_shown technique=social_comparison eventId=rival_whale banner=1 rivalDuck=duck-11
+[ 67] d4 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[ 68] d4 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 69] d4 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+
+=== Trace 3: whale_ten, seed trace-pity-0, first soft-pity draw with 12 entries of context each side ===
+[261] d2 race_result choice=best duckId=duck-5 speedUsed=18.9 place=1 fieldSize=6 payoutGems=30 gemsAfter=390 rivalPlace=null rivalDuckId=null
+[262] d2 expense_due kind=food amount=12 cashBefore=100.09
+[263] d2 expense_paid kind=food amount=12 cashAfter=88.09
+[264] d3 wage amount=45 cashAfter=133.09
+[265] d3 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[266] d3 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[267] d3 purchase kind=bundle bundleGems=2240 price=24.99 banner=0 gemsAfter=2630 cashAfter=108.1
+[268] d3 cue_shown technique=sunk_cost_pity counter=33 hardPity=50 softPityStart=35
+[269] d3 cue_shown technique=completion_pressure setProgress=[{"banner":0,"owned":6,"total":6},{"banner":1,"owned":0,"total":6},{"banner":2,"owned":0,"total":6},{"banner":3,"owned":0,"total":6}] incompleteSets=3
+[270] d3 purchase kind=ten_pull cost=1600 gemsAfter=1030 banner=0 incompleteSets=3
+[271] d3 draw_committed drawIndex=1 of=10 free=false advancesPity=true pityBefore=33 drawNumberInWindow=34 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=true downGained=1 offBanner=false 
+[272] d3 reveal_shown drawIndex=1 of=10 commitSeq=271 rarity=common identity=duck-0 duplicate=true downGained=1 pityCounterShown=34
+[273] d3 draw_committed drawIndex=2 of=10 free=false advancesPity=true pityBefore=34 drawNumberInWindow=35 odds={"common":0.75,"rare":0.1688,"legendary":0.0813} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=f
+[274] d3 reveal_shown drawIndex=2 of=10 commitSeq=273 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=35
+[275] d3 draw_committed drawIndex=3 of=10 free=false advancesPity=true pityBefore=35 drawNumberInWindow=36 odds={"common":0.7,"rare":0.1575,"legendary":0.1425} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=fa
+[276] d3 reveal_shown drawIndex=3 of=10 commitSeq=275 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=36
+[277] d3 draw_committed drawIndex=4 of=10 free=false advancesPity=true pityBefore=36 drawNumberInWindow=37 odds={"common":0.65,"rare":0.1463,"legendary":0.2037} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=fal
+[278] d3 reveal_shown drawIndex=4 of=10 commitSeq=277 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=37
+[279] d3 draw_committed drawIndex=5 of=10 free=false advancesPity=true pityBefore=37 drawNumberInWindow=38 odds={"common":0.6,"rare":0.135,"legendary":0.265} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=false 
+[280] d3 reveal_shown drawIndex=5 of=10 commitSeq=279 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=38
+[281] d3 draw_committed drawIndex=6 of=10 free=false advancesPity=true pityBefore=38 drawNumberInWindow=39 odds={"common":0.55,"rare":0.1238,"legendary":0.3263} rarity=legendary identity=duck-5 duplicate=true downGained=20 offBann
+[282] d3 reveal_shown drawIndex=6 of=10 commitSeq=281 rarity=legendary identity=duck-5 duplicate=true downGained=20 pityCounterShown=0
+[283] d3 draw_committed drawIndex=7 of=10 free=false advancesPity=true pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[284] d3 reveal_shown drawIndex=7 of=10 commitSeq=283 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=1
+
+=== Trace 4: scripted exit between commit and reveal of draw 4 of a paid ten-pull (sequential mode), seed trace-exit ===
+[ 24] d1 offer_shown kind=starter gems=240 price=0.99 anchorLabel=400% value technique=anchoring
+[ 25] d1 cue_shown technique=sunk_cost_pity counter=0 hardPity=50 softPityStart=35
+[ 26] d1 cue_shown technique=completion_pressure setProgress=[{"banner":0,"owned":4,"total":6},{"banner":1,"owned":0,"total":6},{"banner":2,"owned":0,"total":6},{"banner":3,"owned":0,"total":6}] incompleteSets=4
+[ 27] d1 purchase kind=ten_pull cost=1600 gemsAfter=0 banner=0 incompleteSets=4
+[ 28] d1 draw_committed drawIndex=1 of=10 free=false advancesPity=true pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=legendary identity=duck-5 duplicate=false downGained=0 offBanner=fals
+[ 29] d1 reveal_shown drawIndex=1 of=10 commitSeq=28 rarity=legendary identity=duck-5 duplicate=false downGained=0 pityCounterShown=0
+[ 30] d1 draw_committed drawIndex=2 of=10 free=false advancesPity=true pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=false pi
+[ 31] d1 reveal_shown drawIndex=2 of=10 commitSeq=30 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=1
+[ 32] d1 draw_committed drawIndex=3 of=10 free=false advancesPity=true pityBefore=1 drawNumberInWindow=2 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 33] d1 reveal_shown drawIndex=3 of=10 commitSeq=32 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=2
+[ 34] d1 draw_committed drawIndex=4 of=10 free=false advancesPity=true pityBefore=2 drawNumberInWindow=3 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=true downGained=1 offBanner=false pi
+[ 35] d1 action kind=uninstall_chosen
+[ 36] d1 retention_modal_shown technique=exit_friction gemsOffered=80 stayLabel=play out the trap
+[ 37] d1 action kind=leave_immediately
+[ 38] d1 terminal route=uninstall
+[ 39] d1 receipt_shown route=uninstall
+
+--- Receipt projection for trace 4 (pull ledger, paid ten-pull) ---
+draw 1/10 pityBefore=0 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=legendary:duck-5 revealed=true
+draw 2/10 pityBefore=0 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-1 revealed=true
+draw 3/10 pityBefore=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-3 revealed=true
+draw 4/10 pityBefore=2 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-0 revealed=false

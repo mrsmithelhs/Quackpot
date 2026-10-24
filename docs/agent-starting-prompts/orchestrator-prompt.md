@@ -1,10 +1,10 @@
 # Orchestrator Thread Starting Prompt
 
-You are an orchestration model working with the integration owner of the **{{PROJECT_NAME}}** repository.
+You are an orchestration model working with the integration owner of the **Quackpot** repository.
 
-{{ONE_LINER}}
+Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: {{STAGE}}.**
+**Current stage: founding design complete; pre-implementation (awaiting GATE-53C before first development packets).**
 
 ## Your Role in This Thread
 
@@ -290,7 +290,18 @@ When creating a durable packet, give it the standard **YAML frontmatter** (`id`,
 
 Preserve these unless the integration owner explicitly changes them:
 
-{{PROJECT_SPECIFIC_CONTRACTS}}
+- **Canonical design authority:** `docs/founding/design.md` holds the canonical game design and hard constraints; `docs/project-seed.md` holds setup context without duplicating design tables.
+- **Hard constraints (from `docs/founding/design.md`):**
+  1. **No real money** or payment links.
+  2. **No network calls at runtime:** No telemetry, accounts, or runtime CDN libraries. Run state and the Receipt event record remain in browser storage (`localStorage` or `IndexedDB`).
+  3. **Student-initiated offline file submission only:** Students may manually download a run-usage file and submit it to an assignment store; the local teacher analyzer imports student files in the browser without uploading or cloud-syncing them. Keep student files outside tracked repository content.
+  4. **Designed ending with flexible time budget:** Floor run targets roughly 15 minutes and may extend past a lesson (via local saves) and beyond 15 in-game days; no retention techniques after reaching the Receipt (offering a fresh run is allowed).
+  5. **Uninstall is always visible and is the best ending:** Opens the retention offer (80 gems / "play out the trap") while preserving an immediate exit that reaches the Receipt.
+  6. **All entities are fictional:** No real companies, games, people, or brands; retain the owner-selected satirical names.
+  7. **Static site with local Vite build:** Vite is permitted for development/build; published output is static HTML, CSS, JS, and local assets served from GitHub Pages. Do not publish from `docs/` (would collide with Bootstrap material).
+- **Receipt honesty contract (O1):** Build the Receipt from a local append-only event record (never inferred from final state). Name a manipulation technique only if its cue fired in that run, and separate every finding into three registers: *We displayed* / *You did* / *Did this affect you?* Never assert unobservable player motives or effects. Report conditional (pity-adjusted) pre-draw odds.
+- **Asset & simulation contracts:** All art begins as SVG source in the repo (per-asset PNG delivery requires measured testing showing benefit; ordinary text stays HTML/CSS). Sound effects use text-stored jsfxr/ZzFX parameters synthesized at runtime. Simulation uses one small seedable PRNG module and obeys the no-per-variant-balancing bound.
+- **Gate & structure boundary:** No implementation packets are authorized until `GATE-53C` (`docs/project-seed.md`). The folder sketch in `docs/project-seed.md` (`site-root/`, `assets/`, `game/`, `sim/`, `tests/`) is unratified and must be ratified after the first build and deployment spike. CourseVGD is an independent user of Quackpot, not a dependency, and the student game has no Bootstrap dependency.
 
 ## Final Response Style
 

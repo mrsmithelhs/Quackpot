@@ -22,7 +22,7 @@ Use this shape for accepted decisions:
 **Supersedes / related:** Optional links to older decisions, packets, or resolved open questions.
 ```
 
-*(No decisions recorded yet. Add the first one here when an owner decision is made.)*
+*(Founding design decisions from 2026-10-23 are recorded in [`docs/founding/design.md`](founding/design.md), [`docs/project-seed.md`](project-seed.md), and [`reports/orchestration/founding-docs-review/owner-triage.md`](../reports/orchestration/founding-docs-review/owner-triage.md). Add subsequent project decisions below as owner decisions are made.)*
 
 ## Proposed but not yet accepted
 

@@ -12,33 +12,33 @@ After the agent finishes, the owner reviews this file. Every item should be reso
 
 ## Required: project identity
 
-| Placeholder | Where used | What to fill in |
-|---|---|---|
-| `{{PROJECT_NAME}}` | AGENTS.md.template, CLAUDE.md.template, orchestrator prompt, implementer prompt, design-review prompt | The project's short name (e.g., "MyProject"). Used in headings and context. |
-| `{{ONE_LINER}}` | AGENTS.md.template, orchestrator prompt, implementer prompt, design-review prompt | One sentence describing what the project is and does. Avoid jargon. |
-| `{{STAGE}}` | AGENTS.md.template, orchestrator prompt, implementer prompt, design-review prompt | Current project stage (e.g., "early development", "pre-launch", "post-pilot iteration", "maintenance"). |
+| Placeholder | Where used | What to fill in | Resolved value |
+|---|---|---|---|
+| `{{PROJECT_NAME}}` | AGENTS.md.template, CLAUDE.md.template, docs/README.md.template, orchestrator prompt, implementer prompt, design-review prompt | The project's short name (e.g., "MyProject"). Used in headings and context. | **RESOLVED:** `Quackpot` |
+| `{{ONE_LINER}}` | AGENTS.md.template, orchestrator prompt, implementer prompt, design-review prompt | One sentence describing what the project is and does. Avoid jargon. | **RESOLVED:** `Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.` |
+| `{{STAGE}}` | AGENTS.md.template, orchestrator prompt, implementer prompt, design-review prompt | Current project stage (e.g., "early development", "pre-launch", "post-pilot iteration", "maintenance"). | **RESOLVED:** `founding design complete; pre-implementation (awaiting GATE-53C before first development packets)` |
 
 ## Required: project structure
 
-| Placeholder | Where used | What to fill in |
-|---|---|---|
-| `{{AREA_MAP_TABLE}}` | AGENTS.md.template | A markdown table listing the project's key areas, strands, modules, or components and a one-line description of each. May be left as a stub if the project is early-stage. |
-| `{{REPO_STRUCTURE}}` | AGENTS.md.template | A tree-style listing of the top-level repo directories and their roles. Read the repo root and write this from observation. |
-| `{{ROUTING_TABLE}}` | AGENTS.md.template | A markdown table of topic → file mappings for the project's key reference files. At minimum: schema files, key implementation modules, and workflow docs. Leave blank if the project is new. |
+| Placeholder | Where used | What to fill in | Resolved value |
+|---|---|---|---|
+| `{{AREA_MAP_TABLE}}` | AGENTS.md.template | A markdown table listing the project's key areas, strands, modules, or components and a one-line description of each. May be left as a stub if the project is early-stage. | **RESOLVED:** Populated in `AGENTS.md` §2 covering Founding design (`docs/founding/design.md`), Project seed (`docs/project-seed.md`), Founding design review (`reports/orchestration/founding-docs-review/`), Packet & status tooling (`scripts/dev/plan-status.js`, `docs/development/`), and planned post-GATE-53C Gameplay/simulation/teacher-analyzer areas. |
+| `{{REPO_STRUCTURE}}` | AGENTS.md.template | A tree-style listing of the top-level repo directories and their roles. Read the repo root and write this from observation. | **RESOLVED:** Populated in `AGENTS.md` §3 from observed repository directories (`.claude/agents/`, `.codex/agents/`, `docs/`, `reports/`, `scripts/dev/`, `.bootstrap-adoption.json`, `advisor-capable-providers.json`). |
+| `{{ROUTING_TABLE}}` | AGENTS.md.template | A markdown table of topic → file mappings for the project's key reference files. At minimum: schema files, key implementation modules, and workflow docs. Leave blank if the project is new. | **RESOLVED:** Populated in `AGENTS.md` §6 mapping `docs/founding/design.md`, `docs/project-seed.md`, `reports/orchestration/founding-docs-review/owner-triage.md` & `dispositions.md`, `docs/workflows/packet-tracking-system.md`, `docs/development/packet-creation-guidance.md` & `packet-template.md`, and `docs/development/bootstrap-capabilities-summary.md` & `.bootstrap-adoption.json`. |
 
 ## Required: technical
 
-| Placeholder | Where used | What to fill in |
-|---|---|---|
-| `{{KEY_COMMANDS}}` | AGENTS.md.template | The project's standard test/build/run commands (e.g., `npm test`, `npm run build`, `python -m pytest`). The plan-status commands are already included; add project-specific ones here. If the project uses `npm run dev:console` as a submenu-driven command hub, describe it briefly here. |
-| `{{ARCHITECTURE_CONSTRAINTS}}` | AGENTS.md.template | Critical technical constraints that could break things if violated (e.g., "all shared modules must be CommonJS", "no top-level await", "no third-party deps in the shared layer"). Read the code before filling this in. If none are known yet, write "None identified yet — update as constraints emerge." |
+| Placeholder | Where used | What to fill in | Resolved value |
+|---|---|---|---|
+| `{{KEY_COMMANDS}}` | AGENTS.md.template | The project's standard test/build/run commands (e.g., `npm test`, `npm run build`, `python -m pytest`). The plan-status commands are already included; add project-specific ones here. If the project uses `npm run dev:console` as a submenu-driven command hub, describe it briefly here. | **RESOLVED:** `node --test scripts/dev/plan-status.test.js` (with note that no `package.json` or Vite build exists yet — awaiting first implementation packets after GATE-53C). |
+| `{{ARCHITECTURE_CONSTRAINTS}}` | AGENTS.md.template | Critical technical constraints that could break things if violated (e.g., "all shared modules must be CommonJS", "no top-level await", "no third-party deps in the shared layer"). Read the code before filling this in. If none are known yet, write "None identified yet — update as constraints emerge." | **RESOLVED:** Populated in `AGENTS.md` §5 from `docs/founding/design.md` and `docs/project-seed.md`: (1) No network calls or runtime CDN libraries (Hard Constraint #2); (2) Static build output served from GitHub Pages with Vite permitted for dev/build, not published from `docs/` (Hard Constraint #7); (3) Student-initiated offline file export and local-only multi-file teacher analyzer (Hard Constraint #3); (4) No Bootstrap dependency in student game and CourseVGD is an independent user; (5) SVG art source & synthesized jsfxr/ZzFX audio; (6) Seedable PRNG & local append-only Receipt log; (7) Folder layout in `docs/project-seed.md` is unratified until after the first build and deployment spike. |
 
 ## Required: contracts and data rules
 
-| Placeholder | Where used | What to fill in |
-|---|---|---|
-| `{{PROJECT_SPECIFIC_DATA_RULES}}` | AGENTS.md.template guardrails section | The project's privacy/asset rules. Example: "No real names, emails, private records, or sensitive customer data in the repo. Anonymize before committing." Or: "No third-party proprietary assets (images, sounds, fonts) copied into the repo." Required; do not leave as a placeholder. |
-| `{{PROJECT_SPECIFIC_CONTRACTS}}` | orchestrator prompt | The project's durable contracts the orchestrator must preserve (e.g., folder roles, generated-vs-source-of-truth distinction, release gate rules). Read `docs/decision-log.md` and the existing docs before filling in. If none exist yet, write: "*(No contracts established yet — add them as owner decisions are made.)*" |
+| Placeholder | Where used | What to fill in | Resolved value |
+|---|---|---|---|
+| `{{PROJECT_SPECIFIC_DATA_RULES}}` | AGENTS.md.template guardrails section | The project's privacy/asset rules. Example: "No real names, emails, private records, or sensitive customer data in the repo. Anonymize before committing." Or: "No third-party proprietary assets (images, sounds, fonts) copied into the repo." Required; do not leave as a placeholder. | **RESOLVED (from `README.md` & `docs/founding/design.md`):** `Public-repository privacy, fiction, and asset rules: Never commit personal information, student data, exported student run-usage files, credentials, analytics keys, or deployment secrets (README.md, docs/founding/design.md). Include no real companies, games, people, or brands—all publishers, products, sponsors, and streamers must remain fictional while retaining owner-selected satirical names (Hard Constraint #6). All art must begin as SVG source in the repository (with per-asset PNG delivery only where measured testing shows benefit) and sound effects as text-stored synthesis parameters (docs/founding/design.md §Assets).` |
+| `{{PROJECT_SPECIFIC_CONTRACTS}}` | orchestrator prompt | The project's durable contracts the orchestrator must preserve (e.g., folder roles, generated-vs-source-of-truth distinction, release gate rules). Read `docs/decision-log.md` and the existing docs before filling in. If none exist yet, write: "*(No contracts established yet — add them as owner decisions are made.)*" | **RESOLVED (from `docs/founding/design.md` & `docs/project-seed.md`):** Populated in `docs/agent-starting-prompts/orchestrator-prompt.md` covering canonical design authority (`docs/founding/design.md` vs `docs/project-seed.md`), the 7 Hard Constraints, the O1 Receipt honesty contract (three registers, conditional pre-draw odds, fired-cue-only reporting), SVG/audio/PRNG/no-per-variant-balancing contracts, and the GATE-53C / unratified folder-layout boundaries. |
 
 ---
 
@@ -84,27 +84,47 @@ Bootstrap is not "copy everything and forget it" — it ships a **capability led
    - `sourceCommit` may be omitted.
 5. **Validate before reporting done**: confirm `.bootstrap-adoption.json` parses as valid JSON and every entry has the required fields per `docs/bootstrap-adoption-schema.md` (consult upstream if manual). A full tracked-mode `bootstrap-audit.js` self-audit against the new project is optional extra confidence, not required.
 
+### Recorded Capability Decisions (`2026-10-23`)
+
+| Capability | Channel | Version | Depends On | State | Notes |
+|---|---|---|---|---|---|
+| `packet-status-system` | core | `1.4.0` | none | `adopted` | Core default |
+| `packet-status-set-verb` | core | `1.0.0` | `packet-status-system` | `adopted` | Core default |
+| `dev-console-hub` | recommended | `1.1.0` | `packet-status-system` | `adopted` | Owner confirmed (`2026-10-23`) |
+| `agent-starting-prompts` | core | `1.8.0` | `packet-status-system` | `adopted` | Core default |
+| `falsification-check` | recommended | `3.0.0` | none | `adopted` | Owner confirmed (`2026-10-23`) |
+| `reports-archive` | core | `1.0.0` | `packet-status-system` | `adopted` | Core default |
+| `root-agent-guide` | core | `1.0.0` | `packet-status-system` | `adopted` | Core default |
+| `decision-log` | recommended | `1.1.0` | none | `adopted` | Owner confirmed (`2026-10-23`) |
+| `subagent-delegation` | recommended | `2.0.0` | `root-agent-guide` | `adopted` | Owner confirmed (`2026-10-23`; resolved from `deferred`) |
+| `review-response-tiers` | recommended | `1.0.0` | none | `adopted` | Owner confirmed (`2026-10-23`; resolved from `deferred`) |
+| `advisor-consultation` | core | `1.0.3` | `agent-starting-prompts` | `adopted` | Core auto-adopted |
+| `commit-discipline` | core | `2.1.0` | `agent-starting-prompts` | `adopted` | Core default |
+
+- **`dependsOn` conflicts:** None.
+- **Declined capabilities / leftover files:** None (all 12 capabilities adopted).
+
 ## Checklist: file actions
 
 After resolving all placeholders, the customizing agent must:
 
-- [ ] Replace every listed project-specific token in the initialized `*.template` files and role-specific starting prompts. Literal token names may remain in `BOOTSTRAP-PROMPT.md` and this checklist where they describe the setup process.
-- [ ] Rename `AGENTS.md.template` → `AGENTS.md`.
-- [ ] Rename `CLAUDE.md.template` → `CLAUDE.md`.
-- [ ] Rename `docs/README.md.template` → `docs/README.md`.
-- [ ] Rename `docs/decision-log.md.template` → `docs/decision-log.md`.
-- [ ] Rename `docs/open-questions.md.template` → `docs/open-questions.md`.
-- [ ] Rename `docs/development/README.md.template` → `docs/development/README.md`.
-- [ ] Confirm none of the "Do NOT copy" files above were copied in (Bootstrap's own `docs/development/README.md`, its `plan-*.md` packets, its `reports/development/plan-*/` folders, its sync-tooling files, or `docs/bootstrap-dev/`).
-- [ ] Confirm `.claude/agents/` contains the four roster definitions (`explorer.md`, `reviewer.md`, `researcher.md`, `implementer.md`) and is left intact.
-- [ ] Confirm `.codex/agents/` contains `reviewer.toml`, `researcher.toml`, and `implementer.toml`, and that no project `explorer.toml` shadows Codex's built-in explorer.
-- [ ] Verify that the `subagent-delegation` managed-prose block in `AGENTS.md` is left intact and not de-templated.
-- [ ] Walk the capability-selection procedure above; record an explicit `adopted`/`declined`/`deferred` decision for every capability in the local capabilities summary (or upstream ledger for manual fallback); resolve any `dependsOn` conflicts with the owner rather than auto-resolving.
-- [ ] Emit `.bootstrap-adoption.json` at the project root covering every capability; confirm it parses as valid JSON with the required fields.
-- [ ] Note any declined capability whose files are still physically present, for the owner's awareness (not automatically deleted).
-- [ ] Run `node scripts/dev/plan-status.js render` first (even with no packets, this regenerates the index between markers).
-- [ ] Run `node scripts/dev/plan-status.js lint` from the project root. It should exit 0 (no packets exist yet). If it fails, fix the issue before reporting done.
-- [ ] Present this checklist to the owner with every item marked as resolved, unresolved, or deferred.
+- [x] Replace every listed project-specific token in the initialized `*.template` files and role-specific starting prompts. Literal token names may remain in `BOOTSTRAP-PROMPT.md` and this checklist where they describe the setup process.
+- [x] Rename `AGENTS.md.template` → `AGENTS.md`.
+- [x] Rename `CLAUDE.md.template` → `CLAUDE.md`.
+- [x] Rename `docs/README.md.template` → `docs/README.md`.
+- [x] Rename `docs/decision-log.md.template` → `docs/decision-log.md`.
+- [x] Rename `docs/open-questions.md.template` → `docs/open-questions.md`.
+- [x] Rename `docs/development/README.md.template` → `docs/development/README.md`.
+- [x] Confirm none of the "Do NOT copy" files above were copied in (Bootstrap's own `docs/development/README.md`, its `plan-*.md` packets, its `reports/development/plan-*/` folders, its sync-tooling files, or `docs/bootstrap-dev/`).
+- [x] Confirm `.claude/agents/` contains the four roster definitions (`explorer.md`, `reviewer.md`, `researcher.md`, `implementer.md`) and is left intact.
+- [x] Confirm `.codex/agents/` contains `reviewer.toml`, `researcher.toml`, and `implementer.toml`, and that no project `explorer.toml` shadows Codex's built-in explorer.
+- [x] Verify that the `subagent-delegation` managed-prose block in `AGENTS.md` is left intact and not de-templated.
+- [x] Walk the capability-selection procedure above; record an explicit `adopted`/`declined`/`deferred` decision for every capability in the local capabilities summary (or upstream ledger for manual fallback); resolve any `dependsOn` conflicts with the owner rather than auto-resolving.
+- [x] Emit `.bootstrap-adoption.json` at the project root covering every capability; confirm it parses as valid JSON with the required fields.
+- [x] Note any declined capability whose files are still physically present, for the owner's awareness (not automatically deleted). *(None declined.)*
+- [x] Run `node scripts/dev/plan-status.js render` first (even with no packets, this regenerates the index between markers).
+- [x] Run `node scripts/dev/plan-status.js lint` from the project root. It should exit 0 (no packets exist yet). If it fails, fix the issue before reporting done.
+- [x] Present this checklist to the owner with every item marked as resolved, unresolved, or deferred.
 
 ## Checklist: owner review
 

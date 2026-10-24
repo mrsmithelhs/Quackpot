@@ -1,4 +1,4 @@
-# {{PROJECT_NAME}} — Claude Code Agent Guide
+# Quackpot — Claude Code Agent Guide
 
 The canonical agent guide for this repository is **[`AGENTS.md`](AGENTS.md)** — read it first.
 

@@ -1,4 +1,4 @@
-# {{PROJECT_NAME}} — Agent Guide
+# Quackpot — Agent Guide
 
 > **This is the canonical agent entry point for this repository.**
 > `CLAUDE.md` (repo root) points here. Read this file before working on any task.
@@ -7,9 +7,9 @@
 
 ## 1. Project Overview and Current Stage
 
-{{ONE_LINER}}
+Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: {{STAGE}}.**
+**Current stage: founding design complete; pre-implementation (awaiting GATE-53C before first development packets).**
 
 ---
 
@@ -19,14 +19,36 @@
 
 | Area | Description |
 |---|---|
-{{AREA_MAP_TABLE}}
+| Founding design (`docs/founding/design.md`) | Canonical game design, hard constraints, manipulation catalog, time/saving policy, and Receipt specification |
+| Project seed (`docs/project-seed.md`) | Setup context, owner decisions from 2026-10-23, tooling intent, and unratified folder sketch |
+| Founding design review (`reports/orchestration/founding-docs-review/`) | Blind review reports, synthesis, dispositions, and GATE-53B owner triage |
+| Packet & status tooling (`scripts/dev/plan-status.js`, `docs/development/`) | Handoff packet lifecycle and index management |
+| Gameplay, simulation & teacher analyzer *(not yet created)* | Planned post-GATE-53C areas; folder layout to be ratified after the first build and deployment spike |
 
 ---
 
 ## 3. Core Repository Structure
 
 ```
-{{REPO_STRUCTURE}}
+.claude/agents/                 # Claude Code subagent definitions (explorer, implementer, researcher, reviewer)
+.codex/agents/                  # Codex subagent definitions (implementer, researcher, reviewer)
+docs/
+  agent-starting-prompts/       # Starting prompts for orchestrator, implementer, design-review, and scan threads
+  development/                  # Implementer handoff packets, packet index, and templates
+  founding/design.md            # Canonical game design and hard constraints
+  workflows/                    # Process guides (packet-tracking-system.md)
+  decision-log.md               # Dated accepted decisions (append-only, orchestrator/owner-owned)
+  open-questions.md             # Genuinely unresolved questions
+  project-seed.md               # Project setup context, tooling limits, and unratified folder proposal
+  README.md                     # Documentation hub
+reports/
+  development/                  # Implementer progress reports per packet
+  orchestration/                # Founding design review artifacts and orchestration records
+scripts/dev/
+  plan-status.js                # Packet status CLI (list, check, lint, render, set)
+  plan-status.test.js           # Tests for plan-status.js
+.bootstrap-adoption.json        # Tracked Bootstrap capability adoption manifest
+advisor-capable-providers.json  # Provider capability registry for pre-delivery advisor consultation
 ```
 
 ---
@@ -36,7 +58,8 @@
 Run from the repository root:
 
 ```
-{{KEY_COMMANDS}}
+# Tests (no package.json or Vite build exists yet — awaiting first implementation packets):
+node --test scripts/dev/plan-status.test.js     # run packet-status tooling unit tests
 
 # Packet status tooling:
 node scripts/dev/plan-status.js list            # table of all packets + effective status
@@ -63,7 +86,13 @@ node scripts/dev/plan-status.js set <id> <status> [--resolution "…"] [--supers
 
 **Read this section before touching any shared code.**
 
-{{ARCHITECTURE_CONSTRAINTS}}
+- **No network calls at runtime (Hard Constraint #2):** The student game makes zero network requests or telemetry calls, has no accounts, and may never load runtime CDN libraries. Run state and the Receipt event record stay in browser storage (`localStorage` or `IndexedDB`).
+- **Static build output (Hard Constraint #7):** Vite is permitted for development and build, but published output must be static HTML, CSS, JavaScript, and local assets served from GitHub Pages. Do not publish from `docs/` (would collide with Bootstrap/documentation material).
+- **Student-initiated offline file export only (Hard Constraint #3):** The game may assemble a run-usage file for manual student download and submission, and a local teacher dashboard may import multiple student files in the browser, but neither may automatically upload, transmit, or cloud-sync data.
+- **No Bootstrap dependency in the student game:** CourseVGD is an independent user of Quackpot, not a dependency. Bootstrap is not a student-game dependency (allowed only as an unselected future option for the local teacher analyzer).
+- **SVG art source & synthesized audio:** All art begins as SVG source in the repo; per-asset PNG delivery requires a measured test showing benefit. Ordinary text uses HTML/CSS. Sound effects use text-stored jsfxr/ZzFX parameters synthesized at runtime.
+- **Seedable PRNG & append-only Receipt log:** Runs and the event deck use a small seedable PRNG module. The Receipt is built from a local append-only event record of displayed cues, player actions, and conditional (pity-adjusted) pre-draw odds — never inferred from final state.
+- **Folder layout not yet ratified:** The directory sketch in `docs/project-seed.md` (`site-root/`, `assets/`, `game/`, `sim/`, `tests/`) is a proposal to be ratified after the first build and deployment spike, not an approved folder contract.
 
 ---
 
@@ -81,7 +110,12 @@ When your task touches a component, read these first.
 | Documentation hub | `docs/README.md` |
 
 <!-- Add project-specific routing rows below. -->
-{{ROUTING_TABLE}}
+| Canonical game design, hard constraints, and manipulation catalog | `docs/founding/design.md` |
+| Project seed, 2026-10-23 owner decisions, and tooling limits | `docs/project-seed.md` |
+| GATE-53B owner triage and founding design review dispositions | `reports/orchestration/founding-docs-review/owner-triage.md`, `reports/orchestration/founding-docs-review/dispositions.md` |
+| Packet lifecycle and status CLI rules | `docs/workflows/packet-tracking-system.md` |
+| Packet creation format and template | `docs/development/packet-creation-guidance.md`, `docs/development/packet-template.md` |
+| Bootstrap capability summary and local adoption manifest | `docs/development/bootstrap-capabilities-summary.md`, `.bootstrap-adoption.json` |
 
 ---
 
@@ -103,7 +137,7 @@ When your task touches a component, read these first.
 
 7. **Docs describe what exists or is decided, never what is imagined.** A doc that describes planned or speculative state misleads the next agent. If it's aspirational, say so explicitly, or don't write it yet.
 
-8. **{{PROJECT_SPECIFIC_DATA_RULES}}**
+8. **Public-repository privacy, fiction, and asset rules: Never commit personal information, student data, exported student run-usage files, credentials, analytics keys, or deployment secrets (`README.md`, `docs/founding/design.md`). Include no real companies, games, people, or brands—all publishers, products, sponsors, and streamers must remain fictional while retaining owner-selected satirical names (Hard Constraint #6). All art must begin as SVG source in the repository (with per-asset PNG delivery only where measured testing shows benefit) and sound effects as text-stored synthesis parameters (`docs/founding/design.md` §Assets).**
 
 ---
 

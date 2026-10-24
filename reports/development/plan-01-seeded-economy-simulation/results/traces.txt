@@ -131,15 +131,15 @@
 [270] d3 purchase kind=ten_pull cost=1600 gemsAfter=1030 banner=0 incompleteSets=3
 [271] d3 draw_committed drawIndex=1 of=10 free=false advancesPity=true pityBefore=33 drawNumberInWindow=34 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=true downGained=1 offBanner=false 
 [272] d3 reveal_shown drawIndex=1 of=10 commitSeq=271 rarity=common identity=duck-0 duplicate=true downGained=1 pityCounterShown=34
-[273] d3 draw_committed drawIndex=2 of=10 free=false advancesPity=true pityBefore=34 drawNumberInWindow=35 odds={"common":0.75,"rare":0.1688,"legendary":0.0813} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=f
+[273] d3 draw_committed drawIndex=2 of=10 free=false advancesPity=true pityBefore=34 drawNumberInWindow=35 odds={"common":0.75,"rare":0.16875,"legendary":0.08125} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner
 [274] d3 reveal_shown drawIndex=2 of=10 commitSeq=273 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=35
-[275] d3 draw_committed drawIndex=3 of=10 free=false advancesPity=true pityBefore=35 drawNumberInWindow=36 odds={"common":0.7,"rare":0.1575,"legendary":0.1425} rarity=common identity=duck-1 duplicate=true downGained=1 offBanner=fa
+[275] d3 draw_committed drawIndex=3 of=10 free=false advancesPity=true pityBefore=35 drawNumberInWindow=36 odds={"common":0.7000000000000001,"rare":0.15750000000000003,"legendary":0.1425} rarity=common identity=duck-1 duplicate=tr
 [276] d3 reveal_shown drawIndex=3 of=10 commitSeq=275 rarity=common identity=duck-1 duplicate=true downGained=1 pityCounterShown=36
-[277] d3 draw_committed drawIndex=4 of=10 free=false advancesPity=true pityBefore=36 drawNumberInWindow=37 odds={"common":0.65,"rare":0.1463,"legendary":0.2037} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=fal
+[277] d3 draw_committed drawIndex=4 of=10 free=false advancesPity=true pityBefore=36 drawNumberInWindow=37 odds={"common":0.65,"rare":0.14625000000000002,"legendary":0.20375} rarity=rare identity=duck-2 duplicate=true downGained=5
 [278] d3 reveal_shown drawIndex=4 of=10 commitSeq=277 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=37
 [279] d3 draw_committed drawIndex=5 of=10 free=false advancesPity=true pityBefore=37 drawNumberInWindow=38 odds={"common":0.6,"rare":0.135,"legendary":0.265} rarity=rare identity=duck-2 duplicate=true downGained=5 offBanner=false 
 [280] d3 reveal_shown drawIndex=5 of=10 commitSeq=279 rarity=rare identity=duck-2 duplicate=true downGained=5 pityCounterShown=38
-[281] d3 draw_committed drawIndex=6 of=10 free=false advancesPity=true pityBefore=38 drawNumberInWindow=39 odds={"common":0.55,"rare":0.1238,"legendary":0.3263} rarity=legendary identity=duck-5 duplicate=true downGained=20 offBann
+[281] d3 draw_committed drawIndex=6 of=10 free=false advancesPity=true pityBefore=38 drawNumberInWindow=39 odds={"common":0.5499999999999999,"rare":0.12375,"legendary":0.32625000000000004} rarity=legendary identity=duck-5 duplicat
 [282] d3 reveal_shown drawIndex=6 of=10 commitSeq=281 rarity=legendary identity=duck-5 duplicate=true downGained=20 pityCounterShown=0
 [283] d3 draw_committed drawIndex=7 of=10 free=false advancesPity=true pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
 [284] d3 reveal_shown drawIndex=7 of=10 commitSeq=283 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=1
@@ -167,3 +167,818 @@ draw 1/10 pityBefore=0 odds={"common":0.8,"rare":0.18,"legendary":0.02} committe
 draw 2/10 pityBefore=0 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-1 revealed=true
 draw 3/10 pityBefore=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-3 revealed=true
 draw 4/10 pityBefore=2 odds={"common":0.8,"rare":0.18,"legendary":0.02} committed=common:duck-0 revealed=false
+
+=== Trace 5: zero-cash running_on_empty run, seed trace-empty (full run) ===
+[  0] d1 run_started seed=trace-empty
+[  1] d1 banner_started banner=0 newIdentities=["duck-0","duck-1","duck-2","duck-3","duck-4","duck-5"] lengthDays=3
+[  2] d1 cue_shown technique=fear_of_missing_out banner=0 label=Banner ends in 3 game-days
+[  3] d1 purchase kind=free_ten_pull cost=0 gemsAfter=0 banner=0 incompleteSets=4
+[  4] d1 draw_committed drawIndex=1 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-1 duplicate=false downGained=0 offBanner=false p
+[  5] d1 reveal_shown drawIndex=1 of=10 commitSeq=4 rarity=common identity=duck-1 duplicate=false downGained=0 pityCounterShown=0
+[  6] d1 draw_committed drawIndex=2 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=false downGained=0 offBanner=false p
+[  7] d1 reveal_shown drawIndex=2 of=10 commitSeq=6 rarity=common identity=duck-0 duplicate=false downGained=0 pityCounterShown=0
+[  8] d1 draw_committed drawIndex=3 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=false downGained=0 offBanner=false p
+[  9] d1 reveal_shown drawIndex=3 of=10 commitSeq=8 rarity=common identity=duck-3 duplicate=false downGained=0 pityCounterShown=0
+[ 10] d1 draw_committed drawIndex=4 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=rare identity=duck-2 duplicate=false downGained=0 offBanner=false pit
+[ 11] d1 reveal_shown drawIndex=4 of=10 commitSeq=10 rarity=rare identity=duck-2 duplicate=false downGained=0 pityCounterShown=0
+[ 12] d1 draw_committed drawIndex=5 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 13] d1 reveal_shown drawIndex=5 of=10 commitSeq=12 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 14] d1 draw_committed drawIndex=6 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 15] d1 reveal_shown drawIndex=6 of=10 commitSeq=14 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 16] d1 draw_committed drawIndex=7 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 17] d1 reveal_shown drawIndex=7 of=10 commitSeq=16 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 18] d1 draw_committed drawIndex=8 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=true downGained=1 offBanner=false pi
+[ 19] d1 reveal_shown drawIndex=8 of=10 commitSeq=18 rarity=common identity=duck-0 duplicate=true downGained=1 pityCounterShown=0
+[ 20] d1 draw_committed drawIndex=9 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-3 duplicate=true downGained=1 offBanner=false pi
+[ 21] d1 reveal_shown drawIndex=9 of=10 commitSeq=20 rarity=common identity=duck-3 duplicate=true downGained=1 pityCounterShown=0
+[ 22] d1 draw_committed drawIndex=10 of=10 free=true advancesPity=false pityBefore=0 drawNumberInWindow=1 odds={"common":0.8,"rare":0.18,"legendary":0.02} rarity=common identity=duck-0 duplicate=true downGained=1 offBanner=false p
+[ 23] d1 reveal_shown drawIndex=10 of=10 commitSeq=22 rarity=common identity=duck-0 duplicate=true downGained=1 pityCounterShown=0
+[ 24] d1 offer_shown kind=starter gems=240 price=0.99 anchorLabel=400% value technique=anchoring
+[ 25] d1 wage amount=0 cashAfter=0
+[ 26] d1 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 27] d1 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 28] d1 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 29] d1 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-2","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 30] d1 action kind=race_choice choice=best
+[ 31] d1 race_result choice=best duckId=duck-2 speedUsed=14 place=4 fieldSize=6 payoutGems=5 gemsAfter=5 rivalPlace=null rivalDuckId=null
+[ 32] d1 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 33] d1 action kind=race_choice choice=best
+[ 34] d1 race_result choice=best duckId=duck-2 speedUsed=12.6 place=3 fieldSize=6 payoutGems=10 gemsAfter=15 rivalPlace=null rivalDuckId=null
+[ 35] d1 expense_due kind=food amount=12 cashBefore=0
+[ 36] d1 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=100
+[ 37] d1 action kind=escalation_accepted step=skip_lunch
+[ 38] d1 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=85
+[ 39] d1 expense_paid kind=food amount=0 cashAfter=0
+[ 40] d2 wage amount=0 cashAfter=0
+[ 41] d2 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 42] d2 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 43] d2 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 44] d2 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 45] d2 action kind=race_choice choice=best
+[ 46] d2 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=15 rivalPlace=null rivalDuckId=null
+[ 47] d2 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 48] d2 action kind=race_choice choice=best
+[ 49] d2 race_result choice=best duckId=duck-2 speedUsed=12.6 place=3 fieldSize=6 payoutGems=10 gemsAfter=25 rivalPlace=null rivalDuckId=null
+[ 50] d2 expense_due kind=food amount=12 cashBefore=0
+[ 51] d2 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=90
+[ 52] d2 action kind=escalation_accepted step=skip_lunch
+[ 53] d2 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=75
+[ 54] d2 expense_paid kind=food amount=0 cashAfter=0
+[ 55] d3 wage amount=0 cashAfter=0
+[ 56] d3 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":false,"reason":"no newer banner duck yet"}]
+[ 57] d3 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[ 58] d3 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 59] d3 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 60] d3 action kind=race_choice choice=best
+[ 61] d3 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=27 rivalPlace=null rivalDuckId=null
+[ 62] d3 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 63] d3 action kind=race_choice choice=best
+[ 64] d3 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=29 rivalPlace=null rivalDuckId=null
+[ 65] d3 expense_due kind=food amount=12 cashBefore=0
+[ 66] d3 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=80
+[ 67] d3 action kind=escalation_accepted step=skip_lunch
+[ 68] d3 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=65
+[ 69] d3 expense_paid kind=food amount=0 cashAfter=0
+[ 70] d4 banner_started banner=1 newIdentities=["duck-6","duck-7","duck-8","duck-9","duck-10","duck-11"] lengthDays=3
+[ 71] d4 cue_shown technique=fear_of_missing_out banner=1 label=Banner ends in 3 game-days
+[ 72] d4 cue_shown technique=power_creep banner=1 label=New ducks this banner newIdentities=["duck-6","duck-7","duck-8","duck-9","duck-10","duck-11"]
+[ 73] d4 wage amount=0 cashAfter=0
+[ 74] d4 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[ 75] d4 cue_shown technique=social_comparison eventId=rival_whale banner=1 rivalDuck=duck-11
+[ 76] d4 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[ 77] d4 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 78] d4 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 79] d4 action kind=race_choice choice=best
+[ 80] d4 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=31 rivalPlace=1 rivalDuckId=duck-11
+[ 81] d4 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 82] d4 action kind=race_choice choice=best
+[ 83] d4 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=31 rivalPlace=1 rivalDuckId=duck-11
+[ 84] d4 expense_due kind=food amount=12 cashBefore=0
+[ 85] d4 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=70
+[ 86] d4 action kind=escalation_accepted step=skip_lunch
+[ 87] d4 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=55
+[ 88] d4 expense_paid kind=food amount=0 cashAfter=0
+[ 89] d5 wage amount=0 cashAfter=0
+[ 90] d5 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[ 91] d5 cue_shown technique=social_comparison eventId=rival_whale banner=1 rivalDuck=duck-11
+[ 92] d5 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[ 93] d5 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[ 94] d5 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 95] d5 action kind=race_choice choice=best
+[ 96] d5 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=33 rivalPlace=2 rivalDuckId=duck-11
+[ 97] d5 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[ 98] d5 action kind=race_choice choice=best
+[ 99] d5 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=35 rivalPlace=1 rivalDuckId=duck-11
+[100] d5 expense_due kind=food amount=12 cashBefore=0
+[101] d5 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=60
+[102] d5 action kind=escalation_accepted step=skip_lunch
+[103] d5 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=45
+[104] d5 expense_paid kind=food amount=0 cashAfter=0
+[105] d6 wage amount=0 cashAfter=0
+[106] d6 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[107] d6 cue_shown technique=social_comparison eventId=rival_whale banner=1 rivalDuck=duck-11
+[108] d6 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[109] d6 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[110] d6 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[111] d6 action kind=race_choice choice=best
+[112] d6 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=35 rivalPlace=1 rivalDuckId=duck-11
+[113] d6 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"duck-0","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[114] d6 action kind=race_choice choice=best
+[115] d6 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-11
+[116] d6 expense_due kind=food amount=12 cashBefore=0
+[117] d6 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=50
+[118] d6 action kind=escalation_accepted step=skip_lunch
+[119] d6 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=35
+[120] d6 expense_paid kind=food amount=0 cashAfter=0
+[121] d7 banner_started banner=2 newIdentities=["duck-12","duck-13","duck-14","duck-15","duck-16","duck-17"] lengthDays=3
+[122] d7 cue_shown technique=fear_of_missing_out banner=2 label=Banner ends in 3 game-days
+[123] d7 cue_shown technique=power_creep banner=2 label=New ducks this banner newIdentities=["duck-12","duck-13","duck-14","duck-15","duck-16","duck-17"]
+[124] d7 wage amount=0 cashAfter=0
+[125] d7 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":false,"reason":"cash below minimum bill"},{"id":"tax_refund","eligible":true,"reason":""},{"id":"overtime_offer","eligible":false,"reason":"health
+[126] d7 event_result id=glitch_duck fallback=false category=neutral delight effects={"secretDuck":true}
+[127] d7 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[128] d7 cue_shown technique=social_comparison eventId=rival_whale banner=2 rivalDuck=duck-17
+[129] d7 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[130] d7 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[131] d7 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[132] d7 action kind=race_choice choice=best
+[133] d7 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-17
+[134] d7 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[135] d7 action kind=race_choice choice=best
+[136] d7 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-17
+[137] d7 expense_due kind=food amount=12 cashBefore=0
+[138] d7 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=40
+[139] d7 action kind=escalation_accepted step=skip_lunch
+[140] d7 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=25
+[141] d7 expense_paid kind=food amount=0 cashAfter=0
+[142] d7 expense_due kind=rent amount=140 cashBefore=0
+[143] d7 escalation_offered step=extra_shift billKind=rent cashBefore=0 healthBefore=25
+[144] d7 action kind=escalation_accepted step=extra_shift
+[145] d7 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=80 healthAfter=10
+[146] d7 escalation_offered step=sell_couch billKind=rent cashBefore=80 healthBefore=10
+[147] d7 action kind=escalation_accepted step=sell_couch
+[148] d7 escalation_result step=sell_couch effects={"cash":80} cashAfter=160 healthAfter=10
+[149] d7 expense_paid kind=rent amount=140 cashAfter=20
+[150] d8 wage amount=0 cashAfter=20
+[151] d8 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[152] d8 cue_shown technique=social_comparison eventId=rival_whale banner=2 rivalDuck=duck-17
+[153] d8 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[154] d8 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[155] d8 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[156] d8 action kind=race_choice choice=best
+[157] d8 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-17
+[158] d8 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[159] d8 action kind=race_choice choice=best
+[160] d8 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-17
+[161] d8 expense_due kind=food amount=12 cashBefore=20
+[162] d8 expense_paid kind=food amount=12 cashAfter=8
+[163] d9 wage amount=0 cashAfter=8
+[164] d9 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[165] d9 cue_shown technique=social_comparison eventId=rival_whale banner=2 rivalDuck=duck-17
+[166] d9 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[167] d9 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"ge
+[168] d9 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[169] d9 action kind=race_choice choice=best
+[170] d9 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=37 rivalPlace=1 rivalDuckId=duck-17
+[171] d9 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[172] d9 action kind=race_choice choice=best
+[173] d9 race_result choice=best duckId=duck-2 speedUsed=12.6 place=5 fieldSize=6 payoutGems=2 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-17
+[174] d9 expense_due kind=food amount=12 cashBefore=8
+[175] d9 escalation_offered step=sell_tv billKind=food cashBefore=8 healthBefore=20
+[176] d9 action kind=escalation_accepted step=sell_tv
+[177] d9 escalation_result step=sell_tv effects={"cash":120} cashAfter=128 healthAfter=20
+[178] d9 expense_paid kind=food amount=12 cashAfter=116
+[179] d10 banner_started banner=3 newIdentities=["duck-18","duck-19","duck-20","duck-21","duck-22","duck-23"] lengthDays=3
+[180] d10 cue_shown technique=fear_of_missing_out banner=3 label=Banner ends in 3 game-days
+[181] d10 cue_shown technique=power_creep banner=3 label=New ducks this banner newIdentities=["duck-18","duck-19","duck-20","duck-21","duck-22","duck-23"]
+[182] d10 wage amount=0 cashAfter=116
+[183] d10 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[184] d10 cue_shown technique=social_comparison eventId=rival_whale banner=3 rivalDuck=duck-23
+[185] d10 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[186] d10 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[187] d10 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[188] d10 action kind=race_choice choice=best
+[189] d10 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[190] d10 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[191] d10 action kind=race_choice choice=best
+[192] d10 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[193] d10 expense_due kind=food amount=12 cashBefore=116
+[194] d10 expense_paid kind=food amount=12 cashAfter=104
+[195] d11 wage amount=0 cashAfter=104
+[196] d11 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[197] d11 cue_shown technique=social_comparison eventId=rival_whale banner=3 rivalDuck=duck-23
+[198] d11 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[199] d11 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[200] d11 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[201] d11 action kind=race_choice choice=best
+[202] d11 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[203] d11 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[204] d11 action kind=race_choice choice=best
+[205] d11 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[206] d11 expense_due kind=food amount=12 cashBefore=104
+[207] d11 expense_paid kind=food amount=12 cashAfter=92
+[208] d12 wage amount=0 cashAfter=92
+[209] d12 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[210] d12 cue_shown technique=social_comparison eventId=rival_whale banner=3 rivalDuck=duck-23
+[211] d12 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[212] d12 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[213] d12 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[214] d12 action kind=race_choice choice=best
+[215] d12 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[216] d12 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[217] d12 action kind=race_choice choice=best
+[218] d12 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[219] d12 expense_due kind=food amount=12 cashBefore=92
+[220] d12 expense_paid kind=food amount=12 cashAfter=80
+[221] d13 banner_started banner=4 newIdentities=[] lengthDays=3
+[222] d13 cue_shown technique=fear_of_missing_out banner=4 label=Banner ends in 3 game-days
+[223] d13 wage amount=0 cashAfter=80
+[224] d13 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[225] d13 cue_shown technique=social_comparison eventId=rival_whale banner=4 rivalDuck=duck-23
+[226] d13 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[227] d13 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[228] d13 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[229] d13 action kind=race_choice choice=best
+[230] d13 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[231] d13 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[232] d13 action kind=race_choice choice=best
+[233] d13 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[234] d13 expense_due kind=food amount=12 cashBefore=80
+[235] d13 expense_paid kind=food amount=12 cashAfter=68
+[236] d14 wage amount=0 cashAfter=68
+[237] d14 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":true,"reason":""},{"id":"tax_refund","eligible":true,"reason":""},{"id":"overtime_offer","eligible":false,"reason":"health below 50"},{"id":"glit
+[238] d14 event_result id=tax_refund fallback=false category=uncategorized effects={"cash":55}
+[239] d14 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[240] d14 cue_shown technique=social_comparison eventId=rival_whale banner=4 rivalDuck=duck-23
+[241] d14 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[242] d14 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[243] d14 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[244] d14 action kind=race_choice choice=best
+[245] d14 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[246] d14 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[247] d14 action kind=race_choice choice=best
+[248] d14 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[249] d14 expense_due kind=food amount=12 cashBefore=123
+[250] d14 expense_paid kind=food amount=12 cashAfter=111
+[251] d14 expense_due kind=rent amount=140 cashBefore=111
+[252] d14 escalation_offered step=extra_shift billKind=rent cashBefore=111 healthBefore=45
+[253] d14 action kind=escalation_accepted step=extra_shift
+[254] d14 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=191 healthAfter=30
+[255] d14 expense_paid kind=rent amount=140 cashAfter=51
+[256] d15 wage amount=0 cashAfter=51
+[257] d15 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[258] d15 cue_shown technique=social_comparison eventId=rival_whale banner=4 rivalDuck=duck-23
+[259] d15 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[260] d15 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[261] d15 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[262] d15 action kind=race_choice choice=best
+[263] d15 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[264] d15 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[265] d15 action kind=race_choice choice=best
+[266] d15 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[267] d15 expense_due kind=food amount=12 cashBefore=51
+[268] d15 expense_paid kind=food amount=12 cashAfter=39
+[269] d16 banner_started banner=5 newIdentities=[] lengthDays=3
+[270] d16 cue_shown technique=fear_of_missing_out banner=5 label=Banner ends in 3 game-days
+[271] d16 wage amount=0 cashAfter=39
+[272] d16 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[273] d16 cue_shown technique=social_comparison eventId=rival_whale banner=5 rivalDuck=duck-23
+[274] d16 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[275] d16 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[276] d16 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[277] d16 action kind=race_choice choice=best
+[278] d16 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=1 rivalDuckId=duck-23
+[279] d16 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[280] d16 action kind=race_choice choice=best
+[281] d16 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[282] d16 expense_due kind=food amount=12 cashBefore=39
+[283] d16 expense_paid kind=food amount=12 cashAfter=27
+[284] d17 wage amount=0 cashAfter=27
+[285] d17 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[286] d17 cue_shown technique=social_comparison eventId=rival_whale banner=5 rivalDuck=duck-23
+[287] d17 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[288] d17 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[289] d17 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[290] d17 action kind=race_choice choice=best
+[291] d17 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[292] d17 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[293] d17 action kind=race_choice choice=best
+[294] d17 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[295] d17 expense_due kind=food amount=12 cashBefore=27
+[296] d17 expense_paid kind=food amount=12 cashAfter=15
+[297] d18 wage amount=0 cashAfter=15
+[298] d18 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[299] d18 cue_shown technique=social_comparison eventId=rival_whale banner=5 rivalDuck=duck-23
+[300] d18 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[301] d18 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[302] d18 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[303] d18 action kind=race_choice choice=best
+[304] d18 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[305] d18 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[306] d18 action kind=race_choice choice=best
+[307] d18 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[308] d18 expense_due kind=food amount=12 cashBefore=15
+[309] d18 expense_paid kind=food amount=12 cashAfter=3
+[310] d19 banner_started banner=6 newIdentities=[] lengthDays=3
+[311] d19 cue_shown technique=fear_of_missing_out banner=6 label=Banner ends in 3 game-days
+[312] d19 wage amount=0 cashAfter=3
+[313] d19 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[314] d19 cue_shown technique=social_comparison eventId=rival_whale banner=6 rivalDuck=duck-23
+[315] d19 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[316] d19 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[317] d19 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[318] d19 action kind=race_choice choice=best
+[319] d19 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[320] d19 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[321] d19 action kind=race_choice choice=best
+[322] d19 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=2 rivalDuckId=duck-23
+[323] d19 expense_due kind=food amount=12 cashBefore=3
+[324] d19 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=55
+[325] d19 action kind=escalation_accepted step=skip_lunch
+[326] d19 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=40
+[327] d19 expense_paid kind=food amount=0 cashAfter=3
+[328] d20 wage amount=0 cashAfter=3
+[329] d20 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[330] d20 cue_shown technique=social_comparison eventId=rival_whale banner=6 rivalDuck=duck-23
+[331] d20 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[332] d20 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[333] d20 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[334] d20 action kind=race_choice choice=best
+[335] d20 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[336] d20 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[337] d20 action kind=race_choice choice=best
+[338] d20 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[339] d20 expense_due kind=food amount=12 cashBefore=3
+[340] d20 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=45
+[341] d20 action kind=escalation_accepted step=skip_lunch
+[342] d20 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=30
+[343] d20 expense_paid kind=food amount=0 cashAfter=3
+[344] d21 wage amount=0 cashAfter=3
+[345] d21 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":false,"reason":"cash below minimum bill"},{"id":"tax_refund","eligible":false,"reason":"one-time event already used"},{"id":"overtime_offer","eli
+[346] d21 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[347] d21 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[348] d21 cue_shown technique=social_comparison eventId=rival_whale banner=6 rivalDuck=duck-23
+[349] d21 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[350] d21 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[351] d21 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[352] d21 action kind=race_choice choice=best
+[353] d21 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[354] d21 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[355] d21 action kind=race_choice choice=best
+[356] d21 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[357] d21 expense_due kind=food amount=12 cashBefore=3
+[358] d21 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=35
+[359] d21 action kind=escalation_accepted step=skip_lunch
+[360] d21 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=20
+[361] d21 expense_paid kind=food amount=0 cashAfter=3
+[362] d21 expense_due kind=rent amount=140 cashBefore=3
+[363] d21 escalation_offered step=credit_card billKind=rent cashBefore=3 healthBefore=20
+[364] d21 action kind=escalation_accepted step=credit_card
+[365] d21 escalation_result step=credit_card effects={"cash":200,"debtAfter":200} cashAfter=203 healthAfter=20
+[366] d21 expense_paid kind=rent amount=140 cashAfter=63
+[367] d21 interest_charged amount=10 debtAfter=210
+[368] d22 banner_started banner=7 newIdentities=[] lengthDays=3
+[369] d22 cue_shown technique=fear_of_missing_out banner=7 label=Banner ends in 3 game-days
+[370] d22 wage amount=0 cashAfter=63
+[371] d22 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[372] d22 cue_shown technique=social_comparison eventId=rival_whale banner=7 rivalDuck=duck-23
+[373] d22 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[374] d22 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[375] d22 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[376] d22 action kind=race_choice choice=best
+[377] d22 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[378] d22 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[379] d22 action kind=race_choice choice=best
+[380] d22 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[381] d22 expense_due kind=food amount=12 cashBefore=63
+[382] d22 expense_paid kind=food amount=12 cashAfter=51
+[383] d23 wage amount=0 cashAfter=51
+[384] d23 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[385] d23 cue_shown technique=social_comparison eventId=rival_whale banner=7 rivalDuck=duck-23
+[386] d23 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[387] d23 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[388] d23 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[389] d23 action kind=race_choice choice=best
+[390] d23 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[391] d23 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[392] d23 action kind=race_choice choice=best
+[393] d23 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=3 rivalDuckId=duck-23
+[394] d23 expense_due kind=food amount=12 cashBefore=51
+[395] d23 expense_paid kind=food amount=12 cashAfter=39
+[396] d24 wage amount=0 cashAfter=39
+[397] d24 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[398] d24 cue_shown technique=social_comparison eventId=rival_whale banner=7 rivalDuck=duck-23
+[399] d24 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[400] d24 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[401] d24 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[402] d24 action kind=race_choice choice=best
+[403] d24 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[404] d24 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[405] d24 action kind=race_choice choice=best
+[406] d24 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[407] d24 expense_due kind=food amount=12 cashBefore=39
+[408] d24 expense_paid kind=food amount=12 cashAfter=27
+[409] d25 banner_started banner=8 newIdentities=[] lengthDays=3
+[410] d25 cue_shown technique=fear_of_missing_out banner=8 label=Banner ends in 3 game-days
+[411] d25 wage amount=0 cashAfter=27
+[412] d25 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[413] d25 cue_shown technique=social_comparison eventId=rival_whale banner=8 rivalDuck=duck-23
+[414] d25 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[415] d25 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[416] d25 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[417] d25 action kind=race_choice choice=best
+[418] d25 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=4 rivalDuckId=duck-23
+[419] d25 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[420] d25 action kind=race_choice choice=best
+[421] d25 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[422] d25 expense_due kind=food amount=12 cashBefore=27
+[423] d25 expense_paid kind=food amount=12 cashAfter=15
+[424] d26 wage amount=0 cashAfter=15
+[425] d26 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[426] d26 cue_shown technique=social_comparison eventId=rival_whale banner=8 rivalDuck=duck-23
+[427] d26 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[428] d26 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[429] d26 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[430] d26 action kind=race_choice choice=best
+[431] d26 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[432] d26 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[433] d26 action kind=race_choice choice=best
+[434] d26 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[435] d26 expense_due kind=food amount=12 cashBefore=15
+[436] d26 expense_paid kind=food amount=12 cashAfter=3
+[437] d27 wage amount=0 cashAfter=3
+[438] d27 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[439] d27 cue_shown technique=social_comparison eventId=rival_whale banner=8 rivalDuck=duck-23
+[440] d27 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[441] d27 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[442] d27 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[443] d27 action kind=race_choice choice=best
+[444] d27 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[445] d27 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[446] d27 action kind=race_choice choice=best
+[447] d27 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[448] d27 expense_due kind=food amount=12 cashBefore=3
+[449] d27 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=50
+[450] d27 action kind=escalation_accepted step=skip_lunch
+[451] d27 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=35
+[452] d27 expense_paid kind=food amount=0 cashAfter=3
+[453] d28 banner_started banner=9 newIdentities=[] lengthDays=3
+[454] d28 cue_shown technique=fear_of_missing_out banner=9 label=Banner ends in 3 game-days
+[455] d28 wage amount=0 cashAfter=3
+[456] d28 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":false,"reason":"cash below minimum bill"},{"id":"tax_refund","eligible":false,"reason":"one-time event already used"},{"id":"overtime_offer","eli
+[457] d28 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[458] d28 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[459] d28 cue_shown technique=social_comparison eventId=rival_whale banner=9 rivalDuck=duck-23
+[460] d28 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[461] d28 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[462] d28 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[463] d28 action kind=race_choice choice=best
+[464] d28 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[465] d28 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[466] d28 action kind=race_choice choice=best
+[467] d28 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[468] d28 expense_due kind=food amount=12 cashBefore=3
+[469] d28 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=40
+[470] d28 action kind=escalation_accepted step=skip_lunch
+[471] d28 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=25
+[472] d28 expense_paid kind=food amount=0 cashAfter=3
+[473] d28 expense_due kind=rent amount=140 cashBefore=3
+[474] d28 escalation_offered step=extra_shift billKind=rent cashBefore=3 healthBefore=25
+[475] d28 action kind=escalation_accepted step=extra_shift
+[476] d28 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=83 healthAfter=10
+[477] d28 escalation_offered step=credit_card billKind=rent cashBefore=83 healthBefore=10
+[478] d28 action kind=escalation_accepted step=credit_card
+[479] d28 escalation_result step=credit_card effects={"cash":200,"debtAfter":410} cashAfter=283 healthAfter=10
+[480] d28 expense_paid kind=rent amount=140 cashAfter=143
+[481] d28 interest_charged amount=21 debtAfter=431
+[482] d29 wage amount=0 cashAfter=143
+[483] d29 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[484] d29 cue_shown technique=social_comparison eventId=rival_whale banner=9 rivalDuck=duck-23
+[485] d29 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[486] d29 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[487] d29 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[488] d29 action kind=race_choice choice=best
+[489] d29 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[490] d29 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[491] d29 action kind=race_choice choice=best
+[492] d29 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[493] d29 expense_due kind=food amount=12 cashBefore=143
+[494] d29 expense_paid kind=food amount=12 cashAfter=131
+[495] d30 wage amount=0 cashAfter=131
+[496] d30 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[497] d30 cue_shown technique=social_comparison eventId=rival_whale banner=9 rivalDuck=duck-23
+[498] d30 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[499] d30 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[500] d30 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[501] d30 action kind=race_choice choice=best
+[502] d30 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[503] d30 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[504] d30 action kind=race_choice choice=best
+[505] d30 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[506] d30 expense_due kind=food amount=12 cashBefore=131
+[507] d30 expense_paid kind=food amount=12 cashAfter=119
+[508] d31 banner_started banner=10 newIdentities=[] lengthDays=3
+[509] d31 cue_shown technique=fear_of_missing_out banner=10 label=Banner ends in 3 game-days
+[510] d31 wage amount=0 cashAfter=119
+[511] d31 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[512] d31 cue_shown technique=social_comparison eventId=rival_whale banner=10 rivalDuck=duck-23
+[513] d31 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[514] d31 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[515] d31 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[516] d31 action kind=race_choice choice=best
+[517] d31 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[518] d31 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[519] d31 action kind=race_choice choice=best
+[520] d31 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[521] d31 expense_due kind=food amount=12 cashBefore=119
+[522] d31 expense_paid kind=food amount=12 cashAfter=107
+[523] d32 wage amount=0 cashAfter=107
+[524] d32 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[525] d32 cue_shown technique=social_comparison eventId=rival_whale banner=10 rivalDuck=duck-23
+[526] d32 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[527] d32 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[528] d32 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[529] d32 action kind=race_choice choice=best
+[530] d32 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[531] d32 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[532] d32 action kind=race_choice choice=best
+[533] d32 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[534] d32 expense_due kind=food amount=12 cashBefore=107
+[535] d32 expense_paid kind=food amount=12 cashAfter=95
+[536] d33 wage amount=0 cashAfter=95
+[537] d33 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[538] d33 cue_shown technique=social_comparison eventId=rival_whale banner=10 rivalDuck=duck-23
+[539] d33 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[540] d33 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[541] d33 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[542] d33 action kind=race_choice choice=best
+[543] d33 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[544] d33 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[545] d33 action kind=race_choice choice=best
+[546] d33 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[547] d33 expense_due kind=food amount=12 cashBefore=95
+[548] d33 expense_paid kind=food amount=12 cashAfter=83
+[549] d34 banner_started banner=11 newIdentities=[] lengthDays=3
+[550] d34 cue_shown technique=fear_of_missing_out banner=11 label=Banner ends in 3 game-days
+[551] d34 wage amount=0 cashAfter=83
+[552] d34 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[553] d34 cue_shown technique=social_comparison eventId=rival_whale banner=11 rivalDuck=duck-23
+[554] d34 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[555] d34 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[556] d34 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[557] d34 action kind=race_choice choice=best
+[558] d34 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[559] d34 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[560] d34 action kind=race_choice choice=best
+[561] d34 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[562] d34 expense_due kind=food amount=12 cashBefore=83
+[563] d34 expense_paid kind=food amount=12 cashAfter=71
+[564] d35 wage amount=0 cashAfter=71
+[565] d35 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":true,"reason":""},{"id":"tax_refund","eligible":false,"reason":"one-time event already used"},{"id":"overtime_offer","eligible":false,"reason":"h
+[566] d35 event_result id=car_repair fallback=false category=uncategorized effects={"cash":-68}
+[567] d35 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[568] d35 cue_shown technique=social_comparison eventId=rival_whale banner=11 rivalDuck=duck-23
+[569] d35 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[570] d35 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[571] d35 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[572] d35 action kind=race_choice choice=best
+[573] d35 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[574] d35 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[575] d35 action kind=race_choice choice=best
+[576] d35 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[577] d35 expense_due kind=food amount=12 cashBefore=3
+[578] d35 escalation_offered step=skip_lunch billKind=food cashBefore=3 healthBefore=45
+[579] d35 action kind=escalation_accepted step=skip_lunch
+[580] d35 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=3 healthAfter=30
+[581] d35 expense_paid kind=food amount=0 cashAfter=3
+[582] d35 expense_due kind=rent amount=140 cashBefore=3
+[583] d35 escalation_offered step=extra_shift billKind=rent cashBefore=3 healthBefore=30
+[584] d35 action kind=escalation_accepted step=extra_shift
+[585] d35 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=83 healthAfter=15
+[586] d35 escalation_offered step=credit_card billKind=rent cashBefore=83 healthBefore=15
+[587] d35 action kind=escalation_accepted step=credit_card
+[588] d35 escalation_result step=credit_card effects={"cash":169,"debtAfter":600} cashAfter=252 healthAfter=15
+[589] d35 expense_paid kind=rent amount=140 cashAfter=112
+[590] d35 interest_charged amount=30 debtAfter=630
+[591] d36 wage amount=0 cashAfter=112
+[592] d36 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[593] d36 cue_shown technique=social_comparison eventId=rival_whale banner=11 rivalDuck=duck-23
+[594] d36 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[595] d36 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[596] d36 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[597] d36 action kind=race_choice choice=best
+[598] d36 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[599] d36 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[600] d36 action kind=race_choice choice=best
+[601] d36 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[602] d36 expense_due kind=food amount=12 cashBefore=112
+[603] d36 expense_paid kind=food amount=12 cashAfter=100
+[604] d37 banner_started banner=12 newIdentities=[] lengthDays=3
+[605] d37 cue_shown technique=fear_of_missing_out banner=12 label=Banner ends in 3 game-days
+[606] d37 wage amount=0 cashAfter=100
+[607] d37 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[608] d37 cue_shown technique=social_comparison eventId=rival_whale banner=12 rivalDuck=duck-23
+[609] d37 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[610] d37 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[611] d37 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[612] d37 action kind=race_choice choice=best
+[613] d37 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[614] d37 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[615] d37 action kind=race_choice choice=best
+[616] d37 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[617] d37 expense_due kind=food amount=12 cashBefore=100
+[618] d37 expense_paid kind=food amount=12 cashAfter=88
+[619] d38 wage amount=0 cashAfter=88
+[620] d38 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[621] d38 cue_shown technique=social_comparison eventId=rival_whale banner=12 rivalDuck=duck-23
+[622] d38 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[623] d38 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[624] d38 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[625] d38 action kind=race_choice choice=best
+[626] d38 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[627] d38 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[628] d38 action kind=race_choice choice=best
+[629] d38 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[630] d38 expense_due kind=food amount=12 cashBefore=88
+[631] d38 expense_paid kind=food amount=12 cashAfter=76
+[632] d39 wage amount=0 cashAfter=76
+[633] d39 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[634] d39 cue_shown technique=social_comparison eventId=rival_whale banner=12 rivalDuck=duck-23
+[635] d39 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[636] d39 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[637] d39 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[638] d39 action kind=race_choice choice=best
+[639] d39 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[640] d39 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[641] d39 action kind=race_choice choice=best
+[642] d39 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[643] d39 expense_due kind=food amount=12 cashBefore=76
+[644] d39 expense_paid kind=food amount=12 cashAfter=64
+[645] d40 banner_started banner=13 newIdentities=[] lengthDays=3
+[646] d40 cue_shown technique=fear_of_missing_out banner=13 label=Banner ends in 3 game-days
+[647] d40 wage amount=0 cashAfter=64
+[648] d40 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[649] d40 cue_shown technique=social_comparison eventId=rival_whale banner=13 rivalDuck=duck-23
+[650] d40 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[651] d40 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[652] d40 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[653] d40 action kind=race_choice choice=best
+[654] d40 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[655] d40 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[656] d40 action kind=race_choice choice=best
+[657] d40 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[658] d40 expense_due kind=food amount=12 cashBefore=64
+[659] d40 expense_paid kind=food amount=12 cashAfter=52
+[660] d41 wage amount=0 cashAfter=52
+[661] d41 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[662] d41 cue_shown technique=social_comparison eventId=rival_whale banner=13 rivalDuck=duck-23
+[663] d41 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[664] d41 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[665] d41 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[666] d41 action kind=race_choice choice=best
+[667] d41 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[668] d41 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[669] d41 action kind=race_choice choice=best
+[670] d41 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[671] d41 expense_due kind=food amount=12 cashBefore=52
+[672] d41 expense_paid kind=food amount=12 cashAfter=40
+[673] d42 wage amount=0 cashAfter=40
+[674] d42 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":false,"reason":"cash below minimum bill"},{"id":"tax_refund","eligible":false,"reason":"one-time event already used"},{"id":"overtime_offer","eli
+[675] d42 event_result id=overtime_offer fallback=false category=uncategorized effects={"cash":24,"health":-10}
+[676] d42 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[677] d42 cue_shown technique=social_comparison eventId=rival_whale banner=13 rivalDuck=duck-23
+[678] d42 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[679] d42 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[680] d42 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[681] d42 action kind=race_choice choice=best
+[682] d42 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[683] d42 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[684] d42 action kind=race_choice choice=best
+[685] d42 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[686] d42 expense_due kind=food amount=12 cashBefore=64
+[687] d42 expense_paid kind=food amount=12 cashAfter=52
+[688] d42 expense_due kind=rent amount=140 cashBefore=52
+[689] d42 escalation_offered step=extra_shift billKind=rent cashBefore=52 healthBefore=40
+[690] d42 action kind=escalation_accepted step=extra_shift
+[691] d42 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=132 healthAfter=25
+[692] d42 escalation_offered step=extra_shift billKind=rent cashBefore=132 healthBefore=25
+[693] d42 action kind=escalation_accepted step=extra_shift
+[694] d42 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=212 healthAfter=10
+[695] d42 expense_paid kind=rent amount=140 cashAfter=72
+[696] d42 interest_charged amount=32 debtAfter=662
+[697] d43 banner_started banner=14 newIdentities=[] lengthDays=3
+[698] d43 cue_shown technique=fear_of_missing_out banner=14 label=Banner ends in 3 game-days
+[699] d43 wage amount=0 cashAfter=72
+[700] d43 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[701] d43 cue_shown technique=social_comparison eventId=rival_whale banner=14 rivalDuck=duck-23
+[702] d43 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[703] d43 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[704] d43 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[705] d43 action kind=race_choice choice=best
+[706] d43 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[707] d43 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[708] d43 action kind=race_choice choice=best
+[709] d43 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[710] d43 expense_due kind=food amount=12 cashBefore=72
+[711] d43 expense_paid kind=food amount=12 cashAfter=60
+[712] d44 wage amount=0 cashAfter=60
+[713] d44 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[714] d44 cue_shown technique=social_comparison eventId=rival_whale banner=14 rivalDuck=duck-23
+[715] d44 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[716] d44 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[717] d44 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[718] d44 action kind=race_choice choice=best
+[719] d44 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[720] d44 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[721] d44 action kind=race_choice choice=best
+[722] d44 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[723] d44 expense_due kind=food amount=12 cashBefore=60
+[724] d44 expense_paid kind=food amount=12 cashAfter=48
+[725] d45 wage amount=0 cashAfter=48
+[726] d45 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[727] d45 cue_shown technique=social_comparison eventId=rival_whale banner=14 rivalDuck=duck-23
+[728] d45 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[729] d45 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[730] d45 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[731] d45 action kind=race_choice choice=best
+[732] d45 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[733] d45 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[734] d45 action kind=race_choice choice=best
+[735] d45 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[736] d45 expense_due kind=food amount=12 cashBefore=48
+[737] d45 expense_paid kind=food amount=12 cashAfter=36
+[738] d46 banner_started banner=15 newIdentities=[] lengthDays=3
+[739] d46 cue_shown technique=fear_of_missing_out banner=15 label=Banner ends in 3 game-days
+[740] d46 wage amount=0 cashAfter=36
+[741] d46 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[742] d46 cue_shown technique=social_comparison eventId=rival_whale banner=15 rivalDuck=duck-23
+[743] d46 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[744] d46 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[745] d46 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[746] d46 action kind=race_choice choice=best
+[747] d46 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[748] d46 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[749] d46 action kind=race_choice choice=best
+[750] d46 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[751] d46 expense_due kind=food amount=12 cashBefore=36
+[752] d46 expense_paid kind=food amount=12 cashAfter=24
+[753] d47 wage amount=0 cashAfter=24
+[754] d47 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[755] d47 cue_shown technique=social_comparison eventId=rival_whale banner=15 rivalDuck=duck-23
+[756] d47 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[757] d47 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[758] d47 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[759] d47 action kind=race_choice choice=best
+[760] d47 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[761] d47 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[762] d47 action kind=race_choice choice=best
+[763] d47 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[764] d47 expense_due kind=food amount=12 cashBefore=24
+[765] d47 expense_paid kind=food amount=12 cashAfter=12
+[766] d48 wage amount=0 cashAfter=12
+[767] d48 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[768] d48 cue_shown technique=social_comparison eventId=rival_whale banner=15 rivalDuck=duck-23
+[769] d48 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[770] d48 offer_shown kind=pawn technique=pressure_on_possession amountCash=150 item=own duck
+[771] d48 action kind=pawn_declined
+[772] d48 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[773] d48 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[774] d48 action kind=race_choice choice=best
+[775] d48 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[776] d48 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[777] d48 action kind=race_choice choice=best
+[778] d48 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[779] d48 expense_due kind=food amount=12 cashBefore=12
+[780] d48 expense_paid kind=food amount=12 cashAfter=0
+[781] d49 banner_started banner=16 newIdentities=[] lengthDays=3
+[782] d49 cue_shown technique=fear_of_missing_out banner=16 label=Banner ends in 3 game-days
+[783] d49 wage amount=0 cashAfter=0
+[784] d49 event_eligibility trigger=weekly candidates=[{"id":"car_repair","eligible":false,"reason":"cash below minimum bill"},{"id":"tax_refund","eligible":false,"reason":"one-time event already used"},{"id":"overtime_offer","eli
+[785] d49 event_result id=quiet_day fallback=true category=neutral delight effects={}
+[786] d49 event_eligibility trigger=race_day candidates=[{"id":"rival_whale","eligible":true,"reason":""}]
+[787] d49 cue_shown technique=social_comparison eventId=rival_whale banner=16 rivalDuck=duck-23
+[788] d49 event_result id=rival_whale fallback=false category=social_comparison effects={"rivalInLane1":true}
+[789] d49 offer_shown kind=bundle_shop technique=currency_obfuscation pullCost=160 bundles=[{"gems":60,"price":0.99},{"gems":330,"price":4.99},{"gems":1090,"price":14.99},{"gems":2240,"price":24.99},{"gems":3880,"price":49.99},{"g
+[790] d49 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[791] d49 action kind=race_choice choice=best
+[792] d49 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[793] d49 race_choice_offered options={"best":{"duckId":"duck-2","payoutMultiplier":1},"rested":{"duckId":"glitch-duck","payoutMultiplier":1},"longshot":{"duckId":"duck-1","payoutMultiplier":1.5}}
+[794] d49 action kind=race_choice choice=best
+[795] d49 race_result choice=best duckId=duck-2 speedUsed=12.6 place=6 fieldSize=6 payoutGems=0 gemsAfter=39 rivalPlace=5 rivalDuckId=duck-23
+[796] d49 expense_due kind=food amount=12 cashBefore=0
+[797] d49 escalation_offered step=skip_lunch billKind=food cashBefore=0 healthBefore=45
+[798] d49 action kind=escalation_accepted step=skip_lunch
+[799] d49 escalation_result step=skip_lunch effects={"health":-15,"billWaived":12} cashAfter=0 healthAfter=30
+[800] d49 expense_paid kind=food amount=0 cashAfter=0
+[801] d49 expense_due kind=rent amount=140 cashBefore=0
+[802] d49 escalation_offered step=extra_shift billKind=rent cashBefore=0 healthBefore=30
+[803] d49 action kind=escalation_accepted step=extra_shift
+[804] d49 escalation_result step=extra_shift effects={"cash":80,"health":-15} cashAfter=80 healthAfter=15
+[805] d49 terminal route=running_on_empty
+[806] d49 receipt_shown route=running_on_empty
+
+--- Receipt accounting section for trace 5 ---
+Unpaid expense recorded (Day 49, banner 17 ends in 3 game-days): $140.00 for rent was due with $0.00 cash on hand.
+26 emergency escalation step(s) recorded: skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, skip_lunch, extra_shift, sell_couch, sell_tv, extra_shift, skip_lunch, skip_lunch, skip_lunch, credit_card, skip_lunch, skip_lunch, extra_shift, credit_card, skip_lunch, extra_shift, credit_card, extra_shift, extra_shift, skip_lunch, extra_shift.
+Total interest charged: $93.00 across 4 billing cycle(s); final debt recorded was $662.00.
+Terminal route was running_on_empty following unpaid rent bill.

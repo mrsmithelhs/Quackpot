@@ -5,7 +5,7 @@
 //   question  - a fixed discussion question; never an asserted answer
 // Every line carries `seq`, the log entry it comes from (null only for "none recorded" statements).
 
-import { verifyChain } from './event-log.mjs';
+import { verifyChain, verifyCompleteness } from './event-log.mjs';
 
 const money = (x) => `$${Number(x).toFixed(2)}`;
 
@@ -28,6 +28,7 @@ function line(text, seq) {
 
 export function projectReceipt(entries) {
   const chainValid = verifyChain(entries);
+  const isComplete = verifyCompleteness(entries);
   const ofType = (t) => entries.filter((e) => e.type === t);
   const shown = (technique) =>
     entries.filter(
@@ -90,8 +91,11 @@ export function projectReceipt(entries) {
       const after = drawsCommitted.filter(afterFirst);
       if (after.length) {
         const ls = after.map((d) => d.payload.odds.legendary);
-        const soft = after.filter((d) => d.payload.advancesPity && d.payload.drawNumberInWindow >= cues[0].payload.softPityStart).length;
-        did.push(line(`${after.length} draw(s) committed after the first display; actual pre-draw legendary odds ranged from ${Math.min(...ls)} to ${Math.max(...ls)}; ${soft} draw(s) had raised odds.`, after[0].seq));
+        const minOdds = Math.min(...ls);
+        const maxOdds = Math.max(...ls);
+        const soft = after.filter((d) => d.payload.advancesPity && d.payload.drawNumberInWindow >= cues[0].payload.softPityStart && d.payload.drawNumberInWindow < cues[0].payload.hardPity).length;
+        const hard = after.filter((d) => d.payload.advancesPity && d.payload.drawNumberInWindow >= cues[0].payload.hardPity).length;
+        did.push(line(`${after.length} draw(s) committed after the first display; actual pre-draw legendary odds ranged from ${minOdds} to ${maxOdds}; ${soft} draw(s) had raised soft-pity odds; ${hard} draw(s) reached the hard guarantee.`, after[0].seq));
       } else did.push(line('No draw recorded after the counter was shown.', null));
     } else if (id === 'power_creep') {
       for (const c of cues) displayed.push(line(`Banner ${c.payload.banner + 1} showed new ducks: ${c.payload.newIdentities.join(', ')}.`, c.seq));
@@ -144,12 +148,83 @@ export function projectReceipt(entries) {
 
   const terminal = ofType('terminal')[0];
   const receiptShown = ofType('receipt_shown')[0];
+
+  // Event-derived accounting / terminal outcome section
+  const expenseDues = ofType('expense_due');
+  const expensePaids = ofType('expense_paid');
+  const escalationResults = ofType('escalation_result');
+  const interestEntries = ofType('interest_charged');
+
+  const expenses = [];
+  let unpaidExpense = null;
+  for (let i = 0; i < expenseDues.length; i++) {
+    const due = expenseDues[i];
+    const nextDueSeq = expenseDues[i + 1]?.seq ?? Infinity;
+    const paid = expensePaids.find((p) => p.seq > due.seq && p.seq < nextDueSeq && p.payload.kind === due.payload.kind);
+    const item = {
+      seq: due.seq,
+      kind: due.payload.kind,
+      amount: due.payload.amount,
+      cashBefore: due.payload.cashBefore,
+      paid: !!paid,
+      paidSeq: paid?.seq ?? null,
+      clock: due.clock,
+    };
+    expenses.push(item);
+    if (!paid) {
+      unpaidExpense = item;
+    }
+  }
+
+  const escalations = escalationResults.map((e) => ({
+    seq: e.seq,
+    step: e.payload.step,
+    effects: e.payload.effects,
+    cashAfter: e.payload.cashAfter,
+    healthAfter: e.payload.healthAfter,
+    clock: e.clock,
+  }));
+
+  const totalInterest = interestEntries.reduce((s, e) => s + e.payload.amount, 0);
+  const interestCharges = interestEntries.map((e) => ({
+    seq: e.seq,
+    amount: e.payload.amount,
+    debtAfter: e.payload.debtAfter,
+    clock: e.clock,
+  }));
+
+  const accountingLines = [];
+  if (unpaidExpense) {
+    accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.amount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
+  } else if (expenses.length) {
+    accountingLines.push(line(`All ${expenses.length} recorded expense bills were paid.`, expenses[expenses.length - 1].paidSeq ?? expenses[expenses.length - 1].seq));
+  }
+  if (escalations.length) {
+    const steps = escalations.map((e) => e.step).join(', ');
+    accountingLines.push(line(`${escalations.length} emergency escalation step(s) recorded: ${steps}.`, escalations[0].seq));
+  }
+  if (interestCharges.length) {
+    accountingLines.push(line(`Total interest charged: ${money(totalInterest)} across ${interestCharges.length} billing cycle(s); final debt recorded was ${money(interestCharges[interestCharges.length - 1].debtAfter)}.`, interestCharges[0].seq));
+  }
+  if (terminal?.payload.route === 'running_on_empty') {
+    accountingLines.push(line(`Terminal route was running_on_empty following ${unpaidExpense ? `unpaid ${unpaidExpense.kind} bill` : 'exhausted resources'}.`, terminal.seq));
+  }
+
   return {
     chainValid,
+    isComplete,
     terminalRoute: terminal?.payload.route ?? null,
     receiptShown: !!receiptShown,
     findings,
     pullLedger,
+    accounting: {
+      expenses,
+      unpaidExpense,
+      escalations,
+      totalInterest,
+      interestCharges,
+      lines: accountingLines,
+    },
   };
 }
 
@@ -160,6 +235,9 @@ export function receiptText(r) {
     out.push(f.label, f.question.text);
     for (const l of f.displayed) out.push(l.text);
     for (const l of f.did) out.push(l.text);
+  }
+  if (r.accounting?.lines) {
+    for (const l of r.accounting.lines) out.push(l.text);
   }
   return out;
 }

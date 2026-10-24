@@ -57,9 +57,50 @@ test('a ten-pull is ten ordered draws, each with its own pre-draw pity state and
   const draws = run.log.entries.slice(before).filter((e) => e.type === 'draw_committed');
   assert.equal(draws.length, 10);
   assert.deepEqual(draws.map((d) => d.payload.drawIndex), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-  // base legendary odds are zero, soft pity starts at draw 4, hard pity at 6: a legendary lands by draw 6 of each window\n  for (let i = 0; i < 10; i++) {\n    const d = draws[i].payload;\n    assert.equal(d.drawNumberInWindow, d.pityBefore + 1);\n    assert.deepEqual(d.odds.legendary, Math.round(preDrawOdds(run.p, d.pityBefore).legendary * 1e4) / 1e4);\n    if (i > 0) assert.equal(d.drawNumberInWindow, draws[i - 1].payload.rarity === 'legendary' ? 1 : draws[i - 1].payload.drawNumberInWindow + 1);\n    assert.ok(d.drawNumberInWindow <= 6);\n    if (d.drawNumberInWindow < 4) assert.equal(d.odds.legendary, 0);\n    if (d.drawNumberInWindow === 6) assert.equal(d.rarity, 'legendary');\n  }\n  assert.ok(draws.some((d) => d.payload.odds.legendary > 0 && d.payload.odds.legendary < 1));\n  // each draw is committed then revealed in order (sequential mode)
+  // base legendary odds are zero, soft pity starts at draw 4, hard pity at 6: a legendary lands by draw 6 of each window
+  for (let i = 0; i < 10; i++) {
+    const d = draws[i].payload;
+    assert.equal(d.drawNumberInWindow, d.pityBefore + 1);
+    assert.equal(d.odds.legendary, preDrawOdds(run.p, d.pityBefore).legendary);
+    if (i > 0) assert.equal(d.drawNumberInWindow, draws[i - 1].payload.rarity === 'legendary' ? 1 : draws[i - 1].payload.drawNumberInWindow + 1);
+    assert.ok(d.drawNumberInWindow <= 6);
+    if (d.drawNumberInWindow < 4) assert.equal(d.odds.legendary, 0);
+    if (d.drawNumberInWindow === 6) assert.equal(d.rarity, 'legendary');
+  }
+  assert.ok(draws.some((d) => d.payload.odds.legendary > 0 && d.payload.odds.legendary < 1));
+  // each draw is committed then revealed in order (sequential mode)
   const kinds = run.log.entries.slice(before).filter((e) => /draw_committed|reveal_shown/.test(e.type)).map((e) => `${e.type}:${e.payload.drawIndex}`);
   assert.deepEqual(kinds.slice(0, 4), ['draw_committed:1', 'reveal_shown:1', 'draw_committed:2', 'reveal_shown:2']);
+});
+
+test('pull 35 logs exact unrounded odds 0.08125, and odds reset across a ten-pull', () => {
+  // Start with pity = 34 so the next draw is draw 35 (soft pity start)
+  const run = new Run({ startGems: 1600, openingAdvancesPity: false }, 'p35');
+  run.start();
+  run.pity = 34;
+  run.pull(1);
+  const draw35 = run.log.entries.find((e) => e.type === 'draw_committed' && e.payload.drawNumberInWindow === 35);
+  assert.ok(draw35);
+  // Draft pull 35 legendary probability must be exact 0.08125, not rounded 0.0813
+  assert.equal(draw35.payload.odds.legendary, 0.08125);
+  assert.equal(draw35.payload.odds.legendary, preDrawOdds(run.p, 34).legendary);
+  assert.equal(draw35.payload.odds.common, preDrawOdds(run.p, 34).common);
+  assert.equal(draw35.payload.odds.rare, preDrawOdds(run.p, 34).rare);
+
+  // Ten-pull with a guaranteed legendary on draw 2 to verify in-flight reset
+  const runTen = new Run({ startGems: 1600, softPityStart: 2, hardPity: 2, rarity: { common: 0.8, rare: 0.2, legendary: 0 } }, 'resetTen');
+  runTen.start();
+  runTen.pull(10);
+  const tenDraws = runTen.log.entries.filter((e) => e.type === 'draw_committed' && !e.payload.free);
+  assert.equal(tenDraws.length, 10);
+  // Draw 1 has pityBefore = 0, drawNumberInWindow = 1
+  assert.equal(tenDraws[0].payload.pityBefore, 0);
+  // Draw 2 reaches hard pity (hardPity: 2), so rarity is legendary and pityAfter resets to 0
+  assert.equal(tenDraws[1].payload.rarity, 'legendary');
+  assert.equal(tenDraws[1].payload.pityAfter, 0);
+  // Draw 3 starts a fresh window with pityBefore = 0 and base odds
+  assert.equal(tenDraws[2].payload.pityBefore, 0);
+  assert.equal(tenDraws[2].payload.odds.legendary, 0);
 });
 
 test('opening free ten-pull advances pity only when the parameter says so', () => {

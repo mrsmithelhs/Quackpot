@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { Run, simulate, preDrawOdds } from './model.mjs';
 import { makeStrategy } from './strategies.mjs';
 import { projectReceipt, receiptText } from './receipt.mjs';
-import { verifyChain } from './event-log.mjs';
+import { verifyChain, verifyCompleteness } from './event-log.mjs';
 
 const DISPLAY_TYPES = new Set(['cue_shown', 'offer_shown', 'retention_modal_shown', 'reveal_shown']);
 
@@ -88,7 +88,12 @@ test('S4 pre-draw conditional odds: each draw reports its own actual odds, shown
   const { run, receipt } = paidTenPull({ softPityStart: 3, hardPity: 6, rarity: { common: 0.9, rare: 0.1, legendary: 0.01 } }, null);
   const led = paidLedger(receipt);
   assert.equal(led.length, 10);
-  for (const l of led) assert.equal(l.preDrawOdds.legendary, Math.round(preDrawOdds(run.p, l.pityBefore).legendary * 1e4) / 1e4);
+  for (const l of led) {
+    const expected = preDrawOdds(run.p, l.pityBefore);
+    assert.equal(l.preDrawOdds.legendary, expected.legendary);
+    assert.equal(l.preDrawOdds.common, expected.common);
+    assert.equal(l.preDrawOdds.rare, expected.rare);
+  }
   assert.ok(new Set(led.map((l) => l.preDrawOdds.legendary)).size > 1); // odds differ draw by draw
 });
 
@@ -105,6 +110,7 @@ test('S4 pity cue is named only when its cue fired; odds still appear in the led
   const r2 = projectReceipt(shown.log.entries);
   const f = r2.findings.find((x) => x.technique === 'sunk_cost_pity');
   assert.ok(f && f.displayed.length === 1 && f.did[0].text.includes('actual pre-draw legendary odds'));
+  assert.ok(f.did[0].text.includes('raised soft-pity odds') && f.did[0].text.includes('hard guarantee'));
 });
 
 test('S4 zero cash and unpaid expense: escalation is logged in order and the Receipt route is running_on_empty', () => {
@@ -118,6 +124,17 @@ test('S4 zero cash and unpaid expense: escalation is logged in order and the Rec
     assert.equal(e[off.seq + 2].type, 'escalation_result');
   }
   assertDisplayedProvenance(run, r);
+
+  // Accounting / terminal outcome section tests
+  assert.ok(r.accounting);
+  assert.ok(r.accounting.unpaidExpense);
+  assert.equal(r.accounting.unpaidExpense.amount, 12);
+  assert.equal(r.accounting.unpaidExpense.kind, 'food');
+  assert.equal(r.accounting.unpaidExpense.paid, false);
+  assert.ok(r.accounting.escalations.length > 0);
+  assert.ok(r.accounting.lines.some((l) => l.text.includes('Unpaid expense recorded')));
+  assert.ok(r.accounting.lines.some((l) => l.text.includes('$12.00 for food')));
+  assert.ok(r.accounting.lines.some((l) => l.text.includes('Terminal route was running_on_empty')));
 });
 
 test('S4 ineligible event: no technique finding is invented; fallback is recorded and neutral', () => {
@@ -138,7 +155,7 @@ test('S4 ineligible event: no technique finding is invented; fallback is recorde
 });
 
 test('S4 banner transition near the ending: window cue and purchase attribution', () => {
-  // maxDays 7: banner 3 begins on day 7, the final day
+  // maxDays 7: banner 3 begins on day 7, the final day; bannerDays is 3, but truthful window is 1 day
   const buys = simulate({ maxDays: 7 }, 'bt', makeStrategy('whale_ten'));
   const r = projectReceipt(buys.log.entries);
   assert.equal(r.terminalRoute, buys.terminal);
@@ -147,9 +164,35 @@ test('S4 banner transition near the ending: window cue and purchase attribution'
   const cues = buys.log.entries.filter((e) => e.type === 'cue_shown' && e.payload.technique === 'fear_of_missing_out');
   assert.equal(cues.length, 3);
   assert.equal(cues.at(-1).clock.day, 7);
+  // Final banner window is truthful: 1 day, not 3 days
+  assert.equal(cues.at(-1).payload.label, 'Banner ends in 1 game-day');
+  assert.equal(cues.at(-1).clock.label, 'Day 7, banner 3 ends in 1 game-day');
   assert.ok(cues.at(-1).seq < buys.log.entries.find((e) => e.type === 'terminal').seq);
   assert.ok(fomo.displayed.length === 3 && fomo.did.length >= 3);
-  // frugal player never buys: each window says so, and it cites no purchase
+  assert.ok(fomo.displayed.at(-1).text.includes('"Banner ends in 1 game-day" for banner 3.'));
+
+  // Non-divisible maxDays 8 test: banner 3 begins on day 7 with 2 days left
+  const nd8 = simulate({ maxDays: 8 }, 'nd8', makeStrategy('frugal_single'));
+  const cues8 = nd8.log.entries.filter((e) => e.type === 'cue_shown' && e.payload.technique === 'fear_of_missing_out');
+  assert.equal(cues8.length, 3);
+  assert.equal(cues8.at(-1).payload.label, 'Banner ends in 2 game-days');
+  assert.equal(cues8.at(-1).clock.label, 'Day 7, banner 3 ends in 2 game-days');
+  const day8Entry = nd8.log.entries.find((e) => e.clock.day === 8);
+  assert.ok(day8Entry);
+  assert.equal(day8Entry.clock.label, 'Day 8, banner 3 ends in 1 game-day');
+
+  // Voluntary early exit does not pretend the banner ended early before exit
+  const voluntary = new Run({ maxDays: 15 }, 'vol');
+  voluntary.start();
+  const initCue = voluntary.log.entries.find((e) => e.type === 'cue_shown' && e.payload.technique === 'fear_of_missing_out');
+  assert.equal(initCue.payload.label, 'Banner ends in 3 game-days');
+  voluntary.day = 2;
+  voluntary.uninstall('leave');
+  const exitEntry = voluntary.log.entries.find((e) => e.type === 'terminal');
+  assert.equal(exitEntry.payload.route, 'uninstall');
+  assert.equal(exitEntry.clock.label, 'Day 2, banner 1 ends in 2 game-days');
+
+  // Frugal player never buys: each window says so, and it cites no purchase
   const f = simulate({ maxDays: 7 }, 'bt', makeStrategy('frugal_single'));
   const fr = projectReceipt(f.log.entries).findings.find((x) => x.technique === 'fear_of_missing_out');
   assert.ok(fr.did.every((l) => l.seq === null && l.text.startsWith('No gem purchase')));
@@ -174,20 +217,42 @@ test('S4 uninstall flow: leaving immediately and staying both record the modal, 
   assert.ok(f2.did.some((l) => l.text.includes('stay')) && f2.did.some((l) => l.text.includes('leave')));
 });
 
-test('S4 append-only provenance: entries are frozen, the chain detects tampering', () => {
+test('S4 append-only provenance: entries are frozen, chain detects interior tampering, trailing deletion remains valid partial log', () => {
   const run = simulate({ maxDays: 6 }, 'chain', makeStrategy('topup_single'));
   const entries = run.log.entries;
   assert.equal(verifyChain(entries), true);
+  assert.equal(verifyCompleteness(entries), true);
   assert.throws(() => { entries[0].payload.seed = 'x'; }, TypeError);
   assert.throws(() => { entries.push({}); }, TypeError);
+
+  // Interior modification is detected
   const edited = entries.map((e) => ({ ...e, payload: { ...e.payload } }));
   edited[5].payload.injected = true;
   assert.equal(verifyChain(edited), false);
+
+  // Interior reordering is detected
   const swapped = [...entries];
   [swapped[3], swapped[4]] = [swapped[4], swapped[3]];
   assert.equal(verifyChain(swapped), false);
+
+  // Leading deletion is detected
   assert.equal(verifyChain(entries.slice(1)), false);
+
+  // Interior deletion (dropping entry 5) is detected by sequence and chain mismatch
+  const droppedInterior = entries.filter((_, i) => i !== 5);
+  assert.equal(verifyChain(droppedInterior), false);
+
+  // Trailing deletion: removing receipt_shown (or both terminal and receipt_shown) preserves a valid prefix
+  // A partial log is valid as a partial log under verifyChain
+  const withoutReceipt = entries.slice(0, -1);
+  assert.equal(verifyChain(withoutReceipt), true);
+  assert.equal(verifyCompleteness(withoutReceipt), false);
+  const withoutTerminal = entries.slice(0, -2);
+  assert.equal(verifyChain(withoutTerminal), true);
+  assert.equal(verifyCompleteness(withoutTerminal), false);
+
   assert.equal(projectReceipt(edited).chainValid, false);
+  assert.equal(projectReceipt(withoutReceipt).isComplete, false);
   assert.deepEqual(entries.map((e) => e.seq), entries.map((_, i) => i));
 });
 

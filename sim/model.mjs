@@ -96,11 +96,36 @@ export function preDrawOdds(p, pityCount) {
   const base = p.rarity.legendary;
   const n = pityCount + 1;
   let pL = base;
-  if (n >= p.hardPity) pL = 1;
-  else if (n >= p.softPityStart) pL = base + (1 - base) * ((n - p.softPityStart + 1) / (p.hardPity - p.softPityStart + 1));
+  if (n >= p.hardPity) {
+    pL = 1;
+  } else if (n >= p.softPityStart) {
+    const span = p.hardPity - p.softPityStart + 1;
+    const progress = (n - p.softPityStart + 1) / span;
+    if (p.softRamp === 'quadratic') {
+      pL = base + (1 - base) * (progress ** 2);
+    } else if (p.softRamp === 'capped') {
+      const cap = p.softRampCap ?? 0.25;
+      pL = Math.min(cap, base + (cap - base) * progress);
+    } else if (p.softRamp === 'gentle_step') {
+      pL = Math.min(0.5, base + (n - p.softPityStart + 1) * (p.softRampStep ?? 0.03));
+    } else {
+      // default: linear
+      pL = base + (1 - base) * progress;
+    }
+  }
   const rest = 1 - pL;
   const rareShare = p.rarity.rare / (p.rarity.rare + p.rarity.common);
   return { common: rest * (1 - rareShare), rare: rest * rareShare, legendary: pL };
+}
+
+/** Exact reach probability of reaching the hard-guarantee draw in an uninterrupted window. */
+export function windowHardPityProbability(p) {
+  let reach = 1;
+  for (let c = 0; c < p.hardPity - 1; c++) {
+    const o = preDrawOdds(p, c);
+    reach *= (1 - o.legendary);
+  }
+  return reach;
 }
 
 const round4 = (x) => Math.round(x * 1e4) / 1e4;
@@ -178,7 +203,9 @@ export class Run {
 
   // ---- log helpers -----------------------------------------------------------------
   clock() {
-    const left = this.p.bannerDays - ((this.day - 1) % this.p.bannerDays);
+    const normalLeft = this.p.bannerDays - ((this.day - 1) % this.p.bannerDays);
+    const daysLeftInRun = Math.max(1, this.p.maxDays - this.day + 1);
+    const left = Math.min(normalLeft, daysLeftInRun);
     return { day: this.day, label: `Day ${this.day}, banner ${this.banner + 1} ends in ${left} game-day${left === 1 ? '' : 's'}` };
   }
 
@@ -229,8 +256,10 @@ export class Run {
       this.emit('pity_reset', { before: this.pity });
       this.pity = 0;
     }
-    this.emit('banner_started', { banner: this.banner, newIdentities: newIds, lengthDays: this.p.bannerDays });
-    this.emit('cue_shown', { technique: 'fear_of_missing_out', banner: this.banner, label: `Banner ends in ${this.p.bannerDays} game-days` });
+    const daysLeftInRun = Math.max(1, this.p.maxDays - this.day + 1);
+    const effectiveBannerDays = Math.min(this.p.bannerDays, daysLeftInRun);
+    this.emit('banner_started', { banner: this.banner, newIdentities: newIds, lengthDays: effectiveBannerDays });
+    this.emit('cue_shown', { technique: 'fear_of_missing_out', banner: this.banner, label: `Banner ends in ${effectiveBannerDays} game-day${effectiveBannerDays === 1 ? '' : 's'}` });
     if (this.banner > 0 && newIds.length > 0) {
       this.emit('cue_shown', { technique: 'power_creep', banner: this.banner, label: 'New ducks this banner', newIdentities: newIds });
     }
@@ -341,7 +370,7 @@ export class Run {
     }
     const entry = this.emit('draw_committed', {
       drawIndex: index, of, free, advancesPity: advances, pityBefore, drawNumberInWindow: windowDraw,
-      odds: { common: round4(odds.common), rare: round4(odds.rare), legendary: round4(odds.legendary) },
+      odds: { common: odds.common, rare: odds.rare, legendary: odds.legendary },
       rarity, identity: duck.id, duplicate, downGained, offBanner, pityAfter,
     });
     return { index, of, rarity, identity: duck.id, duplicate, downGained, pityAfter, seq: entry.seq };

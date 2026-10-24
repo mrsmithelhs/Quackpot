@@ -257,6 +257,29 @@ Window columns count completed pity windows ending in a legendary: before soft p
 | reset | true | topup_single | 95% | 0% | 100% | 1012/330/0 |
 | reset | true | whale_ten | 100% | 0% | 100% | 1232/708/0 |
 
+### S1 ramp shape comparison: linear vs gentle/capped ramps (draft 35/50 thresholds, 60 days)
+
+Draft thresholds 35/50. "Per-window reach (analytical)" = exact probability of reaching draw 50 without hitting a legendary earlier in a single uninterrupted pity window. Simulated columns report player-level percentages across seeds and windows completed.
+
+| ramp shape | strategy | per-window reach (analytical) | entered soft | reached hard | windows before/in-soft/at-hard | paid draws |
+|---|---|---|---|---|---|---|
+| linear (draft: steep to 1.0) | frugal_single | 4.2148e-7 | 0% | 0% | 0/0/0 | 0/0/0/1/2 |
+| linear (draft: steep to 1.0) | topup_single | 4.2148e-7 | 100% | 0% | 626/593/0 | 157/175/245/480.1/505 |
+| linear (draft: steep to 1.0) | pity_chaser | 4.2148e-7 | 0% | 0% | 0/0/0 | 0/0/0/1/2 |
+| linear (draft: steep to 1.0) | whale_ten | 4.2148e-7 | 100% | 0% | 773/760/0 | 220/249.5/320/572.0/970 |
+| quadratic (convex gentle) | frugal_single | 1.4367e-4 | 0% | 0% | 0/0/0 | 0/0/0/1/2 |
+| quadratic (convex gentle) | topup_single | 1.4367e-4 | 100% | 0% | 631/613/0 | 162/181.9/264/482.1/509 |
+| quadratic (convex gentle) | pity_chaser | 1.4367e-4 | 0% | 0% | 1/0/0 | 0/0/0/1/1 |
+| quadratic (convex gentle) | whale_ten | 1.4367e-4 | 100% | 0% | 739/744/0 | 220/250/340/552.5/790 |
+| capped 25% (linear to 0.25) | frugal_single | 5.4961e-2 | 0% | 0% | 0/0/0 | 0/0/0/1/2 |
+| capped 25% (linear to 0.25) | topup_single | 5.4961e-2 | 100% | 42% | 578/512/65 | 159/176.9/261/466.2/539 |
+| capped 25% (linear to 0.25) | pity_chaser | 5.4961e-2 | 0% | 0% | 0/0/0 | 0/0/0/1/2 |
+| capped 25% (linear to 0.25) | whale_ten | 5.4961e-2 | 100% | 52% | 711/618/82 | 220/240/320/550.5/940 |
+| gentle step (+0.03/draw) | frugal_single | 4.3388e-3 | 0% | 0% | 1/0/0 | 0/0/0/1/2 |
+| gentle step (+0.03/draw) | topup_single | 4.3388e-3 | 100% | 8% | 612/596/10 | 147/174.8/270/480/533 |
+| gentle step (+0.03/draw) | pity_chaser | 4.3388e-3 | 0% | 0% | 1/0/0 | 0/0/0/1/2 |
+| gentle step (+0.03/draw) | whale_ten | 4.3388e-3 | 100% | 4% | 742/720/5 | 230/240/310/550.5/780 |
+
 ## S2: race income versus pull cost
 
 ### Race income alone (frugal_single: never buys gems; 60 days, 40 runs per row)
@@ -286,48 +309,65 @@ A pull costs 160 gems. "Days per pull" = 160 / mean gems earned per day. Cells m
 
 ### Cash drain and starvation (60 days; cash-to-dollar and wage are assumptions)
 
-Starvation = terminal route `running_on_empty` before day 60. Price x multiplies bundle and starter cash prices. Cells min/p5/p50/p95/max.
+Starvation = terminal route `running_on_empty` before day 60. Price x multiplies bundle and starter cash prices. unbuffered_spender maintains cashBuffer: 0, testing exposure when bills arrive with exhausted cash. Cells min/p5/p50/p95/max.
 
 | price x | wage/day | strategy | running on empty | days played | min cash | final debt | cash spent on bundles | paid draws |
 |---|---|---|---|---|---|---|---|---|
 | 0.25 | 25 | frugal_single | 0% | 60/60/60/60/60 | 0/0/12.5/51.1/134 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 0.25 | 25 | topup_single | 0% | 11/12/60/60/60 | 0.3/0.8/11.5/132.5/167.5 | 0/0/0/0/0 | 87.8/98/129.3/181.5/196.5 | 148/163.9/216/303.5/329 |
 | 0.25 | 25 | whale_ten | 0% | 11/13/14/35/47 | 0/12/28/39.1/59 | 0/0/0/0/0 | 215/234/312/472.3/502 | 430/460/620/930.5/990 |
+| 0.25 | 25 | unbuffered_spender | 0% | 10/10/10/11/12 | 0/0/0/0/0 | 0/0/0/0/200 | 514/545/589.5/710.1/739.5 | 1030/1090/1165/1380/1440 |
 | 0.25 | 45 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/1 |
 | 0.25 | 45 | topup_single | 0% | 11/11.9/16/32/41 | 73.3/145.8/200/200/200 | 0/0/0/0/0 | 106.3/115.8/157/314.3/403.8 | 178/194.2/261/522.0/670 |
 | 0.25 | 45 | whale_ten | 0% | 10/10/11/13/20 | 1/12.9/28/47.1/53 | 0/0/0/0/0 | 368/374.9/434.5/515.0/619 | 740/759.5/880/1040/1260 |
+| 0.25 | 45 | unbuffered_spender | 0% | 10/10/10/11/11 | 0/0/0/0/0 | 0/0/0/0/0 | 714/714/770.5/875.5/927 | 1440/1440/1530/1711.5/1820 |
 | 0.25 | 90 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 0.25 | 90 | topup_single | 0% | 11/11.9/15/31.0/53 | 200/200/200/200/200 | 0/0/0/0/0 | 107/115.8/146/305.8/523.8 | 178/193.3/244/506.8/866 |
 | 0.25 | 90 | whale_ten | 0% | 10/10/10/10/11 | 16/22.9/30.5/54.2/67 | 0/0/0/0/0 | 742/749/868/915/965 | 1490/1500/1740/1840/1940 |
+| 0.25 | 90 | unbuffered_spender | 0% | 10/10/10/10.0/11 | 0/0/0.1/5.5/11.3 | 0/0/0/0/0 | 959/962.9/1008/1038.9/1116.8 | 1940/1940/2030/2073.5/2250 |
 | 1 | 25 | frugal_single | 0% | 60/60/60/60/60 | 0/1/14/52/81 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 1 | 25 | topup_single | 0% | 28/60/60/60/60 | 0.3/0.4/1.5/14.5/20.5 | 0/0/0/0/0 | 181.6/212.4/267.4/351.2/412.1 | 77/91.0/113/148.1/174 |
 | 1 | 25 | whale_ten | 0% | 14/25.8/47.5/60/60 | 0.4/1.2/23.7/28.4/34.3 | 0/0/0/0/0 | 298.3/379.5/547.4/698.8/742.7 | 140/179.5/250/320.5/340 |
+| 1 | 25 | unbuffered_spender | 2% | 10/10/10/13/14 | 0.0/0.0/0.0/0.0/0.0 | 200/200/200/600/600 | 765.7/765.7/837.1/1216.5/1295.5 | 390/390/425/620/660 |
 | 1 | 45 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 1 | 45 | topup_single | 0% | 11/13.9/26/60/60 | 0.6/1.0/26.3/73.7/111.6 | 0/0/0/0/0 | 356.2/398.0/609.6/1181.9/1280.2 | 150/168.9/255.5/492.2/534 |
 | 1 | 45 | whale_ten | 0% | 11/11/18/41.3/60 | 0.3/3.3/28.3/42.8/55.3 | 0/0/0/0/0 | 406.6/451.4/615.8/1175.3/1654.9 | 210/230/320/606.0/850 |
+| 1 | 45 | unbuffered_spender | 2% | 10/10/10/12.0/14 | 0.1/0.1/0.1/0.1/0.1 | 200/200/200/410.0/600 | 965.6/965.6/1032.1/1337.8/1595.4 | 480/480/520/673.5/800 |
 | 1 | 90 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 1 | 90 | topup_single | 0% | 11/12/16/31.0/40 | 200/200/200/200/200 | 0/0/0/0/0 | 428.0/464.0/618.6/1216.4/1570.5 | 178/195/260/506.8/654 |
 | 1 | 90 | whale_ten | 0% | 10/10/11/16/32 | 16.3/21.3/28.4/28.4/28.4 | 0/0/0/0/0 | 767.5/825.2/965.9/1320.2/2270.4 | 380/410/485/660/1140 |
+| 1 | 90 | unbuffered_spender | 0% | 10/10/10/11/11 | 0.1/0.1/0.1/0.1/0.1 | 200/200/200/200/200 | 1327.5/1333.3/1431.5/1504.5/1586.5 | 660/669.5/715/750/790 |
 | 4 | 25 | frugal_single | 0% | 60/60/60/60/60 | 0/0/12/41.1/55 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 4 | 25 | topup_single | 0% | 60/60/60/60/60 | 0.4/0.4/2.6/8.5/11.5 | 0/0/0/0/0 | 139.6/195.5/255.4/375.1/514.8 | 17/22.9/28/40.1/54 |
 | 4 | 25 | whale_ten | 0% | 60/60/60/60/60 | 0.1/0.6/17.4/28.8/29.7 | 0/0/0/0/0 | 485.0/520.4/636.6/728.8/780.7 | 50/50/70/80/80 |
+| 4 | 25 | unbuffered_spender | 85% | 12/13/14/14/14 | 0/0.0/0.3/0.4/0.4 | 400/600/600/600/600 | 1034.6/1250.2/1302.3/1330.2/1330.2 | 120/149.5/150/160/160 |
 | 4 | 45 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 4 | 45 | topup_single | 0% | 48/58.9/60/60/60 | 0.0/0.2/2.8/8.7/11.8 | 0/0/0/0/0 | 870.0/1029.1/1151.4/1335.2/1420.8 | 93/108/121.5/140.2/149 |
 | 4 | 45 | whale_ten | 0% | 28/40.0/60/60/60 | 0.6/1.1/9.9/28.7/29.0 | 0/0/0/0/0 | 1000.0/1199.3/1682.8/1828.6/1880.0 | 110/130/180/190/200 |
+| 4 | 45 | unbuffered_spender | 64% | 11/12/14/14/14 | 0/0/0.1/0.6/0.6 | 200/400/600/600/600 | 1038.3/1293.9/1573.9/1605.8/1609.7 | 120/150/180/190/190 |
 | 4 | 90 | frugal_single | 0% | 60/60/60/60/60 | 200/200/200/200/200 | 0/0/0/0/0 | 0/0/0/0/0 | 0/0/0/1/2 |
 | 4 | 90 | topup_single | 0% | 14/19.9/38.5/60/60 | 0.0/0.2/2.7/12.5/79.5 | 0/0/0/0/0 | 1181.3/1367.8/2364.7/3676.0/3971.2 | 125/145.8/247.5/383.4/413 |
 | 4 | 90 | whale_ten | 0% | 14/16/30/60/60 | 16.8/18.0/28.7/30.9/32.0 | 0/0/0/0/0 | 1210.0/1285.2/2179.9/4228.7/4419.7 | 140/150/250/480/510 |
+| 4 | 90 | unbuffered_spender | 48% | 10/11.9/14/14/14 | 0/0.0/0.2/0.4/0.4 | 200/390/600/600/600 | 1470.2/1694.7/2093.5/2177.5/2233.5 | 170/199/245/260/260 |
 
-### Does income grow as the roster grows? (frugal player; first 6 days vs 60-day average)
+### Matched early vs later window race income (days 1-6 vs days 55-60)
 
-| payout x | power creep | gems/day (6d) | gems/day (60d avg) | ratio |
-|---|---|---|---|---|
-| 1 | 1 | 18.0 | 14.6 | 0.81 |
-| 1 | 1.15 | 14.8 | 1.8 | 0.12 |
-| 4 | 1 | 71.8 | 83.1 | 1.16 |
-| 4 | 1.15 | 53.0 | 6.8 | 0.13 |
-| 16 | 1 | 305.7 | 570.4 | 1.87 |
-| 16 | 1.15 | 226.6 | 33.9 | 0.15 |
+Compares race gems/day between early window (days 1–6) and late window (days 55–60) in 60-day runs across spending policies. Roster columns show mean owned distinct ducks; spend columns show gems bought from bundles and spent on pulls; "censored" = runs ending before day 55.
+
+| strategy | payout x | creep | early ducks (d1-6) | late ducks (d55-60) | bought gems | pull spend gems | early gems/day | late gems/day | late/early ratio | early censored |
+|---|---|---|---|---|---|---|---|---|---|---|
+| frugal_single | 1 | 1 | 4.5 | 7.7 | 0 | 878.7 | 18.7 | 16.6 | 0.89 | 0% |
+| frugal_single | 1 | 1.15 | 4.4 | 4.4 | 0 | 38.7 | 14.0 | 0 | 0.00 | 0% |
+| frugal_single | 4 | 1 | 5.1 | 14.4 | 0 | 4773.3 | 76.0 | 102.0 | 1.34 | 0% |
+| frugal_single | 4 | 1.15 | 4.6 | 5 | 0 | 322.7 | 53.0 | 0 | 0.00 | 0% |
+| topup_single | 1 | 1 | 11.5 | 23.1 | 43479.8 | 44906.7 | 43.7 | 55.0 | 1.26 | 89% |
+| topup_single | 1 | 1.15 | 11.4 | 23.3 | 45321.3 | 45860 | 38.4 | 1.7 | 0.04 | 88% |
+| topup_single | 4 | 1 | 11.3 | 23 | 41413.5 | 46889.3 | 174.4 | 213.3 | 1.22 | 95% |
+| topup_single | 4 | 1.15 | 11.5 | 23 | 43959.3 | 46448 | 152.8 | 8.6 | 0.06 | 91% |
+| whale_ten | 1 | 1 | 11.6 | 23 | 56448.2 | 56746.7 | 49.9 | 60 | 1.20 | 99% |
+| whale_ten | 1 | 1.15 | 11.7 | 24 | 56441.2 | 56400 | 46.3 | 1.2 | 0.03 | 99% |
+| whale_ten | 4 | 1 | 11.4 | – | 55686.8 | 58866.7 | 198.9 | – | – | 100% |
+| whale_ten | 4 | 1.15 | 11.3 | 23 | 57925.1 | 59693.3 | 172.3 | 10 | 0.06 | 98% |
 
 ### Down shop as a pull loop (whale_ten, 60 days): best-case gem-equivalent of all Down earned, as % of gems spent on pulls
 
@@ -411,7 +451,7 @@ Mean gems per race by policy, paired by seed (300 seeds). "vs best" = mean paire
 
 ## Floor-time estimate (assumption-driven, NOT a measurement)
 
-Seconds assumed per element: setup 90, reveal 3, raceFixed 20, raceChoice 5, offerRead 8, event 8, escalation 15, banner 10, modal 20, receipt 150. The model has no real pacing; whether a floor run is roughly 15 minutes requires browser and human observation. Cells min/p5/p50/p95/max minutes.
+Seconds assumed per element (standard baseline): setup 90, reveal 3, raceFixed 20, raceChoice 5, offerRead 8, event 8, escalation 15, banner 10, modal 20, receipt 150. The model has no real pacing; whether a floor run is roughly 15 minutes requires browser and human observation. Cells min/p5/p50/p95/max minutes.
 
 | days | strategy | estimated minutes |
 |---|---|---|
@@ -423,4 +463,47 @@ Seconds assumed per element: setup 90, reveal 3, raceFixed 20, raceChoice 5, off
 | 30 | topup_single | 23.5/28.2/47.9/53.8/54.8 |
 | 30 | whale_ten | 26.3/28.1/38.6/61.2/64.2 |
 | 30 | early_uninstaller | 6.5/6.5/6.5/6.5/6.5 |
+
+### Floor-time sensitivity matrix (exploring candidate paths to the ~15-minute floor target)
+
+Profiles: brisk (fast reveals/races, 90s receipt), standard (baseline PACING, 150s receipt), leisurely (slower animations, 240s receipt). Non-spending frugal_single represents the baseline classroom run; whale_ten adds heavy pull/reveal volume. All minutes are model estimates based on assumed event durations; human observation is required in Plan 03.
+
+| days | races/day | pacing profile | strategy | estimated minutes (min/p5/p50/p95/max) |
+|---|---|---|---|---|
+| 10 | 1 | brisk | frugal_single | 7.2/7.3/7.3/7.3/7.3 |
+| 10 | 1 | brisk | whale_ten | 10.7/10.9/11.9/12.4/12.7 |
+| 10 | 1 | standard | frugal_single | 12.3/12.4/12.4/12.4/12.4 |
+| 10 | 1 | standard | whale_ten | 19.4/19.9/21.9/22.9/23.4 |
+| 10 | 1 | leisurely | frugal_single | 17.3/17.4/17.4/17.4/17.4 |
+| 10 | 1 | leisurely | whale_ten | 26.6/27.2/29.9/31.3/31.9 |
+| 10 | 2 | brisk | frugal_single | 9.7/9.7/9.8/9.8/9.8 |
+| 10 | 2 | brisk | whale_ten | 13.2/13.4/14.3/14.9/15.1 |
+| 10 | 2 | standard | frugal_single | 16.5/16.5/16.6/16.6/16.6 |
+| 10 | 2 | standard | whale_ten | 23.6/24.1/25.9/27.1/27.4 |
+| 10 | 2 | leisurely | frugal_single | 22.8/22.8/22.9/22.9/22.9 |
+| 10 | 2 | leisurely | whale_ten | 32.1/32.7/35.1/36.8/37.2 |
+| 12 | 1 | brisk | frugal_single | 8.0/8.1/8.1/8.1/8.1 |
+| 12 | 1 | brisk | whale_ten | 12.3/12.3/13.3/14.1/14.2 |
+| 12 | 1 | standard | frugal_single | 13.7/13.8/13.8/13.8/13.8 |
+| 12 | 1 | standard | whale_ten | 22.6/22.6/24.4/26.1/26.2 |
+| 12 | 1 | leisurely | frugal_single | 19.1/19.2/19.2/19.2/19.2 |
+| 12 | 1 | leisurely | whale_ten | 30.7/30.7/33.1/35.4/35.6 |
+| 12 | 2 | brisk | frugal_single | 11.0/11.0/11.1/11.1/11.1 |
+| 12 | 2 | brisk | whale_ten | 15.3/15.4/16.3/17.1/17.2 |
+| 12 | 2 | standard | frugal_single | 18.7/18.7/18.8/18.8/18.8 |
+| 12 | 2 | standard | whale_ten | 27.6/27.7/29.6/31.1/31.2 |
+| 12 | 2 | leisurely | frugal_single | 25.7/25.7/25.8/25.8/25.8 |
+| 12 | 2 | leisurely | whale_ten | 37.3/37.5/40.1/42.0/42.2 |
+| 15 | 1 | brisk | frugal_single | 9.5/9.5/9.5/9.5/9.5 |
+| 15 | 1 | brisk | whale_ten | 12.1/12.7/15.6/16.4/16.7 |
+| 15 | 1 | standard | frugal_single | 16.1/16.1/16.1/16.1/16.1 |
+| 15 | 1 | standard | whale_ten | 22.1/23.4/28.5/30.3/30.8 |
+| 15 | 1 | leisurely | frugal_single | 22.4/22.4/22.4/22.4/22.4 |
+| 15 | 1 | leisurely | whale_ten | 30.1/31.9/38.6/40.9/41.6 |
+| 15 | 2 | brisk | frugal_single | 13.2/13.2/13.3/13.3/13.3 |
+| 15 | 2 | brisk | whale_ten | 14.9/16.0/19.1/20.2/20.3 |
+| 15 | 2 | standard | frugal_single | 22.3/22.3/22.4/22.4/22.4 |
+| 15 | 2 | standard | whale_ten | 27.1/29.0/34.3/36.5/36.6 |
+| 15 | 2 | leisurely | frugal_single | 30.5/30.5/30.6/30.6/30.6 |
+| 15 | 2 | leisurely | whale_ten | 36.7/39.3/46.2/49.2/49.4 |
 

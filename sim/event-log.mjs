@@ -1,6 +1,9 @@
 // Append-only run record. Entries are deep-frozen, carry a monotonically increasing
-// `seq`, and are hash-chained (each `chain` value covers the previous chain value), so
-// reordering, dropping, or editing an entry is detectable by verifyChain().
+// `seq`, and are hash-chained (each `chain` value covers the previous chain value).
+// Reordering, modifying, or deleting interior entries invalidates the sequence or hash
+// chain, as checked by verifyChain(). Any valid prefix also verifies; trailing truncation
+// does not break prefix chaining, so finished-run completeness is checked separately
+// by verifyCompleteness().
 // The Receipt projection reads only this record, never the final run state.
 
 function fnv1a(str) {
@@ -63,4 +66,15 @@ export function verifyChain(entries) {
     prev = e.chain;
   }
   return true;
+}
+
+/**
+ * Checks whether the log contains terminal and receipt_shown entries for a finished run.
+ * Prefix logs remain valid partial logs under verifyChain, but fail completeness.
+ */
+export function verifyCompleteness(entries) {
+  if (!Array.isArray(entries) || entries.length === 0) return false;
+  const hasTerminal = entries.some((e) => e.type === 'terminal');
+  const hasReceipt = entries.some((e) => e.type === 'receipt_shown');
+  return hasTerminal && hasReceipt;
 }

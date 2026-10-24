@@ -4,7 +4,7 @@
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { Run, simulate, DEFAULT_PARAMS } from './model.mjs';
+import { Run, simulate, DEFAULT_PARAMS, preDrawOdds, windowHardPityProbability } from './model.mjs';
 import { makeStrategy, RACE_POLICIES } from './strategies.mjs';
 import { projectReceipt } from './receipt.mjs';
 
@@ -42,10 +42,44 @@ const STRATS = ['frugal_single', 'saver_ten', 'topup_single', 'pity_chaser', 'wh
 
 /** Time-pacing ASSUMPTIONS (seconds). A headless model cannot measure real classroom minutes. */
 export const PACING = { setup: 90, reveal: 3, raceFixed: 20, raceChoice: 5, offerRead: 8, event: 8, escalation: 15, banner: 10, modal: 20, receipt: 150 };
+export const PACING_PROFILES = {
+  brisk: { setup: 45, reveal: 1.5, raceFixed: 12, raceChoice: 3, offerRead: 5, event: 5, escalation: 10, banner: 5, modal: 10, receipt: 90 },
+  standard: PACING,
+  leisurely: { setup: 120, reveal: 4, raceFixed: 25, raceChoice: 8, offerRead: 12, event: 10, escalation: 20, banner: 15, modal: 30, receipt: 240 },
+};
 export function estimateSeconds(entries, pacing = PACING) {
   const c = (t) => entries.filter((e) => e.type === t).length;
   return pacing.setup + c('reveal_shown') * pacing.reveal + c('race_result') * (pacing.raceFixed + pacing.raceChoice) + c('offer_shown') * pacing.offerRead +
     c('event_result') * pacing.event + c('escalation_result') * pacing.escalation + c('banner_started') * pacing.banner + c('retention_modal_shown') * pacing.modal + pacing.receipt;
+}
+
+function runMatchedWindows(label, params, stratName, n) {
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const run = simulate(params, `${label}-${i}`, makeStrategy(stratName));
+    const entries = run.log.entries;
+    const earlyRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day <= 6);
+    const lateRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= 55 && e.clock.day <= 60);
+    const earlyGems = earlyRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
+    const lateGems = lateRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
+    const earlyDays = Math.min(6, run.day);
+    const lateDays = run.day >= 55 ? run.day - 54 : 0;
+    const earlyGpd = earlyDays > 0 ? earlyGems / earlyDays : 0;
+    const lateGpd = lateDays > 0 ? lateGems / lateDays : null;
+    const earlyReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= 6);
+    const earlyOwned = new Set(earlyReveals.map((e) => e.payload.identity)).size;
+    const lateOwned = run.roster.filter((d) => run.owned.has(d.id)).length;
+    out.push({
+      censoredBeforeLate: run.day < 55,
+      earlyGpd,
+      lateGpd,
+      earlyOwned,
+      lateOwned,
+      boughtGems: run.stats.gemsFromBundles,
+      pullSpend: run.stats.gemsSpentOnPulls,
+    });
+  }
+  return out;
 }
 
 function runMany(label, params, stratName, n, stratOverrides = {}) {
@@ -146,6 +180,28 @@ results.s1 = [];
   md.push('Window columns count completed pity windows ending in a legendary: before soft pity / inside soft pity / at the hard draw.\n');
   md.push(table(['pity at banner change', 'opening advances pity', 'strategy', 'entered soft', 'reached hard', 'any legendary', 'windows before-soft/in-soft/at-hard'], side));
   md.push('');
+
+  // S1 ramp shape comparison: linear vs gentle/capped ramps
+  const rampRows = [];
+  results.s1Ramps = [];
+  const rampShapes = [
+    { id: 'linear', label: 'linear (draft: steep to 1.0)', analytical: windowHardPityProbability({ ...DEFAULT_PARAMS, softRamp: 'linear' }) },
+    { id: 'quadratic', label: 'quadratic (convex gentle)', analytical: windowHardPityProbability({ ...DEFAULT_PARAMS, softRamp: 'quadratic' }) },
+    { id: 'capped', label: 'capped 25% (linear to 0.25)', analytical: windowHardPityProbability({ ...DEFAULT_PARAMS, softRamp: 'capped', softRampCap: 0.25 }) },
+    { id: 'gentle_step', label: 'gentle step (+0.03/draw)', analytical: windowHardPityProbability({ ...DEFAULT_PARAMS, softRamp: 'gentle_step', softRampStep: 0.03 }) },
+  ];
+  for (const ramp of rampShapes) {
+    for (const st of ['frugal_single', 'topup_single', 'pity_chaser', 'whale_ten']) {
+      const runs = runMany(`s1ramp-${ramp.id}-${st}`, { maxDays: 60, softRamp: ramp.id, softRampCap: 0.25, softRampStep: 0.03 }, st, N(120, 25));
+      const pr = pityRow(runs);
+      results.s1Ramps.push({ ramp: ramp.id, strategy: st, analyticalPerWindowReach: ramp.analytical, n: runs.length, ...pr });
+      rampRows.push([ramp.label, st, ramp.analytical.toExponential(4), pc(pr.enteredSoft), pc(pr.reachedHard), `${pr.windowsBeforeSoft}/${pr.windowsInSoft}/${pr.windowsAtHard}`, dcell(pr.paidDraws)]);
+    }
+  }
+  md.push('### S1 ramp shape comparison: linear vs gentle/capped ramps (draft 35/50 thresholds, 60 days)\n');
+  md.push('Draft thresholds 35/50. "Per-window reach (analytical)" = exact probability of reaching draw 50 without hitting a legendary earlier in a single uninterrupted pity window. Simulated columns report player-level percentages across seeds and windows completed.\n');
+  md.push(table(['ramp shape', 'strategy', 'per-window reach (analytical)', 'entered soft', 'reached hard', 'windows before/in-soft/at-hard', 'paid draws'], rampRows));
+  md.push('');
 }
 
 // ================================================================ S2 self-funding versus starvation
@@ -173,7 +229,7 @@ results.s2 = [];
   results.s2b = [];
   for (const bundlePriceScale of [0.25, 1, 4]) {
     for (const wagePerDay of [25, 45, 90]) {
-      for (const st of ['frugal_single', 'topup_single', 'whale_ten']) {
+      for (const st of ['frugal_single', 'topup_single', 'whale_ten', 'unbuffered_spender']) {
         const runs = runMany(`s2b-${bundlePriceScale}-${wagePerDay}-${st}`, { maxDays: 60, bundlePriceScale, wagePerDay }, st, N(100, 20));
         const routes = {};
         for (const r of runs) routes[r.route] = (routes[r.route] ?? 0) + 1;
@@ -185,24 +241,60 @@ results.s2 = [];
     }
   }
   md.push('### Cash drain and starvation (60 days; cash-to-dollar and wage are assumptions)\n');
-  md.push('Starvation = terminal route `running_on_empty` before day 60. Price x multiplies bundle and starter cash prices. Cells min/p5/p50/p95/max.\n');
+  md.push('Starvation = terminal route `running_on_empty` before day 60. Price x multiplies bundle and starter cash prices. unbuffered_spender maintains cashBuffer: 0, testing exposure when bills arrive with exhausted cash. Cells min/p5/p50/p95/max.\n');
   md.push(table(['price x', 'wage/day', 'strategy', 'running on empty', 'days played', 'min cash', 'final debt', 'cash spent on bundles', 'paid draws'], rows2));
   md.push('');
 
-  // loop gain: do pulls feed back into race income? compare mean gems/day early vs late for a gem-funded player.
+  // loop gain: matched early (days 1-6) vs later (days 55-60) window comparison
   const loop = [];
   results.s2Loop = [];
-  for (const scale of [1, 4, 16]) {
-    for (const creep of [1.0, 1.15]) {
-      const early = runMany(`s2l-e-${scale}-${creep}`, { maxDays: 6, payoutScale: scale, powerCreep: creep }, 'frugal_single', N(150, 30));
-      const late = runMany(`s2l-l-${scale}-${creep}`, { maxDays: 60, payoutScale: scale, powerCreep: creep }, 'frugal_single', N(150, 30));
-      const rec = { payoutScale: scale, powerCreep: creep, earlyGemsPerDay: dist(early.map((r) => r.gemsPerDay)), lateGemsPerDay: dist(late.map((r) => r.gemsPerDay)) };
-      results.s2Loop.push(rec);
-      loop.push([scale, creep, f1(rec.earlyGemsPerDay.mean), f1(rec.lateGemsPerDay.mean), f2(rec.lateGemsPerDay.mean / rec.earlyGemsPerDay.mean)]);
+  for (const st of ['frugal_single', 'topup_single', 'whale_ten']) {
+    for (const scale of [1, 4]) {
+      for (const creep of [1.0, 1.15]) {
+        const runs = runMatchedWindows(`s2loop-${st}-${scale}-${creep}`, { maxDays: 60, payoutScale: scale, powerCreep: creep }, st, N(120, 25));
+        const surviving = runs.filter((r) => !r.censoredBeforeLate);
+        const earlyGpd = dist(runs.map((r) => r.earlyGpd));
+        const lateGpd = dist(surviving.map((r) => r.lateGpd));
+        const earlyOwned = dist(runs.map((r) => r.earlyOwned));
+        const lateOwned = dist(surviving.map((r) => r.lateOwned));
+        const boughtGems = dist(runs.map((r) => r.boughtGems));
+        const pullSpend = dist(runs.map((r) => r.pullSpend));
+        const censoredShare = share(runs, (r) => r.censoredBeforeLate);
+        const ratio = surviving.length && earlyGpd.mean > 0 ? lateGpd.mean / earlyGpd.mean : null;
+        const rec = {
+          strategy: st,
+          payoutScale: scale,
+          powerCreep: creep,
+          n: runs.length,
+          censoredShare,
+          earlyGemsPerDay: earlyGpd,
+          lateGemsPerDay: lateGpd,
+          earlyOwned,
+          lateOwned,
+          boughtGems,
+          pullSpend,
+          ratio,
+        };
+        results.s2Loop.push(rec);
+        loop.push([
+          st,
+          scale,
+          creep,
+          f1(earlyOwned.mean),
+          f1(lateOwned.mean),
+          f1(boughtGems.mean),
+          f1(pullSpend.mean),
+          f1(earlyGpd.mean),
+          surviving.length ? f1(lateGpd.mean) : '–',
+          ratio !== null ? f2(ratio) : '–',
+          pc(censoredShare),
+        ]);
+      }
     }
   }
-  md.push('### Does income grow as the roster grows? (frugal player; first 6 days vs 60-day average)\n');
-  md.push(table(['payout x', 'power creep', 'gems/day (6d)', 'gems/day (60d avg)', 'ratio'], loop));
+  md.push('### Matched early vs later window race income (days 1-6 vs days 55-60)\n');
+  md.push('Compares race gems/day between early window (days 1–6) and late window (days 55–60) in 60-day runs across spending policies. Roster columns show mean owned distinct ducks; spend columns show gems bought from bundles and spent on pulls; "censored" = runs ending before day 55.\n');
+  md.push(table(['strategy', 'payout x', 'creep', 'early ducks (d1-6)', 'late ducks (d55-60)', 'bought gems', 'pull spend gems', 'early gems/day', 'late gems/day', 'late/early ratio', 'early censored'], loop));
   md.push('');
 
   // Down loop check
@@ -304,8 +396,32 @@ log('time');
     }
   }
   md.push('## Floor-time estimate (assumption-driven, NOT a measurement)\n');
-  md.push(`Seconds assumed per element: ${Object.entries(PACING).map(([k, v]) => `${k} ${v}`).join(', ')}. The model has no real pacing; whether a floor run is roughly 15 minutes requires browser and human observation. Cells min/p5/p50/p95/max minutes.\n`);
+  md.push(`Seconds assumed per element (standard baseline): ${Object.entries(PACING).map(([k, v]) => `${k} ${v}`).join(', ')}. The model has no real pacing; whether a floor run is roughly 15 minutes requires browser and human observation. Cells min/p5/p50/p95/max minutes.\n`);
   md.push(table(['days', 'strategy', 'estimated minutes'], rows));
+  md.push('');
+
+  // Compact sensitivity matrix across days, races/day, and pacing profiles
+  const sensRows = [];
+  results.timeSensitivity = [];
+  for (const days of [10, 12, 15]) {
+    for (const races of [1, 2]) {
+      for (const [profName, profPacing] of Object.entries(PACING_PROFILES)) {
+        for (const st of ['frugal_single', 'whale_ten']) {
+          const runs = [];
+          for (let i = 0; i < N(40, 10); i++) {
+            const run = simulate({ maxDays: days, racesPerDay: races }, `sens-${days}-${races}-${st}-${i}`, makeStrategy(st));
+            runs.push(estimateSeconds(run.log.entries, profPacing) / 60);
+          }
+          const d = dist(runs);
+          results.timeSensitivity.push({ days, racesPerDay: races, profile: profName, strategy: st, minutes: d });
+          sensRows.push([days, races, profName, st, dcell(d)]);
+        }
+      }
+    }
+  }
+  md.push('### Floor-time sensitivity matrix (exploring candidate paths to the ~15-minute floor target)\n');
+  md.push('Profiles: brisk (fast reveals/races, 90s receipt), standard (baseline PACING, 150s receipt), leisurely (slower animations, 240s receipt). Non-spending frugal_single represents the baseline classroom run; whale_ten adds heavy pull/reveal volume. All minutes are model estimates based on assumed event durations; human observation is required in Plan 03.\n');
+  md.push(table(['days', 'races/day', 'pacing profile', 'strategy', 'estimated minutes (min/p5/p50/p95/max)'], sensRows));
   md.push('');
 }
 
@@ -339,6 +455,12 @@ function fmt(e) {
   traces.push('', '=== Trace 4: scripted exit between commit and reveal of draw 4 of a paid ten-pull (sequential mode), seed trace-exit ===', ...d.log.entries.slice(-16).map(fmt));
   const rc = projectReceipt(d.log.entries);
   traces.push('', '--- Receipt projection for trace 4 (pull ledger, paid ten-pull) ---', ...rc.pullLedger.filter((l) => l.purchaseKind === 'ten_pull').map((l) => `draw ${l.drawIndex}/${l.of} pityBefore=${l.pityBefore} odds=${JSON.stringify(l.preDrawOdds)} committed=${l.committed.rarity}:${l.committed.identity} revealed=${l.revealed}`));
+
+  const e = simulate({ startCash: 0, wagePerDay: 0, maxDays: 60 }, 'trace-empty', makeStrategy('frugal_single'));
+  traces.push('', '=== Trace 5: zero-cash running_on_empty run, seed trace-empty (full run) ===', ...e.log.entries.map(fmt));
+  const rce = projectReceipt(e.log.entries);
+  traces.push('', '--- Receipt accounting section for trace 5 ---', ...(rce.accounting?.lines.map((l) => l.text) ?? []));
+
   mkdirSync(outDir, { recursive: true });
   writeFileSync(join(outDir, 'traces.txt'), traces.join('\n') + '\n');
 }

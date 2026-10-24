@@ -7,6 +7,7 @@ const SPEC = {
   topup_single: { pull: 'single', bundles: 'topup', race: 'best', cashBuffer: 150 },
   pity_chaser: { pull: 'single', bundles: 'chase', race: 'best', cashBuffer: 0 },
   whale_ten: { pull: 'ten', bundles: 'whale', race: 'best', cashBuffer: 100 },
+  unbuffered_spender: { pull: 'ten', bundles: 'whale', race: 'best', cashBuffer: 0 },
   early_uninstaller: { pull: 'single', bundles: 'none', race: 'best', uninstallDay: 2, uninstallAction: 'leave' },
 };
 

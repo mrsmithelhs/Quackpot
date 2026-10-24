@@ -55,6 +55,8 @@ Across **every** style, variant 1 is balanced/classic, variant 2 is squat/wide w
 
 Generate actual individual files, not just a contact sheet. Inspect every result; repair missing/cropped/malformed ducks rather than silently substituting an unrelated image. Keep the requested scope at 15 concepts; report any failed calls and extra attempts honestly. Do not claim unobserved model identity, dimensions or transparency. Record the effective prompt and available generation metadata for each concept.
 
+**Quota-aware continuation (2026-10-24):** Preserve completed files/prompts across interruptions. Prioritize breadth: finish A1/B1/C1/D1/E1 before second variants, then third variants. If generation capacity is exhausted, retain a manifest of completed/missing IDs and make the gallery usable with the available concepts, marking missing cells honestly. That is an interim review artifact, not completion of the 15-image scope. Do not regenerate valid completed concepts or repeatedly poll/retry the generation tool while blocked; the owner controls resumption.
+
 Keep provenance sanitized: no API keys, account details, signed download links or raw provider responses containing private fields in this public repository.
 
 ## Local owner-review gallery

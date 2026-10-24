@@ -47,6 +47,8 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 ## Scope and work plan
 
+**Owner clarification, 2026-10-24:** Read `reports/orchestration/duck-representation-boundary.md` before the mechanism outline. The physical metagame companion is outside the digital roster and stays inanimate; camera/framing may vary. Resolve the simulation's existing `own-duck` racer assumption before using it as the game contract. Keep pawn cash/story effects separate from gacha inventory.
+
 1. Run `check plan-03`. Propose the exact single trade-off, states, event types, save schema, Receipt projection, and UI wiring. **Wait for owner/orchestrator mechanism approval before coding.** Do not invent final design values from simulation candidates.
 2. Implement the smallest playable opening/core loop and one meaningful competing use of resources or time. Include one pre-race choice if a race is in scope; fixed-duration race has no reflex taps. Show only cues whose event records can prove display.
 3. Support start-menu autosave selection and an explicit save icon at many safe junctures. Save run state, seed/PRNG state, and full append-only log locally; reload and resume without silently replaying or dropping an event. Surface shared/cleared-browser limits honestly.

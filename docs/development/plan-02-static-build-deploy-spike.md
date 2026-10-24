@@ -1,11 +1,11 @@
 ---
 id: plan-02
 title: Static build and Pages deployment spike
-status: delivered
+status: complete
 depends_on: []
 gate: "Owner approves the proposed folder layout and any live Pages publication or remote configuration."
 superseded_by: null
-resolution: null
+resolution: "Owner ratified paths on 2026-10-24; independently verified local Vite build and subpath smoke accepted. Live Pages deployment, remote settings, and deployed slash behavior remain unverified and unauthorized."
 summary: >-
   Prove a local Vite static build and Pages-compatible output, then propose
   ratification of the source, asset, simulation, test, and publish folders.

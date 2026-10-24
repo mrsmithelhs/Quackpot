@@ -48,7 +48,7 @@ This heading preserves the draft's section anchor, which the founding reviews ci
 | **Duck stats** | Power creep may make later ducks faster. Rate/effects remain simulation inputs. |
 | **Pond Race** | Fixed-duration race resolves from duck stats after one pre-race choice. No timing taps. Race duration remains open. |
 | **Duplicates and Down** | Duplicates convert to Down. Its shop is intentionally near-useless and poor value; it must not become a profitable pull loop. |
-| **Collection and Duck-Dex** | Finite duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. What counts as complete and whether the player's own duck counts remain open. |
+| **Collection and Duck-Dex** | Finite gacha duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. The metagame's physical companion is outside this digital roster. |
 
 ## Manipulation catalog
 
@@ -114,7 +114,11 @@ The tone is absurd but real: each included step heightens a recognizable pressur
 
 ## Duck companion
 
-The story opens with the player's own duck. Setup names it and chooses its look from the less-extreme collection assets. The duck is silent: the camera holds or moves, and the player's replies carry the inner narrative.
+The story opens with the metagame character's own physical rubber duck. Setup names it and chooses its look using less-extreme parts in the shared visual language. The duck is silent: the camera holds or moves, and the player's replies carry the inner narrative.
+
+**Owner clarification, 2026-10-24:** The character owns one physical rubber duck and becomes interested in the fictional gacha video game because of that attachment. Keep that physical object static. The gacha game's digital ducks are a separate collectible roster and may have expressive or impressive movement, to be investigated after the base SVG is settled. Pawning the physical companion changes the metagame object and cash/story outcome; it does not remove a digital gacha collectible.
+
+Static does not mean one fixed camera view. The owner wants to explore cinematic views of the same physical object for conversation beats: three-quarter angles, apparent side-eye, profile, rear view, high/low angles and framing that suggest posture or personality without autonomous eye, face or body animation. The owner favors a 2D-first study: lighting changes and different backgrounds/compositions within the apartment can carry emotional beats, as if the character has repositioned the physical duck during the conversation. Inspect wide, medium and close framing and multiple zoom levels. A coherent authored set of 2D SVG views is the initial approach. A 3D source model producing 2D views remains a future investigation candidate if a witnessed limitation justifies it; SVG itself is 2D, and no 3D runtime or source-model pipeline is selected. Keep this physical-prop cinematography investigation separate from digital gacha motion.
 
 Use about three to five event-triggered scenes with neutral fallback lines. Scenes are skippable and do not consume running-clock time. A late pawn offer appears during the run; accepting it leads to an empty-desk scene; the choice is meaningful but not required to finish.
 
@@ -147,7 +151,7 @@ Reduced-motion presentation preserves information, choices, and outcomes while r
 
 | Ending | How you get it |
 |---|---|
-| **Completed the Collection** | Every identity in the finite roster is owned; own-duck counting remains open |
+| **Completed the Collection** | Every identity in the finite digital gacha roster is owned |
 | **Influencer** | Deferred with the streaming branch; draft threshold 40,000 followers, deep in debt |
 | **Running on Empty** | Only after the zero-health/money escalation sequence; ordering remains open |
 | **Run complete** | Designed final day/event; duration and day count remain open |
@@ -178,7 +182,9 @@ The record stays in the browser during play. A student may download a run-usage 
 
 ## Assets
 
-All art begins as SVG source in the repository: characters, environments, gameplay elements, and animation where appropriate. Ordinary text uses HTML/CSS, not SVG, unless a text effect is impractical in CSS and JavaScript.
+Game art assets begin as SVG source in the repository: characters, environments, gameplay elements, and animation where appropriate. Ordinary text uses HTML/CSS, not SVG, unless a text effect is impractical in CSS and JavaScript.
+
+**Owner authorization, 2026-10-24:** Generated raster concept studies may be created under `reports/` to compare duck visual directions before authoring the production SVG. These are review references, do not ship in the game, and do not replace the SVG-source requirement. The owner selects one or more directions before the base SVG is revised. Animation comparisons follow that base approval in a separate packet; no particular motion is selected yet.
 
 Each asset may be served as SVG or rendered to PNG where a measured test shows PNG is a better fit for that asset. The generated-raster banner/background plan is removed.
 
@@ -189,7 +195,7 @@ Sound effects use jsfxr/ZzFX-style parameters stored as text and synthesized at 
 ## Technology
 
 - The published experience is a static GitHub Pages site.
-- All art begins as SVG source; each asset may ship as SVG or measured-fit PNG.
+- Game art assets begin as SVG source; each may ship as SVG or measured-fit PNG. Owner-authorized raster concept references remain in reports and do not ship.
 - Development/build may use Vite; output is static HTML, CSS, JavaScript, and assets. Runtime CDN libraries are not allowed.
 - State and the Receipt event record stay in browser storage. Gameplay makes no network calls.
 - One small seedable PRNG module makes runs and the event deck reproducible.
@@ -255,7 +261,6 @@ A student may download a run-usage file and manually submit it to a class assign
 - Should saves use localStorage or IndexedDB, and how should resume behave on shared or cleared lab computers?
 - Can a teacher see whether students replayed — for example, through a run count or seed in the usage file?
 - What pity thresholds and banner carry/reset rule should simulation recommend?
-- Does the player's own duck count toward collection completion?
 - What roster size, duplicate rate, Down shop, set bonuses, and event effects work without variant-specific balancing?
 - Which near-miss forms should testing retain, and what firing rule/rate is accurate?
 - What fatigue-obscuring choices should orchestration propose, and does the reduced-motion presentation exempt them?

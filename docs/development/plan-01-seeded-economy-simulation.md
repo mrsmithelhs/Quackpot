@@ -65,4 +65,6 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 ## Stop Conditions and report
 
+**Subsequent owner clarification (2026-10-24):** See `reports/orchestration/duck-representation-boundary.md`. The physical companion is not a gacha racer or collectible. The existing `own-duck` race slot and pawn-removes-racer coupling are unadopted simulation assumptions requiring an explicit disposition before the playable slice. Do not silently expand another thread's active repair; assess which evidence actually depends on that slot before requiring any rerun.
+
 Stop if a settled design decision must change, a needed rule has no defensible bounded assumption, or the mechanism outline is not approved. Do not set packet status, edit orchestrator notes, call the work complete or ready to ship, or promote draft numbers. Report files, commands, actual observations, failed hypotheses, untested dimensions, and recommendations against S1–S4 rather than test counts. Commit only scoped files and the progress report; never push.

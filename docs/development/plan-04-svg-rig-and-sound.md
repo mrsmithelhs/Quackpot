@@ -2,7 +2,7 @@
 id: plan-04
 title: SVG duck rig and synthesized sound spike
 status: draft
-depends_on: [plan-02]
+depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 superseded_by: null
 resolution: null
@@ -22,12 +22,12 @@ summary: >-
 - Packet type: prototype
 - Mutation level: content and scripts
 - Approval gate: mechanism/asset outline before coding; owner review of a small sample before expansion
-- Depends on: `plan-02`
+- Depends on: `plan-02`, `plan-08`
 - Expected artifacts: one composable SVG source sample and a small text-parameter sound prototype, `reports/development/plan-04-svg-rig-and-sound/progress.md`
 
 ## Goal
 
-Prove that palette, hat and accessory layers can form distinct cosmetic ducks from SVG source and that a local parameter set can synthesize one short effect in browser.
+Prove that palette, hat and accessory layers can form distinct digital gacha ducks from SVG source and that a local parameter set can synthesize one short effect in browser. Keep the physical metagame prop's representation separate.
 
 ## Non-goals
 
@@ -35,7 +35,7 @@ No complete roster, generated raster background, PNG delivery without measured b
 
 ## Depends on
 
-Plan 02's accepted layout determines asset/source paths. This packet may run beside Plan 03 only with disjoint file ownership; integration into game UI is a later reviewable change.
+Plan 02's accepted layout determines asset/source paths. Plan 08's owner-selected visual directions determine the base look; do not treat the build-spike placeholder as the approved rig. This packet may run beside Plan 03 only with disjoint file ownership; integration into game UI is a later reviewable change. Keep the physical metagame companion inanimate; its alternate-view/lighting study is Plan 10, and digital motion comparison follows in Plan 09.
 
 ## Why this packet exists
 
@@ -48,7 +48,7 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 ## Scope and work plan
 
 1. Run `check plan-04`; present layer interface, asset paths, representative variants and sound parameter approach; **wait for mechanism approval before building**.
-2. Create one base duck plus a few recolor/layer combinations, including one less-extreme own-duck look. Prove parts compose without making a new identity for every cosmetic variant.
+2. Create the owner-selected digital base plus a few recolor/layer combinations. Prove parts compose without making a new identity for every cosmetic variant. If demonstrating a physical-companion derivative, keep it static and separately identified; coherent alternate views/lighting belong to Plan 10, and a different owner-selected physical-prop style must not be forced into the digital rig.
 3. Create one short local synthesized sound from text-stored jsfxr/ZzFX-style parameters. Test user-gesture audio startup and silent fallback.
 4. Capture rendered examples and basic performance/accessibility observations. Keep PNG and music decisions open unless separately measured and owner-approved.
 

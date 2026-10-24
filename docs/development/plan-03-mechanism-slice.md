@@ -1,7 +1,7 @@
 ---
 id: plan-03
 title: Core mechanism and truthful Receipt slice
-status: ready
+status: delivered
 depends_on: [plan-01, plan-02]
 gate: "Owner approves the selected trade-off and bounded mechanism outline before coding, then reviews the played slice."
 superseded_by: null
@@ -50,6 +50,8 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 **Owner gate adopted, 2026-10-24:** The owner approved the amended short trial in `reports/development/plan-03-mechanism-slice/preflight-review-03.md`, including its limited Common-only tactical comparison. This is implementation authority for that bounded contract, not final tuning or a 15-minute floor claim. Delivery `ea74cc6` was reviewed and returned for Repair 01; use `reports/development/plan-03-mechanism-slice/repair-01.md` before further work. Packet is `ready` for the bounded repair; played-slice acceptance remains open.
 
 **Repair 01 review, 2026-10-24:** `bf70ac5` fixes the principal original browser failures, but save/log coverage, repeated bill handling and required UI evidence remain incomplete. Use `reports/development/plan-03-mechanism-slice/review-02.md` and `repair-02.md` for the current bounded handoff. The owner-approved trial rules remain adopted; no new general preflight is needed.
+
+**Repair 02 technical review, 2026-10-24:** `f04a11b` satisfies the bounded repair checks; see `reports/development/plan-03-mechanism-slice/review-03.md` and independent browser observations. Technical acceptance is limited to the approved three-day mechanism slice. Packet remains `delivered` pending owner play acceptance; no further repair assignment or closure is implied. The unreachable-in-this-slice Skip Lunch settlement edge case is recorded for resolution before expanding food-shortfall gameplay.
 
 **Owner clarification, 2026-10-24:** Read `reports/orchestration/duck-representation-boundary.md` before the mechanism outline. The physical metagame companion is outside the digital roster and stays inanimate; camera/framing may vary. Resolve the simulation's existing `own-duck` racer assumption before using it as the game contract. Keep pawn cash/story effects separate from gacha inventory.
 

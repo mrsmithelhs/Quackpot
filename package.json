@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test scripts/dev/plan-status.test.js scripts/dev/smoke-validator.test.mjs sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs",
+    "test": "node --test scripts/dev/plan-status.test.js scripts/dev/smoke-validator.test.mjs sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs src/core/storage.test.mjs src/core/game-engine.test.mjs",
     "test:status": "node --test scripts/dev/plan-status.test.js",
     "test:validator": "node --test scripts/dev/smoke-validator.test.mjs",
     "test:sim": "node --test sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs",

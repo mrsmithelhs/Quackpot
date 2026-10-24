@@ -3,7 +3,8 @@
 // no output is a recommended or adopted balance table.
 
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Run, simulate, DEFAULT_PARAMS, preDrawOdds, windowHardPityProbability } from './model.mjs';
 import { makeStrategy, RACE_POLICIES } from './strategies.mjs';
 import { projectReceipt } from './receipt.mjs';
@@ -53,28 +54,46 @@ export function estimateSeconds(entries, pacing = PACING) {
     c('event_result') * pacing.event + c('escalation_result') * pacing.escalation + c('banner_started') * pacing.banner + c('retention_modal_shown') * pacing.modal + pacing.receipt;
 }
 
-function runMatchedWindows(label, params, stratName, n, earlyRange = [1, 6], lateRange = [55, 60]) {
+export function runMatchedWindows(label, params, stratName, n, earlyRange = [1, 6], lateRange = [55, 60]) {
   const out = [];
+  const racesPerDay = params.racesPerDay ?? 2;
+  const earlyDays = earlyRange[1] - earlyRange[0] + 1;
+  const lateDays = lateRange[1] - lateRange[0] + 1;
+  const expectedEarlyRaces = earlyDays * racesPerDay;
+  const expectedLateRaces = lateDays * racesPerDay;
+
   for (let i = 0; i < n; i++) {
     const run = simulate(params, `${label}-${i}`, makeStrategy(stratName));
     const entries = run.log.entries;
-    const survived = run.day >= lateRange[1];
-    const earlyDays = earlyRange[1] - earlyRange[0] + 1;
-    const lateDays = lateRange[1] - lateRange[0] + 1;
     const earlyRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= earlyRange[0] && e.clock.day <= earlyRange[1]);
     const lateRaces = entries.filter((e) => e.type === 'race_result' && e.clock.day >= lateRange[0] && e.clock.day <= lateRange[1]);
+    const hasFullEarly = earlyRaces.length === expectedEarlyRaces;
+    const hasFullLate = lateRaces.length === expectedLateRaces;
+    const fullExposure = hasFullEarly && hasFullLate;
+    const survived = run.day >= lateRange[1];
+
     const earlyGems = earlyRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
     const lateGems = lateRaces.reduce((s, e) => s + e.payload.payoutGems, 0);
-    const earlyGpd = earlyGems / earlyDays;
-    const lateGpd = survived ? lateGems / lateDays : null;
+    const earlyGpd = hasFullEarly ? earlyGems / earlyDays : null;
+    const lateGpd = fullExposure ? lateGems / lateDays : null;
+
     const earlyReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= earlyRange[1]);
     const lateReveals = entries.filter((e) => e.type === 'draw_committed' && e.clock.day <= lateRange[1]);
     const earlyOwned = new Set(earlyReveals.map((e) => e.payload.identity)).size;
     const lateOwned = new Set(lateReveals.map((e) => e.payload.identity)).size;
-    const pairedDiff = survived ? lateGpd - earlyGpd : null;
-    const pairedRatio = survived && earlyGpd > 0 ? lateGpd / earlyGpd : null;
+
+    const pairedDiff = fullExposure ? lateGpd - earlyGpd : null;
+    const pairedRatio = fullExposure && earlyGpd > 0 ? lateGpd / earlyGpd : null;
+
     out.push({
       survived,
+      fullExposure,
+      hasFullEarly,
+      hasFullLate,
+      earlyRacesCount: earlyRaces.length,
+      lateRacesCount: lateRaces.length,
+      expectedEarlyRaces,
+      expectedLateRaces,
       day: run.day,
       route: run.terminal,
       earlyGpd,
@@ -90,7 +109,7 @@ function runMatchedWindows(label, params, stratName, n, earlyRange = [1, 6], lat
   return out;
 }
 
-function runContinuation(label, params, n) {
+export function runContinuation(label, params, n) {
   const topup = makeStrategy('topup_single');
   const frugal = makeStrategy('frugal_single');
   const strat = {
@@ -167,10 +186,11 @@ function pityRow(runs) {
   };
 }
 
-const results = { meta: { quick: QUICK, generated: new Date().toLocaleDateString('en-CA'), defaults: DEFAULT_PARAMS, pacing: PACING } };
-const md = [];
-const t0 = Date.now();
-const log = (m) => console.log(`[${((Date.now() - t0) / 1000).toFixed(0)}s] ${m}`);
+export function runAllExperiments(targetOutDir = outDir) {
+  const results = { meta: { quick: QUICK, generated: new Date().toLocaleDateString('en-CA'), defaults: DEFAULT_PARAMS, pacing: PACING } };
+  const md = [];
+  const t0 = Date.now();
+  const log = (m) => console.log(`[${((Date.now() - t0) / 1000).toFixed(0)}s] ${m}`);
 
 // ================================================================ BASELINE (unchanged design table)
 log('baseline');
@@ -310,25 +330,30 @@ results.s2 = [];
     for (const scale of [1, 4]) {
       for (const creep of [1.0, 1.15]) {
         const runs = runMatchedWindows(`s2em-${st}-${scale}-${creep}`, { maxDays: 15, payoutScale: scale, powerCreep: creep }, st, N(100, 20), [1, 3], [10, 12]);
-        const surviving = runs.filter((r) => r.survived);
-        const survivorN = surviving.length;
+        const fullRuns = runs.filter((r) => r.fullExposure);
+        const fullN = fullRuns.length;
         const totalN = runs.length;
-        const survEarlyGpd = dist(surviving.map((r) => r.earlyGpd));
-        const survLateGpd = dist(surviving.map((r) => r.lateGpd));
-        const pairedDiff = dist(surviving.map((r) => r.pairedDiff));
-        const earlyOwned = dist(runs.map((r) => r.earlyOwned));
-        const lateOwned = dist(surviving.map((r) => r.lateOwned));
-        const ratio = surviving.length && survEarlyGpd.mean > 0 ? survLateGpd.mean / survEarlyGpd.mean : null;
+        const excludedN = totalN - fullN;
+        const fullEarlyGpd = dist(fullRuns.map((r) => r.earlyGpd));
+        const fullLateGpd = dist(fullRuns.map((r) => r.lateGpd));
+        const pairedDiff = dist(fullRuns.map((r) => r.pairedDiff));
+        const earlyOwned = dist(fullRuns.map((r) => r.earlyOwned));
+        const lateOwned = dist(fullRuns.map((r) => r.lateOwned));
+        const ratio = fullRuns.length && fullEarlyGpd.mean > 0 ? fullLateGpd.mean / fullEarlyGpd.mean : null;
         const rec = {
           strategy: st,
           payoutScale: scale,
           powerCreep: creep,
           totalN,
-          survivorN,
+          fullN,
+          excludedN,
+          survivorN: fullN,
           earlyOwned,
           lateOwned,
-          survEarlyGpd,
-          survLateGpd,
+          survEarlyGpd: fullEarlyGpd,
+          survLateGpd: fullLateGpd,
+          fullEarlyGpd,
+          fullLateGpd,
           pairedDiff,
           ratio,
         };
@@ -337,20 +362,21 @@ results.s2 = [];
           st,
           scale,
           creep,
-          `${survivorN}/${totalN}`,
-          f1(earlyOwned.mean),
-          f1(lateOwned.mean),
-          f1(survEarlyGpd.mean),
-          f1(survLateGpd.mean),
-          `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}`,
+          `${fullN}/${totalN}`,
+          excludedN,
+          fullRuns.length ? f1(earlyOwned.mean) : '–',
+          fullRuns.length ? f1(lateOwned.mean) : '–',
+          fullRuns.length ? f1(fullEarlyGpd.mean) : '–',
+          fullRuns.length ? f1(fullLateGpd.mean) : '–',
+          fullRuns.length ? `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}` : '–',
           ratio !== null ? f2(ratio) : '–',
         ]);
       }
     }
   }
-  md.push('### Matched early vs mid window race income (days 1–3 vs days 10–12; ~90–100% survival)\n');
-  md.push('Compares race gems/day between days 1–3 (opening banner) and days 10–12 (expanded roster) on identical surviving runs before collection completions censor the buying cohorts. Paired diff = late minus early on the same run.\n');
-  md.push(table(['strategy', 'payout x', 'creep', 'survivors (n/total)', 'early ducks', 'late ducks', 'early gems/day (survivors)', 'late gems/day (survivors)', 'paired diff (min/p50/max)', 'late/early ratio'], loopEarlyMid));
+  md.push('### Matched early vs mid window race income (days 1–3 vs days 10–12; full observed exposure required)\n');
+  md.push('Compares race gems/day between days 1–3 (opening banner) and days 10–12 (expanded roster) on identical runs with full observed race exposure in both windows (excluding runs ending before all scheduled races occur). Paired diff = late minus early on the same run.\n');
+  md.push(table(['strategy', 'payout x', 'creep', 'full exposure (n/total)', 'excluded n', 'early ducks', 'late ducks', 'early gems/day (full)', 'late gems/day (full)', 'paired diff (min/p50/max)', 'late/early ratio'], loopEarlyMid));
   md.push('');
 
   // loop gain 2: matched early (days 1-6) vs later (days 55-60) window comparison (terminal censoring disclosed)
@@ -360,27 +386,33 @@ results.s2 = [];
     for (const scale of [1, 4]) {
       for (const creep of [1.0, 1.15]) {
         const runs = runMatchedWindows(`s2loop-${st}-${scale}-${creep}`, { maxDays: 60, payoutScale: scale, powerCreep: creep }, st, N(100, 20), [1, 6], [55, 60]);
-        const surviving = runs.filter((r) => r.survived);
-        const survivorN = surviving.length;
+        const fullRuns = runs.filter((r) => r.fullExposure);
+        const fullN = fullRuns.length;
         const totalN = runs.length;
-        const censoredShare = (totalN - survivorN) / totalN;
-        const wholeEarlyGpd = dist(runs.map((r) => r.earlyGpd));
-        const survEarlyGpd = dist(surviving.map((r) => r.earlyGpd));
-        const survLateGpd = dist(surviving.map((r) => r.lateGpd));
-        const pairedDiff = dist(surviving.map((r) => r.pairedDiff));
-        const earlyOwned = dist(runs.map((r) => r.earlyOwned));
-        const lateOwned = dist(surviving.map((r) => r.lateOwned));
-        const ratio = surviving.length && survEarlyGpd.mean > 0 ? survLateGpd.mean / survEarlyGpd.mean : null;
+        const excludedN = totalN - fullN;
+        const excludedShare = excludedN / totalN;
+        const wholeEarlyGpd = dist(runs.filter((r) => r.hasFullEarly).map((r) => r.earlyGpd));
+        const fullEarlyGpd = dist(fullRuns.map((r) => r.earlyGpd));
+        const fullLateGpd = dist(fullRuns.map((r) => r.lateGpd));
+        const pairedDiff = dist(fullRuns.map((r) => r.pairedDiff));
+        const earlyOwned = dist(fullRuns.map((r) => r.earlyOwned));
+        const lateOwned = dist(fullRuns.map((r) => r.lateOwned));
+        const ratio = fullRuns.length && fullEarlyGpd.mean > 0 ? fullLateGpd.mean / fullEarlyGpd.mean : null;
         const rec = {
           strategy: st,
           payoutScale: scale,
           powerCreep: creep,
           totalN,
-          survivorN,
-          censoredShare,
+          fullN,
+          excludedN,
+          survivorN: fullN,
+          censoredShare: excludedShare,
+          excludedShare,
           wholeEarlyGpd,
-          survEarlyGpd,
-          survLateGpd,
+          survEarlyGpd: fullEarlyGpd,
+          survLateGpd: fullLateGpd,
+          fullEarlyGpd,
+          fullLateGpd,
           earlyOwned,
           lateOwned,
           pairedDiff,
@@ -391,20 +423,21 @@ results.s2 = [];
           st,
           scale,
           creep,
-          `${survivorN}/${totalN}`,
-          pc(censoredShare),
+          `${fullN}/${totalN}`,
+          excludedN,
+          pc(excludedShare),
           f1(wholeEarlyGpd.mean),
-          surviving.length ? f1(survEarlyGpd.mean) : '–',
-          surviving.length ? f1(survLateGpd.mean) : '–',
-          surviving.length ? `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}` : '–',
+          fullRuns.length ? f1(fullEarlyGpd.mean) : '–',
+          fullRuns.length ? f1(fullLateGpd.mean) : '–',
+          fullRuns.length ? `${f1(pairedDiff.min)}/${f1(pairedDiff.p50)}/${f1(pairedDiff.max)}` : '–',
           ratio !== null ? f2(ratio) : '–',
         ]);
       }
     }
   }
   md.push('### Matched early vs late window race income (days 1–6 vs days 55–60; terminal censoring disclosed)\n');
-  md.push('Compares race gems/day between early window (days 1–6) and late window (days 55–60) on identical surviving runs. Buying cohorts experience 85%–100% terminal censoring from completed collection (median completion: whale day 17, top-up day 27); with 0 or few survivors, 60-day population conclusions cannot be drawn for buying strategies.\n');
-  md.push(table(['strategy', 'payout x', 'creep', 'survivors (n/total)', 'censored %', 'whole cohort early gems/day', 'survivor early gems/day', 'survivor late gems/day', 'paired diff (min/p50/max)', 'late/early ratio'], loopLong));
+  md.push('Compares race gems/day between early window (days 1–6) and late window (days 55–60) on identical runs with full observed race exposure in both windows. Buying cohorts experience 85%–100% terminal censoring from completed collection (median completion: whale day 17, top-up day 27); with 0 or few full-exposure survivors, 60-day population conclusions cannot be drawn for buying strategies.\n');
+  md.push(table(['strategy', 'payout x', 'creep', 'full exposure (n/total)', 'excluded n', 'excluded %', 'whole cohort early gems/day', 'full early gems/day', 'full late gems/day', 'paired diff (min/p50/max)', 'late/early ratio'], loopLong));
   md.push('');
 
   // Race-funded continuation after initial purchases (top-up days 1-6, frugal days 7-60)
@@ -435,6 +468,7 @@ results.s2 = [];
       laterPullSpend,
       laterPaidDraws,
       raceFundedDraws,
+      lowerBoundRaceFundedDraws: raceFundedDraws,
     };
     results.s2Continuation.push(rec);
     contRows.push([
@@ -448,8 +482,8 @@ results.s2 = [];
     ]);
   }
   md.push('### Race-funded continuation after initial purchases (Top-up through day 6, frugal days 7–60)\n');
-  md.push('Tests whether initial gem purchases establish an expanded roster that subsequently self-funds ongoing pulls from race income alone. Top-up strategy buys bundles through day 6; day 7–60 strictly follows frugal policy (zero bundle purchases). "Race-funded draws" = floor((later pull spend - transition gems) / 160).\n');
-  md.push(table(['scenario', 'transition gems (p50)', 'later race gems (p50)', 'later bundle gems (mean)', 'later pull spend (p50)', 'later paid draws (min/p5/p50/p95/max)', 'race-funded draws (p50)'], contRows));
+  md.push('Tests whether initial gem purchases establish an expanded roster that subsequently self-funds ongoing pulls from race income alone. Top-up strategy buys bundles through day 6; day 7–60 strictly follows frugal policy (zero bundle purchases). "Lower-bound race-funded full-draw equivalents" = floor(max(0, later pull spend - transition gems) / 160), representing draws funded beyond transition stock.\n');
+  md.push(table(['scenario', 'transition gems (p50)', 'later race gems (p50)', 'later bundle gems (mean)', 'later pull spend (p50)', 'later paid draws (min/p5/p50/p95/max)', 'lower-bound race-funded draws (p50)'], contRows));
   md.push('');
 
   // Down loop check
@@ -616,11 +650,17 @@ function fmt(e) {
   const rce = projectReceipt(e.log.entries);
   traces.push('', '--- Receipt accounting section for trace 5 ---', ...(rce.accounting?.lines.map((l) => l.text) ?? []));
 
-  mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, 'traces.txt'), traces.join('\n') + '\n');
+  mkdirSync(targetOutDir, { recursive: true });
+  writeFileSync(join(targetOutDir, 'traces.txt'), traces.join('\n') + '\n');
 }
 
-mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, 'results.json'), JSON.stringify(results, (k, v) => (v === Infinity ? 'Infinity' : v), 1));
-writeFileSync(join(outDir, 'results.md'), `# Plan 01 simulation results (generated ${results.meta.generated}${QUICK ? ', QUICK mode: small samples' : ''})\n\nGenerated by \`node sim/run-experiments.mjs\`. Exploratory evidence from provisional values; not a balance table.\n\n${md.join('\n')}\n`);
-log('done');
+  mkdirSync(targetOutDir, { recursive: true });
+  writeFileSync(join(targetOutDir, 'results.json'), JSON.stringify(results, (k, v) => (v === Infinity ? 'Infinity' : v), 1));
+  writeFileSync(join(targetOutDir, 'results.md'), `# Plan 01 simulation results (generated ${results.meta.generated}${QUICK ? ', QUICK mode: small samples' : ''})\n\nGenerated by \`node sim/run-experiments.mjs\`. Exploratory evidence from provisional values; not a balance table.\n\n${md.join('\n')}\n`);
+  log('done');
+  return { results, md };
+}
+
+if (process.argv[1] && resolve(process.argv[1]).toLowerCase() === fileURLToPath(import.meta.url).toLowerCase()) {
+  runAllExperiments();
+}

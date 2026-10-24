@@ -350,49 +350,49 @@ Starvation = terminal route `running_on_empty` before day 60. Price x multiplies
 | 4 | 90 | whale_ten | 0% | 14/16/30/60/60 | 16.8/18.0/28.7/30.9/32.0 | 0/0/0/0/0 | 1210.0/1285.2/2179.9/4228.7/4419.7 | 140/150/250/480/510 |
 | 4 | 90 | unbuffered_spender | 48% | 10/11.9/14/14/14 | 0/0.0/0.2/0.4/0.4 | 200/390/600/600/600 | 1470.2/1694.7/2093.5/2177.5/2233.5 | 170/199/245/260/260 |
 
-### Matched early vs mid window race income (days 1–3 vs days 10–12; ~90–100% survival)
+### Matched early vs mid window race income (days 1–3 vs days 10–12; full observed exposure required)
 
-Compares race gems/day between days 1–3 (opening banner) and days 10–12 (expanded roster) on identical surviving runs before collection completions censor the buying cohorts. Paired diff = late minus early on the same run.
+Compares race gems/day between days 1–3 (opening banner) and days 10–12 (expanded roster) on identical runs with full observed race exposure in both windows (excluding runs ending before all scheduled races occur). Paired diff = late minus early on the same run.
 
-| strategy | payout x | creep | survivors (n/total) | early ducks | late ducks | early gems/day (survivors) | late gems/day (survivors) | paired diff (min/p50/max) | late/early ratio |
-|---|---|---|---|---|---|---|---|---|---|
-| frugal_single | 1 | 1 | 100/100 | 4.2 | 4.5 | 20.4 | 13.3 | -30/-6.3/12.3 | 0.65 |
-| frugal_single | 1 | 1.15 | 100/100 | 4.1 | 4.2 | 17.1 | 1.0 | -54.7/-11.7/0 | 0.06 |
-| frugal_single | 4 | 1 | 100/100 | 4.5 | 6.6 | 88.3 | 64.6 | -98.7/-23.3/120 | 0.73 |
-| frugal_single | 4 | 1.15 | 100/100 | 4.3 | 5.0 | 81.1 | 6.1 | -224/-59.3/0 | 0.08 |
-| topup_single | 1 | 1 | 100/100 | 6.0 | 20.5 | 43.1 | 51.8 | -24.3/10/41 | 1.20 |
-| topup_single | 1 | 1.15 | 100/100 | 6.0 | 20.8 | 42.6 | 29.9 | -46/-13.7/22.7 | 0.70 |
-| topup_single | 4 | 1 | 100/100 | 6.0 | 20.9 | 170.4 | 207.9 | -108/32/141.3 | 1.22 |
-| topup_single | 4 | 1.15 | 100/100 | 6 | 20.6 | 167.7 | 120.3 | -188/-48/84.0 | 0.72 |
-| whale_ten | 1 | 1 | 99/100 | 6 | 22.1 | 53.8 | 51.5 | -24/-1.3/17.3 | 0.96 |
-| whale_ten | 1 | 1.15 | 95/100 | 6 | 21.7 | 53.7 | 34.7 | -51.3/-18.7/10.7 | 0.65 |
-| whale_ten | 4 | 1 | 96/100 | 6 | 22.1 | 213.6 | 209.2 | -80/0/74.7 | 0.98 |
-| whale_ten | 4 | 1.15 | 93/100 | 6 | 22.1 | 215.3 | 146.5 | -197.3/-69.3/32 | 0.68 |
+| strategy | payout x | creep | full exposure (n/total) | excluded n | early ducks | late ducks | early gems/day (full) | late gems/day (full) | paired diff (min/p50/max) | late/early ratio |
+|---|---|---|---|---|---|---|---|---|---|---|
+| frugal_single | 1 | 1 | 100/100 | 0 | 4.2 | 4.5 | 20.4 | 13.3 | -30/-6.3/12.3 | 0.65 |
+| frugal_single | 1 | 1.15 | 100/100 | 0 | 4.1 | 4.2 | 17.1 | 1.0 | -54.7/-11.7/0 | 0.06 |
+| frugal_single | 4 | 1 | 100/100 | 0 | 4.5 | 6.6 | 88.3 | 64.6 | -98.7/-23.3/120 | 0.73 |
+| frugal_single | 4 | 1.15 | 100/100 | 0 | 4.3 | 5.0 | 81.1 | 6.1 | -224/-59.3/0 | 0.08 |
+| topup_single | 1 | 1 | 99/100 | 1 | 6.0 | 20.4 | 43.1 | 51.9 | -24.3/10.7/41 | 1.20 |
+| topup_single | 1 | 1.15 | 99/100 | 1 | 6.0 | 20.8 | 42.5 | 29.9 | -46/-13.7/22.7 | 0.70 |
+| topup_single | 4 | 1 | 99/100 | 1 | 6.0 | 20.9 | 170.6 | 208.4 | -108/32/141.3 | 1.22 |
+| topup_single | 4 | 1.15 | 97/100 | 3 | 6 | 20.5 | 165.9 | 120.3 | -188/-48/84.0 | 0.73 |
+| whale_ten | 1 | 1 | 86/100 | 14 | 6 | 21.8 | 53.9 | 53.5 | -22.7/0/17.3 | 0.99 |
+| whale_ten | 1 | 1.15 | 89/100 | 11 | 6 | 21.5 | 53.8 | 35.0 | -51.3/-18.7/10.7 | 0.65 |
+| whale_ten | 4 | 1 | 86/100 | 14 | 6 | 21.9 | 213.0 | 215.9 | -48/0/74.7 | 1.01 |
+| whale_ten | 4 | 1.15 | 85/100 | 15 | 6 | 21.9 | 215.0 | 149.9 | -197.3/-64/32 | 0.70 |
 
 ### Matched early vs late window race income (days 1–6 vs days 55–60; terminal censoring disclosed)
 
-Compares race gems/day between early window (days 1–6) and late window (days 55–60) on identical surviving runs. Buying cohorts experience 85%–100% terminal censoring from completed collection (median completion: whale day 17, top-up day 27); with 0 or few survivors, 60-day population conclusions cannot be drawn for buying strategies.
+Compares race gems/day between early window (days 1–6) and late window (days 55–60) on identical runs with full observed race exposure in both windows. Buying cohorts experience 85%–100% terminal censoring from completed collection (median completion: whale day 17, top-up day 27); with 0 or few full-exposure survivors, 60-day population conclusions cannot be drawn for buying strategies.
 
-| strategy | payout x | creep | survivors (n/total) | censored % | whole cohort early gems/day | survivor early gems/day | survivor late gems/day | paired diff (min/p50/max) | late/early ratio |
-|---|---|---|---|---|---|---|---|---|---|
-| frugal_single | 1 | 1 | 100/100 | 0% | 19.9 | 19.9 | 17.7 | -20.3/-1.8/20.5 | 0.89 |
-| frugal_single | 1 | 1.15 | 100/100 | 0% | 14.3 | 14.3 | 0 | -44/-10.6/0 | 0.00 |
-| frugal_single | 4 | 1 | 100/100 | 0% | 76.9 | 76.9 | 103.7 | -58.7/16/187.3 | 1.35 |
-| frugal_single | 4 | 1.15 | 100/100 | 0% | 51.5 | 51.5 | 0 | -178/-34/0 | 0.00 |
-| topup_single | 1 | 1 | 9/100 | 91% | 44.0 | 41.7 | 56.4 | 2/14.3/26.3 | 1.35 |
-| topup_single | 1 | 1.15 | 10/100 | 90% | 38.2 | 39.2 | 2.3 | -47.7/-37.8/-20.7 | 0.06 |
-| topup_single | 4 | 1 | 5/100 | 95% | 174.3 | 178.5 | 214.4 | -2/38/97.3 | 1.20 |
-| topup_single | 4 | 1.15 | 7/100 | 93% | 152.4 | 155.8 | 9.1 | -197.3/-160.7/-89.3 | 0.06 |
-| whale_ten | 1 | 1 | 0/100 | 100% | 49.6 | – | – | – | – |
-| whale_ten | 1 | 1.15 | 0/100 | 100% | 46.1 | – | – | – | – |
-| whale_ten | 4 | 1 | 0/100 | 100% | 199.3 | – | – | – | – |
-| whale_ten | 4 | 1.15 | 2/100 | 98% | 172.6 | 152 | 10 | -142.7/-142/-141.3 | 0.07 |
+| strategy | payout x | creep | full exposure (n/total) | excluded n | excluded % | whole cohort early gems/day | full early gems/day | full late gems/day | paired diff (min/p50/max) | late/early ratio |
+|---|---|---|---|---|---|---|---|---|---|---|
+| frugal_single | 1 | 1 | 100/100 | 0 | 0% | 19.9 | 19.9 | 17.7 | -20.3/-1.8/20.5 | 0.89 |
+| frugal_single | 1 | 1.15 | 100/100 | 0 | 0% | 14.3 | 14.3 | 0 | -44/-10.6/0 | 0.00 |
+| frugal_single | 4 | 1 | 100/100 | 0 | 0% | 76.9 | 76.9 | 103.7 | -58.7/16/187.3 | 1.35 |
+| frugal_single | 4 | 1.15 | 100/100 | 0 | 0% | 51.5 | 51.5 | 0 | -178/-34/0 | 0.00 |
+| topup_single | 1 | 1 | 9/100 | 91 | 91% | 44.0 | 41.7 | 56.4 | 2/14.3/26.3 | 1.35 |
+| topup_single | 1 | 1.15 | 10/100 | 90 | 90% | 38.2 | 39.2 | 2.3 | -47.7/-37.8/-20.7 | 0.06 |
+| topup_single | 4 | 1 | 4/100 | 96 | 96% | 174.3 | 174.7 | 220 | 5.3/39.3/97.3 | 1.26 |
+| topup_single | 4 | 1.15 | 7/100 | 93 | 93% | 152.4 | 155.8 | 9.1 | -197.3/-160.7/-89.3 | 0.06 |
+| whale_ten | 1 | 1 | 0/100 | 100 | 100% | 49.6 | – | – | – | – |
+| whale_ten | 1 | 1.15 | 0/100 | 100 | 100% | 46.1 | – | – | – | – |
+| whale_ten | 4 | 1 | 0/100 | 100 | 100% | 199.3 | – | – | – | – |
+| whale_ten | 4 | 1.15 | 2/100 | 98 | 98% | 172.6 | 152 | 10 | -142.7/-142/-141.3 | 0.07 |
 
 ### Race-funded continuation after initial purchases (Top-up through day 6, frugal days 7–60)
 
-Tests whether initial gem purchases establish an expanded roster that subsequently self-funds ongoing pulls from race income alone. Top-up strategy buys bundles through day 6; day 7–60 strictly follows frugal policy (zero bundle purchases). "Race-funded draws" = floor((later pull spend - transition gems) / 160).
+Tests whether initial gem purchases establish an expanded roster that subsequently self-funds ongoing pulls from race income alone. Top-up strategy buys bundles through day 6; day 7–60 strictly follows frugal policy (zero bundle purchases). "Lower-bound race-funded full-draw equivalents" = floor(max(0, later pull spend - transition gems) / 160), representing draws funded beyond transition stock.
 
-| scenario | transition gems (p50) | later race gems (p50) | later bundle gems (mean) | later pull spend (p50) | later paid draws (min/p5/p50/p95/max) | race-funded draws (p50) |
+| scenario | transition gems (p50) | later race gems (p50) | later bundle gems (mean) | later pull spend (p50) | later paid draws (min/p5/p50/p95/max) | lower-bound race-funded draws (p50) |
 |---|---|---|---|---|---|---|
 | Default (payout 1x, creep 1.15) | 261 | 152.5 | 0 | 320 | 1/1/2/3/4 | 0 |
 | High payout (payout 4x, creep 1.15) | 371 | 664 | 0 | 960 | 2/3/6/12/14 | 3 |

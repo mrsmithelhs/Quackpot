@@ -187,7 +187,7 @@ export function projectReceipt(entries) {
       waivedAmount,
       status,
       cashBefore: due.payload.cashBefore,
-      paid: !!paid && status !== 'unpaid',
+      paid: (status === 'paid' || status === 'partially_waived') && paidAmount > 0,
       paidSeq: paid?.seq ?? null,
       clock: due.clock,
     };

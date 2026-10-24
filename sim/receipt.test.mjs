@@ -4,6 +4,7 @@ import { Run, simulate, preDrawOdds } from './model.mjs';
 import { makeStrategy } from './strategies.mjs';
 import { projectReceipt, receiptText } from './receipt.mjs';
 import { verifyChain, verifyCompleteness, EventLog } from './event-log.mjs';
+import { runMatchedWindows } from './run-experiments.mjs';
 
 const DISPLAY_TYPES = new Set(['cue_shown', 'offer_shown', 'retention_modal_shown', 'reveal_shown']);
 
@@ -310,6 +311,7 @@ test('Repair 02: distinguish paid in cash, waived (skipped lunch), and unpaid bi
   assert.equal(exp0.paidAmount, 0);
   assert.equal(exp0.waivedAmount, 12);
   assert.equal(exp0.status, 'waived');
+  assert.equal(exp0.paid, false);
   assert.equal(rWaived.accounting.unpaidExpense, null);
   // Verify wording does not represent skipped lunch as paid in cash or purchased food
   assert.ok(rWaived.accounting.lines.some((l) => l.text.includes('food expense(s) waived via skipped lunch ($12.00 total)')));
@@ -325,6 +327,7 @@ test('Repair 02: distinguish paid in cash, waived (skipped lunch), and unpaid bi
   assert.equal(rPaid.accounting.expenses[0].status, 'paid');
   assert.equal(rPaid.accounting.expenses[0].paidAmount, 12);
   assert.equal(rPaid.accounting.expenses[0].waivedAmount, 0);
+  assert.equal(rPaid.accounting.expenses[0].paid, true);
   assert.ok(rPaid.accounting.lines.some((l) => l.text.includes('1 recorded expense bill(s) paid in cash ($12.00 total)')));
   assert.ok(!rPaid.accounting.lines.some((l) => l.text.includes('waived')));
 
@@ -333,6 +336,7 @@ test('Repair 02: distinguish paid in cash, waived (skipped lunch), and unpaid bi
   const rUnpaid = projectReceipt(runUnpaid.log.entries);
   assert.ok(rUnpaid.accounting.unpaidExpense);
   assert.equal(rUnpaid.accounting.unpaidExpense.status, 'unpaid');
+  assert.equal(rUnpaid.accounting.unpaidExpense.paid, false);
   assert.ok(rUnpaid.accounting.lines.some((l) => l.text.includes('Unpaid expense recorded')));
 });
 
@@ -375,4 +379,61 @@ test('Repair 02: verifyCompleteness validates ordered terminal/Receipt pair and 
   logTrailing.append('action', { kind: 'extra' });
   assert.equal(verifyChain(logTrailing.entries), true);
   assert.equal(verifyCompleteness(logTrailing.entries), false);
+});
+
+test('Repair 03: structured paid flag agrees with actual cash payment', () => {
+  // Waived lunch (paidAmount: 0, waivedAmount: 12) -> paid: false
+  const runWaived = new Run({ startCash: 0, wagePerDay: 0 }, 'r03-waived');
+  runWaived.start();
+  runWaived.payBill('food', 12);
+  runWaived.uninstall('leave');
+  const rWaived = projectReceipt(runWaived.log.entries);
+  assert.equal(rWaived.accounting.expenses[0].status, 'waived');
+  assert.equal(rWaived.accounting.expenses[0].paidAmount, 0);
+  assert.equal(rWaived.accounting.expenses[0].waivedAmount, 12);
+  assert.equal(rWaived.accounting.expenses[0].paid, false);
+
+  // Cash payment (paidAmount: 12, waivedAmount: 0) -> paid: true
+  const runPaid = new Run({ startCash: 200 }, 'r03-paid');
+  runPaid.start();
+  runPaid.payBill('food', 12);
+  runPaid.uninstall('leave');
+  const rPaid = projectReceipt(runPaid.log.entries);
+  assert.equal(rPaid.accounting.expenses[0].status, 'paid');
+  assert.equal(rPaid.accounting.expenses[0].paidAmount, 12);
+  assert.equal(rPaid.accounting.expenses[0].paid, true);
+
+  // Unpaid bill -> paid: false
+  const runUnpaid = simulate({ startCash: 0, wagePerDay: 0, maxDays: 60 }, 'r03-unpaid', makeStrategy('frugal_single'));
+  const rUnpaid = projectReceipt(runUnpaid.log.entries);
+  assert.equal(rUnpaid.accounting.unpaidExpense.status, 'unpaid');
+  assert.equal(rUnpaid.accounting.unpaidExpense.paidAmount, 0);
+  assert.equal(rUnpaid.accounting.unpaidExpense.paid, false);
+});
+
+test('Repair 03: runMatchedWindows requires full observed race exposure in both windows (excludes collection completion before races on last day)', () => {
+  // s2em-whale_ten-1-1-1 completes collection on day 12 before races (observed late races = 4 vs expected = 6)
+  const runs = runMatchedWindows('s2em-whale_ten-1-1', { maxDays: 15, payoutScale: 1, powerCreep: 1 }, 'whale_ten', 5, [1, 3], [10, 12]);
+
+  // Run index 0 has full exposure (6 early races, 6 late races)
+  assert.equal(runs[0].hasFullEarly, true);
+  assert.equal(runs[0].hasFullLate, true);
+  assert.equal(runs[0].fullExposure, true);
+  assert.notEqual(runs[0].lateGpd, null);
+  assert.notEqual(runs[0].pairedDiff, null);
+
+  // Run index 1 completes collection on day 12 before races
+  const incompleteRun = runs[1];
+  assert.equal(incompleteRun.day, 12);
+  assert.equal(incompleteRun.route, 'completed_collection');
+  assert.equal(incompleteRun.lateRacesCount, 4);
+  assert.equal(incompleteRun.expectedLateRaces, 6);
+  assert.equal(incompleteRun.hasFullLate, false);
+  assert.equal(incompleteRun.fullExposure, false);
+  assert.equal(incompleteRun.lateGpd, null);
+  assert.equal(incompleteRun.pairedDiff, null);
+
+  // Filter for full exposure runs excludes incomplete run index 1
+  const fullRuns = runs.filter((r) => r.fullExposure);
+  assert.ok(!fullRuns.some((r) => r === incompleteRun));
 });

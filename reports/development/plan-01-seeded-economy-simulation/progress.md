@@ -11,11 +11,11 @@ All 6 required repairs from `repair-02.md` have been resolved:
 2. **Truthful final debt derivation**: Derived final recorded debt in `sim/receipt.mjs` from the latest debt-changing event in the entire log (`interest_charged` or `credit_card` escalation step), rather than freezing the figure at the final weekly interest charge. Verified credit draws occurring on/after day 49 are accurately reported (e.g. $800 debt rather than $663). Added regression test in `sim/receipt.test.mjs`.
 3. **Ordered finished-run boundary validation**: `verifyCompleteness(entries)` in `sim/event-log.mjs` now strictly requires an ordered terminal/Receipt pair: `terminal` immediately followed by `receipt_shown` with matching non-empty routes at the very end of the log. Documented the expected finished-run boundary. Added regression tests for valid finish, wrong order (`receipt_shown` before `terminal`), route mismatch, and trailing events after `receipt_shown`.
 4. **Actually paired S2 early/late cohorts**: `sim/run-experiments.mjs` now computes early vs late comparisons on identical surviving runs, exposing survivor $n$ and paired difference distributions (`min/p50/max`). Added an early-vs-mid comparison (`days 1–3` vs `days 10–12`, 90%–100% survival) to measure roster expansion without terminal censoring. Updated the 60-day late comparison (`days 1–6` vs `days 55–60`), explicitly disclosing that 85%–100% of buying runs are censored by collection completion (median day 17 for whales, day 27 for top-up), precluding 60-day population comparisons for buying strategies.
-5. **Controlled race-funded continuation experiment**: Added `s2Continuation` (`runContinuation`) to `sim/run-experiments.mjs`, testing top-up purchases through day 6 followed by strictly frugal policy (zero bundle purchases) through day 60. Tracks transition gem balance, later race income, later bundle gems ($0$), later pull spend, and later paid draws. Confirmed that under high payouts ($4\times$) and no power creep ($1.0$), initial purchases fund $62$–$79$ subsequent paid draws ($70$ median race-funded draws) from $11,600$ race gems. Under default creep ($1.15$), race income collapses, yielding only $2$–$3$ subsequent draws ($0$ race-funded).
+5. **Controlled race-funded continuation experiment**: Added `s2Continuation` (`runContinuation`) to `sim/run-experiments.mjs`, testing top-up purchases through day 6 followed by strictly frugal policy (zero bundle purchases) through day 60. Across 80 seeds per case, high payouts (4x) with no creep produced min/median/max 33/73/79 later paid draws, median later race income 11,600 gems, and median lower-bound race-funded full-draw equivalents 70. The default case produced min/median/max 1/2/4 later paid draws and median lower-bound race-funded full-draw equivalents 0. These measures account separately for transition gem stock.
 6. **Repaired report evidence regressions**:
    - Restored an explicit inventory of non-design assumptions (opening pity advance, carry/reset, cash/bundle prices, tier speeds, field creep scaling, roster release pattern, escalation ladder steps 1–4, and pacing profiles).
    - Restored the still-relevant failed pre-race choice hypothesis: always racing the best duck was best in 4 of 6 scenarios and tied in 2; "no choice is automatically correct" failed under these mechanics.
-   - Corrected 24-duck completion horizon/strategy claims: at 15 days, `topup_single` completes ~8.3% and `whale_ten` completes ~33.3%; ~99% completion is the 60-day whale result.
+   - Corrected 24-duck completion horizon/strategy claims: at 15 days, 30/400 top-up runs (7.5%) and 133/400 whale runs (33.25%) complete the collection; ~99% completion is the 60-day whale result.
    - Removed the word "cryptographic" when referring to FNV-1a hash continuity.
    - Accurately described the `capped` ramp: it ramps linearly toward $0.25$ across the soft-pity window before the hard guarantee, rather than clipping the steep linear ramp at $0.25$.
    - Stated that the analytic S1 probability ($4.2148 \times 10^{-7}$) explains why zero hits in our sample are unsurprising, without claiming deterministic causation for a sampled zero.
@@ -49,12 +49,12 @@ Every one is a named parameter in `DEFAULT_PARAMS` (`sim/model.mjs`); keys in `D
 
 - **Soft-pity ramp shape**: Default legendary odds rise linearly from base ($0.02$) at pull 35 to $1.0$ at pull 50. Capped variant ramps linearly from base toward $0.25$ before the guarantee.
 - **Opening pity advance**: Baseline assumes the free opening ten-pull does not advance the pity counter (`openingAdvancesPity: false`).
-- **Pity carry across banners**: Pity carries across banners by default (`carryPity: true`; reset was swept).
+- **Pity carry across banners**: Pity carries across banners by default (`pityCarry: 'carry'`; reset was swept).
 - **Cash economy**: Start cash $200$, wage $45$/day, food $12$/day, weekly rent $140$; bundle cash prices $0.99$–$99.99$ at 1 cash = $1 (`bundlePriceScale` sweeps this).
 - **Roster release pattern**: 24 identities in a repeating common/common/rare/common/rare/legendary pattern, 6 new identities per banner; legendary is the banner-featured one with probability $0.5$.
 - **Tier speeds and field creep scaling**: Own base duck speed 8, common 10, rare 14, legendary 20. Field baseline speed 14 scaling with power creep as $(powerCreep)^{bannerIndex}$, speed noise ±30%, performance noise ±15%, race payout place distribution `[30, 18, 10, 5, 2, 0]` gems, 2 races/day.
 - **Down duplicate conversion**: Down per duplicate 1/5/20; best-case gem value of 1 Down is 0.02 gems.
-- **Escalation ladder**: Steps 1–4 only (skip lunch $12, extra shift $35, sell couch/TV $150, credit card limit $600–$800 at 5%/week). Steps 5–7 and the Influencer ending are not modeled.
+- **Escalation ladder**: Steps 1–4 only. Baseline skipped lunch waives the 12-cash food bill and costs 15 health; an extra shift earns 80 cash and costs 15 health; couch/TV sales yield 80/120 cash. The default credit limit is 600, drawn in steps of 200 at 5%/week; the 800 limit is a diagnostic Receipt regression case. Steps 5–7 and the Influencer ending are not modeled.
 - **Floor-time pacing profiles**: Setup 90s, reveal 3s, race 25s, offer 8s, event 8s, escalation 15s, banner 10s, receipt 150s for standard pacing (brisk and leisurely variants evaluated in sensitivity matrix).
 - **Technique cues not modeled**: Near misses, loss aversion (streak reward), odds navigation button, Duck-Dex shelf silhouettes beyond set-progress display. The near-miss candidate eligibility and firing rule (Tuning bullet 5) was therefore **not tested**.
 
@@ -87,7 +87,7 @@ Setup:
 - Starvation: bundle price scale [0.25, 1, 4] × wage [25, 45, 90] across `frugal_single`, `topup_single`, `whale_ten`, and `unbuffered_spender` (100 seeds).
 - Matched early vs mid window: days 1–3 vs days 10–12 across `frugal_single`, `topup_single`, and `whale_ten` at payout scale 1 and 4, creep 1.0 and 1.15 (100 seeds; 90%–100% survival).
 - Matched early vs late window: days 1–6 vs days 55–60 across `frugal_single`, `topup_single`, and `whale_ten` at payout scale 1 and 4, creep 1.0 and 1.15 (100 seeds; disclosing terminal censoring).
-- Race-funded continuation: top-up purchases through day 6, strictly frugal policy days 7–60 (100 seeds).
+- Race-funded continuation: top-up purchases through day 6, strictly frugal policy days 7–60 (80 seeds per case).
 
 Observed:
 - **Starvation and unbuffered spending**: When spenders maintain a cash buffer (`whale_ten` buffer 100, `topup_single` buffer 150), starvation is 0% across all tested price/wage combinations. When an unbuffered spender (`unbuffered_spender`, buffer 0) spends all cash on bundles, starvation (`running_on_empty`) occurs in **85%** of runs at price x4 / wage 25, **64%** at price x4 / wage 45, and **48%** at price x4 / wage 90, with credit debt maxing out at the ceiling. Unbuffered players face acute starvation when weekly rent ($140) and food arrive after cash is exhausted on bundles.
@@ -98,8 +98,8 @@ Observed:
   - *Frugal player (0% censored)*: With creep 1.0, late/early ratio is 0.89 (1x payout) and 1.35 (4x payout). With creep 1.15, race income collapses to 0.00 gems/day (ratio 0.00x).
   - *Buying players (85%–100% censored)*: Whales experience 98%–100% censoring and top-up experiences 90%–95% censoring due to completing the collection (median completion: whale day 17, top-up day 27). With 0 to 2 surviving whales, 60-day population comparisons cannot be drawn for buying cohorts.
 - **Race-funded continuation after initial purchases (days 7–60)**:
-  - Under high payouts ($4\times$) and no power creep ($1.0$), top-up purchases through day 6 fund an expanded roster that earns $11,600$ gems from races alone in days 7–60 (with zero bundle purchases), funding $62$–$79$ subsequent paid draws ($70$ median race-funded draws).
-  - Under default creep ($1.15$) and standard payout ($1\times$), race income collapses to $152.5$ gems, funding only $2$–$3$ subsequent draws ($0$ race-funded draws).
+  - Under high payouts ($4\times$) and no power creep ($1.0$), the saved 80-run cell has median later race income 11,600 gems and zero later bundle income. Later paid draws have min/median/max 33/73/79; the median lower bound on full-draw equivalents funded beyond transition stock is 70.
+  - Under default creep ($1.15$) and standard payout ($1\times$), the saved cell has median later race income 152.5 gems and min/median/max later paid draws 1/2/4. The median lower bound on full-draw equivalents funded beyond transition stock is 0.
   - This demonstrates continuation under specific parameters, rather than an endless loop or default-balance result.
 
 ## Pre-race choice policies (compared, not assumed)
@@ -120,7 +120,7 @@ Five policies (`best`, `rested`, `longshot`, `random`, `alternate`) compared pai
 Observed:
 - Duplicates appear as early as draw 2–3 on a 24-duck roster.
 - **Roster completion horizons by strategy**:
-  - At 15 days, `topup_single` completes ~8.3% of the 24-duck roster (median owned 22/24), and `whale_ten` completes ~33.3% (median owned 23/24).
+  - At 15 days, 30/400 top-up runs (7.5%) complete all 24 identities (median owned 22/24); 133/400 whale runs (33.25%) complete the collection (median owned 23/24).
   - At 30 days, `topup_single` completes 56% and `whale_ten` completes 89%.
   - The ~99% completion figure is the **60-day whale** result (median completion day 17 for whale, day 27 for top-up).
 - Expanding the roster to 36–48 ducks spreads completion times and creates meaningful duplicate conversion.

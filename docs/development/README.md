@@ -10,7 +10,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | id | title | status | summary |
 |---|---|---|---|
 | `plan-01` | Seeded economy and Receipt simulation | in-progress | Build one reproducible PRNG and a headless model to test pity, economy loops, roster duplicates, and event-log Receipt lifecycle from provisional values. |
-| `plan-02` | Static build and Pages deployment spike | draft | Prove a local Vite static build and Pages-compatible output, then propose ratification of the source, asset, simulation, test, and publish folders. |
+| `plan-02` | Static build and Pages deployment spike | in-progress | Prove a local Vite static build and Pages-compatible output, then propose ratification of the source, asset, simulation, test, and publish folders. |
 | `plan-03` | Core mechanism and truthful Receipt slice | draft | Build one playable core-loop path with a meaningful trade-off, local saving, Uninstall and its retention offer, and an event-log-derived honest Receipt. |
 | `plan-04` | SVG duck rig and synthesized sound spike | draft | Prove a small layered SVG duck rig and local parameter-synthesized sound without deciding broad art production or music provenance. |
 | `plan-05` | Fatigue and pre-race choice investigation | draft | Compare bounded ways fatigue could obscure the one pre-race choice while preserving agency, accessibility, and the reduced-motion information path. |

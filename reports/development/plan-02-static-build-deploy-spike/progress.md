@@ -234,7 +234,7 @@ quackpot/
 │   ├── strategies.mjs         # Strategy agents
 │   ├── run-experiments.mjs    # Experiment batch runner
 │   └── *.test.mjs             # Simulation regression tests
-├── dist/                      # Ignored static build output (published to gh-pages)
+├── dist/                      # Ignored static publish artifact; workflow undecided
 ├── docs/                      # Documentation hub (never used as publish output)
 ├── reports/                   # Orchestration and packet progress reports
 └── scripts/
@@ -245,7 +245,7 @@ quackpot/
 In Plan 01, domain modules reside in `sim/`:
 - `sim/prng.mjs` (exports `createRng`)
 - `sim/event-log.mjs` (exports `EventLog`)
-- `sim/receipt.mjs` (exports `buildReceipt`)
+- `sim/receipt.mjs` (exports `projectReceipt`)
 
 To connect these to Plan 03 without duplication:
 - **Separately Bounded Post-Plan-01 Integration (Recommended):** After Plan 01 acceptance and owner layout ratification, move the three pure domain modules (`prng.mjs`, `event-log.mjs`, `receipt.mjs`) into `src/core/`. Update `sim/model.mjs` and simulation tests to import from `../src/core/` via standard relative imports.

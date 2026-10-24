@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan 08: Duck Visual-Direction Prototypes & Owner Gallery</title>
+  <style>
+    :root {
+      --bg-canvas: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #cbd5e1;
+      --card-bg: #ffffff;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --card-sample-bg: #e2e8f0;
+      --preview-size: 128px;
+    }
+
+    /* Container Background Overrides */
+    body[data-bg="light"] { --card-sample-bg: #ffffff; }
+    body[data-bg="neutral"] { --card-sample-bg: #e2e8f0; }
+    body[data-bg="dark"] { --card-sample-bg: #1e293b; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-canvas);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 1.5rem;
+    }
+
+    header {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    header h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    header p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem; }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .pill {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      font-weight: 500;
+    }
+    .pill-accent { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .pill-warning { background: #fef3c7; border-color: #fde68a; color: #92400e; }
+
+    /* Controls Bar */
+    .controls-panel {
+      position: sticky;
+      top: 1rem;
+      z-index: 100;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.05);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .control-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .btn-group {
+      display: inline-flex;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .btn-toggle {
+      background: #f8fafc;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-right: 1px solid var(--border-color);
+      color: var(--text-main);
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-toggle:last-child { border-right: none; }
+    .btn-toggle:hover { background: #e2e8f0; }
+    .btn-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .btn-toggle.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    /* Pinned Tray */
+    .pinned-section {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .pinned-section h2 {
+      font-size: 1.1rem;
+      color: #166534;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .pinned-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .empty-pinned {
+      font-size: 0.9rem;
+      color: #4b5563;
+      font-style: italic;
+    }
+
+    /* Styles Matrix */
+    .style-row {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .style-row-header {
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+    }
+    .style-row-header h2 {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .style-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .duck-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .duck-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-color: #94a3b8;
+    }
+    .duck-card.pinned {
+      border: 2px solid #16a34a;
+      box-shadow: 0 0 0 1px #16a34a;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .card-id {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+    .card-variant {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .btn-pin {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-pin:hover { background: #f1f5f9; }
+    .btn-pin.active { background: #dcfce7; border-color: #86efac; color: #15803d; }
+    .btn-pin:focus-visible { outline: 2px solid var(--accent); }
+
+    /* Canvas Frame */
+    .sample-container {
+      background: var(--card-sample-bg);
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+    .sample-img {
+      max-width: 100%;
+      height: auto;
+      width: var(--preview-size);
+      object-fit: contain;
+      display: block;
+      transition: width 0.15s ease-out;
+    }
+    .sample-container.full-fit .sample-img {
+      width: 100%;
+    }
+
+    .sample-unavailable {
+      padding: 1.5rem;
+      text-align: center;
+      background: #fffbeb;
+      border: 1px dashed #f59e0b;
+      border-radius: 6px;
+      color: #92400e;
+      font-size: 0.85rem;
+    }
+    .sample-unavailable strong { display: block; margin-bottom: 0.25rem; font-size: 0.95rem; }
+
+    /* Observations block */
+    .observations-box {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+    .obs-item { margin-bottom: 0.35rem; }
+    .obs-item:last-child { margin-bottom: 0; }
+    .obs-item strong { color: var(--text-main); }
+
+    /* Owner Decision Form */
+    .owner-actions {
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .action-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .checkbox-tags {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .tag-choice {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .tag-choice input {
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .card-notes {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 0.4rem 0.5rem;
+      font-size: 0.85rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 48px;
+    }
+    .card-notes:focus {
+      outline: 2px solid var(--accent);
+      border-color: transparent;
+    }
+
+    /* Modal for Enlarged View */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-content {
+      background: #ffffff;
+      border-radius: 8px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #f1f5f9;
+      border: none;
+      font-size: 1.25rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .modal-img {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    /* Summary / Export Section */
+    .summary-section {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .summary-section h2 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .summary-textarea {
+      width: 100%;
+      height: 180px;
+      margin-top: 0.75rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #f8fafc;
+    }
+    .btn-action {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-action:hover { background: var(--accent-hover); }
+    .btn-action:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    /* Footer Note */
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      padding-bottom: 2rem;
+    }
+  </style>
+</head>
+<body data-bg="neutral">
+
+  <header>
+    <h1>Plan 08: Duck Visual-Direction Prototypes & Owner Gallery</h1>
+    <p>Local owner-review comparison gallery for selecting base visual language before authoring the production SVG rig (Plan 04).</p>
+    <div class="meta-pills">
+      <span class="pill pill-accent">Stage: Visual Prototype Spike</span>
+      <span class="pill">Comparison Canvas: 1024x1024 Left 3/4 View</span>
+      <span class="pill">Format: Opaque JPEG (#E2E8F0 Neutral Ground)</span>
+      <span class="pill pill-warning">E3 Status: Quota Exhausted on Model (Awaiting Reset)</span>
+      <span class="pill">Gate: Owner Selection Before SVG Revision</span>
+    </div>
+    <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0;">
+      <strong>Note on background controls:</strong> Generated concept images are solid raster JPEGs with an opaque light-grey background (#E2E8F0). The background switcher alters the card preview framing and border context to test perceived contrast; it does not claim alpha transparency.
+    </p>
+  </header>
+
+  <!-- Sticky Controls Bar -->
+  <div class="controls-panel" role="region" aria-label="Gallery Controls">
+    <div class="control-group">
+      <span class="control-label">Thumbnail Size:</span>
+      <div class="btn-group" role="group" aria-label="Image Size Selection">
+        <button type="button" class="btn-toggle" onclick="setSize('32px', this)">32px</button>
+        <button type="button" class="btn-toggle" onclick="setSize('64px', this)">64px</button>
+        <button type="button" class="btn-toggle active" onclick="setSize('128px', this)">128px</button>
+        <button type="button" class="btn-toggle" onclick="setSize('256px', this)">256px</button>
+        <button type="button" class="btn-toggle" onclick="setSize('full', this)">Fit</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <span class="control-label">Frame Background:</span>
+      <div class="btn-group" role="group" aria-label="Card Frame Background">
+        <button type="button" class="btn-toggle" onclick="setBg('light', this)">Light</button>
+        <button type="button" class="btn-toggle active" onclick="setBg('neutral', this)">Neutral Grey</button>
+        <button type="button" class="btn-toggle" onclick="setBg('dark', this)">Dark</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <button type="button" class="btn-action" onclick="scrollToSummary()">Jump to Review Summary</button>
+    </div>
+  </div>
+
+  <!-- Pinned Comparison Section -->
+  <section class="pinned-section" id="pinned-section" aria-label="Pinned Candidates Comparison">
+    <h2>
+      Pinned Candidates Comparison (Up to 3 side-by-side)
+      <span id="pinned-count" style="font-size: 0.85rem; font-weight: normal; color: #166534;">0 of 3 pinned</span>
+    </h2>
+    <div class="pinned-grid" id="pinned-grid">
+      <div class="empty-pinned">No candidates pinned yet. Click "Pin Candidate" on any card below to compare up to 3 candidates here side by side.</div>
+    </div>
+  </section>
+
+  <!-- Main Concept Matrix -->
+  <main id="matrix-container">
+    <!-- Populated by JavaScript from embedded manifest data -->
+  </main>
+
+  <!-- Review Summary Section -->
+  <section class="summary-section" id="summary-section" aria-label="Review Summary">
+    <h2>Owner Selection & Feedback Summary</h2>
+    <p style="font-size: 0.9rem; color: var(--text-muted);">
+      Mark candidates with choices ("digital gacha direction", "physical companion direction", "borrow a feature", "discard") and add notes. Click "Copy Summary" below to export your choices for orchestration and Plan 04.
+    </p>
+    <div style="margin-top: 1rem; display: flex; gap: 0.75rem; align-items: center;">
+      <button type="button" class="btn-action" onclick="copySummary()">Copy Summary to Clipboard</button>
+      <button type="button" class="btn-toggle" style="border: 1px solid var(--border-color); border-radius: 6px;" onclick="refreshSummary()">Refresh Summary</button>
+      <span id="copy-status" style="font-size: 0.85rem; color: #15803d; font-weight: 600;"></span>
+    </div>
+    <textarea id="summary-text" class="summary-textarea" readonly aria-label="Copyable review summary output"></textarea>
+  </section>
+
+  <!-- Modal View -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Enlarged Concept View" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <button type="button" class="modal-close" aria-label="Close enlarged view" onclick="closeModal(event)">&times;</button>
+      <div class="modal-body" id="modal-body">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Quackpot Plan 08 Investigation &bull; Owner Gate Preserved &bull; No automated production promotion</p>
+  </footer>
+
+  <script>
+    // Embedded Concept Data from manifest.json to allow 100% offline file:// browsing without fetch()
+    const MANIFEST_DATA = {
+      packetId: "plan-08",
+      concepts: [
+        {
+          id: "A1", styleGroup: "Style A: Bold Friendly Vector",
+          styleDesc: "Strong clean silhouette, confident outline, flat fills and minimal shading",
+          variant: "Variant 1: Balanced / Classic", file: "concepts/a1.jpg", status: "success",
+          obs: {
+            readability: "Excellent silhouette definition at 32px and 64px due to bold dark outline and high contrast.",
+            svgEffort: "Low to medium. Simple geometric curves, flat fills, minimal path count.",
+            accessoryFit: "Generous room on top of head and neck for hats/collars.",
+            propSuitability: "High; clean vector silhouette reads well against apartment compositions."
+          }
+        },
+        {
+          id: "A2", styleGroup: "Style A: Bold Friendly Vector",
+          styleDesc: "Strong clean silhouette, confident outline, flat fills and minimal shading",
+          variant: "Variant 2: Squat & Wide", file: "concepts/a2.jpg", status: "success",
+          obs: {
+            readability: "Very strong wide base; unmistakable duck silhouette even at 32px.",
+            svgEffort: "Low. Wide continuous bezier curves.",
+            accessoryFit: "Broad head surface allows larger hat items without balance issues.",
+            propSuitability: "Gives a stable, grounded tabletop toy impression."
+          }
+        },
+        {
+          id: "A3", styleGroup: "Style A: Bold Friendly Vector",
+          styleDesc: "Strong clean silhouette, confident outline, flat fills and minimal shading",
+          variant: "Variant 3: Upright & Compact", file: "concepts/a3.jpg", status: "success",
+          obs: {
+            readability: "Distinctive tall silhouette with clear tail separation; very readable at 64px.",
+            svgEffort: "Low to medium.",
+            accessoryFit: "Higher neck provides clear separation between neckwear and headwear.",
+            propSuitability: "Alert posture gives an inquisitive, attentive toy personality."
+          }
+        },
+        {
+          id: "B1", styleGroup: "Style B: Soft Rounded Toy",
+          styleDesc: "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+          variant: "Variant 1: Balanced / Classic", file: "concepts/b1.jpg", status: "success",
+          obs: {
+            readability: "Soft edges reduce contrast slightly at 32px, but 3D volume reads convincingly at 64px+.",
+            svgEffort: "Medium. Requires linear and radial gradient fills and highlight shapes.",
+            accessoryFit: "Smooth rounded head surface accommodates soft-edged accessories nicely.",
+            propSuitability: "Extremely high for physical metagame prop; looks like real rotomolded vinyl."
+          }
+        },
+        {
+          id: "B2", styleGroup: "Style B: Soft Rounded Toy",
+          styleDesc: "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+          variant: "Variant 2: Squat & Wide", file: "concepts/b2.jpg", status: "success",
+          obs: {
+            readability: "Chubby shape reads clearly, though subtle gradient contours blur at 32px.",
+            svgEffort: "Medium.",
+            accessoryFit: "Flatter top head provides a stable platform for perched items.",
+            propSuitability: "Heavy, chunky vinyl feel, great for stationary desk placement."
+          }
+        },
+        {
+          id: "B3", styleGroup: "Style B: Soft Rounded Toy",
+          styleDesc: "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+          variant: "Variant 3: Upright & Compact", file: "concepts/b3.jpg", status: "success",
+          obs: {
+            readability: "Upturned tail and upright neck provide crisp focal points.",
+            svgEffort: "Medium. Several gradient stops along neck and body curves.",
+            accessoryFit: "Tall neck gives plenty of room for bowties, collars, or scarves.",
+            propSuitability: "Appears proud and observant; ideal candidate for apartment camera framing."
+          }
+        },
+        {
+          id: "C1", styleGroup: "Style C: Quirky Geometric Cartoon",
+          styleDesc: "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+          variant: "Variant 1: Balanced / Classic", file: "concepts/c1.jpg", status: "success",
+          obs: {
+            readability: "Sharp, clean geometric forms maintain integrity down to 32px.",
+            svgEffort: "Low. Very economical primitive-based bezier curves.",
+            accessoryFit: "Playful geometry makes whimsical hats fit naturally.",
+            propSuitability: "Modern stylized look; feels like a designer vinyl art toy."
+          }
+        },
+        {
+          id: "C2", styleGroup: "Style C: Quirky Geometric Cartoon",
+          styleDesc: "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+          variant: "Variant 2: Squat & Wide", file: "concepts/c2.jpg", status: "success",
+          obs: {
+            readability: "Wide duck silhouette is very distinct and recognizable.",
+            svgEffort: "Low.",
+            accessoryFit: "Wide head allows broad brimmed hats.",
+            propSuitability: "Delightfully goofy and endearing personality."
+          }
+        },
+        {
+          id: "C3", styleGroup: "Style C: Quirky Geometric Cartoon",
+          styleDesc: "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+          variant: "Variant 3: Upright & Compact", file: "concepts/c3.jpg", status: "success",
+          obs: {
+            readability: "Geometric angularity at tail and head makes it stand out against noisy UI.",
+            svgEffort: "Low to medium.",
+            accessoryFit: "Long neck and upright stance allow stacked accessories.",
+            propSuitability: "Quirky silhouette creates strong character even with static 2D staging."
+          }
+        },
+        {
+          id: "D1", styleGroup: "Style D: Graphic Arcade Cel",
+          styleDesc: "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+          variant: "Variant 1: Balanced / Classic", file: "concepts/d1.jpg", status: "success",
+          obs: {
+            readability: "Highest contrast of all styles; shadow planes preserve depth even at 32px thumbnail.",
+            svgEffort: "Medium. Discrete shadow polygons with hard edges; no complex gradient meshes.",
+            accessoryFit: "Accessories can easily share the angular cel-shading shadow planes.",
+            propSuitability: "Great for digital gacha collectible; slightly stylized for a mundane apartment toy."
+          }
+        },
+        {
+          id: "D2", styleGroup: "Style D: Graphic Arcade Cel",
+          styleDesc: "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+          variant: "Variant 2: Squat & Wide", file: "concepts/d2.jpg", status: "success",
+          obs: {
+            readability: "Heavy, chunky arcade feel; reads like a classic 90s arcade sprite asset.",
+            svgEffort: "Medium.",
+            accessoryFit: "Broad solid planes provide clear anchor points.",
+            propSuitability: "Strong digital gacha energy; feels like a collectible game prize."
+          }
+        },
+        {
+          id: "D3", styleGroup: "Style D: Graphic Arcade Cel",
+          styleDesc: "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+          variant: "Variant 3: Upright & Compact", file: "concepts/d3.jpg", status: "success",
+          obs: {
+            readability: "Angular head crest and tail catch the eye immediately.",
+            svgEffort: "Medium. Faceted planes easily authored in SVG paths.",
+            accessoryFit: "Head crest may require custom hat positioning.",
+            propSuitability: "Dynamic posture; feels very heroic/gamified."
+          }
+        },
+        {
+          id: "E1", styleGroup: "Style E: Layered Paper-Cut",
+          styleDesc: "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+          variant: "Variant 1: Balanced / Classic", file: "concepts/e1.jpg", status: "success",
+          obs: {
+            readability: "Layered depth provides tactile charm at 128px+, though fine shadows fade at 32px.",
+            svgEffort: "Medium to high. Layered SVG paths with drop-shadow filter definitions (<feDropShadow>).",
+            accessoryFit: "Accessories naturally become additional paper layers slotted over or under.",
+            propSuitability: "Very artistic and crafted; provides high aesthetic distinction for physical companion."
+          }
+        },
+        {
+          id: "E2", styleGroup: "Style E: Layered Paper-Cut",
+          styleDesc: "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+          variant: "Variant 2: Squat & Wide", file: "concepts/e2.jpg", status: "success",
+          obs: {
+            readability: "Squat shape gives large flat surface areas where paper layering shows cleanly.",
+            svgEffort: "Medium to high.",
+            accessoryFit: "Broad chest and head provide ample room for layered badges or hats.",
+            propSuitability: "Charming artisan handcrafted feel."
+          }
+        },
+        {
+          id: "E3", styleGroup: "Style E: Layered Paper-Cut",
+          styleDesc: "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+          variant: "Variant 3: Upright & Compact", file: null, status: "quota_exhausted",
+          obs: {
+            readability: "Pending generation upon quota reset.",
+            svgEffort: "Anticipated medium to high.",
+            accessoryFit: "Anticipated high room along neck.",
+            propSuitability: "Pending generation upon quota reset."
+          }
+        }
+      ]
+    };
+
+    // State
+    const state = {
+      pinned: [],
+      evaluations: {}
+    };
+
+    // Initialize Evaluations state
+    MANIFEST_DATA.concepts.forEach(c => {
+      state.evaluations[c.id] = {
+        digitalGacha: false,
+        physicalCompanion: false,
+        borrowFeature: false,
+        discard: false,
+        notes: ""
+      };
+    });
+
+    // Render Matrix
+    function renderMatrix() {
+      const container = document.getElementById("matrix-container");
+      container.innerHTML = "";
+
+      // Group concepts by styleGroup
+      const groups = {};
+      MANIFEST_DATA.concepts.forEach(c => {
+        if (!groups[c.styleGroup]) groups[c.styleGroup] = { desc: c.styleDesc, items: [] };
+        groups[c.styleGroup].items.push(c);
+      });
+
+      for (const [groupName, groupData] of Object.entries(groups)) {
+        const row = document.createElement("section");
+        row.className = "style-row";
+        row.setAttribute("aria-label", groupName);
+
+        row.innerHTML = `
+          <div class="style-row-header">
+            <h2>${groupName}</h2>
+            <div class="style-desc">${groupData.desc}</div>
+          </div>
+          <div class="cards-grid" id="grid-${groupName.replace(/[^a-zA-Z0-9]/g, '')}"></div>
+        `;
+
+        const grid = row.querySelector(".cards-grid");
+
+        groupData.items.forEach(c => {
+          const card = document.createElement("article");
+          card.className = "duck-card";
+          card.id = `card-${c.id}`;
+
+          let sampleHtml = "";
+          if (c.status === "success" && c.file) {
+            sampleHtml = `
+              <div class="sample-container" onclick="openModal('${c.id}')" tabindex="0" role="button" aria-label="Enlarge view for concept ${c.id}" onkeydown="if(event.key==='Enter'||event.key===' ') openModal('${c.id}')">
+                <img src="${c.file}" alt="Concept ${c.id}: ${c.variant}" class="sample-img" loading="lazy">
+              </div>
+            `;
+          } else {
+            sampleHtml = `
+              <div class="sample-container sample-unavailable">
+                <strong>Concept ${c.id}: Generation Quota Exhausted</strong>
+                <span>Upstream model 429 quota on gemini-3.1-flash-image (reset timestamp ~23:00 UTC). Capacity errors are not retried per system rule.</span>
+              </div>
+            `;
+          }
+
+          card.innerHTML = `
+            <div class="card-top">
+              <div>
+                <span class="card-id">${c.id}</span>
+                <span class="card-variant">&bull; ${c.variant}</span>
+              </div>
+              <button type="button" class="btn-pin" id="pin-btn-${c.id}" onclick="togglePin('${c.id}')" aria-pressed="false">
+                Pin Candidate
+              </button>
+            </div>
+            ${sampleHtml}
+            <div class="observations-box">
+              <div class="obs-item"><strong>Readability:</strong> ${c.obs.readability}</div>
+              <div class="obs-item"><strong>SVG Effort:</strong> ${c.obs.svgEffort}</div>
+              <div class="obs-item"><strong>Accessory Room:</strong> ${c.obs.accessoryFit}</div>
+              <div class="obs-item"><strong>Companion Prop:</strong> ${c.obs.propSuitability}</div>
+            </div>
+            <div class="owner-actions">
+              <span class="action-title">Evaluation Choices</span>
+              <div class="checkbox-tags">
+                <label class="tag-choice">
+                  <input type="checkbox" onchange="updateTag('${c.id}', 'digitalGacha', this.checked)">
+                  Digital gacha direction
+                </label>
+                <label class="tag-choice">
+                  <input type="checkbox" onchange="updateTag('${c.id}', 'physicalCompanion', this.checked)">
+                  Physical companion direction
+                </label>
+                <label class="tag-choice">
+                  <input type="checkbox" onchange="updateTag('${c.id}', 'borrowFeature', this.checked)">
+                  Borrow a feature
+                </label>
+                <label class="tag-choice">
+                  <input type="checkbox" onchange="updateTag('${c.id}', 'discard', this.checked)">
+                  Discard
+                </label>
+              </div>
+              <textarea class="card-notes" placeholder="Notes on ${c.id} (e.g. eye style, beak width, apartment staging...)" oninput="updateNotes('${c.id}', this.value)"></textarea>
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+        container.appendChild(row);
+      }
+    }
+
+    // Toggle Size
+    function setSize(size, btn) {
+      document.querySelectorAll(".controls-panel .btn-group:first-child .btn-toggle").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const root = document.documentElement;
+      const containers = document.querySelectorAll(".sample-container");
+
+      if (size === "full") {
+        containers.forEach(c => c.classList.add("full-fit"));
+        root.style.setProperty("--preview-size", "100%");
+      } else {
+        containers.forEach(c => c.classList.remove("full-fit"));
+        root.style.setProperty("--preview-size", size);
+      }
+    }
+
+    // Toggle Background
+    function setBg(bg, btn) {
+      document.querySelectorAll(".controls-panel .btn-group:nth-child(2) .btn-toggle").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      document.body.setAttribute("data-bg", bg);
+    }
+
+    // Pinning Mechanism (up to 3)
+    function togglePin(id) {
+      const idx = state.pinned.indexOf(id);
+      if (idx >= 0) {
+        state.pinned.splice(idx, 1);
+      } else {
+        if (state.pinned.length >= 3) {
+          alert("Maximum of 3 candidates can be pinned side-by-side. Unpin one to add another.");
+          return;
+        }
+        state.pinned.push(id);
+      }
+      renderPinned();
+      updateCardPinStyles();
+    }
+
+    function updateCardPinStyles() {
+      MANIFEST_DATA.concepts.forEach(c => {
+        const isPinned = state.pinned.includes(c.id);
+        const card = document.getElementById(`card-${c.id}`);
+        const btn = document.getElementById(`pin-btn-${c.id}`);
+        if (card) {
+          if (isPinned) card.classList.add("pinned");
+          else card.classList.remove("pinned");
+        }
+        if (btn) {
+          btn.setAttribute("aria-pressed", isPinned ? "true" : "false");
+          btn.textContent = isPinned ? "Pinned ✓" : "Pin Candidate";
+          if (isPinned) btn.classList.add("active");
+          else btn.classList.remove("active");
+        }
+      });
+      document.getElementById("pinned-count").textContent = `${state.pinned.length} of 3 pinned`;
+    }
+
+    function renderPinned() {
+      const grid = document.getElementById("pinned-grid");
+      if (state.pinned.length === 0) {
+        grid.innerHTML = `<div class="empty-pinned">No candidates pinned yet. Click "Pin Candidate" on any card below to compare up to 3 candidates here side by side.</div>`;
+        return;
+      }
+
+      grid.innerHTML = "";
+      state.pinned.forEach(id => {
+        const c = MANIFEST_DATA.concepts.find(item => item.id === id);
+        if (!c) return;
+
+        const pinCard = document.createElement("div");
+        pinCard.className = "duck-card";
+        pinCard.style.padding = "0.75rem";
+        pinCard.innerHTML = `
+          <div class="card-top" style="margin-bottom: 0.5rem;">
+            <strong>${c.id} (${c.variant})</strong>
+            <button type="button" class="btn-pin active" onclick="togglePin('${c.id}')">Unpin</button>
+          </div>
+          ${c.file ? `
+            <div class="sample-container" style="min-height: 160px; cursor: zoom-in;" onclick="openModal('${c.id}')">
+              <img src="${c.file}" alt="${c.id}" style="max-width: 100%; height: auto; width: 140px;">
+            </div>
+          ` : `<div class="sample-unavailable"><strong>No Image</strong> (Quota exhausted)</div>`}
+          <div style="font-size: 0.8rem; margin-top: 0.5rem; color: #475569;">
+            ${c.styleGroup} &bull; ${c.obs.propSuitability}
+          </div>
+        `;
+        grid.appendChild(pinCard);
+      });
+    }
+
+    // Modal
+    function openModal(id) {
+      const c = MANIFEST_DATA.concepts.find(item => item.id === id);
+      if (!c || !c.file) return;
+
+      const body = document.getElementById("modal-body");
+      body.innerHTML = `
+        <h3 style="font-size: 1.25rem;">${c.id}: ${c.variant} &mdash; ${c.styleGroup}</h3>
+        <p style="color: #64748b; font-size: 0.9rem;">${c.styleDesc}</p>
+        <img src="${c.file}" alt="${c.id}" class="modal-img">
+        <div style="width: 100%; text-align: left; font-size: 0.85rem; line-height: 1.6; background: #f8fafc; padding: 1rem; border-radius: 6px; border: 1px solid #e2e8f0;">
+          <p><strong>Image Dimensions:</strong> 1024 x 1024 px (Opaque JPEG on #E2E8F0)</p>
+          <p><strong>Small-Scale Readability:</strong> ${c.obs.readability}</p>
+          <p><strong>SVG Authoring Effort:</strong> ${c.obs.svgEffort}</p>
+          <p><strong>Accessory / Hat Clearance:</strong> ${c.obs.accessoryFit}</p>
+          <p><strong>Physical Prop Potential:</strong> ${c.obs.propSuitability}</p>
+        </div>
+      `;
+
+      document.getElementById("modal-overlay").classList.add("open");
+    }
+
+    function closeModal(e) {
+      document.getElementById("modal-overlay").classList.remove("open");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    // Evaluations & Summary
+    function updateTag(id, tag, checked) {
+      if (!state.evaluations[id]) state.evaluations[id] = {};
+      state.evaluations[id][tag] = checked;
+      refreshSummary();
+    }
+
+    function updateNotes(id, text) {
+      if (!state.evaluations[id]) state.evaluations[id] = {};
+      state.evaluations[id].notes = text;
+      refreshSummary();
+    }
+
+    function refreshSummary() {
+      const textarea = document.getElementById("summary-text");
+      const lines = [
+        `# Plan 08 Owner Direction & Review Summary`,
+        `Date: ${new Date().toISOString().split('T')[0]}`,
+        `Pinned Candidates: [ ${state.pinned.join(", ") || "None"} ]`,
+        ``,
+        `## Concept Choices & Feedback:`
+      ];
+
+      let anySelected = false;
+      MANIFEST_DATA.concepts.forEach(c => {
+        const ev = state.evaluations[c.id];
+        const tags = [];
+        if (ev.digitalGacha) tags.push("Digital Gacha");
+        if (ev.physicalCompanion) tags.push("Physical Companion");
+        if (ev.borrowFeature) tags.push("Borrow Feature");
+        if (ev.discard) tags.push("Discard");
+
+        if (tags.length > 0 || (ev.notes && ev.notes.trim().length > 0)) {
+          anySelected = true;
+          lines.push(`- **Concept ${c.id}** (${c.variant}, ${c.styleGroup}):`);
+          if (tags.length > 0) lines.push(`  - Selections: ${tags.join(", ")}`);
+          if (ev.notes && ev.notes.trim().length > 0) lines.push(`  - Notes: ${ev.notes.trim()}`);
+        }
+      });
+
+      if (!anySelected) {
+        lines.push(`(No selections or notes recorded yet. Check options on concept cards above to populate this summary.)`);
+      }
+
+      lines.push(``);
+      lines.push(`## Upstream Quota Note:`);
+      lines.push(`- Concept E3 encountered 429 RESOURCE_EXHAUSTED on gemini-3.1-flash-image (reset timestamp ~23:00 UTC). 14 of 15 concepts successfully rendered and reviewable.`);
+
+      textarea.value = lines.join("\n");
+    }
+
+    function copySummary() {
+      const textarea = document.getElementById("summary-text");
+      textarea.select();
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const status = document.getElementById("copy-status");
+        status.textContent = "Summary copied to clipboard!";
+        setTimeout(() => { status.textContent = ""; }, 3000);
+      }).catch(() => {
+        alert("Clipboard copy failed. Please manually select all text in the box and press Ctrl+C / Cmd+C.");
+      });
+    }
+
+    function scrollToSummary() {
+      document.getElementById("summary-section").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Init
+    window.addEventListener("DOMContentLoaded", () => {
+      renderMatrix();
+      renderPinned();
+      refreshSummary();
+    });
+  </script>
+</body>
+</html>

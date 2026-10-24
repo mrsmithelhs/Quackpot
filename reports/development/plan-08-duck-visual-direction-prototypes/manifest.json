@@ -1,0 +1,253 @@
+{
+  "packetId": "plan-08",
+  "generatedDate": "2026-10-24",
+  "tool": "image-generator (gemini-3.1-flash-image)",
+  "canvas": "1024x1024",
+  "format": "JPEG",
+  "background": "Uniform neutral light grey (#E2E8F0, opaque)",
+  "totalRequested": 15,
+  "totalGenerated": 14,
+  "quotaExhausted": 1,
+  "concepts": [
+    {
+      "id": "A1",
+      "style": "Bold friendly vector",
+      "styleSummary": "Strong clean silhouette, confident outline, flat fills and minimal shading",
+      "variant": "Variant 1 (balanced/classic)",
+      "file": "concepts/a1.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Classic rubber duck in a bold friendly vector style with clean outlines, flat yellow and orange fills, minimal shading, balanced proportions, facing left in a 3/4 view.",
+      "observations": {
+        "readability": "Excellent silhouette definition at 32px and 64px due to bold dark outline and high contrast.",
+        "svgEffort": "Low to medium. Simple geometric curves, flat fills, minimal path count.",
+        "accessoryFit": "Generous room on top of head and neck for hats/collars.",
+        "propSuitability": "High; clean vector silhouette reads well against apartment compositions."
+      }
+    },
+    {
+      "id": "A2",
+      "style": "Bold friendly vector",
+      "styleSummary": "Strong clean silhouette, confident outline, flat fills and minimal shading",
+      "variant": "Variant 2 (squat/wide)",
+      "file": "concepts/a2.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Bold friendly vector rubber duck with squat and wide body proportions, broad flat orange beak, dark round eye, warm yellow body, confident clean outlines, and minimal shading.",
+      "observations": {
+        "readability": "Very strong wide base; unmistakable duck silhouette even at 32px.",
+        "svgEffort": "Low. Wide continuous bezier curves.",
+        "accessoryFit": "Broad head surface allows larger hat items without balance issues.",
+        "propSuitability": "Gives a stable, grounded tabletop toy impression."
+      }
+    },
+    {
+      "id": "A3",
+      "style": "Bold friendly vector",
+      "styleSummary": "Strong clean silhouette, confident outline, flat fills and minimal shading",
+      "variant": "Variant 3 (upright/compact)",
+      "file": "concepts/a3.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Bold, friendly vector illustration of a rubber duck with an upright posture, taller neck, perky upturned tail, warm yellow body, orange beak, and dark round eye.",
+      "observations": {
+        "readability": "Distinctive tall silhouette with clear tail separation; very readable at 64px.",
+        "svgEffort": "Low to medium.",
+        "accessoryFit": "Higher neck provides clear separation between neckwear and headwear.",
+        "propSuitability": "Alert posture gives an inquisitive, attentive toy personality."
+      }
+    },
+    {
+      "id": "B1",
+      "style": "Soft rounded toy",
+      "styleSummary": "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+      "variant": "Variant 1 (balanced/classic)",
+      "file": "concepts/b1.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Classic soft-rounded toy rubber duck with fuller volume, gentle smooth gradients and soft highlights, centered in a left-facing three-quarter view with warm yellow body, smooth orange bill, and dark round eye.",
+      "observations": {
+        "readability": "Soft edges reduce contrast slightly at 32px, but 3D volume reads convincingly at 64px+.",
+        "svgEffort": "Medium. Requires linear and radial gradient fills and highlight shapes.",
+        "accessoryFit": "Smooth rounded head surface accommodates soft-edged accessories nicely.",
+        "propSuitability": "Extremely high for physical metagame prop; looks like real rotomolded vinyl."
+      }
+    },
+    {
+      "id": "B2",
+      "style": "Soft rounded toy",
+      "styleSummary": "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+      "variant": "Variant 2 (squat/wide)",
+      "file": "concepts/b2.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Soft-rounded toy style rubber duck with squat and wide body proportions, a broad flatter orange beak, warm yellow body, and a simple dark circular eye.",
+      "observations": {
+        "readability": "Chubby shape reads clearly, though subtle gradient contours blur at 32px.",
+        "svgEffort": "Medium.",
+        "accessoryFit": "Flatter top head provides a stable platform for perched items.",
+        "propSuitability": "Heavy, chunky vinyl feel, great for stationary desk placement."
+      }
+    },
+    {
+      "id": "B3",
+      "style": "Soft rounded toy",
+      "styleSummary": "Fuller volume, gentle limited gradients/highlights, smooth curves and restrained detail",
+      "variant": "Variant 3 (upright/compact)",
+      "file": "concepts/b3.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Soft rounded toy rubber duck in an upright, compact posture featuring a taller neck, rounded head, dark circular eye, smooth orange bill, and a perky upturned tail silhouette with fuller volume and gentle limited gradients.",
+      "observations": {
+        "readability": "Upturned tail and upright neck provide crisp focal points.",
+        "svgEffort": "Medium. Several gradient stops along neck and body curves.",
+        "accessoryFit": "Tall neck gives plenty of room for bowties, collars, or scarves.",
+        "propSuitability": "Appears proud and observant; ideal candidate for apartment camera framing."
+      }
+    },
+    {
+      "id": "C1",
+      "style": "Quirky geometric cartoon",
+      "styleSummary": "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+      "variant": "Variant 1 (balanced/classic)",
+      "file": "concepts/c1.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Clean, quirky geometric cartoon illustration of a classic rubber duck with balanced proportions, economical smooth curves, warm vibrant yellow body, orange beak, dark round eye.",
+      "observations": {
+        "readability": "Sharp, clean geometric forms maintain integrity down to 32px.",
+        "svgEffort": "Low. Very economical primitive-based bezier curves.",
+        "accessoryFit": "Playful geometry makes whimsical hats fit naturally.",
+        "propSuitability": "Modern stylized look; feels like a designer vinyl art toy."
+      }
+    },
+    {
+      "id": "C2",
+      "style": "Quirky geometric cartoon",
+      "styleSummary": "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+      "variant": "Variant 2 (squat/wide)",
+      "file": "concepts/c2.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Quirky geometric cartoon rubber duck with squat, wide body proportions, a broad and flat orange beak, warm yellow body, and dark round eye.",
+      "observations": {
+        "readability": "Wide duck silhouette is very distinct and recognizable.",
+        "svgEffort": "Low.",
+        "accessoryFit": "Wide head allows broad brimmed hats.",
+        "propSuitability": "Delightfully goofy and endearing personality."
+      }
+    },
+    {
+      "id": "C3",
+      "style": "Quirky geometric cartoon",
+      "styleSummary": "Economical geometric curves, slightly unusual proportions, playful fixed eye/beak placement",
+      "variant": "Variant 3 (upright/compact)",
+      "file": "concepts/c3.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Quirky geometric cartoon rubber duck featuring an upright, compact posture with an elongated neck, geometric head silhouette, and perky upturned tail.",
+      "observations": {
+        "readability": "Geometric angularity at tail and head makes it stand out against noisy UI.",
+        "svgEffort": "Low to medium.",
+        "accessoryFit": "Long neck and upright stance allow stacked accessories.",
+        "propSuitability": "Quirky silhouette creates strong character even with static 2D staging."
+      }
+    },
+    {
+      "id": "D1",
+      "style": "Graphic arcade cel",
+      "styleSummary": "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+      "variant": "Variant 1 (balanced/classic)",
+      "file": "concepts/d1.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Classic rubber duck rendered in a graphic arcade cel-shaded style with chunky contours, decisive geometric shadow planes, warm yellow body, orange bill, and dark eye.",
+      "observations": {
+        "readability": "Highest contrast of all styles; shadow planes preserve depth even at 32px thumbnail.",
+        "svgEffort": "Medium. Discrete shadow polygons with hard edges; no complex gradient meshes.",
+        "accessoryFit": "Accessories can easily share the angular cel-shading shadow planes.",
+        "propSuitability": "Great for digital gacha collectible; slightly stylized for a mundane apartment toy."
+      }
+    },
+    {
+      "id": "D2",
+      "style": "Graphic arcade cel",
+      "styleSummary": "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+      "variant": "Variant 2 (squat/wide)",
+      "file": "concepts/d2.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Graphic arcade cel-shaded rubber duck featuring squat and wide body proportions with a broader, flatter orange beak, warm yellow body, bold chunky outlines, decisive hard-edged shadow planes, and dark round eye.",
+      "observations": {
+        "readability": "Heavy, chunky arcade feel; reads like a classic 90s arcade sprite asset.",
+        "svgEffort": "Medium.",
+        "accessoryFit": "Broad solid planes provide clear anchor points.",
+        "propSuitability": "Strong digital gacha energy; feels like a collectible game prize."
+      }
+    },
+    {
+      "id": "D3",
+      "style": "Graphic arcade cel",
+      "styleSummary": "Chunky shapes, decisive shadow planes, stronger contrast and angular accents",
+      "variant": "Variant 3 (upright/compact)",
+      "file": "concepts/d3.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Rubber duck with an upright posture, taller neck, perky upturned tail, and angular head crest in a clean graphic arcade cel-shaded aesthetic with bold outlines, decisive hard-edged shadow planes.",
+      "observations": {
+        "readability": "Angular head crest and tail catch the eye immediately.",
+        "svgEffort": "Medium. Faceted planes easily authored in SVG paths.",
+        "accessoryFit": "Head crest may require custom hat positioning.",
+        "propSuitability": "Dynamic posture; feels very heroic/gamified."
+      }
+    },
+    {
+      "id": "E1",
+      "style": "Layered paper-cut",
+      "styleSummary": "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+      "variant": "Variant 1 (balanced/classic)",
+      "file": "concepts/e1.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Centered classic yellow rubber duck in a left-facing three-quarter profile crafted from clean, crisp layered paper cutout shapes with subtle soft drop shadows between discrete layers.",
+      "observations": {
+        "readability": "Layered depth provides tactile charm at 128px+, though fine shadows fade at 32px.",
+        "svgEffort": "Medium to high. Layered SVG paths with drop-shadow filter definitions (<feDropShadow>).",
+        "accessoryFit": "Accessories naturally become additional paper layers slotted over or under.",
+        "propSuitability": "Very artistic and crafted; provides high aesthetic distinction for physical companion."
+      }
+    },
+    {
+      "id": "E2",
+      "style": "Layered paper-cut",
+      "styleSummary": "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+      "variant": "Variant 2 (squat/wide)",
+      "file": "concepts/e2.jpg",
+      "status": "success",
+      "dimensions": "1024x1024",
+      "description": "Layered paper-cut illustration of a squat, wide yellow rubber duck with a broad flat orange beak facing left in a three-quarter view, constructed from discrete flat cutout shapes with crisp edges and soft layered drop shadows.",
+      "observations": {
+        "readability": "Squat shape gives large flat surface areas where paper layering shows cleanly.",
+        "svgEffort": "Medium to high.",
+        "accessoryFit": "Broad chest and head provide ample room for layered badges or hats.",
+        "propSuitability": "Charming artisan handcrafted feel."
+      }
+    },
+    {
+      "id": "E3",
+      "style": "Layered paper-cut",
+      "styleSummary": "Overlapping flat shapes, subtle depth from a few layers, tactile impression without raster texture",
+      "variant": "Variant 3 (upright/compact)",
+      "file": null,
+      "status": "quota_exhausted",
+      "dimensions": null,
+      "description": "Upright, compact posture layered paper-cut concept. Generation was halted by upstream 429 RESOURCE_EXHAUSTED quota limit on gemini-3.1-flash-image (reset timestamp ~2026-10-24T23:00:04Z). Per system rules, capacity/quota errors are not retried.",
+      "observations": {
+        "readability": "Anticipated similar to E1/E2 with upright silhouette.",
+        "svgEffort": "Anticipated medium to high.",
+        "accessoryFit": "Anticipated high room along neck.",
+        "propSuitability": "Pending generation upon quota reset."
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 **Packet:** [`docs/development/plan-03-mechanism-slice.md`](file:///c:/AI/Quackpot/docs/development/plan-03-mechanism-slice.md)  
 **Reference brief:** [`reports/development/plan-03-mechanism-slice/preflight-brief.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-brief.md)  
 **Reviews addressed:** Preflight Review 01, Orchestrator Review 02, and Owner Gate Amendment  
-**Status:** Preflight proposal updated with owner-gate amendments. **Implementation code remains paused awaiting Owner approval.**
+**Status:** **Approved by Owner on 2026-10-24 (Option 1 accepted). Implementation authorized and underway.**
 
 ---
 
@@ -501,12 +501,12 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
 
 ## 9. Consolidated Owner Gate Decision
 
-Before implementation code is authored, the implementer requests the Owner's formal gate decision:
+**Owner Determination (2026-10-24):** Option 1 is formally approved by the Owner. Proceeding to implementation of the bounded mechanism slice according to the ratified specifications.
 
 | Gate Option | Description | Action upon Approval |
 |---|---|---|
-| **Option 1 (Recommended)** | **Approve the Narrowly Amended Work Order** (Revision 3):<br>1. Fixed 6-entrant race contract (tutorial base 8.0 $\pm 5\%$, finale base 11.2 $\pm 5\%$, deterministic ties).<br>2. Two-stance tactical choice with Common-only limitation explicit; main teaching trade-off remains metagame cash vs. bills.<br>3. Zero-cash escalation prompt offering wage continuation without forced sacrifice.<br>4. Full semantic restore validation reconciling state, inventory, pity, reveals, and all 4 PRNG streams.<br>5. Bounded 3-day trial scope, natural opening draws, and gems-only starter. | Implementer executes the bounded implementation according to the ratified specifications. |
-| **Option 2** | **Require a Stronger Race-Choice Investigation** | Implementation remains paused; implementer prepares a separate, bounded race-choice investigation packet or experiment before building the slice. |
+| **Option 1 (Approved)** | **Approve the Narrowly Amended Work Order** (Revision 3):<br>1. Fixed 6-entrant race contract (tutorial base 8.0 $\pm 5\%$, finale base 11.2 $\pm 5\%$, deterministic ties).<br>2. Two-stance tactical choice with Common-only limitation explicit; main teaching trade-off remains metagame cash vs. bills.<br>3. Zero-cash escalation prompt offering wage continuation without forced sacrifice.<br>4. Full semantic restore validation reconciling state, inventory, pity, reveals, and all 4 PRNG streams.<br>5. Bounded 3-day trial scope, natural opening draws, and gems-only starter. | **Adopted.** Implementer executes the bounded implementation according to the ratified specifications. |
+| **Option 2** | **Require a Stronger Race-Choice Investigation** | Not selected. |
 
 ---
 

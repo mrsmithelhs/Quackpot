@@ -5,7 +5,15 @@ import './style.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
-import { saveGame, loadGame, clearGame, backupCorruptSave, getInMemoryStatus } from './core/storage.mjs';
+import {
+  saveGame,
+  loadGame,
+  clearGame,
+  backupCorruptSave,
+  getInMemoryStatus,
+  setTemporaryPreservationMode,
+  isTemporaryPreservationMode,
+} from './core/storage.mjs';
 
 import { renderHud } from './ui/hud.js';
 import { renderDeskView } from './ui/desk-view.js';
@@ -39,9 +47,11 @@ if (app) {
   }
 
   function checkStorageResult(res) {
-    if (res && res.inMemory) {
+    if (res && res.preservedSnapshot) {
+      storageWarningText = 'Temporary Session: An existing save is preserved. Storage saving is paused to protect it.';
+    } else if (res && res.inMemory) {
       storageWarningText = 'Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload.';
-    } else if (res && res.success && !getInMemoryStatus()) {
+    } else if (res && res.success && !getInMemoryStatus() && !isTemporaryPreservationMode()) {
       storageWarningText = null;
     }
   }
@@ -83,12 +93,19 @@ if (app) {
       renderCorruptSaveModal(document.querySelector('#modal-container'), loadResult.errors, {
         onFresh: () => {
           clearGame();
+          setTemporaryPreservationMode(false);
           startFreshRun(true);
         },
         onKeepBackup: () => {
-          // Backup corrupted save without destroying or overwriting it
-          backupCorruptSave();
-          startFreshRun(false); // start in temporary mode without overwriting corrupted save
+          // Backup corrupted save without destroying or overwriting it (Repair 02, P2)
+          const backupOk = backupCorruptSave();
+          setTemporaryPreservationMode(true);
+          if (!backupOk) {
+            storageWarningText = 'Notice: Could not write backup copy to backup storage key. The original corrupt save remains preserved in primary storage. Playing in temporary memory mode.';
+          } else {
+            storageWarningText = 'Notice: Corrupted save copy preserved under backup key. The original save remains preserved in storage. Playing in temporary memory mode.';
+          }
+          startFreshRun(false); // start in temporary mode without overwriting preserved save
         },
       });
       return;
@@ -123,15 +140,21 @@ if (app) {
     const seed = generateRandomSeed();
     engine = new GameEngine(seed);
     engine.start();
-    engine.autosaveEnabled = true;
+
+    if (!enableStorageSave || isTemporaryPreservationMode()) {
+      engine.autosaveEnabled = false;
+      if (!storageWarningText) {
+        storageWarningText = 'Temporary Session: An existing save is preserved in storage. Automatic saving is paused to prevent overwriting it.';
+      }
+    } else {
+      engine.autosaveEnabled = true;
+      storageWarningText = null;
+    }
+
     currentStep = 'desk';
     activeModal = null;
     engine.state.step = 'desk';
     engine.state.activeModal = null;
-
-    if (enableStorageSave) {
-      // Do not force immediate write before learner styles companion and confirms autosave
-    }
 
     renderApp();
   }
@@ -142,6 +165,23 @@ if (app) {
 
     renderHud(hudContainer, engine, duckSvgUrl, {
       onSave: () => {
+        if (isTemporaryPreservationMode()) {
+          const confirmed = typeof globalThis.confirm === 'function'
+            ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
+            : false;
+          if (confirmed) {
+            setTemporaryPreservationMode(false);
+            const res = saveGame(engine.toEnvelope(), globalThis.localStorage, true);
+            checkStorageResult(res);
+            updateWarningBanner();
+            return res;
+          } else {
+            const res = saveGame(engine.toEnvelope(), globalThis.localStorage, false);
+            checkStorageResult(res);
+            updateWarningBanner();
+            return res;
+          }
+        }
         const res = saveGame(engine.toEnvelope());
         checkStorageResult(res);
         updateWarningBanner();
@@ -154,6 +194,10 @@ if (app) {
         renderApp();
       },
       onToggleAutosave: (checked) => {
+        if (isTemporaryPreservationMode()) {
+          engine.autosaveEnabled = false;
+          return;
+        }
         engine.autosaveEnabled = checked;
         maybeAutosave();
       },
@@ -171,7 +215,11 @@ if (app) {
     // Render active view based on authoritative progression step
     if (currentStep === 'desk') {
       renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled }) => {
-        engine.autosaveEnabled = autosaveEnabled;
+        if (!isTemporaryPreservationMode()) {
+          engine.autosaveEnabled = autosaveEnabled;
+        } else {
+          engine.autosaveEnabled = false;
+        }
         engine.setupCompanion(name, style);
         currentStep = 'd1_morning_gacha';
         engine.state.step = currentStep;
@@ -268,28 +316,17 @@ if (app) {
       if (btnPayRent) {
         btnPayRent.addEventListener('click', () => {
           const billResult = engine.billExpense('rent', 15.00);
+          currentStep = engine.state.step;
+          activeModal = engine.state.activeModal;
           maybeAutosave();
 
           if (billResult.paid) {
-            if (engine.state.cash === 0) {
-              activeModal = 'zerocash';
-              currentStep = 'd2_afternoon_zerocash';
-              engine.state.step = currentStep;
-              engine.state.activeModal = activeModal;
-              maybeAutosave();
+            if (billResult.zeroCash) {
               renderApp();
             } else {
-              currentStep = 'd2_afternoon_rent_resolved';
-              engine.state.step = currentStep;
-              maybeAutosave();
               proceedToDay2Evening();
             }
           } else {
-            activeModal = 'escalation';
-            currentStep = 'd2_afternoon_escalation';
-            engine.state.step = currentStep;
-            engine.state.activeModal = activeModal;
-            maybeAutosave();
             renderApp();
           }
         });

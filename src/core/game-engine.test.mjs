@@ -364,3 +364,107 @@ test('engine: idempotent Receipt presentation on reload after completion', () =>
   engine.presentReceipt();
   assert.equal(engine.log.entries.length, countBefore);
 });
+
+// --- Review 02 Required Regressions ---
+
+test('engine [Repair 02 P1]: billExpense is strictly idempotent and prevents duplicate bill processing', () => {
+  const engine = new GameEngine('seed-rent-idempotent');
+  engine.start();
+  engine.setupCompanion();
+  engine.advanceDay(2, 'day 2 afternoon');
+  assert.equal(engine.state.cash, 15.00);
+
+  // First rent call: paid in full, cash hits $0
+  const rent1 = engine.billExpense('rent', 15.00);
+  assert.equal(rent1.paid, true);
+  assert.equal(rent1.needsEscalation, false);
+  assert.equal(rent1.zeroCash, true);
+  assert.equal(engine.state.cash, 0);
+  assert.equal(engine.state.step, 'd2_afternoon_zerocash');
+  assert.equal(engine.state.activeModal, 'zerocash');
+
+  // Second rent call (e.g. repeated click or interrupted handler):
+  const rent2 = engine.billExpense('rent', 15.00);
+  assert.equal(rent2.paid, true);
+  assert.equal(rent2.alreadySettled, true);
+  assert.equal(rent2.needsEscalation, false);
+  assert.equal(engine.state.cash, 0); // Cash is still 0, not negative or deducted again!
+  assert.equal(engine.state.phase, 'playing'); // Not forced into escalation or default!
+
+  // Event log has exactly ONE expense_due and ONE expense_paid for rent
+  const rentDueEvents = engine.log.entries.filter((e) => e.type === 'expense_due' && e.payload?.kind === 'rent');
+  const rentPaidEvents = engine.log.entries.filter((e) => e.type === 'expense_paid' && e.payload?.kind === 'rent');
+  assert.equal(rentDueEvents.length, 1);
+  assert.equal(rentPaidEvents.length, 1);
+});
+
+test('engine [Repair 02 P1]: reload at paid-zero and unpaid-escalation boundaries preserves coherent progression', () => {
+  // Boundary A: Paid-zero boundary
+  const engineA = new GameEngine('seed-boundary-a');
+  engineA.start();
+  engineA.setupCompanion();
+  engineA.advanceDay(2, 'day 2 afternoon');
+  engineA.billExpense('rent', 15.00); // cash -> 0, step -> d2_afternoon_zerocash, modal -> zerocash
+
+  const envA = engineA.toEnvelope();
+  const restoredA = GameEngine.fromEnvelope(envA);
+  assert.equal(restoredA.state.cash, 0);
+  assert.equal(restoredA.state.step, 'd2_afternoon_zerocash');
+  assert.equal(restoredA.state.activeModal, 'zerocash');
+  assert.ok(restoredA.state.billsSettled.includes('d2_rent'));
+
+  // Calling billExpense on restored engine does not re-bill
+  const reRentA = restoredA.billExpense('rent', 15.00);
+  assert.equal(reRentA.alreadySettled, true);
+  assert.equal(restoredA.state.cash, 0);
+
+  // Boundary B: Unpaid escalation boundary
+  const engineB = new GameEngine('seed-boundary-b');
+  engineB.start();
+  engineB.setupCompanion();
+  engineB.state.cash = 14.01; // Insufficient for $15 rent
+  engineB.advanceDay(2, 'day 2 afternoon');
+  const rentB = engineB.billExpense('rent', 15.00);
+  assert.equal(rentB.paid, false);
+  assert.equal(rentB.needsEscalation, true);
+  assert.equal(engineB.state.step, 'd2_afternoon_escalation');
+  assert.equal(engineB.state.activeModal, 'escalation');
+
+  const envB = engineB.toEnvelope();
+  const restoredB = GameEngine.fromEnvelope(envB);
+  assert.equal(restoredB.state.step, 'd2_afternoon_escalation');
+  assert.equal(restoredB.state.activeModal, 'escalation');
+  assert.equal(restoredB.state.activeBill.kind, 'rent');
+
+  // Calling billExpense again does not append another expense_due
+  const reRentB = restoredB.billExpense('rent', 15.00);
+  assert.equal(reRentB.alreadyPending, true);
+  const rentDueEventsB = restoredB.log.entries.filter((e) => e.type === 'expense_due' && e.payload?.kind === 'rent');
+  assert.equal(rentDueEventsB.length, 1);
+});
+
+test('engine [Repair 02 P1]: hydration reconstructs race completion so deleting state flags cannot permit another payout', () => {
+  const engine = new GameEngine('seed-race-payout-protect');
+  engine.start();
+  engine.setupCompanion();
+  engine.state.owned = ['duck-0'];
+  const res1 = engine.runRace(1, 'duck-0', 'safe');
+  assert.equal(engine.state.gems, 50);
+
+  // Attacker tampers with envelope by clearing completedRaces, raceResults, and resetting step
+  const env = engine.toEnvelope();
+  env.state.completedRaces = [];
+  env.state.raceResults = {};
+  env.state.step = 'd1_midday_race';
+
+  // fromEnvelope reconstructs authoritative completed races from event log
+  const restored = GameEngine.fromEnvelope(env);
+  assert.ok(restored.state.completedRaces.includes(1));
+  assert.ok(restored.state.raceResults[1]);
+  assert.equal(restored.state.step, 'd1_midday_race_result');
+
+  // Attempting to race again returns cached outcome with ZERO additional gems!
+  const res2 = restored.runRace(1, 'duck-0', 'safe');
+  assert.equal(res2.place, res1.place);
+  assert.equal(restored.state.gems, 50); // Gems remain 50, not 100!
+});

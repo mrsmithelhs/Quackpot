@@ -10,6 +10,7 @@ export const CURRENT_SCHEMA_VERSION = 1;
 // In-memory fallback session store when localStorage is unavailable or throws quota error
 let inMemoryStore = null;
 let inMemoryActive = false;
+let temporaryPreservationActive = false;
 
 export function getInMemoryStatus() {
   return inMemoryActive;
@@ -18,6 +19,15 @@ export function getInMemoryStatus() {
 export function resetInMemoryStore() {
   inMemoryStore = null;
   inMemoryActive = false;
+  temporaryPreservationActive = false;
+}
+
+export function setTemporaryPreservationMode(active) {
+  temporaryPreservationActive = Boolean(active);
+}
+
+export function isTemporaryPreservationMode() {
+  return temporaryPreservationActive;
 }
 
 /**
@@ -178,41 +188,143 @@ export function validateSave(envelope) {
           errors.push(`State owned inventory mismatch: log implies [${expectedOwned.join(', ')}], state reports [${state.owned.join(', ')}]`);
         }
 
-        // Exact pendingReveals validation (P1 repair)
-        const committedMap = new Map();
-        for (const e of entries) {
-          if (e.type === 'draw_committed') committedMap.set(e.seq, e);
-        }
+        // Exact pendingReveals validation (Repair 02, P1: reject missing, duplicate, or mismatched pending queue)
+        const commitEvents = entries.filter((e) => e.type === 'draw_committed');
         const revealedSeqs = new Set(
           entries.filter((e) => e.type === 'reveal_shown').map((e) => e.payload?.commitSeq)
         );
 
-        for (const item of state.pendingReveals) {
-          if (!item || typeof item !== 'object') {
-            errors.push('Malformed item in pendingReveals');
-            continue;
+        if (commitEvents.length === 0) {
+          if (Array.isArray(state.pendingReveals) && state.pendingReveals.length > 0) {
+            errors.push('state.pendingReveals must be empty when no draw_committed events exist');
           }
-          const commitEntry = committedMap.get(item.commitSeq);
-          if (!commitEntry) {
-            errors.push(`Pending reveal commitSeq ${item.commitSeq} not found in draw_committed events`);
-            continue;
-          }
-          if (item.identity !== commitEntry.payload.identity) {
-            errors.push(`Pending reveal identity mismatch for seq ${item.commitSeq}: expected "${commitEntry.payload.identity}", got "${item.identity}"`);
-          }
-          if (item.rarity !== commitEntry.payload.rarity) {
-            errors.push(`Pending reveal rarity mismatch for seq ${item.commitSeq}`);
-          }
-          if (item.duplicate !== commitEntry.payload.duplicate) {
-            errors.push(`Pending reveal duplicate mismatch for seq ${item.commitSeq}`);
-          }
-          if (typeof item.revealed !== 'boolean') {
-            errors.push(`Pending reveal revealed flag must be boolean for seq ${item.commitSeq}`);
+        } else {
+          if (!Array.isArray(state.pendingReveals) || state.pendingReveals.length !== commitEvents.length) {
+            errors.push(`state.pendingReveals length mismatch: expected ${commitEvents.length} items from committed draws, got ${state.pendingReveals?.length ?? 0}`);
           } else {
-            const hasRevealEvent = revealedSeqs.has(item.commitSeq);
-            if (item.revealed !== hasRevealEvent) {
-              errors.push(`Pending reveal revealed state mismatch for seq ${item.commitSeq}: state=${item.revealed}, logHasReveal=${hasRevealEvent}`);
+            const seenCommitSeqs = new Set();
+            for (let i = 0; i < commitEvents.length; i++) {
+              const commit = commitEvents[i];
+              const item = state.pendingReveals[i];
+              if (!item || typeof item !== 'object') {
+                errors.push(`Malformed item in pendingReveals at index [${i}]`);
+                continue;
+              }
+              if (seenCommitSeqs.has(item.commitSeq)) {
+                errors.push(`Duplicate commitSeq ${item.commitSeq} in pendingReveals at index [${i}]`);
+              }
+              seenCommitSeqs.add(item.commitSeq);
+
+              if (item.commitSeq !== commit.seq) {
+                errors.push(`pendingReveals index [${i}] commitSeq mismatch: expected ${commit.seq}, got ${item.commitSeq}`);
+              }
+              if (item.drawIndex !== commit.payload.drawIndex) {
+                errors.push(`pendingReveals index [${i}] drawIndex mismatch: expected ${commit.payload.drawIndex}, got ${item.drawIndex}`);
+              }
+              if (item.of !== commit.payload.of) {
+                errors.push(`pendingReveals index [${i}] "of" mismatch: expected ${commit.payload.of}, got ${item.of}`);
+              }
+              if (item.identity !== commit.payload.identity) {
+                errors.push(`pendingReveals index [${i}] identity mismatch: expected "${commit.payload.identity}", got "${item.identity}"`);
+              }
+              if (item.rarity !== commit.payload.rarity) {
+                errors.push(`pendingReveals index [${i}] rarity mismatch: expected "${commit.payload.rarity}", got "${item.rarity}"`);
+              }
+              if (item.duplicate !== commit.payload.duplicate) {
+                errors.push(`pendingReveals index [${i}] duplicate mismatch: expected ${commit.payload.duplicate}, got ${item.duplicate}`);
+              }
+              if (item.downGained !== commit.payload.downGained) {
+                errors.push(`pendingReveals index [${i}] downGained mismatch: expected ${commit.payload.downGained}, got ${item.downGained}`);
+              }
+              if (item.advancesPity !== commit.payload.advancesPity) {
+                errors.push(`pendingReveals index [${i}] advancesPity mismatch: expected ${commit.payload.advancesPity}, got ${item.advancesPity}`);
+              }
+              if (typeof item.revealed !== 'boolean') {
+                errors.push(`pendingReveals index [${i}] revealed flag must be boolean`);
+              } else {
+                const hasRevealEvent = revealedSeqs.has(commit.seq);
+                if (item.revealed !== hasRevealEvent) {
+                  errors.push(`pendingReveals index [${i}] revealed state mismatch: state=${item.revealed}, logHasReveal=${hasRevealEvent}`);
+                }
+              }
             }
+          }
+        }
+
+        // Authoritative completed races and raceResults reconciliation (Repair 02, P1)
+        const loggedRaceResults = entries.filter((e) => e.type === 'race_result');
+        const loggedRaceMap = new Map();
+        for (const r of loggedRaceResults) {
+          loggedRaceMap.set(r.payload.raceNumber, r.payload);
+        }
+
+        if (!Array.isArray(state.completedRaces)) {
+          errors.push('state.completedRaces must be an array');
+        } else {
+          for (const [rNum, rPayload] of loggedRaceMap.entries()) {
+            if (!state.completedRaces.includes(rNum)) {
+              errors.push(`state.completedRaces missing race ${rNum} recorded in event log`);
+            }
+            if (!state.raceResults || !state.raceResults[rNum]) {
+              errors.push(`state.raceResults missing cached result for race ${rNum} recorded in event log`);
+            } else {
+              const res = state.raceResults[rNum];
+              if (res.place !== rPayload.place) {
+                errors.push(`state.raceResults[${rNum}] place mismatch: expected ${rPayload.place}, got ${res.place}`);
+              }
+              if (res.payoutGems !== rPayload.payoutGems) {
+                errors.push(`state.raceResults[${rNum}] payoutGems mismatch: expected ${rPayload.payoutGems}, got ${res.payoutGems}`);
+              }
+            }
+          }
+          for (const rNum of state.completedRaces) {
+            if (!loggedRaceMap.has(rNum)) {
+              errors.push(`state.completedRaces contains race ${rNum} with no race_result in event log`);
+            }
+          }
+        }
+
+        // Authoritative step reconciliation against completed races
+        if (loggedRaceMap.has(1)) {
+          if (state.step === 'desk' || state.step === 'd1_morning_gacha' || state.step === 'd1_midday_race') {
+            errors.push(`state.step "${state.step}" is invalid: race 1 already completed in event log`);
+          }
+        }
+        if (loggedRaceMap.has(2)) {
+          if (state.step === 'd3_midday_race') {
+            errors.push(`state.step "${state.step}" is invalid: race 2 already completed in event log`);
+          }
+        }
+
+        // Terminal & Receipt phase coherence (Repair 02)
+        const hasTerminalEvent = entries.some((e) => e.type === 'terminal');
+        const hasReceiptEvent = entries.some((e) => e.type === 'receipt_shown');
+
+        if (hasTerminalEvent) {
+          if (state.phase !== 'terminal' && state.phase !== 'receipt_presented') {
+            errors.push(`state.phase must be "terminal" or "receipt_presented" when terminal event exists (got "${state.phase}")`);
+          }
+          if (state.step !== 'receipt') {
+            errors.push(`state.step must be "receipt" when terminal event exists (got "${state.step}")`);
+          }
+          if (state.activeModal !== null) {
+            errors.push(`state.activeModal must be null in terminal phase (got "${state.activeModal}")`);
+          }
+        } else {
+          if (state.phase === 'terminal' || state.phase === 'receipt_presented') {
+            errors.push(`state.phase "${state.phase}" invalid: no terminal event found in log`);
+          }
+          if (state.step === 'receipt') {
+            errors.push('state.step is "receipt" but no terminal event exists in log');
+          }
+        }
+
+        if (hasReceiptEvent) {
+          if (state.phase !== 'receipt_presented') {
+            errors.push(`state.phase must be "receipt_presented" when receipt_shown event exists (got "${state.phase}")`);
+          }
+          if (state.step !== 'receipt') {
+            errors.push('state.step must be "receipt" when receipt_shown event exists');
           }
         }
       }
@@ -226,10 +338,23 @@ export function validateSave(envelope) {
 
 /**
  * Saves game envelope to storage.
- * If storage fails, safely retains existing stored snapshot and activates in-memory session.
+ * If storage fails or preservation mode is active, safely retains existing stored snapshot and activates in-memory session.
  */
-export function saveGame(envelope, storage = globalThis.localStorage) {
+export function saveGame(envelope, storage = globalThis.localStorage, allowOverwritePreserved = false) {
   const serialized = JSON.stringify(envelope);
+
+  // If temporary preservation mode is active, protect the primary snapshot from being overwritten
+  if (temporaryPreservationActive && !allowOverwritePreserved) {
+    inMemoryStore = serialized;
+    inMemoryActive = true;
+    return {
+      success: false,
+      inMemory: true,
+      preservedSnapshot: true,
+      error: 'primary_snapshot_preserved',
+    };
+  }
+
   try {
     if (!storage) throw new Error('localStorage is not available');
     storage.setItem(STORAGE_KEY, serialized);

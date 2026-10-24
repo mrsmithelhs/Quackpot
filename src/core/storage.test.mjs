@@ -9,7 +9,9 @@ import {
   validateSave,
   STORAGE_KEY,
   BACKUP_KEY,
-  resetInMemoryStore
+  resetInMemoryStore,
+  setTemporaryPreservationMode,
+  isTemporaryPreservationMode,
 } from './storage.mjs';
 import { EventLog } from './event-log.mjs';
 import { createRng } from './prng.mjs';
@@ -53,6 +55,9 @@ function makeValidEnvelope() {
       debt: 0,
       down: 0,
       pityCount: 0,
+      completedRaces: [],
+      raceResults: {},
+      billsSettled: [],
       owned: [],
       pendingReveals: [],
     },
@@ -102,10 +107,13 @@ function makeEnvelopeWithPulls() {
       debt: 0,
       down: 0,
       pityCount: 0,
+      completedRaces: [],
+      raceResults: {},
+      billsSettled: [],
       owned: ['duck-0', 'duck-2'],
       pendingReveals: [
-        { commitSeq: e1.seq, identity: 'duck-0', rarity: 'common', duplicate: false, downGained: 0, revealed: false },
-        { commitSeq: e2.seq, identity: 'duck-2', rarity: 'rare', duplicate: false, downGained: 0, revealed: false },
+        { commitSeq: e1.seq, drawIndex: 1, of: 2, identity: 'duck-0', rarity: 'common', duplicate: false, downGained: 0, advancesPity: false, revealed: false },
+        { commitSeq: e2.seq, drawIndex: 2, of: 2, identity: 'duck-2', rarity: 'rare', duplicate: false, downGained: 0, advancesPity: false, revealed: false },
       ],
     },
     prngStreams: {
@@ -241,4 +249,114 @@ test('storage: clearGame clears both storage and in-memory store', () => {
   assert.equal(mock.getItem(STORAGE_KEY), null);
   const loadRes = loadGame(mock);
   assert.equal(loadRes.envelope, null);
+});
+
+// --- Review 02 Required Regressions ---
+
+test('storage [Repair 02 Probe 1A]: rejects envelope when pendingReveals queue is removed', () => {
+  const env = makeEnvelopeWithPulls();
+  env.state.pendingReveals = []; // Probe A: removed entire pending queue while draw_committed events exist
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('pendingReveals length mismatch')));
+});
+
+test('storage [Repair 02 Probe 1B]: rejects envelope when pendingReveals item is cloned/duplicated', () => {
+  const env = makeEnvelopeWithPulls();
+  // Probe B: replaced second item with clone of first item
+  env.state.pendingReveals[1] = structuredClone(env.state.pendingReveals[0]);
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('Duplicate commitSeq') || e.includes('commitSeq mismatch')));
+});
+
+test('storage [Repair 02 Probe 1C]: rejects envelope when pending downGained is tampered to 999', () => {
+  const env = makeEnvelopeWithPulls();
+  // Probe C: changed pending downGained to 999
+  env.state.pendingReveals[0].downGained = 999;
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('downGained mismatch')));
+});
+
+test('storage [Repair 02 Probe 1D]: rejects cleared completedRaces and resets step when race_result is logged', () => {
+  const log = new EventLog();
+  log.append('run_started', { seed: 'test-seed' }, { day: 1, label: 'day 1 morning' });
+  log.append('income', { amount: 10.00, kind: 'wage' }, { day: 1, label: 'day 1 evening' });
+  log.append('race_result', {
+    raceNumber: 1,
+    duckId: 'duck-0',
+    stance: 'safe',
+    place: 1,
+    payoutGems: 50,
+    gemsAfter: 50,
+    rivalPlace: null,
+    playerPerf: 10.2,
+  }, { day: 1, label: 'day 1 midday' });
+  log.append('reward', { kind: 'race_gems', gems: 50, gemsAfter: 50 }, { day: 1, label: 'day 1 midday' });
+
+  const env = makeValidEnvelope();
+  env.eventLog = log.entries;
+  env.state.gems = 50;
+  // Probe D: legitimately raced, but attacker clears completedRaces, raceResults, and resets step to 'd1_midday_race'
+  env.state.completedRaces = [];
+  env.state.raceResults = {};
+  env.state.step = 'd1_midday_race';
+
+  const val = validateSave(env);
+  assert.equal(val.valid, false);
+  assert.ok(val.errors.some((e) => e.includes('state.completedRaces missing race 1')));
+  assert.ok(val.errors.some((e) => e.includes('race 1 already completed in event log')));
+});
+
+test('storage [Repair 02 P2]: temporary preservation mode protects primary snapshot from being overwritten', () => {
+  resetInMemoryStore();
+  const mock = createMockStorage({ [STORAGE_KEY]: 'original-corrupt-snapshot' });
+
+  // Activate temporary preservation mode
+  setTemporaryPreservationMode(true);
+  const env = makeValidEnvelope();
+
+  const res = saveGame(env, mock);
+  assert.equal(res.success, false);
+  assert.equal(res.preservedSnapshot, true);
+  assert.equal(res.inMemory, true);
+
+  // Assert primary storage key still contains the original corrupt snapshot!
+  assert.equal(mock.getItem(STORAGE_KEY), 'original-corrupt-snapshot');
+
+  // Explicit consent to overwrite replaces it
+  const overwriteRes = saveGame(env, mock, true);
+  assert.equal(overwriteRes.success, true);
+  assert.ok(mock.getItem(STORAGE_KEY).includes('"schemaVersion":1'));
+});
+
+test('storage [Repair 02 P2]: backup-key failure does not discard or overwrite primary snapshot', () => {
+  resetInMemoryStore();
+  // Mock storage that fails only on BACKUP_KEY writes, but succeeds on STORAGE_KEY
+  const store = new Map([[STORAGE_KEY, 'precious-corrupted-data']]);
+  const mockWithBackupFailure = {
+    getItem(k) { return store.get(k) || null; },
+    setItem(k, v) {
+      if (k === BACKUP_KEY) throw new Error('QuotaExceeded on backup key');
+      store.set(k, String(v));
+    },
+    removeItem(k) { store.delete(k); },
+  };
+
+  const backupOk = backupCorruptSave(mockWithBackupFailure);
+  assert.equal(backupOk, false);
+
+  // In temporary preservation mode:
+  setTemporaryPreservationMode(true);
+  const env = makeValidEnvelope();
+  const saveRes = saveGame(env, mockWithBackupFailure);
+
+  assert.equal(saveRes.success, false);
+  assert.equal(saveRes.preservedSnapshot, true);
+  // Verify original snapshot is NOT discarded or overwritten
+  assert.equal(mockWithBackupFailure.getItem(STORAGE_KEY), 'precious-corrupted-data');
 });

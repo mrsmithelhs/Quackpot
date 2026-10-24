@@ -94,6 +94,7 @@ export class GameEngine {
       completedRaces: [], // array of completed race numbers: [1, 2]
       raceResults: {},    // raceNumber -> outcome object
       lastRaceResult: null,
+      billsSettled: [],   // array of settled bill IDs: ['d1_food', 'd2_rent', ...]
       assetsSold: [],     // array of sold asset strings: ['couch', 'tv']
       starterOffered: false,
       starterBought: false,
@@ -393,41 +394,69 @@ export class GameEngine {
     this.log.append('income', { kind: 'wage', amount: GAME_CONSTANTS.WAGE_DAILY }, this.state.clock);
   }
 
+  getBillId(kind) {
+    return `d${this.state.day}_${kind}`;
+  }
+
   /**
    * Attempts to pay an expense bill (food or rent).
+   * Guarded against repeated execution: each day/kind bill occurrence is once-only (Repair 02, P1).
+   * Updates state.step and state.activeModal atomically with the mutation.
    * Returns:
-   * - { paid: true }: paid in cash immediately
+   * - { paid: true }: paid in cash immediately (or already settled)
    * - { paid: false, needsEscalation: true }: cash insufficient, active bill pending escalation
    */
   billExpense(kind, amount) {
     if (this.isTerminal()) throw new Error('Cannot bill expense: game is in terminal phase');
-    this.log.append('expense_due', { kind, amount, cashBefore: this.state.cash }, this.state.clock);
+    if (!this.state.billsSettled) this.state.billsSettled = [];
+
+    const billId = this.getBillId(kind);
+
+    // 1. Idempotency guard: if this exact bill was already settled, return success without duplicating
+    if (this.state.billsSettled.includes(billId)) {
+      return { paid: true, needsEscalation: false, alreadySettled: true };
+    }
+
+    // 2. If this exact bill is already pending in activeBill, return needsEscalation without re-logging
+    if (this.state.activeBill && this.state.activeBill.billId === billId) {
+      return { paid: false, needsEscalation: true, alreadyPending: true };
+    }
+
+    this.log.append('expense_due', { kind, amount, cashBefore: this.state.cash, billId }, this.state.clock);
 
     if (this.state.cash >= amount) {
       this.state.cash = Math.round((this.state.cash - amount) * 100) / 100;
-      this.log.append('expense_paid', { kind, amount, cashAfter: this.state.cash }, this.state.clock);
+      this.state.billsSettled.push(billId);
+      this.log.append('expense_paid', { kind, amount, cashAfter: this.state.cash, billId }, this.state.clock);
 
       // Check for zero-cash solvency tension if cash hits exactly $0
       if (this.state.cash === 0) {
         this.state.activeModal = 'zerocash';
-        this.state.step = 'd2_afternoon_zerocash';
+        this.state.step = (kind === 'rent') ? 'd2_afternoon_zerocash' : this.state.step;
         this.log.append('escalation_offered', {
           step: 'zero_cash_check',
           billKind: kind,
           cashBefore: 0,
           healthBefore: this.state.health,
+          billId,
         }, this.state.clock);
+        return { paid: true, needsEscalation: false, zeroCash: true };
+      }
+
+      if (kind === 'rent') {
+        this.state.step = 'd2_afternoon_rent_resolved';
+        this.state.activeModal = null;
       }
 
       return { paid: true, needsEscalation: false };
     }
 
-    // Cash insufficient
-    this.state.activeBill = { kind, amount };
+    // Cash insufficient: active escalation
+    this.state.activeBill = { kind, amount, billId };
     this.state.phase = 'escalation';
     this.state.escalationStepIndex = 1;
     this.state.activeModal = 'escalation';
-    this.state.step = 'd2_afternoon_escalation';
+    this.state.step = (kind === 'rent') ? 'd2_afternoon_escalation' : this.state.step;
     return { paid: false, needsEscalation: true };
   }
 
@@ -584,7 +613,11 @@ export class GameEngine {
     // If cash is now sufficient to pay the bill
     if (this.state.cash >= bill.amount) {
       this.state.cash = Math.round((this.state.cash - bill.amount) * 100) / 100;
-      this.log.append('expense_paid', { kind: bill.kind, amount: bill.amount, cashAfter: this.state.cash }, this.state.clock);
+      if (!this.state.billsSettled) this.state.billsSettled = [];
+      if (bill.billId && !this.state.billsSettled.includes(bill.billId)) {
+        this.state.billsSettled.push(bill.billId);
+      }
+      this.log.append('expense_paid', { kind: bill.kind, amount: bill.amount, cashAfter: this.state.cash, billId: bill.billId }, this.state.clock);
       this.state.activeBill = null;
       this.state.activeModal = null;
       this.state.phase = 'playing';
@@ -756,6 +789,49 @@ export class GameEngine {
     engine.rngEvent = restoreRng(envelope.prngStreams.event);
 
     engine.log = EventLog.hydrate(envelope.eventLog);
+
+    // Reconstruct / validate authoritative progression from event log (Repair 02, P1)
+    if (!engine.state.completedRaces) engine.state.completedRaces = [];
+    if (!engine.state.raceResults) engine.state.raceResults = {};
+    if (!engine.state.billsSettled) engine.state.billsSettled = [];
+
+    for (const e of engine.log.entries) {
+      if (e.type === 'race_result') {
+        const rNum = e.payload.raceNumber;
+        if (!engine.state.completedRaces.includes(rNum)) {
+          engine.state.completedRaces.push(rNum);
+        }
+        if (!engine.state.raceResults[rNum]) {
+          engine.state.raceResults[rNum] = {
+            place: e.payload.place,
+            payoutGems: e.payload.payoutGems,
+            rivalPlace: e.payload.rivalPlace,
+            playerPerf: e.payload.playerPerf,
+          };
+        }
+      }
+      if (e.type === 'expense_paid' && e.payload?.billId) {
+        if (!engine.state.billsSettled.includes(e.payload.billId)) {
+          engine.state.billsSettled.push(e.payload.billId);
+        }
+      }
+    }
+
+    // Step coherence against completed races
+    if (engine.state.completedRaces.includes(1) && (engine.state.step === 'desk' || engine.state.step === 'd1_morning_gacha' || engine.state.step === 'd1_midday_race')) {
+      engine.state.step = 'd1_midday_race_result';
+    }
+    if (engine.state.completedRaces.includes(2) && engine.state.step === 'd3_midday_race') {
+      engine.state.step = 'd3_midday_race_result';
+    }
+
+    // Terminal phase coherence
+    if (engine.log.entries.some((e) => e.type === 'terminal')) {
+      const isPresented = engine.log.entries.some((e) => e.type === 'receipt_shown');
+      engine.state.phase = isPresented ? 'receipt_presented' : 'terminal';
+      engine.state.step = 'receipt';
+      engine.state.activeModal = null;
+    }
 
     return engine;
   }

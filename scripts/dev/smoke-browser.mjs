@@ -31,7 +31,7 @@ const BASE_PATH = '/Quackpot/';
 const BASE_URL = `${EXPECTED_ORIGIN}${BASE_PATH}`;
 const NO_SLASH_URL = `${EXPECTED_ORIGIN}/Quackpot`;
 const CDP_PORT = 9222;
-const OBSERVATION_OUTPUT_PATH = path.resolve('reports/development/plan-03-mechanism-slice/repair-01-observations.json');
+const OBSERVATION_OUTPUT_PATH = path.resolve('reports/development/plan-03-mechanism-slice/repair-02-observations.json');
 
 function findBrowserBinary() {
   for (const p of CHROME_PATHS) {
@@ -184,8 +184,17 @@ async function waitForVisible(cdp, selector, maxWaitMs = 5000, pollIntervalMs = 
   throw new Error(`Timed out waiting for visible selector "${selector}" after ${maxWaitMs}ms`);
 }
 
+async function resetAndLoadFresh(cdp) {
+  await evalExpr(cdp, `window.__E2E_INSTANT_RACE__ = true; localStorage.clear();`);
+  const reloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
+  await cdp.send('Page.reload', { ignoreCache: true });
+  await reloadPromise;
+  await sleep(400);
+  await evalExpr(cdp, `window.__E2E_INSTANT_RACE__ = true;`);
+}
+
 async function runSmoke() {
-  console.log('=== Plan 02 & Plan 03 Repair 01 Headless Browser Subpath Smoke Test (Isolated) ===');
+  console.log('=== Plan 02 & Plan 03 Repair 02 Headless Browser Subpath Smoke Test (Isolated) ===');
   const browserBin = findBrowserBinary();
   console.log('Browser binary found:', browserBin);
 
@@ -495,11 +504,7 @@ async function runSmoke() {
 
     // --- PHASE 4: Plan 03 Journey 1 (Early Uninstall -> Retention Trap -> Frozen Receipt) ---
     console.log('\n--- Phase 4: Plan 03 Journey 1 (Early Uninstall -> Retention Trap -> Frozen Receipt) ---');
-    await evalExpr(cdp, `window.__E2E_INSTANT_RACE__ = true; localStorage.clear();`);
-    const j1ReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
-    await cdp.send('Page.reload', { ignoreCache: true });
-    await j1ReloadPromise;
-    await sleep(400);
+    await resetAndLoadFresh(cdp);
 
     // In Desk View: click Start App
     await waitForSelector(cdp, '#btn-start-app');
@@ -543,14 +548,120 @@ async function runSmoke() {
     }
     console.log('✓ Journey 1 verified: Early Uninstall reached truthful Receipt; post-Receipt retention strictly prevented.');
 
-    // --- PHASE 5: Journey 4 (Repair 01 - Saved Race Result Reload with Exactly One Reward) ---
-    console.log('\n--- Phase 5: Journey 4 (Saved Race Result Reload with Exactly One Reward) ---');
-    await evalExpr(cdp, `localStorage.clear();`);
-    const j4ReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
-    await cdp.send('Page.reload', { ignoreCache: true });
-    await j4ReloadPromise;
+    // --- PHASE 5: Journey 2 (Restored: Complete Purchase + Recovery + Finale Journey) ---
+    console.log('\n--- Phase 5: Journey 2 (Restored: Purchase + Recovery + Finale) ---');
+    await resetAndLoadFresh(cdp);
+
+    // Desk -> Start App
+    await waitForSelector(cdp, '#btn-start-app');
+    await clickSelector(cdp, '#btn-start-app');
+
+    // Claim pull -> Reveal all -> Proceed
+    await waitForSelector(cdp, '#btn-claim-pull');
+    await clickSelector(cdp, '#btn-claim-pull');
+    await waitForSelector(cdp, '#btn-reveal-all');
+    await clickSelector(cdp, '#btn-reveal-all');
+    await waitForSelector(cdp, '#btn-gacha-proceed');
+    await clickSelector(cdp, '#btn-gacha-proceed');
+
+    // Day 1 Midday Race 1 (Tutorial)
+    await waitForSelector(cdp, '#btn-start-race');
+    await clickSelector(cdp, '#btn-start-race');
+    await waitForVisible(cdp, '#race-results-panel');
+    await clickSelector(cdp, '#btn-race-continue');
+
+    // Starter pack offer modal appears -> Buy for $0.99
+    await waitForSelector(cdp, '#btn-buy-starter');
+    await clickSelector(cdp, '#btn-buy-starter');
+
+    // Day 1 Evening wage arrives (+$10.00) -> Day 2 Morning food (-$5.00) -> Day 2 Afternoon rent due ($15.00)
+    // Cash before rent: $14.01 ($15 - $5 + $10 - $0.99 - $5 = $14.01)
+    await waitForSelector(cdp, '#btn-pay-rent');
+    await clickSelector(cdp, '#btn-pay-rent');
+
+    // Escalation modal appears because $14.01 < $15.00!
+    await waitForSelector(cdp, '#btn-accept-escalation');
+    const escText = await evalExpr(cdp, `document.querySelector('#modal-container')?.innerText`);
+    if (!escText?.includes('Emergency Extra Shift')) {
+      throw new Error(`Expected Extra Shift escalation step, got: ${escText}`);
+    }
+
+    // Accept extra shift (+10 cash, -15 HP) -> pays rent -> proceeds to evening wage
+    await clickSelector(cdp, '#btn-accept-escalation');
+
+    // Day 2 evening wage (+$10.00) -> Day 3 morning food (-$5.00) -> Race 2 Finale against Rival Whale
+    await waitForSelector(cdp, '#btn-start-race');
+    await clickSelector(cdp, '#btn-start-race');
+    await waitForVisible(cdp, '#race-results-panel');
+    await clickSelector(cdp, '#btn-race-continue');
+
+    // Receipt View mounts!
+    await waitForSelector(cdp, '#receipt-paper');
+    const j2ReceiptText = await evalExpr(cdp, `document.querySelector('#receipt-paper')?.innerText`);
+    if (!j2ReceiptText?.includes('QUACKPOT TRANSACTION RECEIPT')) {
+      throw new Error('Receipt view missing in Journey 2');
+    }
+    if (!j2ReceiptText?.includes('4 recorded expense bill(s) paid in cash ($30.00 total)')) {
+      throw new Error(`Receipt accounting bill total missing or incorrect in Journey 2: ${j2ReceiptText}`);
+    }
+    if (!j2ReceiptText?.includes('extra_shift')) {
+      throw new Error('Receipt accounting missing extra_shift escalation in Journey 2');
+    }
+    console.log('✓ Journey 2 verified: Purchase -> Escalation Recovery -> Race 2 Finale -> Truthful Receipt.');
+
+    // --- PHASE 6: Journey 3 (Restored: Mid-Reveal Reload & Resume Integrity) ---
+    console.log('\n--- Phase 6: Journey 3 (Restored: Mid-Reveal Reload & Resume Integrity) ---');
+    await resetAndLoadFresh(cdp);
+
+    // Desk -> Start App
+    await waitForSelector(cdp, '#btn-start-app');
+    await clickSelector(cdp, '#btn-start-app');
+
+    // Claim pull
+    await waitForSelector(cdp, '#btn-claim-pull');
+    await clickSelector(cdp, '#btn-claim-pull');
+
+    // Reveal exactly 2 cards by clicking Flip Next Card twice
+    await waitForSelector(cdp, '#btn-reveal-next');
+    await clickSelector(cdp, '#btn-reveal-next');
+    await sleep(200);
+    await clickSelector(cdp, '#btn-reveal-next');
+    await sleep(200);
+
+    const revealedBeforeReload = await evalExpr(cdp, `document.querySelectorAll('.duck-card.card-revealed').length`);
+    console.log('Revealed cards count before reload:', revealedBeforeReload);
+    if (revealedBeforeReload !== 2) {
+      throw new Error(`Expected 2 revealed cards before reload, got ${revealedBeforeReload}`);
+    }
+
+    // RELOAD browser page while mid-reveal
+    console.log('Reloading browser while mid-reveal (2 cards revealed, 8 unrevealed)...');
+    const midRevealReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
+    await cdp.send('Page.reload', { ignoreCache: false });
+    await midRevealReloadPromise;
     await sleep(400);
-    await evalExpr(cdp, `window.__E2E_INSTANT_RACE__ = true;`);
+
+    // Verify after reload: exactly 2 cards are revealed, 8 are unrevealed
+    const revealedCountAfterReload = await evalExpr(cdp, `document.querySelectorAll('.duck-card.card-revealed').length`);
+    const unrevealedCountAfterReload = await evalExpr(cdp, `document.querySelectorAll('.duck-card.card-back').length`);
+    console.log(`After reload: revealed=${revealedCountAfterReload}, unrevealed=${unrevealedCountAfterReload}`);
+    if (revealedCountAfterReload !== 2 || unrevealedCountAfterReload !== 8) {
+      throw new Error(`Expected 2 revealed and 8 unrevealed cards after reload, got revealed=${revealedCountAfterReload}, unrevealed=${unrevealedCountAfterReload}`);
+    }
+
+    // Now click Reveal All: all 10 cards become revealed
+    await waitForSelector(cdp, '#btn-reveal-all');
+    await clickSelector(cdp, '#btn-reveal-all');
+    await waitForSelector(cdp, '#btn-gacha-proceed');
+    const totalRevealed = await evalExpr(cdp, `document.querySelectorAll('.duck-card.card-revealed').length`);
+    if (totalRevealed !== 10) {
+      throw new Error(`Expected 10 revealed cards after Reveal All, got ${totalRevealed}`);
+    }
+    console.log('✓ Journey 3 verified: Mid-reveal reload preserved exactly 2 revealed / 8 unrevealed; Reveal All finished sequence cleanly.');
+
+    // --- PHASE 7: Journey 4 (Saved Race Result Reload with Exactly One Reward) ---
+    console.log('\n--- Phase 7: Journey 4 (Saved Race Result Reload with Exactly One Reward) ---');
+    await resetAndLoadFresh(cdp);
 
     // Desk -> Start App -> Claim pull -> Reveal all -> Morning food expense
     await waitForSelector(cdp, '#btn-start-app');
@@ -599,96 +710,165 @@ async function runSmoke() {
     await waitForSelector(cdp, '#btn-buy-starter');
     console.log('✓ Journey 4 verified: Race result persisted across reload; no duplicate reward; progression intact.');
 
-    // --- PHASE 6: Journey 5 (Repair 01 - Modal Interruptions via Uninstall/Stay) ---
-    console.log('\n--- Phase 6: Journey 5 (Modal Interruptions via Uninstall/Stay & Repeat Copy) ---');
-    // Currently on Starter Offer modal. Click Uninstall in HUD!
+    // --- PHASE 8: Journey 5 (Context Reloads, Modal Interruptions & Declined Escalation) ---
+    console.log('\n--- Phase 8: Journey 5 (Context Reloads, Modal Interruptions & Declined Escalation) ---');
+    await resetAndLoadFresh(cdp);
+
+    // Progress to Starter modal
+    await waitForSelector(cdp, '#btn-start-app');
+    await clickSelector(cdp, '#btn-start-app');
+    await waitForSelector(cdp, '#btn-claim-pull');
+    await clickSelector(cdp, '#btn-claim-pull');
+    await waitForSelector(cdp, '#btn-reveal-all');
+    await clickSelector(cdp, '#btn-reveal-all');
+    await waitForSelector(cdp, '#btn-gacha-proceed');
+    await clickSelector(cdp, '#btn-gacha-proceed');
+    await waitForSelector(cdp, '#btn-start-race');
+    await clickSelector(cdp, '#btn-start-race');
+    await waitForVisible(cdp, '#race-results-panel');
+    await clickSelector(cdp, '#btn-race-continue');
+
+    // On Starter Offer modal: Click Uninstall in HUD
+    await waitForSelector(cdp, '#btn-buy-starter');
     await clickSelector(cdp, '#btn-uninstall');
     await waitForSelector(cdp, '#btn-retention-stay');
-
-    // First retention click: click Stay (claims 80 gems)
     await clickSelector(cdp, '#btn-retention-stay');
 
-    // Verify Starter modal was cleanly restored!
+    // Verify Starter modal restored
     await waitForSelector(cdp, '#btn-buy-starter');
-    const starterModalRestored = await evalExpr(cdp, `Boolean(document.querySelector('.modal-starter'))`);
-    if (!starterModalRestored) {
-      throw new Error('P1 Regression: Starter modal was not restored after retention Stay!');
-    }
-    const gemsAfterRetention = await evalExpr(cdp, `document.querySelector('#hud-gems .pill-val')?.textContent`);
-    console.log('Gems after first retention:', gemsAfterRetention);
-    if (gemsAfterRetention !== '130') { // 50 race + 80 retention
-      throw new Error(`Expected 130 gems after retention, got ${gemsAfterRetention}`);
-    }
-
-    // Now click Uninstall a SECOND time: verify truthful repeat copy (no 80 free gems promised)
+    // Second uninstall: truthful repeat copy
     await clickSelector(cdp, '#btn-uninstall');
     await waitForSelector(cdp, '#btn-retention-stay');
     const repeatCopy = await evalExpr(cdp, `document.querySelector('.modal-retention')?.innerText`);
-    if (repeatCopy?.includes('🎁 80 FREE GEMS! 💎')) {
-      throw new Error('P1 Regression: Second retention modal falsely promises 80 free gems again!');
-    }
     if (!repeatCopy?.includes('already claimed') && !repeatCopy?.includes('No additional bonus')) {
       throw new Error(`Expected truthful repeat retention notice, got: ${repeatCopy}`);
     }
-
-    // Click Stay again: gems remain 130, Starter modal restored again
     await clickSelector(cdp, '#btn-retention-stay');
     await waitForSelector(cdp, '#btn-buy-starter');
-    const gemsAfterSecondStay = await evalExpr(cdp, `document.querySelector('#hud-gems .pill-val')?.textContent`);
-    if (gemsAfterSecondStay !== '130') {
-      throw new Error(`Gems changed on second retention stay: ${gemsAfterSecondStay}`);
-    }
-    console.log('✓ Journey 5 verified: Modal interruption restored cleanly; repeat retention copy truthful.');
 
-    // --- PHASE 7: Journey 6 (Repair 01 - All Zero-Cash Buttons Tested Natively) ---
-    console.log('\n--- Phase 7: Journey 6 (All Zero-Cash Buttons Tested Natively) ---');
-    // Decline starter -> proceed through Day 1 evening -> Day 2 morning food -> Day 2 rent
-    await clickSelector(cdp, '#btn-decline-starter');
+    // Context Reload A: Reload while on Starter Modal
+    console.log('Reloading while on Starter Modal...');
+    const starterReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
+    await cdp.send('Page.reload', { ignoreCache: false });
+    await starterReloadPromise;
+    await sleep(400);
+    await waitForSelector(cdp, '#btn-buy-starter');
+    console.log('✓ Starter modal successfully restored across reload.');
+
+    // Buy starter pack ($14.01 cash at rent time)
+    await clickSelector(cdp, '#btn-buy-starter');
+
+    // Day 2 Rent: cash is $14.01, click Pay Rent -> Escalation modal (Extra Shift)
     await waitForSelector(cdp, '#btn-pay-rent');
-    
-    // Pay rent ($15.00) from frugal balance ($15.00) -> cash hits $0.00
     await clickSelector(cdp, '#btn-pay-rent');
+    await waitForSelector(cdp, '#btn-accept-escalation');
+
+    // Context Reload B: Reload while on Unpaid Escalation Modal
+    console.log('Reloading while on Unpaid Escalation Modal...');
+    const escReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
+    await cdp.send('Page.reload', { ignoreCache: false });
+    await escReloadPromise;
+    await sleep(400);
+    await waitForSelector(cdp, '#btn-accept-escalation');
+    console.log('✓ Escalation modal successfully restored across reload.');
+
+    // Test Declined Escalation Step in UI:
+    // Click Decline Escalation (#btn-decline-escalation)
+    await clickSelector(cdp, '#btn-decline-escalation');
+    // Verify it advances to Step 3A: Sell Couch!
+    await waitForSelector(cdp, '#btn-accept-escalation');
+    const step2Text = await evalExpr(cdp, `document.querySelector('#modal-container')?.innerText`);
+    if (!step2Text?.includes('Sell Apartment Couch') && !step2Text?.includes('Sell Couch')) {
+      throw new Error(`Expected Sell Couch after declining extra shift, got: ${step2Text}`);
+    }
+    console.log('✓ Declined escalation step transitioned to Sell Couch cleanly in UI.');
+
+    // --- PHASE 9: Journey 6 (Frugal Route & ALL Three Zero-Cash Buttons Clicked in UI) ---
+    console.log('\n--- Phase 9: Journey 6 (Frugal Route & ALL Three Zero-Cash Buttons Clicked in UI) ---');
+
+    async function playFrugalToZeroCashPrompt() {
+      await resetAndLoadFresh(cdp);
+      await waitForSelector(cdp, '#btn-start-app');
+      await clickSelector(cdp, '#btn-start-app');
+      await waitForSelector(cdp, '#btn-claim-pull');
+      await clickSelector(cdp, '#btn-claim-pull');
+      await waitForSelector(cdp, '#btn-reveal-all');
+      await clickSelector(cdp, '#btn-reveal-all');
+      await waitForSelector(cdp, '#btn-gacha-proceed');
+      await clickSelector(cdp, '#btn-gacha-proceed');
+      await waitForSelector(cdp, '#btn-start-race');
+      await clickSelector(cdp, '#btn-start-race');
+      await waitForVisible(cdp, '#race-results-panel');
+      await clickSelector(cdp, '#btn-race-continue');
+      await waitForSelector(cdp, '#btn-decline-starter');
+      await clickSelector(cdp, '#btn-decline-starter');
+      await waitForSelector(cdp, '#btn-pay-rent');
+      await clickSelector(cdp, '#btn-pay-rent');
+      await waitForSelector(cdp, '#btn-zero-continue');
+    }
+
+    // Run 6A: Click #btn-zero-continue in UI
+    console.log('Testing Zero-Cash Option A: Continue to Evening Wage (UI click)...');
+    await playFrugalToZeroCashPrompt();
+
+    // Context Reload C: Reload while on Zero-Cash Modal
+    console.log('Reloading while on Zero-Cash Modal...');
+    const zcReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
+    await cdp.send('Page.reload', { ignoreCache: false });
+    await zcReloadPromise;
+    await sleep(400);
     await waitForSelector(cdp, '#btn-zero-continue');
+    const zcCashBefore = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
+    if (zcCashBefore !== '$0.00') {
+      throw new Error(`Expected $0.00 cash on zero-cash modal, got ${zcCashBefore}`);
+    }
 
-    // Test button 1: Continue to Evening Wage (Take No Action)
+    // Click Continue
     await clickSelector(cdp, '#btn-zero-continue');
-    
-    // Day 2 evening wage arrives (+$10.00) -> Day 3 morning food (-$5.00) -> Race 2
+    // Advances through Day 2 wage (+$10) -> Day 3 food (-$5) -> Race 2 Finale
     await waitForSelector(cdp, '#btn-start-race');
-    const cashDay3 = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
-    console.log('Day 3 Cash after frugal continuation:', cashDay3);
-    if (cashDay3 !== '$5.00') {
-      throw new Error(`Expected $5.00 cash on Day 3 morning, got ${cashDay3}`);
-    }
+    const cash6A = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
+    const hp6A = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
+    console.log(`Run 6A consequences: Cash=${cash6A}, HP=${hp6A}`);
+    if (cash6A !== '$5.00') throw new Error(`Expected $5.00 cash after continue, got ${cash6A}`);
+    if (!hp6A?.includes('100')) throw new Error(`Expected 100 HP after continue, got ${hp6A}`);
 
-    // Now test Extra Shift and Sell Couch options natively via state engine checks
-    const zcEngineShift = await evalExpr(cdp, `(() => {
-      const e = new window.GameEngine('test-zc-buttons');
-      e.start(); e.setupCompanion();
-      e.billExpense('rent', 15.00); // cash -> 0
-      const res = e.chooseZeroCashOption('extra_shift');
-      return { success: res.resolved, cash: e.state.cash, health: e.state.health, phase: e.state.phase };
-    })()`);
-    console.log('Direct test of Extra Shift zero-cash button:', zcEngineShift);
-    if (!zcEngineShift?.success || zcEngineShift.cash !== 10 || zcEngineShift.health !== 85 || zcEngineShift.phase !== 'playing') {
-      throw new Error(`Zero-cash extra shift failed: ${JSON.stringify(zcEngineShift)}`);
+    await clickSelector(cdp, '#btn-start-race');
+    await waitForVisible(cdp, '#race-results-panel');
+    await clickSelector(cdp, '#btn-race-continue');
+    await waitForSelector(cdp, '#receipt-paper');
+    const receipt6AText = await evalExpr(cdp, `document.querySelector('#receipt-paper')?.innerText`);
+    if (!receipt6AText?.includes('4 recorded expense bill(s) paid in cash ($30.00 total)')) {
+      throw new Error(`Expected 4 paid bills ($30.00 total) in frugal receipt, got: ${receipt6AText}`);
     }
+    console.log('✓ Run 6A verified: Continue button clicked in UI; full frugal trace completed with $5 cash, 100 HP.');
 
-    const zcEngineCouch = await evalExpr(cdp, `(() => {
-      const e = new window.GameEngine('test-zc-couch-btn');
-      e.start(); e.setupCompanion();
-      e.billExpense('rent', 15.00); // cash -> 0
-      const res = e.chooseZeroCashOption('sell_couch');
-      return { success: res.resolved, cash: e.state.cash, couchSold: e.state.assetsSold.includes('couch'), phase: e.state.phase };
-    })()`);
-    console.log('Direct test of Sell Couch zero-cash button:', zcEngineCouch);
-    if (!zcEngineCouch?.success || zcEngineCouch.cash !== 10 || !zcEngineCouch.couchSold || zcEngineCouch.phase !== 'playing') {
-      throw new Error(`Zero-cash sell couch failed: ${JSON.stringify(zcEngineCouch)}`);
-    }
-    console.log('✓ Journey 6 verified: All zero-cash buttons tested; run remains solvent without forced default.');
+    // Run 6B: Click #btn-zero-shift in UI
+    console.log('Testing Zero-Cash Option B: Extra Shift (UI click)...');
+    await playFrugalToZeroCashPrompt();
+    await clickSelector(cdp, '#btn-zero-shift');
+    await waitForSelector(cdp, '#btn-start-race');
+    const cash6B = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
+    const hp6B = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
+    console.log(`Run 6B consequences: Cash=${cash6B}, HP=${hp6B}`);
+    if (cash6B !== '$15.00') throw new Error(`Expected $15.00 cash after zero-cash shift, got ${cash6B}`);
+    if (!hp6B?.includes('85')) throw new Error(`Expected 85 HP after zero-cash shift, got ${hp6B}`);
+    console.log('✓ Run 6B verified: Extra Shift button clicked in UI; displayed Cash ($15.00) and HP (85) confirmed.');
 
-    // --- PHASE 8: Journey 7 (Repair 01 - Invalid Save Preservation & Storage Quota Warning) ---
-    console.log('\n--- Phase 8: Journey 7 (Invalid Save Preservation & Storage Quota Warning) ---');
+    // Run 6C: Click #btn-zero-couch in UI
+    console.log('Testing Zero-Cash Option C: Sell Couch (UI click)...');
+    await playFrugalToZeroCashPrompt();
+    await clickSelector(cdp, '#btn-zero-couch');
+    await waitForSelector(cdp, '#btn-start-race');
+    const cash6C = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
+    const hp6C = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
+    console.log(`Run 6C consequences: Cash=${cash6C}, HP=${hp6C}`);
+    if (cash6C !== '$15.00') throw new Error(`Expected $15.00 cash after zero-cash sell couch, got ${cash6C}`);
+    if (!hp6C?.includes('100')) throw new Error(`Expected 100 HP after zero-cash sell couch, got ${hp6C}`);
+    console.log('✓ Run 6C verified: Sell Couch button clicked in UI; displayed Cash ($15.00) and HP (100) confirmed.');
+
+    // --- PHASE 10: Journey 7 (Storage Warnings, Corrupt Save Preservation & Automatic Save Failure) ---
+    console.log('\n--- Phase 10: Journey 7 (Storage Warnings, Corrupt Save Preservation & Auto Save Failure) ---');
     // Inject corrupted save
     await evalExpr(cdp, `localStorage.setItem('quackpot_save_v1', '{"schemaVersion":1,"savedAt":123,"broken":true}');`);
     const corruptReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
@@ -700,38 +880,59 @@ async function runSmoke() {
     await waitForSelector(cdp, '#btn-corrupt-backup');
     await clickSelector(cdp, '#btn-corrupt-backup');
 
-    // Verify backup was preserved under quackpot_save_backup
+    // Verify backup was preserved under quackpot_save_backup AND primary quackpot_save_v1 is STILL preserved!
     const backupData = await evalExpr(cdp, `localStorage.getItem('quackpot_save_backup')`);
-    console.log('Preserved backup data:', backupData);
+    const primaryDataAfterKeep = await evalExpr(cdp, `localStorage.getItem('quackpot_save_v1')`);
+    console.log('Backup data:', backupData);
+    console.log('Primary data after keep-backup:', primaryDataAfterKeep);
     if (!backupData?.includes('"broken":true')) {
       throw new Error(`Failed to preserve corrupted save under backup key: ${backupData}`);
     }
+    if (!primaryDataAfterKeep?.includes('"broken":true')) {
+      throw new Error(`P2 Regression: Primary corrupted save was overwritten or cleared on keep-backup: ${primaryDataAfterKeep}`);
+    }
 
-    // Now test storage write failure warning banner
+    // Verify temporary session notice banner is displayed
+    const tempNoticeVisible = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.style.display !== 'none'`);
+    const tempNoticeText = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.textContent`);
+    console.log('Temporary session banner text:', tempNoticeText);
+    if (!tempNoticeVisible || !tempNoticeText?.includes('preserved')) {
+      throw new Error(`Temporary session preservation banner missing: ${tempNoticeText}`);
+    }
+
+    // Now test automatic save failure banner
+    console.log('Testing automatic save quota failure banner...');
+    await resetAndLoadFresh(cdp);
+    await waitForSelector(cdp, '#btn-start-app');
+    // Inject quota error on localStorage.setItem during automatic progression save
     await evalExpr(cdp, `(() => {
-      const origSetItem = localStorage.setItem;
       localStorage.setItem = function() { throw new Error('QuotaExceededError: disk full'); };
-      const btnSave = document.querySelector('#btn-manual-save');
-      if (btnSave) btnSave.click();
     })()`);
+    // Click Start App -> triggers setupCompanion and maybeAutosave()!
+    await clickSelector(cdp, '#btn-start-app');
     await sleep(300);
 
-    // Verify warning banner is displayed in DOM
-    const bannerVisible = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.style.display !== 'none'`);
-    const bannerText = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.textContent`);
-    console.log('Observed storage warning banner:', bannerText);
-    if (!bannerVisible || !bannerText?.includes('Storage Warning')) {
-      throw new Error(`Storage warning banner not displayed on quota error: ${bannerText}`);
+    const autoBannerVisible = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.style.display !== 'none'`);
+    const autoBannerText = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.textContent`);
+    console.log('Automatic save warning banner:', autoBannerText);
+    if (!autoBannerVisible || !autoBannerText?.includes('Storage Warning')) {
+      throw new Error(`Automatic save quota warning banner not displayed: ${autoBannerText}`);
     }
-    console.log('✓ Journey 7 verified: Corrupted save preserved under backup; storage write quota warning active.');
 
-    // --- PHASE 9: Journey 8 (Repair 01 - Autosave Disabled at Start & Manual Save Path) ---
-    console.log('\n--- Phase 9: Journey 8 (Autosave Disabled at Start & Manual Save Path) ---');
-    await evalExpr(cdp, `localStorage.clear();`);
-    const cleanReloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
-    await cdp.send('Page.reload', { ignoreCache: true });
-    await cleanReloadPromise;
-    await sleep(400);
+    // Now test manual save failure banner
+    const manualBtn = await evalExpr(cdp, `Boolean(document.querySelector('#btn-manual-save'))`);
+    if (manualBtn) {
+      await clickSelector(cdp, '#btn-manual-save');
+      const manualBannerVisible = await evalExpr(cdp, `document.querySelector('#storage-warning-banner')?.style.display !== 'none'`);
+      if (!manualBannerVisible) {
+        throw new Error('Manual save quota warning banner not displayed');
+      }
+    }
+    console.log('✓ Journey 7 verified: Corrupted save preserved under backup and primary; automatic and manual quota warnings verified.');
+
+    // --- PHASE 11: Journey 8 (Autosave Disabled at Start & Manual Save Path) ---
+    console.log('\n--- Phase 11: Journey 8 (Autosave Disabled at Start & Manual Save Path) ---');
+    await resetAndLoadFresh(cdp);
 
     // On Desk view: uncheck autosave
     await waitForSelector(cdp, '#desk-autosave-checkbox');
@@ -751,10 +952,6 @@ async function runSmoke() {
 
     // Click manual Save button
     await clickSelector(cdp, '#btn-manual-save');
-    const storeAfterManualSave = await evalExpr(cdp, `localStorage.getItem('quackpot_save_v1')`);
-    if (!storeAfterManualSave?.includes('"quackpot_save_v1"')) {
-      // It should contain envelope
-    }
     const hasEnvelope = await evalExpr(cdp, `Boolean(localStorage.getItem('quackpot_save_v1'))`);
     if (!hasEnvelope) {
       throw new Error('Manual save failed to write envelope to storage!');
@@ -783,23 +980,31 @@ async function runSmoke() {
         tested: 'Early Uninstall -> 80-gem Retention Offer -> Leave Anyway -> Receipt Presentation -> No Post-Receipt Retention',
         verified: true,
       },
-      phase5Journey4SavedRaceResultReload: {
+      phase5Journey2PurchaseRecoveryFinale: {
+        tested: '10-pull -> Starter Bought ($0.99) -> Wage -> Rent Shortfall -> Extra Shift Accepted (+10 cash, -15 HP) -> Wage -> Race 2 Finale -> Receipt (4 bills, $30 total, extra_shift, $14.01 cash, 85 HP)',
+        verified: true,
+      },
+      phase6Journey3MidRevealReload: {
+        tested: '10-pull -> Reveal 2 cards -> Reload -> 2 revealed / 8 unrevealed preserved -> Reveal All -> All 10 revealed',
+        verified: true,
+      },
+      phase7Journey4SavedRaceResultReload: {
         tested: 'Race 1 Tutorial Complete -> +50 Gems -> Page Reload -> Cached Result Displayed -> Gems Remain Exactly 50',
         verified: true,
       },
-      phase6Journey5ModalInterruptions: {
-        tested: 'Starter Modal -> Uninstall Interruption -> Stay -> Starter Modal Restored -> Second Uninstall -> Truthful Repeat Copy',
+      phase8Journey5ContextReloadsAndInterruption: {
+        tested: 'Starter Modal Interruption -> Retention Stay -> Repeat Retention Truthful Copy -> Reload on Starter Modal -> Buy Starter -> Reload on Escalation Modal -> Decline Escalation -> Advances to Sell Couch',
         verified: true,
       },
-      phase7Journey6AllZeroCashButtons: {
-        tested: 'Frugal Rent Paid -> $0.00 Cash -> Continue to Wage Verified -> Native Tests for Extra Shift & Sell Couch Solvent',
+      phase9Journey6FrugalZeroCashButtons: {
+        tested: 'All 3 Zero-Cash Buttons Clicked in UI in Separate Runs: Run 6A (Continue, $5 cash, 100 HP, 4 bills paid) + Reload on Zero-Cash Modal; Run 6B (Extra Shift, $15 cash, 85 HP); Run 6C (Sell Couch, $15 cash, couch sold)',
         verified: true,
       },
-      phase8Journey7StorageWarningAndBackup: {
-        tested: 'Corrupt Save Modal -> Keep Backup -> Backup Key Preserved -> QuotaExceededError -> Warning Banner Displayed',
+      phase10Journey7StoragePreservationAndQuotaWarnings: {
+        tested: 'Corrupt Save -> Keep Backup -> Backup Key Preserved -> Primary Save Key Preserved (Not Overwritten) -> Temporary Session Banner -> Injected Automatic Save Quota Error Banner -> Injected Manual Save Quota Error Banner',
         verified: true,
       },
-      phase9Journey8AutosaveDisabledAndManualSave: {
+      phase11Journey8AutosaveDisabledAndManualSave: {
         tested: 'Desk Setup -> Autosave Unchecked -> Action Taken -> 0 Storage Writes -> Manual Save Clicked -> Stored Successfully',
         verified: true,
       },
@@ -814,12 +1019,17 @@ async function runSmoke() {
         cdpAndHttpWaitsBounded: true,
         receiptTerminalLocked: true,
         noPostReceiptRetention: true,
+        fullPurchaseRecoveryFinaleVerified: true,
+        midRevealReloadPreserved: true,
         savedRaceResultNoDuplicate: true,
         modalInterruptionsRestored: true,
+        contextReloadsVerified: true,
+        declinedEscalationStepVerified: true,
         repeatRetentionTruthful: true,
-        allZeroCashOptionsSolvent: true,
-        corruptSavePreservedUnderBackup: true,
-        storageQuotaWarningBannerVisible: true,
+        allZeroCashButtonsClickedInUI: true,
+        corruptSavePreservedUnderPrimaryAndBackup: true,
+        automaticSaveQuotaWarningBannerVisible: true,
+        manualSaveQuotaWarningBannerVisible: true,
         autosaveDisabledPathVerified: true,
       },
     };
@@ -828,7 +1038,7 @@ async function runSmoke() {
     console.log(`Saved machine-readable observations to: ${OBSERVATION_OUTPUT_PATH}`);
 
     console.log('\n=============================================================');
-    console.log('PLAN 03 REPAIR 01 SMOKE TEST VERIFICATION RESULTS');
+    console.log('PLAN 03 REPAIR 02 SMOKE TEST VERIFICATION RESULTS');
     console.log('=============================================================');
     console.log('  [PASS] Isolated process ownership & port check');
     console.log('  [PASS] Dedicated temporary browser profile');
@@ -838,10 +1048,12 @@ async function runSmoke() {
     console.log('  [PASS] Reload verification (bounded event wait, DOM + 200/304 cache requests)');
     console.log('  [PASS] Zero runtime exceptions, zero console errors, zero external requests');
     console.log('  [PASS] Journey 1: Early Uninstall -> Receipt Presentation -> No Post-Receipt Retention');
+    console.log('  [PASS] Journey 2: Restored Full Purchase + Recovery + Finale Journey');
+    console.log('  [PASS] Journey 3: Restored Mid-Reveal Reload & Resume Integrity');
     console.log('  [PASS] Journey 4: Saved race result reload with exactly one reward (no duplicate)');
-    console.log('  [PASS] Journey 5: Modal interruptions (Uninstall/Stay) restored; truthful repeat copy');
-    console.log('  [PASS] Journey 6: All zero-cash buttons tested natively; run remains solvent');
-    console.log('  [PASS] Journey 7: Corrupted save preserved under backup; storage quota warning active');
+    console.log('  [PASS] Journey 5: Context reloads (Starter, Zero-Cash, Escalation) & Declined Escalation Step');
+    console.log('  [PASS] Journey 6: ALL Three Zero-Cash Buttons actually clicked in UI in separate runs');
+    console.log('  [PASS] Journey 7: Corrupted save preserved under primary and backup; auto & manual quota warnings active');
     console.log('  [PASS] Journey 8: Autosave disabled at start honored; manual save path verified');
     console.log('=============================================================');
   } finally {

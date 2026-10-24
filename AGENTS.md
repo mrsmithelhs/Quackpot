@@ -9,7 +9,7 @@
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: founding design complete; pre-implementation (awaiting GATE-53C before first development packets).**
+**Current stage: founding design complete; GATE-53C handoff closed; development planning open. First-wave packet sequence awaits owner approval before any packet is promoted from draft.**
 
 ---
 
@@ -23,7 +23,7 @@ Quackpot is a public, static browser gacha game used in CourseVGD to help studen
 | Project seed (`docs/project-seed.md`) | Setup context, owner decisions from 2026-10-23, tooling intent, and unratified folder sketch |
 | Founding design review (`reports/orchestration/founding-docs-review/`) | Blind review reports, synthesis, dispositions, and GATE-53B owner triage |
 | Packet & status tooling (`scripts/dev/plan-status.js`, `docs/development/`) | Handoff packet lifecycle and index management |
-| Gameplay, simulation & teacher analyzer *(not yet created)* | Planned post-GATE-53C areas; folder layout to be ratified after the first build and deployment spike |
+| Gameplay, simulation & teacher analyzer *(not yet created)* | Planned development areas; folder layout to be ratified after the first build and deployment spike |
 
 ---
 

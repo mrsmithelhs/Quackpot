@@ -4,7 +4,7 @@ You are an orchestration model working with the integration owner of the **Quack
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: founding design complete; pre-implementation (awaiting GATE-53C before first development packets).**
+**Current stage: founding design complete; GATE-53C handoff closed; development planning open. First-wave packet sequence awaits owner approval before any packet is promoted from draft.**
 
 ## Your Role in This Thread
 
@@ -301,7 +301,7 @@ Preserve these unless the integration owner explicitly changes them:
   7. **Static site with local Vite build:** Vite is permitted for development/build; published output is static HTML, CSS, JS, and local assets served from GitHub Pages. Do not publish from `docs/` (would collide with Bootstrap material).
 - **Receipt honesty contract (O1):** Build the Receipt from a local append-only event record (never inferred from final state). Name a manipulation technique only if its cue fired in that run, and separate every finding into three registers: *We displayed* / *You did* / *Did this affect you?* Never assert unobservable player motives or effects. Report conditional (pity-adjusted) pre-draw odds.
 - **Asset & simulation contracts:** All art begins as SVG source in the repo (per-asset PNG delivery requires measured testing showing benefit; ordinary text stays HTML/CSS). Sound effects use text-stored jsfxr/ZzFX parameters synthesized at runtime. Simulation uses one small seedable PRNG module and obeys the no-per-variant-balancing bound.
-- **Gate & structure boundary:** No implementation packets are authorized until `GATE-53C` (`docs/project-seed.md`). The folder sketch in `docs/project-seed.md` (`site-root/`, `assets/`, `game/`, `sim/`, `tests/`) is unratified and must be ratified after the first build and deployment spike. CourseVGD is an independent user of Quackpot, not a dependency, and the student game has no Bootstrap dependency.
+- **Gate & structure boundary:** `GATE-53C` is closed; development planning is open. Obtain owner approval of the proposed first-wave sequence before promoting any packet from draft or assigning work. The folder sketch in `docs/project-seed.md` (`site-root/`, `assets/`, `game/`, `sim/`, `tests/`) is unratified and must be ratified after the first build and deployment spike. CourseVGD is an independent user of Quackpot, not a dependency, and the student game has no Bootstrap dependency. Any future hard-constraint change must be reconciled in `docs/founding/design.md`, `AGENTS.md`, and this prompt.
 
 ## Final Response Style
 

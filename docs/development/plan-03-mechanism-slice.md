@@ -1,0 +1,67 @@
+---
+id: plan-03
+title: Core mechanism and truthful Receipt slice
+status: draft
+depends_on: [plan-01, plan-02]
+gate: "Owner approves the selected trade-off and bounded mechanism outline before coding, then reviews the played slice."
+superseded_by: null
+resolution: null
+summary: >-
+  Build one playable core-loop path with a meaningful trade-off, local saving,
+  Uninstall and its retention offer, and an event-log-derived honest Receipt.
+---
+# Plan 03: Core mechanism and truthful Receipt slice
+
+## Packet Metadata
+
+- Packet id: `plan-03`
+- Packet title: Core mechanism and truthful Receipt slice
+- Status: (see frontmatter)
+- Owner/model: one implementer; orchestrator and owner review
+- Date: 2026-10-23
+- Packet type: prototype
+- Mutation level: scripts and user-facing local prototype
+- Approval gate: owner-selected trade-off and mechanism outline before implementation; owner play review after delivery
+- Depends on: `plan-01`, `plan-02`
+- Expected artifacts: bounded game slice and tests, `reports/development/plan-03-mechanism-slice/progress.md`
+
+## Goal
+
+Prove the teaching mechanism end to end: the player encounters a visible cue, makes a consequential choice, can Uninstall at any point, and receives a Receipt grounded only in the append-only record.
+
+## Non-goals
+
+No full catalog, finalized balance, teacher analyzer, run-usage export schema, near-miss form, completed art/audio system, or public classroom release.
+
+## Depends on
+
+Plans 01 and 02 must be complete, with the owner having reviewed the simulation recommendations and ratified a workable layout. If either produces unresolved load-bearing choices, stop for a packet amendment before implementation.
+
+## Why this packet exists
+
+A UI assembled from provisional numbers or an untested build path could look playable while its economy, saving, or Receipt claims are false. This slice tests one complete mechanism after those foundations are reviewed.
+
+## Authority and contracts
+
+Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` in full, `reports/orchestration/founding-docs-review/owner-triage.md`, and both dependency reports. Preserve all seven hard constraints and O1's three Receipt registers. Use the shared seeded PRNG and approved layout; keep the event log append-only and local. Uninstall remains visible and immediately escapable after the 80-gem “play out the trap” retention offer. No retention technique after the Receipt.
+
+## Scope and work plan
+
+1. Run `check plan-03`. Propose the exact single trade-off, states, event types, save schema, Receipt projection, and UI wiring. **Wait for owner/orchestrator mechanism approval before coding.** Do not invent final design values from simulation candidates.
+2. Implement the smallest playable opening/core loop and one meaningful competing use of resources or time. Include one pre-race choice if a race is in scope; fixed-duration race has no reflex taps. Show only cues whose event records can prove display.
+3. Support start-menu autosave selection and an explicit save icon at many safe junctures. Save run state, seed/PRNG state, and full append-only log locally; reload and resume without silently replaying or dropping an event. Surface shared/cleared-browser limits honestly.
+4. Keep Uninstall visible. Record offer display, 80 gems offered, leave/stay action, and outcomes. Leaving reaches the Receipt immediately. Implement one other bounded terminal path, including zero-cash escalation if that is exercised by the chosen trade-off.
+5. Build Receipt rows from the log with *We displayed / You did / Did this affect you?*; only name fired cues and use actual pre-draw pity-adjusted odds. Test early exit, zero cash, save/resume, and a run with a cue absent. Include a direct local browser walk-through and recorded evidence, not only unit tests.
+
+## Validation Checklist
+
+- [ ] The owner-approved trade-off is observable and has distinct consequences.
+- [ ] Early Uninstall and the other implemented terminal route always reach the Receipt.
+- [ ] Save/resume preserves exact state, seed position and event chronology.
+- [ ] Receipt examples can be traced row by row to append-only events; absent cues are absent.
+- [ ] No game-authored network calls, runtime CDN, real entities, or real payments.
+- [ ] Required artifacts and `reports/development/plan-03-mechanism-slice/progress.md` exist; no unrelated files changed.
+
+## Stop Conditions and report
+
+Stop for owner judgment on trade-off, unresolved tuning, storage limitations, or any required hard-constraint change. Do not set status, edit orchestrator notes, declare completion or ship readiness. Report exact played paths, log-to-Receipt evidence, tests, accessibility limits, and remaining work. Commit scoped files and report; never push.

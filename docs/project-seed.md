@@ -15,7 +15,8 @@ These decisions have been reconciled into the founding design:
 - The story opens with the player's own named and styled duck, whose silent scenes carry the inner narrative.
 - Constraint #2 remains absolute: the game makes no network calls. Runtime CDN loading is not allowed.
 - Constraint #3 permits student-initiated download and manual submission of run-usage files to an assignment store. The game performs no automatic transmission; teacher analysis is local.
-- Constraint #4 permits a run to exceed the lesson and 15 in-game days. No duration or day count is set.
+- Constraint #4: the game is allowed to run long — a floor run of roughly 15 minutes, extendable past a lesson and beyond 15 in-game days; no retention techniques after the Receipt. Saves (autosave chosen on the start menu, or an explicit save icon at many junctures) let runs resume locally.
+- All five adopted manipulation-like elements (retention offer, Duck-Dex sets, rival whale, Down shop, pawn offer) are catalog techniques and appear on the Receipt when they fire, so Receipts differ by run.
 - Constraint #7 permits Vite for development/build; published output remains static.
 - The race has one pre-race choice; fatigue-obscuring approaches remain a request for orchestration recommendations.
 - The player's duck may face a late pawn offer and empty-desk scene. Uninstall remains available with the selected retention offer and immediate exit path.

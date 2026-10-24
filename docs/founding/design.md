@@ -6,7 +6,7 @@
 
 A browser gacha game about collecting rubber ducks, wrapped in a satirical life metagame. The player has a job, rent, and food to pay for, and the game keeps finding reasons to spend fictional money. At the end, the game confesses: a Receipt shows what it displayed, what the player did, and asks whether it affected them.
 
-**Audience and use:** high school Video Game Design students. The game is a learning experience followed by discussion. Total session length and in-game day count are open questions; a run may extend past a lesson. High-drama scenes and consequential choices may take the time they need.
+**Audience and use:** high school Video Game Design students. The game is a learning experience followed by discussion. The **floor** is a complete run of roughly 15 minutes; the **ceiling** is wide run-to-run variation that rewards replaying the game to examine it from a game-design perspective. A run may extend past a lesson; saves let it resume. High-drama scenes and consequential choices may take the time they need.
 
 **Design thesis:** *The game manipulates you, then shows you exactly how.* The Receipt is the point.
 
@@ -18,8 +18,8 @@ These are owner decisions, not tuning choices. Changes below are dated.
 2. **No network calls from the game.** No network requests or telemetry calls; no accounts. Run state and the local Receipt event record stay in the browser. This remains absolute at runtime; runtime CDN loading is not allowed.
 3. **Student-initiated file submission only.** The game provides a Receipt export function that assembles run-usage data into a file for the student to download. The student may manually submit that file to an assignment store, such as Google Classroom. The game does not transmit it automatically. A teacher analysis view imports files locally and does not upload or sync them.
    - **Owner decision, 2026-10-23:** This is the narrow exception to the former rule that no student data could be submitted or stored outside the player's browser. No automatic external collection or transmission is permitted.
-4. **The game ends at a designed ending, but is not capped to the lesson or 15 in-game days.** High-drama scenes and important choices may extend total time, and a run may exceed 15 in-game days. No session-duration or day-count value is set.
-   - **Owner decision, 2026-10-23:** Revise the former five-minute/15-day limit to permit a run past the lesson and beyond 15 in-game days. Exact duration remains open.
+4. **The game ends at a designed ending and is allowed to run long.** A complete run targets roughly 15 minutes as the floor experience. High-drama scenes and important choices may extend total time; a run may continue past a lesson (via saves) and beyond 15 in-game days. The game uses no retention techniques after the player reaches their Receipt; offering a fresh run is allowed.
+   - **Owner decision, 2026-10-23:** Revise the former five-minute/15-day limit. "Allowed to run long" is the intended reading, not "designed to retain play." Floor set at roughly 15 minutes during GATE-53B review. Exact day count remains open.
 5. **Uninstall is always visible and is the best ending.** The player can leave immediately from its retention offer; choosing to leave reaches the ending and Receipt.
 6. **No real companies, games, people, or brands.** Publisher, products, sponsors, and streamers are fictional. Owner-selected satirical names are retained.
 7. **Static site, with a local build step.** Published output is static HTML, CSS, JavaScript, and local assets served from GitHub Pages.
@@ -27,10 +27,10 @@ These are owner decisions, not tuning choices. Changes below are dated.
 
 ## The five-minute experience
 
-This heading preserves the draft's section anchor; it is not a five-minute cap. The sequence is a pacing sketch and the full duration remains open.
+This heading preserves the draft's section anchor, which the founding reviews cite; it is not a five-minute cap. The sequence is a pacing sketch for a floor run of roughly 15 minutes.
 
 1. **Opening.** Meet the player's existing rubber duck, name and style it, receive a free ten-pull, and win. A $0.99 starter offer follows the first win.
-2. **Pond Race.** Before the race, the player makes one choice about which duck to race or another narrowly scoped race option. Orchestration should propose accessible ways fatigue could obscure a choice; examples are not adopted mechanics.
+2. **Pond Race.** Before the race, the player makes one choice about which duck to race or another narrowly scoped race option. Owner request for orchestration ideas on how fatigue could obscure choices — for example, scrambling letters in the options, making option positions hard to track, swapping click targets, or distracting with other animations during the choice. These examples are requests for proposals, not adopted mechanics.
 3. **The hook.** Pulls can earn faster ducks, and races can pay gems. A later banner introduces stronger ducks. Simulation must check that no choice is automatically correct.
 4. **The squeeze.** Gems can run short. Fictional wages and expenses create pressure; bundles are offers.
 5. **The life.** Rent and food create pressure. Banner labels use explicit game-time units and a real decision window, not a linearly compressed countdown.
@@ -48,7 +48,7 @@ This heading preserves the draft's section anchor; it is not a five-minute cap. 
 | **Duck stats** | Power creep may make later ducks faster. Rate/effects remain simulation inputs. |
 | **Pond Race** | Fixed-duration race resolves from duck stats after one pre-race choice. No timing taps. Race duration remains open. |
 | **Duplicates and Down** | Duplicates convert to Down. Its shop is intentionally near-useless and poor value; it must not become a profitable pull loop. |
-| **Collection** | Finite duck identities are separate from cosmetic looks. What counts as complete and whether the player's own duck counts remain open. Duck-Dex sets have bonuses; effects are simulation inputs. |
+| **Collection and Duck-Dex** | Finite duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. What counts as complete and whether the player's own duck counts remain open. |
 
 ## Manipulation catalog
 
@@ -64,6 +64,13 @@ A technique is named on the Receipt only if its cue fired. Copy separates what t
 | **Loss aversion** | Streak reward may be offered on in-game days | Cue, reward, player action; an in-game day is not a real visit |
 | **Anchoring** | One-time starter offer may show a comparison value | Displayed offer, price, action; no claim it changed later judgment |
 | **Odds navigation** | Optional button may reveal extra odds detail. Receipt odds remain visible; further information awaits orchestration recommendation. | Odds shown, button availability/use, actual pre-draw odds |
+| **Exit friction (confirmshaming)** | Uninstall opens a retention offer of 80 gems and "play out the trap" | Offer shown, gems offered, action taken (left or stayed) and what followed |
+| **Completion pressure** | Duck-Dex silhouettes and set bonuses emphasize what is missing | Set progress shown, set bonuses displayed, pulls made while a set was incomplete |
+| **Social comparison** | A rival whale in lane 1 flaunts the newest banner duck | Rival shown, its duck and placement, the player's placement and any following purchase |
+| **Secondary-currency obfuscation** | Duplicates become Down, spent in a near-useless shop | Down earned, Down spent, items bought, their value relative to pulls |
+| **Pressure on an owned possession** | A late pawn offer for the player's own duck | Offer shown, amount, accept or decline, and what the cash or gems bought |
+
+Each Receipt lists only techniques whose cues fired in that run, so different runs produce different Receipts. That is intended: students compare lists in discussion, and the shared catalog keeps the comparison anchored.
 
 Retain the owner-selected names for fictional entities: “Biblically Accurate Duck,” “ShadyQuackGems.ru,” “dark-web,” “sign away your duck’s soul,” and “Degenerate Streamer.” The streamer branch itself is deferred under D1.
 
@@ -75,8 +82,17 @@ The clock is hybrid:
 - Each race has a fixed duration; its value is open.
 - Reveal theater, duck scenes, and other high-drama moments pause the running clock.
 - The overall time budget includes duck setup and the Receipt. High-drama scenes and important choices may extend total time, including past the lesson.
-- No session duration or day count is fixed. A run may exceed 15 in-game days.
+- The floor run targets roughly 15 minutes; day count is not fixed, and a run may exceed 15 in-game days.
 - Simulation and classroom hardware observation should measure the experience without rushing consequential scenes.
+
+## Saving
+
+Two modes, chosen by the player:
+
+- **Autosave**, selectable on the start menu.
+- **Explicit save**, through a save icon available at many junctures during play.
+
+Saves are local to the browser (localStorage or IndexedDB; the choice is open) and include run state and the Receipt event record, so a resumed run produces an accurate Receipt. Saving makes no network request. Starting a fresh run after a Receipt uses a new seed. School lab computers may clear or share browser storage; resume behavior there is an open question for the first packets.
 
 ## Life metagame
 
@@ -108,13 +124,16 @@ Uninstall stays available. After it is chosen, a retention modal offers 80 gems 
 
 A seeded deck gives runs distinct moments while allowing reproduction. Each adopted event needs a trigger and eligibility rule, a one-time flag where appropriate, a bounded effect, a Receipt category if it uses a named technique (or “neutral delight” otherwise), and a neutral fallback when none is eligible.
 
-No event discovery is required to pay expenses, finish, or reach the Receipt. The deck includes these owner-selected variety ingredients:
+No event discovery is required to pay expenses, finish, or reach the Receipt. The owner selected five variety ingredients. Four are event-deck content:
 
 - rotating banner themes;
 - weekly life curveballs with bounded effects;
-- rare secret or glitch ducks with unchanged stats;
-- a rival whale in lane 1; and
-- a Duck-Dex shelf with set bonuses.
+- rare secret or glitch ducks with unchanged stats; and
+- a rival whale in lane 1.
+
+The fifth, the Duck-Dex shelf with set bonuses, is a standing system described under [Core loop](#core-loop).
+
+Variety is meant to reward replay: a student who plays again should meet different beats and a different Receipt list, and can examine the game from a design perspective.
 
 Content, rates, bonuses, and economy effects remain simulation inputs. Cues and actions are recorded without asserting unobserved impact.
 
@@ -129,7 +148,7 @@ Reduced-motion presentation preserves information, choices, and outcomes while r
 | Ending | How you get it |
 |---|---|
 | **Completed the Collection** | Every identity in the finite roster is owned; own-duck counting remains open |
-| **Influencer** | Deferred with the streaming branch |
+| **Influencer** | Deferred with the streaming branch; draft threshold 40,000 followers, deep in debt |
 | **Running on Empty** | Only after the zero-health/money escalation sequence; ordering remains open |
 | **Run complete** | Designed final day/event; duration and day count remain open |
 | **Uninstall** | Always-visible control opens the retention offer; choosing to leave immediately is a terminal route and the best ending |
@@ -163,6 +182,8 @@ All art begins as SVG source in the repository: characters, environments, gamepl
 
 Each asset may be served as SVG or rendered to PNG where a measured test shows PNG is a better fit for that asset. The generated-raster banner/background plan is removed.
 
+**Layered duck rig.** One base duck in SVG, recolored by palette swap, with hat and accessory layers. Draft starting set: about 8 palettes, 8 hats, and 6 accessories — roughly 20 small parts yielding hundreds of looks. Rarity can be signaled by layer (crowns, capes, glow). The rig produces cosmetic looks; the finite roster of collectible identities is defined separately (see [Core loop](#core-loop)). The player's own duck reuses the less extreme parts.
+
 Sound effects use jsfxr/ZzFX-style parameters stored as text and synthesized at runtime. Music remains open: it may be generated through vanilla JavaScript or supplied as locally stored audio files generated with a model. No runtime network request is permitted. Generated-music provenance remains open.
 
 ## Technology
@@ -172,7 +193,7 @@ Sound effects use jsfxr/ZzFX-style parameters stored as text and synthesized at 
 - Development/build may use Vite; output is static HTML, CSS, JavaScript, and assets. Runtime CDN libraries are not allowed.
 - State and the Receipt event record stay in browser storage. Gameplay makes no network calls.
 - One small seedable PRNG module makes runs and the event deck reproducible.
-- A teacher-local dashboard imports multiple student usage files and analyzes them in the browser. It does not transmit or synchronize them. Bootstrap may be considered later for this teacher-only mode; it is neither a student-game dependency nor a selected implementation.
+- A teacher-local dashboard imports multiple student usage files and analyzes them in the browser. It does not transmit or synchronize them. Model the export/import flow roughly on BrowserBattlegorithms (owner authorized inspecting that repository). Bootstrap may be considered later for this teacher-only mode; it is neither a student-game dependency nor a selected implementation.
 
 ## Tuning
 
@@ -185,7 +206,23 @@ The first guesses are not trusted values. The first headless simulation packet w
 - near-miss candidate eligibility and the firing rule; and
 - effects of Duck-Dex bonuses and bounded weekly curveballs.
 
-Use the no-per-variant-balancing bound. Pity thresholds, gem amounts, roster size, duplicate rates, event rates, set bonuses, credit-card interest, race duration, banner window, session duration, and day count remain open.
+Use the no-per-variant-balancing bound. Pity thresholds, gem amounts, roster size, duplicate rates, event rates, set bonuses, credit-card interest, race duration, banner window, and day count remain open; the floor run targets roughly 15 minutes.
+
+### Starting values for simulation
+
+The founding draft's first guesses, kept as the simulation's starting point. None is a decided value.
+
+| Variable | Draft starting value |
+|---|---|
+| Pull cost | 160 gems single; 1,600 for a ten-pull |
+| Rarity | Common 80% · Rare 18% · Legendary 2% |
+| Pity | Soft pity from pull 35; legendary guaranteed by pull 50 |
+| Banner length | About 3 in-game days |
+| Power creep | Each new banner's ducks about 15% faster |
+| Gem bundles | 60, 330, 1,090, 2,240, 3,880, 8,080 gems — odd sizes against a 160-gem pull, so leftovers remain |
+| Starter anchor | One-time starter pack shown at "400% value" ($0.99 offer per O11) |
+| Influencer threshold | 40,000 followers (deferred ending) |
+| Day length | Draft: about 20 real seconds per in-game day (superseded as a cap by the time policy) |
 
 ## Scope
 
@@ -195,26 +232,35 @@ Use the no-per-variant-balancing bound. Pity thresholds, gem amounts, roster siz
 
 ## Classroom use
 
-Students can play without an introductory lecture, then discuss the Receipt. Suggested prompts:
+Students can play without an introductory lecture, then discuss the Receipt. Choosing Uninstall right away is a legitimate ending worth trying, but the course expects students to play through the floor experience (roughly 15 minutes) to earn credit for playing; the teacher states this in class. The game itself never penalizes Uninstall.
 
+Suggested prompts:
+
+- When did you first spend money? What were you feeling right before?
+- Which technique on your Receipt surprised you most?
 - What did the game show you before you chose?
-- Which action or moment stood out?
 - Did any cue affect your choice? How do you know?
 - Who benefits when luck is something you can buy?
+- Is this game different from games you play outside class? How?
+- Compare Receipts: which techniques appeared on yours but not a classmate's, and why?
+
+Students who replay can examine the game's variety from a game-design perspective.
 
 A student may download a run-usage file and manually submit it to a class assignment store. A teacher can import multiple files into a local analysis dashboard. This workflow does not require cloud storage, automatic transmission, or a teacher account in the game. Keep student files outside tracked repository content.
 
 ## Open questions
 
 - What is the final title?
-- What duration and in-game day targets work in a classroom, given that a run may continue past a lesson?
+- What in-game day count delivers the roughly 15-minute floor run, and how long should extended play go?
+- Should saves use localStorage or IndexedDB, and how should resume behave on shared or cleared lab computers?
+- Can a teacher see whether students replayed — for example, through a run count or seed in the usage file?
 - What pity thresholds and banner carry/reset rule should simulation recommend?
 - Does the player's own duck count toward collection completion?
 - What roster size, duplicate rate, Down shop, set bonuses, and event effects work without variant-specific balancing?
 - Which near-miss forms should testing retain, and what firing rule/rate is accurate?
-- What fatigue-obscuring choices, if any, should orchestration propose while preserving accessible control?
+- What fatigue-obscuring choices should orchestration propose, and does the reduced-motion presentation exempt them?
 - What additional odds detail should an optional button reveal?
-- What fields belong in the downloadable run-usage file and local teacher analyzer?
+- What fields belong in the downloadable run-usage file and local teacher analyzer? Note that the duck's name is free text a student types; decide whether it is exported.
 - Which implementation should the local teacher analyzer use? Bootstrap is allowed but not selected.
 - What provenance note is appropriate for model-generated music?
 - Which assets show a measured benefit from PNG delivery?

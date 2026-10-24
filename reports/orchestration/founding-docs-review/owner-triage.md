@@ -97,3 +97,28 @@
 9. Keep the project seed as concise context only: correct its hard-constraint/tooling summary and link to the canonical design; do not duplicate design tables. **Sections:** project seed owner decisions, tooling intent, open questions, expected first packets.
 
 
+
+## Post-review owner decisions (2026-10-23, Bootstrap orchestrator review of GATE-53B)
+
+Given to the Bootstrap orchestrator in response to its review; recorded here so this file stays the
+single triage record. Applied in the same commit as this section.
+
+- **Floor and #4.** Floor is roughly a 15-minute experience. "Allowed to run long" is the intended
+  reading of the revised #4, not "designed to retain play." Choosing Uninstall right away is worth
+  trying but, as the teacher will say in class, will not show enough to earn credit for playing; the
+  game itself does not penalize it.
+- **Replay.** The owner would like to see whether students replay to understand the variety and
+  examine the game from a game-design perspective.
+- **Saving.** Two flavors: autosave chosen on the start menu, or an explicit save icon available at
+  many junctures. Saves go to localStorage or IndexedDB.
+- **Catalog.** All five adopted manipulation-like elements count and appear on the Receipt: retention
+  offer, Duck-Dex sets, rival whale, Down shop, pawn offer. Receipts are expected to list different
+  techniques for different runs.
+- **Dropped draft details.** Owner asked for recommendations; the orchestrator restored, without new
+  decisions: draft numbers as "starting values for simulation" (Tuning); the layered-duck rig
+  (Assets); the owner's original classroom prompts merged with the new ones; the BrowserBattlegorithms
+  model reference from T17; the owner's exact O4 fatigue wording; the Duck-Dex moved to the core loop;
+  and a free-text note on the export-fields question.
+- **Orchestrator wording to confirm:** #4 now adds "no retention techniques after the Receipt;
+  offering a fresh run is allowed." This states the "allowed to run long" reading; the owner may
+  strike it.

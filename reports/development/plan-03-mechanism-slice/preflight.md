@@ -1,11 +1,11 @@
-# Plan 03 Preflight Proposal: Core Mechanism and Truthful Receipt Slice (Revision 2)
+# Plan 03 Preflight Proposal: Core Mechanism and Truthful Receipt Slice (Revision 3)
 
 **Date:** 2026-10-24  
 **Author:** Implementer (Plan 03 thread)  
 **Packet:** [`docs/development/plan-03-mechanism-slice.md`](file:///c:/AI/Quackpot/docs/development/plan-03-mechanism-slice.md)  
 **Reference brief:** [`reports/development/plan-03-mechanism-slice/preflight-brief.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-brief.md)  
-**Reviews addressed:** [`reports/development/plan-03-mechanism-slice/preflight-review-01.md`](file:///c:/AI/Quackpot/reports/development/plan-03-mechanism-slice/preflight-review-01.md) and Orchestrator Review 02  
-**Status:** Revised preflight proposal submitted for Owner and Orchestrator review. **Implementation code remains paused awaiting approval.**
+**Reviews addressed:** Preflight Review 01, Orchestrator Review 02, and Owner Gate Amendment  
+**Status:** Preflight proposal updated with owner-gate amendments. **Implementation code remains paused awaiting Owner approval.**
 
 ---
 
@@ -43,7 +43,7 @@ To prevent unrecoverable insolvency while creating a genuine economic squeeze, t
   - **Step 1 (`skip_lunch`):** Available only when food bill is due and Health > 20. Waives food bill (`billWaived: 5`), cash unchanged ($0), Health -15 HP.
   - **Step 2 (`extra_shift`):** Available when any bill cannot be paid and Health > 20. Grants +$10.00 cash, Health -15 HP (reconciling canonical wages and sleep loss without altering race reflexes; fatigue obscuring choices remains Plan 05).
   - **Step 3 (`sell_couch`, then `sell_tv`):** One-time asset sales. Selling couch grants +$10.00 cash; selling TV grants +$15.00 cash; visibly empties apartment.
-  - **Step 4 (`credit_card`):** Available if debt < $50.00 limit. Draws +$15.00 cash, debt +$15.00, incurs 5% weekly interest ($0.75) if carried to a statement.
+  - **Step 4 (`credit_card`):** Available if debt < $50.00 limit. Draws +$15.00 cash, debt +$15.00. First billing statement cycle is after Day 7, so within this 3-day trial 0 interest is charged; Receipt logs actual debt ($15.00) and never claims interest was charged.
   - *(Steps 5–7 deferred per design doc D1).*
 
 ### 2.3 Exact Terminal Predicate
@@ -55,11 +55,17 @@ The terminal route is derived strictly from the following conditions:
   3. Health reaches $\le 0$.
 - **`terminalRoute = 'run_complete'`**: The player completes the Day 3 Championship Race and finishes the 3-day slice with all due bills settled.
 
-### 2.4 The Frugal Zero-Cash Moment
+### 2.4 Zero-Cash Escalation Offer Without Forced Insolvency
 In the frugal branch (Trace 1), paying Day 2 Rent of $15.00 reduces cash from $15.00 to exactly **$0.00**.
-- **Solvency Rule:** Having $0.00 cash after settling a bill does **not** trigger default because no expense is currently due.
-- The player experiences the psychological tension of an empty wallet during Day 2 afternoon, but remains solvent.
-- In the evening, the Day 2 Wage (+$10.00) arrives as scheduled, raising cash to $10.00 before Day 3 morning food ($5.00) comes due.
+- **The Zero-Cash Escalation Prompt:**
+  When cash reaches $0.00, the game surfaces the canonical escalation offer:
+  > *"Your wallet is empty ($0.00 cash). Rent is paid, but you have no buffer until tonight's wage."*  
+  > Choices:
+  > - **[Continue to Evening Wage (Take No Action)]**: Taking no extra action leaves bills paid and the run active; it is **not** `running_on_empty`.
+  > - **[Work Extra Shift (+$10 Cash, -15 HP)]**: Takes an early shift to establish an immediate cash buffer.
+  > - **[Sell Couch (+$10 Cash)]**: One-time asset sale.
+- If the player chooses [Continue to Evening Wage], cash remains $0.00, no sacrifice is forced, and the Day 2 Evening Wage (+$10.00) arrives as scheduled, raising cash to $10.00 before Day 3 morning food ($5.00) arrives.
+- Emits: `escalation_offered` (`step: 'zero_cash_check'`) and `action` (`kind: 'continue_to_wage'`).
 
 ### 2.5 Explicit State and Balance Progression Table
 
@@ -82,6 +88,7 @@ The table below traces the exact numerical state (Cash, Gems, Health, Debt, and 
 - **Trace 1: Frugal / Solvent (Choice A):**
   - Rent ($15.00) is paid in full from the $15.00 balance $\rightarrow$ Cash = $0.00.
   - Emits: `expense_paid` (`kind: 'rent'`, amount: 15.00, cashAfter: 0.00).
+  - Zero-cash prompt shown $\rightarrow$ Player clicks [Continue to Evening Wage] $\rightarrow$ Run continues.
   - Evening: Day 2 Wage arrives (+$10.00) $\rightarrow$ Cash = $10.00.
   - Day 3 Morning: Food Bill 3 ($5.00) arrives and is paid in cash $\rightarrow$ Cash = **$5.00**.
   - Day 3 Midday: Race 2 (Championship Finale against Rival Whale) concludes.
@@ -180,16 +187,18 @@ Under independent base draws (Common 0.80, Rare 0.18, Legendary 0.02):
 - $P(\text{all Common}) = 0.80^{10} \approx 10.737\%$
 - $P(\text{zero Rare}) = 0.82^{10} \approx 13.745\%$ (contains ~3.008% chance of Legendary with 0 Rare)
 - $P(\ge 1\text{ Rare}) = 1 - 0.82^{10} \approx \mathbf{86.255\%}$
+- $P(\ge 1\text{ Rare or Legendary}) = 1 - 0.80^{10} \approx \mathbf{89.263\%}$
 
-**Recommended Opening Implementation (P3-DEC-2):**
+**Amended Opening Contract (P3-DEC-2):**
 To preserve authentic PRNG behavior and truthful odds reporting without artificial rigging:
 1. The opening 10-pull executes **10 genuine seeded PRNG draws** with `preDrawOdds()` and `openingAdvancesPity: false`. Exact pre-draw odds are logged per draw.
-2. **Fixed Tutorial Race 1 Opponents:** In Race 1, the AI opponents are assigned a fixed base speed of **8.5** with $\text{noise} = 0.05$ ($\implies \text{opponent performance} \in [8.07, 8.92]$).
-3. **Guaranteed Win Guarantee:**
+2. **Fixed Tutorial Race 1 Opponents:** In Race 1, five independent AI opponents are assigned a fixed base speed of **8.0** with independent $\pm 5\%$ uniform noise ($\implies \text{opponent performance} \in [7.60, 8.40]$). No additional spread, power creep, or hidden adaptation.
+3. **Guaranteed Opening Win Across Both Stances:**
    - The lowest possible player duck is Common (base speed **10.0**).
-   - Under the recommended Safe Pace stance ($\pm 5\%$), Common duck performance is strictly $\ge \mathbf{9.50}$.
-   - Because $9.50 > 8.92$, **the player is mathematically guaranteed to win 1st place in Race 1 under ALL possible draw distributions (Common, Rare, or Legendary) against a fixed, uncalibrated field.**
-   - No silent per-roll field calibration is used.
+   - Under Safe Pace ($\pm 5\%$), Common duck performance is strictly $\ge \mathbf{9.50}$.
+   - Under Sprint Push ($\pm 20\%$), Common duck performance is strictly $\ge \mathbf{8.80}$.
+   - Because both $9.50 > 8.40$ and $8.80 > 8.40$, **the player is mathematically guaranteed to win 1st place in Race 1 under ALL possible draw distributions (Common, Rare, or Legendary) and under EITHER stance choice against a fixed 8.0 field.**
+   - Both stances are offered and both win. No dynamic or hidden calibration is used.
 
 ### 3.4 Starter Pack Contents (Gems-Only Recommended)
 In `sim/model.mjs` line 43, the starter pack is defined as:
@@ -218,40 +227,49 @@ In `sim/model.mjs` line 43, the starter pack is defined as:
 ## 4. Single Recommended Pre-Race Choice: Two-Stance Tactical Comparison
 
 ### 4.1 Recommendation: A Two-Stance Tactical Choice (P3-DEC-3)
-To provide a genuine, non-dominated pre-race choice without inventing unapproved digital duck fatigue stats or trait catalogs, the implementer recommends a **Two-Stance Tactical Choice** selected before each race:
+To provide a bounded, non-dominated pre-race choice without inventing unapproved digital duck fatigue stats or trait catalogs, the implementer recommends a **Two-Stance Tactical Choice** selected before each race:
 - **Stance 1: Safe Pace (Steady/Low Variance)**
 - **Stance 2: Sprint Push (Aggressive/High Variance)**
 
-### 4.2 Mathematical Model and Non-Dominated Demonstration
+### 4.2 Race Structure and Opponent Model
+- **Field Size:** Exactly 6 entrants (5 independent AI opponents + player). The player occupies Lane 2. In Race 2 (Finale), the fictional rival occupies Lane 1 with identical field trial stats.
+- **Seeded Draws:** Each entrant's performance is determined by one seeded uniform draw $U \in [0, 1)$ from `rngRace`.
+- **Deterministic Ties:** If performance values are identical within floating-point epsilon, the player wins ties against AI opponents; ties among AI entrants are resolved by lowest lane index.
+- **Visible Information:** The UI displays opponent base speed and performance range before the player commits their stance choice.
+
+### 4.3 Mathematical Stance Model
 Let $S$ be the base speed of the player's selected duck (Common = 10.0, Rare = 14.0).
 - **Safe Pace:** Target speed $S$; $\text{noise} = 0.05$ ($\pm 5\%$).
   $$\text{perf}_{\text{safe}} = S \times (1 + (2U - 1) \times 0.05) \in [0.95 S, 1.05 S]$$
 - **Sprint Push:** Target speed $1.10 S$ (+10% peak boost); $\text{noise} = 0.20$ ($\pm 20\%$).
   $$\text{perf}_{\text{sprint}} = (1.10 S) \times (1 + (2U - 1) \times 0.20) \in [0.88 S, 1.32 S]$$
 
-#### Comparison Under Two Concrete Visible Conditions:
+#### Closed-Form Win Probabilities Against 5 Independent Opponents:
 
-- **Condition 1: Facing a Weaker Field (Visible Opponent Speed: 9.0 $\pm 5\% \implies [8.55, 9.45]$)**
+- **Condition 1: Facing 5 Weaker Opponents (Base 9.0 $\pm 5\% \implies [8.55, 9.45]$)**
   - Player enters Common duck ($S = 10.0$).
   - *If Safe Pace:* $\text{perf} \in [9.50, 10.50]$.
     - Minimum Safe performance ($9.50$) > Maximum Opponent performance ($9.45$).
     - **Win Probability = 100%.** Zero risk.
   - *If Sprint Push:* $\text{perf} \in [8.80, 13.20]$.
     - Performance can drop down to $8.80$, below the opponent's peak of $9.45$.
-    - **Win Probability $\approx 85\%$.** Introduces a 15% blunder risk.
-  - **Verdict under Condition 1:** **Safe Pace is strictly optimal.** Choosing Sprint Push is an unforced blunder.
+    - Single opponent win rate $\approx 94.67\%$. Against all 5 independent opponents: **Win Probability $\approx \mathbf{88.63\%}$**.
+  - **Verdict under Condition 1:** **Safe Pace is strictly optimal.** Choosing Sprint Push introduces an unforced ~11.4% blunder risk.
 
-- **Condition 2: Facing a Faster Rival Field (Visible Opponent Speed: 11.2 $\pm 5\% \implies [10.64, 11.76]$)**
+- **Condition 2: Facing 5 Faster Opponents (Base 11.2 $\pm 5\% \implies [10.64, 11.76]$)**
   - Player enters Common duck ($S = 10.0$).
   - *If Safe Pace:* $\text{perf} \in [9.50, 10.50]$.
     - Maximum Safe performance ($10.50$) < Minimum Opponent performance ($10.64$).
-    - **Win Probability = 0%.** Guaranteed loss.
+    - **Win Probability = 0%.** Guaranteed defeat.
   - *If Sprint Push:* $\text{perf} \in [8.80, 13.20]$.
-    - Performance can reach up to $13.20$, well above the opponent's peak of $11.76$.
-    - **Win Probability $\approx 38\%$.**
-  - **Verdict under Condition 2:** **Sprint Push is strictly optimal.** It converts a guaranteed defeat into a viable 38% chance at victory.
+    - Performance can reach up to $13.20$, exceeding opponent peak $11.76$.
+    - Single opponent win rate $\approx 45.45\%$. Against all 5 independent opponents: **Win Probability $\approx \mathbf{36.97\%}$**.
+  - **Verdict under Condition 2:** **Sprint Push is strictly optimal.** It converts a guaranteed loss into a viable ~37% chance of victory.
 
-**Conclusion:** Neither stance is globally dominated. The correct choice depends entirely on scouting the visible opponent pace relative to your duck's base speed.
+### 4.4 Honest Scope of Meaningful Choice (Common-Only Limitation)
+- **The Teaching Focus:** The main teaching trade-off of Quackpot is spending metagame cash on the starter pack versus preserving cash for rent and food, followed by visible recovery or default consequences.
+- **Roster Reality:** If the player owns a Rare duck ($S = 14.0$), Safe Pace ($\text{perf} \in [13.30, 14.70]$) and Sprint Push ($\text{perf} \in [12.32, 18.48]$) both exceed $11.76$ and win 100% against the 11.2 finale field. Because independent opening draws give an $\approx 89.26\%$ chance of drawing at least one Rare or Legendary, most unscripted learner runs will possess a duck that wins under either stance.
+- **Verification Rule:** The two-stance comparison is a bounded prototype demonstrating tactical trade-offs when facing a faster field with a Common duck. A **clearly labeled synthetic Common fixture** is used in automated tests and reviews to verify the two mathematical conditions; learner draws are never silently rigged. Broader roster-wide race balance remains an open design topic for future packets.
 
 ---
 
@@ -301,7 +319,7 @@ Every logged event adheres strictly to the existing shape:
 | `draw_committed` | `{ drawIndex, of: 10, pityBefore, drawNumberInWindow, odds: { common, rare, legendary }, rarity, identity, duplicate, downGained, advancesPity }` | Pull Ledger: pre-draw odds & committed outcome |
 | `reveal_shown` | `{ commitSeq, rarity, identity, duplicate, downGained }` | Pull Ledger: displayed outcome verification |
 | `purchase` | `{ kind: 'starter' \| 'bundle', price: 0.99, bundleGems: 240, gemsAfter: X }` | Register 2: *You did* (Recorded purchases) |
-| `action` | `{ kind: 'leave_immediately' \| 'play_out_the_trap' \| 'escalation_accepted' \| 'escalation_declined' \| 'race_choice' }` | Register 2: *You did* (Player decisions) |
+| `action` | `{ kind: 'leave_immediately' \| 'play_out_the_trap' \| 'escalation_accepted' \| 'escalation_declined' \| 'continue_to_wage' \| 'race_choice' }` | Register 2: *You did* (Player decisions) |
 | `expense_due` | `{ kind: 'rent' \| 'food', amount: 15.00, cashBefore: X }` | Accounting Section: Expenses due |
 | `expense_paid` | `{ kind: 'rent' \| 'food', amount: 15.00, cashAfter: X }` | Accounting Section: Expenses paid in cash |
 | `escalation_result` | `{ step: 'extra_shift', effects: { cashGained: 10, healthLost: 15 }, cashAfter: X, healthAfter: Y }` | Accounting Section: Emergency escalations |
@@ -387,7 +405,7 @@ Gacha draws execute under two distinct checkpoint boundaries:
 5. **Idempotent Reload After Completion:**
    - If `verifyCompleteness(entries)` is already true, subsequent reloads display the Receipt in read-only mode without appending duplicate `receipt_shown` events.
 
-### 7.3 Storage Architecture and Failure Handling
+### 7.3 Storage Architecture, Validated Restore, and Resiliency
 - **Storage Choice:** `localStorage` wrapped in an envelope adapter (`src/core/storage.mjs`).
 - **Complete Storage Versioned Envelope:**
   ```json
@@ -417,18 +435,29 @@ Gacha draws execute under two distinct checkpoint boundaries:
     "eventLog": [ ... ]
   }
   ```
-- **Autosave vs. Explicit Save:**
-  - Start Menu Checkbox: `[x] Enable Autosave (recommended)`. Default: `true`.
-  - Explicit Save Button: Active in HUD during quiescent states; displays "Saved" toast.
-- **Handling Write Failures with Older Snapshot Intact:**
+- **Semantic Restore Validation Contract:**
+  Before offering `[Resume Run]`, the storage loader performs full semantic validation:
+  1. Envelope scalar and range checks (`schemaVersion === 1`, valid timestamp, valid phase string).
+  2. PRNG stream validation: all 4 streams present with `v === 1`, `alg === 'sfc32'`, string `key`, and 4 uint32 state integers.
+  3. Log integrity: sequence numbers strictly $0 \dots N-1$; `verifyChain()` returns true.
+  4. Log-state reconciliation:
+     - Cash matches: $\text{initialCash} + \sum \text{wages} + \sum \text{escalationCash} - \sum \text{expensesPaid} - \sum \text{purchases}$.
+     - Gems match: $\text{initialGems} + \sum \text{raceGems} + \sum \text{retentionGems} + \sum \text{starterGems} - \sum \text{pullGems}$.
+     - Health matches: $100 - \sum \text{healthLost}$.
+     - Owned inventory matches unique drawn identities; Down currency matches duplicate conversion totals.
+     - Pity counter matches paid draws since last legendary.
+     - Pending reveals queue matches committed draws lacking `reveal_shown`.
+- **Handling Invalid / Corrupt Snapshots:**
+  - If validation fails, UI presents a clear alert:
+    > *"Notice: Saved game data is incompatible or internally inconsistent. [Start Fresh Run] [Keep Corrupt Save as Backup]"*
+  - The corrupted save in `localStorage` is **never silently overwritten or erased** until the user explicitly confirms starting a fresh run.
+- **Handling Storage Write Failures with Older Snapshot Intact:**
   - If `localStorage.setItem()` fails (`QuotaExceededError` or `SecurityError`):
     - The existing snapshot in `localStorage` is **left untouched** (never deleted or overwritten).
     - An in-memory session object takes over for the current tab.
     - An observable banner informs the user:
       > *"Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload."*
-- **Handling Stale/Corrupt Data:**
-  - Incompatible schema (`schemaVersion !== 1`) or broken hash chain (`verifyChain() === false`) prompts: *"Saved game data incompatible or corrupt. [Start Fresh Run]"*, preventing runtime exceptions.
-- **Fresh-Run Seed:** Starting a fresh run generates a new cryptographically random seed string and confirms before overwriting an existing save.
+- **Fresh-Run Seed:** Starting a fresh run generates a new random seed string and confirms before overwriting an existing valid save.
 
 ---
 
@@ -443,14 +472,14 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
 - Add `EventLog.hydrate()` to `src/core/event-log.mjs`.
 
 ### 8.2 Implementation Files in `src/`
-- `src/core/storage.mjs`: LocalStorage envelope adapter with in-memory fallback.
+- `src/core/storage.mjs`: LocalStorage envelope adapter with semantic validation and in-memory fallback.
 - `src/core/game-engine.mjs`: State machine managing transitions, expenses, escalations, races, and logging.
 - `src/ui/`: DOM components mounted into `#app`:
   - `hud.js`: Header displaying Cash, Gems, Health, Day, Save button, and persistent Uninstall button.
   - `desk-view.js`: Apartment desk with static physical duck.
   - `gacha-view.js`: Promotional 10-pull and single-pull theater with reveal boundaries.
   - `race-view.js`: Pre-race tactical stance choice, lane animation, and result display.
-  - `modal-view.js`: Starter pack offer, retention modal, and escalation ladder.
+  - `modal-view.js`: Starter pack offer, retention modal, zero-cash prompt, and escalation ladder.
   - `receipt-view.js`: Printed-slip Receipt component rendering the three registers.
 - `src/main.js`: Main controller mounting UI to DOM.
 
@@ -459,8 +488,8 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
    - Verify all 65 existing tests pass after `src/core/` module relocation.
    - Run bounded paired recheck (`sim/recheck-own-duck-boundary.mjs`) across 100 seeds for multiple policies, reporting observed differences empirically.
    - Add targeted test suites:
-     - `src/core/storage.test.mjs`: Test save/load, `EventLog.hydrate()`, all 4 PRNG stream restorations, write failure handling, and memory fallback.
-     - `src/core/game-engine.test.mjs`: Test Traces 1–4, commit/reveal reload boundaries, tactical stances under Conditions 1 and 2, and Receipt honesty.
+     - `src/core/storage.test.mjs`: Test save/load, `EventLog.hydrate()`, all 4 PRNG stream restorations, semantic reconciliation, write failure handling, corrupt save preservation, and memory fallback.
+     - `src/core/game-engine.test.mjs`: Test Traces 1–4, zero-cash continuation, commit/reveal reload boundaries, tactical stances under Conditions 1 and 2 (using synthetic Common fixture), and Receipt honesty.
 2. **Automated Headless Chrome Smoke (`npm run test:smoke`):**
    - Extend `scripts/dev/smoke-browser.mjs` to execute automated CDP journeys under `/Quackpot/`:
      - Verify zero console errors, zero runtime exceptions, zero network calls.
@@ -470,18 +499,15 @@ Pure modules will be relocated as ratified in `docs/repo-structure.md`:
 
 ---
 
-## 9. Consolidated Owner Decisions Requested
+## 9. Consolidated Owner Gate Decision
 
-Before implementation code is authored, the implementer requests owner confirmation on the following five decisions:
+Before implementation code is authored, the implementer requests the Owner's formal gate decision:
 
-| Decision ID | Item | Implementer Recommendation | Alternatives for Owner Consideration |
-|---|---|---|---|
-| **P3-DEC-1** | Demonstration Duration & Economy | **Adopt the bounded 3-day mechanism demonstration** ($15 starting cash, $10/day wage, $5/day food, $15 rent on Day 2, 4 bills totaling $30). | Require a longer 5-day or 7-day loop with multiple rent cycles. |
-| **P3-DEC-2** | Promotional 10-Pull Model | **Genuine Seeded PRNG Draws (`openingAdvancesPity: false`)** with Race 1 tutorial field fixed at base speed 8.5, guaranteeing the canonical opening win on all draw outcomes without dynamic rigging. | Scripted promotional tutorial grant (logged honestly as a grant, not rolled odds). |
-| **P3-DEC-3** | Pre-Race Choice Mechanic | **Two-Stance Tactical Choice (Safe Pace vs. Sprint Push)**, proven mathematically non-dominated under weaker vs. faster field scouting. | Digital duck fatigue or trait catalog. |
-| **P3-DEC-4** | Local Storage Technology | **`localStorage` with versioned envelope schema, all 4 PRNG streams, and explicit in-memory fallback notification**. | `IndexedDB` (asynchronous, deferred for teacher analyzer). |
-| **P3-DEC-5** | Starter Pack Contents | **Gems-only: $0.99 for 240 gems labeled `"400% value"`**, matching model default. | Add a guaranteed Rare duck identity. |
+| Gate Option | Description | Action upon Approval |
+|---|---|---|
+| **Option 1 (Recommended)** | **Approve the Narrowly Amended Work Order** (Revision 3):<br>1. Fixed 6-entrant race contract (tutorial base 8.0 $\pm 5\%$, finale base 11.2 $\pm 5\%$, deterministic ties).<br>2. Two-stance tactical choice with Common-only limitation explicit; main teaching trade-off remains metagame cash vs. bills.<br>3. Zero-cash escalation prompt offering wage continuation without forced sacrifice.<br>4. Full semantic restore validation reconciling state, inventory, pity, reveals, and all 4 PRNG streams.<br>5. Bounded 3-day trial scope, natural opening draws, and gems-only starter. | Implementer executes the bounded implementation according to the ratified specifications. |
+| **Option 2** | **Require a Stronger Race-Choice Investigation** | Implementation remains paused; implementer prepares a separate, bounded race-choice investigation packet or experiment before building the slice. |
 
 ---
 
-**Stop Condition:** The implementer will not touch implementation code until the owner and orchestrator review this revised preflight proposal and resolve the five decisions.
+**Stop Condition:** The implementer will not touch implementation code until the owner explicitly approves Option 1 or provides instructions on Option 2.

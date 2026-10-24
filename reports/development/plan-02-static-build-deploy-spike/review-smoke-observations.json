@@ -1,0 +1,135 @@
+{
+  "timestamp": "2026-10-24T12:15:27.707Z",
+  "browser": "Chrome/155.0.8059.81",
+  "origin": "http://127.0.0.1:4173",
+  "subpath": "/Quackpot/",
+  "expectedBuildChunks": {
+    "js": "index-y2BSSTqE.js",
+    "css": "index-BkZiZGSR.css",
+    "svg": "duck-placeholder-Mhd15Sdp.svg"
+  },
+  "phase1InitialLoad": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-y2BSSTqE.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 200,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BkZiZGSR.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 200,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot Static Spike",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 4
+    },
+    "verified": true
+  },
+  "phase2Reload": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-y2BSSTqE.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 304,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BkZiZGSR.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 304,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot Static Spike",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 4
+    },
+    "verified": true
+  },
+  "phase3TrailingSlash": {
+    "requestedUrl": "http://127.0.0.1:4173/Quackpot",
+    "statusCode": 404,
+    "locationHeader": null,
+    "note": "Observed 404 on local Vite preview server. Production GitHub Pages 301 redirect is a remote deployment property and is not established or claimed by this local test."
+  },
+  "consoleLogs": [
+    {
+      "type": "info",
+      "text": "[Quackpot Spike] App mounted successfully at base path: /Quackpot/"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot Spike] App mounted successfully at base path: /Quackpot/"
+    }
+  ],
+  "runtimeExceptions": [],
+  "summary": {
+    "zeroExternalRequests": true,
+    "staticSubpathResolved": true,
+    "svgDecoded": true,
+    "reloadSucceeded": true,
+    "observedArtifactsMatchedCurrentBuild": true,
+    "cdpAndHttpWaitsBounded": true,
+    "deployedPagesSlashRedirectVerified": false
+  }
+}

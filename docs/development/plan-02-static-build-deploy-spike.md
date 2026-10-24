@@ -1,7 +1,7 @@
 ---
 id: plan-02
 title: Static build and Pages deployment spike
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Owner approves the proposed folder layout and any live Pages publication or remote configuration."
 superseded_by: null

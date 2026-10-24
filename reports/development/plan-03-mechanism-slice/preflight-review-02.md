@@ -1,0 +1,29 @@
+# Plan 03 revised preflight review — bounded proposal repair
+
+**Date:** 2026-10-24
+
+**Reviewed:** `44d36fc`, `preflight.md` Revision 1. **Disposition:** proposal revision only; implementation gate remains closed. Packet stays `ready` for this revision. Do not implement gameplay, move modules or alter accepted simulation evidence yet.
+
+The revision fixes the input classification, inherited pity arithmetic, event envelope, RNG serialization and physical/digital distinction. The shorter three-day demonstration is now honestly proposed for owner acceptance; it does not establish the roughly 15-minute floor. The following remaining defects prevent presenting its four choices as a build-ready contract.
+
+## Required corrections
+
+1. **Finish the actual economy and escalation route.** Lines 39–44 misnumber the canonical ladder: selling couch then TV is step 3; credit is step 4. Trace 3 cannot call the ladder exhausted after refusing only an extra shift while later options remain available. Specify eligibility, refusal/advance order, and the exact terminal predicate. Handle the frugal branch reaching zero cash after rent as well as an unpaid bill. Include only the ladder breadth this trial needs, but disclose any proposed truncation for owner approval rather than silently changing the ending. Extra-shift consequences must reconcile canonical wages/sleep with proposed HP costs; metagame fatigue obscuring choices remains Plan 05's investigation. Show Day 3 and every actual balance: the frugal trace currently pays **four bills totaling $30** (three $5 food bills plus $15 rent), ending with $5 cash; the extra-shift recovery trace ends with $14.01 after Day 3 food. The claimed three bills/$25 contradict that route. Specify exactly which races and event complete Day 3; remove “Race 2 / Race 3” ambiguity. If credit is included, specify debt/interest timing and log fields.
+
+2. **Choose one race proposal and demonstrate its trade-off before requesting adoption.** The new stances are described as non-dominated without evidence. Define the visible opponent information, actual field/noise parameters, rewards and timing, then compare two choices under at least two visible conditions. Drafting's “if trailing” needs an actual race phase/order rule; a one-shot result has no trailing phase. Avoid implementing all three stances or a new trait catalog just to get one choice. A smaller two-stance comparison is a reasonable investigation candidate, not an adopted rule. Course affinity must respect the no-per-variant-balancing bound. Keep unselected options outside the execution contract.
+
+3. **Resolve the opening and starter proposal completely.** Recommend one distribution and exact tutorial win rule, without silently calibrating the field per rolled rarity. A no-Rare draw is not necessarily Common-only: it can contain a Legendary. With independent base draws, all-Common is `0.8^10`, about 10.7%; zero Rare is `0.82^10`, about 13.7%. The natural-draw option still must explain the canonical opening win. State whether the starter remains gems-only (recommended for this bounded slice) or adds the proposed Rare; the final decision table currently omits that choice. Specify the finite roster/tier mapping and exercised banner/pity policy without treating simulation guesses as settled game balance.
+
+4. **Finish save behavior rather than just naming storage.** Specify start-menu autosave selection/default, explicit safe-juncture Save behavior, failed writes with an older snapshot still stored, invalid/stale schema/log handling, and fresh-run seed behavior. Do not imply that a fallback erased the last successfully stored run. Define consistency checks for pending draws, pity, inventory and PRNG continuation. The proposed envelope omits the event stream shown in section 6.4; save every consumed stream. Define a ten-pull commit's treatment of duplicate identities and inventory/Down before reveal: current model commits ownership before display; moving awards to reveal needs explicit semantics and cannot let reload/uninstall reroll or change duplicate classification. Test the commit-before-reveal boundary directly.
+
+5. **Make actual Receipt presentation the logging boundary.** Section 7.2 still appends `receipt_shown` merely when the run terminates. Persist a recoverable terminal phase, present the Receipt, append its display event only on actual presentation, then persist the matching terminal/Receipt tail. Specify resuming between those steps and idempotent reload after a complete pair. Do not use an animation timer as evidence that content was displayed.
+
+## Return and gate
+
+Revise `preflight.md` only into one recommended route, with the repaired branch table and a short decision list covering every proposed behavior. Run `check plan-03`, commit your scoped proposal, return and stop. No full experiment rerun is requested. The physical-racer paired check remains a proposed later check: report differences if present, rather than requiring a predetermined zero result or generalizing a best-policy check to every accepted policy.
+
+The owner will approve the short trial scope, meaningful choice and load-bearing rules once this contract is concrete. No gameplay choice in this review is owner-approved.
+
+## Review provenance and dispositions
+
+Requested a fresh read-only `gpt-6-luna` subagent at `high`, per the owner's cost trial. Its escalation/accounting, unsupported race-choice, missing save cases and Receipt-display findings were confirmed against the proposal and source. Its `cue_shown` versus `offer_shown` shop observation is not a blocker: the projector intentionally consumes both technique-tagged display events. Root also checked the opening probability distinction and commit/reveal inventory boundary. Existing test counts do not verify proposed behavior; no production test rerun was needed for this document review.

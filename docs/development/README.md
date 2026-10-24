@@ -16,7 +16,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-05` | Fatigue and pre-race choice investigation | draft | Compare bounded ways fatigue could obscure the one pre-race choice while preserving agency, accessibility, and the reduced-motion information path. |
 | `plan-06` | Optional odds-detail investigation | draft | Specify candidate information for an optional odds-detail button without hiding the Receipt's actual pity-adjusted pre-draw odds. |
 | `plan-07` | Run-usage export and teacher analyzer investigation | draft | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
-| `plan-08` | Duck visual-direction prototypes and owner gallery | in-progress | A separate Gemini thread generates five visual styles with three shape variants each and builds a local HTML gallery for owner comparison before SVG authoring. |
+| `plan-08` | Duck visual-direction prototypes and owner gallery | delivered | A separate Gemini thread generates five visual styles with three shape variants each and builds a local HTML gallery for owner comparison before SVG authoring. |
 | `plan-09` | Digital gacha duck motion comparison | draft | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
 | `plan-10` | Physical metagame duck views and cinematic staging | draft | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
 <!-- plan-index:end -->

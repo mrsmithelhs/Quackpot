@@ -963,6 +963,10 @@
     function copySummary() {
       const textarea = document.getElementById("summary-text");
       textarea.select();
+      if (!navigator.clipboard || typeof navigator.clipboard.writeText !== "function") {
+        alert("Clipboard copy is unavailable. The summary is selected; press Ctrl+C / Cmd+C to copy it.");
+        return;
+      }
       navigator.clipboard.writeText(textarea.value).then(() => {
         const status = document.getElementById("copy-status");
         status.textContent = "Summary copied to clipboard!";

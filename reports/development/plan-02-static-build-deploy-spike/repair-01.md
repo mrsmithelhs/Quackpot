@@ -1,0 +1,30 @@
+# Plan 02 Repair 01 — trustworthy local smoke evidence
+
+**Review date:** 2026-10-24
+
+**Reviewed commits:** `f5ddd4a` (implementation), `5314881` (report).
+
+**Disposition:** The scaffold builds, preserves CommonJS tooling, uses local SVG source, and emits `/Quackpot/` asset references outside `docs/`. Technical acceptance is held for the focused smoke/evidence repair below. Layout remains a proposal for owner ratification; no live publication is authorized.
+
+## Implementer handoff
+
+Read `AGENTS.md`, the Plan 02 packet, `prebuild-review-01.md`, this note, and the current source/report. Run `node scripts/dev/plan-status.js check plan-02` before editing; stop if it fails. Plan 02 is returned to `in-progress` for this repair. Own the existing Plan 02 scaffold, `scripts/dev/smoke-browser.mjs`, narrowly needed smoke-check tests, and the Plan 02 progress/evidence artifacts. Leave packet/index status and orchestration notes untouched. Plan 01 Repair 02 has active uncommitted `sim/` changes; never revert, stage, commit, or modify those files.
+
+## Required repairs
+
+1. **Verify process ownership and isolate the browser.** The script starts Vite on 4173 and CDP on 9222, then accepts any healthy endpoint. It never verifies that its spawned child owns the endpoint, handles child launch errors, or uses a dedicated browser profile. A failed launch can therefore test an unrelated/stale process. Use a dedicated temporary browser profile and process-owned or verified endpoints; fail promptly on launch errors/early exits and clean up only processes/profile created by this run. Enter cleanup before either launch. Bound CDP connection, command and page-load waits, and reject pending commands if the connection closes. Do not attach to an existing personal browser/debugging session. Do not delete a profile unless its resolved path is verified inside the exact temporary directory created for this run.
+2. **Assert both load and reload behavior.** Reuse the same DOM/image, request-origin, configured-subpath and response-status checks for initial load and reload. Check runtime exceptions and relevant console errors; collected console messages alone are not assertions. Continue recording/checking throughout each bounded observation window, including redirects and failed requests, rather than trusting only an initial snapshot. Ensure the observed artifact is this run's build. Root `/assets/...` must not satisfy the `/Quackpot/` subpath check. Keep this a minimal one-page smoke, without introducing a new application/router framework.
+3. **Report trailing slash as observed.** Local `/Quackpot` returns 404, while `/Quackpot/` works. That may remain an informational local limitation, but the final success message must identify which checks passed and which remain unverified. Remove the unsupported claim that this packet established a GitHub Pages 301 redirect. Deployed slash behavior remains unverified until an authorized live deployment. No remote changes are needed for this repair.
+4. **Remove self-certifying page claims.** `src/main.js` prints unconditional PASS badges and “Zero external network requests initiated”; the test checks those literal badges. These are placeholder labels, not independent evidence. Reword the page to describe the spike/configuration without implying that its own text measured networking. State the constraint precisely as no app-authored runtime/telemetry calls or external dependencies; ordinary document/script/style/image delivery uses browser requests. Let the external smoke observer supply pass/fail evidence.
+5. **Correct the report and proposed wiring.** Replace implementer “Complete”/deployment-path-proven claims with delivered local-spike evidence and remaining owner gates. Record browser version, tested origin/subpath, real command outcomes and observations; avoid treating a console assertion as measurement. Mark the selected Pages publication workflow/branch as undecided. Correct the illustrative imports: the actual PRNG export is `createRng`, not `Prng`; `__dirname` is unavailable in `vite.config.mjs` unless explicitly derived (a direct relative import or `new URL(..., import.meta.url)` can avoid that issue). No actual shared-module migration or alias is needed in this repair.
+
+## Validation and delivery
+
+- Build the current scaffold, run packet checks and existing tests, then run the repaired smoke with a fresh isolated profile. Record machine-readable request/DOM/error observations or an equivalent auditable transcript in this report folder.
+- Exercise meaningful failure cases for the repaired boundaries: occupied endpoint or early child exit must not pass, an external/wrong-subpath request must be rejected in both load/reload checks, and a runtime exception or stalled load must produce a bounded failure. A small factored validator with targeted tests is sufficient; do not build a general browser automation platform.
+- The orchestrator independently rebuilt the current scaffold successfully (Vite 8.3.5; identical emitted asset filenames) and ran `npm test` successfully (45 current working-tree simulation tests plus 143 packet checks). The 45-test count includes active Plan 01 repairs and is not acceptance of that packet. The old smoke was deliberately not rerun because its browser/process ownership is not isolated.
+- Commit only owned code/evidence paths, then the updated progress report as the final act. State the current thread's consultation/degraded-mode declaration, leave packet status to the orchestrator, and never push.
+
+## Owner decision after technical repair
+
+Recommend ratifying a root `index.html`, browser source in `src/`, authored SVGs in `src/assets/svg/`, headless scenarios/strategies/experiments in `sim/`, development tools in `scripts/dev/`, and ignored `dist/` as the static publish artifact. Move pure shared PRNG/log/Receipt modules into `src/core/` only in a separately bounded, owner-approved integration after Plan 01 acceptance. This recommendation is not an accepted folder contract or deployment grant.

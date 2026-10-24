@@ -1,0 +1,25 @@
+# Plan 03 Repair 01 review — remaining continuity repair
+
+**Date:** 2026-10-24. **Reviewed:** `bf70ac5`. **Disposition:** not yet accepted; `ready` for bounded Repair 02. Preserve the adopted trial and its stated race-choice limits.
+
+## Verified progress
+
+Root independently reran `npm test`: **89 tests pass**. A fresh `npm run test:smoke` also passes, including production build and isolated Chrome execution under `/Quackpot/`. Original implementer observations were restored unchanged; independent output is `review-02-observations.json`.
+
+The smoke directly confirms initial build assets/subpath, early Uninstall with terminal HUD, persisted tutorial result with exactly 50 gems after reload, starter-modal restoration after Stay, truthful repeat retention copy/no repeated bonus, the frugal Continue route, a successful corrupt-save backup, a warning after an injected manual write failure, and autosave-off followed by manual saving. Source/tests additionally demonstrate the original invalid inventory/identity/string-PRNG probes are now rejected, zero-cash options use their own handler, and Receipt financial/roster/Down summaries derive from events.
+
+## Remaining confirmed issues
+
+1. **[P1] Restore validates individual reveals but not complete continuation.** `src/core/storage.mjs:181–217` checks each pending item but does not require unique complete commit coverage. Root took an authentic committed free-ten-pull envelope and separately (a) removed the whole pending queue, (b) replaced its second item with a clone of its first, and (c) changed pending `downGained` to 999. Each returned `{valid:true,errors:[]}` and hydrated. A missing queue leaves committed inventory with no cards to reveal; duplicates lose a card; substituted Down changes the displayed/logged reveal. Also, after a legitimate tutorial result, clearing `completedRaces` and `raceResults` and setting `step = 'd1_midday_race'` passed validation; hydrating and racing again changed **50 gems to 100**. The ordinary clean reload is repaired, but saved authoritative progression is still not reconciled against the append-only history. This is the existing integrity contract, not a cryptographic tamper-proofing request.
+
+2. **[P1] Paid bills can still execute twice.** `src/core/game-engine.mjs:402–431` has no bill occurrence identity/settlement guard. Root called `billExpense('rent',15)` twice on a naturally initialized 15-cash engine. First: `{paid:true,needsEscalation:false}`. Second: `{paid:false,needsEscalation:true}`, cash 0, phase escalation, fictitious unpaid rent and two expense_due entries. Main still checkpoints immediately after bill mutation and before its corresponding UI-step update (`src/main.js`, Pay Rent callback). An interrupted transition can therefore persist a paid bill with the old pay-rent step. Guard the bill occurrence and checkpoint progression with the mutation, rather than relying on the next render to hide the button.
+
+3. **[P2] Recovery mode is named but not enforced.** `src/main.js:90–94` ignores the Boolean result of `backupCorruptSave()` and calls `startFreshRun(false)`. In that function, `enableStorageSave` only controls an empty comment block: autosave remains true and the desk launch callback later writes normally. A successful backup does preserve a copy under the backup key, but the promised temporary/no-overwrite mode does not exist. If backup-key writes fail while primary-key writes succeed, this path can silently replace the original corrupt save without a successful backup. Honor preservation mode, show backup success/failure accurately and require explicit replacement before writing over the old primary snapshot. Do not silently make keeping a backup imply autosave permission.
+
+4. **Required browser evidence remains incomplete and is overstated.** `scripts/dev/smoke-browser.mjs:664–691` labels Extra Shift/Sell Couch as button checks but calls methods on newly constructed engines instead of clicking the actual UI. Only Continue is played through the frugal route. Starter interruption is checked; escalation and zero-cash interruption/reload are not. The new smoke also replaced rather than retained the original complete purchase/recovery/finale and mid-reveal-reload journeys. A manual-save write failure is injected, but not an automatic-save failure. This matters because Repair 01 targeted controller wiring as well as correct pure methods. Restore the applicable journeys and report direct engine checks separately from observed UI interactions.
+
+## Scope and provenance
+
+A requested read-only `gpt-6-luna` high review identified missing reveal coverage and repeated bills. Root independently reproduced both, expanded the saved-result case and inspected the actual smoke/recovery code. No gameplay rule or visual direction is reopened. No broad headless economy rerun is required.
+
+Use `repair-02.md` for the next implementation handoff. Existing successful checks need not be redesigned; add the missing assertions and preserve prior evidence. Technical acceptance and owner play acceptance remain separate.

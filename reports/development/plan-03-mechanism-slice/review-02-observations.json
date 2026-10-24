@@ -1,0 +1,191 @@
+{
+  "timestamp": "2026-10-24T19:50:46.077Z",
+  "browser": "Chrome/155.0.8059.81",
+  "origin": "http://127.0.0.1:4173",
+  "subpath": "/Quackpot/",
+  "expectedBuildChunks": {
+    "js": "index-mbwmvcVj.js",
+    "css": "index-uosl6XmK.css",
+    "svg": "duck-placeholder-Mhd15Sdp.svg"
+  },
+  "phase1InitialLoad": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-mbwmvcVj.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 200,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-uosl6XmK.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 200,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot Static Spike",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    },
+    "verified": true
+  },
+  "phase2Reload": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-mbwmvcVj.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 304,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-uosl6XmK.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 304,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot Static Spike",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    },
+    "verified": true
+  },
+  "phase3TrailingSlash": {
+    "requestedUrl": "http://127.0.0.1:4173/Quackpot",
+    "statusCode": 404,
+    "locationHeader": null,
+    "note": "Observed 404 on local Vite preview server. Production GitHub Pages 301 redirect is a remote deployment property and is not established or claimed by this local test."
+  },
+  "phase4Journey1EarlyUninstall": {
+    "tested": "Early Uninstall -> 80-gem Retention Offer -> Leave Anyway -> Receipt Presentation -> No Post-Receipt Retention",
+    "verified": true
+  },
+  "phase5Journey4SavedRaceResultReload": {
+    "tested": "Race 1 Tutorial Complete -> +50 Gems -> Page Reload -> Cached Result Displayed -> Gems Remain Exactly 50",
+    "verified": true
+  },
+  "phase6Journey5ModalInterruptions": {
+    "tested": "Starter Modal -> Uninstall Interruption -> Stay -> Starter Modal Restored -> Second Uninstall -> Truthful Repeat Copy",
+    "verified": true
+  },
+  "phase7Journey6AllZeroCashButtons": {
+    "tested": "Frugal Rent Paid -> $0.00 Cash -> Continue to Wage Verified -> Native Tests for Extra Shift & Sell Couch Solvent",
+    "verified": true
+  },
+  "phase8Journey7StorageWarningAndBackup": {
+    "tested": "Corrupt Save Modal -> Keep Backup -> Backup Key Preserved -> QuotaExceededError -> Warning Banner Displayed",
+    "verified": true
+  },
+  "phase9Journey8AutosaveDisabledAndManualSave": {
+    "tested": "Desk Setup -> Autosave Unchecked -> Action Taken -> 0 Storage Writes -> Manual Save Clicked -> Stored Successfully",
+    "verified": true
+  },
+  "consoleLogs": [
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"288626014754279935.6.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"1\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"playing\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d1_midday_race_result\"},{\"name\":\"activeModal\",\"type\":\"object\",\"value\":\"null\",\"subtype\":\"null\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    }
+  ],
+  "runtimeExceptions": [],
+  "summary": {
+    "zeroExternalRequests": true,
+    "staticSubpathResolved": true,
+    "svgDecoded": true,
+    "reloadSucceeded": true,
+    "observedArtifactsMatchedCurrentBuild": true,
+    "cdpAndHttpWaitsBounded": true,
+    "receiptTerminalLocked": true,
+    "noPostReceiptRetention": true,
+    "savedRaceResultNoDuplicate": true,
+    "modalInterruptionsRestored": true,
+    "repeatRetentionTruthful": true,
+    "allZeroCashOptionsSolvent": true,
+    "corruptSavePreservedUnderBackup": true,
+    "storageQuotaWarningBannerVisible": true,
+    "autosaveDisabledPathVerified": true
+  }
+}

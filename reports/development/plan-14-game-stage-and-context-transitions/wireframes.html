@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quackpot â€” Plan 14: Game Stage & Context Transitions Interactive Wireframes (Repair 01)</title>
+  <title>Quackpot — Plan 14: Game Stage & Context Transitions Interactive Wireframes (Repair 01)</title>
   <style>
     /* ==========================================================================
        PLAN 14 INTERACTIVE WIREFRAME STYLESHEET (Repair 01)
@@ -63,7 +63,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      * {
+      body:not(.motion-override) * {
         animation: none !important;
         transition: none !important;
       }
@@ -663,7 +663,7 @@
     /* ==========================================================================
        TRANSITION CHOREOGRAPHY CLASSES (Repair 01 Geometry & Sequence)
        ========================================================================== */
-    /* State 1: 90Â° Turn into Landscape */
+    /* State 1: 90° Turn into Landscape */
     .smartphone-container.state-rotated {
       transform: rotate(90deg) scale(1.15);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(251, 191, 36, 0.5);
@@ -1131,10 +1131,10 @@
     <div class="eval-toolbar-group">
       <span class="eval-label">Transition Choreography:</span>
       <button id="btn-step-desk" class="eval-btn" title="Return/reset to Beat 1: Apartment Desk">1. Desk</button>
-      <button id="btn-step-rotate" class="eval-btn" title="Execute 90Â° landscape turn">2. 90Â° Turn</button>
+      <button id="btn-step-rotate" class="eval-btn" title="Execute 90° landscape turn">2. 90° Turn</button>
       <button id="btn-step-expand" class="eval-btn" title="Expand landscape phone to stage canvas">3. Expand</button>
       <button id="btn-step-return" class="eval-btn" title="Reverse transition back to desk">4. Return</button>
-      <button id="btn-step-auto" class="eval-btn" style="border-color: var(--accent-gold); color: var(--accent-gold);" title="Play continuous transition sequence">â–¶ Auto-Play</button>
+      <button id="btn-step-auto" class="eval-btn" style="border-color: var(--accent-gold); color: var(--accent-gold);" title="Play continuous transition sequence">▶ Auto-Play</button>
     </div>
 
     <div class="eval-toolbar-group">
@@ -1197,22 +1197,22 @@
       <!-- Center: Persistent Status Canopy -->
       <div class="hud-status-canopy" aria-label="In-Game Meters">
         <div class="hud-pill" id="pill-day" title="Current Day and Phase">
-          <span>ðŸ“…</span>
+          <span>📅</span>
           <span>Day 1:</span>
           <span style="color: #60a5fa;">Midday</span>
         </div>
         <div class="hud-pill" id="pill-cash" title="Fictional Cash Balance">
-          <span>ðŸ’µ</span>
+          <span>💵</span>
           <span>Cash:</span>
           <span id="val-cash" style="color: #34d399;">$10.00</span>
         </div>
         <div class="hud-pill dormant" id="pill-gems" title="Premium Currency (Dormant until unboxed)">
-          <span>ðŸ’Ž</span>
+          <span>💎</span>
           <span>Gems:</span>
           <span id="val-gems">0</span>
         </div>
         <div class="hud-pill" id="pill-health" title="Player Health (Escalation meter)">
-          <span>â¤ï¸</span>
+          <span>❤️</span>
           <span>Health:</span>
           <span id="val-health">100 HP</span>
         </div>
@@ -1221,15 +1221,15 @@
       <!-- Right: Action & Utility Controls (Quieter Save Model) -->
       <div class="hud-action-group">
         <button id="btn-manual-save" class="btn-hud-quiet" title="Save current progress locally (Shortcut: S)" aria-label="Save current progress locally">
-          <span>ðŸ’¾</span>
+          <span>💾</span>
           <span>Save</span>
         </button>
         <button id="btn-open-settings" class="btn-hud-quiet" title="Open Settings & Options (Shortcut: ?)" aria-label="Open Settings and Options">
-          <span>âš™ï¸</span>
+          <span>⚙️</span>
           <span>Settings</span>
         </button>
         <button id="btn-open-uninstall" class="btn-uninstall-emergency" title="Uninstall game and view Receipt (Shortcut: U)" aria-label="Uninstall game and view Receipt">
-          <span>âŒ</span>
+          <span>❌</span>
           <span>Uninstall</span>
         </button>
       </div>
@@ -1250,15 +1250,15 @@
       </div>
 
       <div class="hud-status-canopy">
-        <div class="hud-pill"><span>ðŸ“…</span><span>Day 1 (Midday)</span></div>
-        <div class="hud-pill"><span>ðŸ’µ</span><span style="color:#34d399;">$10.00</span></div>
-        <div class="hud-pill dormant"><span>ðŸ’Ž</span><span>0</span></div>
-        <div class="hud-pill"><span>â¤ï¸</span><span>100 HP</span></div>
+        <div class="hud-pill"><span>📅</span><span>Day 1 (Midday)</span></div>
+        <div class="hud-pill"><span>💵</span><span style="color:#34d399;">$10.00</span></div>
+        <div class="hud-pill dormant"><span>💎</span><span>0</span></div>
+        <div class="hud-pill"><span>❤️</span><span>100 HP</span></div>
       </div>
     </header>
 
     <!-- Save Notification Micro-Toast -->
-    <div id="save-toast" class="save-toast" role="status" aria-live="polite">âœ“ Run saved locally to browser storage.</div>
+    <div id="save-toast" class="save-toast" role="status" aria-live="polite">✓ Run saved locally to browser storage.</div>
 
     <!-- ========================================================================
          CENTRAL STAGE CONTAINER (Letterboxed Fixed Diegetic Stage)
@@ -1294,11 +1294,11 @@
 
             <!-- Center: Financial Reality Anchor (Desk Note) -->
             <div class="desk-bills-station">
-              <div class="desk-bills-title">ðŸ“Œ Apartment Expenses</div>
-              <p>â€¢ Day 1 Lunch: <strong>-$5.00</strong> (Paid)</p>
-              <p>â€¢ Cash on hand: <strong>$10.00</strong></p>
+              <div class="desk-bills-title">📌 Apartment Expenses</div>
+              <p>• Day 1 Lunch: <strong>-$5.00</strong> (Paid)</p>
+              <p>• Cash on hand: <strong>$10.00</strong></p>
               <p style="margin-top: 0.5rem; color: #b91c1c; font-weight: 800;">
-                âš ï¸ Rent Due Day 2: $15.00
+                ⚠️ Rent Due Day 2: $15.00
               </p>
               <p style="font-size: 0.7rem; color: #92400e; margin-top: 0.25rem;">
                 (Solvent if no gacha packs bought)
@@ -1314,11 +1314,11 @@
                 <div class="phone-portrait-content" id="phone-portrait-content">
                   <div style="font-size: 0.65rem; color: #64748b; display: flex; justify-content: space-between;">
                     <span>12:42 PM</span>
-                    <span>ðŸ”‹ 94%</span>
+                    <span>🔋 94%</span>
                   </div>
 
                   <div class="phone-push-notification" id="phone-notification">
-                    <div class="notif-badge"><span>ðŸ””</span> QUACKPOT APP</div>
+                    <div class="notif-badge"><span>🔔</span> QUACKPOT APP</div>
                     <div class="notif-text">Special Welcome Gift Waiting!</div>
                     <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.2rem;">Claim 10 Free Ducks now!</div>
                     <div class="notif-cta">TAP TO OPEN</div>
@@ -1329,7 +1329,7 @@
                   </div>
                 </div>
 
-                <!-- Landscape Content (Legible View upon 90Â° Turn) -->
+                <!-- Landscape Content (Legible View upon 90° Turn) -->
                 <div class="phone-landscape-content" id="phone-landscape-content">
                   <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent-gold);">QUACKPOT: POND MASTERS</div>
                   <div style="font-size: 0.65rem; color: #94a3b8;">Welcome Rookie! 10-Pull Ready!</div>
@@ -1348,9 +1348,9 @@
         <section class="scene-gacha" id="scene-gacha" aria-label="Fictional Gacha App View">
           <!-- Gacha App Top Navigation -->
           <nav class="gacha-app-nav">
-            <span class="gacha-app-title">ðŸ¦† QUACKPOT: POND MASTERS</span>
+            <span class="gacha-app-title">🦆 QUACKPOT: POND MASTERS</span>
             <button id="btn-return-desk" class="btn-exit-app" title="Put down phone and return to apartment desk (Shortcut: Esc)">
-              â¬… Return to Desk
+              ⬅ Return to Desk
             </button>
           </nav>
 
@@ -1368,7 +1368,7 @@
 
               <div class="banner-actions">
                 <button class="btn-pull-claim" id="btn-claim-pull" aria-label="Claim Free 10-Pull (Normally 1,600 Gems)">
-                  ðŸŽ CLAIM FREE 10-PULL
+                  🎁 CLAIM FREE 10-PULL
                 </button>
               </div>
             </div>
@@ -1376,17 +1376,17 @@
             <!-- Gacha Roster Preview Teaser -->
             <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem;">
               <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">ðŸ¦†</div>
+                <div style="font-size: 1.5rem;">🦆</div>
                 <div style="font-weight: 700; color: #94a3b8;">Common</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 10.0</div>
               </div>
               <div style="background: #1e293b; border: 1px solid #3b82f6; border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">âš¡</div>
+                <div style="font-size: 1.5rem;">⚡</div>
                 <div style="font-weight: 700; color: #60a5fa;">Rare</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 12.5</div>
               </div>
               <div style="background: #1e293b; border: 1px solid var(--accent-gold); border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">ðŸ‘‘</div>
+                <div style="font-size: 1.5rem;">👑</div>
                 <div style="font-weight: 700; color: var(--accent-gold);">Legendary</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 16.0</div>
               </div>
@@ -1395,10 +1395,10 @@
 
           <!-- Bottom Navigation Tabs -->
           <footer class="gacha-bottom-tabs">
-            <button class="gacha-tab active">ðŸ  Home</button>
-            <button class="gacha-tab">ðŸ Pond Races</button>
-            <button class="gacha-tab">ðŸ¦† Roster (0/6)</button>
-            <button class="gacha-tab">ðŸ›’ Shop</button>
+            <button class="gacha-tab active">🏠 Home</button>
+            <button class="gacha-tab">🏁 Pond Races</button>
+            <button class="gacha-tab">🦆 Roster (0/6)</button>
+            <button class="gacha-tab">🛒 Shop</button>
           </footer>
         </section>
 
@@ -1407,8 +1407,8 @@
              ==================================================================== -->
         <section class="scene-terminal" id="scene-terminal" aria-label="End-of-Run Terminal Placeholder">
           <div class="terminal-card">
-            <div class="terminal-badge">RUN COMPLETE â€” IMMEDIATE UNINSTALL</div>
-            <h2 class="terminal-title">ðŸ End-of-Run Receipt (Placeholder)</h2>
+            <div class="terminal-badge">RUN COMPLETE — IMMEDIATE UNINSTALL</div>
+            <h2 class="terminal-title">🏁 End-of-Run Receipt (Placeholder)</h2>
             <p style="font-size: 0.85rem; color: #94a3b8;">
               You chose immediate exit from the retention offer per Hard Constraint #5. Your run has ended and state is locked.
             </p>
@@ -1431,7 +1431,7 @@
 
             <div style="display: flex; gap: 0.75rem; justify-content: center;">
               <button id="btn-reset-prototype" class="btn-hud-quiet" style="background: #2563eb; color: #ffffff; border-color: #60a5fa;">
-                ðŸ”„ Reset Prototype &amp; Start Fresh Run
+                🔄 Reset Prototype &amp; Start Fresh Run
               </button>
             </div>
           </div>
@@ -1445,14 +1445,14 @@
          ======================================================================== -->
     <footer id="shell-b-footer" class="shell-b-footer-rail" style="display: none;">
       <div class="shell-b-footer-left">
-        <span>ðŸŽ® Quackpot Console v0.14</span>
+        <span>🎮 Quackpot Console v0.14</span>
         <span style="color: #64748b;">|</span>
         <span id="label-autosave-status">Autosave: Enabled</span>
       </div>
       <div class="shell-b-footer-right">
-        <button id="btn-save-b" class="btn-hud-quiet">ðŸ’¾ Save</button>
-        <button id="btn-settings-b" class="btn-hud-quiet">âš™ï¸ Options</button>
-        <button id="btn-uninstall-b" class="btn-uninstall-emergency">âŒ Uninstall</button>
+        <button id="btn-save-b" class="btn-hud-quiet">💾 Save</button>
+        <button id="btn-settings-b" class="btn-hud-quiet">⚙️ Options</button>
+        <button id="btn-uninstall-b" class="btn-uninstall-emergency">❌ Uninstall</button>
       </div>
     </footer>
 
@@ -1464,14 +1464,14 @@
   <div id="modal-settings" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
     <div class="modal-window">
       <div class="modal-header">
-        <h2 id="modal-settings-title" class="modal-title">âš™ï¸ Game Settings &amp; Options</h2>
-        <button id="btn-close-settings" class="modal-close-btn" aria-label="Close Settings">âœ•</button>
+        <h2 id="modal-settings-title" class="modal-title">⚙️ Game Settings &amp; Options</h2>
+        <button id="btn-close-settings" class="modal-close-btn" aria-label="Close Settings">✕</button>
       </div>
       <div class="modal-body">
 
         <!-- Section 1: Saving Preferences -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>ðŸ’¾</span> Saving &amp; Storage Preferences</div>
+          <div class="settings-section-title"><span>💾</span> Saving &amp; Storage Preferences</div>
           <div class="settings-row">
             <div class="settings-row-label">
               <strong>Autosave on Transitions</strong>
@@ -1484,7 +1484,7 @@
           </div>
           <div class="settings-row" style="margin-top: 0.75rem;">
             <button id="btn-settings-save-now" class="btn-hud-quiet" style="background: #2563eb; color: #ffffff; border-color: #60a5fa; width: 100%;">
-              ðŸ’¾ Save Run State Now
+              💾 Save Run State Now
             </button>
           </div>
           <div class="diag-box" id="storage-diag-box">
@@ -1496,11 +1496,11 @@
 
         <!-- Section 2: Accessibility Controls -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>â™¿</span> Accessibility Options</div>
+          <div class="settings-section-title"><span>♿</span> Accessibility Options</div>
           <div class="settings-row">
             <div class="settings-row-label">
               <strong>Reduced Motion</strong>
-              <span class="settings-desc">Disables 90Â° phone rotation and zoom transforms.</span>
+              <span class="settings-desc">Disables 90° phone rotation and zoom transforms.</span>
             </div>
             <label class="eval-toggle">
               <input type="checkbox" id="pref-reduced-motion">
@@ -1531,7 +1531,7 @@
 
         <!-- Section 3: Factual Credits Placeholder (DECISION-010 & Plan 18 Coordination) -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>ðŸ“œ</span> Credits &amp; Attribution (Placeholder)</div>
+          <div class="settings-section-title"><span>📜</span> Credits &amp; Attribution (Placeholder)</div>
           <div class="credits-panel">
             <p><strong>Quackpot</strong> is an educational browser gacha game created for CourseVGD to examine predatory monetization design.</p>
             <p style="margin-top: 0.35rem;"><strong>Audio Attribution Placeholder:</strong> Audio effects are currently synthesized locally via the Web Audio API. Future locally bundled Creative Commons audio recordings (CC0 / CC BY) approved under DECISION-010 will be factually attributed here once auditioned and selected in Plan 18.</p>
@@ -1541,10 +1541,10 @@
 
         <!-- Section 4: Export (Simulated) -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>ðŸ“</span> Run Data Export (Simulation)</div>
+          <div class="settings-section-title"><span>📁</span> Run Data Export (Simulation)</div>
           <p class="settings-desc">In production, assembles local run history into a verifiable JSON file for student manual download (Hard Constraint #3).</p>
           <button id="btn-export-receipt" class="btn-hud-quiet" style="margin-top: 0.5rem; width: 100%;">
-            ðŸ“¥ Simulate Receipt Download
+            📥 Simulate Receipt Download
           </button>
         </div>
 
@@ -1558,8 +1558,8 @@
   <div id="modal-uninstall" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-uninstall-title">
     <div class="modal-window">
       <div class="modal-header">
-        <h2 id="modal-uninstall-title" class="modal-title" style="color: var(--danger-red);">âš ï¸ Confirm Uninstall</h2>
-        <button id="btn-close-uninstall" class="modal-close-btn" aria-label="Cancel Uninstall">âœ•</button>
+        <h2 id="modal-uninstall-title" class="modal-title" style="color: var(--danger-red);">⚠️ Confirm Uninstall</h2>
+        <button id="btn-close-uninstall" class="modal-close-btn" aria-label="Cancel Uninstall">✕</button>
       </div>
       <div class="modal-body">
         <div class="retention-alert-header">
@@ -1575,10 +1575,10 @@
 
         <div class="retention-actions">
           <button id="btn-retention-stay" class="btn-retention-stay">
-            ðŸŽ Accept 80 Gems &amp; Keep Playing
+            🎁 Accept 80 Gems &amp; Keep Playing
           </button>
           <button id="btn-retention-leave" class="btn-retention-leave">
-            ðŸšª Leave Immediately &amp; View Receipt (Best Ending)
+            🚪 Leave Immediately &amp; View Receipt (Best Ending)
           </button>
         </div>
       </div>
@@ -1679,11 +1679,11 @@
       // Save Trigger Helper (Labeled Simulation)
       function triggerSave() {
         if (isRestrictedStorage) {
-          saveToast.textContent = 'âš ï¸ Simulated: Storage restricted! Run saved in temporary memory only.';
+          saveToast.textContent = '⚠️ Simulated: Storage restricted! Run saved in temporary memory only.';
           saveToast.className = 'save-toast warning';
           announce("Simulation save warning: Run saved in temporary memory only due to storage restriction.");
         } else {
-          saveToast.textContent = 'âœ“ Simulated: Run saved locally to browser storage.';
+          saveToast.textContent = '✓ Simulated: Run saved locally to browser storage.';
           saveToast.className = 'save-toast';
           announce("Simulated save: Run saved locally to browser storage.");
         }
@@ -1699,6 +1699,20 @@
       });
 
       // Accessible Modal Management (Focus Trapping & Return to Trigger)
+      const backgroundInertState = new Map();
+      function restoreModalBackground() {
+        for (const [element, previous] of backgroundInertState) element.inert = previous;
+        backgroundInertState.clear();
+      }
+      function isolateModal(modalEl) {
+        restoreModalBackground();
+        for (const element of Array.from(document.body.children || [])) {
+          if (element === modalEl || (element.contains && element.contains(modalEl))) continue;
+          if (element === ariaLive || (element.contains && element.contains(ariaLive))) continue;
+          backgroundInertState.set(element, Boolean(element.inert));
+          element.inert = true;
+        }
+      }
       function openModal(modalEl, trigger) {
         if (!modalEl) return;
         if (isTerminal && modalEl === modalUninstall) return; // Locked post-terminal
@@ -1713,6 +1727,7 @@
         triggerElement = candidate;
         activeModal = modalEl;
         modalEl.classList.add('open');
+        isolateModal(modalEl);
 
         // Focus close button or first interactive element
         const closeBtn = modalEl === modalSettings
@@ -1733,6 +1748,7 @@
         if (!modalEl) return;
         modalEl.classList.remove('open');
         activeModal = null;
+        restoreModalBackground();
 
         if (returnFocus && triggerElement && typeof triggerElement.focus === 'function') {
           triggerElement.focus();
@@ -1783,13 +1799,13 @@
         if (btnUninstallA) {
           btnUninstallA.disabled = true;
           btnUninstallA.classList.add('btn-locked');
-          btnUninstallA.innerHTML = '<span>ðŸ</span><span>Run Ended</span>';
+          btnUninstallA.innerHTML = '<span>🏁</span><span>Run Ended</span>';
           btnUninstallA.title = 'Run ended via Uninstall (Hard Constraint #5). Local state locked.';
         }
         if (btnUninstallB) {
           btnUninstallB.disabled = true;
           btnUninstallB.classList.add('btn-locked');
-          btnUninstallB.innerHTML = 'ðŸ Run Ended';
+          btnUninstallB.innerHTML = '🏁 Run Ended';
           btnUninstallB.title = 'Run ended via Uninstall (Hard Constraint #5). Local state locked.';
         }
 
@@ -1805,13 +1821,13 @@
         if (btnUninstallA) {
           btnUninstallA.disabled = false;
           btnUninstallA.classList.remove('btn-locked');
-          btnUninstallA.innerHTML = '<span>âŒ</span><span>Uninstall</span>';
+          btnUninstallA.innerHTML = '<span>❌</span><span>Uninstall</span>';
           btnUninstallA.title = 'Uninstall game and view Receipt (Shortcut: U)';
         }
         if (btnUninstallB) {
           btnUninstallB.disabled = false;
           btnUninstallB.classList.remove('btn-locked');
-          btnUninstallB.innerHTML = 'âŒ Uninstall';
+          btnUninstallB.innerHTML = '❌ Uninstall';
           btnUninstallB.title = 'Uninstall game and view Receipt';
         }
         stepDesk();
@@ -1848,7 +1864,7 @@
         transitionState = 'turning';
         phoneContainer.classList.add('state-rotated');
         stageCanvas.classList.remove('state-gacha-active');
-        announce("Beat 2: Fictional phone executes 90Â° quarter-turn into landscape orientation.");
+        announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
       }
 
       function stepExpand() {
@@ -1910,6 +1926,7 @@
       // System & Manual Reduced Motion Handling
       const toggleReducedMotion = document.getElementById('toggle-reduced-motion');
       const prefReducedMotion = document.getElementById('pref-reduced-motion');
+      let hasManualMotionOverride = false;
 
       function setReducedMotion(val) {
         isReducedMotion = val;
@@ -1931,12 +1948,19 @@
           setReducedMotion(true);
         }
         if (motionMediaQuery.addEventListener) {
-          motionMediaQuery.addEventListener('change', (e) => setReducedMotion(e.matches));
+          motionMediaQuery.addEventListener('change', (e) => {
+            if (!hasManualMotionOverride) setReducedMotion(e.matches);
+          });
         }
       }
 
-      toggleReducedMotion.addEventListener('change', (e) => setReducedMotion(e.target.checked));
-      prefReducedMotion.addEventListener('change', (e) => setReducedMotion(e.target.checked));
+      function applyManualMotionChoice(value) {
+        hasManualMotionOverride = true;
+        body.classList.add('motion-override');
+        setReducedMotion(value);
+      }
+      toggleReducedMotion.addEventListener('change', (e) => applyManualMotionChoice(e.target.checked));
+      prefReducedMotion.addEventListener('change', (e) => applyManualMotionChoice(e.target.checked));
 
       // High Contrast Candidate Toggle
       const toggleHighContrast = document.getElementById('toggle-high-contrast');

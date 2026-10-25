@@ -14,6 +14,8 @@ summary: >-
 
 ## Goal and scope
 
+**Repair 01 acceptance, 2026-10-25:** `042f120` plus small inline motion/modal/encoding corrections passes bounded technical review (`review-02.md`). Original and expanded controller checks pass. Ready for owner A/B shell and transition/static-alternative selection; no further implementer repair or production work requested. Durations/layout remain proposals and packet remains delivered.
+
 **Delivery review, 2026-10-25:** `8ead4cf` returned for bounded report/prototype Repair 01. Read report-folder `review-01.md`, `repair-01.md` and controller observations. Keep the promising A/B layout direction; fix transition interruption/choreography, focus/reduced-motion paths and unsupported mock/conformance/provenance claims before owner selection. Production saving/export/Receipt are not requested. Packet remains delivered until owner resumes the repair; no shell/timing decision is adopted.
 
 The owner likes the logo, wants a full-width header and an experience that reads as a game, and does not want the autosave checkbox in the persistent header. Propose one recommended stage shell plus one alternative, preserving the logo. Full-width framing can contain constrained readable text and a rectangular race viewport; do not stretch every text panel across a desktop or require browser fullscreen.

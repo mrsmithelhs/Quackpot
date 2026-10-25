@@ -19,17 +19,17 @@ Repair 01 preserved the core Shell A (Canopy) vs. Shell B (Split Rail) compariso
    - Implemented `cancelPendingTransitions()` to immediately clear active `setTimeout` timers and invalidate transition tokens upon Return, `Escape`, replay, or terminal exit.
    - Verified that clicking Return during the rotation phase permanently cancels gacha activation; stale timer callbacks cannot re-open the stage.
 2. **Wireframe Choreography & Proposal Durations:**
-   - Implemented legible landscape screen orientation during the 90Â° phone turn: inside the phone, screen text and layout counter-rotate so content is upright and legible during the turn.
+   - Implemented legible landscape screen orientation during the 90° phone turn: inside the phone, screen text and layout counter-rotate so content is upright and legible during the turn.
    - Demonstrates phone turn $\rightarrow$ legible landscape view $\rightarrow$ stage expansion, and reverse collapse.
    - Proposed durations are clearly labeled as design proposals for owner review (400ms turn, 400ms expand, 800ms total entry, 400ms return). Click and auto-play pipelines are strictly aligned.
 3. **Focus Containment & Accessible Dismissal:**
    - Dialogs (`modal-settings` and `modal-uninstall`) implement focus trapping (Tab / Shift+Tab wrapping) and suppress background shortcuts while active.
-   - Modal dismissal (via `âœ•` or `Escape`) strictly restores keyboard focus to the triggering button (`btn-open-settings` or `btn-open-uninstall`).
+   - Modal dismissal (via `✕` or `Escape`) strictly restores keyboard focus to the triggering button (`btn-open-settings` or `btn-open-uninstall`).
    - `Escape` hierarchy: closes open modals without navigating the scene; outside modals, cancels active transitions and returns to desk.
 4. **System Reduced Motion Integration:**
    - Initializes reduced-motion preference directly from the operating system via `window.matchMedia('(prefers-reduced-motion: reduce)')`.
    - Offers a functioning manual toggle and event listener for OS preference changes.
-   - When reduced motion is active, eliminates 90Â° rotation and zoom transforms in favor of an instant, accessible static cross-fade.
+   - When reduced motion is active, eliminates 90° rotation and zoom transforms in favor of an instant, accessible static cross-fade.
 5. **Truthful Labeling & Factual Credits Placeholder:**
    - Clearly labeled all save, storage, and export mechanisms as prototype simulations in both UI and documentation. Removed invented claims regarding runtime hash chain verification and private-mode detection.
    - Removed unmeasured AAA contrast claims; labeled as a high-contrast candidate styling.
@@ -37,7 +37,7 @@ Repair 01 preserved the core Shell A (Canopy) vs. Shell B (Split Rail) compariso
    - Separated player-facing copy in the student stage from developer commentary in the review toolbar.
 6. **Stable Mock Terminal Placeholder (Hard Constraint #5):**
    - Mock Leave enters a dedicated in-stage **Terminal / Receipt Placeholder** (`scene-terminal`).
-   - Closes retention dialog without `alert()`, locks the Uninstall buttons (`ðŸ Run Ended`), and prevents reopening retention until an explicit prototype reset is clicked.
+   - Closes retention dialog without `alert()`, locks the Uninstall buttons (`🏁 Run Ended`), and prevents reopening retention until an explicit prototype reset is clicked.
 
 All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/review-01-checks.mjs).
 
@@ -46,9 +46,9 @@ All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Qua
 ## 2. Files Changed and Artifacts Produced
 
 ### Modified in Owned Scope
-- `reports/development/plan-14-game-stage-and-context-transitions/wireframes.html` â€” Repaired transition interruption safety, focus containment, return-to-trigger, system reduced motion preference, legible landscape orientation, labeled simulation feedback, and stable terminal placeholder.
-- `reports/development/plan-14-game-stage-and-context-transitions/proposal.md` â€” Updated with Repair 01 specifications, transition lifecycle timing proposals, honest simulation labeling, and factual Credits placeholder.
-- `reports/development/plan-14-game-stage-and-context-transitions/progress.md` â€” This progress report.
+- `reports/development/plan-14-game-stage-and-context-transitions/wireframes.html` — Repaired transition interruption safety, focus containment, return-to-trigger, system reduced motion preference, legible landscape orientation, labeled simulation feedback, and stable terminal placeholder.
+- `reports/development/plan-14-game-stage-and-context-transitions/proposal.md` — Updated with Repair 01 specifications, transition lifecycle timing proposals, honest simulation labeling, and factual Credits placeholder.
+- `reports/development/plan-14-game-stage-and-context-transitions/progress.md` — This progress report.
 
 ### Preserved & Untouched
 - Production code (`src/`): Zero files modified.
@@ -60,7 +60,7 @@ All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Qua
 
 ## 3. Advisor Consultation Declaration
 
-**Branch B â€” capable but not warranted.**
+**Branch B — capable but not warranted.**
 - **Capability Identification:** In accordance with the matching guidance in `advisor-capable-providers.json` note 3, this thread confirms that a callable subagent tool with model tier selection (`invoke_subagent` with `Model: 'pro'`) is present and callable in this provider's tool surface.
 - **Proportionality Justification:** Advisor consultation was not warranted for this repair because Plan 14 is an investigation and prototyping packet producing reports and a standalone wireframe evaluation tool entirely within `reports/development/plan-14-game-stage-and-context-transitions/`. No production game code (`src/`), shared developer CLI tooling (`scripts/dev/`), or package schemas were created or modified. Furthermore, the inline JavaScript controller logic is bounded, self-contained, and deterministically verified by the reviewer's automated test fixture (`review-01-checks.mjs`).
 
@@ -95,12 +95,12 @@ Executed the delivered inline controller against the reviewer's controlled timer
 ```
 
 *Verification Results:*
-1. `returnInitiallyShowsDesk: true` â€” Desk view displays cleanly on Return.
-2. `pendingEntryReactivatesGachaAfterReturn: false` â€” Cancelled async timers do not reactivate gacha after returning to desk.
-3. `focusAfterClosingSettings: "btn-open-settings"` â€” Keyboard focus restores directly to the invoking button upon modal dismissal.
-4. `uninstallReopensAfterLeave: false` â€” Mock Leave locks the exit controls and suppresses retention dialog re-opening.
-5. `terminalAlertCount: 0` â€” In-stage terminal placeholder cleanly renders without intrusive modal alerts.
-6. `systemReducedMotionPreferenceQueries: 1` â€” Controller successfully queries `window.matchMedia('(prefers-reduced-motion: reduce)')`.
+1. `returnInitiallyShowsDesk: true` — Desk view displays cleanly on Return.
+2. `pendingEntryReactivatesGachaAfterReturn: false` — Cancelled async timers do not reactivate gacha after returning to desk.
+3. `focusAfterClosingSettings: "btn-open-settings"` — Keyboard focus restores directly to the invoking button upon modal dismissal.
+4. `uninstallReopensAfterLeave: false` — Mock Leave locks the exit controls and suppresses retention dialog re-opening.
+5. `terminalAlertCount: 0` — In-stage terminal placeholder cleanly renders without intrusive modal alerts.
+6. `systemReducedMotionPreferenceQueries: 1` — Controller successfully queries `window.matchMedia('(prefers-reduced-motion: reduce)')`.
 
 ### 5.2 Manual & Accessibility Checks
 - **Interruption:** Verified that clicking Return, pressing Escape, or clicking step buttons while in flight cleanly aborts the transition sequence.

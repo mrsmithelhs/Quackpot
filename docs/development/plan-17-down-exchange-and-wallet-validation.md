@@ -1,7 +1,7 @@
 ---
 id: plan-17
 title: Down exchange and whole-wallet validation
-status: in-progress
+status: delivered
 depends_on: [plan-01, plan-03, plan-12]
 gate: "Owner reviews the 3/6 Down calibration consequences and selects unresolved ticket/item rules before production integration."
 summary: >-
@@ -13,6 +13,8 @@ summary: >-
 **Date:** 2026-10-25. **Type:** bounded investigation/model evidence. **Owner/model:** one investigator; owner rules gate. **Mutation:** proposal/evidence first, isolated headless checks after a bounded mechanism outline is approved. **Expected artifacts:** `reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md`, small reproducible trace/results table and `progress.md`. All owned scenario scripts/tests stay within this report folder; no shared `sim/`, `src/`, package or other packet changes. Existing modules are read-only inputs. This disjoint scope permits investigation alongside Plan 04 Repair 02 and Plan 14.
 
 ## Goal and authority
+
+**Scenario delivery review, 2026-10-25:** `5df68de` returned for bounded Repair 01 (`review-01.md`/`repair-01.md`). Five tests pass and main affordability/race/expected-draw values reproduce, but terminal mass is discarded, capped live runs are counted as terminal and empty/partial dynamic coverage is missing. Correct within report folder; no new pricing/rule gate or production implementation. Lifecycle/Receipt statements must remain explicit integration obligations. Packet delivered pending repair dispatch.
 
 **Outline review, 2026-10-25:** Report-folder `preflight-review-01.md` recommends T1 A / T2 A (including Legendary reset) / T3 A / I1 for owner selection as scenario inputs. These recommendations are not adopted rules. Opening distribution is independently reproduced; pooled-bank proof, some traces/race claims and Receipt wording need correction in the next evidence pass. Use the review and independent `preflight-checks-01.mjs`; no production or scenario gate is passed by this annotation. Packet remains in-progress at the owner mechanism gate.
 

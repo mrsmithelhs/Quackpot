@@ -47,6 +47,8 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 ## Scope and work plan
 
+**Refinement proposal review, 2026-10-25:** The returned refinement outline is preserved in report-folder `refinement-proposal-01.md`. `refinement-prebuild-review-01.md` approves the bounded paper/sound comparisons with controlling corrections to Candidate B's actual parameter limits, Candidate C's routing/experimental claims and volume evidence. Current packet check is runnable; the attachment's earlier delivered-status block is historical. Update the proposal accordingly and proceed without another general preflight round, preserving owner sample-selection gates.
+
 **Owner refinement dispatched, 2026-10-25:** The owner sent the whole `reports/development/plan-04-svg-rig-and-sound/owner-refinement-01.md` to the implementer. This covers the complete prior art and sound advice. Packet is `in-progress` for the bounded refinement: implement the matched paper-layer comparison and first propose the limited sound treatments; no general audio rewrite/library migration or game integration is authorized. Original visual/sound acceptance remains open.
 
 **Repair 01 technical review, 2026-10-24:** `ce8e34b`/`2ad66fe` resolves the source-backed preview blocker. Root rebuilt the gallery and verified parity; see `reports/development/plan-04-svg-rig-and-sound/review-02.md`. Packet stays `delivered` pending owner rendered-base and sound audition. No additional asset production, integration or motion assignment is implied.

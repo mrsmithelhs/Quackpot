@@ -1,0 +1,12 @@
+# Plan 04 Repair 01 — source-backed gallery
+
+**Date:** 2026-10-24. **Baseline:** `6056c3c` / `aecc1db`. **Authority:** existing approved prebuild outline and `review-01.md`. No new art or audio design choice is required to repair the review path.
+
+Read `AGENTS.md`, Plan 04, prebuild review 01 and delivery review 01. Run `check plan-04`; stop if blocked. Preserve all other threads' files. Own this report folder, necessary composer/SVG/synth adjustments, their focused tests and a bounded preview-generation helper under `scripts/dev/` with only its required package script/config wiring. Do not edit production game UI, placeholder assets, simulation rules, Plan 12 or orchestrator notes/status.
+
+1. Replace the hand-maintained inline composer and synthesizer with a reproducible source-backed path. Either bundle/inline the real modules into a standalone generated review page, or serve an explicitly documented local preview importing them. No runtime CDN, remote assets or second handwritten implementation. Keep the chosen preview entry and generation command durable.
+2. Choose one authoritative vector definition and make the static master/composer/gallery relationship explicit. Derive redundant representations reproducibly; do not maintain three independently editable silhouettes. Preserve the authored SVG-source contract, E2 hierarchy/anchors, prefix independence and small proof scope. No shape redesign is requested just to repair derivation.
+3. Add a meaningful parity/drift check: the reviewed sample must demonstrably come from the source module/artifact at the reported revision, including accessible labels, filters and different simultaneous instances. Exercise real source sound startup, suspended-context resume and unavailable/failed-context fallback. Keep the single effect and conservative gain. Browser mocks do not prove audible quality; report owner audition as pending.
+4. Rebuild the gallery from a clean input, run focused tests and the appropriate existing suite/build checks, and inspect actual rendered sizes/backgrounds/attachments. Record what browser/launch route was used, observations and remaining limits. Do not claim game smoke alone verifies this new gallery. Preserve previous evidence instead of relabeling it as repaired execution.
+
+Commit scoped work and then the final repair progress report with the applicable advisor declaration. Never push, set status or integrate into the game. Return for technical review and owner look/sound selection. Another broad preflight loop is not requested.

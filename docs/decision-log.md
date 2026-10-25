@@ -125,3 +125,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner explicitly approves amending the documents to permit licensed CC audio sources. Effects and music may use selected locally bundled Creative Commons recordings, including CC0 dedications, alongside synthesized effects and JS/model-generated music. Verify exact per-asset license/version, redistribution/modification compatibility and required notices; prefer CC0/CC BY for straightforward reuse. Retain source, creator, license text/notices, modifications and local-file mapping. Provide local Credits linked from opening/settings. Factual creator/source identities and license notices are permitted there and in provenance records; fictional gameplay entities remain fictional. No remote audio/CDN, automatic third-party loading or telemetry.
 
 **Scope:** Design, AGENTS and orchestrator prompt are synchronized. This supersedes DECISION-009's pending source-policy gate; do not ask for that approval again. Specific recordings and production integration still require owner selection. Plan 18 remains an unassigned draft, now able to investigate auditions once assigned. No file download, library migration, change to Plan 04 Repair 02 or new packet assignment is implied. Model-generated music provenance is still unresolved.
+
+### DECISION-011 — Plan 04 rig/sound proof accepted
+
+**Date:** 2026-10-25
+
+**Decision:** Following Repair 02 technical verification and the owner's acceptance of manual head/wing poses as a good start, close Plan 04. Mode C is the selected digital rig/default/master; all three synthesized quack candidates are retained. Larger and independent paper-layer motions remain Plan 09, not missing work in this static-first proof. Root corrected leftover shadow wording and forced smooth gallery scrolling inline; no further implementer round is needed.
+
+**Limits:** No production game integration, full roster, sound-role/mixing selection, acoustic calibration, classroom performance or licensed-recording selection is established. Plans 09/13 retain their own owner assignment/recommendation gates despite Plan 04 dependency completion. Plans 14/17/18 are already assigned and continue independently. Evidence: `reports/development/plan-04-svg-rig-and-sound/review-04.md`.

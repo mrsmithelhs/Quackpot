@@ -386,10 +386,10 @@
       Owner refinement: visible paper construction comparison (Modes A/B/C) and quack candidate audition (A/B/C).
     </p>
     <div class="provenance-bar">
-      <span><strong>Build checkout HEAD:</strong> 14e51a4</span>
-      <span><strong>duck-rig.mjs SHA-256:</strong> bcccf931d2a6...</span>
+      <span><strong>Build checkout HEAD:</strong> 20515de</span>
+      <span><strong>duck-rig.mjs SHA-256:</strong> 389f18ae5b39...</span>
       <span><strong>synth.mjs SHA-256:</strong> 98572e98263e...</span>
-      <span><strong>Build Date:</strong> 2026-10-25T19:53:48.106Z</span>
+      <span><strong>Build Date:</strong> 2026-10-25T20:01:28.714Z</span>
     </div>
   </header>
 
@@ -424,7 +424,7 @@
         <span class="scale-label">32px silhouette / 64px / 128px / 256px seam inspection</span>
       </div>
       <p class="section-desc">
-        Directly compares the delivered baseline (A), stronger geometric paper separation with stepped wing sublayers and seam contact shadows (B), and B plus restrained localized soft seam shadows (C).
+        Directly compares the delivered baseline (A), stronger geometric paper separation with stepped wing sublayers and seam contact shadows (B), and B plus restrained soft drop shadows on the head and wing groups (C).
       </p>
 
       <div class="compare-grid">
@@ -2755,7 +2755,7 @@ var DuckRig = (function(exports) {
 	}
 	/**
 	* Composes a full SVG duck rig markup string.
-	* Supports Mode A (baseline), Mode B (geometric paper construction), and Mode C (hybrid local soft seams).
+	* Supports Mode A (baseline), Mode B (geometric paper construction), and Mode C (hybrid head/wing group drop shadows).
 	* @param {Object} rawOptions 
 	* @returns {string} Composed SVG string
 	*/
@@ -3298,7 +3298,7 @@ if (typeof window !== 'undefined') { window.DuckSynth = DuckSynth; }
       if (container) {
         container.classList.toggle('head-tilt-active');
         const stage = document.getElementById('stage-diagnostic');
-        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (stage) stage.scrollIntoView({ behavior: 'auto', block: 'nearest' });
       }
     }
 
@@ -3307,7 +3307,7 @@ if (typeof window !== 'undefined') { window.DuckSynth = DuckSynth; }
       if (container) {
         container.classList.toggle('wing-flap-active');
         const stage = document.getElementById('stage-diagnostic');
-        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (stage) stage.scrollIntoView({ behavior: 'auto', block: 'nearest' });
       }
     }
 

@@ -196,7 +196,7 @@ function renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccM
 
 /**
  * Composes a full SVG duck rig markup string.
- * Supports Mode A (baseline), Mode B (geometric paper construction), and Mode C (hybrid local soft seams).
+ * Supports Mode A (baseline), Mode B (geometric paper construction), and Mode C (hybrid head/wing group drop shadows).
  * @param {Object} rawOptions 
  * @returns {string} Composed SVG string
  */

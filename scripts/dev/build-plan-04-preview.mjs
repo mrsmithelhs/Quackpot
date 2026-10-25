@@ -560,7 +560,7 @@ export async function buildPlan04AssetsAndPreview() {
         <span class="scale-label">32px silhouette / 64px / 128px / 256px seam inspection</span>
       </div>
       <p class="section-desc">
-        Directly compares the delivered baseline (A), stronger geometric paper separation with stepped wing sublayers and seam contact shadows (B), and B plus restrained localized soft seam shadows (C).
+        Directly compares the delivered baseline (A), stronger geometric paper separation with stepped wing sublayers and seam contact shadows (B), and B plus restrained soft drop shadows on the head and wing groups (C).
       </p>
 
       <div class="compare-grid">
@@ -776,7 +776,7 @@ ${synthBundle}
       if (container) {
         container.classList.toggle('head-tilt-active');
         const stage = document.getElementById('stage-diagnostic');
-        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (stage) stage.scrollIntoView({ behavior: 'auto', block: 'nearest' });
       }
     }
 
@@ -785,7 +785,7 @@ ${synthBundle}
       if (container) {
         container.classList.toggle('wing-flap-active');
         const stage = document.getElementById('stage-diagnostic');
-        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (stage) stage.scrollIntoView({ behavior: 'auto', block: 'nearest' });
       }
     }
 

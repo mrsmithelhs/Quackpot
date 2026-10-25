@@ -1,7 +1,7 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: in-progress
+status: delivered
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 summary: >-
@@ -44,6 +44,8 @@ The layered rig and audio approach need a measured proof before asset volume gro
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Assets, Immersion, Technology), and Plan 02's layout decision. All art starts as repository SVG. Ordinary text stays HTML/CSS. Sound parameters are stored as text and synthesized locally; no runtime network calls. Reduced motion preserves content and choices.
 
 ## Scope and work plan
+
+**Repair 02 closeout, 2026-10-25:** `e74b99c`/`7a390da` satisfies the bounded rig/audio repair. Owner accepts the manual head/wing poses as a starting point. Root verified 138 repository tests, corrected two small gallery wording/scrolling issues inline, regenerated the preview and reran 40 scoped tests plus a generated-controller witness. See report-folder `review-04.md`. Accept Mode C and retain all three sound candidates as this proof; no further implementer repair, production integration or motion selection. Historical notes below retain the earlier review sequence.
 
 **Refinement return and owner selection, 2026-10-25:** Owner selects rendered Mode C and retaining all three sounds, reporting C softer. See DECISION-009, report-folder `review-03.md` and `repair-02.md`. The 34 scoped tests pass, but default/master remain B, audio validation is incomplete and reporting overclaims loudness/contains stale values. Repair 02 is the concrete narrow follow-up, preserving selected appearance and sound settings; no redesign or motion catalog. Packet is delivered for this review, not complete or newly assigned. Library-audio policy is separately proposed in draft Plan 18, not part of this repair.
 

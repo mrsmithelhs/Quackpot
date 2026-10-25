@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Plan 04 accepted after Repair 02 (`e74b99c`/`7a390da`), owner pose inspection and root `review-04.md`; close as Mode C layered digital rig plus three retained synth sounds. Full138/scoped40 tests pass. Inline closeout fixes only gallery shadow wording/non-animated diagnostic scrolling and source comment, with regenerated preview/controller witness. DECISION-011 and AGENTS stage updated. No production integration or actual animation selection. Plans 09/13 retain owner assignment gates; already-running Plans 14/17/18 continue.
+
 - Owner explicitly assigned Plans 14, 17 and 18 in parallel on 2026-10-25; all are now in-progress. Their separate report-folder scopes are controlling; Plan 17 scenario code stays in its report folder. Plan 04 Repair 02 remains active in source/its own reports. No production integration, motion/race assignment or new image-generation quota follows. Plan 18's CC-audio source policy is already approved; retain the sample-selection gate. Plan 17 returns its mechanism outline/unresolved ticket/item rules before assuming production behavior.
 
 - DECISION-010 adopts licensed locally bundled CC/CC0 effects/music and factual opening/settings Credits; canonical design/AGENTS/orchestrator contracts synchronized. Do not repeat source-policy approval. Actual asset choices/integration remain gated. Owner is running Plan 04 Repair 02; preserve its active packet/index/source edits. Recommended independent pair is Plan 14 report-only shell/transition proposal and Plan 17 report-contained economy investigation; Plan 18 is an optional third report-only audio audition. All remain drafts until owner dispatch; no starts authorized merely by this recommendation. Plans 09/13 still wait for Plan 04 closeout.

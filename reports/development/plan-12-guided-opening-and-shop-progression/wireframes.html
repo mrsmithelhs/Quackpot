@@ -1641,7 +1641,13 @@
       const receiptDown = document.getElementById('receiptDownSection');
       const receiptDownText = document.getElementById('receiptDownText');
 
+      const hudDown = document.getElementById('hudDownPill');
+      const appDown = document.getElementById('appDownPill');
+
       if (caseType === 'A') {
+        state.down = 4;
+        if (hudDown) { hudDown.classList.remove('hidden'); document.getElementById('hudDown').textContent = '4'; }
+        if (appDown) { appDown.classList.remove('hidden'); document.getElementById('appDownVal').textContent = '4 Down'; }
         title.textContent = "Case A: Natural Duplicate (Current 6-Identity Roster: 4 Duplicates = 4 Down)";
         desc.textContent = "Fixture A contains exactly 4 duplicate Common cards (e.g. 3x Rubber Mallard, 1x Puddle Quacker). Each duplicate yields +1 Down for a total of 4 Down. HUD Down counter shows 'Down: 4'.";
         badge.className = "card-badge-duplicate";
@@ -1656,6 +1662,9 @@
         document.getElementById('revealStatusText').textContent = "✨ Reveal Theater: 10 Ducks Pulled! (Fixture A: 4 Duplicates = 4 Down)";
         logSR("Simulated Case A: Natural duplicates (4 dups = 4 Down).");
       } else {
+        state.down = 0;
+        if (hudDown) { hudDown.classList.add('hidden'); document.getElementById('hudDown').textContent = '0'; }
+        if (appDown) { appDown.classList.add('hidden'); document.getElementById('appDownVal').textContent = '0 Down'; }
         title.textContent = "Case B: Honest No-Duplicate Fallback (Future 16-Identity Hypothetical: 0 Down)";
         desc.textContent = "Hypothetical expanded roster: all 10 drawn cards are unique identities. Zero duplicates occur. Down counter remains hidden; Down shop displays neutral lock. PRNG is unrigged.";
         badge.className = "card-badge-new";

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan 04 — SVG Duck Rig & Synthesized Sound Gallery</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-light: #f8fafc;
+      --bg-pond: #0284c7;
+      --panel-bg: #1e293b;
+      --panel-border: #334155;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 24px auto;
+      border-bottom: 1px solid var(--panel-border);
+      padding-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .controls-bar {
+      max-width: 1200px;
+      margin: 0 auto 24px auto;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .control-group label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    select, button {
+      background: #0f172a;
+      border: 1px solid var(--panel-border);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    select:hover, button:hover {
+      border-color: var(--accent);
+    }
+
+    button.primary {
+      background: #0284c7;
+      border-color: #0284c7;
+      font-weight: 600;
+    }
+
+    button.primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .section-card {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Duck Canvas Container */
+    .duck-stage {
+      border-radius: 6px;
+      padding: 20px;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+    }
+
+    .duck-stage.bg-dark { background-color: var(--bg-dark); }
+    .duck-stage.bg-light { background-color: var(--bg-light); color: #0f172a; }
+    .duck-stage.bg-pond { background-color: var(--bg-pond); }
+
+    /* Multi-scale grid */
+    .scale-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: flex-end;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .scale-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scale-label {
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--text-muted);
+    }
+
+    .duck-stage.bg-light .scale-label {
+      color: #64748b;
+    }
+
+    .duck-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .duck-32  { width: 32px; height: 32px; }
+    .duck-64  { width: 64px; height: 64px; }
+    .duck-128 { width: 128px; height: 128px; }
+    .duck-256 { width: 256px; height: 256px; }
+    .duck-512 { width: 400px; height: 400px; }
+
+    /* Permutation Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-card {
+      background: #0f172a;
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gallery-duck-box {
+      width: 140px;
+      height: 140px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery-info {
+      width: 100%;
+      font-size: 0.8rem;
+    }
+
+    .gallery-name {
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .gallery-meta {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    /* Sound Section */
+    .sound-box {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sound-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .sound-status {
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: #0f172a;
+      border: 1px solid var(--panel-border);
+      font-family: monospace;
+    }
+
+    .param-spec {
+      background: #0f172a;
+      border: 1px solid var(--panel-border);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #38bdf8;
+      overflow-x: auto;
+    }
+
+    /* Diagnostic pivots */
+    .pivot-marker {
+      fill: #ef4444;
+      stroke: #ffffff;
+      stroke-width: 1px;
+    }
+
+    .head-tilt-active #gallery-demo-head-group {
+      transform-origin: 48px 46px;
+      transform: rotate(12deg);
+      transition: transform 0.2s ease;
+    }
+
+    .wing-flap-active #gallery-demo-wing-group {
+      transform-origin: 52px 56px;
+      transform: rotate(-18deg);
+      transition: transform 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>
+      Plan 04: SVG Duck Rig & Sound Spike
+      <span class="badge">E2 Paper-Cut Rig</span>
+    </h1>
+    <p class="subtitle">
+      Bounded proof of the owner-selected E2 layered-paper digital gacha rig, motion-ready hierarchy, multi-instance namespacing, and parameter-synthesized QUACK_SHORT.
+    </p>
+  </header>
+
+  <!-- Global Visual Controls -->
+  <div class="controls-bar">
+    <div class="control-group">
+      <label for="bg-select">Stage Ground:</label>
+      <select id="bg-select" onchange="updateStageBackground(this.value)">
+        <option value="bg-dark" selected>Dark Ground (#0F172A)</option>
+        <option value="bg-light">Light Ground (#F8FAFC)</option>
+        <option value="bg-pond">Pond Blue (#0284C7)</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label for="shadow-select">Shadow Mode:</label>
+      <select id="shadow-select" onchange="updateShadowMode(this.value)">
+        <option value="offset" selected>Flat Offset Paper Shadows</option>
+        <option value="filter">SVG &lt;feDropShadow&gt; Filter</option>
+        <option value="none">No Shadows (Pure Silhouette)</option>
+      </select>
+    </div>
+
+    <div class="control-group">
+      <label>Static Motion Diagnostics:</label>
+      <button onclick="toggleHeadTilt()">Toggle Head Tilt (12°)</button>
+      <button onclick="toggleWingFlap()">Toggle Wing Paddle (-18°)</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+
+    <!-- 1. Motion-Ready Hierarchy & Attachment Diagnostic -->
+    <section class="section-card">
+      <div class="section-title">
+        <span>1. Motion-Ready Hierarchy & Attachment Points</span>
+        <span class="scale-label">Parent-relative local coordinates</span>
+      </div>
+      <p class="section-desc">
+        Proves Condition 1: Hat attachment is placed inside the head group so head transforms automatically carry the hat. Monocle attaches to the eye group. Bow tie attaches to the body neck slot. Wing sublayers rotate around a common pivot (52, 56).
+      </p>
+
+      <div class="duck-stage bg-dark" id="stage-diagnostic">
+        <div class="scale-row">
+          <div class="scale-item">
+            <div class="duck-wrapper duck-256" id="diagnostic-duck-container"></div>
+            <span class="scale-label">Interactive Rig (256px)</span>
+          </div>
+          <div class="scale-item" style="max-width: 480px; align-items: flex-start;">
+            <div class="param-spec" style="width: 100%;">
+              <strong>Layer Hierarchy & Attachment Contract:</strong><br>
+              • [Head Group] pivot: (48, 46)<br>
+              &nbsp;&nbsp;├── Head base & shadow<br>
+              &nbsp;&nbsp;├── Bill group (upper, lower, crease)<br>
+              &nbsp;&nbsp;├── [Eye Group] pivot: (40, 33)<br>
+              &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── [Slot Eye] Monocle @ (40, 33)<br>
+              &nbsp;&nbsp;└── [Slot Hat] Tiny Top Hat / Sailor Cap @ (46, 22)<br>
+              • [Body Group]:<br>
+              &nbsp;&nbsp;├── Tail base & shadow<br>
+              &nbsp;&nbsp;├── Body base & shadow<br>
+              &nbsp;&nbsp;├── [Wing Group] common pivot: (52, 56)<br>
+              &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Wing under-feather<br>
+              &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── Wing mid-layer<br>
+              &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── Wing top-layer<br>
+              &nbsp;&nbsp;└── [Slot Neck] Bow Tie @ (41, 60)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Small-Scale Readability (32px, 64px, 128px, 256px) -->
+    <section class="section-card">
+      <div class="section-title">
+        <span>2. Small-Scale Readability & Contrast Test</span>
+        <span class="scale-label">32px / 64px / 128px / 256px</span>
+      </div>
+      <p class="section-desc">
+        Proves Condition 3: Comparing silhouette and detail down to thumbnail sizes across the chosen stage background. Flat offset shadows maintain crisp edges at 32px without raster blur.
+      </p>
+
+      <div class="duck-stage bg-dark" id="stage-scale">
+        <div class="scale-row">
+          <div class="scale-item">
+            <div class="duck-wrapper duck-32" id="scale-32"></div>
+            <span class="scale-label">32px icon</span>
+          </div>
+          <div class="scale-item">
+            <div class="duck-wrapper duck-64" id="scale-64"></div>
+            <span class="scale-label">64px avatar</span>
+          </div>
+          <div class="scale-item">
+            <div class="duck-wrapper duck-128" id="scale-128"></div>
+            <span class="scale-label">128px card</span>
+          </div>
+          <div class="scale-item">
+            <div class="duck-wrapper duck-256" id="scale-256"></div>
+            <span class="scale-label">256px dialog</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Exact Proof Set: Multi-Instance Combinations in Single DOM -->
+    <section class="section-card">
+      <div class="section-title">
+        <span>3. Exact Proof Set & Multi-Instance DOM Isolation</span>
+        <span class="scale-label">3 Palettes × 2 Hats × 2 Accessories</span>
+      </div>
+      <p class="section-desc">
+        Proves Condition 2 & Condition 3: Multiple ducks rendered simultaneously in the same DOM. All IDs, filter URLs, and CSS custom properties are strictly namespaced by instance prefix. No cross-instance collisions.
+      </p>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </section>
+
+    <!-- 4. Parameter-Synthesized Sound Spike (QUACK_SHORT) -->
+    <section class="section-card">
+      <div class="section-title">
+        <span>4. Synthesized Sound Prototype (`QUACK_SHORT`)</span>
+        <span class="scale-label">Zero-dependency Web Audio</span>
+      </div>
+      <p class="section-desc">
+        Proves Condition 3: Exactly one short sound effect, stored as text parameters, synthesized at runtime. Demonstrates lazy user-gesture unlocking, conservative gain (0.15 peak), and silent fallback when audio hardware or context is absent.
+      </p>
+
+      <div class="sound-box">
+        <div class="sound-row">
+          <button class="primary" onclick="triggerQuackSound()">🔊 Play QUACK_SHORT</button>
+          <button onclick="testSilentFallback()">Simulate Silent Fallback</button>
+          <span class="sound-status" id="audio-status">Status: Waiting for user gesture</span>
+        </div>
+
+        <div class="param-spec">
+          <strong>Text-Stored Parameter Contract (synth.mjs):</strong><br>
+          const QUACK_SHORT = Object.freeze({<br>
+          &nbsp;&nbsp;name: 'QUACK_SHORT',<br>
+          &nbsp;&nbsp;waveform: 'sawtooth',&nbsp;&nbsp;&nbsp;&nbsp;// Rich harmonic foundation<br>
+          &nbsp;&nbsp;frequency: 340,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 340 Hz base fundamental<br>
+          &nbsp;&nbsp;pitchBend: -140,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// -140 Hz downward chirp sweep<br>
+          &nbsp;&nbsp;attack: 0.02,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 20ms attack ramp<br>
+          &nbsp;&nbsp;decay: 0.12,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 120ms decay ramp<br>
+          &nbsp;&nbsp;sustain: 0.05,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Low sustain floor<br>
+          &nbsp;&nbsp;release: 0.08,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 80ms release ramp (Total: 0.22s)<br>
+          &nbsp;&nbsp;modulationFreq: 22,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 22 Hz nasal resonance<br>
+          &nbsp;&nbsp;modulationDepth: 35,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Modulation depth<br>
+          &nbsp;&nbsp;gain: 0.15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Conservative peak gain (avoids blasting)<br>
+          });
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    // --- Pure Inlined Rig Composer (Identical logic to src/core/duck-rig.mjs) ---
+    const PALETTES = {
+      'classic-yellow': {
+        id: 'classic-yellow',
+        name: 'Classic Yellow',
+        bodyFill: '#fbbf24',
+        bodyShadow: '#d97706',
+        billFill: '#f97316',
+        billShadow: '#c2410c',
+        wingFill: '#f59e0b',
+        wingShadow: '#b45309',
+        accent: '#ef4444'
+      },
+      'mallard-green': {
+        id: 'mallard-green',
+        name: 'Mallard Green',
+        bodyFill: '#047857',
+        bodyShadow: '#064e3b',
+        billFill: '#f59e0b',
+        billShadow: '#b45309',
+        wingFill: '#059669',
+        wingShadow: '#047857',
+        accent: '#fbbf24'
+      },
+      'bubblegum-pink': {
+        id: 'bubblegum-pink',
+        name: 'Bubblegum Pink',
+        bodyFill: '#f472b6',
+        bodyShadow: '#db2777',
+        billFill: '#fb923c',
+        billShadow: '#ea580c',
+        wingFill: '#ec4899',
+        wingShadow: '#be185d',
+        accent: '#a855f7'
+      }
+    };
+
+    function renderHatMarkup(prefix, hat) {
+      if (hat === 'tiny-top-hat') {
+        return `
+          <g id="${prefix}-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+            <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+            <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+            <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+            <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+            <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+          </g>`;
+      }
+      if (hat === 'sailor-cap') {
+        return `
+          <g id="${prefix}-hat-sailor-cap" data-anchor-x="46" data-anchor-y="22">
+            <path d="M 34 23.5 C 42 23.5 50 22 58 20 C 56.5 22 49 23.5 34 25 Z" fill="#1e3a8a" />
+            <path d="M 34.5 22.5 C 33 16 43 11.5 56 12 C 61 12.5 60 19 57.5 20 C 50 22 42 22.5 34.5 22.5 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.6" />
+            <circle cx="45" cy="17" r="1.6" fill="#f59e0b" />
+            <path d="M 57 19.5 C 62 20 67 22 70 26 L 68 27 C 65 24 61 22 56 21 Z" fill="#1e3a8a" />
+          </g>`;
+      }
+      return '';
+    }
+
+    function renderEyeAccessoryMarkup(prefix, accessory) {
+      if (accessory === 'monocle') {
+        return `
+          <g id="${prefix}-acc-monocle">
+            <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
+            <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+            <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
+          </g>`;
+      }
+      return '';
+    }
+
+    function renderNeckAccessoryMarkup(prefix, accessory) {
+      if (accessory === 'bow-tie') {
+        return `
+          <g id="${prefix}-acc-bow-tie">
+            <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+            <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+            <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+            <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+            <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+            <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+          </g>`;
+      }
+      return '';
+    }
+
+    function composeDuck(opts = {}) {
+      const prefix = opts.prefix || 'duck';
+      const palette = PALETTES[opts.palette || 'classic-yellow'] || PALETTES['classic-yellow'];
+      const hat = opts.hat || 'none';
+      const accessory = opts.accessory || 'none';
+      const shadowMode = opts.shadowMode || currentShadowMode;
+
+      const isFilter = shadowMode === 'filter';
+      const isOffset = shadowMode === 'offset';
+
+      const defsMarkup = isFilter ? `
+        <defs>
+          <filter id="${prefix}-paper-shadow" x="-20%" y="-20%" width="150%" height="150%">
+            <feDropShadow dx="1.2" dy="2.0" stdDeviation="1.2" flood-color="#0f172a" flood-opacity="0.3" />
+          </filter>
+        </defs>` : '';
+
+      const filterAttr = isFilter ? ` filter="url(#${prefix}-paper-shadow)"` : '';
+
+      const tailShadow = isOffset ? `<path id="${prefix}-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />` : '';
+      const bodyShadow = isOffset ? `<path id="${prefix}-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />` : '';
+      const headShadow = isOffset ? `<path id="${prefix}-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />` : '';
+      const billShadow = isOffset ? `<path id="${prefix}-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />` : '';
+
+      const styleString = `--duck-body-fill: ${palette.bodyFill}; --duck-body-shadow: ${palette.bodyShadow}; --duck-bill-fill: ${palette.billFill}; --duck-bill-shadow: ${palette.billShadow}; --duck-wing-fill: ${palette.wingFill}; --duck-wing-shadow: ${palette.wingShadow}; --duck-accent: ${palette.accent};`;
+
+      const hatMarkup = renderHatMarkup(prefix, hat);
+      const eyeAccMarkup = renderEyeAccessoryMarkup(prefix, accessory);
+      const neckAccMarkup = renderNeckAccessoryMarkup(prefix, accessory);
+
+      return `<svg id="${prefix}-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img">${defsMarkup}
+        <g id="${prefix}-duck-root" style="${styleString}">
+          <g id="${prefix}-body-group">
+            ${tailShadow}
+            <path id="${prefix}-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)"${filterAttr} />
+            ${bodyShadow}
+            <path id="${prefix}-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)"${filterAttr} />
+            <g id="${prefix}-wing-group" data-pivot-x="52" data-pivot-y="56"${filterAttr}>
+              <path id="${prefix}-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+              <path id="${prefix}-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+              <path id="${prefix}-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+            </g>
+            <g id="${prefix}-slot-neck" data-x="41" data-y="60">${neckAccMarkup}</g>
+          </g>
+          <g id="${prefix}-head-group" data-pivot-x="48" data-pivot-y="46">
+            ${headShadow}
+            <path id="${prefix}-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)"${filterAttr} />
+            <g id="${prefix}-bill-group"${filterAttr}>
+              ${billShadow}
+              <path id="${prefix}-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+              <path id="${prefix}-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+            </g>
+            <g id="${prefix}-eye-group" data-pivot-x="40" data-pivot-y="33">
+              <circle id="${prefix}-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+              <circle id="${prefix}-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+              <circle id="${prefix}-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+              <g id="${prefix}-slot-eye" data-x="40" data-y="33">${eyeAccMarkup}</g>
+            </g>
+            <g id="${prefix}-slot-hat" data-x="46" data-y="22">${hatMarkup}</g>
+          </g>
+        </g>
+      </svg>`;
+    }
+
+    // --- State & Handlers ---
+    let currentShadowMode = 'offset';
+
+    function updateStageBackground(bgClass) {
+      ['stage-diagnostic', 'stage-scale'].forEach(id => {
+        const el = document.getElementById(id);
+        el.className = 'duck-stage ' + bgClass;
+      });
+      document.querySelectorAll('.gallery-duck-box').forEach(box => {
+        box.className = 'gallery-duck-box ' + bgClass;
+      });
+    }
+
+    function updateShadowMode(mode) {
+      currentShadowMode = mode;
+      renderAllDucks();
+    }
+
+    function toggleHeadTilt() {
+      const container = document.getElementById('diagnostic-duck-container');
+      container.classList.toggle('head-tilt-active');
+    }
+
+    function toggleWingFlap() {
+      const container = document.getElementById('diagnostic-duck-container');
+      container.classList.toggle('wing-flap-active');
+    }
+
+    const PROOF_SET = [
+      { prefix: 'combo-1', name: 'Classic Gentleman', palette: 'classic-yellow', hat: 'tiny-top-hat', accessory: 'monocle' },
+      { prefix: 'combo-2', name: 'Naval Mallard', palette: 'mallard-green', hat: 'sailor-cap', accessory: 'bow-tie' },
+      { prefix: 'combo-3', name: 'Festive Pink', palette: 'bubblegum-pink', hat: 'tiny-top-hat', accessory: 'bow-tie' },
+      { prefix: 'combo-4', name: 'Pink Seafarer', palette: 'bubblegum-pink', hat: 'sailor-cap', accessory: 'monocle' },
+      { prefix: 'base-yellow', name: 'Classic Yellow Base', palette: 'classic-yellow', hat: 'none', accessory: 'none' },
+      { prefix: 'base-mallard', name: 'Mallard Green Base', palette: 'mallard-green', hat: 'none', accessory: 'none' }
+    ];
+
+    function renderAllDucks() {
+      // 1. Diagnostic duck
+      document.getElementById('diagnostic-duck-container').innerHTML = composeDuck({
+        prefix: 'gallery-demo',
+        palette: 'classic-yellow',
+        hat: 'tiny-top-hat',
+        accessory: 'monocle',
+        shadowMode: currentShadowMode
+      });
+
+      // 2. Scale ducks
+      ['scale-32', 'scale-64', 'scale-128', 'scale-256'].forEach(id => {
+        document.getElementById(id).innerHTML = composeDuck({
+          prefix: id,
+          palette: 'classic-yellow',
+          hat: 'tiny-top-hat',
+          accessory: 'bow-tie',
+          shadowMode: currentShadowMode
+        });
+      });
+
+      // 3. Permutation Gallery
+      const currentBg = document.getElementById('bg-select').value;
+      const galleryGrid = document.getElementById('gallery-grid');
+      galleryGrid.innerHTML = PROOF_SET.map(item => `
+        <div class="gallery-card">
+          <div class="gallery-duck-box ${currentBg}">
+            <div class="duck-wrapper duck-128">
+              ${composeDuck({ ...item, shadowMode: currentShadowMode })}
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">${item.name}</div>
+            <div class="gallery-meta">Palette: ${item.palette}</div>
+            <div class="gallery-meta">Hat: ${item.hat} | Acc: ${item.accessory}</div>
+            <div class="gallery-meta">Instance Prefix: <code>${item.prefix}</code></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Synthesizer Implementation (Identical logic to src/audio/synth.mjs) ---
+    const QUACK_SHORT = Object.freeze({
+      name: 'QUACK_SHORT',
+      waveform: 'sawtooth',
+      frequency: 340,
+      pitchBend: -140,
+      attack: 0.02,
+      decay: 0.12,
+      sustain: 0.05,
+      release: 0.08,
+      modulationFreq: 22,
+      modulationDepth: 35,
+      gain: 0.15
+    });
+
+    let audioCtx = null;
+
+    async function triggerQuackSound() {
+      const statusEl = document.getElementById('audio-status');
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          statusEl.textContent = 'Status: Web Audio unsupported (silent fallback active)';
+          statusEl.style.color = '#f59e0b';
+          return;
+        }
+
+        if (!audioCtx) {
+          audioCtx = new AudioContextClass();
+        }
+
+        if (audioCtx.state === 'suspended') {
+          await audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const { attack, decay, sustain, release, frequency, pitchBend, gain, modulationFreq, modulationDepth } = QUACK_SHORT;
+        const totalDuration = attack + decay + release;
+
+        // Master Gain
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.0001, now);
+        masterGain.gain.linearRampToValueAtTime(gain, now + attack);
+        masterGain.gain.linearRampToValueAtTime(gain * sustain, now + attack + decay);
+        masterGain.gain.exponentialRampToValueAtTime(0.0001, now + totalDuration);
+        masterGain.connect(audioCtx.destination);
+
+        // Carrier
+        const carrier = audioCtx.createOscillator();
+        carrier.type = QUACK_SHORT.waveform;
+        carrier.frequency.setValueAtTime(frequency, now);
+        carrier.frequency.linearRampToValueAtTime(Math.max(20, frequency + pitchBend), now + totalDuration);
+
+        // FM Modulator
+        const modulator = audioCtx.createOscillator();
+        modulator.type = 'sine';
+        modulator.frequency.setValueAtTime(modulationFreq, now);
+
+        const modGain = audioCtx.createGain();
+        modGain.gain.setValueAtTime(modulationDepth, now);
+        modGain.gain.linearRampToValueAtTime(modulationDepth * 0.2, now + totalDuration);
+
+        modulator.connect(modGain);
+        modGain.connect(carrier.frequency);
+
+        carrier.connect(masterGain);
+
+        modulator.start(now);
+        carrier.start(now);
+        modulator.stop(now + totalDuration + 0.05);
+        carrier.stop(now + totalDuration + 0.05);
+
+        statusEl.textContent = `Status: Played (${QUACK_SHORT.name}, ${totalDuration.toFixed(2)}s, gain ${gain}, state: ${audioCtx.state})`;
+        statusEl.style.color = '#4ade80';
+      } catch (err) {
+        statusEl.textContent = `Status: Error (${err.message}) - silent fallback engaged`;
+        statusEl.style.color = '#f87171';
+      }
+    }
+
+    function testSilentFallback() {
+      const statusEl = document.getElementById('audio-status');
+      statusEl.textContent = 'Status: Simulated headless/disabled audio environment -> Silent Fallback (no error thrown)';
+      statusEl.style.color = '#38bdf8';
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderAllDucks();
+    });
+  </script>
+</body>
+</html>

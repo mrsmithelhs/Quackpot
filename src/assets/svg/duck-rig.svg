@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- Filter drop-shadow definition for paper-cut effect -->
+    <filter id="duck-drop-shadow" x="-20%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="1.2" dy="2.0" stdDeviation="1.2" flood-color="#0f172a" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Root Duck Group with default CSS variables -->
+  <g id="duck-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="layer-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body shadow (flat offset paper shadow) -->
+      <path id="body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+
+      <!-- Main body paper cut -->
+      <path id="body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="layer-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="slot-neck" data-x="41" data-y="60"></g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carrying head, bill, eye, monocle, and hat) -->
+    <g id="layer-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow (lower neck/jaw crease) -->
+      <path id="head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+
+      <!-- Main head paper cut -->
+      <path id="head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="layer-bill-group">
+        <!-- Lower bill shadow -->
+        <path id="bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <!-- Upper bill main paper layer -->
+        <path id="bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <!-- Bill nostril accent crease -->
+        <path id="bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="layer-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <!-- Sclera backing -->
+        <circle id="eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <!-- Pupil -->
+        <circle id="eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <!-- Paper cutout highlight -->
+        <circle id="eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="slot-eye" data-x="40" data-y="33"></g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (attached to head so head rotation carries hat!) -->
+      <g id="slot-hat" data-x="46" data-y="22"></g>
+    </g>
+
+  </g>
+</svg>

@@ -47,7 +47,7 @@ This heading preserves the draft's section anchor, which the founding reviews ci
 | **Banner** | Featured ducks rotate through themes. Labels use explicit game-time units and a real decision window; duration remains open. |
 | **Duck stats** | Power creep may make later ducks faster. Rate/effects remain simulation inputs. |
 | **Pond Race** | Fixed-duration race resolves from duck stats after one pre-race choice. No timing taps. Race duration remains open. |
-| **Duplicates and Down** | Duplicates convert to Down. Its shop is intentionally near-useless and poor value; it must not become a profitable pull loop. |
+| **Duplicates and Down** | Duplicates convert to Down. Owner refinement 2026-10-25: the exchange should be usable enough to try but deliberately lossy; it must not become a profitable/self-funding pull loop. Selected calibration is 3 Down for a minor temporary speed item and 6 Down for a single-pull ticket, pending bounded validation of item/ticket rules before integration (Plan 17). |
 | **Collection and Duck-Dex** | Finite gacha duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. The metagame's physical companion is outside this digital roster. |
 
 ## Manipulation catalog
@@ -67,7 +67,7 @@ A technique is named on the Receipt only if its cue fired. Copy separates what t
 | **Exit friction (confirmshaming)** | Uninstall opens a retention offer of 80 gems and "play out the trap" | Offer shown, gems offered, action taken (left or stayed) and what followed |
 | **Completion pressure** | Duck-Dex silhouettes and set bonuses emphasize what is missing | Set progress shown, set bonuses displayed, pulls made while a set was incomplete |
 | **Social comparison** | A rival whale in lane 1 flaunts the newest banner duck | Rival shown, its duck and placement, the player's placement and any following purchase |
-| **Secondary-currency obfuscation** | Duplicates become Down, spent in a near-useless shop | Down earned, Down spent, items bought, their value relative to pulls |
+| **Secondary-currency obfuscation** | Duplicates become Down, spent in a usable but lossy exchange (owner refinement 2026-10-25) | Down earned, Down spent, items bought, their value relative to pulls |
 | **Pressure on an owned possession** | A late pawn offer for the player's own duck | Offer shown, amount, accept or decline, and what the cash or gems bought |
 
 Each Receipt lists only techniques whose cues fired in that run, so different runs produce different Receipts. That is intended: students compare lists in discussion, and the shared catalog keeps the comparison anchored.
@@ -147,6 +147,10 @@ Quackpot uses one fixed diegetic stage. Offers appear as objects or messages in 
 
 Reduced-motion presentation preserves information, choices, and outcomes while reducing motion and spectacle. Photo-finish presentation, screen effects, and musical layering remain in the design; the owner will test them on a teacher computer considered similar to student desktops in the target lab.
 
+**Owner interview direction, 2026-10-25 (Plan 12):** The live gacha experience teaches controls/currencies through play and presents fictional commercial pressure. Do not ship the review wireframe's neutral mathematical helper boxes or manipulation analysis inside the active gacha UI; decomposition and critical reflection belong on the Receipt/debrief. Keep necessary prices, balances, relevant odds, purchase terms, operational warnings and accessible equivalents available. This does not remove in-story metagame dialogue. Accessibility options and instant reveal/skip remain; sensory excitement is not a reason to defeat reduced motion or obscure exit.
+
+The phone invitation should transition through an in-world quarter-turn into landscape and expand into the stage. Responsive framing/static equivalents remain required; this is not a request to rotate a laptop or force browser fullscreen. Gems/Down are introduced contextually; duplicate conversion gets a dissolve/feather presentation with an equivalent static announcement. Shop staging starts with the starter offer and grows later; the 1750-gem bundle is a selected example whose actual whole-wallet leftovers require validation. Ribbons/countdowns and subdued dismissal are commercial-pressure candidates, not selected expiry/clock rules. Plan 14/15/17 proposals gate implementation; see DECISION-008 and the owner-integration report.
+
 ## Endings
 
 | Ending | How you get it |
@@ -207,7 +211,7 @@ The first guesses are not trusted values. The first headless simulation packet w
 
 - pity reachability under candidate thresholds and gem income in runs that may exceed 15 days;
 - race rewards creating a self-funding pull loop versus premature starvation;
-- roster size and duplicate rate for finite identities and the near-useless Down shop;
+- roster size, duplicate rate and the owner-refined usable-but-lossy Down exchange (3/6 calibration requires Plan 17 validation);
 - Receipt accuracy on early exit, zero cash, ineligible events, and near a banner ending;
 - near-miss candidate eligibility and the firing rule; and
 - effects of Duck-Dex bonuses and bounded weekly curveballs.

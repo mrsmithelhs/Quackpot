@@ -16,6 +16,8 @@ summary: >-
 
 ## Goal and authority
 
+**Owner interview disposition, 2026-10-25:** Interview concluded. DECISION-008 and `reports/orchestration/plan-12-owner-integration.md` record accepted directions, superseded helper-panel recommendations, economic qualifications and follow-on gates. The interview record is preserved in this report folder. The investigation is complete; no wireframe rewrite or production implementation is requested. Read this disposition before the historical delivery/review notes below.
+
 **Repair 02 technical review, 2026-10-25:** The corrected artifacts through `cb68a90` pass the bounded consistency review; see report-folder `review-03.md` and `review-03-checks.json`. Packet remains `delivered` for owner selection of the recommendation. No further implementer repair or production implementation is requested. Fixtures remain manually authored presentation examples, not live PRNG/Receipt evidence.
 
 **Repair 01 review, 2026-10-24:** Broad tuning/fixture labels are improved, but the sample cash chronology and duplicate/Down/Receipt cases still contradict one another. Use report-folder `review-02.md` and `repair-02.md` for the current narrow correction. Keep the opening structure; no new production or economy investigation is required.

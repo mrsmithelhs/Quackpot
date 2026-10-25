@@ -39,6 +39,8 @@ Before authoring, propose a coherent physical-object model sheet, a small shot l
 
 ## Discriminating checks and output
 
+**Owner interview integration, 2026-10-25:** Starting companion naming/customization is accepted as a direction, with additional base colors/accessories later. When that UI is implemented, include the missing chef-hat depiction noted in the interview. This does not authorize a wireframe repair, production asset expansion or digital gacha animation on the physical prop. See DECISION-008.
+
 Start with hypotheses that a small authored 2D view set suffices versus view inconsistency requiring another authoring approach. Name the shots/close crops that could falsify the first claim. Show the same shot at wide, medium and close framing, at several rendered pixel sizes and at 100/200/400% browser zoom. Inspect stroke weights, highlights, gradient bands, occlusion and silhouette consistency; vector edge sharpness alone is not proof of a good close-up. Include light/dark apartment lighting and a neutral control, with essential choices/text readable.
 
 Build a local HTML storyboard/contact sheet with shot IDs, view/lighting switches and copyable owner notes. Preview transitions can be static cuts or optional camera movement with a still/reduced-motion alternative. Existing scenes remain skippable and pause the running clock. Record actual observations and limits.

@@ -47,6 +47,8 @@ Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/fo
 
 ## Investigation plan
 
+**Owner interview integration, 2026-10-25:** DECISION-008 accepts visible odds and progressive, on-demand necessary context. Keep mathematical/manipulation-analysis helper panels out of live gacha; critical reflection belongs to the Receipt/debrief. Necessary conditional odds, prices and purchase terms remain accessible. This boundary narrows presentation, but does not select the optional button's exact contents or waive its owner gate.
+
 1. Run `check plan-06`. Write rival hypotheses with falsifiers: base rates plus pity schedule suffice; a per-next-draw explanation improves understanding; or the detail adds confusion. Design a comparison where predictions differ.
 2. Draft two concise button-content options with example states before soft pity, during soft pity, at a guarantee, and around a banner transition. Label unresolved carry/reset policy rather than choosing one.
 3. Specify what remains visible without a click, button label/disclosure behavior for keyboard and screen reader, and events needed to distinguish availability, opening, and displayed content on the Receipt.

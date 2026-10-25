@@ -1,7 +1,7 @@
 ---
 id: plan-14
 title: Game stage and metagame transitions investigation
-status: in-progress
+status: delivered
 depends_on: [plan-03]
 gate: "Owner selects the stage layout and context transition before production UI changes."
 summary: >-
@@ -13,6 +13,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** reports and local wireframes only. **Owner/model:** one investigator; owner selection. **Expected artifacts:** `reports/development/plan-14-game-stage-and-context-transitions/proposal.md`, a small local comparison and `progress.md`.
 
 ## Goal and scope
+
+**Delivery review, 2026-10-25:** `8ead4cf` returned for bounded report/prototype Repair 01. Read report-folder `review-01.md`, `repair-01.md` and controller observations. Keep the promising A/B layout direction; fix transition interruption/choreography, focus/reduced-motion paths and unsupported mock/conformance/provenance claims before owner selection. Production saving/export/Receipt are not requested. Packet remains delivered until owner resumes the repair; no shell/timing decision is adopted.
 
 The owner likes the logo, wants a full-width header and an experience that reads as a game, and does not want the autosave checkbox in the persistent header. Propose one recommended stage shell plus one alternative, preserving the logo. Full-width framing can contain constrained readable text and a rectangular race viewport; do not stretch every text panel across a desktop or require browser fullscreen.
 

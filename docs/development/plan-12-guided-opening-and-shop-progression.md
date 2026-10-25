@@ -1,11 +1,11 @@
 ---
 id: plan-12
 title: Guided opening and progressive shop investigation
-status: delivered
+status: complete
 depends_on: [plan-03]
 gate: "Owner approves the guided beat sequence and staged shop information before implementation."
 superseded_by: null
-resolution: null
+resolution: "Owner interview concluded and integrated in DECISION-008; investigation accepted with static-evidence limits. Production follows separately gated proposals, including Plan 17 validation of selected 3/6 Down prices and whole-wallet bundle examples."
 summary: >-
   Propose an experiential opening that introduces Gems, duplicates and Down in
   context, and a shop that grows in complexity without an opening lecture.

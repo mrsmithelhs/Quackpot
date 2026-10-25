@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan 12: Guided Opening & Progressive Shop Wireframes (Repair 01)</title>
+  <title>Plan 12: Guided Opening & Progressive Shop Wireframes (Repair 02)</title>
   <style>
     :root {
       --bg-desk: #2b261f;
@@ -222,7 +222,7 @@
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
-    /* Metagame Header */
+    /* Metagame Header (Plan 03 Trial Reference Values) */
     .stage-hud {
       background: rgba(15, 23, 42, 0.9);
       backdrop-filter: blur(8px);
@@ -563,7 +563,7 @@
       border: 2px solid var(--accent-gold);
       border-radius: 12px;
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.8);
       overflow: hidden;
       animation: modalPop 0.2s ease-out;
@@ -582,6 +582,14 @@
       align-items: center;
     }
     .modal-banner h3 { font-size: 1rem; font-weight: 800; }
+    .badge-400 {
+      background: #000;
+      color: #fde047;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+    }
 
     .modal-body {
       padding: 1.25rem;
@@ -698,7 +706,7 @@
         <span class="mockup-badge">Wireframe Mockup</span>
         Quackpot: Plan 12 Guided Onboarding & Progressive Shop
       </h1>
-      <p>Interactive verification mockup for owner & orchestrator review — reference configuration: $15 Cash, $15 Rent, 80/18/2 odds, 240-gem Starter.</p>
+      <p>Interactive verification mockup for owner review — approved trial timeline: D1 start $15 → food $10 → starter $9.01 → wage $19.01 → D2 food $14.01 → rent shortfall $0.99.</p>
     </div>
     <div class="header-controls">
       <button id="toggleMotionBtn" class="btn-toggle" onclick="toggleReducedMotion()" aria-pressed="false">
@@ -749,7 +757,7 @@
         </button>
         <button id="stepBtn4" class="beat-step-btn" onclick="goToBeat(4)">
           <strong>Beat 4: Pond Race</strong>
-          First Win & Gem Payoff
+          First Win (+50 Gems)
         </button>
         <button id="stepBtn5" class="beat-step-btn" onclick="goToBeat(5)">
           <strong>Beat 5: Starter Anchor</strong>
@@ -760,7 +768,7 @@
       <!-- Interactive Canvas -->
       <div class="stage-canvas">
         
-        <!-- Persistent Metagame HUD (Plan 03 Trial Reference Values) -->
+        <!-- Persistent Metagame HUD (Plan 03 Trial Timeline Balances) -->
         <div class="stage-hud">
           <div class="hud-metrics">
             <div class="hud-stat">
@@ -900,17 +908,15 @@
             <div id="pullPostState" style="display: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
               <div style="display: flex; justify-content: space-between; width: 100%; max-width: 680px; align-items: center; margin-bottom: 0.5rem;">
                 <span id="revealStatusText" style="font-size: 0.85rem; font-weight: 700; color: var(--accent-gold-light);">
-                  ✨ Reveal Theater: 10 Ducks Pulled! (Sample Card Fixture)
+                  ✨ Reveal Theater: 10 Ducks Pulled! (Fixture A: 4 Duplicates = 4 Down)
                 </span>
                 <button class="btn-toggle" style="font-size: 0.7rem;" onclick="finishRevealImmediately()">
                   ⏩ Reveal All / Skip
                 </button>
               </div>
 
-              <!-- 10 Card Grid (Mockup Fixture) -->
-              <div id="cardsGrid" class="reveal-grid">
-                <!-- Dynamically populated with trial ducks -->
-              </div>
+              <!-- 10 Card Grid (Derived from Fixture) -->
+              <div id="cardsGrid" class="reveal-grid"></div>
 
               <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
                 <button class="btn-big-pull" style="font-size: 0.95rem; padding: 0.6rem 1.5rem;" onclick="goToBeat(4)">
@@ -934,6 +940,10 @@
           </div>
 
           <div class="gacha-main-banner" style="background: radial-gradient(circle at center, #0c4a6e 0%, #0f172a 100%);">
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #38bdf8; border-radius: 6px; padding: 0.4rem 0.8rem; font-size: 0.75rem; color: #bae6fd; margin-bottom: 0.75rem;">
+              ℹ️ <strong>Intervening Living Expense:</strong> Day 1 Midday Food bill (-$5.00) paid. Cash is now <strong>$10.00</strong>.
+            </div>
+
             <h3 style="font-size: 1.25rem; color: #38bdf8; margin-bottom: 0.5rem;">Pond Race #1: Rookie Invitational</h3>
             <p style="font-size: 0.8rem; color: #cbd5e1; max-width: 520px; margin-bottom: 1.25rem;">
               Your Common duck <strong style="color: #60a5fa;">Rubber Mallard (Speed 10.0)</strong> is entered in Lane 2 against tutorial bots (Field Speed 8.0). Common ducks naturally outrun the tutorial field!
@@ -982,21 +992,21 @@
             <p style="color: #64748b;">(Background blurred by introductory starter pack modal)</p>
           </div>
 
-          <!-- Starter Anchor Modal (Plan 03 Reference: $0.99 for 240 Gems) -->
+          <!-- Starter Anchor Modal (Restored "400% VALUE!" Anchor) -->
           <div class="wireframe-modal-overlay">
             <div class="wireframe-modal" role="dialog" aria-modal="true" aria-labelledby="starterTitle">
               <div class="modal-banner">
                 <h3 id="starterTitle">ROOKIE STARTER PACK</h3>
-                <span class="mockup-badge" style="background: #000; color: #fde047;">STARTER OFFER</span>
+                <span class="badge-400">400% VALUE!</span>
               </div>
               <div class="modal-body">
                 <div class="starter-items-list">
                   <div style="display: flex; justify-content: space-between; font-weight: 700; color: #fde047; margin-bottom: 0.25rem;">
                     <span>💎 240 Premium Gems</span>
-                    <span>(Regular store rate: ~$1.99)</span>
+                    <span>(Advertised: 400% Value)</span>
                   </div>
                   <div style="color: #cbd5e1; font-size: 0.8rem;">
-                    Immediate boost for your duck racing roster.
+                    Special introductory booster pack.
                   </div>
                 </div>
 
@@ -1004,16 +1014,17 @@
                   ONLY $0.99
                 </div>
                 <div style="font-size: 0.75rem; color: #94a3b8;">
-                  Your Fictional Cash: <strong style="color: #a7f3d0;">$15.00</strong> (Leaves $14.01; Rent due Day 2: $15.00)
+                  Your Fictional Cash: <strong id="modalCashBefore" style="color: #a7f3d0;">$10.00</strong> (Leaves $9.01)
                 </div>
 
                 <!-- Honest Mathematical Disclosure -->
                 <div class="neutral-disclosure-box">
                   <strong>(i) Honest Purchase Disclosure (Mockup):</strong><br>
                   • Standard single pull cost: 160 Gems.<br>
-                  • 240 Gems allows exactly <strong>1 single pull</strong> with <strong>80 leftover Gems</strong> (exactly half a pull; 80 short of a second pull).<br>
-                  • Effective price per 160-gem pull: $0.66 (Base store rate: ~$0.50).<br>
-                  • Fictional transaction; does not use real currency.
+                  • <strong>Pack alone:</strong> 240 Gems allows 1 single pull (160 Gems) with <strong>80 leftover Gems</strong> (half a pull; 80 short of a second single; 400 short of a ten-pull).<br>
+                  • <strong>Total balance with 50 race gems (290 total):</strong> allows 1 pull with <strong>130 leftover Gems</strong> (30 short of a second pull).<br>
+                  • <strong>Cash timeline:</strong> Purchasing leaves <strong>$9.01 cash</strong>. With Evening Wage (+$10) and Day 2 Food (-$5), cash reaches <strong>$14.01</strong> before the $15.00 rent bill (a <strong>$0.99 shortfall</strong>). Declining preserves $10.00, reaching rent with exactly $15.00.<br>
+                  • "400% value" is a fictional publisher comparison claim.
                 </div>
 
                 <div class="modal-actions">
@@ -1051,7 +1062,7 @@
     <div class="panel-box">
       <div class="panel-title">
         <span>The Duplicates & Down Dilemma: Case A vs Case B Fallback</span>
-        <span class="mockup-badge">Scenario Comparison</span>
+        <span class="mockup-badge">Coherent Fixtures</span>
       </div>
 
       <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
@@ -1060,10 +1071,10 @@
 
       <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem;">
         <button id="btnSimCaseA" class="btn-toggle active" onclick="simulateDuplicateCase('A')">
-          Case A: Natural Duplicate (Current 6-Identity Roster: 100%)
+          Case A: Natural Duplicate (Current 6-Identity Roster: 4 Duplicates = 4 Down)
         </button>
         <button id="btnSimCaseB" class="btn-toggle" onclick="simulateDuplicateCase('B')">
-          Case B: Honest No-Duplicate Fallback (Future Expanded Roster Hypothetical)
+          Case B: Honest No-Duplicate Fallback (Future 16-Identity Hypothetical: 0 Down)
         </button>
       </div>
 
@@ -1072,10 +1083,10 @@
         <!-- Case Preview Box -->
         <div style="background: #0f172a; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem;">
           <h4 id="caseTitle" style="color: var(--accent-gold-light); font-size: 1rem; margin-bottom: 0.5rem;">
-            Case A: Natural Duplicate Encountered
+            Case A: Natural Duplicate Encountered (Current 6-Identity Roster)
           </h4>
           <p id="caseDescription" style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">
-            Card #4 is a duplicate Common duck ("Rubber Mallard"). It triggers a feather dissolve and awards +1 Down. The HUD Down counter unlocks.
+            Fixture A contains exactly 4 duplicate Common cards (e.g. 3x Rubber Mallard, 1x Puddle Quacker). Each duplicate yields +1 Down for a total of 4 Down. HUD Down counter shows "Down: 4".
           </p>
 
           <!-- Mock Sample Card -->
@@ -1086,7 +1097,7 @@
                 🦆
               </div>
               <strong id="mockCardName" style="font-size: 0.8rem; color: #fff;">Rubber Mallard</strong>
-              <span style="font-size: 0.65rem; color: #94a3b8;">Common • Spd 10.0</span>
+              <span id="mockCardTier" style="font-size: 0.65rem; color: #94a3b8;">Common • Spd 10.0</span>
               <div id="mockDownTag" class="card-down-dissolve">
                 🪶 +1 Down Feather
               </div>
@@ -1105,14 +1116,14 @@
             <thead>
               <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
                 <th style="padding: 0.4rem;">Feature</th>
-                <th style="padding: 0.4rem;">Case A (Duplicate)</th>
-                <th style="padding: 0.4rem;">Case B (10 Unique - Future)</th>
+                <th style="padding: 0.4rem;">Case A (Current Roster: 4 Dups)</th>
+                <th style="padding: 0.4rem;">Case B (Future 16-Roster: 0 Dups)</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid #1f2937;">
                 <td style="padding: 0.5rem 0.4rem; font-weight: 600;">HUD Down Counter</td>
-                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Visible: "Down: 1"</td>
+                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Visible: "Down: 4"</td>
                 <td style="padding: 0.5rem 0.4rem; color: #f87171;">Hidden (omitted)</td>
               </tr>
               <tr style="border-bottom: 1px solid #1f2937;">
@@ -1122,7 +1133,7 @@
               </tr>
               <tr style="border-bottom: 1px solid #1f2937;">
                 <td style="padding: 0.5rem 0.4rem; font-weight: 600;">Receipt Logging</td>
-                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Logs secondary currency cue</td>
+                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Logs: "4 reveal(s) showed duplicate... 4 Down"</td>
                 <td style="padding: 0.5rem 0.4rem; color: #94a3b8;">Zero Down cues logged</td>
               </tr>
               <tr>
@@ -1155,15 +1166,15 @@
         <div class="store-stage-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <h4 style="color: var(--accent-gold-light); font-size: 1rem;">Stage 1: Day 1 Afternoon (Starter Anchor)</h4>
-            <span style="background: #1e3a5f; color: #93c5fd; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Accepted Trial Baseline</span>
+            <span style="background: #1e3a5f; color: #93c5fd; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Trial Baseline</span>
           </div>
           <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">
             Only the introductory $0.99 offer is presented. Prevents cognitive overload while establishing an emotional baseline price anchor.
           </p>
 
           <div style="background: #0f172a; border: 1px solid var(--accent-gold); border-radius: 8px; padding: 1rem; text-align: center;">
-            <span style="background: #000; color: #fde047; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 9999px;">
-              ROOKIE STARTER PACK
+            <span class="badge-400" style="margin-bottom: 0.5rem; display: inline-block;">
+              ROOKIE STARTER PACK — 400% VALUE!
             </span>
             <h5 style="font-size: 1.1rem; color: #fff; margin: 0.5rem 0;">240 Premium Gems</h5>
             <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-gold-light); margin-bottom: 0.5rem;">
@@ -1174,7 +1185,7 @@
             </button>
             
             <div class="neutral-disclosure-box" style="margin-top: 0.75rem;">
-              <strong>(i) Unit Math:</strong> 240 Gems = 1 single pull (160 gems) with 80 leftover gems (half a pull). Leaves $14.01 cash ($15.00 rent due Day 2).
+              <strong>(i) Unit Math:</strong> 240 Gems = 1 single pull (160 gems) with 80 leftover gems (half a pull). Leaves $9.01 cash (leads to Day 2 rent shortfall of $0.99).
             </div>
           </div>
         </div>
@@ -1291,7 +1302,7 @@
           <h4 style="color: #34d399; font-size: 0.95rem;">4. Believing Starter Packs Offer an Objective Retail Discount</h4>
           <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">
             <strong>Learner Risk:</strong> Assuming the publisher discounted a real market asset.<br>
-            <strong>UI Protection:</strong> Disclosures clarify that prices are set by the fictional publisher. The Receipt asks: <em>"Did the comparison value on the starter offer affect your judgment of later offers?"</em>
+            <strong>UI Protection:</strong> Disclosures clarify that prices are set by the fictional publisher. The Receipt asks: <em>"Did the '400% value' comparison label on the starter offer affect your judgment of later offers?"</em>
           </p>
         </div>
 
@@ -1310,7 +1321,7 @@
       </div>
 
       <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
-        Quackpot strictly follows O1's three registers: <strong>1. We displayed / 2. You did / 3. Did this affect you?</strong> Techniques appear only if their cues fired. (Hand-authored illustrative sample).
+        Quackpot strictly follows O1's three registers: <strong>1. We displayed / 2. You did / 3. Did this affect you?</strong> Techniques appear only if their cues fired. (Hand-authored illustrative sample derived from Fixture A).
       </p>
 
       <div style="background: #090d16; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.8rem; color: #cbd5e1;">
@@ -1322,21 +1333,21 @@
 
         <div style="margin-bottom: 1rem;">
           <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Anchoring]</span><br>
-          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> Starter offer shown: 240 gems for $0.99, labelled "Starter Pack".<br>
-          &nbsp;&nbsp;• <strong>YOU DID:</strong> <span id="receiptStarterAction">Starter offer bought (Day 1 Afternoon). Fictional cash dropped to $14.01.</span><br>
-          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the comparison value on the starter offer affect your judgment of later offers?
+          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> Starter offer shown: 240 gems for $0.99, labelled "400% value".<br>
+          &nbsp;&nbsp;• <strong>YOU DID:</strong> <span id="receiptStarterAction">Starter offer bought (Day 1 Afternoon). Fictional cash dropped from $10.00 to $9.01 (leading to Day 2 rent shortfall of $0.99).</span><br>
+          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the "400% value" comparison label on the starter offer affect your judgment of later offers?
         </div>
 
         <div style="margin-bottom: 1rem;">
           <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Currency Obfuscation]</span><br>
           &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> Standard pull cost: 160 gems. Starter pack: 240 gems.<br>
-          &nbsp;&nbsp;• <strong>YOU DID:</strong> Completed 1 pull (160 gems); left with 80 unspendable gems.<br>
+          &nbsp;&nbsp;• <strong>YOU DID:</strong> Completed 1 pull (160 gems); left with 80 unspendable gems from pack (130 leftover gems including race prize).<br>
           &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the gem prices and leftover balances affect your purchases?
         </div>
 
         <div id="receiptDownSection" style="margin-bottom: 1rem;">
           <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Secondary-Currency Obfuscation]</span><br>
-          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> 4 reveal(s) showed a duplicate converted to Down, 4 Down in total.<br>
+          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> <span id="receiptDownText">4 reveal(s) showed a duplicate converted to Down, 4 Down in total.</span><br>
           &nbsp;&nbsp;• <strong>YOU DID:</strong> No Down spending recorded.<br>
           &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did Down affect how you valued duplicate ducks?
         </div>
@@ -1375,7 +1386,36 @@
 
   <!-- JavaScript Interaction Logic -->
   <script>
-    // State (Using Plan 03 Accepted Trial Reference Constants)
+    // Explicit Mock Fixtures (Repair 02)
+    // Fixture A: Plan 03 Trial 6-Identity Pool (6 unique + 4 duplicates = 4 Down)
+    const FIXTURE_CASE_A = [
+      { id: 'duck-1', name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-0', name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-3', name: "Bath Cadet", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-2', name: "Pond Rocket", rarity: "rare", speed: 14.0, dup: false },
+      { id: 'duck-4', name: "Turbo Drake", rarity: "rare", speed: 14.0, dup: false },
+      { id: 'duck-5', name: "Biblically Accurate Duck", rarity: "legendary", speed: 20.0, dup: false },
+      { id: 'duck-1', name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: true },
+      { id: 'duck-0', name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: true },
+      { id: 'duck-3', name: "Bath Cadet", rarity: "common", speed: 10.0, dup: true },
+      { id: 'duck-1', name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: true }
+    ];
+
+    // Fixture B: Hypothetical Expanded 16-Identity Pool (10 distinct unique ducks = 0 Down)
+    const FIXTURE_CASE_B = [
+      { id: 'duck-1', name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-0', name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-3', name: "Bath Cadet", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-2', name: "Pond Rocket", rarity: "rare", speed: 14.0, dup: false },
+      { id: 'duck-4', name: "Turbo Drake", rarity: "rare", speed: 14.0, dup: false },
+      { id: 'duck-5', name: "Biblically Accurate Duck", rarity: "legendary", speed: 20.0, dup: false },
+      { id: 'duck-6', name: "Stream Glider", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-7', name: "Foam Cruiser", rarity: "common", speed: 10.0, dup: false },
+      { id: 'duck-8', name: "Speckled Diver", rarity: "rare", speed: 14.0, dup: false },
+      { id: 'duck-9', name: "Canvas Quacker", rarity: "common", speed: 10.0, dup: false }
+    ];
+
+    // State (Using Plan 03 Accepted Trial Timeline)
     const state = {
       beat: 1,
       duckName: "Bubbles",
@@ -1385,7 +1425,7 @@
       gems: 0,
       down: 0,
       pullCompleted: false,
-      duplicateOccurred: true,
+      selectedCase: 'A',
       audioEnabled: true,
       audioCtx: null
     };
@@ -1399,7 +1439,7 @@
       logSR(`Switched to tab: ${event.target.textContent}`);
     }
 
-    // Beat Navigation
+    // Beat Navigation (Timeline Balances)
     function goToBeat(beatNum) {
       state.beat = beatNum;
       
@@ -1423,7 +1463,23 @@
       const hudGacha = document.getElementById('hudGachaCurrencies');
       if (hudGacha) hudGacha.style.display = beatNum >= 3 ? 'flex' : 'none';
 
-      // Beat Specific Reactions
+      // Cash Timeline Adjustments
+      if (beatNum <= 3) {
+        state.cash = 15.00;
+        document.getElementById('hudCash').textContent = '$15.00';
+      } else if (beatNum === 4) {
+        // Intervening food bill of $5 paid midday
+        state.cash = 10.00;
+        document.getElementById('hudCash').textContent = '$10.00';
+        logSR("Beat 4: Day 1 Food bill (-$5.00) paid midday. Cash: $10.00. Pond Race ready.");
+      } else if (beatNum === 5) {
+        state.cash = 10.00;
+        document.getElementById('hudCash').textContent = '$10.00';
+        document.getElementById('modalCashBefore').textContent = '$10.00';
+        playSound('cash');
+        logSR("Beat 5: Post-race starter pack modal pops up: '$0.99 for 240 Gems (400% VALUE!)'. Cash before purchase: $10.00.");
+      }
+
       if (beatNum === 1) {
         logSR(`Beat 1: Apartment Desk. Physical duck '${state.duckName}' placed. Cash: $15.00, Rent: $15.00 due Day 2.`);
       } else if (beatNum === 2) {
@@ -1432,11 +1488,6 @@
       } else if (beatNum === 3) {
         playSound('pop');
         logSR("Beat 3: In-app Welcome Banner displayed. Free 10-Pull available. Gems initially unlit.");
-      } else if (beatNum === 4) {
-        logSR("Beat 4: First Pond Race ready. Common duck Rubber Mallard (Speed 10.0) slotted vs tutorial bots (Speed 8.0).");
-      } else if (beatNum === 5) {
-        playSound('cash');
-        logSR("Beat 5: Post-race starter pack modal pops up: '$0.99 for 240 Gems'.");
       }
     }
 
@@ -1474,7 +1525,7 @@
       document.getElementById('appGemsVal').textContent = '0 Gems';
 
       renderCardsGrid();
-      logSR("Executed Free 10-Pull! 10 cards revealed (sample fixture). Gems illuminated at 0 (160 needed per pull).");
+      logSR("Executed Free 10-Pull! 10 cards revealed (Fixture A: 4 duplicates = 4 Down). Gems illuminated at 0.");
     }
 
     function finishRevealImmediately() {
@@ -1482,25 +1533,16 @@
       logSR("Skip theater activated. All cards immediately displayed.");
     }
 
-    // Static Sample Card Fixture (using Plan 03 Trial Roster)
+    // Render Cards Grid Derived Strictly from Selected Fixture
     function renderCardsGrid() {
       const grid = document.getElementById('cardsGrid');
       grid.innerHTML = '';
 
-      const sampleCards = [
-        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: false },
-        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: false },
-        { name: "Bath Cadet", rarity: "common", speed: 10.0, dup: false },
-        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
-        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
-        { name: "Bath Cadet", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
-        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
-        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
-        { name: "Pond Rocket", rarity: "rare", speed: 14.0, dup: false },
-        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred }
-      ];
+      const fixture = state.selectedCase === 'A' ? FIXTURE_CASE_A : FIXTURE_CASE_B;
+      let dupsCount = 0;
 
-      sampleCards.forEach(c => {
+      fixture.forEach(c => {
+        if (c.dup) dupsCount++;
         const cardEl = document.createElement('div');
         cardEl.className = `gacha-card ${c.rarity}`;
         
@@ -1522,15 +1564,21 @@
         grid.appendChild(cardEl);
       });
 
-      // Update Down HUD if duplicate occurred
-      if (state.duplicateOccurred) {
-        state.down = 1;
-        const hudDown = document.getElementById('hudDownPill');
-        const appDown = document.getElementById('appDownPill');
+      // Update Down HUD strictly matching fixture
+      state.down = dupsCount;
+      const hudDown = document.getElementById('hudDownPill');
+      const appDown = document.getElementById('appDownPill');
+
+      if (dupsCount > 0) {
         if (hudDown) hudDown.classList.remove('hidden');
         if (appDown) appDown.classList.remove('hidden');
-        document.getElementById('hudDown').textContent = '1';
-        document.getElementById('appDownVal').textContent = '1 Down';
+        document.getElementById('hudDown').textContent = String(dupsCount);
+        document.getElementById('appDownVal').textContent = `${dupsCount} Down`;
+      } else {
+        if (hudDown) hudDown.classList.add('hidden');
+        if (appDown) appDown.classList.add('hidden');
+        document.getElementById('hudDown').textContent = '0';
+        document.getElementById('appDownVal').textContent = '0 Down';
       }
     }
 
@@ -1555,29 +1603,30 @@
       }, 3000);
     }
 
-    // Starter Pack Actions (Plan 03 Reference: $0.99 for 240 Gems)
+    // Starter Pack Actions (Plan 03 Timeline: $10.00 -> $9.01)
     function purchaseStarterPack() {
       playSound('cash');
-      state.cash = 14.01;
+      state.cash = 9.01;
       state.gems += 240;
-      document.getElementById('hudCash').textContent = '$14.01';
+      document.getElementById('hudCash').textContent = '$9.01';
       document.getElementById('hudGems').textContent = state.gems;
       document.getElementById('beat5Gems').textContent = `${state.gems} Gems`;
       document.querySelector('.wireframe-modal-overlay').style.display = 'none';
-      document.getElementById('receiptStarterAction').textContent = "Starter offer bought (Day 1 Afternoon). Fictional cash dropped to $14.01.";
-      logSR("Purchased Starter Pack for $0.99. Fictional Cash: $14.01. Gems: 290. Rent due: $15.00.");
-      alert("Starter Pack Purchased! Cash deducted: $0.99 (Balance: $14.01). Gems credited: 240.");
+      document.getElementById('receiptStarterAction').textContent = "Starter offer bought (Day 1 Afternoon). Fictional cash dropped from $10.00 to $9.01 (leading to Day 2 rent shortfall of $0.99).";
+      logSR("Purchased Starter Pack for $0.99. Cash: $9.01. Gems: 290. Leads to Day 2 rent shortfall of $0.99.");
+      alert("Starter Pack Purchased! Cash deducted: $0.99 (Balance: $9.01). With Evening Wage (+$10.00) and Day 2 Food (-$5.00), balance reaches $14.01 before the $15.00 rent bill (a $0.99 shortfall).");
     }
 
     function dismissStarterPack() {
       document.querySelector('.wireframe-modal-overlay').style.display = 'none';
-      document.getElementById('receiptStarterAction').textContent = "Starter offer purchase not recorded (Declined on Day 1).";
-      logSR("Dismissed Starter Pack. Fictional cash preserved at $15.00.");
-      alert("Starter Pack Dismissed cleanly. No penalty applied.");
+      document.getElementById('receiptStarterAction').textContent = "Starter offer purchase not recorded (Declined on Day 1). Cash remained $10.00.";
+      logSR("Dismissed Starter Pack. Fictional cash preserved at $10.00. (Reaches Day 2 rent with exactly $15.00).");
+      alert("Starter Pack Dismissed cleanly. Cash remains $10.00. (Reaches Day 2 rent with exactly $15.00).");
     }
 
-    // Case A vs Case B Simulation (Manual Scenario Toggles)
+    // Coherent Case A vs Case B Simulation
     function simulateDuplicateCase(caseType) {
+      state.selectedCase = caseType;
       const btnA = document.getElementById('btnSimCaseA');
       const btnB = document.getElementById('btnSimCaseB');
       btnA.classList.toggle('active', caseType === 'A');
@@ -1590,27 +1639,39 @@
       const title = document.getElementById('caseTitle');
       const desc = document.getElementById('caseDescription');
       const receiptDown = document.getElementById('receiptDownSection');
+      const receiptDownText = document.getElementById('receiptDownText');
 
       if (caseType === 'A') {
-        state.duplicateOccurred = true;
-        title.textContent = "Case A: Natural Duplicate (Current 6-Identity Roster)";
-        desc.textContent = "Card #4 is a duplicate Common duck ('Rubber Mallard'). It triggers a feather dissolve and awards +1 Down. The HUD Down counter unlocks.";
+        title.textContent = "Case A: Natural Duplicate (Current 6-Identity Roster: 4 Duplicates = 4 Down)";
+        desc.textContent = "Fixture A contains exactly 4 duplicate Common cards (e.g. 3x Rubber Mallard, 1x Puddle Quacker). Each duplicate yields +1 Down for a total of 4 Down. HUD Down counter shows 'Down: 4'.";
         badge.className = "card-badge-duplicate";
         badge.textContent = "DUPLICATE";
+        document.getElementById('mockCardName').textContent = "Rubber Mallard";
+        document.getElementById('mockCardTier').textContent = "Common • Spd 10.0";
         downTag.style.display = "block";
+        downTag.textContent = "🪶 +1 Down Feather";
         toast.innerHTML = "💡 <strong>Contextual In-App Toast:</strong> 'Duplicate Duck converted into 1 Down Feather! Down can be spent in the Down Exchange.'";
         if (receiptDown) receiptDown.style.display = "block";
-        logSR("Simulated Case A: Natural duplicate with Down conversion.");
+        if (receiptDownText) receiptDownText.textContent = "4 reveal(s) showed a duplicate converted to Down, 4 Down in total.";
+        document.getElementById('revealStatusText').textContent = "✨ Reveal Theater: 10 Ducks Pulled! (Fixture A: 4 Duplicates = 4 Down)";
+        logSR("Simulated Case A: Natural duplicates (4 dups = 4 Down).");
       } else {
-        state.duplicateOccurred = false;
-        title.textContent = "Case B: Honest No-Duplicate Fallback (Future Expanded Roster Hypothetical)";
-        desc.textContent = "Hypothetical expanded roster (e.g. 16+ identities): all 10 drawn cards are unique identities. Zero duplicates occur. Down counter remains hidden; Down shop displays neutral lock. PRNG is unrigged.";
+        title.textContent = "Case B: Honest No-Duplicate Fallback (Future 16-Identity Hypothetical: 0 Down)";
+        desc.textContent = "Hypothetical expanded roster: all 10 drawn cards are unique identities. Zero duplicates occur. Down counter remains hidden; Down shop displays neutral lock. PRNG is unrigged.";
         badge.className = "card-badge-new";
         badge.textContent = "NEW!";
+        document.getElementById('mockCardName').textContent = "Stream Glider";
+        document.getElementById('mockCardTier').textContent = "Common • Spd 10.0";
         downTag.style.display = "none";
         toast.innerHTML = "💡 <strong>Honest Fallback Toast:</strong> '10 new unique ducks added to Duck-Dex!' (No Down introduced yet).";
         if (receiptDown) receiptDown.style.display = "none";
-        logSR("Simulated Case B: Honest No-Duplicate Fallback (future roster hypothetical).");
+        document.getElementById('revealStatusText').textContent = "✨ Reveal Theater: 10 Ducks Pulled! (Fixture B: 10 Unique = 0 Down)";
+        logSR("Simulated Case B: Honest No-Duplicate Fallback (10 unique ducks = 0 Down).");
+      }
+
+      // Re-render grid if reveal theater was already triggered
+      if (document.getElementById('pullPostState').style.display === 'flex') {
+        renderCardsGrid();
       }
     }
 

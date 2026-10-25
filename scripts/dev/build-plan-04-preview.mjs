@@ -412,7 +412,7 @@ export async function buildPlan04AssetsAndPreview() {
       Bounded proof of the owner-selected E2 layered-paper digital gacha rig, motion-ready hierarchy, and parameter-synthesized sound.
     </p>
     <div class="provenance-bar">
-      <span><strong>Git Rev:</strong> ${gitRevision}</span>
+      <span><strong>Build checkout HEAD:</strong> ${gitRevision} (may include local edits; module hashes identify source content)</span>
       <span><strong>duck-rig.mjs SHA-256:</strong> ${duckRigHash.slice(0, 12)}...</span>
       <span><strong>synth.mjs SHA-256:</strong> ${synthHash.slice(0, 12)}...</span>
       <span><strong>Build Date:</strong> ${buildDate}</span>

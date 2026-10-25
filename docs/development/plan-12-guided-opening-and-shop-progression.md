@@ -16,6 +16,8 @@ summary: >-
 
 ## Goal and authority
 
+**Repair 01 review, 2026-10-24:** Broad tuning/fixture labels are improved, but the sample cash chronology and duplicate/Down/Receipt cases still contradict one another. Use report-folder `review-02.md` and `repair-02.md` for the current narrow correction. Keep the opening structure; no new production or economy investigation is required.
+
 **Delivery review, 2026-10-24:** `9e74b11`/`8b820d0` returned for proposal/wireframe Repair 01. Read `reports/development/plan-12-guided-opening-and-shop-progression/review-01.md` and `repair-01.md`. Keep the useful five-beat and deferred-Down investigation, but distinguish proposed values, static examples and unverified behavior from owner-approved rules or tested PRNG/Receipt behavior. No production implementation is authorized.
 
 **Parallel handoff, 2026-10-24:** Ready for the owner's dispatch alongside Plan 04. Own only `reports/development/plan-12-guided-opening-and-shop-progression/` and isolated wireframes inside it; no production source, package, art, audio, Plan 04 report or packet/status edits. Use labeled placeholders and reference the E2 direction without waiting for the new SVG. Return the guided beat/shop proposal for owner review; do not implement the game or claim learner comprehension was tested. The owner has not yet assigned this packet merely by asking whether it can run in parallel.

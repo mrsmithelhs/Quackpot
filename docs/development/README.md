@@ -23,6 +23,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-12` | Guided opening and progressive shop investigation | draft | Propose an experiential opening that introduces Gems, duplicates and Down in context, and a shop that grows in complexity without an opening lecture. |
 | `plan-13` | Race staging and run pacing investigation | draft | Compare readable oval-course race drama and camera direction alongside a timed day/run beat map toward the roughly fifteen-minute floor. |
 | `plan-14` | Game stage and metagame transitions investigation | draft | Propose a full-width game stage, quieter save/settings controls and readable transitions between apartment metagame and fictional gacha app. |
+| `plan-15` | Pull anticipation and bounded local cue investigation | draft | Compare short pull anticipation and graceful fast reveal, then investigate bounded fictional cues responding to local actions with truthful Receipt evidence. |
 <!-- plan-index:end -->
 
 ## Report Folders

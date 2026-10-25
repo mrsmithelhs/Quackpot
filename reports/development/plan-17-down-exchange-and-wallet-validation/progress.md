@@ -1,42 +1,60 @@
-# Plan 17 Progress Report — Bounded Mechanism Outline
+# Plan 17 Progress Report — Down Exchange and Whole-Wallet Validation
 
 **Date:** 2026-10-25  
 **Packet:** [`docs/development/plan-17-down-exchange-and-wallet-validation.md`](file:///c:/AI/Quackpot/docs/development/plan-17-down-exchange-and-wallet-validation.md)  
-**Task:** Bounded mechanism outline identifying unresolved ticket/item rules and validating 3/6 Down calibration.
+**Status:** Scenarios & Evidence Pass Complete; Awaiting Orchestrator / Owner Final Review  
+**Task:** Bounded mechanism validation of owner-selected 3-Down item, 6-Down ticket, and 1,750-gem odd-bundle tier under approved rules T1 A / T2 A / T3 A / I1.
 
 ---
 
 ## 1. Overall Summary
 
-Completed the bounded mechanism outline for Plan 17 Down exchange and whole-wallet validation. The analysis strictly preserves the owner-selected target prices of **3 Down** for a minor temporary speed item and **6 Down** for a single-pull ticket, alongside the **1,750-gem** odd-bundle example. 
+Following orchestration preflight review and owner approval of rules **T1 A** (normal duplicate payouts on ticket draws), **T2 A** (pity advance with explicit reset to 0 on Legendary), **T3 A** (instant active-banner redemption "Pull with Down — 6 Down"), and **I1** (+5.0% base speed boost for 1 race, consumed on commit), this thread implemented and executed the complete bounded scenario validation suite within `reports/development/plan-17-down-exchange-and-wallet-validation/`.
 
-Key analytical findings established:
-- **Pigeonhole Guarantee:** Drawing 10 cards across 6 roster identities guarantees at least 4 duplicate cards. Drawing from an empty roster yields $P(\text{Down} \ge 3) = 100.00\%$ and $P(\text{Down} \ge 6) = 81.95\%$. Over 80% of students qualify for at least one pull ticket immediately after their opening 10-pull, while 100% can afford the speed item.
-- **Subcritical Lossiness:** Proved mathematically that ticket recycling has an expected return of $E[\text{Down}] = 2.10$ Down per draw (return ratio $R = 0.35$). It forms a strictly subcritical branching process with an expected multiplier of $1.538\times$ total draws per initial ticket, guaranteeing complete extinction (no infinite or self-funding loop).
-- **Transient Recovery Trajectories:** Identified the "Rare Bounce" (18% probability, returns 5 Down) and "Legendary Windfall" (2% probability, returns 20 Down = 3 tickets) as the mathematical drivers behind the authentic feeling of "almost catching up."
-- **Consumable Item Calibration:** Demonstrated that the wireframe's sample +0.5% boost is 20x smaller than race noise and undetectable; proposed concrete observable alternatives (+5.0% single-race boost, non-stacking).
-- **Whole-Wallet Breakage:** Demonstrated how the isolated 10-gem shortfall ($1,750 - 1,600 = 150$) shifts in whole-wallet play (e.g. 50 race gems creates 200 gems, enabling an 11th pull and leaving 40 gems stranded). Outlined necessary Receipt phrasing to prevent learner contradictions.
+All calculations, simulations, and data artifacts were produced strictly within the report folder with zero mutations to shared `sim/`, `src/`, or root configuration files.
+
+### Key Evidence Established:
+1. **Reconciled Opening 10-Pull Distributions:**
+   - Evaluated over non-equiprobable multinomial count vectors: $P(\text{Down} \ge 3) = \mathbf{100.0000\%}$ and $P(\text{Down} \ge 6) = \mathbf{81.9507\%}$.
+   - Mean Down is **$8.3706$**, Median Down is **$7$** Down.
+   - Guaranteed minimum duplicate cards is strictly 4 (pigeonhole bound); minimum Down is strictly 4 Down ($P(\text{Down} < 4) = 0$).
+   - Reconciled exact probabilities for representative 10-card traces: Low Tail (4 Down, 2.02%), Median (7 Down, 12.27%), Upper-Middle (10 Down, 13.14%), and Windfall (25 Down, 0.3719%).
+2. **Pooled-Bank Integer Recycling Dynamics (Corrected Proof):**
+   - Replaced fractional branching ratio with exact discrete Markov state recurrence.
+   - For an initial bank of 6 Down under base odds, expected draws is **$1.08075$**; **98.0% of first draws end the sequence immediately** (Common returns +1, Rare returns +5, both leaving $<6$ Down).
+   - Higher starting banks exhibit pooling synergy: 12 Down yields **$2.5446$** expected draws (guaranteeing a second draw), 18 Down yields **$3.9511$**, and 24 Down yields **$5.3352$**.
+   - Extinction probability is **$1.0$ (almost surely)** across all finite starting banks, with remaining live probability decaying below $10^{-13}$ within 64–83 steps.
+3. **Pity Advancement & Neutralization of Runaway Loop:**
+   - Under Rule T2 A, ticket draws advance pity. From pity 0, mean draws is $1.081$; near soft pity (pity 30), mean draws is $1.134$.
+   - **Counterexample Solved:** If pity was frozen at hard pity (pity 49) without reset, every draw yields a Legendary (+20 Down, net $+14$ Down per draw), creating a runaway infinite loop (confirmed via simulation hitting safety cap 2001). Under Rule T2 A's required reset, drawing a Legendary immediately resets pity to 0, bounding the total draws from pity 49 to an average of **$5.078$** draws.
+4. **Pond Race Consumable Resolution (Option I1):**
+   - Evaluated via 100,000-step numerical quadrature and 20,000 paired Monte Carlo races.
+   - Against the Race 2 field (11.2 speed), +5% base speed on Common Sprint shifts 1st-place win probability from **$36.97\%$ to $49.49\%$ (+12.53 percentage points)**, increasing expected gem payout from 20.91g to 27.24g (+6.33g).
+   - Confirmed that Common Safe stance cannot beat the 11.2 field ($0.017\%$ win rate even with the item), preserving tactical stance tension.
+   - Confirmed that Tutorial race (8.0 field) has a 100.0% win rate baseline, demonstrating that buying items before Race 1 is an unneeded currency sink.
+5. **Whole-Wallet Remainder & Shortfall Reconciliation:**
+   - Traced 5 canonical progression paths, proving that the pure bundle shortfall ($1,750 - 1,600 = 150$, 10 short of 160) shifts in real play: standard Day 1 winners carry 50 race gems $\to 200$ gems, enabling an 11th pull and leaving 40 gems stranded (120-gem shortfall).
+   - Specified necessary Receipt wording to distinguish bundle-only remainder from wallet remainder and avoid learner pushback.
 
 ---
 
 ## 2. Files Changed & Artifacts Produced
 
-### Owned Files Created:
-- [`reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md): Complete bounded mechanism outline with multinomial distributions, rule decision matrix, subcritical lossiness proofs, recovery trajectory definitions, item speed analysis, and whole-wallet progression tables.
-- [`reports/development/plan-17-down-exchange-and-wallet-validation/progress.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/progress.md): This progress report.
+### Owned Files in `reports/development/plan-17-down-exchange-and-wallet-validation/`:
+- [`down-validation-engine.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/down-validation-engine.mjs): Core mathematical formulas, Markov recurrence solvers, dynamic pity recycling simulator, race quadrature, and wallet tracer.
+- [`scenarios.test.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/scenarios.test.mjs): Automated test suite verifying distributions, recurrence bounds, pity reset boundaries, race win rates, and wallet math.
+- [`run-scenarios.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/run-scenarios.mjs): Executable script running the full scenario suite and generating markdown/console tables.
+- [`results.json`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/results.json): Complete structured JSON artifact containing all empirical traces, recurrence tables, simulation metrics, and wallet paths.
+- [`proposal.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md): Comprehensive final evidence report and pedagogical debrief specifications.
+- [`progress.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/progress.md): This progress report.
 
-### Unmodified / Read-Only Files Inspected:
+### Unmodified Files (Read-Only References):
 - `docs/development/plan-17-down-exchange-and-wallet-validation.md`
-- `docs/founding/design.md`
-- `docs/decision-log.md`
-- `reports/orchestration/plan-12-owner-integration.md`
-- `reports/development/plan-12-guided-opening-and-shop-progression/wireframes-owner-interview.md`
 - `src/core/game-engine.mjs`
+- `src/core/prng.mjs`
 - `sim/model.mjs`
-- `advisor-capable-providers.json`
-
-### Note on Existing Tree Changes:
-- `git status` displays unstaged modifications in `docs/development/README.md` and `docs/development/plan-04-svg-rig-and-sound.md` made prior to this thread. In accordance with commit discipline, these files were left completely untouched and will not be staged.
+- `reports/development/plan-17-down-exchange-and-wallet-validation/preflight-checks-01.mjs`
+- `reports/development/plan-17-down-exchange-and-wallet-validation/preflight-review-01.md`
 
 ---
 
@@ -44,43 +62,47 @@ Key analytical findings established:
 
 | Command | Purpose | Result |
 | :--- | :--- | :--- |
-| `node scripts/dev/plan-status.js check plan-17` | Preflight check for packet runnability | Exit 0: `RUNNABLE: plan-17 is ready to implement` |
-| `git status` | Inspect working tree state and existing modifications | Confirmed unstaged files from other threads; verified disjoint scope |
-| `node scratch/calc_dist.js` | Exact multinomial evaluation of 10-pull duplicate cards and Down distributions | Reconciled exact probabilities: $P(\text{Down} \ge 3) = 1.0$, $P(\text{Down} \ge 6) = 0.8195$ |
-| `node scratch/check_wallets.js` | Whole-wallet remainder and shortfall arithmetic | Verified wallet remainders across 5 progression paths |
+| `node scripts/dev/plan-status.js check plan-17` | Preflight status check | Exit 0: `RUNNABLE: plan-17 is ready to implement` |
+| `node --test reports/development/plan-17-down-exchange-and-wallet-validation/scenarios.test.mjs` | Run Plan 17 automated test suite | Exit 0: 5 tests passed, 0 failed (114.8ms) |
+| `node reports/development/plan-17-down-exchange-and-wallet-validation/run-scenarios.mjs` | Execute full simulation scenarios & generate `results.json` | Exit 0: Successfully generated `results.json` and summary tables |
+| `cmd.exe /c "npm test"` | Full repository regression check | Exit 0: 138 tests passed, 0 failed across all packages |
+| `node scripts/dev/plan-status.js lint` | Packet schema and lifecycle lint | Exit 0: `lint: OK (no violations)` |
 
 ---
 
 ## 4. Validation Checks Performed
 
-1. **Exact Multinomial Sum:** Verified that total probability across all $6^{10}$ combinations sums to exactly $1.00000000$.
-2. **Mean Duplicate and Down Counts:** Verified that mean duplicate cards equals $5.7308$ and mean Down gained equals $8.3706$, reproducing the Luna-high audit calculations recorded in [`reports/orchestration/plan-12-owner-integration.md`](file:///c:/AI/Quackpot/reports/orchestration/plan-12-owner-integration.md#L26).
-3. **Pigeonhole Floor:** Confirmed that with 6 identities and 10 draws, minimum duplicate cards is strictly 4, and since Common duplicate payout is 1 Down, minimum Down is strictly 4 Down ($P(\text{Down} < 4) = 0$).
-4. **Branching Process Subcriticality:** Verified that under 100% duplicate ownership, expected Down per draw is $2.10$, yielding an offspring mean of $R = 2.10 / 6 = 0.35 < 1.0$.
+1. **Multinomial Total Mass:** Verified that $\sum P(\mathbf{k}) = 1.0000000000000002$.
+2. **Independent Reproduction:** Verified that mean Down ($8.3706$), median Down ($7$), duplicate cards mean ($5.7308$), and ticket affordability ($81.9507\%$) match root's preflight calculation in `preflight-checks-01.mjs`.
+3. **Pigeonhole Floor:** Confirmed that with 10 draws across 6 identities, duplicate cards is at least 4, and Down gained is at least 4.
+4. **Markov Decay from 6 Down:** Confirmed that expected draws from 6 Down is exactly $1.08075$ draws under base odds, with remaining live mass $< 10^{-13}$ within 64 steps.
+5. **Pity Runaway Neutralization:** Confirmed that pity 49 without reset hits runaway safety cap ($>2,000$ draws), while pity 49 with Rule T2 A reset bounds expected draws to $5.078$.
+6. **Quadrature vs. Simulation Convergence:** Confirmed that numerical quadrature for Common Sprint vs 11.2 field ($36.97\%$ baseline, $49.49\%$ boosted) matches 20,000-trial paired Monte Carlo ($37.14\%$ baseline, $49.33\%$ boosted) within $\pm 0.2\%$.
+7. **Clean Scope Isolation:** Verified via `git status` that only files inside `reports/development/plan-17-down-exchange-and-wallet-validation/` were created or modified.
 
 ---
 
 ## 5. Problems Encountered and How Resolved
 
-- **Issue:** Windows PowerShell quoting caused syntax errors when attempting inline `node -e` commands.
-- **Resolution:** Authored temporary helper scripts in the session scratch directory (`scratch/calc_dist.js` and `scratch/check_wallets.js`) and executed them via file path.
+- **Initial Assertion Discrepancy on Starting Bank 12:** Initial test asserted bank 12 draws would equal $2 \times 1.08 = 2.16$. Recurrence solver returned $2.5446$. Investigation confirmed that leftover Down from draw 1 ($+1$ or $+5$) pools with residual bank, guaranteeing a second draw ($100\%$ probability) and creating non-linear pooling synergy. Test was updated with exact analytical bounds.
+- **Floating Point Equality on $P(\text{Down} \ge 3)$:** Evaluated exact sum gave $0.9999999999999999$ due to double-precision arithmetic; updated assertion to `Math.abs(itemAffordable - 1.0) < 1e-12`.
 
 ---
 
 ## 6. Advisor Consultation Declaration
 
 **Branch C — not advisor-capable (fail-closed, orchestrator-gate-only):**  
-In accordance with the Implementer Thread Starting Prompt and `advisor-capable-providers.json`, this thread operates under Antigravity (Google DeepMind). Because Antigravity is not an entry in `advisor-capable-providers.json`, the thread fails closed to not advisor-capable under Step 1. No autonomous advisor consultation ran; the standard orchestrator/owner review gate applies before scenario implementation.
+In accordance with the Implementer Thread Starting Prompt and `advisor-capable-providers.json`, this thread operates under Antigravity (Google DeepMind). Because Antigravity is not listed in `advisor-capable-providers.json`, the thread fails closed to not advisor-capable under Step 1. No autonomous advisor consultation ran; verification is provided by independent orchestrator audit (`preflight-review-01.md`, `preflight-checks-01.mjs`) and the automated test suite.
 
 ---
 
 ## 7. Remaining Risks or Follow-Ups
 
-- **Owner Selection of Rules T1–T3 & Item Option:** The next stage (headless scenario implementation and empirical traces) depends on the owner selecting preferred options from the decision matrix in [`proposal.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md).
-- **Roster Expansion Sensitivity:** When the roster expands beyond 6 identities in future milestones, opening duplicate probabilities will drop significantly. The current high initial ticket affordability ($81.95\%$) is a direct consequence of the 6-identity roster.
+- **Production Integration Phase:** Implementation of Down exchange in the live game UI, inventory, and Receipt belongs to a subsequent production integration packet after owner review of this report.
+- **Roster Expansion Awareness:** When the collectible roster is expanded beyond 6 identities in future milestones, opening duplicate rates will drop. The $81.95\%$ opening ticket affordability is specific to the current 6-identity roster.
 
 ---
 
 ## 8. Ready for Orchestrator Review
 
-**Yes.** The bounded mechanism outline is ready for orchestrator and owner review. Scenario implementation scripts remain gated on owner decisions.
+**Yes.** All required evidence, test scripts, and structured data artifacts have been generated and committed. Ready for final review and closeout gating.

@@ -1,0 +1,1104 @@
+{
+  "generatedAt": "2026-10-25T20:18:28.316Z",
+  "rules": {
+    "t1": "A (ticket pulls award normal 1/5/20 Down)",
+    "t2": "A (advances pity by 1, with normal Legendary reset to 0)",
+    "t3": "A (immediate active-banner redemption \"Pull with Down — 6 Down\")",
+    "i1": "+5% base speed boost for 1 race, non-stacking, consumed on race commit"
+  },
+  "openingDistribution": {
+    "meanDown": 8.370555706329368,
+    "medianDown": 7,
+    "meanDups": 5.7308434305211255,
+    "pItemAffordable": 0.9999999999999999,
+    "pTicketAffordable": 0.8195069820017777,
+    "downDistribution": [
+      {
+        "down": 4,
+        "prob": 0.020199768064,
+        "pct": 2.0199768064
+      },
+      {
+        "down": 5,
+        "prob": 0.16029324993422223,
+        "pct": 16.02932499342222
+      },
+      {
+        "down": 6,
+        "prob": 0.26807997131567013,
+        "pct": 26.807997131567014
+      },
+      {
+        "down": 7,
+        "prob": 0.12274035807673217,
+        "pct": 12.274035807673217
+      },
+      {
+        "down": 8,
+        "prob": 0.019885123451753486,
+        "pct": 1.9885123451753486
+      },
+      {
+        "down": 9,
+        "prob": 0.11601906495282188,
+        "pct": 11.601906495282188
+      },
+      {
+        "down": 10,
+        "prob": 0.1313777647616,
+        "pct": 13.13777647616
+      },
+      {
+        "down": 11,
+        "prob": 0.014389258922666659,
+        "pct": 1.438925892266666
+      },
+      {
+        "down": 12,
+        "prob": 0.004737946965333332,
+        "pct": 0.4737946965333332
+      },
+      {
+        "down": 13,
+        "prob": 0.0450217377792,
+        "pct": 4.50217377792
+      },
+      {
+        "down": 14,
+        "prob": 0.04493316194303995,
+        "pct": 4.493316194303995
+      },
+      {
+        "down": 15,
+        "prob": 0.006576301670399996,
+        "pct": 0.6576301670399995
+      },
+      {
+        "down": 16,
+        "prob": 0.0008629970534399998,
+        "pct": 0.08629970534399999
+      },
+      {
+        "down": 17,
+        "prob": 0.01064658567167999,
+        "pct": 1.064658567167999
+      },
+      {
+        "down": 18,
+        "prob": 0.011237691064319998,
+        "pct": 1.123769106432
+      },
+      {
+        "down": 19,
+        "prob": 0.0020370515558399993,
+        "pct": 0.20370515558399993
+      },
+      {
+        "down": 20,
+        "prob": 0.0000927086985216,
+        "pct": 0.00927086985216
+      },
+      {
+        "down": 21,
+        "prob": 0.0015027537788927998,
+        "pct": 0.15027537788927997
+      },
+      {
+        "down": 22,
+        "prob": 0.0021662424096767986,
+        "pct": 0.21662424096767988
+      },
+      {
+        "down": 23,
+        "prob": 0.002056115625984,
+        "pct": 0.20561156259840002
+      },
+      {
+        "down": 24,
+        "prob": 0.0050469752158435535,
+        "pct": 0.5046975215843553
+      },
+      {
+        "down": 25,
+        "prob": 0.0037189441741055373,
+        "pct": 0.37189441741055373
+      },
+      {
+        "down": 26,
+        "prob": 0.0006610222540969822,
+        "pct": 0.06610222540969822
+      },
+      {
+        "down": 27,
+        "prob": 0.0009827572287142454,
+        "pct": 0.09827572287142454
+      },
+      {
+        "down": 28,
+        "prob": 0.0021239213506560007,
+        "pct": 0.21239213506560006
+      },
+      {
+        "down": 29,
+        "prob": 0.0005639346585599999,
+        "pct": 0.05639346585599999
+      },
+      {
+        "down": 30,
+        "prob": 0.000032975475181535994,
+        "pct": 0.0032975475181535995
+      },
+      {
+        "down": 31,
+        "prob": 0.00022525268450111996,
+        "pct": 0.022525268450111997
+      },
+      {
+        "down": 32,
+        "prob": 0.0005437305335808001,
+        "pct": 0.05437305335808001
+      },
+      {
+        "down": 33,
+        "prob": 0.00019592036352000005,
+        "pct": 0.019592036352000006
+      },
+      {
+        "down": 34,
+        "prob": 0.000005945425919999998,
+        "pct": 0.0005945425919999998
+      },
+      {
+        "down": 35,
+        "prob": 0.000022114524485285994,
+        "pct": 0.0022114524485285993
+      },
+      {
+        "down": 36,
+        "prob": 0.00009113127383231997,
+        "pct": 0.009113127383231997
+      },
+      {
+        "down": 37,
+        "prob": 0.00004527348940799999,
+        "pct": 0.004527348940799999
+      },
+      {
+        "down": 38,
+        "prob": 0.0000025082265599999993,
+        "pct": 0.0002508226559999999
+      },
+      {
+        "down": 40,
+        "prob": 0.00000848185747867782,
+        "pct": 0.000848185747867782
+      },
+      {
+        "down": 41,
+        "prob": 0.000007606040279040001,
+        "pct": 0.0007606040279040001
+      },
+      {
+        "down": 42,
+        "prob": 0.0000667375091712,
+        "pct": 0.006673750917120001
+      },
+      {
+        "down": 43,
+        "prob": 0.0002745171968000001,
+        "pct": 0.027451719680000014
+      },
+      {
+        "down": 44,
+        "prob": 0.00024847790467687246,
+        "pct": 0.024847790467687245
+      },
+      {
+        "down": 45,
+        "prob": 0.00003702497271577455,
+        "pct": 0.003702497271577455
+      },
+      {
+        "down": 46,
+        "prob": 0.000027144865877249058,
+        "pct": 0.002714486587724906
+      },
+      {
+        "down": 47,
+        "prob": 0.00009727377408000001,
+        "pct": 0.009727377408
+      },
+      {
+        "down": 48,
+        "prob": 0.00004186570752,
+        "pct": 0.004186570752
+      },
+      {
+        "down": 49,
+        "prob": 0.0000013212057600000003,
+        "pct": 0.00013212057600000003
+      },
+      {
+        "down": 50,
+        "prob": 0.0000035422181054172002,
+        "pct": 0.00035422181054172
+      },
+      {
+        "down": 51,
+        "prob": 0.000019452690432000007,
+        "pct": 0.0019452690432000008
+      },
+      {
+        "down": 52,
+        "prob": 0.000012160253952,
+        "pct": 0.0012160253952
+      },
+      {
+        "down": 53,
+        "prob": 7.4317824e-7,
+        "pct": 0.000074317824
+      },
+      {
+        "down": 55,
+        "prob": 0.0000020255479153956,
+        "pct": 0.00020255479153956002
+      },
+      {
+        "down": 56,
+        "prob": 0.000002266809753600001,
+        "pct": 0.00022668097536000011
+      },
+      {
+        "down": 57,
+        "prob": 2.5082265599999997e-7,
+        "pct": 0.000025082265599999996
+      },
+      {
+        "down": 60,
+        "prob": 2.7871883827200003e-7,
+        "pct": 0.000027871883827200003
+      },
+      {
+        "down": 61,
+        "prob": 0.0000015371480678400003,
+        "pct": 0.00015371480678400004
+      },
+      {
+        "down": 62,
+        "prob": 0.000009074114559999999,
+        "pct": 0.0009074114559999999
+      },
+      {
+        "down": 63,
+        "prob": 0.00001105235512888889,
+        "pct": 0.001105235512888889
+      },
+      {
+        "down": 64,
+        "prob": 0.0000023941190795061724,
+        "pct": 0.00023941190795061725
+      },
+      {
+        "down": 65,
+        "prob": 3.821768125393383e-7,
+        "pct": 0.00003821768125393383
+      },
+      {
+        "down": 66,
+        "prob": 0.0000024896471039999996,
+        "pct": 0.00024896471039999996
+      },
+      {
+        "down": 67,
+        "prob": 0.0000019012976639999997,
+        "pct": 0.00019012976639999998
+      },
+      {
+        "down": 68,
+        "prob": 1.2386304e-7,
+        "pct": 0.000012386304
+      },
+      {
+        "down": 70,
+        "prob": 3.090914106048e-7,
+        "pct": 0.00003090914106048
+      },
+      {
+        "down": 71,
+        "prob": 4.3319162879999997e-7,
+        "pct": 0.00004331916288
+      },
+      {
+        "down": 72,
+        "prob": 5.573836799999999e-8,
+        "pct": 0.000005573836799999999
+      },
+      {
+        "down": 75,
+        "prob": 5.678781696e-8,
+        "pct": 0.000005678781695999999
+      },
+      {
+        "down": 76,
+        "prob": 1.4108774399999997e-8,
+        "pct": 0.0000014108774399999996
+      },
+      {
+        "down": 80,
+        "prob": 1.7875347235200004e-8,
+        "pct": 0.0000017875347235200004
+      },
+      {
+        "down": 81,
+        "prob": 1.7671127040000006e-7,
+        "pct": 0.000017671127040000008
+      },
+      {
+        "down": 82,
+        "prob": 3.246842766222223e-7,
+        "pct": 0.00003246842766222223
+      },
+      {
+        "down": 83,
+        "prob": 1.0887714133333339e-7,
+        "pct": 0.000010887714133333339
+      },
+      {
+        "down": 84,
+        "prob": 3.2622364444444447e-9,
+        "pct": 3.262236444444445e-7
+      },
+      {
+        "down": 85,
+        "prob": 2.99486369952e-8,
+        "pct": 0.0000029948636995200003
+      },
+      {
+        "down": 86,
+        "prob": 5.2115374080000026e-8,
+        "pct": 0.000005211537408000003
+      },
+      {
+        "down": 87,
+        "prob": 7.431782400000001e-9,
+        "pct": 7.431782400000001e-7
+      },
+      {
+        "down": 90,
+        "prob": 7.979295744e-9,
+        "pct": 7.979295744e-7
+      },
+      {
+        "down": 91,
+        "prob": 2.50822656e-9,
+        "pct": 2.50822656e-7
+      },
+      {
+        "down": 95,
+        "prob": 5.661145728e-10,
+        "pct": 5.6611457279999995e-8
+      },
+      {
+        "down": 100,
+        "prob": 1.6679119027200003e-9,
+        "pct": 1.6679119027200002e-7
+      },
+      {
+        "down": 101,
+        "prob": 6.028383573333335e-9,
+        "pct": 6.028383573333335e-7
+      },
+      {
+        "down": 102,
+        "prob": 3.4049592888888894e-9,
+        "pct": 3.4049592888888893e-7
+      },
+      {
+        "down": 103,
+        "prob": 2.0388977777777785e-10,
+        "pct": 2.0388977777777784e-8
+      },
+      {
+        "down": 105,
+        "prob": 7.455006720000002e-10,
+        "pct": 7.455006720000002e-8
+      },
+      {
+        "down": 106,
+        "prob": 2.786918400000001e-10,
+        "pct": 2.786918400000001e-8
+      },
+      {
+        "down": 110,
+        "prob": 7.505084160000001e-11,
+        "pct": 7.505084160000001e-9
+      },
+      {
+        "down": 115,
+        "prob": 1.7635968e-12,
+        "pct": 1.7635968e-10
+      },
+      {
+        "down": 120,
+        "prob": 5.883767466666667e-11,
+        "pct": 5.883767466666667e-9
+      },
+      {
+        "down": 121,
+        "prob": 7.012352e-11,
+        "pct": 7.012352e-9
+      },
+      {
+        "down": 122,
+        "prob": 8.738133333333335e-12,
+        "pct": 8.738133333333335e-10
+      },
+      {
+        "down": 125,
+        "prob": 6.643814400000001e-12,
+        "pct": 6.6438144e-10
+      },
+      {
+        "down": 130,
+        "prob": 2.2394880000000003e-13,
+        "pct": 2.2394880000000002e-11
+      },
+      {
+        "down": 140,
+        "prob": 8.419584000000002e-13,
+        "pct": 8.419584000000002e-11
+      },
+      {
+        "down": 141,
+        "prob": 2.4576000000000006e-13,
+        "pct": 2.4576000000000005e-11
+      },
+      {
+        "down": 145,
+        "prob": 1.8662400000000003e-14,
+        "pct": 1.8662400000000003e-12
+      },
+      {
+        "down": 160,
+        "prob": 5.017600000000002e-15,
+        "pct": 5.017600000000002e-13
+      },
+      {
+        "down": 180,
+        "prob": 1.0240000000000003e-17,
+        "pct": 1.0240000000000003e-15
+      }
+    ],
+    "duplicateDistribution": [
+      {
+        "dups": 4,
+        "prob": 0.04283289049661437,
+        "pct": 4.2832890496614375
+      },
+      {
+        "dups": 5,
+        "prob": 0.3417841515758702,
+        "pct": 34.178415157587025
+      },
+      {
+        "dups": 6,
+        "prob": 0.4628704896902868,
+        "pct": 46.28704896902868
+      },
+      {
+        "dups": 7,
+        "prob": 0.14673702862758353,
+        "pct": 14.673702862758354
+      },
+      {
+        "dups": 8,
+        "prob": 0.0057699843662866014,
+        "pct": 0.5769984366286601
+      },
+      {
+        "dups": 9,
+        "prob": 0.000005455243357605488,
+        "pct": 0.0005455243357605488
+      }
+    ]
+  },
+  "representativeTraces": [
+    {
+      "name": "Trace 1: Low Tail (Plan 03 Fixture Equivalent)",
+      "cards": [
+        {
+          "draw": 1,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 2,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 3,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 4,
+          "id": "duck-2",
+          "tier": "rare",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 5,
+          "id": "duck-4",
+          "tier": "rare",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 6,
+          "id": "duck-5",
+          "tier": "legendary",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 7,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 8,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 9,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 10,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        }
+      ],
+      "totalDups": 4,
+      "totalDown": 4,
+      "probabilityPct": 2.0199768064,
+      "affordable": "1 speed item (3 Down); 2 Down short of ticket"
+    },
+    {
+      "name": "Trace 2: Median / Typical Opening (7 Down)",
+      "cards": [
+        {
+          "draw": 1,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 2,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 3,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 4,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 5,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 6,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 7,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 8,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 9,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 10,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        }
+      ],
+      "totalDups": 7,
+      "totalDown": 7,
+      "probabilityPct": 12.274035807673217,
+      "affordable": "1 ticket (6 Down) + 1 Down remainder, or 2 speed items + 1 remainder"
+    },
+    {
+      "name": "Trace 3: Upper-Middle Opening (10 Down)",
+      "cards": [
+        {
+          "draw": 1,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 2,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 3,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 4,
+          "id": "duck-2",
+          "tier": "rare",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 5,
+          "id": "duck-2",
+          "tier": "rare",
+          "status": "DUP",
+          "down": 5
+        },
+        {
+          "draw": 6,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 7,
+          "id": "duck-0",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 8,
+          "id": "duck-1",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 9,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 10,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        }
+      ],
+      "totalDups": 6,
+      "totalDown": 10,
+      "probabilityPct": 13.13777647616,
+      "affordable": "1 ticket (6 Down) + 4 Down remainder, or 3 speed items + 1 remainder"
+    },
+    {
+      "name": "Trace 4: Legendary Windfall Opening (25 Down)",
+      "cards": [
+        {
+          "draw": 1,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 2,
+          "id": "duck-2",
+          "tier": "rare",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 3,
+          "id": "duck-4",
+          "tier": "rare",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 4,
+          "id": "duck-5",
+          "tier": "legendary",
+          "status": "NEW",
+          "down": 0
+        },
+        {
+          "draw": 5,
+          "id": "duck-5",
+          "tier": "legendary",
+          "status": "DUP",
+          "down": 20
+        },
+        {
+          "draw": 6,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 7,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 8,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 9,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        },
+        {
+          "draw": 10,
+          "id": "duck-3",
+          "tier": "common",
+          "status": "DUP",
+          "down": 1
+        }
+      ],
+      "totalDups": 6,
+      "totalDown": 25,
+      "probabilityPct": 0.37189441741055373,
+      "affordable": "4 tickets (24 Down) + 1 Down remainder, or 8 speed items + 1 remainder"
+    }
+  ],
+  "pooledBankRecurrence": {
+    "bank6": {
+      "expectedDraws": 1.080747078626975,
+      "liveMass": 8.967126842420086e-14,
+      "steps": 64
+    },
+    "bank12": {
+      "expectedDraws": 2.544607289821716,
+      "liveMass": 8.026290672520714e-14,
+      "steps": 69
+    },
+    "bank18": {
+      "expectedDraws": 3.9510886668891314,
+      "liveMass": 7.36394053720986e-14,
+      "steps": 73
+    },
+    "bank20": {
+      "expectedDraws": 4.0373539313642,
+      "liveMass": 9.758421836858945e-14,
+      "steps": 73
+    },
+    "bank24": {
+      "expectedDraws": 5.335162999354513,
+      "liveMass": 6.788145975583722e-14,
+      "steps": 76
+    }
+  },
+  "dynamicRecycling": {
+    "pity0": {
+      "meanDraws": 1.08526,
+      "maxDraws": 17,
+      "rareBouncesPct": 17.977258905700015,
+      "legendaryWindfallsPct": 2.0990361756629747
+    },
+    "pity30": {
+      "meanDraws": 1.0797,
+      "maxDraws": 22,
+      "rareBouncesPct": 18.192090395480225,
+      "legendaryWindfallsPct": 1.976474946744466
+    },
+    "pity49_reset": {
+      "meanDraws": 5.03636,
+      "maxDraws": 38
+    },
+    "pity49_frozen": {
+      "meanDraws": 2001,
+      "maxDraws": 2001,
+      "runawayConfirmed": true
+    }
+  },
+  "raceItemResolution": {
+    "quadrature": {
+      "finale_sprint_baseline": 0.36969696968817406,
+      "finale_sprint_boosted": 0.49494949507662683,
+      "finale_safe_baseline": 0,
+      "finale_safe_boosted": 0.000293314622235451,
+      "tutorial_safe_baseline": 1,
+      "tutorial_safe_boosted": 1
+    },
+    "deltaSprintWinPct": 12.525252538845278,
+    "pairedMonteCarlo": {
+      "finale_sprint": {
+        "trials": 20000,
+        "baseSpeed": 10,
+        "stance": "sprint",
+        "opponentBaseSpeed": 11.2,
+        "baseline": {
+          "winRate": 0.37195,
+          "placeDistribution": [
+            37.195,
+            4.2250000000000005,
+            4.295,
+            4.33,
+            4.16,
+            45.795
+          ],
+          "meanGems": 19.872
+        },
+        "boosted": {
+          "winRate": 0.4984,
+          "placeDistribution": [
+            49.84,
+            3.855,
+            4.01,
+            4.125,
+            4.085,
+            34.085
+          ],
+          "meanGems": 26.092
+        },
+        "deltaWinRate": 0.12645,
+        "deltaMeanGems": 6.22
+      },
+      "finale_safe": {
+        "trials": 20000,
+        "baseSpeed": 10,
+        "stance": "safe",
+        "opponentBaseSpeed": 11.2,
+        "baseline": {
+          "winRate": 0,
+          "placeDistribution": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            100
+          ],
+          "meanGems": 0
+        },
+        "boosted": {
+          "winRate": 0.00015,
+          "placeDistribution": [
+            0.015,
+            0.27999999999999997,
+            1.92,
+            6.0249999999999995,
+            12.185,
+            79.57499999999999
+          ],
+          "meanGems": 0.2555
+        },
+        "deltaWinRate": 0.00015,
+        "deltaMeanGems": 0.2555
+      },
+      "tutorial_safe": {
+        "trials": 20000,
+        "baseSpeed": 10,
+        "stance": "safe",
+        "opponentBaseSpeed": 8,
+        "baseline": {
+          "winRate": 1,
+          "placeDistribution": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "meanGems": 50
+        },
+        "boosted": {
+          "winRate": 1,
+          "placeDistribution": [
+            100,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "meanGems": 50
+        },
+        "deltaWinRate": 0,
+        "deltaMeanGems": 0
+      }
+    }
+  },
+  "wholeWalletPaths": [
+    {
+      "id": "path-1",
+      "name": "Path 1: Pure Isolated 1,750 Bundle",
+      "initialGems": 0,
+      "purchases": [
+        {
+          "kind": "bundle",
+          "gems": 1750,
+          "cash": 4.99
+        }
+      ],
+      "pullsTen": 1,
+      "note": "Theoretical bundle remainder without gameplay.",
+      "totalGemsBeforePulls": 1750,
+      "cashSpent": 4.99,
+      "afterTenPulls": 150,
+      "affordableSingles": 0,
+      "strandedRemainder": 150,
+      "shortfallToNext": 10
+    },
+    {
+      "id": "path-2",
+      "name": "Path 2: Tutorial Race Win (50g) + 1,750 Bundle",
+      "initialGems": 50,
+      "purchases": [
+        {
+          "kind": "bundle",
+          "gems": 1750,
+          "cash": 4.99
+        }
+      ],
+      "pullsTen": 1,
+      "note": "Actual standard Day 1 opening progression.",
+      "totalGemsBeforePulls": 1800,
+      "cashSpent": 4.99,
+      "afterTenPulls": 200,
+      "affordableSingles": 1,
+      "strandedRemainder": 40,
+      "shortfallToNext": 120
+    },
+    {
+      "id": "path-3",
+      "name": "Path 3: Starter Pack (240g) + Tutorial Win (50g) - 1 Pull + 1,750 Bundle",
+      "initialGems": 130,
+      "purchases": [
+        {
+          "kind": "bundle",
+          "gems": 1750,
+          "cash": 4.99
+        }
+      ],
+      "pullsTen": 1,
+      "note": "Player bought starter pack and did one single pull on Day 1.",
+      "totalGemsBeforePulls": 1880,
+      "cashSpent": 4.99,
+      "afterTenPulls": 280,
+      "affordableSingles": 1,
+      "strandedRemainder": 120,
+      "shortfallToNext": 40
+    },
+    {
+      "id": "path-4",
+      "name": "Path 4: Starter Pack Alone ($0.99 for 240g) + Tutorial Win (50g)",
+      "initialGems": 50,
+      "purchases": [
+        {
+          "kind": "starter",
+          "gems": 240,
+          "cash": 0.99
+        }
+      ],
+      "pullsTen": 0,
+      "note": "Day 1 starter anchor decision point.",
+      "totalGemsBeforePulls": 290,
+      "cashSpent": 0.99,
+      "afterTenPulls": 290,
+      "affordableSingles": 1,
+      "strandedRemainder": 130,
+      "shortfallToNext": 30
+    },
+    {
+      "id": "path-5",
+      "name": "Path 5: Two Race Wins (Day 1 + Day 2 = 100g) + 1,750 Bundle",
+      "initialGems": 100,
+      "purchases": [
+        {
+          "kind": "bundle",
+          "gems": 1750,
+          "cash": 4.99
+        }
+      ],
+      "pullsTen": 1,
+      "note": "Frugal player reaches Day 3 marketplace after two wins.",
+      "totalGemsBeforePulls": 1850,
+      "cashSpent": 4.99,
+      "afterTenPulls": 250,
+      "affordableSingles": 1,
+      "strandedRemainder": 90,
+      "shortfallToNext": 70
+    }
+  ]
+}

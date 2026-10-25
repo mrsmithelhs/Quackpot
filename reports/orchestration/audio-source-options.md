@@ -1,14 +1,14 @@
-# Audio sources and proposed policy expansion
+# Audio sources and approved policy expansion
 
-**Date:** 2026-10-25. Owner asks about free sound libraries and Creative Commons music, with Credits from the opening screen. Research/proposal only; no media downloaded or production assets selected.
+**Date:** 2026-10-25. Owner approved amendment to permit licensed Creative Commons audio, with local Credits from opening/settings. DECISION-010 records adoption and canonical design/AGENTS/orchestrator contracts are synchronized. No media downloaded or production assets selected in this report.
 
-## Current policy and recommendation
+## Policy history and adoption
 
-Canonical Assets and agent contracts require synthesized text-parameter effects; owner triage T10/T12 leaves music open to JavaScript or model-generated local files. That explains Plan 04's limited synthesis experiment; recorded library effects/music have not yet been selected as an allowed production path. Recommend adding them as an option rather than abandoning synthesis. Real creator names/source titles belong in factual credits, outside the fictional publishers/products/streamers in gameplay.
+Before this amendment, Assets and agent contracts required synthesized text-parameter effects; owner triage T10/T12 left music open to JavaScript or model-generated local files. That explains Plan 04's limited synthesis experiment. The owner now permits selected locally bundled CC/CC0 recordings alongside synthesis. Real creator names/source titles belong in factual credits, outside the fictional publishers/products/streamers in gameplay.
 
-**Proposed amendment for owner approval:** “Sound effects may be synthesized from text parameters or supplied as selected, locally bundled licensed audio files. Music may be JavaScript-generated, model-generated local audio, or selected locally bundled licensed recordings. Each external asset retains its source, author, exact license/version, required notices and modification record. A local Credits page is linked from the opening screen/settings. Creator attribution is permitted in Credits and license notices; all fictional game entities remain fictional. No automatic third-party network requests, remote audio/CDN loading or telemetry are permitted.”
+**Adopted scope:** Effects and music may use selected locally bundled Creative Commons recordings, including CC0 dedications. Synthesis and JS/model-generated music remain available. Each external asset retains source, creator, exact license/version, required notices/license text, modifications and local file mapping. Local Credits are linked from opening/settings. No automatic third-party requests, remote audio/CDN or telemetry; factual attribution does not place real entities in fictional roles. Specific assets and integration remain gated.
 
-On approval, update design.md, AGENTS.md and the orchestrator prompt together before importing assets. Do not interpret this report as that amendment already being adopted. Start with CC0/CC BY candidates; avoid adding NC/ND/SA combinations without an explicit compatibility review. “Free” alone is not an asset license.
+Design.md, AGENTS.md and the orchestrator prompt were updated together at adoption. Start with CC0/CC BY candidates; other CC terms need a documented compatibility check. “Free” alone is not an asset license. No additional approval of this source policy is required.
 
 ## Primary-source options checked
 
@@ -19,6 +19,6 @@ On approval, update design.md, AGENTS.md and the orchestrator prompt together be
 
 ## Bounded next work
 
-Draft Plan 18 requests approval of the source-policy amendment before downloads, followed by a small source/license/creative-fit audition for owner selection before integration. Keep the current three synthesized quacks as retained options. Audition at documented settings and distinguish loudness from timbre. Consider interface feedback, duck vocal character, rarity fanfare and apartment/gacha music separately so sourcing supports those contexts. Avoid a large sound-library migration.
+Once assigned, draft Plan 18 can proceed directly to the small source/license/creative-fit audition under the adopted policy; return samples for owner selection before integration. Keep the current three synthesized quacks as retained options. Audition at documented settings and distinguish loudness from timbre. Consider interface feedback, duck vocal character, rarity fanfare and apartment/gacha music separately so sourcing supports those contexts. Avoid a large sound-library migration.
 
 Credits should be ordinary local HTML with title, creator, source URL, license/version/link, changes and local asset mapping; retain license texts and a reproducible provenance manifest in source. Attribution does not require automatic external requests: no embeds, remote fonts or prefetching. Credit links may be offered as explicit navigation, with the information itself readable locally. Assess file size, decoding, user-gesture startup, mute/volume, loop seams and browser support in the later sample proof. This is implementation planning, not legal clearance of any unexamined file.

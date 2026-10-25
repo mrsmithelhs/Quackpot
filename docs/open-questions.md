@@ -18,7 +18,7 @@ This file lists questions that are **genuinely unresolved** - pending investigat
 
 ## Audio-source policy (2026-10-25)
 
-Should the current synthesized-effect/JS-or-model-music policy expand to selected licensed local recordings, with creator identities permitted in factual Credits and notices outside fictional game entities? Concrete proposed wording and verified source options: `reports/orchestration/audio-source-options.md`; draft Plan 18. No recording or source-policy amendment is selected yet.
+The source-policy question is resolved by DECISION-010: CC/CC0 local audio and factual Credits are permitted. Which specific recordings, roles, edits, levels and credits should be selected? Draft Plan 18 owns the bounded audition/provenance recommendation; no recording or production integration is selected yet. Model-generated music provenance remains open separately.
 
 ## Process / workflow
 

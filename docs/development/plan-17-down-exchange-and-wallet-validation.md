@@ -12,7 +12,7 @@ summary: >-
 ---
 # Plan 17: Down exchange and whole-wallet validation
 
-**Date:** 2026-10-25. **Type:** bounded investigation/model evidence. **Owner/model:** one investigator; owner rules gate. **Mutation:** proposal/evidence first, isolated headless checks after a bounded mechanism outline is approved. **Expected artifacts:** `reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md`, small reproducible trace/results table and `progress.md`.
+**Date:** 2026-10-25. **Type:** bounded investigation/model evidence. **Owner/model:** one investigator; owner rules gate. **Mutation:** proposal/evidence first, isolated headless checks after a bounded mechanism outline is approved. **Expected artifacts:** `reports/development/plan-17-down-exchange-and-wallet-validation/proposal.md`, small reproducible trace/results table and `progress.md`. All owned scenario scripts/tests stay within this report folder; no shared `sim/`, `src/`, package or other packet changes. Existing modules are read-only inputs. This disjoint scope permits investigation alongside Plan 04 Repair 02 and Plan 14.
 
 ## Goal and authority
 

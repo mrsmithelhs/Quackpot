@@ -1,7 +1,7 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: delivered
+status: in-progress
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 summary: >-

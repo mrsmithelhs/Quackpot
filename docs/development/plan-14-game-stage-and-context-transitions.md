@@ -22,7 +22,9 @@ Read `AGENTS.md`, canonical Immersion/Saving/Time/Receipt contracts, owner play 
 
 ## Required proposal
 
-**Credits follow-on, 2026-10-25:** Owner suggests local Credits linked from the opening screen. Reserve a discoverable, quiet opening/settings location in the shell proposal, coordinated with draft Plan 18. Exact content/asset-source policy remains gated; no external embeds, automatic third-party loading or new audio assets follow from the layout placeholder.
+**Parallel boundary, 2026-10-25:** May investigate alongside Plan 04 Repair 02 and Plan 17 after owner assignment. Own only this packet's report folder/wireframes. Use labeled placeholders or the committed rig as a read-only reference; do not modify/rebuild Plan 04's gallery, source or assets, and do not depend on uncommitted repair output. No generation quota or production implementation is needed for this shell/transition comparison.
+
+**Credits follow-on, 2026-10-25:** Owner approved licensed CC audio and local Credits linked from the opening/settings (DECISION-010). Reserve a discoverable, quiet location in the shell proposal, coordinated with draft Plan 18. Exact recordings/content/integration remain gated; no external embeds, automatic third-party loading or new audio assets follow from the layout placeholder.
 
 **Owner interview integration, 2026-10-25:** Read DECISION-008 and `reports/orchestration/plan-12-owner-integration.md`. Propose the selected fictional-phone quarter-turn into landscape followed by stage expansion, with responsive/static/reduced-motion alternatives and a return transition. Do not require physical device rotation, fullscreen or a rigid 16:9 viewport. Preserve the full-width shell/quieter save direction. Carry forward accessibility controls and accessible event narration without shipping review tabs/debug logs or claiming conformance from their mock labels. Keep mathematical/manipulation-analysis helper panels out of live gacha; retain necessary costs/odds/terms, operational feedback and accessible equivalents. Stage complexity through relevant actions, not an opening lecture.
 

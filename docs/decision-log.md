@@ -117,3 +117,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Owner clarification:** The selected smaller Down-ticket price supports the feeling of almost catching up, with occasional recoveries. Preserve the 3/6 calibration. Plan 17 should describe recovery trajectories as well as the long-run exchange; perceived recovery and a profitable/self-funding loop are separate questions. Do not rig outcomes to create a teaching example or infer a player's feelings from actions.
 
 **Proposal, not adopted policy:** Owner asks about free sound libraries, attributed Credits from the opening and Creative Commons music. `reports/orchestration/audio-source-options.md` supplies primary sources and a concrete amendment; draft Plan 18 gates its adoption and sample selection. Current synthesized-effect/music-source contracts remain unchanged until owner approves expanding them, with design/AGENTS/prompt synchronized. No external file is downloaded or selected here.
+
+### DECISION-010 — Licensed Creative Commons audio and factual Credits permitted
+
+**Date:** 2026-10-25
+
+**Decision:** Owner explicitly approves amending the documents to permit licensed CC audio sources. Effects and music may use selected locally bundled Creative Commons recordings, including CC0 dedications, alongside synthesized effects and JS/model-generated music. Verify exact per-asset license/version, redistribution/modification compatibility and required notices; prefer CC0/CC BY for straightforward reuse. Retain source, creator, license text/notices, modifications and local-file mapping. Provide local Credits linked from opening/settings. Factual creator/source identities and license notices are permitted there and in provenance records; fictional gameplay entities remain fictional. No remote audio/CDN, automatic third-party loading or telemetry.
+
+**Scope:** Design, AGENTS and orchestrator prompt are synchronized. This supersedes DECISION-009's pending source-policy gate; do not ask for that approval again. Specific recordings and production integration still require owner selection. Plan 18 remains an unassigned draft, now able to investigate auditions once assigned. No file download, library migration, change to Plan 04 Repair 02 or new packet assignment is implied. Model-generated music provenance is still unresolved.

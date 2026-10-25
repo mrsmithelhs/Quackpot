@@ -208,7 +208,7 @@ export function composeDuckSvg(rawOptions = {}) {
   const neckAccMarkup = renderNeckAccessoryMarkup(prefix, accessory);
 
   return `<svg id="${prefix}-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - ${palette.name} with ${hat} and ${accessory}">${defsMarkup}
-  <g id="${prefix}-duck-root" style="${styleString}">
+  <g id="${prefix}-root" style="${styleString}">
 
     <!-- BODY GROUP -->
     <g id="${prefix}-body-group">
@@ -266,3 +266,19 @@ export function composeDuckSvg(rawOptions = {}) {
   </g>
 </svg>`;
 }
+
+/**
+ * Renders the canonical master SVG asset for the repository.
+ * Directly corresponds to src/assets/svg/duck-rig.svg.
+ * @returns {string} Master SVG markup
+ */
+export function getCanonicalMasterSvg() {
+  return composeDuckSvg({
+    prefix: 'duck',
+    palette: 'classic-yellow',
+    hat: 'none',
+    accessory: 'none',
+    shadowMode: 'filter'
+  });
+}
+

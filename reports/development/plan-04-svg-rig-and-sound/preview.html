@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan 04 — SVG Duck Rig & Synthesized Sound Gallery</title>
+  <title>Plan 04 — Source-Backed SVG Duck Rig & Synthesized Sound Gallery</title>
   <style>
     :root {
       --bg-dark: #0f172a;
@@ -17,11 +17,7 @@
       --accent-hover: #0ea5e9;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -57,10 +53,32 @@
       color: #ffffff;
     }
 
+    .provenance-tag {
+      font-size: 0.72rem;
+      background: #334155;
+      color: #38bdf8;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
     .subtitle {
       font-size: 0.9rem;
       color: var(--text-muted);
       margin-top: 6px;
+    }
+
+    .provenance-bar {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0b1329;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #1e293b;
     }
 
     .controls-bar {
@@ -144,7 +162,6 @@
       margin-bottom: 16px;
     }
 
-    /* Duck Canvas Container */
     .duck-stage {
       border-radius: 6px;
       padding: 20px;
@@ -159,7 +176,6 @@
     .duck-stage.bg-light { background-color: var(--bg-light); color: #0f172a; }
     .duck-stage.bg-pond { background-color: var(--bg-pond); }
 
-    /* Multi-scale grid */
     .scale-row {
       display: flex;
       flex-wrap: wrap;
@@ -182,23 +198,14 @@
       color: var(--text-muted);
     }
 
-    .duck-stage.bg-light .scale-label {
-      color: #64748b;
-    }
+    .duck-stage.bg-light .scale-label { color: #64748b; }
 
-    .duck-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .duck-wrapper { display: flex; align-items: center; justify-content: center; }
     .duck-32  { width: 32px; height: 32px; }
     .duck-64  { width: 64px; height: 64px; }
     .duck-128 { width: 128px; height: 128px; }
     .duck-256 { width: 256px; height: 256px; }
-    .duck-512 { width: 400px; height: 400px; }
 
-    /* Permutation Gallery Grid */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -225,36 +232,16 @@
       justify-content: center;
     }
 
-    .gallery-info {
-      width: 100%;
-      font-size: 0.8rem;
-    }
+    .gallery-duck-box.bg-dark { background-color: var(--bg-dark); }
+    .gallery-duck-box.bg-light { background-color: var(--bg-light); }
+    .gallery-duck-box.bg-pond { background-color: var(--bg-pond); }
 
-    .gallery-name {
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 4px;
-    }
+    .gallery-info { width: 100%; font-size: 0.8rem; }
+    .gallery-name { font-weight: 600; color: #ffffff; margin-bottom: 4px; }
+    .gallery-meta { color: var(--text-muted); font-size: 0.75rem; }
 
-    .gallery-meta {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-    }
-
-    /* Sound Section */
-    .sound-box {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .sound-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
+    .sound-box { display: flex; flex-direction: column; gap: 16px; }
+    .sound-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
     .sound-status {
       font-size: 0.85rem;
       padding: 4px 10px;
@@ -273,13 +260,6 @@
       font-size: 0.8rem;
       color: #38bdf8;
       overflow-x: auto;
-    }
-
-    /* Diagnostic pivots */
-    .pivot-marker {
-      fill: #ef4444;
-      stroke: #ffffff;
-      stroke-width: 1px;
     }
 
     .head-tilt-active #gallery-demo-head-group {
@@ -301,10 +281,17 @@
     <h1>
       Plan 04: SVG Duck Rig & Sound Spike
       <span class="badge">E2 Paper-Cut Rig</span>
+      <span class="provenance-tag">Source-Backed</span>
     </h1>
     <p class="subtitle">
-      Bounded proof of the owner-selected E2 layered-paper digital gacha rig, motion-ready hierarchy, multi-instance namespacing, and parameter-synthesized QUACK_SHORT.
+      Bounded proof of the owner-selected E2 layered-paper digital gacha rig, motion-ready hierarchy, and parameter-synthesized sound.
     </p>
+    <div class="provenance-bar">
+      <span><strong>Git Rev:</strong> 59c987c</span>
+      <span><strong>duck-rig.mjs SHA-256:</strong> 445d80ad9038...</span>
+      <span><strong>synth.mjs SHA-256:</strong> cd9071f7fe84...</span>
+      <span><strong>Build Date:</strong> 2026-10-25T01:34:17.449Z</span>
+    </div>
   </header>
 
   <!-- Global Visual Controls -->
@@ -319,7 +306,7 @@
     </div>
 
     <div class="control-group">
-      <label for="shadow-select">Shadow Mode:</label>
+      <label for="shadow-select">Shadow Mode (re-renders via DuckRig):</label>
       <select id="shadow-select" onchange="updateShadowMode(this.value)">
         <option value="offset" selected>Flat Offset Paper Shadows</option>
         <option value="filter">SVG &lt;feDropShadow&gt; Filter</option>
@@ -343,18 +330,99 @@
         <span class="scale-label">Parent-relative local coordinates</span>
       </div>
       <p class="section-desc">
-        Proves Condition 1: Hat attachment is placed inside the head group so head transforms automatically carry the hat. Monocle attaches to the eye group. Bow tie attaches to the body neck slot. Wing sublayers rotate around a common pivot (52, 56).
+        Hat attachment resides inside the head group so head transforms automatically carry the hat. Monocle attaches to the eye group. Bow tie attaches to the body neck slot. Wing sublayers rotate around a common pivot (52, 56).
       </p>
 
       <div class="duck-stage bg-dark" id="stage-diagnostic">
         <div class="scale-row">
           <div class="scale-item">
-            <div class="duck-wrapper duck-256" id="diagnostic-duck-container"></div>
+            <div class="duck-wrapper duck-256" id="diagnostic-duck-container">
+              <svg id="gallery-demo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and monocle">
+  <g id="gallery-demo-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="gallery-demo-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="gallery-demo-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="gallery-demo-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="gallery-demo-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="gallery-demo-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="gallery-demo-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="gallery-demo-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="gallery-demo-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="gallery-demo-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="gallery-demo-slot-neck" data-x="41" data-y="60">
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="gallery-demo-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="gallery-demo-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="gallery-demo-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="gallery-demo-bill-group">
+        <path id="gallery-demo-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="gallery-demo-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="gallery-demo-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="gallery-demo-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="gallery-demo-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="gallery-demo-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="gallery-demo-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="gallery-demo-slot-eye" data-x="40" data-y="33">
+      <!-- Monocle (head/eye attached at 40, 33) -->
+      <g id="gallery-demo-acc-monocle">
+        <!-- Gold paper ring -->
+        <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
+        <!-- Glass highlight glint -->
+        <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+        <!-- Hanging gold chain cord down to body -->
+        <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
+      </g>
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="gallery-demo-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="gallery-demo-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
             <span class="scale-label">Interactive Rig (256px)</span>
           </div>
           <div class="scale-item" style="max-width: 480px; align-items: flex-start;">
             <div class="param-spec" style="width: 100%;">
-              <strong>Layer Hierarchy & Attachment Contract:</strong><br>
+              <strong>Authoritative Layer & Anchor Contract:</strong><br>
               • [Head Group] pivot: (48, 46)<br>
               &nbsp;&nbsp;├── Head base & shadow<br>
               &nbsp;&nbsp;├── Bill group (upper, lower, crease)<br>
@@ -382,25 +450,353 @@
         <span class="scale-label">32px / 64px / 128px / 256px</span>
       </div>
       <p class="section-desc">
-        Proves Condition 3: Comparing silhouette and detail down to thumbnail sizes across the chosen stage background. Flat offset shadows maintain crisp edges at 32px without raster blur.
+        Comparing silhouette and detail down to thumbnail sizes across the chosen stage background. Flat offset shadows maintain crisp edges at 32px without raster blur.
       </p>
 
       <div class="duck-stage bg-dark" id="stage-scale">
         <div class="scale-row">
           <div class="scale-item">
-            <div class="duck-wrapper duck-32" id="scale-32"></div>
+            <div class="duck-wrapper duck-32" id="scale-32"><svg id="scale-32-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and bow-tie">
+  <g id="scale-32-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="scale-32-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="scale-32-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-32-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="scale-32-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-32-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="scale-32-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="scale-32-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="scale-32-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="scale-32-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="scale-32-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="scale-32-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="scale-32-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="scale-32-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-32-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="scale-32-bill-group">
+        <path id="scale-32-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="scale-32-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="scale-32-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="scale-32-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="scale-32-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="scale-32-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="scale-32-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="scale-32-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="scale-32-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="scale-32-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg></div>
             <span class="scale-label">32px icon</span>
           </div>
           <div class="scale-item">
-            <div class="duck-wrapper duck-64" id="scale-64"></div>
+            <div class="duck-wrapper duck-64" id="scale-64"><svg id="scale-64-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and bow-tie">
+  <g id="scale-64-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="scale-64-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="scale-64-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-64-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="scale-64-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-64-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="scale-64-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="scale-64-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="scale-64-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="scale-64-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="scale-64-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="scale-64-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="scale-64-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="scale-64-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-64-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="scale-64-bill-group">
+        <path id="scale-64-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="scale-64-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="scale-64-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="scale-64-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="scale-64-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="scale-64-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="scale-64-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="scale-64-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="scale-64-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="scale-64-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg></div>
             <span class="scale-label">64px avatar</span>
           </div>
           <div class="scale-item">
-            <div class="duck-wrapper duck-128" id="scale-128"></div>
+            <div class="duck-wrapper duck-128" id="scale-128"><svg id="scale-128-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and bow-tie">
+  <g id="scale-128-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="scale-128-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="scale-128-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-128-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="scale-128-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-128-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="scale-128-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="scale-128-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="scale-128-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="scale-128-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="scale-128-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="scale-128-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="scale-128-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="scale-128-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-128-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="scale-128-bill-group">
+        <path id="scale-128-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="scale-128-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="scale-128-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="scale-128-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="scale-128-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="scale-128-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="scale-128-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="scale-128-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="scale-128-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="scale-128-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg></div>
             <span class="scale-label">128px card</span>
           </div>
           <div class="scale-item">
-            <div class="duck-wrapper duck-256" id="scale-256"></div>
+            <div class="duck-wrapper duck-256" id="scale-256"><svg id="scale-256-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and bow-tie">
+  <g id="scale-256-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="scale-256-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="scale-256-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-256-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="scale-256-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-256-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="scale-256-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="scale-256-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="scale-256-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="scale-256-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="scale-256-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="scale-256-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="scale-256-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="scale-256-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="scale-256-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="scale-256-bill-group">
+        <path id="scale-256-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="scale-256-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="scale-256-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="scale-256-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="scale-256-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="scale-256-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="scale-256-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="scale-256-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="scale-256-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="scale-256-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg></div>
             <span class="scale-label">256px dialog</span>
           </div>
         </div>
@@ -414,27 +810,542 @@
         <span class="scale-label">3 Palettes × 2 Hats × 2 Accessories</span>
       </div>
       <p class="section-desc">
-        Proves Condition 2 & Condition 3: Multiple ducks rendered simultaneously in the same DOM. All IDs, filter URLs, and CSS custom properties are strictly namespaced by instance prefix. No cross-instance collisions.
+        Rendered simultaneously in one DOM using authoritative <code>DuckRig.composeDuckSvg()</code>. All IDs and filter URLs are strictly namespaced by instance prefix.
       </p>
 
       <div class="gallery-grid" id="gallery-grid">
-        <!-- Rendered dynamically via JavaScript -->
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-combo-1">
+            <div class="duck-wrapper duck-128" id="container-combo-1">
+              <svg id="combo-1-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and monocle">
+  <g id="combo-1-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="combo-1-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="combo-1-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-1-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="combo-1-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-1-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="combo-1-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="combo-1-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="combo-1-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="combo-1-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="combo-1-slot-neck" data-x="41" data-y="60">
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="combo-1-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="combo-1-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-1-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="combo-1-bill-group">
+        <path id="combo-1-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="combo-1-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="combo-1-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="combo-1-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="combo-1-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="combo-1-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="combo-1-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="combo-1-slot-eye" data-x="40" data-y="33">
+      <!-- Monocle (head/eye attached at 40, 33) -->
+      <g id="combo-1-acc-monocle">
+        <!-- Gold paper ring -->
+        <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
+        <!-- Glass highlight glint -->
+        <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+        <!-- Hanging gold chain cord down to body -->
+        <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
+      </g>
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="combo-1-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="combo-1-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Classic Gentleman</div>
+            <div class="gallery-meta">Palette: classic-yellow</div>
+            <div class="gallery-meta">Hat: tiny-top-hat | Acc: monocle</div>
+            <div class="gallery-meta">Instance Prefix: <code>combo-1</code></div>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-combo-2">
+            <div class="duck-wrapper duck-128" id="container-combo-2">
+              <svg id="combo-2-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Mallard Green with sailor-cap and bow-tie">
+  <g id="combo-2-root" style="--duck-body-fill: #047857; --duck-body-shadow: #064e3b; --duck-bill-fill: #f59e0b; --duck-bill-shadow: #b45309; --duck-wing-fill: #059669; --duck-wing-shadow: #047857; --duck-accent: #fbbf24;">
+
+    <!-- BODY GROUP -->
+    <g id="combo-2-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="combo-2-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-2-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="combo-2-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-2-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="combo-2-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="combo-2-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="combo-2-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="combo-2-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="combo-2-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="combo-2-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="combo-2-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="combo-2-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-2-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="combo-2-bill-group">
+        <path id="combo-2-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="combo-2-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="combo-2-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="combo-2-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="combo-2-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="combo-2-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="combo-2-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="combo-2-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="combo-2-slot-hat" data-x="46" data-y="22">
+      <!-- Sailor Cap (carried by head group) -->
+      <g id="combo-2-hat-sailor-cap" data-anchor-x="46" data-anchor-y="22">
+        <!-- Navy brim band -->
+        <path d="M 34 23.5 C 42 23.5 50 22 58 20 C 56.5 22 49 23.5 34 25 Z" fill="#1e3a8a" />
+        <!-- White paper puffed cap -->
+        <path d="M 34.5 22.5 C 33 16 43 11.5 56 12 C 61 12.5 60 19 57.5 20 C 50 22 42 22.5 34.5 22.5 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.6" />
+        <!-- Center anchor cockade / badge -->
+        <circle cx="45" cy="17" r="1.6" fill="#f59e0b" />
+        <!-- Sailor streamer ribbon trailing back -->
+        <path d="M 57 19.5 C 62 20 67 22 70 26 L 68 27 C 65 24 61 22 56 21 Z" fill="#1e3a8a" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Naval Mallard</div>
+            <div class="gallery-meta">Palette: mallard-green</div>
+            <div class="gallery-meta">Hat: sailor-cap | Acc: bow-tie</div>
+            <div class="gallery-meta">Instance Prefix: <code>combo-2</code></div>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-combo-3">
+            <div class="duck-wrapper duck-128" id="container-combo-3">
+              <svg id="combo-3-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Bubblegum Pink with tiny-top-hat and bow-tie">
+  <g id="combo-3-root" style="--duck-body-fill: #f472b6; --duck-body-shadow: #db2777; --duck-bill-fill: #fb923c; --duck-bill-shadow: #ea580c; --duck-wing-fill: #ec4899; --duck-wing-shadow: #be185d; --duck-accent: #a855f7;">
+
+    <!-- BODY GROUP -->
+    <g id="combo-3-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="combo-3-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-3-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="combo-3-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-3-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="combo-3-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="combo-3-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="combo-3-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="combo-3-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="combo-3-slot-neck" data-x="41" data-y="60">
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="combo-3-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="combo-3-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="combo-3-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-3-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="combo-3-bill-group">
+        <path id="combo-3-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="combo-3-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="combo-3-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="combo-3-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="combo-3-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="combo-3-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="combo-3-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="combo-3-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="combo-3-slot-hat" data-x="46" data-y="22">
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="combo-3-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Festive Pink</div>
+            <div class="gallery-meta">Palette: bubblegum-pink</div>
+            <div class="gallery-meta">Hat: tiny-top-hat | Acc: bow-tie</div>
+            <div class="gallery-meta">Instance Prefix: <code>combo-3</code></div>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-combo-4">
+            <div class="duck-wrapper duck-128" id="container-combo-4">
+              <svg id="combo-4-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Bubblegum Pink with sailor-cap and monocle">
+  <g id="combo-4-root" style="--duck-body-fill: #f472b6; --duck-body-shadow: #db2777; --duck-bill-fill: #fb923c; --duck-bill-shadow: #ea580c; --duck-wing-fill: #ec4899; --duck-wing-shadow: #be185d; --duck-accent: #a855f7;">
+
+    <!-- BODY GROUP -->
+    <g id="combo-4-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="combo-4-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-4-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="combo-4-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-4-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="combo-4-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="combo-4-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="combo-4-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="combo-4-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="combo-4-slot-neck" data-x="41" data-y="60">
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="combo-4-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="combo-4-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="combo-4-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="combo-4-bill-group">
+        <path id="combo-4-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="combo-4-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="combo-4-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="combo-4-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="combo-4-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="combo-4-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="combo-4-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="combo-4-slot-eye" data-x="40" data-y="33">
+      <!-- Monocle (head/eye attached at 40, 33) -->
+      <g id="combo-4-acc-monocle">
+        <!-- Gold paper ring -->
+        <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
+        <!-- Glass highlight glint -->
+        <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+        <!-- Hanging gold chain cord down to body -->
+        <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
+      </g>
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="combo-4-slot-hat" data-x="46" data-y="22">
+      <!-- Sailor Cap (carried by head group) -->
+      <g id="combo-4-hat-sailor-cap" data-anchor-x="46" data-anchor-y="22">
+        <!-- Navy brim band -->
+        <path d="M 34 23.5 C 42 23.5 50 22 58 20 C 56.5 22 49 23.5 34 25 Z" fill="#1e3a8a" />
+        <!-- White paper puffed cap -->
+        <path d="M 34.5 22.5 C 33 16 43 11.5 56 12 C 61 12.5 60 19 57.5 20 C 50 22 42 22.5 34.5 22.5 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.6" />
+        <!-- Center anchor cockade / badge -->
+        <circle cx="45" cy="17" r="1.6" fill="#f59e0b" />
+        <!-- Sailor streamer ribbon trailing back -->
+        <path d="M 57 19.5 C 62 20 67 22 70 26 L 68 27 C 65 24 61 22 56 21 Z" fill="#1e3a8a" />
+      </g>
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Pink Seafarer</div>
+            <div class="gallery-meta">Palette: bubblegum-pink</div>
+            <div class="gallery-meta">Hat: sailor-cap | Acc: monocle</div>
+            <div class="gallery-meta">Instance Prefix: <code>combo-4</code></div>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-base-yellow">
+            <div class="duck-wrapper duck-128" id="container-base-yellow">
+              <svg id="base-yellow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
+  <g id="base-yellow-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+
+    <!-- BODY GROUP -->
+    <g id="base-yellow-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="base-yellow-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-yellow-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="base-yellow-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-yellow-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="base-yellow-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="base-yellow-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="base-yellow-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="base-yellow-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="base-yellow-slot-neck" data-x="41" data-y="60">
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="base-yellow-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="base-yellow-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-yellow-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="base-yellow-bill-group">
+        <path id="base-yellow-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="base-yellow-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="base-yellow-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="base-yellow-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="base-yellow-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="base-yellow-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="base-yellow-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="base-yellow-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="base-yellow-slot-hat" data-x="46" data-y="22">
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Classic Yellow Base</div>
+            <div class="gallery-meta">Palette: classic-yellow</div>
+            <div class="gallery-meta">Hat: none | Acc: none</div>
+            <div class="gallery-meta">Instance Prefix: <code>base-yellow</code></div>
+          </div>
+        </div>
+
+        <div class="gallery-card">
+          <div class="gallery-duck-box bg-dark" id="box-base-mallard">
+            <div class="duck-wrapper duck-128" id="container-base-mallard">
+              <svg id="base-mallard-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Mallard Green with none and none">
+  <g id="base-mallard-root" style="--duck-body-fill: #047857; --duck-body-shadow: #064e3b; --duck-bill-fill: #f59e0b; --duck-bill-shadow: #b45309; --duck-wing-fill: #059669; --duck-wing-shadow: #047857; --duck-accent: #fbbf24;">
+
+    <!-- BODY GROUP -->
+    <g id="base-mallard-body-group">
+      <!-- Tail paper cut (under body) -->
+      <path id="base-mallard-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-mallard-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Body silhouette and shadow -->
+      <path id="base-mallard-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-mallard-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="base-mallard-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- Under wing shadow / feather -->
+        <path id="base-mallard-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="base-mallard-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="base-mallard-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
+
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="base-mallard-slot-neck" data-x="41" data-y="60">
+      </g>
+    </g>
+
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="base-mallard-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      <path id="base-mallard-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />
+      <path id="base-mallard-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- BILL GROUP -->
+      <g id="base-mallard-bill-group">
+        <path id="base-mallard-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+        <path id="base-mallard-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="base-mallard-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
+
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="base-mallard-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="base-mallard-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="base-mallard-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="base-mallard-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="base-mallard-slot-eye" data-x="40" data-y="33">
+        </g>
+      </g>
+
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="base-mallard-slot-hat" data-x="46" data-y="22">
+      </g>
+    </g>
+
+  </g>
+</svg>
+            </div>
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-name">Mallard Green Base</div>
+            <div class="gallery-meta">Palette: mallard-green</div>
+            <div class="gallery-meta">Hat: none | Acc: none</div>
+            <div class="gallery-meta">Instance Prefix: <code>base-mallard</code></div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- 4. Parameter-Synthesized Sound Spike (QUACK_SHORT) -->
     <section class="section-card">
       <div class="section-title">
-        <span>4. Synthesized Sound Prototype (`QUACK_SHORT`)</span>
-        <span class="scale-label">Zero-dependency Web Audio</span>
+        <span>4. Synthesized Sound Prototype (<code>QUACK_SHORT</code>)</span>
+        <span class="scale-label">Source-backed via DuckSynth</span>
       </div>
       <p class="section-desc">
-        Proves Condition 3: Exactly one short sound effect, stored as text parameters, synthesized at runtime. Demonstrates lazy user-gesture unlocking, conservative gain (0.15 peak), and silent fallback when audio hardware or context is absent.
+        Executed via <code>DuckSynth.playSynthesizedSound()</code> directly from <code>src/audio/synth.mjs</code>. Demonstrates lazy user-gesture unlocking, conservative gain (0.15 peak), and silent fallback when audio hardware or context is absent.
       </p>
 
       <div class="sound-box">
         <div class="sound-row">
-          <button class="primary" onclick="triggerQuackSound()">🔊 Play QUACK_SHORT</button>
+          <button class="primary" onclick="triggerQuackSound()">🔊 Play QUACK_SHORT via DuckSynth</button>
           <button onclick="testSilentFallback()">Simulate Silent Fallback</button>
           <span class="sound-status" id="audio-status">Status: Waiting for user gesture</span>
         </div>
@@ -460,165 +1371,469 @@
 
   </div>
 
-  <script>
-    // --- Pure Inlined Rig Composer (Identical logic to src/core/duck-rig.mjs) ---
-    const PALETTES = {
-      'classic-yellow': {
-        id: 'classic-yellow',
-        name: 'Classic Yellow',
-        bodyFill: '#fbbf24',
-        bodyShadow: '#d97706',
-        billFill: '#f97316',
-        billShadow: '#c2410c',
-        wingFill: '#f59e0b',
-        wingShadow: '#b45309',
-        accent: '#ef4444'
-      },
-      'mallard-green': {
-        id: 'mallard-green',
-        name: 'Mallard Green',
-        bodyFill: '#047857',
-        bodyShadow: '#064e3b',
-        billFill: '#f59e0b',
-        billShadow: '#b45309',
-        wingFill: '#059669',
-        wingShadow: '#047857',
-        accent: '#fbbf24'
-      },
-      'bubblegum-pink': {
-        id: 'bubblegum-pink',
-        name: 'Bubblegum Pink',
-        bodyFill: '#f472b6',
-        bodyShadow: '#db2777',
-        billFill: '#fb923c',
-        billShadow: '#ea580c',
-        wingFill: '#ec4899',
-        wingShadow: '#be185d',
-        accent: '#a855f7'
-      }
-    };
+  <!-- Inlined Source Bundles (Derived directly from src/core/duck-rig.mjs and src/audio/synth.mjs) -->
+  <script id="bundle-duck-rig">
+var DuckRig = (function(exports) {
+	Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+	// src/core/duck-rig.mjs
+	/**
+	* @file duck-rig.mjs
+	* Pure functional SVG duck rig composition module for Quackpot.
+	* Implements the E2 layered paper-cut duck rig with motion-ready hierarchy,
+	* safe multi-instance ID namespacing, and cosmetic option validation.
+	*/
+	var PALETTES = Object.freeze({
+		"classic-yellow": Object.freeze({
+			id: "classic-yellow",
+			name: "Classic Yellow",
+			bodyFill: "#fbbf24",
+			bodyShadow: "#d97706",
+			billFill: "#f97316",
+			billShadow: "#c2410c",
+			wingFill: "#f59e0b",
+			wingShadow: "#b45309",
+			accent: "#ef4444"
+		}),
+		"mallard-green": Object.freeze({
+			id: "mallard-green",
+			name: "Mallard Green",
+			bodyFill: "#047857",
+			bodyShadow: "#064e3b",
+			billFill: "#f59e0b",
+			billShadow: "#b45309",
+			wingFill: "#059669",
+			wingShadow: "#047857",
+			accent: "#fbbf24"
+		}),
+		"bubblegum-pink": Object.freeze({
+			id: "bubblegum-pink",
+			name: "Bubblegum Pink",
+			bodyFill: "#f472b6",
+			bodyShadow: "#db2777",
+			billFill: "#fb923c",
+			billShadow: "#ea580c",
+			wingFill: "#ec4899",
+			wingShadow: "#be185d",
+			accent: "#a855f7"
+		})
+	});
+	var HATS = Object.freeze([
+		"none",
+		"tiny-top-hat",
+		"sailor-cap"
+	]);
+	var ACCESSORIES = Object.freeze([
+		"none",
+		"bow-tie",
+		"monocle"
+	]);
+	var SHADOW_MODES = Object.freeze([
+		"offset",
+		"filter",
+		"none"
+	]);
+	var PREFIX_REGEX = /^[a-zA-Z0-9_-]+$/;
+	/**
+	* Validates cosmetic composition options.
+	* @param {Object} options 
+	* @returns {Object} normalized options
+	*/
+	function validateOptions(options = {}) {
+		const prefix = options.prefix || "duck";
+		if (!PREFIX_REGEX.test(prefix)) throw new Error(`Invalid prefix "${prefix}". Must match /^[a-zA-Z0-9_-]+$/`);
+		const paletteId = options.palette || "classic-yellow";
+		if (!PALETTES[paletteId]) throw new Error(`Invalid palette "${paletteId}". Supported: ${Object.keys(PALETTES).join(", ")}`);
+		const hat = options.hat || "none";
+		if (!HATS.includes(hat)) throw new Error(`Invalid hat "${hat}". Supported: ${HATS.join(", ")}`);
+		const accessory = options.accessory || "none";
+		if (!ACCESSORIES.includes(accessory)) throw new Error(`Invalid accessory "${accessory}". Supported: ${ACCESSORIES.join(", ")}`);
+		const shadowMode = options.shadowMode || "offset";
+		if (!SHADOW_MODES.includes(shadowMode)) throw new Error(`Invalid shadowMode "${shadowMode}". Supported: ${SHADOW_MODES.join(", ")}`);
+		return {
+			prefix,
+			paletteId,
+			palette: PALETTES[paletteId],
+			hat,
+			accessory,
+			shadowMode
+		};
+	}
+	/**
+	* Generates hat markup.
+	* Note: hats reside inside the head group so head transforms automatically carry the hat.
+	*/
+	function renderHatMarkup(prefix, hat) {
+		if (hat === "tiny-top-hat") return `
+      <!-- Tiny Top Hat (carried by head group) -->
+      <g id="${prefix}-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
+        <!-- Brim underside shadow -->
+        <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
+        <!-- Brim paper cut -->
+        <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
+        <!-- Crown paper cut -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
+        <!-- Crown top oval -->
+        <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
+        <!-- Red ribbon band -->
+        <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
+      </g>`;
+		if (hat === "sailor-cap") return `
+      <!-- Sailor Cap (carried by head group) -->
+      <g id="${prefix}-hat-sailor-cap" data-anchor-x="46" data-anchor-y="22">
+        <!-- Navy brim band -->
+        <path d="M 34 23.5 C 42 23.5 50 22 58 20 C 56.5 22 49 23.5 34 25 Z" fill="#1e3a8a" />
+        <!-- White paper puffed cap -->
+        <path d="M 34.5 22.5 C 33 16 43 11.5 56 12 C 61 12.5 60 19 57.5 20 C 50 22 42 22.5 34.5 22.5 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.6" />
+        <!-- Center anchor cockade / badge -->
+        <circle cx="45" cy="17" r="1.6" fill="#f59e0b" />
+        <!-- Sailor streamer ribbon trailing back -->
+        <path d="M 57 19.5 C 62 20 67 22 70 26 L 68 27 C 65 24 61 22 56 21 Z" fill="#1e3a8a" />
+      </g>`;
+		return "";
+	}
+	/**
+	* Generates eye accessory markup (e.g. monocle).
+	* Attached inside head/eye group so eye/head movement carries it.
+	*/
+	function renderEyeAccessoryMarkup(prefix, accessory) {
+		if (accessory === "monocle") return `
+      <!-- Monocle (head/eye attached at 40, 33) -->
+      <g id="${prefix}-acc-monocle">
+        <!-- Gold paper ring -->
+        <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
+        <!-- Glass highlight glint -->
+        <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
+        <!-- Hanging gold chain cord down to body -->
+        <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
+      </g>`;
+		return "";
+	}
+	/**
+	* Generates neck/body accessory markup (e.g. bow tie).
+	* Attached inside body group at neck slot (41, 60).
+	*/
+	function renderNeckAccessoryMarkup(prefix, accessory) {
+		if (accessory === "bow-tie") return `
+      <!-- Bow Tie (body/neck attached at 41, 60) -->
+      <g id="${prefix}-acc-bow-tie">
+        <!-- Left bow loop -->
+        <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Right bow loop -->
+        <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
+        <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
+        <!-- Center knot paper cut -->
+        <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
+        <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
+      </g>`;
+		return "";
+	}
+	/**
+	* Composes a full SVG duck rig markup string.
+	* @param {Object} rawOptions 
+	* @returns {string} Composed SVG string
+	*/
+	function composeDuckSvg(rawOptions = {}) {
+		const { prefix, palette, hat, accessory, shadowMode } = validateOptions(rawOptions);
+		const isFilter = shadowMode === "filter";
+		const isOffset = shadowMode === "offset";
+		const defsMarkup = isFilter ? `
+    <defs>
+      <filter id="${prefix}-paper-shadow" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="1.2" dy="2.0" stdDeviation="1.2" flood-color="#0f172a" flood-opacity="0.3" />
+      </filter>
+    </defs>` : "";
+		const filterAttr = isFilter ? ` filter="url(#${prefix}-paper-shadow)"` : "";
+		const tailShadow = isOffset ? `<path id="${prefix}-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />` : "";
+		const bodyShadow = isOffset ? `<path id="${prefix}-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />` : "";
+		const headShadow = isOffset ? `<path id="${prefix}-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />` : "";
+		const billShadow = isOffset ? `<path id="${prefix}-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />` : "";
+		const styleString = `--duck-body-fill: ${palette.bodyFill}; --duck-body-shadow: ${palette.bodyShadow}; --duck-bill-fill: ${palette.billFill}; --duck-bill-shadow: ${palette.billShadow}; --duck-wing-fill: ${palette.wingFill}; --duck-wing-shadow: ${palette.wingShadow}; --duck-accent: ${palette.accent};`;
+		const hatMarkup = renderHatMarkup(prefix, hat);
+		const eyeAccMarkup = renderEyeAccessoryMarkup(prefix, accessory);
+		const neckAccMarkup = renderNeckAccessoryMarkup(prefix, accessory);
+		return `<svg id="${prefix}-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - ${palette.name} with ${hat} and ${accessory}">${defsMarkup}
+  <g id="${prefix}-root" style="${styleString}">
 
-    function renderHatMarkup(prefix, hat) {
-      if (hat === 'tiny-top-hat') {
-        return `
-          <g id="${prefix}-hat-top-hat" data-anchor-x="46" data-anchor-y="22">
-            <path d="M 34 23 C 42 24 50 23 58 21 C 52 23 44 24 34 23 Z" fill="#0f172a" opacity="0.4" />
-            <path d="M 33 22.5 C 41 23.5 49 22.5 57 20.5 C 57.5 21.5 56.5 22.5 55 23 C 47 24.5 39 24.5 33 22.5 Z" fill="#1e293b" />
-            <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 51.5 9.5 C 46.5 10 41.5 10.5 37 11 L 38 22 Z" fill="#1e293b" />
-            <ellipse cx="44.2" cy="10.2" rx="7.2" ry="1.4" fill="#334155" />
-            <path d="M 38 22 C 45 22.5 51 21.5 53 20.5 L 52.7 18 C 47 19 42 19.5 37.8 19 L 38 22 Z" fill="#ef4444" />
-          </g>`;
-      }
-      if (hat === 'sailor-cap') {
-        return `
-          <g id="${prefix}-hat-sailor-cap" data-anchor-x="46" data-anchor-y="22">
-            <path d="M 34 23.5 C 42 23.5 50 22 58 20 C 56.5 22 49 23.5 34 25 Z" fill="#1e3a8a" />
-            <path d="M 34.5 22.5 C 33 16 43 11.5 56 12 C 61 12.5 60 19 57.5 20 C 50 22 42 22.5 34.5 22.5 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.6" />
-            <circle cx="45" cy="17" r="1.6" fill="#f59e0b" />
-            <path d="M 57 19.5 C 62 20 67 22 70 26 L 68 27 C 65 24 61 22 56 21 Z" fill="#1e3a8a" />
-          </g>`;
-      }
-      return '';
-    }
+    <!-- BODY GROUP -->
+    <g id="${prefix}-body-group">
+      <!-- Tail paper cut (under body) -->
+      ${tailShadow}
+      <path id="${prefix}-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)"${filterAttr} />
 
-    function renderEyeAccessoryMarkup(prefix, accessory) {
-      if (accessory === 'monocle') {
-        return `
-          <g id="${prefix}-acc-monocle">
-            <circle cx="40" cy="33" r="5.2" fill="none" stroke="#f59e0b" stroke-width="1.1" />
-            <path d="M 37.5 30.5 L 42.5 35.5" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" opacity="0.6" />
-            <path d="M 44.5 35 C 47.5 42 46.5 51 42 57" fill="none" stroke="#d97706" stroke-width="0.65" stroke-dasharray="1.2,1.2" />
-          </g>`;
-      }
-      return '';
-    }
+      <!-- Body silhouette and shadow -->
+      ${bodyShadow}
+      <path id="${prefix}-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)"${filterAttr} />
 
-    function renderNeckAccessoryMarkup(prefix, accessory) {
-      if (accessory === 'bow-tie') {
-        return `
-          <g id="${prefix}-acc-bow-tie">
-            <path d="M 41 60 L 32 54.5 C 31 59 31 62 32 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
-            <path d="M 33 56 C 36 58 39 59 41 60 C 39 61 36 62 33 64 Z" fill="#b91c1c" opacity="0.35" />
-            <path d="M 41 60 L 50 54.5 C 51 59 51 62 50 65.5 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="0.6" />
-            <path d="M 49 56 C 46 58 43 59 41 60 C 43 61 46 62 49 64 Z" fill="#b91c1c" opacity="0.35" />
-            <circle cx="41" cy="60" r="2.2" fill="#b91c1c" />
-            <circle cx="40.5" cy="59.3" r="0.8" fill="#fca5a5" />
-          </g>`;
-      }
-      return '';
-    }
+      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
+      <g id="${prefix}-wing-group" data-pivot-x="52" data-pivot-y="56"${filterAttr}>
+        <!-- Under wing shadow / feather -->
+        <path id="${prefix}-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
+        <!-- Mid wing feather -->
+        <path id="${prefix}-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
+        <!-- Top wing paper layer -->
+        <path id="${prefix}-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      </g>
 
-    function composeDuck(opts = {}) {
-      const prefix = opts.prefix || 'duck';
-      const palette = PALETTES[opts.palette || 'classic-yellow'] || PALETTES['classic-yellow'];
-      const hat = opts.hat || 'none';
-      const accessory = opts.accessory || 'none';
-      const shadowMode = opts.shadowMode || currentShadowMode;
+      <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
+      <g id="${prefix}-slot-neck" data-x="41" data-y="60">${neckAccMarkup}
+      </g>
+    </g>
 
-      const isFilter = shadowMode === 'filter';
-      const isOffset = shadowMode === 'offset';
+    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <g id="${prefix}-head-group" data-pivot-x="48" data-pivot-y="46">
+      <!-- Head shadow and base -->
+      ${headShadow}
+      <path id="${prefix}-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)"${filterAttr} />
 
-      const defsMarkup = isFilter ? `
-        <defs>
-          <filter id="${prefix}-paper-shadow" x="-20%" y="-20%" width="150%" height="150%">
-            <feDropShadow dx="1.2" dy="2.0" stdDeviation="1.2" flood-color="#0f172a" flood-opacity="0.3" />
-          </filter>
-        </defs>` : '';
+      <!-- BILL GROUP -->
+      <g id="${prefix}-bill-group"${filterAttr}>
+        ${billShadow}
+        <path id="${prefix}-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+        <path id="${prefix}-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
+      </g>
 
-      const filterAttr = isFilter ? ` filter="url(#${prefix}-paper-shadow)"` : '';
-
-      const tailShadow = isOffset ? `<path id="${prefix}-tail-shadow" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />` : '';
-      const bodyShadow = isOffset ? `<path id="${prefix}-body-shadow" d="M 32 77 C 36 84 50 87 66 85 C 78 84 85 76 89 65 C 84 72 73 80 58 80 C 44 80 36 75 32 77 Z" fill="var(--duck-body-shadow)" />` : '';
-      const headShadow = isOffset ? `<path id="${prefix}-head-shadow" d="M 37 46 C 43 52 55 52 63 48 C 59 53 51 55 45 54 C 41 53 38 50 37 46 Z" fill="var(--duck-body-shadow)" />` : '';
-      const billShadow = isOffset ? `<path id="${prefix}-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />` : '';
-
-      const styleString = `--duck-body-fill: ${palette.bodyFill}; --duck-body-shadow: ${palette.bodyShadow}; --duck-bill-fill: ${palette.billFill}; --duck-bill-shadow: ${palette.billShadow}; --duck-wing-fill: ${palette.wingFill}; --duck-wing-shadow: ${palette.wingShadow}; --duck-accent: ${palette.accent};`;
-
-      const hatMarkup = renderHatMarkup(prefix, hat);
-      const eyeAccMarkup = renderEyeAccessoryMarkup(prefix, accessory);
-      const neckAccMarkup = renderNeckAccessoryMarkup(prefix, accessory);
-
-      return `<svg id="${prefix}-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img">${defsMarkup}
-        <g id="${prefix}-duck-root" style="${styleString}">
-          <g id="${prefix}-body-group">
-            ${tailShadow}
-            <path id="${prefix}-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)"${filterAttr} />
-            ${bodyShadow}
-            <path id="${prefix}-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)"${filterAttr} />
-            <g id="${prefix}-wing-group" data-pivot-x="52" data-pivot-y="56"${filterAttr}>
-              <path id="${prefix}-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
-              <path id="${prefix}-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
-              <path id="${prefix}-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
-            </g>
-            <g id="${prefix}-slot-neck" data-x="41" data-y="60">${neckAccMarkup}</g>
-          </g>
-          <g id="${prefix}-head-group" data-pivot-x="48" data-pivot-y="46">
-            ${headShadow}
-            <path id="${prefix}-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)"${filterAttr} />
-            <g id="${prefix}-bill-group"${filterAttr}>
-              ${billShadow}
-              <path id="${prefix}-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
-              <path id="${prefix}-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
-            </g>
-            <g id="${prefix}-eye-group" data-pivot-x="40" data-pivot-y="33">
-              <circle id="${prefix}-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
-              <circle id="${prefix}-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
-              <circle id="${prefix}-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
-              <g id="${prefix}-slot-eye" data-x="40" data-y="33">${eyeAccMarkup}</g>
-            </g>
-            <g id="${prefix}-slot-hat" data-x="46" data-y="22">${hatMarkup}</g>
-          </g>
+      <!-- EYE GROUP (Position: 40, 33) -->
+      <g id="${prefix}-eye-group" data-pivot-x="40" data-pivot-y="33">
+        <circle id="${prefix}-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <circle id="${prefix}-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <circle id="${prefix}-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
+        <!-- Slot for Eye Accessories (e.g. Monocle) -->
+        <g id="${prefix}-slot-eye" data-x="40" data-y="33">${eyeAccMarkup}
         </g>
-      </svg>`;
-    }
+      </g>
 
-    // --- State & Handlers ---
+      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <g id="${prefix}-slot-hat" data-x="46" data-y="22">${hatMarkup}
+      </g>
+    </g>
+
+  </g>
+</svg>`;
+	}
+	/**
+	* Renders the canonical master SVG asset for the repository.
+	* Directly corresponds to src/assets/svg/duck-rig.svg.
+	* @returns {string} Master SVG markup
+	*/
+	function getCanonicalMasterSvg() {
+		return composeDuckSvg({
+			prefix: "duck",
+			palette: "classic-yellow",
+			hat: "none",
+			accessory: "none",
+			shadowMode: "filter"
+		});
+	}
+	exports.ACCESSORIES = ACCESSORIES;
+	exports.HATS = HATS;
+	exports.PALETTES = PALETTES;
+	exports.SHADOW_MODES = SHADOW_MODES;
+	exports.composeDuckSvg = composeDuckSvg;
+	exports.getCanonicalMasterSvg = getCanonicalMasterSvg;
+	exports.validateOptions = validateOptions;
+	return exports;
+})({});
+
+if (typeof window !== 'undefined') { window.DuckRig = DuckRig; }
+
+  </script>
+  <script id="bundle-duck-synth">
+var DuckSynth = (function(exports) {
+	Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+	// src/audio/synth.mjs
+	/**
+	* @file synth.mjs
+	* Zero-dependency Web Audio synthesizer for text-stored sound parameters.
+	* Implements QUACK_SHORT per Plan 04 controlling conditions with conservative gain,
+	* user-gesture start/resume, and silent fallback.
+	*/
+	var QUACK_SHORT = Object.freeze({
+		name: "QUACK_SHORT",
+		waveform: "sawtooth",
+		frequency: 340,
+		pitchBend: -140,
+		attack: .02,
+		decay: .12,
+		sustain: .05,
+		release: .08,
+		modulationFreq: 22,
+		modulationDepth: 35,
+		gain: .15
+	});
+	var VALID_WAVEFORMS = Object.freeze([
+		"sawtooth",
+		"triangle",
+		"sine",
+		"square"
+	]);
+	/**
+	* Validates audio parameters against safe numeric ranges.
+	* @param {Object} params 
+	* @returns {Object} validated params
+	*/
+	function validateSoundParams(params = {}) {
+		if (!params || typeof params !== "object") throw new Error("Sound params must be an object");
+		const waveform = params.waveform || "sawtooth";
+		if (!VALID_WAVEFORMS.includes(waveform)) throw new Error(`Invalid waveform "${waveform}". Supported: ${VALID_WAVEFORMS.join(", ")}`);
+		const frequency = Number(params.frequency ?? 340);
+		if (!Number.isFinite(frequency) || frequency <= 0 || frequency > 2e4) throw new Error(`Invalid frequency "${params.frequency}". Must be between 1 and 20000 Hz.`);
+		const gain = Number(params.gain ?? .15);
+		if (!Number.isFinite(gain) || gain <= 0 || gain > 1) throw new Error(`Invalid gain "${params.gain}". Must be between 0 and 1.0.`);
+		const attack = Math.max(.001, Number(params.attack ?? .02));
+		const decay = Math.max(.001, Number(params.decay ?? .12));
+		const sustain = Math.max(0, Math.min(1, Number(params.sustain ?? .05)));
+		const release = Math.max(.001, Number(params.release ?? .08));
+		const pitchBend = Number(params.pitchBend ?? 0);
+		const modulationFreq = Math.max(0, Number(params.modulationFreq ?? 0));
+		const modulationDepth = Math.max(0, Number(params.modulationDepth ?? 0));
+		return {
+			name: params.name || "CUSTOM_SOUND",
+			waveform,
+			frequency,
+			pitchBend,
+			attack,
+			decay,
+			sustain,
+			release,
+			modulationFreq,
+			modulationDepth,
+			gain
+		};
+	}
+	/**
+	* Calculates total sound duration from ADSR parameters.
+	* @param {Object} params 
+	* @returns {number} duration in seconds
+	*/
+	function calculateDuration(params) {
+		const p = validateSoundParams(params);
+		return p.attack + p.decay + p.release;
+	}
+	var activeContext = null;
+	/**
+	* Safely obtains or resumes an AudioContext under a user gesture.
+	* Returns null if Web Audio is unsupported (silent fallback).
+	* @param {Object} [customAudioContextClass] Optional injectable constructor for testing
+	* @returns {AudioContext|null}
+	*/
+	function getOrCreateAudioContext(customAudioContextClass) {
+		const ContextClass = customAudioContextClass || (typeof window !== "undefined" ? window.AudioContext || window.webkitAudioContext : null);
+		if (!ContextClass) return null;
+		try {
+			if (!activeContext || activeContext.state === "closed") activeContext = new ContextClass();
+			return activeContext;
+		} catch (err) {
+			return null;
+		}
+	}
+	/**
+	* Resets the active audio context (useful for test isolation).
+	*/
+	function resetAudioContextForTesting() {
+		if (activeContext) {
+			try {
+				if (typeof activeContext.close === "function") activeContext.close();
+			} catch (_) {}
+			activeContext = null;
+		}
+	}
+	/**
+	* Plays a synthesized sound from text parameters.
+	* Employs conservative gain, user-gesture resume, and silent fallback.
+	* @param {Object} [rawParams=QUACK_SHORT] 
+	* @param {Object} [options={}] Options including optional injectable audio context for tests
+	* @returns {Promise<{ played: boolean, reason?: string, duration?: number }>}
+	*/
+	async function playSynthesizedSound(rawParams = QUACK_SHORT, options = {}) {
+		const params = validateSoundParams(rawParams);
+		const ctx = options.audioContext || getOrCreateAudioContext(options.AudioContextClass);
+		if (!ctx) return {
+			played: false,
+			reason: "audio_context_unsupported",
+			fallback: "silent"
+		};
+		try {
+			if (ctx.state === "suspended" && typeof ctx.resume === "function") await ctx.resume();
+			if (ctx.state !== "running") return {
+				played: false,
+				reason: "audio_context_suspended",
+				fallback: "silent"
+			};
+			const now = ctx.currentTime;
+			const { attack, decay, sustain, release, frequency, pitchBend, gain, modulationFreq, modulationDepth } = params;
+			const totalDuration = attack + decay + release;
+			const masterGain = ctx.createGain();
+			masterGain.gain.setValueAtTime(1e-4, now);
+			masterGain.gain.linearRampToValueAtTime(gain, now + attack);
+			masterGain.gain.linearRampToValueAtTime(gain * sustain, now + attack + decay);
+			masterGain.gain.exponentialRampToValueAtTime(1e-4, now + totalDuration);
+			masterGain.connect(ctx.destination);
+			const carrier = ctx.createOscillator();
+			carrier.type = params.waveform;
+			carrier.frequency.setValueAtTime(frequency, now);
+			carrier.frequency.linearRampToValueAtTime(Math.max(20, frequency + pitchBend), now + totalDuration);
+			let modulator = null;
+			if (modulationFreq > 0 && modulationDepth > 0) {
+				modulator = ctx.createOscillator();
+				modulator.type = "sine";
+				modulator.frequency.setValueAtTime(modulationFreq, now);
+				const modGain = ctx.createGain();
+				modGain.gain.setValueAtTime(modulationDepth, now);
+				modGain.gain.linearRampToValueAtTime(modulationDepth * .2, now + totalDuration);
+				modulator.connect(modGain);
+				modGain.connect(carrier.frequency);
+				modulator.start(now);
+				modulator.stop(now + totalDuration + .05);
+			}
+			carrier.connect(masterGain);
+			carrier.start(now);
+			carrier.stop(now + totalDuration + .05);
+			return {
+				played: true,
+				name: params.name,
+				duration: totalDuration,
+				gain: params.gain
+			};
+		} catch (err) {
+			return {
+				played: false,
+				reason: "playback_error",
+				error: err.message,
+				fallback: "silent"
+			};
+		}
+	}
+	exports.QUACK_SHORT = QUACK_SHORT;
+	exports.calculateDuration = calculateDuration;
+	exports.getOrCreateAudioContext = getOrCreateAudioContext;
+	exports.playSynthesizedSound = playSynthesizedSound;
+	exports.resetAudioContextForTesting = resetAudioContextForTesting;
+	exports.validateSoundParams = validateSoundParams;
+	return exports;
+})({});
+
+if (typeof window !== 'undefined') { window.DuckSynth = DuckSynth; }
+
+  </script>
+
+  <!-- Interactive Gallery Controller (Invokes DuckRig and DuckSynth directly) -->
+  <script>
     let currentShadowMode = 'offset';
+
+    const PROOF_SET = [
+      { prefix: 'combo-1', name: 'Classic Gentleman', palette: 'classic-yellow', hat: 'tiny-top-hat', accessory: 'monocle' },
+      { prefix: 'combo-2', name: 'Naval Mallard', palette: 'mallard-green', hat: 'sailor-cap', accessory: 'bow-tie' },
+      { prefix: 'combo-3', name: 'Festive Pink', palette: 'bubblegum-pink', hat: 'tiny-top-hat', accessory: 'bow-tie' },
+      { prefix: 'combo-4', name: 'Pink Seafarer', palette: 'bubblegum-pink', hat: 'sailor-cap', accessory: 'monocle' },
+      { prefix: 'base-yellow', name: 'Classic Yellow Base', palette: 'classic-yellow', hat: 'none', accessory: 'none' },
+      { prefix: 'base-mallard', name: 'Mallard Green Base', palette: 'mallard-green', hat: 'none', accessory: 'none' }
+    ];
 
     function updateStageBackground(bgClass) {
       ['stage-diagnostic', 'stage-scale'].forEach(id => {
         const el = document.getElementById(id);
-        el.className = 'duck-stage ' + bgClass;
+        if (el) el.className = 'duck-stage ' + bgClass;
       });
       document.querySelectorAll('.gallery-duck-box').forEach(box => {
         box.className = 'gallery-duck-box ' + bgClass;
@@ -627,7 +1842,36 @@
 
     function updateShadowMode(mode) {
       currentShadowMode = mode;
-      renderAllDucks();
+      // Re-render diagnostic duck using DuckRig.composeDuckSvg from the source bundle
+      document.getElementById('diagnostic-duck-container').innerHTML = window.DuckRig.composeDuckSvg({
+        prefix: 'gallery-demo',
+        palette: 'classic-yellow',
+        hat: 'tiny-top-hat',
+        accessory: 'monocle',
+        shadowMode: currentShadowMode
+      });
+
+      // Re-render scale ducks using DuckRig.composeDuckSvg
+      ['scale-32', 'scale-64', 'scale-128', 'scale-256'].forEach(id => {
+        document.getElementById(id).innerHTML = window.DuckRig.composeDuckSvg({
+          prefix: id,
+          palette: 'classic-yellow',
+          hat: 'tiny-top-hat',
+          accessory: 'bow-tie',
+          shadowMode: currentShadowMode
+        });
+      });
+
+      // Re-render permutation cards using DuckRig.composeDuckSvg
+      PROOF_SET.forEach(item => {
+        const container = document.getElementById('container-' + item.prefix);
+        if (container) {
+          container.innerHTML = window.DuckRig.composeDuckSvg({
+            ...item,
+            shadowMode: currentShadowMode
+          });
+        }
+      });
     }
 
     function toggleHeadTilt() {
@@ -640,146 +1884,35 @@
       container.classList.toggle('wing-flap-active');
     }
 
-    const PROOF_SET = [
-      { prefix: 'combo-1', name: 'Classic Gentleman', palette: 'classic-yellow', hat: 'tiny-top-hat', accessory: 'monocle' },
-      { prefix: 'combo-2', name: 'Naval Mallard', palette: 'mallard-green', hat: 'sailor-cap', accessory: 'bow-tie' },
-      { prefix: 'combo-3', name: 'Festive Pink', palette: 'bubblegum-pink', hat: 'tiny-top-hat', accessory: 'bow-tie' },
-      { prefix: 'combo-4', name: 'Pink Seafarer', palette: 'bubblegum-pink', hat: 'sailor-cap', accessory: 'monocle' },
-      { prefix: 'base-yellow', name: 'Classic Yellow Base', palette: 'classic-yellow', hat: 'none', accessory: 'none' },
-      { prefix: 'base-mallard', name: 'Mallard Green Base', palette: 'mallard-green', hat: 'none', accessory: 'none' }
-    ];
-
-    function renderAllDucks() {
-      // 1. Diagnostic duck
-      document.getElementById('diagnostic-duck-container').innerHTML = composeDuck({
-        prefix: 'gallery-demo',
-        palette: 'classic-yellow',
-        hat: 'tiny-top-hat',
-        accessory: 'monocle',
-        shadowMode: currentShadowMode
-      });
-
-      // 2. Scale ducks
-      ['scale-32', 'scale-64', 'scale-128', 'scale-256'].forEach(id => {
-        document.getElementById(id).innerHTML = composeDuck({
-          prefix: id,
-          palette: 'classic-yellow',
-          hat: 'tiny-top-hat',
-          accessory: 'bow-tie',
-          shadowMode: currentShadowMode
-        });
-      });
-
-      // 3. Permutation Gallery
-      const currentBg = document.getElementById('bg-select').value;
-      const galleryGrid = document.getElementById('gallery-grid');
-      galleryGrid.innerHTML = PROOF_SET.map(item => `
-        <div class="gallery-card">
-          <div class="gallery-duck-box ${currentBg}">
-            <div class="duck-wrapper duck-128">
-              ${composeDuck({ ...item, shadowMode: currentShadowMode })}
-            </div>
-          </div>
-          <div class="gallery-info">
-            <div class="gallery-name">${item.name}</div>
-            <div class="gallery-meta">Palette: ${item.palette}</div>
-            <div class="gallery-meta">Hat: ${item.hat} | Acc: ${item.accessory}</div>
-            <div class="gallery-meta">Instance Prefix: <code>${item.prefix}</code></div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    // --- Synthesizer Implementation (Identical logic to src/audio/synth.mjs) ---
-    const QUACK_SHORT = Object.freeze({
-      name: 'QUACK_SHORT',
-      waveform: 'sawtooth',
-      frequency: 340,
-      pitchBend: -140,
-      attack: 0.02,
-      decay: 0.12,
-      sustain: 0.05,
-      release: 0.08,
-      modulationFreq: 22,
-      modulationDepth: 35,
-      gain: 0.15
-    });
-
-    let audioCtx = null;
-
     async function triggerQuackSound() {
       const statusEl = document.getElementById('audio-status');
+      statusEl.textContent = 'Status: Playing via DuckSynth.playSynthesizedSound()...';
+
       try {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) {
-          statusEl.textContent = 'Status: Web Audio unsupported (silent fallback active)';
+        // Calls the authoritative DuckSynth module
+        const result = await window.DuckSynth.playSynthesizedSound();
+        if (result.played) {
+          statusEl.textContent = 'Status: Played (' + result.name + ', ' + result.duration.toFixed(2) + 's, gain ' + result.gain + ')';
+          statusEl.style.color = '#4ade80';
+        } else {
+          statusEl.textContent = 'Status: Fallback triggered (' + result.reason + ', fallback: ' + result.fallback + ')';
           statusEl.style.color = '#f59e0b';
-          return;
         }
-
-        if (!audioCtx) {
-          audioCtx = new AudioContextClass();
-        }
-
-        if (audioCtx.state === 'suspended') {
-          await audioCtx.resume();
-        }
-
-        const now = audioCtx.currentTime;
-        const { attack, decay, sustain, release, frequency, pitchBend, gain, modulationFreq, modulationDepth } = QUACK_SHORT;
-        const totalDuration = attack + decay + release;
-
-        // Master Gain
-        const masterGain = audioCtx.createGain();
-        masterGain.gain.setValueAtTime(0.0001, now);
-        masterGain.gain.linearRampToValueAtTime(gain, now + attack);
-        masterGain.gain.linearRampToValueAtTime(gain * sustain, now + attack + decay);
-        masterGain.gain.exponentialRampToValueAtTime(0.0001, now + totalDuration);
-        masterGain.connect(audioCtx.destination);
-
-        // Carrier
-        const carrier = audioCtx.createOscillator();
-        carrier.type = QUACK_SHORT.waveform;
-        carrier.frequency.setValueAtTime(frequency, now);
-        carrier.frequency.linearRampToValueAtTime(Math.max(20, frequency + pitchBend), now + totalDuration);
-
-        // FM Modulator
-        const modulator = audioCtx.createOscillator();
-        modulator.type = 'sine';
-        modulator.frequency.setValueAtTime(modulationFreq, now);
-
-        const modGain = audioCtx.createGain();
-        modGain.gain.setValueAtTime(modulationDepth, now);
-        modGain.gain.linearRampToValueAtTime(modulationDepth * 0.2, now + totalDuration);
-
-        modulator.connect(modGain);
-        modGain.connect(carrier.frequency);
-
-        carrier.connect(masterGain);
-
-        modulator.start(now);
-        carrier.start(now);
-        modulator.stop(now + totalDuration + 0.05);
-        carrier.stop(now + totalDuration + 0.05);
-
-        statusEl.textContent = `Status: Played (${QUACK_SHORT.name}, ${totalDuration.toFixed(2)}s, gain ${gain}, state: ${audioCtx.state})`;
-        statusEl.style.color = '#4ade80';
       } catch (err) {
-        statusEl.textContent = `Status: Error (${err.message}) - silent fallback engaged`;
+        statusEl.textContent = 'Status: Error (' + err.message + ')';
         statusEl.style.color = '#f87171';
       }
     }
 
-    function testSilentFallback() {
+    async function testSilentFallback() {
       const statusEl = document.getElementById('audio-status');
-      statusEl.textContent = 'Status: Simulated headless/disabled audio environment -> Silent Fallback (no error thrown)';
+      // Force fallback by providing a dummy non-functional audio context
+      const result = await window.DuckSynth.playSynthesizedSound(window.DuckSynth.QUACK_SHORT, {
+        audioContext: { state: 'suspended', resume: async () => {} }
+      });
+      statusEl.textContent = 'Status: Verified silent fallback -> ' + JSON.stringify(result);
       statusEl.style.color = '#38bdf8';
     }
-
-    // Initialize on load
-    window.addEventListener('DOMContentLoaded', () => {
-      renderAllDucks();
-    });
   </script>
 </body>
 </html>

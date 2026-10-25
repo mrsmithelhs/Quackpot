@@ -1,7 +1,7 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: delivered
+status: in-progress
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 superseded_by: null
@@ -46,6 +46,8 @@ The layered rig and audio approach need a measured proof before asset volume gro
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Assets, Immersion, Technology), and Plan 02's layout decision. All art starts as repository SVG. Ordinary text stays HTML/CSS. Sound parameters are stored as text and synthesized locally; no runtime network calls. Reduced motion preserves content and choices.
 
 ## Scope and work plan
+
+**Owner refinement dispatched, 2026-10-25:** The owner sent the whole `reports/development/plan-04-svg-rig-and-sound/owner-refinement-01.md` to the implementer. This covers the complete prior art and sound advice. Packet is `in-progress` for the bounded refinement: implement the matched paper-layer comparison and first propose the limited sound treatments; no general audio rewrite/library migration or game integration is authorized. Original visual/sound acceptance remains open.
 
 **Repair 01 technical review, 2026-10-24:** `ce8e34b`/`2ad66fe` resolves the source-backed preview blocker. Root rebuilt the gallery and verified parity; see `reports/development/plan-04-svg-rig-and-sound/review-02.md`. Packet stays `delivered` pending owner rendered-base and sound audition. No additional asset production, integration or motion assignment is implied.
 

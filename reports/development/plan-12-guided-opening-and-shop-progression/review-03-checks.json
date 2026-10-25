@@ -1,0 +1,23 @@
+{
+  "reviewDate": "2026-10-25",
+  "method": "Actual inline script in Node VM with minimal DOM stubs; not a rendered-browser, accessibility or learner test",
+  "fixtureA": {
+    "cards": 10,
+    "unique": 6,
+    "commonDuplicates": 4,
+    "down": 4
+  },
+  "fixtureB": {
+    "cards": 10,
+    "unique": 10,
+    "duplicates": 0,
+    "down": 0
+  },
+  "caseSwitches": "A/B/A/B HUD, Receipt visibility and card count pass",
+  "starter": {
+    "before": 10,
+    "after": 9.01,
+    "gems": 290
+  },
+  "anchor": "400% VALUE present"
+}

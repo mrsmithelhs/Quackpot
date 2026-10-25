@@ -1,4 +1,4 @@
-﻿# Plan 14 Progress Report: Game Stage and Metagame Transitions Investigation (Repair 01)
+# Plan 14 Progress Report: Game Stage and Metagame Transitions Investigation (Repair 01)
 
 **Date:** 2026-10-25
 **Packet ID:** `plan-14`
@@ -38,6 +38,10 @@ Repair 01 preserved the core Shell A (Canopy) vs. Shell B (Split Rail) compariso
 6. **Stable Mock Terminal Placeholder (Hard Constraint #5):**
    - Mock Leave enters a dedicated in-stage **Terminal / Receipt Placeholder** (`scene-terminal`).
    - Closes retention dialog without `alert()`, locks the Uninstall buttons (`🏁 Run Ended`), and prevents reopening retention until an explicit prototype reset is clicked.
+7. **Expand Animation & Modal Dismissal Polish:**
+   - Synchronized scene display state so `stepExpand()` and auto-play reliably animate the rotated landscape phone scaling outward (`scale(3.5)` + fade) as the gacha stage emerges.
+   - Elevated modal backdrop z-index (`z-index: 2000`) and added safe top margin/padding so the modal header and close button are never clipped by the top rail.
+   - Added backdrop click listener to dismiss modals when clicking outside the dialog window.
 
 All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/review-01-checks.mjs).
 

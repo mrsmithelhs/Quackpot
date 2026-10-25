@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -681,13 +681,55 @@
       opacity: 0.3;
     }
 
-    /* State 2: Expand to Stage Canvas */
-    .stage-canvas.state-gacha-active .scene-apartment {
+    /* State 2: Expanding from landscape phone to fill the stage canvas */
+    .smartphone-container.state-expanding {
+      transform: rotate(90deg) scale(3.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform var(--duration-expand) cubic-bezier(0.2, 0.8, 0.2, 1),
+                  opacity var(--duration-expand) ease;
+    }
+
+    .scene-apartment {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, #1c1917 0%, #292524 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem;
+      position: relative;
+      transition: opacity var(--duration-expand) ease;
+    }
+
+    .scene-apartment.state-desk-dimming {
+      opacity: 0.15;
+    }
+
+    /* State 3: Gacha Active View */
+    .scene-gacha {
+      width: 100%;
+      height: 100%;
+      background: #090d16;
       display: none;
+      flex-direction: column;
+      position: relative;
     }
 
     .stage-canvas.state-gacha-active .scene-gacha {
       display: flex;
+      animation: gachaFadeIn var(--duration-expand) var(--ease-snappy) forwards;
+    }
+
+    @keyframes gachaFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* ==========================================================================
@@ -909,13 +951,14 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(5px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 200;
-      padding: 1rem;
+      z-index: 2000; /* Placed above eval toolbar (1000) and headers (50) */
+      padding: 3.5rem 1rem 1.5rem 1rem;
+      overflow-y: auto;
     }
 
     .modal-backdrop.open {
@@ -924,15 +967,17 @@
 
     .modal-window {
       background: var(--panel-bg);
-      border: 1px solid var(--border-color);
+      border: 2px solid var(--border-color);
       border-radius: 12px;
       width: 100%;
       max-width: 520px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
-      max-height: 90vh;
+      max-height: calc(100vh - 5.5rem);
       overflow-y: auto;
+      margin: auto;
+      position: relative;
     }
 
     .modal-header {
@@ -941,6 +986,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--panel-bg);
+      z-index: 10;
     }
 
     .modal-title {
@@ -950,17 +999,22 @@
     }
 
     .modal-close-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 700;
       cursor: pointer;
       line-height: 1;
-      padding: 0.25rem;
+      padding: 0.35rem 0.65rem;
+      transition: all 0.15s ease;
     }
 
     .modal-close-btn:focus,
     .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: var(--danger-red);
       color: #ffffff;
       outline: 2px solid var(--border-focus);
     }
@@ -1764,6 +1818,11 @@
         openModal(modalSettings, (e && e.target) || document.getElementById('btn-settings-b'));
       });
       document.getElementById('btn-close-settings').addEventListener('click', () => closeModal(modalSettings, true));
+      modalSettings.addEventListener('click', (e) => {
+        if (e.target === modalSettings) {
+          closeModal(modalSettings, true);
+        }
+      });
 
       document.getElementById('btn-open-uninstall').addEventListener('click', function(e) {
         openModal(modalUninstall, (e && e.target) || document.getElementById('btn-open-uninstall'));
@@ -1772,6 +1831,11 @@
         openModal(modalUninstall, (e && e.target) || document.getElementById('btn-uninstall-b'));
       });
       document.getElementById('btn-close-uninstall').addEventListener('click', () => closeModal(modalUninstall, true));
+      modalUninstall.addEventListener('click', (e) => {
+        if (e.target === modalUninstall) {
+          closeModal(modalUninstall, true);
+        }
+      });
 
       // Retention Modal Actions
       document.getElementById('btn-retention-stay').addEventListener('click', () => {
@@ -1846,7 +1910,8 @@
       function stepDesk() {
         cancelPendingTransitions();
         transitionState = 'desk';
-        phoneContainer.classList.remove('state-rotated');
+        phoneContainer.classList.remove('state-rotated', 'state-expanding');
+        sceneApartment.classList.remove('state-desk-dimming');
         stageCanvas.classList.remove('state-gacha-active');
         sceneApartment.style.display = 'flex';
         sceneGacha.style.display = 'none';
@@ -1862,18 +1927,52 @@
         }
         cancelPendingTransitions();
         transitionState = 'turning';
-        phoneContainer.classList.add('state-rotated');
+        sceneApartment.style.display = 'flex';
+        sceneApartment.classList.remove('state-desk-dimming');
+        sceneGacha.style.display = 'none';
+        sceneTerminal.style.display = 'none';
         stageCanvas.classList.remove('state-gacha-active');
+        phoneContainer.classList.remove('state-expanding');
+        phoneContainer.classList.add('state-rotated');
         announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
       }
 
       function stepExpand() {
         if (isTerminal) return;
         cancelPendingTransitions();
-        transitionState = 'gacha';
-        phoneContainer.classList.remove('state-rotated');
-        stageCanvas.classList.add('state-gacha-active');
-        announce("Beat 3: Phone screen expands into full-width gacha stage canvas. Quackpot Gacha App active.");
+        const currentToken = transitionToken;
+
+        if (isReducedMotion) {
+          transitionState = 'gacha';
+          phoneContainer.classList.remove('state-rotated', 'state-expanding');
+          sceneApartment.classList.remove('state-desk-dimming');
+          sceneApartment.style.display = 'none';
+          sceneGacha.style.display = 'flex';
+          sceneTerminal.style.display = 'none';
+          stageCanvas.classList.add('state-gacha-active');
+          announce("Beat 3: Phone screen expands into full-width gacha stage canvas. Quackpot Gacha App active.");
+          return;
+        }
+
+        // Animated expansion from landscape phone to full stage
+        transitionState = 'expanding';
+        phoneContainer.classList.add('state-rotated');
+        phoneContainer.classList.add('state-expanding');
+        sceneApartment.classList.add('state-desk-dimming');
+        announce("Beat 3: Expanding landscape phone screen into full-width stage canvas...");
+
+        transitionTimer = setTimeout(() => {
+          transitionTimer = null;
+          if (currentToken !== transitionToken) return; // Cancelled
+          transitionState = 'gacha';
+          phoneContainer.classList.remove('state-rotated', 'state-expanding');
+          sceneApartment.classList.remove('state-desk-dimming');
+          sceneApartment.style.display = 'none';
+          sceneGacha.style.display = 'flex';
+          sceneTerminal.style.display = 'none';
+          stageCanvas.classList.add('state-gacha-active');
+          announce("Quackpot Gacha App active in full-width stage.");
+        }, 400); // 400ms expansion duration
       }
 
       function stepReturn() {
@@ -1897,7 +1996,7 @@
           transitionTimer = null;
           if (currentToken !== transitionToken) return; // Cancelled during turn
           stepExpand();
-        }, 400); // 400ms proposed rotation duration
+        }, 450); // 450ms proposed rotation duration
       }
 
       document.getElementById('btn-step-desk').addEventListener('click', stepDesk);
@@ -1906,11 +2005,21 @@
       document.getElementById('btn-step-return').addEventListener('click', stepReturn);
       document.getElementById('btn-step-auto').addEventListener('click', startEntrySequence);
 
-      phoneContainer.addEventListener('click', startEntrySequence);
+      phoneContainer.addEventListener('click', () => {
+        if (transitionState === 'turning') {
+          stepExpand();
+        } else {
+          startEntrySequence();
+        }
+      });
       phoneContainer.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          startEntrySequence();
+          if (transitionState === 'turning') {
+            stepExpand();
+          } else {
+            startEntrySequence();
+          }
         }
       });
 

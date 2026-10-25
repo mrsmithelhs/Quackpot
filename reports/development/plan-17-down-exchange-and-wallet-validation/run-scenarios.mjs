@@ -1,6 +1,7 @@
 // reports/development/plan-17-down-exchange-and-wallet-validation/run-scenarios.mjs
-// Scenario runner and evidence generator for Plan 17.
-// Outputs comprehensive structured evidence to results.json and console summary.
+// Scenario runner and evidence generator for Plan 17 Repair 01.
+// Incorporates probability conservation, explicit censoring, roster coverage matrix,
+// and deferred integration lifecycle obligations. Outputs to results.json and console summary.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,18 +11,16 @@ import {
   computeExactOpeningDistribution,
   solveBaseOddsBankRecurrence,
   simulateTicketRecycling,
+  traceSingleRecyclingRun,
   computeQuadratureWinProbability,
   simulatePairedRaces,
   traceWholeWalletPaths,
-  PROBABILITIES_6,
-  TIERS_6,
-  PAYOUTS_6,
 } from './down-validation-engine.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log('=== Plan 17 Down Exchange and Wallet Validation ===\n');
+console.log('=== Plan 17 Down Exchange and Wallet Validation (Repair 01) ===\n');
 
 // 1. Opening Distributions
 console.log('1. Computing exact opening 10-pull distributions...');
@@ -31,7 +30,8 @@ const opening = computeExactOpeningDistribution();
 console.log('2. Generating representative 10-card opening traces...');
 const traces = [
   {
-    name: 'Trace 1: Low Tail (Plan 03 Fixture Equivalent)',
+    name: 'Trace 1: Low Tail Opening (4 Down — 2.02% probability)',
+    note: 'Plan 03 static trial fixture equivalent. Draws all 6 unique identities, yielding 4 Common duplicates.',
     cards: [
       { draw: 1, id: 'duck-0', tier: 'common', status: 'NEW', down: 0 },
       { draw: 2, id: 'duck-1', tier: 'common', status: 'NEW', down: 0 },
@@ -50,8 +50,8 @@ const traces = [
     affordable: '1 speed item (3 Down); 2 Down short of ticket',
   },
   {
-    name: 'Trace 2: Median / Typical Opening (7 Down)',
-    // Exact count vector: [2, 3, 5, 0, 0, 0] -> 3 unique commons seen, 7 common duplicates = 7 Down
+    name: 'Trace 2: Median / Typical Opening (7 Down — 12.27% probability)',
+    note: 'Count vector [2, 3, 5, 0, 0, 0] (3 unique commons drawn, 7 common duplicates).',
     cards: [
       { draw: 1, id: 'duck-0', tier: 'common', status: 'NEW', down: 0 },
       { draw: 2, id: 'duck-1', tier: 'common', status: 'NEW', down: 0 },
@@ -70,10 +70,8 @@ const traces = [
     affordable: '1 ticket (6 Down) + 1 Down remainder, or 2 speed items + 1 remainder',
   },
   {
-    name: 'Trace 3: Upper-Middle Opening (10 Down)',
-    // Exact count vector: [1, 1, 1, 1, 3, 3] -> wait, for 10 Down: [1, 1, 1, 1, 3, 0] -> 2 rare dups = 10 Down, 3 common unique = 7 cards?
-    // Let's check 10 Down: 2 Rare dups (10 Down) + 0 common dups = 2 dups. But 10 cards across 6 ids has at least 4 dups.
-    // So 10 Down is: 1 Rare dup (5 Down) + 5 Common dups (5 Down) = 10 Down! (Total 6 dups: 5 common, 1 rare).
+    name: 'Trace 3: Upper-Middle Opening (10 Down — 13.14% probability)',
+    note: 'Count vector [3, 2, 3, 2, 0, 0] (4 unique identities, 1 Rare duplicate + 5 Common duplicates).',
     cards: [
       { draw: 1, id: 'duck-0', tier: 'common', status: 'NEW', down: 0 },
       { draw: 2, id: 'duck-1', tier: 'common', status: 'NEW', down: 0 },
@@ -92,8 +90,8 @@ const traces = [
     affordable: '1 ticket (6 Down) + 4 Down remainder, or 3 speed items + 1 remainder',
   },
   {
-    name: 'Trace 4: Legendary Windfall Opening (25 Down)',
-    // Exact count vector: [0, 0, 6, 1, 1, 2] -> 5 common dups (5 Down) + 1 legendary dup (20 Down) = 25 Down! (Total 6 dups).
+    name: 'Trace 4: Legendary Windfall Opening (25 Down — 0.3719% probability)',
+    note: 'Count vector [0, 0, 6, 1, 1, 2] (4 unique identities, 1 Legendary duplicate + 5 Common duplicates).',
     cards: [
       { draw: 1, id: 'duck-3', tier: 'common', status: 'NEW', down: 0 },
       { draw: 2, id: 'duck-2', tier: 'rare', status: 'NEW', down: 0 },
@@ -113,9 +111,11 @@ const traces = [
   },
 ];
 
-// 3. Pooled-Bank Recurrence
-console.log('3. Solving pooled-bank recurrence across starting banks...');
+// 3. Pooled-Bank Recurrence (Repair 01: Full Mass Conservation & First-Step Split)
+console.log('3. Solving pooled-bank recurrence across starting banks (0 to 24 Down)...');
 const bankRecurrence = {
+  bank0: solveBaseOddsBankRecurrence(0),
+  bank4: solveBaseOddsBankRecurrence(4),
   bank6: solveBaseOddsBankRecurrence(6),
   bank12: solveBaseOddsBankRecurrence(12),
   bank18: solveBaseOddsBankRecurrence(18),
@@ -123,17 +123,130 @@ const bankRecurrence = {
   bank24: solveBaseOddsBankRecurrence(24),
 };
 
-// 4. Dynamic Pity Simulation (Rule T2 A)
-console.log('4. Simulating dynamic pity recycling (50,000 trials each)...');
-const dynamicRecycling = {
-  pity0: simulateTicketRecycling({ initialBank: 6, initialPity: 0, trials: 50000, seed: 'dyn-0' }),
-  pity30: simulateTicketRecycling({ initialBank: 6, initialPity: 30, trials: 50000, seed: 'dyn-30' }),
-  pity49_reset: simulateTicketRecycling({ initialBank: 6, initialPity: 49, trials: 50000, seed: 'dyn-49-reset', freezePity: false }),
-  pity49_frozen: simulateTicketRecycling({ initialBank: 6, initialPity: 49, trials: 10, seed: 'dyn-49-frozen', freezePity: true }),
+// 4. Roster Coverage Matrix (Repair 01: Empty, Partial Missing Legendary, Full)
+console.log('4. Running roster coverage simulation matrix (10,000 trials per cell)...');
+const rosterMatrix = {
+  // Empty roster (0 ducks owned)
+  empty_bank6_pity0: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 0,
+    initialOwned: new Set(),
+    trials: 10000,
+    seed: 'mat-empty-6-0',
+  }),
+  empty_bank12_pity0: simulateTicketRecycling({
+    initialBank: 12,
+    initialPity: 0,
+    initialOwned: new Set(),
+    trials: 10000,
+    seed: 'mat-empty-12-0',
+  }),
+
+  // Partial roster: owns Commons + Rares (5/6), MISSING Legendary duck-5
+  partial_no_legendary_bank6_pity0: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 0,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4']),
+    trials: 10000,
+    seed: 'mat-part-no-leg-6-0',
+  }),
+  partial_no_legendary_bank6_pity30: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 30,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4']),
+    trials: 10000,
+    seed: 'mat-part-no-leg-6-30',
+  }),
+  partial_no_legendary_bank6_pity49: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 49,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4']),
+    trials: 10000,
+    seed: 'mat-part-no-leg-6-49',
+  }),
+  partial_no_legendary_bank12_pity0: simulateTicketRecycling({
+    initialBank: 12,
+    initialPity: 0,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4']),
+    trials: 10000,
+    seed: 'mat-part-no-leg-12-0',
+  }),
+
+  // Full roster (6/6 ducks owned)
+  full_bank6_pity0: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 0,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10000,
+    seed: 'mat-full-6-0',
+  }),
+  full_bank6_pity30: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 30,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10000,
+    seed: 'mat-full-6-30',
+  }),
+  full_bank6_pity49_reset: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 49,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10000,
+    freezePity: false,
+    seed: 'mat-full-6-49-reset',
+  }),
+  full_bank12_pity0: simulateTicketRecycling({
+    initialBank: 12,
+    initialPity: 0,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10000,
+    seed: 'mat-full-12-0',
+  }),
+  full_bank24_pity0: simulateTicketRecycling({
+    initialBank: 24,
+    initialPity: 0,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10000,
+    seed: 'mat-full-24-0',
+  }),
+
+  // Frozen Pity Counterexample (Cap-Hit Demonstration)
+  frozen_pity49_counterexample: simulateTicketRecycling({
+    initialBank: 6,
+    initialPity: 49,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    trials: 10,
+    maxDraws: 500,
+    freezePity: true,
+    seed: 'mat-frozen-pity49',
+  }),
 };
 
-// 5. Pond Race Item I1 Resolution
-console.log('5. Solving race quadrature and paired Monte Carlo...');
+// 5. Reproducible Single-Run Per-Draw Trajectories
+console.log('5. Generating step-by-step per-draw trajectories...');
+const stepTrajectories = {
+  traj1_empty_bank6: traceSingleRecyclingRun({
+    initialBank: 6,
+    initialPity: 0,
+    initialOwned: new Set(),
+    seed: 'traj-empty-6',
+  }),
+  traj2_partial_missing_legendary_pity49: traceSingleRecyclingRun({
+    initialBank: 6,
+    initialPity: 49,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4']),
+    seed: 'traj-part-49',
+  }),
+  traj3_full_pity49_with_reset: traceSingleRecyclingRun({
+    initialBank: 6,
+    initialPity: 49,
+    initialOwned: new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+    seed: 'traj-full-49-reset',
+  }),
+};
+
+// 6. Pond Race Item I1 Resolution
+console.log('6. Solving race quadrature and paired Monte Carlo...');
 const raceQuadrature = {
   finale_sprint_baseline: computeQuadratureWinProbability(8.8, 13.2, 11.2),
   finale_sprint_boosted: computeQuadratureWinProbability(9.24, 13.86, 11.2),
@@ -149,18 +262,18 @@ const racePairedSim = {
   tutorial_safe: simulatePairedRaces({ baseSpeed: 10.0, stance: 'safe', opponentBaseSpeed: 8.0, itemBoost: 0.05, trials: 20000 }),
 };
 
-// 6. Whole-Wallet Progression Paths
-console.log('6. Tracing whole-wallet progression paths...');
+// 7. Whole-Wallet Hypothetical Progression Paths
+console.log('7. Tracing whole-wallet hypothetical progression paths...');
 const walletPaths = traceWholeWalletPaths();
 
 // Assemble final results structure
 const results = {
   generatedAt: new Date().toISOString(),
-  rules: {
-    t1: 'A (ticket pulls award normal 1/5/20 Down)',
-    t2: 'A (advances pity by 1, with normal Legendary reset to 0)',
+  rulesEvaluated: {
+    t1: 'A (ticket pulls award normal 1/5/20 Down on duplicates)',
+    t2: 'A (advances pity by 1, with explicit reset to 0 on Legendary)',
     t3: 'A (immediate active-banner redemption "Pull with Down — 6 Down")',
-    i1: '+5% base speed boost for 1 race, non-stacking, consumed on race commit',
+    i1: '+5% base speed boost for 1 race, non-stacking (lifecycle verification deferred to integration)',
   },
   openingDistribution: {
     meanDown: opening.meanDown,
@@ -171,26 +284,55 @@ const results = {
     downDistribution: opening.orderedDown.map(([d, p]) => ({ down: d, prob: p, pct: p * 100 })),
     duplicateDistribution: opening.orderedDups.map(([d, p]) => ({ dups: d, prob: p, pct: p * 100 })),
   },
-  representativeTraces: traces,
-  pooledBankRecurrence: {
-    bank6: { expectedDraws: bankRecurrence.bank6.expectedDraws, liveMass: bankRecurrence.bank6.remainingLiveProbability, steps: bankRecurrence.bank6.steps },
-    bank12: { expectedDraws: bankRecurrence.bank12.expectedDraws, liveMass: bankRecurrence.bank12.remainingLiveProbability, steps: bankRecurrence.bank12.steps },
-    bank18: { expectedDraws: bankRecurrence.bank18.expectedDraws, liveMass: bankRecurrence.bank18.remainingLiveProbability, steps: bankRecurrence.bank18.steps },
-    bank20: { expectedDraws: bankRecurrence.bank20.expectedDraws, liveMass: bankRecurrence.bank20.remainingLiveProbability, steps: bankRecurrence.bank20.steps },
-    bank24: { expectedDraws: bankRecurrence.bank24.expectedDraws, liveMass: bankRecurrence.bank24.remainingLiveProbability, steps: bankRecurrence.bank24.steps },
-  },
-  dynamicRecycling: {
-    pity0: { meanDraws: dynamicRecycling.pity0.meanDraws, maxDraws: dynamicRecycling.pity0.maxDrawsInRun, rareBouncesPct: dynamicRecycling.pity0.rareBouncesPer100Draws, legendaryWindfallsPct: dynamicRecycling.pity0.legendaryWindfallsPer100Draws },
-    pity30: { meanDraws: dynamicRecycling.pity30.meanDraws, maxDraws: dynamicRecycling.pity30.maxDrawsInRun, rareBouncesPct: dynamicRecycling.pity30.rareBouncesPer100Draws, legendaryWindfallsPct: dynamicRecycling.pity30.legendaryWindfallsPer100Draws },
-    pity49_reset: { meanDraws: dynamicRecycling.pity49_reset.meanDraws, maxDraws: dynamicRecycling.pity49_reset.maxDrawsInRun },
-    pity49_frozen: { meanDraws: dynamicRecycling.pity49_frozen.meanDraws, maxDraws: dynamicRecycling.pity49_frozen.maxDrawsInRun, runawayConfirmed: dynamicRecycling.pity49_frozen.maxDrawsInRun > 2000 },
-  },
+  representativeOpeningTraces: traces,
+  pooledBankRecurrence: Object.fromEntries(
+    Object.entries(bankRecurrence).map(([k, v]) => [
+      k,
+      {
+        initialBank: v.initialBank,
+        expectedDraws: v.expectedDraws,
+        steps: v.steps,
+        liveMass: v.liveMass,
+        absorbedMass: v.absorbedMass,
+        totalMass: v.totalMass,
+        firstStepAbsorbed: v.firstStepAbsorbed,
+        absorbedDistribution: v.absorbedDistribution,
+      },
+    ])
+  ),
+  rosterMatrix: Object.fromEntries(
+    Object.entries(rosterMatrix).map(([k, v]) => [
+      k,
+      {
+        trials: v.trials,
+        initialBank: v.initialBank,
+        initialPity: v.initialPity,
+        maxDrawsCap: v.maxDrawsCap,
+        absorbedCount: v.absorbedCount,
+        absorbedRate: v.absorbedRate,
+        censoredCount: v.censoredCount,
+        censoredRate: v.censoredRate,
+        meanDrawsCompleted: v.meanDrawsCompleted,
+        meanDrawsCapped: v.meanDrawsCapped,
+        maxDrawsObserved: v.maxDrawsObserved,
+        rareBouncesPer100Draws: v.rareBouncesPer100Draws,
+        legendaryWindfallsPer100Draws: v.legendaryWindfallsPer100Draws,
+        terminalBanks: v.terminalBanks,
+        censoredResidualBanks: v.censoredResidualBanks,
+      },
+    ])
+  ),
+  stepTrajectories,
   raceItemResolution: {
     quadrature: raceQuadrature,
     deltaSprintWinPct: (raceQuadrature.finale_sprint_boosted - raceQuadrature.finale_sprint_baseline) * 100,
     pairedMonteCarlo: racePairedSim,
   },
-  wholeWalletPaths: walletPaths,
+  wholeWalletHypotheticalPaths: walletPaths,
+  integrationObligations: [
+    'Race item commit/cancel/reload: item must be consumed once on race commit; opening/closing stance modal must not consume; reload must not consume twice.',
+    'Receipt representation: Down spend must be separate from cash and gems; 5 Down must be reported as affording a 3-Down item (not wholly stranded); reflection must be question-based.',
+  ],
 };
 
 const outputPath = path.join(__dirname, 'results.json');
@@ -198,30 +340,27 @@ fs.writeFileSync(outputPath, JSON.stringify(results, null, 2), 'utf8');
 console.log(`\nResults successfully written to: ${outputPath}`);
 
 // Print formatted summary tables to stdout
-console.log('\n--- Summary Table 1: Opening Affordability ---');
-console.log(`P(Down >= 3) [Speed Item]: ${(opening.itemAffordable * 100).toFixed(4)}%`);
-console.log(`P(Down >= 6) [Single Ticket]: ${(opening.ticketAffordable * 100).toFixed(4)}%`);
-console.log(`Mean Down: ${opening.meanDown.toFixed(4)} | Median Down: ${opening.medianDown}`);
+console.log('\n--- Summary Table 1: Base-Odds Pooled Bank Recurrence (Mass Conserved) ---');
+console.table(
+  Object.values(bankRecurrence).map((v) => ({
+    bank: `${v.initialBank} Down`,
+    expectedDraws: v.expectedDraws.toFixed(5),
+    absorbedMass: v.absorbedMass.toFixed(8),
+    liveMass: v.liveMass.toExponential(2),
+    totalMass: v.totalMass.toFixed(8),
+    steps: v.steps,
+  }))
+);
 
-console.log('\n--- Summary Table 2: Pooled Bank Recurrence (Base Odds) ---');
-console.table([
-  { bank: '6 Down (1 Ticket)', expectedDraws: bankRecurrence.bank6.expectedDraws.toFixed(5), liveMass: bankRecurrence.bank6.remainingLiveProbability.toExponential(2) },
-  { bank: '12 Down (2 Tickets)', expectedDraws: bankRecurrence.bank12.expectedDraws.toFixed(5), liveMass: bankRecurrence.bank12.remainingLiveProbability.toExponential(2) },
-  { bank: '18 Down (3 Tickets)', expectedDraws: bankRecurrence.bank18.expectedDraws.toFixed(5), liveMass: bankRecurrence.bank18.remainingLiveProbability.toExponential(2) },
-  { bank: '24 Down (4 Tickets)', expectedDraws: bankRecurrence.bank24.expectedDraws.toFixed(5), liveMass: bankRecurrence.bank24.remainingLiveProbability.toExponential(2) },
-]);
-
-console.log('\n--- Summary Table 3: Race Item I1 Win Rate (Finale Field 11.2) ---');
-console.log(`Baseline Common Sprint Win Rate: ${(raceQuadrature.finale_sprint_baseline * 100).toFixed(2)}%`);
-console.log(`Boosted Common Sprint Win Rate:  ${(raceQuadrature.finale_sprint_boosted * 100).toFixed(2)}%`);
-console.log(`Net Win Rate Delta:              +${((raceQuadrature.finale_sprint_boosted - raceQuadrature.finale_sprint_baseline) * 100).toFixed(2)} percentage points`);
-
-console.log('\n--- Summary Table 4: Whole-Wallet Balances ---');
-console.table(walletPaths.map((w) => ({
-  path: w.name,
-  gemsBefore: w.totalGemsBeforePulls,
-  afterTen: w.afterTenPulls,
-  affordableSingles: w.affordableSingles,
-  strandedGems: w.strandedRemainder,
-  shortfall: w.shortfallToNext,
-})));
+console.log('\n--- Summary Table 2: Roster Coverage Matrix (10,000 runs per cell) ---');
+console.table(
+  Object.entries(rosterMatrix).map(([k, v]) => ({
+    scenario: k,
+    bank: v.initialBank,
+    pity: v.initialPity,
+    meanDraws: v.meanDrawsCompleted !== null ? v.meanDrawsCompleted.toFixed(3) : 'N/A',
+    absorbedPct: (v.absorbedRate * 100).toFixed(1) + '%',
+    censoredPct: (v.censoredRate * 100).toFixed(1) + '%',
+    maxDraws: v.maxDrawsObserved,
+  }))
+);

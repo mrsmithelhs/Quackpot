@@ -1,10 +1,12 @@
 // reports/development/plan-17-down-exchange-and-wallet-validation/down-validation-engine.mjs
 // Dedicated calculation and simulation engine for Plan 17 Down exchange and wallet validation.
-// Implements approved scenario rules:
+// Implements approved scenario rules and Repair 01 specifications:
 // - T1 A: ticket duplicate draws award normal 1/5/20 Down
 // - T2 A: ticket draws advance pity by 1, with normal Legendary reset to 0
 // - T3 A: immediate active-banner redemption ("Pull with Down — 6 Down")
 // - I1: +5% base speed boost for 1 race, non-stacking, consumed on race commit
+// - Repair 01: full probability mass conservation in recurrence; explicit censoring vs absorption;
+//   multi-cell roster coverage (empty, partial missing legendary, full); honest analytical limits.
 
 import { calculatePreDrawOdds, BANNER_1_ROSTER, GAME_CONSTANTS } from '../../../src/core/game-engine.mjs';
 import { createRng } from '../../../src/core/prng.mjs';
@@ -82,67 +84,106 @@ export function computeExactOpeningDistribution() {
 
 /**
  * Evaluates exact pooled-bank recurrence under base odds and full ownership.
- * Tracks discrete integer bank transitions: cost = 6, returns = +1 (80%), +5 (18%), +20 (2%).
+ * Repair 01: Accumulates absorbed probability by balance across every iteration.
+ * Handles initial banks 0..5 correctly (0 draws, 100% absorbed at initial bank).
+ * Returns residual live probability, steps, tolerance, cap, and total mass (absorbed + live ≈ 1).
  */
 export function solveBaseOddsBankRecurrence(initialBank, maxSteps = 1500, epsilon = 1e-13) {
-  let banks = new Map([[initialBank, 1.0]]);
+  const absorbed = new Map();
+
+  // If initial bank < 6, player cannot afford a single pull; state is absorbed immediately.
+  if (initialBank < 6) {
+    absorbed.set(initialBank, 1.0);
+    return {
+      initialBank,
+      expectedDraws: 0,
+      steps: 0,
+      liveMass: 0,
+      absorbedMass: 1.0,
+      totalMass: 1.0,
+      absorbedDistribution: [[initialBank, 1.0]],
+      firstStepAbsorbed: [[initialBank, 1.0]],
+      maxSteps,
+      epsilon,
+    };
+  }
+
+  let live = new Map([[initialBank, 1.0]]);
   let expectedDraws = 0;
   let liveMass = 1.0;
   let steps = 0;
-  const drawCountDistribution = new Map(); // total draws -> probability mass ending there
+  const firstStepAbsorbed = new Map();
 
-  for (; steps < maxSteps && liveMass > epsilon; steps++) {
-    const next = new Map();
-    for (const [bank, prob] of banks) {
-      if (bank < 6) {
-        // This mass is terminal
-        continue;
-      }
+  while (steps < maxSteps && liveMass > epsilon) {
+    steps++;
+    const nextLive = new Map();
+
+    for (const [bank, prob] of live) {
       expectedDraws += prob;
       for (const [award, chance] of [[1, 0.80], [5, 0.18], [20, 0.02]]) {
         const after = bank - 6 + award;
-        next.set(after, (next.get(after) || 0) + prob * chance);
+        const p = prob * chance;
+        if (after < 6) {
+          absorbed.set(after, (absorbed.get(after) || 0) + p);
+          if (steps === 1) {
+            firstStepAbsorbed.set(after, (firstStepAbsorbed.get(after) || 0) + p);
+          }
+        } else {
+          nextLive.set(after, (nextLive.get(after) || 0) + p);
+        }
       }
     }
-    banks = next;
-    liveMass = [...banks].reduce((sum, [b, p]) => sum + (b >= 6 ? p : 0), 0);
+
+    live = nextLive;
+    liveMass = 0;
+    for (const [b, p] of live) liveMass += p;
   }
 
-  // Final stranded bank distribution
-  const terminalBankDistribution = new Map();
-  for (const [b, p] of banks) {
-    if (b < 6) {
-      terminalBankDistribution.set(b, (terminalBankDistribution.get(b) || 0) + p);
-    }
-  }
+  let absorbedMass = 0;
+  for (const [b, p] of absorbed) absorbedMass += p;
 
   return {
     initialBank,
     expectedDraws,
-    remainingLiveProbability: liveMass,
     steps,
-    terminalBankDistribution: [...terminalBankDistribution].sort((a, b) => a[0] - b[0]),
+    liveMass,
+    absorbedMass,
+    totalMass: absorbedMass + liveMass,
+    absorbedDistribution: [...absorbed].sort((a, b) => a[0] - b[0]),
+    firstStepAbsorbed: [...firstStepAbsorbed].sort((a, b) => a[0] - b[0]),
+    maxSteps,
+    epsilon,
   };
 }
 
 /**
  * Simulates dynamic ticket recycling under Rule T1 A and T2 A (pity-advancing with Legendary reset).
- * Supports full ownership or partial roster, and custom starting pity count.
+ * Repair 01: Explicitly separates absorbed runs (bank < 6) from censored/cap-hit runs (draws >= maxDraws).
+ * Live cap-hit banks NEVER enter terminal/absorbed distributions.
  */
 export function simulateTicketRecycling({
   initialBank = 6,
   initialPity = 0,
   initialOwned = new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
   trials = 50000,
+  maxDraws = 2000,
   seed = 'down-sim-seed-17',
   freezePity = false, // Counterexample toggle: if true, pity does not reset on legendary
 }) {
   const rng = createRng(seed);
-  let totalDraws = 0;
+  let totalDrawsAll = 0;
   let totalDownGained = 0;
-  let maxDrawsInRun = 0;
-  const drawCounts = new Map();
-  const terminalBanks = new Map();
+  let maxDrawsObserved = 0;
+
+  let absorbedRuns = 0;
+  let absorbedDrawsSum = 0;
+  let censoredRuns = 0;
+  let censoredDrawsSum = 0;
+
+  const absorbedDrawCounts = new Map();
+  const terminalBanks = new Map(); // Only recorded for runs absorbed at bank < 6
+  const censoredResidualBanks = new Map(); // Only recorded for runs censored at cap
+
   let rareBounces = 0;      // +5 Down gained
   let legendaryWindfalls = 0; // +20 Down gained
   let legendaryHits = 0;
@@ -153,7 +194,7 @@ export function simulateTicketRecycling({
     let owned = new Set(initialOwned);
     let draws = 0;
 
-    while (bank >= 6) {
+    while (bank >= 6 && draws < maxDraws) {
       bank -= 6;
       draws++;
 
@@ -195,35 +236,136 @@ export function simulateTicketRecycling({
           pity++;
         }
       }
-
-      // Safety guard against runaway loops
-      if (draws > 2000) break;
     }
 
-    totalDraws += draws;
-    maxDrawsInRun = Math.max(maxDrawsInRun, draws);
-    drawCounts.set(draws, (drawCounts.get(draws) || 0) + 1);
-    terminalBanks.set(bank, (terminalBanks.get(bank) || 0) + 1);
+    totalDrawsAll += draws;
+    maxDrawsObserved = Math.max(maxDrawsObserved, draws);
+
+    if (bank < 6) {
+      absorbedRuns++;
+      absorbedDrawsSum += draws;
+      absorbedDrawCounts.set(draws, (absorbedDrawCounts.get(draws) || 0) + 1);
+      terminalBanks.set(bank, (terminalBanks.get(bank) || 0) + 1);
+    } else {
+      // Hit cap while still possessing live purchasing power
+      censoredRuns++;
+      censoredDrawsSum += draws;
+      censoredResidualBanks.set(bank, (censoredResidualBanks.get(bank) || 0) + 1);
+    }
   }
 
-  const meanDraws = totalDraws / trials;
   return {
     trials,
     initialBank,
     initialPity,
-    meanDraws,
-    maxDrawsInRun,
-    rareBouncesPer100Draws: (rareBounces / totalDraws) * 100,
-    legendaryWindfallsPer100Draws: (legendaryWindfalls / totalDraws) * 100,
-    drawCounts: [...drawCounts].sort((a, b) => a[0] - b[0]).map(([d, c]) => ({ draws: d, pct: (c / trials) * 100 })),
-    terminalBanks: [...terminalBanks].sort((a, b) => a[0] - b[0]).map(([b, c]) => ({ bank: b, pct: (c / trials) * 100 })),
+    maxDrawsCap: maxDraws,
+    absorbedCount: absorbedRuns,
+    absorbedRate: absorbedRuns / trials,
+    censoredCount: censoredRuns,
+    censoredRate: censoredRuns / trials,
+    meanDrawsCompleted: absorbedRuns > 0 ? absorbedDrawsSum / absorbedRuns : null,
+    meanDrawsCapped: totalDrawsAll / trials,
+    maxDrawsObserved,
+    totalDownGained,
+    rareBouncesPer100Draws: totalDrawsAll > 0 ? (rareBounces / totalDrawsAll) * 100 : 0,
+    legendaryWindfallsPer100Draws: totalDrawsAll > 0 ? (legendaryWindfalls / totalDrawsAll) * 100 : 0,
+    legendaryHits,
+    terminalBanks: [...terminalBanks].sort((a, b) => a[0] - b[0]).map(([b, c]) => ({
+      bank: b,
+      count: c,
+      pct: (c / absorbedRuns) * 100,
+    })),
+    censoredResidualBanks: [...censoredResidualBanks].sort((a, b) => a[0] - b[0]).map(([b, c]) => ({
+      bank: b,
+      count: c,
+      pct: (c / censoredRuns) * 100,
+    })),
+  };
+}
+
+/**
+ * Traces a single step-by-step recycling trajectory for concrete inspection.
+ */
+export function traceSingleRecyclingRun({
+  initialBank = 6,
+  initialPity = 0,
+  initialOwned = new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']),
+  maxDraws = 50,
+  seed = 'trace-single-seed',
+  freezePity = false,
+}) {
+  const rng = createRng(seed);
+  let bank = initialBank;
+  let pity = initialPity;
+  const owned = new Set(initialOwned);
+  const steps = [];
+  let draws = 0;
+
+  while (bank >= 6 && draws < maxDraws) {
+    const bankBefore = bank;
+    const pityBefore = pity;
+    bank -= 6;
+    draws++;
+
+    const odds = calculatePreDrawOdds(pity);
+    const r = rng.next();
+    let rarity = 'common';
+    if (r < odds.legendary) {
+      rarity = 'legendary';
+    } else if (r < odds.legendary + odds.rare) {
+      rarity = 'rare';
+    }
+
+    const pool = BANNER_1_ROSTER.filter((d) => d.tier === rarity);
+    const chosen = pool[rng.int(pool.length)];
+
+    const wasOwned = owned.has(chosen.id);
+    let downAward = 0;
+    if (!wasOwned) {
+      owned.add(chosen.id);
+    } else {
+      downAward = GAME_CONSTANTS.DOWN_PER_DUPLICATE[rarity];
+      bank += downAward;
+    }
+
+    let pityAfter = pity;
+    if (rarity === 'legendary') {
+      pityAfter = freezePity ? pity : 0;
+    } else {
+      pityAfter = freezePity ? pity : pity + 1;
+    }
+    pity = pityAfter;
+
+    steps.push({
+      draw: draws,
+      pityBefore,
+      oddsLegendary: odds.legendary,
+      rarity,
+      duckId: chosen.id,
+      duckName: chosen.name,
+      ownershipBefore: wasOwned ? 'OWNED' : 'NEW',
+      downAward,
+      bankBefore,
+      bankAfter: bank,
+      pityAfter,
+      canContinue: bank >= 6,
+    });
+  }
+
+  return {
+    initialBank,
+    initialPity,
+    totalDraws: draws,
+    finalBank: bank,
+    finalPity: pity,
+    isAbsorbed: bank < 6,
+    isCensored: bank >= 6 && draws >= maxDraws,
+    steps,
   };
 }
 
 /**
  * Numerical quadrature for 1st place probability against 5 independent opponents.
- * Opponents: base speed * (1 + (2u - 1) * 0.05).
- * Player: low to high uniform range.
  */
 export function computeQuadratureWinProbability(playerLow, playerHigh, opponentBaseSpeed, steps = 100000) {
   const oppLow = opponentBaseSpeed * 0.95;
@@ -241,18 +383,17 @@ export function computeQuadratureWinProbability(playerLow, playerHigh, opponentB
 
 /**
  * Paired Monte Carlo simulation for pond race placements and payouts.
- * Tests Duck speed baseline vs. Option I1 (+5% speed boost).
  */
 export function simulatePairedRaces({
   baseSpeed = 10.0,
   stance = 'sprint',
   opponentBaseSpeed = 11.2,
-  itemBoost = 0.05, // +5%
+  itemBoost = 0.05,
   trials = 20000,
   seed = 'race-paired-seed-17',
 }) {
   const rngBase = createRng(seed);
-  const rngItem = createRng(seed); // Paired seed ensures identical opponent & noise rolls
+  const rngItem = createRng(seed);
 
   function runOneTrial(rng, duckSpeed) {
     const uPlayer = rng.next();
@@ -321,7 +462,7 @@ export function simulatePairedRaces({
 }
 
 /**
- * Traces whole-wallet balances across the 5 canonical progression paths.
+ * Traces whole-wallet balances across the 5 canonical hypothetical progression paths.
  */
 export function traceWholeWalletPaths() {
   const PULL_SINGLE = 160;

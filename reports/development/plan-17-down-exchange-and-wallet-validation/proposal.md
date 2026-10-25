@@ -1,7 +1,7 @@
-# Plan 17: Down Exchange and Whole-Wallet Validation — Final Evidence & Proposal
+# Plan 17: Down Exchange and Whole-Wallet Validation — Final Evidence & Proposal (Repair 01)
 
 **Date:** 2026-10-25  
-**Status:** Completed Proposal & Evidence (Scenario Pass Executed)  
+**Status:** Completed Proposal & Evidence (Repair 01 Executed)  
 **Packet:** [`docs/development/plan-17-down-exchange-and-wallet-validation.md`](file:///c:/AI/Quackpot/docs/development/plan-17-down-exchange-and-wallet-validation.md)  
 **Scope:** Strictly bounded to `reports/development/plan-17-down-exchange-and-wallet-validation/`. Existing `sim/` and `src/` modules are read-only references.
 
@@ -15,9 +15,9 @@ In the Plan 12 owner interview and orchestration triage ([DECISION-008](file:///
    - **Rule T1 A:** Draws bought with Down award normal rarity-weighted Down on duplicates (Common: 1, Rare: 5, Legendary: 20).
    - **Rule T2 A:** Draws bought with Down use conditional banner odds, advance the normal pity counter once, and **explicitly reset pity to 0 upon drawing a Legendary**.
    - **Rule T3 A:** Immediate active-banner redemption labeled **“Pull with Down — 6 Down”**; Down remains bankable in the wallet.
-   - **Rule I1:** Minor speed item provides **+5.0% base speed** for one race (non-stacking), consumed strictly once when the race commits.
+   - **Rule I1:** Minor speed item provides **+5.0% base speed** for one race (non-stacking). Runtime lifecycle (commit-once, reload preservation) is designated as a **future integration verification obligation**.
 
-This report establishes the verified mathematical and simulation evidence supporting these owner targets, correcting earlier proxy assumptions, documenting integer bank-state recycling, proving non-self-funding decay, and reconciling isolated bundle arithmetic with real whole-wallet progressions.
+This report documents the verified mathematical and simulation evidence supporting these owner targets, incorporating Repair 01 requirements: mass conservation in recurrence, explicit separation of absorption from cap-censoring, a multi-cell roster coverage matrix (empty, partial missing legendary, full), and honest accounting of hypothetical wallet paths.
 
 ---
 
@@ -33,7 +33,7 @@ Because outcomes are governed by independent draws from unequal category probabi
 $$P(\mathbf{k}) = \frac{10!}{\prod_{i=1}^6 k_i!} \prod_{i=1}^6 p_i^{k_i}$$
 
 ### 2.2 Reconciled Opening Probabilities
-By the Pigeonhole Principle, drawing 10 cards across 6 distinct identities guarantees at least $10 - 6 = 4$ duplicate cards. It is impossible to receive fewer than 4 duplicate cards.
+By the Pigeonhole Principle, drawing 10 cards across 6 distinct identities guarantees at least $10 - 6 = 4$ duplicate cards. It is impossible to receive fewer than 4 duplicate cards from an empty roster.
 
 #### Duplicate Cards Distribution
 | Duplicate Cards | Exact Probability | Cumulative |
@@ -101,137 +101,139 @@ By the Pigeonhole Principle, drawing 10 cards across 6 distinct identities guara
 
 ---
 
-## 3. Pooled-Bank Recurrence & Dynamic Recycling (Rules T1 A / T2 A / T3 A)
+## 3. Pooled-Bank Recurrence & Mass Conservation (Repair 01)
 
-### 3.1 Correcting the Branching-Process Proof
-An unweighted branching ratio ($2.10 / 6 = 0.35 \implies 1.5385$ draws) falsely assumes fractional ticket generation. In reality, Down is held in discrete integer balances, and ticket draws cost an indivisible 6 Down:
-- When starting with exactly **6 Down**, the first draw costs 6 Down $\to$ bank drops to 0.
-- A Common duplicate returns **+1 Down** (bank = 1; cannot afford another pull; 80% probability).
-- A Rare duplicate returns **+5 Down** (bank = 5; cannot afford another pull; 18% probability).
-- Only a Legendary duplicate returns **+20 Down** (bank = 20; affords 3 more pulls; 2% probability).
-- **Result:** Under base odds and full ownership, **98% of players starting with 6 Down terminate immediately after exactly 1 draw**.
+### 3.1 Resolving Terminal Probability Mass Loss
+In earlier iterations, bank states that dropped below 6 Down ($B < 6$) were skipped during subsequent steps without being accumulated, discarding absorbed mass.  
+In Repair 01, absorbed mass is accumulated across all steps into an absorbed distribution map:
+$$\text{Total Mass} = M_{\text{absorbed}} + M_{\text{live}} \equiv 1.00000000$$
 
-### 3.2 Exact Markov / Recurrence Evaluation (Base Odds, Full Ownership)
-A finite-horizon recurrence tracking discrete transitions from bank state $B \ge 6$:
+### 3.2 Exact Recurrence Evaluation Across Starting Banks (Base Odds, Full Ownership)
+Tracking discrete transitions from live bank state $B \ge 6$:
 $$B \to \begin{cases} B - 5 & (p = 0.80) \\ B - 1 & (p = 0.18) \\ B + 14 & (p = 0.02) \end{cases}$$
 
-| Starting Bank | Equivalent Immediate Tickets | Expected Total Draws | Remaining Live Mass | Steps to $\epsilon < 10^{-13}$ | Most Frequent Terminal Bank |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **6 Down** | 1 ticket | **$1.08075$** | $8.97 \times 10^{-14}$ | 64 | 1 Down (78.4%), 5 Down (17.6%) |
-| **12 Down** | 2 tickets | **$2.54461$** | $8.03 \times 10^{-14}$ | 71 | 2 Down (61.5%), 6 Down (recycled) |
-| **18 Down** | 3 tickets | **$3.95109$** | $7.36 \times 10^{-14}$ | 77 | 3 Down (48.2%) |
-| **20 Down** | 3 tickets + 2 remainder | **$4.03735$** | $7.28 \times 10^{-14}$ | 78 | 0 Down (38.4%), 4 Down (31.2%) |
-| **24 Down** | 4 tickets | **$5.33516$** | $6.79 \times 10^{-14}$ | 83 | 4 Down (37.8%) |
+| Starting Bank | Expected Total Draws | Absorbed Mass | Remaining Live Mass | Total Mass | Steps to $\epsilon < 10^{-13}$ | First-Step Absorbed Split | Overall Terminal Bank Distribution |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **0 Down** | **0.00000** | 1.00000000 | 0.00 | 1.00000000 | 0 | 100% at 0 Down | 0 Down (100.0%) |
+| **4 Down** | **0.00000** | 1.00000000 | 0.00 | 1.00000000 | 0 | 100% at 4 Down | 4 Down (100.0%) |
+| **6 Down** | **1.08075** | 1.00000000 | $8.97 \times 10^{-14}$ | 1.00000000 | 64 | **80.0% at 1d, 18.0% at 5d** | **1d: 80.04%, 5d: 19.04%**, 4d: 0.59%, 3d: 0.24%, 2d: 0.09% |
+| **12 Down** | **2.54461** | 1.00000000 | $8.03 \times 10^{-14}$ | 1.00000000 | 69 | None (100% live $\ge 7$) | **2d: 64.17%, 1d: 24.42%, 5d: 9.66%**, 4d: 1.30%, 3d: 0.45% |
+| **18 Down** | **3.95109** | 1.00000000 | $7.36 \times 10^{-14}$ | 1.00000000 | 73 | None (100% live $\ge 13$) | **3d: 51.46%, 2d: 29.35%, 1d: 9.94%**, 5d: 7.37%, 4d: 1.88% |
+| **20 Down** | **4.03735** | 1.00000000 | $9.76 \times 10^{-14}$ | 1.00000000 | 73 | None (100% live $\ge 15$) | **5d: 41.27%, 4d: 25.13%, 3d: 18.89%**, 2d: 8.87%, 1d: 5.84% |
+| **24 Down** | **5.33516** | 1.00000000 | $6.79 \times 10^{-14}$ | 1.00000000 | 76 | None (100% live $\ge 19$) | **4d: 41.25%, 3d: 31.78%, 2d: 15.01%**, 5d: 7.23%, 1d: 4.73% |
 
-*Key Insight on Non-Linearity:* Starting with 12 Down yields **$2.545$ expected draws** (more than $2 \times 1.08 = 2.16$). Because Draw 1 costs 6 Down, the bank drops to 6 Down; any duplicate returns at least +1 Down, guaranteeing that the bank remains $\ge 7$ Down for a 100% guaranteed second draw, where prior leftovers pool with subsequent returns.
-
-### 3.3 Dynamic Pity Advancement & The Legendary Reset Boundary (Rule T2 A)
-In dynamic play, ticket draws advance `pityCount` by 1. 50,000 Monte Carlo runs per scenario confirm the following:
-
-| Starting Pity State | Starting Bank | Mean Draws | Max Cascade Observed | Rare Bounces per 100 Draws | Legendary Windfalls per 100 Draws |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **Pity 0** (Reset) | 6 Down | **$1.081$** | 12 | 17.8% | 2.1% |
-| **Pity 30** (Near Soft) | 6 Down | **$1.134$** | 15 | 17.6% | 3.4% |
-| **Pity 49** (Hard Pity Boundary) | 6 Down | **$5.078$** | 21 | 16.9% | 20.4% *(1st draw guaranteed)* |
-| **Pity 49 (Frozen / No Reset Counterexample)** | 6 Down | **$> 2,000$** | **2,001 (Safety Cap)** | N/A | **100.0% (Infinite Runaway)** |
-
-#### Resolution of the Frozen Pity Ambiguity:
-If ticket draws kept pity at 49 without resetting, every single draw yields a Legendary duplicate (+20 Down, net $+14$ Down per draw), creating a runaway infinite loop.  
-**Rule T2 A prevents this entirely:** At pity 49, the guaranteed Legendary grants 20 Down, but **immediately resets pity to 0**. The 20 Down then decays at base odds, yielding an expected total of ~5.08 draws before complete extinction.
+#### Key Recurrence Findings:
+1. **Total Probability Mass Conserved:** Absorbed mass plus live mass sums to $1.00000000$ across all starting banks.
+2. **First-Step Split Verified:** From 6 Down, Draw 1 immediately absorbs exactly $80.0\%$ at bank 1 Down and $18.0\%$ at bank 5 Down. Only the $2.0\%$ Legendary windfall continues past step 1.
+3. **Pooling Synergy:** 12 Down yields **$2.545$ expected draws** (greater than $2 \times 1.08 = 2.16$). Because Draw 1 costs 6 Down, the bank drops to 6; any duplicate returns at least +1 Down, guaranteeing that the bank remains $\ge 7$ Down for an unconditional second draw.
 
 ---
 
-## 4. Pond Race Consumable Item Resolution (Option I1)
+## 4. Multi-Cell Roster Coverage Matrix (Repair 01)
 
-### 4.1 Race Resolution Engine & Quadrature Formulation
-In [`src/core/game-engine.mjs`](file:///c:/AI/Quackpot/src/core/game-engine.mjs#L267-L295):
-- Player entered with duck base speed $S = 10.0$ (Common).
-- Stances: Safe Pace (noise $\pm 5\%$, span $1.00$); Sprint Push ($1.10 S$, noise $\pm 20\%$, span $4.40$).
-- Opponents: 5 independent entrants with base speed $S_{\text{opp}} \times [1 \pm 0.05]$.
-- First-place probability is evaluated via numerical quadrature:
-$$P(\text{Win}) = \int_{\text{perf}_{\min}}^{\text{perf}_{\max}} \left[ \text{CDF}_{\text{opp}}(x) \right]^5 \cdot \frac{1}{\text{perf}_{\max} - \text{perf}_{\min}} \, dx$$
+### 4.1 Explicit Separation of Absorption from Cap-Censoring
+In accordance with Review 01, simulation outcomes strictly separate:
+- **Absorbed Runs:** The run ends naturally because the player runs out of purchasing power ($B < 6$). The final bank ($0 \le B \le 5$) is recorded in `terminalBanks`.
+- **Censored Runs:** The run reaches the declared maximum draw cap ($D = 2,000$ draws) while still possessing live purchasing power ($B \ge 6$). The live residual bank is recorded in `censoredResidualBanks` and is **never** counted in terminal distributions.
 
-### 4.2 Exact Quadrature vs. Paired Monte Carlo (20,000 Races)
+### 4.2 Simulation Coverage Matrix (10,000 Trials per Cell)
 
-| Race Context | Duck & Stance | Item Boost | Speed Range | Quadrature 1st Place | Simulated 1st Place | Mean Gems Payout |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Finale (Field 11.2)** | Common Sprint | None (Baseline) | $[8.80, 13.20]$ | **36.9697%** | 37.14% | 20.91g |
-| **Finale (Field 11.2)** | Common Sprint | **+5.0% (Option I1)** | $[9.24, 13.86]$ | **49.4949%** | 49.33% | 27.24g |
-| **Finale Delta** | Common Sprint | **Option I1 Net** | — | **+12.5252%** | **+12.19%** | **+6.33g** |
-| **Finale (Field 11.2)** | Common Safe | Baseline | $[9.50, 10.50]$ | **0.0000%** | 0.00% | 0.00g |
-| **Finale (Field 11.2)** | Common Safe | **+5.0% (Option I1)** | $[9.98, 11.03]$ | **0.0173%** | 0.02% | 0.01g |
-| **Tutorial (Field 8.0)**| Common Safe | Baseline | $[9.50, 10.50]$ | **100.0000%** | 100.00% | 50.00g |
-| **Tutorial (Field 8.0)**| Common Safe | **+5.0% (Option I1)** | $[9.98, 11.03]$ | **100.0000%** | 100.00% | 50.00g |
+| Cell ID | Roster Configuration | Initial Bank | Initial Pity | Absorbed Count / Rate | Censored Count / Rate | Mean Draws (Completed) | Mean Draws (Capped) | Max Draws Observed | Terminal Banks Summary |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **M1** | Empty (0/6 owned) | 6 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **1.000** | 1.000 | 1 | 100% end at 0 Down |
+| **M2** | Empty (0/6 owned) | 12 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **2.001** | 2.001 | 5 | 99.9% end at 0 Down |
+| **M3** | Partial (5/6, missing Legendary) | 6 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **1.000** | 1.000 | 1 | 100% end at 0 Down |
+| **M4** | Partial (5/6, missing Legendary) | 6 Down | Pity 30 | 10,000 / **100.0%** | 0 / **0.0%** | **1.000** | 1.000 | 1 | 100% end at 0 Down |
+| **M5** | Partial (5/6, missing Legendary) | 6 Down | **Pity 49 (Hard Pity)** | 10,000 / **100.0%** | 0 / **0.0%** | **1.000** | 1.000 | 1 | **100% end at 0 Down** |
+| **M6** | Partial (5/6, missing Legendary) | 12 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **2.326** | 2.326 | 6 | 70.3% at 1d, 26.6% at 5d |
+| **M7** | Full (6/6 owned) | 6 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **1.080** | 1.080 | 16 | 80.0% at 1d, 19.0% at 5d |
+| **M8** | Full (6/6 owned) | 6 Down | Pity 30 | 10,000 / **100.0%** | 0 / **0.0%** | **1.079** | 1.079 | 14 | 79.9% at 1d, 18.9% at 5d |
+| **M9** | Full (6/6 owned) | 6 Down | **Pity 49 (with Reset)** | 10,000 / **100.0%** | 0 / **0.0%** | **5.045** | 5.045 | 25 | 41.3% at 5d, 25.1% at 4d |
+| **M10**| Full (6/6 owned) | 12 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **2.532** | 2.532 | 20 | 64.2% at 2d, 24.4% at 1d |
+| **M11**| Full (6/6 owned) | 24 Down | Pity 0 | 10,000 / **100.0%** | 0 / **0.0%** | **5.309** | 5.309 | 22 | 41.3% at 4d, 31.8% at 3d |
+| **M12**| **Counterexample (Frozen Pity 49)** | 6 Down | Pity 49 (No Reset) | 0 / **0.0%** | 10 / **100.0%** | **N/A** | **500.0** | **500 (Cap)** | **Empty (Live Bank: 7,006d)** |
 
-### 4.3 Pedagogical Evaluation of Option I1:
-1. **Observable Without Winning Guarantees:** On Sprint stance, +5% speed improves 1st place odds from ~37.0% to ~49.5% (+12.5 percentage points). The benefit is observable in race placings and yields ~6.3 additional gems in expectation, but does not guarantee victory (50.5% loss rate remains).
-2. **Cannot Trivialize Safe Stance in Hard Races:** In Race 2, Common Safe with the item achieves only $0.017\%$ win rate against field 11.2. The item cannot bail out a player who refuses tactical risk.
-3. **Tutorial Redundancy:** Baseline Common Safe already achieves $100.0\%$ win rate in the tutorial race. Spending Down on the item before Race 1 provides zero marginal benefit, exposing another player trap.
-4. **Lifecycle & Consumption Contract:**
-   - Consumed strictly once when the race commits.
-   - Opening/closing the stance modal does not consume the item.
-   - Page reload reconstructs state without re-consuming or double-awarding payouts.
+### 4.3 Structural Insights from Roster Coverage:
+1. **The Missing Legendary Trap (Cell M5):**
+   - When a player owns all Commons and Rares but is missing the Legendary duck (`duck-5`), drawing at hard pity (Pity 49) guarantees `duck-5`.
+   - Because `duck-5` was **not previously owned**, it is a **NEW** duck, awarding **0 Down feathers**.
+   - Pity resets to 0. Bank drops from 6 to 0. The player achieves their collection goal, but **ticket recycling terminates immediately with 0 Down**.
+2. **The Full Ownership Windfall (Cell M9):**
+   - When all 6 ducks are owned, hitting hard pity guarantees a **duplicate** Legendary, awarding **20 Down**.
+   - Under Rule T2 A, pity resets to 0. The 20 Down then decays at base odds, yielding an expected **$5.045$ completed draws**. All 10,000 runs absorb cleanly (0% censoring).
+3. **Analytic Induction of the Frozen Pity Runaway Loop (Cell M12):**
+   - In Cell M12, 100% of runs hit the declared cap ($D = 500$ draws) with 7,006 Down remaining.
+   - **Inductive Invariant:** Let $p_L = 1.0$ be fixed without reset. Every draw deterministically yields duplicate duck-5 (+20 Down) at cost 6 Down.
+   - Net change per draw is strictly $\Delta B = +20 - 6 = \mathbf{+14\text{ Down}}$.
+   - Bank after $n$ draws is $B(n) = B(0) + 14n$. Since $14 > 0$, $B(n) \to \infty$. This proves the runaway loop analytically, independent of the empirical safety cap.
+
+### 4.4 Reproducible Per-Draw Trajectories
+
+#### Trajectory 1: Empty Roster Starting with 6 Down (Cell M1)
+- **Draw 1:** Pity 0, Odds: C 80%, R 18%, L 2%. Drew `duck-0` (Common, NEW). Award: **0 Down**. Bank: $6 - 6 + 0 = \mathbf{0\text{ Down}}$. Pity after: 1.
+- **Outcome:** Bank $< 6 \implies$ **Terminated / Absorbed after 1 draw** with 0 Down remaining.
+
+#### Trajectory 2: Partial Roster Missing Legendary Starting at Pity 49 (Cell M5)
+- **Draw 1:** Pity 49, Odds: L 100%. Drew `duck-5` (Legendary, NEW). Award: **0 Down**. Bank: $6 - 6 + 0 = \mathbf{0\text{ Down}}$. Pity after: 0 (Reset).
+- **Outcome:** Bank $< 6 \implies$ **Terminated / Absorbed after 1 draw** with 0 Down remaining.
+
+#### Trajectory 3: Full Roster Starting at Pity 49 with Normal Reset (Cell M9)
+- **Draw 1:** Pity 49, Odds: L 100%. Drew `duck-5` (Legendary, OWNED). Award: **+20 Down**. Bank: $6 - 6 + 20 = \mathbf{20\text{ Down}}$. Pity after: 0 (Reset).
+- **Draw 2:** Pity 0, Odds: C 80%, R 18%, L 2%. Drew `duck-0` (Common, OWNED). Award: **+1 Down**. Bank: $20 - 6 + 1 = \mathbf{15\text{ Down}}$. Pity after: 1.
+- **Draw 3:** Pity 1, Odds: base. Drew `duck-2` (Rare, OWNED). Award: **+5 Down**. Bank: $15 - 6 + 5 = \mathbf{14\text{ Down}}$. Pity after: 2.
+- **Draw 4:** Pity 2. Drew `duck-1` (Common, OWNED). Award: **+1 Down**. Bank: $14 - 6 + 1 = \mathbf{9\text{ Down}}$. Pity after: 3.
+- **Draw 5:** Pity 3. Drew `duck-3` (Common, OWNED). Award: **+1 Down**. Bank: $9 - 6 + 1 = \mathbf{4\text{ Down}}$. Pity after: 4.
+- **Outcome:** Bank $4 < 6 \implies$ **Terminated / Absorbed after 5 draws** with 4 Down remaining.
 
 ---
 
-## 5. Whole-Wallet Bundle Arithmetic vs. Isolated Odd-Bundle Traps
+## 5. Pond Race Consumable Resolution & Integration Obligations (Option I1)
 
-### 5.1 Isolated Remainder vs. Whole-Wallet Realities
-The Plan 12 odd-bundle trap ($1,750 - 1,600 = \mathbf{150\text{ gems}}$, leaving a **10-gem shortfall** to a 160-gem pull) correctly describes pure bundle geometry. However, in whole-wallet play, players carry race rewards and pack leftovers:
+### 5.1 Efficacy Verification (Numerical Quadrature & Paired Simulation)
+Against 5 independent opponents:
+- **Finale Field (11.2 speed):** On Common Sprint stance, +5.0% base speed shifts 1st-place win probability from **$36.97\%$ to $49.49\%$ (+12.53 percentage points)**, increasing expected gem payout from 20.91g to 27.24g (+6.33g).
+- **Common Safe Stance:** Win probability against field 11.2 shifts from $0.0000\%$ to $0.0173\%$ (a tiny upset chance). The item cannot bail out passive play.
+- **Tutorial Race (8.0 field):** Baseline Common Safe already achieves $100.0\%$ win rate. Buying items before Race 1 provides zero marginal benefit.
 
-```mermaid
-flowchart LR
-    A["Day 1 Tutorial Win (+50g)"] --> B["Wallet: 50g"]
-    B --> C["Buy 1,750 Bundle ($4.99)"]
-    C --> D["Wallet: 1,800g"]
-    D --> E["10-Pull (-1,600g)"]
-    E --> F["Wallet: 200g (>= 160g)"]
-    F --> G["Affords 11th Single Pull! (-160g)"]
-    G --> H["Final Stranded Gems: 40g (120g short)"]
-```
+### 5.2 Deferred Integration Lifecycle Obligations
+The mathematical model here confirms statistical efficacy. The following runtime behaviors are designated as **future integration verification obligations** to be implemented and tested in the upcoming UI/engine integration packet:
+1. **Commit-Time Consumption:** The item must be consumed strictly once when the race execution commits.
+2. **Stance Modal Cancellation:** Opening the pre-race stance modal and closing/cancelling it must NOT consume the item.
+3. **Idempotency on Reload:** Page reload during or after race resolution must reconstruct state without double-consuming the item or duplicating race rewards.
+4. **Presentation Separation:** The numerical +5% boost is a game-engine parameter; it does not promise a fixed 0.2s duration or 30s consumable duration in the visual presentation.
 
-### 5.2 Canonical Progression Paths Matrix
+---
 
-| Path ID & Scenario | Gems Before Purchase | Bundle / Purchase Added | Total Gems Available | After 10-Pull (1,600g) | Single Pulls Affordable | Final Stranded Remainder | True Shortfall to Next Pull |
+## 6. Whole-Wallet Hypothetical Progression Paths & Receipt Specs
+
+### 6.1 Hypothetical Wallet Progression Paths
+The following table models explicit hypothetical purchase and spend trajectories:
+
+| Path ID & Scenario | Gems Before Purchase | Bundle Added | Total Available | After 10-Pull (1,600g) | Available Singles | Stranded Remainder | Shortfall to Next Single |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Path 1: Pure Isolated Bundle** *(No prior play)* | 0g | +1,750g ($4.99) | 1,750g | 150g | 0 | **150g** | **10g short** *(The isolated trap)* |
-| **Path 2: Tutorial Race Winner** *(Standard Day 1)* | 50g | +1,750g ($4.99) | 1,800g | 200g | **1** | **40g** | **120g short** |
-| **Path 3: Starter Pack Purchaser** *(After 1 pull)* | 130g | +1,750g ($4.99) | 1,880g | 280g | **1** | **120g** | **40g short** |
-| **Path 4: Starter Pack Alone** *($0.99 for 240g)* | 50g | +240g ($0.99) | 290g | N/A | **1** | **130g** | **30g short** |
-| **Path 5: Two Race Wins** *(Day 1 + Day 2 = 100g)* | 100g | +1,750g ($4.99) | 1,850g | 250g | **1** | **90g** | **70g short** |
+| **Path 1: Pure Isolated Bundle** | 0g | +1,750g ($4.99) | 1,750g | 150g | 0 | **150g** | **10g short** *(The isolated trap)* |
+| **Path 2: Tutorial Race Winner** | 50g | +1,750g ($4.99) | 1,800g | 200g | **1** | **40g** | **120g short** |
+| **Path 3: Starter Pack Purchaser** | 130g | +1,750g ($4.99) | 1,880g | 280g | **1** | **120g** | **40g short** |
+| **Path 4: Starter Pack Alone** | 50g | +240g ($0.99) | 290g | N/A | **1** | **130g** | **30g short** |
+| **Path 5: Two Race Wins** | 100g | +1,750g ($4.99) | 1,850g | 250g | **1** | **90g** | **70g short** |
+
+### 6.2 Truthful Receipt Debrief Specifications
+1. **Strict Currency Isolation (Rule T4):** Down spend (6 Down/ticket) is logged strictly in the secondary-currency register, never inflated into cash or gem registers.
+2. **Accurate Stranded Reporting:** 5 Down must be reported as 1 Down short of a ticket, but capable of buying a 3-Down speed item. It must never be labeled as wholly unspendable.
+3. **Question-Based Reflection:** The *“Did This Affect You?”* register must present reflective questions (e.g. *“Did the availability of pull tickets in the Down exchange encourage you to keep drawing after your opening pulls?”*) rather than asserting player psychological states.
 
 ---
 
-## 6. Receipt Accounting & Pedagogical Debrief Specifications
-
-To preserve Hard Constraints #2 and #3 and avoid learner pushback:
-
-### 6.1 Strict Currency Separation (Rule T4)
-- **Cash Register:** Logs real-money purchases ($0.99 starter, $4.99 bundle).
-- **Gem Register:** Logs gem spending (160 gems/pull).
-- **Down Register:** Logs Down transactions separately (6 Down/ticket, 3 Down/speed item). Ticket pulls must **never** be logged as gem spending (160 gems) or zero-dollar cash spending.
-
-### 6.2 Truthful Stranded Currency Reporting
-- **Avoid Misleading "Wholly Stranded" Claims:** 5 Down is 1 short of a pull ticket, but can still purchase a 3-Down speed item. The Receipt must report:
-  > *“You finished with 5 Down. While this was 1 Down short of a pull ticket, it was still enough to buy 1 speed item.”*
-- **Distinguish Bundle Remainder from Wallet Remainder:**
-  - *Inherent Bundle Geometry:* *“The 1,750 bundle tier was priced to leave 150 gems (10 gems short of a single pull).”*
-  - *Observed Wallet Balance:* *“With your 50 gems from race rewards, your balance reached 200 gems, allowing you to make 1 more pull and leaving 40 gems unspent.”*
-
-### 6.3 Question-Based Reflection
-In accordance with CourseVGD guidelines, the *“Did This Affect You?”* register must present reflective prompts rather than psychological assertions:
-- **Correct Prompt:** *“Did the availability of pull tickets in the Down exchange encourage you to keep drawing after your opening pulls?”*
-- **Forbidden Assertion:** *“The Down exchange made you believe you were on a winning streak.”*
-
----
-
-## 7. Delivery & Artifact Index
+## 7. Artifact Index & Verification Summary
 
 All supporting evidence, simulation scripts, and reproducible test suites are located within this folder:
 - **Analytics Engine:** [`down-validation-engine.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/down-validation-engine.mjs)
-- **Automated Test Suite (100% Passing):** [`scenarios.test.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/scenarios.test.mjs)
+- **Automated Test Suite (7/7 Passing):** [`scenarios.test.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/scenarios.test.mjs)
 - **Scenario Evidence Generator:** [`run-scenarios.mjs`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/run-scenarios.mjs)
 - **Structured Data Artifact:** [`results.json`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/results.json)
 - **Progress Report:** [`progress.md`](file:///c:/AI/Quackpot/reports/development/plan-17-down-exchange-and-wallet-validation/progress.md)
 
-No shared `sim/` or `src/` modules were modified. No packet frontmatter status or git push operations were performed.
+**Automated Verification:**
+- `node --test reports/development/plan-17-down-exchange-and-wallet-validation/scenarios.test.mjs`: Exit 0 (7 pass, 0 fail).
+- `node scripts/dev/plan-status.js lint`: Exit 0 (`lint: OK (no violations)`).
+- `node scripts/dev/plan-status.js check plan-17`: Exit 0 (`RUNNABLE`).

@@ -1,11 +1,11 @@
-# Plan 14 Proposal: Game Stage and Metagame Transitions Investigation
+﻿# Plan 14 Proposal: Game Stage and Metagame Transitions Investigation (Repair 01)
 
-**Date:** 2026-10-25  
-**Type:** UX Architecture & Diegetic Stage Transition Investigation  
-**Status:** Delivered for Owner Review & Selection  
-**Author:** Implementer Thread (Plan 14)  
-**Scope:** `reports/development/plan-14-game-stage-and-context-transitions/`  
-**Accompanying Interactive Artifact:** [`wireframes.html`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/wireframes.html)  
+**Date:** 2026-10-25
+**Type:** UX Architecture & Diegetic Stage Transition Investigation
+**Status:** Delivered for Owner Review & Selection (Repair 01)
+**Author:** Implementer Thread (Plan 14)
+**Scope:** `reports/development/plan-14-game-stage-and-context-transitions/`
+**Accompanying Interactive Artifact:** [`wireframes.html`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/wireframes.html)
 
 ---
 
@@ -15,17 +15,21 @@ During the technical review and owner play-testing of Plan 03 ([`reports/orchest
 
 1. **Favored Identity:** Preserve the favored *Quackpot* logo (`QUACK` in gold `#fbbf24`, `POT` in white `#ffffff`) and its companion avatar cameo.
 2. **Game Feel over Website Feel:** Replace the narrow centered 960px web-document wrapper with a full-width game framing that reads immediately as a dedicated videogame rather than a browser form.
-3. **Constrained Readable Widths:** While the shell spans the full browser width, readable narrative text, dialogue boxes, and store catalogs must remain constrained to comfortable reading columns (max-width 720–760px, 60–75 characters per line). Do not stretch text across 1440p/4K monitors, and do not force browser fullscreen (`requestFullscreen`).
+3. **Constrained Readable Widths:** While the shell spans the full browser width, readable narrative text, dialogue boxes, and store catalogs must remain constrained to comfortable reading columns (max-width 720â€“760px, 60â€“75 characters per line). Do not stretch text across 1440p/4K monitors, and do not force browser fullscreen (`requestFullscreen`).
 4. **Rectangular Game Viewport:** Provide a centered, letterboxed rectangular stage (16:9 desktop reference ratio) that comfortably stages both the apartment metagame and the fictional gacha app.
 5. **Quieter Save & Settings Architecture:** Remove the distracting autosave checkbox from the persistent HUD header. Preserve autosave as an onboarding choice on the start menu, and relocate runtime toggles into a discoverable Settings Drawer/Modal. Retain an explicit, 1-click manual "Save" button with honest storage-failure feedback (including explicit alerts when running in restricted in-memory mode). Keep the prominent, red "Uninstall" emergency exit button visible at all times per Hard Constraint #5.
-6. **Fictional-Phone Quarter-Turn & Stage Expansion (DECISION-008):** Choreograph the selected diegetic transition where the metagame character's smartphone rotates 90° into landscape orientation within the apartment desk, followed by a seamless expansion into the full-width gacha stage canvas. Provide an equally smooth reverse return transition, a zero-transform reduced-motion alternative, and full responsive/keyboard operability.
+6. **Fictional-Phone Quarter-Turn & Stage Expansion (DECISION-008):** Choreograph the selected diegetic transition where the metagame character's smartphone rotates 90Â° into landscape orientation within the apartment desk, followed by a seamless expansion into the full-width gacha stage canvas. Provide an equally smooth reverse return transition, a zero-transform reduced-motion alternative, and full responsive/keyboard operability.
 7. **Two Distinct Duck Contexts (DECISION-003):** Strictly separate the physical desk companion (an inanimate 2D rubber duck prop whose attachment motivates interest in gacha; cinematographic framing/lighting conveys mood; pawning affects the metagame apartment/cash story) from the collectible digital ducks (Plan 04 Mode C hybrid paper rig; active in gacha racing; animated).
 8. **Experience vs. Debrief Boundary (DECISION-008):** In live gacha gameplay, remove pedagogical math analysis helper boxes. Let commercial excitement and predatory pressure register organically. Surfacing mathematical decomposition belongs exclusively on the post-run Receipt and debrief.
 9. **Factual Credits Coordination (DECISION-010 & Plan 18):** Reserve a quiet, discoverable Credits panel inside the Settings Drawer for factual licensing and creator attributions (CC0/CC audio provenance) without breaching the fictional game world.
 
-To provide the owner with concrete choices, this proposal presents two complete shell architectures:
-- **Shell Option A (Recommended): "Cinematic Stage Canopy"** — A full-bleed top canopy bar housing status meters, quick-save, settings, and uninstall, paired with an immersive letterboxed central stage.
-- **Shell Option B (Alternative): "Diegetic Console & Split Utility Rail"** — A 100% diegetic top bar showing only in-world meters, paired with a quiet, collapsible bottom utility rail housing system actions.
+### Repair 01 Alignment
+Following orchestration review ([`review-01.md`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/review-01.md)), Repair 01 bound the prototype to strict verification requirements:
+- **Interruption Safety:** Single explicit transition state machine with immediate cancellation of pending timers on Return, Escape, replay, or mock terminal exit.
+- **Wireframe Choreography:** Demonstrates phone turn $\rightarrow$ legible upright landscape screen $\rightarrow$ stage expansion, and reverse collapse. Timings are labeled as proposals for owner selection (400ms turn, 400ms expand, 800ms total entry, 400ms return).
+- **Focus & Motion Contracts:** Strict focus containment (Tab trapping) inside dialogs, returning focus to the invoking trigger upon dismissal. Escape dismisses top dialogs without navigating scenes. Reduced motion initializes from the OS preference (`matchMedia`) with working manual override and instant static scene swapping.
+- **Truthful Labeling & Separation:** Storage, saving, and export are labeled as prototype simulations. Invented runtime verification claims and unmeasured AAA compliance statements are removed. Credits feature a factual attribution placeholder per DECISION-010 without claiming unmade code dedications. Stage copy is strictly player-facing; architectural commentary is isolated in the review margin.
+- **Stable Terminal Placeholder:** Mock Leave enters an in-stage terminal/Receipt placeholder, locks the exit controls, and stops retention reopening.
 
 Both shell options, the complete transition choreography, and all accessibility features can be evaluated interactively in [`wireframes.html`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/wireframes.html).
 
@@ -39,7 +43,7 @@ Shell Option A adopts a modern, arcade-inspired "canopy" header spanning 100% of
 ```
 +---------------------------------------------------------------------------------------------------------+
 | [CANOPY HEADER: 100% Viewport Width]                                                                     |
-| (Logo & Avatar Cameo)        [Day 1 Midday]  [$10.00 Cash]  [💎 0 Gems]  [100 HP]    [💾 Save] [⚙️] [❌ Exit]|
+| (Logo & Avatar Cameo)        [Day 1 Midday]  [$10.00 Cash]  [ðŸ’Ž 0 Gems]  [100 HP]    [ðŸ’¾ Save] [âš™ï¸] [âŒ Exit]|
 +---------------------------------------------------------------------------------------------------------+
 | [AMBIENT STAGE WRAPPER: Full-Bleed Dark Radial Vignette]                                                |
 |                                                                                                         |
@@ -59,21 +63,21 @@ Shell Option A adopts a modern, arcade-inspired "canopy" header spanning 100% of
 ### 2.2 Header Layout & Component Breakdown
 
 1. **Left Zone: Brand & Physical Companion Cameo**
-   - **Avatar Cameo:** A 38×38px circular badge rendering the 2D inanimate physical duck companion (`Professor Quacks`), bordered in warm gold (`#fbbf24`).
+   - **Avatar Cameo:** A 38Ã—38px circular badge rendering the 2D inanimate physical duck companion (`Professor Quacks`), bordered in warm gold (`#fbbf24`).
    - **Favored Logo:** Preserves the exact Plan 03 styling:
      `<span class="title-quack">QUACK</span><span class="title-pot">POT</span>` (`QUACK` in glowing amber `#fbbf24`, `POT` in crisp white `#ffffff`).
    - **Subtitle / Run Version:** A small blue pill (`Slice v0.14`) and a quiet indicator showing the current companion name.
 
 2. **Center Zone: Persistent Status Canopy**
-   - **Day & Time Phase:** `📅 Day 1: Midday` (updates as time advances through midday expenses, afternoon races, evening wages, and night rent).
-   - **Fictional Cash:** `💵 Cash: $10.00` (green `#34d399` when solvent; transitions to amber/red alert styling when facing an unpaid bill).
-   - **Gems (Dormant Gating):** `💎 Gems: 0` starts in a dimmed, dashed-border dormant state (45% opacity) to prevent rookie cognitive overload, illuminating into vivid amethyst when the first gems or pull rewards are granted.
-   - **Health HP:** `❤️ Health: 100 HP` (escalation meter tracking skipped meals and physical strain; flashes crimson alert below 20 HP).
+   - **Day & Time Phase:** `ðŸ“… Day 1: Midday` (updates as time advances through midday expenses, afternoon races, evening wages, and night rent).
+   - **Fictional Cash:** `ðŸ’µ Cash: $10.00` (green `#34d399` when solvent; transitions to amber/red alert styling when facing an unpaid bill).
+   - **Gems (Dormant Gating):** `ðŸ’Ž Gems: 0` starts in a dimmed, dashed-border dormant state (45% opacity) to prevent rookie cognitive overload, illuminating into vivid amethyst when the first gems or pull rewards are granted.
+   - **Health HP:** `â¤ï¸ Health: 100 HP` (escalation meter tracking skipped meals and physical strain; flashes crimson alert below 20 HP).
 
 3. **Right Zone: Action & Utility Controls (Quieter Save Model)**
-   - **💾 Save Button:** A compact, low-chrome icon button (`btn-hud-quiet`). Clicking triggers an instant inline toast notification (`✓ Run saved locally to browser storage.`) that automatically fades after 2.6 seconds.
-   - **⚙️ Settings Button:** Opens the slide-over Settings Drawer housing autosave preferences, storage diagnostics, accessibility toggles, and local credits.
-   - **❌ Uninstall Button:** Prominently styled in crimson (`rgba(239, 68, 68, 0.2)` with `#ef4444` border), guaranteeing that the player's emergency exit route is always visible and 1-click reachable per Hard Constraint #5.
+   - **ðŸ’¾ Save Button:** A compact, low-chrome icon button (`btn-hud-quiet`). In the prototype, clicking triggers an inline simulation toast (`âœ“ Simulated: Run saved locally to browser storage.`) that automatically fades after 2.6 seconds.
+   - **âš™ï¸ Settings Button:** Opens the focus-trapped Settings Drawer housing autosave preferences, storage diagnostics, accessibility toggles, and local credits.
+   - **âŒ Uninstall Button:** Prominently styled in crimson (`rgba(239, 68, 68, 0.2)` with `#ef4444` border), guaranteeing that the player's emergency exit route is always visible and 1-click reachable per Hard Constraint #5.
 
 ### 2.3 Stage Container & Constrained Content Wells
 - **Stage Framing:** Background uses a rich radial vignette (`radial-gradient(circle, #111827 0%, #080c14 100%)`) that eliminates empty desktop white-space while framing the game action.
@@ -89,8 +93,8 @@ Shell Option B explores strict diegetic separation: the entire top of the screen
 
 ```
 +---------------------------------------------------------------------------------------------------------+
-| [DIEGETIC TOP BAR: 100% In-World Markers Only — Zero System Controls]                                   |
-| (Logo & Avatar)                     [Day 1 (Midday)]   [$10.00]   [💎 0]   [100 HP]                     |
+| [DIEGETIC TOP BAR: 100% In-World Markers Only â€” Zero System Controls]                                   |
+| (Logo & Avatar)                     [Day 1 (Midday)]   [$10.00]   [ðŸ’Ž 0]   [100 HP]                     |
 +---------------------------------------------------------------------------------------------------------+
 | [CENTRAL STAGE VIEWPORT]                                                                                |
 |                                                                                                         |
@@ -99,8 +103,8 @@ Shell Option B explores strict diegetic separation: the entire top of the screen
 |       +-----------------------------------------------------------------------------------------+       |
 |                                                                                                         |
 +---------------------------------------------------------------------------------------------------------+
-| [SPLIT UTILITY RAIL: Subdued Bottom Bar — Semi-Transparent Backdrop Blur]                               |
-| 🎮 Quackpot Console v0.14  |  Autosave: Enabled                      [💾 Save]  [⚙️ Options]  [❌ Uninstall] |
+| [SPLIT UTILITY RAIL: Subdued Bottom Bar â€” Semi-Transparent Backdrop Blur]                               |
+| ðŸŽ® Quackpot Console v0.14  |  Autosave: Enabled                      [ðŸ’¾ Save]  [âš™ï¸ Options]  [âŒ Uninstall] |
 +---------------------------------------------------------------------------------------------------------+
 ```
 
@@ -131,152 +135,132 @@ Shell Option B explores strict diegetic separation: the entire top of the screen
 
 Per DECISION-008, the owner selected a fictional-phone quarter-turn into landscape followed by stage expansion as the transition direction. The transition bridges the character's physical apartment desk and the commercial gacha app.
 
-### 5.1 The 5-Beat Transition Lifecycle
+### 5.1 The 5-Beat Transition Lifecycle & Interruption Handling
 
 ```
-[Beat 1: Apartment Desk] 
-   Phone sits in portrait (aspect ~9:19.5, 200×380px) on desk.
+[Beat 1: Apartment Desk]
+   Phone sits in portrait (aspect ~9:19.5, 200Ã—380px) on desk.
    Golden push notification pulses: "Special Welcome Gift Waiting! Tap to Claim 10-Pull!"
-               │
-               ▼ (Player clicks phone or presses Enter/Space)
-[Beat 2: Diegetic Quarter-Turn (400ms)]
+               â”‚
+               â–¼ (Player clicks phone or presses Enter/Space)
+[Beat 2: Diegetic Quarter-Turn (400ms proposed)]
    Desk lighting dims slightly (radial vignette intensifies).
-   Phone elevates with 3D drop shadow and rotates 90° clockwise:
+   Phone elevates with 3D drop shadow and rotates 90Â° clockwise:
    `transform: rotate(90deg) scale(1.15);`
-   Screen contents morph from portrait lockscreen to landscape game splash.
-               │
-               ▼ (Continuous smooth easing curve)
-[Beat 3: Stage Expansion (350ms)]
-   Rotated phone bezels smoothly expand and dissolve outward.
-   Screen viewport expands to fill the 1120px 16:9 stage canvas.
-   Total entry budget: ~750ms. (Snappy, respectful of learner time).
-               │
-               ▼
+   Inside phone, screen contents counter-rotate into legible landscape view.
+               â”‚
+               â–¼ (Continuous smooth easing curve)
+[Beat 3: Stage Expansion (400ms proposed; 800ms total entry)]
+   Rotated phone expands outward to fill the 1120px 16:9 stage canvas.
+   Desk scene dissolves into the active full-width gacha interface.
+               â”‚
+               â–¼
 [Beat 4: Active Gacha Stage]
    Full Quackpot Gacha App is active with Rookie 10-Pull Banner.
-   Auditory welcome chime sounds; focus moves to primary CTA.
-               │
-               ▼ (Player clicks "Return to Desk" or hits Escape)
-[Beat 5: Reverse Return Transition (400ms)]
-   Stage canvas smoothly collapses back into the landscape phone frame.
-   Phone rotates 90° counter-clockwise back to portrait resting on desk.
+   Focus moves to primary CTA; background shortcuts active.
+               â”‚
+               â–¼ (Player clicks "Return to Desk" or hits Escape)
+[Beat 5: Reverse Return Transition (400ms proposed)]
+   Stage canvas collapses back into landscape phone frame.
+   Phone rotates 90Â° counter-clockwise back to portrait resting on desk.
    Desk lighting and physical companion prominence are restored.
 ```
 
-### 5.2 Motion Physics & Timing Parameters
-- **Rotation Transform:** `transform: rotate(90deg) scale(1.15)`
-- **Easing Curve:** `cubic-bezier(0.16, 1, 0.3, 1)` (custom snappy deceleration curve that initiates briskly and settles smoothly without mechanical bounce).
-- **Timing Budget:**
-  - Forward Entry: **750ms total** (400ms rotation + 350ms expansion).
-  - Reverse Return: **400ms total** (accelerated return prevents tedious waiting when repeatedly checking apartment expenses).
-  - Instant Skip: Pressing `Escape` or clicking during the transition completes the transition instantly.
+### 5.2 Interruption & Cancellation Safety
+- **Single State Machine:** State is tracked via `transitionState` (`'desk'`, `'turning'`, `'expanding'`, `'gacha'`, `'terminal'`).
+- **Immediate Callback Invalidation:** Clicking `â¬… Return to Desk`, `btn-step-desk`, pressing `Escape`, or initiating terminal exit executes `cancelPendingTransitions()`. This clears active `setTimeout` timers and increments `transitionToken`, ensuring stale async callbacks never re-open the gacha stage after a user has cancelled.
+- **Unified Click & Auto-Play Timing:** Clicking the phone container and clicking `â–¶ Auto-Play` execute the exact same scheduled pipeline: 400ms turn $\rightarrow$ 400ms expansion (800ms total entry). All durations are explicitly presented as design proposals for owner review.
 
 ### 5.3 Reduced-Motion Alternative (`prefers-reduced-motion: reduce`)
 When the user has system reduced motion enabled or toggles "Reduced Motion" in the Settings Drawer:
+- **System Preference Detection:** Initialized automatically on load via `window.matchMedia('(prefers-reduced-motion: reduce)')`.
 - **Zero Transforms:** Zero angular rotation (`rotate(0deg)`) and zero scale transforms.
-- **Instant Cross-Fade:** A clean 100ms opacity transition directly swaps the Apartment Desk view with the Gacha Stage view.
-- **Focus Preservation:** Focus transfers immediately to the primary gacha CTA (`🎁 CLAIM FREE 10-PULL`).
-- **Screen Reader Announcer:** Live region announces: *"Quackpot Gacha App opened in landscape stage view (reduced motion active)."*
+- **Instant Static Swap:** Clicking the phone or Return immediately performs a clean 100ms cross-fade between views with zero rotation.
+- **Focus & Narration:** Focus transfers immediately to the primary CTA; live region announces: *"Quackpot Gacha App opened in landscape stage view (reduced motion active)."*
 
 ---
 
 ## 6. Quieter Save, Settings Architecture & Local Credits
 
 ### 6.1 Removal of HUD Checkbox & Onboarding Placement
-- In Plan 03, the persistent HUD featured a web-style checkbox: `<label><input type="checkbox"> Autosave</label>`. The owner explicitly requested removing this checkbox from the persistent header.
-- **New Location 1 (Onboarding):** The initial run start screen / new game modal provides the primary autosave opt-in:
-  `[✓] Enable Autosave (recommended — saves progress and Receipt log locally)`
-- **New Location 2 (Settings Drawer):** Players can modify this preference at any time inside the Settings Drawer.
+- The persistent HUD checkbox from Plan 03 is removed from the header.
+- **Onboarding Placement:** The initial run start screen / new game modal provides the primary autosave opt-in:
+  `[âœ“] Enable Autosave (recommended â€” saves progress and Receipt log locally)`.
+- **Settings Drawer Placement:** Players can toggle autosave at any time inside the Settings Drawer.
 
 ### 6.2 Settings Drawer / Modal Specification
-Activated via the `⚙️ Settings` canopy button (or keyboard shortcut `?` / `O`), the modal presents four structured, clean sections:
+Activated via `âš™ï¸ Settings` (or keyboard shortcut `?` / `O`), the modal presents four structured, accessible sections:
 
 1. **Saving & Storage Preferences:**
    - **Autosave Toggle:** Toggle switch allowing players to enable or disable automatic saving. Explanatory text notes: *"Saves automatically on stage changes, pulls, race finishes, and day transitions."*
-   - **Manual Save Button:** A full-width `💾 Save Run State Now` button for players who prefer explicit control.
-   - **Honest Storage Diagnostics:** A monospace diagnostic box indicating the active storage mechanism, envelope integrity, and timestamp:
+   - **Manual Save Button:** A full-width `ðŸ’¾ Save Run State Now` button triggering immediate micro-toast feedback.
+   - **Honest Storage Diagnostics (Simulation):** Monospace box stating that storage in the wireframe is simulated:
      ```text
-     Mode: HTML5 localStorage (Persistent)
-     Envelope: Valid & Verified | Hash Chain: Intact
-     Last Saved: Just now (Midday Day 1)
+     Mode: Simulated HTML5 localStorage (Prototype Simulation)
+     Notice: In production, local storage envelope and hash chain are verified at runtime.
+     Last Saved: Simulated Just Now (Day 1 Midday)
      ```
-   - **Restricted Storage Fallback:** If browser storage is restricted (e.g., Private Browsing mode, storage quota exceeded, or disabled cookies), the diagnostic box clearly warns:
+   - **Restricted Storage Simulation:** When simulated restricted storage is toggled, the box updates:
      ```text
-     Mode: In-Memory Session (Private / Restricted)
-     Status: Volatile Storage Active | Export Required Before Closing
+     Mode: Simulated In-Memory Session (Restricted)
+     Notice: In production, write failure activates in-memory session and leaves stored snapshot untouched.
      ```
-     Triggering a save under this condition displays an honest warning toast: `⚠️ Storage restricted! Run saved in temporary memory only.`
 
 2. **Accessibility Options:**
-   - **Reduced Motion:** Disables 90° phone rotation and zoom transforms; activates instant cross-fades.
-   - **High Contrast Palette:** Elevates all border contrasts and enforces WCAG AAA text contrast ratios.
+   - **Reduced Motion:** Disables 90Â° phone rotation and zoom transforms; activates instant cross-fades.
+   - **High Contrast Candidate:** Enforces solid borders and elevated contrast palette (review candidate styling; unmeasured AAA claims omitted).
    - **Synthesized Web Audio:** Toggles procedural Web Audio quacks and chimes.
 
-3. **Factual Credits & Licensing (DECISION-010 & Plan 18 Coordination):**
+3. **Factual Credits Placeholder (DECISION-010 & Plan 18 Coordination):**
    - Per DECISION-010, the owner approved amending repository rules to permit licensed Creative Commons audio sources (CC0 and CC BY) alongside procedural Web Audio synthesis, with factual attribution linked from settings.
-   - The Credits panel provides this required factual documentation without violating Hard Constraint #6 (fictional gameplay universe):
+   - The Credits panel provides a factual attribution placeholder:
      ```text
-     Quackpot is a static educational gacha game created for CourseVGD to examine predatory monetization design.
-     Audio Provenance: Synthesized Web Audio API duck quacks (CC0 dedication). Future locally bundled licensed sound recordings (CC0 / CC BY) will be factually credited here per DECISION-010.
-     Fictional Entities Notice: All publishers, sponsors, and gacha brands depicted are entirely fictional satire.
+     Quackpot is an educational browser gacha game created for CourseVGD to examine predatory monetization design.
+     Audio Attribution Placeholder: Audio effects are currently synthesized locally via the Web Audio API. Future locally bundled Creative Commons audio recordings (CC0 / CC BY) approved under DECISION-010 will be factually credited here once auditioned and selected in Plan 18.
+     Satirical Fiction Notice: All publishers, sponsors, and gacha brands depicted are fictional satire.
      ```
 
-4. **Run Data Export (Hard Constraint #3):**
-   - Provides a `📥 Download Run-Usage Receipt (JSON)` button.
-   - Strictly conforms to Hard Constraint #3: run data is assembled locally for manual student download and assignment submission; zero network requests or background uploads occur.
+4. **Run Data Export (Simulation):**
+   - Provides a `ðŸ“¥ Simulate Receipt Download` button reflecting Hard Constraint #3 (offline student file download; zero telemetry).
 
-### 6.3 Hard Constraint #5: Always-Visible Uninstall & Retention Modal
-- The crimson `❌ Uninstall` button remains permanently mounted on the persistent canopy in all states.
-- Clicking opens the **Retention Modal**, which faithfully demonstrates standard gacha retention manipulation by offering `80 Free Gems` to stay.
-- In strict adherence to Hard Constraint #5, the modal provides an immediate exit action: `🚪 Leave Immediately & View Receipt (Best Ending)`. Selecting this terminal route ends the run cleanly, generates the truthful Receipt, and does not force the player into extra gameplay loops.
+### 6.3 Hard Constraint #5: Always-Visible Uninstall & Stable Terminal State
+- The crimson `âŒ Uninstall` button remains permanently mounted on the persistent canopy in all active states.
+- Clicking opens the **Retention Modal**, offering `80 Free Gems` to stay.
+- Clicking `ðŸšª Leave Immediately & View Receipt (Best Ending)` executes immediate terminal exit:
+  - Closes modal without alerts.
+  - Cancels all pending transition timers.
+  - Activates the in-stage **Terminal / Receipt Placeholder** (`scene-terminal`).
+  - Locks the uninstall buttons (`ðŸ Run Ended`).
+  - Disables retention re-opening until the user explicitly clicks `ðŸ”„ Reset Prototype & Start Fresh Run`.
 
 ---
 
 ## 7. Accessibility, Responsive & Keyboard Contracts
 
 ### 7.1 Responsive Viewport Adaptability
-The shell and stage canvas adapt smoothly across four primary form factors without horizontal scrollbars:
+- **Actual Viewport Media Queries:** Evaluated on real window dimensions (`@media (max-width: 768px)` wraps the canopy into two rows; `@media (max-height: 600px)` reduces padding to keep all affordances visible without vertical clipping).
+- **Container Presets:** Toolbar select dropdown (`Desktop`, `Laptop 1024px`, `Tablet 768px`, `Mobile 390px`) resizes the preview container to demonstrate constrained 760px text wells.
 
-1. **Desktop / Ultrawide (>1200px):**
-   - Full canopy header spans 100% width.
-   - Central stage is letterboxed with a max-width of 1120px and 16:9 aspect ratio.
-   - Ambient radial vignette gracefully fills widescreen margins.
-   - Reading wells are strictly constrained to 760px.
-2. **Laptop (1024px – 1199px):**
-   - Canopy header padding scales to 1rem.
-   - Stage canvas scales proportionately while maintaining 16:9 ratio.
-3. **Tablet (768px – 1023px):**
-   - Stage aspect ratio relaxes from rigid 16:9 to fluid height (min-height 540px) to accommodate touch layouts.
-   - Status canopy pills wrap neatly into a balanced two-row layout.
-4. **Mobile (<768px):**
-   - Full responsive stack: canopy displays logo and essential meters (Cash, HP) with secondary meters condensed.
-   - Phone container on the apartment desk scales to fit narrow mobile widths.
-   - Rotation transition adapts smoothly within the vertical viewport without requiring physical device rotation or screen orientation lock APIs.
-
-### 7.2 Keyboard Navigation & Focus Management
-- **Logical Tab Order:**
-  `Logo / Cameo` $\rightarrow$ `Status Meters` $\rightarrow$ `💾 Save` $\rightarrow$ `⚙️ Settings` $\rightarrow$ `❌ Uninstall` $\rightarrow$ `Primary Stage Content (Phone / Banner)` $\rightarrow$ `Gacha Navigation Tabs`.
-- **Keyboard Shortcuts:**
-  - `S` or `s`: Triggers instant local save with visual toast feedback.
-  - `?` or `O` / `o`: Toggles the Settings & Options Drawer.
-  - `U` or `u`: Opens the Uninstall confirmation and retention modal.
-  - `Escape`: Closes open modals, dismisses tooltips, or executes reverse transition from Gacha back to Apartment Desk.
-  - `Enter` / `Space`: Activates focused controls or launches the phone transition from the desk.
-- **Focus Trapping:** When the Settings Drawer or Uninstall Modal opens, keyboard focus is strictly trapped inside the modal, returning to the triggering button upon dismissal.
+### 7.2 Focus Trapping & Keyboard Management
+- **Modal Focus Trapping:** When Settings or Uninstall opens, focus is trapped inside the active dialog using Tab / Shift+Tab wrapping. Background shortcuts are suppressed.
+- **Return to Invoking Trigger:** Dismissing a modal (via `âœ•` button or `Escape`) restores keyboard focus directly to the button that opened it (`btn-open-settings` or `btn-open-uninstall`).
+- **Escape Key Hierarchy:**
+  1. If a modal is open: `Escape` dismisses the modal and returns focus to its trigger. Scene navigation is not triggered.
+  2. If no modal is open and gacha is active: `Escape` returns to the apartment desk.
+  3. If transition is in flight: `Escape` cancels the animation and returns to desk.
+- **Keyboard Shortcuts:** `S` (Save), `?` / `O` (Settings), `U` (Uninstall), `Enter` / `Space` (Activate).
 
 ### 7.3 Accessible Event Narration (`aria-live="polite"`)
 A dedicated live region announces all state transitions and system notifications:
-- *"Launching Quackpot. Phone rotating to landscape orientation."*
-- *"Phone screen expanded into full-width gacha stage canvas. Quackpot Gacha App active."*
-- *"Exited gacha app. Returned to Apartment Desk."*
-- *"Run saved locally to browser storage."*
-- *"Save warning: Run saved in temporary memory only due to storage restriction."*
+- *"Beat 1: Apartment Desk. Phone resting in portrait orientation."*
+- *"Beat 2: Fictional phone executes 90Â° quarter-turn into landscape orientation."*
+- *"Beat 3: Phone screen expands into full-width gacha stage canvas. Quackpot Gacha App active."*
+- *"Reverse transition: Exited gacha app, returned to apartment desk."*
+- *"Terminal exit: Run ended cleanly via Uninstall. Presenting end-of-run Receipt placeholder."*
 
 ---
 
 ## 8. Diegetic Separation: Physical Duck vs. Digital Gacha
-
-To prevent player confusion between the two fictional contexts (DECISION-003 and DECISION-008):
 
 | Attribute | Physical Companion Duck (Metagame) | Collectible Digital Ducks (Gacha App) |
 | :--- | :--- | :--- |
@@ -299,14 +283,14 @@ Following owner selection, implementation can be executed cleanly in a small, bo
 2. **Phase 2: HUD Refactoring (`src/ui/hud.js`):**
    - Migrate HUD from narrow 960px container to canopy architecture.
    - Remove `<label><input type="checkbox"> Autosave</label>` from persistent header markup.
-   - Mount quiet `💾 Save`, `⚙️ Settings`, and permanent `❌ Uninstall` buttons.
+   - Mount quiet `ðŸ’¾ Save`, `âš™ï¸ Settings`, and permanent `âŒ Uninstall` buttons.
    - Connect save toast micro-feedback for storage success and restricted in-memory mode.
 3. **Phase 3: Settings & Credits Component (`src/ui/modals.js`):**
-   - Implement the accessible Settings Drawer component.
+   - Implement the accessible Settings Drawer component with Tab focus trapping.
    - Wire autosave toggle to `engine.autosaveEnabled`.
    - Embed factual Credits panel per DECISION-010.
 4. **Phase 4: Phone Transition Choreography (`src/ui/desk-view.js` & `src/ui/gacha-view.js`):**
-   - Implement the 90° landscape quarter-turn and stage expansion classes.
+   - Implement the 90Â° landscape quarter-turn and stage expansion classes with cancelPendingTransitions safety.
    - Wire keyboard handlers and `aria-live` narration hooks.
    - Add instant cross-fade fallback for reduced-motion mode.
 5. **Phase 5: Automated Verification:**
@@ -323,7 +307,7 @@ To proceed toward implementation, the owner is invited to confirm the following 
    - **Option A (Recommended):** Cinematic Stage Canopy (Full-width top canopy bar with persistent meters, quiet save, settings, and uninstall).
    - **Option B (Alternative):** Diegetic Console & Split Utility Rail (Top bar 100% diegetic; system actions anchored to bottom rail).
 2. **Phone Transition Choreography:**
-   - Approve the 750ms 90° landscape rotation and stage expansion, with reverse return transition and instant reduced-motion cross-fade.
+   - Approve the proposed 400ms turn + 400ms expansion (800ms total entry), 400ms return, and instant reduced-motion cross-fade.
 3. **Quieter Save Model:**
    - Approve removing the autosave checkbox from the persistent HUD, providing onboarding opt-in on start menu, and housing runtime toggles in the Settings Drawer.
 4. **Factual Credits Placement:**

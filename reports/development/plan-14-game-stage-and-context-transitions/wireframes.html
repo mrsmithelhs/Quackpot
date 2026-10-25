@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quackpot — Plan 14: Game Stage & Context Transitions Interactive Wireframes</title>
+  <title>Quackpot â€” Plan 14: Game Stage & Context Transitions Interactive Wireframes (Repair 01)</title>
   <style>
     /* ==========================================================================
-       PLAN 14 INTERACTIVE WIREFRAME STYLESHEET
+       PLAN 14 INTERACTIVE WIREFRAME STYLESHEET (Repair 01)
        Canonical Color Palette & Design Tokens from Quackpot Founding Design & Plan 03
        ========================================================================== */
     :root {
@@ -28,15 +28,18 @@
       --desk-surface: #292524;
       --phone-bezel: #18181b;
       --phone-border: #3f3f46;
-      
+
       --font-system: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      
-      --transition-speed: 400ms;
-      --transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Proposed transition timing tokens subject to owner selection */
+      --duration-turn: 400ms;
+      --duration-expand: 400ms;
+      --duration-return: 400ms;
+      --ease-snappy: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* High-contrast mode override */
+    /* High-contrast candidate mode */
     body.high-contrast {
       --bg-dark: #000000;
       --bg-canopy: #000000;
@@ -45,7 +48,7 @@
       --border-color: #ffffff;
       --border-focus: #ffff00;
       --text-main: #ffffff;
-      --text-muted: #e2e8f0;
+      --text-muted: #f1f5f9;
       --accent-gold: #ffff00;
       --accent-amber: #ffff00;
       --danger-red: #ff3333;
@@ -53,10 +56,17 @@
       --phone-border: #ffffff;
     }
 
-    /* Reduced-motion overrides */
+    /* System / Manual Reduced-Motion: zero rotation/zoom, instant cross-fade */
     body.reduced-motion * {
       animation: none !important;
       transition: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
     }
 
     * {
@@ -75,7 +85,10 @@
       flex-direction: column;
     }
 
-    /* Top Review Controller Bar (Plan 14 Evaluation Toolbar) */
+    /* ==========================================================================
+       REVIEW CONTROLLER TOOLBAR (Evaluation & Demonstration Margin)
+       Contains architectural commentary, diagnostic switches, and reviewer tools.
+       ========================================================================== */
     .eval-toolbar {
       background: #020617;
       border-bottom: 2px solid #334155;
@@ -143,7 +156,20 @@
       cursor: pointer;
     }
 
-    /* Main Viewport Container & Shell Framing */
+    .eval-meta-note {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      background: #0b1120;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid #1e293b;
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    /* ==========================================================================
+       MAIN VIEWPORT CONTAINER & SHELL FRAMING
+       ========================================================================== */
     .shell-container {
       flex: 1;
       display: flex;
@@ -153,7 +179,7 @@
       margin: 0 auto;
     }
 
-    /* Viewport size simulation classes */
+    /* Container preset widths for testing; media queries evaluate actual viewport */
     .viewport-desktop { max-width: 100%; }
     .viewport-laptop { max-width: 1024px; border-left: 1px dashed #334155; border-right: 1px dashed #334155; }
     .viewport-tablet { max-width: 768px; border-left: 1px dashed #334155; border-right: 1px dashed #334155; }
@@ -161,7 +187,6 @@
 
     /* ==========================================================================
        SHELL OPTION A: CINEMATIC STAGE CANOPY (RECOMMENDED)
-       Full-width canopy header, centered 16:9 stage, constrained text wells
        ========================================================================== */
     .shell-a-header {
       width: 100%;
@@ -240,7 +265,7 @@
       color: #e2e8f0;
     }
 
-    /* Shell A Status Canopy (Center HUD) */
+    /* Canopy Status Center */
     .hud-status-canopy {
       display: flex;
       align-items: center;
@@ -273,7 +298,7 @@
       border-style: dashed;
     }
 
-    /* Shell A Action Controls (Right Utility) */
+    /* Canopy Utility Controls */
     .hud-action-group {
       display: flex;
       align-items: center;
@@ -320,6 +345,14 @@
       color: #ffffff;
     }
 
+    .btn-locked {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+      background: #1e293b !important;
+      border-color: #475569 !important;
+      color: #94a3b8 !important;
+    }
+
     /* Save Feedback Toast */
     .save-toast {
       position: fixed;
@@ -345,7 +378,6 @@
 
     /* ==========================================================================
        SHELL OPTION B: DIEGETIC CONSOLE & SPLIT UTILITY RAIL (ALTERNATIVE)
-       Top bar is 100% diegetic; bottom floating rail houses system actions
        ========================================================================== */
     .shell-b-header {
       width: 100%;
@@ -386,8 +418,7 @@
     }
 
     /* ==========================================================================
-       STAGE CONTAINER & VIEWPORT FRAMING
-       Fixed diegetic stage container with letterboxed 16:9 aspect reference
+       CENTRAL STAGE CONTAINER & VIEWPORT FRAMING
        ========================================================================== */
     .stage-wrapper {
       flex: 1;
@@ -416,18 +447,35 @@
       flex-direction: column;
     }
 
-    /* Responsive fallbacks for smaller screens */
+    /* Responsive media queries for actual viewport dimensions */
     @media (max-width: 768px) {
       .stage-canvas {
         aspect-ratio: auto;
-        min-height: 540px;
+        min-height: 520px;
         border-radius: 8px;
+      }
+      .shell-a-header {
+        flex-wrap: wrap;
+        padding: 0.5rem 0.75rem;
+      }
+      .hud-status-canopy {
+        order: 3;
+        width: 100%;
+        margin-top: 0.4rem;
+      }
+    }
+
+    @media (max-height: 600px) {
+      .stage-wrapper {
+        padding: 0.5rem;
+      }
+      .stage-canvas {
+        min-height: 380px;
       }
     }
 
     /* ==========================================================================
        SCENE 1: APARTMENT METAGAME DESK VIEW
-       Physical inanimate companion, desk blotter, financial note, smartphone
        ========================================================================== */
     .scene-apartment {
       width: 100%;
@@ -438,7 +486,6 @@
       justify-content: space-between;
       padding: 1.5rem;
       position: relative;
-      transition: filter 0.4s ease, opacity 0.4s ease;
     }
 
     .apartment-desk-area {
@@ -462,8 +509,8 @@
     }
 
     .desk-companion-avatar {
-      width: 140px;
-      height: 140px;
+      width: 130px;
+      height: 130px;
       margin-bottom: 0.75rem;
       filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.5));
     }
@@ -485,7 +532,7 @@
       color: #78350f;
       border-radius: 4px;
       padding: 1rem;
-      width: 200px;
+      width: 210px;
       box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
       font-size: 0.8rem;
       transform: rotate(-2deg);
@@ -501,7 +548,7 @@
       font-size: 0.7rem;
     }
 
-    /* Smartphone Device Container */
+    /* Smartphone Device Container & Transition Choreography */
     .smartphone-container {
       width: 200px;
       height: 380px;
@@ -515,8 +562,11 @@
       flex-direction: column;
       overflow: hidden;
       transform-origin: center center;
-      transition: transform var(--transition-speed) var(--transition-ease),
-                  box-shadow var(--transition-speed) var(--transition-ease);
+      transition: transform var(--duration-turn) var(--ease-snappy),
+                  width var(--duration-expand) var(--ease-snappy),
+                  height var(--duration-expand) var(--ease-snappy),
+                  border-radius var(--duration-expand) var(--ease-snappy),
+                  box-shadow var(--duration-turn) var(--ease-snappy);
     }
 
     .smartphone-container:hover {
@@ -531,6 +581,7 @@
       border-radius: 0 0 10px 10px;
       margin: 0 auto;
       z-index: 10;
+      transition: opacity var(--duration-turn) ease;
     }
 
     .smartphone-screen {
@@ -542,6 +593,26 @@
       padding: 0.75rem;
       position: relative;
       overflow: hidden;
+    }
+
+    /* Portrait Notification Layout */
+    .phone-portrait-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    /* Landscape Screen Content Layout (Legible orientation upon turn) */
+    .phone-landscape-content {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      gap: 0.5rem;
+      transform: rotate(-90deg); /* Counter-rotates text so content stays upright to viewer */
     }
 
     .phone-push-notification {
@@ -590,15 +661,27 @@
     }
 
     /* ==========================================================================
-       TRANSITION CHOREOGRAPHY CLASSES (PHONE ROTATE & STAGE EXPANSION)
+       TRANSITION CHOREOGRAPHY CLASSES (Repair 01 Geometry & Sequence)
        ========================================================================== */
-    /* State: Rotated 90° into Landscape */
+    /* State 1: 90Â° Turn into Landscape */
     .smartphone-container.state-rotated {
       transform: rotate(90deg) scale(1.15);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(251, 191, 36, 0.5);
     }
 
-    /* State: Expanded into Stage (Full Immersion) */
+    .smartphone-container.state-rotated .phone-portrait-content {
+      display: none;
+    }
+
+    .smartphone-container.state-rotated .phone-landscape-content {
+      display: flex;
+    }
+
+    .smartphone-container.state-rotated .smartphone-notch {
+      opacity: 0.3;
+    }
+
+    /* State 2: Expand to Stage Canvas */
     .stage-canvas.state-gacha-active .scene-apartment {
       display: none;
     }
@@ -609,7 +692,6 @@
 
     /* ==========================================================================
        SCENE 2: FICTIONAL GACHA APP FULL STAGE VIEW
-       Full-width gacha experience, banner, constrained text wells, NO math boxes
        ========================================================================== */
     .scene-gacha {
       width: 100%;
@@ -651,7 +733,7 @@
       border-color: #ffffff;
     }
 
-    /* Constrained Content Well (Optimal reading width ~720px) */
+    /* Constrained Content Well (Optimal reading width ~760px) */
     .gacha-content-well {
       max-width: 760px;
       width: 100%;
@@ -763,9 +845,66 @@
     }
 
     /* ==========================================================================
-       MODALS & SLIDE-OVER PANELS
-       1. Settings & Local Credits Drawer
-       2. Uninstall Retention Modal
+       SCENE 3: STABLE TERMINAL / RECEIPT PLACEHOLDER VIEW (Hard Constraint #5)
+       ========================================================================== */
+    .scene-terminal {
+      width: 100%;
+      height: 100%;
+      background: #0b0f19;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .terminal-card {
+      background: #151d2f;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      padding: 1.75rem;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .terminal-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .terminal-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--success-green);
+      color: #6ee7b7;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      margin: 0 auto;
+    }
+
+    .terminal-receipt-slip {
+      background: #f8fafc;
+      color: #0f172a;
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-align: left;
+      line-height: 1.4;
+      border-top: 3px dashed #64748b;
+      border-bottom: 3px dashed #64748b;
+    }
+
+    /* ==========================================================================
+       MODALS & SLIDE-OVER PANELS (Focus-trapped and accessible)
        ========================================================================== */
     .modal-backdrop {
       position: fixed;
@@ -817,6 +956,13 @@
       font-size: 1.2rem;
       cursor: pointer;
       line-height: 1;
+      padding: 0.25rem;
+    }
+
+    .modal-close-btn:focus,
+    .modal-close-btn:hover {
+      color: #ffffff;
+      outline: 2px solid var(--border-focus);
     }
 
     .modal-body {
@@ -862,7 +1008,7 @@
       color: var(--text-muted);
     }
 
-    /* Diagnostic Box in Settings */
+    /* Monospace Simulation Diagnostic Box */
     .diag-box {
       background: #020617;
       border: 1px solid #1e293b;
@@ -889,12 +1035,11 @@
       border: 1px solid var(--border-color);
     }
 
-    .credits-panel a {
-      color: #60a5fa;
-      text-decoration: underline;
+    .credits-panel strong {
+      color: #e2e8f0;
     }
 
-    /* Retention Modal Specifics */
+    /* Retention Alert Specifics */
     .retention-alert-header {
       background: rgba(239, 68, 68, 0.15);
       border-left: 4px solid var(--danger-red);
@@ -924,7 +1069,7 @@
       cursor: pointer;
     }
 
-    .btn-retention-exit {
+    .btn-retention-leave {
       background: transparent;
       color: var(--danger-red);
       border: 1px solid var(--danger-red);
@@ -934,7 +1079,7 @@
       cursor: pointer;
     }
 
-    /* Live Screen Reader Live Region Output Display */
+    /* Live Screen Reader Announcer Display */
     .eval-live-announcer {
       background: #020617;
       border-top: 1px solid #334155;
@@ -957,7 +1102,7 @@
       text-transform: uppercase;
     }
 
-    /* SR Only Helper */
+    /* Visually Hidden Helper */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -974,44 +1119,48 @@
 <body>
 
   <!-- ==========================================================================
-       EVALUATION TOOLBAR (Plan 14 Multi-Variant Switcher & Interactive Tester)
+       REVIEW CONTROLLER TOOLBAR (Evaluation & Demonstration Margin)
        ========================================================================== -->
-  <aside class="eval-toolbar" aria-label="Plan 14 Demonstration Controls">
+  <aside class="eval-toolbar" aria-label="Plan 14 Evaluation & Review Controls">
     <div class="eval-toolbar-group">
       <span class="eval-label">Shell Layout:</span>
-      <button id="btn-shell-a" class="eval-btn active" title="Top canopy with balanced utility controls">Shell A (Recommended)</button>
+      <button id="btn-shell-a" class="eval-btn active" title="Top canopy with unified utility controls">Shell A (Recommended)</button>
       <button id="btn-shell-b" class="eval-btn" title="Pure diegetic top bar with bottom console rail">Shell B (Split-Rail Alt)</button>
     </div>
 
     <div class="eval-toolbar-group">
       <span class="eval-label">Transition Choreography:</span>
-      <button id="btn-step-desk" class="eval-btn" title="View Beat 1: Apartment Desk">1. Desk</button>
-      <button id="btn-step-rotate" class="eval-btn" title="Quarter-turn phone 90 degrees">2. 90° Turn</button>
-      <button id="btn-step-expand" class="eval-btn" title="Expand into stage canvas">3. Expand</button>
+      <button id="btn-step-desk" class="eval-btn" title="Return/reset to Beat 1: Apartment Desk">1. Desk</button>
+      <button id="btn-step-rotate" class="eval-btn" title="Execute 90Â° landscape turn">2. 90Â° Turn</button>
+      <button id="btn-step-expand" class="eval-btn" title="Expand landscape phone to stage canvas">3. Expand</button>
       <button id="btn-step-return" class="eval-btn" title="Reverse transition back to desk">4. Return</button>
-      <button id="btn-step-auto" class="eval-btn" style="border-color: var(--accent-gold); color: var(--accent-gold);" title="Play continuous transition">▶ Auto-Play</button>
+      <button id="btn-step-auto" class="eval-btn" style="border-color: var(--accent-gold); color: var(--accent-gold);" title="Play continuous transition sequence">â–¶ Auto-Play</button>
     </div>
 
     <div class="eval-toolbar-group">
-      <span class="eval-label">Accessibility & Viewport:</span>
-      <label class="eval-toggle" title="Disable transforms and animations">
+      <span class="eval-label">Accessibility & Simulation:</span>
+      <label class="eval-toggle" title="Toggle reduced-motion (honors OS preference on load)">
         <input type="checkbox" id="toggle-reduced-motion">
         <span>Reduced Motion</span>
       </label>
-      <label class="eval-toggle" title="WCAG AAA high contrast palette">
+      <label class="eval-toggle" title="Toggle high-contrast review candidate palette">
         <input type="checkbox" id="toggle-high-contrast">
         <span>High Contrast</span>
       </label>
-      <label class="eval-toggle" title="Simulate restricted storage mode">
+      <label class="eval-toggle" title="Simulate restricted in-memory storage mode">
         <input type="checkbox" id="toggle-restricted-storage">
-        <span>Restricted Storage</span>
+        <span>Simulate Restricted Storage</span>
       </label>
-      <select id="select-viewport" class="eval-btn" style="padding: 0.25rem 0.5rem;" title="Simulate device widths">
+      <select id="select-viewport" class="eval-btn" style="padding: 0.25rem 0.5rem;" title="Preset canvas widths (Media queries evaluate window)">
         <option value="viewport-desktop">Desktop (100%)</option>
         <option value="viewport-laptop">Laptop (1024px)</option>
         <option value="viewport-tablet">Tablet (768px)</option>
         <option value="viewport-mobile">Mobile (390px)</option>
       </select>
+    </div>
+
+    <div class="eval-meta-note">
+      <strong>Plan 14 Repair 01 Notice:</strong> Timers cancel immediately on Return/Escape/Exit. Proposed durations: Turn 400ms, Expand 400ms (800ms total entry), Return 400ms. Storage, export, and sound attributions are labeled prototype simulations for owner evaluation.
     </div>
   </aside>
 
@@ -1024,68 +1173,63 @@
          SHELL OPTION A: CINEMATIC STAGE CANOPY (RECOMMENDED)
          ======================================================================== -->
     <header id="shell-a-header" class="shell-a-header">
-      <!-- Left: Logo & Companion Cameo -->
+      <!-- Left: Logo & Inanimate Physical Companion Cameo -->
       <div class="logo-badge">
-        <div class="logo-duck-thumb" title="Your companion: Professor Quacks">
-          <!-- 2D Inanimate Companion SVG Avatar -->
+        <div class="logo-duck-thumb" title="Companion prop: Professor Quacks">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="46" fill="#fef08a"/>
-            <!-- Body -->
             <ellipse cx="50" cy="58" rx="32" ry="24" fill="#eab308"/>
-            <!-- Head -->
             <circle cx="50" cy="36" r="20" fill="#facc15"/>
-            <!-- Eye -->
             <circle cx="58" cy="32" r="3" fill="#0f172a"/>
             <circle cx="59" cy="31" r="1" fill="#ffffff"/>
-            <!-- Beak -->
             <path d="M66 36 C76 36 78 42 66 44 Z" fill="#ea580c"/>
           </svg>
         </div>
         <div class="title-group">
           <div class="hud-title" aria-label="Quackpot Prototype">
             <span class="title-quack">QUACK</span><span class="title-pot">POT</span>
-            <span class="tag-prototype">Plan 14 Shell</span>
+            <span class="tag-prototype">Plan 14</span>
           </div>
           <div class="companion-subtitle">Companion: <strong>Professor Quacks</strong> (classic)</div>
         </div>
       </div>
 
       <!-- Center: Persistent Status Canopy -->
-      <div class="hud-status-canopy" aria-label="Game Status Meters">
+      <div class="hud-status-canopy" aria-label="In-Game Meters">
         <div class="hud-pill" id="pill-day" title="Current Day and Phase">
-          <span>📅</span>
+          <span>ðŸ“…</span>
           <span>Day 1:</span>
           <span style="color: #60a5fa;">Midday</span>
         </div>
         <div class="hud-pill" id="pill-cash" title="Fictional Cash Balance">
-          <span>💵</span>
+          <span>ðŸ’µ</span>
           <span>Cash:</span>
           <span id="val-cash" style="color: #34d399;">$10.00</span>
         </div>
         <div class="hud-pill dormant" id="pill-gems" title="Premium Currency (Dormant until unboxed)">
-          <span>💎</span>
+          <span>ðŸ’Ž</span>
           <span>Gems:</span>
           <span id="val-gems">0</span>
         </div>
         <div class="hud-pill" id="pill-health" title="Player Health (Escalation meter)">
-          <span>❤️</span>
+          <span>â¤ï¸</span>
           <span>Health:</span>
           <span id="val-health">100 HP</span>
         </div>
       </div>
 
-      <!-- Right: Action & Utility Controls (Quieter Save, Settings, Uninstall) -->
+      <!-- Right: Action & Utility Controls (Quieter Save Model) -->
       <div class="hud-action-group">
         <button id="btn-manual-save" class="btn-hud-quiet" title="Save current progress locally (Shortcut: S)" aria-label="Save current progress locally">
-          <span>💾</span>
+          <span>ðŸ’¾</span>
           <span>Save</span>
         </button>
-        <button id="btn-open-settings" class="btn-hud-quiet" title="Open Settings & Audio Options (Shortcut: ?)" aria-label="Open Settings and Audio Options">
-          <span>⚙️</span>
+        <button id="btn-open-settings" class="btn-hud-quiet" title="Open Settings & Options (Shortcut: ?)" aria-label="Open Settings and Options">
+          <span>âš™ï¸</span>
           <span>Settings</span>
         </button>
         <button id="btn-open-uninstall" class="btn-uninstall-emergency" title="Uninstall game and view Receipt (Shortcut: U)" aria-label="Uninstall game and view Receipt">
-          <span>❌</span>
+          <span>âŒ</span>
           <span>Uninstall</span>
         </button>
       </div>
@@ -1106,15 +1250,15 @@
       </div>
 
       <div class="hud-status-canopy">
-        <div class="hud-pill"><span>📅</span><span>Day 1 (Midday)</span></div>
-        <div class="hud-pill"><span>💵</span><span style="color:#34d399;">$10.00</span></div>
-        <div class="hud-pill dormant"><span>💎</span><span>0</span></div>
-        <div class="hud-pill"><span>❤️</span><span>100 HP</span></div>
+        <div class="hud-pill"><span>ðŸ“…</span><span>Day 1 (Midday)</span></div>
+        <div class="hud-pill"><span>ðŸ’µ</span><span style="color:#34d399;">$10.00</span></div>
+        <div class="hud-pill dormant"><span>ðŸ’Ž</span><span>0</span></div>
+        <div class="hud-pill"><span>â¤ï¸</span><span>100 HP</span></div>
       </div>
     </header>
 
     <!-- Save Notification Micro-Toast -->
-    <div id="save-toast" class="save-toast" role="status" aria-live="polite">✓ Run saved locally to browser storage.</div>
+    <div id="save-toast" class="save-toast" role="status" aria-live="polite">âœ“ Run saved locally to browser storage.</div>
 
     <!-- ========================================================================
          CENTRAL STAGE CONTAINER (Letterboxed Fixed Diegetic Stage)
@@ -1127,26 +1271,19 @@
              ==================================================================== -->
         <section class="scene-apartment" id="scene-apartment" aria-label="Apartment Desk View">
           <div class="apartment-desk-area">
-            
+
             <!-- Left: Physical Rubber Duck Companion (Inanimate Prop) -->
             <div class="desk-companion-station">
               <div class="desk-companion-avatar">
-                <!-- Large 2D Inanimate Companion SVG -->
                 <svg viewBox="0 0 160 160" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <!-- Desk shadow -->
                   <ellipse cx="80" cy="142" rx="60" ry="14" fill="rgba(0,0,0,0.4)"/>
-                  <!-- Duck body -->
                   <path d="M35 100 C30 125 55 138 95 138 C135 138 145 110 135 85 C125 60 90 65 80 68 C70 60 45 75 35 100 Z" fill="#facc15"/>
                   <path d="M40 105 C40 120 60 132 90 132 C115 132 130 115 125 95 C115 85 95 85 80 92 C65 85 45 92 40 105 Z" fill="#eab308"/>
-                  <!-- Head -->
                   <circle cx="102" cy="55" r="32" fill="#facc15"/>
                   <ellipse cx="102" cy="55" rx="30" ry="28" fill="#fde047"/>
-                  <!-- Eye -->
                   <circle cx="118" cy="48" r="4.5" fill="#0f172a"/>
                   <circle cx="120" cy="46" r="1.5" fill="#ffffff"/>
-                  <!-- Bill -->
                   <path d="M128 54 C148 54 152 64 128 67 Z" fill="#ea580c"/>
-                  <!-- Tie Accessory -->
                   <path d="M96 82 L108 82 L105 108 L102 114 L99 108 Z" fill="#ef4444"/>
                   <polygon points="98,80 106,80 104,86 100,86" fill="#b91c1c"/>
                 </svg>
@@ -1157,11 +1294,11 @@
 
             <!-- Center: Financial Reality Anchor (Desk Note) -->
             <div class="desk-bills-station">
-              <div class="desk-bills-title">📌 Apartment Expenses</div>
-              <p>• Day 1 Lunch: <strong>-$5.00</strong> (Paid)</p>
-              <p>• Cash on hand: <strong>$10.00</strong></p>
+              <div class="desk-bills-title">ðŸ“Œ Apartment Expenses</div>
+              <p>â€¢ Day 1 Lunch: <strong>-$5.00</strong> (Paid)</p>
+              <p>â€¢ Cash on hand: <strong>$10.00</strong></p>
               <p style="margin-top: 0.5rem; color: #b91c1c; font-weight: 800;">
-                ⚠️ Rent Due Day 2: $15.00
+                âš ï¸ Rent Due Day 2: $15.00
               </p>
               <p style="font-size: 0.7rem; color: #92400e; margin-top: 0.25rem;">
                 (Solvent if no gacha packs bought)
@@ -1172,21 +1309,33 @@
             <div class="smartphone-container" id="smartphone-container" tabindex="0" role="button" aria-label="Smartphone on desk. Tap to launch Quackpot Gacha App">
               <div class="smartphone-notch"></div>
               <div class="smartphone-screen">
-                <div style="font-size: 0.65rem; color: #64748b; display: flex; justify-content: space-between;">
-                  <span>12:42 PM</span>
-                  <span>🔋 94%</span>
+
+                <!-- Portrait Content (Resting on Desk) -->
+                <div class="phone-portrait-content" id="phone-portrait-content">
+                  <div style="font-size: 0.65rem; color: #64748b; display: flex; justify-content: space-between;">
+                    <span>12:42 PM</span>
+                    <span>ðŸ”‹ 94%</span>
+                  </div>
+
+                  <div class="phone-push-notification" id="phone-notification">
+                    <div class="notif-badge"><span>ðŸ””</span> QUACKPOT APP</div>
+                    <div class="notif-text">Special Welcome Gift Waiting!</div>
+                    <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.2rem;">Claim 10 Free Ducks now!</div>
+                    <div class="notif-cta">TAP TO OPEN</div>
+                  </div>
+
+                  <div style="text-align: center; font-size: 0.65rem; color: #475569;">
+                    Swipe up to unlock
+                  </div>
                 </div>
 
-                <div class="phone-push-notification" id="phone-notification">
-                  <div class="notif-badge"><span>🔔</span> QUACKPOT APP</div>
-                  <div class="notif-text">Special Welcome Gift Waiting!</div>
-                  <div style="font-size: 0.7rem; color: #94a3b8; margin-top: 0.2rem;">Claim 10 Free Ducks now!</div>
-                  <div class="notif-cta">TAP TO OPEN</div>
+                <!-- Landscape Content (Legible View upon 90Â° Turn) -->
+                <div class="phone-landscape-content" id="phone-landscape-content">
+                  <div style="font-size: 0.7rem; font-weight: 800; color: var(--accent-gold);">QUACKPOT: POND MASTERS</div>
+                  <div style="font-size: 0.65rem; color: #94a3b8;">Welcome Rookie! 10-Pull Ready!</div>
+                  <div class="notif-cta" style="margin-top: 0.2rem; font-size: 0.65rem; padding: 0.2rem 0.5rem;">EXPANDING TO STAGE...</div>
                 </div>
 
-                <div style="text-align: center; font-size: 0.65rem; color: #475569;">
-                  Swipe up to unlock
-                </div>
               </div>
             </div>
 
@@ -1199,9 +1348,9 @@
         <section class="scene-gacha" id="scene-gacha" aria-label="Fictional Gacha App View">
           <!-- Gacha App Top Navigation -->
           <nav class="gacha-app-nav">
-            <span class="gacha-app-title">🦆 QUACKPOT: POND MASTERS</span>
-            <button id="btn-return-desk" class="btn-exit-app" title="Put down phone and return to apartment desk">
-              ⬅ Return to Desk
+            <span class="gacha-app-title">ðŸ¦† QUACKPOT: POND MASTERS</span>
+            <button id="btn-return-desk" class="btn-exit-app" title="Put down phone and return to apartment desk (Shortcut: Esc)">
+              â¬… Return to Desk
             </button>
           </nav>
 
@@ -1219,7 +1368,7 @@
 
               <div class="banner-actions">
                 <button class="btn-pull-claim" id="btn-claim-pull" aria-label="Claim Free 10-Pull (Normally 1,600 Gems)">
-                  🎁 CLAIM FREE 10-PULL
+                  ðŸŽ CLAIM FREE 10-PULL
                 </button>
               </div>
             </div>
@@ -1227,17 +1376,17 @@
             <!-- Gacha Roster Preview Teaser -->
             <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem;">
               <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">🦆</div>
+                <div style="font-size: 1.5rem;">ðŸ¦†</div>
                 <div style="font-weight: 700; color: #94a3b8;">Common</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 10.0</div>
               </div>
               <div style="background: #1e293b; border: 1px solid #3b82f6; border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">⚡</div>
+                <div style="font-size: 1.5rem;">âš¡</div>
                 <div style="font-weight: 700; color: #60a5fa;">Rare</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 12.5</div>
               </div>
               <div style="background: #1e293b; border: 1px solid var(--accent-gold); border-radius: 8px; padding: 0.5rem; width: 100px; text-align: center; font-size: 0.75rem;">
-                <div style="font-size: 1.5rem;">👑</div>
+                <div style="font-size: 1.5rem;">ðŸ‘‘</div>
                 <div style="font-weight: 700; color: var(--accent-gold);">Legendary</div>
                 <div style="font-size: 0.65rem; color: #64748b;">Speed 16.0</div>
               </div>
@@ -1246,11 +1395,46 @@
 
           <!-- Bottom Navigation Tabs -->
           <footer class="gacha-bottom-tabs">
-            <button class="gacha-tab active">🏠 Home</button>
-            <button class="gacha-tab">🏁 Pond Races</button>
-            <button class="gacha-tab">🦆 Roster (0/6)</button>
-            <button class="gacha-tab">🛒 Shop</button>
+            <button class="gacha-tab active">ðŸ  Home</button>
+            <button class="gacha-tab">ðŸ Pond Races</button>
+            <button class="gacha-tab">ðŸ¦† Roster (0/6)</button>
+            <button class="gacha-tab">ðŸ›’ Shop</button>
           </footer>
+        </section>
+
+        <!-- ====================================================================
+             SCENE 3: STABLE TERMINAL / RECEIPT PLACEHOLDER VIEW (Hard Constraint #5)
+             ==================================================================== -->
+        <section class="scene-terminal" id="scene-terminal" aria-label="End-of-Run Terminal Placeholder">
+          <div class="terminal-card">
+            <div class="terminal-badge">RUN COMPLETE â€” IMMEDIATE UNINSTALL</div>
+            <h2 class="terminal-title">ðŸ End-of-Run Receipt (Placeholder)</h2>
+            <p style="font-size: 0.85rem; color: #94a3b8;">
+              You chose immediate exit from the retention offer per Hard Constraint #5. Your run has ended and state is locked.
+            </p>
+
+            <div class="terminal-receipt-slip">
+              <div>================================================</div>
+              <div>           QUACKPOT END-OF-RUN RECEIPT              </div>
+              <div>================================================</div>
+              <div>Exit Reason: Immediate Uninstall (Best Ending)</div>
+              <div>Day Reached: Day 1 (Midday)</div>
+              <div>Final Cash Balance: $10.00 (Solvent)</div>
+              <div>Gacha Purchases: $0.00 (Declined starter packs)</div>
+              <div>Living Expenses Paid: Day 1 Lunch ($5.00)</div>
+              <div>Rent Solvency: Protected for Day 2 ($15.00 due)</div>
+              <div>------------------------------------------------</div>
+              <div>PRNG Seed: Committed locally (Append-only log)</div>
+              <div>Status: Run state and receipt preserved in memory</div>
+              <div>================================================</div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; justify-content: center;">
+              <button id="btn-reset-prototype" class="btn-hud-quiet" style="background: #2563eb; color: #ffffff; border-color: #60a5fa;">
+                ðŸ”„ Reset Prototype &amp; Start Fresh Run
+              </button>
+            </div>
+          </div>
         </section>
 
       </div>
@@ -1261,33 +1445,33 @@
          ======================================================================== -->
     <footer id="shell-b-footer" class="shell-b-footer-rail" style="display: none;">
       <div class="shell-b-footer-left">
-        <span>🎮 Quackpot Console v0.14</span>
+        <span>ðŸŽ® Quackpot Console v0.14</span>
         <span style="color: #64748b;">|</span>
         <span id="label-autosave-status">Autosave: Enabled</span>
       </div>
       <div class="shell-b-footer-right">
-        <button id="btn-save-b" class="btn-hud-quiet">💾 Save</button>
-        <button id="btn-settings-b" class="btn-hud-quiet">⚙️ Console Options & Credits</button>
-        <button id="btn-uninstall-b" class="btn-uninstall-emergency">❌ Uninstall</button>
+        <button id="btn-save-b" class="btn-hud-quiet">ðŸ’¾ Save</button>
+        <button id="btn-settings-b" class="btn-hud-quiet">âš™ï¸ Options</button>
+        <button id="btn-uninstall-b" class="btn-uninstall-emergency">âŒ Uninstall</button>
       </div>
     </footer>
 
   </div>
 
   <!-- ==========================================================================
-       SETTINGS & LOCAL CREDITS MODAL (Quieter Save & System Options)
+       SETTINGS & LOCAL CREDITS MODAL (Focus-Trapped Dialog)
        ========================================================================== -->
   <div id="modal-settings" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title">
     <div class="modal-window">
       <div class="modal-header">
-        <h2 id="modal-settings-title" class="modal-title">⚙️ Game Settings & Options</h2>
-        <button id="btn-close-settings" class="modal-close-btn" aria-label="Close Settings">✕</button>
+        <h2 id="modal-settings-title" class="modal-title">âš™ï¸ Game Settings &amp; Options</h2>
+        <button id="btn-close-settings" class="modal-close-btn" aria-label="Close Settings">âœ•</button>
       </div>
       <div class="modal-body">
-        
+
         <!-- Section 1: Saving Preferences -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>💾</span> Saving & Storage Preferences</div>
+          <div class="settings-section-title"><span>ðŸ’¾</span> Saving &amp; Storage Preferences</div>
           <div class="settings-row">
             <div class="settings-row-label">
               <strong>Autosave on Transitions</strong>
@@ -1300,23 +1484,23 @@
           </div>
           <div class="settings-row" style="margin-top: 0.75rem;">
             <button id="btn-settings-save-now" class="btn-hud-quiet" style="background: #2563eb; color: #ffffff; border-color: #60a5fa; width: 100%;">
-              💾 Save Run State Now
+              ðŸ’¾ Save Run State Now
             </button>
           </div>
           <div class="diag-box" id="storage-diag-box">
-            Mode: <strong>HTML5 localStorage (Persistent)</strong><br>
-            Envelope: <strong>Valid & Verified</strong> | Hash Chain: <strong>Intact</strong><br>
-            Last Saved: <strong>Just now (Midday Day 1)</strong>
+            Mode: <strong>Simulated HTML5 localStorage (Prototype Simulation)</strong><br>
+            Notice: In production, local storage envelope and hash chain are verified at runtime.<br>
+            Last Saved: <strong>Simulated Just Now (Day 1 Midday)</strong>
           </div>
         </div>
 
         <!-- Section 2: Accessibility Controls -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>♿</span> Accessibility Options</div>
+          <div class="settings-section-title"><span>â™¿</span> Accessibility Options</div>
           <div class="settings-row">
             <div class="settings-row-label">
               <strong>Reduced Motion</strong>
-              <span class="settings-desc">Disables 90° phone rotation and zoom transforms.</span>
+              <span class="settings-desc">Disables 90Â° phone rotation and zoom transforms.</span>
             </div>
             <label class="eval-toggle">
               <input type="checkbox" id="pref-reduced-motion">
@@ -1325,8 +1509,8 @@
           </div>
           <div class="settings-row">
             <div class="settings-row-label">
-              <strong>High Contrast Palette</strong>
-              <span class="settings-desc">Enforces WCAG AAA high-contrast borders and text.</span>
+              <strong>High Contrast Candidate</strong>
+              <span class="settings-desc">Enforces high-contrast solid borders and text palette.</span>
             </div>
             <label class="eval-toggle">
               <input type="checkbox" id="pref-high-contrast">
@@ -1336,7 +1520,7 @@
           <div class="settings-row">
             <div class="settings-row-label">
               <strong>Synthesized Web Audio</strong>
-              <span class="settings-desc">Enables local procedural quack chimes (no network).</span>
+              <span class="settings-desc">Enables local procedural duck chimes (no network).</span>
             </div>
             <label class="eval-toggle">
               <input type="checkbox" id="pref-audio" checked>
@@ -1345,22 +1529,22 @@
           </div>
         </div>
 
-        <!-- Section 3: Factual Credits (DECISION-010 & Plan 18 Coordination) -->
+        <!-- Section 3: Factual Credits Placeholder (DECISION-010 & Plan 18 Coordination) -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>📜</span> Credits & Licensing (DECISION-010)</div>
+          <div class="settings-section-title"><span>ðŸ“œ</span> Credits &amp; Attribution (Placeholder)</div>
           <div class="credits-panel">
-            <p><strong>Quackpot</strong> is a static educational gacha game created for CourseVGD to examine predatory monetization design.</p>
-            <p style="margin-top: 0.35rem;"><strong>Audio Provenance:</strong> Synthesized Web Audio API duck quacks (CC0 dedication). Future locally bundled licensed sound recordings (CC0 / CC BY) will be factually credited here per DECISION-010.</p>
-            <p style="margin-top: 0.35rem;"><strong>Fictional Entities Notice:</strong> All publishers, sponsors, and gacha brands depicted are entirely fictional satire.</p>
+            <p><strong>Quackpot</strong> is an educational browser gacha game created for CourseVGD to examine predatory monetization design.</p>
+            <p style="margin-top: 0.35rem;"><strong>Audio Attribution Placeholder:</strong> Audio effects are currently synthesized locally via the Web Audio API. Future locally bundled Creative Commons audio recordings (CC0 / CC BY) approved under DECISION-010 will be factually attributed here once auditioned and selected in Plan 18.</p>
+            <p style="margin-top: 0.35rem;"><strong>Satirical Fiction Notice:</strong> All publishers, sponsors, and gacha brand names depicted are fictional satire.</p>
           </div>
         </div>
 
-        <!-- Section 4: Export & Emergency Actions -->
+        <!-- Section 4: Export (Simulated) -->
         <div class="settings-section">
-          <div class="settings-section-title"><span>📁</span> Run Data Export (Hard Constraint #3)</div>
-          <p class="settings-desc">Offline student download only. Assembles local run history into a verifiable file for manual submission.</p>
+          <div class="settings-section-title"><span>ðŸ“</span> Run Data Export (Simulation)</div>
+          <p class="settings-desc">In production, assembles local run history into a verifiable JSON file for student manual download (Hard Constraint #3).</p>
           <button id="btn-export-receipt" class="btn-hud-quiet" style="margin-top: 0.5rem; width: 100%;">
-            📥 Download Run-Usage Receipt (JSON)
+            ðŸ“¥ Simulate Receipt Download
           </button>
         </div>
 
@@ -1369,13 +1553,13 @@
   </div>
 
   <!-- ==========================================================================
-       UNINSTALL RETENTION MODAL (Hard Constraint #5: Best Ending & Immediate Exit)
+       UNINSTALL RETENTION MODAL (Focus-Trapped Dialog)
        ========================================================================== -->
   <div id="modal-uninstall" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-uninstall-title">
     <div class="modal-window">
       <div class="modal-header">
-        <h2 id="modal-uninstall-title" class="modal-title" style="color: var(--danger-red);">⚠️ Confirm Uninstall</h2>
-        <button id="btn-close-uninstall" class="modal-close-btn" aria-label="Cancel Uninstall">✕</button>
+        <h2 id="modal-uninstall-title" class="modal-title" style="color: var(--danger-red);">âš ï¸ Confirm Uninstall</h2>
+        <button id="btn-close-uninstall" class="modal-close-btn" aria-label="Cancel Uninstall">âœ•</button>
       </div>
       <div class="modal-body">
         <div class="retention-alert-header">
@@ -1386,15 +1570,15 @@
         </div>
 
         <p class="settings-desc">
-          Per Quackpot Hard Constraint #5, you may leave immediately at any time. Choosing to leave terminates the run cleanly and presents your end-of-run Receipt.
+          You may leave immediately at any time. Choosing to leave terminates the run cleanly and presents your end-of-run Receipt.
         </p>
 
         <div class="retention-actions">
           <button id="btn-retention-stay" class="btn-retention-stay">
-            🎁 Accept 80 Gems &amp; Keep Playing
+            ðŸŽ Accept 80 Gems &amp; Keep Playing
           </button>
           <button id="btn-retention-leave" class="btn-retention-leave">
-            🚪 Leave Immediately &amp; View Receipt (Best Ending)
+            ðŸšª Leave Immediately &amp; View Receipt (Best Ending)
           </button>
         </div>
       </div>
@@ -1411,7 +1595,7 @@
   <div id="aria-live-polite" class="sr-only" aria-live="polite"></div>
 
   <!-- ==========================================================================
-       INTERACTIVE PROTOTYPE JAVASCRIPT
+       INTERACTIVE PROTOTYPE CONTROLLER (Repair 01)
        ========================================================================== -->
   <script>
     (function() {
@@ -1422,7 +1606,12 @@
       const shellBHeader = document.getElementById('shell-b-header');
       const shellBFooter = document.getElementById('shell-b-footer');
       const stageCanvas = document.getElementById('stage-canvas');
+      const sceneApartment = document.getElementById('scene-apartment');
+      const sceneGacha = document.getElementById('scene-gacha');
+      const sceneTerminal = document.getElementById('scene-terminal');
       const phoneContainer = document.getElementById('smartphone-container');
+      const btnUninstallA = document.getElementById('btn-open-uninstall');
+      const btnUninstallB = document.getElementById('btn-uninstall-b');
       const saveToast = document.getElementById('save-toast');
       const ariaLive = document.getElementById('aria-live-polite');
       const ariaTranscript = document.getElementById('aria-transcript');
@@ -1431,18 +1620,37 @@
       // Modals
       const modalSettings = document.getElementById('modal-settings');
       const modalUninstall = document.getElementById('modal-uninstall');
+      const FOCUSABLE_SELECTORS = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
-      // State Flags
+      // State Machine Flags
       let currentShell = 'A';
       let isReducedMotion = false;
       let isHighContrast = false;
       let isRestrictedStorage = false;
-      let isGachaActive = false;
+      let isTerminal = false;
+
+      // Explicit Transition State: 'desk' | 'turning' | 'expanding' | 'gacha' | 'collapsing' | 'terminal'
+      let transitionState = 'desk';
+      let transitionTimer = null;
+      let transitionToken = 0;
+
+      // Focus Management Variables
+      let triggerElement = null;
+      let activeModal = null;
 
       // Announce Helper
       function announce(text) {
         if (ariaLive) ariaLive.textContent = text;
         if (ariaTranscript) ariaTranscript.textContent = text;
+      }
+
+      // Transition Timer Cancellation Helper
+      function cancelPendingTransitions() {
+        if (transitionTimer) {
+          clearTimeout(transitionTimer);
+          transitionTimer = null;
+        }
+        transitionToken++; // Invalidate any queued timeout callbacks
       }
 
       // Shell Switcher
@@ -1468,16 +1676,16 @@
       document.getElementById('btn-shell-a').addEventListener('click', () => setShell('A'));
       document.getElementById('btn-shell-b').addEventListener('click', () => setShell('B'));
 
-      // Save Trigger Helper
+      // Save Trigger Helper (Labeled Simulation)
       function triggerSave() {
         if (isRestrictedStorage) {
-          saveToast.textContent = '⚠️ Storage restricted! Run saved in temporary memory only.';
+          saveToast.textContent = 'âš ï¸ Simulated: Storage restricted! Run saved in temporary memory only.';
           saveToast.className = 'save-toast warning';
-          announce("Save warning: Run saved in temporary memory only due to storage restriction.");
+          announce("Simulation save warning: Run saved in temporary memory only due to storage restriction.");
         } else {
-          saveToast.textContent = '✓ Run saved locally to browser storage.';
+          saveToast.textContent = 'âœ“ Simulated: Run saved locally to browser storage.';
           saveToast.className = 'save-toast';
-          announce("Run saved locally to browser storage.");
+          announce("Simulated save: Run saved locally to browser storage.");
         }
         saveToast.style.display = 'block';
         setTimeout(() => { saveToast.style.display = 'none'; }, 2600);
@@ -1487,120 +1695,206 @@
       document.getElementById('btn-save-b').addEventListener('click', triggerSave);
       document.getElementById('btn-settings-save-now').addEventListener('click', () => {
         triggerSave();
-        closeSettings();
+        closeModal(modalSettings);
       });
 
-      // Settings Modal Open/Close
-      function openSettings() {
-        modalSettings.classList.add('open');
-        document.getElementById('btn-close-settings').focus();
-        announce("Opened Game Settings and Options dialog.");
-      }
-      function closeSettings() {
-        modalSettings.classList.remove('open');
-        announce("Closed Settings dialog.");
-      }
-      document.getElementById('btn-open-settings').addEventListener('click', openSettings);
-      document.getElementById('btn-settings-b').addEventListener('click', openSettings);
-      document.getElementById('btn-close-settings').addEventListener('click', closeSettings);
+      // Accessible Modal Management (Focus Trapping & Return to Trigger)
+      function openModal(modalEl, trigger) {
+        if (!modalEl) return;
+        if (isTerminal && modalEl === modalUninstall) return; // Locked post-terminal
+        if (activeModal && activeModal !== modalEl) {
+          closeModal(activeModal, false);
+        }
 
-      // Uninstall Modal Open/Close
-      function openUninstall() {
-        modalUninstall.classList.add('open');
-        document.getElementById('btn-retention-leave').focus();
-        announce("Opened Uninstall confirmation and retention offer dialog.");
-      }
-      function closeUninstall() {
-        modalUninstall.classList.remove('open');
-        announce("Dismissed Uninstall dialog.");
-      }
-      document.getElementById('btn-open-uninstall').addEventListener('click', openUninstall);
-      document.getElementById('btn-uninstall-b').addEventListener('click', openUninstall);
-      document.getElementById('btn-close-uninstall').addEventListener('click', closeUninstall);
+        // Ensure triggerElement is a valid focusable element
+        const candidate = (trigger && typeof trigger.focus === 'function')
+          ? trigger
+          : ((document.activeElement && typeof document.activeElement.focus === 'function') ? document.activeElement : null);
+        triggerElement = candidate;
+        activeModal = modalEl;
+        modalEl.classList.add('open');
 
+        // Focus close button or first interactive element
+        const closeBtn = modalEl === modalSettings
+          ? document.getElementById('btn-close-settings')
+          : document.getElementById('btn-close-uninstall');
+        if (closeBtn && typeof closeBtn.focus === 'function') {
+          closeBtn.focus();
+        } else if (typeof modalEl.querySelectorAll === 'function') {
+          const focusables = modalEl.querySelectorAll(FOCUSABLE_SELECTORS);
+          if (focusables.length > 0 && typeof focusables[0].focus === 'function') {
+            focusables[0].focus();
+          }
+        }
+        announce(modalEl === modalSettings ? "Opened Game Settings and Options dialog." : "Opened Uninstall confirmation dialog.");
+      }
+
+      function closeModal(modalEl, returnFocus = true) {
+        if (!modalEl) return;
+        modalEl.classList.remove('open');
+        activeModal = null;
+
+        if (returnFocus && triggerElement && typeof triggerElement.focus === 'function') {
+          triggerElement.focus();
+          triggerElement = null;
+        }
+        announce("Closed dialog.");
+      }
+
+      document.getElementById('btn-open-settings').addEventListener('click', function(e) {
+        openModal(modalSettings, (e && e.target) || document.getElementById('btn-open-settings'));
+      });
+      document.getElementById('btn-settings-b').addEventListener('click', function(e) {
+        openModal(modalSettings, (e && e.target) || document.getElementById('btn-settings-b'));
+      });
+      document.getElementById('btn-close-settings').addEventListener('click', () => closeModal(modalSettings, true));
+
+      document.getElementById('btn-open-uninstall').addEventListener('click', function(e) {
+        openModal(modalUninstall, (e && e.target) || document.getElementById('btn-open-uninstall'));
+      });
+      document.getElementById('btn-uninstall-b').addEventListener('click', function(e) {
+        openModal(modalUninstall, (e && e.target) || document.getElementById('btn-uninstall-b'));
+      });
+      document.getElementById('btn-close-uninstall').addEventListener('click', () => closeModal(modalUninstall, true));
+
+      // Retention Modal Actions
       document.getElementById('btn-retention-stay').addEventListener('click', () => {
-        closeUninstall();
-        // Give 80 gems
+        closeModal(modalUninstall, true);
         const gemsPill = document.getElementById('pill-gems');
         gemsPill.classList.remove('dormant');
         document.getElementById('val-gems').textContent = '80';
         announce("Accepted 80 Gems retention gift. Returned to game.");
       });
 
-      document.getElementById('btn-retention-leave').addEventListener('click', () => {
-        closeUninstall();
-        announce("Chose immediate exit. Terminal route reached: presenting Receipt.");
-        alert("TERMINAL EXIT (Best Ending):\n\nPer Hard Constraint #5, you chose immediate exit without succumbing to gacha pressure.\n\nReceipt generation triggered!");
+      // Terminal Exit Handler (Hard Constraint #5: Best Ending & Immediate Exit)
+      function enterTerminalExit() {
+        cancelPendingTransitions();
+        closeModal(modalUninstall, false);
+        isTerminal = true;
+        transitionState = 'terminal';
+
+        // Display stable terminal receipt placeholder
+        sceneApartment.style.display = 'none';
+        sceneGacha.style.display = 'none';
+        sceneTerminal.style.display = 'flex';
+        stageCanvas.classList.remove('state-gacha-active');
+
+        // Lock uninstall buttons in both shells
+        if (btnUninstallA) {
+          btnUninstallA.disabled = true;
+          btnUninstallA.classList.add('btn-locked');
+          btnUninstallA.innerHTML = '<span>ðŸ</span><span>Run Ended</span>';
+          btnUninstallA.title = 'Run ended via Uninstall (Hard Constraint #5). Local state locked.';
+        }
+        if (btnUninstallB) {
+          btnUninstallB.disabled = true;
+          btnUninstallB.classList.add('btn-locked');
+          btnUninstallB.innerHTML = 'ðŸ Run Ended';
+          btnUninstallB.title = 'Run ended via Uninstall (Hard Constraint #5). Local state locked.';
+        }
+
+        announce("Terminal exit: Run ended cleanly via Uninstall. Presenting end-of-run Receipt placeholder.");
+      }
+
+      document.getElementById('btn-retention-leave').addEventListener('click', enterTerminalExit);
+
+      // Reset Prototype from Terminal State
+      document.getElementById('btn-reset-prototype').addEventListener('click', () => {
+        isTerminal = false;
+        sceneTerminal.style.display = 'none';
+        if (btnUninstallA) {
+          btnUninstallA.disabled = false;
+          btnUninstallA.classList.remove('btn-locked');
+          btnUninstallA.innerHTML = '<span>âŒ</span><span>Uninstall</span>';
+          btnUninstallA.title = 'Uninstall game and view Receipt (Shortcut: U)';
+        }
+        if (btnUninstallB) {
+          btnUninstallB.disabled = false;
+          btnUninstallB.classList.remove('btn-locked');
+          btnUninstallB.innerHTML = 'âŒ Uninstall';
+          btnUninstallB.title = 'Uninstall game and view Receipt';
+        }
+        stepDesk();
+        announce("Reset prototype to initial state. Standing by in Apartment Desk View.");
       });
 
-      // Export Receipt
+      // Simulated Receipt Export (Hard Constraint #3)
       document.getElementById('btn-export-receipt').addEventListener('click', () => {
-        announce("Assembled offline run-usage receipt file for student download.");
-        alert("OFFLINE RECEIPT EXPORT (Hard Constraint #3):\n\nRun data assembled into 'quackpot-receipt-day1.json'. Ready for student manual upload to assignment store.");
+        announce("Simulated offline run-usage receipt assembly for student download.");
+        triggerSave();
       });
 
       // ========================================================================
-      // TRANSITION CHOREOGRAPHY
+      // TRANSITION CHOREOGRAPHY (Repair 01 Cancellation & Geometry)
       // ========================================================================
       function stepDesk() {
+        cancelPendingTransitions();
+        transitionState = 'desk';
         phoneContainer.classList.remove('state-rotated');
         stageCanvas.classList.remove('state-gacha-active');
-        isGachaActive = false;
+        sceneApartment.style.display = 'flex';
+        sceneGacha.style.display = 'none';
+        sceneTerminal.style.display = 'none';
         announce("Beat 1: Apartment Desk. Phone resting in portrait orientation.");
       }
 
       function stepRotate() {
+        if (isTerminal) return;
         if (isReducedMotion) {
-          announce("Reduced motion active: skipping 90° rotation.");
+          stepExpand();
           return;
         }
+        cancelPendingTransitions();
+        transitionState = 'turning';
         phoneContainer.classList.add('state-rotated');
         stageCanvas.classList.remove('state-gacha-active');
-        announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
+        announce("Beat 2: Fictional phone executes 90Â° quarter-turn into landscape orientation.");
       }
 
       function stepExpand() {
+        if (isTerminal) return;
+        cancelPendingTransitions();
+        transitionState = 'gacha';
         phoneContainer.classList.remove('state-rotated');
         stageCanvas.classList.add('state-gacha-active');
-        isGachaActive = true;
         announce("Beat 3: Phone screen expands into full-width gacha stage canvas. Quackpot Gacha App active.");
       }
 
       function stepReturn() {
+        cancelPendingTransitions();
         stepDesk();
         announce("Reverse transition: Exited gacha app, returned to apartment desk.");
       }
 
-      function autoPlayTransition() {
-        announce("Auto-playing phone transition sequence...");
-        stepDesk();
+      function startEntrySequence() {
+        if (isTerminal) return;
+        cancelPendingTransitions();
+        const currentToken = transitionToken;
+
         if (isReducedMotion) {
-          setTimeout(stepExpand, 300);
-        } else {
-          setTimeout(stepRotate, 400);
-          setTimeout(stepExpand, 1100);
+          stepExpand();
+          return;
         }
+
+        stepRotate();
+        transitionTimer = setTimeout(() => {
+          transitionTimer = null;
+          if (currentToken !== transitionToken) return; // Cancelled during turn
+          stepExpand();
+        }, 400); // 400ms proposed rotation duration
       }
 
       document.getElementById('btn-step-desk').addEventListener('click', stepDesk);
       document.getElementById('btn-step-rotate').addEventListener('click', stepRotate);
       document.getElementById('btn-step-expand').addEventListener('click', stepExpand);
       document.getElementById('btn-step-return').addEventListener('click', stepReturn);
-      document.getElementById('btn-step-auto').addEventListener('click', autoPlayTransition);
+      document.getElementById('btn-step-auto').addEventListener('click', startEntrySequence);
 
-      phoneContainer.addEventListener('click', () => {
-        if (isReducedMotion) {
-          stepExpand();
-        } else {
-          stepRotate();
-          setTimeout(stepExpand, 750);
-        }
-      });
-
+      phoneContainer.addEventListener('click', startEntrySequence);
       phoneContainer.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          phoneContainer.click();
+          startEntrySequence();
         }
       });
 
@@ -1611,27 +1905,40 @@
         const gemsPill = document.getElementById('pill-gems');
         gemsPill.classList.remove('dormant');
         announce("Claimed Rookie Welcome 10-Pull! 10 ducks drawn. Progressive Gems counter unlocked.");
-        alert("ROOKIE 10-PULL COMPLETED!\n\n10 Common/Rare ducks drawn. PRNG seed committed.\nGems counter now illuminated in persistent canopy.");
       });
 
-      // Toggles & Accessibility
+      // System & Manual Reduced Motion Handling
       const toggleReducedMotion = document.getElementById('toggle-reduced-motion');
       const prefReducedMotion = document.getElementById('pref-reduced-motion');
+
       function setReducedMotion(val) {
         isReducedMotion = val;
-        toggleReducedMotion.checked = val;
-        prefReducedMotion.checked = val;
+        if (toggleReducedMotion) toggleReducedMotion.checked = val;
+        if (prefReducedMotion) prefReducedMotion.checked = val;
         if (val) {
           body.classList.add('reduced-motion');
-          announce("Reduced motion enabled: smooth transforms and rotations disabled.");
+          announce("Reduced motion enabled: transforms and rotations disabled.");
         } else {
           body.classList.remove('reduced-motion');
           announce("Reduced motion disabled.");
         }
       }
+
+      // Query OS System Preference
+      if (window.matchMedia) {
+        const motionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (motionMediaQuery.matches) {
+          setReducedMotion(true);
+        }
+        if (motionMediaQuery.addEventListener) {
+          motionMediaQuery.addEventListener('change', (e) => setReducedMotion(e.matches));
+        }
+      }
+
       toggleReducedMotion.addEventListener('change', (e) => setReducedMotion(e.target.checked));
       prefReducedMotion.addEventListener('change', (e) => setReducedMotion(e.target.checked));
 
+      // High Contrast Candidate Toggle
       const toggleHighContrast = document.getElementById('toggle-high-contrast');
       const prefHighContrast = document.getElementById('pref-high-contrast');
       function setHighContrast(val) {
@@ -1640,7 +1947,7 @@
         prefHighContrast.checked = val;
         if (val) {
           body.classList.add('high-contrast');
-          announce("High contrast enabled: WCAG AAA borders and palette enforced.");
+          announce("High contrast candidate enabled: solid borders and elevated contrast enforced.");
         } else {
           body.classList.remove('high-contrast');
           announce("High contrast disabled.");
@@ -1649,45 +1956,72 @@
       toggleHighContrast.addEventListener('change', (e) => setHighContrast(e.target.checked));
       prefHighContrast.addEventListener('change', (e) => setHighContrast(e.target.checked));
 
-      // Restricted Storage Simulator
+      // Simulated Restricted Storage Toggle
       const toggleRestrictedStorage = document.getElementById('toggle-restricted-storage');
       toggleRestrictedStorage.addEventListener('change', (e) => {
         isRestrictedStorage = e.target.checked;
         if (isRestrictedStorage) {
-          storageDiagBox.innerHTML = 'Mode: <strong style="color:#f59e0b;">In-Memory Session (Private / Restricted)</strong><br>Status: <strong>Volatile Storage Active</strong> | Export Required Before Closing';
+          storageDiagBox.innerHTML = 'Mode: <strong style="color:#f59e0b;">Simulated In-Memory Session (Restricted)</strong><br>Notice: In production, write failure activates in-memory session and leaves stored snapshot untouched.';
           announce("Simulating restricted storage condition: In-Memory session fallback active.");
         } else {
-          storageDiagBox.innerHTML = 'Mode: <strong>HTML5 localStorage (Persistent)</strong><br>Envelope: <strong>Valid & Verified</strong> | Hash Chain: <strong>Intact</strong><br>Last Saved: <strong>Just now</strong>';
+          storageDiagBox.innerHTML = 'Mode: <strong>Simulated HTML5 localStorage (Prototype Simulation)</strong><br>Notice: In production, local storage envelope and hash chain are verified at runtime.<br>Last Saved: <strong>Simulated Just Now</strong>';
           announce("Simulating normal storage condition: HTML5 localStorage active.");
         }
       });
 
-      // Viewport Switcher
+      // Viewport Preset Switcher (Note: Browser media queries evaluate window dimensions)
       const selectViewport = document.getElementById('select-viewport');
       selectViewport.addEventListener('change', (e) => {
         shellRoot.className = 'shell-container ' + e.target.value;
-        announce("Resized viewport simulation to: " + e.target.value);
+        announce("Resized preview container preset to: " + e.target.value);
       });
 
-      // Keyboard Global Handler
+      // Global Keyboard Event Dispatcher & Modal Focus Trapping
       window.addEventListener('keydown', (e) => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+        // If a modal is open, trap focus and handle Escape dismissal exclusively
+        if (activeModal) {
+          if (e.key === 'Tab') {
+            const focusables = Array.from(activeModal.querySelectorAll(FOCUSABLE_SELECTORS))
+              .filter(el => el.offsetParent !== null || el.offsetWidth > 0 || el.offsetHeight > 0);
+            if (focusables.length > 0) {
+              const firstEl = focusables[0];
+              const lastEl = focusables[focusables.length - 1];
+              if (e.shiftKey && document.activeElement === firstEl) {
+                e.preventDefault();
+                lastEl.focus();
+              } else if (!e.shiftKey && document.activeElement === lastEl) {
+                e.preventDefault();
+                firstEl.focus();
+              }
+            }
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closeModal(activeModal, true);
+          }
+          return; // Suppress background shortcuts when modal is active
+        }
+
+        // Ignore hotkeys when user is typing in form controls
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+          return;
+        }
 
         if (e.key === 's' || e.key === 'S') {
           e.preventDefault();
           triggerSave();
         } else if (e.key === '?' || e.key === 'o' || e.key === 'O') {
           e.preventDefault();
-          if (modalSettings.classList.contains('open')) closeSettings();
-          else openSettings();
+          openModal(modalSettings, document.getElementById('btn-open-settings'));
         } else if (e.key === 'u' || e.key === 'U') {
           e.preventDefault();
-          if (modalUninstall.classList.contains('open')) closeUninstall();
-          else openUninstall();
+          if (!isTerminal) {
+            openModal(modalUninstall, document.getElementById('btn-open-uninstall'));
+          }
         } else if (e.key === 'Escape') {
-          if (modalSettings.classList.contains('open')) closeSettings();
-          if (modalUninstall.classList.contains('open')) closeUninstall();
-          if (isGachaActive) stepReturn();
+          if (transitionState === 'turning' || transitionState === 'expanding' || transitionState === 'gacha') {
+            e.preventDefault();
+            stepReturn();
+          }
         }
       });
 

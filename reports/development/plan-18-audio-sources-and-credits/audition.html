@@ -918,6 +918,36 @@
   // Master State
   let isMuted = false;
   let masterVolume = 0.8;
+  let auditionContext = null;
+  let auditionMasterGain = null;
+  let auditionFacade = null;
+
+  function updateSynthMasterVolume() {
+    if (auditionMasterGain && auditionContext?.state !== 'closed') {
+      auditionMasterGain.gain.setValueAtTime(isMuted ? 0 : masterVolume, auditionContext.currentTime);
+    }
+  }
+
+  function getAuditionContext() {
+    const context = window.DuckSynth?.getOrCreateAudioContext();
+    if (!context) return null;
+    if (context !== auditionContext || !auditionMasterGain) {
+      auditionContext = context;
+      auditionMasterGain = context.createGain();
+      auditionMasterGain.connect(context.destination);
+      const output = auditionMasterGain;
+      // Audition-only output bus; source presets/graphs remain unchanged.
+      auditionFacade = new Proxy(context, {
+        get(target, key) {
+          if (key === 'destination') return output;
+          const value = Reflect.get(target, key, target);
+          return typeof value === 'function' ? value.bind(target) : value;
+        }
+      });
+      updateSynthMasterVolume();
+    }
+    return auditionFacade;
+  }
 
   const audioElements = {
     click1: new Audio('audio/click1.wav'),
@@ -957,11 +987,17 @@
   // Master UI Events
   document.getElementById('btn-resume-audio').addEventListener('click', async () => {
     try {
-      const ctx = window.DuckSynth?.getOrCreateAudioContext();
+      const ctx = getAuditionContext();
+      if (!ctx) {
+        setCaption('[Web Audio unavailable — recorded samples can still be auditioned]');
+        return;
+      }
       if (ctx && ctx.state === 'suspended') {
         await ctx.resume();
       }
-      setCaption('[Audio Context Initialized and Ready for Audition]');
+      setCaption(ctx.state === 'running'
+        ? '[Audio Context Initialized and Ready for Audition]'
+        : '[Audio Context is not running — playback remains unavailable]');
     } catch (err) {
       setCaption(`[Audio Context Error: ${err.message}]`);
     }
@@ -971,6 +1007,7 @@
     masterVolume = parseFloat(e.target.value);
     document.getElementById('master-vol-label').textContent = Math.round(masterVolume * 100) + '%';
     updateAudioElementVolumes();
+    updateSynthMasterVolume();
   });
 
   document.getElementById('btn-toggle-mute').addEventListener('click', () => {
@@ -978,6 +1015,7 @@
     document.getElementById('mute-icon').innerHTML = isMuted ? '&#128263;' : '&#128266;';
     document.getElementById('mute-label').textContent = isMuted ? 'Unmute All' : 'Mute All';
     updateAudioElementVolumes();
+    updateSynthMasterVolume();
     setCaption(isMuted ? '[System: Master Audio Muted]' : '[System: Master Audio Unmuted]');
   });
 
@@ -1000,6 +1038,9 @@
     if (window.DuckSynth?.resetAudioContextForTesting) {
       window.DuckSynth.resetAudioContextForTesting();
     }
+    auditionContext = null;
+    auditionMasterGain = null;
+    auditionFacade = null;
   }
 
   // Sound Effects with honest promise handling
@@ -1105,11 +1146,25 @@
       candidateKey === 'B' ? window.DuckSynth.QUACK_B_SYNTH_ADSR :
       window.DuckSynth.QUACK_C_FORMANT_NOISE;
 
-    // Apply master volume and mute scaling to gain parameter
-    const effectiveGain = isMuted ? 0.0001 : (basePreset.gain * masterVolume);
-    const scaledPreset = { ...basePreset, gain: effectiveGain };
-
-    const res = await window.DuckSynth.playSynthesizedSound(scaledPreset);
+    if (isMuted || masterVolume === 0) {
+      card.classList.remove('playing');
+      setCaption('[Synth silent — audio is muted or master volume is zero]');
+      return;
+    }
+    let res;
+    try {
+      const context = getAuditionContext();
+      if (!context) {
+        card.classList.remove('playing');
+        setCaption('[Synth unavailable — Web Audio is not supported]');
+        return;
+      }
+      res = await window.DuckSynth.playSynthesizedSound(basePreset, { audioContext: context });
+    } catch (err) {
+      card.classList.remove('playing');
+      setCaption(`[Synth playback error: ${err.message}]`);
+      return;
+    }
 
     if (res.played) {
       card.classList.add('playing');

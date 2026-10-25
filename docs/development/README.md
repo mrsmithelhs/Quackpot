@@ -25,8 +25,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-14` | Game stage and metagame transitions investigation | delivered | Propose a full-width game stage, quieter save/settings controls and readable transitions between apartment metagame and fictional gacha app. |
 | `plan-15` | Pull anticipation and bounded local cue investigation | draft | Compare short pull anticipation and graceful fast reveal, then investigate bounded fictional cues responding to local actions with truthful Receipt evidence. |
 | `plan-16` | Deterministic review checkpoints and browser briefs | draft | Propose valid engine-generated seeded checkpoints and short review briefs so targeted browser checks can start at the relevant game or metagame beat. |
-| `plan-17` | Down exchange and whole-wallet validation | delivered | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
-| `plan-18` | Local audio sources and credits investigation | in-progress | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
+| `plan-17` | Down exchange and whole-wallet validation | in-progress | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
+| `plan-18` | Local audio sources and credits investigation | delivered | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
 <!-- plan-index:end -->
 
 ## Report Folders

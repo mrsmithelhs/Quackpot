@@ -1,11 +1,9 @@
 ---
 id: plan-18
 title: Local audio sources and credits investigation
-status: draft
+status: in-progress
 depends_on: []
 gate: "Owner selects audition samples and provenance before production integration; audio-source policy approved 2026-10-25."
-superseded_by: null
-resolution: null
 summary: >-
   Compare a small set of licensed local sound/music sources and propose opening-screen
   credits under the owner-approved CC audio policy, without production integration.
@@ -16,7 +14,7 @@ summary: >-
 
 **Parallel boundary:** May investigate alongside Plan 04 Repair 02 after owner assignment. Use library samples and an isolated audition in this report folder. Retain the existing three quack candidates as reference options; no edits/imported generated output from an uncommitted repair, shared synth, gallery, package or game UI. Record any committed baseline used for comparison. Audio policy approval is not a packet assignment.
 
-Read AGENTS.md, canonical Assets, triage T10/T12 as historical rationale, DECISION-009/010, `reports/orchestration/audio-source-options.md`, Plan 04 review-03 and Plan 15. Run `check plan-18`; stop if blocked. Owner approved licensed Creative Commons audio on 2026-10-25; canonical contracts now permit it. This draft is not an assignment. Policy approval does not select a recording or authorize production integration.
+Read AGENTS.md, canonical Assets, triage T10/T12 as historical rationale, DECISION-009/010, `reports/orchestration/audio-source-options.md`, Plan 04 review-03 and Plan 15. Run `check plan-18`; stop if blocked. Owner approved licensed Creative Commons audio on 2026-10-25; canonical contracts now permit it. Owner assigned this investigation on 2026-10-25 alongside Plans 14/17. Assignment does not select a recording or authorize production integration.
 
 1. Use the adopted policy in DECISION-010; do not repeat its approval gate. Synthesis remains available. Once assigned, public research and bounded licensed sample downloads are allowed within this report scope; no new accounts, purchases or production imports.
 2. Shortlist at most three effect candidates and two music candidates with source/creator, exact license/version, redistribution/adaptation terms, required credits and intended role. Prefer straightforward CC0/CC BY. Do not infer that every file on a library uses one license or that educational use clears restrictions.

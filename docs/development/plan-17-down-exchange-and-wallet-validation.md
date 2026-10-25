@@ -1,11 +1,9 @@
 ---
 id: plan-17
 title: Down exchange and whole-wallet validation
-status: draft
+status: in-progress
 depends_on: [plan-01, plan-03, plan-12]
 gate: "Owner reviews the 3/6 Down calibration consequences and selects unresolved ticket/item rules before production integration."
-superseded_by: null
-resolution: null
 summary: >-
   Validate owner-selected Down prices and odd-bundle examples using actual
   duplicate payouts, pity rules and whole-wallet balances before shop integration.

@@ -1,11 +1,9 @@
 ---
 id: plan-14
 title: Game stage and metagame transitions investigation
-status: draft
+status: in-progress
 depends_on: [plan-03]
 gate: "Owner selects the stage layout and context transition before production UI changes."
-superseded_by: null
-resolution: null
 summary: >-
   Propose a full-width game stage, quieter save/settings controls and readable
   transitions between apartment metagame and fictional gacha app.

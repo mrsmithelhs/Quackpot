@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plan 12: Guided Opening & Progressive Shop Wireframes</title>
+  <title>Plan 12: Guided Opening & Progressive Shop Wireframes (Repair 01)</title>
   <style>
     :root {
       --bg-desk: #2b261f;
@@ -76,7 +76,7 @@
     }
 
     .header-titles h1 {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: var(--accent-gold-light);
       display: flex;
       align-items: center;
@@ -86,6 +86,17 @@
     .header-titles p {
       font-size: 0.85rem;
       color: var(--text-muted);
+    }
+
+    .mockup-badge {
+      background: #3b82f6;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .header-controls {
@@ -421,11 +432,10 @@
     }
 
     .banner-title {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 800;
       color: var(--accent-gold-light);
       margin-bottom: 0.5rem;
-      text-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
     }
 
     .banner-odds-tag {
@@ -452,8 +462,8 @@
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #000;
       font-weight: 800;
-      font-size: 1.1rem;
-      padding: 0.85rem 2rem;
+      font-size: 1.05rem;
+      padding: 0.8rem 1.8rem;
       border: none;
       border-radius: 9999px;
       cursor: pointer;
@@ -468,7 +478,7 @@
       box-shadow: 0 8px 25px rgba(245, 158, 11, 0.7);
     }
 
-    /* Cards Reveal Grid */
+    /* Cards Reveal Grid (Static Sample Fixture) */
     .reveal-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -489,6 +499,9 @@
       flex-direction: column;
       align-items: center;
       min-height: 110px;
+    }
+    .gacha-card.common {
+      border-color: #64748b;
     }
     .gacha-card.rare {
       border-color: #3b82f6;
@@ -550,7 +563,7 @@
       border: 2px solid var(--accent-gold);
       border-radius: 12px;
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.8);
       overflow: hidden;
       animation: modalPop 0.2s ease-out;
@@ -568,15 +581,7 @@
       justify-content: space-between;
       align-items: center;
     }
-    .modal-banner h3 { font-size: 1.1rem; font-weight: 800; }
-    .badge-400 {
-      background: #000;
-      color: #fde047;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 0.2rem 0.5rem;
-      border-radius: 9999px;
-    }
+    .modal-banner h3 { font-size: 1rem; font-weight: 800; }
 
     .modal-body {
       padding: 1.25rem;
@@ -690,12 +695,10 @@
   <header class="wireframe-header">
     <div class="header-titles">
       <h1>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-        </svg>
+        <span class="mockup-badge">Wireframe Mockup</span>
         Quackpot: Plan 12 Guided Onboarding & Progressive Shop
       </h1>
-      <p>Interactive verification wireframe for owner & orchestrator review — completely static, offline & dependency-free.</p>
+      <p>Interactive verification mockup for owner & orchestrator review — reference configuration: $15 Cash, $15 Rent, 80/18/2 odds, 240-gem Starter.</p>
     </div>
     <div class="header-controls">
       <button id="toggleMotionBtn" class="btn-toggle" onclick="toggleReducedMotion()" aria-pressed="false">
@@ -716,7 +719,7 @@
     <button class="nav-tab" onclick="switchTab('tab-duplicates')">2. Duplicates & Honest Fallback (Case A vs B)</button>
     <button class="nav-tab" onclick="switchTab('tab-shop')">3. Progressive Shop (Stage 1 vs Stage 2)</button>
     <button class="nav-tab" onclick="switchTab('tab-risks')">4. Misunderstanding Risk Callouts</button>
-    <button class="nav-tab" onclick="switchTab('tab-receipt')">5. Live Receipt Attribution</button>
+    <button class="nav-tab" onclick="switchTab('tab-receipt')">5. Mock Receipt Attribution</button>
   </nav>
 
   <!-- ========================================================================= -->
@@ -750,21 +753,21 @@
         </button>
         <button id="stepBtn5" class="beat-step-btn" onclick="goToBeat(5)">
           <strong>Beat 5: Starter Anchor</strong>
-          $0.99 "400% Value" Pop-Up
+          $0.99 for 240 Gems Pop-Up
         </button>
       </div>
 
       <!-- Interactive Canvas -->
       <div class="stage-canvas">
         
-        <!-- Persistent Metagame HUD -->
+        <!-- Persistent Metagame HUD (Plan 03 Trial Reference Values) -->
         <div class="stage-hud">
           <div class="hud-metrics">
             <div class="hud-stat">
-              <span>💵 Cash:</span> <span id="hudCash" class="hud-stat-value">$30.00</span>
+              <span>💵 Cash:</span> <span id="hudCash" class="hud-stat-value">$15.00</span>
             </div>
             <div class="hud-stat">
-              <span>🏠 Rent Due:</span> <span class="hud-stat-value" style="color: #f87171;">$25.00 in 3d</span>
+              <span>🏠 Rent Due:</span> <span class="hud-stat-value" style="color: #f87171;">$15.00 on Day 2</span>
             </div>
             <div class="hud-stat">
               <span>❤️ Health:</span> <span class="hud-stat-value">100%</span>
@@ -787,7 +790,7 @@
             <div class="physical-duck-station">
               <span style="font-size: 0.8rem; color: #d4d4d8; font-weight: 600;">Your Physical Companion</span>
               <div class="duck-preview-box">
-                <!-- SVG Physical Duck -->
+                <!-- SVG Physical Duck Mockup -->
                 <svg width="70" height="70" viewBox="0 0 100 100">
                   <ellipse cx="50" cy="62" rx="32" ry="24" fill="#fbbf24"/>
                   <circle cx="65" cy="42" r="18" fill="#fbbf24"/>
@@ -850,8 +853,8 @@
                     <path d="M78 42 Q90 44 82 50 Q75 52 75 46 Z" fill="#f97316"/>
                   </svg>
                 </div>
-                <h4 style="font-size: 0.95rem; color: #fde047; font-weight: 800; margin-bottom: 0.25rem;">QUACKPOT!</h4>
-                <p style="font-size: 0.7rem; color: #cbd5e1; margin-bottom: 0.75rem;">Duck Dynasty Deluxe</p>
+                <h4 style="font-size: 1rem; color: #fde047; font-weight: 800; margin-bottom: 0.25rem;">QUACKPOT</h4>
+                <p style="font-size: 0.7rem; color: #cbd5e1; margin-bottom: 0.75rem;">Fictional Gacha Game</p>
                 <button class="btn-toggle active" style="font-size: 0.75rem; padding: 0.35rem 0.75rem;">
                   Tap to Claim 10-Pull!
                 </button>
@@ -865,7 +868,7 @@
         <div id="beatView3" class="gacha-app-container" style="display: none;">
           
           <div class="gacha-hud">
-            <span style="font-weight: 700; color: var(--accent-gold-light);">📱 Quackpot App: Duck Dynasty</span>
+            <span style="font-weight: 700; color: var(--accent-gold-light);">📱 Quackpot App: Home</span>
             <div class="gacha-currency-cluster">
               <div id="appGemPill" class="gem-pill unlit">
                 <span>💎</span> <span id="appGemsVal">0 Gems</span>
@@ -881,7 +884,7 @@
             <div id="pullPreState">
               <div class="banner-title">🎉 SPECIAL ROOKIE WELCOME BANNER!</div>
               <div class="banner-odds-tag">
-                <span>Base Rarity: Common 80% | Rare 17% | Legendary 3%</span>
+                <span>Base Rarity: Common 80.0% | Rare 18.0% | Legendary 2.0%</span>
                 <button class="btn-odds-detail" onclick="openOddsModal()">[?] View Odds Details</button>
               </div>
 
@@ -890,23 +893,23 @@
                   <span>🎁 CLAIM FREE 10-PULL (100% OFF!)</span>
                 </button>
               </div>
-              <p style="font-size: 0.75rem; color: #94a3b8;">Normal cost: 1,600 Gems. Rookie Gift uses 0 Gems.</p>
+              <p style="font-size: 0.75rem; color: #94a3b8;">Normal pull cost: 160 Gems. Rookie Gift uses 0 Gems.</p>
             </div>
 
             <!-- Reveal Theater Active State -->
             <div id="pullPostState" style="display: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
               <div style="display: flex; justify-content: space-between; width: 100%; max-width: 680px; align-items: center; margin-bottom: 0.5rem;">
                 <span id="revealStatusText" style="font-size: 0.85rem; font-weight: 700; color: var(--accent-gold-light);">
-                  ✨ Reveal Theater: 10 Ducks Pulled!
+                  ✨ Reveal Theater: 10 Ducks Pulled! (Sample Card Fixture)
                 </span>
                 <button class="btn-toggle" style="font-size: 0.7rem;" onclick="finishRevealImmediately()">
                   ⏩ Reveal All / Skip
                 </button>
               </div>
 
-              <!-- 10 Card Grid -->
+              <!-- 10 Card Grid (Mockup Fixture) -->
               <div id="cardsGrid" class="reveal-grid">
-                <!-- Dynamically populated -->
+                <!-- Dynamically populated with trial ducks -->
               </div>
 
               <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
@@ -932,8 +935,8 @@
 
           <div class="gacha-main-banner" style="background: radial-gradient(circle at center, #0c4a6e 0%, #0f172a 100%);">
             <h3 style="font-size: 1.25rem; color: #38bdf8; margin-bottom: 0.5rem;">Pond Race #1: Rookie Invitational</h3>
-            <p style="font-size: 0.8rem; color: #cbd5e1; max-width: 480px; margin-bottom: 1.25rem;">
-              Your newly pulled Rare duck <strong style="color: #60a5fa;">Mallard Racer (Speed 14)</strong> is entered in Lane 2 against sluggish bots (Speed 8).
+            <p style="font-size: 0.8rem; color: #cbd5e1; max-width: 520px; margin-bottom: 1.25rem;">
+              Your Common duck <strong style="color: #60a5fa;">Rubber Mallard (Speed 10.0)</strong> is entered in Lane 2 against tutorial bots (Field Speed 8.0). Common ducks naturally outrun the tutorial field!
             </p>
 
             <div id="raceTrackVisual" style="width: 100%; max-width: 560px; background: #075985; border: 2px solid #38bdf8; border-radius: 8px; padding: 0.75rem; margin-bottom: 1rem;">
@@ -976,28 +979,24 @@
 
           <div class="gacha-main-banner" style="filter: blur(2px);">
             <div class="banner-title">Welcome Home, Rookie!</div>
-            <p style="color: #64748b;">(Background blurred by high-urgency monetization modal)</p>
+            <p style="color: #64748b;">(Background blurred by introductory starter pack modal)</p>
           </div>
 
-          <!-- Starter Anchor Modal -->
+          <!-- Starter Anchor Modal (Plan 03 Reference: $0.99 for 240 Gems) -->
           <div class="wireframe-modal-overlay">
             <div class="wireframe-modal" role="dialog" aria-modal="true" aria-labelledby="starterTitle">
               <div class="modal-banner">
-                <h3 id="starterTitle">ROOKIE CHAMPION CELEBRATION!</h3>
-                <span class="badge-400">400% VALUE!</span>
+                <h3 id="starterTitle">ROOKIE STARTER PACK</h3>
+                <span class="mockup-badge" style="background: #000; color: #fde047;">STARTER OFFER</span>
               </div>
               <div class="modal-body">
-                <div style="font-size: 0.75rem; color: #f87171; font-weight: 700; margin-bottom: 0.5rem;">
-                  ⏳ ONE-TIME OFFER -- EXPIRES IN 23:59:59
-                </div>
-
                 <div class="starter-items-list">
                   <div style="display: flex; justify-content: space-between; font-weight: 700; color: #fde047; margin-bottom: 0.25rem;">
-                    <span>💎 1,200 Premium Gems</span>
-                    <span>(Regular: $4.99)</span>
+                    <span>💎 240 Premium Gems</span>
+                    <span>(Regular store rate: ~$1.99)</span>
                   </div>
                   <div style="color: #cbd5e1; font-size: 0.8rem;">
-                    + Exclusive "Rubber Ducky Cap" Cosmetic Accessory
+                    Immediate boost for your duck racing roster.
                   </div>
                 </div>
 
@@ -1005,15 +1004,15 @@
                   ONLY $0.99
                 </div>
                 <div style="font-size: 0.75rem; color: #94a3b8;">
-                  Your Fictional Bank Account: <strong style="color: #a7f3d0;">$30.00</strong> (Leaves $29.01)
+                  Your Fictional Cash: <strong style="color: #a7f3d0;">$15.00</strong> (Leaves $14.01; Rent due Day 2: $15.00)
                 </div>
 
-                <!-- Neutral Mathematical Disclosure -->
+                <!-- Honest Mathematical Disclosure -->
                 <div class="neutral-disclosure-box">
-                  <strong>(i) Honest Purchase Disclosure:</strong><br>
-                  • Standard pull cost: 160 Gems.<br>
-                  • 1,200 Gems grants exactly <strong>7 single pulls</strong> with <strong>80 leftover Gems</strong> (400 gems short of a 10-pull).<br>
-                  • Effective price per pull in this bundle: ~$0.13 (Base store price: ~$0.53).<br>
+                  <strong>(i) Honest Purchase Disclosure (Mockup):</strong><br>
+                  • Standard single pull cost: 160 Gems.<br>
+                  • 240 Gems allows exactly <strong>1 single pull</strong> with <strong>80 leftover Gems</strong> (exactly half a pull; 80 short of a second pull).<br>
+                  • Effective price per 160-gem pull: $0.66 (Base store rate: ~$0.50).<br>
                   • Fictional transaction; does not use real currency.
                 </div>
 
@@ -1022,7 +1021,7 @@
                     BUY FOR $0.99
                   </button>
                   <button class="btn-dismiss-starter" onclick="dismissStarterPack()">
-                    No Thanks / Dismiss
+                    Maybe Later
                   </button>
                 </div>
               </div>
@@ -1033,11 +1032,11 @@
 
       </div>
 
-      <!-- Live Narrative Transcript for Screen Readers & Audits -->
+      <!-- Live Narrative Transcript for Screen Readers & Mock Audits -->
       <div style="margin-top: 1rem;">
-        <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">Live Event / Narrative Transcript (Screen Reader Log):</span>
+        <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 600;">Mockup Narrative Log (Illustrative Sequence):</span>
         <div id="liveSrLog" class="sr-log-box" aria-live="polite">
-          [00:00] Stage initialized. Beat 1 active. Cash: $30.00, Rent: $25.00 due in 3 days. Physical duck "Bubbles" placed on desk.
+          [00:00] Stage initialized. Beat 1 active. Cash: $15.00, Rent: $15.00 due on Day 2. Physical duck "Bubbles" placed on desk.
         </div>
       </div>
 
@@ -1052,19 +1051,19 @@
     <div class="panel-box">
       <div class="panel-title">
         <span>The Duplicates & Down Dilemma: Case A vs Case B Fallback</span>
-        <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">Never force the PRNG; introduce Down honestly</span>
+        <span class="mockup-badge">Scenario Comparison</span>
       </div>
 
       <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
-        Under Hard Constraint #50, duplicates convert into Down feathers. In a deterministic PRNG stream, a 10-pull will usually encounter duplicates (~94% probability on finite rosters), but it may honestly yield 10 unique ducks (~6%). Compare how the UI behaves in both cases without tampering with the PRNG.
+        In Plan 03's accepted 6-identity roster, drawing 10 cards necessarily produces duplicates (Pigeonhole Principle: $\ge 4$ duplicates). Case B illustrates how the UI will honestly handle a future expanded roster ($\ge 10$ identities) without rigging the PRNG.
       </p>
 
       <div style="display: flex; gap: 0.75rem; margin-bottom: 1.25rem;">
         <button id="btnSimCaseA" class="btn-toggle active" onclick="simulateDuplicateCase('A')">
-          Simulate Case A: Natural Duplicate Drawn (Typical)
+          Case A: Natural Duplicate (Current 6-Identity Roster: 100%)
         </button>
         <button id="btnSimCaseB" class="btn-toggle" onclick="simulateDuplicateCase('B')">
-          Simulate Case B: Honest No-Duplicate Fallback (10 Unique Ducks)
+          Case B: Honest No-Duplicate Fallback (Future Expanded Roster Hypothetical)
         </button>
       </div>
 
@@ -1073,10 +1072,10 @@
         <!-- Case Preview Box -->
         <div style="background: #0f172a; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem;">
           <h4 id="caseTitle" style="color: var(--accent-gold-light); font-size: 1rem; margin-bottom: 0.5rem;">
-            Case A: Natural Duplicate Occurred
+            Case A: Natural Duplicate Encountered
           </h4>
           <p id="caseDescription" style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">
-            Card #4 is a duplicate "Mallard Duck". It triggers a feather dissolve and awards +10 Down. The HUD Down counter unlocks.
+            Card #4 is a duplicate Common duck ("Rubber Mallard"). It triggers a feather dissolve and awards +1 Down. The HUD Down counter unlocks.
           </p>
 
           <!-- Mock Sample Card -->
@@ -1086,16 +1085,16 @@
               <div style="width: 48px; height: 48px; background: #334155; border-radius: 50%; margin: 0.5rem 0; display: flex; align-items: center; justify-content: center;">
                 🦆
               </div>
-              <strong id="mockCardName" style="font-size: 0.8rem; color: #fff;">Mallard Duck</strong>
-              <span style="font-size: 0.65rem; color: #94a3b8;">Common • Spd 9</span>
+              <strong id="mockCardName" style="font-size: 0.8rem; color: #fff;">Rubber Mallard</strong>
+              <span style="font-size: 0.65rem; color: #94a3b8;">Common • Spd 10.0</span>
               <div id="mockDownTag" class="card-down-dissolve">
-                🪶 +10 Down Feathers
+                🪶 +1 Down Feather
               </div>
             </div>
           </div>
 
           <div id="mockToastAlert" style="background: #1e3a5f; border: 1px solid #3b82f6; border-radius: 6px; padding: 0.5rem 0.75rem; font-size: 0.75rem; color: #bfdbfe;">
-            💡 <strong>Contextual In-App Toast:</strong> "Duplicate Duck converted into 10 Down Feathers! Down can be spent in the Down Exchange."
+            💡 <strong>Contextual In-App Toast:</strong> "Duplicate Duck converted into 1 Down Feather! Down can be spent in the Down Exchange."
           </div>
         </div>
 
@@ -1107,13 +1106,13 @@
               <tr style="border-bottom: 1px solid #334155; color: #94a3b8;">
                 <th style="padding: 0.4rem;">Feature</th>
                 <th style="padding: 0.4rem;">Case A (Duplicate)</th>
-                <th style="padding: 0.4rem;">Case B (10 Unique)</th>
+                <th style="padding: 0.4rem;">Case B (10 Unique - Future)</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid #1f2937;">
                 <td style="padding: 0.5rem 0.4rem; font-weight: 600;">HUD Down Counter</td>
-                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Visible: "Down: 10"</td>
+                <td style="padding: 0.5rem 0.4rem; color: #34d399;">Visible: "Down: 1"</td>
                 <td style="padding: 0.5rem 0.4rem; color: #f87171;">Hidden (omitted)</td>
               </tr>
               <tr style="border-bottom: 1px solid #1f2937;">
@@ -1147,7 +1146,7 @@
     <div class="panel-box">
       <div class="panel-title">
         <span>Progressive Shop Progression: Stage 1 vs Stage 2</span>
-        <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">From welcoming anchor to predatory reality</span>
+        <span class="mockup-badge">Progression Fixture</span>
       </div>
 
       <div class="store-comparison-grid">
@@ -1156,7 +1155,7 @@
         <div class="store-stage-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <h4 style="color: var(--accent-gold-light); font-size: 1rem;">Stage 1: Day 1 Afternoon (Starter Anchor)</h4>
-            <span style="background: #1e3a5f; color: #93c5fd; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Uncluttered Focus</span>
+            <span style="background: #1e3a5f; color: #93c5fd; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Accepted Trial Baseline</span>
           </div>
           <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">
             Only the introductory $0.99 offer is presented. Prevents cognitive overload while establishing an emotional baseline price anchor.
@@ -1164,18 +1163,18 @@
 
           <div style="background: #0f172a; border: 1px solid var(--accent-gold); border-radius: 8px; padding: 1rem; text-align: center;">
             <span style="background: #000; color: #fde047; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.5rem; border-radius: 9999px;">
-              ⭐ 400% VALUE ROOKIE KICKSTART
+              ROOKIE STARTER PACK
             </span>
-            <h5 style="font-size: 1.1rem; color: #fff; margin: 0.5rem 0;">1,200 Gems + Top Hat</h5>
+            <h5 style="font-size: 1.1rem; color: #fff; margin: 0.5rem 0;">240 Premium Gems</h5>
             <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-gold-light); margin-bottom: 0.5rem;">
               $0.99
             </div>
             <button class="btn-toggle active" style="width: 100%; justify-content: center; padding: 0.5rem;">
-              Claim Deal for $0.99
+              Buy Starter Pack ($0.99)
             </button>
             
             <div class="neutral-disclosure-box" style="margin-top: 0.75rem;">
-              <strong>(i) Unit Math:</strong> 1,200 Gems = 7 single pulls (1,120) with 80 leftover gems. Effective unit rate: $0.13 / pull.
+              <strong>(i) Unit Math:</strong> 240 Gems = 1 single pull (160 gems) with 80 leftover gems (half a pull). Leaves $14.01 cash ($15.00 rent due Day 2).
             </div>
           </div>
         </div>
@@ -1184,19 +1183,19 @@
         <div class="store-stage-card">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <h4 style="color: #60a5fa; font-size: 1rem;">Stage 2: Day 3+ (Predatory Marketplace)</h4>
-            <span style="background: #78350f; color: #fde68a; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Currency Obfuscation</span>
+            <span style="background: #78350f; color: #fde68a; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 4px;">Unadopted Proposal</span>
           </div>
           <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.75rem;">
-            Multiple tiers, uneven bundle sizing, trapped leftovers, and the near-useless Down exchange are exposed.
+            Illustrative future proposal showing multiple tiers, odd bundle sizing, trapped leftovers, and the near-useless Down exchange.
           </p>
 
           <!-- Store Tabs -->
           <div style="display: flex; gap: 0.35rem; margin-bottom: 0.75rem;">
-            <button class="btn-toggle active" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">Gem Bundles</button>
-            <button class="btn-toggle" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">Down Exchange</button>
+            <button class="btn-toggle active" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">Gem Bundles (Proposal)</button>
+            <button class="btn-toggle" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;">Down Exchange (Proposal)</button>
           </div>
 
-          <!-- Bundle Tiers -->
+          <!-- Bundle Tiers (Proposal) -->
           <div class="bundle-grid">
             <div class="bundle-tier">
               <div>
@@ -1234,14 +1233,14 @@
             </div>
           </div>
 
-          <!-- Down Shop Preview -->
+          <!-- Down Shop Preview (Proposal) -->
           <div style="background: #0f172a; border: 1px dashed #52525b; border-radius: 6px; padding: 0.6rem; margin-top: 0.75rem;">
-            <div style="font-size: 0.75rem; font-weight: 700; color: #d4d4d8;">🪶 Down Exchange (Near-Useless Shop):</div>
+            <div style="font-size: 0.75rem; font-weight: 700; color: #d4d4d8;">🪶 Down Exchange (Near-Useless Shop Proposal):</div>
             <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #a1a1aa; margin-top: 0.25rem;">
-              <span>• Soggy Breadcrumb (+0.5% spd for 1 race):</span> <strong>150 Down (15 dups)</strong>
+              <span>• Soggy Breadcrumb (+0.5% spd for 1 race):</span> <strong>15 Down (15 dups)</strong>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #a1a1aa;">
-              <span>• 1 Single Pull Ticket:</span> <strong>1,000 Down (100 dups!)</strong>
+              <span>• 1 Single Pull Ticket:</span> <strong>100 Down (100 dups!)</strong>
             </div>
           </div>
 
@@ -1259,7 +1258,7 @@
     <div class="panel-box">
       <div class="panel-title">
         <span>Pedagogical Analysis: Misunderstanding Risk Matrix</span>
-        <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">Where learners stumble and how Quackpot protects them</span>
+        <span class="mockup-badge">Pedagogical Guardrails</span>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -1276,7 +1275,7 @@
           <h4 style="color: #60a5fa; font-size: 0.95rem;">2. Believing Down Feathers Enable an Infinite Pull Loop</h4>
           <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">
             <strong>Learner Risk:</strong> Students accustomed to RPG recycling systems might believe duplicates fund continuous free pulls.<br>
-            <strong>UI Protection:</strong> Mathematical transparency. The Down Exchange prominently displays: 10 Down per duplicate vs 1,000 Down for 1 pull ticket (a 100:1 loss ratio). The helper box explains that getting one ticket back requires sacrificing 100 duplicate ducks (worth 16,000 Gems).
+            <strong>UI Protection:</strong> Mathematical transparency. The Down Exchange displays exchange rates plainly (e.g. 100 duplicate commons for 1 pull ticket). The helper box explains the unviable recycling ratio.
           </p>
         </div>
 
@@ -1289,10 +1288,10 @@
         </div>
 
         <div style="background: #1e293b; border-left: 4px solid #10b981; padding: 1rem; border-radius: 0 8px 8px 0;">
-          <h4 style="color: #34d399; font-size: 0.95rem;">4. Believing "400% Value" is an Objective Retail Calculation</h4>
+          <h4 style="color: #34d399; font-size: 0.95rem;">4. Believing Starter Packs Offer an Objective Retail Discount</h4>
           <p style="font-size: 0.8rem; color: #cbd5e1; margin-top: 0.25rem;">
-            <strong>Learner Risk:</strong> Assuming the publisher discounted a real $4.99 asset down to $0.99.<br>
-            <strong>UI Protection:</strong> Disclosures clarify that the base price was arbitrarily set by the fictional publisher. The Receipt asks: <em>"Did the '400% value' badge make this transaction feel low-risk, even though the regular price was arbitrary?"</em>
+            <strong>Learner Risk:</strong> Assuming the publisher discounted a real market asset.<br>
+            <strong>UI Protection:</strong> Disclosures clarify that prices are set by the fictional publisher. The Receipt asks: <em>"Did the comparison value on the starter offer affect your judgment of later offers?"</em>
           </p>
         </div>
 
@@ -1301,45 +1300,45 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- TAB 5: RECEIPT ATTRIBUTION PREVIEW -->
+  <!-- TAB 5: MOCK RECEIPT ATTRIBUTION PREVIEW -->
   <!-- ========================================================================= -->
   <section id="tab-receipt" class="wireframe-section">
     <div class="panel-box">
       <div class="panel-title">
         <span>Receipt Event Record & O1 Three-Register Attribution</span>
-        <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">Truthful logging strictly derived from fired cues</span>
+        <span class="mockup-badge">Mockup Sample</span>
       </div>
 
       <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
-        Quackpot strictly follows O1's three registers: <strong>1. We displayed / 2. You did / 3. Did this affect you?</strong> Techniques appear only if their cues fired.
+        Quackpot strictly follows O1's three registers: <strong>1. We displayed / 2. You did / 3. Did this affect you?</strong> Techniques appear only if their cues fired. (Hand-authored illustrative sample).
       </p>
 
       <div style="background: #090d16; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; font-family: monospace; font-size: 0.8rem; color: #cbd5e1;">
         <div style="color: var(--accent-gold-light); font-weight: 700; margin-bottom: 0.5rem;">
           ================================================================================<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QUACKPOT RUN RECEIPT (SAMPLE)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QUACKPOT RUN RECEIPT (MOCKUP SAMPLE)<br>
           ================================================================================
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Anchoring & Starter Offer]</span><br>
-          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> 'Rookie Celebration Pack: $0.99 for 1,200 Gems (400% Value)'<br>
-          &nbsp;&nbsp;• <strong>YOU DID:</strong> <span id="receiptStarterAction">Purchased for $0.99 on Day 1 (Cash: $30.00 -> $29.01).</span><br>
-          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the $0.99 price point anchor your perception of gem value before you saw the standard store rates?
+          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Anchoring]</span><br>
+          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> Starter offer shown: 240 gems for $0.99, labelled "Starter Pack".<br>
+          &nbsp;&nbsp;• <strong>YOU DID:</strong> <span id="receiptStarterAction">Starter offer bought (Day 1 Afternoon). Fictional cash dropped to $14.01.</span><br>
+          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the comparison value on the starter offer affect your judgment of later offers?
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Currency Obfuscation & Leftover Sinks]</span><br>
-          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> 'Sack of Gems: $4.99 for 1,750 Gems'<br>
-          &nbsp;&nbsp;• <strong>YOU DID:</strong> Completed 1 ten-pull (1,600 gems); left with 150 unspendable gems.<br>
-          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did being 10 gems short of another pull encourage you to spend more?
+          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Currency Obfuscation]</span><br>
+          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> Standard pull cost: 160 gems. Starter pack: 240 gems.<br>
+          &nbsp;&nbsp;• <strong>YOU DID:</strong> Completed 1 pull (160 gems); left with 80 unspendable gems.<br>
+          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did the gem prices and leftover balances affect your purchases?
         </div>
 
         <div id="receiptDownSection" style="margin-bottom: 1rem;">
-          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Secondary-Currency Obfuscation (Down)]</span><br>
-          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> 'Duplicate duck converted into 10 Down Feathers'<br>
-          &nbsp;&nbsp;• <strong>YOU DID:</strong> Collected 10 Down; redeemed 0 items.<br>
-          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did receiving Down feathers make duplicate pulls feel less wasteful, even though 1 pull ticket requires 100 duplicates?
+          <span style="color: #60a5fa; font-weight: 700;">[TECHNIQUE: Secondary-Currency Obfuscation]</span><br>
+          &nbsp;&nbsp;• <strong>WE DISPLAYED:</strong> 4 reveal(s) showed a duplicate converted to Down, 4 Down in total.<br>
+          &nbsp;&nbsp;• <strong>YOU DID:</strong> No Down spending recorded.<br>
+          &nbsp;&nbsp;• <strong>DID THIS AFFECT YOU?</strong> Did Down affect how you valued duplicate ducks?
         </div>
         <div style="color: var(--accent-gold-light); font-weight: 700;">
           ================================================================================
@@ -1349,28 +1348,26 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- MODALS -->
+  <!-- MODALS (Plan 06 Placeholder Hook) -->
   <!-- ========================================================================= -->
   <div id="oddsModal" class="wireframe-modal-overlay" style="display: none;">
     <div class="wireframe-modal" style="max-width: 400px;">
       <div class="modal-banner" style="background: #1e3a8a; color: #fff;">
-        <h3>Banner Odds & Pity Details</h3>
+        <h3>Banner Odds Details (Plan 06 Hook)</h3>
         <button class="btn-toggle" style="background: transparent; border: none; color: #fff; font-size: 1rem;" onclick="closeOddsModal()">✕</button>
       </div>
       <div class="modal-body" style="text-align: left; font-size: 0.8rem;">
-        <p style="margin-bottom: 0.5rem;"><strong>Base Probability per Draw:</strong></p>
+        <p style="margin-bottom: 0.5rem;"><strong>Base Probability per Draw (Plan 03 Reference):</strong></p>
         <ul style="margin-left: 1.25rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-          <li>Legendary: 3.0%</li>
-          <li>Rare: 17.0%</li>
           <li>Common: 80.0%</li>
+          <li>Rare: 18.0%</li>
+          <li>Legendary: 2.0%</li>
         </ul>
-        <p style="margin-bottom: 0.5rem;"><strong>Current Status:</strong></p>
         <div style="background: #0f172a; padding: 0.5rem; border-radius: 4px; border: 1px solid #334155; margin-bottom: 0.75rem;">
-          Pity Counter: <strong>0 / 50</strong><br>
-          Next Draw Odds: <strong>3.0%</strong> (Soft pity begins at draw 35; guaranteed Legendary at draw 50)
+          Pity Counter: <strong>0 / 50</strong> (Placeholder hook; detailed schedule and wording governed by Plan 06)
         </div>
         <button class="btn-toggle active" style="width: 100%; justify-content: center;" onclick="closeOddsModal()">
-          Close Odds Details
+          Close
         </button>
       </div>
     </div>
@@ -1378,12 +1375,13 @@
 
   <!-- JavaScript Interaction Logic -->
   <script>
-    // State
+    // State (Using Plan 03 Accepted Trial Reference Constants)
     const state = {
       beat: 1,
       duckName: "Bubbles",
       duckStyle: "tie",
-      cash: 30.00,
+      cash: 15.00,
+      rentDue: 15.00,
       gems: 0,
       down: 0,
       pullCompleted: false,
@@ -1427,18 +1425,18 @@
 
       // Beat Specific Reactions
       if (beatNum === 1) {
-        logSR(`Beat 1: Apartment Desk. Character names physical rubber duck '${state.duckName}'. Cash: $30.00, Rent: $25.00.`);
+        logSR(`Beat 1: Apartment Desk. Physical duck '${state.duckName}' placed. Cash: $15.00, Rent: $15.00 due Day 2.`);
       } else if (beatNum === 2) {
         playSound('chime');
         logSR("Beat 2: Smartphone illuminates with notification: 'Special Rookie Welcome Gift Waiting! Tap to Claim 10-Pull!'");
       } else if (beatNum === 3) {
         playSound('pop');
-        logSR("Beat 3: In-app Welcome Banner displayed. Free 10-Pull button available. Gems counter initially unlit.");
+        logSR("Beat 3: In-app Welcome Banner displayed. Free 10-Pull available. Gems initially unlit.");
       } else if (beatNum === 4) {
-        logSR("Beat 4: First Pond Race ready. Fast duck slotted against slow rivals.");
+        logSR("Beat 4: First Pond Race ready. Common duck Rubber Mallard (Speed 10.0) slotted vs tutorial bots (Speed 8.0).");
       } else if (beatNum === 5) {
         playSound('cash');
-        logSR("Beat 5: Post-race starter pack modal pops up: '$0.99 for 1,200 Gems (400% VALUE!)'.");
+        logSR("Beat 5: Post-race starter pack modal pops up: '$0.99 for 240 Gems'.");
       }
     }
 
@@ -1460,7 +1458,7 @@
       goToBeat(3);
     }
 
-    // Pull Execution
+    // Pull Execution (Mockup Fixture)
     function executeFreePull() {
       playSound('sparkle');
       document.getElementById('pullPreState').style.display = 'none';
@@ -1476,29 +1474,30 @@
       document.getElementById('appGemsVal').textContent = '0 Gems';
 
       renderCardsGrid();
-      logSR("Executed Free 10-Pull! 10 cards revealed. Gems illuminated at 0 (160 needed for next pull).");
+      logSR("Executed Free 10-Pull! 10 cards revealed (sample fixture). Gems illuminated at 0 (160 needed per pull).");
     }
 
     function finishRevealImmediately() {
-      document.getElementById('revealStatusText').textContent = "✓ All 10 Cards Revealed!";
+      document.getElementById('revealStatusText').textContent = "✓ All 10 Cards Revealed! (Mockup Sample)";
       logSR("Skip theater activated. All cards immediately displayed.");
     }
 
+    // Static Sample Card Fixture (using Plan 03 Trial Roster)
     function renderCardsGrid() {
       const grid = document.getElementById('cardsGrid');
       grid.innerHTML = '';
 
       const sampleCards = [
-        { name: "Mallard Racer", rarity: "rare", speed: 14, dup: false },
-        { name: "Yellow Puddle", rarity: "common", speed: 9, dup: false },
-        { name: "Classic Rubber", rarity: "common", speed: 8, dup: false },
-        { name: "Mallard Duck", rarity: "common", speed: 9, dup: state.duplicateOccurred },
-        { name: "Blue Swimmer", rarity: "common", speed: 8, dup: false },
-        { name: "Puddle Glider", rarity: "common", speed: 9, dup: false },
-        { name: "Tiny Quacker", rarity: "common", speed: 7, dup: false },
-        { name: "Foam Cruiser", rarity: "common", speed: 9, dup: false },
-        { name: "Speckled Pond", rarity: "common", speed: 8, dup: false },
-        { name: "Stream Mallard", rarity: "common", speed: 9, dup: false }
+        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: false },
+        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: false },
+        { name: "Bath Cadet", rarity: "common", speed: 10.0, dup: false },
+        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
+        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
+        { name: "Bath Cadet", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
+        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
+        { name: "Puddle Quacker", rarity: "common", speed: 10.0, dup: state.duplicateOccurred },
+        { name: "Pond Rocket", rarity: "rare", speed: 14.0, dup: false },
+        { name: "Rubber Mallard", rarity: "common", speed: 10.0, dup: state.duplicateOccurred }
       ];
 
       sampleCards.forEach(c => {
@@ -1510,7 +1509,7 @@
           : '<span class="card-badge-new">NEW!</span>';
         
         const downTag = c.dup 
-          ? '<div class="card-down-dissolve">🪶 +10 Down</div>' 
+          ? '<div class="card-down-dissolve">🪶 +1 Down</div>' 
           : '';
 
         cardEl.innerHTML = `
@@ -1525,13 +1524,13 @@
 
       // Update Down HUD if duplicate occurred
       if (state.duplicateOccurred) {
-        state.down = 10;
+        state.down = 1;
         const hudDown = document.getElementById('hudDownPill');
         const appDown = document.getElementById('appDownPill');
         if (hudDown) hudDown.classList.remove('hidden');
         if (appDown) appDown.classList.remove('hidden');
-        document.getElementById('hudDown').textContent = '10';
-        document.getElementById('appDownVal').textContent = '10 Down';
+        document.getElementById('hudDown').textContent = '1';
+        document.getElementById('appDownVal').textContent = '1 Down';
       }
     }
 
@@ -1544,7 +1543,7 @@
       btn.style.opacity = '0.5';
 
       bar.style.width = '100%';
-      logSR("Pond Race started! Mallard Racer taking the lead...");
+      logSR("Pond Race started! Common duck Rubber Mallard (Speed 10.0) glides ahead of tutorial bots (Speed 8.0)...");
 
       setTimeout(() => {
         playSound('fanfare');
@@ -1556,28 +1555,28 @@
       }, 3000);
     }
 
-    // Starter Pack Actions
+    // Starter Pack Actions (Plan 03 Reference: $0.99 for 240 Gems)
     function purchaseStarterPack() {
       playSound('cash');
-      state.cash = 29.01;
-      state.gems += 1200;
-      document.getElementById('hudCash').textContent = '$29.01';
+      state.cash = 14.01;
+      state.gems += 240;
+      document.getElementById('hudCash').textContent = '$14.01';
       document.getElementById('hudGems').textContent = state.gems;
       document.getElementById('beat5Gems').textContent = `${state.gems} Gems`;
       document.querySelector('.wireframe-modal-overlay').style.display = 'none';
-      document.getElementById('receiptStarterAction').textContent = "Purchased for $0.99 on Day 1 (Cash: $30.00 -> $29.01).";
-      logSR("Purchased Rookie Kickstart Pack for $0.99. Fictional Cash: $29.01. Gems: 1,250.");
-      alert("Starter Pack Purchased! Cash deducted: $0.99 (Balance: $29.01). Gems credited: 1,200.");
+      document.getElementById('receiptStarterAction').textContent = "Starter offer bought (Day 1 Afternoon). Fictional cash dropped to $14.01.";
+      logSR("Purchased Starter Pack for $0.99. Fictional Cash: $14.01. Gems: 290. Rent due: $15.00.");
+      alert("Starter Pack Purchased! Cash deducted: $0.99 (Balance: $14.01). Gems credited: 240.");
     }
 
     function dismissStarterPack() {
       document.querySelector('.wireframe-modal-overlay').style.display = 'none';
-      document.getElementById('receiptStarterAction').textContent = "Declined offer on Day 1 (Cash remained $30.00).";
-      logSR("Dismissed Starter Pack. Fictional cash preserved at $30.00.");
+      document.getElementById('receiptStarterAction').textContent = "Starter offer purchase not recorded (Declined on Day 1).";
+      logSR("Dismissed Starter Pack. Fictional cash preserved at $15.00.");
       alert("Starter Pack Dismissed cleanly. No penalty applied.");
     }
 
-    // Case A vs Case B Simulation
+    // Case A vs Case B Simulation (Manual Scenario Toggles)
     function simulateDuplicateCase(caseType) {
       const btnA = document.getElementById('btnSimCaseA');
       const btnB = document.getElementById('btnSimCaseB');
@@ -1594,28 +1593,28 @@
 
       if (caseType === 'A') {
         state.duplicateOccurred = true;
-        title.textContent = "Case A: Natural Duplicate Occurred";
-        desc.textContent = "Card #4 is a duplicate 'Mallard Duck'. It triggers a feather dissolve and awards +10 Down. The HUD Down counter unlocks.";
+        title.textContent = "Case A: Natural Duplicate (Current 6-Identity Roster)";
+        desc.textContent = "Card #4 is a duplicate Common duck ('Rubber Mallard'). It triggers a feather dissolve and awards +1 Down. The HUD Down counter unlocks.";
         badge.className = "card-badge-duplicate";
         badge.textContent = "DUPLICATE";
         downTag.style.display = "block";
-        toast.innerHTML = "💡 <strong>Contextual In-App Toast:</strong> 'Duplicate Duck converted into 10 Down Feathers! Down can be spent in the Down Exchange.'";
+        toast.innerHTML = "💡 <strong>Contextual In-App Toast:</strong> 'Duplicate Duck converted into 1 Down Feather! Down can be spent in the Down Exchange.'";
         if (receiptDown) receiptDown.style.display = "block";
         logSR("Simulated Case A: Natural duplicate with Down conversion.");
       } else {
         state.duplicateOccurred = false;
-        title.textContent = "Case B: Honest No-Duplicate Fallback (10 Unique Ducks)";
-        desc.textContent = "All 10 drawn cards are unique identities. Zero duplicates occur. Down counter remains hidden; Down shop displays neutral lock. PRNG is unrigged.";
+        title.textContent = "Case B: Honest No-Duplicate Fallback (Future Expanded Roster Hypothetical)";
+        desc.textContent = "Hypothetical expanded roster (e.g. 16+ identities): all 10 drawn cards are unique identities. Zero duplicates occur. Down counter remains hidden; Down shop displays neutral lock. PRNG is unrigged.";
         badge.className = "card-badge-new";
         badge.textContent = "NEW!";
         downTag.style.display = "none";
-        toast.innerHTML = "💡 <strong>Honest Fallback Toast:</strong> 'Incredible collection variety! 10 new unique ducks added to Duck-Dex!' (No Down introduced yet).";
+        toast.innerHTML = "💡 <strong>Honest Fallback Toast:</strong> '10 new unique ducks added to Duck-Dex!' (No Down introduced yet).";
         if (receiptDown) receiptDown.style.display = "none";
-        logSR("Simulated Case B: Honest No-Duplicate Fallback. Down is deferred.");
+        logSR("Simulated Case B: Honest No-Duplicate Fallback (future roster hypothetical).");
       }
     }
 
-    // Odds Modal
+    // Odds Modal (Plan 06 Hook)
     function openOddsModal() {
       document.getElementById('oddsModal').style.display = 'flex';
       logSR("Opened Odds Details modal.");
@@ -1625,7 +1624,7 @@
       logSR("Closed Odds Details modal.");
     }
 
-    // Synthesized Audio via Web Audio API (No external sound files)
+    // Synthesized Audio via Web Audio API (Local Only)
     function playSound(type) {
       if (!state.audioEnabled) return;
       try {
@@ -1643,9 +1642,9 @@
         const now = ctx.currentTime;
         if (type === 'chime') {
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(523.25, now); // C5
-          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15); // E5
-          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.3); // G5
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15);
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.3);
           gain.gain.setValueAtTime(0.2, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
           osc.start(now);

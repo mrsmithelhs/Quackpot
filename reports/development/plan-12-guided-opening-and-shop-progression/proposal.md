@@ -1,27 +1,49 @@
-# Plan 12 Proposal: Guided Opening and Progressive Shop Progression
+# Plan 12 Proposal: Guided Opening and Progressive Shop Progression (Repair 01)
 
 **Date:** 2026-10-24  
 **Type:** Investigation & UX Architecture Proposal  
-**Status:** Delivered for Owner Review  
+**Status:** Delivered for Owner Review (Repair 01)  
 **Author:** Implementer Thread (Plan 12)  
-**Target Scope:** `reports/development/plan-12-guided-opening-and-shop-progression/`  
+**Scope:** `reports/development/plan-12-guided-opening-and-shop-progression/`  
 
 ---
 
 ## 1. Executive Summary and Investigation Mandate
 
-Plan 03 successfully proved Quackpot's underlying mechanism slice—local browser saving, seedable deterministic PRNG, append-only event logging, and an honest end-of-run Receipt derived solely from recorded cues. However, as noted in `reports/orchestration/plan-03-owner-play-feedback.md`, the initial opening presented a bare web-like interface where currencies and buttons appeared without diegetic context. The owner established three core requirements:
+Plan 03 proved the core mechanics of Quackpot—local browser saving, seedable deterministic PRNG, append-only event logging, and an honest end-of-run Receipt derived solely from recorded cues. As established in [`reports/orchestration/plan-03-owner-play-feedback.md`](file:///C:/AI/Quackpot/reports/orchestration/plan-03-owner-play-feedback.md), the initial proof presented a bare website layout where currencies, buttons, and rules appeared without diegetic context. The owner directed:
 
 1. **Exposition through play:** Introduce Gems, duplicates, and Down sequentially in context. Do not force learners to sit through an opening lecture or hunt for unexplained buttons.
-2. **Enticing opening invitation:** Make the first transition from the metagame character's apartment into the fictional gacha app visually and audibly enticing (diegetic phone glow, vibrant welcome screen, synthesized audio cues), coordinated with Plan 14's stage layout and Plan 11's visual compositions, while preserving an accessible, silent, reduced-motion path and immediate exit.
-3. **Progressive shop complexity:** Start with an uncluttered, welcoming starter anchor ($0.99 for 1,200 gems), and progressively reveal the predatory mechanics—odd bundle sizing, leftover currency traps, and the intentionally near-useless Down shop—without hiding purchase terms or turning disclosures into deceptive odds navigation.
-4. **Strict PRNG integrity:** If a player's initial free 10-pull yields ten unique ducks, the game must **never** silently rig the PRNG to force a teaching duplicate. An honest no-duplicate fallback must defer the introduction of Down until a duplicate actually occurs naturally.
-
-This document, accompanied by the standalone interactive wireframe gallery at [`wireframes.html`](file:///C:/AI/Quackpot/reports/development/plan-12-guided-opening-and-shop-progression/wireframes.html), provides the complete UX specification, pedagogical analysis, edge-case definitions, and integration map for owner evaluation prior to any production code changes.
+2. **Enticing opening invitation:** Make the first transition from the metagame character's apartment into the fictional gacha app visually enticing (diegetic phone glow, vibrant welcome screen, synthesized audio cues), coordinated with Plan 14's stage layout and Plan 11's visual compositions, while retaining an accessible, silent, reduced-motion path and immediate exit.
+3. **Progressive shop complexity:** Start with an uncluttered, welcoming starter anchor ($0.99 for 240 gems in the accepted trial), and progressively reveal predatory mechanics—odd bundle sizing, leftover currency traps, and the intentionally near-useless Down shop—without withholding purchase terms or turning disclosures into deceptive odds navigation.
+4. **Honest PRNG integrity:** Never silently rig the PRNG to force a teaching duplicate. Defer Down introduction until a duplicate actually occurs naturally.
+5. **Repair 01 Discipline:** This proposal uses Plan 03's approved trial constants as its primary reference baseline, clearly isolates unadopted future shop proposals, removes invented governance citations and subtitles, corrects roster mathematics, coordinates cleanly with Plan 06, and labels all wireframe artifacts and Receipt samples as illustrative mockups.
 
 ---
 
-## 2. Opening Beat Map: Recommended vs Alternative
+## 2. Reference Configuration vs. Unadopted Future Proposals
+
+To ensure mathematical and architectural consistency, all values across this proposal and its accompanying wireframes distinguish between the **Plan 03 Accepted Trial Baseline** and **Illustrative Future Proposals**:
+
+| Parameter | Plan 03 Accepted Trial Baseline (Reference) | Illustrative Future Proposal (Unadopted) | Status & Governance |
+| :--- | :--- | :--- | :--- |
+| **Game Title** | *Quackpot* | Fictional store banners may use satirical event labels | Canonical name is *Quackpot* (Hard Constraint #6; no unapproved branded subtitle). |
+| **Starting Cash** | **$15.00** | — | Accepted Plan 03 trial constant (`GAME_CONSTANTS.START_CASH`). |
+| **Starting Health** | **100%** | — | Accepted Plan 03 trial constant. |
+| **Day-2 Rent Bill** | **$15.00** (due Day 2 afternoon) | — | Accepted Plan 03 trial constant (`RENT_DAY2`). |
+| **Daily Wage / Food** | **+$10.00** wage / **-$5.00** food | — | Accepted Plan 03 trial constants. |
+| **Pull Cost** | **160 Gems** (single) / **1,600 Gems** (ten-pull) | — | Provisional founding design constants (§Core loop). |
+| **Base Draw Odds** | **Common 80.0%, Rare 18.0%, Legendary 2.0%** | — | Accepted Plan 03 trial model (`calculatePreDrawOdds`). |
+| **Roster Pool** | **6 Identities** (`duck-0` to `duck-5`: 3 Common, 2 Rare, 1 Legendary) | Expanded roster ($\ge 10$ identities) | Current trial pool is 6 identities. Larger rosters remain future content waves. |
+| **Down Conversion** | Common: 1 Down, Rare: 5 Down, Legendary: 20 Down | Uniform flat conversion (e.g. 10 Down/dup) | Accepted Plan 03 trial constant (`DOWN_PER_DUPLICATE`). |
+| **Starter Pack Offer** | **$0.99 for 240 Gems** (gems-only, no cosmetic accessory) | $0.99 for 1,200 Gems + cosmetic cap | Trial starter is $0.99/240 gems. Larger bundles remain unadopted proposals. |
+| **Starter Timer** | No artificial real-time countdown; natural day-phase pacing | 24-hour urgency label | Trial has no real-time timer; explicit game-time labels remain canonical. |
+| **Odds Detail Modal** | Placeholder hook only: `[View Odds & Pity Details]` | Detailed carry/reset and schedule copy | **Plan 06 gate:** Optional odds detail wording remains draft/unadopted. |
+
+*Governance Citation Note:* Quackpot is governed strictly by the **seven hard constraints** in `docs/founding/design.md` §Hard constraints. Duplicates and Down are governed by founding design §Core loop ("Duplicates and Down"), §Manipulation catalog ("Secondary-currency obfuscation"), and owner triage GATE-53B (O8). No "Hard Constraint #50" exists.
+
+---
+
+## 3. Opening Beat Map: Recommended vs Alternative
 
 Canonical chronology (`docs/founding/design.md` §The five-minute experience) dictates:
 1. Meet physical rubber duck, name and style it.
@@ -30,143 +52,123 @@ Canonical chronology (`docs/founding/design.md` §The five-minute experience) di
 4. Race and win first Pond Race.
 5. Encounter the $0.99 starter offer.
 
-### 2.1 Recommended Sequence: "Diegetic Smartphone Glow & Tactile Discovery"
+### 3.1 Recommended Sequence: "Diegetic Smartphone Glow & Tactile Discovery"
 
-The recommended design anchors the student firmly in the character's mundane, quiet apartment before drawing them into the hyper-stimulating, saturated world of the fictional mobile app *Quackpot: Duck Dynasty Deluxe*.
+The recommended flow anchors the learner in the character's mundane, quiet apartment before drawing them into the fictional app *Quackpot*:
 
 ```mermaid
 flowchart TD
-    A["Beat 1: Apartment Desk<br/>Physical Duck Setup<br/>(Muted, Quiet, Personal)"] -->|Phone Glows & Chimes| B["Beat 2: App Launch<br/>Diegetic Transition<br/>(Zoom to Phone Viewport)"]
+    A["Beat 1: Apartment Desk<br/>Physical Duck Setup<br/>(Muted, Quiet, Personal)"] -->|Phone Glows & Chimes| B["Beat 2: App Launch<br/>Diegetic Transition<br/>(Focus shifts to Phone)"]
     B -->|Tap Claim Free Pull| C["Beat 3: Free 10-Pull<br/>Staged Gem Reveal<br/>(Dopamine & Reveal Theater)"]
-    C -->|Select Fastest Duck| D["Beat 4: First Pond Race<br/>Guaranteed Win Payoff<br/>(+50 Gems Trophy)"]
-    D -->|Post-Race Pop-Up| E["Beat 5: Starter Anchor<br/>$0.99 '400% VALUE' Offer<br/>(The Monetization Hook)"]
+    C -->|Select Fastest Drawn Duck| D["Beat 4: First Pond Race<br/>Natural Win Payoff<br/>(+50 Gems Trophy)"]
+    D -->|Post-Race Pop-Up| E["Beat 5: Starter Anchor<br/>$0.99 for 240 Gems<br/>(The Monetization Hook)"]
 ```
 
 #### Detailed Recommended Beat Specifications
 
-| Beat | What Player Sees | What Player Does | What Player Learns | Sensory Cues (Standard) | Accessible Equivalent (Screen Reader & Reduced Motion) | Receipt Logging (`event-log.mjs`) |
+| Beat | What Player Sees | What Player Does | What Player Learns | Sensory Cues (Standard) | Accessible Equivalent (Screen Reader & Reduced Motion) | Proposed Event Mapping (`EventLog`) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Beat 1: Physical Duck Motivation** | Quiet apartment desk under warm lamp. One 2D physical rubber duck (Plan 10 styling). Cash: $30.00, Rent: $25 due in 3 days. A dark smartphone sits on the blotter. | Names duck (default: "Bubbles"), picks 1 of 3 physical accessories (e.g. Classic Yellow, Tiny Necktie, Chef Cap), clicks "Place on Desk". | This physical duck is personal, real, inanimate, and completely separate from digital collectibles. Cash/Rent are real-world pressures. | Soft paper rustle; gentle lamp flicker. | Static high-contrast desk view; text inputs labeled with HTML `<label>` and ARIA live regions; no motion. | `own_duck_customized`: `{ name: "Bubbles", style: "necktie", timestamp: 0 }`. No collection stats logged. |
-| **Beat 2: The Enticing Invitation & App Launch** | Smartphone screen suddenly illuminates with gold particles and confetti. An app banner pulses: *"SPECIAL ROOKIE GIFT! Free 10-Pull Waiting! Tap to Play Quackpot!"* | Clicks the glowing smartphone screen or "Open Quackpot" button. | The fictional gacha game promises instant free gratification without requiring sign-up or immediate payment. | Synthesized duck squeak + cheerful 3-note ascending chime (`jsfxr`). Screen zooms smoothly into phone frame. | Smartphone is marked `role="button" aria-label="Smartphone notification: Open Quackpot app for Free 10-Pull"`. Reduced motion skips camera zoom; instant crossfade. | `app_entered_first_time`: `{ source: "rookie_gift_invitation", timestamp: 12 }`. |
-| **Beat 3: The Free 10-Pull & Staged Gems** | In-app gacha banner. Top bar shows `Gems: ???` (unlit) and `Cash: $30.00`. Center features a giant pulsing button: *"FREE ROOKIE 10-PULL (100% OFF!)"*. | Clicks "CLAIM FREE 10-PULL". Watches reveal theater (or hits "Skip/Reveal All"). | Pulling ducks is exciting, sensory, and initially cost-free. Gems are introduced *after* the pull: balance illuminates to `0 Gems` with note: *"160 Gems needed per standard pull"*. | Drumroll / sparkle arpeggio on card flips; gold ray flash on Rare duck. | "Skip Theater / Reveal All" button immediately visible and focused. Cards read out via `aria-live="polite"` with rarity, name, and top speed. | `gacha_pull`: `{ type: "ten_pull", cost_currency: "free", cost_amount: 0, items_drawn: [...] }`. Pre-draw odds recorded. |
-| **Beat 4: First Pond Race & Victory Payoff** | App switches to "Pond Race" tab. Player's newly pulled high-speed duck (e.g., Mallard Racer, Base Speed 14) is pre-slotted into Lane 2 against slow generic bots (Speed 8-9). | Clicks "Start Race". Watches brief fixed-duration oval race (~6s). | Races are won through duck stats (not twitch reflexes). Winning produces currency: post-race banner awards `+50 Gems! 1st Place!`. | Splashing water sounds, crowd quacking cheer, victory brass fanfare. | Race course summarized in accessible text table; reduced motion shows a stationary progress meter; victory toast announces placement and gems. | `race_completed`: `{ race_index: 1, duck_id: "mallard-racer", place: 1, reward_gems: 50 }`. |
-| **Beat 5: The Starter Squeeze & Anchoring** | Returning to app home, a high-urgency modal bursts onto screen: *"ROOKIE CHAMPION CELEBRATION PACK! 1,200 Gems + Golden Ducky Cap! ONLY $0.99 (Reg. $4.99 — 400% VALUE!)"*. Timer shows `23:59:59`. | Reviews offer: can click "Buy for $0.99" (deducts from $30 cash) or click "Maybe Later" / "X". | Winning immediately triggers a microtransaction pitch. $0.99 feels negligible compared to 1,200 gems (7+ pulls) and sets a psychological anchor. | Cash register chime (`kaching`), pulsing gold discount badge. | Modal has clear accessible name `aria-labelledby="starter-title"`; keyboard focus trapped inside modal; `Escape` key dismisses cleanly without penalty. | `starter_pack_anchor`: `{ displayed_price: 0.99, displayed_value_claim: "400%", displayed_gems: 1200, action: "purchased" | "dismissed" }`. |
+| **Beat 1: Physical Duck Motivation** | Quiet apartment desk. One 2D physical rubber duck (Plan 10 styling). Cash: $15.00, Rent: $15.00 due Day 2. A dark smartphone sits on the desk blotter. | Names duck (default: "Bubbles"), selects physical accessory (e.g. Classic Yellow, Tiny Necktie, Chef Cap), clicks "Place on Desk". | The physical duck is personal, inanimate, and distinct from digital collectibles. Cash/Rent are immediate real-world constraints. | Soft paper rustle; gentle lamp warm glow. | High-contrast static desk view; form controls labeled with semantic HTML; no motion required. | `action: { kind: 'own_duck_customized', name: 'Bubbles', style: 'tie' }` |
+| **Beat 2: The Enticing Invitation & App Launch** | Smartphone screen illuminates with warm gold light and a pulsing icon. A notification reads: *"SPECIAL ROOKIE GIFT! Free 10-Pull Waiting! Tap to Play Quackpot!"* | Clicks the glowing smartphone screen or "Open Quackpot" button. | The fictional gacha game promises instant free gratification without upfront payment or registration. | Synthesized duck squeak + cheerful ascending chime. Framing shifts to phone viewport. | Smartphone has `role="button" aria-label="Smartphone notification: Open Quackpot app for Free 10-Pull"`. Reduced motion uses instant opacity cross-fade. | `action: { kind: 'app_entered', source: 'rookie_invitation' }` |
+| **Beat 3: The Free 10-Pull & Staged Gems** | In-app gacha banner. Top bar shows `Gems: ???` (unlit) and `Cash: $15.00`. Center features a prominent button: *"CLAIM FREE ROOKIE 10-PULL"*. | Clicks "CLAIM FREE 10-PULL". Observes card reveals (or clicks "Skip Theater / Reveal All"). | Pulling ducks is sensory and cost-free at first. Gems are introduced *after* the pull: balance illuminates to `0 Gems` with note: *"160 Gems needed per standard pull"*. | Drumroll / sparkle sweep on card flips; gold ray flash on highest-tier card. | "Skip Theater / Reveal All" button immediately visible and keyboard focused. Cards read out via `aria-live="polite"` with rarity, name, and speed. | `cue: { kind: 'free_ten_pull_offered' }`, followed by `draw` and `reveal` events with actual pre-draw odds. |
+| **Beat 4: First Pond Race & Natural Win Payoff** | App switches to "Pond Race" tab. Player selects their fastest drawn duck (e.g. Common `Rubber Mallard`, Speed 10.0) against tutorial bots (Field Speed 8.0). | Clicks "Start Race". Observes fixed-duration race (~4–6s). | Races are won through duck stats. Winning produces premium currency: post-race banner awards `+50 Gems! 1st Place!`. | Water splashing sound, crowd quack cheer, victory brass fanfare. | Race course summarized in accessible text table; reduced motion shows static lap indicators; victory toast announces placement and gems. | `race_choice_offered` $\rightarrow$ `action: { kind: 'race_choice_selected' }` $\rightarrow$ `race_result: { place: 1, rewardGems: 50 }` |
+| **Beat 5: The Starter Squeeze & Anchoring** | Returning to app home, a promotional modal appears: *"ROOKIE CELEBRATION PACK! 240 Gems for ONLY $0.99 (Reg. $1.99 — Starter Value!)"*. | Reviews offer: can click "Buy for $0.99" (deducts cash from $15.00 to $14.01) or click "Maybe Later" / "X". | Winning immediately triggers monetization. $0.99 feels small but leaves cash at $14.01—just short of the $15.00 rent bill! | Cash register chime, pulsing gold badge. | Modal has `role="dialog" aria-modal="true"`; keyboard focus trapped inside; `Escape` key dismisses cleanly without penalty. | `cue: { kind: 'starter', gems: 240, price: 0.99, anchorLabel: 'Starter Pack' }` $\rightarrow$ `action: { kind: 'starter_bought' | 'starter_declined' }` |
 
 ---
 
-### 2.2 Alternative Sequence: "Split-Screen Desktop & Social Ad Invitation"
+### 3.2 Alternative Sequence: "Split-Screen Desktop & Social Ad Invitation"
 
-To provide a discriminating comparison, we designed an alternative structure:
+For comparison, an alternative sequence was evaluated:
+- **Alt Beat 1:** Character browses apartment laptop; social video ad pops up promoting Quackpot.
+- **Alt Beat 2:** Side-by-side split screen (apartment on left, game app on right).
+- **Alt Beat 3:** Pull screen displays a live scrolling ticker of other fictional players ("Xx_Quacker_xX won Legendary!").
+- **Alt Beat 4:** Race matched against an online ghost profile.
+- **Alt Beat 5:** Starter offer framed as "Catch Up Pack: $0.99".
 
-```mermaid
-flowchart TD
-    AltA["Alt Beat 1: Apartment Laptop<br/>Player sees social video ad<br/>'Top Streamer wins with Quackpot'"] -->|Click Download App| AltB["Alt Beat 2: Side-by-Side UI<br/>Apartment on left, App on right<br/>(No camera transition)"]
-    AltB -->|Claim 10-Pull with Live Feed| AltC["Alt Beat 3: Pull with Fake Ticker<br/>Shows fictional other players<br/>'Xx_Quack_xX won Legendary!'"]
-    AltC -->|Race against Ghost| AltD["Alt Beat 4: Matchmaking Race<br/>Player wins vs unranked bot,<br/>sees high-tier leaderboard gap"]
-    AltD -->|Leaderboard Prompt| AltE["Alt Beat 5: 'Catch-Up Pack'<br/>Starter offer framed as competitive<br/>$0.99 for 1,200 Gems"]
-```
+#### Comparison and Trade-Off Analysis
 
-#### Comparison and Trade-Off Matrix
-
-| Dimension | Recommended (Diegetic Phone Glow) | Alternative (Split-Screen Social Ad) | Pedagogical & Classroom Impact |
+| Dimension | Recommended (Diegetic Phone Glow) | Alternative (Split-Screen Social Ad) | Pedagogical Impact in CourseVGD |
 | :--- | :--- | :--- | :--- |
-| **Diegetic Immersion** | **High.** Maintains the character's personal space (apartment desk) and treats the phone as an in-world addictive portal. | **Moderate.** Treats the app as an adjacent window on a PC monitor, feeling like a desktop web app rather than a mobile gacha. | Recommended reinforces Hard Constraint #146 ("one fixed diegetic stage") and makes physical desk vs digital app contrast palpable. |
-| **Streamer Boundary** | **Clean.** Completely respects D1 deferral of the streamer branch (`reports/orchestration/founding-docs-review/owner-triage.md`). | **Borderline.** Relies on fictional streamer clips and social ticker proof, encroaching on deferred streamer mechanics. | Recommended avoids early feature creep and keeps focus strictly on the gacha core loop. |
-| **Cognitive Load for Beginners** | **Low.** Single clear focal point at each beat. Gems introduced only after pull #1. | **High.** Split screen splits attention; live ticker distracts from card readability and pity mechanics. | Recommended allows lower-performing students to follow the exact relationship between currency and pulls without UI noise. |
-| **Receipt Register Clarity** | **Direct.** Displays: Free Pull, 1st Win (+50 Gems), $0.99 Starter Offer. Clear 1-to-1 causal attribution. | **Diffused.** Ticker and ghost leaderboard cues create ambiguous social comparison claims that are harder to isolate on the Receipt. | Recommended guarantees clean O1 attribution ("We displayed / You did / Did this affect you?"). |
+| **Diegetic Immersion** | **High.** Maintains the character's physical desk space and treats the phone as an in-world gateway. | **Moderate.** Treats the app as an adjacent browser window, feeling like a desktop website rather than a mobile game. | Recommended reinforces Hard Constraint #146 ("one fixed diegetic stage") and makes the personal vs digital boundary palpable. |
+| **Streamer Boundary** | **Clean.** Strictly respects D1 deferral of the streaming branch (`owner-triage.md`). | **Borderline.** Relies on fictional streamer clips and social tickers, encroaching on deferred streamer mechanics. | Recommended avoids premature feature creep and keeps focus strictly on the gacha core loop. |
+| **Cognitive Load for Beginners** | **Low.** Single clear focal point at each beat. Gems introduced only after pull #1. | **High.** Split screen divides attention; live ticker distracts from card readability and odds mechanics. | Recommended allows all students to follow the exact relationship between currency and pulls without UI clutter. |
+| **Receipt Attribution** | **Direct.** Displays: Free Pull, 1st Win (+50 Gems), $0.99 Starter Offer. Clear 1-to-1 causal attribution. | **Diffused.** Ticker and ghost leaderboard cues create ambiguous social comparison claims that are harder to isolate on the Receipt. | Recommended guarantees clean O1 attribution (*We displayed / You did / Did this affect you?*). |
 
 **Recommendation:** Proceed with the **Diegetic Smartphone Glow** sequence.
 
 ---
 
-## 3. Staged Resource Introduction & The Honest No-Duplicate Fallback
+## 4. Staged Resource Introduction & Roster Mathematics
 
-### 3.1 Sequential Resource Staging Rules
+### 4.1 Sequential Resource Staging Rules
 
-One of the sharpest criticisms of modern gacha games—and the primary defect identified in Plan 03's initial feedback—is cognitive flooding: confronting the player with five distinct currencies, timers, and pity schedules before they have made a single tap.
-
-Quackpot resolves this through strict experiential staging:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Player
-    participant Metagame as Apartment HUD
-    participant Gacha as Gacha App HUD
-    participant Log as Append-Only Event Log
-
-    Note over Player,Metagame: Beat 1: Only Real Life Exists
-    Metagame->>Player: Shows Cash ($30.00), Rent ($25.00), Health (100%)
-    Note over Metagame,Gacha: Beat 2: App Launch
-    Gacha->>Player: Welcome Screen. Gem balance: [Not yet active]
-    Note over Player,Gacha: Beat 3: Free 10-Pull
-    Player->>Gacha: Taps "Claim Free Pull"
-    Gacha->>Log: gacha_pull (cost: 0)
-    Gacha-->>Player: Reveal Cards! Top HUD illuminates: "0 Gems" (160 needed per pull)
-    Note over Player,Gacha: Beat 4: Pond Race Victory
-    Player->>Gacha: Runs Pond Race #1 -> 1st Place!
-    Gacha->>Log: race_completed (place: 1, reward: 50 gems)
-    Gacha-->>Player: "+50 GEMS AWARDED!" -> Balance updates to "50 Gems"
-    Note over Player,Gacha: Beat 5: Starter Squeeze
-    Gacha->>Player: Pop-up: "$0.99 for 1,200 Gems"
-    Gacha->>Log: starter_pack_anchor displayed
-```
-
-1. **Cash & Rent (Metagame):** Visible immediately in Beat 1. The baseline of reality ($30 cash, $25 rent) must be established *before* the player encounters virtual currencies.
-2. **Gems (Premium Currency):** Unobtrusive during Beat 1 and 2. Introduced in Beat 3 as a dormant counter (`0 Gems`), illuminated in Beat 4 when the player earns 50 Gems from the race, and monetized in Beat 5 when the starter offer sets the rate ($0.99 = 1,200 Gems).
+1. **Cash & Rent (Metagame):** Visible immediately in Beat 1. The baseline of financial reality ($15.00 cash, $15.00 rent) is established *before* the learner encounters virtual currencies.
+2. **Gems (Premium Currency):** Unobtrusive during Beats 1 and 2. Introduced in Beat 3 as a dormant counter (`0 Gems`), illuminated in Beat 4 when the player earns 50 Gems from the race, and monetized in Beat 5 when the starter offer sets the conversion rate ($0.99 = 240 Gems).
 3. **Duplicates and Down (Secondary Currency):** Never introduced in text before a duplicate actually lands in the player's hands.
 
 ---
 
-### 3.2 The Duplicates & Down Architecture: The Honest No-Duplicate Fallback
+### 4.2 Roster Mathematics & The Honest No-Duplicate Fallback
 
-Under Hard Constraint #50 and GATE-53B triage (O8), duplicates convert to Down feathers, which can be spent in an intentionally near-useless, poor-value Down shop.
+Under canonical design §Core loop ("Duplicates and Down") and GATE-53B triage (O8), duplicates convert to Down feathers.
 
-However, in a deterministic seeded PRNG environment with a finite pool of Common/Rare ducks (e.g. 8 Commons, 4 Rares), a 10-pull will *usually* contain duplicates (by the Pigeonhole Principle and birthday paradox, probability > 92%), but **it is mathematically possible to draw 10 distinct unique ducks**.
+#### Current Plan 03 Trial Roster (6 Identities)
+In Plan 03's accepted trial, `BANNER_1_ROSTER` contains exactly 6 duck identities (`duck-0` to `duck-5`):
+- By the **Pigeonhole Principle**, drawing 10 cards from a 6-identity pool mathematically guarantees at least 4 duplicate results ($\ge 4$ duplicates).
+- Therefore, in the current 6-identity game, **every 10-pull will produce duplicates**. Case A is the only reachable natural outcome under the current roster.
 
-#### Anti-Pattern (What we strictly reject):
-Silently tampering with the PRNG to force card #5 or card #8 to be a duplicate so the tutorial can show the "Down Conversion" tooltip. Doing so breaks seed reproducibility, corrupts headless simulation verification (`sim/model.mjs`), and violates the fundamental architectural contract of Quackpot.
+#### Future Expanded Roster Hypothetical (Case B)
+In future content waves where the roster expands ($\ge 10$ identities, e.g. 16 or 24 identities), drawing 10 unique ducks becomes mathematically possible. For example, in an idealized uniform 16-identity pool, the probability of drawing 10 distinct identities is:
+$$\frac{16!}{(16-10)! \times 16^{10}} = \frac{16 \times 15 \times \dots \times 7}{16^{10}} \approx 3.7\%$$
 
-#### The Honest Two-Branch Implementation:
+#### The Anti-Rigging Principle and the Two Branches
 
 ```mermaid
 flowchart TD
-    Pull["Player Pulls Free 10-Cards<br/>(Deterministic PRNG from Run Seed)"] --> Check{"Any Duplicate ID<br/>in Drawn Batch?"}
+    Pull["Player Pulls Free 10-Cards<br/>(Deterministic PRNG from Seed)"] --> Check{"Any Duplicate ID<br/>in Drawn Batch?"}
     
-    Check -- "YES (Probability ~94%)" --> CaseA["CASE A: Natural Duplicate Occurs"]
-    CaseA --> A1["Card card flip shows duplicate icon"]
-    A1 --> A2["Visual feather dissolve: '+10 Down'"]
+    Check -- "YES (Current 6-Identity Pool: 100%)" --> CaseA["CASE A: Natural Duplicate Occurs"]
+    CaseA --> A1["Card flip displays [DUPLICATE] stamp"]
+    A1 --> A2["Feather dissolve: Down credited"]
     A2 --> A3["Contextual Toast:<br/>'Duplicate converted to Down!'"]
-    A3 --> A4["HUD unlocks Down Counter: 'Down: 10'"]
-    A3 --> A5["Log event: duplicate_converted_to_down"]
+    A3 --> A4["HUD reveals Down counter"]
+    A3 --> A5["Receipt logs: Secondary-Currency Obfuscation"]
     
-    Check -- "NO (Probability ~6%)" --> CaseB["CASE B: Honest No-Duplicate Fallback"]
-    CaseB --> B1["All 10 cards display 'NEW!' badges"]
-    B1 --> B2["Duck-Dex counter updates: '10/24 Owned'"]
-    B2 --> B3["HUD Down counter remains hidden / inactive"]
+    Check -- "NO (Hypothetical Expanded Roster: ~3.7%)" --> CaseB["CASE B: Honest No-Duplicate Fallback"]
+    CaseB --> B1["All 10 cards display [NEW!] stamps"]
+    B1 --> B2["Duck-Dex counter updates: '10 Owned'"]
+    B2 --> B3["HUD Down counter remains hidden"]
     B3 --> B4["NO Down conversion toast is shown"]
-    B4 --> B5["Shop 'Down Exchange' tab shows neutral lock:<br/>'Unlocks when your first duplicate converts'"]
-    B4 --> B6["Down introduced naturally on Day 2 or next pull"]
+    B4 --> B5["Shop Down Exchange tab shows neutral lock:<br/>'Unlocks when your first duplicate converts'"]
+    B4 --> B6["Down introduced naturally on later pull"]
 ```
 
-#### Comparison of Case A vs Case B
+#### Comparison of Case A vs Case B (Mockup Fixtures)
 
-| Aspect | Case A: Natural Duplicate Encountered | Case B: Honest No-Duplicate Fallback (10 Unique Ducks) |
+| Aspect | Case A: Natural Duplicate Encountered (Current Roster) | Case B: Honest No-Duplicate Fallback (Future Roster Hypothetical) |
 | :--- | :--- | :--- |
-| **Card Reveal UI** | Duplicate card displays glowing `[DUPLICATE]` stamp. Flips with a feather dissolve animation and badge: `+10 Down Feather`. | Every card displays vibrant golden `[NEW!]` banner. No feather effect or Down badge appears. |
-| **In-App Toast / Tooltip** | Brief floating callout: *"Duplicate Duck! Converted into 10 Down Feathers."* Dismissible with one tap. | Brief celebration toast: *"Incredible variety! 10 new unique ducks added to Duck-Dex!"* |
-| **HUD Currency Bar** | Down feather icon appears alongside Gems: `Down: 10`. | Down counter **remains completely hidden** from the HUD. Only Gems and Cash are shown. |
-| **Shop Down Tab Behavior** | "Down Exchange" tab is unlocked and browsable (showing absurdly overpriced breadcrumbs). | "Down Exchange" tab displays a locked state with neutral copy: *"Down Exchange unlocks when you draw a duplicate duck. Duplicates convert into Down automatically."* |
-| **Event Log & Receipt** | Event `duplicate_converted_to_down` is recorded. Receipt lists technique: *Secondary-Currency Obfuscation*. | Event is **not recorded**. Receipt strictly **omits** the Down conversion technique (satisfying O1: only cues actually fired appear on Receipt). |
-| **PRNG State** | Natural PRNG stream preserved. | Natural PRNG stream preserved. Zero manipulation. |
+| **Card Reveal UI** | Duplicate card displays `[DUPLICATE]` stamp. Flips with feather dissolve badge: `+1 Down` (Common). | Every card displays `[NEW!]` stamp. No feather effect or Down badge appears. |
+| **In-App Toast** | Brief callout: *"Duplicate Duck converted into Down! Down is collected in your inventory."* | Celebration toast: *"10 new unique ducks added to Duck-Dex!"* (No Down mentioned). |
+| **HUD Currency Bar** | Down feather icon appears alongside Gems: `Down: 1`. | Down counter **remains completely hidden**. Only Gems and Cash are shown. |
+| **Shop Down Tab** | "Down Exchange" tab is unlocked and browsable. | "Down Exchange" tab displays neutral locked state: *"Down Exchange unlocks when you draw a duplicate duck."* |
+| **Event Log & Receipt** | Logs `reveal` with `downGained > 0`. Receipt lists technique: *Secondary-Currency Obfuscation*. | Zero Down events logged. Receipt strictly **omits** the Down technique (satisfying O1). |
+| **PRNG Stream** | Deterministic PRNG stream preserved. Zero rigging. | Deterministic PRNG stream preserved. Zero rigging. |
 
 ---
 
-## 4. Progressive Shop Progression: Stage 1 vs Stage 2
+### 4.3 Opening Race Payoff with Common-Only Ducks
 
-The shop must never be an impenetrable spreadsheet on Day 1, nor may it hide critical mathematical terms to deceive the player. It evolves from a focused introductory anchor into a multi-tiered marketplace that exposes the full psychology of microtransactions.
+In Plan 03's trial, `GAME_CONSTANTS.TUTORIAL_FIELD_SPEED` is **8.0**, while Common ducks (`duck-0`, `duck-1`, `duck-3`) have a base speed of **10.0**.
+- **No Rare Duck Required:** Even if a player draws only Common ducks in their free 10-pull, selecting any Common duck yields Speed 10.0 vs rival Speed 8.0, guaranteeing an effortless victory and awarding the +50 Gems prize.
+- The tutorial race demonstrates the stat-driven nature of Pond Races honestly without requiring an unpromised Rare draw.
 
-### 4.1 Stage 1: The Introductory Offer (The Anchor)
+---
+
+## 5. Progressive Shop Progression: Stage 1 vs Stage 2
+
+The shop evolves from a focused introductory anchor into a multi-tiered marketplace that exposes the full psychology of microtransactions.
+
+### 5.1 Stage 1: The Introductory Offer (The Anchor)
 
 Appears immediately after the player's first Pond Race victory (Day 1 Afternoon).
 
@@ -175,255 +177,145 @@ Appears immediately after the player's first Pond Race victory (Day 1 Afternoon)
 |  QUACKPOT STORE >> SPECIAL ROOKIE CELEBRATION                            |
 +--------------------------------------------------------------------------+
 |                                                                          |
-|   [!] LIMITED TIME OFFER -- EXPIRES IN 23:59:59                          |
-|                                                                          |
 |   ********************************************************************   |
-|   *             ROOKIE KICKSTART BUNDLE -- 400% VALUE!               *   |
+|   *             ROOKIE STARTER PACK -- SPECIAL OFFER!                *   |
 |   *                                                                  *   |
-|   *    [ SVG: Golden Ducky Box glowing ]                             *   |
+|   *    [ Mockup SVG: Glowing Starter Ducky Box ]                     *   |
 |   *                                                                  *   |
 |   *    Contains:                                                     *   |
-|   *      - 1,200 Premium Gems                                        *   |
-|   *      - Exclusive 'Top Hat' Cosmetic Accessory                     *   |
+|   *      - 240 Premium Gems                                          *   |
 |   *                                                                  *   |
-|   *    Price: $0.99  (Fictional Bank Balance: $30.00)                 *   |
+|   *    Price: $0.99  (Fictional Bank Balance: $15.00)                 *   |
 |   *                                                                  *   |
-|   *    [ BUY NOW FOR $0.99 ]                 [ No Thanks / Close ]   *   |
+|   *    [ BUY NOW FOR $0.99 ]                 [ Maybe Later ]         *   |
 |   ********************************************************************   |
 |                                                                          |
-|   (i) Neutral Purchase Disclosure:                                       |
-|       - Standard single pull: 160 Gems.                                  |
-|       - 1,200 Gems allows exactly 7 single pulls (1,120 Gems) with       |
-|         80 leftover Gems (400 Gems short of a full 10-pull).             |
-|       - Cost per pull in this bundle: ~$0.13 (Base store rate: ~$0.53).  |
-|       - All purchases are fictional and use in-game Cash.                |
+|   (i) Honest Purchase Disclosure (Mockup):                               |
+|       - Standard pull cost: 160 Gems.                                    |
+|       - 240 Gems allows exactly 1 single pull (160 Gems) with            |
+|         80 leftover Gems (exactly half a pull; 80 short of a second).    |
+|       - Effective cost per 160-gem pull: $0.66 (Base store rate: ~$0.50).|
+|       - Purchasing leaves $14.01 cash (Day 2 Rent due: $15.00).          |
+|       - Fictional transaction; does not use real money.                  |
 +--------------------------------------------------------------------------+
 ```
 
 #### Key Design Pillars of Stage 1:
-1. **Uncluttered Focus:** No other bundles, gem packs, or Down shop items are displayed. The player evaluates one crisp proposition: $0.99 vs $30.00 cash.
-2. **Clear Separation of Persuasive Marketing vs Neutral Disclosures:**
-   - *Fictional Persuasive Copy:* `"400% VALUE!"`, `"ONE-TIME ONLY"`, `"ROOKIE CELEBRATION"`.
-   - *Neutral Factual Helper Box:* Located directly beneath the button in calm, readable typography, explaining the exact pull conversion (7 pulls + 80 leftover gems) and effective unit cost ($0.13/pull).
-3. **Receipt Attribution:** Logs `starter_pack_anchor`. On the Receipt, this appears as:
-   - *We displayed:* "Rookie Kickstart Pack: $0.99 for 1,200 Gems (advertised as '400% Value')."
-   - *You did:* "Purchased for $0.99" (or "Declined offer").
-   - *Did this affect you?* "Did the $0.99 price point or '400% value' badge make this transaction feel low-risk compared to the $25 rent bill?"
+1. **Uncluttered Focus:** No other bundles or Down shop items are displayed. The learner evaluates one crisp trade-off: $0.99 vs $15.00 cash.
+2. **Transparent Mathematical Disclosure:** The helper box spells out the unit conversion: 240 Gems gives 1 pull with 80 leftover gems, and spending $0.99 leaves $14.01 in cash, setting up the Day-2 rent shortfall ($15.00 due).
+3. **Receipt Attribution:** Logs `cue: { kind: 'starter', gems: 240, price: 0.99, anchorLabel: 'Starter Pack' }`.
 
 ---
 
-### 4.2 Stage 2: The Complex Store (Odd Bundles, Leftovers & Down Shop)
+### 5.2 Stage 2: The Complex Store (Unadopted Future Proposal)
 
-Unlocks on Day 2 or 3 as rent approaches and the character needs faster ducks for tougher competition.
+> [!NOTE]
+> The multi-tier bundles and sample Down exchange rates below are **illustrative proposals** designed to demonstrate how odd bundle sizing and secondary currency obfuscation can be presented progressively. Final store tuning remains an open owner decision.
 
-The store is split into two clear tabs:
-1. **Gem Bundles (Currency Obfuscation & Leftover Sinks)**
-2. **Down Exchange (Secondary Currency Near-Useless Shop)**
+#### Tab 1: Gem Bundles & Currency Obfuscation (Proposal)
 
-#### Tab 1: Gem Bundles & Currency Obfuscation
+| Sample Bundle Tier | Fictional Price | Gems Granted | Pull Equivalent (@ 160 Gems/Pull) | Leftover Trap Analysis | Effective Cost per Pull |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tier 1: Handful** | $0.99 | 320 Gems | Exactly 2 pulls (320 gems) | **0 leftover gems** | ~$0.50 / pull |
+| **Tier 2: Sack (Popular)** | $4.99 | 1,750 Gems | 1 Ten-Pull (1,600 gems) | **150 leftover gems** (infuriatingly 10 gems short of an 11th pull!) | ~$0.45 / pull |
+| **Tier 3: Chest (Best Value)**| $9.99 | 3,600 Gems | 2 Ten-Pulls (3,200) + 2 Singles (320) | **80 leftover gems** (trapped unspendable currency) | ~$0.44 / pull |
 
-```
-+---------------------------------------------------------------------------------------------+
-|  QUACKPOT STORE >> GEM SHOP                                     [ Cash: $29.01 | Gems: 50 ] |
-+---------------------------------------------------------------------------------------------+
-|  [Tab: Gem Bundles]  |  [Tab: Down Exchange]  |  [Tab: Race Supplies]                       |
-+---------------------------------------------------------------------------------------------+
-|                                                                                             |
-|  TIER 1: Handful of Gems      TIER 2: Sack of Gems            TIER 3: Chest of Gems         |
-|  +------------------------+   +---------------------------+   +---------------------------+ |
-|  | 320 Gems               |   | 1,750 Gems                |   | 3,600 Gems                | |
-|  |                        |   | [ POPULAR! +25% BONUS! ]  |   | [ BEST VALUE! +50% FREE ] | |
-|  | $0.99                  |   | $4.99                     |   | $9.99                     | |
-|  |                        |   |                           |   |                           | |
-|  | Math Disclosure:       |   | Math Disclosure:          |   | Math Disclosure:          | |
-|  | Exactly 2 pulls        |   | 1 Ten-Pull (1,600) +      |   | 2 Ten-Pulls (3,200) +     | |
-|  | 0 leftover gems        |   | 150 LEFTOVER GEMS         |   | 2 Singles (320) +         | |
-|  | ($0.50 / pull)         |   | (10 gems short of pull!)  |   | 80 LEFTOVER GEMS          | |
-|  |                        |   | ($0.45 / pull)            |   | ($0.44 / pull)            | |
-|  | [ BUY $0.99 ]          |   | [ BUY $4.99 ]             |   | [ BUY $9.99 ]             | |
-|  +------------------------+   +---------------------------+   +---------------------------+ |
-|                                                                                             |
-|  [?] Neutral Comparison Assistant:                                                          |
-|      Single pull = 160 Gems | 10-pull = 1,600 Gems | Pity Guarantee = 50 pulls (8,000 Gems)|
-|      To reach 50-pull guarantee from zero requires: Tier 3 ($9.99) x2 + Tier 2 ($4.99) =    |
-|      $24.97 (yielding 8,950 gems with 950 leftover).                                        |
-+---------------------------------------------------------------------------------------------+
-```
+*Pedagogical Objective:* In class discussions, students examine Tier 2: paying $4.99 leaves 150 gems in the account. Being just 10 gems short of another pull creates an emotional pull to buy Tier 1 ($0.99) to "round off" the balance.
 
-##### The Mathematics of the Leftover Trap:
-- A single pull costs **160 Gems**; a 10-pull costs **1,600 Gems**.
-- **Tier 2 ($4.99 for 1,750 Gems):** The player buys it intending to do a 10-pull. They complete the 10-pull and find **150 Gems remaining**. They are *infuriatingly* 10 Gems short of a single pull (160)! This deliberately incites the urge to buy Tier 1 ($0.99) to "not waste" the 150 gems.
-- **Tier 3 ($9.99 for 3,600 Gems):** Allows two 10-pulls (3,200) and two singles (320), leaving **80 Gems** trapped in the account.
+#### Tab 2: The Near-Useless Down Exchange (Proposal)
 
-#### Tab 2: The Near-Useless Down Shop
+In accordance with canonical design §Core loop and GATE-53B triage (O8), the Down shop is intentionally poor value:
 
-```
-+---------------------------------------------------------------------------------------------+
-|  QUACKPOT STORE >> DOWN EXCHANGE                                [ Cash: $29.01 | Down: 30 ] |
-+---------------------------------------------------------------------------------------------+
-|  Duplicates convert into Down Feathers (+10 Down per duplicate).                            |
-|                                                                                             |
-|  ITEM 1: Soggy Breadcrumb          ITEM 2: Plastic Duck Whistle     ITEM 3: Single Pull Ticket|
-|  +-----------------------------+   +----------------------------+   +-----------------------+ |
-|  | Consumable:                 |   | Audio Cosmetic:            |   | Gacha Voucher:        | |
-|  | +0.5% Speed for ONE race    |   | Plays a plastic quack      |   | Grants 1 single pull  | |
-|  |                             |   | sound in apartment         |   | (Normally 160 Gems)   | |
-|  | Cost: 150 Down Feathers     |   | Cost: 500 Down Feathers    |   | Cost: 1,000 Down      | |
-|  |                             |   |                            |   |                       | |
-|  | Value Check:                |   | Value Check:               |   | Value Check:          | |
-|  | Requires 15 duplicates      |   | Requires 50 duplicates     |   | Requires 100 duplicate| |
-|  | (worth 2,400 gems pulled)   |   | (worth 8,000 gems pulled)  |   | ducks (16,000 gems!)  | |
-|  |                             |   |                            |   | to earn 1 pull back.  | |
-|  | [ REDEEM (Need 120 more) ]  |   | [ REDEEM (Need 470 more) ] |   | [ REDEEM (Need 970) ] | |
-|  +-----------------------------+   +----------------------------+   +-----------------------+ |
-+---------------------------------------------------------------------------------------------+
-```
+| Sample Down Item | Cost in Down | Duplicate Ducks Required (at Sample Rates) | Pedagogical Classroom Value |
+| :--- | :--- | :--- | :--- |
+| **Slightly Soggy Breadcrumb** | 15 Down | 15 Common duplicates (representing 2,400 gems pulled) | Consumable item (+0.5% speed for 1 race) demonstrating pathetic purchasing power. |
+| **Plastic Duck Whistle** | 50 Down | 50 Common duplicates (representing 8,000 gems pulled) | Audio cosmetic demonstrating high cost for zero gameplay utility. |
+| **Single Pull Voucher** | 100 Down | 100 Common duplicates (representing 16,000 gems pulled) | Demonstrates an unviable recycling ratio: sacrificing 100 ducks to get 1 draw back. |
 
-##### Why this satisfies Hard Constraint #50 & Pedagogical Goals:
-- In real-world gachas (e.g. Genshin's *Masterless Starglitter/Stardust*), secondary currencies create the illusion of a recycling rebate.
-- In Quackpot, the math is laid bare: getting 1 single pull back requires sacrificing **100 duplicate ducks** (representing 16,000 gems invested, or ~$45–$50). It is structurally mathematically impossible to construct an infinite or profitable pull loop.
-- The student experiences the letdown: *"I pulled 5 duplicates and can't even afford a single soggy breadcrumb."*
+*Pedagogical Objective:* In classroom debriefs, students realize that receiving secondary currency (Down) creates a psychological illusion of recycling, while the actual exchange rates prevent any meaningful or self-sustaining loop.
 
 ---
 
-### 4.3 Coordination with Plan 06 (Optional Odds-Detail Interface)
+### 5.3 Coordination with Plan 06 (Optional Odds-Detail Interface)
 
-Plan 06 owns the decision on optional odds detail wording and placement. Plan 12 coordinates cleanly with Plan 06 by defining the UI interface hook:
-
-1. **Placement:** A calm, neutral link labeled `[View Odds & Pity Details]` appears on both the Gacha Banner and the Gem Shop.
-2. **Behavior:**
-   - Activating the button opens a clean modal disclosing:
-     - Base Odds: Common 80%, Rare 17%, Legendary 3%.
-     - Current Pity Counter: e.g., `Pull 14 of 50 toward guaranteed Legendary`.
-     - Actual Conditional Pre-Draw Odds for the Next Draw: e.g., `3.0% (pity schedule begins at pull 35)`.
-3. **No Odds Obfuscation:** The button is easily discovered, fully keyboard navigable, and does not require scrolling through fine print.
-4. **Receipt Logging:** Logs `odds_detail_viewed: { count: 1, step: "d1_afternoon" }`. The Receipt continues to report actual pre-draw conditional odds on every pull regardless of whether the player ever clicked the button.
+Plan 06 owns the decision on optional odds-detail content, placement, and wording. Plan 12 defines only the UI interface hook:
+1. **Placeholder Button:** A neutral button labeled `[View Odds & Pity Details]` is placed on banner and store headers.
+2. **Behavior:** Clicking opens a neutral disclosure modal. In the wireframe, this displays the trial baseline odds (Common 80%, Rare 18%, Legendary 2%) and pity counter placeholder.
+3. **Receipt Contract:** Logs `cue: { kind: 'odds_detail_viewed' }`. The Receipt continues to report actual pre-draw conditional odds on every pull regardless of whether the player opened this modal.
 
 ---
 
-## 5. Misunderstanding Risk Analysis (Where Learners Could Stumble)
+## 6. Pedagogical Misunderstanding Risk Analysis
 
-In designing a teaching game for high school and undergraduate students, visual and interactive affordances must be ruthlessly scrutinized to prevent cognitive misconceptions.
-
-| Potential Misunderstanding | Root Cause in Conventional UX | Plan 12 Mitigation in Quackpot |
+| Potential Misunderstanding | Cause in Commercial Gacha UX | Plan 12 Mitigation in Quackpot |
 | :--- | :--- | :--- |
-| **1. Conflating the Physical Rubber Duck with Digital Gacha Ducks** | In many games, starter characters can be leveled up, evolved, or sacrificed. Players might think naming "Bubbles" at the desk made Bubbles their first gacha racer. | **Strict Stage Boundary:** Beat 1 is explicitly titled *"Your Apartment Desk"*. Bubbles is an inanimate physical rubber prop sitting beside a lamp. When the phone turns on, the phone displays a distinct digital logo. Digital ducks pulled from gacha have distinct digital racing cards. In addition, Bubbles cannot be placed into the pond race roster. |
-| **2. Believing Down Feathers Can Be Farmed for Infinite Pulls** | Players familiar with RPG crafting loops might assume sacrificing duplicate ducks will quickly generate enough currency to fund their gacha addiction. | **Transparent Unit Economics:** The Down shop immediately displays the exchange rate: 10 Down per duplicate vs 1,000 Down for 1 pull ticket (a 100:1 loss ratio). The helper box spells this out: *"Requires 100 duplicate ducks (worth 16,000 Gems) to redeem 1 pull."* |
-| **3. Misinterpreting Leftover Gems as "Generous Bonus Currency"** | Fictional copy proclaims *"+25% FREE BONUS GEMS!"*, leading learners to believe the publisher gave them free value. | **Leftover Trap Indicator:** In Stage 2, the disclosure box explicitly highlights unspendable fractions: *"Leaves 150 Gems — exactly 10 Gems short of another pull"*. In class discussions, the instructor can ask students what they felt when looking at that 150-gem balance. |
-| **4. Believing "400% Value" Represents an Objective Discount** | In commercial e-commerce, a discount compares against an established MSRP. In gacha games, the "base value" is arbitrarily invented by the publisher. | **Receipt Counter-Attribution:** In Stage 1, the disclosure clarifies: *"Regular price is set by the publisher at $0.99 for 300 gems"*. The Receipt asks: *"Did the '400% value' badge convince you the bundle was a bargain, even though the regular price was arbitrarily defined?"* |
-| **5. Worrying that "Maybe Later" or Dismissing Loses the Game** | Players often fear that dismissing a starter modal permanently locks them out of progression or breaks the tutorial. | **Honest Dismissal State:** The "Maybe Later" button has equal visual prominence to the buy button. Dismissing it smoothly returns the player to the app home screen without shaming or penalty. |
+| **1. Conflating Physical Companion with Digital Gacha Ducks** | Starter characters in mobile games are often upgradeable units. | **Strict Diegetic Separation:** Beat 1 is explicitly titled *"Your Apartment Desk"*. Bubbles is an inanimate physical prop. Digital ducks exist only inside the phone app. Bubbles cannot be placed into the pond race roster. |
+| **2. Believing Down Feathers Enable Infinite Pulls** | Players accustomed to RPG crafting loops expect duplicate recycling to fund future play. | **Mathematical Transparency:** The Down Exchange displays exchange rates plainly (e.g. 100 duplicate commons for 1 pull voucher). The helper box explains the 100:1 loss ratio. |
+| **3. Misinterpreting Leftover Gems as Generous Bonus Value** | Promotional copy proclaims *"+25% FREE BONUS GEMS!"*. | **Leftover Trap Indicator:** In Stage 2, the disclosure highlights unspendable fractions: *"Leaves 150 Gems — 10 Gems short of another pull"*. |
+| **4. Believing Starter Packs Offer an Objective 400% Discount** | Discounts in real retail compare against established market prices. | **Receipt Register Wording:** The Receipt discloses: *"Starter offer shown: 240 gems for $0.99, labelled 'Starter Pack'"* and asks: *"Did the comparison value on the starter offer affect your judgment of later offers?"* |
 
 ---
 
-## 6. Accessibility, Reduced-Motion & Keyboard Navigation Paths
+## 7. Accessibility and Reduced-Motion Structural Provisions
 
-To satisfy Hard Constraints and CourseVGD classroom requirements (where school lab computers may have diverse accessibility needs, high-contrast monitors, or assistive technology):
-
-### 6.1 Keyboard Navigation Sequence
-- All interactive controls are native semantic HTML elements (`<button>`, `<input>`, `<a>`).
-- Visual tab indices follow the natural logical reading order (no `tabindex` hacks > 0).
-- When a modal opens (Starter Pack, Odds Detail, Down Exchange), keyboard focus is programmatically shifted to the modal header, and trapped within the modal until dismissed via `Escape` or the close button. Upon closing, focus returns cleanly to the triggering button.
-
-### 6.2 Reduced-Motion Presentation Mode
-A permanent setting (toggleable in the header/settings drawer and automatically detected via `@media (prefers-reduced-motion: reduce)`):
-1. **Phone Transition (Beat 2):** Disables camera zooming and scaling transforms. Replaces with an instantaneous 150ms opacity cross-fade.
-2. **Gacha Card Reveals (Beat 3):** Disables 3D card flipping, spinning golden rays, and particle sparks. Displays cards face-up in a clean 2x5 grid immediately upon pull execution.
-3. **Pond Race (Beat 4):** Replaces moving duck SVG tracks with a clean, static horizontal split bar showing discrete lap positions (0%, 25%, 50%, 75%, 100%).
-4. **Pulsing Store Badges (Beat 5 / Stage 2):** Disables CSS keyframe pulses and shakes; badges remain static with clean high-contrast borders.
-
-### 6.3 Screen-Reader & Non-Visual Information Equivalence
-- **Physical Duck Customization:** Form controls use `<fieldset>` and `<legend>`: *"Choose physical companion look"*.
-- **Phone Glow Invitation:** Screen reader announces via `aria-live="polite"`: *"Notification: Quackpot App invites you to claim a Free Rookie 10-Pull."*
-- **Card Reveal:** Each drawn card includes an `aria-label` stating: `Card 1 of 10: Mallard Racer. Rarity: Rare. Speed: 14. Status: New identity added to collection.`
-- **Duplicate Conversion:** Announced as: `Card 4 of 10: Mallard Duck. Rarity: Common. Duplicate copy. Converted into 10 Down Feathers.`
-- **Starter Pack Modal:** Fully accessible modal dialog (`role="dialog" aria-modal="true" aria-labelledby="starter-title"`).
+The proposal incorporates the following architectural accessibility provisions (to be formally validated during implementation):
+- **Semantic HTML & Keyboard Flow:** Native `<button>`, `<input>`, and `<select>` elements with logical tab ordering. Modal dialogs trap keyboard focus and dismiss on `Escape`.
+- **Reduced-Motion Alternatives (`prefers-reduced-motion: reduce`):** Replaces phone zoom with an instantaneous 150ms cross-fade; replaces card flip animations with an immediate 2x5 grid display; replaces moving race SVGs with a static lap progress indicator.
+- **Screen-Reader Equivalents:** Interactive controls carry descriptive ARIA labels (`aria-live="polite"` for card reveals; `aria-modal="true"` for dialogs).
 
 ---
 
-## 7. Owner Walkthrough & Classroom Teaching Scenarios
+## 8. Owner Walkthrough & Sample Receipt Demonstration
 
-### 7.1 Instructor / Reviewer 2-Minute Play-Through
+### 8.1 Reviewer 2-Minute Walkthrough
+1. **0:00–0:20 (Apartment):** Reviewer names physical duck "Bubbles" at the desk. Cash is $15.00, Rent is $15.00 due Day 2.
+2. **0:20–0:40 (Invitation):** Phone screen illuminates with welcome prompt. Reviewer clicks phone to enter Quackpot app.
+3. **0:40–1:00 (Free Pull):** Reviewer claims Free 10-Pull. In the 6-identity roster, duplicates naturally occur; Down counter appears (`Down: 1`). Gems illuminate at `0 Gems`.
+4. **1:00–1:30 (Pond Race):** Reviewer slots Common `Rubber Mallard` (Speed 10.0) against tutorial bots (Speed 8.0). Race finishes with 1st place and awards `+50 Gems!`.
+5. **1:30–2:00 (Starter Anchor):** Post-race pop-up pitches the $0.99 starter pack (240 gems). Purchasing leaves $14.01 cash—triggering the Day-2 rent shortfall.
 
-When an instructor or reviewer runs this flow in a browser:
-
-1. **0:00–0:20 (Apartment):**  
-   The reviewer sees the desk, names their physical duck "Quax", and clicks "Place on Desk". Cash is $30.00, Rent is $25.00. The reviewer immediately feels the mundane domestic reality.
-2. **0:20–0:40 (The Invitation):**  
-   The phone screen lights up with gold sparks and a playful squeak chime. The reviewer clicks the phone. The screen transitions into the saturated mobile app.
-3. **0:40–1:00 (The Dopamine Hook):**  
-   The reviewer clicks "CLAIM FREE 10-PULL". Ten cards appear. If duplicates occur, feathers dissolve into Down; if all unique, the Dex celebrates 10 new ducks. Gems illuminate at `0 Gems`.
-4. **1:00–1:30 (The Easy Win):**  
-   The reviewer enters the Pond Race with their new Rare duck. The duck effortlessly outpaces the slow bots. First place awarded with fanfare and `+50 Gems!`.
-5. **1:30–2:00 (The Anchor Pop-Up):**  
-   The celebration triggers the "$0.99 for 1,200 Gems (400% VALUE!)" starter pack. The reviewer observes the contrast: paying $0.99 leaves $29.01 (still enough for rent), but provides 7.5 pulls! The hook is complete.
-
-### 7.2 Classroom Discussion Triggers on the Receipt
-
-At the conclusion of the student's run, the printed Receipt will display:
+### 8.2 Mockup Receipt Excerpt (Illustrative Sample)
 
 ```
 ================================================================================
-                        QUACKPOT RUN RECEIPT (EXCERPT)
+                    QUACKPOT RUN RECEIPT (MOCKUP SAMPLE)
 ================================================================================
-[TECHNIQUE: Anchoring & Starter Offer]
-  - WE DISPLAYED: 'Rookie Kickstart Pack: $0.99 for 1,200 Gems (400% Value)'
-  - YOU DID: Purchased offer for $0.99 on Day 1.
-  - DID THIS AFFECT YOU? Did the low initial price point and '400% value' badge
-    anchor your perception of gem prices before you saw the standard store rates?
+[TECHNIQUE: Anchoring]
+  • WE DISPLAYED: Starter offer shown: 240 gems for $0.99, labelled "Starter Pack".
+  • YOU DID: Starter offer bought (Day 1 Afternoon). Fictional cash dropped to $14.01.
+  • DID THIS AFFECT YOU? Did the comparison value on the starter offer affect your
+    judgment of later offers?
 
 [TECHNIQUE: Currency Obfuscation]
-  - WE DISPLAYED: 'Sack of Gems: $4.99 for 1,750 Gems'
-  - YOU DID: Purchased bundle on Day 2.
-  - DID THIS AFFECT YOU? You completed one 10-pull (1,600 gems) and had 150 gems
-    leftover. Did being 10 gems short of a single pull influence your decision
-    to make an additional purchase?
+  • WE DISPLAYED: Standard pull cost: 160 gems. Starter pack: 240 gems.
+  • YOU DID: Completed 1 pull (160 gems); left with 80 unspendable gems.
+  • DID THIS AFFECT YOU? Did the gem prices and leftover balances affect your
+    purchases?
 
 [TECHNIQUE: Secondary-Currency Obfuscation]
-  - WE DISPLAYED: '3 Duplicate Ducks converted into 30 Down Feathers'
-  - YOU DID: Accumulated 30 Down; redeemed 0 items.
-  - DID THIS AFFECT YOU? Did receiving Down feathers make duplicate pulls feel
-    valuable, even though the cheapest single pull ticket cost 1,000 Down?
+  • WE DISPLAYED: 4 reveal(s) showed a duplicate converted to Down, 4 Down in total.
+  • YOU DID: No Down spending recorded.
+  • DID THIS AFFECT YOU? Did Down affect how you valued duplicate ducks?
 ================================================================================
 ```
 
 ---
 
-## 8. Standalone Local Wireframe Showcase
+## 9. Concise Owner Decision List
 
-To allow the owner and reviewer to interactively test and verify every layout, transition, edge case, and color contrast without running a server or altering `src/`, an isolated HTML wireframe suite is authored at:
+### 9.1 Decisions Unchanged & Preserved
+- Seven Hard Constraints (`docs/founding/design.md`).
+- Single fixed diegetic stage (apartment desk + phone viewport).
+- Plan 03 accepted trial parameters ($15.00 cash, $15.00 rent, 80/18/2 base odds, 160 pull cost, $0.99/240 gems starter).
+- Plan 06 authority over optional odds detail and pity disclosures.
 
-[`reports/development/plan-12-guided-opening-and-shop-progression/wireframes.html`](file:///C:/AI/Quackpot/reports/development/plan-12-guided-opening-and-shop-progression/wireframes.html)
+### 9.2 Pending Owner Decisions (Plan 12 Recommendations)
+1. **Opening Beat Sequence:** Approve the Recommended 5-Beat Map (Apartment Desk $\rightarrow$ Phone Glow $\rightarrow$ Free 10-Pull $\rightarrow$ 1st Win $\rightarrow$ Starter Anchor).
+2. **Contextual Currency Staging:** Approve staging Gems (dormant on Beat 3, illuminated post-pull/post-race) and Down (hidden until first duplicate).
+3. **Honest Fallback Architecture:** Approve the anti-rigging principle (Case A natural duplicates in current roster; Case B honest fallback in future expanded rosters).
+4. **Shop Progression Staging:** Approve Stage 1 single starter anchor vs Stage 2 multi-tier odd bundle presentation.
 
-### Wireframe Suite Contents:
-1. **Interactive Opening Storyboard:** Live clickable walkthrough of Beats 1 through 5.
-2. **Duplicate Edge-Case Simulator:** Toggleable view demonstrating **Case A (Natural Duplicate Encountered)** alongside **Case B (Honest No-Duplicate Fallback)**.
-3. **Shop Evolution Comparison:** Side-by-side active mockups of **Stage 1 (Uncluttered Starter Anchor)** and **Stage 2 (Complex Gem Bundles & Near-Useless Down Shop)**.
-4. **Accessibility Live Controls:** Live switches for High Contrast, Reduced Motion, and Screen-Reader Transcript Mode.
-5. **Zero External Dependencies:** Built with pure inline HTML5, CSS3, and embedded SVG icons. Runs instantly in any standard browser directly from the local file system.
-
----
-
-## 9. Integration Roadmap for Subsequent Implementation Packet
-
-Once the owner approves this proposal, implementation will proceed under a dedicated development packet. The planned touchpoints in the codebase are:
-
-| Module / Component | Planned Architectural Delta | Dependency / Gate |
-| :--- | :--- | :--- |
-| `src/core/game-engine.mjs` | Add `step: 'd1_morning_apartment'` to state machine prior to gacha entry. Track `starterPackDismissed` and `downShopUnlocked` flags. Ensure `convertDuplicateToDown` strictly updates `down` balance only when duplicates exist. | Owner approval of Beat Map. |
-| `src/core/event-log.mjs` | Add event types: `starter_pack_anchor`, `duplicate_converted_to_down`, `store_bundle_viewed`. Preserve O1 3-register formatting. | Verified in headless simulation tests. |
-| `src/ui/desk-view.js` | Implement the apartment desk framing: static physical duck styling form, glowing smartphone prompt with synthesized audio trigger. | Plan 10 physical duck SVG approval; Plan 14 stage layout. |
-| `src/ui/gacha-view.js` | Update reveal theater to stage Gems counter: unlit on Beat 3, illuminated post-pull. Implement Case A vs Case B reveal logic. | Plan 04 SVG rig; Plan 15 pull pacing. |
-| `src/ui/modals.js` | Refactor Starter Pack modal to include the two-tier layout (persuasive promotional header + neutral mathematical disclosure box). Build Stage 2 Store modal with Gem Bundles and Down Shop tabs. | Plan 06 odds detail coordination. |
-| `src/ui/receipt-view.js` | Ensure Receipt rows correctly distinguish between players who bought the starter pack vs those who declined, and omit Down technique if Case B occurred. | Plan 03 Receipt regression suite. |
-
----
-
-## 10. Conclusion and Owner Gates
-
-Plan 12 resolves the pedagogical and UX shortcomings of the bare mechanism slice. It replaces opening lectures with tactile discovery, respects mathematical honesty by refusing to rig the PRNG, exposes the subtle trickery of odd bundle sizes and leftover sinks, and provides an accessible, diegetic bridge between the character's mundane apartment and the dazzling gacha trap.
-
-**Owner Actions Requested:**
-1. Approve or request adjustments to the Recommended Opening Beat Map ("Diegetic Smartphone Glow").
-2. Approve the honest no-duplicate fallback architecture for Down introduction.
-3. Approve the progressive shop staging and separation of fictional promotional copy from neutral mathematical disclosures.
-4. Authorize creation of the subsequent implementation packet when development sequencing permits.
+### 9.3 Follow-On Implementation Prerequisites
+- A dedicated implementation packet (e.g. Plan 12 Implementation) with bounded scope.
+- Coordination with Plan 14 (Stage Layout) for the final phone framing transition.
+- Coordination with Plan 04 (SVG Rig) for production duck rendering.

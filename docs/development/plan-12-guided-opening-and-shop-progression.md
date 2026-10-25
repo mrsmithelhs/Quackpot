@@ -1,7 +1,7 @@
 ---
 id: plan-12
 title: Guided opening and progressive shop investigation
-status: draft
+status: ready
 depends_on: [plan-03]
 gate: "Owner approves the guided beat sequence and staged shop information before implementation."
 superseded_by: null
@@ -15,6 +15,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation. **Mutation:** report and isolated local wireframe only. **Owner/model:** one investigator; owner selects recommendations. **Expected artifacts:** `reports/development/plan-12-guided-opening-and-shop-progression/proposal.md`, local wireframe if useful, and `progress.md`.
 
 ## Goal and authority
+
+**Parallel handoff, 2026-10-24:** Ready for the owner's dispatch alongside Plan 04. Own only `reports/development/plan-12-guided-opening-and-shop-progression/` and isolated wireframes inside it; no production source, package, art, audio, Plan 04 report or packet/status edits. Use labeled placeholders and reference the E2 direction without waiting for the new SVG. Return the guided beat/shop proposal for owner review; do not implement the game or claim learner comprehension was tested. The owner has not yet assigned this packet merely by asking whether it can run in parallel.
 
 Plan 03 proved a short mechanism, not an effective first-time tutorial. The owner wants understanding to emerge through actions and presentation, without requiring learners to find unexplained buttons or read all rules at the start. Read `AGENTS.md`, canonical design in full, owner triage, Plan 03's accepted limits, `reports/orchestration/plan-03-owner-play-feedback.md`, and Plans 06/11. Run `check plan-12`; stop if blocked. Own only the report folder. Do not change production behavior or consume image-generation quota.
 

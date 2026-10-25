@@ -1,7 +1,7 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: draft
+status: in-progress
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 superseded_by: null
@@ -46,6 +46,8 @@ The layered rig and audio approach need a measured proof before asset volume gro
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Assets, Immersion, Technology), and Plan 02's layout decision. All art starts as repository SVG. Ordinary text stays HTML/CSS. Sound parameters are stored as text and synthesized locally; no runtime network calls. Reduced motion preserves content and choices.
 
 ## Scope and work plan
+
+**Prebuild review, 2026-10-24:** The owner assigned this packet to a Gemini implementer. Its submitted outline is preserved in `reports/development/plan-04-svg-rig-and-sound/proposal-01.md`; `prebuild-review-01.md` approves the bounded concept with controlling scope/interface conditions. Read both before building. Plan 12 may run independently in its own report folder. No production game UI integration is authorized.
 
 **Owner direction, 2026-10-24:** Use Plan 08's E2 layered-paper concept as the digital SVG proof reference. Author separate overlapping paper-like groups (including wing sublayers), with stable pivots and accessory attachment points for later articulated motion. Prove the static base and small-size readability first; no raster texture embedding or production race animation in this packet. D2 is the physical companion reference, with alternate views/lighting handled separately in Plan 10. Broader gacha environments, effects and UI need the composition investigation in Plan 11 before production SVG work; this rig proof does not settle them.
 

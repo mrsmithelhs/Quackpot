@@ -22,6 +22,8 @@ Read `AGENTS.md`, `docs/founding/design.md` Assets/Immersion/Receipt contracts, 
 
 ## Bounded comparison proposal
 
+**Owner play feedback, 2026-10-24:** Preserve the current logo as a favored reference. Test a full-width game stage/header, a quiet settings/save location without an always-visible autosave checkbox, and visually distinct metagame versus gacha contexts. Consume Plans 12/14's functional hypotheses without selecting teaching flow or navigation by image-generation accident. Include an oval race inside a rectangular viewing region as a composition candidate; race mechanics and camera timing remain Plan 13's gate.
+
 Propose two or three representative gacha surfaces, such as a collectible/reveal view, a race with several ducks, and a shop or menu. Compare a predominantly layered-paper scene with a restrained mixed treatment using the same content and framing. Paper style may suit only selected elements. Reuse the E2 reference and preserve local HTML text for actual UI; concept text is illustrative, not approved copy. Examine hierarchy, contrast, duck/foreground separation, race lane readability, room for readable odds and balances, and restraint around decorative effects. Do not invent odds, near-miss rules or purchasing mechanics to dress a mockup.
 
 Use actual image generation only after the owner approves the matrix and budget. Store concepts/prompts/provenance and a local comparison gallery under `reports/development/plan-11-gacha-visual-compositions/`. Preserve successful generations across quota interruptions; disclose missing cells and never substitute fake completions. No production asset or `src/` edits. All references remain under reports; later shipped assets require authored SVG source under the existing contract.

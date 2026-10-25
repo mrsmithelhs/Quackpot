@@ -25,18 +25,16 @@ export function renderReceiptView(container, engine, callbacks = {}) {
         <div class="receipt-header">
           <div class="receipt-cutout">----------------------------------------</div>
           <div class="receipt-title">QUACKPOT TRANSACTION RECEIPT</div>
-          <div class="receipt-subtitle">CourseVGD Critical Microtransaction Audit</div>
+          <div class="receipt-subtitle">Your time in the pond</div>
           <div class="receipt-cutout">----------------------------------------</div>
           <div class="receipt-meta-grid">
             <div>Terminal Route: <strong>${routeLabel}</strong></div>
-            <div>Append-Only Chain: <strong class="${receipt.chainValid ? 'text-success' : 'text-danger'}">${receipt.chainValid ? 'VERIFIED (FNV-1a)' : 'CORRUPT'}</strong></div>
-            <div>Record Status: <strong id="receipt-pair-status" class="text-success">RECORD LOCKED (Tail Complete)</strong></div>
           </div>
         </div>
 
         <section class="receipt-section">
           <h3 class="receipt-section-title">SECTION I: MANIPULATION CATALOG</h3>
-          <p class="receipt-section-note">Grounded solely in append-only event evidence. Only cues actually displayed are named.</p>
+          <p class="receipt-section-note">What you saw, what you chose, and questions to consider.</p>
 
           ${receipt.findings.length === 0 ? `
             <div class="receipt-empty-note">No manipulative cues were displayed during this abbreviated session.</div>
@@ -84,8 +82,8 @@ export function renderReceiptView(container, engine, callbacks = {}) {
             `}
 
             <div class="accounting-summary-box">
-              <div class="summary-row"><span>Final Cash Balance (Log-derived):</span><strong>$${receipt.summary.finalCash.toFixed(2)}</strong></div>
-              <div class="summary-row"><span>Final Health (Log-derived):</span><strong>${receipt.summary.finalHealth} HP</strong></div>
+              <div class="summary-row"><span>Final Cash Balance:</span><strong>$${receipt.summary.finalCash.toFixed(2)}</strong></div>
+              <div class="summary-row"><span>Final Health:</span><strong>${receipt.summary.finalHealth} HP</strong></div>
               <div class="summary-row"><span>Final Accumulated Debt:</span><strong>$${receipt.summary.finalDebt.toFixed(2)}</strong></div>
               <div class="summary-row"><span>Total Digital Ducks Owned:</span><strong>${receipt.summary.ownedDucksCount}</strong></div>
               <div class="summary-row"><span>Secondary Currency (Down):</span><strong>${receipt.summary.totalDown}</strong></div>

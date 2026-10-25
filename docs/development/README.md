@@ -20,6 +20,9 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-09` | Digital gacha duck motion comparison | draft | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
 | `plan-10` | Physical metagame duck views and cinematic staging | draft | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
 | `plan-11` | Gacha visual compositions before environment and UI assets | draft | Compare paper-style and mixed-style gacha compositions using owner-approved concept generations before committing to environment, effect and UI SVG assets. |
+| `plan-12` | Guided opening and progressive shop investigation | draft | Propose an experiential opening that introduces Gems, duplicates and Down in context, and a shop that grows in complexity without an opening lecture. |
+| `plan-13` | Race staging and run pacing investigation | draft | Compare readable oval-course race drama and camera direction alongside a timed day/run beat map toward the roughly fifteen-minute floor. |
+| `plan-14` | Game stage and metagame transitions investigation | draft | Propose a full-width game stage, quieter save/settings controls and readable transitions between apartment metagame and fictional gacha app. |
 <!-- plan-index:end -->
 
 ## Report Folders

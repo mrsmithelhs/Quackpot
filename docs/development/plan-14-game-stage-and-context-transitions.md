@@ -1,0 +1,31 @@
+---
+id: plan-14
+title: Game stage and metagame transitions investigation
+status: draft
+depends_on: [plan-03]
+gate: "Owner selects the stage layout and context transition before production UI changes."
+superseded_by: null
+resolution: null
+summary: >-
+  Propose a full-width game stage, quieter save/settings controls and readable
+  transitions between apartment metagame and fictional gacha app.
+---
+# Plan 14: Game stage and metagame transitions investigation
+
+**Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** reports and local wireframes only. **Owner/model:** one investigator; owner selection. **Expected artifacts:** `reports/development/plan-14-game-stage-and-context-transitions/proposal.md`, a small local comparison and `progress.md`.
+
+## Goal and scope
+
+The owner likes the logo, wants a full-width header and an experience that reads as a game, and does not want the autosave checkbox in the persistent header. Propose one recommended stage shell plus one alternative, preserving the logo. Full-width framing can contain constrained readable text and a rectangular race viewport; do not stretch every text panel across a desktop or require browser fullscreen.
+
+Read `AGENTS.md`, canonical Immersion/Saving/Time/Receipt contracts, owner play feedback, Plan 03 acceptance limits and Plans 10–12. Run `check plan-14`; stop if blocked. Own the report folder only. No generated images without Plan 11's separate budget gate and no production `src/` changes. Start with functional wireframes before production SVG/scene work.
+
+## Required proposal
+
+Show apartment/metagame and fictional-app states within the canonical fixed diegetic stage. Compare a brief transition/framing change, palette or lighting shift, and an in-world cue (such as the phone/app surface) so the context change is legible without an explanatory essay. Transitions must work both directions, have a reduced-motion/static alternative, preserve focus and saving boundaries, and keep Uninstall reachable during play. Do not blur physical versus digital duck ownership or animate the physical prop autonomously.
+
+Keep autosave choice on the start menu and propose a discoverable later settings location rather than the persistent HUD checkbox. Keep explicit Save and honest storage-failure feedback accessible; don't hide those functions as part of de-webifying the shell. Compare narrow/wide views and keyboard operation. Ordinary copy stays HTML/CSS; do not replace useful accessible controls with unreadable SVG text.
+
+## Validation, delivery and gate
+
+Return paired wireframes and a simple context-transition demonstration if useful, mapping each visible affordance to its function and noting integration paths. Check readable content width, focus, contrast and reduced-motion clarity. Report observations and unresolved choices without claiming learner testing. Owner selects before production work; implementation gets a separately bounded scope. Commit owned artifacts and report with consultation declaration; never push or set status.

@@ -83,3 +83,13 @@ Use the same `**Date:** YYYY-MM-DD` field for proposals, using the proposal date
 **Decision:** The owner confirmed approval of the amendments in `reports/development/plan-03-mechanism-slice/preflight-review-03.md`. Adopt its bounded three-day mechanism trial, including the limited Common-only stance comparison and explicit broader race-choice uncertainty. This approves implementation of the amended trial, not final balance, the approximately 15-minute floor or played-slice acceptance.
 
 **Related:** Implementer's recorded adoption `d6fa938`; implementation `ea74cc6`; technical `review-01.md` returns that implementation for Repair 01 against the adopted contract.
+
+### DECISION-007 — Plan 03 owner play disposition and next design obligations
+
+**Date:** 2026-10-24
+
+**Decision:** After playing the technically accepted slice, the owner delegated now/later triage and permitted closure if the feedback belongs to subsequent work. Close Plan 03 as the bounded mechanism proof after inline removal of developer-facing Receipt copy. Preserve the favored logo. Route full-width framing/save settings and context transitions to draft Plan 14, progressive onboarding/shop teaching to draft Plan 12, and race staging/day pacing to draft Plan 13, coordinated with existing art/motion packets. These drafts require owner sequencing/assignment and recommendation gates; no generation budget or production implementation is authorized by their creation.
+
+**Rationale:** The approved short trial demonstrated the loop, save/exit and truthful Receipt boundaries; it did not promise final onboarding, day length or race spectacle. Oval movement, contact, camera direction and approximately 30-second races are investigation candidates, not adopted mechanics or final durations. The approximately fifteen-minute floor remains a later whole-run validation obligation. Preserve the recorded Skip Lunch settlement follow-up before expanding food-shortfall play.
+
+**Related:** `reports/orchestration/plan-03-owner-play-feedback.md`; Plan 03 technical `review-03.md`; Plans 09/11/12/13/14.

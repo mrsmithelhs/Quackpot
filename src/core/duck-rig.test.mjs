@@ -4,6 +4,7 @@ import {
   PALETTES,
   HATS,
   ACCESSORIES,
+  PAPER_MODES,
   SHADOW_MODES,
   validateOptions,
   composeDuckSvg
@@ -16,7 +17,15 @@ describe('duck-rig — option validation', () => {
     assert.equal(opts.paletteId, 'classic-yellow');
     assert.equal(opts.hat, 'none');
     assert.equal(opts.accessory, 'none');
-    assert.equal(opts.shadowMode, 'offset');
+    assert.equal(opts.paperMode, 'geometric');
+  });
+
+  test('maps legacy shadowMode offset to geometric and filter to hybrid', () => {
+    const optsOffset = validateOptions({ shadowMode: 'offset' });
+    assert.equal(optsOffset.paperMode, 'geometric');
+
+    const optsFilter = validateOptions({ shadowMode: 'filter' });
+    assert.equal(optsFilter.paperMode, 'hybrid');
   });
 
   test('rejects invalid instance prefix', () => {
@@ -36,8 +45,8 @@ describe('duck-rig — option validation', () => {
     assert.throws(() => validateOptions({ accessory: 'sunglasses' }), /Invalid accessory/);
   });
 
-  test('rejects uncataloged shadow mode', () => {
-    assert.throws(() => validateOptions({ shadowMode: 'raytraced' }), /Invalid shadowMode/);
+  test('rejects uncataloged paper mode', () => {
+    assert.throws(() => validateOptions({ paperMode: 'raytraced' }), /Invalid paperMode/);
   });
 });
 
@@ -45,7 +54,6 @@ describe('duck-rig — hierarchy and attachment points', () => {
   test('hat attachment is strictly nested inside head group', () => {
     const svg = composeDuckSvg({ prefix: 'pfx', hat: 'tiny-top-hat' });
 
-    // Find head group and verify slot-hat is inside it
     const headGroupIndex = svg.indexOf('id="pfx-head-group"');
     const slotHatIndex = svg.indexOf('id="pfx-slot-hat"');
     const topHatIndex = svg.indexOf('id="pfx-hat-top-hat"');
@@ -81,22 +89,22 @@ describe('duck-rig — hierarchy and attachment points', () => {
     assert.ok(slotNeckIndex < bowTieIndex, 'bow-tie markup must be inside slot-neck');
   });
 
-  test('wing group has defined pivot point and contains 3 sublayers', () => {
-    const svg = composeDuckSvg({ prefix: 'wing-test' });
+  test('wing group has defined pivot point and contains 3 stepped sublayers', () => {
+    const svg = composeDuckSvg({ prefix: 'wing-test', paperMode: 'geometric' });
 
     assert.match(svg, /id="wing-test-wing-group"[^>]*data-pivot-x="52"[^>]*data-pivot-y="56"/);
     assert.match(svg, /id="wing-test-wing-under"/);
     assert.match(svg, /id="wing-test-wing-mid"/);
     assert.match(svg, /id="wing-test-wing-top"/);
+    assert.match(svg, /id="wing-test-wing-under-seam"/, 'Must contain contact shadow between stepped wing cards');
   });
 });
 
 describe('duck-rig — multi-instance independence', () => {
   test('multiple instances in the same DOM do not share IDs or filter references', () => {
-    const duck1 = composeDuckSvg({ prefix: 'duck-one', palette: 'classic-yellow', shadowMode: 'filter' });
-    const duck2 = composeDuckSvg({ prefix: 'duck-two', palette: 'bubblegum-pink', shadowMode: 'filter' });
+    const duck1 = composeDuckSvg({ prefix: 'duck-one', palette: 'classic-yellow', paperMode: 'hybrid' });
+    const duck2 = composeDuckSvg({ prefix: 'duck-two', palette: 'bubblegum-pink', paperMode: 'hybrid' });
 
-    // Extract all IDs from both
     const idRegex = /id="([^"]+)"/g;
     const ids1 = new Set([...duck1.matchAll(idRegex)].map(m => m[1]));
     const ids2 = new Set([...duck2.matchAll(idRegex)].map(m => m[1]));
@@ -109,33 +117,41 @@ describe('duck-rig — multi-instance independence', () => {
     }
 
     // Filter references must match their own prefix
-    assert.match(duck1, /url\(#duck-one-paper-shadow\)/);
-    assert.doesNotMatch(duck1, /url\(#duck-two-paper-shadow\)/);
-    assert.match(duck2, /url\(#duck-two-paper-shadow\)/);
-    assert.doesNotMatch(duck2, /url\(#duck-one-paper-shadow\)/);
+    assert.match(duck1, /url\(#duck-one-seam-shadow\)/);
+    assert.doesNotMatch(duck1, /url\(#duck-two-seam-shadow\)/);
+    assert.match(duck2, /url\(#duck-two-seam-shadow\)/);
+    assert.doesNotMatch(duck2, /url\(#duck-one-seam-shadow\)/);
   });
 });
 
-describe('duck-rig — shadow modes', () => {
-  test('offset mode uses geometric shadow paths and no SVG filter', () => {
-    const svg = composeDuckSvg({ prefix: 'pfx-off', shadowMode: 'offset' });
-    assert.match(svg, /id="pfx-off-body-shadow"/);
-    assert.match(svg, /id="pfx-off-tail-shadow"/);
-    assert.doesNotMatch(svg, /<feDropShadow/);
+describe('duck-rig — paper construction modes (A/B/C)', () => {
+  test('geometric mode (Mode B) uses stepped cardstock, seam shadows, and no SVG filter', () => {
+    const svg = composeDuckSvg({ prefix: 'pfx-geom', paperMode: 'geometric' });
+    assert.match(svg, /id="pfx-geom-seam-head-shadow"/, 'Must contain head seam shadow');
+    assert.match(svg, /id="pfx-geom-seam-wing-shadow"/, 'Must contain wing flank seam shadow');
+    assert.match(svg, /id="pfx-geom-seam-bill-shadow"/, 'Must contain bill cheek seam shadow');
+    assert.match(svg, /id="pfx-geom-body-backing-rim"/, 'Must contain body cardstock backing rim');
+    assert.doesNotMatch(svg, /<feDropShadow/, 'Geometric mode must not use feDropShadow filter');
   });
 
-  test('filter mode uses feDropShadow and omits offset shadow paths', () => {
-    const svg = composeDuckSvg({ prefix: 'pfx-filt', shadowMode: 'filter' });
-    assert.match(svg, /<feDropShadow/);
-    assert.match(svg, /filter="url\(#pfx-filt-paper-shadow\)"/);
-    assert.doesNotMatch(svg, /id="pfx-filt-body-shadow"/);
-    assert.doesNotMatch(svg, /id="pfx-filt-tail-shadow"/);
+  test('hybrid mode (Mode C) includes local seam-shadow filter applied specifically at joins', () => {
+    const svg = composeDuckSvg({ prefix: 'pfx-hyb', paperMode: 'hybrid' });
+    assert.match(svg, /<filter id="pfx-hyb-seam-shadow"/);
+    assert.match(svg, /id="pfx-hyb-head-group"[^>]*filter="url\(#pfx-hyb-seam-shadow\)"/);
+    assert.match(svg, /id="pfx-hyb-wing-group"[^>]*filter="url\(#pfx-hyb-seam-shadow\)"/);
   });
 
-  test('none mode omits both offset paths and feDropShadow', () => {
-    const svg = composeDuckSvg({ prefix: 'pfx-none', shadowMode: 'none' });
+  test('baseline mode (Mode A) reproduces historical baseline snapshot', () => {
+    const svg = composeDuckSvg({ prefix: 'pfx-base', paperMode: 'baseline' });
+    assert.match(svg, /id="pfx-base-tail-shadow"/);
+    assert.match(svg, /id="pfx-base-body-shadow"/);
+    assert.doesNotMatch(svg, /id="pfx-base-body-backing-rim"/);
+  });
+
+  test('none mode hides paper seam shadows', () => {
+    const svg = composeDuckSvg({ prefix: 'pfx-none', paperMode: 'none' });
     assert.doesNotMatch(svg, /<feDropShadow/);
-    assert.doesNotMatch(svg, /id="pfx-none-body-shadow"/);
+    assert.match(svg, /id="pfx-none-tail-assembly" opacity="0"/);
   });
 });
 
@@ -148,7 +164,6 @@ describe('duck-rig — cosmetics independence from stats', () => {
       accessory: 'bow-tie'
     });
 
-    // Verification that returned artifact is pure SVG string
     assert.equal(typeof svg, 'string');
     assert.ok(svg.startsWith('<svg'));
     assert.ok(svg.endsWith('</svg>'));

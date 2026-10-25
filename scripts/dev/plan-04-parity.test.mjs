@@ -15,6 +15,10 @@ import {
 
 import {
   QUACK_SHORT,
+  QUACK_A_CONTROL,
+  QUACK_B_SYNTH_ADSR,
+  QUACK_C_FORMANT_NOISE,
+  QUACK_CANDIDATES,
   playSynthesizedSound
 } from '../../src/audio/synth.mjs';
 
@@ -34,13 +38,19 @@ describe('plan-04 parity — master SVG derivation', () => {
     assert.equal(fileContent, canonical, 'Master SVG must be 100% derived from duck-rig.mjs without manual drift');
   });
 
-  test('canonical master SVG contains accessible labels, root group, and namespaced filter', () => {
+  test('canonical master SVG contains accessible labels, root group, and Mode B geometric paper elements', () => {
     const canonical = getCanonicalMasterSvg();
     assert.match(canonical, /viewBox="0 0 100 100"/);
     assert.match(canonical, /role="img"/);
     assert.match(canonical, /aria-label="Digital Duck - Classic Yellow with none and none"/);
-    assert.match(canonical, /<filter id="duck-paper-shadow"/);
     assert.match(canonical, /<g id="duck-root"/);
+    assert.match(canonical, /id="duck-wing-under"/);
+    assert.match(canonical, /id="duck-wing-mid"/);
+    assert.match(canonical, /id="duck-wing-top"/);
+    assert.match(canonical, /id="duck-seam-head-shadow"/);
+    assert.match(canonical, /id="duck-seam-wing-shadow"/);
+    assert.match(canonical, /id="duck-seam-bill-shadow"/);
+    assert.match(canonical, /id="duck-body-backing-rim"/);
   });
 });
 
@@ -69,7 +79,6 @@ describe('plan-04 parity — preview gallery provenance and drift', () => {
   test('bundled DuckRig in preview.html produces byte-identical output to src/core/duck-rig.mjs', () => {
     const previewContent = fs.readFileSync(previewPath, 'utf8');
 
-    // Extract the bundled script
     const duckRigBundleMatch = previewContent.match(/<script id="bundle-duck-rig">([\s\S]*?)<\/script>/);
     assert.ok(duckRigBundleMatch, 'preview.html must contain bundle-duck-rig script tag');
 
@@ -81,11 +90,11 @@ describe('plan-04 parity — preview gallery provenance and drift', () => {
     assert.ok(sandbox.window.DuckRig, 'DuckRig must be exported on window');
     assert.equal(typeof sandbox.window.DuckRig.composeDuckSvg, 'function');
 
-    // Compare output across proof options
+    // Compare output across modes
     const testOptions = [
-      { prefix: 'inst-1', palette: 'classic-yellow', hat: 'tiny-top-hat', accessory: 'monocle', shadowMode: 'offset' },
-      { prefix: 'inst-2', palette: 'mallard-green', hat: 'sailor-cap', accessory: 'bow-tie', shadowMode: 'filter' },
-      { prefix: 'inst-3', palette: 'bubblegum-pink', hat: 'none', accessory: 'none', shadowMode: 'none' }
+      { prefix: 'inst-1', palette: 'classic-yellow', hat: 'tiny-top-hat', accessory: 'monocle', paperMode: 'geometric' },
+      { prefix: 'inst-2', palette: 'mallard-green', hat: 'sailor-cap', accessory: 'bow-tie', paperMode: 'hybrid' },
+      { prefix: 'inst-3', palette: 'bubblegum-pink', hat: 'none', accessory: 'none', paperMode: 'baseline' }
     ];
 
     for (const opts of testOptions) {
@@ -95,7 +104,7 @@ describe('plan-04 parity — preview gallery provenance and drift', () => {
     }
   });
 
-  test('bundled DuckSynth in preview.html matches source parameter contract', () => {
+  test('bundled DuckSynth in preview.html matches source candidate contracts', () => {
     const previewContent = fs.readFileSync(previewPath, 'utf8');
     const synthBundleMatch = previewContent.match(/<script id="bundle-duck-synth">([\s\S]*?)<\/script>/);
     assert.ok(synthBundleMatch, 'preview.html must contain bundle-duck-synth script tag');
@@ -106,11 +115,13 @@ describe('plan-04 parity — preview gallery provenance and drift', () => {
     vm.runInContext(bundleCode, sandbox);
 
     assert.ok(sandbox.window.DuckSynth, 'DuckSynth must be exported on window');
-    assert.deepEqual({ ...sandbox.window.DuckSynth.QUACK_SHORT }, { ...QUACK_SHORT });
+    assert.deepEqual({ ...sandbox.window.DuckSynth.QUACK_A_CONTROL }, { ...QUACK_A_CONTROL });
+    assert.deepEqual({ ...sandbox.window.DuckSynth.QUACK_B_SYNTH_ADSR }, { ...QUACK_B_SYNTH_ADSR });
+    assert.deepEqual({ ...sandbox.window.DuckSynth.QUACK_C_FORMANT_NOISE }, { ...QUACK_C_FORMANT_NOISE });
   });
 });
 
-describe('plan-04 parity — real source sound lifecycle and fallback', () => {
+describe('plan-04 parity — real source sound lifecycle and fallback across candidates', () => {
   test('exercises user-gesture resume and audio node scheduling with conservative gain', async () => {
     let resumed = false;
     let masterPeakGain = 0;
@@ -158,7 +169,7 @@ describe('plan-04 parity — real source sound lifecycle and fallback', () => {
       })
     };
 
-    const res = await playSynthesizedSound(QUACK_SHORT, { audioContext: mockCtx });
+    const res = await playSynthesizedSound(QUACK_A_CONTROL, { audioContext: mockCtx });
 
     assert.equal(res.played, true);
     assert.equal(resumed, true, 'Suspended audio context must be resumed');
@@ -168,7 +179,7 @@ describe('plan-04 parity — real source sound lifecycle and fallback', () => {
 
   test('exercises silent fallback on unavailable or failing context without throwing', async () => {
     // 1. Completely absent context
-    const resAbsent = await playSynthesizedSound(QUACK_SHORT, {
+    const resAbsent = await playSynthesizedSound(QUACK_C_FORMANT_NOISE, {
       audioContext: null,
       AudioContextClass: null
     });
@@ -182,7 +193,7 @@ describe('plan-04 parity — real source sound lifecycle and fallback', () => {
         throw new Error('NotAllowedError: user gesture required');
       }
     };
-    const resFailing = await playSynthesizedSound(QUACK_SHORT, { audioContext: brokenCtx });
+    const resFailing = await playSynthesizedSound(QUACK_C_FORMANT_NOISE, { audioContext: brokenCtx });
     assert.equal(resFailing.played, false);
     assert.equal(resFailing.fallback, 'silent');
   });

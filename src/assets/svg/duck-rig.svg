@@ -1,29 +1,51 @@
 <svg id="duck-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
-    <defs>
-      <filter id="duck-paper-shadow" x="-20%" y="-20%" width="150%" height="150%">
-        <feDropShadow dx="1.2" dy="2.0" stdDeviation="1.2" flood-color="#0f172a" flood-opacity="0.3" />
-      </filter>
-    </defs>
-  <g id="duck-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
+  <g id="duck-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #fcd34d; --duck-wing-mid: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
 
-    <!-- BODY GROUP -->
+    <!-- ========================================== -->
+    <!-- 1. BODY & TAIL PAPER ASSEMBLY              -->
+    <!-- ========================================== -->
     <g id="duck-body-group">
-      <!-- Tail paper cut (under body) -->
-      
-      <path id="duck-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" filter="url(#duck-paper-shadow)" />
 
-      <!-- Body silhouette and shadow -->
-      
-      <path id="duck-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" filter="url(#duck-paper-shadow)" />
+      <!-- Tail Under-Cardstock & Perky Tail Base -->
+      <g id="duck-tail-assembly" opacity="1">
+        <!-- Exposed Tail Backing Card Edge (offset down-right) -->
+        <path id="duck-tail-backing" d="M 78 63 C 85 61 91 53 93 47 C 91 55 87 63 81 67 Z" fill="var(--duck-body-shadow)" />
+      </g>
+      <!-- Tail Foreground Cardstock -->
+      <path id="duck-tail-base" d="M 76 61 C 82 58 88 51 91 46 C 89 53 85 61 79 65 Z" fill="var(--duck-body-fill)" />
 
-      <!-- WING GROUP (Common pivot: 52, 56 for synchronized flapping/paddling) -->
-      <g id="duck-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#duck-paper-shadow)">
-        <!-- Under wing shadow / feather -->
-        <path id="duck-wing-under" d="M 50 56 C 59 55 73 61 77 69 C 71 71 61 71 52 68 Z" fill="var(--duck-wing-shadow)" />
-        <!-- Mid wing feather -->
-        <path id="duck-wing-mid" d="M 51 56 C 61 56 71 62 74 70 C 67 73 57 71 49 66 Z" fill="var(--duck-wing-fill)" />
-        <!-- Top wing paper layer -->
-        <path id="duck-wing-top" d="M 52 56 C 63 56 69 62 71 68 C 64 71 55 69 49 64 C 48 59 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-shadow)" stroke-width="0.8" />
+      <!-- Body Backing Cardstock Edge (Upper-Left Lighting -> Exposed Bottom-Right Rim) -->
+      <g id="duck-body-backing" opacity="1">
+        <path id="duck-body-backing-rim" d="M 31 79 C 35 85 48 87 64 86 C 76 85 84 77 88 66 L 86.5 64.5 C 82.5 75 74.5 83.5 62.5 84.5 C 46.5 85.5 32.5 83.5 28.5 77.5 Z" fill="var(--duck-body-shadow)" />
+        <!-- Bottom Belly Seam Shadow -->
+        <path id="duck-body-belly-shadow" d="M 32 78 C 36 84 50 86.5 65 85 C 77 84 84 76 88 65 C 83.5 71.5 73 78.5 58 78.5 C 44 78.5 36 74.5 32 78 Z" fill="var(--duck-body-shadow)" />
+      </g>
+
+      <!-- Main Plump Body Cardstock Cutout -->
+      <path id="duck-body-base" d="M 38 54 C 29 60 25 70 29 78 C 33 84 47 86 63 85 C 75 84 83 76 87 65 C 89 60 87 56 83 56 C 80 56 78 60 75 62 C 67 55 57 52 47 52 C 43 52 40 53 38 54 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Wing-to-Body Contact Paper Shadow (cast onto flank beneath wing) -->
+      <path id="duck-seam-wing-shadow" d="M 48 57 C 49 64 54 71 63 73 C 58 72 52 69 48 64 Z" fill="var(--duck-body-shadow)" opacity="1" />
+
+      <!-- ========================================== -->
+      <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
+      <!-- Common Pivot: (52, 56)                      -->
+      <!-- ========================================== -->
+      <g id="duck-wing-group" data-pivot-x="52" data-pivot-y="56">
+        <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
+        <path id="duck-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
+
+        <!-- Contact Shadow cast by Mid-Wing onto Under-Wing -->
+        <path id="duck-wing-under-seam" d="M 50 56 C 59 55 69 61 74 69 C 72 70 64 71 50 68 Z" fill="#0f172a" opacity="0.25" />
+
+        <!-- PIECE 2: Mid-Wing Feather (Stepped inward, Intermediate Tone) -->
+        <path id="duck-wing-mid" d="M 51 56 C 60 55 70 61 74 69 C 67 71.5 57 70.5 50 65.5 Z" fill="var(--duck-wing-mid)" />
+
+        <!-- Contact Shadow cast by Top-Wing onto Mid-Wing -->
+        <path id="duck-wing-mid-seam" d="M 52 56 C 61 56 65 61 68 66 C 63 67.5 55 66.5 49 63 Z" fill="#0f172a" opacity="0.22" />
+
+        <!-- PIECE 3: Top-Wing Cover (Stepped inward, Brightest Tone, Crisp Seam) -->
+        <path id="duck-wing-top" d="M 52 56 C 62 55.5 66 61 68 66 C 62 68.5 54 67 48 62.5 C 48 58 50 56 52 56 Z" fill="var(--duck-wing-fill)" stroke="var(--duck-wing-mid)" stroke-width="0.6" />
       </g>
 
       <!-- Slot for Neck Accessories (e.g. Bow Tie) -->
@@ -31,30 +53,53 @@
       </g>
     </g>
 
-    <!-- HEAD GROUP (Parent-relative pivot: 48, 46 - carries head, bill, eye, monocle, and hat) -->
+    <!-- ========================================== -->
+    <!-- 3. HEAD & ACCESSORY GROUP                  -->
+    <!-- Parent-Relative Pivot: (48, 46)            -->
+    <!-- ========================================== -->
     <g id="duck-head-group" data-pivot-x="48" data-pivot-y="46">
-      <!-- Head shadow and base -->
-      
-      <path id="duck-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" filter="url(#duck-paper-shadow)" />
 
-      <!-- BILL GROUP -->
-      <g id="duck-bill-group" filter="url(#duck-paper-shadow)">
-        
+      <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
+      <path id="duck-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
+
+      <!-- Head-to-Body Contact Seam Shadow (cast from lower jaw onto chest) -->
+      <path id="duck-seam-head-shadow" d="M 37 46 C 43 51.5 55 51.5 63 47.5 C 59 52.5 51 54.5 45 53.5 C 41 52.5 38 49.5 37 46 Z" fill="var(--duck-body-shadow)" opacity="1" />
+
+      <!-- Main Squat Head Cardstock Cutout -->
+      <path id="duck-head-base" d="M 36 40 C 32 34 36 24 46 22 C 58 20 66 28 66 38 C 66 48 58 54 48 54 C 40 54 36 46 36 40 Z" fill="var(--duck-body-fill)" />
+
+      <!-- Subtle Light-Facing Top-Left Rim Accent (Cardstock highlight) -->
+      <path id="duck-head-light-edge" d="M 36 34 C 38 27 44 22.5 49 22" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round" fill="none" opacity="0.38" />
+
+      <!-- BILL GROUP (Sits in front of face card) -->
+      <g id="duck-bill-group">
+        <!-- Bill-to-Face Seam Shadow (cast onto cheek) -->
+        <path id="duck-seam-bill-shadow" d="M 36 36 C 35 39.5 35 43 37 44.5 C 36 43 36 38 37 36 Z" fill="var(--duck-body-shadow)" opacity="1" />
+
+        <!-- Lower Bill Under-Card -->
+        <path id="duck-bill-shadow" d="M 20 44 C 25 45 31 45 37 44 C 34 47 26 47 20 44 Z" fill="var(--duck-bill-shadow)" />
+
+        <!-- Upper Bill Main Card -->
         <path id="duck-bill-base" d="M 37 36 C 30 36 22 38 16 40 C 15 41 16 43 19 43 C 26 44 32 43 37 44 Z" fill="var(--duck-bill-fill)" />
+
+        <!-- Bill Nostril / Crease -->
         <path id="duck-bill-accent" d="M 30 39 C 28 39 27 40 28 41" stroke="var(--duck-bill-shadow)" stroke-width="0.75" stroke-linecap="round" fill="none" />
       </g>
 
-      <!-- EYE GROUP (Position: 40, 33) -->
+      <!-- EYE GROUP (Sits in front of head card, Pivot 40, 33) -->
       <g id="duck-eye-group" data-pivot-x="40" data-pivot-y="33">
-        <circle id="duck-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" />
+        <!-- Paper Sclera Disk -->
+        <circle id="duck-eye-sclera" cx="40" cy="33" r="4.2" fill="#ffffff" stroke="#cbd5e1" stroke-width="0.4" />
+        <!-- Paper Pupil Disk -->
         <circle id="duck-eye-pupil" cx="39.5" cy="33" r="3.2" fill="#1e293b" />
+        <!-- Cutout Highlight Disk -->
         <circle id="duck-eye-highlight" cx="38.5" cy="31.8" r="1.1" fill="#ffffff" />
         <!-- Slot for Eye Accessories (e.g. Monocle) -->
         <g id="duck-slot-eye" data-x="40" data-y="33">
         </g>
       </g>
 
-      <!-- Slot for Crown / Hat Accessories (under head group so head transforms carry hat!) -->
+      <!-- Slot for Crown / Hat Accessories (carried by head group) -->
       <g id="duck-slot-hat" data-x="46" data-y="22">
       </g>
     </g>

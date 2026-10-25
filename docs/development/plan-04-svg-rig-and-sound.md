@@ -1,7 +1,8 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: delivered
+status: complete
+resolution: "Mode C layered digital rig/default/master and three synthesized quacks accepted after Repair 02 technical verification and owner pose inspection; gallery wording/reduced-motion scrolling corrected inline. Production integration, broader motion and sound mixing remain separate owner-gated work."
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
 summary: >-

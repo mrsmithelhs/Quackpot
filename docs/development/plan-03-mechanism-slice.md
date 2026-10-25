@@ -1,11 +1,11 @@
 ---
 id: plan-03
 title: Core mechanism and truthful Receipt slice
-status: delivered
+status: complete
 depends_on: [plan-01, plan-02]
 gate: "Owner approves the selected trade-off and bounded mechanism outline before coding, then reviews the played slice."
 superseded_by: null
-resolution: null
+resolution: "Owner played the technically verified three-day mechanism slice and delegated feedback triage/closure on 2026-10-24. Receipt copy cleaned inline; onboarding, game framing, race drama and pacing continue in gated drafts. No final balance or fifteen-minute-floor claim; Skip Lunch settlement must precede food-shortfall expansion."
 summary: >-
   Build one playable core-loop path with a meaningful trade-off, local saving,
   Uninstall and its retention offer, and an event-log-derived honest Receipt.

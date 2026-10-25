@@ -14,6 +14,8 @@ summary: >-
 
 ## Goal and authority
 
+**Outline review, 2026-10-25:** Report-folder `preflight-review-01.md` recommends T1 A / T2 A (including Legendary reset) / T3 A / I1 for owner selection as scenario inputs. These recommendations are not adopted rules. Opening distribution is independently reproduced; pooled-bank proof, some traces/race claims and Receipt wording need correction in the next evidence pass. Use the review and independent `preflight-checks-01.mjs`; no production or scenario gate is passed by this annotation. Packet remains in-progress at the owner mechanism gate.
+
 The Plan 12 owner interview selects prices of 3 Down for a minor temporary speed item and 6 Down for a single-pull ticket, plus the 1750 odd-bundle example. These choices should produce usable but lossy recycling. Existing Plan 01 evidence did not model this exact exchange. Read `AGENTS.md`, canonical design and owner triage, DECISION-008, `reports/orchestration/plan-12-owner-integration.md`, Plan 01 evidence limits and actual game/simulation draw/Down code. Run `check plan-17`; stop if blocked. Own this report folder and, only after the approved bounded outline, a disjoint scenario script/tests. No production rules, historical evidence regeneration, game UI, packet status or arbitrary repricing.
 
 ## Bounded work

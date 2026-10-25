@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Plan 17 outline `79dbb36` reviewed: root recommends T1 A full duplicate Down / T2 A normal pity advancement AND Legendary reset / T3 A immediate active-banner draw / I1 +5% one-race non-stacking as scenario inputs, still awaiting owner selection. `preflight-review-01.md` and independent script reproduce opening81.95% ticket affordability but reject the .35 Galton–Watson/1.5385 proof; frozen current-pity odds can self-fund at hard pity. Correct impossible partial traces, unsupported race/time claims and Receipt “stranded” labeling during next evidence pass after rules approval. No production or scenario gate adopted; Plan17 stays in-progress.
+
 - Plan 04 accepted after Repair 02 (`e74b99c`/`7a390da`), owner pose inspection and root `review-04.md`; close as Mode C layered digital rig plus three retained synth sounds. Full138/scoped40 tests pass. Inline closeout fixes only gallery shadow wording/non-animated diagnostic scrolling and source comment, with regenerated preview/controller witness. DECISION-011 and AGENTS stage updated. No production integration or actual animation selection. Plans 09/13 retain owner assignment gates; already-running Plans 14/17/18 continue.
 
 - Owner explicitly assigned Plans 14, 17 and 18 in parallel on 2026-10-25; all are now in-progress. Their separate report-folder scopes are controlling; Plan 17 scenario code stays in its report folder. Plan 04 Repair 02 remains active in source/its own reports. No production integration, motion/race assignment or new image-generation quota follows. Plan 18's CC-audio source policy is already approved; retain the sample-selection gate. Plan 17 returns its mechanism outline/unresolved ticket/item rules before assuming production behavior.

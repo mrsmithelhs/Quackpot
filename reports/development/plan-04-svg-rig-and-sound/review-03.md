@@ -1,0 +1,22 @@
+# Plan 04 refinement return — owner selection and bounded follow-up
+
+**Date:** 2026-10-25. **Reviewed:** `8b7bf39` / `2cb4695`, source modules, builder/parity tests, progress and approved refinement conditions. **Disposition:** owner selects rendered Mode C and retention of all three sounds. Keep those selections; one narrow follow-up remains before technical closeout. No redesign, production integration or motion implementation.
+
+## Verified findings
+
+1. **Selection has not yet become the default asset.** `src/core/duck-rig.mjs` still defaults to geometric B and `getCanonicalMasterSvg()` explicitly selects B; the derived master and cosmetic/diagnostic gallery use B. Promote the selected hybrid C consistently, retaining labeled A/B controls. This is the consequence of the new owner selection, not a defect in delivering the earlier comparison.
+2. **Loudness claims are unsupported.** The builder labels the audition level-matched/calibrated, and synth comments/progress repeat that claim. Actual master gains are .15/.14/.15, not a perceived-volume measurement or output-peak measurement. C has two filtered parallel branches and a different envelope/spectrum. Owner reports C significantly softer. Preserve all three candidates and current settings; remove unsupported claims, record the owner's observation, and leave final context/master-volume mixing to later scope. No need to normalize away a potentially useful quieter sound.
+3. **Factual report drift.** Progress says five palettes including noir/gold; source has three (yellow/green/pink). B actually uses 380→340 Hz with 5/60/40 ms envelope segments and .15 sustain ratio, not 280→180 with the report's settings. C actually uses 300→270 Hz, 10/80/60 ms segments, .05 sustain ratio, Q 3/3.5. Correct the factual inventory against source, not the earlier proposal. Do not add assets to satisfy a mistaken report.
+4. **Finite/bounded parameter condition is incomplete.** `validateSoundParams()` returns Infinity for attack/noiseDuration, NaN for formant Q and arbitrary formant gains; it validates only some fields. Root reproduced this by calling the validator without allocating buffers. The exported noise helper also accepts an arbitrary duration for allocation. Enforce explicit finite, conservative quack-scale bounds before graph creation/buffer allocation, including direct helper use; add rejection/fallback tests without large allocations. The fixed presets are finite and currently pass tests; this is an approved-contract gap before broader reuse, not evidence of a current user-facing crash.
+
+## Shadow and motion interpretation
+
+Read-only Luna-high review correctly identified that Mode C's `feDropShadow` is attached to the entire head and wing groups, not three seam-only shapes. Root verified the filter definition and its group attachments. The rendered C is what the owner chose: preserve that appearance and correct the seam-only/no-silhouette-shadow description rather than silently changing the selected art. Filter behavior under future articulated motion should be inspected in Plan 09. C uses one namespaced filter per instance.
+
+The diagnostic offers manual head/wing pose toggles with a 0.2-second transition; nothing loops automatically. The toolbar controls the separate diagnostic duck farther down, not every sample. Grouping all wing layers together demonstrates the pivot/attachment hierarchy, not independent paper-layer choreography or production animation. This is within Plan 04's explicit static-first/no-production-animation scope. Clarify the gallery so this is easy to discover. Plan 09 compares actual motion with play/pause/replay and reduced motion.
+
+## Evidence and limits
+
+Root ran the rig, synth and parity suites together: **34 tests passed**. Source/gallery parity checks exercise actual bundled modules and master derivation. C uses an isolated fixed-seed LCG noise source; A retains its direct control signal path; B stays parameter-only. No new dependency or game integration was introduced. The implementer's consultation declaration is present (orchestrator-gate-only); no new provider finding warrants upstream export.
+
+Luna-high supplied read-only findings; root checked each against source. Its broad concern about motion claims is scoped here to the actual manual diagnostic. No new browser rendering, acoustic measurement or classroom performance evidence is claimed by this review; rendered preference/listening evidence comes from the owner's inspection. See `repair-02.md` for the concrete follow-up.

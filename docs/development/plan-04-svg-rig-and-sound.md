@@ -1,11 +1,9 @@
 ---
 id: plan-04
 title: SVG duck rig and synthesized sound spike
-status: in-progress
+status: delivered
 depends_on: [plan-02, plan-08]
 gate: "Owner reviews one rendered rig and sound sample before wider asset production."
-superseded_by: null
-resolution: null
 summary: >-
   Prove a small layered SVG duck rig and local parameter-synthesized sound
   without deciding broad art production or music provenance.
@@ -46,6 +44,8 @@ The layered rig and audio approach need a measured proof before asset volume gro
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Assets, Immersion, Technology), and Plan 02's layout decision. All art starts as repository SVG. Ordinary text stays HTML/CSS. Sound parameters are stored as text and synthesized locally; no runtime network calls. Reduced motion preserves content and choices.
 
 ## Scope and work plan
+
+**Refinement return and owner selection, 2026-10-25:** Owner selects rendered Mode C and retaining all three sounds, reporting C softer. See DECISION-009, report-folder `review-03.md` and `repair-02.md`. The 34 scoped tests pass, but default/master remain B, audio validation is incomplete and reporting overclaims loudness/contains stale values. Repair 02 is the concrete narrow follow-up, preserving selected appearance and sound settings; no redesign or motion catalog. Packet is delivered for this review, not complete or newly assigned. Library-audio policy is separately proposed in draft Plan 18, not part of this repair.
 
 **Refinement proposal review, 2026-10-25:** The returned refinement outline is preserved in report-folder `refinement-proposal-01.md`. `refinement-prebuild-review-01.md` approves the bounded paper/sound comparisons with controlling corrections to Candidate B's actual parameter limits, Candidate C's routing/experimental claims and volume evidence. Current packet check is runnable; the attachment's earlier delivered-status block is historical. Update the proposal accordingly and proceed without another general preflight round, preserving owner sample-selection gates.
 

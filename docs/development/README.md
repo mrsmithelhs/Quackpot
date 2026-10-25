@@ -12,7 +12,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-01` | Seeded economy and Receipt simulation | complete | Build one reproducible PRNG and a headless model to test pity, economy loops, roster duplicates, and event-log Receipt lifecycle from provisional values. |
 | `plan-02` | Static build and Pages deployment spike | complete | Prove a local Vite static build and Pages-compatible output, then propose ratification of the source, asset, simulation, test, and publish folders. |
 | `plan-03` | Core mechanism and truthful Receipt slice | complete | Build one playable core-loop path with a meaningful trade-off, local saving, Uninstall and its retention offer, and an event-log-derived honest Receipt. |
-| `plan-04` | SVG duck rig and synthesized sound spike | in-progress | Prove a small layered SVG duck rig and local parameter-synthesized sound without deciding broad art production or music provenance. |
+| `plan-04` | SVG duck rig and synthesized sound spike | delivered | Prove a small layered SVG duck rig and local parameter-synthesized sound without deciding broad art production or music provenance. |
 | `plan-05` | Fatigue and pre-race choice investigation | draft | Compare bounded ways fatigue could obscure the one pre-race choice while preserving agency, accessibility, and the reduced-motion information path. |
 | `plan-06` | Optional odds-detail investigation | draft | Specify candidate information for an optional odds-detail button without hiding the Receipt's actual pity-adjusted pre-draw odds. |
 | `plan-07` | Run-usage export and teacher analyzer investigation | draft | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
@@ -26,6 +26,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-15` | Pull anticipation and bounded local cue investigation | draft | Compare short pull anticipation and graceful fast reveal, then investigate bounded fictional cues responding to local actions with truthful Receipt evidence. |
 | `plan-16` | Deterministic review checkpoints and browser briefs | draft | Propose valid engine-generated seeded checkpoints and short review briefs so targeted browser checks can start at the relevant game or metagame beat. |
 | `plan-17` | Down exchange and whole-wallet validation | draft | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
+| `plan-18` | Local audio sources and credits investigation | draft | Compare a small set of licensed local sound/music sources and propose opening-screen credits without changing the synthesized-effect policy or importing assets by implication. |
 <!-- plan-index:end -->
 
 ## Report Folders

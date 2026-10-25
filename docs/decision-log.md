@@ -107,3 +107,13 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Rationale and limits:** A commercial-feeling experience and an honest later Receipt are compatible. The interview's static examples establish preferences, not PRNG, accessibility, comprehension or economy proof. Current rarity-weighted Down payouts invalidate treating duplicate-card count as expected Down; whole-wallet balances can also remove the illustrated ten-gem shortfall. Investigate these consequences before implementation. Keep the reviewed wireframe as history and use the integration report to supersede rejected recommendations.
 
 **Related:** `reports/development/plan-12-guided-opening-and-shop-progression/wireframes-owner-interview.md`; `reports/orchestration/plan-12-owner-integration.md`; Plans 06/10/11/13/14/15/17. No packet assignment, production change, push or publication follows from this decision.
+
+### DECISION-009 — Mode C selected, three quacks retained, audio sourcing proposed
+
+**Date:** 2026-10-25
+
+**Decision:** Owner selects the actual rendered Plan 04 Mode C hybrid paper duck; preserve its appearance and layered construction for later motion exploration. Retain all three synthesized quack candidates with stable IDs; owner hears C as significantly softer. No single default sound role, random variation policy or volume normalization is selected. A bounded Repair 02 promotes selected C to the master/default, finishes parameter validation and corrects unsupported/stale evidence claims before Plan 04 closes. No production motion or game integration follows. The existing preview only has manual pose diagnostics; actual motion comparisons remain Plan 09.
+
+**Owner clarification:** The selected smaller Down-ticket price supports the feeling of almost catching up, with occasional recoveries. Preserve the 3/6 calibration. Plan 17 should describe recovery trajectories as well as the long-run exchange; perceived recovery and a profitable/self-funding loop are separate questions. Do not rig outcomes to create a teaching example or infer a player's feelings from actions.
+
+**Proposal, not adopted policy:** Owner asks about free sound libraries, attributed Credits from the opening and Creative Commons music. `reports/orchestration/audio-source-options.md` supplies primary sources and a concrete amendment; draft Plan 18 gates its adoption and sample selection. Current synthesized-effect/music-source contracts remain unchanged until owner approves expanding them, with design/AGENTS/prompt synchronized. No external file is downloaded or selected here.

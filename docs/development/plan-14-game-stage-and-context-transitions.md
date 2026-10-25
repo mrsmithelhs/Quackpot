@@ -22,6 +22,8 @@ Read `AGENTS.md`, canonical Immersion/Saving/Time/Receipt contracts, owner play 
 
 ## Required proposal
 
+**Credits follow-on, 2026-10-25:** Owner suggests local Credits linked from the opening screen. Reserve a discoverable, quiet opening/settings location in the shell proposal, coordinated with draft Plan 18. Exact content/asset-source policy remains gated; no external embeds, automatic third-party loading or new audio assets follow from the layout placeholder.
+
 **Owner interview integration, 2026-10-25:** Read DECISION-008 and `reports/orchestration/plan-12-owner-integration.md`. Propose the selected fictional-phone quarter-turn into landscape followed by stage expansion, with responsive/static/reduced-motion alternatives and a return transition. Do not require physical device rotation, fullscreen or a rigid 16:9 viewport. Preserve the full-width shell/quieter save direction. Carry forward accessibility controls and accessible event narration without shipping review tabs/debug logs or claiming conformance from their mock labels. Keep mathematical/manipulation-analysis helper panels out of live gacha; retain necessary costs/odds/terms, operational feedback and accessible equivalents. Stage complexity through relevant actions, not an opening lecture.
 
 **Owner emphasis, 2026-10-24:** The initial entry should visibly feel like an invitation into a more enticing fictional experience. Compare a short in-world app launch/reveal treatment and a quieter control, preserving the apartment context and the player's agency. Coordinate the information being taught with Plan 12; do not substitute a long unskippable cinematic for learning the first action. Later returns may use a shorter transition without changing state or losing context.

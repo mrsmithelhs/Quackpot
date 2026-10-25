@@ -27,6 +27,8 @@ summary: >-
 
 ## Goal, non-goals and rationale
 
+**Owner selection, 2026-10-25:** DECISION-009 selects rendered Plan 04 Mode C hybrid. After Plan 04's bounded technical closeout and owner assignment here, use that construction for motion comparisons. The owner specifically values opportunities for paper layers to separate/move. Existing manual head/wing toggles are diagnostics, not the delivered motion gallery; compare relative layer articulation as well as whole-part pivots. Current C shadows filter complete head/wing groups, so inspect their behavior under articulation rather than assuming seam-only shadows. No physical-companion animation.
+
 Test whether expressive digital ducks add useful personality and variety across repeated pulls and races. The owner wants the E2 paper-style duck's separate layers to appear to move relative to one another. Use the accepted base rig rather than polishing a placeholder. This is not authorization to animate the physical metagame duck, alter odds, ship near-miss theater, or install all candidate motions in the game.
 
 ## Authority and scope

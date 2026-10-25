@@ -16,6 +16,10 @@ This file lists questions that are **genuinely unresolved** - pending investigat
 - Plan 14: How should the selected fictional-phone quarter-turn/full-stage transition adapt to narrow screens and reduced motion? No physical-device rotation or fixed aspect ratio is required.
 - Final fictional app title remains unselected. The interview's candidate list is not approval; exclude the existing real title Duck Dynasty under the fiction constraint.
 
+## Audio-source policy (2026-10-25)
+
+Should the current synthesized-effect/JS-or-model-music policy expand to selected licensed local recordings, with creator identities permitted in factual Credits and notices outside fictional game entities? Concrete proposed wording and verified source options: `reports/orchestration/audio-source-options.md`; draft Plan 18. No recording or source-policy amendment is selected yet.
+
 ## Process / workflow
 
 1. *(Add questions about the handoff workflow, release gates, or agent assignment.)*

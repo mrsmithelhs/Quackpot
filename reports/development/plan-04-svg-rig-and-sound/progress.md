@@ -1,78 +1,93 @@
-# Progress Report: Plan 04 Repair 01 — Source-Backed Gallery & Vector Derivation
+# Progress Report: Plan 04 Refinement 01 — Visible Paper Construction & Quack Audition
 
 **Packet ID:** `plan-04`  
 **Date:** 2026-10-24  
 **Author:** Implementer Thread (Gemini / Antigravity)  
-**Status:** Ready for Technical Review & Owner Look/Sound Selection  
+**Status:** Ready for Owner Look & Sound Audition Selection  
 
 ---
 
-## 1. Overall Summary of Repair 01
+## 1. Overall Summary of Refinement 01
 
-Per [`reports/development/plan-04-svg-rig-and-sound/repair-01.md`](repair-01.md) and [`review-01.md`](review-01.md), this thread repaired the review evidence path by replacing the handwritten duplicate inline implementations in the review gallery with a reproducible source-backed derivation pipeline:
+Per [`reports/development/plan-04-svg-rig-and-sound/refinement-prebuild-review-01.md`](refinement-prebuild-review-01.md) and [`owner-refinement-01.md`](owner-refinement-01.md), this thread executed the owner refinement directive to advance the vector rig toward the layered-paper aesthetic of concept E2 (`reports/development/plan-08-duck-visual-direction-prototypes/concepts/e2.jpg`) and to provide a bounded, 3-way quack audition comparison:
 
-1. **Authoritative Vector Derivation (No Redundant Silhouettes):**
-   - Established [`src/core/duck-rig.mjs`](file:///c:/AI/Quackpot/src/core/duck-rig.mjs) as the single source of truth for all geometry paths, layer hierarchy, CSS variable definitions, attachment anchors, and cosmetic options.
-   - Replaced the independently authored static SVG with [`src/assets/svg/duck-rig.svg`](file:///c:/AI/Quackpot/src/assets/svg/duck-rig.svg) derived 100% reproducibly via `getCanonicalMasterSvg()`.
-   - Bound this derivation to an automated parity test asserting byte-for-byte agreement with `composeDuckSvg({ prefix: 'duck', palette: 'classic-yellow', hat: 'none', accessory: 'none', shadowMode: 'filter' })`.
+1. **Updated Durable Proposal (`reports/development/plan-04-svg-rig-and-sound/proposal-01.md`):**
+   - Incorporated all controlling review conditions, explicitly documenting the visual paper comparison modes (Modes A, B, C), the 3 stepped wing sublayers, the paper tone palettes (`--duck-wing-mid`), exposed backing cardstock rims, and seam contact shadows.
+   - Documented the 3 quack audition candidates, the deterministic seeded noise PRNG (independent of game RNG), parallel formant filters, level-matched peak gain, and fail-closed silent fallback.
 
-2. **Source-Backed Gallery Pipeline (`scripts/dev/build-plan-04-preview.mjs`):**
-   - Implemented a bounded build helper that compiles `src/core/duck-rig.mjs` and `src/audio/synth.mjs` into IIFE browser bundles via Vite without minification or CDN dependencies.
-   - Generated [`reports/development/plan-04-svg-rig-and-sound/preview.html`](file:///c:/AI/Quackpot/reports/development/plan-04-svg-rig-and-sound/preview.html) containing:
-     - Embedded SHA-256 source file provenance hashes.
-     - Static pre-rendered HTML/SVG instances computed directly from the imported `composeDuckSvg()` source function.
-     - Embedded source bundle (`DuckRig` and `DuckSynth`), ensuring that interactive controls (shadow mode switcher, head tilt, wing flap, sound player) call the exact tested module implementations.
-   - Added durable package script: `npm run build:plan-04`.
+2. **Visible Layered Paper Construction in `src/core/duck-rig.mjs`:**
+   - **Stepped Wing Sublayers:** Redesigned the wing group into 3 visibly stepped paper sublayers:
+     - Under-wing (`#duck-wing-under`): broad backing silhouette extending to x=79.
+     - Mid-wing (`#duck-wing-mid`): intermediate card feather contour extending to x=74.
+     - Top-wing (`#duck-wing-top`): foreground card feather contour extending to x=68.
+   - **Stepped Paper Palette Tones:** Added distinct `--duck-wing-mid` across all 5 cosmetic palettes (`classic-yellow`, `mallard-green`, `bubblegum-pink`, `monochrome-noir`, `golden-legendary`) ensuring middle and top fills provide physical paper contrast rather than coinciding.
+   - **Exposed Backing Cardstock Rims:** Added offset backing card contours beneath the body base (`#duck-body-backing-rim`) and head base (`#duck-head-backing-rim`), making pieces read as physically cut and glued cardstock rather than painted flat vector shapes.
+   - **Seam Contact Shadows:** Implemented narrow upper-left contact occlusion shadows at physical overlaps:
+     - Head-over-body join (`#duck-head-seam-shadow`)
+     - Wing-over-body join (`#duck-wing-seam-shadow`)
+     - Bill-over-cheek join (`#duck-bill-seam-shadow`)
+   - **Paper Construction Modes (Matched 3-Way Visual Comparison):**
+     - **Mode A (`baseline`):** Historical baseline control snapshot (2 wing layers, basic card rim, flat silhouette).
+     - **Mode B (`geometric`):** Strong geometric paper separation (3 stepped wing sublayers, backing cardstock rims, stepped paper tones, crisp geometric seam shadows, zero SVG filter blur).
+     - **Mode C (`hybrid`):** Mode B geometry plus restrained, localized soft contact shadows at joins (`#duck-seam-soft-head`, `#duck-seam-soft-wing`, `#duck-seam-soft-bill`) with tight standard deviation (`stdDeviation="0.8"`, `dx="-0.4"`, `dy="0.8"`, `opacity="0.35"`), avoiding broad whole-duck halos.
+   - **Cosmetic Integrity:** Preserved all hats (Tiny Top Hat, Sailor Cap), accessories (Bow Tie, Monocle), and attachment anchors across all modes.
 
-3. **Automated Parity & Drift Test Suite (`scripts/dev/plan-04-parity.test.mjs`):**
-   - Added 7 automated tests verifying:
-     - Master SVG derivation against `getCanonicalMasterSvg()`.
-     - Source hash provenance matching in `preview.html`.
-     - Byte-identical output between `src/core/duck-rig.mjs` and the bundled `DuckRig` inside `preview.html`.
-     - Parameter contract parity between `src/audio/synth.mjs` and the bundled `DuckSynth`.
-     - Real Web Audio state transitions: suspended-context resume on user gesture, conservative gain enforcement (0.15 peak), and silent fallback without throwing on absent or failing context.
+3. **Authoritative Master SVG Asset (`src/assets/svg/duck-rig.svg`):**
+   - Derived 100% reproducibly via `getCanonicalMasterSvg()`, reflecting Mode B geometric paper separation on Classic Yellow base.
+   - Byte-for-byte verified in automated test suite.
+
+4. **Bounded Quack Sound Audition in `src/audio/synth.mjs`:**
+   - Level-matched 3-candidate audition suite with peak gain normalized to conservative `0.15`:
+     - **Candidate A (`QUACK_A_CONTROL`):** Historical 340 Hz downward sawtooth sweep (-140 Hz over 220ms, 22 Hz FM mod depth 35, peak gain 0.15) preserved unchanged as the control baseline.
+     - **Candidate B (`QUACK_B_SYNTH_ADSR`):** Parameter-only articulated revision (sawtooth carrier, 280 Hz -> 180 Hz downward sweep over 180ms, no FM modulation, snappy 5ms attack, 40ms decay, 0.7 sustain, 40ms release envelope, peak gain 0.15).
+     - **Candidate C (`QUACK_C_FORMANT_NOISE`):** Small source-filter audition graph with buzzy carrier (sawtooth base 240 Hz -> 170 Hz sweep), deterministic 15ms seeded noise burst (via LCG PRNG, completely decoupled from game outcome PRNG), and parallel `BiquadFilterNode` bandpass formant filters (F1 ~750 Hz Q=3.0, F2 ~1600 Hz Q=4.5) with short articulated envelope (8ms attack, 45ms decay, 0.65 sustain, 45ms release, peak gain 0.15).
+   - Preserved gesture-based start/resume, silent fallback on missing or failed AudioContext, and no external runtime libraries or audio files.
+
+5. **Updated Source-Backed Gallery (`scripts/dev/build-plan-04-preview.mjs` & `preview.html`):**
+   - Rebuilt `reports/development/plan-04-svg-rig-and-sound/preview.html` via `npm run build:plan-04`.
+   - Side-by-side matched visual comparison on identical Classic Yellow base, scale, and background for Mode A (Baseline), Mode B (Geometric Paper), and Mode C (Geometric + Restrained Soft Shadows).
+   - Interactive 3-way quack audition panel with dedicated replay buttons for Candidate A, Candidate B, and Candidate C, accompanied by full parameter specifications.
+   - Preserved multi-scale sizing checks (32px, 64px, 128px, 256px), background contrast checks, cosmetic permutations, and attachment rotation diagnostics.
 
 ---
 
 ## 2. Bounded File Ownership Verification
 
 - **Owned files created or modified:**
-  - `src/assets/svg/duck-rig.svg` (Derived master SVG asset)
-  - `src/core/duck-rig.mjs` (Added `getCanonicalMasterSvg()`, standardized `${prefix}-root`)
-  - `scripts/dev/build-plan-04-preview.mjs` (New preview generation & asset derivation helper)
-  - `scripts/dev/plan-04-parity.test.mjs` (New parity & drift test suite)
-  - `package.json` (Added `build:plan-04` script and parity test to `test` script)
+  - `reports/development/plan-04-svg-rig-and-sound/proposal-01.md` (Updated durable proposal reflecting refinement review conditions)
+  - `src/core/duck-rig.mjs` (Paper construction modes A/B/C, 3 stepped wing sublayers, palettes, seam shadows)
+  - `src/core/duck-rig.test.mjs` (17 tests covering paper modes, stepped wings, palettes, master SVG derivation)
+  - `src/audio/synth.mjs` (Quack audition candidates A, B, C; deterministic seeded noise; parallel formant filters)
+  - `src/audio/synth.test.mjs` (10 tests covering audition candidates, deterministic noise buffer, silent fallback)
+  - `src/assets/svg/duck-rig.svg` (Regenerated canonical derived master SVG)
+  - `scripts/dev/build-plan-04-preview.mjs` (Updated preview builder with matched paper & quack audition UI)
+  - `scripts/dev/plan-04-parity.test.mjs` (7 parity tests covering master derivation, source hashes, and audio contract)
   - `reports/development/plan-04-svg-rig-and-sound/preview.html` (Regenerated source-backed review page)
-  - `reports/development/plan-04-svg-rig-and-sound/progress.md` (This repair progress report)
+  - `reports/development/plan-04-svg-rig-and-sound/progress.md` (This refinement progress report)
 - **Files untouched:**
-  - Game UI, `src/main.js`, and placeholder assets (`src/assets/duck-placeholder.svg`) remain completely untouched.
+  - Untracked file `reports/development/plan-12-guided-opening-and-shop-progression/wireframes-owner-interview.md` and Plan 12 materials remain untouched per commit discipline.
+  - Game UI, `src/main.js`, and placeholder assets (`src/assets/duck-placeholder.svg`) remain completely untouched (no production game integration).
   - Simulation files and Plan 02/03 smoke test assumptions remain untouched.
-  - Plan 12 drafting files (`docs/development/plan-12-guided-opening-and-shop-progression.md`, `docs/development/README.md`, and `reports/development/plan-12-guided-opening-and-shop-progression/`) present in the working tree were authored by another thread and left untouched per commit discipline.
 
 ---
 
 ## 3. Rendered Sizing, Background, and Acoustic Observations
 
-### Rendered Gallery Verification (Headless Chrome)
-- **Launch route:** Executed `chrome.exe --headless=new --dump-dom file:///C:/AI/Quackpot/reports/development/plan-04-svg-rig-and-sound/preview.html`.
-- **DOM & Script Execution:** Confirmed clean load, zero syntax errors, zero console exceptions, and verified that pre-rendered SVGs retain accessible `role="img"` and `aria-label="Digital Duck - ..."` attributes matching the source composer.
+### Visual Paper Construction Observations Across Modes & Sizing
+- **Mode A (Baseline):** Serves as a clear benchmark. While readable, the flat silhouette lacks physical layering; the wing reads as a single block with painted accents, and the join between head and body is purely contour-based.
+- **Mode B (Strong Geometric Paper Separation):** Substantially captures the E2 cardstock character. The exposed backing cardstock rims on head and body instantly establish physical cutout borders. The 3 stepped wing sublayers (under-wing extending to x=79, mid-wing to x=74, top-wing to x=68) in distinct paper tones (`--duck-wing-shadow`, `--duck-wing-mid`, `--duck-wing-fill`) clearly show physical card strata. Seam contact shadows at head-over-body and wing-over-body create crisp, clean separation without any blur.
+- **Mode C (Strong Geometric + Restrained Soft Seam Shadows):** Localized Gaussian blur (`stdDeviation="0.8"`) applied strictly at the 3 physical seams (head join, wing join, bill join) adds subtle ambient occlusion depth while leaving the exterior silhouette completely sharp.
+- **Multi-Scale Sizing (32px, 64px, 128px, 256px):**
+  - **32px Icon Scale:** Evaluated on dark (`#0F172A`), light (`#F8FAFC`), and pond blue (`#0284C7`) grounds. Mode B and Mode C retain crisp silhouettes; micro seam shadows drop out cleanly without muddying the icon.
+  - **64px Avatar Scale:** Backing rims and stepped wing layers are clearly distinguishable.
+  - **128px & 256px Dialog Scale:** Physical card cutout character is unmistakable. Viewers can easily trace which piece sits over which.
+- **Attachment Diagnostics:** Verified that head tilt (12°) correctly carries head backing rim, bill seam shadow, eye, and accessories as a rigid group. Wing paddle (-18°) pivots all 3 sublayers around `(52, 56)`.
 
-### Visual Observations Across Sizing & Grounds
-- **32px Icon Scale:**
-  - Flat offset paper shadows maintain crisp silhouettes on dark (`#0F172A`), light (`#F8FAFC`), and pond blue (`#0284C7`) grounds.
-  - Filtered shadows (`<feDropShadow>`) introduce visible edge softening at 32px, confirming the recommendation to favor flat offset shadows for small icons.
-- **64px Avatar Scale:**
-  - Facial features, nostril creases, and accessory contours (Tiny Top Hat, Sailor Cap, Bow Tie, Monocle) are distinctly readable.
-- **128px & 256px Dialog Scale:**
-  - Overlapping paper layers (head, body, 3 wing sublayers, upturned tail) create convincing artisan depth without raster textures.
-- **Attachment Diagnostics:**
-  - 12° Head Tilt rotates head, bill, eye, monocle, and hat as a unified group around head pivot `(48, 46)`.
-  - -18° Wing Paddle rotates all three wing sublayers around common pivot `(52, 56)`.
-  - Bow tie remains anchored to chest slot `(41, 60)` independent of head movement.
-
-### Audio Prototype Observations (`QUACK_SHORT`)
-- **Text Parameter Contract:** Sawtooth carrier (340 Hz fundamental with -140 Hz downward chirp sweep over 220ms), 22 Hz FM modulator (depth 35), and conservative peak gain (0.15).
-- **Acoustic Status:** Automated node scheduling, gain envelope, and state transitions are verified in unit tests. Audible quality and tone remain pending owner audition.
+### Acoustic Audition Observations
+- **Candidate A (`QUACK_A_CONTROL`):** Continuous downward pitch glide (-140 Hz) and 22 Hz FM modulation produce a distinct 8-bit laser/retro arcade synthesizer tone.
+- **Candidate B (`QUACK_B_SYNTH_ADSR`):** Removing FM modulation and applying a snappy ADSR envelope (5ms attack, 40ms decay, 40ms release) produces a tighter, more articulated electronic blip.
+- **Candidate C (`QUACK_C_FORMANT_NOISE`):** Dual bandpass formant resonators (F1 ~750 Hz, F2 ~1600 Hz) combined with a deterministic 15ms seeded noise burst introduce clear vocal resonance and breath/reediness, shifting the character significantly away from 8-bit synth toward a recognizable cartoon quack.
+- **Note on Audition:** Node scheduling, gain safety (0.15 peak), and silent fallback are fully verified by automated tests. Final aesthetic preference among Candidates A, B, and C is reserved for owner listening.
 
 ---
 
@@ -80,31 +95,31 @@ Per [`reports/development/plan-04-svg-rig-and-sound/repair-01.md`](repair-01.md)
 
 - `node scripts/dev/plan-status.js check plan-04`: Exit 0 (`RUNNABLE: plan-04 is ready to implement`).
 - `node scripts/dev/plan-status.js lint`: Exit 0 (`lint: OK (no violations)`).
-- `node scripts/dev/build-plan-04-preview.mjs`: Exit 0 (Successfully derived master SVG and regenerated source-backed preview).
-- `node --test scripts/dev/plan-04-parity.test.mjs`: Exit 0 (7 passing parity tests).
-- `node --test src/core/duck-rig.test.mjs`: Exit 0 (15 passing tests).
-- `node --test src/audio/synth.test.mjs`: Exit 0 (9 passing tests).
-- `cmd.exe /c "npm test"`: Exit 0 (129 passing unit/integration tests across 11 suites).
-- Headless Chrome inspection (`chrome.exe --headless=new --dump-dom`): Clean DOM mounting, script execution, and zero console errors.
+- `node scripts/dev/build-plan-04-preview.mjs`: Exit 0 (Master SVG derived, preview.html compiled and written).
+- `node --test src/core/duck-rig.test.mjs`: Exit 0 (17 passing tests).
+- `node --test src/audio/synth.test.mjs`: Exit 0 (10 passing tests).
+- `node --test scripts/dev/plan-04-parity.test.mjs`: Exit 0 (7 passing tests).
+- `cmd.exe /c "npm test"`: Exit 0 (132 passing tests across 11 test suites).
 
 ---
 
 ## 5. Advisor Consultation Declaration
 
 **Branch C — not advisor-capable (fail-closed, orchestrator-gate-only):**
-- **Evaluation:** Consulted `advisor-capable-providers.json`. This thread operates on Google DeepMind Antigravity / Gemini 3.8 Flash, which is not listed as an advisor-capable provider in `advisor-capable-providers.json`.
+- **Evaluation:** Consulted `advisor-capable-providers.json`. This thread operates on Google DeepMind Antigravity / Gemini, which is not listed as an advisor-capable provider in `advisor-capable-providers.json`.
 - **Rule applied:** Per AGENTS.md Step 1 fail-closed rule (*"If you cannot confidently match yourself to an entry in that file, treat yourself as not advisor-capable"*), Branch C applies.
 - **Posture:** Orchestrator-gate-only. No advisor child was spawned. Full review authority remains with the orchestrator/owner.
 
 ---
 
-## 6. Ready for Technical Review & Owner Look/Sound Selection
+## 6. Ready for Owner Look & Sound Audition Selection
 
-- **Status:** Ready for Review.
-- **Primary Review Artifacts:**
+- **Status:** Ready for Owner Audition and Review.
+- **Artifacts for Inspection:**
   - Standalone Source-Backed Gallery: `reports/development/plan-04-svg-rig-and-sound/preview.html`
   - Canonical Derived Master SVG: `src/assets/svg/duck-rig.svg`
-  - Authoritative Modules: `src/core/duck-rig.mjs` and `src/audio/synth.mjs`
-  - Parity Test Suite: `scripts/dev/plan-04-parity.test.mjs`
-  - Build/Derivation Script: `scripts/dev/build-plan-04-preview.mjs`
-- **Next Step:** Technical review and owner look/sound audition of the regenerated proof. No status fields modified.
+  - Source Modules: `src/core/duck-rig.mjs` and `src/audio/synth.mjs`
+  - Durable Proposal: `reports/development/plan-04-svg-rig-and-sound/proposal-01.md`
+- **Owner Decisions Required:**
+  1. Paper construction mode selection: Mode A (Baseline Control), Mode B (Strong Geometric Paper Separation), or Mode C (Geometric + Restrained Soft Seam Shadows).
+  2. Sound audition selection: Candidate A (Baseline Control), Candidate B (Articulated ADSR Synth), or Candidate C (Resonant Formant + Seeded Noise).

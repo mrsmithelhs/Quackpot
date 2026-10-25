@@ -7,7 +7,8 @@ import {
   PAPER_MODES,
   SHADOW_MODES,
   validateOptions,
-  composeDuckSvg
+  composeDuckSvg,
+  getCanonicalMasterSvg
 } from './duck-rig.mjs';
 
 describe('duck-rig — option validation', () => {
@@ -17,7 +18,7 @@ describe('duck-rig — option validation', () => {
     assert.equal(opts.paletteId, 'classic-yellow');
     assert.equal(opts.hat, 'none');
     assert.equal(opts.accessory, 'none');
-    assert.equal(opts.paperMode, 'geometric');
+    assert.equal(opts.paperMode, 'hybrid');
   });
 
   test('maps legacy shadowMode offset to geometric and filter to hybrid', () => {
@@ -134,11 +135,21 @@ describe('duck-rig — paper construction modes (A/B/C)', () => {
     assert.doesNotMatch(svg, /<feDropShadow/, 'Geometric mode must not use feDropShadow filter');
   });
 
-  test('hybrid mode (Mode C) includes local seam-shadow filter applied specifically at joins', () => {
+  test('hybrid mode (Mode C) includes local seam-shadow filter applied specifically at head and wing groups', () => {
     const svg = composeDuckSvg({ prefix: 'pfx-hyb', paperMode: 'hybrid' });
     assert.match(svg, /<filter id="pfx-hyb-seam-shadow"/);
     assert.match(svg, /id="pfx-hyb-head-group"[^>]*filter="url\(#pfx-hyb-seam-shadow\)"/);
     assert.match(svg, /id="pfx-hyb-wing-group"[^>]*filter="url\(#pfx-hyb-seam-shadow\)"/);
+  });
+
+  test('canonical master SVG defaults to Mode C hybrid', () => {
+    const master = getCanonicalMasterSvg();
+    assert.match(master, /<filter id="duck-seam-shadow"/);
+    assert.match(master, /id="duck-head-group"[^>]*filter="url\(#duck-seam-shadow\)"/);
+    assert.match(master, /id="duck-wing-group"[^>]*filter="url\(#duck-seam-shadow\)"/);
+    assert.match(master, /id="duck-wing-under"/);
+    assert.match(master, /id="duck-wing-mid"/);
+    assert.match(master, /id="duck-wing-top"/);
   });
 
   test('baseline mode (Mode A) reproduces historical baseline snapshot', () => {

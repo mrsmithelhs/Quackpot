@@ -20,7 +20,7 @@ export const QUACK_A_CONTROL = Object.freeze({
   release: 0.08,           // 80ms release (Total: 0.22s)
   modulationFreq: 22,      // Vibrato / resonance freq in Hz
   modulationDepth: 35,     // Modulation intensity in Hz
-  gain: 0.15               // Peak gain
+  gain: 0.15               // Master gain coefficient
 });
 
 // For backwards compatibility with earlier spike contracts
@@ -39,7 +39,7 @@ export const QUACK_B_SYNTH_ADSR = Object.freeze({
   release: 0.04,           // Snappy 40ms release (Total: ~0.105s)
   modulationFreq: 0,       // No continuous FM modulation
   modulationDepth: 0,
-  gain: 0.14               // Level-matched perceived volume
+  gain: 0.14               // Master gain coefficient
 });
 
 export const QUACK_C_FORMANT_NOISE = Object.freeze({
@@ -63,7 +63,7 @@ export const QUACK_C_FORMANT_NOISE = Object.freeze({
   // Deterministic Noise Burst (Transient bill click)
   noiseDuration: 0.015,    // 15ms duration
   noiseGain: 0.12,         // Controlled mix ratio
-  gain: 0.15               // Master output calibrated for matched loudness
+  gain: 0.15               // Master gain coefficient (Note: owner observed Candidate C sounds softer due to parallel bandpass filtering)
 });
 
 export const QUACK_CANDIDATES = Object.freeze({
@@ -73,15 +73,44 @@ export const QUACK_CANDIDATES = Object.freeze({
 });
 
 const VALID_WAVEFORMS = Object.freeze(['sawtooth', 'triangle', 'sine', 'square']);
+const VALID_TREATMENTS = Object.freeze(['control', 'param_only', 'source_filter']);
 
 /**
- * Validates audio parameters against safe numeric ranges.
+ * Validates audio parameters against safe, conservative, finite quack-scale ranges.
+ * Throws explicit descriptive Error on any non-finite, missing, or out-of-range value.
+ *
+ * Parameter bounds (tailored for short cartoon quack synthesis):
+ * - waveform: 'sawtooth' | 'triangle' | 'sine' | 'square'
+ * - frequency: 20 Hz to 4000 Hz
+ * - pitchBend: -2000 Hz to 2000 Hz (and frequency + pitchBend >= 20 Hz)
+ * - attack: 0.001s to 0.5s
+ * - decay: 0.001s to 1.0s
+ * - sustain: 0.0 to 1.0 (ratio)
+ * - release: 0.001s to 1.0s
+ * - total duration (attack + decay + release): <= 2.0s
+ * - gain: > 0 to 1.0 (AudioParam master gain coefficient)
+ * - modulationFreq: 0 to 100 Hz
+ * - modulationDepth: 0 to 500 Hz
+ * - formant1Freq: 50 to 3000 Hz
+ * - formant1Q: 0.1 to 20.0
+ * - formant1Gain: 0.0 to 2.0
+ * - formant2Freq: 100 to 6000 Hz
+ * - formant2Q: 0.1 to 20.0
+ * - formant2Gain: 0.0 to 2.0
+ * - noiseDuration: 0.001s to 0.2s
+ * - noiseGain: 0.0 to 1.0
+ *
  * @param {Object} params 
  * @returns {Object} validated params
  */
 export function validateSoundParams(params = {}) {
   if (!params || typeof params !== 'object') {
-    throw new Error('Sound params must be an object');
+    throw new TypeError('Sound params must be a non-null object');
+  }
+
+  const treatment = params.treatment || (params.formant1Freq !== undefined ? 'source_filter' : 'control');
+  if (!VALID_TREATMENTS.includes(treatment)) {
+    throw new Error(`Invalid treatment "${treatment}". Supported: ${VALID_TREATMENTS.join(', ')}`);
   }
 
   const waveform = params.waveform || 'sawtooth';
@@ -90,24 +119,98 @@ export function validateSoundParams(params = {}) {
   }
 
   const frequency = Number(params.frequency ?? 340);
-  if (!Number.isFinite(frequency) || frequency <= 0 || frequency > 20000) {
-    throw new Error(`Invalid frequency "${params.frequency}". Must be between 1 and 20000 Hz.`);
+  if (!Number.isFinite(frequency) || frequency < 20 || frequency > 4000) {
+    throw new RangeError(`Invalid frequency "${params.frequency}". Must be a finite number between 20 and 4000 Hz.`);
+  }
+
+  const pitchBend = Number(params.pitchBend ?? 0);
+  if (!Number.isFinite(pitchBend) || pitchBend < -2000 || pitchBend > 2000) {
+    throw new RangeError(`Invalid pitchBend "${params.pitchBend}". Must be a finite number between -2000 and 2000 Hz.`);
+  }
+  if (frequency + pitchBend < 20) {
+    throw new RangeError(`Invalid ending frequency (${frequency + pitchBend} Hz). Must end at >= 20 Hz.`);
+  }
+
+  const attack = Number(params.attack ?? 0.02);
+  if (!Number.isFinite(attack) || attack < 0.001 || attack > 0.5) {
+    throw new RangeError(`Invalid attack "${params.attack}". Must be a finite number between 0.001 and 0.5 seconds.`);
+  }
+
+  const decay = Number(params.decay ?? 0.12);
+  if (!Number.isFinite(decay) || decay < 0.001 || decay > 1.0) {
+    throw new RangeError(`Invalid decay "${params.decay}". Must be a finite number between 0.001 and 1.0 seconds.`);
+  }
+
+  const sustain = Number(params.sustain ?? 0.05);
+  if (!Number.isFinite(sustain) || sustain < 0.0 || sustain > 1.0) {
+    throw new RangeError(`Invalid sustain "${params.sustain}". Must be a finite ratio between 0.0 and 1.0.`);
+  }
+
+  const release = Number(params.release ?? 0.08);
+  if (!Number.isFinite(release) || release < 0.001 || release > 1.0) {
+    throw new RangeError(`Invalid release "${params.release}". Must be a finite number between 0.001 and 1.0 seconds.`);
+  }
+
+  const totalDuration = attack + decay + release;
+  if (totalDuration > 2.0) {
+    throw new RangeError(`Total duration (${totalDuration.toFixed(3)}s) exceeds conservative quack limit of 2.0s.`);
   }
 
   const gain = Number(params.gain ?? 0.15);
-  if (!Number.isFinite(gain) || gain <= 0 || gain > 1.0) {
-    throw new Error(`Invalid gain "${params.gain}". Must be between 0 and 1.0.`);
+  if (!Number.isFinite(gain) || gain <= 0.0 || gain > 1.0) {
+    throw new RangeError(`Invalid gain "${params.gain}". Must be a finite number between 0.001 and 1.0.`);
   }
 
-  const attack = Math.max(0.001, Number(params.attack ?? 0.02));
-  const decay = Math.max(0.001, Number(params.decay ?? 0.12));
-  const sustain = Math.max(0, Math.min(1.0, Number(params.sustain ?? 0.05)));
-  const release = Math.max(0.001, Number(params.release ?? 0.08));
-  const pitchBend = Number(params.pitchBend ?? 0);
-  const modulationFreq = Math.max(0, Number(params.modulationFreq ?? 0));
-  const modulationDepth = Math.max(0, Number(params.modulationDepth ?? 0));
+  const modulationFreq = Number(params.modulationFreq ?? 0);
+  if (!Number.isFinite(modulationFreq) || modulationFreq < 0 || modulationFreq > 100) {
+    throw new RangeError(`Invalid modulationFreq "${params.modulationFreq}". Must be a finite number between 0 and 100 Hz.`);
+  }
 
-  const treatment = params.treatment || (params.formant1Freq ? 'source_filter' : 'control');
+  const modulationDepth = Number(params.modulationDepth ?? 0);
+  if (!Number.isFinite(modulationDepth) || modulationDepth < 0 || modulationDepth > 500) {
+    throw new RangeError(`Invalid modulationDepth "${params.modulationDepth}". Must be a finite number between 0 and 500 Hz.`);
+  }
+
+  // Formant and noise parameter validation
+  const formant1Freq = Number(params.formant1Freq ?? 750);
+  if (!Number.isFinite(formant1Freq) || formant1Freq < 50 || formant1Freq > 3000) {
+    throw new RangeError(`Invalid formant1Freq "${params.formant1Freq}". Must be a finite number between 50 and 3000 Hz.`);
+  }
+
+  const formant1Q = Number(params.formant1Q ?? 3.0);
+  if (!Number.isFinite(formant1Q) || formant1Q < 0.1 || formant1Q > 20.0) {
+    throw new RangeError(`Invalid formant1Q "${params.formant1Q}". Must be a finite number between 0.1 and 20.0.`);
+  }
+
+  const formant1Gain = Number(params.formant1Gain ?? 0.85);
+  if (!Number.isFinite(formant1Gain) || formant1Gain < 0.0 || formant1Gain > 2.0) {
+    throw new RangeError(`Invalid formant1Gain "${params.formant1Gain}". Must be a finite number between 0.0 and 2.0.`);
+  }
+
+  const formant2Freq = Number(params.formant2Freq ?? 1600);
+  if (!Number.isFinite(formant2Freq) || formant2Freq < 100 || formant2Freq > 6000) {
+    throw new RangeError(`Invalid formant2Freq "${params.formant2Freq}". Must be a finite number between 100 and 6000 Hz.`);
+  }
+
+  const formant2Q = Number(params.formant2Q ?? 3.5);
+  if (!Number.isFinite(formant2Q) || formant2Q < 0.1 || formant2Q > 20.0) {
+    throw new RangeError(`Invalid formant2Q "${params.formant2Q}". Must be a finite number between 0.1 and 20.0.`);
+  }
+
+  const formant2Gain = Number(params.formant2Gain ?? 0.65);
+  if (!Number.isFinite(formant2Gain) || formant2Gain < 0.0 || formant2Gain > 2.0) {
+    throw new RangeError(`Invalid formant2Gain "${params.formant2Gain}". Must be a finite number between 0.0 and 2.0.`);
+  }
+
+  const noiseDuration = Number(params.noiseDuration ?? 0.015);
+  if (!Number.isFinite(noiseDuration) || noiseDuration < 0.001 || noiseDuration > 0.2) {
+    throw new RangeError(`Invalid noiseDuration "${params.noiseDuration}". Must be a finite number between 0.001 and 0.2 seconds.`);
+  }
+
+  const noiseGain = Number(params.noiseGain ?? 0.12);
+  if (!Number.isFinite(noiseGain) || noiseGain < 0.0 || noiseGain > 1.0) {
+    throw new RangeError(`Invalid noiseGain "${params.noiseGain}". Must be a finite number between 0.0 and 1.0.`);
+  }
 
   return {
     id: params.id || params.name || 'CUSTOM_SOUND',
@@ -123,19 +226,20 @@ export function validateSoundParams(params = {}) {
     modulationFreq,
     modulationDepth,
     gain,
-    formant1Freq: Number(params.formant1Freq ?? 750),
-    formant1Q: Number(params.formant1Q ?? 3.0),
-    formant1Gain: Number(params.formant1Gain ?? 0.85),
-    formant2Freq: Number(params.formant2Freq ?? 1600),
-    formant2Q: Number(params.formant2Q ?? 3.5),
-    formant2Gain: Number(params.formant2Gain ?? 0.65),
-    noiseDuration: Number(params.noiseDuration ?? 0.015),
-    noiseGain: Number(params.noiseGain ?? 0.12)
+    formant1Freq,
+    formant1Q,
+    formant1Gain,
+    formant2Freq,
+    formant2Q,
+    formant2Gain,
+    noiseDuration,
+    noiseGain
   };
 }
 
 /**
  * Generates an AudioBuffer containing deterministic pseudo-random white noise.
+ * Strictly bounds duration (0.001 to 0.5s) and sample rate to avoid unbounded allocations.
  * Uses an isolated linear congruential generator (LCG) seed to ensure 100% reproducible
  * audition noise completely decoupled from game simulation PRNG.
  * @param {AudioContext} ctx
@@ -145,12 +249,25 @@ export function validateSoundParams(params = {}) {
  */
 export function createDeterministicNoiseBuffer(ctx, durationSeconds, seed = 12345) {
   if (!ctx || typeof ctx.createBuffer !== 'function') return null;
+
+  if (typeof durationSeconds !== 'number' || !Number.isFinite(durationSeconds) || durationSeconds < 0.001 || durationSeconds > 0.5) {
+    throw new RangeError(`Invalid noise duration ${durationSeconds}. Must be a finite number between 0.001 and 0.5 seconds.`);
+  }
+
   const sampleRate = ctx.sampleRate || 44100;
+  if (typeof sampleRate !== 'number' || !Number.isFinite(sampleRate) || sampleRate <= 0 || sampleRate > 192000) {
+    throw new RangeError(`Invalid sampleRate ${sampleRate}. Must be a positive finite number <= 192000.`);
+  }
+
+  if (seed !== undefined && (typeof seed !== 'number' || !Number.isFinite(seed) || seed < 0)) {
+    throw new TypeError('Seed must be a non-negative finite number');
+  }
+
   const length = Math.max(1, Math.floor(sampleRate * durationSeconds));
   const buffer = ctx.createBuffer(1, length, sampleRate);
   const channelData = buffer.getChannelData(0);
 
-  let state = seed;
+  let state = Math.floor(seed);
   for (let i = 0; i < length; i++) {
     // 32-bit LCG
     state = (state * 1664525 + 1013904223) % 4294967296;

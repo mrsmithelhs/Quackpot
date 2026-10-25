@@ -108,21 +108,21 @@ export async function buildPlan04AssetsAndPreview() {
   const modeB = renderScaleSet('mode-b', 'geometric');
   const modeC = renderScaleSet('mode-c', 'hybrid');
 
-  // Pre-render diagnostic rig
+  // Pre-render diagnostic rig (Mode C hybrid per owner selection)
   const preRenderedDiagnostic = composeDuckSvg({
     prefix: 'gallery-demo',
     palette: 'classic-yellow',
     hat: 'tiny-top-hat',
     accessory: 'monocle',
-    paperMode: 'geometric'
+    paperMode: 'hybrid'
   });
 
-  // Pre-render permutation proof set
+  // Pre-render permutation proof set (Mode C hybrid per owner selection)
   const preRenderedProofCards = PROOF_SET.map(item => `
         <div class="gallery-card">
           <div class="gallery-duck-box bg-dark" id="box-${item.prefix}">
             <div class="duck-wrapper duck-128" id="container-${item.prefix}">
-              ${composeDuckSvg({ ...item, paperMode: 'geometric' })}
+              ${composeDuckSvg({ ...item, paperMode: 'hybrid' })}
             </div>
           </div>
           <div class="gallery-info">
@@ -501,6 +501,13 @@ export async function buildPlan04AssetsAndPreview() {
       transform: rotate(-18deg);
       transition: transform 0.2s ease;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .head-tilt-active #gallery-demo-head-group,
+      .wing-flap-active #gallery-demo-wing-group {
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -534,9 +541,9 @@ export async function buildPlan04AssetsAndPreview() {
     </div>
 
     <div class="control-group">
-      <label>Static Motion Diagnostics:</label>
-      <button onclick="toggleHeadTilt()">Toggle Head Tilt (12°)</button>
-      <button onclick="toggleWingFlap()">Toggle Wing Paddle (-18°)</button>
+      <label>Manual Pose Diagnostics (Affects Section 3 Rig):</label>
+      <button id="btn-head-tilt" onclick="toggleHeadTilt()">Toggle Head Tilt (12°)</button>
+      <button id="btn-wing-flap" onclick="toggleWingFlap()">Toggle Wing Paddle (-18°)</button>
     </div>
 
     <div class="control-group">
@@ -580,10 +587,10 @@ export async function buildPlan04AssetsAndPreview() {
         </div>
 
         <!-- Mode B: Strong Geometric Paper Separation -->
-        <div class="compare-card" style="border-color: #38bdf8;">
+        <div class="compare-card">
           <div class="compare-header">
             <span class="compare-title">Mode B: Geometric Paper Separation</span>
-            <span class="compare-tag" style="background: #0284c7; color: #fff;">Authoritative Base</span>
+            <span class="compare-tag">Geometric Control Baseline</span>
           </div>
           <p class="compare-notes">
             <strong>Key Paper Elements:</strong><br>
@@ -603,14 +610,14 @@ export async function buildPlan04AssetsAndPreview() {
           </div>
         </div>
 
-        <!-- Mode C: Restrained Hybrid -->
-        <div class="compare-card">
+        <!-- Mode C: Selected Restrained Hybrid (Selected Master) -->
+        <div class="compare-card" style="border-color: #38bdf8;">
           <div class="compare-header">
-            <span class="compare-title">Mode C: Restrained Hybrid</span>
-            <span class="compare-tag">Mode B + Local Seam Shadows</span>
+            <span class="compare-title">Mode C: Selected Hybrid</span>
+            <span class="compare-tag" style="background: #0284c7; color: #fff;">Selected Master Asset</span>
           </div>
           <p class="compare-notes">
-            Mode B geometric paper construction PLUS subtle, localized soft contact shadows (stdDeviation 0.8) placed *specifically* at the head, wing, and bill joins (no whole-duck halo or plastic gradients).
+            <strong>Selected by owner:</strong> Mode B geometric paper construction PLUS localized soft drop shadows (<code>feDropShadow</code> with <code>stdDeviation="0.8"</code>) attached to the head and wing groups, casting subtle contact shading over the body and wing sublayers without whole-duck outer blur.
           </p>
           <div class="duck-stage bg-dark" id="stage-mode-c">
             <div class="scale-row">
@@ -631,10 +638,10 @@ export async function buildPlan04AssetsAndPreview() {
     <section class="section-card">
       <div class="section-title">
         <span>2. Sound Audition: Quack Candidates (A / B / C)</span>
-        <span class="scale-label">One-click replay at level-matched perceived volume</span>
+        <span class="scale-label">Replay candidates (owner observed Candidate C is softer)</span>
       </div>
       <p class="section-desc">
-        Proposes two new treatments of the quack effect alongside the baseline control. Owner auditions and selects by listening.
+        Preserves all three stable candidate presets. Gain values represent AudioParam gain coefficients (0.15 / 0.14 / 0.15), not measured output peaks or perceived loudness. The owner observed Candidate C sounds noticeably softer due to dual bandpass filtering; context mixing is deferred to later scope.
       </p>
 
       <div class="audition-grid">
@@ -656,7 +663,7 @@ export async function buildPlan04AssetsAndPreview() {
   attack: 0.02, decay: 0.12,
   sustain: 0.05, release: 0.08,
   modulationFreq: 22, depth: 35,
-  gain: 0.15
+  gain: 0.15 // Master gain coefficient
 }</div>
         </div>
 
@@ -677,7 +684,7 @@ export async function buildPlan04AssetsAndPreview() {
   attack: 0.005, decay: 0.06,
   sustain: 0.15, release: 0.04,
   modulationFreq: 0, depth: 0,
-  gain: 0.14
+  gain: 0.14 // Master gain coefficient
 }</div>
         </div>
 
@@ -693,11 +700,12 @@ export async function buildPlan04AssetsAndPreview() {
           <button class="primary" onclick="playCandidate('QUACK_C_FORMANT_NOISE')">🔊 Audition Candidate C</button>
           <div class="param-spec">{
   waveform: 'sawtooth', freq: 300,
+  pitchBend: -30,
   noiseDuration: 0.015, noiseGain: 0.12,
   formant1: 750 Hz (Q 3.0, gain 0.85),
   formant2: 1600 Hz (Q 3.5, gain 0.65),
-  attack: 0.01, decay: 0.08,
-  gain: 0.15 // Calibrated level
+  attack: 0.01, decay: 0.08, sustain: 0.05, release: 0.06,
+  gain: 0.15 // Master gain coefficient (owner noted softer perceived loudness)
 }</div>
         </div>
 
@@ -705,35 +713,35 @@ export async function buildPlan04AssetsAndPreview() {
     </section>
 
     <!-- 3. Motion-Ready Hierarchy & Attachment Diagnostic -->
-    <section class="section-card">
+    <section class="section-card" id="section-diagnostic">
       <div class="section-title">
-        <span>3. Motion-Ready Hierarchy & Attachment Diagnostics</span>
-        <span class="scale-label">Mode B Authoritative Rig</span>
+        <span>3. Motion-Ready Hierarchy & Manual Pose Diagnostics (Selected Mode C Hybrid Rig)</span>
+        <span class="scale-label">Interactive 256px Rig</span>
       </div>
       <p class="section-desc">
-        Verifies parent-relative pivots: 12° head tilt carries the hat and monocle; -18° wing paddle articulates all three stepped wing sublayers around common pivot (52, 56).
+        Manual pose diagnostic verifying parent-relative pivots: 12° head tilt carries the hat and monocle around (48, 46); -18° wing paddle articulates all three stepped wing sublayers around common pivot (52, 56). Looping, continuous motion, independent layer choreography, and production animations belong to Plan 09.
       </p>
 
       <div class="duck-stage bg-dark" id="stage-diagnostic">
         <div class="scale-row">
           <div class="scale-item">
-            <div class="duck-wrapper duck-256" id="diagnostic-duck-container">
+            <div class="duck-wrapper duck-256" id="diagnostic-duck-container" tabindex="0" role="region" aria-label="Manual pose diagnostic duck rig">
               ${preRenderedDiagnostic}
             </div>
-            <span class="scale-label">Interactive Rig (256px Mode B)</span>
+            <span class="scale-label">Diagnostic Duck Rig (256px Selected Mode C)</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. Existing Permutation Proof Set (Mode B) -->
+    <!-- 4. Existing Permutation Proof Set (Mode C) -->
     <section class="section-card">
       <div class="section-title">
-        <span>4. Existing Permutation Proof Set (Mode B Geometric Paper Rig)</span>
+        <span>4. Permutation Proof Set (Mode C Selected Hybrid Rig)</span>
         <span class="scale-label">3 Palettes × 2 Hats × 2 Accessories</span>
       </div>
       <p class="section-desc">
-        All accepted palettes and cosmetic items rendered with the authoritative geometric paper rig.
+        All 3 accepted palettes (Classic Yellow, Mallard Green, Bubblegum Pink) and cosmetic items rendered with the selected Mode C hybrid paper rig.
       </p>
 
       <div class="gallery-grid" id="gallery-grid">
@@ -765,12 +773,20 @@ ${synthBundle}
 
     function toggleHeadTilt() {
       const container = document.getElementById('diagnostic-duck-container');
-      container.classList.toggle('head-tilt-active');
+      if (container) {
+        container.classList.toggle('head-tilt-active');
+        const stage = document.getElementById('stage-diagnostic');
+        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     function toggleWingFlap() {
       const container = document.getElementById('diagnostic-duck-container');
-      container.classList.toggle('wing-flap-active');
+      if (container) {
+        container.classList.toggle('wing-flap-active');
+        const stage = document.getElementById('stage-diagnostic');
+        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     async function playCandidate(candidateId) {

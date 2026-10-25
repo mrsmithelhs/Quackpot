@@ -38,11 +38,14 @@ describe('plan-04 parity — master SVG derivation', () => {
     assert.equal(fileContent, canonical, 'Master SVG must be 100% derived from duck-rig.mjs without manual drift');
   });
 
-  test('canonical master SVG contains accessible labels, root group, and Mode B geometric paper elements', () => {
+  test('canonical master SVG contains accessible labels, root group, and Mode C hybrid paper elements', () => {
     const canonical = getCanonicalMasterSvg();
     assert.match(canonical, /viewBox="0 0 100 100"/);
     assert.match(canonical, /role="img"/);
     assert.match(canonical, /aria-label="Digital Duck - Classic Yellow with none and none"/);
+    assert.match(canonical, /<filter id="duck-seam-shadow"/);
+    assert.match(canonical, /id="duck-head-group"[^>]*filter="url\(#duck-seam-shadow\)"/);
+    assert.match(canonical, /id="duck-wing-group"[^>]*filter="url\(#duck-seam-shadow\)"/);
     assert.match(canonical, /<g id="duck-root"/);
     assert.match(canonical, /id="duck-wing-under"/);
     assert.match(canonical, /id="duck-wing-mid"/);

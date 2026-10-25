@@ -365,6 +365,13 @@
       transform: rotate(-18deg);
       transition: transform 0.2s ease;
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .head-tilt-active #gallery-demo-head-group,
+      .wing-flap-active #gallery-demo-wing-group {
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -379,10 +386,10 @@
       Owner refinement: visible paper construction comparison (Modes A/B/C) and quack candidate audition (A/B/C).
     </p>
     <div class="provenance-bar">
-      <span><strong>Build checkout HEAD:</strong> 0b6ee29</span>
-      <span><strong>duck-rig.mjs SHA-256:</strong> e913ab6702b9...</span>
-      <span><strong>synth.mjs SHA-256:</strong> 435ceecf7e07...</span>
-      <span><strong>Build Date:</strong> 2026-10-25T16:38:28.576Z</span>
+      <span><strong>Build checkout HEAD:</strong> 14e51a4</span>
+      <span><strong>duck-rig.mjs SHA-256:</strong> bcccf931d2a6...</span>
+      <span><strong>synth.mjs SHA-256:</strong> 98572e98263e...</span>
+      <span><strong>Build Date:</strong> 2026-10-25T19:53:48.106Z</span>
     </div>
   </header>
 
@@ -398,9 +405,9 @@
     </div>
 
     <div class="control-group">
-      <label>Static Motion Diagnostics:</label>
-      <button onclick="toggleHeadTilt()">Toggle Head Tilt (12°)</button>
-      <button onclick="toggleWingFlap()">Toggle Wing Paddle (-18°)</button>
+      <label>Manual Pose Diagnostics (Affects Section 3 Rig):</label>
+      <button id="btn-head-tilt" onclick="toggleHeadTilt()">Toggle Head Tilt (12°)</button>
+      <button id="btn-wing-flap" onclick="toggleWingFlap()">Toggle Wing Paddle (-18°)</button>
     </div>
 
     <div class="control-group">
@@ -580,10 +587,10 @@
         </div>
 
         <!-- Mode B: Strong Geometric Paper Separation -->
-        <div class="compare-card" style="border-color: #38bdf8;">
+        <div class="compare-card">
           <div class="compare-header">
             <span class="compare-title">Mode B: Geometric Paper Separation</span>
-            <span class="compare-tag" style="background: #0284c7; color: #fff;">Authoritative Base</span>
+            <span class="compare-tag">Geometric Control Baseline</span>
           </div>
           <p class="compare-notes">
             <strong>Key Paper Elements:</strong><br>
@@ -1031,20 +1038,20 @@
           </div>
         </div>
 
-        <!-- Mode C: Restrained Hybrid -->
-        <div class="compare-card">
+        <!-- Mode C: Selected Restrained Hybrid (Selected Master) -->
+        <div class="compare-card" style="border-color: #38bdf8;">
           <div class="compare-header">
-            <span class="compare-title">Mode C: Restrained Hybrid</span>
-            <span class="compare-tag">Mode B + Local Seam Shadows</span>
+            <span class="compare-title">Mode C: Selected Hybrid</span>
+            <span class="compare-tag" style="background: #0284c7; color: #fff;">Selected Master Asset</span>
           </div>
           <p class="compare-notes">
-            Mode B geometric paper construction PLUS subtle, localized soft contact shadows (stdDeviation 0.8) placed *specifically* at the head, wing, and bill joins (no whole-duck halo or plastic gradients).
+            <strong>Selected by owner:</strong> Mode B geometric paper construction PLUS localized soft drop shadows (<code>feDropShadow</code> with <code>stdDeviation="0.8"</code>) attached to the head and wing groups, casting subtle contact shading over the body and wing sublayers without whole-duck outer blur.
           </p>
           <div class="duck-stage bg-dark" id="stage-mode-c">
             <div class="scale-row">
               <div class="scale-item"><div class="duck-wrapper duck-32"><svg id="mode-c-32-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="mode-c-32-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -1158,7 +1165,7 @@
 </svg></div><span class="scale-label">32px</span></div>
               <div class="scale-item"><div class="duck-wrapper duck-64"><svg id="mode-c-64-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="mode-c-64-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -1272,7 +1279,7 @@
 </svg></div><span class="scale-label">64px</span></div>
               <div class="scale-item"><div class="duck-wrapper duck-128"><svg id="mode-c-128-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="mode-c-128-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -1389,7 +1396,7 @@
           <div class="duck-stage bg-dark" style="margin-top: 8px;">
             <div class="scale-item"><div class="duck-wrapper duck-256"><svg id="mode-c-256-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="mode-c-256-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -1511,10 +1518,10 @@
     <section class="section-card">
       <div class="section-title">
         <span>2. Sound Audition: Quack Candidates (A / B / C)</span>
-        <span class="scale-label">One-click replay at level-matched perceived volume</span>
+        <span class="scale-label">Replay candidates (owner observed Candidate C is softer)</span>
       </div>
       <p class="section-desc">
-        Proposes two new treatments of the quack effect alongside the baseline control. Owner auditions and selects by listening.
+        Preserves all three stable candidate presets. Gain values represent AudioParam gain coefficients (0.15 / 0.14 / 0.15), not measured output peaks or perceived loudness. The owner observed Candidate C sounds noticeably softer due to dual bandpass filtering; context mixing is deferred to later scope.
       </p>
 
       <div class="audition-grid">
@@ -1536,7 +1543,7 @@
   attack: 0.02, decay: 0.12,
   sustain: 0.05, release: 0.08,
   modulationFreq: 22, depth: 35,
-  gain: 0.15
+  gain: 0.15 // Master gain coefficient
 }</div>
         </div>
 
@@ -1557,7 +1564,7 @@
   attack: 0.005, decay: 0.06,
   sustain: 0.15, release: 0.04,
   modulationFreq: 0, depth: 0,
-  gain: 0.14
+  gain: 0.14 // Master gain coefficient
 }</div>
         </div>
 
@@ -1573,11 +1580,12 @@
           <button class="primary" onclick="playCandidate('QUACK_C_FORMANT_NOISE')">🔊 Audition Candidate C</button>
           <div class="param-spec">{
   waveform: 'sawtooth', freq: 300,
+  pitchBend: -30,
   noiseDuration: 0.015, noiseGain: 0.12,
   formant1: 750 Hz (Q 3.0, gain 0.85),
   formant2: 1600 Hz (Q 3.5, gain 0.65),
-  attack: 0.01, decay: 0.08,
-  gain: 0.15 // Calibrated level
+  attack: 0.01, decay: 0.08, sustain: 0.05, release: 0.06,
+  gain: 0.15 // Master gain coefficient (owner noted softer perceived loudness)
 }</div>
         </div>
 
@@ -1585,20 +1593,26 @@
     </section>
 
     <!-- 3. Motion-Ready Hierarchy & Attachment Diagnostic -->
-    <section class="section-card">
+    <section class="section-card" id="section-diagnostic">
       <div class="section-title">
-        <span>3. Motion-Ready Hierarchy & Attachment Diagnostics</span>
-        <span class="scale-label">Mode B Authoritative Rig</span>
+        <span>3. Motion-Ready Hierarchy & Manual Pose Diagnostics (Selected Mode C Hybrid Rig)</span>
+        <span class="scale-label">Interactive 256px Rig</span>
       </div>
       <p class="section-desc">
-        Verifies parent-relative pivots: 12° head tilt carries the hat and monocle; -18° wing paddle articulates all three stepped wing sublayers around common pivot (52, 56).
+        Manual pose diagnostic verifying parent-relative pivots: 12° head tilt carries the hat and monocle around (48, 46); -18° wing paddle articulates all three stepped wing sublayers around common pivot (52, 56). Looping, continuous motion, independent layer choreography, and production animations belong to Plan 09.
       </p>
 
       <div class="duck-stage bg-dark" id="stage-diagnostic">
         <div class="scale-row">
           <div class="scale-item">
-            <div class="duck-wrapper duck-256" id="diagnostic-duck-container">
+            <div class="duck-wrapper duck-256" id="diagnostic-duck-container" tabindex="0" role="region" aria-label="Manual pose diagnostic duck rig">
               <svg id="gallery-demo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and monocle">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="gallery-demo-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="gallery-demo-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #fcd34d; --duck-wing-mid: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
 
     <!-- ========================================== -->
@@ -1631,7 +1645,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="gallery-demo-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="gallery-demo-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#gallery-demo-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="gallery-demo-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -1657,7 +1671,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="gallery-demo-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="gallery-demo-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#gallery-demo-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="gallery-demo-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -1721,20 +1735,20 @@
   </g>
 </svg>
             </div>
-            <span class="scale-label">Interactive Rig (256px Mode B)</span>
+            <span class="scale-label">Diagnostic Duck Rig (256px Selected Mode C)</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. Existing Permutation Proof Set (Mode B) -->
+    <!-- 4. Existing Permutation Proof Set (Mode C) -->
     <section class="section-card">
       <div class="section-title">
-        <span>4. Existing Permutation Proof Set (Mode B Geometric Paper Rig)</span>
+        <span>4. Permutation Proof Set (Mode C Selected Hybrid Rig)</span>
         <span class="scale-label">3 Palettes × 2 Hats × 2 Accessories</span>
       </div>
       <p class="section-desc">
-        All accepted palettes and cosmetic items rendered with the authoritative geometric paper rig.
+        All 3 accepted palettes (Classic Yellow, Mallard Green, Bubblegum Pink) and cosmetic items rendered with the selected Mode C hybrid paper rig.
       </p>
 
       <div class="gallery-grid" id="gallery-grid">
@@ -1743,6 +1757,12 @@
           <div class="gallery-duck-box bg-dark" id="box-combo-1">
             <div class="duck-wrapper duck-128" id="container-combo-1">
               <svg id="combo-1-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with tiny-top-hat and monocle">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="combo-1-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="combo-1-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #fcd34d; --duck-wing-mid: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
 
     <!-- ========================================== -->
@@ -1775,7 +1795,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="combo-1-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="combo-1-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#combo-1-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="combo-1-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -1801,7 +1821,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="combo-1-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="combo-1-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#combo-1-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="combo-1-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -1878,6 +1898,12 @@
           <div class="gallery-duck-box bg-dark" id="box-combo-2">
             <div class="duck-wrapper duck-128" id="container-combo-2">
               <svg id="combo-2-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Mallard Green with sailor-cap and bow-tie">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="combo-2-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="combo-2-root" style="--duck-body-fill: #047857; --duck-body-shadow: #064e3b; --duck-bill-fill: #f59e0b; --duck-bill-shadow: #b45309; --duck-wing-fill: #10b981; --duck-wing-mid: #059669; --duck-wing-shadow: #064e3b; --duck-accent: #fbbf24;">
 
     <!-- ========================================== -->
@@ -1910,7 +1936,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="combo-2-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="combo-2-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#combo-2-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="combo-2-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -1945,7 +1971,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="combo-2-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="combo-2-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#combo-2-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="combo-2-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -2015,6 +2041,12 @@
           <div class="gallery-duck-box bg-dark" id="box-combo-3">
             <div class="duck-wrapper duck-128" id="container-combo-3">
               <svg id="combo-3-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Bubblegum Pink with tiny-top-hat and bow-tie">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="combo-3-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="combo-3-root" style="--duck-body-fill: #f472b6; --duck-body-shadow: #db2777; --duck-bill-fill: #fb923c; --duck-bill-shadow: #ea580c; --duck-wing-fill: #fbcfe8; --duck-wing-mid: #ec4899; --duck-wing-shadow: #9d174d; --duck-accent: #a855f7;">
 
     <!-- ========================================== -->
@@ -2047,7 +2079,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="combo-3-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="combo-3-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#combo-3-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="combo-3-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -2082,7 +2114,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="combo-3-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="combo-3-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#combo-3-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="combo-3-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -2153,6 +2185,12 @@
           <div class="gallery-duck-box bg-dark" id="box-combo-4">
             <div class="duck-wrapper duck-128" id="container-combo-4">
               <svg id="combo-4-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Bubblegum Pink with sailor-cap and monocle">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="combo-4-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="combo-4-root" style="--duck-body-fill: #f472b6; --duck-body-shadow: #db2777; --duck-bill-fill: #fb923c; --duck-bill-shadow: #ea580c; --duck-wing-fill: #fbcfe8; --duck-wing-mid: #ec4899; --duck-wing-shadow: #9d174d; --duck-accent: #a855f7;">
 
     <!-- ========================================== -->
@@ -2185,7 +2223,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="combo-4-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="combo-4-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#combo-4-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="combo-4-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -2211,7 +2249,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="combo-4-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="combo-4-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#combo-4-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="combo-4-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -2287,6 +2325,12 @@
           <div class="gallery-duck-box bg-dark" id="box-base-yellow">
             <div class="duck-wrapper duck-128" id="container-base-yellow">
               <svg id="base-yellow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="base-yellow-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="base-yellow-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #fcd34d; --duck-wing-mid: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
 
     <!-- ========================================== -->
@@ -2319,7 +2363,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="base-yellow-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="base-yellow-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#base-yellow-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="base-yellow-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -2345,7 +2389,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="base-yellow-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="base-yellow-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#base-yellow-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="base-yellow-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -2408,6 +2452,12 @@
           <div class="gallery-duck-box bg-dark" id="box-base-mallard">
             <div class="duck-wrapper duck-128" id="container-base-mallard">
               <svg id="base-mallard-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Mallard Green with none and none">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="base-mallard-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="base-mallard-root" style="--duck-body-fill: #047857; --duck-body-shadow: #064e3b; --duck-bill-fill: #f59e0b; --duck-bill-shadow: #b45309; --duck-wing-fill: #10b981; --duck-wing-mid: #059669; --duck-wing-shadow: #064e3b; --duck-accent: #fbbf24;">
 
     <!-- ========================================== -->
@@ -2440,7 +2490,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="base-mallard-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="base-mallard-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#base-mallard-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="base-mallard-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -2466,7 +2516,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="base-mallard-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="base-mallard-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#base-mallard-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="base-mallard-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />
@@ -2610,7 +2660,7 @@ var DuckRig = (function(exports) {
 		if (!HATS.includes(hat)) throw new Error(`Invalid hat "${hat}". Supported: ${HATS.join(", ")}`);
 		const accessory = options.accessory || "none";
 		if (!ACCESSORIES.includes(accessory)) throw new Error(`Invalid accessory "${accessory}". Supported: ${ACCESSORIES.join(", ")}`);
-		let paperMode = options.paperMode || options.shadowMode || "geometric";
+		let paperMode = options.paperMode || options.shadowMode || "hybrid";
 		if (paperMode === "offset") paperMode = "geometric";
 		if (paperMode === "filter") paperMode = "hybrid";
 		if (!PAPER_MODES.includes(paperMode)) throw new Error(`Invalid paperMode "${paperMode}". Supported: ${PAPER_MODES.join(", ")}`);
@@ -2725,7 +2775,7 @@ ${renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccMarkup)}
 </svg>`;
 		const defsMarkup = isHybrid ? `
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="${prefix}-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -2843,7 +2893,7 @@ ${renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccMarkup)}
 	}
 	/**
 	* Renders the canonical master SVG asset for the repository.
-	* Directly corresponds to src/assets/svg/duck-rig.svg (Authoritative Mode B Geometric Paper Rig).
+	* Directly corresponds to src/assets/svg/duck-rig.svg (Authoritative Mode C Hybrid Paper Rig).
 	* @returns {string} Master SVG markup
 	*/
 	function getCanonicalMasterSvg() {
@@ -2852,7 +2902,7 @@ ${renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccMarkup)}
 			palette: "classic-yellow",
 			hat: "none",
 			accessory: "none",
-			paperMode: "geometric"
+			paperMode: "hybrid"
 		});
 	}
 	exports.ACCESSORIES = ACCESSORIES;
@@ -2944,27 +2994,82 @@ var DuckSynth = (function(exports) {
 		"sine",
 		"square"
 	]);
+	var VALID_TREATMENTS = Object.freeze([
+		"control",
+		"param_only",
+		"source_filter"
+	]);
 	/**
-	* Validates audio parameters against safe numeric ranges.
+	* Validates audio parameters against safe, conservative, finite quack-scale ranges.
+	* Throws explicit descriptive Error on any non-finite, missing, or out-of-range value.
+	*
+	* Parameter bounds (tailored for short cartoon quack synthesis):
+	* - waveform: 'sawtooth' | 'triangle' | 'sine' | 'square'
+	* - frequency: 20 Hz to 4000 Hz
+	* - pitchBend: -2000 Hz to 2000 Hz (and frequency + pitchBend >= 20 Hz)
+	* - attack: 0.001s to 0.5s
+	* - decay: 0.001s to 1.0s
+	* - sustain: 0.0 to 1.0 (ratio)
+	* - release: 0.001s to 1.0s
+	* - total duration (attack + decay + release): <= 2.0s
+	* - gain: > 0 to 1.0 (AudioParam master gain coefficient)
+	* - modulationFreq: 0 to 100 Hz
+	* - modulationDepth: 0 to 500 Hz
+	* - formant1Freq: 50 to 3000 Hz
+	* - formant1Q: 0.1 to 20.0
+	* - formant1Gain: 0.0 to 2.0
+	* - formant2Freq: 100 to 6000 Hz
+	* - formant2Q: 0.1 to 20.0
+	* - formant2Gain: 0.0 to 2.0
+	* - noiseDuration: 0.001s to 0.2s
+	* - noiseGain: 0.0 to 1.0
+	*
 	* @param {Object} params 
 	* @returns {Object} validated params
 	*/
 	function validateSoundParams(params = {}) {
-		if (!params || typeof params !== "object") throw new Error("Sound params must be an object");
+		if (!params || typeof params !== "object") throw new TypeError("Sound params must be a non-null object");
+		const treatment = params.treatment || (params.formant1Freq !== void 0 ? "source_filter" : "control");
+		if (!VALID_TREATMENTS.includes(treatment)) throw new Error(`Invalid treatment "${treatment}". Supported: ${VALID_TREATMENTS.join(", ")}`);
 		const waveform = params.waveform || "sawtooth";
 		if (!VALID_WAVEFORMS.includes(waveform)) throw new Error(`Invalid waveform "${waveform}". Supported: ${VALID_WAVEFORMS.join(", ")}`);
 		const frequency = Number(params.frequency ?? 340);
-		if (!Number.isFinite(frequency) || frequency <= 0 || frequency > 2e4) throw new Error(`Invalid frequency "${params.frequency}". Must be between 1 and 20000 Hz.`);
-		const gain = Number(params.gain ?? .15);
-		if (!Number.isFinite(gain) || gain <= 0 || gain > 1) throw new Error(`Invalid gain "${params.gain}". Must be between 0 and 1.0.`);
-		const attack = Math.max(.001, Number(params.attack ?? .02));
-		const decay = Math.max(.001, Number(params.decay ?? .12));
-		const sustain = Math.max(0, Math.min(1, Number(params.sustain ?? .05)));
-		const release = Math.max(.001, Number(params.release ?? .08));
+		if (!Number.isFinite(frequency) || frequency < 20 || frequency > 4e3) throw new RangeError(`Invalid frequency "${params.frequency}". Must be a finite number between 20 and 4000 Hz.`);
 		const pitchBend = Number(params.pitchBend ?? 0);
-		const modulationFreq = Math.max(0, Number(params.modulationFreq ?? 0));
-		const modulationDepth = Math.max(0, Number(params.modulationDepth ?? 0));
-		const treatment = params.treatment || (params.formant1Freq ? "source_filter" : "control");
+		if (!Number.isFinite(pitchBend) || pitchBend < -2e3 || pitchBend > 2e3) throw new RangeError(`Invalid pitchBend "${params.pitchBend}". Must be a finite number between -2000 and 2000 Hz.`);
+		if (frequency + pitchBend < 20) throw new RangeError(`Invalid ending frequency (${frequency + pitchBend} Hz). Must end at >= 20 Hz.`);
+		const attack = Number(params.attack ?? .02);
+		if (!Number.isFinite(attack) || attack < .001 || attack > .5) throw new RangeError(`Invalid attack "${params.attack}". Must be a finite number between 0.001 and 0.5 seconds.`);
+		const decay = Number(params.decay ?? .12);
+		if (!Number.isFinite(decay) || decay < .001 || decay > 1) throw new RangeError(`Invalid decay "${params.decay}". Must be a finite number between 0.001 and 1.0 seconds.`);
+		const sustain = Number(params.sustain ?? .05);
+		if (!Number.isFinite(sustain) || sustain < 0 || sustain > 1) throw new RangeError(`Invalid sustain "${params.sustain}". Must be a finite ratio between 0.0 and 1.0.`);
+		const release = Number(params.release ?? .08);
+		if (!Number.isFinite(release) || release < .001 || release > 1) throw new RangeError(`Invalid release "${params.release}". Must be a finite number between 0.001 and 1.0 seconds.`);
+		const totalDuration = attack + decay + release;
+		if (totalDuration > 2) throw new RangeError(`Total duration (${totalDuration.toFixed(3)}s) exceeds conservative quack limit of 2.0s.`);
+		const gain = Number(params.gain ?? .15);
+		if (!Number.isFinite(gain) || gain <= 0 || gain > 1) throw new RangeError(`Invalid gain "${params.gain}". Must be a finite number between 0.001 and 1.0.`);
+		const modulationFreq = Number(params.modulationFreq ?? 0);
+		if (!Number.isFinite(modulationFreq) || modulationFreq < 0 || modulationFreq > 100) throw new RangeError(`Invalid modulationFreq "${params.modulationFreq}". Must be a finite number between 0 and 100 Hz.`);
+		const modulationDepth = Number(params.modulationDepth ?? 0);
+		if (!Number.isFinite(modulationDepth) || modulationDepth < 0 || modulationDepth > 500) throw new RangeError(`Invalid modulationDepth "${params.modulationDepth}". Must be a finite number between 0 and 500 Hz.`);
+		const formant1Freq = Number(params.formant1Freq ?? 750);
+		if (!Number.isFinite(formant1Freq) || formant1Freq < 50 || formant1Freq > 3e3) throw new RangeError(`Invalid formant1Freq "${params.formant1Freq}". Must be a finite number between 50 and 3000 Hz.`);
+		const formant1Q = Number(params.formant1Q ?? 3);
+		if (!Number.isFinite(formant1Q) || formant1Q < .1 || formant1Q > 20) throw new RangeError(`Invalid formant1Q "${params.formant1Q}". Must be a finite number between 0.1 and 20.0.`);
+		const formant1Gain = Number(params.formant1Gain ?? .85);
+		if (!Number.isFinite(formant1Gain) || formant1Gain < 0 || formant1Gain > 2) throw new RangeError(`Invalid formant1Gain "${params.formant1Gain}". Must be a finite number between 0.0 and 2.0.`);
+		const formant2Freq = Number(params.formant2Freq ?? 1600);
+		if (!Number.isFinite(formant2Freq) || formant2Freq < 100 || formant2Freq > 6e3) throw new RangeError(`Invalid formant2Freq "${params.formant2Freq}". Must be a finite number between 100 and 6000 Hz.`);
+		const formant2Q = Number(params.formant2Q ?? 3.5);
+		if (!Number.isFinite(formant2Q) || formant2Q < .1 || formant2Q > 20) throw new RangeError(`Invalid formant2Q "${params.formant2Q}". Must be a finite number between 0.1 and 20.0.`);
+		const formant2Gain = Number(params.formant2Gain ?? .65);
+		if (!Number.isFinite(formant2Gain) || formant2Gain < 0 || formant2Gain > 2) throw new RangeError(`Invalid formant2Gain "${params.formant2Gain}". Must be a finite number between 0.0 and 2.0.`);
+		const noiseDuration = Number(params.noiseDuration ?? .015);
+		if (!Number.isFinite(noiseDuration) || noiseDuration < .001 || noiseDuration > .2) throw new RangeError(`Invalid noiseDuration "${params.noiseDuration}". Must be a finite number between 0.001 and 0.2 seconds.`);
+		const noiseGain = Number(params.noiseGain ?? .12);
+		if (!Number.isFinite(noiseGain) || noiseGain < 0 || noiseGain > 1) throw new RangeError(`Invalid noiseGain "${params.noiseGain}". Must be a finite number between 0.0 and 1.0.`);
 		return {
 			id: params.id || params.name || "CUSTOM_SOUND",
 			name: params.name || "CUSTOM_SOUND",
@@ -2979,18 +3084,19 @@ var DuckSynth = (function(exports) {
 			modulationFreq,
 			modulationDepth,
 			gain,
-			formant1Freq: Number(params.formant1Freq ?? 750),
-			formant1Q: Number(params.formant1Q ?? 3),
-			formant1Gain: Number(params.formant1Gain ?? .85),
-			formant2Freq: Number(params.formant2Freq ?? 1600),
-			formant2Q: Number(params.formant2Q ?? 3.5),
-			formant2Gain: Number(params.formant2Gain ?? .65),
-			noiseDuration: Number(params.noiseDuration ?? .015),
-			noiseGain: Number(params.noiseGain ?? .12)
+			formant1Freq,
+			formant1Q,
+			formant1Gain,
+			formant2Freq,
+			formant2Q,
+			formant2Gain,
+			noiseDuration,
+			noiseGain
 		};
 	}
 	/**
 	* Generates an AudioBuffer containing deterministic pseudo-random white noise.
+	* Strictly bounds duration (0.001 to 0.5s) and sample rate to avoid unbounded allocations.
 	* Uses an isolated linear congruential generator (LCG) seed to ensure 100% reproducible
 	* audition noise completely decoupled from game simulation PRNG.
 	* @param {AudioContext} ctx
@@ -3000,11 +3106,14 @@ var DuckSynth = (function(exports) {
 	*/
 	function createDeterministicNoiseBuffer(ctx, durationSeconds, seed = 12345) {
 		if (!ctx || typeof ctx.createBuffer !== "function") return null;
+		if (typeof durationSeconds !== "number" || !Number.isFinite(durationSeconds) || durationSeconds < .001 || durationSeconds > .5) throw new RangeError(`Invalid noise duration ${durationSeconds}. Must be a finite number between 0.001 and 0.5 seconds.`);
 		const sampleRate = ctx.sampleRate || 44100;
+		if (typeof sampleRate !== "number" || !Number.isFinite(sampleRate) || sampleRate <= 0 || sampleRate > 192e3) throw new RangeError(`Invalid sampleRate ${sampleRate}. Must be a positive finite number <= 192000.`);
+		if (seed !== void 0 && (typeof seed !== "number" || !Number.isFinite(seed) || seed < 0)) throw new TypeError("Seed must be a non-negative finite number");
 		const length = Math.max(1, Math.floor(sampleRate * durationSeconds));
 		const buffer = ctx.createBuffer(1, length, sampleRate);
 		const channelData = buffer.getChannelData(0);
-		let state = seed;
+		let state = Math.floor(seed);
 		for (let i = 0; i < length; i++) {
 			state = (state * 1664525 + 1013904223) % 4294967296;
 			channelData[i] = state / 4294967296 * 2 - 1;
@@ -3186,12 +3295,20 @@ if (typeof window !== 'undefined') { window.DuckSynth = DuckSynth; }
 
     function toggleHeadTilt() {
       const container = document.getElementById('diagnostic-duck-container');
-      container.classList.toggle('head-tilt-active');
+      if (container) {
+        container.classList.toggle('head-tilt-active');
+        const stage = document.getElementById('stage-diagnostic');
+        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     function toggleWingFlap() {
       const container = document.getElementById('diagnostic-duck-container');
-      container.classList.toggle('wing-flap-active');
+      if (container) {
+        container.classList.toggle('wing-flap-active');
+        const stage = document.getElementById('stage-diagnostic');
+        if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     async function playCandidate(candidateId) {

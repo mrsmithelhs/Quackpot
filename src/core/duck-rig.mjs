@@ -79,8 +79,8 @@ export function validateOptions(options = {}) {
     throw new Error(`Invalid accessory "${accessory}". Supported: ${ACCESSORIES.join(', ')}`);
   }
 
-  // Handle paperMode / legacy shadowMode
-  let paperMode = options.paperMode || options.shadowMode || 'geometric';
+  // Handle paperMode / legacy shadowMode (default is Mode C 'hybrid' per owner selection)
+  let paperMode = options.paperMode || options.shadowMode || 'hybrid';
   if (paperMode === 'offset') paperMode = 'geometric';
   if (paperMode === 'filter') paperMode = 'hybrid';
 
@@ -223,10 +223,11 @@ ${renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccMarkup)}
   }
 
   // --- Mode B & Mode C: Stronger Geometric Paper Separation ---
-  // Mode C introduces a subtle local drop-shadow filter applied specifically at the seams
+  // Mode C introduces a subtle local drop-shadow filter attached to the head and wing groups,
+  // casting soft contact drop shadows over the body and wing sublayers.
   const defsMarkup = isHybrid ? `
     <defs>
-      <!-- Localized contact seam shadow (subtle, non-halo) -->
+      <!-- Localized contact drop shadow for head and wing groups -->
       <filter id="${prefix}-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
         <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
       </filter>
@@ -349,7 +350,7 @@ ${renderBaselineMarkup(prefix, palette, hatMarkup, eyeAccMarkup, neckAccMarkup)}
 
 /**
  * Renders the canonical master SVG asset for the repository.
- * Directly corresponds to src/assets/svg/duck-rig.svg (Authoritative Mode B Geometric Paper Rig).
+ * Directly corresponds to src/assets/svg/duck-rig.svg (Authoritative Mode C Hybrid Paper Rig).
  * @returns {string} Master SVG markup
  */
 export function getCanonicalMasterSvg() {
@@ -358,6 +359,6 @@ export function getCanonicalMasterSvg() {
     palette: 'classic-yellow',
     hat: 'none',
     accessory: 'none',
-    paperMode: 'geometric'
+    paperMode: 'hybrid'
   });
 }

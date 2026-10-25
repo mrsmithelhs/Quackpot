@@ -56,13 +56,98 @@ describe('synth — quack audition candidates parameter contracts', () => {
     assert.ok(QUACK_CANDIDATES.QUACK_C_FORMANT_NOISE);
   });
 
-  test('rejects invalid waveforms and frequencies', () => {
+  test('rejects invalid waveforms, treatments, and non-finite frequencies', () => {
     assert.throws(() => validateSoundParams({ waveform: 'pulse-invalid' }), /Invalid waveform/);
+    assert.throws(() => validateSoundParams({ treatment: 'neural_dsp' }), /Invalid treatment/);
     assert.throws(() => validateSoundParams({ frequency: -10 }), /Invalid frequency/);
+    assert.throws(() => validateSoundParams({ frequency: NaN }), /Invalid frequency/);
+    assert.throws(() => validateSoundParams({ frequency: Infinity }), /Invalid frequency/);
+    assert.throws(() => validateSoundParams({ frequency: 50000 }), /Invalid frequency/);
+  });
+
+  test('rejects non-finite and out-of-range ADSR envelope and duration parameters', () => {
+    assert.throws(() => validateSoundParams({ attack: NaN }), /Invalid attack/);
+    assert.throws(() => validateSoundParams({ attack: Infinity }), /Invalid attack/);
+    assert.throws(() => validateSoundParams({ attack: 0 }), /Invalid attack/);
+    assert.throws(() => validateSoundParams({ attack: 1.5 }), /Invalid attack/);
+
+    assert.throws(() => validateSoundParams({ decay: NaN }), /Invalid decay/);
+    assert.throws(() => validateSoundParams({ decay: 2.5 }), /Invalid decay/);
+
+    assert.throws(() => validateSoundParams({ sustain: NaN }), /Invalid sustain/);
+    assert.throws(() => validateSoundParams({ sustain: -0.1 }), /Invalid sustain/);
+    assert.throws(() => validateSoundParams({ sustain: 1.5 }), /Invalid sustain/);
+
+    assert.throws(() => validateSoundParams({ release: NaN }), /Invalid release/);
+    assert.throws(() => validateSoundParams({ release: 2.0 }), /Invalid release/);
+
+    // Total duration over conservative 2.0s limit
+    assert.throws(
+      () => validateSoundParams({ attack: 0.5, decay: 0.9, release: 0.9 }),
+      /exceeds conservative quack limit/
+    );
+  });
+
+  test('rejects non-finite and out-of-range gain, pitch bend, and modulation', () => {
+    assert.throws(() => validateSoundParams({ gain: NaN }), /Invalid gain/);
+    assert.throws(() => validateSoundParams({ gain: Infinity }), /Invalid gain/);
+    assert.throws(() => validateSoundParams({ gain: 0 }), /Invalid gain/);
+    assert.throws(() => validateSoundParams({ gain: 1.5 }), /Invalid gain/);
+
+    assert.throws(() => validateSoundParams({ pitchBend: NaN }), /Invalid pitchBend/);
+    assert.throws(() => validateSoundParams({ frequency: 100, pitchBend: -95 }), /Invalid ending frequency/);
+
+    assert.throws(() => validateSoundParams({ modulationFreq: NaN }), /Invalid modulationFreq/);
+    assert.throws(() => validateSoundParams({ modulationFreq: 150 }), /Invalid modulationFreq/);
+
+    assert.throws(() => validateSoundParams({ modulationDepth: NaN }), /Invalid modulationDepth/);
+    assert.throws(() => validateSoundParams({ modulationDepth: 600 }), /Invalid modulationDepth/);
+  });
+
+  test('rejects non-finite and out-of-range formant and noise parameters', () => {
+    assert.throws(() => validateSoundParams({ formant1Freq: NaN }), /Invalid formant1Freq/);
+    assert.throws(() => validateSoundParams({ formant1Freq: 30 }), /Invalid formant1Freq/);
+    assert.throws(() => validateSoundParams({ formant1Q: NaN }), /Invalid formant1Q/);
+    assert.throws(() => validateSoundParams({ formant1Q: 0 }), /Invalid formant1Q/);
+    assert.throws(() => validateSoundParams({ formant1Gain: NaN }), /Invalid formant1Gain/);
+    assert.throws(() => validateSoundParams({ formant1Gain: 3.0 }), /Invalid formant1Gain/);
+
+    assert.throws(() => validateSoundParams({ formant2Freq: NaN }), /Invalid formant2Freq/);
+    assert.throws(() => validateSoundParams({ formant2Freq: 8000 }), /Invalid formant2Freq/);
+    assert.throws(() => validateSoundParams({ formant2Q: NaN }), /Invalid formant2Q/);
+    assert.throws(() => validateSoundParams({ formant2Gain: NaN }), /Invalid formant2Gain/);
+
+    assert.throws(() => validateSoundParams({ noiseDuration: NaN }), /Invalid noiseDuration/);
+    assert.throws(() => validateSoundParams({ noiseDuration: Infinity }), /Invalid noiseDuration/);
+    assert.throws(() => validateSoundParams({ noiseDuration: 0.5 }), /Invalid noiseDuration/);
+    assert.throws(() => validateSoundParams({ noiseGain: NaN }), /Invalid noiseGain/);
+    assert.throws(() => validateSoundParams({ noiseGain: 1.5 }), /Invalid noiseGain/);
   });
 });
 
 describe('synth — deterministic noise generation', () => {
+  test('rejects non-finite or extreme noise duration without allocating buffers', () => {
+    let allocated = false;
+    const mockCtx = {
+      sampleRate: 44100,
+      createBuffer: () => {
+        allocated = true;
+        return { getChannelData: () => new Float32Array(1) };
+      }
+    };
+
+    assert.throws(() => createDeterministicNoiseBuffer(mockCtx, NaN), /Invalid noise duration/);
+    assert.throws(() => createDeterministicNoiseBuffer(mockCtx, Infinity), /Invalid noise duration/);
+    assert.throws(() => createDeterministicNoiseBuffer(mockCtx, -0.01), /Invalid noise duration/);
+    assert.throws(() => createDeterministicNoiseBuffer(mockCtx, 0), /Invalid noise duration/);
+    assert.throws(() => createDeterministicNoiseBuffer(mockCtx, 10.0), /Invalid noise duration/);
+    assert.equal(allocated, false, 'Must not allocate memory for invalid durations');
+  });
+
+  test('returns null when context is unavailable or lacks createBuffer', () => {
+    assert.equal(createDeterministicNoiseBuffer(null, 0.015), null);
+    assert.equal(createDeterministicNoiseBuffer({}, 0.015), null);
+  });
   test('generates reproducible noise buffer given the same seed', () => {
     const mockCtx = {
       sampleRate: 44100,

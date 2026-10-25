@@ -1,4 +1,10 @@
 <svg id="duck-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Digital Duck - Classic Yellow with none and none">
+    <defs>
+      <!-- Localized contact drop shadow for head and wing groups -->
+      <filter id="duck-seam-shadow" x="-15%" y="-15%" width="135%" height="135%">
+        <feDropShadow dx="0.6" dy="1.0" stdDeviation="0.8" flood-color="#0f172a" flood-opacity="0.32" />
+      </filter>
+    </defs>
   <g id="duck-root" style="--duck-body-fill: #fbbf24; --duck-body-shadow: #d97706; --duck-bill-fill: #f97316; --duck-bill-shadow: #c2410c; --duck-wing-fill: #fcd34d; --duck-wing-mid: #f59e0b; --duck-wing-shadow: #b45309; --duck-accent: #ef4444;">
 
     <!-- ========================================== -->
@@ -31,7 +37,7 @@
       <!-- 2. WING ASSEMBLY (3 Stepped Paper Layers)   -->
       <!-- Common Pivot: (52, 56)                      -->
       <!-- ========================================== -->
-      <g id="duck-wing-group" data-pivot-x="52" data-pivot-y="56">
+      <g id="duck-wing-group" data-pivot-x="52" data-pivot-y="56" filter="url(#duck-seam-shadow)">
         <!-- PIECE 1: Under-Wing Base Feather (Broadest Card, Darkest Tone) -->
         <path id="duck-wing-under" d="M 50 56 C 59 54 75 61 79 71 C 71 73 59 73 49 69 Z" fill="var(--duck-wing-shadow)" />
 
@@ -57,7 +63,7 @@
     <!-- 3. HEAD & ACCESSORY GROUP                  -->
     <!-- Parent-Relative Pivot: (48, 46)            -->
     <!-- ========================================== -->
-    <g id="duck-head-group" data-pivot-x="48" data-pivot-y="46">
+    <g id="duck-head-group" data-pivot-x="48" data-pivot-y="46" filter="url(#duck-seam-shadow)">
 
       <!-- Head Backing Cardstock Edge (Exposed Bottom-Right Rim) -->
       <path id="duck-head-backing-rim" d="M 58 22 C 67 29 67 39 67 40 C 65.5 40 64.5 31 56 24 Z" fill="var(--duck-body-shadow)" opacity="1" />

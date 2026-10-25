@@ -1,6 +1,6 @@
 # Plan 12 Progress Report: Guided Opening and Progressive Shop Progression (Repair 02)
 
-**Date:** 2026-10-24  
+**Date:** 2026-10-25  
 **Packet ID:** `plan-12`  
 **Status:** Delivered for Review (Repair 02 complete)  
 **Author:** Implementer Thread (Plan 12)  
@@ -28,7 +28,7 @@ Repair 02 preserved the core five-beat opening sequence, progressive shop presen
 
 ### Modified in Owned Scope
 - `reports/development/plan-12-guided-opening-and-shop-progression/proposal.md` (repaired cash timeline, coherent fixture specifications, restored 400% value anchor, and updated owner decision list)
-- `reports/development/plan-12-guided-opening-and-shop-progression/wireframes.html` (repaired timeline cash states, separate Fixture A & B arrays, restored 400% value badge, synchronized HUD and mock Receipt)
+- `reports/development/plan-12-guided-opening-and-shop-progression/wireframes.html` (repaired timeline cash states, separate Fixture A & B arrays, restored 400% value badge, synchronized HUD and mock Receipt, dynamic reset)
 - `reports/development/plan-12-guided-opening-and-shop-progression/progress.md` (this report)
 
 ### Preserved & Untouched

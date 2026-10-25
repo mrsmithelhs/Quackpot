@@ -1,7 +1,7 @@
 ---
 id: plan-18
 title: Local audio sources and credits investigation
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Owner selects audition samples and provenance before production integration; audio-source policy approved 2026-10-25."
 summary: >-
@@ -13,6 +13,8 @@ summary: >-
 **Date:** 2026-10-25. **Type:** investigation. **Ownership:** reports/development/plan-18-audio-sources-and-credits/ only; one investigator, no parallel writers within scope. No packet status or production changes.
 
 **Parallel boundary:** May investigate alongside Plan 04 Repair 02 after owner assignment. Use library samples and an isolated audition in this report folder. Retain the existing three quack candidates as reference options; no edits/imported generated output from an uncommitted repair, shared synth, gallery, package or game UI. Record any committed baseline used for comparison. Audio policy approval is not a packet assignment.
+
+**Delivery review, 2026-10-25:** `01b3671` returned for bounded Repair 01; see report-folder `review-01.md`/`repair-01.md`. Five files/hashes/durations and click PCM levels are reproduced. Keep shortlist; correct hand-copied quack graph/reference claims, playback status/stop behavior, exact license records and unsupported measurements/accessibility claims. No new candidates or shared production changes. Visual Mode C approval did not select audio C. Packet delivered pending owner repair dispatch; no sample selection/integration adopted.
 
 Read AGENTS.md, canonical Assets, triage T10/T12 as historical rationale, DECISION-009/010, `reports/orchestration/audio-source-options.md`, Plan 04 review-03 and Plan 15. Run `check plan-18`; stop if blocked. Owner approved licensed Creative Commons audio on 2026-10-25; canonical contracts now permit it. Owner assigned this investigation on 2026-10-25 alongside Plans 14/17. Assignment does not select a recording or authorize production integration.
 

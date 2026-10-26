@@ -181,3 +181,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner requests voluntary Duck-Dex inspection linked to first-owned revealed identities: about2s shelf focus/scroll, then2–3s silhouette-to-color transition (optional background change), skipped by fast-pull. Show meaningful factual duck/set value. Owner selects rest speed penalties of50% with zero intervening races,25% after one, none after two; tired ducks remain eligible, avoiding small-roster lockout. Canonical design, AGENTS and orchestrator contracts are synchronized. Exact lifecycle/duplicate/composition and set effects remain proposals, not invented features or prices.
 
 **Routing:** Draft Plan21 covers collection/acquisition presentation; draft Plan22 covers race entry/rest and balance. Neither assigned by this record. Plan20 remains focused rig/motion integration and its proposal has root approval under owner's delegated gate; QP Impl20 is authorized for bidirectional coordination. Keep free skip/static accessibility, honest reveal/Receipt evidence, no paid rest or inferred Fast Pull fee. No push/deployment.
+
+### DECISION-018 — Combined race and two-second highlight selected
+
+**Date:** 2026-10-26
+
+**Decision:** Owner selects Plan13's combined rank-weighted weave +seeded15–20° contact with2s slow-motion highlight as official and explicitly closes the investigation. Reference implementation `70ba115`, report `c2b9241`, root review05 reproduces17tests and scan hash. Preserve constituent rules/caps, real first crossing and follower classification; highlight changes presentation time only, with static/reduced-motion parity.
+
+**Limits and routing:** This is mechanism/direction selection, not production integration or universal balance proof. One duck-contact episode, long recovery/skips, grid advantage, label overlap and terminal fixed-step approximation remain disclosed. Draft Plan23 ports model/input/save/log/view and accepted duck motion; draft Plan22 rest follows its production contract. Plan20 is delivered awaiting owner card-motion acceptance. No new packet assignment, push or deployment.

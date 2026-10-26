@@ -2,7 +2,7 @@
 id: plan-22
 title: Visual race entry and soft two-race duck rest
 status: draft
-depends_on: [plan-13, plan-20]
+depends_on: [plan-23]
 gate: "Owner/orchestrator approves race-entry, rest lifecycle and simulation evidence before integration; owner rendered acceptance follows."
 superseded_by: null
 resolution: null
@@ -22,6 +22,8 @@ summary: >-
 - Expected artifacts: report-folder mechanism/lifecycle proposal, matched evidence and progress.md
 
 ## Selected rule and first proposal
+
+**Sequencing, 2026-10-26:** Draft Plan23 ports the now-selected race model first. Plan22 follows that accepted production commit/result contract rather than adding rest to the obsolete one-shot race. Report-only planning may be proposed separately, but overlapping engine/UI writes must be serialized. The owner-selected penalty values are unchanged.
 
 Owner selects soft rest for owned digital ducks: reuse with zero intervening races gives50% speed penalty, with one gives25%, with two or more none; never-raced duck is rested. Tired ducks remain selectable. This rule supersedes unselected simulator fatigue assumptions for future integration, not existing evidence. No paid recovery, forced purchase or special per-variant recovery. Draft only: read AGENTS/design/decision log, Plan13 accepted outcome/commit contract, Plan17 trial, Plan20 reusable art, engine/storage/log/Receipt and actual entry UI; check plan-22 after assignment. Propose first and wait before coding.
 

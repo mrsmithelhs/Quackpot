@@ -1,7 +1,8 @@
 ---
 id: plan-13
 title: Race staging and run pacing investigation
-status: delivered
+status: complete
+resolution: "Owner selects combined rank-weighted weave and seeded15-20deg contact with2s slow-motion highlight as official and approves closure on2026-10-26. Reference/review05 verified17tests and exact scan. Production integration is separate draftPlan23; disclosed model/readability limits remain, no push/deployment."
 depends_on: [plan-03, plan-04]
 gate: "Owner approves race staging, dramatic-event meaning and pacing before gameplay integration."
 summary: >-
@@ -13,6 +14,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** isolated local preview and reports. **Owner/model:** one investigator; owner gate. **Expected artifacts:** `reports/development/plan-13-race-staging-and-run-pacing/proposal.md`, staged race preview and `progress.md`.
 
 ## Boundary and required reading
+
+**Owner closeout, 2026-10-26:** Owner selects the combined rank-weighted weave +15–20° contact experiment with2s slow-motion highlight as official and explicitly closes Plan13. Adopt the inspected `70ba115`/`c2b9241` reference and documented limits; review05 reproduced17tests/exact scan. Production port is draft Plan23, not implied by investigation closure. No unapproved speed penalty/multi-contact rules, report runtime dependency, push or deployment.
 
 **Combined option delivered, 2026-10-26:** `70ba115`/`c2b9241` adds the owner-requested rank-weighted-weave +15–20° contact arm, preserving constituent rules and controls. Root reproduced17 tests and exact scan hash in `review-05.md`; ready for owner comparison, not production adoption/closure. Preview guide supplies settings; labels/grid and one-contact cap remain limits.
 

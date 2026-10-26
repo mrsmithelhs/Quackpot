@@ -47,3 +47,18 @@ No findings were rejected. The review was one turn, roughly a few minutes; exact
 - No Plan 09 packet status was changed, no production integration or asset selection was performed, and nothing was pushed.
 
 Ready for orchestrator review. The build approval covered this comparison artifact; selecting or integrating production motions remains an owner/orchestrator decision.
+
+## Repair 01 — focused verification
+
+Review `review-01.md` identified a reduced-motion neutral-state defect and an unavailable Pause control during the impact one-shot. Both were repaired in the gallery source:
+
+- `applyReducedPose()` now clears the root, head, and wing transforms before applying any requested reduced-motion pose. This makes both explicit neutral entries restore the exact untransformed rig groups.
+- The impact one-shot now refreshes its action-button state after creating its three animations, enabling Pause while it runs.
+
+Focused verification used the running Chrome page at `http://127.0.0.1:5181/Quackpot/reports/development/plan-09-gacha-duck-motion-gallery/index.html`; Plan 13's tab was left untouched. For `paddle`, `graceful-bob`, and `impact-recover-demo`, I exercised Next → Next, Previous, Previous to neutral, and Return to neutral. The articulated states had the intended non-empty inline transforms. At each neutral state, `#duck-shell`, `#gallery-duck-head-group`, and `#gallery-duck-wing-group` all had empty inline transforms, and the readout announced neutral. Still control kept Next disabled.
+
+Impact playback exposed an enabled Pause while the status read “Playing demo.” Pause exposed Resume and “Paused”; Resume returned to “Resumed,” and a later fresh accessibility snapshot showed “Complete. Demo recovered to neutral. No gameplay event occurred.” I also started the impact demo, selected and started paddling, then waited beyond the old one-shot's 1.1-second duration. The page still reported “Playing sample,” with Pause enabled and `paddle` selected; the prior completion callback did not reset the newer sample. I paused/resumed that loop (status reported 13 seconds remaining) and selected Still. The status remained “Ready. Still pose; no animation is running” after waiting beyond the former clip deadline, and all three rig transforms were empty.
+
+The current Chrome media preference was observed as `prefers-reduced-motion: false`. Browser capability discovery listed only viewport and tab-management capabilities, with no reduced-motion media emulation. I did not change the user's Windows/browser preference; therefore the actual system-preference-true event branch remains unverified. Manual reduced-motion sequences above are verified, but they do not establish system preference event coverage. No broad test suite was run.
+
+Repair commit: `05c3c05` (`Repair Plan 09 motion gallery controls`).

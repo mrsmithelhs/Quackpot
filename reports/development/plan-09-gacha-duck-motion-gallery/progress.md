@@ -69,4 +69,36 @@ Owner rendered feedback said the existing animations are good starts at close sc
 
 The proposal at `paper-layer-refinement-proposal-01.md` names the body/tail/head backing slivers and wing layers, pairs existing wing seam paths with the layer that casts them, keeps face/bill/accessories attached, preserves full-group Mode C filters initially, and gives provisional viewBox amplitudes, lag, impact settle order, and a static/reduced-motion pose. These are visual starting ranges only; impact separation may still be difficult to read at 72 px and requires rendered verification after approval. The current proposal asks the owner/orchestrator to approve these bounded refinements before any animation edits.
 
-No HTML, shared rig, asset, package, Plan 13, or packet-status file changed for this follow-up. No additional reviewer was used. Recommendation sent to QP Orch with the proposal commit; awaiting owner response before implementation.
+During the proposal-only phase, no HTML, shared rig, asset, package, Plan 13, or packet-status file changed. No additional reviewer was used. The proposal and recommendation were sent to QP Orch; at that point, implementation was awaiting owner approval.
+
+## Paper-layer refinement implementation — approved follow-up
+
+Owner approved proposal `8317bb3`; Plan 09 was `RUNNABLE` when checked before implementation. Implemented the approved report-local layer refinement in `index.html`. No `src/`, shared rig, package, packet-status, or Plan 13 file was changed.
+
+The gallery now directly animates existing composer IDs: body backing rim, tail backing, head backing rim, wing mid and top layers, plus the existing wing contact-seam paths paired to the layer they follow. The darker wing-under layer remains the anchor. Existing complete-group Mode C shadows remain in place; no extra per-layer shadow/filter was added. The face, bill, eye groups, body group, and accessory slots are not split or independently moved.
+
+The 1.6 s paddling wing-layer cycle and 1.6 s root/body paper accents, and the 2.4 s graceful-bob layer accents, use within-cycle keyframe offsets rather than per-iteration animation delays. Each local keyframe sequence begins and ends at identity; the one-shot local sequences also terminate at identity within the existing ~1.1 s impact clip. New animations use the existing central animation collection, so Pause/Resume and cancellation include the paper paths. `resetPose()` and the reduced-pose transition clear every added local transform. The static reduced-motion articulated pose uses direct transforms with no tween; its neutral step clears root, assembly, layer, and seam transforms.
+
+## Browser evidence
+
+QP Orch granted the requested Plan 09 browser turn. I used only the dedicated gallery tab at `http://127.0.0.1:5181/Quackpot/reports/development/plan-09-gacha-duck-motion-gallery/index.html`, then released the slot to QP Orch. The shared server remained running; Plan 13's tab was not used.
+
+- At card size (340 px), browser screenshots showed the existing whole-duck performances with slight visible edge movement in the wing stack. Live computed transforms were nonzero during paddling and graceful bob. At sampled points, each moving wing seam had the same transform as its associated mid/top layer.
+- The paddling layers were sampled across the 800 ms wing cycle and 1.6 s body cycle. Offsets stayed within the approved caps. Samples were not synchronized to a frame-perfect cycle boundary; the keyframe definitions place the lag inside each repeat and specify exact identity at each endpoint. This avoids using a per-iteration delay that accumulates phase or starts each cycle offset.
+- During graceful bob, a paused sample held the same computed root/body/tail/head/wing/seam transform snapshot across 240 ms. Resume continued the existing bounded sample; completion reported 15 seconds of active sample time and cleared every paper-layer inline transform.
+- Impact live transform samples showed the body-backing and wing offsets within their proposal caps, followed by a neutral completion. Pause and Resume controls were exercised on the one-shot, and a fresh accessibility snapshot showed `Complete. Demo recovered to neutral. No gameplay event occurred.` The one-shot's short duration limited separate measurement of nonzero layer stability across a paused interval; the layer freeze comparison was directly established on graceful bob.
+- Interrupting impact with a newly started paddling sample and waiting beyond the prior 1.1 s one-shot left the new sample playing and pausable. Selecting Still then cleared root/group/paper transforms; the old one-shot did not reset the newer clip.
+- Changing from card to race size while a loop was active reported shell widths of 340 px and 72 px and left the sample active. At the race scale, the duck and internal layer offsets are very small/subpixel. The layered accent is subtle there, as expected; I did not increase it beyond the approved caps. This does not establish a distinct paper-stack read at 72 px.
+- The close view showed the sailor cap and monocle attached to the head/eye assembly. The close reduced-motion impact pose showed the bow tie still attached in the body neck slot while the backing and wing edges were offset. No obvious clipping or broken group shadow appeared in the observed close view. The 72 px view is too small to establish fine filter quality.
+- Manual reduced-motion poses for all three motion IDs showed the corresponding layer offsets. Next → Next returned every root, group, backing, wing, and seam transform to an empty inline transform; Return to neutral and Still did likewise. Still control kept pose stepping disabled.
+- Replacing the accessory during a running loop re-rendered the SVG in the selected bow-tie configuration, cleared all added transforms, and stayed at neutral beyond the former clip's callback deadline. No browser console errors were captured.
+
+Chrome reported `prefers-reduced-motion: false`. Browser capability discovery offered viewport and tab-management controls but no media emulation. I did not change the user's OS/browser settings. Therefore system-preference-true event behavior remains unverified; the manually selected static pose paths above are verified. No physical classroom-device or assistive-technology claim is made.
+
+## Validation and commits
+
+- `node --experimental-vm-modules` parsed the inline module via `vm.SourceTextModule`: `inline module syntax OK` (Node emitted its expected experimental VM modules warning).
+- `git diff --check` passed for the gallery change; staged diff whitespace check passed before commit.
+- No full test suite was run; focused browser inspection was the requested evidence for this isolated gallery.
+- Implementation commit: `7e85d00` (`Add subtle paper-layer motion to Plan 09 gallery`).
+- No additional reviewer was used, as directed for this small approved refinement. No push or production integration was performed.

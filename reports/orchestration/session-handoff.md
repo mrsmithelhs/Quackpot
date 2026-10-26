@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Direct coordination is live; details in `thread-coordination.md`. QP Impl13's direct human “Proceed” authorizes its report-only preview; root verified and withdrew stale hold. Main-plan seeded validation/choice-equivalence evidence requested within report scope, no browser-policy bypass. QP Impl19 continues existing Repair01 without a reviewer. Both sends succeeded; Impl13 return received/authority verified. Actual completion/owner acceptance still separate. Reviewer rule distinction is explicit: implementer Sol-low, orchestrator Luna-high.
+
 - Human owner explicitly authorized bidirectional communication between QP Orch and Codex chats **QP Impl 13** (`01a1761a-0948-72e0-a66f-8eff6a68a1d1`, local) and **QP Impl 19** (`01a17618-1a4c-7120-afb7-d3a61b7435d8`, local), to oversee these plans through completion. QP Orch is `01a16bb0-8611-7243-8c10-562b96083d60`. This scope does not authorize other chats or new owner design decisions; recipients can verify the direct human authorization/clarification in QP Orch's latest user messages via read_thread. Record actual sends/receipts separately from implementation completion.
 - Reviewer budget clarified by human owner: Codex implementers get at most one Sol-low read-only subagent on main implemented work pre-delivery; no pre-proposal or smaller-repair review. Fixed-high reviewer roles must not override low: use explicit Sol/low default-role read-only child if needed. Plan19 already had its main reviewer, so Repair01 gets none. Plan13's earlier interrupted pre-proposal attempt is historical cost, not proposal approval; no further proposal reviewer. Orchestrator independent reviews remain Luna-high. AGENTS and both starting prompts now state this overriding rule.
 

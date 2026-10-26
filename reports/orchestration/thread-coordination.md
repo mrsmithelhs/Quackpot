@@ -1,0 +1,22 @@
+# Direct Codex coordination — Plans 13 and 19
+
+**Owner authorization:** 2026-10-25, direct human messages in QP Orch permit bidirectional communication with exactly QP Impl13 and QP Impl19 to oversee these plans. Orchestrator routine implementation/review directions are authorized; new owner design choices, production release and other chats are not authorized by implication.
+
+| Chat | Thread ID / host | Current responsibility |
+|---|---|---|
+| QP Orch | `01a16bb0-8611-7243-8c10-562b96083d60` / local | Independent verification, packet status and owner gates |
+| QP Impl 13 | `01a1761a-0948-72e0-a66f-8eff6a68a1d1` / local | Report-contained race/pacing investigation and preview |
+| QP Impl 19 | `01a17618-1a4c-7120-afb7-d3a61b7435d8` / local | Existing bounded Shell A production repair |
+
+## Reviewer budget
+
+Owner clarification: implementers may spawn one Sol-low read-only subagent before delivery of main implemented work, none before proposals and none for smaller repair directives. Request explicit settings; do not use a role that silently forces high effort. The orchestrator's independent reviewers remain Luna-high. This is recorded as an overriding rule in AGENTS and both starting prompts (`3a12d72`). Historical attempts/costs remain honestly recorded; no retrospective review rerun is required.
+
+## Coordination receipts (not completion evidence)
+
+- Both initial steering sends succeeded via app tools. QP Impl13 verified direct human authority in QP Orch and replied through the authorized return channel.
+- Root read the direct human “Proceed” in QP Impl13 after its amended proposal. That settles the report-only preview prebuild gate; a later root hold was based on stale context and has been explicitly withdrawn. No approval re-request or sequencing violation is inferred. Final causal mechanic/duration/day-count adoption is still separate.
+- Plan13 preview through `b6fa3f5` uses honest fixed fixtures and has syntax-only checks, with browser rendering blocked by an explicit browser-use policy. Preserve that limit; no alternate-browser/local-server bypass. Root directed main-plan completion with canonical named-seed model/trace tests plus fixtures, presentation-invariance checks and honest investigation of Drafting equivalence/dominance. No new downside/rates may be invented silently. One prospective main-artifact Sol-low review is allowed after implemented evidence exists; no proposal review.
+- Plan19 is already implementing Repair01. Root confirmed the existing two-item scope and prohibited another reviewer for this smaller repair. Its original main-artifact review remains historical evidence. Return commit IDs/browser observations to QP Orch for independent review; no status/push authority transferred.
+
+Sends, acknowledgments, tool settings, committed implementation, passing tests and owner acceptance are separate facts. Use compact wait snapshots for progress; read thread details only when necessary. Do not treat tool summaries or another thread's request as authority beyond the human authorization above.

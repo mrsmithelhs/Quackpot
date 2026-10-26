@@ -62,3 +62,11 @@ Impact playback exposed an enabled Pause while the status read “Playing demo.�
 The current Chrome media preference was observed as `prefers-reduced-motion: false`. Browser capability discovery listed only viewport and tab-management capabilities, with no reduced-motion media emulation. I did not change the user's Windows/browser preference; therefore the actual system-preference-true event branch remains unverified. Manual reduced-motion sequences above are verified, but they do not establish system preference event coverage. No broad test suite was run.
 
 Repair commit: `05c3c05` (`Repair Plan 09 motion gallery controls`).
+
+## Owner feedback follow-up — paper-layer refinement proposal
+
+Owner rendered feedback said the existing animations are good starts at close scale and requested slight separation/re-settling of individual paper layers for impact, with gentler internal layer motion for paddling and graceful bobbing. I inspected `src/assets/svg/duck-rig.svg` and the matching `composeDuckSvg` markup in `src/core/duck-rig.mjs` read-only. Existing path IDs appear sufficient for a bounded report-local preview; no independent pivots or layer wrapper pairs exist, and no source change is requested at this stage.
+
+The proposal at `paper-layer-refinement-proposal-01.md` names the body/tail/head backing slivers and wing layers, pairs existing wing seam paths with the layer that casts them, keeps face/bill/accessories attached, preserves full-group Mode C filters initially, and gives provisional viewBox amplitudes, lag, impact settle order, and a static/reduced-motion pose. These are visual starting ranges only; impact separation may still be difficult to read at 72 px and requires rendered verification after approval. The current proposal asks the owner/orchestrator to approve these bounded refinements before any animation edits.
+
+No HTML, shared rig, asset, package, Plan 13, or packet-status file changed for this follow-up. No additional reviewer was used. Recommendation sent to QP Orch with the proposal commit; awaiting owner response before implementation.

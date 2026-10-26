@@ -1,0 +1,55 @@
+{
+  "observations": {
+    "viewport": [
+      1440,
+      900
+    ],
+    "phone": {
+      "left": 396.00042724609375,
+      "top": -39.21803283691406,
+      "width": 647.9990844726562,
+      "height": 1099.99853515625
+    },
+    "stage": {
+      "left": 100,
+      "top": 121.578125,
+      "width": 1240,
+      "height": 778.421875
+    },
+    "transform": "matrix(0, 0.999999, -0.999999, 0, 0, 0)",
+    "phoneCssWidth": "1100px",
+    "phoneCssHeight": "648px"
+  },
+  "settingsKeyboardTabStops": [
+    {
+      "tag": "BUTTON",
+      "text": "×",
+      "type": "button"
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "type": "checkbox"
+    },
+    {
+      "tag": "BUTTON",
+      "text": "Save now",
+      "type": "button"
+    },
+    {
+      "tag": "BUTTON",
+      "text": "Done",
+      "type": "button"
+    },
+    {
+      "tag": "BUTTON",
+      "text": "×",
+      "type": "button"
+    },
+    {
+      "tag": "INPUT",
+      "text": "",
+      "type": "checkbox"
+    }
+  ]
+}

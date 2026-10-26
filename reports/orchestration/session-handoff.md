@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Plan19 delivery `ac602f2`/`9c82c27` reviewed, delivered for bounded Repair01. Build/138tests/focused390×520 lifecycle check reproduced (Chrome needed outside sandbox after crash-service launch failure). Root actual1440×900 probe finds late-entry phone648×1100, clipped and logo sideways (wide base rotated90°); native Tab skips Settings Credits summary. Fix orientation/upright expansion+reverse and keyboard disclosure, preserving architecture/save/log/RNG; add frame/keyboard evidence. Root screenshot/probe in report folder. No new ShellA/design gate, integration expansion or production approval.
+
 - Plan13 proposal `cc2fbfb`/`f0c2348` reviewed in `prebuild-review-01.md`: promising and honestly unexecuted, but no prebuild approval yet. Amend exact progress/event eligibility/effects/order/ties and derivable complete traces; add one progressive mutually exclusive choice and ordinary/consequential day maps. Root favors causal beats investigation, existing-result control,12/20/30 playback and initially draft/bobble without undefined contact physics. Owner still selects scope; no race/daycount/mechanics adopted. Preserve active Plan19 source edits.
 
 - Owner explicitly assigned Plans19 and13 in parallel on 2026-10-25; both in-progress. Plan19 first returns source/lifecycle outline, then owns bounded production integration after approval. Plan13 is report-folder-only race/run-pacing investigation, with a worked outcome/event model before prebuild approval. No shared source ownership for Plan13. ShellA and automatic entry/animated return are settled; Plan17 is closed; Plan18 still awaits owner sample selection.

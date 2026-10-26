@@ -1,7 +1,7 @@
 ---
 id: plan-19
 title: Shell A and context-transition integration
-status: in-progress
+status: delivered
 depends_on: [plan-03, plan-14]
 gate: "Owner approves the bounded source/lifecycle outline before implementation; Shell A and automatic turn/expand plus animated return are already selected."
 summary: >-
@@ -20,6 +20,8 @@ summary: >-
 - Mutation: production UI/styles plus affected checks and `reports/development/plan-19-shell-a-and-context-integration/`
 
 ## Goal and authority
+
+**Delivery review, 2026-10-25:** `ac602f2`/`9c82c27` returned for bounded Repair01 (`reports/development/plan-19-shell-a-and-context-integration/review-01.md`/`repair-01.md`). Root reproduced build/138tests/focused lifecycle browser pass, but desktop phone ends tall/clipped/sideways and keyboard trap skips Credits. Preserve accepted architecture/lifecycle; fix these two witnesses and extend actual browser coverage. Packet delivered pending repair dispatch; no owner rendered acceptance yet.
 
 Read AGENTS.md, current `docs/repo-structure.md`, canonical design, DECISION-012, `reports/orchestration/plan-14-production-handoff.md`, existing main/UI/storage/engine boundaries and Plan 03 accepted limits. Run `check plan-19`; stop if blocked. Owner assigned this packet on 2026-10-25 alongside report-only Plan13. The owner has selected the presentation direction; do not repeat Shell A versus B selection. Plan19 owns the production-writing lane after its outline gate; preserve Plan13's separate report/prototype work.
 

@@ -1,0 +1,20 @@
+# Plan 19 delivery — lifecycle passes; two bounded repairs
+
+**Date:** 2026-10-25. **Inputs:** `ac602f2` / `9c82c27`, accepted packet/handoff and owner-authorized implementer outline. **Disposition:** delivered; Repair 01 before technical acceptance and owner rendered review. Preserve the module split, selected Shell A, automatic phases, cancellation and real save/settings boundaries. No new design investigation or economy/art/audio work.
+
+## Verified positives
+
+Root independently ran build and all138 repository tests successfully. The focused `test:plan-19` also passes and covers its stated local headless390×520 lifecycle paths. Initial sandboxed Chrome launch failed at crash-service startup; the same isolated command ran successfully outside the sandbox. This is an environment launch failure, not a reproduced application failure. No automatic approval review rejection occurred. Existing broader smoke results are recorded by the implementer and artifact; root did not rerun that suite in this review.
+
+The new transition/settings helpers and feature styles provide focused ownership rather than embedding the report HTML. Engine, storage schema, RNG/log/Receipt implementations and economy/asset/audio modules are unchanged. The title assertion change matches the new accessible Quackpot heading rather than weakening a gameplay assertion. The consultation record distinguishes requested Sol versus observed generic model identity and accepted fixes; local evidence retained, no new provider mechanism finding requiring export.
+
+## Reproduced blockers
+
+1. **P1 — Entry geometry reverses the selected orientation and clips the frame.** `src/ui/stage-transition.css` makes the unrotated frame wide (`1100×648px` on the observed desktop), then `stage-transition.js` rotates it90° and scales to1. Root ran an isolated1440×900 browser probe, paused the expansion near its end and inspected the rendered frame: **648×1100px**, left396/top−39.2, while stage bounds were1240×778.4 at left100/top121.6. The logo is sideways and the tall frame is clipped. This is the opposite of the selected portrait→landscape→stage effect, not a request to change durations or add art. The reverse uses the same inverted geometry. See `review-entry-desktop.png`, `review-entry-probe.mjs` and measurements in this record. Fix initial/final aspect/rotation and upright content so both directions represent the chosen phone, adapting to viewport rather than forcing a fixed aspect everywhere.
+2. **P2 — Keyboard focus cannot reach Credits.** The settings dialog contains a native `<summary>`, but its focusable selector omits `summary`. Since Done is treated as the last element, Tab wraps to Close before reaching the disclosure. Root reproduced native browser Tab order at1440×900: Close→checkbox→Save now→Done→Close→checkbox. Include the disclosure and any opened content in the focus calculation with correct visibility/disabled handling; retain focus containment and return. DOM-clicking the disclosure in the existing focused test does not verify its keyboard reachability.
+
+## Evidence and boundaries
+
+A cold read-only Luna-high review found the focus issue and no additional lifecycle blocker; root independently verified it in an actual browser and discovered/rendered the orientation defect. `review-entry-probe.mjs` reuses the isolated existing harness setup/cleanup and substitutes only its journey. It observes desktop geometry and actual CDP Tab keys, not production changes. It can be rerun after the repair; no mocked event result is substituted for the page's animation or focus behavior.
+
+The existing automated checks show important lifecycle success but do not establish matching visual geometry, all screen sizes/zoom/AT or owner preference. Desktop observation here adds one viewport; no classroom-device result is claimed. Keep existing source-backed log/state/save assertions and the original evidence, adding tests for these exact blind spots. No full framework, feature expansion or reapproval of Shell A is needed. Use `repair-01.md`; packet stays delivered until owner resumes repair.

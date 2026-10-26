@@ -13,7 +13,7 @@ The traces are illustrative fixtures with explicit formulas/draws, not execution
 - `reports/development/plan-13-race-staging-and-run-pacing/proposal.md` — comparison, recommendation, boundaries, trace, pacing budget and evidence limits.
 - `reports/development/plan-13-race-staging-and-run-pacing/progress.md` — this delivery record.
 
-No source, rig, simulation, package, packet, generated index, or shared files were changed. The working tree was clean at the initial check. Later, unrelated working-tree edits appeared in `src/main.js`, `src/ui/desk-view.js`, `src/ui/hud.js`, `src/ui/settings-modal.js`, `src/ui/shell.css`, `src/ui/stage-transition.css`, and `src/ui/stage-transition.js`. They are outside this assignment and were left untouched and unstaged.
+No source, rig, simulation, package, packet, generated index, or shared files were changed. The working tree was clean at the initial check. During the prior turn unrelated edits appeared in `src/main.js`, `src/ui/desk-view.js`, `src/ui/hud.js`, `src/ui/settings-modal.js`, `src/ui/shell.css`, `src/ui/stage-transition.css`, and `src/ui/stage-transition.js`; they were later recorded by Plan 19 commits, and I did not modify them. At final status, unrelated changes remained in `docs/development/README.md`, `docs/development/plan-19-shell-a-and-context-integration.md`, and untracked Plan 19 evidence files `reports/development/plan-19-shell-a-and-context-integration/review-entry-desktop.png` and `review-entry-probe.mjs`. These are outside this assignment and were left untouched and unstaged.
 
 ## Commands and checks
 

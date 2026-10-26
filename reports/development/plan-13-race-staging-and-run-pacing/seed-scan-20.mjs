@@ -8,14 +8,17 @@ const experiments = [
   'weave-rank-weighted', 'contact-6deg', 'contact-15-20deg',
 ];
 const seedCount = 20;
+const finishOrderingProbeCount = 500;
 const dt = 0.05;
 const output = {
-  schema: 'quackpot.plan13-seed-scan/v1',
+  schema: 'quackpot.plan13-seed-scan/v2',
   generatedAt: '2026-10-26',
   method: {
     seeds: Array.from({ length: seedCount }, (_, i) => ({ seed: `Plan13 stability seed ${i}`, raceId: `R${i}` })),
     playerBaseSpeed: 11.7, fieldBaseSpeed: 11.5, choice: 'steady', trialCommitted: false,
     experiments, dt, screenshotWitness: { seed: 'Quackpot Plan 13 named-seed example', raceId: 'R03' },
+    finishOrderingProbe: { races: finishOrderingProbeCount, experiment: 'contact-15-20deg', seedPattern: 'Plan13 finish-order seed <index>', raceIdPattern: 'F<index>',
+      timingDefinition: 'Evaluate the same swept pair geometry and outward wall-boundary crossing on the final fixed 0.05-second integration interval, partitioned at the interpolated first-finish fraction. Contact eligibility also respects the existing one-contact-per-race limit. These are ordering diagnostics, not applied impacts or a continuous collision solver.' },
     recoveryMetricNotes: 'lateralToleranceSettledAt is the timestamp of the first three consecutive samples within 0.25 m after a real out-of-band excursion; an excursion resets the candidate entry. It is a lateral-only diagnostic, distinct from the combined heading-and-lateral recenter condition.',
     summaryNotes: 'One shared PRNG performance sequence per seed/race across all experiment arms. Recovery stages and max lane error are measured per participant from the fixed-step trajectory. Full trajectories are intentionally omitted from this compact artifact; rerun this script to reproduce them.'
   },
@@ -23,6 +26,7 @@ const output = {
   paired: {},
   runs: [],
   screenshotWitness: [],
+  finishOrderingProbe: { summary: {}, candidateWitnesses: [] },
 };
 
 function median(values) {
@@ -81,7 +85,10 @@ function recoveryRows(resolution, experiment) {
       wallImpactsAfterStart = resolution.eventRecords.filter((record) => record.type === 'wall-impact'
         && record.participants.includes(id) && record.time >= startSeconds && record.time <= endSeconds).length;
       rows.push({
-        eventId: event.id, type: event.type, entrantId: id,
+        eventId: event.id, eventStatus: event.status, type: event.type, entrantId: id,
+        acquisitionStatus: detail.acquisitionStatus ?? null,
+        holdStatus: detail.holdStatus ?? null,
+        recoveryStatus: detail.recoveryStatus ?? null,
         startedAt: Number(startSeconds.toFixed(3)),
         acquiredAt: detail.acquiredAt ?? null,
         holdStartAt: detail.holdStartAt ?? null,
@@ -156,6 +163,7 @@ function runOne(seed, raceId, experiment) {
       truncated: resolution.opportunityRecords.length >= 84,
     },
     eventRecords: events,
+    terminalStepOrdering: resolution.terminalStepOrdering,
     opportunityRecords: resolution.opportunityRecords,
     recoveryRows: recoveryRows(resolution, experiment),
     contactRecoveryTrace: seed === 'Quackpot Plan 13 named-seed example' && experiment === 'contact-15-20deg'
@@ -171,6 +179,26 @@ for (let i = 0; i < seedCount; i += 1) {
   for (const experiment of experiments) output.runs.push(runOne(`Plan13 stability seed ${i}`, `R${i}`, experiment));
 }
 for (const experiment of experiments) output.screenshotWitness.push(runOne('Quackpot Plan 13 named-seed example', 'R03', experiment));
+const finishOrderingRuns = [];
+for (let i = 0; i < finishOrderingProbeCount; i += 1) {
+  const resolution = resolveSeededRace({ seed: `Plan13 finish-order seed ${i}`, raceId: `F${i}`,
+    playerBaseSpeed: 11.7, fieldBaseSpeed: 11.5, choice: 'steady', trialCommitted: false, experiment: 'contact-15-20deg' });
+  finishOrderingRuns.push({ seedIndex: i, raceId: `F${i}`, status: resolution.status,
+    finishTimeSeconds: resolution.finishTimeSeconds, terminalStepOrdering: resolution.terminalStepOrdering });
+}
+const candidateWitnesses = finishOrderingRuns.filter((run) => run.terminalStepOrdering
+  && (run.terminalStepOrdering.contactCandidates.length || run.terminalStepOrdering.wallCandidates.length));
+output.finishOrderingProbe.summary = {
+  races: finishOrderingRuns.length,
+  finished: finishOrderingRuns.filter((run) => run.status === 'finished').length,
+  withAnyTerminalStepCandidate: candidateWitnesses.length,
+  contactsBeforeOrAtFirstFinish: finishOrderingRuns.reduce((n, run) => n + run.terminalStepOrdering.contactCandidates.filter((candidate) => candidate.beforeOrAtFirstFinish).length, 0),
+  contactsEligibleBeforeOrAtFirstFinish: finishOrderingRuns.reduce((n, run) => n + run.terminalStepOrdering.contactCandidates.filter((candidate) => candidate.wouldTriggerUnderOneContactLimit).length, 0),
+  contactsAfterFirstFinish: finishOrderingRuns.reduce((n, run) => n + run.terminalStepOrdering.contactCandidates.filter((candidate) => !candidate.beforeOrAtFirstFinish).length, 0),
+  wallCandidatesBeforeOrAtFirstFinish: finishOrderingRuns.reduce((n, run) => n + run.terminalStepOrdering.wallCandidates.filter((candidate) => candidate.beforeOrAtFirstFinish).length, 0),
+  wallCandidatesAfterFirstFinish: finishOrderingRuns.reduce((n, run) => n + run.terminalStepOrdering.wallCandidates.filter((candidate) => !candidate.beforeOrAtFirstFinish).length, 0),
+};
+output.finishOrderingProbe.candidateWitnesses = candidateWitnesses;
 
 for (const experiment of experiments) {
   const runs = output.runs.filter((run) => run.experiment === experiment);
@@ -193,18 +221,24 @@ for (const experiment of experiments) {
     },
     weaveRecovery: {
       actualWeaveEpisodes: weaveEvents.length,
+      targetAttained: weaveEvents.filter((row) => row.acquisitionStatus === 'attained').length,
+      acquisitionTimedOut: weaveEvents.filter((row) => row.acquisitionStatus === 'timed-out').length,
+      acquisitionCancelledByContact: weaveEvents.filter((row) => row.acquisitionStatus === 'cancelled-by-collision').length,
       attainedHalfSecondHold: weaveEvents.filter((row) => row.holdSeconds >= 0.5).length,
-      recenteredBeforeFinish: weaveEvents.filter((row) => row.recenteredAt !== null).length,
+      interruptedHold: weaveEvents.filter((row) => row.holdStatus === 'interrupted').length,
+      recenteredBeforeFinish: weaveEvents.filter((row) => row.recoveryStatus === 'recentered').length,
       medianHoldSeconds: median(weaveEvents.map((row) => row.holdSeconds ?? 0)),
       medianDurationToRecenterSeconds: median(weaveEvents.map((row) => row.durationToRecenterSeconds).filter(Number.isFinite)),
       medianMaxLaneErrorMeters: median(weaveEvents.map((row) => row.maxAbsLaneErrorMeters)),
+      aggregateEventStatusCounts: Object.fromEntries([...new Set(runs.flatMap((run) => run.eventRecords.filter((event) => event.type === 'weave-turn').map((event) => event.status)))].map((status) => [status, runs.reduce((sum, run) => sum + run.eventRecords.filter((event) => event.type === 'weave-turn' && event.status === status).length, 0)])),
     },
     contactRecovery: (() => {
       const contacts = recoveries.filter((row) => row.type === 'duck-contact');
+      const contactRecords = runs.flatMap((run) => run.eventRecords.filter((event) => event.type === 'duck-contact'));
       const finite = (field) => contacts.map((row) => row[field]).filter(Number.isFinite);
       return {
         participantEpisodes: contacts.length,
-        recenteredBeforeFinish: contacts.filter((row) => row.recenteredAt !== null).length,
+        recenteredBeforeFinish: contacts.filter((row) => row.recoveryStatus === 'recentered').length,
         medianAcquireSeconds: median(finite('durationToAcquireSeconds')),
         medianHoldSeconds: median(finite('holdSeconds')),
         medianYawRecoverySeconds: median(finite('durationToYawRecoveredSeconds')),
@@ -213,6 +247,7 @@ for (const experiment of experiments) {
         maxTotalRecoverySeconds: finite('durationToRecenterSeconds').length ? Math.max(...finite('durationToRecenterSeconds')) : null,
         medianMaxLaneErrorMeters: median(finite('maxAbsLaneErrorMeters')),
         wallImpactsDuringRecovery: contacts.reduce((sum, row) => sum + row.wallImpactsAfterStart, 0),
+        aggregateEventStatusCounts: Object.fromEntries([...new Set(contactRecords.map((event) => event.status))].map((status) => [status, contactRecords.filter((event) => event.status === status).length])),
       };
     })(),
     recoveryDurationSecondsPerRace: { median: median(episodeSeconds), mean: Number((episodeSeconds.reduce((s, n) => s + n, 0) / episodeSeconds.length).toFixed(3)), max: Math.max(...episodeSeconds) },

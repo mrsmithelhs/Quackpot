@@ -22,4 +22,10 @@ The source-policy question is resolved by DECISION-010: CC/CC0 local audio and f
 
 ## Process / workflow
 
+## Collection, race selection and duck rest (owner questions, 2026-10-26)
+
+- Canonical design already promises a standing Duck-Dex shelf, owned identities and missing silhouettes. Current mechanism slice does not deliver a dedicated always-available collection inspection area. Plan20 integrates art/motion only; a bounded collection/inspection and entry-selection follow-on is needed. Owner wants voluntary collection access without requiring a story beat. Propose focused identity cards/details and return navigation, preserving fictional content and local-only state; no new set effects or duplicate mechanics by implication.
+- Current race UI has an owned-duck dropdown defaulting to fastest plus stance controls. Owner asks for a more visual race preparation screen with recommended candidates foregrounded. Recommendation meaning and reconciliation with canonical one pre-race choice need a proposal; do not add a second independent strategy menu or expose review-only math panels by accident.
+- Owner suggests a duck selected for a race might be unavailable for the next two races to discourage always using the strongest. This is a proposal, not an adopted cooldown. Investigate soft fatigue versus hard rest, race cadence/count, minimum eligible roster, no-purchase fallback, identity-level duplicate treatment, and deterministic consume/cancel/reload/save/log behavior. Current production lastRacedId bookkeeping does not enforce fatigue; do not confuse character sleep/fatigue with digital-duck stamina. No paid recovery or forced pull is authorized.
+
 1. *(Add questions about the handoff workflow, release gates, or agent assignment.)*

@@ -28,7 +28,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-17` | Down exchange and whole-wallet validation | complete | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
 | `plan-18` | Local audio sources and credits investigation | delivered | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
 | `plan-19` | Shell A and context-transition integration | complete | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
-| `plan-20` | Digital rig and accepted motion integration | draft | Integrate the accepted Mode C digital rig and factor-four motion controller through focused source modules; preserve the physical companion and defer race-event wiring until its mechanics are accepted. |
+| `plan-20` | Digital rig and accepted motion integration | in-progress | Integrate the accepted Mode C digital rig and factor-four motion controller through focused source modules; preserve the physical companion and defer race-event wiring until its mechanics are accepted. |
 <!-- plan-index:end -->
 
 ## Report Folders

@@ -1,11 +1,9 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: draft
+status: in-progress
 depends_on: [plan-04, plan-09, plan-19]
-gate: "Owner approves focused source/lifecycle and trigger mapping before implementation; rendered production acceptance follows. Race-event integration awaits Plan 13's accepted event contract."
-superseded_by: null
-resolution: null
+gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
   Integrate the accepted Mode C digital rig and factor-four motion controller
   through focused source modules; preserve the physical companion and defer
@@ -25,7 +23,9 @@ summary: >-
 
 ## Goal and why now
 
-Plans 04 and 09 supply an accepted Mode C rig and motion set, while production still uses a placeholder. Port the selected construction into maintainable reusable source, with correct per-instance animation lifecycle, rather than importing the report gallery. Owner approved Plan09's factor-four paper-layer result; this packet is draft and not assigned by that closure.
+Plans 04 and 09 supply an accepted Mode C rig and motion set, while production still uses a placeholder. Port the selected construction into maintainable reusable source, with correct per-instance animation lifecycle, rather than importing the report gallery. Owner approved Plan09's factor-four paper-layer result.
+
+**Owner assignment and delegated gate, 2026-10-26:** Owner starts Plan20 and authorizes QP Orch to approve a bounded proposal and supervise implementation through rendered owner review. A Codex chat will be connected by the owner; no recipient has been assigned yet. Current playable mechanism slice provides the production review surface. Significant new mechanics/asset choices remain owner-gated. Preserve concurrent Plan13 report-folder work and coordinate browser turns.
 
 ## Required reading and preflight
 
@@ -35,7 +35,9 @@ Read AGENTS.md, docs/repo-structure.md, docs/decision-log.md, canonical design A
 
 Inspect actual digital duck placements and physical companion rendering. Map exactly which placeholder uses are digital; never replace/animate the physical companion globally because a shared asset URL is reused. Propose focused rig-view and animation-controller modules, scoped CSS, per-instance unique SVG IDs/filter references and cleanup ownership. Identify exact render/unmount/navigation/Settings/Uninstall/save/reload boundaries. Keep main/global styles small; no broad engine refactor.
 
-Propose a small placement matrix: static digital collection/selection views; at most one active inspected duck with owner-approved gentle motion; race-ready paddle and impact/recovery controller entry points. Do not animate a full shelf continuously. The owner-approved set is the reference, not permission to invent rarity cues or autoplay every clip. Return exact default triggers, duration, interruption/replay and static equivalents for owner approval before coding.
+**Selected first trigger:** When a gacha card flips to its revealed duck, choose paddle or graceful bob per card and loop it while that revealed card remains visibly presented, unless reduced motion is active. Use a separate cosmetic keyed choice (e.g. immutable pull/card identity) so re-render/reload does not reroll the visible choice and no mechanical PRNG stream is consumed. Different card instances may use different motions. No animation or rarity teaser before reveal. Pause/suspend when hidden/offscreen or context/modal makes the view inactive, resume only live instances, cancel on unmount/Uninstall and preserve static card information. This is an owner-selected exception to limiting motion to one inspected duck; verify the real ten-card grid and offer an accessible pause-animation control for continuing motion without changing draw outcomes/costs or requiring OS settings. Collection shelves stay static by default; building a collection screen is outside this packet.
+
+Return the exact source/lifecycle/trigger mapping and static equivalents for QP Orch approval before coding. Additional motion placements may be recommended but require selection before implementation. Do not invent rarity cues, near-miss theater or whole-shelf motion.
 
 ## Implementation boundary after outline gate
 
@@ -44,6 +46,8 @@ Own the production-writing lane only after assignment and explicit file ownershi
 Engine outcomes/log/RNG and storage remain authoritative. Presentation has no mechanical randomness, extra rewards, draw costs or save-schema changes. Record displayed cues honestly if they become Receipt evidence; never label a scheduled/skipped effect as shown. Leave costs/odds/terms and immediate exit available.
 
 **Race dependency boundary:** Build reusable motion capability without adopting Plan13 prototype mechanics. No production collision trigger, recovery duration, race choreography or outcome model is authorized here. After Plan13 event semantics are accepted, a separate bounded follow-on or explicit packet amendment maps event IDs/participants/timing to paddle/impact/recovery and reduced-motion race views. Until then, runtime race-event wiring is deferred; do not fire impact animations arbitrarily to demonstrate integration. Production-representative local fixtures may exercise the controller with clearly labeled synthetic triggers outside student flow.
+
+**Owner race-motion direction retained for follow-on:** Normally paddle; the current leading two race slots may use graceful bob. Logged duck-to-duck and wall impacts use impact/recovery with priority over ordinary locomotion, then return to the appropriate rank-based loop. Define rank sampling/switch hysteresis and visual-versus-mechanical recovery mapping against accepted Plan13 events before wiring; don't repeatedly restart one-shots on each collision tick or imply that cosmetic graceful bob grants a speed advantage. This direction is recorded, not permission to bypass the dependency above.
 
 No audio selection/integration, new anatomy/variant stats, environment art, reveal anticipation/near-miss mechanics, physical-companion animation, economy, export schema, framework migration, package dependency expansion or deployment. Ask before shared rig structural changes, rather than compensating with silent art edits.
 

@@ -21,13 +21,13 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-10` | Physical metagame duck views and cinematic staging | draft | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
 | `plan-11` | Gacha visual compositions before environment and UI assets | draft | Compare paper-style and mixed-style gacha compositions using owner-approved concept generations before committing to environment, effect and UI SVG assets. |
 | `plan-12` | Guided opening and progressive shop investigation | complete | Propose an experiential opening that introduces Gems, duplicates and Down in context, and a shop that grows in complexity without an opening lecture. |
-| `plan-13` | Race staging and run pacing investigation | draft | Compare readable oval-course race drama and camera direction alongside a timed day/run beat map toward the roughly fifteen-minute floor. |
+| `plan-13` | Race staging and run pacing investigation | in-progress | Compare readable oval-course race drama and camera direction alongside a timed day/run beat map toward the roughly fifteen-minute floor. |
 | `plan-14` | Game stage and metagame transitions investigation | complete | Propose a full-width game stage, quieter save/settings controls and readable transitions between apartment metagame and fictional gacha app. |
 | `plan-15` | Pull anticipation and bounded local cue investigation | draft | Compare short pull anticipation and graceful fast reveal, then investigate bounded fictional cues responding to local actions with truthful Receipt evidence. |
 | `plan-16` | Deterministic review checkpoints and browser briefs | draft | Propose valid engine-generated seeded checkpoints and short review briefs so targeted browser checks can start at the relevant game or metagame beat. |
 | `plan-17` | Down exchange and whole-wallet validation | complete | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
 | `plan-18` | Local audio sources and credits investigation | delivered | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
-| `plan-19` | Shell A and context-transition integration | draft | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
+| `plan-19` | Shell A and context-transition integration | in-progress | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
 <!-- plan-index:end -->
 
 ## Report Folders

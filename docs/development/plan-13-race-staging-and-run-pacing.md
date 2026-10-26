@@ -1,11 +1,9 @@
 ---
 id: plan-13
 title: Race staging and run pacing investigation
-status: draft
+status: in-progress
 depends_on: [plan-03, plan-04]
 gate: "Owner approves race staging, dramatic-event meaning and pacing before gameplay integration."
-superseded_by: null
-resolution: null
 summary: >-
   Compare readable oval-course race drama and camera direction alongside a
   timed day/run beat map toward the roughly fifteen-minute floor.
@@ -15,6 +13,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** isolated local preview and reports. **Owner/model:** one investigator; owner gate. **Expected artifacts:** `reports/development/plan-13-race-staging-and-run-pacing/proposal.md`, staged race preview and `progress.md`.
 
 ## Boundary and required reading
+
+**Owner assignment, 2026-10-25:** Run alongside Plan19 with disjoint ownership. Own only `reports/development/plan-13-race-staging-and-run-pacing/`; Plan19 owns the production-writing lane. Begin with the bounded race/pacing proposal and worked mechanical trace; wait for its prebuild gate before an isolated preview. Existing source/rig are read-only references. No shared src/sim/package changes or generation quota is authorized.
 
 Read `AGENTS.md`, canonical design Time/Immersion/Race/Receipt sections, owner triage, Plan 01 evidence limits, Plan 03 accepted trial, owner play feedback, and Plans 09/11. Run `check plan-13`; stop if blocked. Plan 04 supplies the accepted digital base; Plan 09 supplies candidate individual motions. Own only this report/preview folder. Propose the small comparison and wait for owner prebuild approval before coding. No production race changes, physics engine, final balance or new manipulation rule is authorized.
 

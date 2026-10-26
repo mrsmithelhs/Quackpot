@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Owner explicitly assigned Plans19 and13 in parallel on 2026-10-25; both in-progress. Plan19 first returns source/lifecycle outline, then owns bounded production integration after approval. Plan13 is report-folder-only race/run-pacing investigation, with a worked outcome/event model before prebuild approval. No shared source ownership for Plan13. ShellA and automatic entry/animated return are settled; Plan17 is closed; Plan18 still awaits owner sample selection.
+
 - Owner explicitly accepts Plan17 closure (DECISION-013); close with bounded scenario/lifecycle/Receipt limits. Canonical design/AGENTS/orchestrator contracts updated so the settled 3/6 trial rules are not reopened. Recommended next pair: draftPlan19 focused ShellA/context production integration (single source writer) plus draftPlan13 report-only race/run-pacing investigation. Both require owner dispatch; no start inferred from “what's next?”. Plan18 still needs owner listening/selection; Plan09 is an optional later parallel motion gallery.
 
 - Owner selects Shell A and refined automatic phone turn/expand plus animated reverse fade/border rotation. Plan14 closes after `review-03.md`/DECISION-012; root fixed nested-span opener focus inline. Concise production handoff and new draftPlan19 map approved behavior to focused src modules; no automatic source migration or assignment. AGENTS/repo-structure now reflect real app rather than stale placeholder state. Plan17 Repair01 `7325541` technically accepted (`review-02.md`): seven tests, full result reproduction, mass/censor/roster fixes verified. Remains delivered awaiting owner final closure, with no production lifecycle/Receipt or universal-economy claims.

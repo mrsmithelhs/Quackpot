@@ -1,11 +1,9 @@
 ---
 id: plan-19
 title: Shell A and context-transition integration
-status: draft
+status: in-progress
 depends_on: [plan-03, plan-14]
 gate: "Owner approves the bounded source/lifecycle outline before implementation; Shell A and automatic turn/expand plus animated return are already selected."
-superseded_by: null
-resolution: null
 summary: >-
   Integrate the selected full-width Shell A, quiet settings/save controls and
   automatic phone entry/animated return into focused production modules.
@@ -23,7 +21,7 @@ summary: >-
 
 ## Goal and authority
 
-Read AGENTS.md, current `docs/repo-structure.md`, canonical design, DECISION-012, `reports/orchestration/plan-14-production-handoff.md`, existing main/UI/storage/engine boundaries and Plan 03 accepted limits. Run `check plan-19`; stop if blocked. This is an unassigned draft. The owner has selected the presentation direction; do not repeat Shell A versus B selection.
+Read AGENTS.md, current `docs/repo-structure.md`, canonical design, DECISION-012, `reports/orchestration/plan-14-production-handoff.md`, existing main/UI/storage/engine boundaries and Plan 03 accepted limits. Run `check plan-19`; stop if blocked. Owner assigned this packet on 2026-10-25 alongside report-only Plan13. The owner has selected the presentation direction; do not repeat Shell A versus B selection. Plan19 owns the production-writing lane after its outline gate; preserve Plan13's separate report/prototype work.
 
 First return a small source/lifecycle outline mapping current callbacks/save/terminal behavior and new helper ownership. Name exact files and event/cancellation boundaries before code. Prefer focused stage/settings helpers and a small shell/style split where justified; do not copy the monolithic report HTML into the app or keep growing main/global CSS without boundaries. Obtain approval of that implementation scope, not another general visual investigation.
 

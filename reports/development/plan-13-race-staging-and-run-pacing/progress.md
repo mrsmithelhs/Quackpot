@@ -45,3 +45,21 @@ Artifact commits: 0c1c46a, f65bbe6, 4c3fe5d, and 40621d7. This screenshot-repair
 ## Owner/orchestrator follow-up
 
 Please review the isolated preview visually and decide whether Drafting is removed or given a distinct owner-approved trade-off before any later preview iteration. The proposed event probabilities/effects, three race durations, slow-motion extension, lighting, and 900-second map are review candidates only. No production integration, final duration/day count, packet status change, or push was performed.
+
+## Camera and drama follow-up
+
+The camera investigation found that the earlier camera transform operated on the oval's racers and finish line while the pond, shoreline, and track remained outside that transformed group. This made the camera zoom and the visible track disagree, which could read as a racer teleport when the composition changed. The preview now places the full race composition inside one `camera-root` transform. Close mode interpolates between a viewport-centered zoom and a player-focused zoom as the scale eases from 1.0, avoiding a translation at the wide framing. Race progress continues to use world-path positions; the camera changes only the shared presentation transform.
+
+In the authorized Chrome preview, the 20-second race with the 2-second highlight showed the whole oval before camera movement, a visibly enlarged oval with the runners still aligned to its track during the close interval, and the wide framing restored near the finish. The named-seed finish, event causes, scores and payouts stayed the same across Close, Locked wide and reduced-motion/static presentation. The 2-second highlight control adds wall time to playback; the existing warm-light control is a subtle global treatment, not an event-synced dramatic cue. No background dimming, participant glow, or collision behavior has been implemented.
+
+QP Orch recommended a lighting comparison for a later owner-gated proposal: Option A gently dims only environmental decoration and emphasizes the directly affected recorded participant(s), with a readable non-color cue; Option B keeps the scene brightness and uses participant emphasis as the control. Any cue should follow the selected highlight's existing timing envelope, preserve race boundaries/text/controls, retain event information in reduced-motion mode without animated zoom/pulse, and never imply an unrecorded contact. Defaults remain unchanged pending owner selection.
+
+For collision exploration, QP Orch recommended a narrow first proof: one scheduled contact opportunity and no more than one pair per race, with eligibility from documented proximity/lane rules in race-world coordinates, seeded deterministic selection, and an explicitly capped effect. No chain reactions in that proof. A visible deflection must either be a logged world-state effect that can influence the race under declared rules or be clearly decorative and unable to affect eligibility or finish. The proposal must cover no-eligible and multiple-eligible cases without order bias or rerolls, and compare zero contact, one contact, and multiple eligible pairs. These are recommendations only; no collision or lighting implementation is authorized by this exchange. Plan 17's accepted trial rule remains unchanged.
+
+## Follow-up checks
+
+- `node --check` on `preview-controller.mjs` and `preview-model.mjs` — passed.
+- `node scripts/dev/plan-status.js check plan-13` — exit 0, RUNNABLE.
+- `git diff --check` on the camera repair files — passed.
+- The model test suite was not rerun for this camera-only follow-up. No source, rig, Plan 19, packet status, or production files were changed.
+- No reviewer consultation was used for this small repair; QP Orch supplied the requested recommendation on the separate lighting/collision proposals.

@@ -325,9 +325,14 @@ function renderRunners(t) {
   const playerGridStagger = playerRow * 0.03 * Math.PI * 2 * (1 - ease01(clamp(t / 0.2, 0, 1)));
   const playerAngleWithGrid = playerAngle - playerGridStagger;
   const px = 450 + axis.rx * Math.cos(playerAngleWithGrid); const py = 250 + axis.ry * Math.sin(playerAngleWithGrid);
-  const tx = zoom === 1 ? 0 : 450 - px * zoom;
-  const ty = zoom === 1 ? 0 : 250 - py * zoom;
-  $('camera-root').setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${zoom.toFixed(4)})`);
+  const focus = close ? clamp((zoom - 1) / 0.16, 0, 1) : 0;
+  const centeredTx = 450 * (1 - zoom);
+  const centeredTy = 250 * (1 - zoom);
+  const focusedTx = 450 - px * zoom;
+  const focusedTy = 250 - py * zoom;
+  const tx = centeredTx + (focusedTx - centeredTx) * focus;
+  const ty = centeredTy + (focusedTy - centeredTy) * focus;
+  $('camera-root').setAttribute('transform', `matrix(${zoom.toFixed(4)} 0 0 ${zoom.toFixed(4)} ${tx.toFixed(2)} ${ty.toFixed(2)})`);
   $('stage-shell').classList.toggle('warm-light', $('lighting').value === 'warm' && !reduced);
   $('camera-note').textContent = reduced
     ? 'Static/reduced-motion mode: no moving racers or camera zoom; the same final positions and recorded order remain visible. Warm lighting is disabled.'

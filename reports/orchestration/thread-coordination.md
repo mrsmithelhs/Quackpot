@@ -13,6 +13,14 @@
 
 ## Reviewer budget
 
+## Browser turn-taking (owner request, 2026-10-26)
+
+Plans 09 and 13 must request a browser slot from QP Orch before Browser Use or browser-driving test runs, stating scope and expected duration, then await a grant. Root review uses the same shared slot. The holder releases it explicitly on completion; no other participant controls the browser meanwhile. Existing in-flight work stops at a safe boundary and reports its state before reassignment. Separate thread-owned tabs; no closing/navigating others' tabs or stopping the shared server. File editing and non-browser model checks can proceed concurrently within disjoint authorized scopes. Both implementers were sent this instruction; initial acknowledgments/ownership are pending, so no slot grant has yet been issued under this protocol.
+
+Plan09 paper-layer refinement is owner-approved and reopened in-progress. Its report-only shape/seam motion remains separate from Plan13 mechanics; no extra reviewer is authorized for this refinement.
+
+## Reviewer budget (continued)
+
 Owner clarification: implementers may spawn one Sol-low read-only subagent before delivery of main implemented work, none before proposals and none for smaller repair directives. Request explicit settings; do not use a role that silently forces high effort. The orchestrator's independent reviewers remain Luna-high. This is recorded as an overriding rule in AGENTS and both starting prompts (`3a12d72`). Historical attempts/costs remain honestly recorded; no retrospective review rerun is required.
 
 ## Coordination receipts (not completion evidence)

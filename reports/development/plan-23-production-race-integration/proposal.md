@@ -1,6 +1,6 @@
 # Plan 23 bounded integration proposal
 
-**Date:** 2026-10-26  
+**Date:** 2026-10-26
 **Stage:** Report-only investigation. Approval requested from QP Orch for source handoff, lifecycle contract, and explicit file ownership before any production write or browser turn.
 
 ## Objective and boundaries

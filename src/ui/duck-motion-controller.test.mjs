@@ -47,7 +47,7 @@ class FakeElement {
   }
   querySelector(selector) { return this.children.get(selector) || null; }
   querySelectorAll(selector) { return selector === '[id]' ? [...this.children.values()] : []; }
-  animate() { const animation = new FakeAnimation(); this.animations.push(animation); return animation; }
+  animate(frames, options) { const animation = new FakeAnimation(); animation.frames = frames; animation.options = options; this.animations.push(animation); return animation; }
   addEventListener(name, handler) { this.listeners.set(name, handler); }
   removeEventListener(name) { this.listeners.delete(name); }
   setAttribute(name, value) { this.attributes[name] = value; }
@@ -102,17 +102,30 @@ test('controller pauses and resumes on visibility/offscreen changes and resets o
   const svgElements = [...fixture.svg.children.values()];
   fixture.observerCallback()([{ target: fixture.shell, isIntersecting: true, intersectionRatio: 1 }]);
   assert.ok(svgElements[0].animations.length > 0);
+  assert.equal(fixture.svg.children.get('#qp-card-9-wing-mid').style.transformOrigin, '52px 56px');
+  assert.equal(fixture.svg.children.get('#qp-card-9-wing-under-seam').style.transformOrigin, '52px 56px');
   assert.equal(fixture.button.disabled, false);
 
+  const wingMidAnimation = fixture.svg.children.get('#qp-card-9-wing-mid').animations[0];
+  assert.deepEqual(wingMidAnimation.frames.map(({ offset }) => offset), [0, .075, .48, .74, 1]);
+  assert.equal(wingMidAnimation.frames[0].transform, 'translate(0px, 0px) rotate(0deg)');
+  assert.equal(wingMidAnimation.frames[1].transform, 'translate(0px, 0px) rotate(0deg)');
+  assert.equal(wingMidAnimation.frames[2].transform, 'translate(1.6px, 0.48px) rotate(1.2deg)');
+  assert.equal(wingMidAnimation.options.delay, 0);
+
   fixture.documentRef.visibilityState = 'hidden';
+  const beforeHidden = [...svgElements[0].animations];
   fixture.listeners.get('visibilitychange')();
-  assert.ok(svgElements[0].animations.every((animation) => animation.paused));
+  assert.ok(beforeHidden.every((animation) => animation.cancelled));
+  assert.equal(fixture.svg.children.get('#qp-card-9-wing-mid').style.transform, '');
   fixture.documentRef.visibilityState = 'visible';
   fixture.listeners.get('visibilitychange')();
-  assert.ok(svgElements[0].animations.every((animation) => !animation.paused));
+  assert.ok(fixture.svg.children.get('#qp-card-9-wing-mid').animations.length > 1);
 
+  const beforeOffscreen = [...svgElements[0].animations];
   fixture.observerCallback()([{ target: fixture.shell, isIntersecting: false, intersectionRatio: 0 }]);
-  assert.ok(svgElements[0].animations.every((animation) => animation.paused));
+  assert.ok(beforeOffscreen.every((animation) => animation.cancelled));
+  assert.equal(fixture.svg.children.get('#qp-card-9-wing-mid').style.transform, '');
   fixture.observerCallback()([{ target: fixture.shell, isIntersecting: true, intersectionRatio: 1 }]);
   assert.ok(svgElements[0].animations.every((animation) => !animation.paused));
 
@@ -148,8 +161,10 @@ test('controller honors user pause and inactive mount without discarding live co
   assert.equal(persistedPause, true);
   assert.ok(fixture.shell.animations.every((animation) => animation.paused));
   controller.setActive(false);
+  assert.ok(fixture.shell.animations.every((animation) => animation.cancelled));
+  assert.equal(fixture.svg.children.get('#qp-card-9-wing-mid').style.transform, '');
   controller.setActive(true);
-  assert.ok(fixture.shell.animations.every((animation) => animation.paused));
+  assert.equal(fixture.shell.animations.length, 1);
   controller.destroy();
 });
 

@@ -21,12 +21,19 @@ function animationTracks(record) {
   const root = shell;
   const head = byId('head-group');
   const wing = byId('wing-group');
+  const identity = 'translate(0px, 0px) rotate(0deg)';
   const targets = [];
   const add = (element, frames, duration, delay = 0) => {
     if (element?.animate) targets.push({ element, frames, duration, delay });
   };
-  const paper = (id, from, to, duration, delay = 0) => {
-    add(byId(id), [{ transform: from }, { transform: to }, { transform: from }], duration, delay);
+  const paper = (id, peak, partial, duration, lagMs) => {
+    add(byId(id), [
+      { transform: identity, offset: 0 },
+      { transform: identity, offset: lagMs / duration },
+      { transform: peak, offset: .48 },
+      { transform: partial, offset: .74 },
+      { transform: identity, offset: 1 },
+    ], duration);
   };
 
   if (motion === 'paddle') {
@@ -73,6 +80,12 @@ function setGroupTransformOrigins(record) {
     if (!group) continue;
     group.style.transformBox = 'view-box';
     group.style.transformOrigin = `${x}px ${y}px`;
+  }
+  for (const layerName of ['wing-mid', 'wing-under-seam', 'wing-top', 'wing-mid-seam']) {
+    const layer = record.svg.querySelector(`#${record.prefix}-${layerName}`);
+    if (!layer) continue;
+    layer.style.transformBox = 'view-box';
+    layer.style.transformOrigin = '52px 56px';
   }
 }
 
@@ -157,7 +170,8 @@ export function createDuckMotionController(container, {
     for (const record of records) {
       if (isReduced()) cancel(record);
       else if (canRun(record)) resume(record);
-      else suspend(record);
+      else if (userPaused && contextActive && documentRef?.visibilityState !== 'hidden' && record.visible && record.shell.isConnected !== false) suspend(record);
+      else cancel(record);
     }
     syncButton();
   };

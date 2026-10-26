@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: in-progress
+status: delivered
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -22,6 +22,8 @@ summary: >-
 - Expected artifacts: `reports/development/plan-20-digital-rig-and-motion-integration/proposal.md`, implementation evidence and `progress.md`
 
 ## Goal and why now
+
+**Visible-pointer repair delivered, 2026-10-26:** `f0cd77b`/`5af086a` separates scrollable body from overflow-visible bubble shell; external triangle no longer clipped. Root directly viewed all three desktop/narrow screenshot witnesses in `review-05.md`, confirming visible attached tail rather than computed styles alone. Delivered for owner acceptance, no closure or production handoff yet.
 
 **Layout/help delivery, 2026-10-26:** `72fa977`/`f3aac38` accepted technically in report-folder `review-04.md`; root reproduced140tests and inspected bounded grid/callout/event-only changes. Implementer measured stable card bounds across reveal states and visible first-duplicate speech bubble after flip-end, with dismissal persistence. Delivered for owner acceptance; realtouch/longname/systemreducedtrue remain unobserved. ExtraSol-lowrepairreview violated ownerbudget and is disclosed, no furtherreviewer authorized. Production source handoff toPlan23 still awaitsowneracceptance.
 

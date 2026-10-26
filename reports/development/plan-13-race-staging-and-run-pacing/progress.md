@@ -1,6 +1,6 @@
 # Plan 13 progress
 
-**Date:** 2026-10-25. **Stage:** isolated preview implementation complete; rendered review and owner decisions remain open.
+**Date:** 2026-10-26. **Stage:** isolated preview implementation and HTTP browser inspection complete; owner decisions remain open.
 
 ## Work completed
 
@@ -30,7 +30,7 @@ The proposal retains the 900-second illustrative allocation: setup 90 seconds, s
 
 Owned artifacts are proposal.md, preview.html, preview-controller.mjs, preview-model.mjs, preview-model.test.mjs, and this progress report, all under the assigned report folder. Source, rig, package, Plan 19 files, and packet status were not edited. The prebuild review file was left unchanged. The existing Vite server was started by orchestration for the human's manual review; per its direction I did not navigate or automate that server.
 
-The local browser rendering route remains unavailable to this agent; no screenshot, rendered appearance, asset loading, camera framing, accessibility behavior, or responsive layout was visually verified. The HTML/controller received syntax and model-level tests only. Presentation fingerprints detect mismatch between the saved mechanical record and its fingerprint; they are not an authenticity or tamper-proof guarantee. The room/track composition still needs human visual review.
+The authorized local preview was opened at `http://127.0.0.1:5181/Quackpot/reports/development/plan-13-race-staging-and-run-pacing/preview.html` in Chrome. I visually inspected the initial control layout, named-seed finish, event rows, running race, slow-motion wall-time extension, warm-light setting, static/reduced-motion state, progressive-choice cards, turnaround card, and ordinary/consequential day-map headings. The long seed initially clipped; the text input width was increased and the full seed is now visible after reload. The reduced-motion setting visibly produced a static race and preserved the result; the controller now supplies matching static-mode camera copy. The race and choice layout rendered in the inspected desktop viewport. This was a desktop visual inspection, not a full responsive, keyboard-only, screen-reader, or cross-browser audit. The finish/event table fits its bounded scroll region, but dense rows warrant owner review at smaller widths. Presentation fingerprints detect mismatch between the saved mechanical record and its fingerprint; they are not an authenticity or tamper-proof guarantee. The room/track composition still needs human visual review.
 
 ## Checks
 
@@ -38,9 +38,9 @@ The local browser rendering route remains unavailable to this agent; no screensh
 - node --test reports/development/plan-13-race-staging-and-run-pacing/preview-model.test.mjs — 10 tests passed, including finish-order/display-progress agreement.
 - node --check on preview-controller.mjs and preview-model.mjs — passed.
 - git diff --check on the owned folder — passed.
-- One optional read-only advisory was attempted. Requested model/effort were gpt-6-sol / low; the harness reported observed model gpt-6.1-sol and did not expose effort, so this is not represented as the authorized Sol-low review. The actionable notes were independently checked and repaired: the wide camera no longer follows the player; displayed progress uses finish-score arithmetic and has an ordering regression test; restore stops old playback; snapshot wording does not claim tamper-proof integrity; and Drafting pacing copy no longer implies a distinct tested trade-off. No further reviewer will be launched.
+- One optional read-only advisory was attempted. Requested model/effort were gpt-6-sol / low; the harness reported observed model gpt-6.1-sol and did not expose effort, so this is not represented as the authorized Sol-low review. The actionable notes were independently checked and repaired: the wide camera no longer follows the player; displayed progress uses finish-score arithmetic and has an ordering regression test; restore stops old playback; snapshot wording does not claim tamper-proof integrity; and Drafting pacing copy no longer implies a distinct tested trade-off. No further reviewer was launched.
 
-Artifact commit: 0c1c46a. The progress report is committed separately as the final owned-file commit. No push performed.
+Artifact commits: 0c1c46a and f65bbe6. This browser-inspection repair and final progress update are committed separately below. No push performed.
 
 ## Owner/orchestrator follow-up
 

@@ -49,6 +49,8 @@ Do not make repository changes until a concrete task or follow-up is assigned.
 <!-- bootstrap:advisor-consultation v1 begin -->
 ## Advisor Consultation (thread-level capability)
 
+**Codex owner override, 2026-10-25:** You may spawn at most one read-only **Sol-low reviewer subagent** against main plan implementation before delivery. No pre-proposal reviewer and no reviewer for smaller repair directives. Request `gpt-6-sol` / `low` explicitly; a reviewer role that fixes high effort must be replaced with a default-role child given a strict read-only, no-fan-out brief. Do not silently use high effort or another model. Record requested/observed model-effort, prior attempts, actual findings and independent dispositions. Do not repeat a main review for repairs. If the allowed launch is unavailable, report orchestrator-gate-only rather than consuming another tier. This overrides conflicting generic higher-tier/behavioral-review requirements below for Codex. Orchestrator review is separate and remains Luna-high.
+
 At the start of any packet, work out which of three branches applies. Exactly one always
 applies, and one of them must always appear in the progress report — silence is never
 acceptable.

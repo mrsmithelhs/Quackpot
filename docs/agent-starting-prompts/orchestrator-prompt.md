@@ -80,6 +80,8 @@ Do not quietly make changes that require owner policy decisions, external behavi
 <!-- bootstrap:advisor-consultation v1 begin -->
 ## Advisor Consultation (expectations for reviewers)
 
+**Codex owner override, 2026-10-25:** Implementers may use one read-only Sol-low subagent (`gpt-6-sol`, explicit `low`) pre-delivery of main implemented work only; no pre-proposal or smaller-repair reviewer. A fixed-high reviewer role must not defeat this limit: a default-role child with a bounded read-only brief is the allowed alternative. Main reviews already completed are not repeated on repairs. Treat an explicit owner-policy “not warranted — proposal/small repair” or allowed-launch-unavailable/orchestrator-gate-only record as compliant even when the generic behavioral-surface rule below would normally request review. Preserve actual cost/identity/effort evidence. Your own independent review subagents stay Luna-high; this rule does not change that routing.
+
 An implementer thread may report one of **three** compliant shapes for a packet:
 
 1. A full disposition record for a consultation that ran (requested/observed advisor model,

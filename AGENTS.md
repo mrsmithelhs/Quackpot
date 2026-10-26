@@ -172,6 +172,8 @@ When addressing tasks in this repository, follow these delegation rules:
 <!-- bootstrap:advisor-consultation v1 begin -->
 ## Advisor Consultation
 
+**Owner override for Codex implementation threads (2026-10-25):** At most one read-only **Sol-low reviewer subagent** for the main plan's implemented artifact before delivery; none before a proposal and none for smaller repair directives. Use `gpt-6-sol` with explicit `low` effort and a self-contained read-only brief. If a named reviewer role forces high effort, use a default-role child with read-only instructions instead; do not silently accept high effort or a model substitution. Preserve requested/observed model-effort and findings dispositions. Already-completed main reviews are not repeated for repairs. The orchestrator's independent review subagents remain **Luna-high**. This owner rule takes precedence over generic higher-tier/proportionality requirements below; unavailable allowed settings mean an explicit orchestrator-gate-only declaration, not an unauthorized review.
+
 Implementer threads may consult a higher-tier, read-only advisor before reporting a packet
 done — but only when the change has a real behavioral surface (code, scripts, or schemas; not a
 docs-only or prose-only edit) and the thread can confidently identify itself as capable. Availability is a property of

@@ -173,3 +173,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner approves Plan09's stronger factor-four paper-layer result and requests closure. Accept the current paddle, graceful-bob, impact/recovery and static alternatives as the motion reference set (`2786feb`, evidence `22534ce`, reviews02–05). The reported detached-looking lower body backing edge was surfaced before approval; do not silently reduce the selected magnitude on integration.
 
 **Limits and next work:** This closes the isolated gallery, not production wiring or broader motion/rig changes. Actual system reduced-motion=true and fine small-sprite edge quality remain unverified. Draft Plan20 proposes focused rig/controller integration and a trigger gate; production race-event mapping waits for Plan13's accepted semantics. No new packet assignment, push or deployment follows.
+
+### DECISION-017 — Duck-Dex acquisition sequence and soft duck rest
+
+**Date:** 2026-10-26
+
+**Decision:** Owner requests voluntary Duck-Dex inspection linked to first-owned revealed identities: about2s shelf focus/scroll, then2–3s silhouette-to-color transition (optional background change), skipped by fast-pull. Show meaningful factual duck/set value. Owner selects rest speed penalties of50% with zero intervening races,25% after one, none after two; tired ducks remain eligible, avoiding small-roster lockout. Canonical design, AGENTS and orchestrator contracts are synchronized. Exact lifecycle/duplicate/composition and set effects remain proposals, not invented features or prices.
+
+**Routing:** Draft Plan21 covers collection/acquisition presentation; draft Plan22 covers race entry/rest and balance. Neither assigned by this record. Plan20 remains focused rig/motion integration and its proposal has root approval under owner's delegated gate; QP Impl20 is authorized for bidirectional coordination. Keep free skip/static accessibility, honest reveal/Receipt evidence, no paid rest or inferred Fast Pull fee. No push/deployment.

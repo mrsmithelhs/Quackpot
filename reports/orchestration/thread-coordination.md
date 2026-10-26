@@ -13,6 +13,8 @@
 
 ## Browser turn-taking (owner request, 2026-10-26)
 
+Owner extension, 2026-10-26: QP Impl20 (`01a179ee-8bcf-7d40-8494-d1457e405508`, local) is explicitly authorized for bidirectional supervision. Root introduced itself, approved report-folder proposal and assigned focused production files under owner's delegated gate. Include this chat in the same browser request/grant/release protocol. Plan20 owns rig-view/controller/gacha-view/focused main wiring/tests; Plan13 owns report-only physics. New collection/rest requirements are recorded in draft Plans21/22, not implicit Plan20 engine authority.
+
 Plans 09 and 13 must request a browser slot from QP Orch before Browser Use or browser-driving test runs, stating scope and expected duration, then await a grant. Root review uses the same shared slot. The holder releases it explicitly on completion; no other participant controls the browser meanwhile. Existing in-flight work stops at a safe boundary and reports its state before reassignment. Separate thread-owned tabs; no closing/navigating others' tabs or stopping the shared server. File editing and non-browser model checks can proceed concurrently within disjoint authorized scopes. Both implementers were sent this instruction; initial acknowledgments/ownership are pending, so no slot grant has yet been issued under this protocol.
 
 Plan09 paper-layer refinement is owner-approved and reopened in-progress. Its report-only shape/seam motion remains separate from Plan13 mechanics; no extra reviewer is authorized for this refinement.

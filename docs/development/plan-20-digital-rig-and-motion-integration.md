@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: delivered
+status: in-progress
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -38,6 +38,8 @@ Plans 04 and 09 supply an accepted Mode C rig and motion set, while production s
 Read AGENTS.md, docs/repo-structure.md, docs/decision-log.md, canonical design Assets/Immersion/Receipt and two-duck boundary, Plan09 proposal/refinement/gallery and reviews02–05, Plan19 accepted lifecycle, current src/main.js and relevant UI views, rig composer and SVG hierarchy. Run `node scripts/dev/plan-status.js check plan-20` after assignment; stop if blocked. Read current Plan13 event status before proposing race hooks.
 
 ## First return: source and trigger proposal
+
+**Owner missing-pointer repair, 2026-10-26:** Owner screenshot shows no visible speech-bubble tail despite prior report. Reopen for actual rendered pointer fix. Root finds outer callout sets overflow-y:auto on the same node that owns negative-offset pseudo-elements, clipping the tail; validate and separate overflow-visible pointer shell from any scrollable inner content. Measure safe bounds including tail and retain text/close/opacity/dismiss/reveal evidence. Actual visible pointer in desktop side and narrow vertical placement is required, not merely CSS/data attributes. No new reviewer or broader behavior changes.
 
 **Owner callout shape refinement, 2026-10-26:** Owner approves translucent background/opaque text and focus parity, and requests an angular speech-bubble tail connecting the rounded callout to its originating duplicate card (reference screenshot is shape guidance only). Tail orientation/offset must follow anchored/clamped placement without pointing at a neighboring card or blocking controls. Bounded callout styling within the current repair; no new assets/branding or behavior-rule change.
 

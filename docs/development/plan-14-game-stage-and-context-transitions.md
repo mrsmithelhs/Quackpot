@@ -1,7 +1,8 @@
 ---
 id: plan-14
 title: Game stage and metagame transitions investigation
-status: delivered
+status: complete
+resolution: "Owner selected Shell A and refined automatic phone turn/expand plus animated return; report-only investigation closed after technical checks and inline nested-button focus fix. Selected production handoff/source map and draft Plan 19 preserve separately gated integration; exact timings remain tunable."
 depends_on: [plan-03]
 gate: "Owner selects the stage layout and context transition before production UI changes."
 summary: >-

@@ -690,6 +690,36 @@
                   opacity var(--duration-expand) ease;
     }
 
+    /* State 2 Reverse: Collapsing landscape phone borders from fullscreen stage back to desk */
+    @keyframes phoneCollapse {
+      0% {
+        transform: rotate(90deg) scale(3.5);
+        opacity: 0;
+        box-shadow: 0 0 50px rgba(251, 191, 36, 0.6);
+      }
+      20% {
+        opacity: 0.85;
+      }
+      100% {
+        transform: rotate(90deg) scale(1.15);
+        opacity: 1;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(251, 191, 36, 0.5);
+      }
+    }
+
+    .smartphone-container.state-collapsing {
+      animation: phoneCollapse var(--duration-expand) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      pointer-events: none;
+    }
+
+    .smartphone-container.state-collapsing .phone-portrait-content {
+      display: none;
+    }
+
+    .smartphone-container.state-collapsing .phone-landscape-content {
+      display: flex;
+    }
+
     .scene-apartment {
       width: 100%;
       height: 100%;
@@ -729,7 +759,7 @@
       inset: 0;
       opacity: 0;
       transform: scale(0.94);
-      transition: opacity 0.35s ease, transform 0.35s ease;
+      transition: opacity var(--duration-expand) ease, transform var(--duration-expand) ease;
       pointer-events: none;
       z-index: 10;
     }
@@ -1924,7 +1954,7 @@
       function stepDesk() {
         cancelPendingTransitions();
         transitionState = 'desk';
-        phoneContainer.classList.remove('state-rotated', 'state-expanding');
+        phoneContainer.classList.remove('state-rotated', 'state-expanding', 'state-collapsing');
         sceneApartment.classList.remove('state-desk-dimming');
         stageCanvas.classList.remove('state-gacha-active');
         sceneApartment.style.display = 'flex';
@@ -1942,7 +1972,7 @@
         sceneGacha.classList.remove('state-gacha-fading');
         sceneTerminal.style.display = 'none';
         stageCanvas.classList.remove('state-gacha-active');
-        phoneContainer.classList.remove('state-expanding');
+        phoneContainer.classList.remove('state-expanding', 'state-collapsing');
         phoneContainer.classList.add('state-rotated');
         announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
       }
@@ -1964,7 +1994,7 @@
 
         if (isReducedMotion) {
           transitionState = 'gacha';
-          phoneContainer.classList.remove('state-rotated', 'state-expanding');
+          phoneContainer.classList.remove('state-rotated', 'state-expanding', 'state-collapsing');
           sceneApartment.classList.remove('state-desk-dimming');
           sceneApartment.style.display = 'none';
           sceneGacha.style.display = 'flex';
@@ -1977,6 +2007,7 @@
 
         // Animated expansion from landscape phone to full stage
         transitionState = 'expanding';
+        phoneContainer.classList.remove('state-collapsing');
         phoneContainer.classList.add('state-rotated');
         phoneContainer.classList.add('state-expanding');
         sceneApartment.classList.add('state-desk-dimming');
@@ -1986,7 +2017,7 @@
           transitionTimer = null;
           if (currentToken !== transitionToken) return; // Cancelled
           transitionState = 'gacha';
-          phoneContainer.classList.remove('state-rotated', 'state-expanding');
+          phoneContainer.classList.remove('state-rotated', 'state-expanding', 'state-collapsing');
           sceneApartment.classList.remove('state-desk-dimming');
           sceneApartment.style.display = 'none';
           sceneGacha.style.display = 'flex';
@@ -2015,15 +2046,15 @@
         sceneApartment.style.display = 'flex';
         sceneApartment.classList.remove('state-desk-dimming');
 
-        // Beat 1 of Return: Phone rests in landscape orientation on the desk blotter
+        // Beat 1 of Return: Collapsing landscape phone borders from fullscreen stage back to desk
         phoneContainer.classList.remove('state-expanding');
-        phoneContainer.classList.add('state-rotated');
+        phoneContainer.classList.add('state-rotated', 'state-collapsing');
 
         // Overlay the fading gacha view on top of the desk
         sceneGacha.classList.add('state-gacha-fading');
-        announce("Reverse transition: Beat 1 — Fading gacha view to reveal apartment desk...");
+        announce("Reverse transition: Beat 1 — Collapsing stage borders inward to phone size while gacha view fades...");
 
-        // After gacha view has fully faded (350ms), execute Beat 2: rotate phone back to portrait
+        // After gacha view has faded and phone borders have collapsed to blotter (400ms)
         transitionTimer = setTimeout(() => {
           transitionTimer = null;
           if (currentToken !== transitionToken) return;
@@ -2032,18 +2063,27 @@
           sceneGacha.style.display = 'none';
           sceneGacha.classList.remove('state-gacha-fading');
 
-          // Beat 2: Rotate phone from landscape back to portrait orientation
-          phoneContainer.classList.remove('state-rotated');
-          announce("Reverse transition: Beat 2 — Rotating phone back to portrait orientation on desk.");
+          // Remove collapse animation class; state-rotated keeps phone resting in landscape on blotter
+          phoneContainer.classList.remove('state-collapsing');
 
-          // Settle into final desk resting state after rotation finishes (400ms)
+          // Pause briefly (100ms) with phone resting in landscape on blotter before rotating
           transitionTimer = setTimeout(() => {
             transitionTimer = null;
             if (currentToken !== transitionToken) return;
-            transitionState = 'desk';
-            announce("Reverse transition complete: Returned to apartment desk.");
-          }, 400); // 400ms rotation duration
-        }, 350); // 350ms fade duration
+
+            // Beat 2: Rotate phone from landscape back to portrait orientation
+            phoneContainer.classList.remove('state-rotated');
+            announce("Reverse transition: Beat 2 — Rotating phone back to portrait orientation on desk.");
+
+            // Settle into final desk resting state after rotation finishes (400ms)
+            transitionTimer = setTimeout(() => {
+              transitionTimer = null;
+              if (currentToken !== transitionToken) return;
+              transitionState = 'desk';
+              announce("Reverse transition complete: Returned to apartment desk.");
+            }, 400); // 400ms rotation duration
+          }, 100); // 100ms pause with phone settled in landscape
+        }, 400); // 400ms collapse and fade duration
       }
 
       function stepReturn() {

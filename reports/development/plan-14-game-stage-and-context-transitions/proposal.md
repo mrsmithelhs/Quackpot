@@ -160,9 +160,9 @@ Per DECISION-008, the owner selected a fictional-phone quarter-turn into landsca
    Focus moves to primary CTA; background shortcuts active.
                │
                ▼ (Player clicks "Return to Desk" or hits Escape)
-[Beat 5: Reverse Return Transition (400ms proposed)]
-   Gacha stage canvas fades out as the apartment desk view is revealed.
-   Landscape phone border on the desk blotter smoothly rotates 90° counter-clockwise back to portrait resting position.
+[Beat 5: Reverse Return Sequence (750ms total: fade then rotate)]
+   Stage 5A (Fade, 350ms): Gacha stage canvas fades out, revealing the apartment desk with the phone resting on the blotter in landscape orientation.
+   Stage 5B (Rotation, 400ms): Landscape phone on desk smoothly rotates 90° counter-clockwise back to portrait resting position.
    Desk lighting and physical companion prominence are restored.
 ```
 

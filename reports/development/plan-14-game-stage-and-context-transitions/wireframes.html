@@ -2015,29 +2015,35 @@
         sceneApartment.style.display = 'flex';
         sceneApartment.classList.remove('state-desk-dimming');
 
-        // Phone container starts on desk in rotated landscape orientation
+        // Beat 1 of Return: Phone rests in landscape orientation on the desk blotter
         phoneContainer.classList.remove('state-expanding');
         phoneContainer.classList.add('state-rotated');
 
         // Overlay the fading gacha view on top of the desk
         sceneGacha.classList.add('state-gacha-fading');
-        announce("Reverse transition: Fading gacha view and rotating phone back to portrait...");
+        announce("Reverse transition: Beat 1 — Fading gacha view to reveal apartment desk...");
 
-        // Trigger phone rotation from landscape (90°) back to portrait (0°) after paint tick
-        setTimeout(() => {
-          if (currentToken !== transitionToken) return;
-          phoneContainer.classList.remove('state-rotated');
-        }, 50);
-
-        // Complete return sequence once fade (350ms) and rotation (400ms) finish
+        // After gacha view has fully faded (350ms), execute Beat 2: rotate phone back to portrait
         transitionTimer = setTimeout(() => {
           transitionTimer = null;
           if (currentToken !== transitionToken) return;
+
+          // Remove gacha overlay once fade is complete
           sceneGacha.style.display = 'none';
           sceneGacha.classList.remove('state-gacha-fading');
-          transitionState = 'desk';
-          announce("Reverse transition complete: Returned to apartment desk.");
-        }, 450);
+
+          // Beat 2: Rotate phone from landscape back to portrait orientation
+          phoneContainer.classList.remove('state-rotated');
+          announce("Reverse transition: Beat 2 — Rotating phone back to portrait orientation on desk.");
+
+          // Settle into final desk resting state after rotation finishes (400ms)
+          transitionTimer = setTimeout(() => {
+            transitionTimer = null;
+            if (currentToken !== transitionToken) return;
+            transitionState = 'desk';
+            announce("Reverse transition complete: Returned to apartment desk.");
+          }, 400); // 400ms rotation duration
+        }, 350); // 350ms fade duration
       }
 
       function stepReturn() {

@@ -14,9 +14,135 @@
 .gacha-card-duck {
   width: clamp(76px, 11vw, 108px);
   height: clamp(76px, 11vw, 108px);
+  max-width: 100%;
+  min-width: 0;
   display: grid;
   place-items: center;
   overflow: visible;
+}
+
+.duplicate-help-callout {
+  position: fixed;
+  z-index: 70;
+  box-sizing: border-box;
+  color: #fff;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid #94a3b8;
+  border-radius: 0.65rem;
+  padding: 0.8rem 2.6rem 0.8rem 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  opacity: 1;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+.duplicate-help-callout::before,
+.duplicate-help-callout::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.duplicate-help-callout[data-pointer="left"]::before {
+  left: -11px;
+  top: calc(var(--pointer-offset, 50%) - 10px);
+  border-top: 10px solid transparent;
+  border-right: 11px solid #94a3b8;
+  border-bottom: 10px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="left"]::after {
+  left: -9px;
+  top: calc(var(--pointer-offset, 50%) - 9px);
+  border-top: 9px solid transparent;
+  border-right: 10px solid rgba(15, 23, 42, 0.75);
+  border-bottom: 9px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="right"]::before {
+  right: -11px;
+  top: calc(var(--pointer-offset, 50%) - 10px);
+  border-top: 10px solid transparent;
+  border-left: 11px solid #94a3b8;
+  border-bottom: 10px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="right"]::after {
+  right: -9px;
+  top: calc(var(--pointer-offset, 50%) - 9px);
+  border-top: 9px solid transparent;
+  border-left: 10px solid rgba(15, 23, 42, 0.75);
+  border-bottom: 9px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="top"]::before {
+  left: calc(var(--pointer-offset, 50%) - 10px);
+  top: -11px;
+  border-right: 10px solid transparent;
+  border-bottom: 11px solid #94a3b8;
+  border-left: 10px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="top"]::after {
+  left: calc(var(--pointer-offset, 50%) - 9px);
+  top: -9px;
+  border-right: 9px solid transparent;
+  border-bottom: 10px solid rgba(15, 23, 42, 0.75);
+  border-left: 9px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="bottom"]::before {
+  left: calc(var(--pointer-offset, 50%) - 10px);
+  bottom: -11px;
+  border-top: 11px solid #94a3b8;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+
+.duplicate-help-callout[data-pointer="bottom"]::after {
+  left: calc(var(--pointer-offset, 50%) - 9px);
+  bottom: -9px;
+  border-top: 10px solid rgba(15, 23, 42, 0.75);
+  border-right: 9px solid transparent;
+  border-left: 9px solid transparent;
+}
+
+.duplicate-help-callout:hover,
+.duplicate-help-callout:focus-within {
+  background: rgb(15, 23, 42);
+}
+
+.duplicate-help-callout:hover[data-pointer="left"]::after,
+.duplicate-help-callout:focus-within[data-pointer="left"]::after { border-right-color: rgb(15, 23, 42); }
+.duplicate-help-callout:hover[data-pointer="right"]::after,
+.duplicate-help-callout:focus-within[data-pointer="right"]::after { border-left-color: rgb(15, 23, 42); }
+.duplicate-help-callout:hover[data-pointer="top"]::after,
+.duplicate-help-callout:focus-within[data-pointer="top"]::after { border-bottom-color: rgb(15, 23, 42); }
+.duplicate-help-callout:hover[data-pointer="bottom"]::after,
+.duplicate-help-callout:focus-within[data-pointer="bottom"]::after { border-top-color: rgb(15, 23, 42); }
+
+.duplicate-help-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.4rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 0;
+  border-radius: 0.3rem;
+  background: transparent;
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.duplicate-help-close:hover,
+.duplicate-help-close:focus-visible {
+  background: #334155;
+  outline: 2px solid #fff;
+  outline-offset: 1px;
 }
 
 .gacha-card-duck svg {

@@ -58,10 +58,65 @@ function renderCompletion(engine) {
   `;
 }
 
+function duplicateHelpMarkup(cue = null) {
+  const payload = cue?.payload;
+  if (!payload) return '<span data-duplicate-help-copy></span>';
+  const text = `Duplicate ducks are automatically returned and converted to Down. This ${payload.rarity} duplicate awarded ${payload.downGained} Down. Common duplicates award 1, Rare 5, and Legendary 20.`;
+  return `<span data-duplicate-help-copy>${text}</span>`;
+}
+
+function positionDuplicateHelp(callout, card) {
+  if (!callout || !card) return;
+  const target = card.getBoundingClientRect();
+  if (target.width <= 0 || target.height <= 0 || target.bottom <= 0 || target.right <= 0
+      || target.top >= window.innerHeight || target.left >= window.innerWidth) return false;
+  const width = Math.min(360, window.innerWidth - 24);
+  callout.style.width = `${width}px`;
+  callout.style.maxHeight = `${Math.max(80, window.innerHeight - 24)}px`;
+  callout.style.overflowY = 'auto';
+  const height = callout.getBoundingClientRect().height;
+  let left = target.right + 12;
+  if (left + width > window.innerWidth - 12) left = target.left - width - 12;
+  left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
+  let top = target.top;
+  if (top + height > window.innerHeight - 12) top = target.bottom - height;
+  top = Math.max(12, Math.min(top, window.innerHeight - height - 12));
+  const exit = document.querySelector('#btn-uninstall')?.getBoundingClientRect();
+  const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  const fits = (x, y) => x >= 12 && y >= 12 && x + width <= window.innerWidth - 12
+    && y + height <= window.innerHeight - 12
+    && !overlaps({ left: x, top: y, right: x + width, bottom: y + height }, target)
+    && (!exit || !overlaps({ left: x, top: y, right: x + width, bottom: y + height }, exit));
+  const placements = [[left, top]];
+  const centeredLeft = Math.max(12, Math.min(target.left + target.width / 2 - width / 2, window.innerWidth - width - 12));
+  placements.push([centeredLeft, target.bottom + 12], [centeredLeft, target.top - height - 12]);
+  if (exit) {
+    placements.push(
+      [left, exit.bottom + 12],
+      [left, exit.top - height - 12],
+      [exit.left - width - 12, top],
+      [exit.right + 12, top],
+    );
+  }
+  const placement = placements.find(([x, y]) => fits(x, y));
+  if (!placement) return false;
+  [left, top] = placement;
+  callout.style.left = `${left}px`;
+  callout.style.top = `${top}px`;
+  const pointer = left >= target.right ? 'left'
+    : (left + width <= target.left ? 'right' : (top >= target.bottom ? 'top' : 'bottom'));
+  callout.dataset.pointer = pointer;
+  const verticalOffset = Math.max(20, Math.min(height - 20, target.top + target.height / 2 - top));
+  const horizontalOffset = Math.max(20, Math.min(width - 20, target.left + target.width / 2 - left));
+  callout.style.setProperty('--pointer-offset', `${pointer === 'left' || pointer === 'right' ? verticalOffset : horizontalOffset}px`);
+  return true;
+}
+
 export function renderGachaView(container, engine, callbacks = {}) {
   const {
     onClaimPull, onRevealCard, onRevealCardAtIndex, onRevealAll, onProceed,
     duckMotionPaused = false, duckMotionActive = true, onDuckMotionPauseChange,
+    onDuplicateHelpShown, onDuplicateHelpDismiss,
   } = callbacks;
   const pending = engine.state.pendingReveals || [];
   const hasPending = pending.length > 0;
@@ -154,6 +209,157 @@ export function renderGachaView(container, engine, callbacks = {}) {
     onPauseChange: onDuckMotionPauseChange,
   });
 
+  let destroyed = false;
+  let helpCallout = null;
+  let helpWindowHandlers = null;
+  let retryHelpPresentation = null;
+  let helpFrame = null;
+  let pendingRevealCard = null;
+  let pendingRevealHandler = null;
+  const removeHelpCallout = () => {
+    helpCallout?.remove();
+    helpCallout = null;
+    if (helpWindowHandlers) {
+      window.removeEventListener('resize', helpWindowHandlers.resize);
+      window.removeEventListener('scroll', helpWindowHandlers.scroll, true);
+      helpWindowHandlers = null;
+    }
+    if (retryHelpPresentation) {
+      document.removeEventListener('visibilitychange', retryHelpPresentation);
+      window.removeEventListener('focus', retryHelpPresentation);
+      window.removeEventListener('scroll', retryHelpPresentation, true);
+      window.removeEventListener('resize', retryHelpPresentation);
+      retryHelpPresentation = null;
+    }
+    if (helpFrame !== null) {
+      cancelAnimationFrame(helpFrame);
+      helpFrame = null;
+    }
+    if (pendingRevealCard && pendingRevealHandler) {
+      pendingRevealCard.removeEventListener('animationend', pendingRevealHandler);
+      pendingRevealCard.removeEventListener('animationcancel', pendingRevealHandler);
+    }
+    pendingRevealCard = null;
+    pendingRevealHandler = null;
+  };
+  const watchHelpPosition = (callout, card) => {
+    if (helpWindowHandlers) return;
+    const reposition = () => { callout.hidden = !positionDuplicateHelp(callout, card); };
+    const resize = reposition;
+    const scroll = reposition;
+    helpWindowHandlers = { resize, scroll };
+    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('scroll', scroll, { passive: true, capture: true });
+  };
+  const presentDuplicateHelp = () => {
+    if (destroyed || !duckMotionActive) return;
+    const help = engine.getDuplicateConversionHelpState?.();
+    if (!help || help.dismissed) return;
+    const card = container.querySelector(`[data-card-key="${help.reveal.payload.commitSeq}"]`);
+    if (!card) return;
+    if (help.cue) {
+      if (!helpCallout) {
+        helpCallout = container.ownerDocument.createElement('aside');
+        helpCallout.className = 'duplicate-help-callout';
+        helpCallout.setAttribute('aria-label', 'Duplicate conversion information');
+        helpCallout.setAttribute('role', 'status');
+        helpCallout.setAttribute('aria-live', 'polite');
+        helpCallout.innerHTML = `${duplicateHelpMarkup(help.cue)}<button type="button" class="duplicate-help-close" aria-label="Dismiss duplicate conversion information">×</button>`;
+        container.append(helpCallout);
+        const close = helpCallout.querySelector('.duplicate-help-close');
+        const dismiss = () => {
+          const event = onDuplicateHelpDismiss?.(help.cue.seq);
+          if (event) {
+            removeHelpCallout();
+          }
+        };
+        close?.addEventListener('click', dismiss);
+        helpCallout.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape' && helpCallout.contains(container.ownerDocument.activeElement)) {
+            event.preventDefault();
+            dismiss();
+          }
+        });
+        watchHelpPosition(helpCallout, card);
+      }
+      helpCallout.hidden = !positionDuplicateHelp(helpCallout, card);
+      return;
+    }
+    if (helpCallout) return;
+    const attempt = () => {
+      if (destroyed || !duckMotionActive || !card.isConnected || document.visibilityState !== 'visible') return;
+      const rect = card.getBoundingClientRect();
+      const visible = rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.right > 0
+        && rect.top < window.innerHeight && rect.left < window.innerWidth;
+      if (!visible) {
+        const animation = getComputedStyle(card);
+        if (card.classList.contains('card-reveal-enter') && animation.animationName !== 'none') {
+          if (pendingRevealCard !== card) {
+            if (pendingRevealCard && pendingRevealHandler) {
+              pendingRevealCard.removeEventListener('animationend', pendingRevealHandler);
+              pendingRevealCard.removeEventListener('animationcancel', pendingRevealHandler);
+            }
+            pendingRevealCard = card;
+            pendingRevealHandler = (event) => {
+              if (event.target !== card) return;
+              card.removeEventListener('animationend', pendingRevealHandler);
+              card.removeEventListener('animationcancel', pendingRevealHandler);
+              pendingRevealCard = null;
+              pendingRevealHandler = null;
+              scheduleDuplicateHelp();
+            };
+            card.addEventListener('animationend', pendingRevealHandler);
+            card.addEventListener('animationcancel', pendingRevealHandler);
+          }
+        }
+        return;
+      }
+      const candidate = container.ownerDocument.createElement('aside');
+      candidate.className = 'duplicate-help-callout';
+      candidate.setAttribute('aria-label', 'Duplicate conversion information');
+      candidate.setAttribute('role', 'status');
+      candidate.setAttribute('aria-live', 'polite');
+      candidate.innerHTML = `${duplicateHelpMarkup()}<button type="button" class="duplicate-help-close" aria-label="Dismiss duplicate conversion information">×</button>`;
+      candidate.querySelector('[data-duplicate-help-copy]').textContent =
+        `Duplicate ducks are automatically returned and converted to Down. This ${help.reveal.payload.rarity} duplicate awarded ${help.reveal.payload.downGained} Down. Common duplicates award 1, Rare 5, and Legendary 20.`;
+      container.append(candidate);
+      const placed = positionDuplicateHelp(candidate, card);
+      if (!placed) { candidate.remove(); return; }
+      const cue = onDuplicateHelpShown?.(help.reveal.seq);
+      if (!cue) { candidate.remove(); return; }
+      candidate.querySelector('[data-duplicate-help-copy]').textContent =
+        `Duplicate ducks are automatically returned and converted to Down. This ${cue.payload.rarity} duplicate awarded ${cue.payload.downGained} Down. Common duplicates award 1, Rare 5, and Legendary 20.`;
+      positionDuplicateHelp(candidate, card);
+      helpCallout = candidate;
+      candidate.querySelector('.duplicate-help-close')?.addEventListener('click', () => {
+        const event = onDuplicateHelpDismiss?.(cue.seq);
+        if (event) removeHelpCallout();
+      });
+      candidate.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && candidate.contains(container.ownerDocument.activeElement)) {
+          event.preventDefault();
+          const dismissed = onDuplicateHelpDismiss?.(cue.seq);
+          if (dismissed) removeHelpCallout();
+        }
+      });
+      watchHelpPosition(candidate, card);
+    };
+    attempt();
+  };
+  const scheduleDuplicateHelp = () => {
+    if (helpFrame !== null) cancelAnimationFrame(helpFrame);
+    helpFrame = requestAnimationFrame(() => {
+      helpFrame = null;
+      presentDuplicateHelp();
+    });
+  };
+  presentDuplicateHelp();
+  retryHelpPresentation = () => presentDuplicateHelp();
+  document.addEventListener('visibilitychange', retryHelpPresentation);
+  window.addEventListener('focus', retryHelpPresentation);
+  window.addEventListener('scroll', retryHelpPresentation, { passive: true, capture: true });
+  window.addEventListener('resize', retryHelpPresentation, { passive: true });
+
   // Bind exact card index click handler (P1 repair)
   const cardBacks = container.querySelectorAll('.card-back');
   cardBacks.forEach((el) => {
@@ -203,16 +409,17 @@ export function renderGachaView(container, engine, callbacks = {}) {
     }
 
     if (addedCard) motionController.syncNewCards();
+    scheduleDuplicateHelp();
     return true;
   };
 
-  let destroyed = false;
   return {
     update,
     destroy() {
       if (destroyed) return;
       destroyed = true;
       motionController.destroy();
+      removeHelpCallout();
     },
   };
 }

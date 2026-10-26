@@ -272,6 +272,16 @@ if (app) {
         duckMotionPaused,
         duckMotionActive: !settingsOpen && !activeModal,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
+        onDuplicateHelpShown: (sourceRevealSeq) => {
+          const cue = engine.showDuplicateConversionHelp(sourceRevealSeq);
+          if (cue) maybeAutosave();
+          return cue;
+        },
+        onDuplicateHelpDismiss: (sourceCueSeq) => {
+          const event = engine.dismissDuplicateConversionHelp(sourceCueSeq);
+          if (event) maybeAutosave();
+          return event;
+        },
         onClaimPull: () => {
           engine.commitPromotionalTenPull();
           maybeAutosave();

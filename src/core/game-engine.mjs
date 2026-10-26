@@ -231,6 +231,62 @@ export class GameEngine {
     return revealed;
   }
 
+  /** Returns the first actually revealed duplicate and its help-log state. */
+  getDuplicateConversionHelpState() {
+    const entries = this.log.entries;
+    const commits = new Map(entries.filter((entry) => entry.type === 'draw_committed').map((entry) => [entry.seq, entry]));
+    const firstReveal = entries.find((entry) => {
+      if (entry.type !== 'reveal_shown' || entry.payload?.duplicate !== true) return false;
+      const commit = commits.get(entry.payload.commitSeq);
+      return !!commit && commit.seq < entry.seq && commit.payload.duplicate === true
+        && commit.payload.identity === entry.payload.identity
+        && commit.payload.rarity === entry.payload.rarity
+        && commit.payload.downGained === entry.payload.downGained;
+    });
+    if (!firstReveal) return null;
+    const cue = entries.find((entry) => entry.type === 'cue_shown'
+      && entry.payload?.cueId === 'duplicate_conversion_help'
+      && entry.payload?.sourceRevealSeq === firstReveal.seq
+      && entry.payload?.identity === firstReveal.payload.identity
+      && entry.payload?.rarity === firstReveal.payload.rarity
+      && entry.payload?.downGained === firstReveal.payload.downGained);
+    const dismissed = !!cue && entries.some((entry) => entry.type === 'action'
+      && entry.payload?.kind === 'duplicate_help_dismissed'
+      && entry.seq > cue.seq
+      && entry.payload?.sourceCueSeq === cue.seq);
+    return { reveal: firstReveal, cue: cue ?? null, dismissed };
+  }
+
+  /** Records help only for the first duplicate that was actually revealed. */
+  showDuplicateConversionHelp(sourceRevealSeq) {
+    if (this.isTerminal()) return null;
+    const existing = this.getDuplicateConversionHelpState();
+    if (!existing || existing.reveal.seq !== sourceRevealSeq || existing.cue || existing.dismissed) return null;
+    const reveal = existing.reveal;
+    const expectedDown = GAME_CONSTANTS.DOWN_PER_DUPLICATE[reveal.payload.rarity];
+    if (expectedDown === undefined || reveal.payload.downGained !== expectedDown) return null;
+    return this.log.append('cue_shown', {
+      cueId: 'duplicate_conversion_help',
+      sourceRevealSeq: reveal.seq,
+      identity: reveal.payload.identity,
+      rarity: reveal.payload.rarity,
+      downGained: reveal.payload.downGained,
+      conversionRates: { ...GAME_CONSTANTS.DOWN_PER_DUPLICATE },
+      copy: `Duplicate ducks are automatically returned and converted to Down. This ${reveal.payload.rarity} duplicate awarded ${reveal.payload.downGained} Down. Common duplicates award 1, Rare 5, and Legendary 20.`,
+    }, this.state.clock);
+  }
+
+  /** Records an explicit dismissal for the one displayed duplicate-help cue. */
+  dismissDuplicateConversionHelp(sourceCueSeq) {
+    if (this.isTerminal()) return null;
+    const state = this.getDuplicateConversionHelpState();
+    if (!state?.cue || state.cue.seq !== sourceCueSeq || state.dismissed) return null;
+    return this.log.append('action', {
+      kind: 'duplicate_help_dismissed',
+      sourceCueSeq: state.cue.seq,
+    }, this.state.clock);
+  }
+
   /**
    * Executes a pond race.
    * raceNumber: 1 (Tutorial) or 2 (Finale).

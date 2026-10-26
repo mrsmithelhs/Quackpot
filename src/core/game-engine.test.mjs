@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameEngine, calculatePreDrawOdds, BANNER_1_ROSTER } from './game-engine.mjs';
 import { verifyCompleteness } from './event-log.mjs';
+import { projectReceipt } from './receipt.mjs';
 import { validateSave } from './storage.mjs';
 
 test('engine: preDrawOdds matches linear formula at draw 35 (0.08125) and draw 50 (1.0)', () => {
@@ -15,6 +16,92 @@ test('engine: preDrawOdds matches linear formula at draw 35 (0.08125) and draw 5
   assert.equal(o50.legendary, 1.0);
   assert.equal(o50.common, 0);
   assert.equal(o50.rare, 0);
+});
+
+test('duplicate help is recorded only for first committed-and-revealed duplicate and persists in event log', () => {
+  const engine = new GameEngine('duplicate-help');
+  const appendDraw = ({ commitSeq, identity, rarity, duplicate, downGained }) => {
+    const commit = engine.log.append('draw_committed', { identity, rarity, duplicate, downGained }, engine.state.clock);
+    engine.log.append('reveal_shown', {
+      commitSeq: commit.seq, identity, rarity, duplicate, downGained,
+    }, engine.state.clock);
+    return commit.seq;
+  };
+  const firstCommitSeq = engine.log.append('draw_committed', {
+    identity: 'duck-new', rarity: 'common', duplicate: false, downGained: 0,
+  }, engine.state.clock).seq;
+  assert.equal(engine.getDuplicateConversionHelpState(), null, 'commit alone is not display evidence');
+  engine.log.append('reveal_shown', {
+    commitSeq: firstCommitSeq, identity: 'duck-new', rarity: 'common', duplicate: false, downGained: 0,
+  }, engine.state.clock);
+  const firstDuplicateCommitSeq = appendDraw({
+    identity: 'duck-old', rarity: 'rare', duplicate: true, downGained: 5,
+  });
+  appendDraw({ identity: 'duck-old-2', rarity: 'common', duplicate: true, downGained: 1 });
+
+  assert.equal(engine.showDuplicateConversionHelp(firstDuplicateCommitSeq + 2), null, 'a non-source reveal cannot claim help');
+  const help = engine.getDuplicateConversionHelpState();
+  assert.equal(help.reveal.payload.identity, 'duck-old');
+  assert.equal(help.cue, null);
+  assert.equal(engine.dismissDuplicateConversionHelp(99), null, 'dismiss-before-show is rejected');
+  const cue = engine.showDuplicateConversionHelp(help.reveal.seq);
+  assert.equal(cue.type, 'cue_shown');
+  assert.equal(cue.payload.cueId, 'duplicate_conversion_help');
+  assert.equal(cue.payload.sourceRevealSeq, help.reveal.seq);
+  assert.equal(cue.payload.downGained, 5);
+  assert.deepEqual(cue.payload.conversionRates, { common: 1, rare: 5, legendary: 20 });
+  assert.equal(engine.showDuplicateConversionHelp(help.reveal.seq), null, 'cue is idempotent');
+  const dismissed = engine.dismissDuplicateConversionHelp(cue.seq);
+  assert.equal(dismissed.payload.sourceCueSeq, cue.seq);
+  assert.equal(engine.dismissDuplicateConversionHelp(cue.seq), null, 'dismissal is idempotent');
+
+  const restored = GameEngine.fromEnvelope(engine.toEnvelope());
+  assert.equal(restored.getDuplicateConversionHelpState().dismissed, true);
+  assert.equal(restored.showDuplicateConversionHelp(help.reveal.seq), null, 'dismissal survives reload');
+  assert.equal(restored.log.entries.filter((entry) => entry.type === 'cue_shown').length, 1);
+  assert.equal(projectReceipt(restored.log.entries).findings.some((finding) => finding.technique === 'duplicate_conversion_help'), false,
+    'ordinary explanatory help does not create a manipulation classification');
+});
+
+test('duplicate help rejects spoofed, mismatched, and terminal references', () => {
+  const engine = new GameEngine('duplicate-help-guards');
+  const orphanRevealSeq = engine.log.append('reveal_shown', {
+    commitSeq: 44, identity: 'duck-x', rarity: 'common', duplicate: true, downGained: 1,
+  }, engine.state.clock).seq;
+  assert.equal(engine.showDuplicateConversionHelp(orphanRevealSeq), null);
+
+  engine.log.append('draw_committed', {
+    identity: 'duck-y', rarity: 'rare', duplicate: true, downGained: 5,
+  }, engine.state.clock);
+  const mismatchedSeq = engine.log.append('reveal_shown', {
+    commitSeq: 1, identity: 'duck-y', rarity: 'rare', duplicate: true, downGained: 20,
+  }, engine.state.clock).seq;
+  assert.equal(engine.showDuplicateConversionHelp(mismatchedSeq), null);
+  engine.state.phase = 'terminal';
+  assert.equal(engine.dismissDuplicateConversionHelp(mismatchedSeq), null);
+
+  const outOfOrder = new GameEngine('duplicate-help-order');
+  outOfOrder.log.append('action', { kind: 'duplicate_help_dismissed', sourceCueSeq: 3 }, outOfOrder.state.clock);
+  outOfOrder.log.append('draw_committed', {
+    identity: 'duck-z', rarity: 'common', duplicate: true, downGained: 1,
+  }, outOfOrder.state.clock);
+  const revealSeq = outOfOrder.log.append('reveal_shown', {
+    commitSeq: 1, identity: 'duck-z', rarity: 'common', duplicate: true, downGained: 1,
+  }, outOfOrder.state.clock).seq;
+  outOfOrder.log.append('cue_shown', {
+    cueId: 'duplicate_conversion_help', sourceRevealSeq: revealSeq,
+    identity: 'duck-z', rarity: 'common', downGained: 1,
+  }, outOfOrder.state.clock);
+  assert.equal(outOfOrder.getDuplicateConversionHelpState().dismissed, false, 'dismissal before help is not accepted');
+
+  const futureCommit = new GameEngine('duplicate-help-future-commit');
+  const futureRevealSeq = futureCommit.log.append('reveal_shown', {
+    commitSeq: 1, identity: 'duck-future', rarity: 'common', duplicate: true, downGained: 1,
+  }, futureCommit.state.clock).seq;
+  futureCommit.log.append('draw_committed', {
+    identity: 'duck-future', rarity: 'common', duplicate: true, downGained: 1,
+  }, futureCommit.state.clock);
+  assert.equal(futureCommit.showDuplicateConversionHelp(futureRevealSeq), null, 'a reveal cannot reference a future commit');
 });
 
 test('engine: Trace 1 (Frugal/Solvent) executes 4 bills totaling $30 and finishes on run_complete', () => {

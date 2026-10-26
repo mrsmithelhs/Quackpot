@@ -9,6 +9,7 @@ import {
   interpolateSnapshot,
   raceFingerprint,
   raceFractionAtWallClock,
+  raceDuckYaw,
   resolveSeededRace,
   restorePresentationSnapshot,
   sampleTrajectory,
@@ -64,6 +65,25 @@ test('corner steering cap forces a lower safe speed at 20 m radius', () => {
   assert.ok((safe / 19.4) * 180 / Math.PI <= turnCap(safe) + 1e-8);
   assert.ok((12 / 19.4) * 180 / Math.PI > turnCap(12));
   assert.ok(safe < 12 && safe > 10);
+});
+
+test('race duck Y-turn is continuous across both modeled oval bends', () => {
+  const straight = PHYSICS.straight;
+  const bend = Math.PI * PHYSICS.curveRadius;
+  const epsilon = 1e-5;
+  assert.ok(Math.abs(raceDuckYaw(0) - 180) < 1e-8, 'top straight mirrors the left-facing source image to face right');
+  assert.ok(Math.abs(raceDuckYaw(straight / 2) - 180) < 1e-8);
+  assert.ok(Math.abs(raceDuckYaw(straight / 2 + bend / 2) - 90) < 1e-8);
+  assert.ok(Math.abs(raceDuckYaw(straight / 2 + bend) - 0) < 1e-8);
+  assert.ok(Math.abs(raceDuckYaw(straight / 2 + bend + straight / 2)) < 1e-8, 'bottom straight faces left');
+  assert.ok(Math.abs(raceDuckYaw(straight / 2 + bend + straight + bend / 2) - 90) < 1e-8);
+  assert.ok(Math.abs(raceDuckYaw(COURSE_LENGTH) - 180) < 1e-8);
+  for (const boundary of [straight / 2, straight / 2 + bend, straight / 2 + bend + straight, COURSE_LENGTH - straight / 2]) {
+    const before = raceDuckYaw(boundary - epsilon);
+    const at = raceDuckYaw(boundary);
+    const after = raceDuckYaw(boundary + epsilon);
+    assert.ok(Math.abs(before - at) < 0.001 && Math.abs(after - at) < 0.001, `yaw stays continuous at progress ${boundary}`);
+  }
 });
 
 test('contact mode is deterministic, bounded to one episode, and has a no-contact seed control', () => {

@@ -1,4 +1,5 @@
 import {
+  raceDuckYaw,
   buildPresentationPlan,
   interpolateSnapshot,
   narrativeForEvent,
@@ -240,17 +241,13 @@ function seekToEvent(event, button) {
   button.focus();
 }
 
-function stadiumMirror(progress) {
-  const fraction = (((progress + 30) % 245.663706) + 245.663706) % 245.663706 / 245.663706;
-  return (fraction < 0.245 || (fraction >= 0.5 && fraction < 0.745)) ? 1 : -1;
-}
-
 function makeNode(entrant) {
   const group = document.createElementNS(NS, 'g');
   group.setAttribute('class', 'runner-token'); group.dataset.runnerId = entrant.id;
   const image = document.createElementNS(NS, 'image');
   image.setAttribute('href', '../../../src/assets/svg/duck-rig.svg');
   image.setAttribute('x', '-24'); image.setAttribute('y', '-24'); image.setAttribute('width', '48'); image.setAttribute('height', '48');
+  image.style.transformBox = 'fill-box'; image.style.transformOrigin = 'center'; image.style.backfaceVisibility = 'visible';
   image.dataset.duckImage = 'true';
   const label = document.createElementNS(NS, 'text');
   label.setAttribute('class', 'runner-label'); label.setAttribute('x', '0'); label.setAttribute('y', '-29'); label.setAttribute('text-anchor', 'middle'); label.textContent = entrant.id;
@@ -275,7 +272,8 @@ function renderRunners(tickFloat) {
     const x = 450 + position.x * PX_PER_METER;
     const y = 250 + position.y * PX_PER_METER;
     entrant.node.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
-    entrant.node.querySelector('[data-duck-image="true"]').setAttribute('transform', `scale(${stadiumMirror(position.progress).toFixed(1)} 1)`);
+    const duckImage = entrant.node.querySelector('[data-duck-image="true"]');
+    duckImage.style.transform = `perspective(180px) rotateY(${raceDuckYaw(position.progress).toFixed(2)}deg)`;
   }
   const reducedNow = reduced;
   const fraction = state.cursorTick / state.resolution.ticks;
@@ -422,11 +420,13 @@ function resumeFromCursor() {
 
 function updateControls() {
   $('pause').disabled = !running;
-  $('play').disabled = running || state.finished || reduced;
+  $('play').disabled = running || state.finished || (reduced && state.started);
   $('snapshot-prev').disabled = !reduced || state.checkpointIndex <= 0 || state.finished;
   $('snapshot-next').disabled = state.finished || (!reduced && !state.resolution.eventRecords.length && state.cursorTick >= state.resolution.ticks);
   $('resume-race').disabled = reduced || state.finished;
-  $('play').textContent = reduced ? 'Use Next view' : state.started ? 'Resume race' : 'Start race';
+  $('play').textContent = reduced
+    ? state.started ? 'Static sequence active' : 'Start static race'
+    : state.finished ? 'Race finished' : state.started ? 'Resume race' : 'Start race';
   $('snapshot-next').textContent = reduced ? 'Next view' : 'Next checkpoint';
 }
 
@@ -508,19 +508,27 @@ function restoreSnapshot() {
 }
 
 function replayRace() {
+  if (!state) return;
+  const fromTick = state.cursorTick;
   stopPlayback();
   state.replayNumber += 1;
   state.finished = false; state.revealedIds = new Set(); state.loggedCueForReplay = new Set(); state.selectedEventId = null;
   state.started = true; state.cursorTick = 0; state.checkpointIndex = 0; elapsedBeforePause = 0;
-  state.presentationLog.push({ sequence: state.presentationLog.length + 1, replay: state.replayNumber, type: 'replay started', tick: 0, time: 0 });
-  $('runner-layer').replaceChildren(); $('event-list').replaceChildren(); $('event-caption').textContent = '';
+  appendPresentationRecord('same race restarted', { fromTick, restartTick: 0 });
+  $('runner-layer').replaceChildren();
+  for (const entrant of state.entrants) entrant.node = null;
+  $('event-list').replaceChildren(); $('event-caption').textContent = '';
   renderSummary(false); renderRecord(false); renderRunners(0); renderPresentationLog(); updateControls();
   $('race-status').textContent = `Replay ${state.replayNumber} · same committed trajectory; no mechanical draws or rewards repeated.`;
-  if (reduced) { seekCheckpoint(0); return; }
+  if (reduced) { setNarrativeExpanded(true); seekCheckpoint(0); return; }
   startPlayback();
 }
 
-function startNewRace() { resolveOutcomes(); if (reduced) { setNarrativeExpanded(true); seekCheckpoint(0); } else startPlayback(); }
+function startNewRace() {
+  resolveOutcomes();
+  if (reduced) { state.started = true; setNarrativeExpanded(true); seekCheckpoint(0); }
+  else startPlayback();
+}
 
 setTrackGeometry();
 reduced = OSCillation.matches;

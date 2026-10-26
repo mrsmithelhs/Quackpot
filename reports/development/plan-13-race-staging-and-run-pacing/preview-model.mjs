@@ -7,6 +7,7 @@ export {
   interpolateSnapshot,
   narrativeForEvent,
   raceFingerprint,
+  raceDuckYaw,
   raceFractionAtWallClock,
   rankFromSnapshot,
   resolveSeededRace,

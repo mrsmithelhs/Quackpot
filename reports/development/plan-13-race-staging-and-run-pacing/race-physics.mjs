@@ -134,6 +134,19 @@ export function turnCap(speed) {
   return Math.max(PHYSICS.minTurnRateDeg, PHYSICS.maxTurnRateDeg - PHYSICS.turnRateSlope * speed);
 }
 
+// Presentation-only yaw for a flat duck image following this oval. The image
+// faces right on the top straight, completes one 180-degree Y turn over each
+// semicircular bend, and faces left on the bottom straight. Labels stay out of
+// this transform in the renderer.
+export function raceDuckYaw(progress) {
+  const s = wrap(progress + PHYSICS.straight / 2, COURSE_LENGTH);
+  const bend = Math.PI * PHYSICS.curveRadius;
+  if (s < PHYSICS.straight) return 180;
+  if (s < PHYSICS.straight + bend) return 180 * (1 - (s - PHYSICS.straight) / bend);
+  if (s < PHYSICS.straight * 2 + bend) return 0;
+  return 180 * (s - (PHYSICS.straight * 2 + bend)) / bend;
+}
+
 export function curveTargetSpeed(radius) {
   let low = 0; let high = PHYSICS.maxSpeed;
   for (let i = 0; i < 32; i += 1) {

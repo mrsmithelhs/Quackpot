@@ -31,6 +31,7 @@
     .race-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(250px,1fr); gap:16px; align-items:start; }
     .stage-shell { border-radius:12px; overflow:hidden; border:1px solid #86b5c1; background:#d8edf0; }
     #race-svg { display:block; width:100%; height:auto; background:#d8edf0; }
+    .warm-light #race-svg { filter:sepia(.12) saturate(1.04); }
     .race-track { fill:#327987; stroke:#fff; stroke-width:3; }
     .lane-line { fill:none; stroke:#d9f0ec; stroke-width:2; stroke-dasharray:6 8; opacity:.9; }
     .pond { fill:#91c9d2; }
@@ -60,12 +61,15 @@
     .turn-grid { grid-template-columns:minmax(180px,240px) 1fr; align-items:center; }
     .turn-stage { min-height:180px; display:grid; place-items:center; perspective:600px; border-radius:12px; background:#edf5f4; border:1px dashed #8da8ad; }
     .turn-card { width:110px; height:130px; position:relative; transform-style:preserve-3d; }
-    .turn-card.flipping { animation:turn-around .5s ease-in-out both; }
+    .turn-card.flipping.to-back { animation:turn-around .5s ease-in-out both; }
+    .turn-card.flipping.to-front { animation:turn-back .5s ease-in-out both; }
+    .turn-card.is-back { transform:rotateY(180deg); }
     .turn-face { position:absolute; inset:0; backface-visibility:hidden; display:grid; place-items:center; border-radius:8px; border:2px solid #728e98; background:#fff; }
     .turn-face img { width:96px; height:112px; object-fit:contain; }
     .turn-back { transform:rotateY(180deg); background:#ecd9a7; color:#41545b; font-size:.75rem; font-weight:800; text-align:center; padding:8px; }
     .flat-back .turn-back { background:#f4f5f2; border-style:dashed; }
     @keyframes turn-around { from { transform:rotateY(0); } to { transform:rotateY(180deg); } }
+    @keyframes turn-back { from { transform:rotateY(180deg); } to { transform:rotateY(0); } }
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     .fine-print { font-size:.9rem; color:var(--muted); }
     @media (max-width:800px) { .race-layout { grid-template-columns:1fr; } .choice-grid { grid-template-columns:1fr; } .pace-grid { grid-template-columns:1fr; } }
@@ -80,8 +84,8 @@
     <header>
       <p class="tag">Plan 13 · isolated review preview</p>
       <h1>Race staging and run pacing</h1>
-      <p class="lede">Compare one fixed race fixture at three playback durations. The causal model uses clean-draft and bobble beats; the control stages the baseline result. This is a design study, not production gameplay.</p>
-      <div class="notice"><strong>Evidence boundary:</strong> fixture speeds and draws are hand-worked examples from the proposal, not values generated from a named run seed. No contact/pileup, production rules, final duration, day count, or balance is adopted here. The duck illustration references the read-only Mode C SVG.</div>
+      <p class="lede">Compare a reproducible named-seed race and hand-worked controls at three race durations. Race mechanics and presentation timing are separate; this is a design study, not production gameplay.</p>
+      <div class="notice"><strong>Evidence boundary:</strong> named-seed mode imports Quackpot's canonical PRNG read-only; clean-draft and bobble values remain proposed preview rules. Presentation paths, zoom, lighting and optional slow motion do not alter the recorded outcome. No contact/pileup, production rules, final duration, day count, or balance is adopted here. The duck illustration references the read-only Mode C SVG.</div>
     </header>
 
     <section class="panel" aria-labelledby="race-heading">
@@ -89,13 +93,14 @@
       <div class="controls">
         <label>Outcome model
           <select id="model">
-            <option value="beats">Causal mechanical beats · fixed fixture draws</option>
+            <option value="causal">Causal mechanical beats</option>
             <option value="resolved">Resolved result control</option>
           </select>
         </label>
-        <label>Hand-worked trace
+        <label>Trace input
           <select id="trace">
-            <option value="overtake">Draft and bobble overtake</option>
+            <option value="seeded">Named seed · canonical PRNG</option>
+            <option value="overtake">Fixed fixture · draft and bobble overtake</option>
             <option value="none">No-event control</option>
             <option value="tie">Non-player event and exact tie</option>
           </select>
@@ -113,10 +118,30 @@
             <option value="wide">Locked wide control</option>
           </select>
         </label>
+        <label>Slow-motion highlight
+          <select id="highlight"><option value="0">None</option><option value="1">1-second highlight</option><option value="2">2-second highlight</option></select>
+        </label>
+        <label>Lighting
+          <select id="lighting"><option value="neutral">Neutral</option><option value="warm">Subtle warm</option></select>
+        </label>
         <label style="flex-direction:row;align-items:center;gap:8px;margin-bottom:9px">
           <input type="checkbox" id="reduce"> Static / reduced motion
         </label>
       </div>
+      <fieldset id="seed-inputs" class="panel" style="display:none;margin:14px 0 0;padding:14px">
+        <legend><strong>Committed race inputs</strong></legend>
+        <div class="controls">
+          <label>Run seed <input id="run-seed" type="text" value="Quackpot Plan 13 named-seed example" autocomplete="off"></label>
+          <label>Race ID <input id="race-id" type="text" value="R03" autocomplete="off"></label>
+          <label>Player base speed <input id="player-speed" type="number" value="11.7" min="0.1" step="0.1"></label>
+          <label>AI field base speed <input id="field-speed" type="number" value="11.5" min="0.1" step="0.1"></label>
+          <label>One race choice
+            <select id="choice"><option value="steady">Steady</option><option value="sprint">Sprint</option><option value="drafting">Drafting candidate</option></select>
+          </label>
+          <label style="flex-direction:row;align-items:center;gap:8px;margin-bottom:9px"><input type="checkbox" id="trial"> Plan 17 trial committed (3 Down, +5% once)</label>
+        </div>
+        <p class="fine-print">Recomputes the outcome only when one of these inputs or the outcome model changes. Camera, duration, reduced motion, skip, replay and snapshot restore use the committed record and do not resolve a second time.</p>
+      </fieldset>
       <div class="race-layout" style="margin-top:16px">
         <div>
           <div class="stage-shell" id="stage-shell">
@@ -131,18 +156,23 @@
               <ellipse class="lane-line" cx="450" cy="250" rx="237" ry="101"/>
               <ellipse class="lane-line" cx="450" cy="250" rx="201" ry="77"/>
               <ellipse class="lane-line" cx="450" cy="250" rx="165" ry="53"/>
-              <line class="finish-line" x1="425" y1="62" x2="475" y2="62"/>
-              <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
-              <g id="runner-layer"></g>
+              <g id="camera-root">
+                <line class="finish-line" x1="425" y1="62" x2="475" y2="62"/>
+                <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
+                <g id="runner-layer"></g>
+              </g>
             </svg>
           </div>
           <div class="panel-row">
             <button class="primary" id="play" type="button">Start race</button>
             <button id="pause" type="button" disabled>Pause</button>
-            <button id="replay" type="button">Reset to start</button>
+            <button id="skip-race" type="button">Skip to finish</button>
+            <button id="replay" type="button">Replay same result</button>
+            <button id="save-state" type="button" disabled>Save presentation snapshot</button>
+            <button id="restore-state" type="button" disabled>Restore snapshot</button>
             <span id="race-status" class="status" role="status" aria-live="polite">Ready · no outcome changes until the trace/model is selected.</span>
           </div>
-          <p class="fine-print" id="camera-note">Close view is a deterministic camera treatment around the event beats; camera controls do not read or alter race draws. Wide control stays fixed on the whole oval.</p>
+          <p class="fine-print" id="camera-note">Camera, tangent-facing ducks, deterministic lane paths, lighting and optional slow motion are presentation only. The displayed wall time includes any selected highlight. Static/reduced-motion mode removes motion and warm lighting; no flashes are used.</p>
         </div>
         <aside class="panel" style="margin:0" aria-labelledby="result-heading">
           <h3 id="result-heading">Resolved finish</h3>
@@ -154,7 +184,7 @@
       <h3 style="margin-top:18px">Race record preview</h3>
       <div class="log" tabindex="0" aria-label="Race event record preview">
         <table>
-          <thead><tr><th>Time</th><th>Entrant</th><th>Eligibility / roll</th><th>Effect</th><th>Final score</th></tr></thead>
+          <thead><tr><th>Time</th><th>Entrant</th><th>Eligibility / roll</th><th>Effect</th><th>Progress before → after</th><th>Final score</th></tr></thead>
           <tbody id="record"></tbody>
         </table>
       </div>
@@ -166,9 +196,9 @@
       <div class="choice-grid">
         <article class="choice active"><h3>Opening · Steady</h3><p>Base speed with the current ±5% variance formula. Clear, familiar choice with a narrower range.</p><span class="tag">Opening option</span></article>
         <article class="choice"><h3>Opening · Sprint</h3><p>+10% target speed with ±20% variance. Higher target, broader downside and upside.</p><span class="tag">Opening option</span></article>
-        <article class="choice"><h3>Later · Drafting</h3><p>Introduced after the first race completes. Uses Steady's speed formula; can gain +2% only when eligible within 2% of the racer ahead.</p><span class="tag">Proposed unlock · no win required</span></article>
+        <article class="choice"><h3>Later · Drafting candidate</h3><p>Introduced after the first race completes. Current preview uses Steady's exact speed formula and the same draft event table, so it is mechanically equivalent to Steady.</p><span class="tag">Negative finding · no distinct trade-off yet</span></article>
       </div>
-      <p class="fine-print" style="margin-top:12px">Drafting is a candidate rule in the causal fixture. This preview does not establish comprehension, fairness, or a final unlock schedule.</p>
+      <p class="fine-print" style="margin-top:12px">Drafting is not presented as a meaningful later choice: the test confirms exact equivalence to Steady under this preview. Owner selection is needed to remove the later unlock or define a real trade-off.</p>
     </section>
 
     <section class="panel" aria-labelledby="turn-heading">
@@ -205,148 +235,6 @@
   </main>
   <p id="exit-note" class="exit-note" aria-live="polite"></p>
 
-  <script>
-    (() => {
-      const $ = (id) => document.getElementById(id);
-      const entrantsBase = [
-        { id: 'A', name: 'Rival A', lane: 1, speed: 12.0 },
-        { id: 'P', name: 'Player', lane: 2, speed: 11.7, player: true },
-        { id: 'B', name: 'Rival B', lane: 3, speed: 11.8 },
-        { id: 'C', name: 'Rival C', lane: 4, speed: 11.4 },
-        { id: 'D', name: 'Rival D', lane: 5, speed: 11.2 },
-        { id: 'E', name: 'Rival E', lane: 6, speed: 11.0 }
-      ];
-      const eventFixtures = {
-        none: { label: 'No-event control', draws: { 0.4: [0.8,0.8,0.8,0.8,0.8,0.8], 0.7: [0.8,0.8,0.8,0.8,0.8,0.8] } },
-        overtake: { label: 'Draft and bobble overtake', draws: { 0.4: [0.8,0.1,0.8,0.8,0.8,0.8], 0.7: [0.02,0.8,0.8,0.8,0.8,0.8] } },
-        tie: { label: 'Non-player event and exact tie', speeds: [12,12,11.8,11.4,11.2,11], draws: { 0.4: [0.8,0.8,0.02,0.8,0.8,0.8], 0.7: [0.8,0.8,0.8,0.8,0.8,0.8] } }
-      };
-      const NS = 'http://www.w3.org/2000/svg';
-      const svg = $('race-svg');
-      const runnerLayer = $('runner-layer');
-      let state = null;
-      let raf = 0;
-      let startedAt = 0;
-      let elapsedBeforePause = 0;
-      let running = false;
-      let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const axes = [
-        { rx:345, ry:173 }, { rx:309, ry:149 }, { rx:273, ry:125 },
-        { rx:237, ry:101 }, { rx:201, ry:77 }, { rx:165, ry:53 }
-      ];
-      const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
-      const rankAt = (entrants, fraction) => [...entrants].sort((a,b) => {
-        const ap = a.speed * 100 * fraction + a.offset;
-        const bp = b.speed * 100 * fraction + b.offset;
-        if (Math.abs(bp-ap) > 1e-8) return bp-ap;
-        if (a.player) return -1;
-        if (b.player) return 1;
-        return a.lane-b.lane;
-      });
-      function resolve() {
-        const fixture = eventFixtures[$('trace').value];
-        const isBeats = $('model').value === 'beats';
-        const entrants = entrantsBase.map((e,i) => ({ ...e, speed: fixture.speeds?.[i] ?? e.speed, offset:0, events:[], node:null, score:0 }));
-        const rows = [];
-        if (isBeats) {
-          for (const beat of [0.4,0.7]) {
-            const frozen = rankAt(entrants,beat);
-            const scoreAtBeat = new Map(entrants.map(e => [e.id,e.speed*100*beat+e.offset]));
-            const actions = [];
-            for (const e of [...entrants].sort((a,b) => a.lane-b.lane)) {
-              const r = fixture.draws[beat][e.lane-1];
-              const pos = frozen.findIndex(x => x.id === e.id);
-              const ahead = pos > 0 ? frozen[pos-1] : null;
-              const gap = ahead ? scoreAtBeat.get(ahead.id)-scoreAtBeat.get(e.id) : null;
-              let type = 'none', delta = 0, reason = 'roll outside event ranges';
-              if (r < .05) { type='bobble'; delta=-.02*e.speed*100; reason='roll < 0.05'; }
-              else if (ahead && gap <= .02*e.speed*100 && r < .25) { type='clean draft'; delta=.02*e.speed*100; reason=`eligible gap ${gap.toFixed(1)} ≤ ${(e.speed*2).toFixed(1)}; roll < 0.25`; }
-              else if (!ahead) reason='leading at beat start';
-              else if (gap > .02*e.speed*100) reason=`outside draft gap (${gap.toFixed(1)} > ${(e.speed*2).toFixed(1)})`;
-              actions.push({beat,e,r,type,delta,reason});
-            }
-            for (const action of actions) {
-              action.e.offset += action.delta;
-              if(action.delta) action.e.events.push({beat,delta:action.delta});
-            }
-            for (const a of actions) rows.push(a);
-          }
-        } else {
-          for (const beat of [0.4,0.7]) for (const e of entrants) rows.push({ beat,e,r:null,type:'no added event',delta:0,reason:'finish already resolved by baseline performance' });
-        }
-        for (const e of entrants) e.score=e.speed*100+e.offset;
-        const finish = rankAt(entrants,1);
-        finish.forEach((e,i) => { e.place=i+1; e.payout=i===0?50:i===1?20:i===2?10:0; });
-        state={ fixture, entrants, finish, rows, duration:Number($('duration').value), model:$('model').value, fixtureId:$('trace').value };
-        renderSummary(); renderRecord(); renderRunners(0); $('race-status').textContent=`Ready · ${fixture.label}; ${isBeats?'causal beats':'resolved-result control'}.`;
-      }
-      function makeNode(e) {
-        const group=document.createElementNS(NS,'g'); group.setAttribute('class','runner-token'); group.setAttribute('aria-hidden','true');
-        const image=document.createElementNS(NS,'image'); image.setAttribute('href','../../../src/assets/svg/duck-rig.svg'); image.setAttribute('x','-24'); image.setAttribute('y','-24'); image.setAttribute('width','48'); image.setAttribute('height','48');
-        const label=document.createElementNS(NS,'text'); label.setAttribute('class','runner-label'); label.setAttribute('x','0'); label.setAttribute('y','-29'); label.setAttribute('text-anchor','middle'); label.textContent=e.id;
-        group.append(image,label); runnerLayer.append(group); e.node=group;
-      }
-      function progressFor(e,t) {
-        const base=(e.speed/12)*t;
-        const shownOffset=e.events.reduce((sum,event)=>{
-          const ramp=.06, local=clamp((t-event.beat)/ramp,0,1);
-          return sum+event.delta*local;
-        },0);
-        return clamp(base+shownOffset/(e.speed*100),0,.999);
-      }
-      function renderRunners(t) {
-        if (!state) return;
-        for (const e of state.entrants) {
-          const fraction=progressFor(e,t), angle=-Math.PI/2+fraction*2*Math.PI, {rx,ry}=axes[e.lane-1];
-          const x=450+rx*Math.cos(angle), y=250+ry*Math.sin(angle);
-          if (!e.node) makeNode(e);
-          e.node.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)})`);
-        }
-        const close=$('camera').value==='scripted' && !reduced && (t>=.38 && t<.68);
-        if (close) {
-          const p=state.entrants.find(e=>e.player), frac=progressFor(p,t), angle=-Math.PI/2+frac*2*Math.PI, a=axes[p.lane-1];
-          const cx=450+a.rx*Math.cos(angle), cy=250+a.ry*Math.sin(angle);
-          svg.setAttribute('viewBox',`${clamp(cx-310,0,280)} ${clamp(cy-180,0,140)} 620 360`);
-          $('camera-note').textContent='Deterministic close frame around the player at the 40% event; it returns to the full oval before the 70% event. No camera draw or outcome change.';
-        } else {
-          svg.setAttribute('viewBox','0 0 900 500');
-          $('camera-note').textContent=$('camera').value==='wide'?'Locked wide control: the full rectangular viewport and oval remain visible for the whole race.':'Wide framing at the start, between events, and finish; close framing is a deterministic presentation cue only.';
-        }
-      }
-      function renderSummary() {
-        $('finish-summary').textContent=`${state.fixture.label} · ${state.model==='beats'?'seeded mechanical beats':'resolved-result control'} · ${state.duration}s playback`;
-        $('finish-order').innerHTML='';
-        for(const e of state.finish){const li=document.createElement('li');li.textContent=`${e.name} · ${e.score.toFixed(1)} points · ${e.place}${e.place===1?'st':e.place===2?'nd':e.place===3?'rd':'th'} · ${e.payout} Gems`; $('finish-order').append(li);}
-        const caused=state.rows.filter(x=>x.delta!==0).map(x=>`${x.e.id} ${x.type} ${x.delta>0?'+':''}${x.delta.toFixed(1)} at ${Math.round(x.beat*100)}%`);
-        $('event-summary').textContent=caused.length?`Recorded causes: ${caused.join('; ')}.`:'Recorded causes: no progress-changing race event.';
-      }
-      function renderRecord() {
-        const body=$('record'); body.innerHTML='';
-        for(const row of state.rows){const tr=document.createElement('tr'); const cells=[`${Math.round(row.beat*100)}%`,`${row.e.name} (lane ${row.e.lane})`,row.r===null?row.reason:`r=${row.r.toFixed(2)} · ${row.reason}`,`${row.type}${row.delta?` ${row.delta>0?'+':''}${row.delta.toFixed(1)}`:''}`,`${(row.e.speed*100+row.e.offset).toFixed(1)}`]; for(const value of cells){const td=document.createElement('td');td.textContent=value;tr.append(td);} body.append(tr);}
-      }
-      function tick(now) {
-        if(!running||!state)return;
-        const elapsed=elapsedBeforePause+(now-startedAt), total=state.duration*1000, t=clamp(elapsed/total,0,1);
-        renderRunners(t); $('race-status').textContent=`Race playing · ${Math.min(state.duration,elapsed/1000).toFixed(1)} / ${state.duration}s · ${Math.round(t*100)}%`;
-        if(t>=1){running=false;elapsedBeforePause=0; $('play').disabled=false; $('pause').disabled=true; $('race-status').textContent=`Finish · ${state.finish[0].name} wins under the selected model.`;renderRunners(1);return;}
-        raf=requestAnimationFrame(tick);
-      }
-      function start() {
-        if(!state)resolve(); if(reduced){renderRunners(1);$('race-status').textContent='Static result shown · reduced motion is on; mechanics and finish are unchanged.';return;}
-        if(!running){running=true;startedAt=performance.now();$('play').disabled=true;$('pause').disabled=false;raf=requestAnimationFrame(tick);}
-      }
-      $('play').addEventListener('click',start);
-      $('pause').addEventListener('click',()=>{if(!running)return;elapsedBeforePause+=performance.now()-startedAt;running=false;cancelAnimationFrame(raf);$('play').disabled=false;$('pause').disabled=true;$('race-status').textContent='Paused · resume or reset; no outcome draw is consumed.';});
-      $('replay').addEventListener('click',()=>{running=false;cancelAnimationFrame(raf);elapsedBeforePause=0;$('play').disabled=false;$('pause').disabled=true;resolve();});
-      for(const id of ['model','trace','duration','camera'])$(id).addEventListener('change',()=>{running=false;cancelAnimationFrame(raf);elapsedBeforePause=0;$('play').disabled=false;$('pause').disabled=true;resolve();});
-      $('reduce').checked=reduced;
-      $('reduce').addEventListener('change',()=>{reduced=$('reduce').checked;document.body.classList.toggle('reduce-motion',reduced);running=false;cancelAnimationFrame(raf);elapsedBeforePause=0;$('play').disabled=false;$('pause').disabled=true;resolve();if(reduced){renderRunners(1);$('race-status').textContent='Static finish · same trace, events, scores and payouts.';}});
-      $('uninstall').addEventListener('click',()=>{$('exit-note').textContent='Uninstall remains reachable in this demonstration. This preview does not start or end a game run.';});
-      const card=$('turn-card');
-      $('turn').addEventListener('click',()=>{if(reduced){$('turn-status').textContent='Reduced motion: turn omitted; orientation and outcome are unchanged.';return;} card.classList.remove('flipping'); void card.offsetWidth; card.classList.add('flipping'); $('turn-status').textContent='Flat Y-axis turnaround · 0.5 seconds · presentation only.'; setTimeout(()=>card.classList.remove('flipping'),520);});
-      for(const radio of document.querySelectorAll('input[name="back"]'))radio.addEventListener('change',()=>card.classList.toggle('flat-back',radio.checked&&radio.value==='flat'));
-      resolve();
-    })();
-  </script>
+  <script type="module" src="./preview-controller.mjs"></script>
 </body>
 </html>

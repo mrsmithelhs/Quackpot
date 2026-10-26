@@ -1,6 +1,6 @@
 # Plan 13 bounded race and pacing proposal
 
-**Date:** 2026-10-25. **Stage:** prebuild proposal; no preview has been built. **Authority:** owner approval is required before the isolated preview. This document recommends a comparison, it does not select production rules or final pacing.
+**Date:** 2026-10-25. **Stage:** isolated review preview implemented after owner approval; production mechanics and final pacing remain unselected. This document recommends a comparison, it does not select production rules or final pacing.
 
 ## Decision requested
 
@@ -27,6 +27,8 @@ Keep one mutually exclusive race-entry decision per race. This proposal compares
 | Later race | Add **Drafting** as a third mutually exclusive entry card, alongside Steady and Sprint. It uses the same ±5% performance formula as Steady, then can earn the bounded clean-draft event only while within the defined gap of the racer ahead. | Unlock after the first race is completed, whether it is a win or loss. On the next race screen, introduce it with a short neutral explanation and its conditional eligibility rule. | Drafting has no +10% Sprint target; if out of range, it receives no event benefit. It is not a permanent upgrade and may be worse than Steady or Sprint on a given seed. |
 
 The values and unlock are comparison inputs, not adopted options or a settled unlock schedule. Do not add an obvious upgrade ladder or balance individual cosmetic variants. The same chosen card must feed the same progress model and trace fields below. A future owner decision may keep only the opening options or choose a different later introduction.
+
+**Preview finding requiring owner selection:** the implemented deterministic check confirms that Drafting currently has exactly the same player speed formula and event rules as Steady. The proposed label therefore creates no mechanically distinct choice. Do not imply a trade-off or unlock value. The owner can remove Drafting from the progressive comparison or define a concrete, balanced distinction for later investigation; this preview does not invent one.
 
 ## Outcome, event, RNG, and log boundaries
 
@@ -64,6 +66,8 @@ The roughly 15-minute target includes setup and the Receipt. These ordered day m
 
 This allocation includes three 20-second races (60 seconds) inside the consequential-day budget, not on top. It allows repeated race exposure without forcing a race every day. A 12-second variant frees 24 seconds across three races for another active decision or shorter scenes; a 30-second variant adds 30 seconds and takes the representative run to 15:30 if all else stays fixed. This is why race duration should be judged against the whole-run floor, not as an isolated spectacle. The 20-second center case is a comparison anchor, not a selected duration.
 
+The optional 1- or 2-second slow-motion highlight is additional wall time, visibly included in the preview's total. If used on all three races, it adds 3 or 6 seconds to the 900-second illustrative budget; it does not compress or alter mechanical race time. Warm lighting is a static, low-intensity presentation option with no flashes. Static/reduced-motion mode omits lane movement, zoom and lighting treatment while retaining the same displayed result.
+
 ### Ordered day examples
 
 The maps below match the 55-second familiar ordinary-day and 95-second consequential-day allocations above. Scene timings are estimates for active play and transition, not player input deadlines. Paused scenes may take longer at the player's pace and can extend the overall run above fifteen minutes.
@@ -88,7 +92,7 @@ New-rule comprehension allowance: 0–5 seconds for a familiar ordinary day; if 
 | Result, payout and short companion reaction | 10 sec | 0; reveal/result pauses running clock; results can be acknowledged immediately |
 | Expense settlement and next-day transition | 15 sec | 0; show consequences and pause for any high-drama choice; no idle timer |
 
-New-rule comprehension allowance: the 12-second paused Drafting introduction (longer if the player needs it); the budget is an estimate, not a forced reading speed. Active decisions: 2 (shop action, race entry). Repeated waits: 0. Across the representative run use this consequential map three times, with later days swapping the Drafting introduction for an already-understood story or expense beat of comparable active length.
+New-rule comprehension allowance: the 12-second paused introduction for any genuinely adopted later option (longer if the player needs it); this preview found no distinct Drafting trade-off, so its introduction is not evidence for retaining an unlock. The budget is an estimate, not a forced reading speed. Active decisions: 2 (shop action, race entry). Repeated waits: 0. Across the representative run use this consequential map three times, with later days swapping a new-rule introduction for an already-understood story or expense beat of comparable active length.
 
 Measure at least one ordinary and one consequential day end-to-end, along with setup, repeated races and Receipt. Record wall time by segment, number of active decisions, repeated waits, and time to understand each new rule. Separate observed preview timings from classroom play; neither the hand budget nor lab-computer observation establishes how a class will spend discussion time. High-drama choices can extend play. Do not stretch every day or race to force the floor. The short Plan 03 trial and Plan 01 provisional simulation are not evidence that a production run meets it. Preserve the recorded Skip Lunch settlement follow-up before any later implementation makes food shortfall reachable.
 

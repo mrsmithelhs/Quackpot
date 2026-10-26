@@ -1,0 +1,9 @@
+# Plan 20 owner-feedback reveal repair acceptance
+
+Date: 2026-10-26. Verdict: technically accepted for renewed owner production review; no closure.
+
+Root inspected repair `3899610` and evidence `4017e0e`, including the working diff before commit, and reproduced8/8 focused controller tests. Reveal callbacks now update the mounted gacha handle rather than rebuild the app; only newly revealed backs are replaced, with explicit entrance classes. Existing revealed nodes and animation records remain mounted. Idempotent controller registration preserves running animation identity/currentTime and does not call play on already-running tracks. Initial/reloaded/Settings-rebuilt revealed cards do not carry the entrance class. Teardown still destroys the whole view for actual context changes.
+
+New tests cover first reveal into an empty controller, later registration/unchanged existing handles, ignored updates after destruction and prior lifecycle guarantees. The direct implementer browser witness confirms target-only entrance, paused poses unchanged when another card is added, pause preference retained, reveal-all completion once, no Settings flips and exit removal. Running UI phase preservation is supported by source/test assertions, not a direct captured running-phase measurement. Generic isolated smoke passes8journeys, including exactly2revealed/8backs after reload followed by all10. Actual system reduced-motion=true remains unobserved; fake-media tests cover that branch. No extra reviewer used for this bounded repair.
+
+Owner should repeat individual reveals and assess motion onset. Same-yellow/no-accessory look remains current implementation; identity visual mapping is not part of this repair. No new race/Dex/rest/audio rules, push or deployment. Plan23 proposal-only gate remains until Plan20 acceptance/source handoff; browser slot released.

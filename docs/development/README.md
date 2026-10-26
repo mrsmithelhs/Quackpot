@@ -27,7 +27,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-16` | Deterministic review checkpoints and browser briefs | draft | Propose valid engine-generated seeded checkpoints and short review briefs so targeted browser checks can start at the relevant game or metagame beat. |
 | `plan-17` | Down exchange and whole-wallet validation | complete | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
 | `plan-18` | Local audio sources and credits investigation | delivered | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
-| `plan-19` | Shell A and context-transition integration | delivered | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
+| `plan-19` | Shell A and context-transition integration | complete | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
 <!-- plan-index:end -->
 
 ## Report Folders

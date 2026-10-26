@@ -149,3 +149,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner explicitly accepts Plan 17 for closure after Repair 01 technical review (`7325541`; report-folder `review-02.md`). Retain the accepted scenario contract: 3 Down for +5% base speed on one race, non-stacking, consumed once on race commit; 6 Down for an immediate active-banner draw with normal duplicate payouts and normal pity advancement/Legendary reset. Preserve the welcome-pull exception. This is the bounded trial contract/evidence for later integration, not a claim those features are implemented or final whole-run balance is proven.
 
 **Limits:** Six-identity opening affordability, pooled integer-bank and selected ownership/pity/race cases are verified under recorded assumptions. Censoring and residual probability remain visible; no universal multi-system non-self-funding proof or empirical player-response claim follows. Production must still verify consume/cancel/reload/idempotency, real wallet actions, append-only log/Receipt evidence and whole-run effects. No repricing or settled rule reopening without owner; no integration assignment, push or deployment follows from closure.
+
+### DECISION-014 — Plan 19 Shell A/context integration accepted
+
+**Date:** 2026-10-26
+
+**Decision:** Owner inspected the dev-server output and explicitly approved Plan 19 closure. Accept the integrated Shell A, automatic phone turn/expansion, animated return and quiet Settings/save controls after Repair 01 resolves orientation and Credits keyboard access. Root's fresh focused browser check passes at 390×520 and 1440×900; see `reports/development/plan-19-shell-a-and-context-integration/review-02.md`.
+
+**Limits:** This closes the bounded UI integration, not broad physical-device/assistive-technology coverage, race dynamics, economy changes or audio/art selection. No push, deployment or new packet assignment follows. Plan 13 remains an isolated investigation; Plans 09/16 remain draft until assigned.

@@ -1,7 +1,8 @@
 ---
 id: plan-19
 title: Shell A and context-transition integration
-status: delivered
+status: complete
+resolution: "Owner approved the dev-server output on 2026-10-26; Repair 01 orientation and Credits keyboard blockers verified resolved, including a fresh passing two-viewport focused browser check. Shell A/context integration accepted within documented coverage; no race/economy/asset expansion, push or deployment. See report-folder review-02.md."
 depends_on: [plan-03, plan-14]
 gate: "Owner approves the bounded source/lifecycle outline before implementation; Shell A and automatic turn/expand plus animated return are already selected."
 summary: >-
@@ -20,6 +21,8 @@ summary: >-
 - Mutation: production UI/styles plus affected checks and `reports/development/plan-19-shell-a-and-context-integration/`
 
 ## Goal and authority
+
+**Closeout, 2026-10-26:** Owner inspected the dev-server output and explicitly approved closure. Repair 01 technical verification is accepted in report-folder `review-02.md`; root reran the focused two-viewport browser check successfully. The earlier review below is historical and its two blockers are resolved. This closes Shell A/context integration without race, economy, asset/audio, deployment or broader-device acceptance.
 
 **Delivery review, 2026-10-25:** `ac602f2`/`9c82c27` returned for bounded Repair01 (`reports/development/plan-19-shell-a-and-context-integration/review-01.md`/`repair-01.md`). Root reproduced build/138tests/focused lifecycle browser pass, but desktop phone ends tall/clipped/sideways and keyboard trap skips Credits. Preserve accepted architecture/lifecycle; fix these two witnesses and extend actual browser coverage. Packet delivered pending repair dispatch; no owner rendered acceptance yet.
 

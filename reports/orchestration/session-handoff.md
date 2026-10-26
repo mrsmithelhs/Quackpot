@@ -1,6 +1,8 @@
 # Orchestrator continuity pointers
 
-**Updated:** 2026-10-25
+**Updated:** 2026-10-26
+
+- Plan 19 is owner-approved and complete. Root accepted Repair 01 (`05f75ce`/`95303f0`) after source inspection and a fresh passing `npm run test:plan-19` at 390×520 and 1440×900; see report-folder `review-02.md`. Older Plan 19 pending-repair/acceptance bullets below are historical. No push/deployment or race/asset/economy expansion. Plan 13 continues its isolated race-dynamics proposal/prototype. Owner-authorized HTTP browser access at 127.0.0.1:5181 works after Vite was launched with approved outside-sandbox process access. Recommendation only: start Plan 09's report-only motion outline/gallery alongside Plan 13, with rig read-only and no race mechanics; Plan 09 and Plan 16 remain draft pending owner assignment.
 
 - Direct coordination is live; details in `thread-coordination.md`. QP Impl13's direct human “Proceed” authorizes its report-only preview; root verified and withdrew stale hold. Main-plan seeded validation/choice-equivalence evidence requested within report scope, no browser-policy bypass. QP Impl19 continues existing Repair01 without a reviewer. Both sends succeeded; Impl13 return received/authority verified. Actual completion/owner acceptance still separate. Reviewer rule distinction is explicit: implementer Sol-low, orchestrator Luna-high.
 

@@ -38,12 +38,14 @@ Repair 01 preserved the core Shell A (Canopy) vs. Shell B (Split Rail) compariso
 6. **Stable Mock Terminal Placeholder (Hard Constraint #5):**
    - Mock Leave enters a dedicated in-stage **Terminal / Receipt Placeholder** (`scene-terminal`).
    - Closes retention dialog without `alert()`, locks the Uninstall buttons (`🏁 Run Ended`), and prevents reopening retention until an explicit prototype reset is clicked.
-7. **Expand Animation & Modal Dismissal Polish:**
-   - Synchronized scene display state so `stepExpand()` and auto-play reliably animate the rotated landscape phone scaling outward (`scale(3.5)` + fade) as the gacha stage emerges.
-   - Elevated modal backdrop z-index (`z-index: 2000`) and added safe top margin/padding so the modal header and close button are never clipped by the top rail.
+7. **Modal Visibility & Dismissal Polish:**
+   - Elevated modal backdrop z-index (`z-index: 2000`) and added safe top margin/padding (`3.5rem`) so the modal header and close button are never clipped by the top rail.
    - Added backdrop click listener to dismiss modals when clicking outside the dialog window.
+8. **Automated Two-Stage Entry & Animated Reverse Return:**
+   - **Automated Entry Sequence:** Corrected the cancellation token sequencing in `startEntrySequence()`: clicking the fictional phone on the desk or clicking `▶ Auto-Play` executes the 90° turn into landscape orientation, and after 450ms automatically triggers stage expansion into the gacha app without requiring a manual second click.
+   - **Animated Reverse Return:** Replaced the abrupt cut on Return with an animated two-layer transition: clicking `⬅ Return to Desk` (or pressing `Escape`) immediately overlays `.scene-gacha.state-gacha-fading` (fading opacity from 1 to 0 over 350ms) while revealing the apartment desk underneath with the phone initially in landscape; after a 50ms paint tick, the phone border rotates smoothly back from landscape (90°) to portrait (0°) over 400ms.
 
-All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/review-01-checks.mjs).
+All corrections were verified against [`review-01-checks.mjs`](file:///C:/AI/Quackpot/reports/development/plan-14-game-stage-and-context-transitions/review-01-checks.mjs) and dedicated timeline verification harnesses.
 
 ---
 

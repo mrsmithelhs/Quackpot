@@ -706,7 +706,7 @@
       opacity: 0.15;
     }
 
-    /* State 3: Gacha Active View */
+    /* State 3: Gacha Active View & Reverse Return Fade */
     .scene-gacha {
       width: 100%;
       height: 100%;
@@ -714,11 +714,24 @@
       display: none;
       flex-direction: column;
       position: relative;
+      opacity: 1;
+      transform: scale(1);
     }
 
     .stage-canvas.state-gacha-active .scene-gacha {
       display: flex;
       animation: gachaFadeIn var(--duration-expand) var(--ease-snappy) forwards;
+    }
+
+    .scene-gacha.state-gacha-fading {
+      display: flex !important;
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(0.94);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+      z-index: 10;
     }
 
     @keyframes gachaFadeIn {
@@ -1856,6 +1869,7 @@
         // Display stable terminal receipt placeholder
         sceneApartment.style.display = 'none';
         sceneGacha.style.display = 'none';
+        sceneGacha.classList.remove('state-gacha-fading');
         sceneTerminal.style.display = 'flex';
         stageCanvas.classList.remove('state-gacha-active');
 
@@ -1915,8 +1929,22 @@
         stageCanvas.classList.remove('state-gacha-active');
         sceneApartment.style.display = 'flex';
         sceneGacha.style.display = 'none';
+        sceneGacha.classList.remove('state-gacha-fading');
         sceneTerminal.style.display = 'none';
         announce("Beat 1: Apartment Desk. Phone resting in portrait orientation.");
+      }
+
+      function applyPhoneTurnVisuals() {
+        transitionState = 'turning';
+        sceneApartment.style.display = 'flex';
+        sceneApartment.classList.remove('state-desk-dimming');
+        sceneGacha.style.display = 'none';
+        sceneGacha.classList.remove('state-gacha-fading');
+        sceneTerminal.style.display = 'none';
+        stageCanvas.classList.remove('state-gacha-active');
+        phoneContainer.classList.remove('state-expanding');
+        phoneContainer.classList.add('state-rotated');
+        announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
       }
 
       function stepRotate() {
@@ -1926,15 +1954,7 @@
           return;
         }
         cancelPendingTransitions();
-        transitionState = 'turning';
-        sceneApartment.style.display = 'flex';
-        sceneApartment.classList.remove('state-desk-dimming');
-        sceneGacha.style.display = 'none';
-        sceneTerminal.style.display = 'none';
-        stageCanvas.classList.remove('state-gacha-active');
-        phoneContainer.classList.remove('state-expanding');
-        phoneContainer.classList.add('state-rotated');
-        announce("Beat 2: Fictional phone executes 90° quarter-turn into landscape orientation.");
+        applyPhoneTurnVisuals();
       }
 
       function stepExpand() {
@@ -1948,6 +1968,7 @@
           sceneApartment.classList.remove('state-desk-dimming');
           sceneApartment.style.display = 'none';
           sceneGacha.style.display = 'flex';
+          sceneGacha.classList.remove('state-gacha-fading');
           sceneTerminal.style.display = 'none';
           stageCanvas.classList.add('state-gacha-active');
           announce("Beat 3: Phone screen expands into full-width gacha stage canvas. Quackpot Gacha App active.");
@@ -1969,16 +1990,58 @@
           sceneApartment.classList.remove('state-desk-dimming');
           sceneApartment.style.display = 'none';
           sceneGacha.style.display = 'flex';
+          sceneGacha.classList.remove('state-gacha-fading');
           sceneTerminal.style.display = 'none';
           stageCanvas.classList.add('state-gacha-active');
           announce("Quackpot Gacha App active in full-width stage.");
         }, 400); // 400ms expansion duration
       }
 
-      function stepReturn() {
+      function startReturnSequence() {
+        if (transitionState === 'desk' && sceneApartment.style.display === 'flex' && !phoneContainer.classList.contains('state-rotated')) {
+          return;
+        }
         cancelPendingTransitions();
-        stepDesk();
-        announce("Reverse transition: Exited gacha app, returned to apartment desk.");
+        const currentToken = transitionToken;
+
+        if (isReducedMotion) {
+          stepDesk();
+          announce("Reverse transition: Exited gacha app, returned to apartment desk.");
+          return;
+        }
+
+        transitionState = 'returning';
+        stageCanvas.classList.remove('state-gacha-active');
+        sceneApartment.style.display = 'flex';
+        sceneApartment.classList.remove('state-desk-dimming');
+
+        // Phone container starts on desk in rotated landscape orientation
+        phoneContainer.classList.remove('state-expanding');
+        phoneContainer.classList.add('state-rotated');
+
+        // Overlay the fading gacha view on top of the desk
+        sceneGacha.classList.add('state-gacha-fading');
+        announce("Reverse transition: Fading gacha view and rotating phone back to portrait...");
+
+        // Trigger phone rotation from landscape (90°) back to portrait (0°) after paint tick
+        setTimeout(() => {
+          if (currentToken !== transitionToken) return;
+          phoneContainer.classList.remove('state-rotated');
+        }, 50);
+
+        // Complete return sequence once fade (350ms) and rotation (400ms) finish
+        transitionTimer = setTimeout(() => {
+          transitionTimer = null;
+          if (currentToken !== transitionToken) return;
+          sceneGacha.style.display = 'none';
+          sceneGacha.classList.remove('state-gacha-fading');
+          transitionState = 'desk';
+          announce("Reverse transition complete: Returned to apartment desk.");
+        }, 450);
+      }
+
+      function stepReturn() {
+        startReturnSequence();
       }
 
       function startEntrySequence() {
@@ -1991,12 +2054,12 @@
           return;
         }
 
-        stepRotate();
+        applyPhoneTurnVisuals();
         transitionTimer = setTimeout(() => {
           transitionTimer = null;
           if (currentToken !== transitionToken) return; // Cancelled during turn
           stepExpand();
-        }, 450); // 450ms proposed rotation duration
+        }, 450); // 450ms rotation duration before automatic expansion
       }
 
       document.getElementById('btn-step-desk').addEventListener('click', stepDesk);
@@ -2008,7 +2071,7 @@
       phoneContainer.addEventListener('click', () => {
         if (transitionState === 'turning') {
           stepExpand();
-        } else {
+        } else if (transitionState !== 'expanding' && transitionState !== 'returning') {
           startEntrySequence();
         }
       });
@@ -2017,7 +2080,7 @@
           e.preventDefault();
           if (transitionState === 'turning') {
             stepExpand();
-          } else {
+          } else if (transitionState !== 'expanding' && transitionState !== 'returning') {
             startEntrySequence();
           }
         }
@@ -2151,7 +2214,10 @@
             openModal(modalUninstall, document.getElementById('btn-open-uninstall'));
           }
         } else if (e.key === 'Escape') {
-          if (transitionState === 'turning' || transitionState === 'expanding' || transitionState === 'gacha') {
+          if (transitionState === 'returning') {
+            e.preventDefault();
+            stepDesk();
+          } else if (transitionState === 'turning' || transitionState === 'expanding' || transitionState === 'gacha') {
             e.preventDefault();
             stepReturn();
           }

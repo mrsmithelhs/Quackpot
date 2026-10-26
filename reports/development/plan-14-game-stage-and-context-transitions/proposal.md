@@ -1,4 +1,4 @@
-﻿# Plan 14 Proposal: Game Stage and Metagame Transitions Investigation (Repair 01)
+# Plan 14 Proposal: Game Stage and Metagame Transitions Investigation (Repair 01)
 
 **Date:** 2026-10-25
 **Type:** UX Architecture & Diegetic Stage Transition Investigation
@@ -161,8 +161,8 @@ Per DECISION-008, the owner selected a fictional-phone quarter-turn into landsca
                │
                ▼ (Player clicks "Return to Desk" or hits Escape)
 [Beat 5: Reverse Return Transition (400ms proposed)]
-   Stage canvas collapses back into landscape phone frame.
-   Phone rotates 90° counter-clockwise back to portrait resting on desk.
+   Gacha stage canvas fades out as the apartment desk view is revealed.
+   Landscape phone border on the desk blotter smoothly rotates 90° counter-clockwise back to portrait resting position.
    Desk lighting and physical companion prominence are restored.
 ```
 

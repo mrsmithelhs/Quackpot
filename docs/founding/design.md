@@ -46,7 +46,7 @@ This heading preserves the draft's section anchor, which the founding reviews ci
 | **Pity** | Eligible repeated pulls may raise legendary probability. Thresholds and banner carry/reset remain open. Receipt reports actual pre-draw conditional odds. |
 | **Banner** | Featured ducks rotate through themes. Labels use explicit game-time units and a real decision window; duration remains open. |
 | **Duck stats** | Power creep may make later ducks faster. Rate/effects remain simulation inputs. |
-| **Pond Race** | Fixed-duration race resolves from duck stats after one pre-race choice. No timing taps. Race duration remains open. |
+| **Pond Race** | Race resolves from duck stats after one pre-race choice. No timing taps. Owner refinement 2026-10-26 selects an actual completed-lap finish-line crossing rather than a strict time-expiry distance contest; target duration may vary by about ±15%. Exact target, lap calibration and remaining-entrant classification require the Plan 13 proposal/integration gate. |
 | **Duplicates and Down** | Duplicates convert to Down. Owner refinement 2026-10-25: the exchange should be usable enough to try but deliberately lossy; it must not become a profitable/self-funding pull loop. Plan 17's bounded evidence is owner-accepted (DECISION-013): trial contract is 3 Down for +5% base speed on one race, non-stacking/consume once on commit, or 6 Down for an immediate active-banner pull with normal duplicate payouts and pity advancement/Legendary reset. Production lifecycle, actual log/Receipt behavior and whole-run balance remain separate integration checks. |
 | **Collection and Duck-Dex** | Finite gacha duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. The metagame's physical companion is outside this digital roster. |
 
@@ -79,7 +79,7 @@ Retain the owner-selected names for fictional entities: “Biblically Accurate D
 The clock is hybrid:
 
 - The shop has a live decision window using explicit game-time labels; its length is open.
-- Each race has a fixed duration; its value is open.
+- Race presentation targets a bounded duration rather than terminating the simulation at an arbitrary time limit. Owner refinement 2026-10-26 permits about ±15% variation around the selected target to reach a genuine completed-lap finish-line crossing. Twenty seconds is an investigation target, not a final adopted duration. A safety limit must report an unresolved race rather than fabricate a crossing. Exact lap geometry, finish classification and pacing remain Plan 13 investigation/integration decisions.
 - Reveal theater, duck scenes, and other high-drama moments pause the running clock.
 - The overall time budget includes duck setup and the Receipt. High-drama scenes and important choices may extend total time, including past the lesson.
 - The floor run targets roughly 15 minutes; day count is not fixed, and a run may exceed 15 in-game days.

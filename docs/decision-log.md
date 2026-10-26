@@ -157,3 +157,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner inspected the dev-server output and explicitly approved Plan 19 closure. Accept the integrated Shell A, automatic phone turn/expansion, animated return and quiet Settings/save controls after Repair 01 resolves orientation and Credits keyboard access. Root's fresh focused browser check passes at 390×520 and 1440×900; see `reports/development/plan-19-shell-a-and-context-integration/review-02.md`.
 
 **Limits:** This closes the bounded UI integration, not broad physical-device/assistive-technology coverage, race dynamics, economy changes or audio/art selection. No push, deployment or new packet assignment follows. Plan 13 remains an isolated investigation; Plans 09/16 remain draft until assigned.
+
+### DECISION-015 — Real race crossing and target-duration tolerance
+
+**Date:** 2026-10-26
+
+**Decision:** Owner requests a real completed-lap finish-line crossing rather than ending at a strict 20-second cutoff, allowing about ±15% variation around the target. This supersedes the canonical fixed-duration distance-contest direction. The exact target, course calibration and remaining-racer classification still require a bounded Plan 13 proposal; time-guard expiry cannot fabricate a crossing. Canonical design, AGENTS and orchestrator prompt are synchronized.
+
+**Investigation inputs, not adopted mechanics:** Owner asks to analyze seeded weaving for all ducks, stronger/more frequent perturbations for front-half racers, minimum roughly 10° deviation and 0.5-second hold, and longer collision recovery. Exact schedules, angles, recovery, penalties and combined rules remain proposals. No production integration, new per-variant tuning, push or deployment is authorized.

@@ -20,6 +20,8 @@ The physical companion remains the existing static embedded `Professor Quacks`/p
 
 Race wiring remains deferred: the retained direction is normally paddle, leading two may gracefully bob, and actual duck/wall impacts use impact/recovery before returning to rank-appropriate locomotion. It requires accepted Plan 13 event semantics and a separate bounded follow-on approval. No race hooks, Dex work, reveal-sequence changes, value indicators, or cooldown features were added.
 
+QP Orch relayed an owner note for future race-presentation integration: the investigation's technical narration table should become simpler, event-linked player commentary with accessible presentation. This is a future integration concern, not a current card-motion blocker or scope expansion. Future crowd/contact audio belongs to the Plan 18 follow-on; Plan 20 adds no audio.
+
 ## Lifecycle and implementation
 
 Each mounted revealed-card instance owns its animation handles. A single keyboard-operable control pauses/resumes the active visible card loops and announces its state. Explicit user pause freezes the current pose. A hidden page, inactive/covered view, disconnected instance, offscreen card, or reduced-motion preference cancels its animations and restores neutral transforms; reentry starts a fresh loop only when the context is active, the card is visible, the user has not paused, and reduced motion is not requested. System preference changes are observed. The controller cancels handles and disconnects observers/listeners on teardown. Settings and other app rerenders dispose the prior controller before replacing its view. No `settings-modal.js`, engine, storage, shared rig, race, or global stylesheet changes were made.

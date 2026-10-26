@@ -129,6 +129,15 @@
     const mediaMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const motionButtons = [...document.querySelectorAll('[data-motion]')];
     const sizes = [...document.querySelectorAll('[data-view]')];
+    const paperLayerIds = [
+      'gallery-duck-body-backing-rim', 'gallery-duck-tail-backing', 'gallery-duck-head-backing-rim',
+      'gallery-duck-wing-mid', 'gallery-duck-wing-under-seam',
+      'gallery-duck-wing-top', 'gallery-duck-wing-mid-seam'
+    ];
+    const wingLayerIds = new Set([
+      'gallery-duck-wing-mid', 'gallery-duck-wing-under-seam',
+      'gallery-duck-wing-top', 'gallery-duck-wing-mid-seam'
+    ]);
     const copy = {
       paddle: 'A rhythmic wing stroke leads the soft whole-duck bob. The rig has no paddle or leg layers, so this tests whether upper-body articulation alone suggests paddling.',
       'graceful-bob': 'A slower, smaller whole-duck bob with a delayed head counter-motion and restrained wing settle; intended to feel calmer than paddling.',
@@ -181,6 +190,79 @@
       const wing = svg.querySelector('#gallery-duck-wing-group');
       if (head) { head.style.transformBox = 'view-box'; head.style.transformOrigin = '48px 46px'; }
       if (wing) { wing.style.transformBox = 'view-box'; wing.style.transformOrigin = '52px 56px'; }
+      for (const id of wingLayerIds) {
+        const layer = svg.querySelector(`#${id}`);
+        if (layer) { layer.style.transformBox = 'view-box'; layer.style.transformOrigin = '52px 56px'; }
+      }
+    }
+
+    function clearPaperLayerTransforms() {
+      const svg = shell.querySelector('svg');
+      for (const id of paperLayerIds) {
+        const layer = svg?.querySelector(`#${id}`);
+        if (layer) layer.style.transform = '';
+      }
+    }
+
+    function setPaperLayerPose(id, transform) {
+      const layer = shell.querySelector(`#${id}`);
+      if (layer) layer.style.transform = transform;
+    }
+
+    function animatePaperTargets(ids, keyframes, options) {
+      for (const id of ids) {
+        const layer = shell.querySelector(`#${id}`);
+        if (layer) animate(layer, keyframes, options);
+      }
+    }
+
+    function animatePaperCycle(ids, peak, partial, duration, iterations, lagMs) {
+      const identity = 'translate(0px, 0px) rotate(0deg)';
+      animatePaperTargets(ids, [
+        { transform: identity, offset: 0 },
+        { transform: identity, offset: lagMs / duration },
+        { transform: peak, offset: .48 },
+        { transform: partial, offset: .74 },
+        { transform: identity, offset: 1 }
+      ], { duration, iterations, easing: 'ease-in-out' });
+    }
+
+    function animatePaperOneShot(ids, peak, settle, timing, rebound = identityPaperTransform()) {
+      const identity = identityPaperTransform();
+      animatePaperTargets(ids, [
+        { transform: identity, offset: 0 },
+        { transform: identity, offset: timing.onset },
+        { transform: peak, offset: timing.peak },
+        { transform: settle, offset: timing.settle },
+        { transform: rebound, offset: .92 },
+        { transform: identity, offset: 1 }
+      ], { duration: 1100, easing: 'ease-out' });
+    }
+
+    function identityPaperTransform() {
+      return 'translate(0px, 0px) rotate(0deg)';
+    }
+
+    function applyReducedPaperPose() {
+      if (selected === 'paddle') {
+        setPaperLayerPose('gallery-duck-body-backing-rim', 'translate(.35px, .2px)');
+        setPaperLayerPose('gallery-duck-tail-backing', 'translate(.35px, .15px)');
+        setPaperLayerPose('gallery-duck-head-backing-rim', 'translate(.25px, .12px)');
+        for (const id of ['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam']) setPaperLayerPose(id, 'translate(.4px, .12px) rotate(.3deg)');
+        for (const id of ['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam']) setPaperLayerPose(id, 'translate(.65px, .2px) rotate(-.5deg)');
+      } else if (selected === 'graceful-bob') {
+        setPaperLayerPose('gallery-duck-body-backing-rim', 'translate(.2px, .12px)');
+        setPaperLayerPose('gallery-duck-tail-backing', 'translate(.2px, .1px)');
+        setPaperLayerPose('gallery-duck-head-backing-rim', 'translate(.15px, .1px)');
+        for (const id of ['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam']) setPaperLayerPose(id, 'translate(.22px, .1px) rotate(.18deg)');
+        for (const id of ['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam']) setPaperLayerPose(id, 'translate(.38px, .15px) rotate(-.32deg)');
+      } else if (selected === 'impact-recover-demo') {
+        setPaperLayerPose('gallery-duck-body-backing-rim', 'translate(.7px, .25px)');
+        setPaperLayerPose('gallery-duck-tail-backing', 'translate(.5px, .2px)');
+        setPaperLayerPose('gallery-duck-head-backing-rim', 'translate(.45px, .25px)');
+        for (const id of ['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam']) setPaperLayerPose(id, 'translate(.8px, .3px) rotate(.5deg)');
+        for (const id of ['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam']) setPaperLayerPose(id, 'translate(1.1px, .35px) rotate(-.8deg)');
+      }
     }
 
     function resetPose() {
@@ -191,6 +273,7 @@
         const group = svg?.querySelector(`#${id}`);
         if (group) group.style.transform = '';
       }
+      clearPaperLayerTransforms();
       reducedPose = 0;
       visualDescription = '';
       updatePoseReadout();
@@ -223,9 +306,9 @@
       const selectedName = selected === 'paddle' ? 'Paddling' : selected === 'graceful-bob' ? 'Graceful bob' : selected === 'impact-recover-demo' ? 'Impact and recovery demonstration' : 'Still control';
       const neutral = `${selectedName} comparison, neutral pose. The duck is still.`;
       const pose = reducedPose === 1 ? (
-        selected === 'paddle' ? 'Paddling pose: the whole duck bobs while the wing swings in a strong stroke and the head counter-tilts. The rig has no paddle or leg layers.' :
-        selected === 'graceful-bob' ? 'Graceful bob pose: the whole duck is slightly raised, with a delayed head counter-tilt and a small wing settle.' :
-        selected === 'impact-recover-demo' ? 'Impact demonstration pose: the whole duck dips, the head lowers, and the wing folds. This is a display fixture, not a gameplay event.' : neutral
+        selected === 'paddle' ? 'Paddling pose: the whole duck bobs, the wing swings in a strong stroke, the head counter-tilts, and the paper edges fan slightly. The rig has no paddle or leg layers.' :
+        selected === 'graceful-bob' ? 'Graceful bob pose: the whole duck is slightly raised, with delayed head counter-tilt, a small wing settle, and a subtle paper-layer offset.' :
+        selected === 'impact-recover-demo' ? 'Impact demonstration pose: the whole duck dips, the head lowers, the wing folds, and the backing paper edges open slightly. This is a display fixture, not a gameplay event.' : neutral
       ) : neutral;
       document.querySelector('#pose-description').textContent = visualDescription || pose;
     }
@@ -293,7 +376,12 @@
           { transform: 'rotate(0deg)' }, { transform: 'rotate(-16deg)', offset: .25 },
           { transform: 'rotate(7deg)', offset: .56 }, { transform: 'rotate(0deg)' }
         ], { duration: 1100, easing: 'ease-out' });
-        visualDescription = 'Impact demonstration: the whole duck dips, its head lowers and its wing folds, then it returns to neutral. This is a display fixture, not a gameplay event.';
+        animatePaperOneShot(['gallery-duck-body-backing-rim'], 'translate(.7px, .25px) rotate(0deg)', 'translate(.18px, .08px) rotate(0deg)', { onset: .08, peak: .26, settle: .68 }, 'translate(-.04px, 0px) rotate(0deg)');
+        animatePaperOneShot(['gallery-duck-tail-backing'], 'translate(.5px, .2px) rotate(0deg)', 'translate(.12px, .04px) rotate(0deg)', { onset: .12, peak: .32, settle: .74 }, 'translate(-.03px, 0px) rotate(0deg)');
+        animatePaperOneShot(['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam'], 'translate(.8px, .3px) rotate(.5deg)', 'translate(.2px, .08px) rotate(.12deg)', { onset: .1, peak: .3, settle: .68 }, 'translate(-.05px, 0px) rotate(-.04deg)');
+        animatePaperOneShot(['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam'], 'translate(1.1px, .35px) rotate(-.8deg)', 'translate(.24px, .08px) rotate(-.16deg)', { onset: .16, peak: .4, settle: .78 }, 'translate(.04px, 0px) rotate(.04deg)');
+        animatePaperOneShot(['gallery-duck-head-backing-rim'], 'translate(.45px, .25px) rotate(0deg)', 'translate(.12px, .06px) rotate(0deg)', { onset: .2, peak: .42, settle: .88 });
+        visualDescription = 'Impact demonstration: the duck dips as its backing edges and wing stack open slightly, then re-seat while it recovers to neutral. This is a display fixture, not a gameplay event.';
         updatePoseDescription();
         wrapper.finished.then(() => {
           resetPose();
@@ -319,6 +407,11 @@
         animate(shell.querySelector('#gallery-duck-head-group'), [
           { transform: 'rotate(6deg)' }, { transform: 'rotate(-6deg)' }, { transform: 'rotate(6deg)' }
         ], { duration, iterations, easing: 'ease-in-out' });
+        animatePaperCycle(['gallery-duck-body-backing-rim'], 'translate(.35px, .2px) rotate(0deg)', 'translate(.15px, .08px) rotate(0deg)', duration, iterations, 90);
+        animatePaperCycle(['gallery-duck-tail-backing'], 'translate(.35px, .15px) rotate(0deg)', 'translate(.14px, .06px) rotate(0deg)', duration, iterations, 130);
+        animatePaperCycle(['gallery-duck-head-backing-rim'], 'translate(.25px, .12px) rotate(0deg)', 'translate(.1px, .05px) rotate(0deg)', duration, iterations, 160);
+        animatePaperCycle(['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam'], 'translate(.4px, .12px) rotate(.3deg)', 'translate(.16px, .05px) rotate(.12deg)', 800, 18.75, 60);
+        animatePaperCycle(['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam'], 'translate(.65px, .2px) rotate(-.5deg)', 'translate(.22px, .07px) rotate(-.18deg)', 800, 18.75, 110);
       } else {
         animate(shell, [
           { transform: 'translateY(0) rotate(0deg)' }, { transform: 'translateY(-5%) rotate(1.2deg)', offset: .35 },
@@ -331,10 +424,15 @@
         animate(shell.querySelector('#gallery-duck-wing-group'), [
           { transform: 'rotate(3deg)' }, { transform: 'rotate(-4deg)', offset: .5 }, { transform: 'rotate(3deg)' }
         ], { duration, iterations, delay: 320, easing: 'ease-in-out' });
+        animatePaperCycle(['gallery-duck-body-backing-rim'], 'translate(.2px, .12px) rotate(0deg)', 'translate(.08px, .05px) rotate(0deg)', duration, iterations, 180);
+        animatePaperCycle(['gallery-duck-tail-backing'], 'translate(.2px, .1px) rotate(0deg)', 'translate(.08px, .04px) rotate(0deg)', duration, iterations, 200);
+        animatePaperCycle(['gallery-duck-head-backing-rim'], 'translate(.15px, .1px) rotate(0deg)', 'translate(.06px, .04px) rotate(0deg)', duration, iterations, 220);
+        animatePaperCycle(['gallery-duck-wing-mid', 'gallery-duck-wing-under-seam'], 'translate(.22px, .1px) rotate(.18deg)', 'translate(.09px, .04px) rotate(.07deg)', duration, iterations, 160);
+        animatePaperCycle(['gallery-duck-wing-top', 'gallery-duck-wing-mid-seam'], 'translate(.38px, .15px) rotate(-.32deg)', 'translate(.14px, .06px) rotate(-.12deg)', duration, iterations, 240);
       }
       visualDescription = selected === 'paddle'
-        ? 'Paddling animation: the whole duck bobs while the wing cycles through a strong stroke and the head counter-tilts. The rig has no paddle or leg layers.'
-        : 'Graceful bob animation: a slow whole-duck rise and fall with delayed head counter-motion and a restrained wing settle.';
+        ? 'Paddling animation: the whole duck bobs while the wing cycles through a strong stroke, the head counter-tilts, and the paper edges pulse gently. The rig has no paddle or leg layers.'
+        : 'Graceful bob animation: a slow whole-duck rise and fall with delayed head counter-motion and a restrained wing and paper-layer settle.';
       updatePoseDescription();
       setStatus(replay ? 'Replaying.' : 'Playing sample.', 'User-started bounded 15-second sample.');
       updateActionButtons();
@@ -348,12 +446,14 @@
       const wing = shell.querySelector('#gallery-duck-wing-group');
       if (head) head.style.transform = '';
       if (wing) wing.style.transform = '';
+      clearPaperLayerTransforms();
       const pose = Math.max(0, Math.min(2, index));
       reducedPose = pose;
       if (pose === 1) {
         if (selected === 'paddle') { shell.style.transform = 'translateY(-4%) rotate(1.5deg)'; if (wing) wing.style.transform = 'rotate(-24deg)'; if (head) head.style.transform = 'rotate(6deg)'; }
         else if (selected === 'graceful-bob') { shell.style.transform = 'translateY(-5%) rotate(.5deg)'; if (head) head.style.transform = 'rotate(-5deg)'; if (wing) wing.style.transform = 'rotate(-4deg)'; }
         else if (selected === 'impact-recover-demo') { shell.style.transform = 'translateY(8%) rotate(-6deg)'; if (head) head.style.transform = 'rotate(-16deg)'; if (wing) wing.style.transform = 'rotate(-24deg)'; }
+        applyReducedPaperPose();
       }
       updatePoseReadout();
       visualDescription = '';

@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Quackpot — Digital duck motion comparison</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #202a36; background: #edf2f4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: clamp(14px, 3vw, 34px); }
+    main { max-width: 1120px; margin: 0 auto; }
+    h1 { margin: 0 0 6px; font-size: clamp(1.45rem, 3vw, 2rem); }
+    h2 { font-size: 1rem; margin: 0 0 10px; }
+    p { line-height: 1.5; }
+    .intro { max-width: 72ch; margin: 0 0 20px; color: #4a5967; }
+    .panel { background: #fff; border: 1px solid #d4dee3; border-radius: 14px; padding: 16px; box-shadow: 0 3px 12px #1526330b; }
+    .gallery { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .8fr); gap: 16px; align-items: start; }
+    .stage-wrap { display: grid; gap: 10px; }
+    .stage { min-height: 330px; display: grid; place-items: center; overflow: hidden; position: relative; border-radius: 11px; border: 1px solid #d7e0e5; background: linear-gradient(#e5f3f5 0 61%, #d7e8dd 61%); }
+    .stage::after { content: "CARD VIEW · 340 PX DUCK"; position: absolute; bottom: 10px; left: 12px; color: #546b70; font-size: .7rem; letter-spacing: .09em; font-weight: 700; }
+    .stage.close { min-height: 470px; }
+    .stage.race { min-height: 190px; }
+    .duck-shell { width: min(74%, 340px); aspect-ratio: 1; display: grid; place-items: center; position: relative; transform-origin: center; }
+    .duck-shell svg { width: 100%; height: 100%; overflow: visible; }
+    .duck-shell .waterline { display: none; }
+    .stage.close .duck-shell { width: min(92%, 460px); }
+    .stage.race .duck-shell { width: 72px; }
+    .stage.close::after { content: "CLOSE VIEW"; }
+    .stage.race::after { content: "RACE SPRITE · 72 PX DUCK"; }
+    .stage .duck-shell::before { content: ""; position: absolute; width: 70%; height: 9%; left: 14%; bottom: 8%; border-radius: 50%; background: #18313c25; filter: blur(6px); z-index: -1; }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    button, select { min-height: 40px; border: 1px solid #aab8c2; border-radius: 8px; background: #fff; color: #18242e; padding: 8px 12px; font: inherit; cursor: pointer; }
+    button:hover, select:hover { background: #f2f7f8; }
+    button:focus-visible, select:focus-visible { outline: 3px solid #146e92; outline-offset: 2px; }
+    button[aria-pressed="true"], button[aria-current="true"] { border-color: #176b8a; background: #e4f4f8; box-shadow: inset 0 0 0 1px #176b8a; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    .motion-list { display: grid; gap: 7px; }
+    .motion-list button { text-align: left; }
+    .motion-list small { display: block; color: #526271; margin-top: 2px; }
+    .detail { margin: 11px 0 0; min-height: 70px; color: #3e4f5d; }
+    .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .meta label { display: grid; gap: 5px; font-size: .86rem; font-weight: 650; }
+    .status { min-height: 48px; margin: 12px 0 0; padding: 10px 12px; border-radius: 8px; background: #f1f5f6; color: #344550; }
+    .status strong { color: #172b37; }
+    .reduced { display: none; margin-top: 14px; padding: 12px; background: #fff7e7; border: 1px solid #e3c98d; border-radius: 9px; }
+    body.motion-reduced .reduced { display: block; }
+    .pose-readout { margin: 7px 0; font-size: .9rem; }
+    .tech-note { font-size: .85rem; color: #50606d; margin: 14px 0 0; }
+    .sample-note { font-size: .82rem; color: #526271; }
+    .tag { display: inline-block; border-radius: 99px; background: #e8eef0; padding: 2px 8px; font-size: .77rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (max-width: 760px) { .gallery { grid-template-columns: 1fr; } .stage { min-height: 280px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Digital duck motion comparison</h1>
+    <p class="intro">A small, local comparison using the accepted Mode C paper duck. Choose one motion at a time. These are visual studies, not race mechanics. The impact button is a labeled demonstration fixture. The physical metagame duck is not shown or animated here.</p>
+
+    <div class="gallery">
+      <section class="panel stage-wrap" aria-labelledby="preview-heading">
+        <h2 id="preview-heading">Preview <span class="tag" id="mode-badge">animated mode</span></h2>
+        <div class="stage" id="stage" role="group" aria-label="Digital duck preview" aria-describedby="pose-description" aria-live="polite" aria-atomic="true">
+          <div class="duck-shell" id="duck-shell"></div>
+          <p class="sr-only" id="pose-description">Selected paddling comparison, neutral pose. The duck is still.</p>
+        </div>
+        <div class="controls" aria-label="Preview size and motion preference">
+          <span class="sample-note">View:</span>
+          <button type="button" data-view="card" aria-pressed="true">Card (340 px)</button>
+          <button type="button" data-view="close" aria-pressed="false">Close</button>
+          <button type="button" data-view="race" aria-pressed="false">Race sprite (72 px)</button>
+          <button type="button" id="reduced-toggle" aria-pressed="false">Reduced motion: off</button>
+        </div>
+        <p class="tech-note">Mode C applies its head and wing shadows to each complete group. The gallery moves those assemblies around their existing pivots; the three internal wing shapes are not independently hinged.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="motions-heading">
+        <h2 id="motions-heading">Select a comparison</h2>
+        <div class="motion-list" role="group" aria-label="Motion IDs">
+          <button type="button" data-motion="paddle" aria-pressed="true">Paddling <small><code>paddle</code> · 1.6 s cycle · 15 s sample</small></button>
+          <button type="button" data-motion="graceful-bob" aria-pressed="false">Graceful bob <small><code>graceful-bob</code> · 2.4 s cycle · 15 s sample</small></button>
+          <button type="button" data-motion="impact-recover-demo" aria-pressed="false">Impact / recover demo <small><code>impact-recover-demo</code> · about 1.1 s · one-shot</small></button>
+          <button type="button" data-motion="still-control" aria-pressed="false">Still control <small><code>still-control</code> · no animation</small></button>
+        </div>
+        <p class="detail" id="motion-detail"></p>
+        <div class="controls">
+          <button type="button" id="start">Start 15 s sample</button>
+          <button type="button" id="pause">Pause</button>
+          <button type="button" id="resume" disabled>Resume</button>
+          <button type="button" id="replay">Replay</button>
+          <button type="button" id="impact">Play impact demo</button>
+          <button type="button" id="still">Still</button>
+        </div>
+        <div class="meta">
+          <label>Accessory configuration
+            <select id="look">
+              <option value="none">None</option>
+              <option value="head">Head: sailor cap + monocle</option>
+              <option value="neck">Neck: bow tie</option>
+            </select>
+          </label>
+          <div><span class="sample-note">Choose one attachment check at a time so the visible option always matches the composed rig.</span></div>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"><strong>Ready.</strong> Still pose; no animation is running.</p>
+        <div class="reduced" id="reduced-controls" aria-labelledby="reduced-title">
+          <strong id="reduced-title">Reduced motion is active.</strong>
+          <p class="pose-readout" id="pose-readout">Pose 1 of 3: neutral.</p>
+          <div class="controls">
+            <button type="button" id="pose-prev">Previous pose</button>
+            <button type="button" id="pose-next">Next pose</button>
+            <button type="button" id="pose-neutral">Return to neutral</button>
+          </div>
+          <p class="sample-note">Manual discrete steps: Neutral → articulated pose → Neutral. Start never plays a tween while this preference is active.</p>
+        </div>
+        <p class="sample-note">Repeat samples start only when requested and stop after 15 seconds of active playback. Pause freezes the current pose; Resume continues with the remaining time. Choosing another motion or Still cancels the current clip and resets to neutral. Replay always begins at neutral.</p>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { composeDuckSvg } from '../../../src/core/duck-rig.mjs';
+
+    const shell = document.querySelector('#duck-shell');
+    const stage = document.querySelector('#stage');
+    const status = document.querySelector('#status');
+    const detail = document.querySelector('#motion-detail');
+    const mediaMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const motionButtons = [...document.querySelectorAll('[data-motion]')];
+    const sizes = [...document.querySelectorAll('[data-view]')];
+    const copy = {
+      paddle: 'A rhythmic wing stroke leads the soft whole-duck bob. The rig has no paddle or leg layers, so this tests whether upper-body articulation alone suggests paddling.',
+      'graceful-bob': 'A slower, smaller whole-duck bob with a delayed head counter-motion and restrained wing settle; intended to feel calmer than paddling.',
+      'impact-recover-demo': 'A manually triggered display-only dip and recovery. It is not evidence of collision, damage, stamina, or a race event.',
+      'still-control': 'The unchanged Mode C reference pose. No transform animation is active.'
+    };
+    let selected = 'paddle';
+    let animations = [];
+    let timer = 0;
+    let deadlineAt = 0;
+    let remainingMs = 0;
+    let paused = false;
+    let reducedPose = 0;
+    let manualReduced = false;
+    let visualDescription = '';
+
+    function isReduced() { return mediaMotion.matches || manualReduced; }
+
+    function updateMotionMode() {
+      const active = isReduced();
+      document.body.classList.toggle('motion-reduced', active);
+      document.querySelector('#mode-badge').textContent = active ? 'reduced motion' : 'animated mode';
+      const toggle = document.querySelector('#reduced-toggle');
+      toggle.setAttribute('aria-pressed', String(active));
+      toggle.textContent = active ? `Reduced motion: on${mediaMotion.matches ? ' (system)' : ''}` : 'Reduced motion: off';
+      toggle.disabled = mediaMotion.matches;
+      updateActionButtons();
+      if (active) {
+        document.querySelector('#reduced-title').textContent = mediaMotion.matches ? 'System reduced-motion preference is active.' : 'Preview reduced motion is active.';
+      }
+      return active;
+    }
+
+    function renderDuck() {
+      resetPose();
+      const look = document.querySelector('#look').value;
+      shell.innerHTML = composeDuckSvg({
+        prefix: 'gallery-duck', palette: 'classic-yellow', paperMode: 'hybrid',
+        hat: look === 'head' ? 'sailor-cap' : 'none',
+        accessory: look === 'head' ? 'monocle' : look === 'neck' ? 'bow-tie' : 'none'
+      });
+      setGroupOrigins();
+      setStatus('Ready.', `Selected ${selected}; neutral pose restored.`);
+    }
+
+    function setGroupOrigins() {
+      const svg = shell.querySelector('svg');
+      if (!svg) return;
+      const head = svg.querySelector('#gallery-duck-head-group');
+      const wing = svg.querySelector('#gallery-duck-wing-group');
+      if (head) { head.style.transformBox = 'view-box'; head.style.transformOrigin = '48px 46px'; }
+      if (wing) { wing.style.transformBox = 'view-box'; wing.style.transformOrigin = '52px 56px'; }
+    }
+
+    function resetPose() {
+      cancelAll();
+      shell.style.transform = '';
+      const svg = shell.querySelector('svg');
+      for (const id of ['gallery-duck-head-group', 'gallery-duck-wing-group']) {
+        const group = svg?.querySelector(`#${id}`);
+        if (group) group.style.transform = '';
+      }
+      reducedPose = 0;
+      visualDescription = '';
+      updatePoseReadout();
+      updatePoseDescription();
+    }
+
+    function cancelAll() {
+      clearTimeout(timer);
+      timer = 0;
+      deadlineAt = 0;
+      remainingMs = 0;
+      paused = false;
+      for (const animation of animations) animation.cancel();
+      animations = [];
+      updateActionButtons();
+    }
+
+    function setStatus(label, message) {
+      status.innerHTML = `<strong>${label}</strong> ${message}`;
+    }
+
+    function updateActionButtons() {
+      const isStill = selected === 'still-control';
+      document.querySelector('#pause').disabled = animations.length === 0 || paused || isReduced() || isStill;
+      document.querySelector('#resume').disabled = !paused || isStill;
+      document.querySelector('#resume').hidden = !paused;
+    }
+
+    function updatePoseDescription() {
+      const selectedName = selected === 'paddle' ? 'Paddling' : selected === 'graceful-bob' ? 'Graceful bob' : selected === 'impact-recover-demo' ? 'Impact and recovery demonstration' : 'Still control';
+      const neutral = `${selectedName} comparison, neutral pose. The duck is still.`;
+      const pose = reducedPose === 1 ? (
+        selected === 'paddle' ? 'Paddling pose: the whole duck bobs while the wing swings in a strong stroke and the head counter-tilts. The rig has no paddle or leg layers.' :
+        selected === 'graceful-bob' ? 'Graceful bob pose: the whole duck is slightly raised, with a delayed head counter-tilt and a small wing settle.' :
+        selected === 'impact-recover-demo' ? 'Impact demonstration pose: the whole duck dips, the head lowers, and the wing folds. This is a display fixture, not a gameplay event.' : neutral
+      ) : neutral;
+      document.querySelector('#pose-description').textContent = visualDescription || pose;
+    }
+
+    function finishSample() {
+      remainingMs = 0;
+      deadlineAt = 0;
+      resetPose();
+      setStatus('Complete.', '15 seconds of active sample time finished; neutral pose restored.');
+    }
+
+    function scheduleSampleFinish(durationMs) {
+      clearTimeout(timer);
+      remainingMs = durationMs;
+      deadlineAt = Date.now() + durationMs;
+      timer = window.setTimeout(finishSample, durationMs);
+    }
+
+    function setSelected(id) {
+      resetPose();
+      selected = id;
+      motionButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.motion === id)));
+      detail.textContent = copy[id];
+      const isStill = id === 'still-control';
+      document.querySelector('#start').textContent = id === 'impact-recover-demo' ? 'Play one-shot demo' : 'Start 15 s sample';
+      document.querySelector('#start').disabled = isStill;
+      document.querySelector('#replay').disabled = isStill;
+      document.querySelector('#impact').disabled = false;
+      document.querySelector('#pose-prev').disabled = reducedPose === 0 || isStill;
+      document.querySelector('#pose-next').disabled = reducedPose === 2 || isStill;
+      document.querySelector('#pose-neutral').disabled = isStill;
+      setStatus('Ready.', isStill ? 'Still pose; no animation is running.' : `Selected ${id}. Start when ready.`);
+      updatePoseDescription();
+      updateActionButtons();
+      if (isReduced()) applyReducedPose(0);
+    }
+
+    function animate(target, keyframes, options) {
+      const animation = target.animate(keyframes, { ...options, fill: 'both' });
+      animations.push(animation);
+      return animation;
+    }
+
+    function startSample(replay = false) {
+      if (selected === 'still-control') return;
+      if (isReduced()) {
+        applyReducedPose(1);
+        setStatus('Reduced motion.', 'Articulated pose shown. Next pose returns to neutral; no tween or automatic advance is running.');
+        return;
+      }
+      resetPose();
+      if (selected === 'impact-recover-demo') {
+        const wrapper = animate(shell, [
+          { transform: 'translateY(0) rotate(0deg)' },
+          { transform: 'translateY(9%) rotate(-7deg)', offset: .2 },
+          { transform: 'translateY(5%) rotate(3deg)', offset: .48 },
+          { transform: 'translateY(-3%) rotate(-2deg)', offset: .74 },
+          { transform: 'translateY(0) rotate(0deg)' }
+        ], { duration: 1100, easing: 'ease-out' });
+        animate(shell.querySelector('#gallery-duck-head-group'), [
+          { transform: 'rotate(0deg)' }, { transform: 'rotate(-14deg)', offset: .3 },
+          { transform: 'rotate(5deg)', offset: .62 }, { transform: 'rotate(0deg)' }
+        ], { duration: 1100, easing: 'ease-out' });
+        animate(shell.querySelector('#gallery-duck-wing-group'), [
+          { transform: 'rotate(0deg)' }, { transform: 'rotate(-16deg)', offset: .25 },
+          { transform: 'rotate(7deg)', offset: .56 }, { transform: 'rotate(0deg)' }
+        ], { duration: 1100, easing: 'ease-out' });
+        visualDescription = 'Impact demonstration: the whole duck dips, its head lowers and its wing folds, then it returns to neutral. This is a display fixture, not a gameplay event.';
+        updatePoseDescription();
+        wrapper.finished.then(() => {
+          resetPose();
+          setStatus('Complete.', 'Demo recovered to neutral. No gameplay event occurred.');
+        }).catch(() => {});
+        setStatus('Playing demo.', 'Manual impact / recovery display only.');
+        return;
+      }
+      const duration = selected === 'paddle' ? 1600 : 2400;
+      const iterations = 15000 / duration;
+      if (selected === 'paddle') {
+        animate(shell, [
+          { transform: 'translateY(1%) rotate(-1.5deg)' },
+          { transform: 'translateY(-6%) rotate(2deg)', offset: .25 },
+          { transform: 'translateY(1%) rotate(-2deg)', offset: .5 },
+          { transform: 'translateY(7%) rotate(1.5deg)', offset: .75 },
+          { transform: 'translateY(1%) rotate(-1.5deg)' }
+        ], { duration, iterations, easing: 'ease-in-out' });
+        animate(shell.querySelector('#gallery-duck-wing-group'), [
+          { transform: 'rotate(-24deg)' }, { transform: 'rotate(20deg)' }, { transform: 'rotate(-24deg)' }
+        ], { duration: 800, iterations: 18.75, easing: 'ease-in-out' });
+        animate(shell.querySelector('#gallery-duck-head-group'), [
+          { transform: 'rotate(6deg)' }, { transform: 'rotate(-6deg)' }, { transform: 'rotate(6deg)' }
+        ], { duration, iterations, easing: 'ease-in-out' });
+      } else {
+        animate(shell, [
+          { transform: 'translateY(0) rotate(0deg)' }, { transform: 'translateY(-5%) rotate(1.2deg)', offset: .35 },
+          { transform: 'translateY(-6%) rotate(0deg)', offset: .55 }, { transform: 'translateY(1%) rotate(-1deg)', offset: .8 },
+          { transform: 'translateY(0) rotate(0deg)' }
+        ], { duration, iterations, easing: 'ease-in-out' });
+        animate(shell.querySelector('#gallery-duck-head-group'), [
+          { transform: 'rotate(4deg)' }, { transform: 'rotate(-5deg)', offset: .5 }, { transform: 'rotate(4deg)' }
+        ], { duration, iterations, delay: 180, easing: 'ease-in-out' });
+        animate(shell.querySelector('#gallery-duck-wing-group'), [
+          { transform: 'rotate(3deg)' }, { transform: 'rotate(-4deg)', offset: .5 }, { transform: 'rotate(3deg)' }
+        ], { duration, iterations, delay: 320, easing: 'ease-in-out' });
+      }
+      visualDescription = selected === 'paddle'
+        ? 'Paddling animation: the whole duck bobs while the wing cycles through a strong stroke and the head counter-tilts. The rig has no paddle or leg layers.'
+        : 'Graceful bob animation: a slow whole-duck rise and fall with delayed head counter-motion and a restrained wing settle.';
+      updatePoseDescription();
+      setStatus(replay ? 'Replaying.' : 'Playing sample.', 'User-started bounded 15-second sample.');
+      updateActionButtons();
+      scheduleSampleFinish(15000);
+    }
+
+    function applyReducedPose(index) {
+      cancelAll();
+      shell.style.transform = '';
+      const head = shell.querySelector('#gallery-duck-head-group');
+      const wing = shell.querySelector('#gallery-duck-wing-group');
+      const pose = Math.max(0, Math.min(2, index));
+      reducedPose = pose;
+      if (pose === 1) {
+        if (selected === 'paddle') { shell.style.transform = 'translateY(-4%) rotate(1.5deg)'; if (wing) wing.style.transform = 'rotate(-24deg)'; if (head) head.style.transform = 'rotate(6deg)'; }
+        else if (selected === 'graceful-bob') { shell.style.transform = 'translateY(-5%) rotate(.5deg)'; if (head) head.style.transform = 'rotate(-5deg)'; if (wing) wing.style.transform = 'rotate(-4deg)'; }
+        else if (selected === 'impact-recover-demo') { shell.style.transform = 'translateY(8%) rotate(-6deg)'; if (head) head.style.transform = 'rotate(-16deg)'; if (wing) wing.style.transform = 'rotate(-24deg)'; }
+      }
+      updatePoseReadout();
+      visualDescription = '';
+      updatePoseDescription();
+      updateActionButtons();
+    }
+
+    function updatePoseReadout() {
+      const labels = ['neutral', 'articulated pose', 'neutral'];
+      document.querySelector('#pose-readout').textContent = `Pose ${reducedPose + 1} of 3: ${labels[reducedPose]}.`;
+      document.querySelector('#pose-prev').disabled = reducedPose === 0 || selected === 'still-control';
+      document.querySelector('#pose-next').disabled = reducedPose === 2 || selected === 'still-control';
+      document.querySelector('#pose-neutral').disabled = selected === 'still-control';
+    }
+
+    document.querySelectorAll('[data-motion]').forEach(button => button.addEventListener('click', () => setSelected(button.dataset.motion)));
+    sizes.forEach(button => button.addEventListener('click', () => {
+      stage.classList.remove('close', 'race');
+      if (button.dataset.view !== 'card') stage.classList.add(button.dataset.view);
+      sizes.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    }));
+    document.querySelector('#look').addEventListener('change', renderDuck);
+    document.querySelector('#start').addEventListener('click', () => startSample());
+    document.querySelector('#replay').addEventListener('click', () => startSample(true));
+    document.querySelector('#impact').addEventListener('click', () => { setSelected('impact-recover-demo'); startSample(); });
+    document.querySelector('#pause').addEventListener('click', () => {
+      if (animations.length === 0 || paused) return;
+      clearTimeout(timer); timer = 0;
+      remainingMs = deadlineAt ? Math.max(0, deadlineAt - Date.now()) : 0;
+      deadlineAt = 0;
+      paused = true;
+      animations.forEach(animation => animation.pause());
+      updateActionButtons();
+      setStatus('Paused.', remainingMs ? `Current pose is frozen; ${Math.ceil(remainingMs / 1000)} seconds remain. Resume continues, or Replay starts from neutral.` : 'Current pose is frozen. Resume continues the one-shot; Replay starts from neutral.');
+    });
+    document.querySelector('#resume').addEventListener('click', () => {
+      if (!paused) return;
+      paused = false;
+      animations.forEach(animation => animation.play());
+      updateActionButtons();
+      if (remainingMs > 0) scheduleSampleFinish(remainingMs);
+      setStatus('Resumed.', remainingMs ? 'Continuing the bounded sample with its remaining time.' : 'Continuing the one-shot recovery.');
+    });
+    document.querySelector('#still').addEventListener('click', () => setSelected('still-control'));
+    document.querySelector('#pose-prev').addEventListener('click', () => applyReducedPose(reducedPose - 1));
+    document.querySelector('#pose-next').addEventListener('click', () => applyReducedPose(reducedPose + 1));
+    document.querySelector('#pose-neutral').addEventListener('click', () => applyReducedPose(0));
+    document.querySelector('#reduced-toggle').addEventListener('click', () => {
+      if (!mediaMotion.matches) manualReduced = !manualReduced;
+      updateMotionMode();
+      resetPose();
+      setStatus(isReduced() ? 'Reduced motion active.' : 'Animated mode active.', 'Current display reset to neutral.');
+    });
+    mediaMotion.addEventListener('change', () => {
+      updateMotionMode();
+      document.querySelector('#start').disabled = selected === 'still-control';
+      document.querySelector('#impact').disabled = false;
+      resetPose();
+      setStatus(isReduced() ? 'Reduced motion active.' : 'Animated mode active.', 'Current display reset to neutral.');
+    });
+
+    updateMotionMode();
+    renderDuck();
+    setSelected('paddle');
+  </script>
+</body>
+</html>

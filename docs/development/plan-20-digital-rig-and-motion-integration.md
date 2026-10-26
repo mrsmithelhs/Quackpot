@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: in-progress
+status: delivered
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -22,6 +22,8 @@ summary: >-
 - Expected artifacts: `reports/development/plan-20-digital-rig-and-motion-integration/proposal.md`, implementation evidence and `progress.md`
 
 ## Goal and why now
+
+**Layout/help delivery, 2026-10-26:** `72fa977`/`f3aac38` accepted technically in report-folder `review-04.md`; root reproduced140tests and inspected bounded grid/callout/event-only changes. Implementer measured stable card bounds across reveal states and visible first-duplicate speech bubble after flip-end, with dismissal persistence. Delivered for owner acceptance; realtouch/longname/systemreducedtrue remain unobserved. ExtraSol-lowrepairreview violated ownerbudget and is disclosed, no furtherreviewer authorized. Production source handoff toPlan23 still awaitsowneracceptance.
 
 **Owner-feedback repair delivered, 2026-10-26:** `3899610`/`4017e0e` preserves mounted revealed cards and animation phase across further reveals, flips only newly revealed backs, and suppresses old flips on rebuild/reload. Root reproduced8focusedtests and inspected source; implementer direct witness plus isolated8-journey smoke accepted in `review-03.md`. Return for owner acceptance, no variety/race scope expansion. Plan23 remains proposal-only pending production handoff.
 

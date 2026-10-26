@@ -4,6 +4,7 @@
 import './style.css';
 import './ui/shell.css';
 import './ui/stage-transition.css';
+import './ui/duck-motion.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
@@ -45,6 +46,8 @@ if (app) {
   let settingsCleanup = null;
   let settingsTriggerId = 'btn-open-settings';
   let stageTransition = null;
+  let gachaViewCleanup = null;
+  let duckMotionPaused = false;
 
   function generateRandomSeed() {
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
@@ -163,6 +166,7 @@ if (app) {
     }
 
     currentStep = 'desk';
+    duckMotionPaused = false;
     phoneOpen = false;
     activeModal = null;
     engine.state.step = 'desk';
@@ -223,6 +227,8 @@ if (app) {
   }
 
   function renderApp() {
+    gachaViewCleanup?.();
+    gachaViewCleanup = null;
     settingsCleanup?.();
     settingsCleanup = null;
     updateHud();
@@ -262,7 +268,10 @@ if (app) {
         companion: engine.state.physicalCompanion,
       });
     } else if (currentStep === 'd1_morning_gacha') {
-      renderGachaView(mainContainer, engine, {
+      gachaViewCleanup = renderGachaView(mainContainer, engine, {
+        duckMotionPaused,
+        duckMotionActive: !settingsOpen && !activeModal,
+        onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
         onClaimPull: () => {
           engine.commitPromotionalTenPull();
           maybeAutosave();

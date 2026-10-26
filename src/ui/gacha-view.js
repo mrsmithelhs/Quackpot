@@ -2,9 +2,14 @@
 // Promotional 10-Pull theater with truthful commit-before-reveal card flipping.
 
 import { BANNER_1_ROSTER } from '../core/game-engine.mjs';
+import { createDigitalDuckSvg } from './duck-rig-view.mjs';
+import { createDuckMotionController, selectGachaDuckMotion } from './duck-motion-controller.mjs';
 
 export function renderGachaView(container, engine, callbacks = {}) {
-  const { onClaimPull, onRevealCard, onRevealCardAtIndex, onRevealAll, onProceed } = callbacks;
+  const {
+    onClaimPull, onRevealCard, onRevealCardAtIndex, onRevealAll, onProceed,
+    duckMotionPaused = false, duckMotionActive = true, onDuckMotionPauseChange,
+  } = callbacks;
   const pending = engine.state.pendingReveals || [];
   const hasPending = pending.length > 0;
   const allRevealed = hasPending && pending.every((d) => d.revealed);
@@ -39,6 +44,12 @@ export function renderGachaView(container, engine, callbacks = {}) {
               <span class="gacha-theater-status">
                 ${allRevealed ? '✓ All 10 ducks revealed!' : `Cards waiting: ${unrevealedCount} unrevealed`}
               </span>
+              <div class="gacha-motion-control">
+                <button type="button" class="btn btn-secondary btn-sm" data-duck-motion-toggle aria-pressed="${duckMotionPaused}">
+                  ${duckMotionPaused ? 'Resume duck motion' : 'Pause duck motion'}
+                </button>
+                <span class="gacha-motion-status" data-duck-motion-status role="status" aria-live="polite"></span>
+              </div>
               ${!allRevealed ? `
                 <div class="gacha-theater-actions">
                   <button id="btn-reveal-next" class="btn btn-primary btn-sm">
@@ -67,12 +78,16 @@ export function renderGachaView(container, engine, callbacks = {}) {
                   `;
                 }
 
+                const prefix = `qp-card-${Number(card.commitSeq)}`;
+                const motion = selectGachaDuckMotion(card.commitSeq, card.identity);
                 return `
                   <div class="duck-card card-revealed card-tier-${card.rarity}">
                     <div class="card-tier-badge tier-${card.rarity}">
                       ${card.rarity.toUpperCase()}
                     </div>
-                    <div class="card-art-icon">🦆</div>
+                    <div class="card-art-icon gacha-card-duck" data-duck-prefix="${prefix}" data-duck-motion="${motion}">
+                      ${createDigitalDuckSvg({ prefix, label: `${name}, ${card.rarity} digital duck` })}
+                    </div>
                     <div class="card-duck-name">${name}</div>
                     <div class="card-duck-stat">Speed: ${speed.toFixed(1)}</div>
                     ${card.duplicate ? `
@@ -125,6 +140,12 @@ export function renderGachaView(container, engine, callbacks = {}) {
     btnProceed.addEventListener('click', onProceed);
   }
 
+  const motionController = createDuckMotionController(container, {
+    active: duckMotionActive,
+    paused: duckMotionPaused,
+    onPauseChange: onDuckMotionPauseChange,
+  });
+
   // Bind exact card index click handler (P1 repair)
   const cardBacks = container.querySelectorAll('.card-back');
   cardBacks.forEach((el) => {
@@ -137,4 +158,6 @@ export function renderGachaView(container, engine, callbacks = {}) {
       }
     });
   });
+
+  return () => motionController.destroy();
 }

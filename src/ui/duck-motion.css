@@ -25,6 +25,15 @@
   overflow: visible;
 }
 
+/* Only a newly revealed card receives the flip. Rebuilt views (reload/Settings) stay still. */
+.gacha-theater .card-revealed {
+  animation: none;
+}
+
+.gacha-theater .card-revealed.card-reveal-enter {
+  animation: flipCard 0.3s ease-out;
+}
+
 @media (max-width: 600px) {
   .gacha-theater-header {
     flex-wrap: wrap;

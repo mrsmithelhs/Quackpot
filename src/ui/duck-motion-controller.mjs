@@ -104,18 +104,12 @@ export function createDuckMotionController(container, {
   documentRef = globalThis.document,
   IntersectionObserverRef = globalThis.IntersectionObserver,
 } = {}) {
-  const cards = [...container.querySelectorAll('[data-duck-motion]')];
   const pauseButton = container.querySelector('[data-duck-motion-toggle]');
   const status = container.querySelector('[data-duck-motion-status]');
   const media = matchMedia?.('(prefers-reduced-motion: reduce)');
   const canObserveVisibility = typeof IntersectionObserverRef === 'function';
-  const records = cards.map((shell) => {
-    const prefix = shell.dataset.duckPrefix;
-    const svg = shell.querySelector('svg');
-    const record = { shell, svg, prefix, motion: shell.dataset.duckMotion, animations: [], visible: true };
-    setGroupTransformOrigins(record);
-    return record;
-  });
+  const records = [];
+  const recordsByShell = new Map();
   let userPaused = Boolean(paused);
   let contextActive = Boolean(active);
   let destroyed = false;
@@ -161,7 +155,33 @@ export function createDuckMotionController(container, {
         return animation;
       });
     } else {
-      for (const animation of record.animations) animation.play();
+      for (const animation of record.animations) {
+        if (animation.playState !== 'running') animation.play();
+      }
+    }
+  };
+
+  const registerCard = (shell) => {
+    if (recordsByShell.has(shell)) return false;
+    const prefix = shell.dataset.duckPrefix;
+    const svg = shell.querySelector('svg');
+    if (!prefix || !svg) return false;
+    const record = { shell, svg, prefix, motion: shell.dataset.duckMotion, animations: [], visible: false };
+    setGroupTransformOrigins(record);
+    records.push(record);
+    recordsByShell.set(shell, record);
+    observer?.observe(shell);
+    return true;
+  };
+
+  const pruneDisconnectedCards = () => {
+    for (let i = records.length - 1; i >= 0; i -= 1) {
+      const record = records[i];
+      if (record.shell.isConnected !== false) continue;
+      observer?.unobserve?.(record.shell);
+      cancel(record);
+      records.splice(i, 1);
+      recordsByShell.delete(record.shell);
     }
   };
 
@@ -198,13 +218,21 @@ export function createDuckMotionController(container, {
       }
       reconcile();
     }, { threshold: 0.01 });
-    for (const record of records) observer.observe(record.shell);
-  } else {
-    for (const record of records) record.visible = false;
   }
 
+  for (const shell of container.querySelectorAll('[data-duck-motion]')) registerCard(shell);
   reconcile();
   return {
+    syncNewCards() {
+      if (destroyed) return 0;
+      pruneDisconnectedCards();
+      let added = 0;
+      for (const shell of container.querySelectorAll('[data-duck-motion]')) {
+        if (registerCard(shell)) added += 1;
+      }
+      if (added) reconcile();
+      return added;
+    },
     setActive(value) {
       contextActive = Boolean(value);
       reconcile();

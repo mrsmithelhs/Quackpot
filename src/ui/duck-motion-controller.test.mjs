@@ -26,10 +26,10 @@ test('digital rig helper namespaces filter and group IDs per card', () => {
 });
 
 class FakeAnimation {
-  constructor() { this.paused = false; this.cancelled = false; }
-  pause() { this.paused = true; }
-  play() { this.paused = false; }
-  cancel() { this.cancelled = true; }
+  constructor() { this.paused = false; this.cancelled = false; this.currentTime = 0; this.playState = 'running'; this.playCalls = 0; }
+  pause() { this.paused = true; this.playState = 'paused'; }
+  play() { this.paused = false; this.playState = 'running'; this.playCalls += 1; }
+  cancel() { this.cancelled = true; this.playState = 'idle'; }
 }
 
 class FakeElement {
@@ -53,15 +53,20 @@ class FakeElement {
   setAttribute(name, value) { this.attributes[name] = value; }
 }
 
-function createFixture() {
-  const elements = [];
+function createMotionShell(prefix = 'qp-card-9', motion = 'paddle') {
   const shell = new FakeElement();
-  shell.dataset = { duckPrefix: 'qp-card-9', duckMotion: 'paddle' };
+  shell.dataset = { duckPrefix: prefix, duckMotion: motion };
   const svg = new FakeElement();
   for (const id of ['head-group', 'wing-group', 'body-backing-rim', 'tail-backing', 'head-backing-rim', 'wing-mid', 'wing-under-seam', 'wing-top', 'wing-mid-seam']) {
-    svg.children.set(`#qp-card-9-${id}`, new FakeElement(`qp-card-9-${id}`));
+    svg.children.set(`#${prefix}-${id}`, new FakeElement(`${prefix}-${id}`));
   }
   shell.children.set('svg', svg);
+  return { shell, svg };
+}
+
+function createFixture() {
+  const elements = [];
+  const { shell, svg } = createMotionShell();
   elements.push(shell);
   const button = new FakeElement();
   const status = new FakeElement();
@@ -76,6 +81,7 @@ function createFixture() {
     removeEventListener: (name) => listeners.delete(name),
   };
   const mediaListeners = new Set();
+  const observedTargets = new Set();
   const media = {
     matches: false,
     addEventListener: (_name, handler) => mediaListeners.add(handler),
@@ -86,10 +92,11 @@ function createFixture() {
   let disconnected = false;
   class Observer {
     constructor(callback) { observerCallback = callback; }
-    observe(target) { this.target = target; }
-    disconnect() { disconnected = true; }
+    observe(target) { this.target = target; observedTargets.add(target); }
+    unobserve(target) { observedTargets.delete(target); }
+    disconnect() { disconnected = true; observedTargets.clear(); }
   }
-  return { container, shell, svg, button, status, documentRef, media, listeners, Observer, observerCallback: () => observerCallback, disconnected: () => disconnected };
+  return { container, shell, svg, elements, button, status, documentRef, media, listeners, Observer, observedTargets, observerCallback: () => observerCallback, disconnected: () => disconnected };
 }
 
 test('controller pauses and resumes on visibility/offscreen changes and resets on reduced motion or teardown', () => {
@@ -179,6 +186,60 @@ test('controller keeps a static fallback when intersection visibility cannot be 
   assert.equal(fixture.button.disabled, true);
   assert.equal(fixture.button.textContent, 'Motion off (visibility unavailable)');
   controller.destroy();
+});
+
+test('syncNewCards registers only new revealed cards and preserves existing running animation phase', () => {
+  const fixture = createFixture();
+  const controller = createDuckMotionController(fixture.container, {
+    documentRef: fixture.documentRef,
+    matchMedia: () => fixture.media,
+    IntersectionObserverRef: fixture.Observer,
+  });
+  fixture.observerCallback()([{ target: fixture.shell, isIntersecting: true, intersectionRatio: 1 }]);
+  const firstAnimations = [...fixture.shell.animations];
+  firstAnimations.forEach((animation, index) => { animation.currentTime = 140 + index; });
+  const playCounts = firstAnimations.map((animation) => animation.playCalls);
+
+  const second = createMotionShell('qp-card-10', 'graceful-bob');
+  fixture.elements.push(second.shell);
+  assert.equal(controller.syncNewCards(), 1);
+  assert.equal(controller.syncNewCards(), 0);
+  assert.equal(fixture.observedTargets.has(second.shell), true);
+  assert.deepEqual(fixture.shell.animations, firstAnimations);
+  assert.deepEqual(firstAnimations.map((animation) => animation.currentTime), firstAnimations.map((_, index) => 140 + index));
+  assert.deepEqual(firstAnimations.map((animation) => animation.playCalls), playCounts);
+  assert.equal(second.shell.animations.length, 0);
+
+  fixture.observerCallback()([{ target: second.shell, isIntersecting: true, intersectionRatio: 1 }]);
+  assert.ok(second.shell.animations.length > 0);
+  assert.deepEqual(fixture.shell.animations, firstAnimations);
+  controller.destroy();
+  assert.ok(second.shell.animations.every((animation) => animation.cancelled));
+  assert.equal(fixture.observedTargets.size, 0);
+});
+
+test('syncNewCards enables pause control for the first reveal and ignores updates after destroy', () => {
+  const fixture = createFixture();
+  fixture.elements.length = 0;
+  const controller = createDuckMotionController(fixture.container, {
+    documentRef: fixture.documentRef,
+    matchMedia: () => fixture.media,
+    IntersectionObserverRef: fixture.Observer,
+  });
+  assert.equal(fixture.button.disabled, true);
+
+  const first = createMotionShell('qp-card-10', 'graceful-bob');
+  fixture.elements.push(first.shell);
+  assert.equal(controller.syncNewCards(), 1);
+  assert.equal(fixture.button.disabled, false);
+  assert.equal(first.shell.animations.length, 0);
+  fixture.observerCallback()([{ target: first.shell, isIntersecting: true, intersectionRatio: 1 }]);
+  assert.ok(first.shell.animations.length > 0);
+
+  controller.destroy();
+  assert.equal(controller.syncNewCards(), 0);
+  assert.ok(first.shell.animations.every((animation) => animation.cancelled));
+  assert.equal(fixture.observedTargets.size, 0);
 });
 
 test('controller starts static when system reduced motion is already enabled', () => {

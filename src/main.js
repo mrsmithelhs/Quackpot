@@ -46,7 +46,7 @@ if (app) {
   let settingsCleanup = null;
   let settingsTriggerId = 'btn-open-settings';
   let stageTransition = null;
-  let gachaViewCleanup = null;
+  let gachaViewHandle = null;
   let duckMotionPaused = false;
 
   function generateRandomSeed() {
@@ -227,8 +227,8 @@ if (app) {
   }
 
   function renderApp() {
-    gachaViewCleanup?.();
-    gachaViewCleanup = null;
+    gachaViewHandle?.destroy();
+    gachaViewHandle = null;
     settingsCleanup?.();
     settingsCleanup = null;
     updateHud();
@@ -268,7 +268,7 @@ if (app) {
         companion: engine.state.physicalCompanion,
       });
     } else if (currentStep === 'd1_morning_gacha') {
-      gachaViewCleanup = renderGachaView(mainContainer, engine, {
+      gachaViewHandle = renderGachaView(mainContainer, engine, {
         duckMotionPaused,
         duckMotionActive: !settingsOpen && !activeModal,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
@@ -280,17 +280,17 @@ if (app) {
         onRevealCard: () => {
           engine.revealNextDraw();
           maybeAutosave();
-          renderApp();
+          gachaViewHandle?.update(engine);
         },
         onRevealCardAtIndex: (idx) => {
           engine.revealDrawAtIndex(idx);
           maybeAutosave();
-          renderApp();
+          gachaViewHandle?.update(engine);
         },
         onRevealAll: () => {
           engine.revealAllPending();
           maybeAutosave();
-          renderApp();
+          gachaViewHandle?.update(engine);
         },
         onProceed: () => {
           engine.billExpense('food', 5.00);

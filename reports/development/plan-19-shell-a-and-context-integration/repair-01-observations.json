@@ -1,0 +1,109 @@
+{
+  "narrowViewport": "390x520",
+  "narrowPortrait": {
+    "width": 71.69625854492188,
+    "height": 127.4625244140625,
+    "transform": "matrix(0.72, 0, 0, 0.72, 0, 0)"
+  },
+  "narrowLandscape": {
+    "width": 177.03125,
+    "height": 99.578125,
+    "transform": "matrix(0, 1, -1, 0, 0, 0)",
+    "brandTransform": "matrix(0, -1, 1, 0, 0, 0)"
+  },
+  "narrowExpanded": {
+    "left": 0.015625,
+    "top": 257.953125,
+    "width": 389.96875,
+    "height": 262.03125,
+    "stage": {
+      "left": 0,
+      "top": 257.9375,
+      "width": 390,
+      "height": 562.34375,
+      "clientWidth": 390,
+      "clientHeight": 562,
+      "padding": "12px"
+    },
+    "overlay": {
+      "left": 0,
+      "top": 257.9375,
+      "width": 390,
+      "height": 262.0625
+    },
+    "viewport": {
+      "width": 390,
+      "height": 520
+    },
+    "brandTransform": "matrix(0, -1, 1, 0, 0, 0)"
+  },
+  "desktopViewport": "1440x900",
+  "portrait": {
+    "left": 613.5131225585938,
+    "top": 321.47186279296875,
+    "width": 212.9737548828125,
+    "height": 378.6187744140625,
+    "transform": "matrix(0.72, 0, 0, 0.72, 0, 0)"
+  },
+  "landscape": {
+    "left": 457.0703125,
+    "top": 362.8828125,
+    "width": 525.859375,
+    "height": 295.796875,
+    "transform": "matrix(0, 1, -1, 0, 0, 0)",
+    "brandTransform": "matrix(0, -1, 1, 0, 0, 0)"
+  },
+  "expanded": {
+    "left": 100.046875,
+    "top": 121.6015625,
+    "width": 1239.90625,
+    "height": 778.359375,
+    "stage": {
+      "left": 100,
+      "top": 121.578125,
+      "width": 1240,
+      "height": 778.421875
+    },
+    "brandTransform": "matrix(0, -1, 1, 0, 0, 0)"
+  },
+  "reverseStart": {
+    "left": 100,
+    "top": 121.5703125,
+    "width": 1240,
+    "height": 778.421875,
+    "stage": {
+      "left": 100,
+      "top": 121.578125,
+      "width": 1240,
+      "height": 778.421875
+    }
+  },
+  "reverseCollapsed": {
+    "left": 457.0703125,
+    "top": 362.8828125,
+    "width": 525.859375,
+    "height": 295.796875,
+    "brandTransform": "matrix(0, -1, 1, 0, 0, 0)"
+  },
+  "reversePortrait": {
+    "left": 572.1015625,
+    "top": 247.8515625,
+    "width": 295.796875,
+    "height": 525.859375,
+    "brandTransform": "matrix(1, 0, 0, 1, 0, 0)"
+  },
+  "desktopKeyboard": [
+    "close",
+    "autosave",
+    "save",
+    "done",
+    "credits"
+  ],
+  "smallViewportKeyboard": [
+    "close",
+    "autosave",
+    "save",
+    "done",
+    "credits"
+  ]
+}

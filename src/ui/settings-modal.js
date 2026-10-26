@@ -63,7 +63,14 @@ export function renderSettingsModal(container, options = {}) {
       return;
     }
     if (event.key !== 'Tab') return;
-    const focusable = [...dialog.querySelectorAll('button:not(:disabled), input:not(:disabled), [href], [tabindex]:not([tabindex="-1"])')];
+    const focusable = [...dialog.querySelectorAll(
+      'button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), a[href], summary, [tabindex]:not([tabindex="-1"])',
+    )].filter((element) => {
+      const closedDetails = element.closest('details:not([open])');
+      if (closedDetails && element !== closedDetails.querySelector(':scope > summary')) return false;
+      if (element.closest('[hidden], [inert], [aria-hidden="true"]')) return false;
+      return element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden';
+    });
     if (!focusable.length) {
       event.preventDefault();
       dialog.focus();

@@ -1,0 +1,264 @@
+{
+  "timestamp": "2026-10-26T03:50:20.433Z",
+  "browser": "Chrome/155.0.8059.81",
+  "origin": "http://127.0.0.1:4173",
+  "subpath": "/Quackpot/",
+  "expectedBuildChunks": {
+    "js": "index-BH9bWcMH.js",
+    "css": "index-EXIrgI5j.css",
+    "svg": "duck-placeholder-Mhd15Sdp.svg"
+  },
+  "phase1InitialLoad": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BH9bWcMH.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 200,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-EXIrgI5j.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 200,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    },
+    "verified": true
+  },
+  "phase2Reload": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BH9bWcMH.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 304,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-EXIrgI5j.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 304,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    },
+    "verified": true
+  },
+  "phase3TrailingSlash": {
+    "requestedUrl": "http://127.0.0.1:4173/Quackpot",
+    "statusCode": 404,
+    "locationHeader": null,
+    "note": "Observed 404 on local Vite preview server. Production GitHub Pages 301 redirect is a remote deployment property and is not established or claimed by this local test."
+  },
+  "phase4Journey1EarlyUninstall": {
+    "tested": "Early Uninstall -> 80-gem Retention Offer -> Leave Anyway -> Receipt Presentation -> No Post-Receipt Retention",
+    "verified": true
+  },
+  "phase5Journey2PurchaseRecoveryFinale": {
+    "tested": "10-pull -> Starter Bought ($0.99) -> Wage -> Rent Shortfall -> Extra Shift Accepted (+10 cash, -15 HP) -> Wage -> Race 2 Finale -> Receipt (4 bills, $30 total, extra_shift, $14.01 cash, 85 HP)",
+    "verified": true
+  },
+  "phase6Journey3MidRevealReload": {
+    "tested": "10-pull -> Reveal 2 cards -> Reload -> 2 revealed / 8 unrevealed preserved -> Reveal All -> All 10 revealed",
+    "verified": true
+  },
+  "phase7Journey4SavedRaceResultReload": {
+    "tested": "Race 1 Tutorial Complete -> +50 Gems -> Page Reload -> Cached Result Displayed -> Gems Remain Exactly 50",
+    "verified": true
+  },
+  "phase8Journey5ContextReloadsAndInterruption": {
+    "tested": "Starter Modal Interruption -> Retention Stay -> Repeat Retention Truthful Copy -> Reload on Starter Modal -> Buy Starter -> Reload on Escalation Modal -> Decline Escalation -> Advances to Sell Couch",
+    "verified": true
+  },
+  "phase9Journey6FrugalZeroCashButtons": {
+    "tested": "All 3 Zero-Cash Buttons Clicked in UI in Separate Runs: Run 6A (Continue, $5 cash, 100 HP, 4 bills paid) + Reload on Zero-Cash Modal; Run 6B (Extra Shift, $15 cash, 85 HP); Run 6C (Sell Couch, $15 cash, couch sold)",
+    "verified": true
+  },
+  "phase10Journey7StoragePreservationAndQuotaWarnings": {
+    "tested": "Corrupt Save -> Keep Backup -> Backup Key Preserved -> Primary Save Key Preserved (Not Overwritten) -> Temporary Session Banner -> Injected Automatic Save Quota Error Banner -> Injected Manual Save Quota Error Banner",
+    "verified": true
+  },
+  "phase11Journey8AutosaveDisabledAndManualSave": {
+    "tested": "Desk Setup -> Autosave Unchecked -> Action Taken -> 0 Storage Writes -> Manual Save Clicked -> Stored Successfully",
+    "verified": true
+  },
+  "consoleLogs": [
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"-1345759116225216422.7.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"1\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"playing\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d1_morning_gacha\"},{\"name\":\"activeModal\",\"type\":\"object\",\"value\":\"null\",\"subtype\":\"null\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"-1345759116225216422.9.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"1\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"playing\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d1_midday_race_result\"},{\"name\":\"activeModal\",\"type\":\"object\",\"value\":\"null\",\"subtype\":\"null\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"-1345759116225216422.11.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"1\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"playing\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d1_afternoon_starter\"},{\"name\":\"activeModal\",\"type\":\"string\",\"value\":\"starter\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"-1345759116225216422.12.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"2\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"escalation\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d2_afternoon_escalation\"},{\"name\":\"activeModal\",\"type\":\"string\",\"value\":\"escalation\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Restored valid run from storage: {\"type\":\"object\",\"className\":\"Object\",\"description\":\"Object\",\"objectId\":\"-1345759116225216422.14.1\",\"preview\":{\"type\":\"object\",\"description\":\"Object\",\"overflow\":true,\"properties\":[{\"name\":\"day\",\"type\":\"number\",\"value\":\"2\"},{\"name\":\"clock\",\"type\":\"object\",\"value\":\"Object\"},{\"name\":\"phase\",\"type\":\"string\",\"value\":\"playing\"},{\"name\":\"step\",\"type\":\"string\",\"value\":\"d2_afternoon_zerocash\"},{\"name\":\"activeModal\",\"type\":\"string\",\"value\":\"zerocash\"}]}}"
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    },
+    {
+      "type": "info",
+      "text": "[Quackpot] Plan 03 mechanism slice ready."
+    }
+  ],
+  "runtimeExceptions": [],
+  "summary": {
+    "zeroExternalRequests": true,
+    "staticSubpathResolved": true,
+    "svgDecoded": true,
+    "reloadSucceeded": true,
+    "observedArtifactsMatchedCurrentBuild": true,
+    "cdpAndHttpWaitsBounded": true,
+    "receiptTerminalLocked": true,
+    "noPostReceiptRetention": true,
+    "fullPurchaseRecoveryFinaleVerified": true,
+    "midRevealReloadPreserved": true,
+    "savedRaceResultNoDuplicate": true,
+    "modalInterruptionsRestored": true,
+    "contextReloadsVerified": true,
+    "declinedEscalationStepVerified": true,
+    "repeatRetentionTruthful": true,
+    "allZeroCashButtonsClickedInUI": true,
+    "corruptSavePreservedUnderPrimaryAndBackup": true,
+    "automaticSaveQuotaWarningBannerVisible": true,
+    "manualSaveQuotaWarningBannerVisible": true,
+    "autosaveDisabledPathVerified": true
+  }
+}

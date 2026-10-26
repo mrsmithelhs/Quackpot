@@ -10,11 +10,15 @@
 }
 
 .stage-transition-phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
   display: grid;
   place-items: center;
-  width: min(100%, 1100px);
-  height: min(72vh, 680px);
-  min-height: 280px;
+  width: 18rem;
+  height: 32rem;
+  box-sizing: border-box;
   color: #f8fafc;
   border: 8px solid #56575f;
   outline: 8px solid #0b0d12;
@@ -30,6 +34,7 @@
   letter-spacing: 0.16em;
   color: #fbbf24;
   text-shadow: 0 0 22px rgba(251, 191, 36, 0.38);
+  will-change: transform;
 }
 
 .stage-transition-static .stage-transition-phone {
@@ -96,7 +101,6 @@
   .settings-card { padding: 2rem 1rem 1rem; }
   .settings-actions { display: grid; grid-template-columns: 1fr; }
   .settings-actions .btn { width: 100%; }
-  .stage-transition-phone { min-height: 240px; height: 64vh; }
 }
 
 @media (prefers-reduced-motion: reduce) {

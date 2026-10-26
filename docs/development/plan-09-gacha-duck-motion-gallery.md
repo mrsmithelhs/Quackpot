@@ -1,7 +1,7 @@
 ---
 id: plan-09
 title: Digital gacha duck motion comparison
-status: in-progress
+status: delivered
 depends_on: [plan-04]
 gate: "Owner chooses motions after base SVG approval and rendered comparison."
 summary: >-

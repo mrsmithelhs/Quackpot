@@ -1,0 +1,9 @@
+# Plan 09 paper-layer refinement review
+
+Date: 2026-10-26. Verdict: technically accepted for owner rendered review, not production adoption or closure.
+
+Root inspected implementation `7e85d00` and evidence report `73ece2b`. The report-only change adds transforms to existing backing edges and wing layers; the two wing seam paths share their associated layer keyframes. Periodic layer keyframes begin/end at identity, and every added animation uses the existing cancellation/pause registry. Both normal reset and reduced-pose application clear every listed layer transform. Shared source/rig remains unchanged.
+
+Root held the coordinated browser slot and opened the actual localhost gallery in Chrome. In the manual reduced-motion impact pose, live DOM showed matching top-wing and top-seam transforms `translate(1.1px, .35px) rotate(-.8deg)`; the rendered card retained a coherent silhouette with visible stacked edges. Next to neutral cleared all inline transforms in the SVG and announced the neutral pose. Paddle Start/Pause reached the paused state with matching wing/seam computed matrices; Still canceled and restored the reference state. These focused checks complement, rather than duplicate, the implementer's reported complete-cycle, active-time resume, interruption, accessories and 72px inspections.
+
+No full suite or extra reviewer was run for this isolated refinement. Actual system reduced-motion=true remains unverified; manual alternative is inspected. Internal movement is intentionally subtle/subpixel at 72px, with no amplitude inflation to force legibility. Degree of separation, appeal and production motion selection remain owner judgments. No race mechanics, physical-companion animation, production integration, push or deployment follows. Root released browser control after leaving the gallery still.

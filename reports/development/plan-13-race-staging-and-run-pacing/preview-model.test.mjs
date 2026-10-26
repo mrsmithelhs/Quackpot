@@ -1,141 +1,156 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  COURSE_LENGTH,
+  PHYSICS,
   buildPresentationPlan,
+  curveTargetSpeed,
+  impactFixtureTrace,
+  interpolateSnapshot,
   raceFingerprint,
   raceFractionAtWallClock,
-  presentationProgressFraction,
   resolveSeededRace,
   restorePresentationSnapshot,
+  sampleTrajectory,
   savePresentationSnapshot,
+  turnCap,
 } from './preview-model.mjs';
 
 const baseInput = Object.freeze({
   seed: 'Quackpot Plan 13 named-seed example',
-  raceId: 'R03',
-  playerBaseSpeed: 11.7,
-  fieldBaseSpeed: 11.5,
+  raceId: 'R00',
+  playerBaseSpeed: 10.5,
+  fieldBaseSpeed: 10.2,
   choice: 'steady',
-  model: 'causal',
   trialCommitted: false,
+  model: 'baseline',
+  duration: 20,
 });
 
-const presentationVariants = [
-  ...[12, 20, 30].flatMap((duration) => [
-    { duration, camera: 'wide' },
-    { duration, camera: 'close' },
-  ]),
-  { duration: 12, camera: 'wide', staticMode: true },
-  { duration: 20, camera: 'close', reducedMotion: true },
-  { duration: 30, camera: 'close', skipped: true },
-  { duration: 20, camera: 'wide', replay: true },
-  { duration: 30, camera: 'close', replay: true },
-  { duration: 20, camera: 'close', highlightSeconds: 1, lighting: 'warm' },
-  { duration: 30, camera: 'close', highlightSeconds: 2, lighting: 'neutral' },
-];
+function resolve(overrides = {}) { return resolveSeededRace({ ...baseInput, ...overrides }); }
 
-for (const model of ['causal', 'resolved']) {
-  test(`${model} named-seed resolution is deterministic and presentation-independent`, () => {
-    const resolution = resolveSeededRace({ ...baseInput, model });
-    const repeated = resolveSeededRace({ ...baseInput, model });
-    const expectedTrace = raceFingerprint(resolution);
-
-    assert.equal(raceFingerprint(repeated), expectedTrace);
-    for (const options of presentationVariants) {
-      const plan = buildPresentationPlan(resolution, options);
-      assert.equal(plan.resultFingerprint, expectedTrace, JSON.stringify(options));
-      assert.equal(plan.visualLanePaths.length, 6);
-      assert.equal(plan.totalWallSeconds, Number(options.duration ?? 20) + Number(options.highlightSeconds ?? 0));
-    }
-    assert.equal(raceFingerprint(resolution), expectedTrace, 'presentation planning must not mutate the resolved trace');
-  });
-
-  test(`${model} save/reload presentation snapshot restores the same mechanical trace`, () => {
-    const resolution = resolveSeededRace({ ...baseInput, model });
-    const before = raceFingerprint(resolution);
-    const saved = savePresentationSnapshot(resolution, {
-      duration: 30,
-      camera: 'close',
-      reducedMotion: false,
-      replay: true,
-    });
-    const restored = restorePresentationSnapshot(saved);
-    assert.equal(raceFingerprint(restored.resolution), before);
-    assert.equal(restored.presentation.resultFingerprint, before);
-  });
-}
-
-test('causal mode consumes only its race-local beat draws; resolved mode adds none', () => {
-  const causal = resolveSeededRace({ ...baseInput, model: 'causal' });
-  const resolved = resolveSeededRace({ ...baseInput, model: 'resolved' });
-  assert.deepEqual(causal.draws, { performance: 6, events: 12, total: 18 });
-  assert.deepEqual(resolved.draws, { performance: 6, events: 0, total: 6 });
-  assert.equal(causal.streamSnapshots.performance, resolved.streamSnapshots.performance);
+test('fixed-step physics is deterministic and keyed independently from presentation', () => {
+  const a = resolve(); const b = resolve();
+  assert.equal(a.rulesVersion, 'plan13-physics-v2');
+  assert.equal(a.ticks, 400);
+  assert.equal(raceFingerprint(a), raceFingerprint(b));
+  assert.equal(a.draws.performance, 6);
+  assert.ok(a.drawKeys.every((key) => key.startsWith('plan13/v2|R00|')));
+  assert.equal(a.trajectory.length, a.ticks + 1);
+  assert.equal(a.finish.length, 6);
+  assert.deepEqual(a.finish.map((e) => e.place), [1, 2, 3, 4, 5, 6]);
 });
 
-test('Drafting is currently mechanically equivalent to Steady; Sprint changes baseline performance', () => {
-  const steady = resolveSeededRace({ ...baseInput, choice: 'steady' });
-  const drafting = resolveSeededRace({ ...baseInput, choice: 'drafting' });
-  assert.deepEqual(drafting.entrants, steady.entrants);
-  assert.deepEqual(drafting.eventRecords, steady.eventRecords);
-  assert.deepEqual(drafting.finish, steady.finish);
-  assert.equal(drafting.draws.total, steady.draws.total);
-
-  const sprint = resolveSeededRace({ ...baseInput, choice: 'sprint' });
-  const steadyPlayerSpeed = steady.entrants.find((entrant) => entrant.player).speed;
-  const sprintPlayerSpeed = sprint.entrants.find((entrant) => entrant.player).speed;
-  assert.notEqual(sprintPlayerSpeed, steadyPlayerSpeed);
+test('12, 20 and 30 second horizons have exact fixed tick counts and rank one shared horizon', () => {
+  for (const [duration, ticks] of [[12, 240], [20, 400], [30, 600]]) {
+    const result = resolve({ duration });
+    assert.equal(result.ticks, ticks);
+    assert.equal(result.horizonSeconds, duration);
+    assert.equal(result.trajectory.at(-1).tick, ticks);
+    assert.deepEqual(result.finish.map((e) => e.id), [...result.finish].sort((a, b) => b.progress - a.progress || (a.id === 'P' ? -1 : b.id === 'P' ? 1 : a.id.localeCompare(b.id))).map((e) => e.id));
+  }
+  assert.ok(COURSE_LENGTH > 245 && COURSE_LENGTH < 246);
 });
 
-test('Plan 17 preview trial multiplies base speed once by the accepted 1.05 factor', () => {
-  const withoutTrial = resolveSeededRace({ ...baseInput, model: 'resolved', trialCommitted: false });
-  const withTrial = resolveSeededRace({ ...baseInput, model: 'resolved', trialCommitted: true });
-  const ordinaryPlayer = withoutTrial.entrants.find((entrant) => entrant.player);
-  const trialPlayer = withTrial.entrants.find((entrant) => entrant.player);
-  assert.equal(withTrial.trialConsumptionCount, 1);
-  assert.equal(withoutTrial.trialConsumptionCount, 0);
-  assert.ok(Math.abs(trialPlayer.speed / ordinaryPlayer.speed - 1.05) < 1e-12);
-  assert.equal(withTrial.draws.performance, withoutTrial.draws.performance);
+test('20 Hz acceleration trace reaches 9 m/s and advances 7.575 m after one second', () => {
+  const result = resolve({ playerBaseSpeed: 10, fieldBaseSpeed: 10 });
+  const first = result.trajectory[20].entrants.find((e) => e.id === 'A');
+  assert.equal(first.speed, 9);
+  assert.equal(first.progress, 7.575, 'the 20 Hz semi-implicit update sums the post-acceleration speeds');
 });
 
-test('two-lane three-row grid assignments are repeatable and preserve logical lane IDs', () => {
-  const result = resolveSeededRace(baseInput);
-  const wide = buildPresentationPlan(result, { duration: 12, camera: 'wide' });
-  const cinematic = buildPresentationPlan(result, { duration: 30, camera: 'close', highlightSeconds: 2 });
-  assert.deepEqual(cinematic.visualLanePaths, wide.visualLanePaths);
-  assert.deepEqual(wide.visualLanePaths.map(({ lane, row }) => [lane, row]), [
-    [1, 0], [2, 0], [1, 1], [2, 1], [1, 2], [2, 2],
-  ]);
-  assert.equal(wide.laneChangesEnabled, false);
-  assert.deepEqual(result.finish.map(({ id, lane }) => ({ id, lane })),
-    resolveSeededRace(baseInput).finish.map(({ id, lane }) => ({ id, lane })));
+test('corner steering cap forces a lower safe speed at 20 m radius', () => {
+  const safe = curveTargetSpeed(19.4);
+  assert.ok((safe / 19.4) * 180 / Math.PI <= turnCap(safe) + 1e-8);
+  assert.ok((12 / 19.4) * 180 / Math.PI > turnCap(12));
+  assert.ok(safe < 12 && safe > 10);
 });
 
-test('displayed finish progress orders entrants exactly like the recorded finish', () => {
-  for (const model of ['causal', 'resolved']) {
-    const result = resolveSeededRace({ ...baseInput, model });
-    const displayEntrants = result.entrants.map((entrant) => ({
-      ...entrant,
-      presentationEvents: result.eventRecords
-        .filter((event) => event.id === entrant.id && event.delta !== 0)
-        .map(({ beat, delta }) => ({ beat, delta })),
-    }));
-    const displayed = [...displayEntrants]
-      .sort((a, b) => presentationProgressFraction(b, result.finish, 1) - presentationProgressFraction(a, result.finish, 1))
-      .map(({ id }) => id);
-    assert.deepEqual(displayed, result.finish.map(({ id }) => id));
+test('contact mode is deterministic, bounded to one episode, and has a no-contact seed control', () => {
+  const contact = resolve({ raceId: 'R00' });
+  const repeated = resolve({ raceId: 'R00' });
+  const none = resolve({ raceId: 'R01' });
+  const contacts = contact.eventRecords.filter((e) => e.type === 'duck-contact');
+  assert.equal(contacts.length, 1);
+  assert.equal(raceFingerprint(contact), raceFingerprint(repeated));
+  assert.ok(contacts[0].participants.length === 2);
+  assert.ok(contacts[0].eligiblePairCount >= 1);
+  assert.equal(none.eventRecords.filter((e) => e.type === 'duck-contact').length, 0);
+});
+
+test('candidate wall and duck impulse fixture shares the stated restitution math', () => {
+  const trace = impactFixtureTrace();
+  assert.deepEqual(trace.duckContact.pre, { A: 8, B: 6 });
+  assert.equal(trace.duckContact.post.A, 6.75);
+  assert.equal(trace.duckContact.post.B, 7.25);
+  assert.equal(trace.wall.normalSpeedAfter, -2.5);
+  assert.equal(trace.wall.tangentialSpeedAfter, 3.6);
+});
+
+test('catch-up, wobble and combined treatments have separate keyed events', () => {
+  for (const model of ['baseline', 'catchup', 'wobble', 'combined']) {
+    const one = resolve({ model }); const two = resolve({ model });
+    assert.equal(raceFingerprint(one), raceFingerprint(two));
+  }
+  const catchup = resolve({ model: 'catchup' });
+  const wobble = resolve({ model: 'wobble' });
+  assert.ok(catchup.eventRecords.some((e) => e.type === 'catchup-sprint'));
+  assert.ok(wobble.eventRecords.some((e) => e.type === 'leader-wobble'));
+  assert.ok(catchup.eventRecords.every((e) => e.type !== 'leader-wobble'));
+  assert.ok(wobble.eventRecords.every((e) => e.type !== 'catchup-sprint'));
+});
+
+test('Plan 17 trial multiplies the player base-speed input once', () => {
+  const plain = resolve({ playerBaseSpeed: 10, fieldBaseSpeed: 10 });
+  const trial = resolve({ playerBaseSpeed: 10, fieldBaseSpeed: 10, trialCommitted: true });
+  const regular = plain.entrants.find((e) => e.id === 'P');
+  const boosted = trial.entrants.find((e) => e.id === 'P');
+  assert.equal(trial.trialConsumptionCount, 1);
+  assert.equal(plain.trialConsumptionCount, 0);
+  assert.ok(Math.abs(boosted.sampledPerformance / regular.sampledPerformance - 1.05) < 0.0001);
+  assert.equal(trial.draws.performance, plain.draws.performance);
+});
+
+test('five reduced-motion checkpoints map to exact stored trajectory ticks', () => {
+  for (const [duration, expected] of [[12, [0, 60, 120, 180, 240]], [20, [0, 100, 200, 300, 400]], [30, [0, 150, 300, 450, 600]]]) {
+    const result = resolve({ duration });
+    const plan = buildPresentationPlan(result, { duration, reducedMotion: true, camera: 'wide' });
+    assert.deepEqual(plan.checkpoints, expected);
+    assert.deepEqual(plan.checkpoints.map((tick) => sampleTrajectory(result, tick).tick), expected);
+    assert.equal(plan.resultFingerprint, raceFingerprint(result));
   }
 });
 
-test('slow-motion highlight remaps only presentation time and adds its declared wall time', () => {
+test('event seeking samples the post-event tick without changing the race record', () => {
+  const result = resolve();
+  const event = result.eventRecords.find((e) => e.type === 'duck-contact');
+  assert.ok(event);
+  const before = raceFingerprint(result);
+  const selected = sampleTrajectory(result, event.tick);
+  const interpolated = interpolateSnapshot(result, event.tick);
+  assert.equal(selected.tick, event.tick);
+  assert.deepEqual(interpolated, selected);
+  assert.equal(raceFingerprint(result), before);
+});
+
+test('save and restore keeps the trajectory, presentation actions, and selected cursor', () => {
+  const result = resolve();
+  const log = [{ sequence: 1, replay: 0, type: 'event selected and playback sought', tick: 120, eventId: 'example' }];
+  const serialized = savePresentationSnapshot(result, { duration: 20, camera: 'wide', lighting: 'event', reducedMotion: true, cursorTick: 120, presentationLog: log, finished: true, replayNumber: 2, started: true });
+  const restored = restorePresentationSnapshot(serialized);
+  assert.equal(raceFingerprint(restored.resolution), raceFingerprint(result));
+  assert.equal(restored.cursorTick, 120);
+  assert.deepEqual(restored.presentationLog, log);
+  assert.equal(restored.finished, true);
+  assert.equal(restored.replayNumber, 2);
+  assert.equal(restored.started, true);
+  assert.deepEqual(restored.presentation.checkpoints, [0, 100, 200, 300, 400]);
+});
+
+test('slow-motion changes playback mapping only and ends at the committed simulation horizon', () => {
   const duration = 20;
-  const oneSecond = { duration, highlightSeconds: 1 };
-  const twoSeconds = { duration, highlightSeconds: 2 };
-  const baseAtMidBeat = duration * 0.4;
-  const oneSlowAtMidBeat = raceFractionAtWallClock(baseAtMidBeat, oneSecond);
-  const twoSlowAtMidBeat = raceFractionAtWallClock(baseAtMidBeat, twoSeconds);
-  assert.ok(oneSlowAtMidBeat < 0.4);
-  assert.ok(twoSlowAtMidBeat < oneSlowAtMidBeat);
-  assert.equal(raceFractionAtWallClock(duration + 1, oneSecond), 1);
-  assert.equal(raceFractionAtWallClock(duration + 2, twoSeconds), 1);
+  const at = (fraction, highlightSeconds) => raceFractionAtWallClock(fraction * duration, { duration, highlightSeconds });
+  assert.ok(at(0.5, 2) < 0.5);
+  assert.equal(raceFractionAtWallClock(duration + 2, { duration, highlightSeconds: 2 }), 1);
+  assert.equal(raceFractionAtWallClock(duration, { duration, highlightSeconds: 0 }), 1);
 });

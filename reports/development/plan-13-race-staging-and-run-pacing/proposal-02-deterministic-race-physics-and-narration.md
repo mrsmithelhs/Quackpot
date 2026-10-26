@@ -1,6 +1,6 @@
 # Plan 13 follow-up proposal: deterministic race physics and accessible drama
 
-**Date:** 2026-10-26. **Status:** proposal for QP Orch review; no implementation approval requested or assumed.
+**Date:** 2026-10-26. **Status:** QP Orch reviewed; isolated Plan 13 preview implementation authorized by the owner. Candidate rules remain unadopted for production.
 
 ## Request
 
@@ -130,4 +130,10 @@ QP Orch routed the requested future collision-triggered distress animation to th
 
 Before any simulator build, the owner must select the fixed-horizon ranking contract and approve the investigative scope/constants as candidates. Before implementation expands from the physics baseline to contact or rubber-band stages, preserve those as explicit stage gates. Production integration, and verification of race event/Receipt/storage lifecycle and whole-run economy, remain separate owner decisions. Plan 17 is unchanged.
 
-The owner has directed this reduced-motion and event-linked seeking direction for proposal review. It does not authorize implementation; return the amended proposal through the owner gate first.
+The owner directed the reduced-motion and event-linked seeking direction during proposal review. That historical instruction was superseded by the later explicit request to implement Proposal 02. It authorizes only the isolated preview artifacts in this Plan 13 report folder; it does not adopt candidate constants or authorize production integration.
+
+## Authorized isolated preview implementation (2026-10-26)
+
+The owner authorized implementation of this proposal after QP Orch's staged amendment. The preview implements fixed-step acceleration and cornering, bounded wall response, one seeded duck-contact episode, six-entrant baseline racing, paired treatment choices for catch-up sprint and leader wobble, accessible event narration/seeking, event-linked dimming and participant glow, optional playback-only slow motion, and reduced-motion checkpoints. The candidate values remain experimental. The preview does not change production race outcomes, source modules, rig assets, Plan 17 terms, packet status, or Plan 19 files. Production integration, broader collision/chain-reaction rules, final balance, and pacing adoption remain separate gates.
+
+The model stores one committed quantized trajectory and event sequence before playback. Camera, lighting, narrative visibility, reduced-motion navigation, replay, and save/restore consume that record without resolving mechanics. Its local presentation log distinguishes committed events from cues displayed and controls selected. A hand-calculated 20 Hz trace yields 9 m/s and 7.575 m after one second under semi-implicit Euler; the continuous 7.5 m value in the earlier candidate explanation is not the discrete preview result.

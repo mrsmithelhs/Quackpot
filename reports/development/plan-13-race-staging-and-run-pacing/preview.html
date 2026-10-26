@@ -30,16 +30,20 @@
     .exit { position:fixed; z-index:5; top:14px; right:14px; border-color:#873d38; color:#873d38; background:#fff; box-shadow:0 2px 10px #0002; }
     .exit-note { min-height:1.5em; color:var(--muted); margin:8px 0 0; }
     .race-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(250px,1fr); gap:16px; align-items:start; }
-    .stage-shell { border-radius:12px; overflow:hidden; border:1px solid #86b5c1; background:#d8edf0; }
+    .stage-shell { border-radius:12px; overflow:hidden; border:3px solid #86b5c1; background:#d8edf0; transition:border-color .35s ease; }
     #race-svg { display:block; width:100%; height:auto; background:#d8edf0; }
-    .warm-light #race-svg { filter:sepia(.12) saturate(1.04); }
+    .stage-shell.dramatic { border-color:#a87808; }
+    .stage-shell.dramatic #environment { filter:brightness(.43) saturate(.75); }
+    .environment { transition:filter .35s ease; }
     .race-track { fill:#327987; stroke:#fff; stroke-width:3; }
     .lane-line { fill:none; stroke:#d9f0ec; stroke-width:2; stroke-dasharray:6 8; opacity:.9; }
     .pond { fill:#91c9d2; }
     .shore { fill:none; stroke:#cebd91; stroke-width:30; }
     .finish-line { stroke:#fff; stroke-width:5; stroke-dasharray:7 4; }
     .lane-label { font-size:14px; font-weight:700; fill:#143c48; }
+    .stage-hud { font-size:13px; font-weight:800; fill:#102c38; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
     .runner-token { filter:drop-shadow(0 2px 2px #153a4a66); }
+    .runner-token.participant-glow { filter:drop-shadow(0 0 7px #ffe26a) drop-shadow(0 0 13px #ffbd35) drop-shadow(0 2px 2px #153a4a66); }
     .runner-label { font-size:13px; font-weight:800; fill:#102c38; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
     .panel-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0; }
     .status { min-height:1.5em; font-weight:700; color:#195268; }
@@ -49,6 +53,12 @@
     th { background:#edf4f5; position:sticky; top:0; }
     tr:last-child td { border-bottom:0; }
     .result-list { padding-left:22px; margin:8px 0; }
+    .narrative { border:1px solid var(--line); border-radius:10px; background:#f8fbfb; padding:12px; margin-top:12px; }
+    .narrative[hidden] { display:none; }
+    .event-list { display:grid; gap:6px; max-height:240px; overflow:auto; }
+    .event-list button { text-align:left; font-weight:600; }
+    .event-list button[aria-current="true"] { border-color:#155d72; background:#e4f3f5; }
+    .static-view { font-size:.9rem; color:var(--muted); }
     .choice-grid,.pace-grid,.turn-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
     .choice { border:1px solid var(--line); border-radius:10px; padding:12px; }
     .choice.active { border:2px solid var(--deep); background:#eff8f9; }
@@ -90,27 +100,21 @@
       <p class="tag">Plan 13 · isolated review preview</p>
       <h1>Race staging and run pacing</h1>
       <p class="lede">Compare a reproducible named-seed race and hand-worked controls at three race durations. Race mechanics and presentation timing are separate; this is a design study, not production gameplay.</p>
-      <div class="notice"><strong>Evidence boundary:</strong> named-seed mode imports Quackpot's canonical PRNG read-only; clean-draft and bobble values remain proposed preview rules. Presentation paths, zoom, lighting and optional slow motion do not alter the recorded outcome. No contact/pileup, production rules, final duration, day count, or balance is adopted here. The duck illustration references the read-only Mode C SVG.</div>
+      <div class="notice"><strong>Evidence boundary:</strong> this isolated preview simulates acceleration, cornering, wall impacts, one duck-contact episode, and optional rubber-band treatments before playback. Its candidate physics values are experimental, not production balance. Playback, camera, lighting, event seeking and reduced motion reuse one committed trajectory and cannot reroll the race. Plan 17's accepted trial contract is retained. The duck illustration references the read-only Mode C SVG.</div>
     </header>
 
     <section class="panel" aria-labelledby="race-heading">
       <h2 id="race-heading">Matched oval race comparison</h2>
       <div class="controls">
-        <label>Outcome model
+        <label>Physics treatment
           <select id="model">
-            <option value="causal">Causal mechanical beats</option>
-            <option value="resolved">Resolved result control</option>
+            <option value="baseline">Physics baseline</option>
+            <option value="catchup">Catch-up sprint only</option>
+            <option value="wobble">Leader wobble only</option>
+            <option value="combined">Sprint + wobble comparison</option>
           </select>
         </label>
-        <label>Trace input
-          <select id="trace">
-            <option value="seeded">Named seed · canonical PRNG</option>
-            <option value="overtake">Fixed fixture · draft and bobble overtake</option>
-            <option value="none">No-event control</option>
-            <option value="tie">Non-player event and exact tie</option>
-          </select>
-        </label>
-        <label>Playback duration
+        <label>Simulation horizon
           <select id="duration">
             <option value="12">12 seconds</option>
             <option value="20" selected>20 seconds</option>
@@ -126,8 +130,8 @@
         <label>Slow-motion highlight
           <select id="highlight"><option value="0">None</option><option value="1">1-second highlight</option><option value="2">2-second highlight</option></select>
         </label>
-        <label>Lighting
-          <select id="lighting"><option value="neutral">Neutral</option><option value="warm">Subtle warm</option></select>
+        <label>Highlight lighting
+          <select id="lighting"><option value="event">Event dim + racer glow</option><option value="off">Off control</option></select>
         </label>
         <label style="flex-direction:row;align-items:center;gap:8px;margin-bottom:9px">
           <input type="checkbox" id="reduce"> Static / reduced motion
@@ -138,8 +142,8 @@
         <div class="controls">
           <label>Run seed <input id="run-seed" type="text" value="Quackpot Plan 13 named-seed example" autocomplete="off"></label>
           <label>Race ID <input id="race-id" type="text" value="R03" autocomplete="off"></label>
-          <label>Player base speed <input id="player-speed" type="number" value="11.7" min="0.1" step="0.1"></label>
-          <label>AI field base speed <input id="field-speed" type="number" value="11.5" min="0.1" step="0.1"></label>
+          <label>Player base speed <input id="player-speed" type="number" value="10.5" min="0.1" step="0.1"></label>
+          <label>AI field base speed <input id="field-speed" type="number" value="10.2" min="0.1" step="0.1"></label>
           <label>One race choice
             <select id="choice"><option value="steady">Steady</option><option value="sprint">Sprint</option><option value="drafting">Drafting candidate</option></select>
           </label>
@@ -147,21 +151,24 @@
         </div>
         <p class="fine-print">Recomputes the outcome only when one of these inputs or the outcome model changes. Camera, duration, reduced motion, skip, replay and snapshot restore use the committed record and do not resolve a second time.</p>
       </fieldset>
-      <p class="fine-print" id="race-boundary">Two visual lanes with a staggered three-row start replace the six-lane spread. The infield is closed to racers. Gentle deterministic pace surges can show passes without changing the recorded finish. Collision mechanics are not implemented: contact eligibility, effects, and race-record rules still need definition.</p>
+      <p class="fine-print" id="race-boundary">Six ducks run a two-line, three-row oval race in race-world coordinates. Acceleration, speed-limited turning, wall response, and one seeded contact episode can affect final progress. Rubber-band variants are compared separately. All values are preview candidates only.</p>
       <div class="race-layout" style="margin-top:16px">
         <div>
           <div class="stage-shell" id="stage-shell">
             <svg id="race-svg" viewBox="0 0 900 500" role="img" aria-labelledby="track-title track-desc">
               <title id="track-title">Two-lane oval kart race in a rectangular viewport</title>
-              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Small display-only pace changes allow passes; the recorded result remains fixed.</desc>
-              <rect width="900" height="500" class="pond"/>
+              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, contacts and optional assistance determine the committed progress order.</desc>
               <g id="camera-root">
-                <ellipse class="shore" cx="450" cy="250" rx="345" ry="173"/>
-                <ellipse class="race-track" cx="450" cy="250" rx="345" ry="173"/>
-                <ellipse class="lane-line" cx="450" cy="250" rx="255" ry="113"/>
-                <ellipse cx="450" cy="250" rx="165" ry="53" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
-                <line class="finish-line" x1="425" y1="62" x2="475" y2="62"/>
-                <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
+                <g id="environment" class="environment">
+                  <rect width="900" height="500" class="pond"/>
+                  <path class="shore" id="track-shore"/>
+                  <path class="race-track" id="track-surface"/>
+                  <path class="lane-line" id="lane-divider"/>
+                  <path id="inner-pond" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
+                  <line class="finish-line" x1="450" y1="62" x2="450" y2="105"/>
+                  <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
+                  <text class="stage-hud" id="simulation-hud" x="20" y="24">Race not started</text>
+                </g>
                 <g id="runner-layer"></g>
               </g>
             </svg>
@@ -175,7 +182,20 @@
             <button id="restore-state" type="button" disabled>Restore snapshot</button>
             <span id="race-status" class="status" role="status" aria-live="polite">Ready · no outcome changes until the trace/model is selected.</span>
           </div>
-          <p class="fine-print" id="camera-note">Camera, tangent-facing ducks, deterministic lane paths, lighting and optional slow motion are presentation only. The displayed wall time includes any selected highlight. Static/reduced-motion mode removes motion and warm lighting; no flashes are used.</p>
+          <p class="fine-print" id="camera-note">Camera, lighting and optional slow motion present the committed race without changing its outcome. The displayed wall time includes any selected highlight. Static/reduced-motion mode removes motion, zoom and dramatic lighting; no flashes are used.</p>
+          <div class="panel-row"><button id="narrative-toggle" type="button" aria-expanded="false" aria-controls="race-narrative">Show race narrative</button></div>
+          <section id="race-narrative" class="narrative" aria-label="Race narrative" hidden>
+            <p id="narrative-status" class="status" role="status" aria-live="polite">No race event has been revealed yet.</p>
+            <div id="event-list" class="event-list" aria-label="Revealed race events"></div>
+            <p id="event-caption" class="fine-print"></p>
+            <div class="panel-row">
+              <button id="snapshot-prev" type="button" disabled>Previous view</button>
+              <button id="snapshot-next" type="button" disabled>Next view</button>
+              <button id="resume-race" type="button" disabled>Resume race</button>
+            </div>
+            <p id="scene-description" class="sr-only" aria-live="polite"></p>
+          </section>
+          <p id="static-view-label" class="static-view" aria-live="polite"></p>
         </div>
         <aside class="panel" style="margin:0" aria-labelledby="result-heading">
           <h3 id="result-heading">Resolved finish</h3>
@@ -185,12 +205,18 @@
         </aside>
       </div>
       <h3 style="margin-top:18px">Race record preview</h3>
+      <p class="fine-print">Committed events are revealed only as playback reaches them; the full mechanical record opens at the finish or after Skip to results.</p>
       <div class="log" tabindex="0" aria-label="Race event record preview">
         <table>
-          <thead><tr><th>Time</th><th>Entrant</th><th>Eligibility / roll</th><th>Effect</th><th>Progress before → after</th><th>Final score</th></tr></thead>
+          <thead><tr><th>Simulation time</th><th>Event / participants</th><th>Eligibility / reason</th><th>Effect</th><th>Progress / speed change</th><th>Final place</th></tr></thead>
           <tbody id="record"></tbody>
         </table>
       </div>
+      <details class="fine-print" style="margin-top:12px">
+        <summary>Presentation action record</summary>
+        <p id="presentation-log-count">0 presentation actions recorded</p>
+        <ol id="presentation-log"></ol>
+      </details>
     </section>
 
     <section class="panel" aria-labelledby="choice-heading">
@@ -234,7 +260,7 @@
       </div>
       <p class="fine-print" style="margin-top:12px">Illustrative run split: setup 90 sec + 7 ordinary days (385 sec) + 3 consequential days (285 sec, including three 20-sec races) + Receipt/ending 120 sec + 20-sec non-idle orientation allowance = 900 sec. Longer player-paced scenes can extend the run; this has not been measured with students.</p>
     </section>
-    <p class="fine-print">No network requests are made by this standalone preview. The Uninstall button demonstrates continuous availability; it does not control a game run. No collision, fatigue, or contact damage is modeled.</p>
+    <p class="fine-print">No network requests are made by this standalone preview. The Uninstall button demonstrates continuous availability; it does not control a game run. These simulation rules do not change the production game or Plan 17's accepted trial rules.</p>
   </main>
   <p id="exit-note" class="exit-note" aria-live="polite"></p>
 

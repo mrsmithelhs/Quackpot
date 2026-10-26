@@ -1,161 +1,47 @@
 import {
   buildPresentationPlan,
-  presentationProgressFraction,
+  interpolateSnapshot,
+  narrativeForEvent,
   raceFractionAtWallClock,
+  rankFromSnapshot,
   resolveSeededRace,
-  savePresentationSnapshot,
   restorePresentationSnapshot,
-} from './preview-model.mjs';
+  savePresentationSnapshot,
+} from './race-physics.mjs';
 
 const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
-const FIXTURES = {
-  overtake: {
-    label: 'Fixed fixture · draft and bobble overtake',
-    speeds: [12, 11.7, 11.8, 11.4, 11.2, 11],
-    draws: { 0.4: [0.8, 0.1, 0.8, 0.8, 0.8, 0.8], 0.7: [0.02, 0.8, 0.8, 0.8, 0.8, 0.8] },
-  },
-  none: {
-    label: 'Fixed fixture · no-event control',
-    speeds: [12, 11.7, 11.8, 11.4, 11.2, 11],
-    draws: { 0.4: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8], 0.7: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8] },
-  },
-  tie: {
-    label: 'Fixed fixture · non-player event and exact tie',
-    speeds: [12, 12, 11.8, 11.4, 11.2, 11],
-    draws: { 0.4: [0.8, 0.8, 0.02, 0.8, 0.8, 0.8], 0.7: [0.8, 0.8, 0.8, 0.8, 0.8, 0.8] },
-  },
-};
-const BASE_ENTRANTS = [
-  { id: 'A', name: 'Rival A', lane: 1 },
-  { id: 'P', name: 'Player', lane: 2, player: true },
-  { id: 'B', name: 'Rival B', lane: 3 },
-  { id: 'C', name: 'Rival C', lane: 4 },
-  { id: 'D', name: 'Rival D', lane: 5 },
-  { id: 'E', name: 'Rival E', lane: 6 },
-];
-const AXES = [
-  { rx: 300, ry: 143 }, { rx: 210, ry: 83 },
-];
-const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-const LOCAL_SNAPSHOT_KEY = 'quackpot.plan13.presentationSnapshot.v1';
+const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+const PX_PER_METER = 7.3;
+const LOCAL_SNAPSHOT_KEY = 'quackpot.plan13.physicsPresentation.v2';
+const OSCillation = matchMedia('(prefers-reduced-motion: reduce)');
 
-let state = null;
+let state;
 let raf = 0;
+let running = false;
 let startedAt = 0;
 let elapsedBeforePause = 0;
-let running = false;
-let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let reduced = OSCillation.matches;
+let manualReduced = null;
 let savedSnapshot = null;
 
-function rankAt(entrants, fraction) {
-  return [...entrants].sort((a, b) => {
-    const aScore = a.speed * 100 * fraction + a.offset;
-    const bScore = b.speed * 100 * fraction + b.offset;
-    if (Math.abs(bScore - aScore) > 1e-8) return bScore - aScore;
-    if (a.player) return -1;
-    if (b.player) return 1;
-    return a.lane - b.lane;
-  });
+function svgStadiumPath(radius) {
+  const halfStraight = 30 * PX_PER_METER;
+  const r = radius * PX_PER_METER;
+  const left = 450 - halfStraight; const right = 450 + halfStraight;
+  const top = 250 - r; const bottom = 250 + r;
+  return `M ${left} ${top} L ${right} ${top} A ${r} ${r} 0 0 1 ${right} ${bottom} L ${left} ${bottom} A ${r} ${r} 0 0 1 ${left} ${top} Z`;
 }
 
-function resolveFixture(fixtureId, model) {
-  const fixture = FIXTURES[fixtureId];
-  const entrants = BASE_ENTRANTS.map((entrant, index) => ({
-    ...entrant,
-    speed: fixture.speeds[index],
-    baselineScore: fixture.speeds[index] * 100,
-    offset: 0,
-    presentationEvents: [],
-    node: null,
-  }));
-  const rows = [];
-
-  if (model === 'causal') {
-    for (const beat of [0.4, 0.7]) {
-      const frozen = rankAt(entrants, beat);
-      const beatScores = new Map(entrants.map((entrant) => [entrant.id, entrant.baselineScore * beat + entrant.offset]));
-      const pending = [];
-      for (const entrant of [...entrants].sort((a, b) => a.lane - b.lane)) {
-        const draw = fixture.draws[beat][entrant.lane - 1];
-        const position = frozen.findIndex((candidate) => candidate.id === entrant.id);
-        const ahead = position > 0 ? frozen[position - 1] : null;
-        const gap = ahead ? beatScores.get(ahead.id) - beatScores.get(entrant.id) : null;
-        const eligible = Boolean(ahead && gap <= entrant.baselineScore * 0.02);
-        let event = 'none';
-        let delta = 0;
-        let reason = 'roll outside event ranges';
-        if (draw < 0.05) {
-          event = 'bobble'; delta = -entrant.baselineScore * 0.02; reason = 'roll below 0.05';
-        } else if (eligible && draw < 0.25) {
-          event = 'clean-draft'; delta = entrant.baselineScore * 0.02; reason = 'eligible gap and roll in [0.05, 0.25)';
-        } else if (!ahead) reason = 'leading at beat start';
-        else if (!eligible) reason = 'outside the 2% draft gap';
-        pending.push({ entrant, beat, draw, event, delta, reason, eligible, gap, offsetBefore: entrant.offset });
-      }
-      for (const row of pending) row.entrant.offset += row.delta;
-      for (const row of pending) {
-        if (row.delta) row.entrant.presentationEvents.push({ beat, delta: row.delta });
-        rows.push({
-          beat, id: row.entrant.id, lane: row.entrant.lane, entrantName: row.entrant.name,
-          draw: row.draw, eligible: row.eligible, gap: row.gap, event: row.event,
-          delta: row.delta, reason: row.reason,
-          progressBefore: row.entrant.baselineScore * beat + row.offsetBefore,
-          progressAfter: row.entrant.baselineScore * beat + row.entrant.offset,
-        });
-      }
-    }
-  } else {
-    for (const beat of [0.4, 0.7]) for (const entrant of entrants) rows.push({
-      beat, id: entrant.id, lane: entrant.lane, entrantName: entrant.name,
-      draw: null, eligible: false, gap: null, event: 'no added event', delta: 0,
-      reason: 'finish already resolved by baseline performance',
-      progressBefore: entrant.baselineScore * beat, progressAfter: entrant.baselineScore * beat,
-    });
-  }
-
-  const finish = rankAt(entrants, 1).map((entrant, index) => ({
-    id: entrant.id,
-    name: entrant.name,
-    lane: entrant.lane,
-    player: Boolean(entrant.player),
-    speed: entrant.speed,
-    baselineScore: entrant.baselineScore,
-    offset: entrant.offset,
-    score: entrant.baselineScore + entrant.offset,
-    place: index + 1,
-    payout: [50, 20, 10][index] ?? 0,
-  }));
-  return {
-    source: 'fixture', model, fixtureLabel: fixture.label, entrants, finish,
-    rows, eventRecords: rows, resolution: null,
-  };
-}
-
-function stateFromSeededResolution(resolution) {
-  const presentationEvents = resolution.eventRecords
-    .filter((event) => event.delta !== 0)
-    .reduce((byEntrant, event) => {
-      (byEntrant[event.id] ??= []).push({ beat: event.beat, delta: event.delta });
-      return byEntrant;
-    }, {});
-  const entrants = resolution.entrants.map((entrant) => ({
-    ...entrant,
-    offset: entrant.offset,
-    presentationEvents: presentationEvents[entrant.id] ?? [],
-    node: null,
-  }));
-  return {
-    source: 'seeded', model: resolution.model,
-    fixtureLabel: `Named seed · ${resolution.seed} · race ${resolution.raceId}`,
-    entrants, finish: resolution.finish,
-    rows: resolution.eventRecords.map((event) => ({
-      ...event, entrantName: entrants.find((entrant) => entrant.id === event.id)?.name ?? event.id,
-      draw: event.eventDraw,
-    })),
-    eventRecords: resolution.eventRecords,
-    resolution,
-  };
+function setTrackGeometry() {
+  const outer = svgStadiumPath(26);
+  const inner = svgStadiumPath(14);
+  $('track-shore').setAttribute('d', outer);
+  $('track-shore').setAttribute('fill', 'none');
+  $('track-surface').setAttribute('d', `${outer} ${inner}`);
+  $('track-surface').setAttribute('fill-rule', 'evenodd');
+  $('lane-divider').setAttribute('d', svgStadiumPath(20));
+  $('inner-pond').setAttribute('d', inner);
 }
 
 function inputFromControls() {
@@ -167,6 +53,27 @@ function inputFromControls() {
     choice: $('choice').value,
     trialCommitted: $('trial').checked,
     model: $('model').value,
+    duration: Number($('duration').value),
+  };
+}
+
+function freshState(resolution) {
+  return {
+    resolution,
+    entrants: resolution.entrants.map((e) => ({ ...e, node: null })),
+    finish: resolution.finish,
+    model: resolution.model,
+    fixtureLabel: `Seeded physics · ${resolution.seed} · race ${resolution.raceId}`,
+    presentationPlan: buildPresentationPlan(resolution, currentPresentationSettings()),
+    cursorTick: 0,
+    checkpointIndex: 0,
+    selectedEventId: null,
+    revealedIds: new Set(),
+    loggedCueForReplay: new Set(),
+    presentationLog: [],
+    replayNumber: 0,
+    started: false,
+    finished: false,
   };
 }
 
@@ -174,104 +81,173 @@ function currentPresentationSettings() {
   return {
     duration: Number($('duration').value),
     camera: $('camera').value === 'scripted' ? 'close' : 'wide',
-    reducedMotion: reduced,
-    staticMode: false,
-    skipped: false,
-    replay: false,
-    highlightSeconds: Number($('highlight').value),
     lighting: $('lighting').value,
+    highlightSeconds: Number($('highlight').value),
+    reducedMotion: reduced,
   };
 }
 
 function resolveOutcomes() {
   stopPlayback();
+  elapsedBeforePause = 0;
+  const resolution = resolveSeededRace(inputFromControls());
+  state = freshState(resolution);
   $('runner-layer').replaceChildren();
-  const seeded = $('trace').value === 'seeded';
-  $('seed-inputs').style.display = seeded ? 'block' : 'none';
-  $('save-state').disabled = !seeded || !state?.resolution;
-  $('restore-state').disabled = !seeded || !savedSnapshot;
-  try {
-    state = seeded
-      ? stateFromSeededResolution(resolveSeededRace(inputFromControls()))
-      : resolveFixture($('trace').value, $('model').value);
-    state.presentationPlan = buildPresentationPlan(state.resolution ?? { entrants: state.entrants }, currentPresentationSettings());
-    $('save-state').disabled = !seeded;
-    $('restore-state').disabled = !seeded || !savedSnapshot;
-    renderSummary();
-    renderRecord();
-    renderRunners(0);
-    const drawText = state.resolution
-      ? ` · ${state.resolution.draws.total} mechanic draws (perf ${state.resolution.draws.performance}, events ${state.resolution.draws.events})`
-      : ' · fixed fixture draws';
-    $('race-status').textContent = `Ready · ${state.fixtureLabel}; ${state.model === 'causal' ? 'causal beats' : 'resolved-result control'}${drawText}.`;
-  } catch (error) {
-    state = null;
-    $('finish-summary').textContent = `Input error: ${error.message}`;
-    $('finish-order').replaceChildren();
-    $('event-summary').textContent = '';
-    $('record').replaceChildren();
-    $('race-status').textContent = 'Correct the committed race inputs to resolve this preview.';
-  }
+  $('save-state').disabled = false;
+  $('restore-state').disabled = !savedSnapshot;
+  $('race-status').textContent = `Race committed · ${resolution.ticks} fixed simulation ticks; ${resolution.draws.total} keyed mechanic draws. Finish stays hidden until playback ends.`;
+  $('event-list').replaceChildren();
+  $('event-caption').textContent = '';
+  $('static-view-label').textContent = '';
+  $('presentation-log').replaceChildren();
+  renderPresentationLog();
+  $('narrative-status').textContent = 'No race event has been revealed yet.';
+  renderSummary(false);
+  renderRecord(false);
+  renderRunners(0);
+  updateControls();
 }
 
-function updatePresentationOnly({ reset = true } = {}) {
-  if (!state) return;
-  if (reset) {
-    stopPlayback();
-    elapsedBeforePause = 0;
-  }
-  state.presentationPlan = buildPresentationPlan(state.resolution ?? { entrants: state.entrants }, currentPresentationSettings());
-  renderSummary();
-  renderRunners(reset || reduced ? 0 : playbackFraction());
-  if (reset) $('race-status').textContent = 'Presentation updated · same committed mechanical record; no outcome draws consumed.';
+function rankAtCurrentTick(tick) {
+  return rankFromSnapshot(interpolateSnapshot(state.resolution, tick), state.resolution);
 }
 
-function renderSummary() {
-  const duration = Number($('duration').value);
-  const highlight = Number($('highlight').value);
-  const modelLabel = state.model === 'causal' ? 'causal mechanical beats' : 'resolved-result control';
-  const trialText = state.resolution?.trialConsumptionCount
-    ? ' · Plan 17 trial applied and consumed once on race commit'
-    : '';
-  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelLabel} · ${duration}s race${highlight ? ` + ${highlight}s highlight` : ''} = ${duration + highlight}s wall time${trialText}`;
+function renderSummary(revealFinish = state.finished) {
+  const r = state.resolution;
+  const timeBonus = Number($('highlight').value);
+  const modelText = ({ baseline: 'physics baseline', catchup: 'catch-up-only candidate', wobble: 'leader-wobble-only candidate', combined: 'combined assistance candidate' })[r.model];
+  const trialText = r.trialConsumptionCount ? ' · Plan 17 +5% base-speed trial applied once' : '';
+  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelText} · ${r.horizonSeconds}s fixed simulation${timeBonus ? ` + ${timeBonus}s playback highlight` : ''} = ${r.horizonSeconds + timeBonus}s playback${trialText}`;
   $('finish-order').replaceChildren();
-  for (const entrant of state.finish) {
+  if (!revealFinish) {
     const item = document.createElement('li');
-    const suffix = entrant.place === 1 ? 'st' : entrant.place === 2 ? 'nd' : entrant.place === 3 ? 'rd' : 'th';
-    item.textContent = `${entrant.name} · ${entrant.score.toFixed(1)} points · ${entrant.place}${suffix} · ${entrant.payout} Gems`;
+    item.textContent = `Finish order hidden during the race. ${r.eventRecords.length} event${r.eventRecords.length === 1 ? ' is' : 's are'} committed; they are revealed as playback reaches them.`;
     $('finish-order').append(item);
+  } else {
+    for (const entrant of state.finish) {
+      const item = document.createElement('li');
+      const suffix = entrant.place === 1 ? 'st' : entrant.place === 2 ? 'nd' : entrant.place === 3 ? 'rd' : 'th';
+      item.textContent = `${entrant.name} · ${entrant.progress.toFixed(1)} m · ${entrant.place}${suffix} · ${entrant.payout} Gems`;
+      $('finish-order').append(item);
+    }
   }
-  const changed = state.rows.filter((row) => row.delta !== 0).map((row) => `${row.id} ${row.event} ${row.delta > 0 ? '+' : ''}${row.delta.toFixed(1)} at ${Math.round(row.beat * 100)}%`);
-  $('event-summary').textContent = changed.length
-    ? `Recorded causes: ${changed.join('; ')}.`
-    : `Recorded causes: no progress-changing race event.${state.resolution ? ` Named-seed draw record: ${state.resolution.draws.total} mechanical draws.` : ''}`;
+  const causes = r.eventRecords.filter((e) => e.success !== false && e.eligible !== false);
+  $('event-summary').textContent = revealFinish
+    ? `${causes.length} recorded event${causes.length === 1 ? '' : 's'}; the full event archive is now available below. The preview log separately records which cues were displayed and which event controls were selected.`
+    : 'Race outcome and events are committed before playback. Future event details and finish order stay hidden until they are reached.';
 }
 
-function renderRecord() {
+function displayTime(event) { return `${event.time.toFixed(2)}s · tick ${event.tick}`; }
+
+function renderRecord(revealAll = state.finished) {
   const body = $('record');
   body.replaceChildren();
-  for (const row of state.rows) {
-    const final = state.finish.find((entrant) => entrant.id === row.id);
-    const roll = row.draw === null || row.draw === undefined ? row.reason : `r=${row.draw.toFixed(6)} · ${row.reason}`;
-    const effect = row.event === 'none' || row.event === 'no added event' ? row.event : `${row.event}${row.delta ? ` ${row.delta > 0 ? '+' : ''}${row.delta.toFixed(2)}` : ''}`;
-    const progress = row.progressBefore === undefined
-      ? '—'
-      : `${row.progressBefore.toFixed(1)} → ${row.progressAfter.toFixed(1)}`;
-    const values = [
-      `${Math.round(row.beat * 100)}%`, `${row.entrantName} (lane ${row.lane})`, roll,
-      effect, progress, final ? final.score.toFixed(1) : '—',
-    ];
+  const events = state.resolution.eventRecords.filter((e) => revealAll || state.revealedIds.has(e.id));
+  for (const event of events) {
     const tr = document.createElement('tr');
-    for (const value of values) {
+    const names = event.participants.map((id) => state.entrants.find((e) => e.id === id)?.name ?? id).join(' + ');
+    const reason = event.reason ?? (event.eligible === false ? 'not eligible for an impulse' : 'eligible event');
+    const progress = event.pre && event.post
+      ? `${Object.entries(event.pre).map(([id, pre]) => `${id} ${pre.speed}→${event.post[id]?.speed ?? '?'} m/s`).join('; ')}`
+      : event.normalClosingSpeed !== undefined ? `${event.normalClosingSpeed} m/s closing speed` : event.effect;
+    const place = revealAll ? state.finish.find((e) => e.id === event.participants[0])?.place ?? '—' : 'hidden';
+    [displayTime(event), `${event.type} · ${names}`, reason, event.effect, progress, String(place)].forEach((value) => {
       const td = document.createElement('td'); td.textContent = value; tr.append(td);
-    }
+    });
     body.append(tr);
   }
+  if (!events.length) {
+    const tr = document.createElement('tr'); const td = document.createElement('td');
+    td.colSpan = 6; td.textContent = revealAll ? 'No mechanical events occurred in this race.' : 'Event details appear here as playback reaches them.';
+    tr.append(td); body.append(tr);
+  }
+}
+
+function appendPresentationRecord(type, details = {}) {
+  state.presentationLog.push({ sequence: state.presentationLog.length + 1, replay: state.replayNumber, type, tick: Math.round(state.cursorTick), time: Number((state.cursorTick * state.resolution.dt).toFixed(3)), ...details });
+  renderPresentationLog();
+}
+
+function renderPresentationLog() {
+  const list = $('presentation-log'); list.replaceChildren();
+  for (const entry of state.presentationLog) {
+    const li = document.createElement('li');
+    li.textContent = `#${entry.sequence} · replay ${entry.replay} · ${entry.type} · ${entry.time.toFixed(2)}s / tick ${entry.tick}${entry.eventId ? ` · ${entry.eventId}` : ''}`;
+    list.append(li);
+  }
+  $('presentation-log-count').textContent = `${state.presentationLog.length} presentation action${state.presentationLog.length === 1 ? '' : 's'} recorded`;
+}
+
+function setNarrativeExpanded(expanded) {
+  $('race-narrative').hidden = !expanded;
+  $('narrative-toggle').setAttribute('aria-expanded', String(expanded));
+  $('narrative-toggle').textContent = expanded ? 'Hide race narrative' : 'Show race narrative';
+  if (!expanded && $('race-narrative').contains(document.activeElement)) $('narrative-toggle').focus();
+  if (expanded) renderEventList();
+}
+
+function revealReachedEvents(tick, allowFuture = false) {
+  const records = state.resolution.eventRecords;
+  const revealed = allowFuture ? records : records.filter((event) => event.tick <= tick);
+  let changed = false;
+  for (const event of revealed) {
+    if (state.revealedIds.has(event.id)) continue;
+    state.revealedIds.add(event.id); changed = true;
+  }
+  if (changed) {
+    renderRecord(state.finished);
+    if (!$('race-narrative').hidden) renderEventList();
+  }
+}
+
+function renderEventList() {
+  const list = $('event-list');
+  const priorFocus = document.activeElement?.dataset?.eventId;
+  list.replaceChildren();
+  const records = state.resolution.eventRecords.filter((e) => state.revealedIds.has(e.id));
+  $('narrative-status').textContent = state.finished
+    ? `Full race summary · ${records.length} committed event records.`
+    : `${records.length} event${records.length === 1 ? '' : 's'} reached so far. Later events remain hidden.`;
+  for (const event of records) {
+    const button = document.createElement('button');
+    button.type = 'button'; button.dataset.eventId = event.id;
+    button.setAttribute('aria-current', String(state.selectedEventId === event.id));
+    button.textContent = `${displayTime(event)} · ${event.type} · ${event.participants.join(' + ')}`;
+    button.addEventListener('click', () => seekToEvent(event, button));
+    list.append(button);
+    const cueKey = `${state.replayNumber}:${event.id}`;
+    if (!state.loggedCueForReplay.has(cueKey)) {
+      state.loggedCueForReplay.add(cueKey);
+      appendPresentationRecord('event-list cue displayed', { eventId: event.id });
+    }
+  }
+  if (state.finished && !records.length) list.textContent = 'No mechanical events occurred in this race.';
+  if (priorFocus) list.querySelector(`[data-event-id="${CSS.escape(priorFocus)}"]`)?.focus();
+}
+
+function seekToEvent(event, button) {
+  pauseAtTick(event.tick, `Paused at ${displayTime(event)} · post-event state.`);
+  state.selectedEventId = event.id;
+  $('event-caption').textContent = narrativeForEvent(event, Object.fromEntries(state.entrants.map((e) => [e.id, e])));
+  $('scene-description').textContent = `Race scene at ${displayTime(event)}. Post-event state. ${$('event-caption').textContent}`;
+  appendPresentationRecord('event selected and playback sought', { eventId: event.id });
+  appendPresentationRecord('event caption displayed', { eventId: event.id, caption: $('event-caption').textContent });
+  renderRunners(state.cursorTick);
+  $('race-status').textContent = `Paused · ${displayTime(event)} · post-event state. Resume continues from this simulation tick.`;
+  $('narrative-status').textContent = `Paused at ${displayTime(event)}. Post-event state shown.`;
+  updateControls();
+  for (const item of $('event-list').querySelectorAll('[data-event-id]')) item.setAttribute('aria-current', String(item.dataset.eventId === event.id));
+  button.focus();
+}
+
+function stadiumMirror(progress) {
+  const fraction = (((progress + 30) % 245.663706) + 245.663706) % 245.663706 / 245.663706;
+  return (fraction < 0.245 || (fraction >= 0.5 && fraction < 0.745)) ? 1 : -1;
 }
 
 function makeNode(entrant) {
   const group = document.createElementNS(NS, 'g');
-  group.setAttribute('class', 'runner-token'); group.setAttribute('aria-hidden', 'true');
+  group.setAttribute('class', 'runner-token'); group.dataset.runnerId = entrant.id;
   const image = document.createElementNS(NS, 'image');
   image.setAttribute('href', '../../../src/assets/svg/duck-rig.svg');
   image.setAttribute('x', '-24'); image.setAttribute('y', '-24'); image.setAttribute('width', '48'); image.setAttribute('height', '48');
@@ -281,201 +257,307 @@ function makeNode(entrant) {
   group.append(image, label); $('runner-layer').append(group); entrant.node = group;
 }
 
-function yawMirrorAt(fraction) {
-  const flipWindow = 0.055;
-  const flip = (value, center, from, to) => {
-    const local = clamp((value - (center - flipWindow)) / (flipWindow * 2), 0, 1);
-    if (value <= center - flipWindow) return from;
-    if (value >= center + flipWindow) return to;
-    const eased = (1 - Math.cos(Math.PI * local)) / 2;
-    return from + (to - from) * eased;
-  };
-  const rightTurn = flip(fraction, 0.25, -1, 1);
-  return flip(fraction, 0.75, rightTurn, -1);
+function nearestDramaEvent(tickFloat) {
+  const fraction = tickFloat / state.resolution.ticks;
+  if (fraction < 0.34 || fraction > 0.76) return null;
+  return state.resolution.eventRecords
+    .filter((event) => event.participants?.length && Math.abs(event.tick / state.resolution.ticks - fraction) <= 0.08)
+    .sort((a, b) => Math.abs(a.tick - tickFloat) - Math.abs(b.tick - tickFloat) || a.id.localeCompare(b.id))[0] ?? null;
 }
 
-function progressFor(entrant, t) {
-  return presentationProgressFraction(entrant, state.finish, t);
-}
-
-function renderRunners(t) {
+function renderRunners(tickFloat) {
   if (!state) return;
+  state.cursorTick = clamp(tickFloat, 0, state.resolution.ticks);
+  const snap = interpolateSnapshot(state.resolution, state.cursorTick);
   for (const entrant of state.entrants) {
-    const fraction = progressFor(entrant, t);
-    const angle = -Math.PI / 2 + fraction * Math.PI * 2;
-    const path = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === entrant.lane);
-    const lane = path?.lane ?? 2;
-    const row = path?.row ?? 0;
-    const { rx, ry } = AXES[lane - 1];
-    const gridStagger = row * 0.03 * Math.PI * 2 * (1 - ease01(clamp(t / 0.2, 0, 1)));
-    const staggeredAngle = angle - gridStagger;
-    const x = 450 + rx * Math.cos(staggeredAngle); const y = 250 + ry * Math.sin(staggeredAngle);
+    const position = snap.entrants.find((row) => row.id === entrant.id);
     if (!entrant.node) makeNode(entrant);
+    const x = 450 + position.x * PX_PER_METER;
+    const y = 250 + position.y * PX_PER_METER;
     entrant.node.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
-    const mirror = yawMirrorAt(fraction);
-    entrant.node.querySelector('[data-duck-image="true"]').setAttribute('transform', `scale(${mirror.toFixed(4)} 1)`);
+    entrant.node.querySelector('[data-duck-image="true"]').setAttribute('transform', `scale(${stadiumMirror(position.progress).toFixed(1)} 1)`);
   }
-  const close = $('camera').value === 'scripted' && !reduced;
-  const zoom = close ? smoothCloseZoom(t) : 1;
-  const player = state.entrants.find((entrant) => entrant.player);
-  const playerT = progressFor(player, t); const playerAngle = -Math.PI / 2 + playerT * Math.PI * 2;
-  const playerLane = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === player.lane)?.lane ?? 2;
-  const axis = AXES[playerLane - 1];
-  const playerRow = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === player.lane)?.row ?? 0;
-  const playerGridStagger = playerRow * 0.03 * Math.PI * 2 * (1 - ease01(clamp(t / 0.2, 0, 1)));
-  const playerAngleWithGrid = playerAngle - playerGridStagger;
-  const px = 450 + axis.rx * Math.cos(playerAngleWithGrid); const py = 250 + axis.ry * Math.sin(playerAngleWithGrid);
-  const focus = close ? clamp((zoom - 1) / 0.16, 0, 1) : 0;
-  const centeredTx = 450 * (1 - zoom);
-  const centeredTy = 250 * (1 - zoom);
-  const focusedTx = 450 - px * zoom;
-  const focusedTy = 250 - py * zoom;
-  const tx = centeredTx + (focusedTx - centeredTx) * focus;
-  const ty = centeredTy + (focusedTy - centeredTy) * focus;
+  const reducedNow = reduced;
+  const fraction = state.cursorTick / state.resolution.ticks;
+  const zoom = !reducedNow && $('camera').value === 'scripted' ? smoothCloseZoom(fraction) : 1;
+  const player = snap.entrants.find((e) => e.id === 'P');
+  const px = 450 + player.x * PX_PER_METER; const py = 250 + player.y * PX_PER_METER;
+  const focus = zoom > 1 ? clamp((zoom - 1) / 0.16, 0, 1) : 0;
+  const tx = 450 * (1 - zoom) + (450 - px * zoom - 450 * (1 - zoom)) * focus;
+  const ty = 250 * (1 - zoom) + (250 - py * zoom - 250 * (1 - zoom)) * focus;
   $('camera-root').setAttribute('transform', `matrix(${zoom.toFixed(4)} 0 0 ${zoom.toFixed(4)} ${tx.toFixed(2)} ${ty.toFixed(2)})`);
-  $('stage-shell').classList.toggle('warm-light', $('lighting').value === 'warm' && !reduced);
-  $('camera-note').textContent = reduced
-    ? 'Static/reduced-motion mode: no moving racers or camera zoom; the same final positions and recorded order remain visible. Warm lighting is disabled.'
-    : $('camera').value === 'wide'
-      ? 'Locked wide. Upright ducks mirror at the oval turns; pace surges are presentation only and do not alter logical outcomes.'
-      : 'Camera eases in around the 40% beat, then eases back wide. Upright duck mirroring and pace surges do not alter recorded results.';
+  const drama = !reducedNow && $('lighting').value === 'event' && Boolean(nearestDramaEvent(state.cursorTick));
+  $('stage-shell').classList.toggle('dramatic', drama);
+  const highlighted = drama ? new Set(nearestDramaEvent(state.cursorTick).participants) : new Set();
+  for (const entrant of state.entrants) entrant.node.classList.toggle('participant-glow', highlighted.has(entrant.id));
+  $('camera-note').textContent = reducedNow
+    ? 'Reduced motion: fixed wide still; no camera zoom, dramatic lighting, or slow-time effect.'
+    : `World-coordinate simulation · ${state.cursorTick.toFixed(1)} / ${state.resolution.ticks} ticks · ${($('camera').value === 'scripted' ? 'close camera eases in and returns wide' : 'locked wide camera')}${drama ? ' · recorded-event participants highlighted' : ''}.`;
+  updateSceneDescription(snap, fraction);
 }
 
-function smoothCloseZoom(t) {
-  if (t < 0.34 || t > 0.76) return 1;
-  const smooth = (x) => x * x * (3 - 2 * x);
-  if (t < 0.42) return 1 + smooth((t - 0.34) / 0.08) * 0.16;
-  if (t <= 0.66) return 1.16;
-  return 1.16 - smooth((t - 0.66) / 0.1) * 0.16;
+function updateSceneDescription(snapshot, fraction) {
+  const rank = rankFromSnapshot(snapshot, state.resolution).map((e, i) => `${e.name} ${i + 1}${i === 0 ? 'st' : i === 1 ? 'nd' : i === 2 ? 'rd' : 'th'}`).join(', ');
+  const label = `Simulation ${state.cursorTick.toFixed(1)} of ${state.resolution.ticks} ticks (${(fraction * 100).toFixed(1)}%). Current progress order: ${rank}.`;
+  $('race-svg').querySelector('#track-desc').textContent = label;
+  $('simulation-hud').textContent = `Tick ${Math.round(state.cursorTick)} · ${(state.cursorTick * state.resolution.dt).toFixed(2)}s · ${(fraction * 100).toFixed(0)}%`;
+  if ($('static-view-label')) $('static-view-label').textContent = reduced
+    ? `Static race view · tick ${Math.round(state.cursorTick)} / ${state.resolution.ticks} · ${(fraction * 100).toFixed(0)}% of horizon · same committed trajectory.`
+    : '';
 }
 
-function ease01(value) { return value * value * (3 - 2 * value); }
+function smoothCloseZoom(fraction) {
+  if (fraction < 0.34 || fraction > 0.76) return 1;
+  if (fraction < 0.42) return 1 + smoothstep((fraction - 0.34) / 0.08) * 0.16;
+  if (fraction <= 0.66) return 1.16;
+  return 1.16 - smoothstep((fraction - 0.66) / 0.1) * 0.16;
+}
+
+function smoothstep(value) { return value * value * (3 - 2 * value); }
 
 function playbackFraction() {
   return raceFractionAtWallClock(elapsedBeforePause / 1000, {
-    duration: Number($('duration').value), highlightSeconds: Number($('highlight').value),
+    duration: state.presentationPlan.duration,
+    highlightSeconds: state.presentationPlan.highlightSeconds,
   });
 }
 
 function tick(now) {
   if (!running || !state) return;
-  const elapsed = elapsedBeforePause + (now - startedAt);
+  const elapsed = elapsedBeforePause + now - startedAt;
   const total = state.presentationPlan.totalWallSeconds * 1000;
-  const progress = clamp(elapsed / total, 0, 1);
-  const fraction = raceFractionAtWallClock(elapsed / 1000, {
-    duration: state.presentationPlan.duration,
-    highlightSeconds: state.presentationPlan.highlightSeconds,
-  });
-  renderRunners(fraction);
-  $('race-status').textContent = `Race playing · ${Math.min(state.presentationPlan.totalWallSeconds, elapsed / 1000).toFixed(1)} / ${state.presentationPlan.totalWallSeconds}s wall time · race ${Math.round(fraction * 100)}%`;
-  if (progress >= 1) {
-    running = false; elapsedBeforePause = 0;
-    $('play').disabled = false; $('pause').disabled = true;
-    $('race-status').textContent = `Finish · ${state.finish[0].name} wins under the selected model.`;
-    renderRunners(1); return;
-  }
+  const fraction = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan);
+  const currentTick = fraction * state.resolution.ticks;
+  renderRunners(currentTick);
+  revealReachedEvents(currentTick);
+  $('race-status').textContent = `Race playing · ${(elapsed / 1000).toFixed(1)} / ${state.presentationPlan.totalWallSeconds}s playback · simulation ${currentTick.toFixed(1)} / ${state.resolution.ticks} ticks.`;
+  if (elapsed >= total) { finishRace('finish'); return; }
   raf = requestAnimationFrame(tick);
 }
 
 function stopPlayback() {
-  running = false;
-  cancelAnimationFrame(raf);
-  $('play').disabled = false;
-  $('pause').disabled = true;
+  running = false; cancelAnimationFrame(raf);
+  $('play').disabled = false; $('pause').disabled = true;
+}
+
+function pauseAtTick(tick, status) {
+  stopPlayback();
+  state.cursorTick = clamp(tick, 0, state.resolution.ticks);
+  elapsedBeforePause = wallClockAtFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
+  revealReachedEvents(state.cursorTick);
+  $('race-status').textContent = status;
+  renderRunners(state.cursorTick);
+  updateControls();
+}
+
+function wallClockAtFraction(fraction, plan) {
+  const { duration, highlightSeconds } = plan;
+  if (!highlightSeconds) return fraction * duration;
+  if (fraction <= 0.47) return fraction * duration;
+  if (fraction <= 0.53) return duration * 0.47 + ((fraction - 0.47) / 0.06) * (duration * 0.06 + highlightSeconds);
+  return duration * 0.53 + highlightSeconds + (fraction - 0.53) * duration;
 }
 
 function startPlayback() {
-  if (!state) return;
-  if (reduced) {
-    renderRunners(1);
-    $('race-status').textContent = 'Static result shown · the committed mechanics and finish are unchanged.';
-    return;
-  }
-  if (running) return;
+  if (!state || running || state.finished) return;
+  if (reduced) { nextCheckpoint(); return; }
   running = true; startedAt = performance.now();
+  state.started = true;
   $('play').disabled = true; $('pause').disabled = false;
+  appendPresentationRecord('playback started/resumed');
   raf = requestAnimationFrame(tick);
 }
 
+function finishRace(reason) {
+  stopPlayback(); state.finished = true; state.cursorTick = state.resolution.ticks;
+  elapsedBeforePause = state.presentationPlan.totalWallSeconds * 1000;
+  revealReachedEvents(state.cursorTick, true);
+  renderSummary(true); renderRecord(true); renderRunners(state.cursorTick);
+  $('race-status').textContent = reason === 'skip'
+    ? 'Skipped to results · full committed summary revealed; no mechanics or RNG rerun.'
+    : `Finish · ${state.finish[0].name} leads the fixed-horizon result.`;
+  $('narrative-status').textContent = `Full race summary · all ${state.resolution.eventRecords.length} committed events are available.`;
+  appendPresentationRecord(reason === 'skip' ? 'skip to results' : 'race finished');
+  if (!$('race-narrative').hidden) renderEventList();
+  updateControls();
+}
+
+function seekCheckpoint(index) {
+  const checkpoints = state.presentationPlan.checkpoints;
+  const next = clamp(index, 0, checkpoints.length - 1);
+  state.checkpointIndex = next;
+  state.selectedEventId = null;
+  pauseAtTick(checkpoints[next], `Paused at static checkpoint ${next + 1} of ${checkpoints.length} · tick ${checkpoints[next]}.`);
+  appendPresentationRecord('reduced-motion checkpoint selected', { checkpoint: next + 1 });
+  renderRunners(checkpoints[next]);
+  updateControls();
+}
+
+function nextCheckpoint() {
+  if (!reduced) {
+    const next = state.presentationPlan.checkpoints.find((tick) => tick > state.cursorTick + 1e-9);
+    if (next === undefined) { finishRace('finish'); return; }
+    pauseAtTick(next, `Paused at next checkpoint · tick ${next}.`);
+    appendPresentationRecord('next checkpoint selected', { tick: next });
+    renderRunners(next); return;
+  }
+  const nextIndex = state.presentationPlan.checkpoints.findIndex((tick) => tick > state.cursorTick + 1e-9);
+  if (nextIndex < 0) { finishRace('finish'); return; }
+  seekCheckpoint(nextIndex);
+}
+
+function previousCheckpoint() {
+  if (!reduced) return;
+  const prior = state.presentationPlan.checkpoints.map((tick, index) => ({ tick, index })).filter((item) => item.tick < state.cursorTick - 1e-9).at(-1);
+  if (prior) seekCheckpoint(prior.index);
+}
+
+function resumeFromCursor() {
+  if (state.finished) return;
+  const fraction = state.cursorTick / state.resolution.ticks;
+  elapsedBeforePause = wallClockAtFraction(fraction, state.presentationPlan) * 1000;
+  if (reduced) { $('race-status').textContent = `Static view remains paused at tick ${Math.round(state.cursorTick)}; select Next view to advance.`; updateControls(); return; }
+  startPlayback();
+}
+
+function updateControls() {
+  $('pause').disabled = !running;
+  $('play').disabled = running || state.finished || reduced;
+  $('snapshot-prev').disabled = !reduced || state.checkpointIndex <= 0 || state.finished;
+  $('snapshot-next').disabled = state.finished || (!reduced && !state.resolution.eventRecords.length && state.cursorTick >= state.resolution.ticks);
+  $('resume-race').disabled = reduced || state.finished;
+  $('play').textContent = reduced ? 'Use Next view' : state.started ? 'Resume race' : 'Start race';
+  $('snapshot-next').textContent = reduced ? 'Next view' : 'Next checkpoint';
+}
+
+function onMotionModeChange() {
+  manualReduced = $('reduce').checked;
+  const nextReduced = manualReduced || OSCillation.matches;
+  if (nextReduced === reduced) return;
+  const currentTick = state.cursorTick;
+  const wasRunning = running;
+  if (wasRunning) {
+    const elapsed = elapsedBeforePause + performance.now() - startedAt;
+    const frac = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan);
+    state.cursorTick = frac * state.resolution.ticks;
+  }
+  stopPlayback(); reduced = nextReduced;
+  document.body.classList.toggle('reduce-motion', reduced);
+  state.presentationPlan = buildPresentationPlan(state.resolution, currentPresentationSettings());
+  if (wasRunning) {
+    elapsedBeforePause = wallClockAtFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
+    appendPresentationRecord('display mode changed; simulation position preserved', { fromTick: currentTick, toTick: state.cursorTick, reducedMotion: reduced });
+  }
+  if (reduced) state.checkpointIndex = nearestCheckpointIndex(state.cursorTick);
+  renderRunners(state.cursorTick);
+  updateControls();
+  $('race-status').textContent = `Display mode changed; same committed race paused at tick ${state.cursorTick.toFixed(1)}.`;
+}
+
+function nearestCheckpointIndex(tick) {
+  const checkpoints = state.presentationPlan.checkpoints;
+  return checkpoints.reduce((best, value, index) => Math.abs(value - tick) < Math.abs(checkpoints[best] - tick) ? index : best, 0);
+}
+
+function updatePresentationOnly({ reset = false } = {}) {
+  if (!state) return;
+  if (reset && running) pauseAtTick(state.cursorTick, 'Paused · presentation settings changed; committed race retained.');
+  state.presentationPlan = buildPresentationPlan(state.resolution, currentPresentationSettings());
+  renderRunners(state.cursorTick);
+  updateControls();
+  $('race-status').textContent = 'Presentation changed · same trajectory, event order, finish and rewards.';
+}
+
 function captureSnapshot() {
-  if (!state?.resolution) return;
   try {
-    savedSnapshot = savePresentationSnapshot(state.resolution, currentPresentationSettings());
+    savedSnapshot = savePresentationSnapshot(state.resolution, { ...currentPresentationSettings(), presentationLog: state.presentationLog, cursorTick: state.cursorTick, finished: state.finished, replayNumber: state.replayNumber, started: state.started });
     sessionStorage.setItem(LOCAL_SNAPSHOT_KEY, savedSnapshot);
     $('restore-state').disabled = false;
-    $('race-status').textContent = 'Presentation snapshot saved locally · mechanic draws remain unchanged.';
-  } catch (error) {
-    $('race-status').textContent = `Could not save this browser-local snapshot: ${error.message}`;
-  }
+    $('race-status').textContent = 'Committed trajectory and presentation log saved locally.';
+  } catch (error) { $('race-status').textContent = `Could not save snapshot: ${error.message}`; }
 }
 
 function restoreSnapshot() {
   try {
     stopPlayback();
-    elapsedBeforePause = 0;
     const serialized = savedSnapshot ?? sessionStorage.getItem(LOCAL_SNAPSHOT_KEY);
     if (!serialized) throw new Error('no saved snapshot is available');
     const snapshot = restorePresentationSnapshot(serialized);
-    state = stateFromSeededResolution(snapshot.resolution);
-    $('runner-layer').replaceChildren();
-    $('model').value = snapshot.resolution.model;
-    $('trace').value = 'seeded';
-    $('run-seed').value = snapshot.resolution.inputs.seed;
-    $('race-id').value = snapshot.resolution.inputs.raceId;
-    $('player-speed').value = snapshot.resolution.inputs.playerBaseSpeed;
-    $('field-speed').value = snapshot.resolution.inputs.fieldBaseSpeed;
-    $('choice').value = snapshot.resolution.inputs.choice;
-    $('trial').checked = snapshot.resolution.inputs.trialCommitted;
-    $('duration').value = String(snapshot.presentation.duration);
-    $('camera').value = snapshot.presentation.camera === 'close' ? 'scripted' : 'wide';
-    $('highlight').value = String(snapshot.presentation.highlightSeconds);
-    $('lighting').value = snapshot.presentation.lighting;
-    reduced = snapshot.presentation.reducedMotion;
-    $('reduce').checked = reduced;
-    document.body.classList.toggle('reduce-motion', reduced);
+    state = freshState(snapshot.resolution);
     state.presentationPlan = snapshot.presentation;
-    renderSummary(); renderRecord(); renderRunners(0);
-    $('race-status').textContent = 'Snapshot restored · the saved mechanical record was reused; no outcome draws consumed.';
-  } catch (error) {
-    $('race-status').textContent = `Could not restore snapshot: ${error.message}`;
-  }
+    state.presentationLog = snapshot.presentationLog ?? [];
+    state.cursorTick = snapshot.cursorTick ?? 0;
+    state.finished = Boolean(snapshot.finished);
+    state.started = Boolean(snapshot.started || state.cursorTick > 0 || state.finished);
+    state.replayNumber = Number.isInteger(snapshot.replayNumber) ? snapshot.replayNumber : 0;
+    state.revealedIds = new Set(snapshot.resolution.eventRecords.filter((e) => e.tick <= state.cursorTick).map((e) => e.id));
+    for (const key of ['seed', 'raceId', 'playerBaseSpeed', 'fieldBaseSpeed']) {
+      const id = ({ seed: 'run-seed', raceId: 'race-id', playerBaseSpeed: 'player-speed', fieldBaseSpeed: 'field-speed' })[key];
+      $(id).value = snapshot.resolution.inputs[key];
+    }
+    $('model').value = snapshot.resolution.model; $('choice').value = snapshot.resolution.choice;
+    $('trial').checked = snapshot.resolution.inputs.trialCommitted; $('duration').value = String(snapshot.resolution.horizonSeconds);
+    $('highlight').value = String(snapshot.presentation.highlightSeconds);
+    $('camera').value = snapshot.presentation.camera === 'wide' ? 'wide' : 'scripted';
+    $('lighting').value = snapshot.presentation.lighting;
+    $('reduce').checked = snapshot.presentation.reducedMotion;
+    $('runner-layer').replaceChildren(); renderSummary(false); renderRecord(false); renderRunners(state.cursorTick); renderPresentationLog();
+    $('race-status').textContent = 'Snapshot restored · committed trajectory reused; no mechanics or RNG rerun.';
+    updateControls();
+  } catch (error) { $('race-status').textContent = `Could not restore snapshot: ${error.message}`; }
 }
 
-for (const id of ['model', 'trace', 'run-seed', 'race-id', 'player-speed', 'field-speed', 'choice', 'trial']) {
-  const control = $(id);
-  control.addEventListener(control.type === 'text' || control.type === 'number' ? 'change' : 'change', resolveOutcomes);
+function replayRace() {
+  stopPlayback();
+  state.replayNumber += 1;
+  state.finished = false; state.revealedIds = new Set(); state.loggedCueForReplay = new Set(); state.selectedEventId = null;
+  state.started = true; state.cursorTick = 0; state.checkpointIndex = 0; elapsedBeforePause = 0;
+  state.presentationLog.push({ sequence: state.presentationLog.length + 1, replay: state.replayNumber, type: 'replay started', tick: 0, time: 0 });
+  $('runner-layer').replaceChildren(); $('event-list').replaceChildren(); $('event-caption').textContent = '';
+  renderSummary(false); renderRecord(false); renderRunners(0); renderPresentationLog(); updateControls();
+  $('race-status').textContent = `Replay ${state.replayNumber} · same committed trajectory; no mechanical draws or rewards repeated.`;
+  if (reduced) { seekCheckpoint(0); return; }
+  startPlayback();
 }
-for (const id of ['duration', 'camera', 'highlight', 'lighting']) $(id).addEventListener('change', () => updatePresentationOnly());
+
+function startNewRace() { resolveOutcomes(); if (reduced) { setNarrativeExpanded(true); seekCheckpoint(0); } else startPlayback(); }
+
+setTrackGeometry();
+reduced = OSCillation.matches;
 $('reduce').checked = reduced;
-$('reduce').addEventListener('change', () => {
-  reduced = $('reduce').checked;
-  document.body.classList.toggle('reduce-motion', reduced);
-  updatePresentationOnly();
-  if (reduced) { renderRunners(1); $('race-status').textContent = 'Static finish · same committed mechanics, events, scores and payouts.'; }
+document.body.classList.toggle('reduce-motion', reduced);
+try { savedSnapshot = sessionStorage.getItem(LOCAL_SNAPSHOT_KEY); } catch { savedSnapshot = null; }
+$('restore-state').disabled = !savedSnapshot;
+
+for (const id of ['model', 'run-seed', 'race-id', 'player-speed', 'field-speed', 'choice', 'trial', 'duration']) $(id).addEventListener('change', resolveOutcomes);
+for (const id of ['camera', 'highlight', 'lighting']) $(id).addEventListener('change', () => updatePresentationOnly({ reset: true }));
+$('reduce').addEventListener('change', onMotionModeChange);
+OSCillation.addEventListener?.('change', onMotionModeChange);
+$('play').addEventListener('click', () => {
+  if (!state.started) startNewRace();
+  else if (reduced) nextCheckpoint();
+  else resumeFromCursor();
 });
-$('play').addEventListener('click', startPlayback);
 $('pause').addEventListener('click', () => {
   if (!running) return;
-  elapsedBeforePause += performance.now() - startedAt;
-  stopPlayback();
-  $('race-status').textContent = 'Paused · resume from the same mechanical record; no outcome draws consumed.';
+  const elapsed = elapsedBeforePause + performance.now() - startedAt;
+  state.cursorTick = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan) * state.resolution.ticks;
+  elapsedBeforePause = elapsed; stopPlayback(); renderRunners(state.cursorTick);
+  $('race-status').textContent = `Paused at tick ${state.cursorTick.toFixed(1)}; resume continues from here.`;
+  appendPresentationRecord('playback paused'); updateControls();
 });
-$('skip-race').addEventListener('click', () => {
-  stopPlayback(); elapsedBeforePause = 0; renderRunners(1);
-  $('race-status').textContent = 'Skipped to finish · the same committed result and record were used.';
-});
-$('replay').addEventListener('click', () => {
-  stopPlayback(); elapsedBeforePause = 0; renderRunners(0);
-  $('race-status').textContent = 'Replay reset · same committed result; no outcome draws consumed.';
-});
+$('skip-race').addEventListener('click', () => finishRace('skip'));
+$('replay').addEventListener('click', replayRace);
+$('snapshot-next').addEventListener('click', nextCheckpoint);
+$('snapshot-prev').addEventListener('click', previousCheckpoint);
+$('resume-race').addEventListener('click', resumeFromCursor);
+$('narrative-toggle').addEventListener('click', () => setNarrativeExpanded($('race-narrative').hidden));
 $('save-state').addEventListener('click', captureSnapshot);
 $('restore-state').addEventListener('click', restoreSnapshot);
-$('uninstall').addEventListener('click', () => {
-  $('exit-note').textContent = 'Uninstall remains reachable in this demonstration. This preview does not start or end a game run.';
-});
+$('uninstall').addEventListener('click', () => { $('exit-note').textContent = 'Uninstall remains reachable in this demonstration. This preview does not start or end a game run.'; });
+
 $('turn').addEventListener('click', () => {
-  const card = $('turn-card');
-  const toBack = !card.classList.contains('is-back');
+  const card = $('turn-card'); const toBack = !card.classList.contains('is-back');
   card.classList.toggle('is-back', toBack);
   $('turn').textContent = toBack ? 'Turn back to front · 0.5 seconds' : 'Turn to reverse · 0.5 seconds';
   if (reduced) { $('turn-status').textContent = `Reduced motion: ${toBack ? 'reverse' : 'front'} shown instantly; orientation information is unchanged.`; return; }
@@ -490,6 +572,4 @@ for (const radio of document.querySelectorAll('input[name="back"]')) radio.addEv
 });
 $('turn-card').dataset.back = document.querySelector('input[name="back"]:checked')?.value ?? 'mirrored';
 
-try { savedSnapshot = sessionStorage.getItem(LOCAL_SNAPSHOT_KEY); } catch { savedSnapshot = null; }
-$('restore-state').disabled = !savedSnapshot;
 resolveOutcomes();

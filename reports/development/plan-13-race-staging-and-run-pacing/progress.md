@@ -1,6 +1,6 @@
 # Plan 13 progress
 
-**Date:** 2026-10-26. **Stage:** isolated preview implementation, owner screenshot repairs, and HTTP browser inspection complete; owner decisions remain open.
+**Date:** 2026-10-26. **Stage:** Proposal 02 implemented in the isolated Plan 13 preview; candidate rules and production integration remain owner/orchestrator gated.
 
 ## Work completed
 
@@ -79,3 +79,22 @@ QP Orch routed the future collision-triggered distress animation to Plan 09, “
 The owner subsequently directed the reduced-motion treatment: a fixed five-snapshot slideshow at 0/25/50/75/100% from the same committed trajectory. Proposal 02 now maps these snapshots to exact ticks for each 12/20/30-second horizon, uses a fixed wide view and readable progress labels, and excludes camera zoom, dramatic lighting and slow-time effects in reduced-motion mode. Manual navigation is proposed without forced waits; interval commentary can disclose between-frame events without claiming they were visually shown. Displayed/visited cues remain separate from the full precomputed event record. Changing motion/display preference does not resolve again or draw RNG. At that stage, unrestricted timeline seeking and frame-by-frame rewind were excluded; the owner's later refinement now permits event-linked seeking only. This amendment is proposal-only and returns to the owner gate before implementation.
 
 The owner refined narration navigation to allow limited event-linked seeking. Proposal 02 now gives revealed race events exact simulation timecodes and keyboard-operable controls that seek to the event's post-event tick state and pause. Future events stay hidden until reached, with a labeled full summary available at finish or explicit Skip to results. Same-tick events display together. Reduced-motion seeking adds a static fixed-wide still while retaining the five checkpoint sequence. Resume advances from the selected tick and Next selects the next scheduled checkpoint. Seeking/display/replay actions are separately recorded, never erase prior presentation history, and never re-resolve mechanics, RNG or rewards. Arbitrary timeline scrubbing and frame-by-frame controls remain excluded. This is a proposal-only amendment awaiting the owner gate.
+
+## Proposal 02 deterministic physics implementation (2026-10-26)
+
+The owner authorized Proposal 02 implementation after QP Orch's staged amendment. I replaced the preview's score-offset model with `race-physics.mjs`, a fixed 20 Hz, seeded, pre-resolved oval race candidate. It records quantized position, heading, speed and progress for all six entrants at each tick, then ranks all entrants at the same fixed 12/20/30-second horizon. The candidate model includes acceleration/braking, a speed-dependent turn cap and corner braking, bounded wall handling, swept duck-pair eligibility with a canonical sorted candidate list and one keyed selection draw, and at most one duck-contact impact episode per race. The explicit fixture trace shows the proposed restitution arithmetic.
+
+The preview compares baseline, catch-up-only, leader-wobble-only and combined modes. Candidate sprint and wobble events are tied to frozen checkpoint ranks and event-keyed draws. Plan 17's trial is applied once to the player's base-speed input; its accepted 3 Down / +5% / one-race / non-stacking / consume-on-commit contract is unchanged. No production race, engine, Receipt, storage, rig, asset, or Plan 19 source was edited.
+
+Playback reads the committed trajectory. It adds an accessible show/hide narrative and event-linked seeking, a close camera and event-synced environmental dimming/participant glow, optional playback-only slow motion, a five-checkpoint fixed-wide reduced-motion path, and a presentation log for displayed cues/seeks/replays. Save/restore retains the presentation cursor, log, completion state and replay count alongside the frozen race. No image generation or asset creation was used.
+
+## Verification and remaining limits
+
+- `node scripts/dev/plan-status.js check plan-13` — exit 0, `RUNNABLE`; packet status was not modified.
+- `node --check` on `race-physics.mjs`, `preview-controller.mjs`, and the `preview-model.mjs` compatibility façade — passed.
+- `node --test reports/development/plan-13-race-staging-and-run-pacing/preview-model.test.mjs` — 12/12 passing: fixed-step deterministic replay, horizon counts, acceleration trace, turn cap, one/no-contact controls, impulse fixture arithmetic, treatment separation, Plan 17 multiplier, reduced-motion ticks, event seeking, snapshot restoration, and slowdown timing.
+- `git diff --check -- reports/development/plan-13-race-staging-and-run-pacing` — passed.
+
+These are isolated model/unit checks; they do not establish cross-browser floating-point identity, classroom pacing, assistive-technology behavior, natural wall-strike distribution, fair multi-contact dynamics, or production lifecycle/economy correctness. Wall impulse behavior is exercised by a worked fixture; natural wall-strike coverage remains an experiment if this candidate advances. Contact resolves only one episode per race, so chain reactions are not implemented. Candidate constants, assist rates, outcomes, lighting strength, race duration, day pacing, and production adoption remain unaccepted. The accessible controls have not received a full keyboard-only or screen-reader audit in this pass.
+
+Advisor consultation: not warranted for this isolated preview candidate under the owner-gated workflow; no reviewer subagent was used. Existing unrelated Plan 19 documentation changes were left untouched. Only files under this report folder are included in this implementation commit. No push or packet-status change was made.

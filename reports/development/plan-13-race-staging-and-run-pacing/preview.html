@@ -99,26 +99,21 @@
     <header>
       <p class="tag">Plan 13 · isolated review preview</p>
       <h1>Race staging and run pacing</h1>
-      <p class="lede">Compare a reproducible named-seed race and hand-worked controls at three race durations. Race mechanics and presentation timing are separate; this is a design study, not production gameplay.</p>
-      <div class="notice"><strong>Evidence boundary:</strong> this isolated preview simulates acceleration, cornering, wall impacts, one duck-contact episode, and optional rubber-band treatments before playback. Its candidate physics values are experimental, not production balance. Playback, camera, lighting, event seeking and reduced motion reuse one committed trajectory and cannot reroll the race. Plan 17's accepted trial contract is retained. The duck illustration references the read-only Mode C SVG.</div>
+      <p class="lede">Compare matched seeded steering, weaving, contact, and first-crossing treatments on one fixed oval. Simulation and presentation timing remain separate; this is a design study, not production gameplay.</p>
+      <div class="notice"><strong>Evidence boundary:</strong> this isolated preview simulates acceleration, tangent or cross-track steering, wall impacts, one duck-contact episode, and seeded weave treatments before playback. Its candidate physics values are experimental, not production balance. Playback, camera, lighting, event seeking, and reduced motion reuse one committed trajectory and cannot reroll the race. Plan 17's accepted 3 Down / +5% one-race trial contract is retained. The duck illustration references the read-only Mode C SVG.</div>
     </header>
 
     <section class="panel" aria-labelledby="race-heading">
       <h2 id="race-heading">Matched oval race comparison</h2>
       <div class="controls">
-        <label>Physics treatment
-          <select id="model">
-            <option value="baseline">Physics baseline</option>
-            <option value="catchup">Catch-up sprint only</option>
-            <option value="wobble">Leader wobble only</option>
-            <option value="combined">Sprint + wobble comparison</option>
-          </select>
-        </label>
-        <label>Simulation horizon
-          <select id="duration">
-            <option value="12">12 seconds</option>
-            <option value="20" selected>20 seconds</option>
-            <option value="30">30 seconds</option>
+        <label>Experiment
+          <select id="experiment">
+            <option value="controller-tangent">Controller baseline · tangent only</option>
+            <option value="controller-recenter">Controller control · bounded cross-track recenter</option>
+            <option value="weave-symmetric">Symmetric weave · recenter controller</option>
+            <option value="weave-rank-weighted">Rank-weighted weave · recenter controller</option>
+            <option value="contact-6deg">Contact control · 6° response</option>
+            <option value="contact-15-20deg">Contact candidate · seeded 15–20° response</option>
           </select>
         </label>
         <label>Camera
@@ -142,22 +137,22 @@
         <div class="controls">
           <label>Run seed <input id="run-seed" type="text" value="Quackpot Plan 13 named-seed example" autocomplete="off"></label>
           <label>Race ID <input id="race-id" type="text" value="R03" autocomplete="off"></label>
-          <label>Player base speed <input id="player-speed" type="number" value="10.5" min="0.1" step="0.1"></label>
-          <label>AI field base speed <input id="field-speed" type="number" value="10.2" min="0.1" step="0.1"></label>
+          <label>Player base speed <input id="player-speed" type="number" value="11.7" min="0.1" step="0.1"></label>
+          <label>AI field base speed <input id="field-speed" type="number" value="11.5" min="0.1" step="0.1"></label>
           <label>One race choice
             <select id="choice"><option value="steady">Steady</option><option value="sprint">Sprint</option><option value="drafting">Drafting candidate</option></select>
           </label>
           <label style="flex-direction:row;align-items:center;gap:8px;margin-bottom:9px"><input type="checkbox" id="trial"> Plan 17 trial committed (3 Down, +5% once)</label>
         </div>
-        <p class="fine-print">Recomputes the outcome only when one of these inputs or the outcome model changes. Camera, duration, reduced motion, skip, replay and snapshot restore use the committed record and do not resolve a second time.</p>
+        <p class="fine-print">Recomputes the outcome only when a race input or experiment changes. Camera, highlight, reduced motion, skip, replay, and snapshot restore reuse the committed trajectory and do not resolve a second time.</p>
       </fieldset>
-      <p class="fine-print" id="race-boundary">Six ducks run a two-line, three-row oval race in race-world coordinates. Acceleration, speed-limited turning, wall response, and one seeded contact episode can affect final progress. Rubber-band variants are compared separately. All values are preview candidates only.</p>
+      <p class="fine-print" id="race-boundary">Six ducks start in two lanes and three rows. Each race ends at the earliest interpolated forward crossing of the actual finish line, or is marked unresolved at 40 seconds / 800 ticks with no winner or payout. Followers are classified at the winner's crossing time. The 0, −4, and −8 m rows travel different distances to the line. Mechanical event and weave-opportunity records are kept separately.</p>
       <div class="race-layout" style="margin-top:16px">
         <div>
           <div class="stage-shell" id="stage-shell">
             <svg id="race-svg" viewBox="0 0 900 500" role="img" aria-labelledby="track-title track-desc">
               <title id="track-title">Two-lane oval kart race in a rectangular viewport</title>
-              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, contacts and optional assistance determine the committed progress order.</desc>
+              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, wall response and one duck contact determine the earliest line crossing and same-time classification.</desc>
               <g id="camera-root">
                 <g id="environment" class="environment">
                   <rect width="900" height="500" class="pond"/>
@@ -186,6 +181,11 @@
           <div class="panel-row"><button id="narrative-toggle" type="button" aria-expanded="false" aria-controls="race-narrative">Show race narrative</button></div>
           <section id="race-narrative" class="narrative" aria-label="Race narrative" hidden>
             <p id="narrative-status" class="status" role="status" aria-live="polite">No race event has been revealed yet.</p>
+            <p id="opportunity-summary" class="fine-print">Weave opportunity diagnostics appear after a race is resolved.</p>
+            <details class="fine-print" id="opportunity-details">
+              <summary>Weave opportunity diagnostic log</summary>
+              <ol id="opportunity-list"></ol>
+            </details>
             <div id="event-list" class="event-list" aria-label="Revealed race events"></div>
             <p id="event-caption" class="fine-print"></p>
             <div class="panel-row">
@@ -198,7 +198,7 @@
           <p id="static-view-label" class="static-view" aria-live="polite"></p>
         </div>
         <aside class="panel" style="margin:0" aria-labelledby="result-heading">
-          <h3 id="result-heading">Resolved finish</h3>
+          <h3 id="result-heading">Line-crossing result</h3>
           <p id="finish-summary" class="subtle">Select a trace to calculate its outcome.</p>
           <ol id="finish-order" class="result-list"></ol>
           <p id="event-summary" class="fine-print"></p>
@@ -256,9 +256,9 @@
       <p class="subtle">Example maps from the proposed 900-second budget. These are scripted observation aids, not a timed whole-run claim. The sample contains no mandatory idle waits.</p>
       <div class="pace-grid">
         <article class="pace-card"><h3>Ordinary day · 55 sec</h3><ol><li>Balances and expense cue · 8 sec · running flow</li><li>Familiar companion line · 5 sec · paused</li><li>Read offer and choose spend/save · 12 sec · live labeled window, 1 decision</li><li>Pull/decline and skippable reveal · 15 sec · reveal pauses</li><li>Settlement and transition · 15 sec · pause as needed</li></ol><p class="clock">New rule time: 0–5 sec if needed. Repeated waits: 0.</p></article>
-        <article class="pace-card"><h3>Consequential day · 95 sec</h3><ol><li>Balances and upcoming bill · 8 sec · running flow</li><li>Explain Drafting unlock · 12 sec · paused, player-paced</li><li>Shop window · 20 sec · live labeled window, 1 decision</li><li>Choose one race entry · 10 sec · 1 decision, no reflex deadline</li><li>Fixed race · 20 sec · active presentation</li><li>Result/payout/companion beat · 10 sec · paused</li><li>Settlement/transition · 15 sec · pause for consequential choice</li></ol><p class="clock">Comprehension: at least the 12-sec introduction; may extend. Repeated waits: 0.</p></article>
+        <article class="pace-card"><h3>Consequential day · about 97 sec</h3><ol><li>Balances and upcoming bill · 8 sec · running flow</li><li>Explain Drafting unlock · 12 sec · paused, player-paced</li><li>Shop window · 20 sec · live labeled window, 1 decision</li><li>Choose one race entry · 10 sec · 1 decision, no reflex deadline</li><li>Finish-line race · 21.6–22.5 sec across 20 headless seeds; seed-dependent</li><li>Result/payout/companion beat · 10 sec · paused</li><li>Settlement/transition · 15 sec · pause for consequential choice</li></ol><p class="clock">Comprehension: at least the 12-sec introduction; may extend. Repeated waits: 0.</p></article>
       </div>
-      <p class="fine-print" style="margin-top:12px">Illustrative run split: setup 90 sec + 7 ordinary days (385 sec) + 3 consequential days (285 sec, including three 20-sec races) + Receipt/ending 120 sec + 20-sec non-idle orientation allowance = 900 sec. Longer player-paced scenes can extend the run; this has not been measured with students.</p>
+      <p class="fine-print" style="margin-top:12px">Illustrative floor: setup 90 sec + 7 ordinary days (385 sec) + 3 consequential days (about 290–293 sec, using the observed 21.6–22.5 sec race range) + Receipt/ending 120 sec + 20-sec non-idle orientation allowance = about 905–908 sec before optional slow-motion wall time. Two-second highlights on all three races add 6 sec, for about 911–914 sec. This remains a budget estimate; seed variation beyond the 20-seed sample and player-paced scenes are unmeasured.</p>
     </section>
     <p class="fine-print">No network requests are made by this standalone preview. The Uninstall button demonstrates continuous availability; it does not control a game run. These simulation rules do not change the production game or Plan 17's accepted trial rules.</p>
   </main>

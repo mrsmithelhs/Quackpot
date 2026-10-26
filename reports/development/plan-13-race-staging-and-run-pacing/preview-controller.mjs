@@ -1,4 +1,5 @@
 import {
+  raceHeadingError,
   raceDuckYaw,
   buildPresentationPlan,
   interpolateSnapshot,
@@ -14,7 +15,7 @@ const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const PX_PER_METER = 7.3;
-const LOCAL_SNAPSHOT_KEY = 'quackpot.plan13.physicsPresentation.v2';
+const LOCAL_SNAPSHOT_KEY = 'quackpot.plan13.physicsPresentation.v3';
 const OSCillation = matchMedia('(prefers-reduced-motion: reduce)');
 
 let state;
@@ -53,8 +54,7 @@ function inputFromControls() {
     fieldBaseSpeed: Number($('field-speed').value),
     choice: $('choice').value,
     trialCommitted: $('trial').checked,
-    model: $('model').value,
-    duration: Number($('duration').value),
+    experiment: $('experiment').value,
   };
 }
 
@@ -63,8 +63,8 @@ function freshState(resolution) {
     resolution,
     entrants: resolution.entrants.map((e) => ({ ...e, node: null })),
     finish: resolution.finish,
-    model: resolution.model,
-    fixtureLabel: `Seeded physics · ${resolution.seed} · race ${resolution.raceId}`,
+    experiment: resolution.experiment,
+    fixtureLabel: `Seeded line race · ${resolution.seed} · race ${resolution.raceId}`,
     presentationPlan: buildPresentationPlan(resolution, currentPresentationSettings()),
     cursorTick: 0,
     checkpointIndex: 0,
@@ -80,7 +80,6 @@ function freshState(resolution) {
 
 function currentPresentationSettings() {
   return {
-    duration: Number($('duration').value),
     camera: $('camera').value === 'scripted' ? 'close' : 'wide',
     lighting: $('lighting').value,
     highlightSeconds: Number($('highlight').value),
@@ -96,9 +95,12 @@ function resolveOutcomes() {
   $('runner-layer').replaceChildren();
   $('save-state').disabled = false;
   $('restore-state').disabled = !savedSnapshot;
-  $('race-status').textContent = `Race committed · ${resolution.ticks} fixed simulation ticks; ${resolution.draws.total} keyed mechanic draws. Finish stays hidden until playback ends.`;
+  $('race-status').textContent = resolution.status === 'finished'
+    ? `Race committed · first line crossing at ${resolution.finishTimeSeconds.toFixed(2)}s · ${resolution.draws.total} keyed mechanic draws.`
+    : `Race unresolved · ${resolution.unresolvedReason} · no winner or payout · ${resolution.draws.total} keyed mechanic draws.`;
   $('event-list').replaceChildren();
   $('event-caption').textContent = '';
+  $('scene-description').textContent = 'Race starts from the committed grid. Race events will be described when playback or event seeking reaches them.';
   $('static-view-label').textContent = '';
   $('presentation-log').replaceChildren();
   renderPresentationLog();
@@ -116,26 +118,43 @@ function rankAtCurrentTick(tick) {
 function renderSummary(revealFinish = state.finished) {
   const r = state.resolution;
   const timeBonus = Number($('highlight').value);
-  const modelText = ({ baseline: 'physics baseline', catchup: 'catch-up-only candidate', wobble: 'leader-wobble-only candidate', combined: 'combined assistance candidate' })[r.model];
+  const modelText = ({
+    'controller-tangent': 'controller baseline · tangent only',
+    'controller-recenter': 'controller baseline · cross-track recenter',
+    'weave-symmetric': 'symmetric weave · recenter controller',
+    'weave-rank-weighted': 'rank-weighted weave · recenter controller',
+    'contact-6deg': 'contact control · 6 degrees',
+    'contact-15-20deg': 'contact candidate · 15–20 degrees',
+  })[r.experiment];
   const trialText = r.trialConsumptionCount ? ' · Plan 17 +5% base-speed trial applied once' : '';
-  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelText} · ${r.horizonSeconds}s fixed simulation${timeBonus ? ` + ${timeBonus}s playback highlight` : ''} = ${r.horizonSeconds + timeBonus}s playback${trialText}`;
+  const simText = r.status === 'finished'
+    ? `first line crossing ${r.finishTimeSeconds.toFixed(2)}s`
+    : `unresolved at ${r.horizonSeconds.toFixed(2)}s (${r.unresolvedReason})`;
+  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelText} · ${simText}${timeBonus ? ` + ${timeBonus}s playback highlight` : ''} = ${(r.horizonSeconds + timeBonus).toFixed(2)}s max playback${trialText}`;
   $('finish-order').replaceChildren();
   if (!revealFinish) {
     const item = document.createElement('li');
-    item.textContent = `Finish order hidden during the race. ${r.eventRecords.length} event${r.eventRecords.length === 1 ? ' is' : 's are'} committed; they are revealed as playback reaches them.`;
+    item.textContent = `Result hidden during playback. ${r.eventRecords.length} mechanical event${r.eventRecords.length === 1 ? ' is' : 's are'} committed; they are revealed as playback reaches them.`;
     $('finish-order').append(item);
+  } else if (r.status !== 'finished') {
+    const item = document.createElement('li'); item.textContent = `Unresolved · ${r.unresolvedReason} · no winner or payout.`; $('finish-order').append(item);
   } else {
     for (const entrant of state.finish) {
       const item = document.createElement('li');
       const suffix = entrant.place === 1 ? 'st' : entrant.place === 2 ? 'nd' : entrant.place === 3 ? 'rd' : 'th';
-      item.textContent = `${entrant.name} · ${entrant.progress.toFixed(1)} m · ${entrant.place}${suffix} · ${entrant.payout} Gems`;
+      const crossing = entrant.crossedAtFinish ? `crossed at ${entrant.crossingTimeSeconds.toFixed(2)}s` : `position at winner time`;
+      item.textContent = `${entrant.name} · ${entrant.progress.toFixed(1)} m · ${entrant.place}${suffix} · ${crossing} · ${entrant.payout} Gems`;
       $('finish-order').append(item);
     }
   }
   const causes = r.eventRecords.filter((e) => e.success !== false && e.eligible !== false);
   $('event-summary').textContent = revealFinish
-    ? `${causes.length} recorded event${causes.length === 1 ? '' : 's'}; the full event archive is now available below. The preview log separately records which cues were displayed and which event controls were selected.`
+    ? `${causes.length} mechanical event${causes.length === 1 ? '' : 's'}; ${r.opportunityRecords.length} separate weave-opportunity diagnostic${r.opportunityRecords.length === 1 ? '' : 's'}. The full event archive and diagnostics are available in the narrative. Presentation cues are logged separately.`
     : 'Race outcome and events are committed before playback. Future event details and finish order stay hidden until they are reached.';
+  if ($('opportunity-summary')) {
+    const skipped = r.opportunityRecords.filter((item) => item.status === 'skipped').length;
+    $('opportunity-summary').textContent = `${r.opportunityRecords.length} scheduled weave opportunities · ${skipped} skipped during recovery or lane recentering · diagnostics are separate from mechanical event records.`;
+  }
 }
 
 function displayTime(event) { return `${event.time.toFixed(2)}s · tick ${event.tick}`; }
@@ -164,6 +183,23 @@ function renderRecord(revealAll = state.finished) {
   }
 }
 
+function renderOpportunityDiagnostics(revealAll = state.finished) {
+  const list = $('opportunity-list');
+  if (!list) return;
+  list.replaceChildren();
+  const rows = state.resolution.opportunityRecords.filter((row) => revealAll || row.tick <= state.cursorTick);
+  for (const row of rows) {
+    const item = document.createElement('li');
+    item.textContent = `${row.time.toFixed(2)}s · ${row.entrantId} · frozen rank ${row.rank} · ${row.intervalTicks * state.resolution.dt}s interval · ${row.status} (${row.reason})${row.eventId ? ` · ${row.eventId}` : ''}`;
+    list.append(item);
+  }
+  if (!rows.length) {
+    const item = document.createElement('li');
+    item.textContent = revealAll ? 'No weave opportunities occurred.' : 'Weave opportunities appear here as playback reaches them.';
+    list.append(item);
+  }
+}
+
 function appendPresentationRecord(type, details = {}) {
   state.presentationLog.push({ sequence: state.presentationLog.length + 1, replay: state.replayNumber, type, tick: Math.round(state.cursorTick), time: Number((state.cursorTick * state.resolution.dt).toFixed(3)), ...details });
   renderPresentationLog();
@@ -184,7 +220,7 @@ function setNarrativeExpanded(expanded) {
   $('narrative-toggle').setAttribute('aria-expanded', String(expanded));
   $('narrative-toggle').textContent = expanded ? 'Hide race narrative' : 'Show race narrative';
   if (!expanded && $('race-narrative').contains(document.activeElement)) $('narrative-toggle').focus();
-  if (expanded) renderEventList();
+  if (expanded) { renderEventList(); renderOpportunityDiagnostics(state.finished); }
 }
 
 function revealReachedEvents(tick, allowFuture = false) {
@@ -199,6 +235,7 @@ function revealReachedEvents(tick, allowFuture = false) {
     renderRecord(state.finished);
     if (!$('race-narrative').hidden) renderEventList();
   }
+  if (!$('race-narrative').hidden) renderOpportunityDiagnostics(allowFuture || state.finished);
 }
 
 function renderEventList() {
@@ -273,7 +310,8 @@ function renderRunners(tickFloat) {
     const y = 250 + position.y * PX_PER_METER;
     entrant.node.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
     const duckImage = entrant.node.querySelector('[data-duck-image="true"]');
-    duckImage.style.transform = `perspective(180px) rotateY(${raceDuckYaw(position.progress).toFixed(2)}deg)`;
+    const steeringYaw = raceHeadingError(position.progress, position.heading) * 180 / Math.PI;
+    duckImage.style.transform = `perspective(180px) rotateY(${raceDuckYaw(position.progress).toFixed(2)}deg) rotateZ(${steeringYaw.toFixed(2)}deg)`;
   }
   const reducedNow = reduced;
   const fraction = state.cursorTick / state.resolution.ticks;
@@ -300,7 +338,7 @@ function updateSceneDescription(snapshot, fraction) {
   $('race-svg').querySelector('#track-desc').textContent = label;
   $('simulation-hud').textContent = `Tick ${Math.round(state.cursorTick)} · ${(state.cursorTick * state.resolution.dt).toFixed(2)}s · ${(fraction * 100).toFixed(0)}%`;
   if ($('static-view-label')) $('static-view-label').textContent = reduced
-    ? `Static race view · tick ${Math.round(state.cursorTick)} / ${state.resolution.ticks} · ${(fraction * 100).toFixed(0)}% of horizon · same committed trajectory.`
+    ? `Static race view · tick ${state.cursorTick.toFixed(1)} / ${state.resolution.ticks.toFixed(1)} · ${(fraction * 100).toFixed(0)}% of line-race trajectory · same committed result.`
     : '';
 }
 
@@ -370,11 +408,16 @@ function finishRace(reason) {
   stopPlayback(); state.finished = true; state.cursorTick = state.resolution.ticks;
   elapsedBeforePause = state.presentationPlan.totalWallSeconds * 1000;
   revealReachedEvents(state.cursorTick, true);
-  renderSummary(true); renderRecord(true); renderRunners(state.cursorTick);
+  renderSummary(true); renderRecord(true); renderOpportunityDiagnostics(true); renderRunners(state.cursorTick);
   $('race-status').textContent = reason === 'skip'
     ? 'Skipped to results · full committed summary revealed; no mechanics or RNG rerun.'
-    : `Finish · ${state.finish[0].name} leads the fixed-horizon result.`;
+    : state.resolution.status === 'finished'
+      ? `Finish line · ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)}s.`
+      : `Race unresolved · ${state.resolution.unresolvedReason}; no winner or payout.`;
   $('narrative-status').textContent = `Full race summary · all ${state.resolution.eventRecords.length} committed events are available.`;
+  $('scene-description').textContent = state.resolution.status === 'finished'
+    ? `Race complete. ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)} seconds; remaining places are classified at that same crossing time.`
+    : `Race unresolved at ${state.resolution.horizonSeconds.toFixed(2)} seconds. No winner or payout was recorded.`;
   appendPresentationRecord(reason === 'skip' ? 'skip to results' : 'race finished');
   if (!$('race-narrative').hidden) renderEventList();
   updateControls();
@@ -495,13 +538,13 @@ function restoreSnapshot() {
       const id = ({ seed: 'run-seed', raceId: 'race-id', playerBaseSpeed: 'player-speed', fieldBaseSpeed: 'field-speed' })[key];
       $(id).value = snapshot.resolution.inputs[key];
     }
-    $('model').value = snapshot.resolution.model; $('choice').value = snapshot.resolution.choice;
-    $('trial').checked = snapshot.resolution.inputs.trialCommitted; $('duration').value = String(snapshot.resolution.horizonSeconds);
+    $('experiment').value = snapshot.resolution.experiment; $('choice').value = snapshot.resolution.choice;
+    $('trial').checked = snapshot.resolution.inputs.trialCommitted;
     $('highlight').value = String(snapshot.presentation.highlightSeconds);
     $('camera').value = snapshot.presentation.camera === 'wide' ? 'wide' : 'scripted';
     $('lighting').value = snapshot.presentation.lighting;
     $('reduce').checked = snapshot.presentation.reducedMotion;
-    $('runner-layer').replaceChildren(); renderSummary(false); renderRecord(false); renderRunners(state.cursorTick); renderPresentationLog();
+    $('runner-layer').replaceChildren(); renderSummary(false); renderRecord(false); renderOpportunityDiagnostics(false); renderRunners(state.cursorTick); renderPresentationLog();
     $('race-status').textContent = 'Snapshot restored · committed trajectory reused; no mechanics or RNG rerun.';
     updateControls();
   } catch (error) { $('race-status').textContent = `Could not restore snapshot: ${error.message}`; }
@@ -537,7 +580,7 @@ document.body.classList.toggle('reduce-motion', reduced);
 try { savedSnapshot = sessionStorage.getItem(LOCAL_SNAPSHOT_KEY); } catch { savedSnapshot = null; }
 $('restore-state').disabled = !savedSnapshot;
 
-for (const id of ['model', 'run-seed', 'race-id', 'player-speed', 'field-speed', 'choice', 'trial', 'duration']) $(id).addEventListener('change', resolveOutcomes);
+for (const id of ['experiment', 'run-seed', 'race-id', 'player-speed', 'field-speed', 'choice', 'trial']) $(id).addEventListener('change', resolveOutcomes);
 for (const id of ['camera', 'highlight', 'lighting']) $(id).addEventListener('change', () => updatePresentationOnly({ reset: true }));
 $('reduce').addEventListener('change', onMotionModeChange);
 OSCillation.addEventListener?.('change', onMotionModeChange);

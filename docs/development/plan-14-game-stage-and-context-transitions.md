@@ -14,6 +14,8 @@ summary: >-
 
 ## Goal and scope
 
+**Owner selection/closeout, 2026-10-25:** Owner chooses Shell A and refined automatic turn→expand / animated fade-and-rotate return. Later commits through `4da0472` address direct owner-observed expansion/modal issues; root corrected nested-click focus return inline and reran controller checks (`review-03.md`). Investigation accepted for closure. Production uses the concise `reports/orchestration/plan-14-production-handoff.md` and draft Plan19, not wholesale report HTML. No new implementation assignment or exact-duration approval follows.
+
 **Repair 01 acceptance, 2026-10-25:** `042f120` plus small inline motion/modal/encoding corrections passes bounded technical review (`review-02.md`). Original and expanded controller checks pass. Ready for owner A/B shell and transition/static-alternative selection; no further implementer repair or production work requested. Durations/layout remain proposals and packet remains delivered.
 
 **Delivery review, 2026-10-25:** `8ead4cf` returned for bounded report/prototype Repair 01. Read report-folder `review-01.md`, `repair-01.md` and controller observations. Keep the promising A/B layout direction; fix transition interruption/choreography, focus/reduced-motion paths and unsupported mock/conformance/provenance claims before owner selection. Production saving/export/Receipt are not requested. Packet remains delivered until owner resumes the repair; no shell/timing decision is adopted.

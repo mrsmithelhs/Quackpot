@@ -133,3 +133,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Following Repair 02 technical verification and the owner's acceptance of manual head/wing poses as a good start, close Plan 04. Mode C is the selected digital rig/default/master; all three synthesized quack candidates are retained. Larger and independent paper-layer motions remain Plan 09, not missing work in this static-first proof. Root corrected leftover shadow wording and forced smooth gallery scrolling inline; no further implementer round is needed.
 
 **Limits:** No production game integration, full roster, sound-role/mixing selection, acoustic calibration, classroom performance or licensed-recording selection is established. Plans 09/13 retain their own owner assignment/recommendation gates despite Plan 04 dependency completion. Plans 14/17/18 are already assigned and continue independently. Evidence: `reports/development/plan-04-svg-rig-and-sound/review-04.md`.
+
+### DECISION-012 — Shell A and automatic phone transition selected
+
+**Date:** 2026-10-25
+
+**Decision:** Owner chooses Shell A after refining the wireframe. One activation automatically plays turn then expansion; no separate Expand click is required. Reverse return visibly fades/collapses the phone border as it rotates back to portrait. Settings stays above chrome and within reach, with backdrop dismissal in addition to close/Escape controls. Final production removes explanatory/review scaffolding while retaining essential information, operational feedback and accessibility. Close Plan 14 as the presentation investigation.
+
+**Implementation boundary:** Exact timings/easing/layout values remain tunable. `reports/orchestration/plan-14-production-handoff.md` is the concise selected contract and source mapping; draft Plan19 gates focused production integration. Large report HTML is a transient comparison, not production source or an automatic migration. Actual src roles are now documented in AGENTS and `docs/repo-structure.md`. No whole-app framework/refactor, audio/rig integration, economy change or new packet assignment is approved by this closeout.

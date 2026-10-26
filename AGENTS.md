@@ -9,7 +9,7 @@
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: development underway; local build/layout and the Mode C layered digital duck rig with three synthesized sound candidates are accepted proofs. Plans 14/17/18 investigate stage/transitions, Down exchange and licensed audio in parallel. Production integration, broader motion and asset choices remain owner-gated.**
+**Current stage: development underway; the mechanism slice, Mode C digital rig and Shell A presentation direction are accepted. Down-economy evidence and licensed audio await final owner disposition. Production integration, broader motion and asset choices remain owner-gated.**
 
 ---
 
@@ -23,7 +23,8 @@ Quackpot is a public, static browser gacha game used in CourseVGD to help studen
 | Project seed (`docs/project-seed.md`) | Setup context and founding proposal history; accepted paths are in `docs/repo-structure.md` |
 | Founding design review (`reports/orchestration/founding-docs-review/`) | Blind review reports, synthesis, dispositions, and GATE-53B owner triage |
 | Packet & status tooling (`scripts/dev/plan-status.js`, `docs/development/`) | Handoff packet lifecycle and index management |
-| Browser scaffold (`src/`) and simulation (`sim/`) | Local Vite placeholder and headless evidence; playable game and teacher analyzer remain planned |
+| Browser app (`src/`) | Playable mechanism slice: entry/controller, engine/log/Receipt/storage, UI views and global styles; see `docs/repo-structure.md` for the source map |
+| Rig/audio proofs and simulation | `src/core/duck-rig.mjs` and `src/audio/synth.mjs` are accepted proof modules awaiting game integration; `sim/` contains the separate headless model and re-exports of shared pure modules |
 
 ---
 
@@ -32,8 +33,14 @@ Quackpot is a public, static browser gacha game used in CourseVGD to help studen
 ```
 .claude/agents/                 # Claude Code subagent definitions (explorer, implementer, researcher, reviewer)
 .codex/agents/                  # Codex subagent definitions (implementer, researcher, reviewer)
-src/                            # Browser scaffold; future game source and SVG assets
-sim/                            # Headless model, shared modules pending integration, and experiments
+src/                            # Playable browser mechanism slice and proof assets
+  main.js                       # Boot/restore, navigation, view callbacks, autosave/warnings
+  core/                         # Game rules/state, PRNG, append-only log, Receipt projection, storage, rig
+  ui/                           # HUD, desk/gacha/race/Receipt views and modal renderers
+  audio/                        # Local synthesized sound proof; game integration pending
+  assets/                       # Placeholder still used in game; accepted SVG rig also available
+  style.css                     # Current global styles; a coordination hotspot
+sim/                            # Separate headless model/experiments; pure shared modules re-export src/core
 docs/
   agent-starting-prompts/       # Starting prompts for orchestrator, implementer, design-review, and scan threads
   development/                  # Implementer handoff packets, packet index, and templates
@@ -57,6 +64,8 @@ advisor-capable-providers.json  # Provider capability registry for pre-delivery 
 ---
 
 ## 4. Key Commands
+
+**Editing map:** Read the current-source section of `docs/repo-structure.md`, then only the relevant modules. UI callbacks call the engine; the engine owns outcomes and log entries; storage persists the state/log/RNG envelope; Receipt projection reads log evidence. Report wireframes are review artifacts, not runtime dependencies. Port selected behavior into focused source modules; do not copy a monolithic mockup or append every new feature to `main.js`/`style.css`. The selected Shell A handoff is `reports/orchestration/plan-14-production-handoff.md`.
 
 Run from the repository root:
 

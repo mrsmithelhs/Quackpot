@@ -14,6 +14,8 @@ summary: >-
 
 ## Goal and authority
 
+**Repair 01 acceptance, 2026-10-25:** `7325541` passes bounded technical review (`review-02.md`): seven tests, independent mass/censor checks and complete runner reproduction (excluding timestamp). Prior evidence blockers are resolved; no further implementer repair. Recommend owner closure with scenario/roster/finite-horizon and lifecycle/Receipt limits explicit. Packet remains delivered pending final owner acceptance; no production integration is adopted.
+
 **Scenario delivery review, 2026-10-25:** `5df68de` returned for bounded Repair 01 (`review-01.md`/`repair-01.md`). Five tests pass and main affordability/race/expected-draw values reproduce, but terminal mass is discarded, capped live runs are counted as terminal and empty/partial dynamic coverage is missing. Correct within report folder; no new pricing/rule gate or production implementation. Lifecycle/Receipt statements must remain explicit integration obligations. Packet delivered pending repair dispatch.
 
 **Outline review, 2026-10-25:** Report-folder `preflight-review-01.md` recommends T1 A / T2 A (including Legendary reset) / T3 A / I1 for owner selection as scenario inputs. These recommendations are not adopted rules. Opening distribution is independently reproduced; pooled-bank proof, some traces/race claims and Receipt wording need correction in the next evidence pass. Use the review and independent `preflight-checks-01.mjs`; no production or scenario gate is passed by this annotation. Packet remains in-progress at the owner mechanism gate.

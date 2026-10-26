@@ -1855,10 +1855,10 @@
       }
 
       document.getElementById('btn-open-settings').addEventListener('click', function(e) {
-        openModal(modalSettings, (e && e.target) || document.getElementById('btn-open-settings'));
+        openModal(modalSettings, (e && e.currentTarget) || document.getElementById('btn-open-settings'));
       });
       document.getElementById('btn-settings-b').addEventListener('click', function(e) {
-        openModal(modalSettings, (e && e.target) || document.getElementById('btn-settings-b'));
+        openModal(modalSettings, (e && e.currentTarget) || document.getElementById('btn-settings-b'));
       });
       document.getElementById('btn-close-settings').addEventListener('click', () => closeModal(modalSettings, true));
       modalSettings.addEventListener('click', (e) => {
@@ -1868,10 +1868,10 @@
       });
 
       document.getElementById('btn-open-uninstall').addEventListener('click', function(e) {
-        openModal(modalUninstall, (e && e.target) || document.getElementById('btn-open-uninstall'));
+        openModal(modalUninstall, (e && e.currentTarget) || document.getElementById('btn-open-uninstall'));
       });
       document.getElementById('btn-uninstall-b').addEventListener('click', function(e) {
-        openModal(modalUninstall, (e && e.target) || document.getElementById('btn-uninstall-b'));
+        openModal(modalUninstall, (e && e.currentTarget) || document.getElementById('btn-uninstall-b'));
       });
       document.getElementById('btn-close-uninstall').addEventListener('click', () => closeModal(modalUninstall, true));
       modalUninstall.addEventListener('click', (e) => {

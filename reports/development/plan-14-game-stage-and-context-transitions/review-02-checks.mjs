@@ -12,7 +12,7 @@ function el(id) {
   const node = { id, tagName: 'BUTTON', style: {}, inert: false, checked: false, offsetParent: {},
     classList: { add: (...xs) => xs.forEach(x => classes.add(x)), remove: (...xs) => xs.forEach(x => classes.delete(x)), contains: x => classes.has(x) },
     addEventListener(type, fn) { handlers.set(type, [...(handlers.get(type) || []), fn]); },
-    fire(type, event = {}) { for (const fn of handlers.get(type) || []) fn({ target: node, preventDefault() {}, ...event }); },
+    fire(type, event = {}) { for (const fn of handlers.get(type) || []) fn({ target: node, currentTarget: node, preventDefault() {}, ...event }); },
     focus() { focused = node; }, click() { node.fire('click'); },
     contains(other) { return node === other; },
     querySelectorAll() { return id === 'modal-settings' ? [el('btn-close-settings'), el('pref-reduced-motion')] : [el('btn-close-uninstall'), el('btn-retention-leave')]; },
@@ -38,7 +38,7 @@ for (const [trigger, modal, first, last] of [
   ['btn-settings-b', 'modal-settings', 'btn-close-settings', 'pref-reduced-motion'],
   ['btn-open-uninstall', 'modal-uninstall', 'btn-close-uninstall', 'btn-retention-leave'],
 ]) {
-  el(trigger).focus(); el(trigger).click();
+  el(trigger).focus(); el(trigger).fire('click', { target: el('nested-icon-span'), currentTarget: el(trigger) });
   assert.equal(el('shell-root').inert, true); assert.equal(el(modal).inert, false);
   el(last).focus(); keys.forEach(fn => fn({ key: 'Tab', target: focused, preventDefault() {} }));
   assert.equal(focused.id, first);

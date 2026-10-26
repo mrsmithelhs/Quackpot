@@ -36,6 +36,11 @@
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
 }
 
+.duplicate-help-body {
+  max-height: var(--duplicate-help-body-max-height, none);
+  overflow-y: auto;
+}
+
 .duplicate-help-callout::before,
 .duplicate-help-callout::after {
   content: "";

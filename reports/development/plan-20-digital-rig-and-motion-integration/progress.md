@@ -121,3 +121,23 @@ One new read-only reviewer subagent was mistakenly launched for this owner repai
 - This progress report is committed separately as the final implementation act.
 
 QP Orch may now conduct owner rendered review. No packet status, decision log, Plan 13 report-folder file, or remote branch was changed by Plan 20; no push was performed.
+
+## Owner follow-up: render the duplicate-help pointer
+
+QP Orch reopened this bounded defect after the owner screenshot showed a rounded callout with no visible speech-bubble tail. The earlier report's statement that the bubble had a visible angular tail was inaccurate for the owner's rendered witness and is superseded by this diagnosis and evidence.
+
+The source cause was `positionDuplicateHelp()` setting `overflow-y: auto` on `.duplicate-help-callout`, the same box that owns the negative-offset `::before` and `::after` triangles. CSS computes the other overflow axis as `auto` too, making that outer bubble a clipping scroll container and cutting off the triangles. The repair moves the scroll limit to the inner `.duplicate-help-body`; the outer callout stays overflow-visible so both pseudo-elements can extend beyond its edge. Placement safety now includes the 11px triangle protrusion in viewport, source-card, and Uninstall collision checks.
+
+The desktop owner placement remains to the right of the duplicate card and aligned to its top. In a real 1280×720 CSS viewport, the source card right edge was x=718.59 and the bubble began at x=730.59; the left-pointing outline/fill tail extended to x=719.59, leaving a 1px gap to the card. Both pseudo-elements computed as `content: ""`, `display: block`, and `position: absolute`; their border-right colors rendered the outline and 75%-alpha fill. The outer box computed `overflow-x/y: visible`; only the inner text body scrolls.
+
+At a real 390×844 CSS viewport, the two vertical placements were rendered and captured. For below placement, the source card occupied y=100.11–292.11 and the bubble y=304.11–417.02; the top tail extended to y=293.11. For above placement, the bubble occupied y=475.20–588.11 and the source began at y=600.11; the bottom tail extended to y=599.11. Both states show the tail pointing toward the source; bubble rectangles intersect neither the source card nor Uninstall. Screenshots are available here:
+
+- [Desktop right placement](evidence/duplicate-help-desktop.png)
+- [Narrow below placement](evidence/duplicate-help-narrow-below.png)
+- [Narrow above placement](evidence/duplicate-help-narrow-above.png)
+
+The dedicated local preview used a temporary Playwright Chrome context, independent of the owner's Chrome profile; its viewport was set directly to 1280×720 and 390×844. Pointer hover and keyboard Tab focus each changed both the callout background and tail fill to opaque `rgb(15, 23, 42)` while preserving the `rgb(148, 163, 184)` outline. Keyboard focus on the close button retained its visible outline. No app behavior, cue lifecycle, motion, economy, or Plan 13 work changed.
+
+Verification for this follow-up: `npm run build` succeeded; `git diff --check` reported no whitespace defects. Browser assertions checked rendered pseudo-element content/display/position/borders and actual screenshot appearance at desktop and narrow viewports, plus source/Uninstall intersections and hover/focus colors. No test suite was run for this small repair. `node scripts/dev/plan-status.js check plan-20` reports `BLOCKED: plan-20 has status "delivered" — not ready or in-progress`; the delivered packet status was left unchanged as required. QP Orch granted the coordinated browser slot for this repair. No extra reviewer was used.
+
+This repair and its progress update are committed together in the scoped repair commit.

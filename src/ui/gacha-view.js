@@ -60,9 +60,9 @@ function renderCompletion(engine) {
 
 function duplicateHelpMarkup(cue = null) {
   const payload = cue?.payload;
-  if (!payload) return '<span data-duplicate-help-copy></span>';
+  if (!payload) return '<div class="duplicate-help-body" data-duplicate-help-copy></div>';
   const text = `Duplicate ducks are automatically returned and converted to Down. This ${payload.rarity} duplicate awarded ${payload.downGained} Down. Common duplicates award 1, Rare 5, and Legendary 20.`;
-  return `<span data-duplicate-help-copy>${text}</span>`;
+  return `<div class="duplicate-help-body" data-duplicate-help-copy>${text}</div>`;
 }
 
 function positionDuplicateHelp(callout, card) {
@@ -72,8 +72,11 @@ function positionDuplicateHelp(callout, card) {
       || target.top >= window.innerHeight || target.left >= window.innerWidth) return false;
   const width = Math.min(360, window.innerWidth - 24);
   callout.style.width = `${width}px`;
-  callout.style.maxHeight = `${Math.max(80, window.innerHeight - 24)}px`;
-  callout.style.overflowY = 'auto';
+  const computed = getComputedStyle(callout);
+  const verticalChrome = ['paddingTop', 'paddingBottom', 'borderTopWidth', 'borderBottomWidth']
+    .reduce((sum, property) => sum + (Number.parseFloat(computed[property]) || 0), 0);
+  const body = callout.querySelector('.duplicate-help-body');
+  body?.style.setProperty('--duplicate-help-body-max-height', `${Math.max(40, window.innerHeight - 24 - verticalChrome)}px`);
   const height = callout.getBoundingClientRect().height;
   let left = target.right + 12;
   if (left + width > window.innerWidth - 12) left = target.left - width - 12;
@@ -83,10 +86,20 @@ function positionDuplicateHelp(callout, card) {
   top = Math.max(12, Math.min(top, window.innerHeight - height - 12));
   const exit = document.querySelector('#btn-uninstall')?.getBoundingClientRect();
   const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-  const fits = (x, y) => x >= 12 && y >= 12 && x + width <= window.innerWidth - 12
-    && y + height <= window.innerHeight - 12
-    && !overlaps({ left: x, top: y, right: x + width, bottom: y + height }, target)
-    && (!exit || !overlaps({ left: x, top: y, right: x + width, bottom: y + height }, exit));
+  const fits = (x, y) => {
+    const pointer = x >= target.right ? 'left'
+      : (x + width <= target.left ? 'right' : (y >= target.bottom ? 'top' : 'bottom'));
+    const bounds = {
+      left: x - (pointer === 'left' ? 11 : 0),
+      top: y - (pointer === 'top' ? 11 : 0),
+      right: x + width + (pointer === 'right' ? 11 : 0),
+      bottom: y + height + (pointer === 'bottom' ? 11 : 0),
+    };
+    return bounds.left >= 12 && bounds.top >= 12 && bounds.right <= window.innerWidth - 12
+      && bounds.bottom <= window.innerHeight - 12
+      && !overlaps(bounds, target)
+      && (!exit || !overlaps(bounds, exit));
+  };
   const placements = [[left, top]];
   const centeredLeft = Math.max(12, Math.min(target.left + target.width / 2 - width / 2, window.innerWidth - width - 12));
   placements.push([centeredLeft, target.bottom + 12], [centeredLeft, target.top - height - 12]);

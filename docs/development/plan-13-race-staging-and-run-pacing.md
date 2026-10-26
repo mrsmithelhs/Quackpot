@@ -1,7 +1,7 @@
 ---
 id: plan-13
 title: Race staging and run pacing investigation
-status: in-progress
+status: delivered
 depends_on: [plan-03, plan-04]
 gate: "Owner approves race staging, dramatic-event meaning and pacing before gameplay integration."
 summary: >-
@@ -13,6 +13,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** isolated local preview and reports. **Owner/model:** one investigator; owner gate. **Expected artifacts:** `reports/development/plan-13-race-staging-and-run-pacing/proposal.md`, staged race preview and `progress.md`.
 
 ## Boundary and required reading
+
+**Combined option delivered, 2026-10-26:** `70ba115`/`c2b9241` adds the owner-requested rank-weighted-weave +15–20° contact arm, preserving constituent rules and controls. Root reproduced17 tests and exact scan hash in `review-05.md`; ready for owner comparison, not production adoption/closure. Preview guide supplies settings; labels/grid and one-contact cap remain limits.
 
 **Owner combined comparison, 2026-10-26:** Owner likes15–20° contact and rank-weighted weave and authorizes one additional Experiment option combining those exact existing rules. Reopen in-progress; retain all individual/control arms, fixed course/caps/shared keyed choices, no new speed penalty or tuning. Measure interaction rather than assume additive unpredictability or near finishes. Investigation tables remain allowed here; production needs simple commentary/event access instead of the technical table. Race crowd/contact audio is future separate work, not this update.
 

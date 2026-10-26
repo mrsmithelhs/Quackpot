@@ -1,12 +1,12 @@
 # Plan 13 progress
 
-**Date:** 2026-10-25. **Stage:** prebuild proposal delivered for owner review. No isolated preview was built.
+**Date:** 2026-10-25. **Stage:** focused proposal amendment delivered to the prebuild gate. No isolated preview was built.
 
 ## Overall summary
 
-Produced the bounded race/pacing comparison and a worked illustrative seeded trace requested before preview work. The proposal compares 12/20/30-second races and distinct seeded-mechanical-beat versus resolved-outcome staging models; it recommends investigating seeded mechanical beats with a resolved-outcome control. It defines candidate event, RNG, log, trial, camera and replay boundaries and a 900-second pacing budget with setup, ordinary/consequential days and Receipt included. All candidate mechanics, timing and budget are recommendations pending owner selection. Plan 17's accepted 3 Down / +5% base speed / one committed race / non-stacking / consume-once contract is preserved.
+Amended the comparison in response to the orchestrator's `prebuild-review-01.md`. The proposal now defines a calculable normalized progress mechanism with exact 40%/70% event opportunities, clean-draft/bobble eligibility and probabilities, bounded offsets, fixed draw order, unique-place tie/payout handling, and three hand-calculated fixtures. It adds the required one-choice opening/later-unlock comparison and ordered ordinary/consequential day maps. The comparison still uses 12/20/30-second races and recommends seeded mechanical beats with a resolved-outcome control. All candidate mechanics, timing, choice options and budget are recommendations pending owner selection. Plan 17's accepted 3 Down / +5% base speed / one committed race / non-stacking / consume-once contract is preserved.
 
-The trace is an illustrative fixture with explicitly invented draws and thresholds, not an execution of repository code or a claimed PRNG sequence. No outcome mechanic has been implemented or accepted. The next step is owner review and explicit prebuild approval; only then may an isolated preview be built within this report folder.
+The traces are illustrative fixtures with explicit formulas/draws, not executions of repository code or claimed outputs for a named seed. No outcome mechanic has been implemented or accepted. The next step is owner review of this amendment and explicit prebuild approval; only then may an isolated preview be built within this report folder.
 
 ## Files changed
 
@@ -18,19 +18,21 @@ No source, rig, simulation, package, packet, generated index, or shared files we
 ## Commands and checks
 
 - `node scripts/dev/plan-status.js check plan-13` — exit 0, `RUNNABLE: plan-13 is ready to implement`.
-- Proposal saved in commit `cc2fbfb` (`docs(plan-13): propose race pacing comparison`). This progress report is committed separately as the final owned-file commit.
-- Read the assigned Plan 13 packet, implementer starting prompt, canonical race/time/Receipt/immersion sections, GATE-53B owner triage, relevant decision-log entries, Plan 01 results, Plan 03 packet and owner play feedback, and Plans 04/09/11 as read-only references.
-- No build, tests, browser preview, classroom timing, or source execution was performed; these are beyond the proposal stage and/or require prebuild approval.
+- `git diff --check` — clean for the amended owned report files.
+- Read the assigned Plan 13 packet, implementer starting prompt, orchestrator `prebuild-review-01.md`, current resolver as a read-only reference, canonical race/time/Receipt sections, owner triage and decision log, Plan 01 results, Plan 03 packet and owner play feedback, and Plans 04/09/11.
+- `prebuild-review-01.md` is an orchestrator-owned handoff and was left unchanged.
+- Proposal baseline was saved in `cc2fbfb`; focused amendment is saved in `5eaa983`. This progress report is committed separately as the final owned-file commit.
+- No build, tests, browser preview, classroom timing, or source execution was performed; the preview remains gated.
 
 ## Consultation and review
 
-Advisor consultation was not warranted for this docs-only proposal under the implementer prompt's proportionality rule. An optional reviewer was initially dispatched, then interrupted immediately after the user clarified that a reviewer was not authorized at this stage. No review findings were received or used. No reviewer files were created or changed.
+No independent advisor consultation was used for this docs-only amendment. A reviewer subagent had been launched on the previous turn and was interrupted after the user clarified that a reviewer was not authorized; no findings were received or used. The user observed the harness display high effort, so no claim of low visible effort is made here. This amendment uses the orchestrator's supplied `prebuild-review-01.md`, not an additional reviewer. No reviewer files were created or changed.
 
 ## Remaining risks and follow-up
 
-- Owner must choose which outcome model and which candidate causal events, if any, may enter the isolated preview, and approve its precise prebuild scope.
-- The worked trace's example thresholds and non-PRNG fixture values are placeholders, not rules or replay evidence.
+- Owner must approve the proposed progress equation, candidate draw thresholds/effects, choice comparison and exact isolated preview scope before any preview code is written.
+- The hand-worked fixture draws/performance values are explicit examples, not rules or replay evidence for a named run seed.
 - The 15-minute split is a planning budget, not observed player or classroom timing. A later approved preview can measure preview durations; classroom-floor claims still need separate observation.
 - Integration still needs to prove accurate append-only race/Receipt evidence, and whole-run balance remains outside this proposal. Preserve the Skip Lunch settlement follow-up before later work makes food shortfall reachable.
 
-**Ready for orchestrator review:** yes, for the proposal and prebuild gate only. **Ready for isolated preview:** no; awaiting owner prebuild approval. Packet status remains unchanged and owner/orchestrator-owned. No push performed.
+**Ready for orchestrator/owner review:** yes, for the focused proposal amendment only. **Ready for isolated preview:** no; the prebuild approval gate remains open. Packet status remains unchanged and owner/orchestrator-owned. No push performed.

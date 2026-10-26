@@ -108,10 +108,20 @@ Keep a bounded race artifact with quantized trajectory/checkpoints and detailed 
 
 The toggleable narrative is plain sports-style narration backed by those summaries (for example, “A lost speed after contact; B moved ahead and finished third”), with no asserted emotion or causal counterfactual (“the contact cost A the win”) unless separately proven against a matched simulation. Use a keyboard-operable toggle with `aria-expanded` and `aria-controls`, no focus theft during updates, and return focus to the toggle if a user hides the panel while focus is inside it. Limit live announcements; make the completed narrative readable after the race and leave Uninstall unobstructed. It is not a mathematical helper panel or a manipulation-analysis surface.
 
-Lighting candidate remains the owner's preferred single smooth dimming envelope on environmental decoration plus restrained static racer outline/glow, only for actual logged participants during the existing zoom/highlight. No flash or pulse, no added draw/tick/time extension; retain art/course/UI contrast. Reduced motion omits animated dimming/zoom while preserving event text and static participant marks.
+Lighting candidate remains the owner's preferred single smooth dimming envelope on environmental decoration plus restrained static racer outline/glow, only for actual logged participants during the existing zoom/highlight. No flash or pulse, no added draw/tick/time extension; retain art/course/UI contrast.
+
+### Reduced-motion race slideshow
+
+Following the owner's direction, reduced motion uses a fixed five-view slideshow sampled from the same committed simulation, at 0%, 25%, 50%, 75%, and 100% of its fixed horizon. For the proposed 240/400/600 tick horizons, these map exactly to tick indices 0/60/120/180/240, 0/100/200/300/400, and 0/150/300/450/600. The tick-zero view uses the committed initial state; the final view uses the exact horizon state. No independent per-duck normalization or new RNG draw occurs. Each snapshot uses a fixed wide camera, with readable tick/time and progress labels.
+
+Use simple discrete changes between views; no pan, zoom, fade, dramatic lighting, or slow-motion/time effect is required or shown in reduced-motion mode. Manual Previous/Next controls are a reasonable accessible default; no forced waits. Keep Skip/results and Uninstall available. The short commentary for each interval may describe a collision and recovery that occur between snapshots, but must clearly be an event summary, not imply the collision itself was shown in a frame. Record which event cues the player actually visited/saw separately from the complete precomputed event record. Do not expose a frame-by-frame rewind or arbitrary timeline scrubber in this scope.
+
+If the user changes reduced-motion preference or display mode during playback, keep the same committed result and simulation position; switch presentation only. Snapshot selection reads the stored trajectory at its documented tick and never resolves the race or consumes RNG again. Switching back to ordinary motion resumes the same committed simulation state. This is an accessibility path over the same mechanics, not a second race mode.
 
 ### Follow-up routing and remaining gates
 
 QP Orch routed the requested future collision-triggered distress animation to the later **Plan 09: Digital gacha duck motion comparison** (currently draft and blocked at its `plan-status.js check plan-09` gate). That remains Mode C digital duck motion only, with a recorded impact/recovery trigger, reduced-motion alternative, and intensity no stronger than the simulated impact warrants. No rig/art/animation edit or generation is authorized by this proposal.
 
 Before any simulator build, the owner must select the fixed-horizon ranking contract and approve the investigative scope/constants as candidates. Before implementation expands from the physics baseline to contact or rubber-band stages, preserve those as explicit stage gates. Production integration, and verification of race event/Receipt/storage lifecycle and whole-run economy, remain separate owner decisions. Plan 17 is unchanged.
+
+The owner has directed this reduced-motion direction for proposal review. It does not authorize implementation; return the amended proposal through the owner gate first.

@@ -14,7 +14,7 @@ The page uses the proposal's fixed illustrative formulas and draws. Its “causa
 - `reports/development/plan-13-race-staging-and-run-pacing/preview.html` — standalone interactive review preview; references the accepted SVG rig read-only.
 - `reports/development/plan-13-race-staging-and-run-pacing/progress.md` — this delivery record.
 
-No source, rig, simulation, package, packet, generated index, or shared files were changed. The working tree was clean at the initial check. During the prior turn unrelated edits appeared in `src/main.js`, `src/ui/desk-view.js`, `src/ui/hud.js`, `src/ui/settings-modal.js`, `src/ui/shell.css`, `src/ui/stage-transition.css`, and `src/ui/stage-transition.js`; they were later recorded by Plan 19 commits, and I did not modify them. At final status, unrelated changes remained in `docs/development/README.md`, `docs/development/plan-19-shell-a-and-context-integration.md`, and untracked Plan 19 evidence files `reports/development/plan-19-shell-a-and-context-integration/review-entry-desktop.png` and `review-entry-probe.mjs`. These are outside this assignment and were left untouched and unstaged.
+No source, rig, simulation, package, packet, generated index, or shared files were changed. The working tree was clean at the initial check. Plan 19 activity continued in the shared tree during this task; at the final status check it listed changes in `docs/development/README.md`, `docs/development/plan-19-shell-a-and-context-integration.md`, `scripts/dev/plan-19-browser-check.mjs`, `src/ui/settings-modal.js`, `src/ui/stage-transition.css`, and `src/ui/stage-transition.js`. These are outside this assignment and were left untouched and unstaged.
 
 ## Commands and checks
 

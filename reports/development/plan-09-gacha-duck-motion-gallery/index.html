@@ -300,6 +300,7 @@
           setStatus('Complete.', 'Demo recovered to neutral. No gameplay event occurred.');
         }).catch(() => {});
         setStatus('Playing demo.', 'Manual impact / recovery display only.');
+        updateActionButtons();
         return;
       }
       const duration = selected === 'paddle' ? 1600 : 2400;
@@ -345,6 +346,8 @@
       shell.style.transform = '';
       const head = shell.querySelector('#gallery-duck-head-group');
       const wing = shell.querySelector('#gallery-duck-wing-group');
+      if (head) head.style.transform = '';
+      if (wing) wing.style.transform = '';
       const pose = Math.max(0, Math.min(2, index));
       reducedPose = pose;
       if (pose === 1) {

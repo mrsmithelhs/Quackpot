@@ -2,6 +2,8 @@
 // Main entry point and controller for Quackpot browser application.
 
 import './style.css';
+import './ui/shell.css';
+import './ui/stage-transition.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
@@ -27,6 +29,8 @@ import {
   renderCorruptSaveModal,
 } from './ui/modals.js';
 import { renderReceiptView } from './ui/receipt-view.js';
+import { renderSettingsModal } from './ui/settings-modal.js';
+import { createStageTransition } from './ui/stage-transition.js';
 
 const app = document.querySelector('#app');
 
@@ -36,6 +40,11 @@ if (app) {
   let currentStep = 'desk';
   let activeModal = null;
   let storageWarningText = null;
+  let phoneOpen = false;
+  let settingsOpen = false;
+  let settingsCleanup = null;
+  let settingsTriggerId = 'btn-open-settings';
+  let stageTransition = null;
 
   function generateRandomSeed() {
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
@@ -119,9 +128,11 @@ if (app) {
         // Authoritative restore of learner progression step and active modal (P1 repair)
         if (engine.isTerminal()) {
           currentStep = 'receipt';
+          phoneOpen = true;
           activeModal = null;
         } else {
           currentStep = engine.state.step || 'desk';
+          phoneOpen = currentStep !== 'desk';
           activeModal = engine.state.activeModal || null;
         }
 
@@ -152,6 +163,7 @@ if (app) {
     }
 
     currentStep = 'desk';
+    phoneOpen = false;
     activeModal = null;
     engine.state.step = 'desk';
     engine.state.activeModal = null;
@@ -164,47 +176,55 @@ if (app) {
     if (!hudContainer || !engine) return;
 
     renderHud(hudContainer, engine, duckSvgUrl, {
-      onSave: () => {
-        if (isTemporaryPreservationMode()) {
-          const confirmed = typeof globalThis.confirm === 'function'
-            ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
-            : false;
-          if (confirmed) {
-            setTemporaryPreservationMode(false);
-            const res = saveGame(engine.toEnvelope(), globalThis.localStorage, true);
-            checkStorageResult(res);
-            updateWarningBanner();
-            return res;
-          } else {
-            const res = saveGame(engine.toEnvelope(), globalThis.localStorage, false);
-            checkStorageResult(res);
-            updateWarningBanner();
-            return res;
-          }
-        }
-        const res = saveGame(engine.toEnvelope());
-        checkStorageResult(res);
-        updateWarningBanner();
-        return res;
+      onSave: saveNow,
+      onSettings: () => {
+        stageTransition?.cancel();
+        settingsTriggerId = 'btn-open-settings';
+        settingsOpen = true;
+        renderApp();
+      },
+      showReturn: phoneOpen && !engine.isTerminal(),
+      onReturnToApartment: () => {
+        stageTransition?.run('return').then((completed) => {
+          if (!completed || engine.isTerminal() || settingsOpen) return;
+          phoneOpen = false;
+          renderApp();
+          requestAnimationFrame(() => document.querySelector('#btn-start-app')?.focus());
+        });
       },
       onUninstall: () => {
+        stageTransition?.cancel();
         if (engine.isTerminal()) return;
         engine.clickUninstall();
         activeModal = 'retention';
         renderApp();
       },
-      onToggleAutosave: (checked) => {
-        if (isTemporaryPreservationMode()) {
-          engine.autosaveEnabled = false;
-          return;
-        }
-        engine.autosaveEnabled = checked;
-        maybeAutosave();
-      },
     });
   }
 
+  function saveNow() {
+    let res;
+    if (isTemporaryPreservationMode()) {
+      const confirmed = typeof globalThis.confirm === 'function'
+        ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
+        : false;
+      if (confirmed) {
+        setTemporaryPreservationMode(false);
+        res = saveGame(engine.toEnvelope(), globalThis.localStorage, true);
+      } else {
+        res = saveGame(engine.toEnvelope(), globalThis.localStorage, false);
+      }
+    } else {
+      res = saveGame(engine.toEnvelope());
+    }
+    checkStorageResult(res);
+    updateWarningBanner();
+    return res;
+  }
+
   function renderApp() {
+    settingsCleanup?.();
+    settingsCleanup = null;
     updateHud();
     updateWarningBanner();
 
@@ -213,8 +233,16 @@ if (app) {
     if (!mainContainer || !modalContainer) return;
 
     // Render active view based on authoritative progression step
-    if (currentStep === 'desk') {
-      renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled }) => {
+    if (!phoneOpen) {
+      renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled, returning }) => {
+        if (returning) {
+          phoneOpen = true;
+          renderApp();
+          stageTransition?.run('enter').then((completed) => {
+            if (completed) focusCurrentStageIfNeeded();
+          });
+          return;
+        }
         if (!isTemporaryPreservationMode()) {
           engine.autosaveEnabled = autosaveEnabled;
         } else {
@@ -223,8 +251,15 @@ if (app) {
         engine.setupCompanion(name, style);
         currentStep = 'd1_morning_gacha';
         engine.state.step = currentStep;
+        phoneOpen = true;
         maybeAutosave();
         renderApp();
+        stageTransition?.run('enter').then((completed) => {
+          if (completed) focusCurrentStageIfNeeded();
+        });
+      }, {
+        returning: currentStep !== 'desk',
+        companion: engine.state.physicalCompanion,
       });
     } else if (currentStep === 'd1_morning_gacha') {
       renderGachaView(mainContainer, engine, {
@@ -477,6 +512,35 @@ if (app) {
         },
       });
     }
+
+    if (settingsOpen) {
+      settingsCleanup = renderSettingsModal(modalContainer, {
+        autosaveEnabled: engine.autosaveEnabled,
+        autosaveLocked: isTemporaryPreservationMode() || engine.isTerminal(),
+        saveDisabled: engine.isTerminal(),
+        onAutosaveChange: (checked) => {
+          if (engine.isTerminal()) return;
+          engine.autosaveEnabled = isTemporaryPreservationMode() ? false : checked;
+          if (engine.autosaveEnabled) maybeAutosave();
+          else saveNow();
+        },
+        onSave: saveNow,
+        onClose: () => {
+          settingsOpen = false;
+          settingsCleanup?.();
+          settingsCleanup = null;
+          renderApp();
+          requestAnimationFrame(() => document.getElementById(settingsTriggerId)?.focus());
+        },
+      });
+    }
+  }
+
+  function focusCurrentStageIfNeeded() {
+    if (document.activeElement && document.activeElement !== document.body) return;
+    const mainContainer = document.querySelector('#main-content');
+    const target = mainContainer?.querySelector('button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled)');
+    target?.focus();
   }
 
   function proceedToDay1Evening() {
@@ -501,5 +565,6 @@ if (app) {
 
   // Launch app
   initApp();
+  stageTransition = createStageTransition(document.querySelector('#main-content'));
   console.info('[Quackpot] Plan 03 mechanism slice ready.');
 }

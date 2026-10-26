@@ -2,7 +2,7 @@
 // Persistent HUD displaying clock, resources, save controls, and persistent Uninstall button.
 
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
-  const { onSave, onUninstall, onToggleAutosave } = callbacks;
+  const { onSave, onSettings, onReturnToApartment, onUninstall, showReturn = false } = callbacks;
   const state = engine.state;
   const isTerminal = engine.isTerminal();
 
@@ -14,10 +14,9 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
             <img class="duck-img" src="${duckSvgUrl}" alt="${state.physicalCompanion?.name || 'Professor Quacks'}" width="120" height="120" />
           </div>
           <div>
-            <h1 id="spike-title" class="sr-only">Quackpot Static Spike</h1>
-            <div class="hud-title" aria-label="Quackpot Prototype">
+            <h1 id="spike-title" class="sr-only">Quackpot</h1>
+            <div class="hud-title">
               <span class="title-quack">QUACK</span><span class="title-pot">POT</span>
-              <span class="tag-prototype">Slice v0.3</span>
             </div>
             <div class="hud-companion-info">
               Companion: <strong>${state.physicalCompanion?.name || 'Professor Quacks'}</strong>
@@ -27,13 +26,11 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
         </div>
 
         <div class="hud-controls">
-          <label class="hud-autosave-toggle" title="Toggle automatic saving at safe junctures">
-            <input type="checkbox" id="autosave-toggle" ${engine.autosaveEnabled ? 'checked' : ''} ${isTerminal ? 'disabled' : ''} />
-            <span>Autosave</span>
-          </label>
           <button id="btn-manual-save" class="btn btn-secondary btn-sm" title="${isTerminal ? 'Run record locked' : 'Save current run state locally'}" ${isTerminal ? 'disabled' : ''}>
-            💾 ${isTerminal ? 'Locked' : 'Save'}
+            ${isTerminal ? 'Locked' : 'Save'}
           </button>
+          <button id="btn-open-settings" class="btn btn-secondary btn-sm">Settings</button>
+          ${showReturn && !isTerminal ? `<button id="btn-return-apartment" class="btn btn-secondary btn-sm">Return to apartment</button>` : ''}
           ${!isTerminal ? `
             <button id="btn-uninstall" class="btn btn-danger btn-sm" title="Uninstall the gacha game">
               ❌ Uninstall
@@ -80,31 +77,31 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   `;
 
   const btnSave = container.querySelector('#btn-manual-save');
+  const btnSettings = container.querySelector('#btn-open-settings');
+  const btnReturn = container.querySelector('#btn-return-apartment');
   const btnUninstall = container.querySelector('#btn-uninstall');
-  const toggleAutosave = container.querySelector('#autosave-toggle');
   const saveToast = container.querySelector('#save-notification');
 
   if (btnSave && onSave && !isTerminal) {
     btnSave.addEventListener('click', () => {
       const result = onSave();
       if (saveToast) {
-        saveToast.textContent = result?.inMemory
-          ? '⚠️ Temporary session only (storage restricted)'
-          : '✓ Saved locally!';
-        saveToast.className = result?.inMemory ? 'save-toast save-toast-warning' : 'save-toast';
+        saveToast.textContent = result?.success
+          ? (result.inMemory ? 'Temporary session only; browser storage is unavailable.' : 'Saved in this browser.')
+          : result?.preservedSnapshot
+            ? 'Save not replaced; the previous snapshot is preserved.'
+            : `Save failed${result?.error ? `: ${result.error}` : '.'}`;
+        saveToast.className = result?.success && !result?.inMemory ? 'save-toast' : 'save-toast save-toast-warning';
         saveToast.style.display = 'block';
         setTimeout(() => { saveToast.style.display = 'none'; }, 2500);
       }
     });
   }
 
+  if (btnSettings && onSettings) btnSettings.addEventListener('click', onSettings);
+  if (btnReturn && onReturnToApartment) btnReturn.addEventListener('click', onReturnToApartment);
+
   if (btnUninstall && onUninstall && !isTerminal) {
     btnUninstall.addEventListener('click', onUninstall);
-  }
-
-  if (toggleAutosave && onToggleAutosave && !isTerminal) {
-    toggleAutosave.addEventListener('change', (e) => {
-      onToggleAutosave(e.target.checked);
-    });
   }
 }

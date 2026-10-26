@@ -1,0 +1,61 @@
+.game-wrapper {
+  max-width: none;
+  min-height: 100vh;
+  padding: 0;
+}
+
+#hud-container {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  align-self: stretch;
+}
+
+.hud-header {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid #514121;
+  padding: 0.8rem clamp(1rem, 3vw, 2.75rem);
+  background: linear-gradient(110deg, #101827 0%, #202234 55%, #3a2817 100%);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+.hud-top-row { margin-bottom: 0.55rem; }
+.hud-title { letter-spacing: 0.04em; }
+.tag-prototype { display: none; }
+.hud-controls { align-items: center; }
+.hud-controls .btn { min-height: 2.5rem; }
+
+.storage-warning-banner {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  text-align: center;
+  background: #522b14;
+  border-bottom: 1px solid #a46125;
+}
+
+.main-content {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  flex: 1;
+}
+
+@media (max-width: 720px) {
+  .hud-header { padding: 0.75rem 0.85rem; }
+  .hud-top-row { align-items: flex-start; flex-direction: column; }
+  .hud-controls { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .hud-controls .btn { min-height: 2.75rem; }
+  .main-content { padding: 1rem 0.75rem; }
+}
+
+@media (max-height: 560px) {
+  .hud-header { padding-block: 0.45rem; }
+  .hud-top-row { margin-bottom: 0.35rem; }
+  .main-content { padding-block: 0.75rem; }
+}

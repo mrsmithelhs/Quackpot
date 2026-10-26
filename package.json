@@ -14,6 +14,7 @@
     "test:sim": "node --test sim/model.test.mjs sim/prng.test.mjs sim/receipt.test.mjs",
     "pretest:smoke": "vite build",
     "test:smoke": "node scripts/dev/smoke-browser.mjs",
+    "test:plan-19": "node scripts/dev/plan-19-browser-check.mjs",
     "lint:packet": "node scripts/dev/plan-status.js lint",
     "check:packet": "node scripts/dev/plan-status.js check"
   },

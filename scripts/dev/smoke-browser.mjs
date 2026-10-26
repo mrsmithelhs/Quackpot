@@ -31,7 +31,9 @@ const BASE_PATH = '/Quackpot/';
 const BASE_URL = `${EXPECTED_ORIGIN}${BASE_PATH}`;
 const NO_SLASH_URL = `${EXPECTED_ORIGIN}/Quackpot`;
 const CDP_PORT = 9222;
-const OBSERVATION_OUTPUT_PATH = path.resolve('reports/development/plan-03-mechanism-slice/repair-02-observations.json');
+const OBSERVATION_OUTPUT_PATH = process.env.QUACKPOT_SMOKE_OBSERVATION_OUTPUT
+  ? path.resolve(process.env.QUACKPOT_SMOKE_OBSERVATION_OUTPUT)
+  : path.resolve('reports/development/plan-03-mechanism-slice/repair-02-observations.json');
 
 function findBrowserBinary() {
   for (const p of CHROME_PATHS) {

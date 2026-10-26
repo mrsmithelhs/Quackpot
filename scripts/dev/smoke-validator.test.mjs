@@ -154,7 +154,7 @@ test('validateRequests: reload accepts 304, rejects 500', () => {
 test('validateDomState: validates rendered elements and decoded SVG', () => {
   const validDom = {
     hasApp: true,
-    h1: 'Quackpot Static Spike',
+    h1: 'Quackpot',
     duckSrc: `${VALID_ORIGIN}/Quackpot/assets/duck-placeholder-abc.svg`,
     duckComplete: true,
     duckNaturalWidth: 120,
@@ -183,7 +183,7 @@ test('validateDomState: rejects missing #app or wrong title', () => {
 test('validateDomState: rejects undecoded or broken SVG image (naturalWidth = 0)', () => {
   const brokenImgDom = {
     hasApp: true,
-    h1: 'Quackpot Static Spike',
+    h1: 'Quackpot',
     duckSrc: `${VALID_ORIGIN}/Quackpot/assets/duck-placeholder-abc.svg`,
     duckComplete: true,
     duckNaturalWidth: 0,
@@ -203,7 +203,7 @@ test('validateDomState: rejects undecoded or broken SVG image (naturalWidth = 0)
 test('validateDomState: rejects image src referencing wrong subpath', () => {
   const wrongSubpathDom = {
     hasApp: true,
-    h1: 'Quackpot Static Spike',
+    h1: 'Quackpot',
     duckSrc: `${VALID_ORIGIN}/wrong-path/assets/duck-placeholder-abc.svg`,
     duckComplete: true,
     duckNaturalWidth: 120,

@@ -116,8 +116,8 @@ export function validateDomState(dom, options = {}) {
     throw new Error('DOM assertion failed: #app element is not mounted');
   }
 
-  if (dom.h1 !== 'Quackpot Static Spike') {
-    throw new Error(`DOM assertion failed: h1 text is "${dom.h1}", expected "Quackpot Static Spike"`);
+  if (dom.h1 !== 'Quackpot') {
+    throw new Error(`DOM assertion failed: h1 text is "${dom.h1}", expected "Quackpot"`);
   }
 
   if (!dom.duckSrc) {

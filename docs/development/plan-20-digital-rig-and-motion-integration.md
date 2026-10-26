@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: delivered
+status: in-progress
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -34,6 +34,8 @@ Plans 04 and 09 supply an accepted Mode C rig and motion set, while production s
 Read AGENTS.md, docs/repo-structure.md, docs/decision-log.md, canonical design Assets/Immersion/Receipt and two-duck boundary, Plan09 proposal/refinement/gallery and reviews02–05, Plan19 accepted lifecycle, current src/main.js and relevant UI views, rig composer and SVG hierarchy. Run `node scripts/dev/plan-status.js check plan-20` after assignment; stop if blocked. Read current Plan13 event status before proposing race hooks.
 
 ## First return: source and trigger proposal
+
+**Owner reveal-lifecycle feedback, 2026-10-26:** Reopen for focused repair: revealing one card must not replay flips on previously revealed cards or restart their motion. Each loop begins on its own actual reveal and preserves phase through later card reveals. Investigate current full-render/remount path and return minimal keyed-update/lifecycle fix to QP Orch before structural changes; preserve pause/static/modal/cleanup behavior, no extra reviewer. Current composition is intentionally classic-yellow/no-hat/no-accessory for all identities; visual mapping/catalog variety needs a separate proposal, not random cosmetic rerolls during this repair.
 
 **Proposal approved by QP Orch, 2026-10-26:** Owner-authorized chat QP Impl20 (`01a179ee-8bcf-7d40-8494-d1457e405508`, local) returned report-folder `proposal.md`. Root approves revealed-card rig/controller integration with ownership of new `src/ui/duck-rig-view.js`, `duck-motion-controller.js`, optional `duck-motion.css`, `src/ui/gacha-view.js`, focused `src/main.js` wiring and corresponding focused tests/reports. Shared rig/engine/storage/race/global stylesheet/package and settings-modal remain read-only without bounded expansion. New Duck-Dex and rest mechanics route to draft Plans21/22; no implicit Plan20 scope expansion. Browser turns remain coordinated.
 

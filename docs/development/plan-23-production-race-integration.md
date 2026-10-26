@@ -1,11 +1,9 @@
 ---
 id: plan-23
 title: Selected race dynamics and presentation integration
-status: draft
-depends_on: [plan-13, plan-20]
-gate: "Owner/orchestrator approves bounded engine/input/save/log/view proposal before implementation; owner reviews production race."
-superseded_by: null
-resolution: null
+status: in-progress
+depends_on: [plan-13]
+gate: "Proposal work may start while Plan20 repairs run; production writes require Plan20 acceptance/source handoff and approved file/lifecycle proposal. Owner reviews production race."
 summary: >-
   Port the selected combined weave/contact race with two-second highlight into
   production, preserving real outcomes, save integrity and accessible playback.
@@ -23,7 +21,9 @@ summary: >-
 
 ## Goal and preflight
 
-Owner closes Plan13 with combined rank-weighted weave +15–20° contact and2s slow-motion highlight selected (DECISION-018). Replace the production one-shot rank/preset-motion race with that accepted model through a focused deterministic model and playback boundary. Draft only, no assignment implied. Read AGENTS, design, decisions, source map, Plan13 accepted model/guide/reviews03–05, Plan20 accepted rig/controller/source and current engine/storage/log/Receipt/race UI. Check plan-23 after assignment; stop if blocked. Return proposal before source changes.
+Owner closes Plan13 with combined rank-weighted weave +15–20° contact and2s slow-motion highlight selected (DECISION-018). Replace the production one-shot rank/preset-motion race with that accepted model through a focused deterministic model and playback boundary. Read AGENTS, design, decisions, source map, Plan13 accepted model/guide/reviews03–05, Plan20 rig/controller/source and current engine/storage/log/Receipt/race UI. Check plan-23; stop if blocked. Return proposal before source changes.
+
+**Owner assignment, 2026-10-26:** Start Plan23 at the report-only investigation/proposal stage. Plan20 is reopening for card flip/phase repair and retains the production-writing lane. Proposal depends only on accepted Plan13; Plan20 closure/source handoff remains a mandatory implementation gate, not waived by this status or dependency change. Do not write shared production source, build/test wrappers or launch browser tests before QP Orch approves ownership and Plan20 handoff. A Codex chat will be connected later by owner; no recipient yet. Initial owner scope is only `reports/development/plan-23-production-race-integration/`. Inspect current source read-only and account for in-flight changes.
 
 ## Required investigation before integration
 

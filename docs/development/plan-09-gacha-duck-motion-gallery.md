@@ -1,11 +1,9 @@
 ---
 id: plan-09
 title: Digital gacha duck motion comparison
-status: draft
+status: in-progress
 depends_on: [plan-04]
 gate: "Owner chooses motions after base SVG approval and rendered comparison."
-superseded_by: null
-resolution: null
 summary: >-
   Compare short SVG motions on the accepted digital duck rig, with static and
   reduced-motion alternatives; the physical metagame duck remains inanimate.
@@ -33,6 +31,8 @@ Test whether expressive digital ducks add useful personality and variety across 
 
 ## Authority and scope
 
+**Owner assignment, 2026-10-26:** Start in parallel with Plan 13, which owns race dynamics in its separate isolated preview. Initially own only `reports/development/plan-09-gacha-duck-motion-gallery/`; read the accepted Mode C rig without modifying shared `src/`, assets, package files or Plan 13 artifacts. First propose a small batch: paddling, graceful bobbing and a brief impact/distress-to-recovery reaction, each showing relative paper-layer articulation alongside a still control. A labeled manual impact trigger is a test fixture, not a new collision/damage/stamina rule. Identify any rig limitations before requesting source changes. The broader candidate list below is a backlog, not a requirement to build every clip in the first batch. Return layers/pivots, timings, triggers, accessory checks and reduced-motion/static behavior for owner/orchestrator review before gallery implementation. No generation or production integration is authorized. The owner will connect the new Codex chat to QP Orch for supervision after starting it; no recipient is designated yet.
+
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, design Assets/Time policy/Immersion, Plan 04's accepted rig and the duck-representation boundary note. Run `check plan-09`; stop if blocked. Propose layers/pivots, timing, trigger and reduced-motion behavior, then wait for mechanism approval before building. Own a disjoint local preview/report folder; coordinate any production asset edits separately.
 
 ## Candidate comparison and validation
@@ -51,7 +51,7 @@ Provide a local gallery with start/pause/replay, duration labels, a static/reduc
 
 ## Stop and report
 
-Stop for rig or meaning changes beyond approved scope. Write the progress report with observations, candidate trade-offs, untested cases and required consultation declaration; do not set status, edit orchestrator notes or select motions for the owner. Commit owned work/report and never push. This packet stays draft until the base is accepted and the owner starts motion exploration.
+Stop for rig or meaning changes beyond approved scope. Write the progress report with observations, candidate trade-offs, untested cases and required consultation declaration; do not set status, edit orchestrator notes or select motions for the owner. Commit owned work/report and never push. Owner assignment opens the proposal stage; the mechanism and motion-selection gates remain in force.
 
 ## Delivery checklist
 

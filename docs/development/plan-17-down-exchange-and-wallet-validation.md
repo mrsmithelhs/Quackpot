@@ -1,7 +1,8 @@
 ---
 id: plan-17
 title: Down exchange and whole-wallet validation
-status: delivered
+status: complete
+resolution: "Owner accepted Repair 01 bounded evidence and recorded trial rules in DECISION-013: 3-Down one-race +5% item and 6-Down direct pull with normal payouts/pity reset. Mass/censor/roster evidence verified; production lifecycle/log/Receipt and whole-run balance remain separate integration checks."
 depends_on: [plan-01, plan-03, plan-12]
 gate: "Owner reviews the 3/6 Down calibration consequences and selects unresolved ticket/item rules before production integration."
 summary: >-

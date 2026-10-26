@@ -1,7 +1,7 @@
 ---
 id: plan-13
 title: Race staging and run pacing investigation
-status: in-progress
+status: delivered
 depends_on: [plan-03, plan-04]
 gate: "Owner approves race staging, dramatic-event meaning and pacing before gameplay integration."
 summary: >-
@@ -13,6 +13,8 @@ summary: >-
 **Date:** 2026-10-24. **Type:** investigation/prototype. **Mutation:** isolated local preview and reports. **Owner/model:** one investigator; owner gate. **Expected artifacts:** `reports/development/plan-13-race-staging-and-run-pacing/proposal.md`, staged race preview and `progress.md`.
 
 ## Boundary and required reading
+
+**Delivery repair review, 2026-10-26:** Root accepts correctness/evidence repair `e23289f`/`5d12a2b` in report-folder `review-04.md`:16 reproduced focused tests and exact regenerated scan hash. Delivered for owner comparison/selection; not final race-rule approval or closure. Long recoveries/skipped opportunities, label overlap, staggered-grid advantage, one-contact cap and terminal fixed-step approximation remain explicit. Source production integration/rest mechanics are separate work.
 
 **Owner Proposal 03 implementation approval, 2026-10-26:** Owner explicitly approves corrected `proposal-03-weaving-collisions-and-finish.md` (`7ae29b8`). QP Impl 13 may implement report-local controller baseline, matched no/symmetric/rank-weighted weaving, separate stronger-contact comparison and genuine earliest line-crossing result under that proposal's frozen-course, steering/acquire/hold/recovery, shared random-key and evidence/guard contracts. Extra collision speed penalties, additional contact episodes, production changes and selected final mechanics are excluded. Browser work requires a coordinated QP Orch slot; no additional implementer reviewer for this follow-up. Root successfully relayed approval directly to the authorized implementer chat.
 

@@ -1,7 +1,7 @@
 ---
 id: plan-09
 title: Digital gacha duck motion comparison
-status: delivered
+status: in-progress
 depends_on: [plan-04]
 gate: "Owner chooses motions after base SVG approval and rendered comparison."
 summary: >-
@@ -30,6 +30,8 @@ summary: >-
 Test whether expressive digital ducks add useful personality and variety across repeated pulls and races. The owner wants the E2 paper-style duck's separate layers to appear to move relative to one another. Use the accepted base rig rather than polishing a placeholder. This is not authorization to animate the physical metagame duck, alter odds, ship near-miss theater, or install all candidate motions in the game.
 
 ## Authority and scope
+
+**Owner second magnitude increase, 2026-10-26:** Owner requests another doubling of the current paper-layer separation: factor 2 → 4 relative to the original refinement. Reopen in-progress for this bounded report-local adjustment, preserving parent movement/timing, controls and shared rig. No new proposal or reviewer required; inspect visual overlap/clipping/shadows and reset behavior, coordinate browser turn, and return for owner selection.
 
 **Owner refinement approval, 2026-10-26:** Owner explicitly approves `paper-layer-refinement-proposal-01.md` (`8317bb3`) and directs implementation. Reopened from delivered to in-progress. Scope remains report-local existing-path/seam articulation and static poses, proposed bounded offsets and settle order, preserving repaired controls and shared source. No additional implementer reviewer for this refinement. Owner also requests browser turns: Plans 09/13 request a browser slot from QP Orch before browser automation/testing and explicitly release it afterward; independent file/headless work may continue within approved scope.
 

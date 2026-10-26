@@ -1,0 +1,27 @@
+# Plan 13 mechanism proposal — focused amendment before prebuild approval
+
+**Date:** 2026-10-25. **Reviewed:** `cc2fbfb` / `f0c2348`, proposal and packet, canonical race/time rules and current game resolution. **Disposition:** useful direction; preview not yet approved. Keep packet in-progress at the mechanism gate. No production rule, final duration/day count or new art selection is adopted.
+
+## Recommendation
+
+Favor the seeded mechanical-beat investigation for the owner's requested race drama. An already resolved finish remains a useful control; it should reuse the accepted resolution rather than become a second elaborate simulator. Compare 12/20/30-second playback using one model/timeline per seed, with wide-camera/reduced-motion controls, not separate engines or combinatorial content sets. Twenty seconds is a comparison anchor, not a selected duration. Do not promise an upset or close finish on every seed.
+
+For the first causal proof, a clean draft and bobble are sufficient candidates. Recommend deferring contact/pileups until a deterministic lane/proximity rule is approved; this retains contact as a later investigation obligation, not a permanently rejected owner idea. Alternatively include contact in the amendment only if its rule is as explicit and small as the other events. This scope recommendation is pending owner selection along with the mechanism.
+
+## Three required amendments
+
+1. **Concrete causal contract and derivable trace.** Current “bounded gain/loss” and fixture-only thresholds do not specify a mechanism one can approve. Propose the baseline movement/progress equation, mechanical time unit and normalization independent of 12/20/30-second display time; exact event eligibility, probabilities, delta limits/cumulative caps, racer symmetry, roll count/order and tie/payout handling. Specify whether drafting is available to everyone or requires a position condition. Preserve stats and the uniform Plan17 +5% multiplier; no cosmetic/variant-specific tuning. Align scheduled beats (currently0/40/70/finish) with the extra85% contact row. Show progress arithmetic for all racers so final placement follows, not just an asserted player2nd. Two or three concise hand-worked fixtures can cover no-event, actual event-driven overtake, and tie/non-player event. Mark draws as fixtures; real seeded execution follows approval. Use existing deterministic tie/payout rules as control; shared-place rewards would be a new rule needing justification and owner approval. Distinct models need repeatability within themselves across presentation variants, not byte-identical outcomes between different models.
+2. **Minimal progressive-choice comparison.** Add an opening decision and one later unlocked mutually exclusive option, with visible introduction/unlock trigger and explicit trade-off. The packet asks for this; repeating “single choice” does not supply it. Do not introduce multiple independent pre-race selections or adopt a fatigue-obscuring technique from Plan05 by implication. Keep this a small proposal, not an unlock tree or upgrade ladder. Demonstrate how a choice enters the same bounded race model.
+3. **Ordinary and consequential day beat maps.** The budget arithmetic90+385+285+120+20=900seconds is correct but is not an end-to-end day map. Add one ordered ordinary-day example and one consequential-day example, each with scene/action, rough time, active decision count, repeated wait and new-rule comprehension allowance; show where reveal/story pauses versus live hybrid-clock shop windows fall. Keep the10-day/three-race allocation explicitly illustrative, not a selected economy/day count or measured fifteen-minute floor. No mandatory idle padding. Preserve the SkipLunch settlement prerequisite for later reachable food-shortfall integration.
+
+## What is already satisfactory
+
+Plan17's3Down/+5%/one-race/non-stacking/commit-once contract is preserved. RNG/mechanical versus camera separation, no reflex inputs, no false contact causes, accessible alternatives and uninterrupted exit are explicit. The document accurately reports no preview, runtime timing or classroom/device result. Keep those honesty limits. The example speed12.0 is clearly illustrative; use actual committed racer/field values in the baseline control or label all departures as proposal inputs. Current engine marks a rival in the finale field directly; do not assume an unimplemented event-deck trigger exists.
+
+## Return instructions
+
+Amend the proposal in the existing report folder and update progress/consultation declaration. Return the exact candidate mechanism and small preview scope for owner approval. No code/preview, source/package mutation, generation budget, packet-status change or push. Plan19 is actively editing production source: preserve its files and use a recorded committed baseline for read-only comparisons. These are load-bearing proposal details, not a request for executed preview evidence before authorization or a new general design round.
+
+## Review provenance
+
+Cold read-only Luna-high review identified the causal contract, missing progressive-choice example and missing day maps; root verified each against the packet/proposal and current engine. Root confirmed the900-second arithmetic and existing unique-order tie/payout behavior. No new browser, simulation or gameplay evidence was run/claimed. The existing progress contains a consultation declaration; no new provider/tooling issue requires upstream export.

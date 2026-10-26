@@ -14,6 +14,8 @@ summary: >-
 
 ## Boundary and required reading
 
+**Mechanism proposal review, 2026-10-25:** `cc2fbfb`/`f0c2348` needs the focused amendments in report-folder `prebuild-review-01.md` before preview approval: exact causal progress/event/tie contract with derivable traces, a minimal progressive choice, and two ordered day maps. Root favors seeded mechanical beats for investigation, with resolved-outcome control and a smaller first event vocabulary, but owner has selected no new causal rules/duration. Packet stays in-progress at its prebuild gate; no code/generation/production authorization.
+
 **Owner assignment, 2026-10-25:** Run alongside Plan19 with disjoint ownership. Own only `reports/development/plan-13-race-staging-and-run-pacing/`; Plan19 owns the production-writing lane. Begin with the bounded race/pacing proposal and worked mechanical trace; wait for its prebuild gate before an isolated preview. Existing source/rig are read-only references. No shared src/sim/package changes or generation quota is authorized.
 
 Read `AGENTS.md`, canonical design Time/Immersion/Race/Receipt sections, owner triage, Plan 01 evidence limits, Plan 03 accepted trial, owner play feedback, and Plans 09/11. Run `check plan-13`; stop if blocked. Plan 04 supplies the accepted digital base; Plan 09 supplies candidate individual motions. Own only this report/preview folder. Propose the small comparison and wait for owner prebuild approval before coding. No production race changes, physics engine, final balance or new manipulation rule is authorized.

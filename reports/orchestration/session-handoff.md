@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-25
 
+- Plan13 proposal `cc2fbfb`/`f0c2348` reviewed in `prebuild-review-01.md`: promising and honestly unexecuted, but no prebuild approval yet. Amend exact progress/event eligibility/effects/order/ties and derivable complete traces; add one progressive mutually exclusive choice and ordinary/consequential day maps. Root favors causal beats investigation, existing-result control,12/20/30 playback and initially draft/bobble without undefined contact physics. Owner still selects scope; no race/daycount/mechanics adopted. Preserve active Plan19 source edits.
+
 - Owner explicitly assigned Plans19 and13 in parallel on 2026-10-25; both in-progress. Plan19 first returns source/lifecycle outline, then owns bounded production integration after approval. Plan13 is report-folder-only race/run-pacing investigation, with a worked outcome/event model before prebuild approval. No shared source ownership for Plan13. ShellA and automatic entry/animated return are settled; Plan17 is closed; Plan18 still awaits owner sample selection.
 
 - Owner explicitly accepts Plan17 closure (DECISION-013); close with bounded scenario/lifecycle/Receipt limits. Canonical design/AGENTS/orchestrator contracts updated so the settled 3/6 trial rules are not reopened. Recommended next pair: draftPlan19 focused ShellA/context production integration (single source writer) plus draftPlan13 report-only race/run-pacing investigation. Both require owner dispatch; no start inferred from “what's next?”. Plan18 still needs owner listening/selection; Plan09 is an optional later parallel motion gallery.

@@ -68,6 +68,10 @@
     .turn-face { position:absolute; inset:0; backface-visibility:hidden; display:grid; place-items:center; border-radius:8px; border:2px solid #728e98; background:#fff; }
     .turn-face img { width:96px; height:112px; object-fit:contain; }
     .turn-back { transform:rotateY(180deg); background:#ecd9a7; color:#41545b; font-size:.75rem; font-weight:800; text-align:center; padding:8px; }
+    .turn-back img { transform:scaleX(-1); }
+    .turn-back img { width:74px; height:84px; }
+    .turn-back span { line-height:1.1; }
+    .flat-back .turn-back img { transform:none; }
     .flat-back .turn-back { background:#f4f5f2; border-style:dashed; }
     @keyframes turn-around { from { transform:rotateY(0); } to { transform:rotateY(180deg); } }
     @keyframes turn-back { from { transform:rotateY(180deg); } to { transform:rotateY(0); } }
@@ -143,20 +147,18 @@
         </div>
         <p class="fine-print">Recomputes the outcome only when one of these inputs or the outcome model changes. Camera, duration, reduced motion, skip, replay and snapshot restore use the committed record and do not resolve a second time.</p>
       </fieldset>
+      <p class="fine-print" id="race-boundary">Two visual lanes with a staggered three-row start replace the six-lane spread. The infield is closed to racers. Gentle deterministic pace surges can show passes without changing the recorded finish. Collision mechanics are not implemented: contact eligibility, effects, and race-record rules still need definition.</p>
       <div class="race-layout" style="margin-top:16px">
         <div>
           <div class="stage-shell" id="stage-shell">
             <svg id="race-svg" viewBox="0 0 900 500" role="img" aria-labelledby="track-title track-desc">
-              <title id="track-title">Six-lane oval race in a rectangular viewport</title>
-              <desc id="track-desc">All six ducks start at the top of an oval. The active trace and outcome model determine their final position.</desc>
+              <title id="track-title">Two-lane oval kart race in a rectangular viewport</title>
+              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Small display-only pace changes allow passes; the recorded result remains fixed.</desc>
               <rect width="900" height="500" class="pond"/>
               <ellipse class="shore" cx="450" cy="250" rx="345" ry="173"/>
               <ellipse class="race-track" cx="450" cy="250" rx="345" ry="173"/>
-              <ellipse class="lane-line" cx="450" cy="250" rx="309" ry="149"/>
-              <ellipse class="lane-line" cx="450" cy="250" rx="273" ry="125"/>
-              <ellipse class="lane-line" cx="450" cy="250" rx="237" ry="101"/>
-              <ellipse class="lane-line" cx="450" cy="250" rx="201" ry="77"/>
-              <ellipse class="lane-line" cx="450" cy="250" rx="165" ry="53"/>
+              <ellipse class="lane-line" cx="450" cy="250" rx="255" ry="113"/>
+              <ellipse cx="450" cy="250" rx="165" ry="53" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
               <g id="camera-root">
                 <line class="finish-line" x1="425" y1="62" x2="475" y2="62"/>
                 <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
@@ -209,7 +211,7 @@
         <div class="turn-stage">
           <div id="turn-card" class="turn-card" aria-label="Digital duck paper turnaround demonstration">
             <div class="turn-face"><img src="../../../src/assets/svg/duck-rig.svg" alt="Mode C paper duck, front"></div>
-            <div class="turn-face turn-back" aria-hidden="true"><img src="../../../src/assets/svg/duck-rig.svg" alt=""><span>REVERSE<br>PAPER SIDE</span></div>
+            <div class="turn-face turn-back" aria-hidden="true" data-back-face><img src="../../../src/assets/svg/duck-rig.svg" alt=""><span>REVERSE<br>PAPER SIDE</span></div>
           </div>
         </div>
         <div>
@@ -232,7 +234,7 @@
       </div>
       <p class="fine-print" style="margin-top:12px">Illustrative run split: setup 90 sec + 7 ordinary days (385 sec) + 3 consequential days (285 sec, including three 20-sec races) + Receipt/ending 120 sec + 20-sec non-idle orientation allowance = 900 sec. Longer player-paced scenes can extend the run; this has not been measured with students.</p>
     </section>
-    <p class="fine-print">No network requests are made by this standalone preview. The Uninstall button demonstrates continuous availability; it does not control a game run. No event here implies collision, fatigue, or contact damage.</p>
+    <p class="fine-print">No network requests are made by this standalone preview. The Uninstall button demonstrates continuous availability; it does not control a game run. No collision, fatigue, or contact damage is modeled.</p>
   </main>
   <p id="exit-note" class="exit-note" aria-live="polite"></p>
 

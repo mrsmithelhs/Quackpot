@@ -8,7 +8,6 @@ import {
   resolveSeededRace,
   restorePresentationSnapshot,
   savePresentationSnapshot,
-  visualLaneAt,
 } from './preview-model.mjs';
 
 const baseInput = Object.freeze({
@@ -99,14 +98,15 @@ test('Plan 17 preview trial multiplies base speed once by the accepted 1.05 fact
   assert.equal(withTrial.draws.performance, withoutTrial.draws.performance);
 });
 
-test('visual lane changes retain logical lane IDs and are repeatable across presentation variants', () => {
+test('two-lane three-row grid assignments are repeatable and preserve logical lane IDs', () => {
   const result = resolveSeededRace(baseInput);
   const wide = buildPresentationPlan(result, { duration: 12, camera: 'wide' });
   const cinematic = buildPresentationPlan(result, { duration: 30, camera: 'close', highlightSeconds: 2 });
   assert.deepEqual(cinematic.visualLanePaths, wide.visualLanePaths);
-  assert.equal(visualLaneAt(wide.visualLanePaths[1], 0), 2);
-  assert.ok(visualLaneAt(wide.visualLanePaths[1], 0.35) > 2);
-  assert.ok(Math.abs(visualLaneAt(wide.visualLanePaths[1], 0.55) - 2) < 0.25);
+  assert.deepEqual(wide.visualLanePaths.map(({ lane, row }) => [lane, row]), [
+    [1, 0], [2, 0], [1, 1], [2, 1], [1, 2], [2, 2],
+  ]);
+  assert.equal(wide.laneChangesEnabled, false);
   assert.deepEqual(result.finish.map(({ id, lane }) => ({ id, lane })),
     resolveSeededRace(baseInput).finish.map(({ id, lane }) => ({ id, lane })));
 });

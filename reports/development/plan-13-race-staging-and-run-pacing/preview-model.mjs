@@ -207,7 +207,7 @@ export function buildPresentationPlan(resolution, options = {}) {
   if (!LIGHTING.has(lighting)) throw new RangeError('lighting must be neutral or warm');
 
   const staticPresentation = staticMode || reducedMotion || skipped;
-  const visualLanePaths = resolution.entrants.map((entrant) => createVisualLanePath(entrant.lane));
+  const visualLanePaths = resolution.entrants.map((entrant) => createVisualLanePath(entrant));
   const frames = staticPresentation
     ? [{ normalizedTime: 1, elapsedSeconds: 0, camera: 'wide', zoom: 1, static: true }]
     : [0, 0.3, 0.4, 0.7, 1].map((normalizedTime) => ({
@@ -229,7 +229,7 @@ export function buildPresentationPlan(resolution, options = {}) {
     highlightBeat: highlightSeconds > 0 ? 0.4 : null,
     totalWallSeconds: duration + highlightSeconds,
     lighting,
-    laneChangesEnabled: !staticPresentation,
+    laneChangesEnabled: false,
     visualLanePaths,
     frames,
     resultFingerprint: raceFingerprint(resolution),
@@ -254,13 +254,13 @@ export function visualLaneAt(path, normalizedTime) {
 
 export function presentationProgressFraction(entrant, finish, normalizedTime) {
   const t = Math.max(0, Math.min(1, normalizedTime));
-  const finishScale = Math.max(...finish.map((item) => item.score));
-  const offset = (entrant.presentationEvents ?? []).reduce((sum, event) => {
-    const ramp = 0.06;
-    const progress = Math.max(0, Math.min(1, (t - event.beat) / ramp));
-    return sum + event.delta * progress;
-  }, 0);
-  return Math.max(0, Math.min(0.999, (entrant.baselineScore * t + offset) / finishScale));
+  const leaderScore = Math.max(...finish.map((item) => item.score));
+  const ownFinish = finish.find((item) => item.id === entrant.id)?.score ?? entrant.baselineScore;
+  const easing = smoothstep(t);
+  const finalGap = (ownFinish - leaderScore) / 600;
+  const phase = (entrant.id.charCodeAt(0) % 7) * (Math.PI / 3.5);
+  const presentationSurge = 0.018 * Math.sin(Math.PI * t) * Math.sin((Math.PI * 2 * t) + phase);
+  return Math.max(0, t + finalGap * easing + presentationSurge);
 }
 
 export function raceFractionAtWallClock(elapsedSeconds, { duration, highlightSeconds = 0 } = {}) {
@@ -277,20 +277,10 @@ export function raceFractionAtWallClock(elapsedSeconds, { duration, highlightSec
   return Math.min(1, 0.42 + (elapsed - slowEnd) / duration);
 }
 
-function createVisualLanePath(logicalLane) {
-  const adjacent = logicalLane === 6 ? logicalLane - 1 : logicalLane + 1;
-  const stagger = (logicalLane - 1) * 0.012;
-  return {
-    logicalLane,
-    points: [
-      { at: 0, lane: logicalLane },
-      { at: 0.24 + stagger, lane: adjacent },
-      { at: 0.48 + stagger, lane: logicalLane },
-      { at: 0.7 + stagger, lane: adjacent },
-      { at: 0.88 + stagger, lane: logicalLane },
-      { at: 1, lane: logicalLane },
-    ],
-  };
+function createVisualLanePath(entrant) {
+  const visualSlot = { A: [1, 0], P: [2, 0], B: [1, 1], C: [2, 1], D: [1, 2], E: [2, 2] };
+  const [lane, row] = visualSlot[entrant.id] ?? [1, 0];
+  return { logicalLane: entrant.lane, lane, row, points: [{ at: 0, lane }, { at: 1, lane }] };
 }
 
 function raceWallClockAtFraction(fraction, duration, highlightSeconds) {

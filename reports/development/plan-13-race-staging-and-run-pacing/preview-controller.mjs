@@ -5,7 +5,6 @@ import {
   resolveSeededRace,
   savePresentationSnapshot,
   restorePresentationSnapshot,
-  visualLaneAt,
 } from './preview-model.mjs';
 
 const $ = (id) => document.getElementById(id);
@@ -36,8 +35,7 @@ const BASE_ENTRANTS = [
   { id: 'E', name: 'Rival E', lane: 6 },
 ];
 const AXES = [
-  { rx: 345, ry: 173 }, { rx: 309, ry: 149 }, { rx: 273, ry: 125 },
-  { rx: 237, ry: 101 }, { rx: 201, ry: 77 }, { rx: 165, ry: 53 },
+  { rx: 300, ry: 143 }, { rx: 210, ry: 83 },
 ];
 const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 const LOCAL_SNAPSHOT_KEY = 'quackpot.plan13.presentationSnapshot.v1';
@@ -187,6 +185,7 @@ function currentPresentationSettings() {
 
 function resolveOutcomes() {
   stopPlayback();
+  $('runner-layer').replaceChildren();
   const seeded = $('trace').value === 'seeded';
   $('seed-inputs').style.display = seeded ? 'block' : 'none';
   $('save-state').disabled = !seeded || !state?.resolution;
@@ -282,6 +281,19 @@ function makeNode(entrant) {
   group.append(image, label); $('runner-layer').append(group); entrant.node = group;
 }
 
+function yawMirrorAt(fraction) {
+  const flipWindow = 0.055;
+  const flip = (value, center, from, to) => {
+    const local = clamp((value - (center - flipWindow)) / (flipWindow * 2), 0, 1);
+    if (value <= center - flipWindow) return from;
+    if (value >= center + flipWindow) return to;
+    const eased = (1 - Math.cos(Math.PI * local)) / 2;
+    return from + (to - from) * eased;
+  };
+  const rightTurn = flip(fraction, 0.25, -1, 1);
+  return flip(fraction, 0.75, rightTurn, -1);
+}
+
 function progressFor(entrant, t) {
   return presentationProgressFraction(entrant, state.finish, t);
 }
@@ -292,24 +304,27 @@ function renderRunners(t) {
     const fraction = progressFor(entrant, t);
     const angle = -Math.PI / 2 + fraction * Math.PI * 2;
     const path = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === entrant.lane);
-    const visualLane = !reduced && path ? visualLaneAt(path, t) : entrant.lane;
-    const low = Math.floor(visualLane); const high = Math.min(AXES.length, low + 1);
-    const blend = visualLane - low;
-    const rx = AXES[low - 1].rx * (1 - blend) + AXES[high - 1].rx * blend;
-    const ry = AXES[low - 1].ry * (1 - blend) + AXES[high - 1].ry * blend;
-    const x = 450 + rx * Math.cos(angle); const y = 250 + ry * Math.sin(angle);
+    const lane = path?.lane ?? 2;
+    const row = path?.row ?? 0;
+    const { rx, ry } = AXES[lane - 1];
+    const gridStagger = row * 0.03 * Math.PI * 2 * (1 - ease01(clamp(t / 0.2, 0, 1)));
+    const staggeredAngle = angle - gridStagger;
+    const x = 450 + rx * Math.cos(staggeredAngle); const y = 250 + ry * Math.sin(staggeredAngle);
     if (!entrant.node) makeNode(entrant);
     entrant.node.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
-    // The SVG reference's bill points left; rotate its facing back onto the travel tangent.
-    const facing = Math.atan2(ry * Math.cos(angle), -rx * Math.sin(angle)) * 180 / Math.PI + 180;
-    entrant.node.querySelector('[data-duck-image="true"]').setAttribute('transform', `rotate(${facing.toFixed(1)})`);
+    const mirror = yawMirrorAt(fraction);
+    entrant.node.querySelector('[data-duck-image="true"]').setAttribute('transform', `scale(${mirror.toFixed(4)} 1)`);
   }
   const close = $('camera').value === 'scripted' && !reduced;
   const zoom = close ? smoothCloseZoom(t) : 1;
   const player = state.entrants.find((entrant) => entrant.player);
   const playerT = progressFor(player, t); const playerAngle = -Math.PI / 2 + playerT * Math.PI * 2;
-  const axis = AXES[player.lane - 1];
-  const px = 450 + axis.rx * Math.cos(playerAngle); const py = 250 + axis.ry * Math.sin(playerAngle);
+  const playerLane = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === player.lane)?.lane ?? 2;
+  const axis = AXES[playerLane - 1];
+  const playerRow = state.presentationPlan?.visualLanePaths.find((item) => item.logicalLane === player.lane)?.row ?? 0;
+  const playerGridStagger = playerRow * 0.03 * Math.PI * 2 * (1 - ease01(clamp(t / 0.2, 0, 1)));
+  const playerAngleWithGrid = playerAngle - playerGridStagger;
+  const px = 450 + axis.rx * Math.cos(playerAngleWithGrid); const py = 250 + axis.ry * Math.sin(playerAngleWithGrid);
   const tx = zoom === 1 ? 0 : 450 - px * zoom;
   const ty = zoom === 1 ? 0 : 250 - py * zoom;
   $('camera-root').setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${zoom.toFixed(4)})`);
@@ -317,8 +332,8 @@ function renderRunners(t) {
   $('camera-note').textContent = reduced
     ? 'Static/reduced-motion mode: no moving racers or camera zoom; the same final positions and recorded order remain visible. Warm lighting is disabled.'
     : $('camera').value === 'wide'
-      ? 'Locked wide. Tangent-facing ducks and staggered lane paths are presentation only; logical lanes stay fixed.'
-      : 'Camera eases in around the 40% beat, then eases back wide. Lane paths do not affect logical lanes or results.';
+      ? 'Locked wide. Upright ducks mirror at the oval turns; pace surges are presentation only and do not alter logical outcomes.'
+      : 'Camera eases in around the 40% beat, then eases back wide. Upright duck mirroring and pace surges do not alter recorded results.';
 }
 
 function smoothCloseZoom(t) {
@@ -328,6 +343,8 @@ function smoothCloseZoom(t) {
   if (t <= 0.66) return 1.16;
   return 1.16 - smooth((t - 0.66) / 0.1) * 0.16;
 }
+
+function ease01(value) { return value * value * (3 - 2 * value); }
 
 function playbackFraction() {
   return raceFractionAtWallClock(elapsedBeforePause / 1000, {
@@ -395,6 +412,7 @@ function restoreSnapshot() {
     if (!serialized) throw new Error('no saved snapshot is available');
     const snapshot = restorePresentationSnapshot(serialized);
     state = stateFromSeededResolution(snapshot.resolution);
+    $('runner-layer').replaceChildren();
     $('model').value = snapshot.resolution.model;
     $('trace').value = 'seeded';
     $('run-seed').value = snapshot.resolution.inputs.seed;
@@ -463,7 +481,9 @@ $('turn').addEventListener('click', () => {
 $('turn-card').addEventListener('animationend', () => $('turn-card').classList.remove('flipping', 'to-back', 'to-front'));
 for (const radio of document.querySelectorAll('input[name="back"]')) radio.addEventListener('change', () => {
   $('turn-card').classList.toggle('flat-back', radio.checked && radio.value === 'flat');
+  $('turn-card').dataset.back = radio.value;
 });
+$('turn-card').dataset.back = document.querySelector('input[name="back"]:checked')?.value ?? 'mirrored';
 
 try { savedSnapshot = sessionStorage.getItem(LOCAL_SNAPSHOT_KEY); } catch { savedSnapshot = null; }
 $('restore-state').disabled = !savedSnapshot;

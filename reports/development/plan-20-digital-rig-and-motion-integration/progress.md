@@ -77,7 +77,39 @@ The Sol-low reviewer raised a P2 concern that hidden/offscreen/inactive cards mi
 
 QP Orch's main implementation source review separately identified the Plan 09 paper-cycle and internal wing-pivot fidelity mismatches. Both were accepted and repaired in `011e758`, with focused assertions and rendered evidence for the pivots. The remaining system-preference evidence gap is retained for owner review; no extra implementer reviewer or small-repair review was requested or used.
 
-No additional reviewer was used for this owner-directed bounded repair. QP Orch confirmed the fix stayed within the approved production files and requested the final scoped commits and report. This repair addresses the owner card-motion feedback; QP Orch will verify the final source diff and hand it forward for owner acceptance. This implementer does not set packet status.
+No additional reviewer was used for that earlier owner-directed card-motion repair. QP Orch confirmed that repair stayed within the approved production files and requested the scoped commits and report. This implementer did not set packet status.
+
+## Owner follow-up: revealed-card layout and first-duplicate help
+
+QP Orch approved this bounded proposal before implementation, including an event-only extension to the engine helpers. The rendered source change owns only the gacha presentation. The physical desk companion remains static; race wiring remains deferred pending accepted Plan 13 event semantics and separate approval. Plan 13 report artifacts were not edited.
+
+The owner screenshot's card growth came from five `1fr` grid tracks retaining their automatic min-content minimum. The revealed SVG wrapper's fixed clamped width, plus card padding and borders, enlarged every track. The repair raises the gacha-only maximum width from 780px to 900px, changes the desktop grid to five `minmax(0, 1fr)` tracks, applies `min-width: 0` to the relevant grid/card shells, and constrains the SVG wrapper to its card. The existing two-column narrow breakpoint remains. No overflow clipping was added. The reveal update still replaces only newly revealed backs; previously revealed card DOM and motion instances remain mounted.
+
+The new attached, nonmodal callout is anchored to the earliest valid `reveal_shown` duplicate, never `draw_committed`. It gives the actually awarded Down amount and the verified Common 1 / Rare 5 / Legendary 20 conversion values. Reveal All uses event order, so at most one first-duplicate help event is recorded. The bubble has a source-aligned angular tail, stays within the viewport when a safe placement exists, avoids the Uninstall control, and hides/retries when its source is offscreen or no safe placement is available. It has a 75% background alpha with opaque white text, becomes fully opaque on hover/focus, and has a 44×44px close target. Escape dismisses only while focus is within the callout; no focus trap or modal Escape handler was added.
+
+The animation lifecycle check found that the first duplicate card's 0.3-second reveal flip temporarily collapses its transformed bounding rectangle to zero width. The help cue now waits for that card's `animationend` or `animationcancel` event, then retries presentation; the event is appended only after the card and safely positioned callout are visible. Pending listeners are removed on view destruction. This preserves the rule that scheduled or offscreen help is not recorded as displayed.
+
+`GameEngine.getDuplicateConversionHelpState()` derives the first eligible duplicate from a `reveal_shown` entry matched to its committed draw and checks the once-per-run `cue_shown` / dismissal `action` evidence. The narrowly scoped `showDuplicateConversionHelp()` and `dismissDuplicateConversionHelp()` methods guard terminal state, reject orphaned/mismatched references, and are idempotent. No saved state field, schema migration, mechanical PRNG, Down rule, draw result, or Receipt technique was added. The help event uses `cueId: duplicate_conversion_help`, not a `technique`; Receipt projection is unchanged. Existing autosave runs after the event append when autosave is enabled; disabled autosave remains disabled.
+
+### Rendered and executable evidence
+
+- `node scripts/dev/plan-status.js check plan-20` reports `RUNNABLE`; packet status remains untouched.
+- Final `npm test` passed 140/140; final `npm run build` succeeded; `git diff --check` passed.
+- Fresh local production-preview browser contexts were used on temporary ports 5199, 5200, 5300, 5400, 5500, 5600, and 5700. Each preview was started by this implementer and stopped after use. The pre-existing shared 5181 server was not modified. No owner Chrome tab/profile, OS setting, or account state was changed.
+- At a 1280×720 CSS viewport and DPR 1.25, before the pull there were zero cards and no grid. After commit, all ten card backs measured 157.275–157.288px wide and 209.700–209.713px high. Revealing one card kept the same measured dimensions. Reveal All kept the same dimensions and produced a 5×2 grid 834.4px wide inside the 900px gacha container; document `scrollWidth` equalled `clientWidth`.
+- At a 390×844 CSS viewport and DPR 1, the responsive two-column ten-card grid measured 285.6px wide inside a 351.2px gacha container. Cards measured 136.8×182.4px with no document horizontal overflow. The first duplicate's bubble appeared after its reveal flip, its pointer aligned to that source card, and measured bounds intersected neither the source card nor Uninstall. The bubble's rest background computed to `rgba(15, 23, 42, 0.75)` with `rgb(255, 255, 255)` text; hover computed to opaque `rgb(15, 23, 42)`. Its close target computed to 44×44px.
+- Before any reveal and after committing ten unrevealed cards, no duplicate help appeared. A one-card nonduplicate reveal showed no help. Reveal All showed the help only after the first revealed duplicate's flip finished. Escape with focus inside and close-button activation both dismissed it; reload retained dismissed state from the event log/autosave. The synthetic browser run exercised pointer click, not a physical touchscreen. No forced production interaction after terminal; terminal-event suppression is covered by the engine guard test.
+- Existing focused motion tests continued to pass. System `prefers-reduced-motion` was not changed or toggled in the browser; this repair did not alter the previously tested controller preference handling. No long-name identity occurred in the selected browser seed; CSS box-sizing and min-width rules were verified, but a rendered long-name sample remains unobserved.
+
+### Review-budget deviation
+
+One new read-only reviewer subagent was mistakenly launched for this owner repair even though Plan 20's main review allowance had already been used and this repair did not permit another reviewer. This exceeded the user direction not to use an extra small-repair reviewer; it is recorded as a process deviation, not as an authorized additional main review. The requested model/effort were `gpt-6-sol` / `low`; the child could not independently verify its observed runtime model or effort. The review was instruction-read-only; no structural sandbox guarantee was available, and no reviewer edits were observed. It raised two P2 concerns: callout placement was measured before final text, and an exit-overlap fallback could still overlap Uninstall. I independently reproduced both source risks, then set the width/text before final positioning and replaced the fallback with viewport/source/exit collision checks; the bubble hides and retries when safe placement is impossible. The delivered browser checks cover both. QP Orch was informed. No further reviewer was used.
+
+## Follow-up commits and handoff
+
+- `72fa977` — scoped layout, first-duplicate help, event-only engine guards, and focused tests.
+- This report records the final evidence and the reviewer-budget deviation as the last implementation commit.
+- QP Orch owns the final source review and owner rendered acceptance. Packet status remains unchanged; no push or deployment was performed.
 
 ## Commits and handoff
 

@@ -314,9 +314,11 @@ function renderRunners(t) {
   const ty = zoom === 1 ? 0 : 250 - py * zoom;
   $('camera-root').setAttribute('transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${zoom.toFixed(4)})`);
   $('stage-shell').classList.toggle('warm-light', $('lighting').value === 'warm' && !reduced);
-  $('camera-note').textContent = $('camera').value === 'wide'
-    ? 'Locked wide. Tangent-facing ducks and staggered lane paths are presentation only; logical lanes stay fixed.'
-    : 'Camera eases in around the 40% beat, then eases back wide. Lane paths do not affect logical lanes or results.';
+  $('camera-note').textContent = reduced
+    ? 'Static/reduced-motion mode: no moving racers or camera zoom; the same final positions and recorded order remain visible. Warm lighting is disabled.'
+    : $('camera').value === 'wide'
+      ? 'Locked wide. Tangent-facing ducks and staggered lane paths are presentation only; logical lanes stay fixed.'
+      : 'Camera eases in around the 40% beat, then eases back wide. Lane paths do not affect logical lanes or results.';
 }
 
 function smoothCloseZoom(t) {

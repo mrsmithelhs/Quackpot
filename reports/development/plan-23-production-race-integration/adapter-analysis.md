@@ -41,6 +41,22 @@ The square-root candidate still fails these proposed acceptance checks:
 
 If preserving trial magnitude, rest readability, the existing physics domain, and pacing cannot all be achieved by one global monotonic function, the owner must choose which constraint can move. Do not tune the 20-second target, course, accepted Plan 13 mechanics, Plan 17 rule, or roster stats silently.
 
+## Follow-up for the owner's late-race tolerance
+
+The owner is willing to accept up to about 5% of races over 23 seconds, and prefers a faster skew over a slow tail. A further report-only screen used the same Plan 13 in-memory adapter, fixed course and mechanics, and the square-root mapping with a 10.45 m/s lower output endpoint:
+
+```text
+f(x) = 10.45 + 1.55 × sqrt((x − 4.4) / (27.72 − 4.4)), for 4.4 ≤ x ≤ 27.72
+```
+
+It ran 30 deterministic seeds for each of the 72 input cells (three speed tiers × two production race/field combinations × two stances × trial on/off × three future rest factors), for 2,160 finished races and no unresolved outcomes. The measured distribution was: mean 22.391s, SD 0.260s, median 22.358s, p90 22.748s, p95 22.893s, p99 22.986s, range 21.685–23.060s. Nineteen races (0.88%) exceeded 23s; none finished under 17s; 99.12% landed in 17–23s. The sample skew was +0.28. This is a narrow, near-symmetric screening distribution, not proof of a normally distributed production population.
+
+The late tail was concentrated in the future 50%-rest group: 2.64% of that group's 720 trials exceeded 23s; the rested and 25%-rest groups had none. Common-tier runs had 1.67% late finishes, Rare 0.97%, and Legendary none. Tier ranking remained distinct: mean place Common 2.71, Rare 1.61, Legendary 1.17; win rates 34.7%, 60.8%, and 84.6% respectively. No per-variant adjustment was made. No run was pushed below 17 seconds by this mapping; the fastest observed was 21.685s.
+
+The +5% trial remained strictly ordered but was heavily compressed: it changed mapped base speed by only 0.033–0.040 m/s across the three tiers. Across 36 paired condition-cell averages it shifted mean place by 0.113 and finish time by 0.022s; that is a small aggregate effect, not a guaranteed per-seed benefit. Sprint shifted mean place by 0.159 and saved 0.040s across paired cell means. A 10 m/s Common base maps to 11.210; its 25% and 50% rest inputs map 0.194 and 0.511 m/s lower. Thus this mapping fits the requested late tail and retains mathematical ordering, while weakening the trial and rest effects. It cannot be represented as preserving the original physical +5% speed benefit unchanged.
+
+This follow-up makes the pacing trade-off more concrete: **sqrt10.45 is the best current report-only candidate if the owner accepts the smaller mapped trial/rest deltas.** It does not authorize production integration. The earlier no-candidate statement applies to the first screen's stricter modifier-preservation gate; this candidate now passes the owner's approximate 5% late-race tolerance, but does not pass the stronger modifier-magnitude expectation. The choice remains owner-gated before any source or browser work.
+
 ## Payload and diagnostic sizing
 
 Byte counts are UTF-8 JSON before and after gzip. The named direct Plan 13 R03 reference resolution is 299,215 JSON bytes / 54,790 gzip bytes with 443.1975 ticks, 15 mechanical events, and 33 opportunity diagnostics. Five first-seed full reference results for each mapping were measured; across those 20 samples, the largest full result was 371,551 bytes and smallest was 288,986 bytes. The five square-root samples were 296,850–319,315 bytes full JSON, 91,191–99,406 bytes under the report-only compact candidate encoding, and 53,263–57,019 gzip bytes full / 27,053–29,486 compact.
@@ -60,4 +76,4 @@ The actual reference module returned unresolved guard witnesses of 15,648 bytes 
 
 ## Reproducibility and limits
 
-Run from repository root: `node reports/development/plan-23-production-race-integration/adapter-analysis.mjs`. The machine-readable output is `adapter-analysis-results.json`. The script imports the accepted preview re-export for the direct parity witness, reads the underlying accepted model, substitutes only the PRNG URL in an in-memory module copy, and inserts the candidate adapter before `topSpeed`. It writes only within this Plan 23 report folder. No browser, build, repository test, or production source command was run. Current unstaged changes in Plan 20's `src/` files were left untouched.
+Run from repository root: `node reports/development/plan-23-production-race-integration/adapter-analysis.mjs` for the first six-seed screen and `node reports/development/plan-23-production-race-integration/pacing-sweep.mjs` for the 30-seed sqrt10.45 follow-up. Their machine-readable outputs are `adapter-analysis-results.json` and `pacing-sweep-results.json`. The follow-up substitutes only the PRNG URL in an in-memory reference-module copy and inserts the mapping before `topSpeed`; it changes no accepted source. Both scripts write only within this Plan 23 report folder. No browser, build, repository test, or production source command was run. Current in-flight Plan 20 `src/` changes were left untouched.

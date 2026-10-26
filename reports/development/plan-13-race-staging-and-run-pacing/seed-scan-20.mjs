@@ -16,6 +16,7 @@ const output = {
     seeds: Array.from({ length: seedCount }, (_, i) => ({ seed: `Plan13 stability seed ${i}`, raceId: `R${i}` })),
     playerBaseSpeed: 11.7, fieldBaseSpeed: 11.5, choice: 'steady', trialCommitted: false,
     experiments, dt, screenshotWitness: { seed: 'Quackpot Plan 13 named-seed example', raceId: 'R03' },
+    recoveryMetricNotes: 'lateralToleranceSettledAt is the timestamp of the first three consecutive samples within 0.25 m after a real out-of-band excursion; an excursion resets the candidate entry. It is a lateral-only diagnostic, distinct from the combined heading-and-lateral recenter condition.',
     summaryNotes: 'One shared PRNG performance sequence per seed/race across all experiment arms. Recovery stages and max lane error are measured per participant from the fixed-step trajectory. Full trajectories are intentionally omitted from this compact artifact; rerun this script to reproduce them.'
   },
   summary: {},
@@ -48,6 +49,7 @@ function recoveryRows(resolution, experiment) {
       let maxLaneError = 0;
       let lateralToleranceSettledAt = null;
       let lateralToleranceTicks = 0;
+      let sawLateralExcursion = false;
       let maxHeadingErrorAfterYawRecoveryDeg = 0;
       let lastHeadingErrorAfterYawRecovery = null;
       let wallImpactsAfterStart = 0;
@@ -58,9 +60,16 @@ function recoveryRows(resolution, experiment) {
           const lateralError = Math.abs(state.lateral - laneOffset(entrant.lane));
           maxLaneError = Math.max(maxLaneError, lateralError);
           const at = frame.tick * dt;
-          lateralToleranceTicks = lateralError <= PHYSICS.recoveryLateralTolerance ? lateralToleranceTicks + 1 : 0;
-          lateralToleranceSettledAt = lateralToleranceTicks >= PHYSICS.recoverySettleTicks
-            ? Number((at - (PHYSICS.recoverySettleTicks - 1) * dt).toFixed(3)) : null;
+          if (lateralError > PHYSICS.recoveryLateralTolerance) {
+            sawLateralExcursion = true;
+            lateralToleranceTicks = 0;
+            lateralToleranceSettledAt = null;
+          } else if (sawLateralExcursion) {
+            lateralToleranceTicks += 1;
+            if (lateralToleranceSettledAt === null && lateralToleranceTicks >= PHYSICS.recoverySettleTicks) {
+              lateralToleranceSettledAt = Number((at - (PHYSICS.recoverySettleTicks - 1) * dt).toFixed(3));
+            }
+          }
           if (Number.isFinite(detail.yawRecoveredAt) && at >= detail.yawRecoveredAt) {
             const delta = state.heading - steeringEquilibrium(state.progress, state.lateral, laneOffset(entrant.lane), 'recenter');
             const errorDeg = Math.abs(Math.atan2(Math.sin(delta), Math.cos(delta)) * 180 / Math.PI);

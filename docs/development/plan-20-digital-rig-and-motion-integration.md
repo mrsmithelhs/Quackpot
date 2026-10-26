@@ -51,6 +51,8 @@ Engine outcomes/log/RNG and storage remain authoritative. Presentation has no me
 
 **Owner race-motion direction retained for follow-on:** Normally paddle; the current leading two race slots may use graceful bob. Logged duck-to-duck and wall impacts use impact/recovery with priority over ordinary locomotion, then return to the appropriate rank-based loop. Define rank sampling/switch hysteresis and visual-versus-mechanical recovery mapping against accepted Plan13 events before wiring; don't repeatedly restart one-shots on each collision tick or imply that cosmetic graceful bob grants a speed advantage. This direction is recorded, not permission to bypass the dependency above.
 
+**Owner future production presentation note, 2026-10-26:** Plan13's detailed narrative/diagnostic tables are useful investigation tools, not selected player UI. Race integration should offer concise plain-language commentary and accessible event-linked playback without exposing the technical table by default. Keep actual participant/cause/outcome truth; do not turn this into a blocker or scope expansion for current rig/card work. Crowd-reaction/contact audio search and synthesis fallback are future separate audio work with local licenses/provenance, not implied by motion integration.
+
 No audio selection/integration, new anatomy/variant stats, environment art, reveal anticipation/near-miss mechanics, physical-companion animation, economy, export schema, framework migration, package dependency expansion or deployment. Ask before shared rig structural changes, rather than compensating with silent art edits.
 
 ## Verification and delivery

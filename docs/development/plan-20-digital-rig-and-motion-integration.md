@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: delivered
+status: in-progress
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -36,6 +36,8 @@ Plans 04 and 09 supply an accepted Mode C rig and motion set, while production s
 Read AGENTS.md, docs/repo-structure.md, docs/decision-log.md, canonical design Assets/Immersion/Receipt and two-duck boundary, Plan09 proposal/refinement/gallery and reviews02–05, Plan19 accepted lifecycle, current src/main.js and relevant UI views, rig composer and SVG hierarchy. Run `node scripts/dev/plan-status.js check plan-20` after assignment; stop if blocked. Read current Plan13 event status before proposing race hooks.
 
 ## First return: source and trigger proposal
+
+**Owner layout/first-duplicate repair, 2026-10-26:** Reopen after screenshot review: revealed art must not increase grid/card dimensions or overflow the container. Investigate intrinsic min-content/track sizing; fit the intended larger card size from the start, widen desktop container if appropriate and preserve responsive narrow layout. Owner also requests first-revealed-duplicate attached explanatory callout: duplicates are automatically returned/converted to rarity-based Down, actual award stated, dismissible x, approximately75% background alpha/full on hover or focus, opaque readable text and touch/keyboard support. Return bounded source/displayed-cue/once-per-run/reload proposal before implementation; no currency/reveal/engine-rule changes. Plan23 is proposal-only until this repair's production handoff. These teaching cues do not authorize a modal trap, hidden-result reveal or manipulation-analysis panel.
 
 **Owner reveal-lifecycle feedback, 2026-10-26:** Reopen for focused repair: revealing one card must not replay flips on previously revealed cards or restart their motion. Each loop begins on its own actual reveal and preserves phase through later card reveals. Investigate current full-render/remount path and return minimal keyed-update/lifecycle fix to QP Orch before structural changes; preserve pause/static/modal/cleanup behavior, no extra reviewer. Current composition is intentionally classic-yellow/no-hat/no-accessory for all identities; visual mapping/catalog variety needs a separate proposal, not random cosmetic rerolls during this repair.
 

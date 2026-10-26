@@ -27,6 +27,8 @@ Owner closes Plan13 with combined rank-weighted weave +15–20° contact and2s s
 
 ## Required investigation before integration
 
+**Chat coordination, 2026-10-26:** Owner connected QP Impl23 (`01a17a86-a37a-7952-9158-d1e0aa6723d0`, local) with bidirectional supervision. Root introduction confirms report-only ownership; Plan20 retains production lane for newly requested stable card sizing and first-duplicate help. Return proposal before any production edit or browser test; source handoff remains mandatory.
+
 Map actual roster/field/stance/accepted Plan17 trial inputs to the selected simulation. Preview uses calibrated inputs and global speed caps: test low/high/current production stats and trial/stance effects so the port does not silently flatten identities, negate bonuses or make every race unfinishable. No per-variant balancing. Propose any necessary global input adapter explicitly for approval; don't tune rules to make a witness win. Preserve baseline reference parity for identical model inputs and tests for actual game inputs. Soft rest50/25 is selected but Plan22 owns its lifecycle; no implicit rest engine work here. Declare a stable effective-speed input for later composition.
 
 Name exact production ownership and a pure race model module, view/controller/helper boundaries and scoped styles. No report imports, mockup-copy monolith or broad main/global CSS growth. Preserve pre-race choice policy; identify existing UI inconsistencies rather than adding choices silently.

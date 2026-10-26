@@ -1,12 +1,15 @@
-# Direct Codex coordination — Plans 13 and 19
+# Direct Codex coordination — Plans 09, 13 and 19
 
 **Owner authorization:** 2026-10-25, direct human messages in QP Orch permit bidirectional communication with exactly QP Impl13 and QP Impl19 to oversee these plans. Orchestrator routine implementation/review directions are authorized; new owner design choices, production release and other chats are not authorized by implication.
+
+**Owner extension, 2026-10-26:** Direct human message additionally authorizes bidirectional supervision of **QP Impl 09**, `01a178cf-3b9a-7690-b605-b494c6aa35ca` / local. Root resolved the exact title through list_threads and successfully sent the introduction, proposal gate, isolated ownership and reviewer limits. Acknowledgment and proposal review are separate pending facts. Plan09 is in-progress (`4b6bdd5`); Plan19 is owner-approved/complete (`118cfc0`). The older repair/browser-limit notes below are historical: owner changed HTTP browser permissions and root verified the Plan13 page on 127.0.0.1:5181 after an approved outside-sandbox Vite launch.
 
 | Chat | Thread ID / host | Current responsibility |
 |---|---|---|
 | QP Orch | `01a16bb0-8611-7243-8c10-562b96083d60` / local | Independent verification, packet status and owner gates |
+| QP Impl 09 | `01a178cf-3b9a-7690-b605-b494c6aa35ca` / local | Report-contained Mode C motion proposal/gallery; prebuild gate |
 | QP Impl 13 | `01a1761a-0948-72e0-a66f-8eff6a68a1d1` / local | Report-contained race/pacing investigation and preview |
-| QP Impl 19 | `01a17618-1a4c-7120-afb7-d3a61b7435d8` / local | Existing bounded Shell A production repair |
+| QP Impl 19 | `01a17618-1a4c-7120-afb7-d3a61b7435d8` / local | Closed; owner-approved Shell A/context integration |
 
 ## Reviewer budget
 

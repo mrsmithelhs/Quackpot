@@ -1,7 +1,8 @@
 ---
 id: plan-09
 title: Digital gacha duck motion comparison
-status: delivered
+status: complete
+resolution: "Owner explicitly approves factor-four paper-layer animation result and closure on 2026-10-26. Accepted reference set: paddle, graceful bob, impact/recovery and static alternatives, with documented browser/system-motion limits. Production integration is separate draft Plan 20; no push or deployment."
 depends_on: [plan-04]
 gate: "Owner chooses motions after base SVG approval and rendered comparison."
 summary: >-
@@ -30,6 +31,8 @@ summary: >-
 Test whether expressive digital ducks add useful personality and variety across repeated pulls and races. The owner wants the E2 paper-style duck's separate layers to appear to move relative to one another. Use the accepted base rig rather than polishing a placeholder. This is not authorization to animate the physical metagame duck, alter odds, ship near-miss theater, or install all candidate motions in the game.
 
 ## Authority and scope
+
+**Owner closeout, 2026-10-26:** Owner approves the factor-four animation result (`2786feb`, evidence `22534ce`) as substantially better and explicitly requests closure. Accept paddle, graceful-bob, impact-recover-demo and static alternatives with current factor-four paper-layer motion as the reference set. Reviews 01–05 and repair evidence bound technical acceptance; the detached-looking backing edge was surfaced before this rendered approval. Production integration is separate draft Plan 20; system reduced-motion=true and fine small-sprite evidence remain limits, not established conformance.
 
 **Owner second magnitude increase, 2026-10-26:** Owner requests another doubling of the current paper-layer separation: factor 2 → 4 relative to the original refinement. Reopen in-progress for this bounded report-local adjustment, preserving parent movement/timing, controls and shared rig. No new proposal or reviewer required; inspect visual overlap/clipping/shadows and reset behavior, coordinate browser turn, and return for owner selection.
 

@@ -17,7 +17,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-06` | Optional odds-detail investigation | draft | Specify candidate information for an optional odds-detail button without hiding the Receipt's actual pity-adjusted pre-draw odds. |
 | `plan-07` | Run-usage export and teacher analyzer investigation | draft | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
 | `plan-08` | Duck visual-direction prototypes and owner gallery | complete | A separate Gemini thread generates five visual styles with three shape variants each and builds a local HTML gallery for owner comparison before SVG authoring. |
-| `plan-09` | Digital gacha duck motion comparison | delivered | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
+| `plan-09` | Digital gacha duck motion comparison | complete | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
 | `plan-10` | Physical metagame duck views and cinematic staging | draft | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
 | `plan-11` | Gacha visual compositions before environment and UI assets | draft | Compare paper-style and mixed-style gacha compositions using owner-approved concept generations before committing to environment, effect and UI SVG assets. |
 | `plan-12` | Guided opening and progressive shop investigation | complete | Propose an experiential opening that introduces Gems, duplicates and Down in context, and a shop that grows in complexity without an opening lecture. |
@@ -28,6 +28,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-17` | Down exchange and whole-wallet validation | complete | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
 | `plan-18` | Local audio sources and credits investigation | delivered | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
 | `plan-19` | Shell A and context-transition integration | complete | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
+| `plan-20` | Digital rig and accepted motion integration | draft | Integrate the accepted Mode C digital rig and factor-four motion controller through focused source modules; preserve the physical companion and defer race-event wiring until its mechanics are accepted. |
 <!-- plan-index:end -->
 
 ## Report Folders

@@ -165,3 +165,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner requests a real completed-lap finish-line crossing rather than ending at a strict 20-second cutoff, allowing about ±15% variation around the target. This supersedes the canonical fixed-duration distance-contest direction. The exact target, course calibration and remaining-racer classification still require a bounded Plan 13 proposal; time-guard expiry cannot fabricate a crossing. Canonical design, AGENTS and orchestrator prompt are synchronized.
 
 **Investigation inputs, not adopted mechanics:** Owner asks to analyze seeded weaving for all ducks, stronger/more frequent perturbations for front-half racers, minimum roughly 10° deviation and 0.5-second hold, and longer collision recovery. Exact schedules, angles, recovery, penalties and combined rules remain proposals. No production integration, new per-variant tuning, push or deployment is authorized.
+
+### DECISION-016 — Plan 09 factor-four motion set accepted
+
+**Date:** 2026-10-26
+
+**Decision:** Owner approves Plan09's stronger factor-four paper-layer result and requests closure. Accept the current paddle, graceful-bob, impact/recovery and static alternatives as the motion reference set (`2786feb`, evidence `22534ce`, reviews02–05). The reported detached-looking lower body backing edge was surfaced before approval; do not silently reduce the selected magnitude on integration.
+
+**Limits and next work:** This closes the isolated gallery, not production wiring or broader motion/rig changes. Actual system reduced-motion=true and fine small-sprite edge quality remain unverified. Draft Plan20 proposes focused rig/controller integration and a trigger gate; production race-event mapping waits for Plan13's accepted semantics. No new packet assignment, push or deployment follows.

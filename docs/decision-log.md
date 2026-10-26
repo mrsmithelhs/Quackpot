@@ -141,3 +141,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner chooses Shell A after refining the wireframe. One activation automatically plays turn then expansion; no separate Expand click is required. Reverse return visibly fades/collapses the phone border as it rotates back to portrait. Settings stays above chrome and within reach, with backdrop dismissal in addition to close/Escape controls. Final production removes explanatory/review scaffolding while retaining essential information, operational feedback and accessibility. Close Plan 14 as the presentation investigation.
 
 **Implementation boundary:** Exact timings/easing/layout values remain tunable. `reports/orchestration/plan-14-production-handoff.md` is the concise selected contract and source mapping; draft Plan19 gates focused production integration. Large report HTML is a transient comparison, not production source or an automatic migration. Actual src roles are now documented in AGENTS and `docs/repo-structure.md`. No whole-app framework/refactor, audio/rig integration, economy change or new packet assignment is approved by this closeout.
+
+### DECISION-013 — Plan 17 bounded evidence accepted for closure
+
+**Date:** 2026-10-25
+
+**Decision:** Owner explicitly accepts Plan 17 for closure after Repair 01 technical review (`7325541`; report-folder `review-02.md`). Retain the accepted scenario contract: 3 Down for +5% base speed on one race, non-stacking, consumed once on race commit; 6 Down for an immediate active-banner draw with normal duplicate payouts and normal pity advancement/Legendary reset. Preserve the welcome-pull exception. This is the bounded trial contract/evidence for later integration, not a claim those features are implemented or final whole-run balance is proven.
+
+**Limits:** Six-identity opening affordability, pooled integer-bank and selected ownership/pity/race cases are verified under recorded assumptions. Censoring and residual probability remain visible; no universal multi-system non-self-funding proof or empirical player-response claim follows. Production must still verify consume/cancel/reload/idempotency, real wallet actions, append-only log/Receipt evidence and whole-run effects. No repricing or settled rule reopening without owner; no integration assignment, push or deployment follows from closure.

@@ -14,6 +14,8 @@ summary: >-
 
 ## Goal and authority
 
+**Owner closeout, 2026-10-25:** Owner explicitly accepts closure following Repair01/root `review-02.md`. DECISION-013 records the accepted bounded trial contract and limits. No further investigation repair or production implementation requested; later integration must verify lifecycle and actual log/Receipt behavior.
+
 **Repair 01 acceptance, 2026-10-25:** `7325541` passes bounded technical review (`review-02.md`): seven tests, independent mass/censor checks and complete runner reproduction (excluding timestamp). Prior evidence blockers are resolved; no further implementer repair. Recommend owner closure with scenario/roster/finite-horizon and lifecycle/Receipt limits explicit. Packet remains delivered pending final owner acceptance; no production integration is adopted.
 
 **Scenario delivery review, 2026-10-25:** `5df68de` returned for bounded Repair 01 (`review-01.md`/`repair-01.md`). Five tests pass and main affordability/race/expected-draw values reproduce, but terminal mass is discarded, capped live runs are counted as terminal and empty/partial dynamic coverage is missing. Correct within report folder; no new pricing/rule gate or production implementation. Lifecycle/Receipt statements must remain explicit integration obligations. Packet delivered pending repair dispatch.

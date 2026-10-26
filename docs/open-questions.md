@@ -11,7 +11,7 @@ This file lists questions that are **genuinely unresolved** - pending investigat
 
 ## Plan 12 follow-on rules (2026-10-25)
 
-- Plan 17: With selected 3-Down item/6-Down ticket prices, what are item effect/duration/stacking and ticket pity/duplicate/banner rules? Does recycling remain lossy under actual payouts and pity, and which whole-wallet paths exhibit the selected 1,750-gem odd-bundle shortfall?
+- Plan 17's bounded trial rules/evidence are accepted (DECISION-013); do not reopen 3/6 prices, +5% one-race/non-stacking effect or normal duplicate/pity/reset rules. Remaining questions concern production consume/cancel/reload/log/Receipt behavior, larger rosters, future banner policy and whole-run economy effects beyond the tested cells.
 - Plan 15: Which commercial urgency cues, if any, should ship, with what game-clock/expiry rules and accessible dismissal? No countdown rule is selected.
 - Plan 14: How should the selected fictional-phone quarter-turn/full-stage transition adapt to narrow screens and reduced motion? No physical-device rotation or fixed aspect ratio is required.
 - Final fictional app title remains unselected. The interview's candidate list is not approval; exclude the existing real title Duck Dynasty under the fiction constraint.

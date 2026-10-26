@@ -47,7 +47,7 @@ This heading preserves the draft's section anchor, which the founding reviews ci
 | **Banner** | Featured ducks rotate through themes. Labels use explicit game-time units and a real decision window; duration remains open. |
 | **Duck stats** | Power creep may make later ducks faster. Rate/effects remain simulation inputs. |
 | **Pond Race** | Fixed-duration race resolves from duck stats after one pre-race choice. No timing taps. Race duration remains open. |
-| **Duplicates and Down** | Duplicates convert to Down. Owner refinement 2026-10-25: the exchange should be usable enough to try but deliberately lossy; it must not become a profitable/self-funding pull loop. Selected calibration is 3 Down for a minor temporary speed item and 6 Down for a single-pull ticket, pending bounded validation of item/ticket rules before integration (Plan 17). |
+| **Duplicates and Down** | Duplicates convert to Down. Owner refinement 2026-10-25: the exchange should be usable enough to try but deliberately lossy; it must not become a profitable/self-funding pull loop. Plan 17's bounded evidence is owner-accepted (DECISION-013): trial contract is 3 Down for +5% base speed on one race, non-stacking/consume once on commit, or 6 Down for an immediate active-banner pull with normal duplicate payouts and pity advancement/Legendary reset. Production lifecycle, actual log/Receipt behavior and whole-run balance remain separate integration checks. |
 | **Collection and Duck-Dex** | Finite gacha duck identities are separate from cosmetic looks (see [Assets](#assets)). A standing Duck-Dex shelf shows owned identities and silhouettes of missing ones; themed sets grant bonuses whose effects are simulation inputs. The metagame's physical companion is outside this digital roster. |
 
 ## Manipulation catalog
@@ -213,7 +213,7 @@ The first guesses are not trusted values. The first headless simulation packet w
 
 - pity reachability under candidate thresholds and gem income in runs that may exceed 15 days;
 - race rewards creating a self-funding pull loop versus premature starvation;
-- roster size, duplicate rate and the owner-refined usable-but-lossy Down exchange (3/6 calibration requires Plan 17 validation);
+- roster size, duplicate rate and the owner-refined usable-but-lossy Down exchange (Plan 17's 3/6 trial evidence accepted; production lifecycle, larger rosters and whole-run interactions still require validation);
 - Receipt accuracy on early exit, zero cash, ineligible events, and near a banner ending;
 - near-miss candidate eligibility and the firing rule; and
 - effects of Duck-Dex bonuses and bounded weekly curveballs.

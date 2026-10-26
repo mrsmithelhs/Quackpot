@@ -1,7 +1,7 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: in-progress
+status: delivered
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -22,6 +22,8 @@ summary: >-
 - Expected artifacts: `reports/development/plan-20-digital-rig-and-motion-integration/proposal.md`, implementation evidence and `progress.md`
 
 ## Goal and why now
+
+**Technical delivery, 2026-10-26:** `94333a6` plus `011e758`, final report `655aa8e`, accepted for owner rendered review in report-folder `review-02.md`. Real revealed cards now use Mode C/factor-four keyed loops with cleanup/pause, and source fidelity defects are repaired. Root reproduced six focused tests; implementer isolated smoke and bounded three-card pre/post reload comparison recorded. Actual system reduced-motion=true remains unverified beyond fake-media tests. No race/Dex/rest/audio expansion or closure.
 
 Plans 04 and 09 supply an accepted Mode C rig and motion set, while production still uses a placeholder. Port the selected construction into maintainable reusable source, with correct per-instance animation lifecycle, rather than importing the report gallery. Owner approved Plan09's factor-four paper-layer result.
 

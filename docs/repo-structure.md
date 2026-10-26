@@ -24,7 +24,9 @@
 | `src/core/storage.mjs` | Local save envelopes, validation, backup/corruption handling and temporary-memory fallback |
 | `src/ui/hud.js`, `desk-view.js`, `gacha-view.js`, `race-view.js`, `modals.js`, `receipt-view.js` | DOM views from engine state plus callbacks. Some import roster/constants; these are pragmatic renderers, not a formal independent view-model layer |
 | `src/style.css` | Existing global presentation rules; coordinate edits here rather than letting parallel packets overlap |
-| `src/core/duck-rig.mjs`, `src/assets/svg/duck-rig.svg`, `src/audio/synth.mjs` | Accepted proof modules/assets. They are not yet imported by the playable game's main controller |
+| `src/core/duck-rig.mjs`, `src/assets/svg/duck-rig.svg` | Mode C rig source, now used by revealed digital gacha cards through Plan20's rig view; physical companion remains separate |
+| `src/ui/duck-rig-view.mjs`, `duck-motion-controller.mjs`, `duck-motion.css` | Delivered Plan20 revealed-card rendering, cosmetic keyed loops, per-instance pause/visibility/reduced-motion/cleanup; awaiting owner rendered acceptance |
+| `src/audio/synth.mjs` | Accepted standalone synthesis proof; production audio integration remains pending |
 
 Data flow: player action → controller callback → engine mutation/outcome/event → rendered view. Saving serializes state, log and RNG into a validated envelope. Terminal Receipt uses the event projection, never inference from final state. The physical companion and digital roster remain separate.
 

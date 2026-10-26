@@ -48,6 +48,7 @@ const EXPERIMENTS = Object.freeze({
   'weave-rank-weighted': Object.freeze({ controller: 'recenter', weaving: 'rank-weighted', contact: 'control' }),
   'contact-6deg': Object.freeze({ controller: 'recenter', weaving: 'none', contact: 'control' }),
   'contact-15-20deg': Object.freeze({ controller: 'recenter', weaving: 'none', contact: 'strong' }),
+  'weave-rank-strong-contact': Object.freeze({ controller: 'recenter', weaving: 'rank-weighted', contact: 'strong' }),
 });
 const EXPERIMENT_NAMES = new Set(Object.keys(EXPERIMENTS));
 const ENTRANTS = Object.freeze([

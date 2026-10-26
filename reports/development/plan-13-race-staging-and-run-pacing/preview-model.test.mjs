@@ -59,7 +59,7 @@ test('race duck Y-turn is continuous across both bends', () => {
 });
 
 test('weave and contact experiments have deterministic keyed steering episodes', () => {
-  for (const experiment of ['controller-tangent', 'controller-recenter', 'weave-symmetric', 'weave-rank-weighted', 'contact-6deg', 'contact-15-20deg']) {
+  for (const experiment of ['controller-tangent', 'controller-recenter', 'weave-symmetric', 'weave-rank-weighted', 'contact-6deg', 'contact-15-20deg', 'weave-rank-strong-contact']) {
     const a = resolve({ experiment }), b = resolve({ experiment });
     assert.equal(raceFingerprint(a), raceFingerprint(b), experiment);
     assert.ok(a.eventRecords.length <= PHYSICS.maxMechanicalEvents);
@@ -73,6 +73,41 @@ test('weave and contact experiments have deterministic keyed steering episodes',
     assert.equal(contact.participants.length, 2);
     assert.ok(Object.values(contact.recovery).every((r) => r.targetOffsetDeg >= 15 && r.targetOffsetDeg <= 20));
   }
+});
+
+test('combined experiment routes the existing rank-weighted weave and strong contact rules', () => {
+  const input = { seed: 'Plan13 stability seed 1', raceId: 'R1', playerBaseSpeed: 11.7, fieldBaseSpeed: 11.5,
+    choice: 'steady', trialCommitted: false };
+  const combined = resolveSeededRace({ ...input, experiment: 'weave-rank-strong-contact' });
+  const repeated = resolveSeededRace({ ...input, experiment: 'weave-rank-strong-contact' });
+  const rankOnly = resolveSeededRace({ ...input, experiment: 'weave-rank-weighted' });
+  const contactOnly = resolveSeededRace({ ...input, experiment: 'contact-15-20deg' });
+  assert.equal(combined.weaving, rankOnly.weaving);
+  assert.equal(combined.contactTreatment, contactOnly.contactTreatment);
+  assert.equal(combined.controller, 'recenter');
+  assert.equal(raceFingerprint(combined), raceFingerprint(repeated));
+  assert.deepEqual(combined.entrants.map((e) => e.performanceDraw), rankOnly.entrants.map((e) => e.performanceDraw));
+  assert.deepEqual(combined.drawKeys.filter((key) => key.includes('|weave-phase|')),
+    rankOnly.drawKeys.filter((key) => key.includes('|weave-phase|')));
+  assert.ok(combined.eventRecords.some((event) => event.type === 'weave-turn'));
+  const contact = combined.eventRecords.find((event) => event.type === 'duck-contact');
+  assert.ok(contact);
+  for (const [id, detail] of Object.entries(contact.recovery)) {
+    assert.ok(detail.targetOffsetDeg >= PHYSICS.strongContactMinDeg && detail.targetOffsetDeg <= PHYSICS.strongContactMaxDeg);
+    assert.equal(detail.magnitudeKey, `plan13/v3|R1|contact-angle|${id}|0`, 'contact magnitude is keyed by participant identity');
+    assert.equal(detail.recoveryStatus, 'recentered', 'contact recovery completes for both participants');
+  }
+  assert.ok(combined.eventRecords.some((event) => event.type === 'weave-turn' && event.status === 'cancelled'),
+    'contact interrupts active rank-weighted weave episodes');
+  const interrupted = combined.eventRecords.find((event) => event.type === 'weave-turn' && event.status === 'cancelled');
+  assert.ok(interrupted, 'fixed seed exercises contact cancelling an active weave episode');
+  assert.match(narrativeForEvent(interrupted, Object.fromEntries(combined.entrants.map((e) => [e.id, e]))), /steering recovery was cancelled by a later contact/);
+  const fingerprint = raceFingerprint(combined);
+  const staticPlan = buildPresentationPlan(combined, { reducedMotion: true, camera: 'wide', highlightSeconds: 0 });
+  const dramaticPlan = buildPresentationPlan(combined, { reducedMotion: false, camera: 'close', lighting: 'event', highlightSeconds: 2 });
+  assert.equal(staticPlan.resultFingerprint, fingerprint);
+  assert.equal(dramaticPlan.resultFingerprint, fingerprint);
+  assert.equal(raceFingerprint(combined), fingerprint, 'presentation mapping does not mutate mechanics or draw keys');
 });
 
 test('matched contact severity changes involved trajectories without changing PRNG performance draws', () => {

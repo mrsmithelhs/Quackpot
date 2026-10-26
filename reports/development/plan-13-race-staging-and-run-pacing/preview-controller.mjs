@@ -125,6 +125,7 @@ function renderSummary(revealFinish = state.finished) {
     'weave-rank-weighted': 'rank-weighted weave · recenter controller',
     'contact-6deg': 'contact control · 6 degrees',
     'contact-15-20deg': 'contact candidate · 15–20 degrees',
+    'weave-rank-strong-contact': 'rank-weighted weave + strong contact · interaction candidate',
   })[r.experiment];
   const trialText = r.trialConsumptionCount ? ' · Plan 17 +5% base-speed trial applied once' : '';
   const simText = r.status === 'finished'

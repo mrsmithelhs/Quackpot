@@ -5,13 +5,13 @@ import { PHYSICS, resolveSeededRace, steeringEquilibrium } from './race-physics.
 
 const experiments = [
   'controller-tangent', 'controller-recenter', 'weave-symmetric',
-  'weave-rank-weighted', 'contact-6deg', 'contact-15-20deg',
+  'weave-rank-weighted', 'contact-6deg', 'contact-15-20deg', 'weave-rank-strong-contact',
 ];
 const seedCount = 20;
 const finishOrderingProbeCount = 500;
 const dt = 0.05;
 const output = {
-  schema: 'quackpot.plan13-seed-scan/v2',
+  schema: 'quackpot.plan13-seed-scan/v3',
   generatedAt: '2026-10-26',
   method: {
     seeds: Array.from({ length: seedCount }, (_, i) => ({ seed: `Plan13 stability seed ${i}`, raceId: `R${i}` })),
@@ -147,6 +147,8 @@ function runOne(seed, raceId, experiment) {
     seed, raceId, experiment,
     status: resolution.status,
     unresolvedReason: resolution.unresolvedReason,
+    guardLimits: resolution.guardLimits,
+    guardEvidence: resolution.guardEvidence,
     finishTimeSeconds: resolution.finishTimeSeconds,
     horizonSeconds: resolution.horizonSeconds,
     winner: resolution.winner,
@@ -224,6 +226,7 @@ for (const experiment of experiments) {
       targetAttained: weaveEvents.filter((row) => row.acquisitionStatus === 'attained').length,
       acquisitionTimedOut: weaveEvents.filter((row) => row.acquisitionStatus === 'timed-out').length,
       acquisitionCancelledByContact: weaveEvents.filter((row) => row.acquisitionStatus === 'cancelled-by-collision').length,
+      episodesCancelledByContact: runs.reduce((sum, run) => sum + run.eventRecords.filter((event) => event.type === 'weave-turn' && event.status === 'cancelled').length, 0),
       attainedHalfSecondHold: weaveEvents.filter((row) => row.holdSeconds >= 0.5).length,
       interruptedHold: weaveEvents.filter((row) => row.holdStatus === 'interrupted').length,
       recenteredBeforeFinish: weaveEvents.filter((row) => row.recoveryStatus === 'recentered').length,
@@ -258,6 +261,12 @@ function pairSummary(leftExperiment, rightExperiment) {
   const pairs = Array.from({ length: seedCount }, (_, index) => {
     const left = output.runs.find((run) => run.raceId === `R${index}` && run.experiment === leftExperiment);
     const right = output.runs.find((run) => run.raceId === `R${index}` && run.experiment === rightExperiment);
+    const stableKeys = (run, fragment) => run.drawKeys.filter((key) => key.includes(fragment)).sort();
+    const leftContactKeys = stableKeys(left, '|contact-angle|');
+    const rightContactKeys = stableKeys(right, '|contact-angle|');
+    const sharedContactKeys = leftContactKeys.filter((key) => rightContactKeys.includes(key));
+    const leftWeavePhases = stableKeys(left, '|weave-phase|');
+    const rightWeavePhases = stableKeys(right, '|weave-phase|');
     let maxPositionDifference = 0;
     for (let frame = 0; frame < Math.min(left.trajectory.length, right.trajectory.length); frame += 1) {
       for (let entrant = 0; entrant < 6; entrant += 1) {
@@ -273,6 +282,16 @@ function pairSummary(leftExperiment, rightExperiment) {
       winnerChanged: left.winner !== right.winner,
       finishTimeDeltaSeconds: left.finishTimeSeconds === null || right.finishTimeSeconds === null ? null : Number((right.finishTimeSeconds - left.finishTimeSeconds).toFixed(6)),
       performanceDrawsIdentical: JSON.stringify(left.performanceDraws) === JSON.stringify(right.performanceDraws),
+      weavePhaseKeysIdentical: JSON.stringify(leftWeavePhases) === JSON.stringify(rightWeavePhases),
+      sharedWeaveEpisodeKeys: stableKeys(left, '|weave-sign|').filter((key) => stableKeys(right, '|weave-sign|').includes(key)).length,
+      contactAngleKeys: { left: leftContactKeys, right: rightContactKeys, shared: sharedContactKeys.length,
+        identical: JSON.stringify(leftContactKeys) === JSON.stringify(rightContactKeys) },
+      contactPairSignatures: {
+        left: left.eventRecords.filter((event) => event.type === 'duck-contact').map((event) => event.participants.join('|')),
+        right: right.eventRecords.filter((event) => event.type === 'duck-contact').map((event) => event.participants.join('|')),
+      },
+      unresolvedReasons: { left: left.unresolvedReason, right: right.unresolvedReason },
+      guardEvidence: { left: left.guardEvidence, right: right.guardEvidence },
       maxMatchedTickPositionDifferenceMeters: Number(maxPositionDifference.toFixed(3)),
       trajectoryChangedByAtLeast1cm: maxPositionDifference >= 0.01,
       leftRecoverySeconds: left.recoveryRows.reduce((sum, row) => sum + row.durationUntilRaceEndSeconds, 0),
@@ -286,7 +305,8 @@ function pairSummary(leftExperiment, rightExperiment) {
     finishOrdersChanged: pairs.filter((row) => row.finishOrderChanged).length,
     trajectoriesChangedAtLeast1cm: pairs.filter((row) => row.trajectoryChangedByAtLeast1cm).length,
     identicalPerformanceDrawPairs: pairs.filter((row) => row.performanceDrawsIdentical).length,
-    finishTimeDeltaRangeSeconds: { min: Math.min(...pairs.map((row) => row.finishTimeDeltaSeconds)), max: Math.max(...pairs.map((row) => row.finishTimeDeltaSeconds)) },
+    identicalWeavePhaseKeyPairs: pairs.filter((row) => row.weavePhaseKeysIdentical).length,
+    finishTimeDeltaRangeSeconds: (() => { const deltas = pairs.map((row) => row.finishTimeDeltaSeconds).filter(Number.isFinite); return deltas.length ? { min: Math.min(...deltas), max: Math.max(...deltas) } : null; })(),
     recoverySecondsDifferencePerRaceMedian: median(pairs.map((row) => row.rightRecoverySeconds - row.leftRecoverySeconds)),
     pairs,
   };
@@ -295,7 +315,35 @@ function pairSummary(leftExperiment, rightExperiment) {
 output.paired['controller-recenter__weave-symmetric'] = pairSummary('controller-recenter', 'weave-symmetric');
 output.paired['controller-recenter__weave-rank-weighted'] = pairSummary('controller-recenter', 'weave-rank-weighted');
 output.paired['contact-6deg__contact-15-20deg'] = pairSummary('contact-6deg', 'contact-15-20deg');
+output.paired['weave-rank-weighted__weave-rank-strong-contact'] = pairSummary('weave-rank-weighted', 'weave-rank-strong-contact');
+output.paired['contact-15-20deg__weave-rank-strong-contact'] = pairSummary('contact-15-20deg', 'weave-rank-strong-contact');
+output.interactionNotes = {
+  comparison: 'The combined arm uses the rank-weighted weave and strong-contact rules together; paired outcome deltas are interaction observations and must not be treated as additive independent effects.',
+  combinedArm: (() => {
+    const runs = output.runs.filter((run) => run.experiment === 'weave-rank-strong-contact');
+    const weaveEvents = runs.flatMap((run) => run.eventRecords.filter((event) => event.type === 'weave-turn'));
+    const contacts = runs.flatMap((run) => run.eventRecords.filter((event) => event.type === 'duck-contact'));
+    const contactParticipants = contacts.flatMap((event) => Object.values(event.recovery ?? {}));
+    const unresolved = runs.filter((run) => run.status !== 'finished');
+    return {
+      seeds: runs.length,
+      finished: runs.length - unresolved.length,
+      unresolved: unresolved.map((run) => ({ raceId: run.raceId, reason: run.unresolvedReason, guardEvidence: run.guardEvidence })),
+      finishTimeSeconds: runs.map((run) => run.finishTimeSeconds).filter(Number.isFinite),
+      weaveOpportunities: runs.reduce((sum, run) => sum + run.opportunityCounts.due, 0),
+      skippedOpportunities: runs.reduce((sum, run) => sum + run.opportunityCounts.skipped, 0),
+      weaveEpisodes: weaveEvents.length,
+      weaveEpisodesCanceledByContact: weaveEvents.filter((event) => event.status === 'cancelled').length,
+      contactEpisodes: contacts.length,
+      contactParticipantsRecenteredBeforeFinish: contactParticipants.filter((detail) => detail.recoveryStatus === 'recentered').length,
+      contactParticipantsUnfinishedAtFinish: contactParticipants.filter((detail) => detail.recoveryStatus === 'race-ended-before-recovery').length,
+      mechanicalEventCap: PHYSICS.maxMechanicalEvents,
+      opportunityDiagnosticCap: PHYSICS.maxOpportunityDiagnostics,
+    };
+  })(),
+  visualReview: 'Duck label collisions and start-row visual advantage are not measurable in this headless scan; inspect the rendered combined preview without changing offsets or constants.',
+};
 for (const run of [...output.runs, ...output.screenshotWitness]) delete run.trajectory;
 const folder = dirname(fileURLToPath(import.meta.url));
 writeFileSync(join(folder, 'seed-scan-20.json'), `${JSON.stringify(output, null, 2)}\n`);
-process.stdout.write(JSON.stringify({ summary: output.summary, paired: Object.fromEntries(Object.entries(output.paired).map(([key, value]) => [key, { seeds: value.seeds, winnersChanged: value.winnersChanged, finishOrdersChanged: value.finishOrdersChanged, trajectoriesChangedAtLeast1cm: value.trajectoriesChangedAtLeast1cm, finishTimeDeltaRangeSeconds: value.finishTimeDeltaRangeSeconds, recoverySecondsDifferencePerRaceMedian: value.recoverySecondsDifferencePerRaceMedian }])) }, null, 2));
+process.stdout.write(JSON.stringify({ summary: output.summary, interactionNotes: output.interactionNotes, paired: Object.fromEntries(Object.entries(output.paired).map(([key, value]) => [key, { seeds: value.seeds, winnersChanged: value.winnersChanged, finishOrdersChanged: value.finishOrdersChanged, trajectoriesChangedAtLeast1cm: value.trajectoriesChangedAtLeast1cm, identicalPerformanceDrawPairs: value.identicalPerformanceDrawPairs, identicalWeavePhaseKeyPairs: value.identicalWeavePhaseKeyPairs, finishTimeDeltaRangeSeconds: value.finishTimeDeltaRangeSeconds, recoverySecondsDifferencePerRaceMedian: value.recoverySecondsDifferencePerRaceMedian }])) }, null, 2));

@@ -42,6 +42,8 @@ Root sent the refinement to the authorized implementer and synchronized design/A
 
 ## Inspiration sources
 
+**Later owner visual feedback, 2026-10-27:** The repaired finish preview does good work but is not closed. Root assigns a bounded visual refinement: roughly double podium and duck size, increase space for competitor names, and dim the race track more strongly while keeping podium readable and upper finishers visible. Existing crossing mechanics and reveal timing remain unchanged. Implementer owns only existing preview presentation/evidence/progress files; no numerical rerun or additional reviewer for this visual repair. Root will inspect the rendered result before owner review.
+
 Official sources establish kart-racer precedents for a separate top-three awards presentation: Nintendo's Mario Kart DS manual describes a podium ceremony, and Activision's Crash Team Racing update notes describe top-three podium animations. These support the general winner-celebration pattern, not the proposed Quackpot layout or an assertion of psychological efficacy. No branded art is imported.
 
 - https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_MarioKartDS_FR.pdf

@@ -75,3 +75,11 @@ Motion selector reads recorded positions/ranks/events only. Sample rank at a dec
 3. Set a production payload budget after compact round-trip and capped-size measurements. This report measures reference objects and five compact examples, not an actual watchdog result or production storage timings.
 
 No production or browser verification claim is made by this report.
+
+## Subsequent report-only preview authorization (2026-10-27)
+
+After this proposal and the drama studies, QP Orch separately authorized an isolated visual candidate in `drama-preview-01/`, generated from accepted Plan 13 plus the frozen R2 transforms and the handed-off Plan 20 rig/motion sources. This scope does not revise the production file request above and does not adopt the affine map or R2/risk-only candidate for production. The root-selected visual candidate is R2combined + the 1.00 Sprint mean risk-only variant; current Sprint R2combined and affine baseline remain comparison modes. Production files, accepted Plan 13 source, canonical decisions, and external Opus evidence remain untouched.
+
+The preview covers the current production Rare tired state (`zero-races-rest`, 0.50 factor) as well as the one-intervening-race 0.75 comparison. Its model manifest matches the frozen 20-seed results on 72 first-seed preview parity witnesses. The authorized browser turn verified this report-only visual candidate and the new tired preset; it does not establish save/reload, Receipt, reward idempotency, production storage, hardware accessibility, or audience perception. See `drama-preview-01/README.md` and `drama-preview-01/evidence/browser-observations.md`.
+
+Production work still requires QP Orch's exact source/test ownership and lifecycle approval, and owner review of the recommended shared calibration. Plan 22 remains the rest-integration owner; Plan 23's proposed stable input boundary accepts the effective-speed input without owning rest calculation.

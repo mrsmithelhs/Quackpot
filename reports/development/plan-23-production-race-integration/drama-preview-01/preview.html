@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Plan 23 — Race dynamics preview</title>
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+  <button class="exit" id="uninstall" type="button" aria-describedby="exit-note">Exit preview info</button>
+  <main>
+    <header>
+      <p class="tag">Plan 23 · isolated race integration preview</p>
+      <h1>Race dynamics and presentation</h1>
+      <p class="lede">Inspect one committed seeded race, then compare baseline, current combined dynamics, and the selected Sprint risk-only candidate on the same seed and inputs.</p>
+      <div class="notice"><strong>Report-only evidence:</strong> no production path is loaded. This preview uses the accepted first-line-crossing race model, frozen Plan 23 study transforms, accepted Mode C digital rig, and recorded race events. Model changes are resolved once when the seed, input, or mode changes; Pause, Restart, Skip, seek, reduced motion, and the two-second highlight only present that committed result.</div>
+    </header>
+
+    <section class="panel" aria-labelledby="race-heading">
+      <h2 id="race-heading">Matched oval race comparison</h2>
+      <div class="controls model-controls">
+        <label>Dynamics mode
+          <select id="mode">
+            <option value="R2combined-risk-only" selected>Selected candidate · R2 combined + Sprint risk-only</option>
+            <option value="R2combined">Current Sprint · R2 combined</option>
+            <option value="baseline">Affine baseline</option>
+          </select>
+        </label>
+        <label>Race scenario
+          <select id="scenario">
+            <option value="tutorial-common-rested">Tutorial · Common · rested</option>
+            <option value="finale-common-rested">Finale · Common · rested</option>
+            <option value="finale-rare-rested">Finale · Rare · rested</option>
+            <option value="finale-legendary-rested">Finale · Legendary · rested</option>
+            <option value="finale-rare-tired">Finale · Rare · one intervening race</option>
+            <option value="finale-rare-zero-races-tired">Finale · Rare · tired (no intervening race)</option>
+          </select>
+        </label>
+        <label>Stance
+          <select id="choice"><option value="steady">Safe</option><option value="sprint" selected>Sprint</option></select>
+        </label>
+        <label class="inline-control"><input type="checkbox" id="trial"> Plan 17 trial · +5% once</label>
+        <label>Validation seed <input id="run-seed" type="text" value="plan23-drama2-val-01" readonly aria-readonly="true"></label>
+        <button id="next-seed" type="button">Next validation seed</button>
+        <label>Camera <select id="camera"><option value="wide">Locked wide</option><option value="scripted">Close mid-race, then wide</option></select></label>
+        <label>Highlight <select id="highlight"><option value="2">Two-second slow-motion highlight</option></select></label>
+        <label>Event lighting <select id="lighting"><option value="event">On</option><option value="off">Off</option></select></label>
+        <label class="inline-control"><input type="checkbox" id="reduce"> Static / reduced motion</label>
+      </div>
+      <input id="experiment" type="hidden" value="weave-rank-strong-contact">
+      <input id="race-id" type="hidden" value="R03">
+      <input id="player-speed" type="hidden" value="14">
+      <input id="field-speed" type="hidden" value="11.2">
+      <p id="seed-progress" class="fine-print" aria-live="polite">Validation seed 1 of 20 · seeds advance in order; no seed selection.</p>
+            <p class="fine-print" id="race-boundary">Six ducks start in the accepted two-lane grid. The race ends at the earliest interpolated forward finish-line crossing; followers are classified at that same instant. Recorded duck and wall contacts alter the path, and are also the only triggers for impact/recovery motion. Mechanical events remain separate from display cues.</p>
+      <div class="race-layout" style="margin-top:16px">
+        <div>
+          <div class="stage-shell" id="stage-shell">
+            <svg id="race-svg" viewBox="0 0 900 500" role="img" aria-labelledby="track-title track-desc">
+              <title id="track-title">Two-lane oval duck race in a rectangular viewport</title>
+              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, wall response and one duck contact determine the earliest line crossing and same-time classification.</desc>
+              <g id="camera-root">
+                <g id="environment" class="environment">
+                  <rect width="900" height="500" class="pond"/>
+                  <path class="shore" id="track-shore"/>
+                  <path class="race-track" id="track-surface"/>
+                  <path class="lane-line" id="lane-divider"/>
+                  <path id="inner-pond" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
+                  <line class="finish-line" x1="450" y1="62" x2="450" y2="105"/>
+                  <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
+                  <text class="stage-hud" id="simulation-hud" x="20" y="24">Race not started</text>
+                </g>
+                <g id="runner-layer"></g>
+              </g>
+            </svg>
+          </div>
+          <div class="panel-row">
+            <button class="primary" id="play" type="button">Start race</button>
+            <button id="pause" type="button" disabled>Pause</button>
+            <button id="skip-race" type="button">Skip to finish</button>
+            <button id="replay" type="button" title="Restart this committed race from the beginning without new mechanics, random draws, or rewards.">Restart same race</button>
+          <span id="race-status" class="status" role="status" aria-live="polite">Ready · selected model and input resolve one seeded race.</span>
+          </div>
+          <p class="fine-print" id="camera-note">Camera, lighting and optional slow motion present the committed race without changing its outcome. The displayed wall time includes any selected highlight. Static/reduced-motion mode removes motion, zoom and dramatic lighting; no flashes are used.</p>
+          <div class="panel-row"><button id="narrative-toggle" type="button" aria-expanded="false" aria-controls="race-narrative">Show race narrative</button></div>
+          <section id="race-narrative" class="narrative" aria-label="Race narrative" hidden>
+            <p id="narrative-status" class="status" role="status" aria-live="polite">No race event has been revealed yet.</p>
+            <p id="opportunity-summary" class="fine-print">Weave opportunity diagnostics appear after a race is resolved.</p>
+            <details class="fine-print" id="opportunity-details">
+              <summary>Weave opportunity diagnostic log</summary>
+              <ol id="opportunity-list"></ol>
+            </details>
+            <div id="event-list" class="event-list" aria-label="Revealed race events"></div>
+            <p id="event-caption" class="fine-print"></p>
+            <div class="panel-row">
+              <button id="snapshot-prev" type="button" disabled>Previous view</button>
+              <button id="snapshot-next" type="button" disabled>Next view</button>
+              <button id="resume-race" type="button" disabled>Resume race</button>
+            </div>
+            <p id="scene-description" class="sr-only" aria-live="polite"></p>
+          </section>
+          <p id="static-view-label" class="static-view" aria-live="polite"></p>
+        </div>
+        <aside class="panel" style="margin:0" aria-labelledby="result-heading">
+          <h3 id="result-heading">Line-crossing result</h3>
+          <p id="finish-summary" class="subtle">Select a trace to calculate its outcome.</p>
+          <ol id="finish-order" class="result-list"></ol>
+          <p id="event-summary" class="fine-print"></p>
+        </aside>
+      </div>
+      <h3 style="margin-top:18px">Recorded race events</h3>
+      <p class="fine-print">Committed events are revealed only as playback reaches them; the full mechanical record opens at the finish or after Skip to results.</p>
+      <div class="log" tabindex="0" aria-label="Race event record preview">
+        <table>
+          <thead><tr><th>Simulation time</th><th>Event / participants</th><th>Eligibility / reason</th><th>Effect</th><th>Progress / speed change</th><th>Final place</th></tr></thead>
+          <tbody id="record"></tbody>
+        </table>
+      </div>
+      <details class="fine-print" style="margin-top:12px">
+        <summary>Presentation action record</summary>
+        <p id="presentation-log-count">0 presentation actions recorded</p>
+        <ol id="presentation-log"></ol>
+      </details>
+    </section>
+
+  </main>
+  <p id="exit-note" class="exit-note" aria-live="polite"></p>
+
+  <script type="module" src="./preview-controller.mjs"></script>
+</body>
+</html>

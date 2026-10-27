@@ -1,5 +1,5 @@
-// src/ui/acquisition-queue.js
-// Presentation queue controller for first-owned card reveal Duck-Dex theater.
+// src/ui/acquisition-queue.mjs
+// Presentation queue controller for first-owned card reveals on the Duck-Dex shelf.
 
 import { BANNER_1_ROSTER, DUCK_COSMETICS } from '../core/game-engine.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
@@ -7,31 +7,120 @@ import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 const MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 export function createAcquisitionQueueController(container, engine, callbacks = {}) {
-  const { onComplete, onStateChange } = callbacks;
+  const { onComplete, onStateChange, onPersist, onFocusReturn } = callbacks;
   let queue = [];
   let activeItem = null;
   let isRunning = false;
   let isDestroyed = false;
   let timerId = null;
+  let timerStart = 0;
+  let timerRemaining = 0;
+  let activePhase = null; // 'focus' | 'colorizing'
   let overlayEl = null;
+  let priorInertElements = [];
 
   function prefersReducedMotion() {
     return typeof window !== 'undefined' && window.matchMedia?.(MOTION_QUERY).matches;
   }
 
   function cleanupOverlay() {
-    if (overlayEl) {
-      overlayEl.remove();
-      overlayEl = null;
-    }
     if (timerId !== null) {
       clearTimeout(timerId);
       timerId = null;
     }
+    if (overlayEl) {
+      overlayEl.remove();
+      overlayEl = null;
+    }
+    for (const el of priorInertElements) {
+      el.inert = false;
+    }
+    priorInertElements = [];
     activeItem = null;
     isRunning = false;
+    activePhase = null;
   }
 
+  function renderShelfSlot(duck, isTarget, isColorized) {
+    const isOwned = duck.owned || isColorized;
+    const prefix = `qp-acq-slot-${duck.id}`;
+    const cosmetics = DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' };
+    const artSvg = createDigitalDuckSvg({
+      prefix,
+      label: isOwned ? `${duck.name}, ${duck.tier} digital duck` : `Slot ${duck.id}: Unowned silhouette`,
+      palette: cosmetics.palette,
+      hat: cosmetics.hat,
+      accessory: cosmetics.accessory,
+    });
+
+    const focusClass = isTarget ? ' slot-highlight-focus' : '';
+    const discoveredClass = isColorized ? ' slot-discovered slot-discovering' : '';
+    const ownedClass = isOwned ? ' slot-owned' : ' slot-unowned';
+
+    return `
+      <div class="duck-dex-slot${ownedClass}${focusClass}${discoveredClass}" 
+           data-duck-id="${duck.id}" 
+           data-acq-slot="${duck.id}"
+           tabindex="0" 
+           role="region" 
+           aria-label="${isOwned ? `${duck.name}, ${duck.tier}, Speed ${duck.speed.toFixed(1)}` : `Unowned silhouette`}">
+        <span class="slot-tier-badge tier-${duck.tier}">${duck.tier.toUpperCase()}</span>
+        <div class="slot-duck-art">
+          ${artSvg}
+        </div>
+        <div class="slot-duck-name" data-slot-name>${isOwned ? duck.name : '??? (Unowned)'}</div>
+        <div class="slot-duck-stat" data-slot-stat>${isOwned ? `Speed: ${duck.speed.toFixed(1)}` : 'Missing from roster'}</div>
+      </div>
+    `;
+  }
+
+  function renderShelfMarkup(activeDuckId, isColorized = false) {
+    const dexState = engine.getDexCollectionState();
+    const set = dexState.sets[0] || { name: 'Pond of Destiny', owned: 0, total: 6, complete: false };
+    const targetDuck = BANNER_1_ROSTER.find((d) => d.id === activeDuckId);
+
+    return `
+      <div class="acquisition-shelf-card" role="dialog" aria-modal="true" aria-labelledby="acq-canopy-title" tabindex="-1">
+        <header class="acquisition-canopy">
+          <div class="acquisition-title-group">
+            <h2 id="acq-canopy-title">🦆 Duck-Dex Discovery</h2>
+            <div class="acquisition-status-badge">
+              ✨ New Discovery: <strong>${targetDuck?.name || activeDuckId}</strong> (${targetDuck?.tier.toUpperCase() || 'COMMON'}) ✨
+            </div>
+          </div>
+          <button type="button" class="acquisition-skip-btn" id="btn-skip-acq" aria-label="Skip presentation sequence">
+            ⏭️ Skip Presentation
+          </button>
+        </header>
+
+        <section class="duck-dex-set-card" aria-label="Set Progress">
+          <div class="set-card-header">
+            <span class="set-card-title">${set.name}</span>
+            <span class="set-card-badge ${set.complete ? 'badge-complete' : ''}">
+              ${set.owned} / ${set.total} Ducks Discovered
+            </span>
+          </div>
+          <div class="set-progress-track">
+            <div class="set-progress-fill" style="width: ${(set.owned / set.total) * 100}%"></div>
+          </div>
+          <p class="set-effect-gap-note">
+            <strong>Set Bonus:</strong> ${set.effectText}
+          </p>
+        </section>
+
+        <section class="duck-dex-shelf-section" aria-label="Curio Display Shelf">
+          <h3 class="duck-dex-shelf-title">Curio Shelf</h3>
+          <div class="duck-dex-grid">
+            ${dexState.roster.map((duck) => renderShelfSlot(duck, duck.id === activeDuckId, duck.id === activeDuckId && isColorized)).join('')}
+          </div>
+        </section>
+
+        <div class="sr-only" role="status" aria-live="polite" data-acq-live></div>
+      </div>
+    `;
+  }
+
+  // Explicit user skip via button or Escape key
   function skipAll() {
     if (timerId !== null) {
       clearTimeout(timerId);
@@ -39,18 +128,62 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     }
 
     const remainingCount = queue.length + (activeItem ? 1 : 0);
+    if (remainingCount === 0) {
+      cleanupOverlay();
+      return;
+    }
+
     if (activeItem) {
       engine.markDexEntrySeen(activeItem.identity);
+      engine.recordAcquisitionCue(activeItem.identity, { isStatic: true });
     }
     while (queue.length > 0) {
       const item = queue.shift();
       engine.markDexEntrySeen(item.identity);
+      engine.recordAcquisitionCue(item.identity, { isStatic: true });
     }
 
     engine.skipAcquisitionPresentation(remainingCount);
+    onPersist?.();
     cleanupOverlay();
     onStateChange?.({ active: false });
     onComplete?.({ skipped: true, count: remainingCount });
+    onFocusReturn?.();
+  }
+
+  function startPhase2() {
+    if (isDestroyed || !activeItem || !overlayEl) return;
+    activePhase = 'colorizing';
+
+    const duckDef = BANNER_1_ROSTER.find((d) => d.id === activeItem.identity);
+    const targetSlot = overlayEl.querySelector(`[data-acq-slot="${activeItem.identity}"]`);
+    const live = overlayEl.querySelector('[data-acq-live]');
+
+    if (targetSlot) {
+      targetSlot.classList.remove('slot-unowned');
+      targetSlot.classList.add('slot-owned', 'slot-discovering', 'slot-discovered');
+      const nameEl = targetSlot.querySelector('[data-slot-name]');
+      const statEl = targetSlot.querySelector('[data-slot-stat]');
+      if (nameEl) nameEl.textContent = duckDef?.name || activeItem.identity;
+      if (statEl) statEl.textContent = `Speed: ${duckDef?.speed.toFixed(1) || 10.0}`;
+    }
+
+    if (live) {
+      live.textContent = `New Duck-Dex Entry: ${duckDef?.name || activeItem.identity} (${activeItem.rarity}) unlocked!`;
+    }
+
+    timerRemaining = 2500;
+    timerStart = Date.now();
+    timerId = setTimeout(() => {
+      timerId = null;
+      // Record real displayed acquisition cue and mark seen on completion
+      engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
+      engine.markDexEntrySeen(activeItem.identity);
+      onPersist?.();
+      activeItem = null;
+      activePhase = null;
+      processNext();
+    }, 2500);
   }
 
   function processNext() {
@@ -59,6 +192,7 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
       cleanupOverlay();
       onStateChange?.({ active: false });
       onComplete?.({ skipped: false });
+      onFocusReturn?.();
       return;
     }
 
@@ -66,77 +200,64 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     onStateChange?.({ active: true });
     activeItem = queue.shift();
 
-    const duckDef = BANNER_1_ROSTER.find((d) => d.id === activeItem.identity);
-    const cosmetics = DUCK_COSMETICS[activeItem.identity] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' };
-    const prefix = `qp-acq-${activeItem.identity}-${Date.now()}`;
-    const svgMarkup = createDigitalDuckSvg({
-      prefix,
-      label: `${duckDef?.name || activeItem.identity}, ${activeItem.rarity} digital duck`,
-      palette: cosmetics.palette,
-      hat: cosmetics.hat,
-      accessory: cosmetics.accessory,
-    });
-
-    if (!overlayEl) {
-      overlayEl = document.createElement('div');
-      overlayEl.className = 'acquisition-theater-overlay';
-      overlayEl.setAttribute('role', 'dialog');
-      overlayEl.setAttribute('aria-modal', 'true');
-      overlayEl.setAttribute('aria-label', 'New Duck-Dex Entry Discovered');
+    const doc = container.ownerDocument || (typeof document !== 'undefined' ? document : null);
+    if (!overlayEl && doc) {
+      overlayEl = doc.createElement('div');
+      overlayEl.className = 'acquisition-shelf-overlay';
+      overlayEl.setAttribute('role', 'region');
+      overlayEl.setAttribute('aria-label', 'Duck-Dex Acquisition Discovery');
       container.appendChild(overlayEl);
+
+      // Make siblings inert while overlay is active
+      for (const sibling of (container.children || [])) {
+        if (sibling !== overlayEl && !sibling.inert) {
+          sibling.inert = true;
+          priorInertElements.push(sibling);
+        }
+      }
     }
 
-    overlayEl.innerHTML = `
-      <div class="acquisition-stage">
-        <div class="acquisition-badge">✨ New Identity Discovered! ✨</div>
-        <div class="acquisition-art-box">
-          <div class="acquisition-glow-backdrop" data-glow></div>
-          <div class="acquisition-duck-svg-wrap is-silhouette" data-svg-wrap>
-            ${svgMarkup}
-          </div>
-        </div>
-        <h3 class="acquisition-duck-name" data-duck-name>${duckDef?.name || activeItem.identity}</h3>
-        <div class="acquisition-duck-stat" data-duck-stat>
-          Rarity: <strong>${activeItem.rarity.toUpperCase()}</strong> • Base Speed: <strong>${duckDef?.speed.toFixed(1) || 10.0} m/s</strong>
-        </div>
-        <button type="button" class="acquisition-skip-btn" id="btn-skip-acq" aria-label="Skip discovery sequence">
-          ⏭️ Skip Presentation
-        </button>
-        <div class="sr-only" role="status" aria-live="polite" data-acq-live></div>
-      </div>
-    `;
+    if (!overlayEl) return;
+    overlayEl.innerHTML = renderShelfMarkup(activeItem.identity, false);
 
     const skipBtn = overlayEl.querySelector('#btn-skip-acq');
     skipBtn?.addEventListener('click', skipAll);
     skipBtn?.focus();
 
-    // Phase 1: Shelf Focus (~2.0s)
-    timerId = setTimeout(() => {
-      if (isDestroyed || !overlayEl) return;
-
-      // Phase 2: Silhouette-to-Color Transition (~2.5s)
-      const wrap = overlayEl.querySelector('[data-svg-wrap]');
-      const glow = overlayEl.querySelector('[data-glow]');
-      const name = overlayEl.querySelector('[data-duck-name]');
-      const stat = overlayEl.querySelector('[data-duck-stat]');
-      const live = overlayEl.querySelector('[data-acq-live]');
-
-      wrap?.classList.remove('is-silhouette');
-      wrap?.classList.add('is-colorized');
-      glow?.classList.add('glow-active');
-      name?.classList.add('show-details');
-      stat?.classList.add('show-details');
-
-      if (live) {
-        live.textContent = `New Duck-Dex Entry: ${duckDef?.name || activeItem.identity} (${activeItem.rarity}) unlocked!`;
+    // Trap focus inside overlay
+    overlayEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        skipAll();
+        return;
       }
+      if (e.key === 'Tab') {
+        const focusable = overlayEl.querySelectorAll('button:not(:disabled), [tabindex]:not([tabindex="-1"])');
+        if (focusable.length > 0) {
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          const activeEl = doc?.activeElement;
+          if (e.shiftKey && activeEl === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && activeEl === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    });
 
-      engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
+    const targetSlot = overlayEl.querySelector(`[data-acq-slot="${activeItem.identity}"]`);
+    targetSlot?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-      // Phase 3: Transition to next or complete (~2.5s)
-      timerId = setTimeout(() => {
-        processNext();
-      }, 2500);
+    // Phase 1: Focus matching slot for ~2.0s
+    activePhase = 'focus';
+    timerRemaining = 2000;
+    timerStart = Date.now();
+    timerId = setTimeout(() => {
+      timerId = null;
+      startPhase2();
     }, 2000);
   }
 
@@ -162,12 +283,14 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
 
     if (newlyAcquired.length === 0) return;
 
-    // If Fast-Pull or Reduced Motion is active, resolve instantly with static state change
+    // Fast-pull or reduced motion resolves immediately with static state change
     if (fastPull || prefersReducedMotion()) {
       for (const item of queue) {
         engine.recordAcquisitionCue(item.identity, { isStatic: true });
+        engine.markDexEntrySeen(item.identity);
       }
       queue = [];
+      onPersist?.();
       onComplete?.({ fastPull: true, count: newlyAcquired.length });
       return;
     }
@@ -177,9 +300,30 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     }
   }
 
+  // Automatic suspension without fake player skip logging
   function handleVisibilityChange() {
-    if (document.visibilityState === 'hidden' && isRunning) {
-      skipAll();
+    if (document.visibilityState === 'hidden') {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+        timerRemaining = Math.max(0, timerRemaining - (Date.now() - timerStart));
+      }
+    } else if (document.visibilityState === 'visible' && isRunning && timerId === null && activeItem) {
+      // Resume timer
+      timerStart = Date.now();
+      timerId = setTimeout(() => {
+        timerId = null;
+        if (activePhase === 'focus') {
+          startPhase2();
+        } else if (activePhase === 'colorizing') {
+          engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
+          engine.markDexEntrySeen(activeItem.identity);
+          onPersist?.();
+          activeItem = null;
+          activePhase = null;
+          processNext();
+        }
+      }, Math.max(50, timerRemaining));
     }
   }
 
@@ -193,10 +337,10 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     isActive: () => isRunning,
     destroy: () => {
       isDestroyed = true;
-      cleanupOverlay();
       if (typeof document !== 'undefined') {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
       }
+      cleanupOverlay();
     },
   };
 }

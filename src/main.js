@@ -288,6 +288,12 @@ if (app) {
         duckMotionPaused,
         duckMotionActive: !settingsOpen && !activeModal,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
+        onAcquisitionPersist: () => {
+          maybeAutosave();
+        },
+        onAcquisitionComplete: () => {
+          maybeAutosave();
+        },
         onDuplicateHelpShown: (sourceRevealSeq) => {
           const cue = engine.showDuplicateConversionHelp(sourceRevealSeq);
           if (cue) maybeAutosave();

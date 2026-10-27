@@ -301,30 +301,45 @@ export class GameEngine {
   getDexCollectionState() {
     const ownedSet = new Set(this.state.owned || []);
     const seenSet = new Set(this.state.seenDexEntries || []);
-    const roster = BANNER_1_ROSTER.map((duck) => ({
-      ...duck,
-      cosmetics: DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' },
-      owned: ownedSet.has(duck.id),
-      seen: seenSet.has(duck.id),
-    }));
+
+    // Secrecy protection: Any duck newly acquired in the current pending batch that has NOT been revealed yet
+    // must remain completely concealed on the Duck-Dex shelf as an unowned silhouette.
+    const unrevealedNewIdentities = new Set(
+      (this.state.pendingReveals || [])
+        .filter((d) => !d.revealed && !d.duplicate)
+        .map((d) => d.identity)
+    );
+
+    const roster = BANNER_1_ROSTER.map((duck) => {
+      const isDiscovered = ownedSet.has(duck.id) && !unrevealedNewIdentities.has(duck.id);
+      return {
+        ...duck,
+        cosmetics: DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' },
+        owned: isDiscovered,
+        authoritativeOwned: ownedSet.has(duck.id),
+        seen: seenSet.has(duck.id),
+      };
+    });
+
     const totalDucks = BANNER_1_ROSTER.length;
-    const ownedCount = this.state.owned.length;
-    const isComplete = ownedCount >= totalDucks;
+    const discoveredCount = roster.filter((d) => d.owned).length;
+    const isComplete = discoveredCount >= totalDucks;
     const sets = [
       {
         id: 'pond_of_destiny',
         name: 'Pond of Destiny',
         banner: 1,
-        owned: ownedCount,
+        owned: discoveredCount,
         total: totalDucks,
         complete: isComplete,
-        effectText: 'None active (investigation only — no mechanical bonus applied)',
+        effectText: 'None active (standard banner set)',
       },
     ];
     return {
       roster,
       totalDucks,
-      ownedCount,
+      ownedCount: discoveredCount,
+      authoritativeOwnedCount: this.state.owned.length,
       isComplete,
       sets,
     };

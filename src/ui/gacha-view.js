@@ -12,6 +12,7 @@ function renderCard(card, idx, { revealEnter = false } = {}) {
   const speed = duckDef?.speed || 10.0;
   const prefix = `qp-card-${Number(card.commitSeq)}`;
   const motion = selectGachaDuckMotion(card.commitSeq, card.identity);
+  const cosmetics = DUCK_COSMETICS[card.identity] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' };
   const revealClass = revealEnter ? ' card-reveal-enter' : '';
   return `
     <div class="duck-card card-revealed card-tier-${card.rarity}${revealClass}" data-card-idx="${idx}" data-card-key="${card.commitSeq}">
@@ -19,7 +20,13 @@ function renderCard(card, idx, { revealEnter = false } = {}) {
         ${card.rarity.toUpperCase()}
       </div>
       <div class="card-art-icon gacha-card-duck" data-duck-prefix="${prefix}" data-duck-motion="${motion}">
-        ${createDigitalDuckSvg({ prefix, label: `${name}, ${card.rarity} digital duck` })}
+        ${createDigitalDuckSvg({
+          prefix,
+          label: `${name}, ${card.rarity} digital duck`,
+          palette: cosmetics.palette,
+          hat: cosmetics.hat,
+          accessory: cosmetics.accessory,
+        })}
       </div>
       <div class="card-duck-name">${name}</div>
       <div class="card-duck-stat">Speed: ${speed.toFixed(1)}</div>
@@ -211,6 +218,16 @@ export function renderGachaView(container, engine, callbacks = {}) {
   };
 
   const acquisitionQueue = createAcquisitionQueueController(container, engine, {
+    onPersist: () => {
+      callbacks.onAcquisitionPersist?.();
+    },
+    onFocusReturn: () => {
+      const target = container.querySelector('#btn-reveal-next')
+        || container.querySelector('#btn-gacha-proceed')
+        || container.querySelector('.duck-card.card-revealed')
+        || container;
+      target?.focus?.();
+    },
     onComplete: ({ fastPull, count } = {}) => {
       if (fastPull && count > 0) {
         showFastPullToast(count);
@@ -218,6 +235,11 @@ export function renderGachaView(container, engine, callbacks = {}) {
       callbacks.onAcquisitionComplete?.();
     },
   });
+
+  // Resume any interrupted revealed entries on mount
+  if (hasPending) {
+    acquisitionQueue.enqueueReveals(pending, { fastPull: false });
+  }
 
   const btnClaim = container.querySelector('#btn-claim-pull');
   if (btnClaim && onClaimPull) {

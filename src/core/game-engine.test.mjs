@@ -664,3 +664,74 @@ test('engine [Plan 21]: seenDexEntries hydrates safely and validates in storage 
   assert.equal(badResult.valid, false);
   assert.ok(badResult.errors.some((e) => e.includes('seenDexEntries')));
 });
+
+test('engine [Plan 21 Repair 01]: zero-reveal Duck-Dex secrecy with plan21-review seed', () => {
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.commitPromotionalTenPull();
+
+  // Commit acquired 4 distinct identities authoritatively
+  assert.equal(engine.state.owned.length, 4);
+
+  // 1. Zero reveals: player sees NO new identities in Duck-Dex
+  const dex0 = engine.getDexCollectionState();
+  assert.equal(dex0.ownedCount, 0);
+  assert.equal(dex0.roster.filter((d) => d.owned).length, 0);
+  assert.equal(dex0.sets[0].owned, 0);
+  assert.equal(dex0.sets[0].complete, false);
+  assert.equal(dex0.sets[0].effectText, 'None active (standard banner set)');
+
+  // 2. Reveal card 0 (duck-3): ONLY duck-3 becomes visible as discovered
+  const draw0 = engine.revealDrawAtIndex(0);
+  assert.equal(draw0.identity, 'duck-3');
+
+  const dex1 = engine.getDexCollectionState();
+  assert.equal(dex1.ownedCount, 1);
+  assert.equal(dex1.sets[0].owned, 1);
+  const discovered1 = dex1.roster.filter((d) => d.owned);
+  assert.equal(discovered1.length, 1);
+  assert.equal(discovered1[0].id, 'duck-3');
+
+  // Other unrevealed committed ducks remain hidden as silhouettes
+  const duck0 = dex1.roster.find((d) => d.id === 'duck-0');
+  const duck1 = dex1.roster.find((d) => d.id === 'duck-1');
+  const duck2 = dex1.roster.find((d) => d.id === 'duck-2');
+  assert.equal(duck0.owned, false);
+  assert.equal(duck1.owned, false);
+  assert.equal(duck2.owned, false);
+
+  // 3. Reveal remaining cards: all 4 distinct identities become discovered
+  engine.revealAllPending();
+  const dexAll = engine.getDexCollectionState();
+  assert.equal(dexAll.ownedCount, 4);
+  assert.equal(dexAll.sets[0].owned, 4);
+  const discoveredAll = dexAll.roster.filter((d) => d.owned).map((d) => d.id).sort();
+  assert.deepEqual(discoveredAll, ['duck-0', 'duck-1', 'duck-2', 'duck-3']);
+});
+
+test('engine [Plan 21 Repair 01]: duplicate in batch protects unrevealed outcome', () => {
+  const engine = new GameEngine('seed-dup-batch');
+  engine.start();
+
+  // Fabricate pending reveals where duck-1 appears twice: draw 0 and draw 4
+  engine.state.owned = ['duck-1'];
+  engine.state.pendingReveals = [
+    { commitSeq: 1, identity: 'duck-1', rarity: 'common', duplicate: false, revealed: false },
+    { commitSeq: 2, identity: 'duck-2', rarity: 'rare', duplicate: false, revealed: false },
+    { commitSeq: 3, identity: 'duck-1', rarity: 'common', duplicate: true, revealed: false, downGained: 1 },
+  ];
+  engine.state.owned.push('duck-2');
+
+  // Both duck-1 and duck-2 are unrevealed: duck-1 was new in draw 0
+  const dex0 = engine.getDexCollectionState();
+  assert.equal(dex0.ownedCount, 0);
+  assert.equal(dex0.roster.find((d) => d.id === 'duck-1').owned, false);
+  assert.equal(dex0.roster.find((d) => d.id === 'duck-2').owned, false);
+
+  // Reveal draw 0 (duck-1): duck-1 is discovered even though draw 3 (duplicate of duck-1) is unrevealed
+  engine.revealDrawAtIndex(0);
+  const dex1 = engine.getDexCollectionState();
+  assert.equal(dex1.ownedCount, 1);
+  assert.equal(dex1.roster.find((d) => d.id === 'duck-1').owned, true);
+  assert.equal(dex1.roster.find((d) => d.id === 'duck-2').owned, false);
+});

@@ -92,3 +92,29 @@ QP Orch’s bounded preview-only repair found that the camera renderer was activ
 The authorized 1280×720 isolated IAB check observed camera scale 1.0000 at the start and tick 67, 1.0988 at tick 167, 1.1589 at tick 180, and 1.1600 near tick 208; this shows intermediate eased motion. Pause held the tick-167 matrix unchanged for 500 ms. Seeking to tick 163 showed scale 1.0708; seeking to tick 38 returned to wide. Restart reset to identity, Skip to finish returned to identity, reduced/static stayed wide at 38% and the 50/75/100% checkpoints, and explicit Locked wide stayed at identity at tick 205.8. The diagnostic fingerprint `296539:9b0cce44` and result summary (`21.62s + 2.00s highlight`) remained unchanged. The isolated tab captured zero console errors/warnings and was closed to release the browser slot; owner Chrome and the existing local server were untouched.
 
 `node --check` on the modified preview controller and `git diff --check` passed. No production source, race model, constants, mechanics, packet status, or reward/save/Receipt lifecycle were changed or newly validated. The preview repair and evidence are committed as `21ffa84`; this progress entry will be committed separately as the final Plan 23 write. No push was performed.
+
+## Individual crossing order and finish presentation (2026-10-27)
+
+QP Orch authorized a report-only resolver and preview extension under `drama-preview-01/`. The new `plan23-individual-crossing-v1` keeps the selected weave/contact mechanics and original winner trajectory, then continues only active entrants to their genuine finish-line crossings. It records unrounded crossing time/fraction and per-entrant course state; strict numeric time orders entrants, with codepoint ID used only for exact equality. Rewards are assigned only after every entrant crosses. The separate completion watchdog preserves factual crossings but withholds placed finishes and payouts for unresolved races. At crossing ticks, the shared endpoint dispatcher resolves walls and then contact once for survivors only. No Plan 13 source or production file was changed, and production must not import preview/report artifacts.
+
+The new selected preview mode reports the actual crossing order, coasts each duck visually for one second after its crossing, and starts the one-second podium descent and separate track-light dim at the final crossing. Labels and awards remain legible above the lighting layer. Pause freezes race and reveal animation; resume continues; skip and reduced/static checkpoints settle the presentation; replay and seeking clear the reveal state. This presentation timing is separate from simulated finish time.
+
+Final frozen validation after the endpoint-dispatch factoring change: six focused resolver tests passed; 1,440/1,440 selected-arm cases matched `plan23-first-crossing-causal-parity-v1`, with zero mismatches and zero unresolved races. First-winner time remained p50 21.250s, p95 22.165s, max 22.448s (0/1,440 strictly over 23s). Last-finisher time was p50 22.454s, p95 23.427s, max 24.736s; 131/1,440 (9.10%) last crossings were strictly over 23s. Estimated full playback including the two-second highlight and overlapping one-second coast/podium was p50 25.50s, p95 26.45s, max 27.75s. The validated timing criterion is the preserved first-winner crossing; last crossing and playback remain separately reported. This distinction matters if “race duration” is interpreted to mean every duck has crossed: the current selected model does not meet a <=5% over-23s limit on last-finisher time. No silent calibration change was made.
+
+Across the frozen matrix, 718 lower-place assignments and 528 payouts changed versus same-instant classification; there were no exact ties, 115 races with adjacent crossings under 5ms, and no watchdog cases. The frozen matrix had no natural wall/contact record on the crossing tick among its 720 checked rows, so the endpoint survivor behavior is covered by a direct dispatcher boundary test rather than a naturally occurring fixture.
+
+The isolated 1280×720 IAB check and interaction evidence are recorded in `drama-preview-01/evidence/browser-observations.md`: actual crossing order/payouts, skip-to-settled presentation, pause stability over 500ms, resume completion, reduced-motion checkpoints, and zero console warnings/errors. The browser slot was released; owner Chrome and the existing Vite server were untouched.
+
+Validation in this follow-up:
+
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- `node --check` on the preview controller, resolver, and validation runner — passed.
+- `node --test reports/development/plan-23-production-race-integration/drama-preview-01/individual-finish-model.test.mjs` — 6/6 passed.
+- Final frozen validation artifact — 1,440 attempts, 1,440 first-crossing parity matches, zero mismatches/unresolved.
+- `git diff --check` — passed.
+
+No production build, full project suite, save/reload or migration test, Receipt test, reward-idempotency test, or production browser test was run or claimed. Production lifecycle resolution-once behavior, versioned save compatibility, idempotent rewards, append-only mechanical/display evidence, focused race view, commentary, Plan 22 effective-speed/rest composition, and production file ownership remain for QP Orch's separately authorized implementation gate. The selected model's last-finisher late fraction above is an explicit calibration interpretation point for that gate.
+
+**Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch's direction not to add another reviewer to this report-only continuation. The allowed Sol-low review budget for the later production artifact remains unused.
+
+The scoped resolver, focused tests, frozen validation artifact, preview, and browser evidence are committed separately from this progress report. This progress entry is the final Plan 23 write. No packet status was changed and no push was performed.

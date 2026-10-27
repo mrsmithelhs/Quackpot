@@ -1,11 +1,9 @@
 ---
 id: plan-10
 title: Physical metagame duck views and cinematic staging
-status: draft
+status: in-progress
 depends_on: [plan-08]
 gate: "Owner approves coherent 2D views and staging; any 3D source pipeline needs a separate evidence-based decision."
-superseded_by: null
-resolution: null
 summary: >-
   Investigate static SVG views, lighting and apartment compositions that suggest
   character in the physical duck, including close-up and zoom quality checks.
@@ -13,6 +11,8 @@ summary: >-
 # Plan 10: Physical metagame duck views and cinematic staging
 
 **Owner direction, 2026-10-24:** Plan 08 is accepted with D2 as the physical companion reference. Preserve its solid toy silhouette and outline while studying static views, lighting and apartment compositions. E2's articulated paper motion belongs to the separate digital gacha setting, not this physical prop.
+
+**Assignment, 2026-10-27:** Owner promoted Plan10 to in-progress for a separate Codex thread. First return the bounded model-sheet/shot/lighting proposal before SVG authoring. Own only this packet's report/preview folder; coordinate any later browser turn with QP Orch while Plan23 repairs its isolated race camera. See `reports/orchestration/plan-10-starting-handoff.md`.
 
 ## Packet Metadata
 
@@ -49,7 +49,7 @@ SVG is a 2D format. A 3D-looking SVG is not a rotatable 3D scene. If an essentia
 
 ## Stop and report
 
-Stop at the owner comparison. The report must identify what was rendered, view/zoom failures, remaining uncertainty and the required consultation declaration. No inferred emotional impact claim: owner interpretation is review feedback. Do not set packet status or edit orchestrator notes. Commit scoped work/report and never push. This packet remains draft until Plan 08's owner selection and assignment.
+Stop at the owner comparison. The report must identify what was rendered, view/zoom failures, remaining uncertainty and the required consultation declaration. No inferred emotional impact claim: owner interpretation is review feedback. Do not set packet status or edit orchestrator notes. Commit scoped work/report and never push. Plan08's D2 direction is selected and the owner has assigned this packet; model-sheet/shot approval still precedes authoring.
 
 ## Delivery checklist
 

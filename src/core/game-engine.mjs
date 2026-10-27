@@ -302,16 +302,17 @@ export class GameEngine {
     const ownedSet = new Set(this.state.owned || []);
     const seenSet = new Set(this.state.seenDexEntries || []);
 
-    // Secrecy protection: Any duck newly acquired in the current pending batch that has NOT been revealed yet
-    // must remain completely concealed on the Duck-Dex shelf as an unowned silhouette.
-    const unrevealedNewIdentities = new Set(
-      (this.state.pendingReveals || [])
-        .filter((d) => !d.revealed && !d.duplicate)
-        .map((d) => d.identity)
-    );
+    // Secrecy protection: Any duck newly acquired in the current pending batch that has NOT had ANY
+    // of its cards revealed (neither the original acquisition card nor any duplicate card) must remain
+    // completely concealed on the Duck-Dex shelf as an unowned silhouette.
+    // As soon as ANY card of that identity is revealed (original-first OR duplicate-first), it is discovered.
+    const reveals = this.state.pendingReveals || [];
+    const revealedIdentitiesInBatch = new Set(reveals.filter((d) => d.revealed).map((d) => d.identity));
+    const newlyAcquiredInBatch = new Set(reveals.filter((d) => !d.duplicate).map((d) => d.identity));
 
     const roster = BANNER_1_ROSTER.map((duck) => {
-      const isDiscovered = ownedSet.has(duck.id) && !unrevealedNewIdentities.has(duck.id);
+      const isConcealedSecret = newlyAcquiredInBatch.has(duck.id) && !revealedIdentitiesInBatch.has(duck.id);
+      const isDiscovered = ownedSet.has(duck.id) && !isConcealedSecret;
       return {
         ...duck,
         cosmetics: DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' },

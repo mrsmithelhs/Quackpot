@@ -284,9 +284,11 @@ if (app) {
         companion: engine.state.physicalCompanion,
       });
     } else if (currentStep === 'd1_morning_gacha') {
+      const isGachaActive = !settingsOpen && !activeModal && !engine.isTerminal();
       gachaViewHandle = renderGachaView(mainContainer, engine, {
+        active: isGachaActive,
         duckMotionPaused,
-        duckMotionActive: !settingsOpen && !activeModal,
+        duckMotionActive: isGachaActive,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
         onAcquisitionPersist: () => {
           maybeAutosave();

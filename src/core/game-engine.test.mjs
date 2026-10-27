@@ -735,3 +735,38 @@ test('engine [Plan 21 Repair 01]: duplicate in batch protects unrevealed outcome
   assert.equal(dex1.roster.find((d) => d.id === 'duck-1').owned, true);
   assert.equal(dex1.roster.find((d) => d.id === 'duck-2').owned, false);
 });
+
+test('engine [Plan 21 Repair 02]: duplicate-first reveal discovers identity and subsequent original reveal never loses or duplicates it', () => {
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.commitPromotionalTenPull();
+
+  // Index 0: duck-3 (duplicate: false)
+  // Index 1: duck-3 (duplicate: true)
+  assert.equal(engine.state.pendingReveals[0].identity, 'duck-3');
+  assert.equal(engine.state.pendingReveals[0].duplicate, false);
+  assert.equal(engine.state.pendingReveals[1].identity, 'duck-3');
+  assert.equal(engine.state.pendingReveals[1].duplicate, true);
+
+  // 1. Zero reveals: neither is discovered in Duck-Dex
+  const dex0 = engine.getDexCollectionState();
+  assert.equal(dex0.ownedCount, 0);
+  assert.equal(dex0.roster.find((d) => d.id === 'duck-3').owned, false);
+
+  // 2. Reveal index 1 FIRST (the duplicate card):
+  // Bath Cadet is visible and discovered immediately
+  engine.revealDrawAtIndex(1);
+  const dex1 = engine.getDexCollectionState();
+  assert.equal(dex1.ownedCount, 1);
+  assert.equal(dex1.roster.find((d) => d.id === 'duck-3').owned, true);
+  // Other unrevealed identities remain concealed
+  assert.equal(dex1.roster.find((d) => d.id === 'duck-0').owned, false);
+
+  // 3. Reveal index 0 LATER (the original non-duplicate card):
+  // duck-3 remains discovered and never becomes undiscovered or duplicated
+  engine.revealDrawAtIndex(0);
+  const dex2 = engine.getDexCollectionState();
+  assert.equal(dex2.ownedCount, 1);
+  assert.equal(dex2.roster.find((d) => d.id === 'duck-3').owned, true);
+  assert.equal(dex2.roster.find((d) => d.id === 'duck-0').owned, false);
+});

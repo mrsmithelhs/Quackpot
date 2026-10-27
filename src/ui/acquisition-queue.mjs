@@ -7,7 +7,8 @@ import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 const MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 export function createAcquisitionQueueController(container, engine, callbacks = {}) {
-  const { onComplete, onStateChange, onPersist, onFocusReturn } = callbacks;
+  const { onComplete, onStateChange, onPersist, onFocusReturn, active = true } = callbacks;
+  let isActive = Boolean(active);
   let queue = [];
   let activeItem = null;
   let isRunning = false;
@@ -21,6 +22,15 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
 
   function prefersReducedMotion() {
     return typeof window !== 'undefined' && window.matchMedia?.(MOTION_QUERY).matches;
+  }
+
+  function isEffectiveActive() {
+    return (
+      isActive &&
+      !isDestroyed &&
+      !engine.isTerminal() &&
+      (typeof document === 'undefined' || document.visibilityState === 'visible')
+    );
   }
 
   function cleanupOverlay() {
@@ -42,20 +52,24 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
   }
 
   function renderShelfSlot(duck, isTarget, isColorized) {
-    const isOwned = duck.owned || isColorized;
+    // If this slot is the active target currently undergoing discovery presentation:
+    // It must begin as an unowned silhouette during Phase 1 (isColorized === false),
+    // and only become discovered/colored when Phase 2 starts (isColorized === true).
+    // All other slots reflect their current discovered state (duck.owned).
+    const isPresentedAsDiscovered = isTarget ? isColorized : duck.owned;
     const prefix = `qp-acq-slot-${duck.id}`;
     const cosmetics = DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' };
     const artSvg = createDigitalDuckSvg({
       prefix,
-      label: isOwned ? `${duck.name}, ${duck.tier} digital duck` : `Slot ${duck.id}: Unowned silhouette`,
+      label: isPresentedAsDiscovered ? `${duck.name}, ${duck.tier} digital duck` : `Slot ${duck.id}: Unowned silhouette`,
       palette: cosmetics.palette,
       hat: cosmetics.hat,
       accessory: cosmetics.accessory,
     });
 
     const focusClass = isTarget ? ' slot-highlight-focus' : '';
-    const discoveredClass = isColorized ? ' slot-discovered slot-discovering' : '';
-    const ownedClass = isOwned ? ' slot-owned' : ' slot-unowned';
+    const discoveredClass = isTarget && isColorized ? ' slot-discovered slot-discovering' : '';
+    const ownedClass = isPresentedAsDiscovered ? ' slot-owned' : ' slot-unowned';
 
     return `
       <div class="duck-dex-slot${ownedClass}${focusClass}${discoveredClass}" 
@@ -63,13 +77,13 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
            data-acq-slot="${duck.id}"
            tabindex="0" 
            role="region" 
-           aria-label="${isOwned ? `${duck.name}, ${duck.tier}, Speed ${duck.speed.toFixed(1)}` : `Unowned silhouette`}">
+           aria-label="${isPresentedAsDiscovered ? `${duck.name}, ${duck.tier}, Speed ${duck.speed.toFixed(1)}` : `Unowned silhouette`}">
         <span class="slot-tier-badge tier-${duck.tier}">${duck.tier.toUpperCase()}</span>
         <div class="slot-duck-art">
           ${artSvg}
         </div>
-        <div class="slot-duck-name" data-slot-name>${isOwned ? duck.name : '??? (Unowned)'}</div>
-        <div class="slot-duck-stat" data-slot-stat>${isOwned ? `Speed: ${duck.speed.toFixed(1)}` : 'Missing from roster'}</div>
+        <div class="slot-duck-name" data-slot-name>${isPresentedAsDiscovered ? duck.name : '??? (Unowned)'}</div>
+        <div class="slot-duck-stat" data-slot-stat>${isPresentedAsDiscovered ? `Speed: ${duck.speed.toFixed(1)}` : 'Missing from roster'}</div>
       </div>
     `;
   }
@@ -151,6 +165,16 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     onFocusReturn?.();
   }
 
+  function completeActiveItem() {
+    if (!activeItem) return;
+    engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
+    engine.markDexEntrySeen(activeItem.identity);
+    onPersist?.();
+    activeItem = null;
+    activePhase = null;
+    processNext();
+  }
+
   function startPhase2() {
     if (isDestroyed || !activeItem || !overlayEl) return;
     activePhase = 'colorizing';
@@ -162,10 +186,13 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     if (targetSlot) {
       targetSlot.classList.remove('slot-unowned');
       targetSlot.classList.add('slot-owned', 'slot-discovering', 'slot-discovered');
+      targetSlot.setAttribute('aria-label', `${duckDef?.name || activeItem.identity}, ${duckDef?.tier || activeItem.rarity}, Speed ${duckDef?.speed.toFixed(1) || 10.0}`);
       const nameEl = targetSlot.querySelector('[data-slot-name]');
       const statEl = targetSlot.querySelector('[data-slot-stat]');
       if (nameEl) nameEl.textContent = duckDef?.name || activeItem.identity;
       if (statEl) statEl.textContent = `Speed: ${duckDef?.speed.toFixed(1) || 10.0}`;
+      const svg = targetSlot.querySelector('.slot-duck-art svg');
+      svg?.setAttribute('aria-label', `${duckDef?.name || activeItem.identity}, ${duckDef?.tier || activeItem.rarity} digital duck`);
     }
 
     if (live) {
@@ -176,18 +203,12 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     timerStart = Date.now();
     timerId = setTimeout(() => {
       timerId = null;
-      // Record real displayed acquisition cue and mark seen on completion
-      engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
-      engine.markDexEntrySeen(activeItem.identity);
-      onPersist?.();
-      activeItem = null;
-      activePhase = null;
-      processNext();
+      completeActiveItem();
     }, 2500);
   }
 
   function processNext() {
-    if (isDestroyed) return;
+    if (isDestroyed || !isEffectiveActive()) return;
     if (queue.length === 0) {
       cleanupOverlay();
       onStateChange?.({ active: false });
@@ -264,13 +285,20 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
   function enqueueReveals(draws, { fastPull = false } = {}) {
     if (isDestroyed) return;
     const newlyAcquired = [];
+    const newlyAcquiredInBatch = new Set(
+      draws.filter((d) => !d.duplicate).map((d) => d.identity)
+    );
 
     for (const draw of draws) {
-      if (!draw.revealed || draw.duplicate) continue;
+      if (!draw.revealed) continue;
+      // Must be an identity acquired in this batch
+      if (!newlyAcquiredInBatch.has(draw.identity)) continue;
+
       const seen = engine.state.seenDexEntries || [];
       if (seen.includes(draw.identity)) continue;
       if (queue.some((i) => i.identity === draw.identity)) continue;
       if (activeItem?.identity === draw.identity) continue;
+      if (newlyAcquired.some((i) => i.identity === draw.identity)) continue;
 
       const item = {
         identity: draw.identity,
@@ -295,8 +323,38 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
       return;
     }
 
-    if (!isRunning) {
+    if (!isRunning && isEffectiveActive()) {
       processNext();
+    }
+  }
+
+  function setActive(nextActive) {
+    const wasEffective = isEffectiveActive();
+    isActive = Boolean(nextActive);
+    const nowEffective = isEffectiveActive();
+
+    if (wasEffective && !nowEffective) {
+      // Transitioning to inactive: suspend active timer immediately
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+        timerRemaining = Math.max(0, timerRemaining - (Date.now() - timerStart));
+      }
+    } else if (!wasEffective && nowEffective) {
+      // Transitioning to active: resume suspended timer or process next queued item
+      if (isRunning && timerId === null && activeItem) {
+        timerStart = Date.now();
+        timerId = setTimeout(() => {
+          timerId = null;
+          if (activePhase === 'focus') {
+            startPhase2();
+          } else if (activePhase === 'colorizing') {
+            completeActiveItem();
+          }
+        }, Math.max(50, timerRemaining));
+      } else if (!isRunning && queue.length > 0) {
+        processNext();
+      }
     }
   }
 
@@ -308,24 +366,48 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
         timerId = null;
         timerRemaining = Math.max(0, timerRemaining - (Date.now() - timerStart));
       }
-    } else if (document.visibilityState === 'visible' && isRunning && timerId === null && activeItem) {
+    } else if (document.visibilityState === 'visible' && isEffectiveActive()) {
       // Resume timer
-      timerStart = Date.now();
-      timerId = setTimeout(() => {
-        timerId = null;
-        if (activePhase === 'focus') {
-          startPhase2();
-        } else if (activePhase === 'colorizing') {
-          engine.recordAcquisitionCue(activeItem.identity, { focusMs: 2000, transitionMs: 2500 });
-          engine.markDexEntrySeen(activeItem.identity);
-          onPersist?.();
-          activeItem = null;
-          activePhase = null;
-          processNext();
-        }
-      }, Math.max(50, timerRemaining));
+      if (isRunning && timerId === null && activeItem) {
+        timerStart = Date.now();
+        timerId = setTimeout(() => {
+          timerId = null;
+          if (activePhase === 'focus') {
+            startPhase2();
+          } else if (activePhase === 'colorizing') {
+            completeActiveItem();
+          }
+        }, Math.max(50, timerRemaining));
+      } else if (!isRunning && queue.length > 0) {
+        processNext();
+      }
     }
   }
+
+  const motionMedia = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(MOTION_QUERY) : null;
+  function handleMotionChange() {
+    if (prefersReducedMotion() && (isRunning || queue.length > 0)) {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+      if (activeItem) {
+        engine.recordAcquisitionCue(activeItem.identity, { isStatic: true });
+        engine.markDexEntrySeen(activeItem.identity);
+      }
+      while (queue.length > 0) {
+        const item = queue.shift();
+        engine.recordAcquisitionCue(item.identity, { isStatic: true });
+        engine.markDexEntrySeen(item.identity);
+      }
+      onPersist?.();
+      cleanupOverlay();
+      onStateChange?.({ active: false });
+      onComplete?.({ fastPull: true, count: 1 });
+      onFocusReturn?.();
+    }
+  }
+  motionMedia?.addEventListener?.('change', handleMotionChange);
 
   if (typeof document !== 'undefined') {
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -334,12 +416,14 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
   return {
     enqueueReveals,
     skip: skipAll,
-    isActive: () => isRunning,
+    setActive,
+    isActive: () => isRunning && isEffectiveActive(),
     destroy: () => {
       isDestroyed = true;
       if (typeof document !== 'undefined') {
         document.removeEventListener('visibilitychange', handleVisibilityChange);
       }
+      motionMedia?.removeEventListener?.('change', handleMotionChange);
       cleanupOverlay();
     },
   };

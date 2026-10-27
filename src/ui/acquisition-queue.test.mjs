@@ -252,12 +252,13 @@ test('acquisition-queue: nominal interactive lifecycle completes 2.0s focus and 
 
   const targetSlot = {
     scrollIntoView() { this.scrolled = true; },
+    setAttribute() {},
     classList: {
       classes: new Set(),
       add(...c) { c.forEach((x) => this.classes.add(x)); },
       remove(...c) { c.forEach((x) => this.classes.delete(x)); },
     },
-    querySelector: () => ({ textContent: '' }),
+    querySelector: () => ({ textContent: '', setAttribute() {} }),
   };
 
   const mockDoc = {
@@ -325,6 +326,243 @@ test('acquisition-queue: nominal interactive lifecycle completes 2.0s focus and 
   assert.equal(cue.payload.identity, 'duck-0');
   assert.equal(cue.payload.focusMs, 2000);
   assert.equal(cue.payload.transitionMs, 2500);
+
+  queue.destroy();
+  t.mock.timers.reset();
+});
+
+test('acquisition-queue [Plan 21 Repair 02]: real-engine active discovery begins as silhouette in Phase 1 and colorizes in Phase 2', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'Date'] });
+
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.commitPromotionalTenPull();
+
+  // Index 0 is duck-3 (Bath Cadet)
+  engine.revealDrawAtIndex(0);
+
+  let capturedOverlayHtml = '';
+  const slotElements = new Map();
+  const getOrCreateSlotMock = (id) => {
+    if (!slotElements.has(id)) {
+      slotElements.set(id, {
+        id,
+        attributes: {},
+        setAttribute(k, v) { this.attributes[k] = v; },
+        classList: {
+          classes: new Set(),
+          add(...c) { c.forEach((x) => this.classes.add(x)); },
+          remove(...c) { c.forEach((x) => this.classes.delete(x)); },
+          contains(c) { return this.classes.has(c); },
+        },
+        querySelector: () => ({ textContent: '', setAttribute() {} }),
+        scrollIntoView() { this.scrolled = true; },
+      });
+    }
+    return slotElements.get(id);
+  };
+
+  const mockDoc = {
+    createElement: () => ({
+      className: '',
+      attributes: {},
+      children: [],
+      setAttribute() {},
+      addEventListener() {},
+      remove() {},
+      focus() {},
+      scrollIntoView() {},
+      set innerHTML(html) { capturedOverlayHtml = html; },
+      get innerHTML() { return capturedOverlayHtml; },
+      querySelector: (sel) => {
+        if (sel === '#btn-skip-acq') return { addEventListener() {}, focus() {} };
+        const match = sel.match(/data-acq-slot="([^"]+)"/);
+        if (match) return getOrCreateSlotMock(match[1]);
+        return null;
+      },
+      querySelectorAll: () => [],
+    }),
+  };
+
+  const container = {
+    ownerDocument: mockDoc,
+    children: [],
+    appendChild(c) { this.children.push(c); return c; },
+    removeChild(c) { this.children = this.children.filter((x) => x !== c); },
+  };
+
+  const queue = createAcquisitionQueueController(container, engine, {});
+  queue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
+  assert.equal(queue.isActive(), true);
+
+  // 1. Verify Phase 1 markup: duck-3 target slot MUST be rendered as an unowned silhouette!
+  assert.ok(capturedOverlayHtml.includes('data-acq-slot="duck-3"'));
+  // Must have slot-unowned and slot-highlight-focus, NOT slot-owned
+  assert.match(capturedOverlayHtml, /class="duck-dex-slot slot-unowned slot-highlight-focus"[^>]*data-acq-slot="duck-3"/);
+  assert.ok(capturedOverlayHtml.includes('Slot duck-3: Unowned silhouette'));
+  assert.ok(capturedOverlayHtml.includes('??? (Unowned)'));
+  assert.ok(capturedOverlayHtml.includes('Missing from roster'));
+
+  // 2. Advance to Phase 2 (at 2.0s)
+  t.mock.timers.tick(2000);
+  const targetMock = getOrCreateSlotMock('duck-3');
+  assert.equal(targetMock.classList.contains('slot-unowned'), false);
+  assert.equal(targetMock.classList.contains('slot-owned'), true);
+  assert.equal(targetMock.classList.contains('slot-discovering'), true);
+  assert.equal(targetMock.classList.contains('slot-discovered'), true);
+
+  // 3. Complete Phase 2 (at 4.5s total)
+  t.mock.timers.tick(2500);
+  assert.ok(engine.state.seenDexEntries.includes('duck-3'));
+
+  queue.destroy();
+  t.mock.timers.reset();
+});
+
+test('acquisition-queue [Plan 21 Repair 02]: duplicate-first reveal triggers discovery, subsequent original reveal does not re-trigger', () => {
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.commitPromotionalTenPull();
+
+  // Index 0: duck-3 (duplicate: false)
+  // Index 1: duck-3 (duplicate: true)
+  assert.equal(engine.state.pendingReveals[1].identity, 'duck-3');
+  assert.equal(engine.state.pendingReveals[1].duplicate, true);
+
+  const mockDoc = {
+    createElement: () => ({
+      className: '',
+      attributes: {},
+      children: [],
+      setAttribute() {},
+      addEventListener() {},
+      remove() {},
+      focus() {},
+      scrollIntoView() {},
+      querySelector: (sel) => {
+        if (sel === '#btn-skip-acq') return { addEventListener() {}, focus() {} };
+        return { scrollIntoView() {}, classList: { add() {}, remove() {} }, querySelector: () => ({ textContent: '', setAttribute() {} }) };
+      },
+      querySelectorAll: () => [],
+    }),
+  };
+
+  const container = {
+    ownerDocument: mockDoc,
+    children: [],
+    appendChild(c) { this.children.push(c); return c; },
+    removeChild(c) { this.children = this.children.filter((x) => x !== c); },
+  };
+
+  let completed = false;
+  const queue = createAcquisitionQueueController(container, engine, {
+    onComplete: () => { completed = true; },
+  });
+
+  // Reveal index 1 FIRST (the duplicate card)
+  engine.revealDrawAtIndex(1);
+  queue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
+
+  // duck-3 was newly acquired in this batch, so revealing duplicate first starts presentation!
+  assert.equal(queue.isActive(), true);
+
+  // Skip / complete presentation
+  queue.skip();
+  assert.ok(engine.state.seenDexEntries.includes('duck-3'));
+  assert.equal(queue.isActive(), false);
+
+  // Later reveal index 0 (the original card)
+  engine.revealDrawAtIndex(0);
+  queue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
+
+  // duck-3 is already in seenDexEntries, so it is NOT queued again!
+  assert.equal(queue.isActive(), false);
+
+  queue.destroy();
+});
+
+test('acquisition-queue [Plan 21 Repair 02]: inactive modal state suspends timers and prevents background completion', (t) => {
+  t.mock.timers.enable({ apis: ['setTimeout', 'Date'] });
+
+  const engine = new GameEngine('seed-inactive-modal');
+  engine.start();
+
+  let persisted = false;
+
+  const mockDoc = {
+    createElement: () => ({
+      className: '',
+      attributes: {},
+      children: [],
+      setAttribute() {},
+      addEventListener() {},
+      remove() {},
+      focus() {},
+      scrollIntoView() {},
+      querySelector: (sel) => {
+        if (sel === '#btn-skip-acq') return { addEventListener() {}, focus() {} };
+        return { scrollIntoView() {}, setAttribute() {}, classList: { add() {}, remove() {} }, querySelector: () => ({ textContent: '', setAttribute() {} }) };
+      },
+      querySelectorAll: () => [],
+    }),
+  };
+
+  const container = {
+    ownerDocument: mockDoc,
+    children: [],
+    appendChild(c) { this.children.push(c); return c; },
+    removeChild(c) { this.children = this.children.filter((x) => x !== c); },
+  };
+
+  // 1. Queue created with active: false (e.g. Settings or retention modal open)
+  const queue = createAcquisitionQueueController(container, engine, {
+    active: false,
+    onPersist: () => { persisted = true; },
+  });
+
+  const draws = [
+    { commitSeq: 1, identity: 'duck-4', rarity: 'rare', duplicate: false, revealed: true },
+  ];
+
+  queue.enqueueReveals(draws, { fastPull: false });
+  // Should NOT be active while inactive modal is open
+  assert.equal(queue.isActive(), false);
+  assert.equal(container.children.length, 0);
+
+  // Advance time past 10 seconds: NO timers run, NO seen entry marked, NO autosave
+  t.mock.timers.tick(10000);
+  assert.equal(engine.state.seenDexEntries.includes('duck-4'), false);
+  assert.equal(persisted, false);
+
+  // 2. Player closes modal: setActive(true)
+  queue.setActive(true);
+  assert.equal(queue.isActive(), true);
+  assert.equal(container.children.length, 1); // overlay mounted
+
+  // Advance 1000ms: in Phase 1
+  t.mock.timers.tick(1000);
+  assert.equal(engine.state.seenDexEntries.includes('duck-4'), false);
+
+  // 3. Player opens Settings mid-presentation (Phase 1): setActive(false)
+  queue.setActive(false);
+  assert.equal(queue.isActive(), false);
+
+  // Advance time past 10 seconds while suspended: no completion occurs
+  t.mock.timers.tick(10000);
+  assert.equal(engine.state.seenDexEntries.includes('duck-4'), false);
+  assert.equal(persisted, false);
+
+  // 4. Player closes Settings: setActive(true)
+  queue.setActive(true);
+  assert.equal(queue.isActive(), true);
+
+  // Remaining 1000ms of Phase 1 + 2500ms of Phase 2 finishes
+  t.mock.timers.tick(1000); // completes Phase 1
+  t.mock.timers.tick(2500); // completes Phase 2
+
+  // Now properly completed!
+  assert.ok(engine.state.seenDexEntries.includes('duck-4'));
+  assert.equal(persisted, true);
 
   queue.destroy();
   t.mock.timers.reset();

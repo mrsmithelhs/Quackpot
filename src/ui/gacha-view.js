@@ -138,7 +138,9 @@ export function renderGachaView(container, engine, callbacks = {}) {
     onClaimPull, onRevealCard, onRevealCardAtIndex, onRevealAll, onProceed,
     duckMotionPaused = false, duckMotionActive = true, onDuckMotionPauseChange,
     onDuplicateHelpShown, onDuplicateHelpDismiss,
+    active = true,
   } = callbacks;
+  const isViewActive = active !== false && !engine.isTerminal();
   const pending = engine.state.pendingReveals || [];
   const hasPending = pending.length > 0;
   const allRevealed = hasPending && pending.every((d) => d.revealed);
@@ -218,6 +220,7 @@ export function renderGachaView(container, engine, callbacks = {}) {
   };
 
   const acquisitionQueue = createAcquisitionQueueController(container, engine, {
+    active: isViewActive,
     onPersist: () => {
       callbacks.onAcquisitionPersist?.();
     },
@@ -236,8 +239,8 @@ export function renderGachaView(container, engine, callbacks = {}) {
     },
   });
 
-  // Resume any interrupted revealed entries on mount
-  if (hasPending) {
+  // Resume any interrupted revealed entries on mount only when the view is active
+  if (hasPending && isViewActive) {
     acquisitionQueue.enqueueReveals(pending, { fastPull: false });
   }
 
@@ -438,8 +441,11 @@ export function renderGachaView(container, engine, callbacks = {}) {
     });
   });
 
-  const update = (nextEngine) => {
+  const update = (nextEngine, options = {}) => {
     if (destroyed) return false;
+    if (options.active !== undefined) {
+      acquisitionQueue.setActive(options.active);
+    }
     const nextPending = nextEngine.state.pendingReveals || [];
     const nextAllRevealed = nextPending.length > 0 && nextPending.every((card) => card.revealed);
     const nextUnrevealedCount = nextPending.filter((card) => !card.revealed).length;

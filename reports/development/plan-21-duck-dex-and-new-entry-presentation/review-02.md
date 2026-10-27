@@ -1,0 +1,23 @@
+# Plan 21 Repair01 review — further bounded repair required
+
+Date: 2026-10-26. Reviewed `2b6590b`; no production edits, browser actions, status change or push by root. Owner acceptance remains open.
+
+## Improvements verified
+
+Actual persistence callbacks now reach `maybeAutosave`, cosmetics are reused by cards and shelf, inspector odds are distinguished as base tier/identity values, development-plan copy is removed, SVG filter interpolation is assigned to the changing SVG element, and hidden-tab handling no longer fabricates a player skip. Root reran build,146 existing tests and8 focused UI tests successfully. These are meaningful repairs, but the passing tests miss the following production cases.
+
+## Remaining blockers
+
+1. **P1 — Active discovery starts already colored.** `src/ui/acquisition-queue.mjs:44` uses `duck.owned || isColorized`. The real engine has already exposed the just-revealed identity as discovered, so `renderShelfMarkup(identity,false)` renders its target `slot-owned`, with name and full-color SVG, throughout the supposed silhouette phase. Root called the real engine with seed `plan21-review`, committed ten draws, revealed index0, and captured the controller's phase-one markup: `duck-3` was `duck-dex-slot slot-owned slot-highlight-focus`, with label `Bath Cadet, common, Speed10.0`. No target silhouette class was present. The2s/2.5s timer test uses a synthetic draw not acquired in the test engine, so it does not reproduce the real ownership condition. Keep discovered ownership separate from the active slot's temporary presentation phase; do not mutate mechanics to create a silhouette. Verify the actual SVG computed filter changes over time in-browser, not only added class names.
+
+2. **P2 — Out-of-order duplicate reveals leave a known identity hidden.** `src/core/game-engine.mjs:305` hides an identity while its first nonduplicate acquisition card is unrevealed, even if another card of the same identity has been revealed. Root seed `plan21-review`: index0 is newly acquired `duck-3`; index1 is its duplicate. Reveal index1 first: the player sees Bath Cadet and its conversion, yet `getDexCollectionState().ownedCount` remains0. Visible discovery must follow any actual reveal of that identity, not require a particular card index. Keep acquisition ownership/newness at commit; define how a duplicate-first reveal interacts with the single first-owned discovery sequence so the same identity does not animate twice. An acquired identity must never become undiscovered when the original card later flips.
+
+3. **P1 — Queue mount ignores inactive modal state.** `src/main.js` tears down/recreates the gacha view when Settings or retention opens. It passes `duckMotionActive: !settingsOpen && !activeModal`, but `src/ui/gacha-view.js:239` unconditionally resumes discovery on mount, and the queue has no active/suspended input. Thus opening a modal destroys the current sequence, immediately starts another, and leaves its timers running behind the modal. After4.5s it can mark seen, append a completed presentation cue and autosave without the player returning to the discovery view. Gate acquisition mounting/resumption against active-view/modal/terminal state, with a deliberate suspension/restart policy. Persist only truthful actual presentation evidence. Include initial hidden-document mount and system reduced-motion changes in the policy rather than only handling a later visibility event.
+
+## Review dispositions and limits
+
+Independent review requested Luna-high (`gpt-6-luna`, high, default-role read-only child). Root verified its color-start and modal-restart concerns. Root rejected its claim that child z-index1100 necessarily covers root Settings z-index1000/HUD: `.main-content` has `isolation:isolate`, so comparing those raw values across stacking contexts is insufficient. Root also rejected its suggestion that the SVG filter target remains mismatched: that specific CSS issue is fixed. No browser observation of Settings being covered is claimed.
+
+Likewise, static fast-pull cues cannot be called false solely because only a count toast is added: the revealed cards themselves contain identity information. Actual visibility and cue semantics still need mounted verification. The queue's Tab loop excludes header controls; verify an accessible immediate-exit path and correct modal/focus coordination without assuming the header is visually covered.
+
+The report claims accessible focus/inert lifecycle coverage, but the listed8 tests do not establish native browser traversal or Settings/retention interruption. Existing general smoke success does not exercise these new sequences. Keep that evidence, but add narrow production checks for these repaired paths. See `repair-02.md`.

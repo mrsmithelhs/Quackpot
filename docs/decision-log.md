@@ -189,3 +189,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner selects Plan13's combined rank-weighted weave +seeded15–20° contact with2s slow-motion highlight as official and explicitly closes the investigation. Reference implementation `70ba115`, report `c2b9241`, root review05 reproduces17tests and scan hash. Preserve constituent rules/caps, real first crossing and follower classification; highlight changes presentation time only, with static/reduced-motion parity.
 
 **Limits and routing:** This is mechanism/direction selection, not production integration or universal balance proof. One duck-contact episode, long recovery/skips, grid advantage, label overlap and terminal fixed-step approximation remain disclosed. Draft Plan23 ports model/input/save/log/view and accepted duck motion; draft Plan22 rest follows its production contract. Plan20 is delivered awaiting owner card-motion acceptance. No new packet assignment, push or deployment.
+
+### DECISION-019 — Race upper-tail timing criterion
+
+**Date:** 2026-10-26
+
+**Decision:** Owner directs Plan23 to model race timing statistically: at most5% of races finish strictly later than23s, around the roughly20s target. This replaces the prior hard-upper-bound interpretation of±15% tolerance. Long individual races remain legitimate results of the seeded mechanics; no forced crossing or23s truncation. Canonical design/AGENTS/orchestrator contracts synchronized.
+
+**Evidence boundary:** Seed/configuration distributions, late fraction/quantiles/sample uncertainty and independent validation are required; do not infer a population guarantee from20sample races. Watchdog/unresolved outcomes stay explicit. Simulated race finish and selected2s-highlight wall playback remain separate measures. No automatic production tuning, source handoff, push or deployment is authorized.

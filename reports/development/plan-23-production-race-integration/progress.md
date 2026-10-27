@@ -170,3 +170,21 @@ Validation for this presentation-only owner refinement:
 - The frozen 1,440-case numerical audit, focused model tests, production source, save/reload, Receipt, reward idempotency, reduced-motion interaction, and production flows were not rerun or newly validated. This turn changed only report-preview presentation and evidence.
 
 No packet status was changed and no push was performed. The scoped preview change is committed separately from this progress update; this progress entry is the final Plan 23 write.
+
+## Owner whole-environment lighting and podium loops — 2026-10-27
+
+QP Orch approved a bounded report-preview follow-up. The selected slow-motion drama treatment now filters the whole environment group with the same `brightness(.43) saturate(.75)` used by the existing event highlight; the pond, shore, and track dim together, while finish-line markings, race ducks, and the podium remain outside the filter. The reveal animates that filter over its existing one-second interval; pause holds it, resume continues it, and settled Skip/reduced results use a stable target treatment without an entrance transition. The former oval-only lighting overlay was removed, so the result effect is not compounded.
+
+Podium ducks reuse the accepted Plan 20 digital rig and motion controller with unique per-result/per-duck prefixes. First place uses graceful bob; second and third use paddling. Their controller is separate from race-runner motion. The main Race Pause suspends podium loops during reveal without losing animation phase. After the race finishes, a named **Pause podium motion / Resume podium motion** control pauses or resumes only those ambient loops; the finished state stays complete. Normal Skip skips the podium entrance but still starts the loops. Presentation evidence separately records entrance-skipped and ambient-motion state. Static/reduced mode creates no loop controller and shows the same settled result. Seek, restart, and scenario resolution destroy the loop controller and clear reveal styling; repeated show paths retain one controller.
+
+The authorized 1280×720 IAB check observed the target environment filter and bright foreground, active three-duck loops, and one internal controller toggle. During reveal at elapsed 24.9/25.67s, the regular Pause held podium transforms and the computed dim filter unchanged for 550ms. Resume advanced both; natural completion showed **Pause podium motion**, and the loops continued while race status stayed complete. The named control itself held sampled duck transforms unchanged for 550ms and resumed them. Normal Skip showed loops without entrance motion; pausing the loops then pressing Skip again preserved the paused choice. Reduced mode held neutral transforms, scenario/restart cleared the podium controller, and seeking after finish hid the podium/filter and restored resumable playback at the selected event. Console warnings/errors were absent. The isolated tab was closed and viewport reset to release the authorized slot.
+
+Validation for this presentation-only continuation:
+
+- `node --test src/ui/duck-motion-controller.test.mjs` — 8/8 passed for the reused controller’s pause/resume, reduced, visibility/offscreen, and teardown behavior.
+- `node --check reports/development/plan-23-production-race-integration/drama-preview-01/preview-controller.mjs` — passed.
+- `git diff --check` — passed.
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- Frozen 1,440-case audit was not rerun. No production source, model mechanics, numerical values, save/Receipt/reward path, packet status, or push changed.
+
+**Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch’s direction not to add another reviewer to this report-preview continuation. No packet status was set and no push was performed. The preview/evidence change is committed separately; this progress entry is the final Plan 23 write.

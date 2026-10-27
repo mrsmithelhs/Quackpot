@@ -30,3 +30,17 @@
 ## Limits
 
 These observations apply only to the report-only preview in this browser. No production source, save/reload, schema migration, Receipt output, reward idempotency, hardware screen reader, physical device, audience response, or deployed site was exercised. The model timing evidence is the 20-seed offline validation reported in `../drama-study-02/README.md`; browser playback is not a new timing-distribution study.
+
+## Camera zoom repair — 2026-10-27
+
+**Browser:** authorized isolated Codex in-app browser tab at 1280 × 720 CSS px. The owner’s Chrome tab was not used. Existing localhost server was left running; this repair did not start or stop it. The isolated IAB tab was closed after the checks to release the browser slot.
+
+- **Diagnosis and default:** the zoom renderer was already called on each runner render, but the select defaulted to `Locked wide`, which forces scale 1. The camera control now defaults to **Eased close mid-race, then wide**. **Locked wide** remains an explicit option. The note explains that reduced-motion mode remains wide.
+- **Playback easing:** the same committed race began at tick 0 with `matrix(1, 0, 0, 1, 0, 0)`. At tick 67 it remained wide; at tick 167 it measured scale 1.0988, at tick 180 scale 1.1589, and near tick 208 scale 1.1600. These ordered intermediate samples show a ramp into the close view rather than a single snap. Skip to finish returned to the identity matrix.
+- **Pause and restart:** pausing at tick 167 held the `matrix(1.0988, 0, 0, 1.0988, -224.28, -134.26)` transform unchanged across a further 500 ms sample. Restart returned to identity at the start of the same race.
+- **Event seeking:** selecting the recorded event at tick 163 paused in its post-event state at scale 1.0708. Selecting the recorded tick-38 contact returned to the wide identity transform, consistent with the early-race schedule.
+- **Static/reduced motion:** switching modes at tick 163 returned to identity. Identity remained at the current 38% position and the 50%, 75% and 100% static checkpoints. The ordinary finish also returned to identity.
+- **Locked wide and unchanged mechanics:** explicit **Locked wide** remained identity at tick 205.8. The diagnostic committed-resolution fingerprint was `296539:9b0cce44` at start, playback, pause, event seeks, reduced/static checkpoints, restart, skip and Locked wide. The displayed result summary stayed `21.62 s + 2.00 s playback highlight = 23.62 s max playback` throughout.
+- **Console:** zero captured warnings or errors in the isolated tab.
+
+This verifies report-preview camera presentation only. It does not exercise production race integration, game save/reload, Receipt projection, or reward idempotency.

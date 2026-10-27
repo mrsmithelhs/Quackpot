@@ -3,7 +3,7 @@ import * as candidateModel from './candidate-model.mjs';
 import { createDigitalDuckSvg } from '../../../../src/ui/duck-rig-view.mjs';
 import { createDuckMotionController } from '../../../../src/ui/duck-motion-controller.mjs';
 
-const { buildPresentationPlan, interpolateSnapshot, raceFractionAtWallClock, rankFromSnapshot } = baselineModel;
+const { buildPresentationPlan, interpolateSnapshot, raceFingerprint, raceFractionAtWallClock, rankFromSnapshot } = baselineModel;
 
 const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
@@ -112,6 +112,7 @@ function resolveOutcomes() {
     ? baselineModel.resolveSeededRace(input)
     : candidateModel.resolveSeededRace(input);
   state = freshState(resolution);
+  $('race-svg').dataset.resolutionFingerprint = raceFingerprint(resolution);
   $('runner-layer').replaceChildren();
   $('race-status').textContent = resolution.status === 'finished'
     ? `${modeLabel(mode)} resolved once · first line crossing at ${resolution.finishTimeSeconds.toFixed(2)}s · ${resolution.draws.total} keyed mechanic draws.`

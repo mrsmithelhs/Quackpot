@@ -43,7 +43,7 @@
         <label class="inline-control"><input type="checkbox" id="trial"> Plan 17 trial · +5% once</label>
         <label>Validation seed <input id="run-seed" type="text" value="plan23-drama2-val-01" readonly aria-readonly="true"></label>
         <button id="next-seed" type="button">Next validation seed</button>
-        <label>Camera <select id="camera"><option value="wide">Locked wide</option><option value="scripted">Close mid-race, then wide</option></select></label>
+        <label>Camera <select id="camera"><option value="scripted" selected>Eased close mid-race, then wide</option><option value="wide">Locked wide</option></select></label>
         <label>Highlight <select id="highlight"><option value="2">Two-second slow-motion highlight</option></select></label>
         <label>Event lighting <select id="lighting"><option value="event">On</option><option value="off">Off</option></select></label>
         <label class="inline-control"><input type="checkbox" id="reduce"> Static / reduced motion</label>
@@ -82,7 +82,7 @@
             <button id="replay" type="button" title="Restart this committed race from the beginning without new mechanics, random draws, or rewards.">Restart same race</button>
           <span id="race-status" class="status" role="status" aria-live="polite">Ready · selected model and input resolve one seeded race.</span>
           </div>
-          <p class="fine-print" id="camera-note">Camera, lighting and optional slow motion present the committed race without changing its outcome. The displayed wall time includes any selected highlight. Static/reduced-motion mode removes motion, zoom and dramatic lighting; no flashes are used.</p>
+          <p class="fine-print" id="camera-note">The default eased camera follows the player through the middle of the line race and returns to a wide view. Choose Locked wide to keep the full oval in frame. Static/reduced-motion mode always stays wide.</p>
           <div class="panel-row"><button id="narrative-toggle" type="button" aria-expanded="false" aria-controls="race-narrative">Show race narrative</button></div>
           <section id="race-narrative" class="narrative" aria-label="Race narrative" hidden>
             <p id="narrative-status" class="status" role="status" aria-live="polite">No race event has been revealed yet.</p>

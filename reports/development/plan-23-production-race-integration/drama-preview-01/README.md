@@ -28,3 +28,9 @@ The accepted selected weave/contact mechanics, first real forward finish-line cr
 ## Verification
 
 Run the module syntax checks and `browser-check.mjs` directly as listed in the evidence note. Do not use this preview as production integration evidence for versioned saves, migrations, append-only Receipt projection, or reward idempotency; those still require the approved production handoff and verification.
+
+## Camera behavior
+
+The default Camera control is **Eased close mid-race, then wide**. It applies a smooth presentation-only zoom through the middle of playback and returns to a wide view at the finish. **Locked wide** remains available as an explicit alternative. Static/reduced-motion mode keeps the camera wide at every checkpoint. Camera controls never resolve the race again; `data-resolution-fingerprint` is a preview-only diagnostic attached when the committed resolution is created so playback checks can confirm the same outcome is still being presented.
+
+The 2026-10-27 isolated browser check verified a smooth scale progression from 1.0000 at the start to 1.0988 at tick 167, 1.1589 at tick 180 and 1.1600 near tick 208, followed by a return to 1.0000 at the finish. Pause held the sampled transform, and event seeking, restart, static checkpoints and Locked wide left the committed-resolution fingerprint unchanged. Exact observations are in `evidence/browser-observations.md`.

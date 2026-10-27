@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 10 — Physical duck cinematography</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.45 system-ui, sans-serif; color: #28221d; background: #f1eee8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header, main { max-width: 1160px; margin: auto; padding: 1.25rem; }
+    h1 { margin: 0 0 .4rem; font-size: clamp(1.5rem, 4vw, 2.2rem); }
+    h2 { margin: 0 0 .5rem; font-size: 1.15rem; }
+    p { max-width: 75ch; }
+    .notice { border-left: 4px solid #805638; padding: .6rem .9rem; background: #fffaf0; }
+    .controls { display: flex; flex-wrap: wrap; gap: .75rem 1rem; margin: 1rem 0; }
+    fieldset { min-width: 0; border: 1px solid #b8afa3; border-radius: .5rem; padding: .55rem .75rem .7rem; }
+    legend { padding: 0 .25rem; font-weight: 700; }
+    label { display: inline-flex; align-items: center; gap: .3rem; margin: .15rem .55rem .15rem 0; }
+    input { accent-color: #725032; }
+    button { font: inherit; }
+    .stage { position: relative; min-height: 360px; height: min(56vw, 540px); overflow: hidden; border: 1px solid #a69b8d; border-radius: .7rem; isolation: isolate; background: #d8d3c8; }
+    .room { position: absolute; inset: 0; background: linear-gradient(#d5d0c6 0 65%, #a59582 65% 100%); transition: filter .2s; }
+    .window { position: absolute; top: 8%; left: 9%; width: 28%; height: 39%; background: #b9d2d7; border: 9px solid #eee5d5; box-shadow: inset 0 0 0 3px #9b8f7f; }
+    .window::before, .window::after { content: ""; position: absolute; background: #eee5d5; }
+    .window::before { width: 5px; height: 100%; left: calc(50% - 2px); }
+    .window::after { height: 5px; width: 100%; top: calc(55% - 2px); }
+    .sofa { position: absolute; left: 58%; bottom: 21%; width: 29%; height: 28%; border-radius: 18% 18% 8% 8%; background: #77776d; box-shadow: inset 0 16px #8a897e; }
+    .sofa::before, .sofa::after { content: ""; position: absolute; width: 8%; height: 35%; bottom: -22%; background: #5d5347; }
+    .sofa::before { left: 12%; } .sofa::after { right: 12%; }
+    .table { position: absolute; left: 24%; bottom: 14%; width: 43%; height: 10%; border-radius: 3px; background: #74553e; box-shadow: 0 12px #594332; }
+    .table::before, .table::after { content: ""; position: absolute; top: 96%; width: 5%; height: 120%; background: #594332; }
+    .table::before { left: 10%; } .table::after { right: 10%; }
+    .duck { position: absolute; width: 29%; height: 72%; left: 31%; bottom: 22%; display: grid; place-items: center; transform-origin: 50% 75%; transition: left .2s, bottom .2s, width .2s, height .2s; }
+    .duck svg { width: 100%; height: 100%; overflow: visible; }
+    .lighting { position: absolute; inset: 0; z-index: 2; pointer-events: none; transition: background .2s; }
+    .stage[data-light="neutral"] .lighting { background: rgb(255 247 227 / 5%); }
+    .stage[data-light="light"] .lighting { background: linear-gradient(115deg, rgb(255 245 205 / 24%), transparent 58%); }
+    .stage[data-light="dark"] .lighting { background: rgb(29 35 53 / 42%); }
+    .stage[data-shot="wide"] .duck { width: 21%; height: 56%; left: 36%; bottom: 20%; }
+    .stage[data-shot="medium"] .duck { width: 34%; height: 78%; left: 29%; bottom: 18%; }
+    .stage[data-shot="close"] .duck { width: 56%; height: 110%; left: 18%; bottom: 15%; }
+    .caption { position: absolute; z-index: 3; right: 1rem; bottom: .8rem; max-width: 38%; padding: .5rem .65rem; background: rgb(255 250 240 / 88%); border-radius: .35rem; }
+    .caption small { display: block; color: #51483e; }
+    .owner-notes { margin: 1rem 0 1.5rem; }
+    .owner-notes textarea { display: block; width: 100%; min-height: 5rem; margin-top: .4rem; font: 14px/1.4 ui-monospace, monospace; }
+    .owner-notes button { margin-top: .4rem; padding: .35rem .65rem; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: .75rem; }
+    .swatch { padding: .7rem; border: 1px solid #c0b7ab; border-radius: .55rem; background: #fffaf2; }
+    .swatch svg { display: block; width: min(100%, 230px); height: 165px; margin: .25rem auto; }
+    .swatch p { margin: .2rem 0 0; font-size: .9rem; }
+    .swatch h3 { margin: 0; font-size: 1rem; }
+    .duck-fill { fill: #f4bc32; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
+    .duck-shadow { fill: #d3941e; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
+    .duck-highlight { fill: none; stroke: #ffe27c; stroke-width: 9; stroke-linecap: round; }
+    .wing { fill: #e6a924; stroke: #4b241b; stroke-width: 6; stroke-linejoin: round; }
+    .beak { fill: #f36e2c; stroke: #4b241b; stroke-width: 7; stroke-linejoin: round; }
+    .eye { fill: #45251f; stroke: #4b241b; stroke-width: 5; }
+    .eye-glint { fill: #fff4d8; }
+    @media (max-width: 650px) { .stage { min-height: 310px; } .caption { max-width: 58%; font-size: .85rem; } .window { border-width: 5px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Plan 10 — Physical duck views and cinematic staging</h1>
+  <p class="notice"><strong>Review prototype:</strong> the physical companion is a solid, inanimate rubber toy. Controls switch static drawings, framing, and room lighting; the duck does not move or change expression. Captions are placeholders, not canonical dialogue.</p>
+</header>
+<main>
+  <section aria-labelledby="stage-heading">
+    <h2 id="stage-heading">Apartment conversation beat</h2>
+    <div class="controls">
+      <fieldset><legend>Static view</legend>
+        <label><input type="radio" name="view" value="front" checked> Front three-quarter</label>
+        <label><input type="radio" name="view" value="side"> Side profile</label>
+        <label><input type="radio" name="view" value="rear"> Rear three-quarter</label>
+        <label><input type="radio" name="view" value="high"> High angle</label>
+        <label><input type="radio" name="view" value="low"> Low angle</label>
+      </fieldset>
+      <fieldset><legend>Composition</legend>
+        <label><input type="radio" name="shot" value="wide" checked> Wide</label>
+        <label><input type="radio" name="shot" value="medium"> Medium</label>
+        <label><input type="radio" name="shot" value="close"> Close</label>
+      </fieldset>
+      <fieldset><legend>Room light</legend>
+        <label><input type="radio" name="light" value="neutral" checked> Neutral</label>
+        <label><input type="radio" name="light" value="light"> Window light</label>
+        <label><input type="radio" name="light" value="dark"> Dark</label>
+      </fieldset>
+    </div>
+    <div class="stage" id="stage" data-shot="wide" data-light="neutral">
+      <div class="room" aria-hidden="true"><div class="window"></div><div class="sofa"></div><div class="table"></div></div>
+      <div class="duck" id="duck" aria-label="Static physical rubber duck view"></div>
+      <div class="lighting" aria-hidden="true"></div>
+      <div class="caption"><strong>Player:</strong> [review caption]<small>Placeholder text; no new story mechanic.</small></div>
+    </div>
+    <p id="selection" aria-live="polite">Front three-quarter, wide, neutral light.</p>
+  </section>
+  <section class="owner-notes" aria-labelledby="notes-heading">
+    <h2 id="notes-heading">Copyable owner notes</h2>
+    <p>Shot IDs identify a view and apartment framing. Select the note text to copy it into review feedback.</p>
+    <textarea id="owner-notes" readonly aria-label="Copyable owner review note"></textarea>
+    <button type="button" id="select-notes">Select notes</button>
+  </section>
+  <section aria-labelledby="sheet-heading">
+    <h2 id="sheet-heading">Five-view model sheet</h2>
+    <p>Static projections of one toy. The D2-inspired yellow body, orange molded beak, dark brown outline, and near-side molded wing remain the visual anchors. This contact sheet is for checking view consistency, not selecting a new character design.</p>
+    <div class="swatches" id="swatches"></div>
+  </section>
+</main>
+<script>
+  const views = {
+    front: { label: 'Front three-quarter', note: 'Primary proportions and face placement.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Front three-quarter static duck"><path class="duck-fill" d="M73 190 Q61 156 87 127 L114 102 Q120 53 174 36 Q233 21 264 71 Q280 95 275 124 L310 143 Q329 160 319 199 Q310 235 259 239 L118 239 Q79 235 73 190Z"/><path class="duck-shadow" d="M82 185 Q128 211 190 208 Q246 209 301 184 Q314 210 282 229 Q247 241 117 234 Q86 228 82 185Z"/><path class="duck-highlight" d="M126 104 Q131 58 178 47 Q207 41 229 52"/><path class="wing" d="M206 159 Q241 138 274 147 Q292 154 289 175 Q282 196 250 202 Q220 204 201 190Z"/><path class="beak" d="M111 109 Q90 108 67 118 L42 120 Q29 127 39 139 L76 158 Q97 165 122 148 L143 131Z"/><ellipse class="eye" cx="166" cy="91" rx="13" ry="17"/><circle class="eye-glint" cx="162" cy="85" r="4"/><path d="M116 125 Q97 132 79 130" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
+    side: { label: 'Side profile', note: 'Eye and beak projection under compressed depth.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side profile static duck facing left"><path class="duck-fill" d="M89 215 Q63 197 75 160 Q88 125 126 112 Q134 61 188 48 Q242 35 271 78 Q290 105 278 140 Q322 148 328 181 Q337 217 294 232 Q243 249 135 239 Q105 235 89 215Z"/><path class="duck-shadow" d="M83 193 Q151 217 223 212 Q281 211 316 190 Q324 218 292 231 Q242 248 135 238 Q99 233 83 193Z"/><path class="duck-highlight" d="M143 107 Q148 63 190 58 Q219 53 239 68"/><path class="wing" d="M181 159 Q221 142 260 153 Q279 163 269 183 Q251 204 208 201 Q183 193 181 159Z"/><path class="beak" d="M119 120 Q88 112 60 116 L30 126 Q21 137 34 146 L84 160 Q108 162 130 145Z"/><ellipse class="eye" cx="145" cy="101" rx="12" ry="16"/><circle class="eye-glint" cx="141" cy="95" r="4"/><path d="M76 132 Q55 137 37 135" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
+    rear: { label: 'Rear three-quarter', note: 'Wing and body contour as the face recedes.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Rear three-quarter static duck facing away"><path class="duck-fill" d="M82 194 Q69 158 98 126 Q119 103 133 84 Q149 41 201 37 Q251 37 274 77 Q293 111 276 142 Q319 160 315 196 Q308 232 263 239 L117 238 Q90 231 82 194Z"/><path class="duck-shadow" d="M88 192 Q141 211 200 208 Q257 209 302 187 Q317 214 278 232 Q236 244 119 236 Q94 231 88 192Z"/><path class="duck-highlight" d="M151 77 Q168 47 204 48 Q235 48 251 68"/><path class="wing" d="M155 143 Q190 124 231 137 Q259 146 254 174 Q248 201 207 208 Q173 205 155 181Z"/><path d="M285 130 Q305 136 321 153 Q329 164 317 171 Q301 174 282 160Z" fill="#f4bc32" stroke="#4b241b" stroke-width="7" stroke-linejoin="round"/><path d="M127 116 Q143 128 157 132" fill="none" stroke="#4b241b" stroke-width="6" stroke-linecap="round"/></svg>` },
+    high: { label: 'High angle', note: 'Head/body overlap and top silhouette.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="High angle static duck"><path class="duck-fill" d="M46 169 Q46 118 95 93 Q112 31 181 29 Q254 28 275 90 Q320 115 319 168 Q319 219 257 233 Q183 249 101 229 Q48 214 46 169Z"/><path class="duck-shadow" d="M52 180 Q121 200 183 199 Q254 198 312 176 Q308 216 256 231 Q180 248 102 228 Q61 216 52 180Z"/><path class="duck-highlight" d="M119 85 Q135 43 181 42 Q221 42 243 65"/><path class="wing" d="M197 142 Q234 119 275 138 Q297 151 286 177 Q269 195 229 190 Q203 183 197 142Z"/><path class="beak" d="M98 112 Q71 99 47 103 L25 115 Q19 128 32 136 L79 151 Q100 150 119 134Z"/><ellipse class="eye" cx="147" cy="85" rx="12" ry="15"/><circle class="eye-glint" cx="143" cy="80" r="4"/><path d="M70 120 Q50 123 34 119" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
+    low: { label: 'Low angle', note: 'Underside contour, occlusion, and outline.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Low angle static duck"><path class="duck-fill" d="M63 129 Q79 96 127 95 Q146 41 198 44 Q249 46 267 92 Q311 106 322 147 Q329 194 277 215 Q221 239 131 226 Q76 219 61 181 Q50 154 63 129Z"/><path class="duck-shadow" d="M65 160 Q134 177 207 172 Q277 169 319 146 Q329 189 279 213 Q225 237 132 225 Q76 217 65 183Z"/><path class="duck-highlight" d="M147 91 Q160 56 199 57 Q229 58 246 76"/><path class="wing" d="M195 132 Q229 112 265 126 Q285 137 276 159 Q259 179 223 180 Q201 172 195 132Z"/><path class="beak" d="M125 111 Q95 104 68 112 L44 124 Q39 137 53 145 L99 153 Q120 152 139 134Z"/><ellipse class="eye" cx="157" cy="88" rx="12" ry="15"/><circle class="eye-glint" cx="153" cy="83" r="4"/><path d="M86 127 Q66 133 49 130" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` }
+  };
+  const stage = document.querySelector('#stage');
+  const duck = document.querySelector('#duck');
+  const selection = document.querySelector('#selection');
+  let selectedView = 'front', selectedShot = 'wide', selectedLight = 'neutral';
+  const viewIds = { front:'P10-V01', side:'P10-V02', rear:'P10-V03', high:'P10-V04', low:'P10-V05' };
+  const shotIds = { wide:'P10-C01', medium:'P10-C02', close:'P10-C03' };
+  const lightLabels = { neutral:'neutral', light:'window', dark:'dark' };
+  function update() {
+    duck.innerHTML = views[selectedView].svg;
+    stage.dataset.shot = selectedShot;
+    stage.dataset.light = selectedLight;
+    selection.textContent = `${viewIds[selectedView]} / ${shotIds[selectedShot]} — ${views[selectedView].label}, ${selectedShot}, ${lightLabels[selectedLight]} light.`;
+    document.querySelector('#owner-notes').value = `Plan 10 review — ${viewIds[selectedView]} / ${shotIds[selectedShot]}\nView: ${views[selectedView].label}\nComposition: ${selectedShot}\nLighting: ${lightLabels[selectedLight]}\nReview focus: same-object silhouette, molded features, overlap, material, and framing. Emotional interpretation belongs to owner feedback.`;
+  }
+  document.querySelectorAll('input[name="view"]').forEach(el => el.addEventListener('change', () => { selectedView = el.value; update(); }));
+  document.querySelectorAll('input[name="shot"]').forEach(el => el.addEventListener('change', () => { selectedShot = el.value; update(); }));
+  document.querySelectorAll('input[name="light"]').forEach(el => el.addEventListener('change', () => { selectedLight = el.value; update(); }));
+  document.querySelector('#swatches').innerHTML = Object.entries(views).map(([id, view]) => `<article class="swatch"><h3>${viewIds[id]} · ${view.label}</h3>${view.svg}<p>${view.note}</p></article>`).join('');
+  document.querySelector('#select-notes').addEventListener('click', () => document.querySelector('#owner-notes').select());
+  update();
+</script>
+</body>
+</html>

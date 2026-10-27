@@ -1,0 +1,79 @@
+{
+  "testDate": "2026-10-27T00:47:18.284Z",
+  "cases": [
+    {
+      "name": "batch_duplicates_produce_unique_acquisitions",
+      "pass": true,
+      "observedQueued": [
+        "duck-0",
+        "duck-1",
+        "duck-2"
+      ],
+      "totalPacingSeconds": 14,
+      "details": "Duplicate cards in the same batch produced 0 duplicate acquisitions. Exactly 3 new identities queued."
+    },
+    {
+      "name": "pacing_budget_ten_new_identities",
+      "pass": true,
+      "totalPacingSeconds": 45.5,
+      "targetBand": "40-50s",
+      "withinTargetBand": true,
+      "details": "10 new identities require exactly 45.5s of presentation time, confirming Plan 21's 40-50s projection."
+    },
+    {
+      "name": "fast_pull_instant_resolution",
+      "pass": true,
+      "totalPacingSeconds": 0,
+      "skipLogged": true,
+      "details": "Fast-pull completed all acquisitions with 0ms waiting time and logged truthful skip actions."
+    },
+    {
+      "name": "mid_sequence_skip_resolution",
+      "pass": true,
+      "totalPacingSeconds": 4.5,
+      "logSummary": [
+        "duck_dex_acquisition",
+        "acquisition_presentation_skipped"
+      ],
+      "details": "Skipping after 1 item presented the first duck honestly and resolved remaining 2 without delay."
+    },
+    {
+      "name": "reduced_motion_discrete_state",
+      "pass": true,
+      "totalPacingSeconds": 0,
+      "details": "Reduced motion produced immediate static completion with 0ms delay and static cue logged."
+    },
+    {
+      "name": "reload_idempotency_no_duplicate_presentation",
+      "pass": true,
+      "observedQueued": [
+        "duck-2"
+      ],
+      "details": "Reloading with persisted seenDexEntries prevents re-animating previously seen ducks. Only newly acquired duck-2 was queued."
+    },
+    {
+      "name": "unrevealed_draws_stay_hidden",
+      "pass": true,
+      "details": "Unrevealed legendary duck-5 remained completely hidden and was not enqueued in presentation."
+    },
+    {
+      "name": "completion_pressure_receipt_projection_conformance",
+      "pass": true,
+      "cueStructure": {
+        "type": "cue_shown",
+        "cueId": "completion_pressure",
+        "technique": "completion_pressure",
+        "setProgress": [
+          {
+            "set": "Pond of Destiny",
+            "owned": 4,
+            "total": 6
+          }
+        ],
+        "incompleteSets": 1
+      },
+      "details": "Completion pressure cue format conforms identically to src/core/receipt.mjs line 128 expectation."
+    }
+  ],
+  "allPassed": true
+}

@@ -1,9 +1,10 @@
 import * as baselineModel from './baseline-model.mjs';
 import * as candidateModel from './candidate-model.mjs';
+import * as individualFinishModel from './individual-finish-model.mjs';
 import { createDigitalDuckSvg } from '../../../../src/ui/duck-rig-view.mjs';
 import { createDuckMotionController } from '../../../../src/ui/duck-motion-controller.mjs';
 
-const { buildPresentationPlan, interpolateSnapshot, raceFingerprint, raceFractionAtWallClock, rankFromSnapshot } = baselineModel;
+const { buildPresentationPlan, interpolateSnapshot, raceFingerprint, rankFromSnapshot } = baselineModel;
 
 const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
@@ -14,6 +15,8 @@ const OSCillation = matchMedia('(prefers-reduced-motion: reduce)');
 let state;
 let raf = 0;
 let running = false;
+let podiumAnimation = null;
+let lightingAnimation = null;
 let startedAt = 0;
 let elapsedBeforePause = 0;
 let reduced = OSCillation.matches;
@@ -71,7 +74,7 @@ function freshState(resolution) {
     finish: resolution.finish,
     experiment: resolution.experiment,
     fixtureLabel: `${preset?.id ?? 'race'} · ${modeLabel(mode)} · ${resolution.seed} · race ${resolution.raceId}`,
-    presentationPlan: buildPresentationPlan(resolution, currentPresentationSettings()),
+    presentationPlan: presentationPlanFor(resolution),
     cursorTick: 0,
     checkpointIndex: 0,
     selectedEventId: null,
@@ -79,14 +82,36 @@ function freshState(resolution) {
     loggedCueForReplay: new Set(),
     presentationLog: [],
     replayNumber: 0,
+    podiumAppearanceCount: 0,
+    podiumVisible: false,
     started: false,
     finished: false,
   };
 }
 
+function presentationPlanFor(resolution) {
+  const base = buildPresentationPlan(resolution, currentPresentationSettings());
+  const hasIndividualFinish = resolution.rulesVersion === individualFinishModel.PHYSICS.version && resolution.status === 'finished';
+  const duration = hasIndividualFinish ? resolution.lastFinishTimeSeconds : base.duration;
+  const simulationWallSeconds = duration + base.highlightSeconds;
+  const winnerFraction = hasIndividualFinish ? clamp(resolution.finishTimeSeconds / resolution.horizonSeconds, 0, 1) : 0.5;
+  const highlightStartFraction = hasIndividualFinish ? clamp(winnerFraction - 0.03, 0, 0.94) : 0.47;
+  return { ...base, duration, simulationWallSeconds, highlightStartFraction,
+    highlightEndFraction: highlightStartFraction + 0.06,
+    resultRevealSeconds: hasIndividualFinish ? 1 : 0,
+    totalWallSeconds: simulationWallSeconds + (hasIndividualFinish ? 1 : 0) };
+}
+
 function modeLabel(mode) {
   return ({ baseline: 'affine baseline', R2combined: 'current Sprint + R2 combined',
-    'R2combined-risk-only': 'selected candidate · Sprint mean ×1.00 ±20%' })[mode] ?? mode;
+    'R2combined-risk-only': 'selected candidate · Sprint mean ×1.00 ±20%',
+    'plan23-individual-crossing': 'selected candidate · individual crossing order' })[mode] ?? mode;
+}
+
+function activeModel() {
+  const mode = $('mode').value;
+  return mode === 'baseline' ? baselineModel
+    : mode === 'plan23-individual-crossing' ? individualFinishModel : candidateModel;
 }
 
 function currentPresentationSettings() {
@@ -100,23 +125,27 @@ function currentPresentationSettings() {
 
 function resolveOutcomes() {
   stopPlayback();
+  hidePodium();
   clearRaceMotions();
   elapsedBeforePause = 0;
   const input = inputFromControls();
   const mode = $('mode').value;
   if (mode !== 'baseline') {
-    input.dramaArm = mode;
-    input.studySprintMean = mode === 'R2combined-risk-only' ? 1.0 : 1.1;
+    input.dramaArm = mode === 'plan23-individual-crossing' ? 'R2combined-risk-only' : mode;
+    input.studySprintMean = ['R2combined-risk-only', 'plan23-individual-crossing'].includes(mode) ? 1.0 : 1.1;
   }
-  const resolution = mode === 'baseline'
-    ? baselineModel.resolveSeededRace(input)
-    : candidateModel.resolveSeededRace(input);
+  const resolution = activeModel().resolveSeededRace(input);
   state = freshState(resolution);
   $('race-svg').dataset.resolutionFingerprint = raceFingerprint(resolution);
   $('runner-layer').replaceChildren();
   $('race-status').textContent = resolution.status === 'finished'
-    ? `${modeLabel(mode)} resolved once · first line crossing at ${resolution.finishTimeSeconds.toFixed(2)}s · ${resolution.draws.total} keyed mechanic draws.`
-    : `Race unresolved · ${resolution.unresolvedReason} · no winner or payout · ${resolution.draws.total} keyed mechanic draws.`;
+    ? `${modeLabel(mode)} resolved once · first line crossing at ${resolution.finishTimeSeconds.toFixed(2)}s${resolution.lastFinishTimeSeconds ? ` · last at ${resolution.lastFinishTimeSeconds.toFixed(2)}s` : ''} · ${resolution.draws.total} keyed mechanic draws.`
+    : resolution.rulesVersion === individualFinishModel.PHYSICS.version
+      ? `Race unresolved · ${resolution.unresolvedReason} · no final places or payout · ${resolution.draws.total} keyed mechanic draws.`
+      : `Race unresolved · ${resolution.unresolvedReason} · no winner or payout · ${resolution.draws.total} keyed mechanic draws.`;
+  $('race-boundary').textContent = resolution.rulesVersion === individualFinishModel.PHYSICS.version
+    ? 'All six ducks receive their own genuine forward finish-line crossing and actual crossing order. A completed field may receive places and Gems; any unresolved entrant leaves the whole result unplaced.'
+    : 'Six ducks start in the accepted two-lane grid. This comparison ends at the earliest interpolated forward finish-line crossing and classifies followers at that same instant. Recorded duck and wall contacts alter paths; only those events trigger impact/recovery motion.';
   $('event-list').replaceChildren();
   $('event-caption').textContent = '';
   $('scene-description').textContent = 'Race starts from the committed grid. Only recorded contacts trigger impact/recovery motion; event captions follow the committed event records.';
@@ -151,24 +180,34 @@ function renderSummary(revealFinish = state.finished) {
   const trialText = r.trialConsumptionCount ? ' · Plan 17 +5% base-speed trial applied once' : '';
   const preset = presetById.get($('scenario').value);
   const stanceText = $('choice').value === 'sprint'
-    ? `Sprint sampling · mean ×${$('mode').value === 'R2combined-risk-only' ? '1.00' : '1.10'} with ±20% keyed spread`
+    ? `Sprint sampling · mean ×${['R2combined-risk-only', 'plan23-individual-crossing'].includes($('mode').value) ? '1.00' : '1.10'} with ±20% keyed spread`
     : 'Safe sampling · ±5% keyed spread';
+  const individualFinish = r.rulesVersion === individualFinishModel.PHYSICS.version;
   const simText = r.status === 'finished'
-    ? `first line crossing ${r.finishTimeSeconds.toFixed(2)}s`
+    ? individualFinish ? `first crossing ${r.finishTimeSeconds.toFixed(2)}s; last crossing ${r.lastFinishTimeSeconds.toFixed(2)}s`
+      : `first line crossing ${r.finishTimeSeconds.toFixed(2)}s`
     : `unresolved at ${r.horizonSeconds.toFixed(2)}s (${r.unresolvedReason})`;
-  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelText} · authored rating ${preset?.playerBaseSpeed ?? '?'} × rest factor ${preset?.restFactor ?? '?'} · ${stanceText} · ${simText}${timeBonus ? ` + ${timeBonus}s playback highlight` : ''} = ${(r.horizonSeconds + timeBonus).toFixed(2)}s max playback${trialText}`;
+  const coastText = individualFinish ? ' + 1s visual coast with overlapping 1s podium reveal' : '';
+  $('finish-summary').textContent = `${state.fixtureLabel} · ${modelText} · authored rating ${preset?.playerBaseSpeed ?? '?'} × rest factor ${preset?.restFactor ?? '?'} · ${stanceText} · ${simText}${timeBonus ? ` + ${timeBonus}s playback highlight` : ''}${coastText} · ${state.presentationPlan.totalWallSeconds.toFixed(2)}s full playback${trialText}`;
   $('finish-order').replaceChildren();
   if (!revealFinish) {
     const item = document.createElement('li');
     item.textContent = `Result hidden during playback. ${r.eventRecords.length} mechanical event${r.eventRecords.length === 1 ? ' is' : 's are'} committed; they are revealed as playback reaches them.`;
     $('finish-order').append(item);
   } else if (r.status !== 'finished') {
-    const item = document.createElement('li'); item.textContent = `Unresolved · ${r.unresolvedReason} · no winner or payout.`; $('finish-order').append(item);
+    const item = document.createElement('li');
+    item.textContent = individualFinish
+      ? `Unresolved · ${r.unresolvedReason} · ${r.finishCrossings?.length ?? 0} ducks crossed, but no final places or payouts are issued unless every duck crosses.`
+      : `Unresolved · ${r.unresolvedReason} · no winner or payout.`;
+    $('finish-order').append(item);
   } else {
     for (const entrant of state.finish) {
       const item = document.createElement('li');
       const suffix = entrant.place === 1 ? 'st' : entrant.place === 2 ? 'nd' : entrant.place === 3 ? 'rd' : 'th';
-      const crossing = entrant.crossedAtFinish ? `crossed at ${entrant.crossingTimeSeconds.toFixed(2)}s` : `position at winner time`;
+      const crossing = entrant.crossedAtFinish
+        ? `crossed at ${entrant.crossingTimeSeconds.toFixed(2)}s`
+        : individualFinish ? `crossed at ${entrant.crossingTimeSeconds.toFixed(2)}s`
+          : 'position at winner time';
       item.textContent = `${entrant.name} · ${entrant.progress.toFixed(1)} m · ${entrant.place}${suffix} · ${crossing} · ${entrant.payout} Gems`;
       $('finish-order').append(item);
     }
@@ -294,6 +333,7 @@ function renderEventList() {
 }
 
 function seekToEvent(event, button) {
+  hidePodium();
   pauseAtTick(event.tick, `Paused at ${displayTime(event)} · post-event state.`);
   state.selectedEventId = event.id;
   $('event-caption').textContent = commentaryForEvent(event, state.entrants);
@@ -344,8 +384,6 @@ function makeNode(entrant) {
   entrant.motionShell = foreign.querySelector('.race-duck-shell');
   entrant.motionOrientation = foreign.querySelector('.race-orientation');
 }
-
-function activeModel() { return $('mode').value === 'baseline' ? baselineModel : candidateModel; }
 
 function stopEntrantMotion(id) {
   motionControllers.get(id)?.destroy();
@@ -447,13 +485,31 @@ function renderRunners(tickFloat) {
   const ranked = rankFromSnapshot(snap, state.resolution);
   const leaderIds = new Set(ranked.slice(0, 2).map((row) => row.id));
   const model = activeModel();
+  const crossingRows = state.resolution.finish.length ? state.resolution.finish : (state.resolution.finishCrossings ?? []);
+  const raceSeconds = state.cursorTick * state.resolution.dt;
+  const lastFinishSeconds = state.resolution.lastFinishTimeSeconds ?? raceSeconds;
+  const coastClock = state.resultRevealStarted || state.finished
+    ? lastFinishSeconds + (state.resultRevealProgress ?? (state.finished ? 1 : 0)) : raceSeconds;
   for (const entrant of state.entrants) {
     const position = snap.entrants.find((row) => row.id === entrant.id);
     if (!entrant.node) makeNode(entrant);
-    const x = 450 + position.x * PX_PER_METER;
-    const y = 250 + position.y * PX_PER_METER;
+    const crossing = state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+      ? crossingRows.find((item) => item.id === entrant.id) : null;
+    const coastFraction = crossing ? clamp((coastClock - crossing.crossingTimeSeconds) / 1, 0, 1) : 0;
+    const crossingPosition = crossing?.crossingPosition ?? crossing;
+    const crossingX = crossingPosition?.x ?? crossing?.crossingX;
+    const crossingY = crossingPosition?.y ?? crossing?.crossingY;
+    const crossingHeading = crossing?.crossingHeading ?? crossingPosition?.heading ?? position.heading;
+    const crossingSpeed = crossing?.crossingSpeed ?? crossingPosition?.speed ?? position.speed;
+    const coastDistance = crossingSpeed * (coastFraction - coastFraction * coastFraction / 2);
+    const positionX = crossing && coastFraction > 0 && Number.isFinite(crossingX)
+      ? crossingX + Math.cos(crossingHeading) * coastDistance : position.x;
+    const positionY = crossing && coastFraction > 0 && Number.isFinite(crossingY)
+      ? crossingY + Math.sin(crossingHeading) * coastDistance : position.y;
+    const x = 450 + positionX * PX_PER_METER;
+    const y = 250 + positionY * PX_PER_METER;
     entrant.node.setAttribute('transform', `translate(${x.toFixed(2)} ${y.toFixed(2)})`);
-    const steeringYaw = model.raceHeadingError(position.progress, position.heading) * 180 / Math.PI;
+    const steeringYaw = model.raceHeadingError(position.progress, coastFraction ? crossingHeading : position.heading) * 180 / Math.PI;
     entrant.motionOrientation.style.transform = `perspective(180px) rotateY(${model.raceDuckYaw(position.progress).toFixed(2)}deg) rotateZ(${steeringYaw.toFixed(2)}deg)`;
     const contact = !reduced ? recordedContactAt(entrant, state.cursorTick) : null;
     const role = contact ? `impact:${contact.id}` : leaderIds.has(entrant.id) ? 'graceful-bob' : 'paddle';
@@ -512,19 +568,46 @@ function smoothCloseZoom(fraction) {
 function smoothstep(value) { return value * value * (3 - 2 * value); }
 
 function playbackFraction() {
-  return raceFractionAtWallClock(elapsedBeforePause / 1000, {
-    duration: state.presentationPlan.duration,
-    highlightSeconds: state.presentationPlan.highlightSeconds,
-  });
+  return raceFractionAtPlanWallClock(elapsedBeforePause / 1000, state.presentationPlan);
+}
+
+function wallClockAtPlanFraction(fraction, plan) {
+  const f = clamp(fraction, 0, 1);
+  const { duration, highlightSeconds } = plan;
+  const start = plan.highlightStartFraction ?? .47;
+  const end = plan.highlightEndFraction ?? .53;
+  if (!highlightSeconds) return f * duration;
+  const slowedWallSpan = duration * (end - start) + highlightSeconds;
+  if (f <= start) return f * duration;
+  if (f <= end) return start * duration + ((f - start) / (end - start)) * slowedWallSpan;
+  return start * duration + slowedWallSpan + (f - end) * duration;
+}
+
+function raceFractionAtPlanWallClock(elapsedSeconds, plan) {
+  const { duration, highlightSeconds } = plan;
+  const start = plan.highlightStartFraction ?? .47;
+  const end = plan.highlightEndFraction ?? .53;
+  const elapsed = clamp(elapsedSeconds, 0, duration + highlightSeconds);
+  if (!highlightSeconds) return elapsed / duration;
+  const baseStart = start * duration;
+  const slowedWallSpan = duration * (end - start) + highlightSeconds;
+  const baseEnd = baseStart + slowedWallSpan;
+  if (elapsed <= baseStart) return elapsed / duration;
+  if (elapsed < baseEnd) return start + ((elapsed - baseStart) / slowedWallSpan) * (end - start);
+  return Math.min(1, end + (elapsed - baseEnd) / duration);
 }
 
 function tick(now) {
   if (!running || !state) return;
   const elapsed = elapsedBeforePause + now - startedAt;
   const total = state.presentationPlan.totalWallSeconds * 1000;
-  const fraction = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan);
+  const fraction = raceFractionAtPlanWallClock(elapsed / 1000, state.presentationPlan);
   const currentTick = fraction * state.resolution.ticks;
+  state.resultRevealProgress = state.presentationPlan.resultRevealSeconds
+    ? clamp((elapsed - state.presentationPlan.simulationWallSeconds) / (state.presentationPlan.resultRevealSeconds * 1000), 0, 1)
+    : 0;
   renderRunners(currentTick);
+  if (state.presentationPlan.resultRevealSeconds && elapsed >= state.presentationPlan.simulationWallSeconds) startResultReveal();
   revealReachedEvents(currentTick);
   $('race-status').textContent = `Race playing · ${(elapsed / 1000).toFixed(1)} / ${state.presentationPlan.totalWallSeconds}s playback · simulation ${currentTick.toFixed(1)} / ${state.resolution.ticks} ticks.`;
   if (elapsed >= total) { finishRace('finish'); return; }
@@ -534,31 +617,27 @@ function tick(now) {
 function stopPlayback() {
   running = false; cancelAnimationFrame(raf);
   for (const controller of motionControllers.values()) controller.setActive(false);
+  if (podiumAnimation?.playState === 'running') podiumAnimation.pause();
+  if (lightingAnimation?.playState === 'running') lightingAnimation.pause();
   $('play').disabled = false; $('pause').disabled = true;
 }
 
 function pauseAtTick(tick, status) {
   stopPlayback();
   state.cursorTick = clamp(tick, 0, state.resolution.ticks);
-  elapsedBeforePause = wallClockAtFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
+  elapsedBeforePause = wallClockAtPlanFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
   revealReachedEvents(state.cursorTick);
   $('race-status').textContent = status;
   renderRunners(state.cursorTick);
   updateControls();
 }
 
-function wallClockAtFraction(fraction, plan) {
-  const { duration, highlightSeconds } = plan;
-  if (!highlightSeconds) return fraction * duration;
-  if (fraction <= 0.47) return fraction * duration;
-  if (fraction <= 0.53) return duration * 0.47 + ((fraction - 0.47) / 0.06) * (duration * 0.06 + highlightSeconds);
-  return duration * 0.53 + highlightSeconds + (fraction - 0.53) * duration;
-}
-
 function startPlayback() {
   if (!state || running || state.finished) return;
   if (reduced) { nextCheckpoint(); return; }
   running = true; startedAt = performance.now();
+  if (podiumAnimation?.playState === 'paused') podiumAnimation.play();
+  if (lightingAnimation?.playState === 'paused') lightingAnimation.play();
   for (const controller of motionControllers.values()) controller.setActive(true);
   state.started = true;
   $('play').disabled = true; $('pause').disabled = false;
@@ -574,18 +653,184 @@ function finishRace(reason) {
   $('race-status').textContent = reason === 'skip'
     ? 'Skipped to results · full committed summary revealed; no mechanics or RNG rerun.'
     : state.resolution.status === 'finished'
-      ? `Finish line · ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)}s.`
-      : `Race unresolved · ${state.resolution.unresolvedReason}; no winner or payout.`;
+      ? state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+        ? `Race complete · all ducks crossed; ${state.finish[0].name} finished first at ${state.resolution.finishTimeSeconds.toFixed(2)}s and the last duck crossed at ${state.resolution.lastFinishTimeSeconds.toFixed(2)}s.`
+        : `Finish line · ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)}s.`
+      : state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+        ? `Race unresolved · ${state.resolution.unresolvedReason}; no final places or payout.`
+        : `Race unresolved · ${state.resolution.unresolvedReason}; no winner or payout.`;
   $('narrative-status').textContent = `Full race summary · all ${state.resolution.eventRecords.length} committed events are available.`;
   $('scene-description').textContent = state.resolution.status === 'finished'
-    ? `Race complete. ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)} seconds; remaining places are classified at that same crossing time.`
-    : `Race unresolved at ${state.resolution.horizonSeconds.toFixed(2)} seconds. No winner or payout was recorded.`;
+    ? state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+      ? `Race complete. All ducks crossed the finish line in recorded order. ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)} seconds; the final duck crossed at ${state.resolution.lastFinishTimeSeconds.toFixed(2)} seconds.`
+      : `Race complete. ${state.finish[0].name} crossed first at ${state.resolution.finishTimeSeconds.toFixed(2)} seconds; remaining places are classified at that same crossing time.`
+    : state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+      ? `Race unresolved at ${state.resolution.horizonSeconds.toFixed(2)} seconds. No final places or payout were recorded.`
+      : `Race unresolved at ${state.resolution.horizonSeconds.toFixed(2)} seconds. No winner or payout was recorded.`;
   appendPresentationRecord(reason === 'skip' ? 'skip to results' : 'race finished');
   if (!$('race-narrative').hidden) renderEventList();
+  if (reason === 'skip' || reduced) {
+    state.skipReveal = reason === 'skip';
+    showPodium({ animate: false });
+    if (state.resolution.status === 'finished') settleResultLighting();
+    state.skipReveal = false;
+  } else if (!state.presentationPlan.resultRevealSeconds) showPodium({ animate: true });
   updateControls();
 }
 
+function safeHtml(text) {
+  return String(text ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+}
+
+function stablePodiumHash(value) {
+  let hash = 2166136261;
+  for (const character of value) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+  return (hash >>> 0).toString(16).padStart(8, '0');
+}
+
+function podiumOrdinal(place) {
+  if (place % 100 >= 11 && place % 100 <= 13) return `${place}th`;
+  return `${place}${place % 10 === 1 ? 'st' : place % 10 === 2 ? 'nd' : place % 10 === 3 ? 'rd' : 'th'}`;
+}
+
+function payoutLabel(entrant) {
+  return Number.isFinite(Number(entrant.payout)) ? `${Number(entrant.payout)} Gems` : 'Payout pending';
+}
+
+function buildPodium() {
+  const layer = $('podium-layer');
+  layer.replaceChildren();
+  const finishers = [...state.finish].sort((a, b) => a.place - b.place);
+  if (state.resolution.status !== 'finished' || finishers.length < 3) return false;
+
+  const namespace = `qp23-podium-${stablePodiumHash(raceFingerprint(state.resolution))}`;
+  const positions = {
+    1: { x: 390, top: 354, duckY: 238 },
+    2: { x: 270, top: 389, duckY: 274 },
+    3: { x: 510, top: 408, duckY: 292 },
+  };
+  const palette = { 1: '#b28b45', 2: '#718d98', 3: '#91765e' };
+  const steps = document.createElementNS(NS, 'g');
+  steps.setAttribute('class', 'podium-plinths');
+  for (const place of [2, 1, 3]) {
+    const { x, top } = positions[place];
+    const group = document.createElementNS(NS, 'g');
+    group.setAttribute('id', `${namespace}-plinth-${place}`);
+    group.setAttribute('class', `podium-plinth podium-plinth-${place}`);
+    const face = document.createElementNS(NS, 'rect');
+    face.setAttribute('x', String(x)); face.setAttribute('y', String(top + 12)); face.setAttribute('width', '120'); face.setAttribute('height', String(466 - top));
+    face.setAttribute('rx', '3'); face.setAttribute('fill', palette[place]); face.setAttribute('class', 'podium-plinth-face');
+    const topFace = document.createElementNS(NS, 'path');
+    topFace.setAttribute('d', `M ${x} ${top + 12} l 18 -12 h 84 l 18 12 z`);
+    topFace.setAttribute('fill', '#f3eee2'); topFace.setAttribute('class', 'podium-plinth-top');
+    group.append(face, topFace);
+    for (let layerIndex = 1; layerIndex <= 3; layerIndex += 1) {
+      const edge = document.createElementNS(NS, 'path');
+      const y = top + 23 + layerIndex * 12;
+      edge.setAttribute('d', `M ${x + 2} ${y} h 116`);
+      edge.setAttribute('class', `podium-paper-edge podium-paper-edge-${layerIndex}`);
+      group.append(edge);
+    }
+    steps.append(group);
+  }
+  layer.append(steps);
+
+  for (const place of [2, 1, 3]) {
+    const entrant = finishers.find((item) => item.place === place);
+    if (!entrant) continue;
+    const { x, top, duckY } = positions[place];
+    const foreign = document.createElementNS(NS, 'foreignObject');
+    foreign.setAttribute('x', String(x - 4)); foreign.setAttribute('y', String(duckY));
+    foreign.setAttribute('width', '128'); foreign.setAttribute('height', String(top + 68 - duckY));
+    foreign.setAttribute('class', 'podium-entrant-art');
+    const prefix = `${namespace}-duck-${entrant.id.toLowerCase()}-${place}`;
+    const ordinal = podiumOrdinal(place);
+    const you = entrant.player ? '<span class="podium-you">YOU</span>' : '';
+    foreign.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" class="podium-card podium-card-${place}">
+      <div class="podium-duck">${createDigitalDuckSvg({ prefix, label: `${entrant.name}, ${ordinal} place podium duck`, palette: PALETTES_BY_ID[entrant.id] ?? 'classic-yellow', paperMode: 'hybrid' })}</div>
+      <div class="podium-card-label"><strong>${ordinal} place</strong>${you}<span class="podium-name">${safeHtml(entrant.name)}</span><span class="podium-gems">${safeHtml(payoutLabel(entrant))}</span></div>
+    </div>`;
+    layer.append(foreign);
+  }
+
+  const summary = $('podium-summary');
+  summary.replaceChildren();
+  const heading = document.createElement('h3'); heading.textContent = 'Final podium and race payouts'; summary.append(heading);
+  const list = document.createElement('ol');
+  for (const entrant of finishers) {
+    const item = document.createElement('li');
+    item.textContent = `${podiumOrdinal(entrant.place)} place: ${entrant.name}; ${payoutLabel(entrant)}.${entrant.player ? ' You.' : ''}`;
+    list.append(item);
+  }
+  summary.append(list); summary.hidden = false;
+  const player = finishers.find((entrant) => entrant.player);
+  const playerNote = $('podium-player-note');
+  playerNote.textContent = player && player.place > 3
+    ? `YOU · ${podiumOrdinal(player.place)} place · ${payoutLabel(player)}`
+    : '';
+  playerNote.hidden = !playerNote.textContent;
+  return true;
+}
+
+function showPodium({ animate = false } = {}) {
+  if (!state) return;
+  if (state.podiumVisible) {
+    if (!animate && podiumAnimation && podiumAnimation.playState !== 'finished') podiumAnimation.finish();
+    return;
+  }
+  if (!buildPodium()) return;
+  const layer = $('podium-layer');
+  state.podiumVisible = true;
+  state.podiumAppearanceCount += 1;
+  layer.setAttribute('visibility', 'visible');
+  appendPresentationRecord('podium shown', { replayIndex: state.replayNumber, appearance: state.podiumAppearanceCount,
+    presentation: animate ? 'animated descent' : 'settled view', skippedMotion: Boolean(state.skipReveal) });
+  if (animate && !reduced && typeof layer.animate === 'function') {
+    podiumAnimation = layer.animate([
+      { transform: 'translateY(-190px)', opacity: 0 },
+      { transform: 'translateY(0)', opacity: 1 },
+    ], { duration: 1000, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'both' });
+    podiumAnimation.onfinish = () => updateControls();
+  }
+}
+
+function startResultReveal() {
+  if (!state || state.resultRevealStarted || state.resolution.status !== 'finished') return;
+  state.resultRevealStarted = true;
+  showPodium({ animate: !reduced });
+  const stage = $('stage-shell');
+  stage.classList.add('result-reveal');
+  const layer = $('result-lighting');
+  if (!reduced && typeof layer.animate === 'function') {
+    lightingAnimation = layer.animate([{ opacity: 0 }, { opacity: .34 }],
+      { duration: 1000, easing: 'ease-out', fill: 'forwards' });
+  } else layer.setAttribute('opacity', '.34');
+  appendPresentationRecord('podium and finish lighting reveal started', {
+    tick: state.resolution.ticks, lastFinishTimeSeconds: state.resolution.lastFinishTimeSeconds,
+    coastSeconds: 1, podiumSeconds: 1,
+  });
+}
+
+function settleResultLighting() {
+  $('stage-shell').classList.add('result-reveal');
+  const layer = $('result-lighting');
+  lightingAnimation?.finish();
+  if (layer) layer.setAttribute('opacity', '.34');
+}
+
+function hidePodium() {
+  podiumAnimation?.cancel(); podiumAnimation = null;
+  lightingAnimation?.cancel(); lightingAnimation = null;
+  $('stage-shell')?.classList.remove('result-reveal');
+  $('result-lighting')?.removeAttribute('opacity');
+  $('podium-layer')?.replaceChildren(); $('podium-layer')?.setAttribute('visibility', 'hidden');
+  if ($('podium-summary')) { $('podium-summary').replaceChildren(); $('podium-summary').hidden = true; }
+  if ($('podium-player-note')) { $('podium-player-note').textContent = ''; $('podium-player-note').hidden = true; }
+  if (state) { state.podiumVisible = false; state.resultRevealStarted = false; state.resultRevealProgress = 0; }
+}
+
 function seekCheckpoint(index) {
+  hidePodium();
   const checkpoints = state.presentationPlan.checkpoints;
   const next = clamp(index, 0, checkpoints.length - 1);
   state.checkpointIndex = next;
@@ -593,6 +838,7 @@ function seekCheckpoint(index) {
   pauseAtTick(checkpoints[next], `Paused at static checkpoint ${next + 1} of ${checkpoints.length} · tick ${checkpoints[next]}.`);
   appendPresentationRecord('reduced-motion checkpoint selected', { checkpoint: next + 1 });
   renderRunners(checkpoints[next]);
+  if (reduced && checkpoints[next] >= state.resolution.ticks - 1e-9) finishRace('finish');
   updateControls();
 }
 
@@ -617,8 +863,10 @@ function previousCheckpoint() {
 
 function resumeFromCursor() {
   if (state.finished) return;
-  const fraction = state.cursorTick / state.resolution.ticks;
-  elapsedBeforePause = wallClockAtFraction(fraction, state.presentationPlan) * 1000;
+  if (!(state.resultRevealStarted && state.cursorTick >= state.resolution.ticks)) {
+    const fraction = state.cursorTick / state.resolution.ticks;
+    elapsedBeforePause = wallClockAtPlanFraction(fraction, state.presentationPlan) * 1000;
+  }
   if (reduced) { $('race-status').textContent = `Static view remains paused at tick ${Math.round(state.cursorTick)}; select Next view to advance.`; updateControls(); return; }
   startPlayback();
 }
@@ -643,17 +891,22 @@ function onMotionModeChange() {
   const wasRunning = running;
   if (wasRunning) {
     const elapsed = elapsedBeforePause + performance.now() - startedAt;
-    const frac = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan);
+    const frac = raceFractionAtPlanWallClock(elapsed / 1000, state.presentationPlan);
     state.cursorTick = frac * state.resolution.ticks;
   }
   stopPlayback(); reduced = nextReduced;
   document.body.classList.toggle('reduce-motion', reduced);
-  state.presentationPlan = buildPresentationPlan(state.resolution, currentPresentationSettings());
+  state.presentationPlan = presentationPlanFor(state.resolution);
   if (wasRunning) {
-    elapsedBeforePause = wallClockAtFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
+    elapsedBeforePause = wallClockAtPlanFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
     appendPresentationRecord('display mode changed; simulation position preserved', { fromTick: currentTick, toTick: state.cursorTick, reducedMotion: reduced });
   }
   if (reduced) state.checkpointIndex = nearestCheckpointIndex(state.cursorTick);
+  if (reduced && state.resultRevealStarted) {
+    podiumAnimation?.finish(); lightingAnimation?.finish();
+    state.resultRevealProgress = 1;
+    if (!state.finished) finishRace('finish');
+  }
   renderRunners(state.cursorTick);
   updateControls();
   $('race-status').textContent = `Display mode changed; same committed race paused at tick ${state.cursorTick.toFixed(1)}.`;
@@ -667,7 +920,7 @@ function nearestCheckpointIndex(tick) {
 function updatePresentationOnly({ reset = false } = {}) {
   if (!state) return;
   if (reset && running) pauseAtTick(state.cursorTick, 'Paused · presentation settings changed; committed race retained.');
-  state.presentationPlan = buildPresentationPlan(state.resolution, currentPresentationSettings());
+  state.presentationPlan = presentationPlanFor(state.resolution);
   renderRunners(state.cursorTick);
   updateControls();
   $('race-status').textContent = 'Presentation changed · same trajectory, event order, finish and rewards.';
@@ -677,6 +930,7 @@ function replayRace() {
   if (!state) return;
   const fromTick = state.cursorTick;
   stopPlayback();
+  hidePodium();
   state.replayNumber += 1;
   state.finished = false; state.revealedIds = new Set(); state.loggedCueForReplay = new Set(); state.selectedEventId = null;
   state.started = true; state.cursorTick = 0; state.checkpointIndex = 0; elapsedBeforePause = 0;
@@ -722,7 +976,10 @@ $('play').addEventListener('click', () => {
 $('pause').addEventListener('click', () => {
   if (!running) return;
   const elapsed = elapsedBeforePause + performance.now() - startedAt;
-  state.cursorTick = raceFractionAtWallClock(elapsed / 1000, state.presentationPlan) * state.resolution.ticks;
+  state.cursorTick = raceFractionAtPlanWallClock(elapsed / 1000, state.presentationPlan) * state.resolution.ticks;
+  if (state.presentationPlan.resultRevealSeconds) {
+    state.resultRevealProgress = clamp((elapsed - state.presentationPlan.simulationWallSeconds) / (state.presentationPlan.resultRevealSeconds * 1000), 0, 1);
+  }
   elapsedBeforePause = elapsed; stopPlayback(); renderRunners(state.cursorTick);
   $('race-status').textContent = `Paused at tick ${state.cursorTick.toFixed(1)}; resume continues from here.`;
   appendPresentationRecord('playback paused'); updateControls();

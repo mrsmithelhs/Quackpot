@@ -13,8 +13,8 @@
     <header>
       <p class="tag">Plan 23 · isolated race integration preview</p>
       <h1>Race dynamics and presentation</h1>
-      <p class="lede">Inspect one committed seeded race, then compare baseline, current combined dynamics, and the selected Sprint risk-only candidate on the same seed and inputs.</p>
-      <div class="notice"><strong>Report-only evidence:</strong> no production path is loaded. This preview uses the accepted first-line-crossing race model, frozen Plan 23 study transforms, accepted Mode C digital rig, and recorded race events. Model changes are resolved once when the seed, input, or mode changes; Pause, Restart, Skip, seek, reduced motion, and the two-second highlight only present that committed result.</div>
+      <p class="lede">Inspect one committed seeded race, compare the historical first-cross result, or select the separately versioned individual-crossing continuation on the same seed and inputs.</p>
+      <div class="notice"><strong>Report-only evidence:</strong> no production path is loaded. Historical comparison modes retain same-instant follower classification; the separately versioned continuation simulates each genuine crossing and withholds final places/payouts if the field is unresolved. Model changes are resolved once when the seed, input, or mode changes; Pause, Restart, Skip, seek, reduced motion, and the two-second highlight only present that committed result.</div>
     </header>
 
     <section class="panel" aria-labelledby="race-heading">
@@ -23,6 +23,7 @@
         <label>Dynamics mode
           <select id="mode">
             <option value="R2combined-risk-only" selected>Selected candidate · R2 combined + Sprint risk-only</option>
+            <option value="plan23-individual-crossing">Selected candidate · individual crossing order</option>
             <option value="R2combined">Current Sprint · R2 combined</option>
             <option value="baseline">Affine baseline</option>
           </select>
@@ -59,7 +60,7 @@
           <div class="stage-shell" id="stage-shell">
             <svg id="race-svg" viewBox="0 0 900 500" role="img" aria-labelledby="track-title track-desc">
               <title id="track-title">Two-lane oval duck race in a rectangular viewport</title>
-              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, wall response and one duck contact determine the earliest line crossing and same-time classification.</desc>
+              <desc id="track-desc">Six ducks start in two lanes and three staggered rows. Seeded acceleration, steering, wall response and one duck contact determine real finish crossings under the selected comparison mode.</desc>
               <g id="camera-root">
                 <g id="environment" class="environment">
                   <rect width="900" height="500" class="pond"/>
@@ -67,14 +68,18 @@
                   <path class="race-track" id="track-surface"/>
                   <path class="lane-line" id="lane-divider"/>
                   <path id="inner-pond" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
+                  <rect id="result-lighting" x="0" y="0" width="900" height="500" class="result-lighting" aria-hidden="true"/>
                   <line class="finish-line" x1="450" y1="62" x2="450" y2="105"/>
                   <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
                   <text class="stage-hud" id="simulation-hud" x="20" y="24">Race not started</text>
                 </g>
                 <g id="runner-layer"></g>
+                <g id="podium-layer" visibility="hidden" aria-hidden="true"></g>
               </g>
             </svg>
           </div>
+          <p class="podium-player-note" id="podium-player-note" hidden></p>
+          <section class="sr-only" id="podium-summary" aria-label="Race podium results" aria-live="polite" hidden></section>
           <div class="panel-row">
             <button class="primary" id="play" type="button">Start race</button>
             <button id="pause" type="button" disabled>Pause</button>

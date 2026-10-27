@@ -44,3 +44,15 @@ These observations apply only to the report-only preview in this browser. No pro
 - **Console:** zero captured warnings or errors in the isolated tab.
 
 This verifies report-preview camera presentation only. It does not exercise production race integration, game save/reload, Receipt projection, or reward idempotency.
+
+## Individual crossings and concurrent podium reveal — 2026-10-27
+
+**Browser:** isolated Codex in-app browser at 1280 × 720 CSS px, using the already-running localhost preview. The owner’s Chrome tab and server lifecycle were untouched. This report-only browser slot was reserved by QP Orch for this continuation.
+
+- Selecting **Selected candidate · individual crossing order** resolved the same committed seed `plan23-drama2-val-01`, Tutorial/Common/R01, Sprint, selected rank-weighted weave + strong contact and risk-only Sprint mean. It retained the original Player winner at 21.62 s and continued the field through the final genuine crossing at 22.67 s. The six actual crossing times were 21.62, 21.94, 22.10, 22.14, 22.49 and 22.67 s. The final order was Player, Rival A, Rival B, Rival C, Rival E, Rival D; top-three payouts shown were 50, 20 and 10 Gems. The historical same-instant mode remains separately available.
+- **Skip to finish** showed the settled podium, full crossing-time order and payouts immediately. The action message says no mechanics or RNG were rerun. It showed a settled display rather than recording the slide as watched.
+- A same-race replay reached the last-crossing presentation boundary at about 24.8 / 25.667 s of playback. The podium was visible and scene-light overlay computed opacity was 0.34 while podium text and course labels remained available. Pausing there held the HUD tick, podium bounds, runner transform and overlay opacity exactly across a further 500 ms sample. Resume completed the remaining coast/reveal interval and reported all ducks crossed, first at 21.62 s and last at 22.67 s. The final result list remained unchanged.
+- Reduced-motion mode used the five static 0%, 25%, 50%, 75% and 100% checkpoints. At 100%, it showed the settled podium and settled lighting with no descent; status and controls reported race completion. The fixed-wide static view had no animated camera, event lighting or slow-time effect during the race.
+- Captured browser diagnostics for this tab contained zero warnings or errors after these interactions.
+
+This is presentation evidence for a single report-only witness. The 1,440-case offline causal-parity and tail-validation evidence is in `../individual-finish-validation-results.json`. No production model, save, Receipt, reward path, packet status or deployed browser was tested.

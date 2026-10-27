@@ -37,6 +37,21 @@
     .runner-token { filter:drop-shadow(0 2px 2px #153a4a66); }
     .runner-token.participant-glow { filter:drop-shadow(0 0 7px #ffe26a) drop-shadow(0 0 13px #ffbd35) drop-shadow(0 2px 2px #153a4a66); }
     .runner-label { font-size:13px; font-weight:800; fill:#102c38; paint-order:stroke; stroke:#fff; stroke-width:4px; stroke-linejoin:round; }
+    .podium-plinth-face { stroke:#172f38; stroke-width:2; }
+    .podium-plinth-top { stroke:#344b52; stroke-width:2; }
+    .podium-paper-edge { fill:none; stroke:#fff; stroke-width:2; opacity:.62; }
+    .podium-entrant-art { overflow:visible; }
+    .podium-card { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#162b38; text-align:center; font:700 13px/1.18 system-ui,Segoe UI,sans-serif; }
+    .podium-duck { width:88px; height:88px; flex:0 0 auto; filter:drop-shadow(0 2px 2px #102c3840); }
+    .podium-duck svg { display:block; width:100%; height:100%; }
+    .podium-card-label { width:100%; min-height:72px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:3px 4px; border-radius:8px; background:#f7f4eced; box-shadow:0 1px 4px #19344130; }
+    .podium-card-label strong { font-size:14px; }
+    .podium-name { max-width:100%; overflow-wrap:anywhere; }
+    .podium-gems { font-weight:800; color:#664f20; }
+    .podium-you { display:inline-block; padding:1px 6px; border-radius:999px; background:#174e63; color:white; font-size:10px; letter-spacing:.05em; }
+    .podium-player-note { margin:4px 0 0; font-weight:750; color:#155d72; }
+    .result-lighting { fill:#071925; opacity:0; pointer-events:none; }
+    .stage-shell.result-reveal #result-lighting { opacity:.34; }
     .race-motion-container,.race-duck-shell,.race-orientation { width:100%; height:100%; overflow:visible; }
     .race-motion-container { display:grid; place-items:center; }
     .race-duck-shell { display:grid; place-items:center; transform-origin:50% 50%; }

@@ -57,3 +57,5 @@ Stop at the owner comparison. The report must identify what was rendered, view/z
 - [ ] Same-object consistency, apartment compositions and actual zoom/crop examples were inspected.
 - [ ] Only owned files changed; physical-object immobility and owner gates are preserved.
 - [ ] No 3D pipeline was silently selected; no packet completion or ship readiness is self-certified.
+
+**Owner visual feedback/repair, 2026-10-27:** QP Impl10 relayed owner feedback: whole-object high/low/rear views remain unconvincing; Tinkercad references guide proportions/orientation only. Repair furniture occlusion, add bounded desk/portrait-phone/everyday-prop close composition, and refine Dark to focused warm desk-lamp lighting. Root authorizes report-folder-only2D repair after a concise local proposal update; no new room catalog, 3D pipeline, production mutation or extra reviewer. See `reports/orchestration/plan-10-owner-visual-repair-01.md`. Owner comparison remains open; request coordinated browser slot, explicit scoped commits/progress last, no status/push.

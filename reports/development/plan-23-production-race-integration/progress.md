@@ -60,3 +60,27 @@ Branch C — orchestrator-gate-only for this report-only screen. The adapter run
 ## Ready for orchestrator review
 
 Yes — report-only proposal and independent timing validation. Recommend `internalSpeed = 8.25 + 0.5 × ratingInput` for owner calibration review, with its half-scale modifier gaps made explicit. The owner/QP Orch should accept, reject, or revise that calibration and then approve the exact lifecycle/storage and production file ownership before source work. Plan 20 acceptance/source handoff is clear; it is not production authorization.
+
+## Preview and handoff follow-up (2026-10-27)
+
+QP Orch authorized the isolated `drama-preview-01/` report-only candidate and coordinated a dedicated in-app browser turn at the localhost preview URL. The root-selected comparison is R2combined + risk-only Sprint, alongside current Sprint R2combined and the affine baseline. Preview-only modules are generated from the exact `makeStudySource` function in the frozen R2 validator, the unchanged accepted Plan 13 source, and the handed-off Plan 20 rig/view/motion source. No report artifact is imported by production.
+
+The original 60 parity cases were expanded to 72 to separately represent the actual Rare zero-intervening-race tired preset (`zero-races-rest`, factor 0.50) and the distinct one-intervening-race scenario (factor 0.75). `browser-check.mjs` now passes for six presets × two stances × two trial states × three modes, with exact browser-module/direct-transform fingerprints and stored first-seed validation outcomes/metrics. The affine parity wording remains bounded to the current affine baseline wrapper, not raw Plan 13 fingerprints.
+
+The authorized browser check covered desktop 1280×720 and narrow 390×844. A preview-only mobile-control fix removed document-level horizontal overflow. The Rare zero-races tired candidate showed authored rating 14 × 0.50, a 21.48 s genuine first crossing and 2.00 s separate highlight playback. Pause/resume, skip, event-linked duck-contact seek, same-race restart, five reduced/static checkpoints, finish, and static event seeking passed. A newly opened tab showed zero console errors/warnings after the preview repairs. The first tab had exposed a stale-manifest attempt and an impact-animation cache/retrigger defect; the manifest was regenerated and the preview cache now retains/cancels one animation set per recorded contact.
+
+Packaging verification gunzipped and JSON-parsed all three full archives. R1: 43,272,640 raw bytes / 2,042,555 compressed; R2 screen: 57,600,627 / 2,504,470; 20-seed validation: 189,404,333 / 8,297,590. The validation raw and gzip SHA-256 values match `drama-study-02/README.md`; its 4,320 attempts are total, 1,440 per arm, not 4,320 per arm. The selected risk-only Sprint criterion remains the within-arm 720-pair comparison (71 improved, 60 worsened, 589 tied); its 13-improved/124-worsened cross-arm comparison is not that criterion. The candidate is selected only for isolated visual review, not production adoption.
+
+Validation run in this follow-up:
+
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- `node --check` on the preview controller and browser-check script — passed.
+- `node reports/development/plan-23-production-race-integration/drama-preview-01/browser-check.mjs` — passed, 72 parity witnesses.
+- Authorized isolated browser interactions at 1280×720 and 390×844 — passed as recorded in `drama-preview-01/evidence/browser-observations.md`; the browser slot was released to QP Orch after evidence capture. The existing local server was not started/stopped by this thread.
+- Gzip integrity and JSON parse checks — passed for the R1 screen, R2 screen, and 20-seed full validation.
+
+No production build, general suite, production browser turn, save/migration/Receipt test, or reward-idempotency test was run or claimed. The report/candidate is ready for QP Orch review. Exact production/test path ownership and lifecycle acceptance, owner adoption of the global affine calibration, production payload budget/round-trip validation, Plan 22 rest composition, and the later production browser turn remain open.
+
+**Advisor consultation:** Branch C — orchestrator-gate-only. No additional advisor was requested for this report-only study/preview repair; QP Orch directed that no reviewer be added here. The allowed Sol-low review budget for a later main production artifact remains unused.
+
+The scoped proposal, study and preview artifacts are committed as `3299d27`. This progress update is committed separately as the final Plan 23 write. No push or packet-status change was made.

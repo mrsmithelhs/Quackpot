@@ -1,11 +1,10 @@
 ---
 id: plan-21
 title: Duck-Dex inspection and first-owned entry presentation
-status: draft
+status: complete
+resolution: "Owner approved the Duck-Dex work and closure on 2026-10-27. Repair 03 at 94a7c8e passed root technical review (147 repository tests, 14 focused UI tests, build, failure probe and fresh eight-check browser run); see review-04.md. Accept the bounded six-duck collection/discovery feature; friendlier copy and catalog-growth recommendations remain follow-ups, not implemented scale guarantees. Rest, production race integration, push and deployment are excluded."
 depends_on: [plan-20]
 gate: "Owner/orchestrator approves collection flow, factual value mapping and queue/save boundaries before implementation; owner rendered acceptance follows."
-superseded_by: null
-resolution: null
 summary: >-
   Add voluntary collection inspection and connect first-owned card reveals to
   skippable shelf-focus and silhouette-to-color sequences.
@@ -23,7 +22,9 @@ summary: >-
 
 ## Goal and authority
 
-Implement the canonical standing Duck-Dex as voluntary collection access, then connect card-pull first-owned reveals to it. This is a draft, not an assignment. Read AGENTS.md, design Collection/Assets/Receipt/time contracts, decision log, source map, accepted Plan20 modules and real draw/reveal/storage contracts. Run check plan-21 after assignment; stop if blocked. Return precise UI/source/queue proposal before coding; production writing must follow Plan20 handoff, not overlap it.
+**Closeout, 2026-10-27:** Owner approved the rendered Duck-Dex work and explicitly requested closure. Repair03 at `94a7c8e` is technically accepted in report-folder `review-04.md`, including fresh root browser evidence. Friendlier detail copy and large-catalog recommendations are recorded separately in `owner-refinement-01.md`; no claim that they are implemented, or that rest is integrated. The following scope is retained as history, not a new assignment.
+
+Implement the canonical standing Duck-Dex as voluntary collection access, then connect card-pull first-owned reveals to it. Read AGENTS.md, design Collection/Assets/Receipt/time contracts, decision log, source map, accepted Plan20 modules and real draw/reveal/storage contracts. Run check plan-21 after assignment; stop if blocked. Return precise UI/source/queue proposal before coding; production writing must follow Plan20 handoff, not overlap it.
 
 ## Selected direction and bounded scope
 

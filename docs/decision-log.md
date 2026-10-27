@@ -205,3 +205,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner approves the corrected speech bubble and requests closure after previous rendered review of card behavior. Accept Plan20's ModeC/factor-four keyed loops, per-card reveal/phase preservation, responsive stable grid and first-duplicate explanatory bubble with visible source pointer and persistent dismissal. Final pointer repair `f0cd77b`/`5af086a`, root review05 includes direct screenshot inspection; earlier reviews/tests bound acceptance.
 
 **Limits and handoff:** Actual system reduced-motion=true, physical touch and rendered long-name limits remain. Unauthorized extraSol-lowrepairreview remains a disclosed budget deviation. Production source lane is released; Plan23 may receive ownership only after its calibration/lifecycle proposal is approved. No new identity art, production race/calibration decision, Dex/rest implementation, push or deployment follows from closure.
+
+### DECISION-021 — Duck-Dex and first-owned discovery accepted
+
+**Date:** 2026-10-27
+
+**Decision:** Owner approves the Duck-Dex work and explicitly requests Plan21 closure. Accept the bounded six-duck collection/inspector, identity-consistent art, reveal-protected discovery and skippable first-owned shelf presentation. Repair03 `94a7c8e` and root `review-04.md` establish technical acceptance:147 repository tests,14 focused UI tests, build, harness failure-path probe and fresh8-check isolated browser run passed.
+
+**Follow-ups and limits:** Friendlier details copy and catalog-growth recommendations are recorded in `reports/development/plan-21-duck-dex-and-new-entry-presentation/owner-refinement-01.md`; they are not claimed implemented by closure. Large rosters/multiple banners/sets remain unverified, and Plan22 rest remains unimplemented. No new odds, bonuses, paid skip, race-model adoption, push or deployment follows from this acceptance. Shared production edits still require explicit ownership coordination.

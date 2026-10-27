@@ -49,3 +49,13 @@ For the repair, align each drawing to shared head, body, beak, wing-attachment, 
 Keep the same apartment. Draw sofa/table back legs behind their solid furniture surfaces, with front legs joining below the surfaces. Reframe the close composition as a tabletop study: the static duck sits beside a supported portrait phone with blank invitation space, plus generic pen, papers, keys, and lip-balm tube. Other apartment areas remain future proposals; no room catalog is part of this repair.
 
 For Dark, add a visible desk lamp and a strong warm pool centered over the duck and tabletop props, with gradual falloff, contact shadows, and subdued room edges. Compare neutral and warm lamp at the same desk composition; maintain one lamp direction across all objects and keep the duck details legible. This is a report-only staging repair; source and packet ownership remain unchanged.
+
+## Whole-object view redraw — geometry approach (2026-10-27, Sonnet handoff)
+
+**Diagnosis.** Earlier views were one front-view body silhouette reused with features moved: the body path barely changed between front/rear/high/low, the head was only translated, and the rear view kept both wings and a face-side head over an unturned body. Nothing fixed a camera, so "high" and "low" differed from "front" by shifting paths rather than by changing which surfaces face the viewer.
+
+**Convention.** One landmark model (see `sonnet-view-repair.md`: squat body, head sphere about as wide as the body, spatula bill below the eye line, side-set eyes, side-moulded wings, raised tail) and one camera: azimuth from the duck's front toward its left, elevation above the table. Front = az 35°/el +12°; side = 90°/+5°; rear = 148°/+16°; high = 35°/+52°; low = 35°/−16° (high and low keep the front azimuth, so only elevation differs). Each view's silhouettes, near/far wing, eye visibility, underside visibility and painter order follow from that camera rather than from redrawing by eye.
+
+**Occlusion rules used.** Head paints over body when the camera is above the body top (front, side, rear, high) and under the body edge when the camera is below it (low). The near wing paints over the head's lower flank in profile and from behind; the far wing paints before the body. An eye is drawn only when its surface faces the camera (rear: none; side: one). The bill is drawn after the head when it points toward the camera and before it when it points away (rear: only a sliver clears the head). The tail is behind the body from the front and in front of it from behind. Underside shading appears only when the camera sees the underside (low).
+
+This is an authored 2D set; the projection was used as a drafting aid and baked into static SVG. No 3D source pipeline is adopted or proposed here.

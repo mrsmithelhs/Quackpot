@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" width="720" height="540">
+<defs>
+<clipPath id="headClip"><circle cx="175" cy="107" r="68"/></clipPath>
+<clipPath id="bodyClip"><path d="M92 206C91 196 96 180 104 168C114 152 134 138 158 133C168 131 180 130.5 190 131.5C212 134 236 143 252 158C262 168 266 185 266 200C266.5 216 262 232 248 240C236 246 214 246 196 246.5C176 247 150 246 132 240C112 234 98 226 94 216C92.5 213 92 209 92 206Z"/></clipPath>
+<clipPath id="wingClip"><path d="M206 160C205 146 214 137 231 134.5C248 132.5 264 139 268 156C271 170 267 186 256 191C244 196 226 195 214 189C208 184 206.5 172 206 160Z"/></clipPath>
+</defs>
+
+<!-- head: sits behind the body; its lower third is hidden by the body edge -->
+<circle cx="175" cy="107" r="68" fill="#dfa52f"/>
+<circle cx="170" cy="100" r="66" fill="#f4bc32" clip-path="url(#headClip)"/>
+<path d="M118 97C120 76 138 56 165 50" fill="none" stroke="#ffe27c" stroke-width="5" clip-path="url(#headClip)"/>
+<circle cx="175" cy="107" r="68" fill="none" stroke="#4b241b" stroke-width="6"/>
+
+<!-- eyes: near eye is a full oval, far eye a sliver at the head edge -->
+<ellipse cx="110" cy="91" rx="3.2" ry="8.5" fill="#45251f" stroke="#2a130e" stroke-width="1"/>
+<ellipse cx="169" cy="73" rx="9" ry="10.5" fill="#45251f" stroke="#2a130e" stroke-width="1.5"/>
+<circle cx="172.5" cy="68.5" r="2.6" fill="#fff4d8"/>
+
+<!-- bill seen from below: lower plate (underside) then upper plate on top -->
+<path d="M150 99C148 94 140 91.5 131 91C121 90.5 112 92 107 95C103.5 97 103.5 101.5 106 104C110 107.5 120 108 132 107.5C143 107 150 105 152 103C153.5 101.5 152 100 150 99Z" fill="#f36e2c" stroke="#4b241b" stroke-width="4.5" stroke-linejoin="round"/>
+<path d="M158 112C157.5 104 151 100.5 140 100C127 99.5 114 100.5 108 104.5C103 108 104 117 111 121C119 125.5 133 127 145 126C154 124.5 159 119 158 112Z" fill="#e85e28" stroke="#4b241b" stroke-width="4.5" stroke-linejoin="round"/>
+
+<!-- body: its top edge occludes the lower head; underside plane shown below -->
+<path d="M92 206C91 196 96 180 104 168C114 152 134 138 158 133C168 131 180 130.5 190 131.5C212 134 236 143 252 158C262 168 266 185 266 200C266.5 216 262 232 248 240C236 246 214 246 196 246.5C176 247 150 246 132 240C112 234 98 226 94 216C92.5 213 92 209 92 206Z" fill="#f4bc32"/>
+<g clip-path="url(#bodyClip)">
+  <ellipse cx="278" cy="188" rx="40" ry="66" fill="#dfa52f"/>
+  <ellipse cx="179" cy="222" rx="92" ry="36" fill="#c98f22"/>
+  <ellipse cx="179" cy="222" rx="92" ry="36" fill="none" stroke="#9c681e" stroke-width="3"/>
+  <path d="M104 176C112 158 130 146 156 140" fill="none" stroke="#ffe27c" stroke-width="5"/>
+</g>
+<path d="M92 206C91 196 96 180 104 168C114 152 134 138 158 133C168 131 180 130.5 190 131.5C212 134 236 143 252 158C262 168 266 185 266 200C266.5 216 262 232 248 240C236 246 214 246 196 246.5C176 247 150 246 132 240C112 234 98 226 94 216C92.5 213 92 209 92 206Z" fill="none" stroke="#4b241b" stroke-width="6" stroke-linejoin="round"/>
+
+<!-- near wing: molded lobe on the right side of the body -->
+<path d="M206 160C205 146 214 137 231 134.5C248 132.5 264 139 268 156C271 170 267 186 256 191C244 196 226 195 214 189C208 184 206.5 172 206 160Z" fill="#e6a924"/>
+<g clip-path="url(#wingClip)">
+  <path d="M214 186C230 196 252 196 264 184" fill="none" stroke="#c98f22" stroke-width="9"/>
+  <path d="M214 154C222 142 240 138 256 146" fill="none" stroke="#ffe27c" stroke-width="4"/>
+</g>
+<path d="M222 170C236 176 248 177 260 172" fill="none" stroke="#9c681e" stroke-width="3"/>
+<path d="M206 160C205 146 214 137 231 134.5C248 132.5 264 139 268 156C271 170 267 186 256 191C244 196 226 195 214 189C208 184 206.5 172 206 160Z" fill="none" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+</svg>

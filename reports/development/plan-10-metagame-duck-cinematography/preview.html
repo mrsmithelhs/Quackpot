@@ -75,6 +75,11 @@
     .swatch svg { display: block; width: min(100%, 230px); height: 165px; margin: .25rem auto; }
     .swatch p { margin: .2rem 0 0; font-size: .9rem; }
     .swatch h3 { margin: 0; font-size: 1rem; }
+    .cmp-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; align-items: end; margin: 0 0 .9rem; padding: .5rem; border: 1px solid #c0b7ab; border-radius: .55rem; background: #fffaf2; }
+    .cmp-row > strong { grid-column: 1 / -1; }
+    .cmp-row figure { margin: 0; text-align: center; }
+    .cmp-row img { display: block; width: 100%; height: auto; max-height: 230px; object-fit: contain; }
+    .cmp-row figcaption { font-size: .85rem; color: #51483e; }
     .duck-fill { fill: #f4bc32; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
     .duck-belly-shadow { fill: #dfa52f; opacity: .68; }
     .low-projection .duck-belly-shadow { fill: #9a6d20; opacity: .94; }
@@ -146,6 +151,11 @@
     <p>Static projections of one toy. The D2-inspired yellow body, orange molded beak, dark brown outline, and near/far wing placement remain the visual anchors. This contact sheet is for checking whole-object view consistency, not selecting a new character design.</p>
     <div class="swatches" id="swatches"></div>
   </section>
+  <section aria-labelledby="cmp-heading">
+    <h2 id="cmp-heading">Candidate comparison (diagnostic)</h2>
+    <p>One row per view, same camera for every candidate: Sonnet projection-baked drawing, Haiku “improve a copy” and Haiku “from scratch” experiments. The contact sheet above uses the selected drawing per view (see <code>sonnet-view-repair.md</code>); this grid shows what was not selected. Review aid only.</p>
+    <div class="cmp" id="cmp"></div>
+  </section>
 </main>
 <script type="module">
   import { views } from './duck-views.js';
@@ -158,14 +168,11 @@
   const lightLabels = { neutral:'neutral', light:'window', dark:'warm desk lamp' };
   let svgInstance = 0;
   function renderViewSvg(viewId) {
-    const template = views[viewId].svg;
-    const bodyD = template.match(/<path class="duck-fill" d="([^"]+)"\/>/)[1];
-    const clipId = `p10-body-clip-${++svgInstance}`;
-    const opening = template.match(/^<svg[^>]*>/)[0];
-    let rendered = template.replace(opening, `${opening}<defs><clipPath id="${clipId}"><path d="${bodyD}"/></clipPath></defs>`);
-    rendered = rendered.replace('<path class="duck-belly-shadow"', `<path class="duck-belly-shadow" clip-path="url(#${clipId})"`);
-    rendered = rendered.replace(/<path class="duck-belly-shadow"[^>]*\/>/, shadow => `${shadow}<path class="duck-outline" d="${bodyD}"/>`);
-    return rendered;
+    // Each view carries its own clipPaths/inline styling; only make ids unique per rendered instance.
+    const suffix = `-i${++svgInstance}`;
+    return views[viewId].svg
+      .replace(/\bid="([^"]+)"/g, (_, id) => `id="${id}${suffix}"`)
+      .replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${id}${suffix})`);
   }
   function update() {
     duck.innerHTML = renderViewSvg(selectedView);
@@ -178,6 +185,8 @@
   document.querySelectorAll('input[name="shot"]').forEach(el => el.addEventListener('change', () => { selectedShot = el.value; update(); }));
   document.querySelectorAll('input[name="light"]').forEach(el => el.addEventListener('change', () => { selectedLight = el.value; update(); }));
   document.querySelector('#swatches').innerHTML = Object.entries(views).map(([id, view]) => `<article class="swatch"><h3>${viewIds[id]} · ${view.label}</h3>${renderViewSvg(id)}<p>${view.note}</p></article>`).join('');
+  const cmpCols = [['Sonnet projection', v => `sonnet-candidates/${v}.svg`], ['Haiku improve', v => `haiku-experiments/${v}-improve/duck.svg`], ['Haiku scratch', v => `haiku-experiments/${v}-scratch/duck.svg`]];
+  document.querySelector('#cmp').innerHTML = Object.entries(views).map(([id, view]) => `<div class="cmp-row"><strong>${view.label}</strong>${cmpCols.map(([name, src]) => `<figure><img src="${src(id)}" alt="${name}: ${view.label}" width="360" height="270" loading="lazy"><figcaption>${name}</figcaption></figure>`).join('')}</div>`).join('');
   document.querySelector('#select-notes').addEventListener('click', () => document.querySelector('#owner-notes').select());
   update();
 </script>

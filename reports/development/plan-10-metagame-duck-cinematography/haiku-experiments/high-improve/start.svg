@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="High angle static rubber duck">
+      <path class="duck-fill" d="M58 155 Q65 120 112 109 Q157 99 207 107 Q260 117 290 103 Q301 82 310 79 Q318 77 323 93 L332 137 Q342 169 326 199 Q304 228 255 234 Q149 244 98 229 Q57 215 58 155Z"/>
+      <path class="duck-belly-shadow" d="M61 195 Q135 207 207 204 Q281 202 330 186 Q326 211 297 224 Q232 239 115 231 Q76 225 61 211Z"/>
+      <path class="far-wing" d="M97 138 Q111 119 129 126 Q146 132 149 152 Q145 171 126 176 Q108 168 97 138Z"/>
+      <path class="duck-fill" d="M113 124 Q103 99 118 76 Q140 45 180 45 Q222 46 241 75 Q254 97 239 124 Q218 145 174 145 Q134 142 113 124Z"/>
+      <path class="duck-neck-line" d="M126 128 Q154 142 185 137"/>
+      <path class="duck-highlight" d="M119 73 Q126 43 157 35 Q185 28 209 40"/>
+      <path class="wing" d="M236 133 Q254 122 273 133 Q289 145 285 166 Q278 182 259 181 Q241 174 236 155Z"/>
+      <path class="wing-groove" d="M252 138 Q267 145 274 162"/>
+      <path class="beak" d="M149 122 Q165 115 184 120 L204 131 Q208 137 200 142 Q180 151 159 141Z"/>
+      <path class="beak-lower" d="M158 139 Q179 146 201 138 Q199 148 181 151 Q164 150 158 139Z"/>
+      <ellipse class="eye" cx="145" cy="115" rx="7" ry="9"/><ellipse class="eye" cx="209" cy="115" rx="7" ry="9"/>
+    </svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Rear three-quarter static rubber duck turned away">
+      <path class="duck-fill" d="M104 170 Q113 138 147 128 Q183 119 219 129 Q255 136 277 122 Q289 99 300 96 Q309 96 315 111 L319 153 Q329 184 313 211 Q293 238 251 243 Q166 251 121 235 Q96 222 104 170Z"/>
+      <path class="duck-belly-shadow" d="M108 203 Q162 213 217 210 Q274 207 317 193 Q313 218 284 233 Q230 248 137 239 Q111 233 108 218Z"/>
+      <path class="far-wing" d="M91 160 Q106 140 124 147 Q140 153 143 171 Q138 187 118 191 Q100 183 91 160Z"/>
+      <path class="duck-fill" d="M150 143 Q120 117 128 75 Q137 35 172 20 Q209 7 238 31 Q264 53 255 94 Q249 127 220 146 Q182 159 150 143Z"/>
+      <path class="duck-highlight" d="M121 74 Q129 39 159 28 Q187 20 209 34"/>
+      <path class="wing" d="M171 156 Q192 140 211 149 Q226 155 236 145 Q247 136 260 145 Q269 151 267 160 Q284 163 290 176 Q293 190 276 198 Q256 208 236 207 Q214 216 194 205 Q177 198 171 183 Q165 169 171 156Z"/>
+      <path class="wing-groove" d="M228 154 Q240 166 256 167 M252 147 Q263 160 278 166"/>
+      <path class="beak" d="M151 96 Q138 89 124 94 L101 102 Q94 106 98 114 L116 127 Q130 131 143 120 L157 110Z"/>
+      <ellipse class="eye" cx="142" cy="81" rx="5" ry="8"/>
+      <path class="tail-seam" d="M277 125 Q293 134 310 130"/>
+    </svg>

@@ -1,0 +1,11 @@
+Side view (azimuth 90, elev +5), improved from start.svg in 4 render passes.
+- start.svg had the eye at head centre and an oversized bill, both off the side guide; rebuilt on guide-side.svg geometry (body, head, tail, near wing, bill, one eye). Far wing and far eye omitted per guide.
+- duck.svg is class-free, inline fill/stroke attributes, viewBox 0 0 360 270, body bottom at y 246.
+- Draw order: tail, body, belly shadow, near wing, bill, head, eye. Bill sits before the head so the head outline covers its root and the bill grows out of the face.
+- Shading: belly band clipped to the body; head uses a shadow base plus an upper-left lit disc clipped to the head. Rim highlights on head and chest, light from upper left.
+- Still wrong: head reads as a ball stacked on the body; no throat or neck transition, so the join looks stuck on.
+- Near wing reads as a pasted lobe with a flat outline; its top tucks under the head as the guide says, but the edge is abrupt.
+- Belly shadow has a fairly hard upper edge and reads a little like a stripe.
+- Bill is small and thin next to D2; the lower mandible reads as a double line.
+- Tail is a thin leaf-shaped flick; it reads correctly but is weak.
+- Checked only with the offline rasteriser, not in a browser.

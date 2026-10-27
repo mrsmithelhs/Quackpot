@@ -1,0 +1,12 @@
+- Started from start.svg; classes converted to inline fill/stroke attributes, then the drawing was rebuilt to the high guide.
+- Crown: one large circle centred (170,117) r72 with upper-left rim highlight and a lower-right shade clipped to the head.
+- Bill: small foreshortened spatula at lower-left, attached to the head front, with a seam and lower mandible.
+- Near eye sits right of the bill at the head's lower front; far eye is a thin sliver on the left rim.
+- Body: guide silhouette, shade clipped to it; only the lower crescent and right shoulder show under the crown.
+- Near wing: lobe on the right, tucked behind the crown. Far wing: only a small bump at lower-left (guide says back-facing).
+- Tail: upturned flick at upper right, emerging from behind the crown.
+- Still wrong: the tail reads like an ear or horn, and the far wing reads as a lump under the bill.
+- Still wrong: the spec's "back of body above the head" cue is missing; the guide puts the body top under the crown, and I followed the guide.
+- Still wrong: the body looks round rather than clearly compressed vertically.
+- Perspective change from the front view comes mainly from the crown size and the foreshortened bill; the shading is subtle.
+- Renders: 4 (converted start, v1, v2, v3 with bill lengthened). Self-check only, not a browser.

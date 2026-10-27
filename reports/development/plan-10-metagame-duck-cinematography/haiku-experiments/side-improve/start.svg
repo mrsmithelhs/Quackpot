@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side profile static rubber duck facing left">
+      <path class="duck-fill" d="M70 164 Q84 132 121 126 Q154 117 192 127 Q241 134 281 124 Q296 94 306 89 Q315 86 320 102 L328 151 Q339 181 322 209 Q306 236 264 241 Q160 251 104 236 Q62 225 70 164Z"/>
+      <path class="duck-belly-shadow" d="M72 202 Q138 213 206 211 Q276 211 328 194 Q326 219 296 233 Q233 247 119 239 Q80 232 72 218Z"/>
+      <path class="duck-fill" d="M132 136 Q101 119 104 74 Q106 33 140 21 Q179 7 209 31 Q234 51 230 92 Q227 126 201 143 Q162 154 132 136Z"/>
+      <path class="duck-neck-line" d="M132 136 Q158 153 185 148"/>
+      <path class="duck-highlight" d="M119 77 Q124 38 153 28 Q178 20 199 32"/>
+      <path class="wing" d="M174 159 Q191 146 209 151 Q220 154 229 147 Q239 140 250 146 Q257 151 256 158 Q271 160 276 171 Q279 182 266 190 Q250 199 234 202 Q216 209 197 201 Q181 195 176 181 Q169 169 174 159Z"/>
+      <path class="wing-groove" d="M226 154 Q235 164 250 166 M246 149 Q253 160 267 164"/>
+      <path class="beak" d="M133 91 Q111 83 86 88 L43 95 Q30 99 33 110 L63 131 Q82 139 106 126 L140 111Z"/>
+      <path class="beak-lower" d="M36 110 Q65 113 87 123 Q112 133 137 111 Q144 120 136 129 Q110 148 78 141 Q51 135 36 119Z"/>
+      <path class="beak-seam" d="M41 108 Q72 110 101 124 Q120 128 139 114"/>
+      <ellipse class="eye" cx="143" cy="77" rx="11" ry="15"/><circle class="eye-glint" cx="140" cy="71" r="4"/>
+    </svg>

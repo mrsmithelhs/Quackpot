@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" role="img" aria-label="High angle static rubber duck">
+  <defs>
+    <clipPath id="headClip"><circle cx="170" cy="117" r="72"/></clipPath>
+    <clipPath id="bodyClip"><path d="M100 196 C98 152 116 104 168 90 C206 80 246 98 256 142 C262 176 250 214 222 232 C200 246 166 248 140 242 C116 236 101 220 100 196 Z"/></clipPath>
+  </defs>
+  <path d="M200 120 C214 104 226 84 234 64 C237 56 246 56 250 66 C254 80 250 100 238 114 C230 122 214 124 200 120 Z" fill="#e6a924" stroke="#4b241b" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M104 180 C92 190 92 210 104 218 C112 222 122 218 126 210 L120 196 Z" fill="#dba02a" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M100 196 C98 152 116 104 168 90 C206 80 246 98 256 142 C262 176 250 214 222 232 C200 246 166 248 140 242 C116 236 101 220 100 196 Z" fill="#f4bc32" stroke="#4b241b" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M300 120 L300 280 L80 280 L80 240 C150 246 220 236 252 196 C266 170 266 136 262 116 Z" fill="#dfa52f" opacity="0.75" clip-path="url(#bodyClip)"/>
+  <path d="M200 204 C194 184 210 158 236 142 C248 134 260 126 264 134 C270 150 264 172 254 186 C244 200 228 208 214 210 C206 211 201 209 200 204 Z" fill="#e6a924" stroke="#4b241b" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M216 186 C228 178 240 170 256 152" fill="none" stroke="#9c681e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="170" cy="117" r="72" fill="#f4bc32" stroke="#4b241b" stroke-width="8"/>
+  <path d="M242 117 C242 157 210 189 170 189 C204 176 232 152 242 117 Z" fill="#dfa52f" opacity="0.85" clip-path="url(#headClip)"/>
+  <path d="M116 98 C124 72 146 54 172 50" fill="none" stroke="#ffe27c" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="104" cy="133" rx="3.5" ry="9" fill="#45251f" stroke="#4b241b" stroke-width="3"/>
+  <ellipse cx="165" cy="171" rx="8" ry="9" fill="#45251f" stroke="#4b241b" stroke-width="4"/>
+  <path d="M156 156 C136 146 116 150 104 162 C94 172 93 186 106 190 C120 194 142 190 156 178 Z" fill="#f36e2c" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M110 190 C124 199 144 195 156 180 C152 192 136 201 118 198 C112 196 109 193 110 190 Z" fill="#e85e28" stroke="#4b241b" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M110 180 C124 186 140 185 152 174" fill="none" stroke="#9b401f" stroke-width="3" stroke-linecap="round"/>
+</svg>

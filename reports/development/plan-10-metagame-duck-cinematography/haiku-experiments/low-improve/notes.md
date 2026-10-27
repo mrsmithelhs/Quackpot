@@ -1,0 +1,12 @@
+# low-improve notes (azimuth 35, elevation -16)
+- Rebuilt start.svg on the guide-low silhouettes (body, head, bill, near wing, eyes); start's old geometry did not match the guide.
+- Added a dark underside plane: a tilted ellipse (footprint, ~6 deg) clipped to the body, with a rim line on its near edge. This is the main look-up cue.
+- Body drawn over the head, so the body top edge crosses the lower head; head rises above it with a neck join hidden on both sides.
+- Bill: lower mandible drawn over the upper one (reversed from the guide order) so the underside reads; a soft cast shadow on the head grounds it.
+- Near wing clipped to the body silhouette so it no longer bulges above the body top; cast shadow and two feather grooves.
+- Far wing and tail are omitted: the guide puts both fully behind the body in this view.
+- Far eye is a grazing sliver that merges into the head outline; near eye and glint sit above the bill line.
+- Still wrong: the bill reads as two stacked pills, not a flat spatula seen from below.
+- Still wrong: the body reads as a bowl or cylinder with a flat base; the underside looks like a flat plate.
+- Frame: the guide geometry leaves wide side and top margins (x 91-269, top 39); bottom is 246 as specified, so the 4 px margin rule is not met.
+- Verdict: the view reads as looking up and differs clearly from the front view; the bill is the weakest part.

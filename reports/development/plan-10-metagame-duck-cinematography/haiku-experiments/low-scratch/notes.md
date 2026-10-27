@@ -1,0 +1,11 @@
+# low view (az 35, el -16) - FROM SCRATCH, 3 renders
+- Placement follows the guide: head behind body, body top edge occludes lower head, bill on the head's lower-left, near wing on right side, far wing and tail hidden.
+- Underside plane: shaded lower lens (#c98f22) under the body with a darker seam arc; it is the strongest look-up cue.
+- Bill: upper plate drawn as a thin sliver behind, lower plate drawn large in front, so the bill reads as seen from below.
+- Body: right-side shadow crescent, upper-left rim highlight, outline drawn after shading so edges stay continuous.
+- Head: shadow crescent via offset clipped circle, rim highlight, near eye full oval, far eye a sliver at the edge.
+- Still wrong: the head is not foreshortened, so it reads as a near-side view with a shaded base rather than a clear upward view.
+- Still wrong: the near wing is a rounded knob with one groove; it does not read as a molded wing lobe.
+- Still wrong: a short head-outline stub shows on the right where the head meets the body top.
+- Still wrong: the near eye sits high on the head (guide placement), which weakens the "bill below eye" read.
+- Not verified in a browser; only the approximate offline renderer was used.

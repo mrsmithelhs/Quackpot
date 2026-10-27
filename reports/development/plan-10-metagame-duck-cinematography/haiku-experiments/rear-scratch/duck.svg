@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" width="360" height="270">
+<defs>
+<clipPath id="bodyClip"><path d="M102 216C96 200 96 178 104 158C112 136 136 120 170 117C200 115 232 124 248 144C262 162 266 190 258 214C252 236 226 246 190 246C160 246 124 246 110 236C104 232 102 224 102 216Z"/></clipPath>
+<clipPath id="headClip"><circle cx="166" cy="92" r="67"/></clipPath>
+</defs>
+<!-- bill sliver, behind head -->
+<path d="M108 104C98 101 90 103 88 109C87 114 94 117 108 118Z" fill="#f36e2c" stroke="#4b241b" stroke-width="3" stroke-linejoin="round"/>
+<!-- far wing sliver, behind body on the right edge -->
+<path d="M236 146C248 140 258 146 264 158C272 174 274 186 268 194C262 202 250 198 240 192C232 186 228 168 236 146Z" fill="#dba02a" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+<!-- head: back of head, no face -->
+<g clip-path="url(#headClip)">
+<circle cx="166" cy="92" r="67" fill="#dfa52f"/>
+<circle cx="161" cy="85" r="62" fill="#f4bc32"/>
+</g>
+<circle cx="166" cy="92" r="67" fill="none" stroke="#4b241b" stroke-width="6"/>
+<path d="M110 72C116 50 136 36 160 31" fill="none" stroke="#ffe27c" stroke-width="5" stroke-linecap="round"/>
+<!-- tail flick rising from the rear top-right, drawn over the head edge, under the body rim -->
+<path d="M212 168C214 136 224 110 240 96C252 104 258 122 258 140C258 152 254 162 250 170Z" fill="#f4bc32" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+<path d="M248 110C253 120 254 132 253 146" fill="none" stroke="#dfa52f" stroke-width="4" stroke-linecap="round"/>
+<!-- body, turned to show the back -->
+<g clip-path="url(#bodyClip)">
+<path d="M102 216C96 200 96 178 104 158C112 136 136 120 170 117C200 115 232 124 248 144C262 162 266 190 258 214C252 236 226 246 190 246C160 246 124 246 110 236C104 232 102 224 102 216Z" fill="#dfa52f"/>
+<path d="M102 216C96 200 96 178 104 158C112 136 136 120 170 117C200 115 232 124 248 144C262 162 266 190 258 214C252 236 226 246 190 246C160 246 124 246 110 236C104 232 102 224 102 216Z" transform="translate(-8 -7)" fill="#f4bc32"/>
+<ellipse cx="172" cy="121" rx="50" ry="8" fill="#dfa52f"/>
+<path d="M104 166C102 150 110 134 136 124" fill="none" stroke="#ffe27c" stroke-width="4"/>
+</g>
+<path d="M102 216C96 200 96 178 104 158C112 136 136 120 170 117C200 115 232 124 248 144C262 162 266 190 258 214C252 236 226 246 190 246C160 246 124 246 110 236C104 232 102 224 102 216Z" fill="none" stroke="#4b241b" stroke-width="6" stroke-linejoin="round"/>
+<!-- near wing, moulded lobe on the left flank, tip swept back and down -->
+<path d="M108 140C124 134 146 140 158 152C166 162 172 178 172 190C172 196 168 198 162 196C150 192 140 190 132 184C122 178 110 170 104 160C100 152 102 144 108 140Z" fill="#e6a924" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+<path d="M114 146C126 140 142 142 152 152" fill="none" stroke="#ffe27c" stroke-width="3"/>
+<path d="M122 166C138 170 152 180 166 190" fill="none" stroke="#c98f22" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 270" width="360" height="270">
+  <defs>
+    <clipPath id="clipBody">
+      <path d="M80 200C80 166 104 146 138 139C160 134 200 133 226 139C254 146 276 166 280 194C283 218 274 238 254 243C232 248 200 246 178 246C150 246 118 245 98 236C84 229 80 214 80 200Z"/>
+    </clipPath>
+    <clipPath id="clipWing">
+      <path d="M130 184C128 166 142 156 160 154C182 152 206 150 226 150C240 150 250 146 256 136C258 150 260 160 256 172C252 186 246 194 236 198C226 204 214 205 198 205C176 205 150 203 140 199C134 196 131 191 130 184Z"/>
+    </clipPath>
+    <clipPath id="clipHead">
+      <path d="M96 108C96 80 114 50 144 42C170 36 200 40 216 60C228 75 232 96 230 116C228 142 210 166 186 172C160 178 136 168 120 152C104 136 96 122 96 108Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- tail flick, behind body, rising at the rear -->
+  <path d="M224 156C226 136 240 118 262 110C272 106 278 104 282 98C286 118 288 136 288 150C288 166 282 176 270 178C252 180 234 172 224 156Z" fill="#e9b02c" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M254 124C266 122 276 116 280 108" fill="none" stroke="#ffe27c" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- body -->
+  <path d="M80 200C80 166 104 146 138 139C160 134 200 133 226 139C254 146 276 166 280 194C283 218 274 238 254 243C232 248 200 246 178 246C150 246 118 245 98 236C84 229 80 214 80 200Z" fill="#f4bc32"/>
+  <g clip-path="url(#clipBody)">
+    <path d="M60 214C100 226 150 232 200 230C240 228 270 214 290 192L290 290L60 290Z" fill="#dfa52f"/>
+    <path d="M118 140C100 152 88 168 84 186" fill="none" stroke="#ffe27c" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path d="M80 200C80 166 104 146 138 139C160 134 200 133 226 139C254 146 276 166 280 194C283 218 274 238 254 243C232 248 200 246 178 246C150 246 118 245 98 236C84 229 80 214 80 200Z" fill="none" stroke="#4b241b" stroke-width="6.5" stroke-linejoin="round"/>
+
+  <!-- near wing, moulded lobe with a feathered rear edge -->
+  <path d="M130 184C128 166 142 156 160 154C182 152 206 150 226 150C240 150 250 146 256 136C258 150 260 160 256 172C252 186 246 194 236 198C226 204 214 205 198 205C176 205 150 203 140 199C134 196 131 191 130 184Z" fill="#e6a924"/>
+  <g clip-path="url(#clipWing)">
+    <path d="M118 196C150 208 218 210 262 186L262 224L118 224Z" fill="#c98f22"/>
+    <path d="M146 166C166 159 186 157 208 157" fill="none" stroke="#ffe27c" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <path d="M246 164C224 168 200 172 172 178" fill="none" stroke="#b57f1c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M236 182C216 186 194 188 160 192" fill="none" stroke="#b57f1c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M130 184C128 166 142 156 160 154C182 152 206 150 226 150C240 150 250 146 256 136C258 150 260 160 256 172C252 186 246 194 236 198C226 204 214 205 198 205C176 205 150 203 140 199C134 196 131 191 130 184Z" fill="none" stroke="#4b241b" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- bill, drawn before head so the head outline overlaps the root -->
+  <path d="M120 128C108 130 96 131 84 132C76 134 74 139 78 142C84 146 96 146 106 144C112 143 118 141 120 140Z" fill="#e85e28" stroke="#4b241b" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M120 112C104 110 92 110 82 112C70 115 64 120 64 126C64 133 70 137 80 137C96 137 108 136 120 134Z" fill="#f36e2c" stroke="#4b241b" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M84 118C96 116 108 116 116 117" fill="none" stroke="#ffb27a" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- cast shadow of the head on the body (neck crease) -->
+  <g clip-path="url(#clipBody)">
+    <path d="M96 108C96 80 114 50 144 42C170 36 200 40 216 60C228 75 232 96 230 116C228 142 210 166 186 172C160 178 136 168 120 152C104 136 96 122 96 108Z" fill="#dfa52f" transform="translate(6 10)"/>
+  </g>
+
+  <!-- head -->
+  <path d="M96 108C96 80 114 50 144 42C170 36 200 40 216 60C228 75 232 96 230 116C228 142 210 166 186 172C160 178 136 168 120 152C104 136 96 122 96 108Z" fill="#f4bc32"/>
+  <g clip-path="url(#clipHead)">
+    <path d="M104 150C130 164 178 164 210 150C226 143 234 126 240 90L260 90L260 200L100 200Z" fill="#dfa52f"/>
+    <path d="M104 116C104 92 116 66 142 52" fill="none" stroke="#ffe27c" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <path d="M96 108C96 80 114 50 144 42C170 36 200 40 216 60C228 75 232 96 230 116C228 142 210 166 186 172C160 178 136 168 120 152C104 136 96 122 96 108Z" fill="none" stroke="#4b241b" stroke-width="6.5" stroke-linejoin="round"/>
+
+  <!-- eye, near side only -->
+  <ellipse cx="108" cy="101" rx="5" ry="9.5" fill="#45251f"/>
+  <circle cx="110" cy="97" r="1.8" fill="#fff4d0"/>
+</svg>

@@ -4,14 +4,30 @@
 export function renderDeskView(container, duckSvgUrl, onStartApp, options = {}) {
   const returning = Boolean(options.returning);
   const companion = options.companion || {};
+  const companionName = escapeHtml(companion.name || 'Professor Quacks');
   container.innerHTML = `
     <div class="desk-container">
       <div class="desk-card">
-        <div class="desk-duck-display">
-          <div class="desk-duck-halo">
-            <img class="duck-img desk-companion-art" src="${duckSvgUrl}" alt="Physical Rubber Duck Companion" width="120" height="120" />
+        <div class="desk-stage">
+          <div class="desk-duck-display">
+            <div class="desk-duck-halo">
+              <img class="duck-img desk-companion-art" src="${duckSvgUrl}" alt="Physical Rubber Duck Companion" width="120" height="120" />
+            </div>
+            <div class="desk-duck-caption">Your Physical Desk Companion</div>
           </div>
-          <div class="desk-duck-caption">Your Physical Desk Companion</div>
+
+          <div class="desk-phone" aria-label="Your phone">
+            <div class="desk-phone-screen">
+              <div class="desk-phone-status" aria-hidden="true"><span>9:41</span><span>● ● ●</span></div>
+              <div class="desk-phone-content">
+                <div class="desk-phone-brand">QUACKPOT</div>
+                ${returning
+                  ? '<div class="desk-phone-heading">Welcome back</div><p>Your game is ready when you are.</p>'
+                  : '<div class="desk-phone-heading">Welcome Festival</div><p>10 FREE pulls waiting!</p><span class="desk-phone-note">Limited-time invitation</span>'}
+              </div>
+              <div class="desk-phone-home" aria-hidden="true"></div>
+            </div>
+          </div>
         </div>
 
         <div class="desk-intro">
@@ -21,8 +37,8 @@ export function renderDeskView(container, duckSvgUrl, onStartApp, options = {}) 
             but having it around makes your cramped room feel a little more like home.
           </p>
           <p class="desk-narrative">${returning
-            ? `Your rubber duck, <strong>${companion.name || 'Professor Quacks'}</strong>, rests beside the phone.`
-            : 'Your phone screen lights up with a newly downloaded gacha game: <strong>Quackpot</strong>. The notification reads: <em>"Limited-Time Welcome Festival! 10 FREE pulls waiting!"</em>'}</p>
+            ? `Your rubber duck, <strong>${companionName}</strong>, rests beside the phone.`
+            : 'Your phone has a new invitation from <strong>Quackpot</strong>.'}</p>
         </div>
 
         <form id="desk-companion-form" class="companion-setup-form">
@@ -70,4 +86,14 @@ export function renderDeskView(container, duckSvgUrl, onStartApp, options = {}) 
       onStartApp({ name, style, autosaveEnabled, returning });
     });
   }
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  })[character]);
 }

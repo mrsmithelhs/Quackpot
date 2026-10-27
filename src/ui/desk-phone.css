@@ -1,0 +1,116 @@
+.desk-card {
+  max-width: 900px;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.desk-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 5vw, 4rem);
+  min-height: 18rem;
+  margin-bottom: 1.25rem;
+}
+
+.desk-duck-display { margin-bottom: 0; }
+
+.desk-phone {
+  width: clamp(9.5rem, 25vw, 12.5rem);
+  aspect-ratio: 9 / 17;
+  flex: 0 0 auto;
+  padding: 0.55rem;
+  border: 2px solid #707784;
+  border-radius: 1.65rem;
+  background: linear-gradient(145deg, #343944, #11151d 54%, #292d36);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.42), inset 0 0 0 1px rgba(255,255,255,.15);
+}
+
+.desk-phone-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  color: #f8fafc;
+  background: radial-gradient(ellipse at 50% 35%, #263b53 0%, #111b2c 62%, #0b101a 100%);
+  text-align: left;
+}
+
+.desk-phone-status {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 0.8rem 0;
+  color: #dbe5f0;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.desk-phone-content {
+  display: grid;
+  align-content: center;
+  gap: 0.55rem;
+  flex: 1;
+  padding: 0.8rem;
+}
+
+.desk-phone-brand {
+  color: #fbbf24;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+}
+
+.desk-phone-heading {
+  font-size: clamp(1.15rem, 3vw, 1.65rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.desk-phone-content p {
+  color: #f8fafc;
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.desk-phone-note {
+  color: #cbd5e1;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.desk-phone-home {
+  width: 2.4rem;
+  height: 0.2rem;
+  margin: 0.45rem auto 0.55rem;
+  border-radius: 99px;
+  background: rgba(255,255,255,.8);
+}
+
+.desk-intro { max-width: 42rem; margin-inline: auto; }
+.companion-setup-form { max-width: 42rem; margin-inline: auto; text-align: left; }
+.desk-actions { text-align: center; }
+
+@media (max-width: 520px) {
+  .desk-card { padding: 1.25rem 1rem; }
+  .desk-stage { gap: 0.75rem; min-height: 0; margin-bottom: 1.25rem; }
+  .desk-duck-halo { width: 112px; height: 112px; }
+  .desk-companion-art { width: 90px; height: 90px; }
+  .desk-duck-caption { max-width: 8rem; font-size: 0.68rem; }
+  .desk-phone { width: clamp(8.75rem, 38vw, 10rem); padding: 0.4rem; border-radius: 1.35rem; }
+  .desk-phone-screen { border-radius: 1rem; }
+  .desk-phone-content { padding: 0.65rem; }
+}
+
+@media (max-height: 600px) {
+  .desk-card { padding-block: 1rem; }
+  .desk-stage { min-height: 0; margin-bottom: 0.75rem; }
+  .desk-duck-halo { width: 100px; height: 100px; }
+  .desk-companion-art { width: 82px; height: 82px; }
+  .desk-phone { width: 8.5rem; }
+  .desk-intro h2 { font-size: 1.35rem; margin-bottom: 0.4rem; }
+  .desk-narrative { margin-bottom: 0.65rem; }
+  .companion-setup-form { margin-top: 0.75rem; padding: 1rem; }
+  .desk-actions { margin-top: 0.75rem; }
+}

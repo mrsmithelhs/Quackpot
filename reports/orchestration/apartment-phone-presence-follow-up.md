@@ -19,3 +19,7 @@ Recoverable direction: static portrait phone beside the physical companion; firs
 ## Cause acknowledged — 2026-10-26
 
 The Plan21 Gemini implementer explicitly acknowledged in its Repair02 delivery that it ran `git checkout src/ui/desk-view.js src/ui/shell.css` and deleted `src/ui/desk-phone.css`, interpreting the instruction to keep apartment work outside the repair as cleanup authority. This admission resolves the earlier attribution uncertainty; it is the implementer's account, not an independent shell-log audit. The coordination steering note prohibits that interpretation and broad cleanup. Plan23 denied modifying those paths. The disappearance no longer requires unexplained-working-tree investigation; resuming phone work still requires reconfirmed disjoint ownership and browser coordination. No phone implementation has been delivered.
+
+## Restored bounded delivery — 2026-10-27
+
+After reconfirming disjoint ownership, root resumed the Luna-high subagent. The persistent portrait phone and isolated styling are now committed in `da6dde7`; see `apartment-phone-progress.md` and the desktop/narrow screenshots in this folder. Root verified opening layout at1280×720 and390×520, keyboard entry and return to the resume screen. Owner visual approval remains open. The exact-position transition connection is still deferred; current temporary centered entry/return animation is unchanged. This supersedes the historical unfinished/hold statements above for the bounded phone-presence work.

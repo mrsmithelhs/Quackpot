@@ -15,6 +15,7 @@ import {
 } from './storage.mjs';
 import { EventLog } from './event-log.mjs';
 import { createRng } from './prng.mjs';
+import { GameEngine } from './game-engine.mjs';
 
 function createMockStorage(initialData = {}) {
   const store = new Map(Object.entries(initialData));
@@ -139,6 +140,74 @@ test('storage: saves and loads valid game envelope cleanly', () => {
   assert.equal(loadRes.valid, true);
   assert.equal(loadRes.isCorrupt, false);
   assert.equal(loadRes.envelope.state.cash, 25.00);
+});
+
+test('storage [Plan 23]: schema-v1 migration creates only summary-only race state', () => {
+  resetInMemoryStore();
+  const legacy = makeValidEnvelope();
+  legacy.state.raceResults = {
+    1: { raceNumber: 1, place: 2, payoutGems: 20, rivalPlace: 1, playerPerf: 10 },
+  };
+  legacy.state.completedRaces = [1];
+  legacy.state.step = 'd1_midday_race_result';
+  const legacyLog = EventLog.hydrate(legacy.eventLog);
+  legacyLog.append('race_result', {
+    raceNumber: 1, place: 2, payoutGems: 20, rivalPlace: 1, playerPerf: 10,
+  }, legacy.state.clock);
+  legacy.eventLog = legacyLog.entries;
+  const storage = createMockStorage({ [STORAGE_KEY]: JSON.stringify(legacy) });
+
+  const loaded = loadGame(storage);
+  assert.equal(loaded.valid, true, JSON.stringify(loaded.errors));
+  assert.equal(loaded.migrated, true);
+  assert.equal(loaded.envelope.schemaVersion, 2);
+  assert.equal(loaded.envelope.state.raceAttempts[1].legacySummaryOnly, true);
+  assert.equal(loaded.envelope.state.raceResolutions['R01'], undefined,
+    'migration must not fabricate trajectories or displayed race cues');
+  assert.deepEqual(loaded.envelope.eventLog, legacy.eventLog,
+    'migration leaves the historical hash-chained log unchanged');
+});
+
+function makeFinishedPlan23Envelope() {
+  const engine = new GameEngine('root-plan23-attempt-consistency');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  engine.runRace(1, engine.state.owned[0], 'safe');
+  return engine.toEnvelope();
+}
+
+test('storage [Plan 23]: finished cached attempt must match canonical race record and resolution', () => {
+  const envelope = makeFinishedPlan23Envelope();
+  const baseline = validateSave(envelope);
+  assert.equal(baseline.valid, true, JSON.stringify(baseline.errors));
+
+  envelope.state.raceAttempts[1] = {
+    ...envelope.state.raceAttempts[1],
+    place: 6,
+    payoutGems: 999,
+    duckId: 'duck-999',
+    finishOrder: envelope.state.raceAttempts[1].finishOrder.slice().reverse(),
+  };
+
+  const corrupted = validateSave(envelope);
+  assert.equal(corrupted.valid, false);
+  assert.ok(corrupted.errors.some((error) => error.includes('raceAttempts[1].place')));
+  assert.ok(corrupted.errors.some((error) => error.includes('raceAttempts[1].payoutGems')));
+  assert.ok(corrupted.errors.some((error) => error.includes('raceAttempts[1].duckId')));
+  assert.ok(corrupted.errors.some((error) => error.includes('raceAttempts[1].finishOrder')));
+});
+
+test('storage [Plan 23]: same-length altered finish-order cache is rejected', () => {
+  const envelope = makeFinishedPlan23Envelope();
+  const order = envelope.state.raceAttempts[1].finishOrder;
+  envelope.state.raceAttempts[1].finishOrder = [order[1], order[0], ...order.slice(2)];
+  assert.equal(envelope.state.raceAttempts[1].finishOrder.length, order.length);
+
+  const corrupted = validateSave(envelope);
+  assert.equal(corrupted.valid, false);
+  assert.ok(corrupted.errors.some((error) => error.includes('raceAttempts[1].finishOrder')));
 });
 
 test('storage: semantic validation detects mismatched state values', () => {

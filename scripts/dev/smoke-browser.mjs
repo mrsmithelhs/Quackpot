@@ -186,6 +186,18 @@ async function waitForVisible(cdp, selector, maxWaitMs = 5000, pollIntervalMs = 
   throw new Error(`Timed out waiting for visible selector "${selector}" after ${maxWaitMs}ms`);
 }
 
+async function startAndSettleRace(cdp) {
+  await waitForSelector(cdp, '[data-race-form]');
+  await clickSelector(cdp, '[data-race-form] button[type="submit"]');
+  await waitForSelector(cdp, '[data-race-skip]');
+  await clickSelector(cdp, '[data-race-skip]');
+  await waitForVisible(cdp, '[data-race-result-summary]');
+}
+
+async function continueRace(cdp) {
+  await clickSelector(cdp, '[data-race-proceed]');
+}
+
 async function resetAndLoadFresh(cdp) {
   await evalExpr(cdp, `window.__E2E_INSTANT_RACE__ = true; localStorage.clear();`);
   const reloadPromise = waitForCdpEvent(cdp, 'Page.loadEventFired', 8000);
@@ -567,10 +579,8 @@ async function runSmoke() {
     await clickSelector(cdp, '#btn-gacha-proceed');
 
     // Day 1 Midday Race 1 (Tutorial)
-    await waitForSelector(cdp, '#btn-start-race');
-    await clickSelector(cdp, '#btn-start-race');
-    await waitForVisible(cdp, '#race-results-panel');
-    await clickSelector(cdp, '#btn-race-continue');
+    await startAndSettleRace(cdp);
+    await continueRace(cdp);
 
     // Starter pack offer modal appears -> Buy for $0.99
     await waitForSelector(cdp, '#btn-buy-starter');
@@ -592,10 +602,8 @@ async function runSmoke() {
     await clickSelector(cdp, '#btn-accept-escalation');
 
     // Day 2 evening wage (+$10.00) -> Day 3 morning food (-$5.00) -> Race 2 Finale against Rival Whale
-    await waitForSelector(cdp, '#btn-start-race');
-    await clickSelector(cdp, '#btn-start-race');
-    await waitForVisible(cdp, '#race-results-panel');
-    await clickSelector(cdp, '#btn-race-continue');
+    await startAndSettleRace(cdp);
+    await continueRace(cdp);
 
     // Receipt View mounts!
     await waitForSelector(cdp, '#receipt-paper');
@@ -676,11 +684,9 @@ async function runSmoke() {
     await clickSelector(cdp, '#btn-gacha-proceed');
 
     // In Race 1: Start Race
-    await waitForSelector(cdp, '#btn-start-race');
-    await clickSelector(cdp, '#btn-start-race');
+    await startAndSettleRace(cdp);
 
     // Wait for race result panel to become visible
-    await waitForVisible(cdp, '#race-results-panel');
     const gemsBeforeReload = await evalExpr(cdp, `document.querySelector('#hud-gems .pill-val')?.textContent`);
     console.log('Observed Gems after tutorial race:', gemsBeforeReload);
     if (gemsBeforeReload !== '50') {
@@ -695,20 +701,22 @@ async function runSmoke() {
     await sleep(500);
 
     // Verify after reload: Results panel is visible, entry form is hidden, gems remain exactly 50!
-    await waitForVisible(cdp, '#race-results-panel');
+    await waitForSelector(cdp, '[data-race-skip]');
+    await clickSelector(cdp, '[data-race-skip]');
+    await waitForVisible(cdp, '[data-race-result-summary]');
     const gemsAfterReload = await evalExpr(cdp, `document.querySelector('#hud-gems .pill-val')?.textContent`);
-    const startRaceBtnVisible = await evalExpr(cdp, `Boolean(document.querySelector('#btn-start-race'))`);
-    console.log(`After reload: Gems=${gemsAfterReload}, startRaceButtonVisible=${startRaceBtnVisible}`);
+    const startRaceFormVisible = await evalExpr(cdp, `Boolean(document.querySelector('[data-race-form]'))`);
+    console.log(`After reload: Gems=${gemsAfterReload}, startRaceFormVisible=${startRaceFormVisible}`);
 
     if (gemsAfterReload !== '50') {
       throw new Error(`P1 Regression: Gems changed or duplicated on race result reload: ${gemsAfterReload}`);
     }
-    if (startRaceBtnVisible) {
-      throw new Error('P1 Regression: #btn-start-race still present after race completed and reloaded!');
+    if (startRaceFormVisible) {
+      throw new Error('P1 Regression: race entry form still present after race completed and reloaded!');
     }
 
     // Click proceed to continue
-    await clickSelector(cdp, '#btn-race-continue');
+    await continueRace(cdp);
     await waitForSelector(cdp, '#btn-buy-starter');
     console.log('✓ Journey 4 verified: Race result persisted across reload; no duplicate reward; progression intact.');
 
@@ -725,10 +733,8 @@ async function runSmoke() {
     await clickSelector(cdp, '#btn-reveal-all');
     await waitForSelector(cdp, '#btn-gacha-proceed');
     await clickSelector(cdp, '#btn-gacha-proceed');
-    await waitForSelector(cdp, '#btn-start-race');
-    await clickSelector(cdp, '#btn-start-race');
-    await waitForVisible(cdp, '#race-results-panel');
-    await clickSelector(cdp, '#btn-race-continue');
+    await startAndSettleRace(cdp);
+    await continueRace(cdp);
 
     // On Starter Offer modal: Click Uninstall in HUD
     await waitForSelector(cdp, '#btn-buy-starter');
@@ -798,10 +804,8 @@ async function runSmoke() {
       await clickSelector(cdp, '#btn-reveal-all');
       await waitForSelector(cdp, '#btn-gacha-proceed');
       await clickSelector(cdp, '#btn-gacha-proceed');
-      await waitForSelector(cdp, '#btn-start-race');
-      await clickSelector(cdp, '#btn-start-race');
-      await waitForVisible(cdp, '#race-results-panel');
-      await clickSelector(cdp, '#btn-race-continue');
+      await startAndSettleRace(cdp);
+      await continueRace(cdp);
       await waitForSelector(cdp, '#btn-decline-starter');
       await clickSelector(cdp, '#btn-decline-starter');
       await waitForSelector(cdp, '#btn-pay-rent');
@@ -828,16 +832,15 @@ async function runSmoke() {
     // Click Continue
     await clickSelector(cdp, '#btn-zero-continue');
     // Advances through Day 2 wage (+$10) -> Day 3 food (-$5) -> Race 2 Finale
-    await waitForSelector(cdp, '#btn-start-race');
+    await waitForSelector(cdp, '[data-race-form]');
     const cash6A = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
     const hp6A = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
     console.log(`Run 6A consequences: Cash=${cash6A}, HP=${hp6A}`);
     if (cash6A !== '$5.00') throw new Error(`Expected $5.00 cash after continue, got ${cash6A}`);
     if (!hp6A?.includes('100')) throw new Error(`Expected 100 HP after continue, got ${hp6A}`);
 
-    await clickSelector(cdp, '#btn-start-race');
-    await waitForVisible(cdp, '#race-results-panel');
-    await clickSelector(cdp, '#btn-race-continue');
+    await startAndSettleRace(cdp);
+    await continueRace(cdp);
     await waitForSelector(cdp, '#receipt-paper');
     const receipt6AText = await evalExpr(cdp, `document.querySelector('#receipt-paper')?.innerText`);
     if (!receipt6AText?.includes('4 recorded expense bill(s) paid in cash ($30.00 total)')) {
@@ -849,7 +852,7 @@ async function runSmoke() {
     console.log('Testing Zero-Cash Option B: Extra Shift (UI click)...');
     await playFrugalToZeroCashPrompt();
     await clickSelector(cdp, '#btn-zero-shift');
-    await waitForSelector(cdp, '#btn-start-race');
+    await waitForSelector(cdp, '[data-race-form]');
     const cash6B = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
     const hp6B = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
     console.log(`Run 6B consequences: Cash=${cash6B}, HP=${hp6B}`);
@@ -861,7 +864,7 @@ async function runSmoke() {
     console.log('Testing Zero-Cash Option C: Sell Couch (UI click)...');
     await playFrugalToZeroCashPrompt();
     await clickSelector(cdp, '#btn-zero-couch');
-    await waitForSelector(cdp, '#btn-start-race');
+    await waitForSelector(cdp, '[data-race-form]');
     const cash6C = await evalExpr(cdp, `document.querySelector('#hud-cash .pill-val')?.textContent`);
     const hp6C = await evalExpr(cdp, `document.querySelector('#hud-health .pill-val')?.textContent`);
     console.log(`Run 6C consequences: Cash=${cash6C}, HP=${hp6C}`);

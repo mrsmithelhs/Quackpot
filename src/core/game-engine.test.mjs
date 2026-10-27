@@ -4,6 +4,7 @@ import { GameEngine, calculatePreDrawOdds, BANNER_1_ROSTER } from './game-engine
 import { verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { validateSave } from './storage.mjs';
+import { resolveSeededRace } from './race-resolver.mjs';
 
 test('engine: preDrawOdds matches linear formula at draw 35 (0.08125) and draw 50 (1.0)', () => {
   const o1 = calculatePreDrawOdds(0);
@@ -554,6 +555,118 @@ test('engine [Repair 02 P1]: hydration reconstructs race completion so deleting 
   const res2 = restored.runRace(1, 'duck-0', 'safe');
   assert.equal(res2.place, res1.place);
   assert.equal(restored.state.gems, 50); // Gems remain 50, not 100!
+});
+
+test('engine [Plan 23]: affine race input, trial purchase/consumption, save reload, and keyed payout are once-only', () => {
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  const duckId = engine.state.owned[0];
+  engine.revealAllPending();
+  assert.ok(engine.state.down >= 3, 'the deterministic setup fixture earns enough Down from committed duplicates');
+  const downBeforeTrial = engine.state.down;
+  const choiceExposure = engine.recordRaceChoicesShown(1, { duckId, fieldBaseSpeed: 8 });
+  assert.ok(choiceExposure);
+  assert.equal(engine.recordRaceChoicesShown(1, { duckId, fieldBaseSpeed: 8 }), null, 'one stable exposure is logged once across rerenders');
+  const trialExposure = engine.recordRaceTrialOfferShown(1);
+  assert.ok(trialExposure);
+  assert.equal(engine.recordRaceTrialOfferShown(1), null, 'one stable trial affordance exposure is logged once');
+  assert.equal(engine.purchaseRaceTrial(), true);
+  assert.equal(engine.state.down, downBeforeTrial - 3);
+
+  const first = engine.runRace(1, duckId, 'sprint', { useTrial: true });
+  assert.equal(Object.isFrozen(first), true);
+  assert.equal(Object.isFrozen(first.finishOrder), true);
+  assert.throws(() => { first.finishOrder[0].place = 6; }, TypeError);
+  engine.recordRaceCueDisplayed(1, { cueId: 'event:finish-line-crossing', text: 'Your duck crossed the finish.' });
+  engine.recordRacePlaybackAction(1, 'skip');
+  assert.equal(first.status, 'finished');
+  assert.equal(first.trialConsumed, true);
+  assert.equal(engine.state.raceTrialAvailable, false);
+  const resolution = engine.state.raceResolutions[first.raceId];
+  assert.equal(resolution.metadata.inputs.playerBaseSpeed, BANNER_1_ROSTER.find((duck) => duck.id === duckId).speed);
+  assert.equal(resolution.metadata.inputs.authoredPlayerRating, BANNER_1_ROSTER.find((duck) => duck.id === duckId).speed);
+  assert.equal(resolution.metadata.inputs.restFactor, 1, 'Plan 22 rest lifecycle remains a separate future effective-speed input');
+  assert.equal(resolution.metadata.inputs.trialCommitted, true);
+  assert.equal(resolution.metadata.inputs.dramaArm, 'R2combined-risk-only');
+  assert.equal(resolution.metadata.inputs.experiment, 'weave-rank-strong-contact');
+
+  const envelope = engine.toEnvelope();
+  const validation = validateSave(envelope);
+  assert.equal(validation.valid, true, JSON.stringify(validation.errors));
+  const restored = GameEngine.fromEnvelope(envelope);
+  const retry = restored.runRace(1, duckId, 'safe', { useTrial: true });
+  assert.equal(retry.resolutionDigest, first.resolutionDigest);
+  assert.equal(restored.state.gems, engine.state.gems);
+  assert.equal(restored.state.down, downBeforeTrial - 3);
+  assert.equal(restored.state.raceTrialAvailable, false);
+  assert.equal(restored.log.entries.filter((entry) => entry.type === 'race_result').length, 1);
+  assert.equal(restored.log.entries.filter((entry) => entry.type === 'reward' && entry.payload?.raceId === first.raceId).length, 1);
+  assert.equal(restored.log.entries.filter((entry) => entry.type === 'action' && entry.payload?.kind === 'race_trial_consumed').length, 1);
+  const raceReceipt = projectReceipt(restored.log.entries).raceEvidence;
+  assert.ok(raceReceipt.displayed.some((item) => item.text.includes('Safe pace')));
+  assert.ok(raceReceipt.displayed.some((item) => item.text === 'Your duck crossed the finish.'));
+  assert.ok(raceReceipt.did.some((item) => item.text.includes('crossing order')));
+  assert.ok(raceReceipt.did.some((item) => item.text.includes('skip')));
+  assert.equal(raceReceipt.displayed.some((item) => item.text.includes('collided') || item.text.includes('wall')), false,
+    'mechanics that were never displayed are not claimed as shown cues');
+});
+
+test('engine [Plan 23]: unresolved guard is persisted once without payout or trial consumption', () => {
+  const engine = new GameEngine('plan23-guard-failure');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  const duckId = engine.state.owned[0];
+  const downBefore = engine.state.down;
+  assert.equal(engine.purchaseRaceTrial(), true);
+  const gemsBefore = engine.state.gems;
+  engine.resolveRaceCandidate = (input) => resolveSeededRace(input, { maxCompletionTicks: 1 });
+
+  const attempt = engine.runRace(1, duckId, 'safe', { useTrial: true });
+  assert.equal(attempt.status, 'unresolved');
+  assert.ok(attempt.guardEvidence);
+  assert.equal(engine.state.completedRaces.includes(1), false);
+  assert.equal(engine.state.raceTrialAvailable, true);
+  assert.equal(engine.state.gems, gemsBefore);
+  assert.equal(engine.state.down, downBefore - 3);
+  assert.equal(engine.log.entries.filter((entry) => entry.type === 'race_result').length, 0);
+  assert.equal(engine.log.entries.filter((entry) => entry.type === 'reward' && entry.payload?.kind === 'race_gems').length, 0);
+
+  const envelope = engine.toEnvelope();
+  const validation = validateSave(envelope);
+  assert.equal(validation.valid, true, JSON.stringify(validation.errors));
+  const restored = GameEngine.fromEnvelope(envelope);
+  const retry = restored.runRace(1, duckId, 'sprint', { useTrial: true });
+  assert.equal(retry.resolutionDigest, attempt.resolutionDigest);
+  assert.equal(restored.state.raceTrialAvailable, true);
+  assert.equal(restored.state.completedRaces.includes(1), false);
+  assert.equal(restored.log.entries.filter((entry) => entry.type === 'race_attempt_unresolved').length, 1);
+});
+
+test('engine [Plan 23]: both race resolutions fit the paired-save budget and round-trip unchanged', () => {
+  const engine = new GameEngine('plan23-two-race-save-budget');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  const duckId = engine.state.owned[0];
+  engine.runRace(1, duckId, 'safe');
+  engine.runRace(2, duckId, 'sprint');
+
+  const envelope = engine.toEnvelope();
+  const serializedRaceBytes = Object.values(envelope.state.raceResolutions)
+    .reduce((sum, resolution) => sum + new TextEncoder().encode(JSON.stringify(resolution)).byteLength, 0);
+  assert.ok(serializedRaceBytes < 1024 * 1024, `both race resolutions use ${serializedRaceBytes} bytes`);
+  const validation = validateSave(envelope);
+  assert.equal(validation.valid, true, JSON.stringify(validation.errors));
+  const restored = GameEngine.fromEnvelope(envelope);
+  for (const raceNumber of [1, 2]) {
+    assert.equal(restored.getRaceAttempt(raceNumber).resolutionDigest, engine.getRaceAttempt(raceNumber).resolutionDigest);
+    assert.deepEqual(restored.getRaceResolution(raceNumber).trajectory, engine.getRaceResolution(raceNumber).trajectory);
+  }
 });
 
 test('engine [Plan 21]: getDexCollectionState accurately reflects owned, seen, and missing identities with cosmetics', () => {

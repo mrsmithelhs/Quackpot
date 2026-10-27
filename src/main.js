@@ -6,6 +6,7 @@ import './ui/shell.css';
 import './ui/stage-transition.css';
 import './ui/duck-motion.css';
 import './ui/duck-dex.css';
+import './ui/race-view.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
@@ -50,6 +51,7 @@ if (app) {
   let stageTransition = null;
   let gachaViewHandle = null;
   let duckDexViewHandle = null;
+  let raceViewHandle = null;
   let dexReturnStep = 'd1_morning_gacha';
   let duckMotionPaused = false;
 
@@ -241,6 +243,9 @@ if (app) {
   }
 
   function renderApp() {
+    const racePlaybackSnapshot = raceViewHandle?.snapshot?.() ?? null;
+    raceViewHandle?.destroy?.();
+    raceViewHandle = null;
     gachaViewHandle?.destroy();
     gachaViewHandle = null;
     duckDexViewHandle?.destroy();
@@ -343,14 +348,33 @@ if (app) {
         },
       });
     } else if (currentStep === 'd1_midday_race' || currentStep === 'd1_midday_race_result') {
-      renderRaceView(mainContainer, engine, 1, {
-        onStartRace: ({ duckId, stance, raceNumber }) => {
-          const outcome = engine.runRace(raceNumber, duckId, stance);
+      raceViewHandle = renderRaceView(mainContainer, engine, 1, {
+        onStartRace: ({ duckId, stance, useTrial, raceNumber }) => {
+          const outcome = engine.runRace(raceNumber, duckId, stance, { useTrial });
           currentStep = 'd1_midday_race_result';
           engine.state.step = currentStep;
           maybeAutosave();
           updateHud();
-          return outcome;
+          return { attempt: outcome, resolution: engine.getRaceResolution(raceNumber) };
+        },
+        onChoiceShown: ({ raceNumber, duckId, fieldBaseSpeed, exposureId }) => {
+          if (engine.recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId })) maybeAutosave();
+        },
+        onTrialOfferShown: ({ raceNumber, costDown, exposureId }) => {
+          if (engine.recordRaceTrialOfferShown(raceNumber, costDown, exposureId)) maybeAutosave();
+        },
+        onBuyTrial: () => {
+          const purchased = engine.purchaseRaceTrial();
+          if (purchased) maybeAutosave();
+          return purchased;
+        },
+        onAction: (action, details) => {
+          engine.recordRacePlaybackAction(1, action, details);
+          maybeAutosave();
+        },
+        onCueDisplayed: (cue) => {
+          engine.recordRaceCueDisplayed(1, cue);
+          maybeAutosave();
         },
         onProceed: () => {
           engine.advanceDay(1, 'day 1 afternoon');
@@ -363,7 +387,7 @@ if (app) {
           maybeAutosave();
           renderApp();
         },
-      });
+      }, { active: !settingsOpen && !activeModal && !engine.isTerminal(), initialSnapshot: racePlaybackSnapshot });
     } else if (currentStep === 'd1_afternoon_starter') {
       mainContainer.innerHTML = `
         <div class="stage-transition-card">
@@ -424,14 +448,33 @@ if (app) {
         });
       }
     } else if (currentStep === 'd3_midday_race' || currentStep === 'd3_midday_race_result') {
-      renderRaceView(mainContainer, engine, 2, {
-        onStartRace: ({ duckId, stance, raceNumber }) => {
-          const outcome = engine.runRace(raceNumber, duckId, stance);
+      raceViewHandle = renderRaceView(mainContainer, engine, 2, {
+        onStartRace: ({ duckId, stance, useTrial, raceNumber }) => {
+          const outcome = engine.runRace(raceNumber, duckId, stance, { useTrial });
           currentStep = 'd3_midday_race_result';
           engine.state.step = currentStep;
           maybeAutosave();
           updateHud();
-          return outcome;
+          return { attempt: outcome, resolution: engine.getRaceResolution(raceNumber) };
+        },
+        onChoiceShown: ({ raceNumber, duckId, fieldBaseSpeed, exposureId }) => {
+          if (engine.recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId })) maybeAutosave();
+        },
+        onTrialOfferShown: ({ raceNumber, costDown, exposureId }) => {
+          if (engine.recordRaceTrialOfferShown(raceNumber, costDown, exposureId)) maybeAutosave();
+        },
+        onBuyTrial: () => {
+          const purchased = engine.purchaseRaceTrial();
+          if (purchased) maybeAutosave();
+          return purchased;
+        },
+        onAction: (action, details) => {
+          engine.recordRacePlaybackAction(2, action, details);
+          maybeAutosave();
+        },
+        onCueDisplayed: (cue) => {
+          engine.recordRaceCueDisplayed(2, cue);
+          maybeAutosave();
         },
         onProceed: () => {
           engine.finishRunComplete();
@@ -442,7 +485,7 @@ if (app) {
           maybeAutosave();
           renderApp();
         },
-      });
+      }, { active: !settingsOpen && !activeModal && !engine.isTerminal(), initialSnapshot: racePlaybackSnapshot });
     } else if (currentStep === 'receipt') {
       renderReceiptView(mainContainer, engine, {
         onPresented: () => {

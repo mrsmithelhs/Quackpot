@@ -2,10 +2,11 @@
 // LocalStorage envelope adapter with deep semantic restore validation and in-memory fallback.
 
 import { verifyChain } from './event-log.mjs';
+import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './race-resolver.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 // In-memory fallback session store when localStorage is unavailable or throws quota error
 let inMemoryStore = null;
@@ -41,8 +42,8 @@ export function validateSave(envelope) {
       return { valid: false, errors: ['Save payload is not an object'] };
     }
 
-    if (envelope.schemaVersion !== CURRENT_SCHEMA_VERSION) {
-      errors.push(`Incompatible schema version: expected ${CURRENT_SCHEMA_VERSION}, got ${envelope.schemaVersion}`);
+    if (![1, CURRENT_SCHEMA_VERSION].includes(envelope.schemaVersion)) {
+      errors.push(`Incompatible schema version: expected 1 or ${CURRENT_SCHEMA_VERSION}, got ${envelope.schemaVersion}`);
     }
 
     if (typeof envelope.savedAt !== 'number' || isNaN(envelope.savedAt) || envelope.savedAt <= 0) {
@@ -72,6 +73,15 @@ export function validateSave(envelope) {
       }
       if (!Array.isArray(state.pendingReveals)) {
         errors.push('state.pendingReveals must be an array');
+      }
+      if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION) {
+        if (!state.raceAttempts || typeof state.raceAttempts !== 'object' || Array.isArray(state.raceAttempts)) {
+          errors.push('state.raceAttempts must be an object');
+        }
+        if (!state.raceResolutions || typeof state.raceResolutions !== 'object' || Array.isArray(state.raceResolutions)) {
+          errors.push('state.raceResolutions must be an object');
+        }
+        if (typeof state.raceTrialAvailable !== 'boolean') errors.push('state.raceTrialAvailable must be boolean');
       }
       if (!['setup', 'playing', 'escalation', 'terminal', 'receipt_presented'].includes(state.phase)) {
         errors.push(`Invalid state.phase: ${state.phase}`);
@@ -165,6 +175,9 @@ export function validateSave(envelope) {
           }
           if (e.type === 'action' && e.payload?.kind === 'down_spent') {
             if (e.payload?.amount) calcDown -= e.payload.amount;
+          }
+          if (e.type === 'action' && e.payload?.kind === 'race_trial_purchased') {
+            if (e.payload?.costDown) calcDown -= e.payload.costDown;
           }
         }
 
@@ -289,6 +302,112 @@ export function validateSave(envelope) {
           }
         }
 
+        if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION && state.raceAttempts && state.raceResolutions) {
+          const attemptMap = new Map(entries.filter((entry) => ['race_result', 'race_attempt_unresolved'].includes(entry.type))
+            .map((entry) => [entry.payload.raceNumber, { type: entry.type, ...entry.payload }]));
+          let totalRaceResolutionBytes = 0;
+          for (const [raceNumber, attempt] of attemptMap) {
+            const storedAttempt = state.raceAttempts[raceNumber];
+            const raceId = attempt.raceId;
+            if (!attempt.resolutionDigest && attempt.type === 'race_result') {
+              if (!storedAttempt?.legacySummaryOnly && !state.raceResolutions[raceId]) {
+                errors.push(`Legacy race ${raceNumber} is missing its summary-only migration marker`);
+              }
+              continue;
+            }
+            if (!storedAttempt || storedAttempt.status !== entryStatus(attempt) || storedAttempt.raceId !== raceId) {
+              errors.push(`state.raceAttempts[${raceNumber}] does not match the append-only race record`);
+              continue;
+            }
+            const attemptFields = attempt.type === 'race_attempt_unresolved'
+              ? ['raceNumber', 'raceId', 'status', 'resolutionStatus', 'resolutionDigest', 'unresolvedReason', 'guardEvidence', 'knownCrossings', 'trialAvailable', 'trialCommitted']
+              : ['raceNumber', 'raceId', 'duckId', 'status', 'resolutionStatus', 'place', 'payoutGems', 'rivalPlace', 'playerPerf', 'winner', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'resolutionDigest', 'finishOrder', 'trialConsumed'];
+            for (const field of attemptFields) {
+              if (JSON.stringify(storedAttempt[field]) !== JSON.stringify(attempt[field])) {
+                errors.push(`state.raceAttempts[${raceNumber}].${field} does not match the append-only race record`);
+              }
+            }
+            if (attempt.type === 'race_result') {
+              const cachedResult = state.raceResults?.[raceNumber];
+              if (!cachedResult) {
+                errors.push(`state.raceResults missing cached result for finished race ${raceNumber}`);
+              } else {
+                for (const field of ['raceId', 'duckId', 'place', 'payoutGems', 'resolutionDigest', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'finishOrder', 'trialConsumed']) {
+                  if (JSON.stringify(cachedResult[field]) !== JSON.stringify(attempt[field])) {
+                    errors.push(`state.raceResults[${raceNumber}].${field} does not match the append-only race record`);
+                  }
+                }
+              }
+            }
+            const encoded = state.raceResolutions[raceId];
+            if (!encoded) {
+              errors.push(`Missing committed resolution for race ${raceNumber}`);
+              continue;
+            }
+            try {
+              const bytes = new TextEncoder().encode(JSON.stringify(encoded)).byteLength;
+              totalRaceResolutionBytes += bytes;
+              if (bytes > MAX_SERIALIZED_RACE_RESOLUTION_BYTES) errors.push(`Race resolution ${raceId} exceeds the provisional ${MAX_SERIALIZED_RACE_RESOLUTION_BYTES}-byte budget`);
+              const restored = restoreRaceResolution(encoded);
+              if (restored.status !== (attempt.resolutionStatus ?? entryStatus(attempt)) || encoded.digest !== attempt.resolutionDigest) {
+                errors.push(`Race resolution ${raceId} status/digest mismatch with event log`);
+              }
+              if (restored.finishCrossings.length !== attempt.finishOrder?.length && attempt.type !== 'race_attempt_unresolved') {
+                errors.push(`Race resolution ${raceId} crossing count mismatch with event log`);
+              }
+              if (attempt.type === 'race_result' && restored.status === 'finished') {
+                const resolvedOrder = restored.finish.map(({ id, place, payout }) => ({ id, place, payout }));
+                const crossingOrder = restored.finishCrossings.map(({ id }) => id);
+                if (JSON.stringify(resolvedOrder) !== JSON.stringify(attempt.finishOrder)) {
+                  errors.push(`Race resolution ${raceId} finish places/payouts mismatch with append-only race record`);
+                }
+                if (JSON.stringify(crossingOrder) !== JSON.stringify(attempt.finishOrder.map(({ id }) => id))) {
+                  errors.push(`Race resolution ${raceId} crossing order mismatch with append-only race record`);
+                }
+                const player = restored.finish.find(({ id }) => id === 'P');
+                const rival = raceNumber === 2 ? restored.finish.find(({ id }) => id === 'A') : null;
+                if (restored.winner !== attempt.winner || restored.finishTimeSeconds !== attempt.finishTimeSeconds
+                  || restored.lastFinishTimeSeconds !== attempt.lastFinishTimeSeconds
+                  || player?.place !== attempt.place || player?.payout !== attempt.payoutGems
+                  || player?.sampledPerformance !== attempt.playerPerf || (rival?.place ?? null) !== attempt.rivalPlace
+                  || restored.inputs.trialCommitted !== attempt.trialConsumed) {
+                  errors.push(`Race resolution ${raceId} winner/player summary mismatch with append-only race record`);
+                }
+              }
+              if (attempt.type === 'race_attempt_unresolved') {
+                const actualCrossings = restored.finishCrossings.map(({ id, crossingTimeSeconds }) => ({ id, crossingTimeSeconds }));
+                if (JSON.stringify(actualCrossings) !== JSON.stringify(attempt.knownCrossings)
+                  || restored.unresolvedReason !== attempt.unresolvedReason
+                  || JSON.stringify(restored.guardEvidence) !== JSON.stringify(attempt.guardEvidence)
+                  || restored.inputs.trialCommitted !== attempt.trialCommitted) {
+                  errors.push(`Race resolution ${raceId} unresolved evidence mismatch with append-only race record`);
+                }
+              }
+            } catch (error) {
+              errors.push(`Invalid race resolution ${raceId}: ${error.message}`);
+            }
+          }
+          for (const [raceNumber, attempt] of Object.entries(state.raceAttempts)) {
+            if (!attemptMap.has(Number(raceNumber))) errors.push(`state.raceAttempts[${raceNumber}] has no append-only race attempt`);
+            if (attempt.status === 'unresolved' && state.completedRaces.includes(Number(raceNumber))) {
+              errors.push(`Unresolved race ${raceNumber} cannot be counted as completed`);
+            }
+          }
+          if (totalRaceResolutionBytes > 1024 * 1024) errors.push('Combined race resolutions exceed the provisional 1 MiB save budget');
+          for (const raceId of Object.keys(state.raceResolutions)) {
+            if (!Object.values(state.raceAttempts).some((attempt) => attempt.raceId === raceId)) {
+              errors.push(`state.raceResolutions[${raceId}] has no committed race attempt`);
+            }
+          }
+          let trialAvailable = false;
+          for (const entry of entries) {
+            if (entry.type !== 'action') continue;
+            if (entry.payload?.kind === 'race_trial_purchased') trialAvailable = true;
+            if (entry.payload?.kind === 'race_trial_consumed') trialAvailable = false;
+          }
+          if (trialAvailable !== state.raceTrialAvailable) errors.push('race trial availability mismatch with append-only purchase/consumption actions');
+        }
+
         // Authoritative step reconciliation against completed races
         if (loggedRaceMap.has(1)) {
           if (state.step === 'desk' || state.step === 'd1_morning_gacha' || state.step === 'd1_midday_race') {
@@ -299,6 +418,13 @@ export function validateSave(envelope) {
           if (state.step === 'd3_midday_race') {
             errors.push(`state.step "${state.step}" is invalid: race 2 already completed in event log`);
           }
+        }
+        const unresolvedRaceNumbers = new Set(entries.filter((entry) => entry.type === 'race_attempt_unresolved').map((entry) => entry.payload.raceNumber));
+        if (unresolvedRaceNumbers.has(1) && ['desk', 'd1_morning_gacha', 'd1_midday_race'].includes(state.step)) {
+          errors.push(`state.step "${state.step}" is invalid: race 1 unresolved attempt is already recorded`);
+        }
+        if (unresolvedRaceNumbers.has(2) && state.step === 'd3_midday_race') {
+          errors.push('state.step "d3_midday_race" is invalid: race 2 unresolved attempt is already recorded');
         }
 
         // Terminal & Receipt phase coherence (Repair 02)
@@ -416,8 +542,39 @@ export function loadGame(storage = globalThis.localStorage) {
     return { envelope: null, valid: false, errors: [`JSON parse failure: ${err.message}`], isCorrupt: true };
   }
 
-  const { valid, errors } = validateSave(envelope);
-  return { envelope, valid, errors, isCorrupt: !valid };
+  const migrated = migrateLegacyEnvelope(envelope);
+  const { valid, errors } = validateSave(migrated);
+  return { envelope: migrated, valid, errors, isCorrupt: !valid, migrated: migrated.schemaVersion !== envelope.schemaVersion };
+}
+
+function entryStatus(entry) {
+  return entry.type === 'race_attempt_unresolved' ? 'unresolved' : 'finished';
+}
+
+function migrateLegacyEnvelope(envelope) {
+  if (!envelope || envelope.schemaVersion !== 1 || !envelope.state || typeof envelope.state !== 'object') return envelope;
+  const state = structuredClone(envelope.state);
+  const raceAttempts = {};
+  for (const [key, result] of Object.entries(state.raceResults ?? {})) {
+    const raceNumber = Number(key);
+    raceAttempts[raceNumber] = {
+      ...structuredClone(result), raceNumber,
+      raceId: `legacy-race-${raceNumber}`,
+      status: 'finished',
+      resolutionDigest: null,
+      legacySummaryOnly: true,
+    };
+  }
+  return {
+    ...envelope,
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+    state: {
+      ...state,
+      raceAttempts,
+      raceResolutions: {},
+      raceTrialAvailable: false,
+    },
+  };
 }
 
 /**

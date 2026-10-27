@@ -1,0 +1,140 @@
+.race-view {
+  width: min(100%, 960px);
+  margin: 1rem auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  color: #173047;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.25rem;
+  box-shadow: 0 12px 32px rgb(15 23 42 / 12%);
+}
+
+.race-view-header { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap; }
+.race-view-header h2 { margin: .15rem 0 .45rem; color: #12324b; }
+.race-eyebrow { margin: 0; color: #64748b; font-size: .8rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.race-subtitle { max-width: 62ch; color: #475569; }
+.race-field-summary,.race-playback-status { margin: .8rem 0; padding: .75rem 1rem; border-radius: .7rem; background: #e8f1f4; }
+.race-playback-status { min-height: 1.5em; background: #e8f1f4; }
+.race-entry-form { display: grid; gap: 1rem; margin-top: 1rem; }
+.race-entry-form select { width: 100%; max-width: 34rem; padding: .7rem; border: 1px solid #94a3b8; border-radius: .5rem; background: white; color: #102a43; }
+.race-stance-options { display: flex; flex-wrap: wrap; gap: .75rem; margin: 0; padding: .75rem; border: 1px solid #cbd5e1; border-radius: .75rem; }
+.race-stance-options legend { padding: 0 .4rem; font-weight: 800; }
+.race-stance-options label { display: grid; grid-template-columns: auto 1fr; gap: .4rem .6rem; align-items: center; flex: 1 1 15rem; padding: .75rem; border-radius: .6rem; background: #fff; cursor: pointer; }
+.race-stance-options label span { grid-column: 2; color: #475569; font-size: .9rem; }
+.race-trial-offer { min-height: 3.5rem; }
+.race-trial-ready { color: #14532d; font-weight: 800; }
+.race-control-button,.race-checkpoints button,.race-event-seeking button {
+  min-height: 2.75rem;
+  padding: .6rem .9rem;
+  border: 1px solid #64748b;
+  border-radius: .55rem;
+  background: #fff;
+  color: #102a43;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.race-control-button:hover,.race-checkpoints button:hover,.race-event-seeking button:hover { background: #edf4f7; }
+.race-control-button:focus-visible,.race-checkpoints button:focus-visible,.race-event-seeking button:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+.race-control-button:disabled { cursor: not-allowed; opacity: .6; }
+.race-start-button { justify-self: start; background: #fef3c7; border-color: #b45309; }
+
+.race-track-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 104 / 64;
+  overflow: hidden;
+  border: 2px solid #37566b;
+  border-radius: 1.2rem;
+  background: #91b8a9;
+  isolation: isolate;
+}
+.race-camera-layer { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
+.race-environment,.race-finish-markings { position: absolute; inset: 0; width: 100%; height: 100%; }
+.race-environment { z-index: 0; }
+.race-finish-markings { z-index: 2; pointer-events: none; }
+.race-runner-layer { position: absolute; inset: 0; z-index: 3; }
+.race-runner-position {
+  position: absolute;
+  width: clamp(2.5rem, 9%, 5.25rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  will-change: left, top;
+}
+.race-runner-orientation { width: 100%; height: 100%; transform-style: preserve-3d; }
+.race-runner-scope,.race-contact-layer { width: 100%; height: 100%; }
+.race-duck-shell,.podium-duck-shell { display: block; width: 100%; height: 100%; }
+.race-duck-shell svg,.podium-duck-shell svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.race-runner-label {
+  position: absolute;
+  left: 50%;
+  bottom: 98%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 10rem;
+  padding: .12rem .35rem;
+  border-radius: .3rem;
+  background: #f8fafc;
+  color: #102a43;
+  font-size: clamp(.58rem, 1.3vw, .82rem);
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+}
+.race-runner-position.is-crossed { z-index: 4; }
+.race-runner-position.participant-glow { filter: drop-shadow(0 0 7px #ffe26a) drop-shadow(0 0 13px #ffbd35) drop-shadow(0 2px 2px rgb(21 58 74 / 40%)); }
+
+.race-podium-scope { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.race-podium { position: absolute; left: 50%; bottom: 1%; display: flex; align-items: end; justify-content: center; gap: 1%; width: min(96%, 900px); transform: translate(-50%, calc((1 - var(--podium-progress, 0)) * 45px)); opacity: var(--podium-progress, 0); transition: none; pointer-events: none; }
+.race-podium[hidden] { display: none; }
+.race-podium-card { position: relative; display: grid; justify-items: center; align-content: end; flex: 0 1 32%; min-width: 0; height: clamp(8rem, 28vw, 15rem); padding: .35rem .5rem .55rem; border: 2px solid #e7c763; border-radius: .75rem .75rem .35rem .35rem; background: linear-gradient(180deg, #fffdf2, #f4e4a8); color: #173047; box-shadow: 0 5px 12px rgb(0 0 0 / 22%); }
+.race-podium-place-1 { height: clamp(9.5rem, 34vw, 18rem); z-index: 2; }
+.race-podium-place-2,.race-podium-place-3 { height: clamp(8rem, 28vw, 15rem); }
+.race-podium-card.is-player { outline: 4px solid #f59e0b; outline-offset: -5px; box-shadow: 0 0 0 3px #fff7cc, 0 7px 15px rgb(0 0 0 / 32%); }
+.podium-place-label { position: absolute; top: .3rem; font-size: clamp(.65rem, 1.5vw, .95rem); font-weight: 900; }
+.podium-platform { position: absolute; inset: 3.4rem .2rem 2.15rem; border-radius: .4rem; background: linear-gradient(90deg, #d6aa45, #fff2af 48%, #bc8c28); }
+.podium-duck-shell { position: absolute; top: 1.55rem; width: 64%; aspect-ratio: 1; height: auto; }
+.podium-competitor,.podium-award { z-index: 1; max-width: 100%; overflow-wrap: anywhere; text-align: center; font-size: clamp(.62rem, 1.4vw, .88rem); }
+.podium-award { color: #6b3f00; font-weight: 900; }
+.race-player-podium-slot { display: grid; place-items: center; min-height: 4rem; margin: .35rem 0; }
+.race-player-podium-banner { max-width: min(90%, 34rem); margin: 0; padding: .55rem 1rem; border: 2px solid #f3c84b; border-radius: .7rem; background: #fff8d8; color: #173047; font-size: clamp(1rem, 2.4vw, 1.5rem); font-weight: 900; text-align: center; box-shadow: 0 3px 10px rgb(0 0 0 / 30%); }
+.race-player-podium-banner[hidden] { display: none; }
+.race-player-result { padding: .65rem .85rem; border: 2px solid #f3c84b; border-radius: .6rem; background: #fff8d8; font-size: 1.15rem; font-weight: 900; }
+
+.race-commentary { min-height: 1.5em; margin: .75rem 0 .25rem; font-weight: 700; }
+.race-time-readout { display: flex; justify-content: space-between; color: #475569; font-variant-numeric: tabular-nums; }
+.race-playback-controls,.race-checkpoints { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.race-checkpoints { align-items: center; }
+.race-event-seeking { margin-top: 1rem; }
+.race-event-seeking summary { padding: .5rem 0; font-weight: 800; cursor: pointer; }
+.race-event-seeking ol { display: grid; gap: .35rem; max-height: 20rem; overflow-y: auto; padding-left: 2rem; }
+.race-event-seeking li { padding-left: .15rem; }
+.race-event-seeking button { width: 100%; text-align: left; }
+.race-result-summary { margin-top: 1rem; padding: 1rem; border-radius: .8rem; background: #fff6d8; color: #173047; }
+.race-result-summary h3 { margin-top: 0; }
+.race-result-summary ol { columns: 2; }
+.race-exit-actions { margin-top: .8rem; }
+.race-unresolved,.race-legacy-summary { max-width: 720px; }
+
+@media (max-width: 540px) {
+  .race-view { padding: .8rem; border-radius: .8rem; }
+  .race-view-header { flex-wrap: nowrap; gap: .35rem; }
+  .race-view-header h2 { flex: 1 1 auto; min-width: 0; font-size: clamp(.95rem, 4.5vw, 1.2rem); }
+  .race-view-header .race-eyebrow { flex: 0 0 auto; font-size: .64rem; letter-spacing: .04em; }
+  .race-runner-position { width: 12%; }
+  .race-runner-label { font-size: .55rem; max-width: 5.2rem; white-space: normal; line-height: 1.05; }
+  .race-podium { width: 98%; gap: .5%; }
+  .race-podium-card { flex-basis: 32.5%; height: 8rem; padding-inline: .2rem; }
+  .race-podium-place-1 { height: 9.5rem; }
+  .podium-place-label,.podium-competitor,.podium-award { font-size: .6rem; }
+  .podium-duck-shell { top: 1.45rem; width: 64%; height: auto; }
+  .podium-platform { inset: 3.2rem .1rem 2rem; }
+  .race-result-summary ol { columns: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .race-podium { transition: none; }
+  .race-runner-position,.race-camera-layer { will-change: auto; }
+}

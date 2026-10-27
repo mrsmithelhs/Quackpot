@@ -1,0 +1,47 @@
+{
+  "version": "plan23-production-port-parity-v1",
+  "provenance": {
+    "historical": "drama-preview-01/candidate-model.mjs",
+    "selectedContinuation": "drama-preview-01/individual-finish-model.mjs",
+    "cases": 1440,
+    "production": "../../../src/core/race-resolver.mjs",
+    "criterion": "selected R2combined-risk-only frozen 1,440 first-cross causal projections, exact all-recorded mechanics/crossings/places/payouts versus the selected continuation, and every returned interpolation frame through historical terminal tick"
+  },
+  "firstCrossingParity": {
+    "cases": 1440,
+    "mismatches": 0,
+    "witnessSha256": "4300fb086e179447e00eb4d2573bf4d51aee77472e297afe77a64fbf56e6eae3"
+  },
+  "trajectoryPrefix": {
+    "sampledFrames": 613391,
+    "mismatches": 0,
+    "tolerance": 1e-8
+  },
+  "selectedModelTimes": {
+    "winnerCrossingSeconds": {
+      "n": 1440,
+      "p50": 21.249505,
+      "p95": 22.165199,
+      "max": 22.448141,
+      "over23": 0
+    },
+    "lastCrossingSeconds": {
+      "n": 1440,
+      "p50": 22.454363,
+      "p95": 23.427473,
+      "max": 24.736054,
+      "over23": 131
+    },
+    "winnerToLastTailSeconds": {
+      "p50": 1.0446050000000007,
+      "p95": 2.1633959999999988,
+      "max": 3.633230000000001
+    },
+    "playbackWithTwoSecondHighlightAndOneSecondRevealSeconds": {
+      "p50": 25.5,
+      "p95": 26.45,
+      "max": 27.75
+    }
+  },
+  "caveat": "The frozen matrix validates selected known inputs and their historical first-crossing output. It does not estimate unseen production-seed populations or substitute for browser lifecycle evidence."
+}

@@ -11,6 +11,14 @@
 import { createRng, restoreRng } from './prng.mjs';
 import { EventLog, verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
+import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } from './race-resolver.mjs';
+
+function deepFreeze(value) {
+  if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
+  Object.freeze(value);
+  for (const child of Object.values(value)) deepFreeze(child);
+  return value;
+}
 
 export const BANNER_1_ROSTER = [
   { id: 'duck-0', name: 'Puddle Quacker', tier: 'common', speed: 10.0 },
@@ -43,6 +51,8 @@ export const GAME_CONSTANTS = {
   PULL_TEN_COST: 1600,
   DOWN_PER_DUPLICATE: { common: 1, rare: 5, legendary: 20 },
   DOWN_GEM_VALUE: 0.02,
+  RACE_TRIAL_COST: 3,
+  RACE_TRIAL_SPEED_MULTIPLIER: 1.05,
   TUTORIAL_FIELD_SPEED: 8.0,
   FINALE_FIELD_SPEED: 11.2,
 };
@@ -103,6 +113,9 @@ export class GameEngine {
       tenPullCommitted: false,
       completedRaces: [], // array of completed race numbers: [1, 2]
       raceResults: {},    // raceNumber -> outcome object
+      raceAttempts: {},   // raceNumber -> immutable finished/unresolved attempt summary
+      raceResolutions: {}, // stable raceId -> versioned lossless resolution envelope
+      raceTrialAvailable: false,
       lastRaceResult: null,
       billsSettled: [],   // array of settled bill IDs: ['d1_food', 'd2_rent', ...]
       assetsSold: [],     // array of sold asset strings: ['couch', 'tv']
@@ -403,103 +416,191 @@ export class GameEngine {
     }, this.state.clock);
   }
 
-  /**
-   * Executes a pond race.
-   * raceNumber: 1 (Tutorial) or 2 (Finale).
-   * duckId: owned duck ID entered by player.
-   * stance: 'safe' | 'sprint'.
-   * Guarded: already-completed races return cached result without duplicating events or payouts.
-   */
-  runRace(raceNumber, duckId, stance = 'safe') {
-    if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
-    
-    // Idempotent guard: if race already ran, return cached result
-    if (this.state.completedRaces.includes(raceNumber) && this.state.raceResults[raceNumber]) {
-      return this.state.raceResults[raceNumber];
-    }
+  raceIdFor(raceNumber) {
+    if (raceNumber !== 1 && raceNumber !== 2) throw new RangeError(`Unsupported race number: ${raceNumber}`);
+    return `R0${raceNumber}`;
+  }
 
-    const isTutorial = (raceNumber === 1);
-    const baseFieldSpeed = isTutorial ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
+  getRaceAttempt(raceNumber) {
+    return deepFreeze(this.state.raceAttempts?.[raceNumber] ?? null);
+  }
 
-    const duckDef = BANNER_1_ROSTER.find((d) => d.id === duckId) ?? BANNER_1_ROSTER[0];
-    const S = duckDef.speed;
+  getRaceResolution(raceNumber) {
+    const attempt = this.getRaceAttempt(raceNumber);
+    const encoded = attempt ? this.state.raceResolutions?.[attempt.raceId] : null;
+    return encoded ? restoreRaceResolution(encoded) : null;
+  }
 
-    // Emit pre-race choice options and action
-    this.log.append('race_choice_offered', {
+  /** Record the pre-race controls only after the entry form has actually rendered. */
+  recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId = `race-choice-${raceNumber}` } = {}) {
+    const duckDef = BANNER_1_ROSTER.find((duck) => duck.id === duckId);
+    if (!duckDef || !this.state.owned.includes(duckId)) return null;
+    if (this.log.entries.some((entry) => entry.type === 'race_choice_offered' && entry.payload?.exposureId === exposureId)) return null;
+    return this.log.append('race_choice_offered', {
+      raceNumber,
+      exposureId,
       options: {
-        safe: { label: 'Safe Pace (±5% variance, reliable finish)', targetSpeed: S, noise: 0.05 },
-        sprint: { label: 'Sprint Push (+10% peak boost, ±20% variance)', targetSpeed: S * 1.10, noise: 0.20 },
+        safe: { label: 'Safe Pace', mean: 1, noise: 0.05 },
+        sprint: { label: 'Sprint', mean: 1, noise: 0.20 },
       },
       duckId,
-      fieldBaseSpeed: baseFieldSpeed,
+      fieldBaseSpeed,
+      trialAvailable: Boolean(this.state.raceTrialAvailable),
     }, this.state.clock);
+  }
 
-    this.log.append('action', { kind: 'race_choice', stance, duckId }, this.state.clock);
+  recordRaceTrialOfferShown(raceNumber, costDown = GAME_CONSTANTS.RACE_TRIAL_COST, exposureId = `race-trial-${raceNumber}`) {
+    if (this.log.entries.some((entry) => entry.type === 'race_trial_offer_shown' && entry.payload?.exposureId === exposureId)) return null;
+    return this.log.append('race_trial_offer_shown', {
+      raceNumber,
+      exposureId,
+      costDown,
+      availableDown: this.state.down,
+      alreadyPurchased: Boolean(this.state.raceTrialAvailable),
+    }, this.state.clock);
+  }
 
-    // Player performance calculation
-    const uPlayer = this.rngRace.next();
-    const noiseSpan = stance === 'safe' ? 0.05 : 0.20;
-    const targetSpeed = stance === 'safe' ? S : S * 1.10;
-    const playerPerf = targetSpeed * (1 + (2 * uPlayer - 1) * noiseSpan);
+  recordRacePlaybackAction(raceNumber, action, details = {}) {
+    if (!['pause', 'resume', 'skip', 'replay', 'checkpoint', 'seek', 'pause-podium-motion', 'resume-podium-motion'].includes(action)) return null;
+    return this.log.append('race_playback_action', { raceNumber, raceId: this.raceIdFor(raceNumber), action, ...details }, this.state.clock);
+  }
 
-    // 5 independent opponents
-    const opponents = [];
-    for (let i = 1; i <= 5; i++) {
-      const uOpp = this.rngRace.next();
-      const oppPerf = baseFieldSpeed * (1 + (2 * uOpp - 1) * 0.05);
-      opponents.push({
-        lane: i === 1 ? 1 : i + 1,
-        perf: oppPerf,
-        isRival: i === 1 && !isTutorial,
-      });
+  recordRaceCueDisplayed(raceNumber, cue) {
+    if (!cue || typeof cue.cueId !== 'string' || !cue.cueId) return null;
+    return this.log.append('race_cue_displayed', {
+      raceNumber,
+      raceId: this.raceIdFor(raceNumber),
+      cueId: cue.cueId,
+      eventId: cue.eventId ?? null,
+      text: String(cue.text ?? ''),
+      timeSeconds: Number.isFinite(cue.timeSeconds) ? cue.timeSeconds : null,
+      seek: Boolean(cue.seek),
+    }, this.state.clock);
+  }
+
+  purchaseRaceTrial() {
+    const cost = GAME_CONSTANTS.RACE_TRIAL_COST;
+    if (this.isTerminal() || this.state.raceTrialAvailable || this.state.down < cost) return false;
+    const downBefore = this.state.down;
+    this.state.down -= cost;
+    this.state.raceTrialAvailable = true;
+    this.log.append('action', {
+      kind: 'race_trial_purchased', costDown: cost, downBefore, downAfter: this.state.down,
+      speedMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER,
+    }, this.state.clock);
+    return true;
+  }
+
+  /** One named seam for the pure, deterministic resolver; kept side-effect free. */
+  resolveRaceCandidate(input) {
+    return resolveSeededRace(input);
+  }
+
+  /** Resolve and commit one deterministic race attempt. Re-entry returns its stored attempt. */
+  runRace(raceNumber, duckId, stance = 'safe', { useTrial = false } = {}) {
+    if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
+    const raceId = this.raceIdFor(raceNumber);
+    const priorAttempt = this.getRaceAttempt(raceNumber);
+    if (priorAttempt) return priorAttempt;
+    if (!['safe', 'sprint'].includes(stance)) throw new RangeError(`Unsupported race stance: ${stance}`);
+    const duckDef = BANNER_1_ROSTER.find((duck) => duck.id === duckId);
+    if (!duckDef || !this.state.owned.includes(duckId)) throw new RangeError('Selected racer must be an owned roster duck');
+    if (typeof useTrial !== 'boolean') throw new TypeError('useTrial must be boolean');
+    if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
+
+    const fieldBaseSpeed = raceNumber === 1 ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
+    const trialCommitted = Boolean(useTrial && this.state.raceTrialAvailable);
+    // Plan 22 owns rest calculation; keep its effective-speed input explicit here.
+    const restFactor = 1;
+    const effectivePlayerRating = duckDef.speed * restFactor;
+    const resolverInput = {
+      seed: this.seed,
+      raceId,
+      authoredPlayerRating: duckDef.speed,
+      playerBaseSpeed: effectivePlayerRating,
+      restFactor,
+      fieldBaseSpeed,
+      choice: stance === 'safe' ? 'steady' : 'sprint',
+      trialCommitted,
+      trialMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER,
+      experiment: 'weave-rank-strong-contact',
+      dramaArm: 'R2combined-risk-only',
+      studySprintMean: 1,
+    };
+
+    // Compute and serialize before any wallet, trial, progression, or log mutation.
+    const resolution = this.resolveRaceCandidate(resolverInput);
+    const saved = serializeRaceResolution(resolution);
+    const player = resolution.finish.find((entrant) => entrant.id === 'P') ?? null;
+    const rival = raceNumber === 2 ? resolution.finish.find((entrant) => entrant.id === 'A') : null;
+    const isFinished = resolution.status === 'finished' && resolution.finish.length === 6 && player?.place;
+    const nextStep = raceNumber === 1 ? 'd1_midday_race_result' : 'd3_midday_race_result';
+
+    this.log.append('action', { kind: 'race_choice', stance, duckId, raceId, trialCommitted }, this.state.clock);
+    this.state.raceResolutions[raceId] = saved.encoded;
+
+    if (!isFinished) {
+      const attempt = {
+        raceNumber,
+        raceId,
+        status: 'unresolved',
+        resolutionStatus: resolution.status,
+        resolutionDigest: saved.digest,
+        unresolvedReason: resolution.unresolvedReason,
+        guardEvidence: structuredClone(resolution.guardEvidence),
+        knownCrossings: resolution.finishCrossings.map((crossing) => ({ id: crossing.id, crossingTimeSeconds: crossing.crossingTimeSeconds })),
+        trialAvailable: Boolean(this.state.raceTrialAvailable),
+        trialCommitted,
+      };
+      this.log.append('race_attempt_unresolved', attempt, this.state.clock);
+      this.state.raceAttempts[raceNumber] = deepFreeze(attempt);
+      this.state.step = nextStep;
+      return this.state.raceAttempts[raceNumber];
     }
 
-    const playerEntry = { lane: 2, perf: playerPerf, isPlayer: true };
-    const allEntrants = [playerEntry, ...opponents];
-
-    // Sort descending by performance. Deterministic ties: player wins over AI, lower lane wins over higher lane.
-    allEntrants.sort((a, b) => {
-      const diff = b.perf - a.perf;
-      if (Math.abs(diff) > 1e-6) return diff;
-      if (a.isPlayer) return -1;
-      if (b.isPlayer) return 1;
-      return a.lane - b.lane;
-    });
-
-    const place = allEntrants.findIndex((e) => e.isPlayer) + 1;
-    const rivalEntrant = allEntrants.find((e) => e.isRival);
-    const rivalPlace = rivalEntrant ? allEntrants.indexOf(rivalEntrant) + 1 : null;
-
-    let payoutGems = 0;
-    if (place === 1) payoutGems = 50;
-    else if (place === 2) payoutGems = 20;
-    else if (place === 3) payoutGems = 10;
-
-    this.state.gems += payoutGems;
-    this.state.lastRacedId = duckId;
-
-    this.log.append('race_result', {
+    const place = player.place;
+    const payoutGems = player.payout;
+    const outcome = {
       raceNumber,
+      raceId,
       duckId,
-      stance,
+      status: 'finished',
+      resolutionStatus: resolution.status,
       place,
       payoutGems,
-      gemsAfter: this.state.gems,
-      rivalPlace,
-      playerPerf: Math.round(playerPerf * 100) / 100,
+      rivalPlace: rival?.place ?? null,
+      playerPerf: player.sampledPerformance,
+      winner: resolution.winner,
+      finishTimeSeconds: resolution.finishTimeSeconds,
+      lastFinishTimeSeconds: resolution.lastFinishTimeSeconds,
+      resolutionDigest: saved.digest,
+      finishOrder: resolution.finish.map((entrant) => ({ id: entrant.id, place: entrant.place, payout: entrant.payout })),
+      trialConsumed: trialCommitted,
+    };
+    const gemsAfter = this.state.gems + payoutGems;
+
+    this.log.append('race_result', {
+      ...outcome,
+      duckId,
+      stance,
+      gemsAfter,
+      finishOrder: outcome.finishOrder,
     }, this.state.clock);
-
-    if (payoutGems > 0) {
-      this.log.append('reward', { kind: 'race_gems', gems: payoutGems, gemsAfter: this.state.gems }, this.state.clock);
+    if (trialCommitted) {
+      this.log.append('action', { kind: 'race_trial_consumed', raceId, multiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER }, this.state.clock);
     }
+    if (payoutGems > 0) this.log.append('reward', { kind: 'race_gems', gems: payoutGems, gemsAfter, raceId }, this.state.clock);
 
-    const outcome = { place, payoutGems, rivalPlace, playerPerf };
+    this.state.gems = gemsAfter;
+    this.state.lastRacedId = duckId;
     this.state.completedRaces.push(raceNumber);
-    this.state.raceResults[raceNumber] = outcome;
-    this.state.lastRaceResult = outcome;
-    this.state.step = isTutorial ? 'd1_midday_race_result' : 'd3_midday_race_result';
-
-    return outcome;
+    const committedOutcome = deepFreeze(outcome);
+    this.state.raceAttempts[raceNumber] = committedOutcome;
+    this.state.raceResults[raceNumber] = committedOutcome;
+    this.state.lastRaceResult = committedOutcome;
+    if (trialCommitted) this.state.raceTrialAvailable = false;
+    this.state.step = nextStep;
+    return committedOutcome;
   }
 
   /** Displays the $0.99 Starter Pack offer */
@@ -934,7 +1035,7 @@ export class GameEngine {
   /** Serializes complete game snapshot into storage envelope */
   toEnvelope() {
     return {
-      schemaVersion: 1,
+      schemaVersion: 2,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,
       state: structuredClone(this.state),
@@ -965,6 +1066,9 @@ export class GameEngine {
     // Reconstruct / validate authoritative progression from event log (Repair 02, P1)
     if (!engine.state.completedRaces) engine.state.completedRaces = [];
     if (!engine.state.raceResults) engine.state.raceResults = {};
+    if (!engine.state.raceAttempts) engine.state.raceAttempts = {};
+    if (!engine.state.raceResolutions) engine.state.raceResolutions = {};
+    if (typeof engine.state.raceTrialAvailable !== 'boolean') engine.state.raceTrialAvailable = false;
     if (!engine.state.billsSettled) engine.state.billsSettled = [];
     if (!Array.isArray(engine.state.seenDexEntries)) {
       engine.state.seenDexEntries = [...(engine.state.owned || [])];
@@ -984,6 +1088,20 @@ export class GameEngine {
             playerPerf: e.payload.playerPerf,
           };
         }
+        if (!engine.state.raceAttempts[rNum]) {
+          engine.state.raceAttempts[rNum] = {
+            ...engine.state.raceResults[rNum],
+            raceNumber: rNum,
+            raceId: e.payload.raceId ?? `legacy-race-${rNum}`,
+            status: 'finished',
+            resolutionDigest: e.payload.resolutionDigest ?? null,
+            legacySummaryOnly: !e.payload.resolutionDigest,
+            finishOrder: e.payload.finishOrder ?? null,
+          };
+        }
+      }
+      if (e.type === 'race_attempt_unresolved') {
+        engine.state.raceAttempts[e.payload.raceNumber] = structuredClone(e.payload);
       }
       if (e.type === 'expense_paid' && e.payload?.billId) {
         if (!engine.state.billsSettled.includes(e.payload.billId)) {
@@ -991,6 +1109,11 @@ export class GameEngine {
         }
       }
     }
+
+    for (const attempt of Object.values(engine.state.raceAttempts)) deepFreeze(attempt);
+    for (const result of Object.values(engine.state.raceResults)) deepFreeze(result);
+    deepFreeze(engine.state.lastRaceResult);
+    for (const resolution of Object.values(engine.state.raceResolutions)) deepFreeze(resolution);
 
     // Step coherence against completed races
     if (engine.state.completedRaces.includes(1) && (engine.state.step === 'desk' || engine.state.step === 'd1_morning_gacha' || engine.state.step === 'd1_midday_race')) {

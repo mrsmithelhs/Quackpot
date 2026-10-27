@@ -4,6 +4,8 @@
 
 import { projectReceipt } from '../core/receipt.mjs';
 
+const escapeHtml = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+
 export function renderReceiptView(container, engine, callbacks = {}) {
   const { onFreshRun, onPresented } = callbacks;
 
@@ -67,6 +69,20 @@ export function renderReceiptView(container, engine, callbacks = {}) {
             </div>
           `}
         </section>
+
+        ${receipt.raceEvidence?.displayed?.length || receipt.raceEvidence?.did?.length ? `
+          <section class="receipt-section race-receipt-record">
+            <h3 class="receipt-section-title">POND RACE RECORD</h3>
+            <p class="receipt-section-note">Here is what appeared during your races, what you chose, and the results.</p>
+            <div class="register-block reg-displayed"><div class="reg-label">1. WE DISPLAYED:</div><ul class="reg-list">
+              ${receipt.raceEvidence.displayed.map((item) => `<li><span class="seq-tag">[#${item.seq ?? '-'}]</span> ${escapeHtml(item.text)}</li>`).join('')}
+            </ul></div>
+            <div class="register-block reg-did"><div class="reg-label">2. YOU DID / THE GAME RECORDED:</div><ul class="reg-list">
+              ${receipt.raceEvidence.did.map((item) => `<li><span class="seq-tag">[#${item.seq ?? '-'}]</span> ${escapeHtml(item.text)}</li>`).join('')}
+            </ul></div>
+            <div class="register-block reg-question"><div class="reg-label">3. DID THIS AFFECT YOU?</div><div class="question-text">"${escapeHtml(receipt.raceEvidence.question.text)}"</div></div>
+          </section>
+        ` : ''}
 
         <section class="receipt-section">
           <h3 class="receipt-section-title">SECTION II: FINANCIAL & HEALTH ACCOUNTING</h3>

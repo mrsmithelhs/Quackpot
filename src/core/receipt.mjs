@@ -138,8 +138,10 @@ export function projectReceipt(entries) {
     } else if (id === 'secondary_currency') {
       const total = revealedDup.reduce((s, e) => s + e.payload.downGained, 0);
       displayed.push(line(`${revealedDup.length} reveal(s) showed a duplicate converted to Down, ${total} Down in total.`, (revealedDup[0] ?? cues[0]).seq));
-      const spent = ofType('action').filter((e) => e.payload.kind === 'down_spent');
-      if (spent.length) for (const a of spent) did.push(line(`Spent ${a.payload.amount} Down (worth about ${a.payload.gemEquivalent} gems).`, a.seq));
+      const spent = ofType('action').filter((e) => ['down_spent', 'race_trial_purchased'].includes(e.payload.kind));
+      if (spent.length) for (const a of spent) did.push(line(a.payload.kind === 'race_trial_purchased'
+        ? `Spent ${a.payload.costDown} Down for the one-race speed trial.`
+        : `Spent ${a.payload.amount} Down (worth about ${a.payload.gemEquivalent} gems).`, a.seq));
       else did.push(line('No Down spending recorded.', null));
     } else if (id === 'pressure_on_possession') {
       for (const c of cues) displayed.push(line(`Pawn offer shown (${c.clock.label}): ${c.payload.amountCash} cash for ${c.payload.item}.`, c.seq));
@@ -274,8 +276,40 @@ export function projectReceipt(entries) {
   const derivedOwnedDucksCount = uniqueOwnedDucks.size;
 
   const totalDownGained = drawsCommitted.filter((d) => d.payload.duplicate).reduce((s, d) => s + (d.payload.downGained ?? 0), 0);
-  const totalDownSpent = ofType('action').filter((e) => e.payload.kind === 'down_spent').reduce((s, e) => s + (e.payload.amount ?? 0), 0);
+  const totalDownSpent = ofType('action').reduce((sum, e) => sum
+    + (e.payload.kind === 'down_spent' ? (e.payload.amount ?? 0) : 0)
+    + (e.payload.kind === 'race_trial_purchased' ? (e.payload.costDown ?? 0) : 0), 0);
   const derivedDownBalance = Math.max(0, totalDownGained - totalDownSpent);
+
+  const raceDisplayed = [];
+  const raceDid = [];
+  for (const event of ofType('race_choice_offered')) {
+    raceDisplayed.push(line(`Race ${event.payload.raceNumber} options shown: Safe pace (±5%) and Sprint (±20% variation).`, event.seq));
+  }
+  for (const event of ofType('race_trial_offer_shown')) {
+    raceDisplayed.push(line(event.payload.alreadyPurchased
+      ? 'An available one-race speed trial could be selected for this race.'
+      : `Race trial offer shown: ${event.payload.costDown} Down for +5% base speed on one race.`, event.seq));
+  }
+  for (const event of ofType('race_cue_displayed')) {
+    raceDisplayed.push(line(event.payload.text || `Race cue shown: ${event.payload.cueId}.`, event.seq));
+  }
+  for (const event of ofType('action')) {
+    if (event.payload.kind === 'race_choice') raceDid.push(line(`Entered ${event.payload.duckId} with the ${event.payload.stance} stance.`, event.seq));
+    if (event.payload.kind === 'race_trial_purchased') raceDid.push(line(`Bought the one-race speed trial for ${event.payload.costDown} Down.`, event.seq));
+    if (event.payload.kind === 'race_trial_consumed') raceDid.push(line('The available speed trial was used on this finished race.', event.seq));
+  }
+  for (const event of ofType('race_playback_action')) {
+    raceDid.push(line(`Race playback action recorded: ${event.payload.action}.`, event.seq));
+  }
+  for (const event of races) {
+    const order = (event.payload.finishOrder ?? []).map((item) => `${item.place}: ${item.id}`).join(', ');
+    raceDid.push(line(`Race ${event.payload.raceNumber} finished; recorded crossing order ${order || 'unavailable'}. You placed ${event.payload.place} and earned ${event.payload.payoutGems} Gems.`, event.seq));
+  }
+  for (const event of ofType('race_attempt_unresolved')) {
+    const trialFact = event.payload.trialAvailable ? ' A purchased trial stayed available.' : ' No trial was committed.';
+    raceDid.push(line(`Race ${event.payload.raceNumber} remained unresolved; no finish place or Gems were recorded.${trialFact}`, event.seq));
+  }
 
   return {
     chainValid,
@@ -284,6 +318,11 @@ export function projectReceipt(entries) {
     receiptShown: !!receiptShown,
     findings,
     pullLedger,
+    raceEvidence: {
+      displayed: raceDisplayed,
+      did: raceDid,
+      question: { text: 'Did the race presentation or its outcome affect what you did next?', answer: null },
+    },
     accounting: {
       expenses,
       unpaidExpense,

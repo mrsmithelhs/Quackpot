@@ -1,276 +1,423 @@
-// src/ui/race-view.js
-// Pond race view featuring opponent scouting, two-stance tactical choice, and lane animation.
+import { BANNER_1_ROSTER, DUCK_COSMETICS, GAME_CONSTANTS } from '../core/game-engine.mjs';
+import { raceDuckYaw, raceHeadingError, sampleTrajectory } from '../core/race-resolver.mjs';
+import { createDigitalDuckSvg } from './duck-rig-view.mjs';
+import { createRaceMotionController } from './race-motion-controller.mjs';
+import { createRacePlaybackController, individualPresentationTiming, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
-import { BANNER_1_ROSTER, GAME_CONSTANTS } from '../core/game-engine.mjs';
+const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 
-export function renderRaceView(container, engine, raceNumber, callbacks = {}) {
-  const { onStartRace, onProceed } = callbacks;
-  const isTutorial = (raceNumber === 1);
-  const baseOppSpeed = isTutorial ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
-  const oppMin = (baseOppSpeed * 0.95).toFixed(2);
-  const oppMax = (baseOppSpeed * 1.05).toFixed(2);
+function duckSvg(duckId, name, prefix) {
+  const cosmetics = DUCK_COSMETICS[duckId] ?? DUCK_COSMETICS['duck-0'];
+  return createDigitalDuckSvg({ prefix, label: name, ...cosmetics });
+}
 
-  // Check if race was already executed and resolved
-  const alreadyCompleted = engine.state.completedRaces?.includes(raceNumber) && engine.state.raceResults?.[raceNumber];
-  const existingOutcome = alreadyCompleted ? engine.state.raceResults[raceNumber] : null;
+function raceName(entrant, raceNumber) {
+  if (raceNumber === 2 && entrant.id === 'A') return 'Rival Whale';
+  return entrant.id === 'P' ? 'Your duck' : entrant.name;
+}
 
-  // Owned ducks available for entry
-  const ownedDucks = engine.state.owned
-    .map((id) => BANNER_1_ROSTER.find((d) => d.id === id))
-    .filter(Boolean);
+function statusText(attempt) {
+  if (attempt.status === 'unresolved') return `This race attempt could not be resolved. No finish place or Gems were recorded.${attempt.trialAvailable ? ' Your purchased race trial remains available.' : ''}`;
+  return 'Race complete.';
+}
 
-  const defaultDuck = ownedDucks.slice().sort((a, b) => b.speed - a.speed)[0] || BANNER_1_ROSTER[0];
+function placeLabel(place) {
+  return `${place}${place === 1 ? 'st' : place === 2 ? 'nd' : place === 3 ? 'rd' : 'th'}`;
+}
 
-  container.innerHTML = `
-    <div class="race-container">
-      <div class="race-card">
-        <div class="race-header">
-          <div class="race-tag">${isTutorial ? 'Tutorial Event' : 'Grand Championship'}</div>
-          <h2>${isTutorial ? 'Race 1: Opening Pond Trial' : 'Race 2: Championship Finale'}</h2>
-          <p class="race-sub">
-            ${isTutorial 
-              ? 'Prove your racing chops in the beginner lane. Top prize: 50 💎!' 
-              : 'Face the reigning Rival Whale in Lane 1! Top prize: 50 💎, 2nd: 20 💎, 3rd: 10 💎'}
-          </p>
-        </div>
-
-        ${!alreadyCompleted ? `
-          <div id="race-setup-panel" class="race-setup-panel">
-            <div class="scouting-section">
-              <h3>🔭 Opponent Field Scouting</h3>
-              <div class="scouting-table-wrapper">
-                <table class="scouting-table">
-                  <thead>
-                    <tr>
-                      <th>Lane</th>
-                      <th>Competitor</th>
-                      <th>Base Speed</th>
-                      <th>Variance Range</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="${!isTutorial ? 'row-rival' : ''}">
-                      <td>Lane 1</td>
-                      <td>${isTutorial ? 'AI Novice #1' : '👑 Rival Whale (Golden Mallard)'}</td>
-                      <td>${baseOppSpeed.toFixed(1)}</td>
-                      <td>${oppMin} – ${oppMax}</td>
-                    </tr>
-                    <tr class="row-player">
-                      <td>Lane 2</td>
-                      <td><strong>YOU (Your Selected Duck)</strong></td>
-                      <td id="scout-player-speed">${defaultDuck.speed.toFixed(1)}</td>
-                      <td id="scout-player-range">Calculating...</td>
-                    </tr>
-                    <tr>
-                      <td>Lanes 3–6</td>
-                      <td>AI Field Competitors (4 ducks)</td>
-                      <td>${baseOppSpeed.toFixed(1)}</td>
-                      <td>${oppMin} – ${oppMax}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <form id="race-entry-form" class="race-entry-form">
-              <div class="form-group">
-                <label for="race-duck-select">Choose your digital racer:</label>
-                <select id="race-duck-select" class="form-select">
-                  ${ownedDucks.map((d) => `
-                    <option value="${d.id}" ${d.id === defaultDuck.id ? 'selected' : ''}>
-                      ${d.name} (${d.tier.toUpperCase()}, Speed: ${d.speed.toFixed(1)})
-                    </option>
-                  `).join('')}
-                </select>
-              </div>
-
-              <div class="stance-group">
-                <label class="stance-label-header">Select Tactical Stance:</label>
-                <div class="stance-options">
-                  <label class="stance-card stance-safe selected" id="label-stance-safe">
-                    <input type="radio" name="race-stance" value="safe" checked />
-                    <div class="stance-content">
-                      <div class="stance-title">🛡️ Safe Pace</div>
-                      <div class="stance-desc">Base speed, strict ±5% noise. Dependable and consistent.</div>
-                      <div class="stance-stat" id="stat-safe">Target: 10.0 (Range: 9.50 – 10.50)</div>
-                    </div>
-                  </label>
-
-                  <label class="stance-card stance-sprint" id="label-stance-sprint">
-                    <input type="radio" name="race-stance" value="sprint" />
-                    <div class="stance-content">
-                      <div class="stance-title">⚡ Sprint Push</div>
-                      <div class="stance-desc">+10% peak boost, wide ±20% noise. Aggressive with higher variance.</div>
-                      <div class="stance-stat" id="stat-sprint">Target: 11.0 (Range: 8.80 – 13.20)</div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <div class="race-actions">
-                <button type="submit" id="btn-start-race" class="btn btn-gold btn-lg">
-                  🏁 Start Race!
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <div id="race-animation-panel" class="race-animation-panel" style="display: none;">
-            <div class="track-header">
-              <h3>Pond Racing Track</h3>
-              <div class="track-indicator">RACE IN PROGRESS...</div>
-            </div>
-            <div class="race-lanes">
-              ${[1, 2, 3, 4, 5, 6].map((lane) => `
-                <div class="race-lane" id="lane-${lane}">
-                  <div class="lane-num">Lane ${lane} ${lane === 2 ? '(YOU)' : (lane === 1 && !isTutorial ? '(Rival)' : '')}</div>
-                  <div class="lane-track">
-                    <div class="lane-runner" id="runner-${lane}">🦆</div>
-                  </div>
-                </div>
-              `).join('')}
+function sceneMarkup(resolution, raceNumber, attempt) {
+  const labels = Object.fromEntries(resolution.entrants.map((entrant) => [entrant.id, raceName(entrant, raceNumber)]));
+  labels.P = BANNER_1_ROSTER.find((duck) => duck.id === attempt.duckId)?.name ?? 'Your duck';
+  const runners = resolution.entrants.map((entrant) => {
+    const id = entrant.id;
+    const prefix = `race-${raceNumber}-${id}`;
+    const duckId = id === 'P' ? attempt.duckId : `duck-${(id.charCodeAt(0) - 64) % 6}`;
+    return `<div class="race-runner-position" data-race-position="${esc(id)}" data-race-id="${esc(id)}">
+      <div class="race-runner-orientation" data-race-orientation>
+        <div class="race-runner-scope" data-race-runner-scope>
+          <div class="race-contact-layer" data-race-contact-layer>
+            <div class="race-duck-shell" data-duck-motion="paddle" data-duck-prefix="${prefix}" data-race-id="${esc(id)}">
+              ${duckSvg(duckId, labels[id], prefix)}
             </div>
           </div>
-        ` : ''}
-
-        <div id="race-results-panel" class="race-results-panel" style="${alreadyCompleted ? 'display: block;' : 'display: none;'}">
-          <div class="result-banner">
-            <h3 id="result-headline">Race Concluded!</h3>
-            <div id="result-place-badge" class="result-place-badge ${alreadyCompleted ? `place-${existingOutcome.place}` : ''}">
-              ${alreadyCompleted ? `${existingOutcome.place}${['th','st','nd','rd'][existingOutcome.place] || 'th'} Place` : '1st Place'}
-            </div>
-            <p id="result-desc" class="result-desc">
-              ${alreadyCompleted ? (existingOutcome.place === 1 ? 'Tremendous finish! Your duck claimed victory!' : `Finished in place ${existingOutcome.place}.`) : ''}
-            </p>
-            <div id="result-prize-pill" class="result-prize-pill">
-              ${alreadyCompleted ? (existingOutcome.payoutGems > 0 ? `+${existingOutcome.payoutGems} Gems 💎 (Claimed)` : '0 Gems') : '+50 Gems 💎'}
-            </div>
-          </div>
-          <button id="btn-race-continue" class="btn btn-primary btn-lg">
-            Proceed ➔
-          </button>
         </div>
       </div>
-    </div>
-  `;
+      <span class="race-runner-label">${esc(labels[id])}</span>
+    </div>`;
+  }).join('');
+  const podium = [2, 1, 3].map((place) => resolution.finish.find((entrant) => entrant.place === place)).filter(Boolean).map((entrant) => {
+    const id = entrant.id;
+    const place = entrant.place;
+    const prefix = `podium-${raceNumber}-${place}-${id}`;
+    const motion = place === 1 ? 'graceful-bob' : 'paddle';
+    const isPlayer = id === 'P';
+    const duckId = isPlayer ? attempt.duckId : `duck-${(id.charCodeAt(0) - 64) % 6}`;
+    return `<div class="race-podium-card race-podium-place-${place}${isPlayer ? ' is-player' : ''}" data-podium-card="${place}">
+      <span class="podium-place-label">${place}${['th','st','nd','rd'][place] || 'th'} place${isPlayer ? ' (you!)' : ''}</span>
+      <div class="podium-platform"></div>
+      <div class="podium-duck-shell" data-duck-motion="${motion}" data-duck-prefix="${prefix}" data-race-id="${esc(id)}">
+        ${duckSvg(duckId, labels[id], prefix)}
+      </div>
+      <strong class="podium-competitor">${esc(labels[id])}</strong>
+      <span class="podium-award">${entrant.payout} Gems</span>
+    </div>`;
+  }).join('');
 
-  if (!alreadyCompleted) {
-    const duckSelect = container.querySelector('#race-duck-select');
-    const safeRadio = container.querySelector('input[value="safe"]');
-    const sprintRadio = container.querySelector('input[value="sprint"]');
-    const labelSafe = container.querySelector('#label-stance-safe');
-    const labelSprint = container.querySelector('#label-stance-sprint');
-    const scoutPlayerSpeed = container.querySelector('#scout-player-speed');
-    const scoutPlayerRange = container.querySelector('#scout-player-range');
-    const statSafe = container.querySelector('#stat-safe');
-    const statSprint = container.querySelector('#stat-sprint');
+  return { labels, runners, podium };
+}
 
-    function updateScoutAndStanceStats() {
-      const duckId = duckSelect?.value || defaultDuck.id;
-      const duckDef = BANNER_1_ROSTER.find((d) => d.id === duckId) || defaultDuck;
-      const S = duckDef.speed;
+function mountPlayback(container, attempt, resolution, raceNumber, callbacks, options) {
+  const { onProceed, onAction = () => {}, onCueDisplayed = () => {} } = callbacks;
+  const { active = true, initialSnapshot = null } = options;
+  const { labels, runners, podium } = sceneMarkup(resolution, raceNumber, attempt);
+  const timelineEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn'].includes(event.type));
+  const timing = individualPresentationTiming(resolution);
+  const finishPlaces = new Map(resolution.finish.map((entrant) => [entrant.id, entrant.place]));
+  const playerFinish = resolution.finish.find((entrant) => entrant.id === 'P');
+  const playerPodiumText = playerFinish?.place <= 3
+    ? `${placeLabel(playerFinish.place)} place! +${playerFinish.payout} Gems`
+    : '';
+  const timelineItems = [0, 25, 50, 75, 100].map((percent) => ({
+    tick: resolution.ticks * percent / 100,
+    time: wallClockAtRaceFraction(percent / 100, timing),
+    kind: 'checkpoint', percent,
+  })).concat(timelineEvents.map((event) => ({ tick: event.tick, time: wallClockAtRaceFraction(event.tick / resolution.ticks, timing), kind: 'event', event })))
+    .sort((a, b) => a.tick - b.tick || (a.kind === 'checkpoint' ? -1 : 1));
 
-      if (scoutPlayerSpeed) scoutPlayerSpeed.textContent = S.toFixed(1);
+  container.innerHTML = `
+    <section class="race-view race-playback" aria-labelledby="race-title-${raceNumber}" data-player-duck-id="${esc(attempt.duckId)}">
+      <header class="race-view-header">
+        <h2 id="race-title-${raceNumber}">${raceNumber === 1 ? 'Opening Pond Trial' : 'Championship Race'}</h2>
+        <p class="race-eyebrow">${raceNumber === 1 ? 'Tutorial event' : 'Championship finale'}</p>
+      </header>
 
-      const safeMin = (S * 0.95).toFixed(2);
-      const safeMax = (S * 1.05).toFixed(2);
-      const sprintMin = (S * 1.10 * 0.80).toFixed(2);
-      const sprintMax = (S * 1.10 * 1.20).toFixed(2);
+      <div class="race-playback-status" data-race-status role="status">${esc(statusText(attempt))}</div>
 
-      if (statSafe) statSafe.textContent = `Target: ${S.toFixed(1)} (Range: ${safeMin} – ${safeMax})`;
-      if (statSprint) statSprint.textContent = `Target: ${(S * 1.10).toFixed(1)} (Range: ${sprintMin} – ${sprintMax})`;
+      ${playerPodiumText ? `<div class="race-player-podium-slot"><p class="race-player-podium-banner" data-player-podium-banner hidden>${esc(playerPodiumText)}</p></div>` : ''}
 
-      const isSafe = safeRadio?.checked;
-      if (scoutPlayerRange) {
-        scoutPlayerRange.textContent = isSafe ? `${safeMin} – ${safeMax} (Safe)` : `${sprintMin} – ${sprintMax} (Sprint)`;
+      <div class="race-track-stage">
+        <div class="race-camera-layer" data-race-camera>
+          <svg class="race-environment" viewBox="-52 -32 104 64" role="img" aria-label="Oval race scene">
+            <rect x="-52" y="-32" width="104" height="64" rx="10" fill="#91b8a9"/>
+            <ellipse cx="0" cy="0" rx="49" ry="29" fill="#327987"/>
+            <path d="M -30 -20 H 30 A 20 20 0 0 1 30 20 H -30 A 20 20 0 0 1 -30 -20" fill="none" stroke="#b2d6bd" stroke-width="12"/>
+            <path d="M -30 -20 H 30 A 20 20 0 0 1 30 20 H -30 A 20 20 0 0 1 -30 -20" fill="none" stroke="#477d62" stroke-width="1.3"/>
+          </svg>
+          <svg class="race-finish-markings" viewBox="-52 -32 104 64" aria-hidden="true">
+            <path d="M -1 -23 V -17 M 0 -23 V -17 M 1 -23 V -17" stroke="#fff5c2" stroke-width=".45"/>
+            <text x="3" y="-20" font-size="2.5" fill="#fff5c2">FINISH</text>
+          </svg>
+          <div class="race-runner-layer" data-race-runners>${runners}</div>
+        </div>
+        <div class="race-podium-scope" data-race-podium-scope>
+          <button type="button" data-duck-motion-toggle hidden tabindex="-1" aria-hidden="true"></button>
+          <span data-duck-motion-status hidden></span>
+          <div class="race-podium" data-race-podium aria-label="Final race podium">${podium}</div>
+        </div>
+      </div>
+
+      <p class="race-commentary" data-race-commentary aria-live="polite">The field is moving toward the finish.</p>
+      <div class="race-time-readout"><span>Recorded course time</span><strong data-race-time>0.00 s</strong></div>
+
+      <div class="race-playback-controls" aria-label="Race playback controls">
+        <button type="button" class="race-control-button" data-race-pause aria-label="Pause race playback">Pause</button>
+        <button type="button" class="race-control-button" data-race-skip>Skip presentation</button>
+        <button type="button" class="race-control-button" data-race-replay>Replay race</button>
+      </div>
+
+      ${timelineItems.length ? `<details class="race-event-seeking"><summary>Race timeline and stills</summary>
+        <ol>${timelineItems.map((item) => item.kind === 'checkpoint'
+          ? `<li><button type="button" data-race-checkpoint="${item.percent}" aria-label="Show ${item.percent} percent race checkpoint">${item.percent}% checkpoint · ${item.time.toFixed(2)} s</button></li>`
+          : `<li><button type="button" data-race-seek="${esc(item.event.id)}" data-race-event-type="${esc(item.event.type)}" aria-label="View recorded race moment at ${item.time.toFixed(2)} seconds">Recorded moment · ${item.time.toFixed(2)} s</button></li>`).join('')}</ol>
+      </details>` : ''}
+
+      <div class="race-result-summary" data-race-result-summary hidden></div>
+      <div class="race-exit-actions"><button type="button" class="race-control-button" data-race-proceed disabled>Continue</button></div>
+    </section>`;
+
+  const viewRoot = container.querySelector('.race-playback');
+  const runnerLayer = container.querySelector('[data-race-runners]');
+  const podiumScope = container.querySelector('[data-race-podium-scope]');
+  let motion = createRaceMotionController(container, { active, podiumMotionPaused: initialSnapshot?.podiumMotionPaused });
+  let previousElapsed = initialSnapshot?.elapsedMs ?? 0;
+  let highlightLogged = false;
+  let podiumLogged = false;
+  let resultLogged = false;
+  let completedMotionSet = false;
+
+  const draw = (state) => {
+    if (state.elapsedMs < previousElapsed - 0.1) {
+      highlightLogged = false;
+      podiumLogged = false;
+      resultLogged = false;
+      completedMotionSet = false;
+    }
+    previousElapsed = state.elapsedMs;
+    const timeline = sampleTrajectory(resolution, state.cursorTick);
+    const coordinate = (value, min, span) => `${clamp(((value - min) / span) * 100, 0, 100)}%`;
+    for (const entrantState of timeline.entrants) {
+      const position = runnerLayer.querySelector(`[data-race-position="${entrantState.id}"]`);
+      const runner = resolution.entrants.find((entrant) => entrant.id === entrantState.id);
+      const crossing = resolution.finishCrossings.find((item) => item.id === entrantState.id);
+      let x = entrantState.x;
+      let y = entrantState.y;
+      let coast = 0;
+      if (crossing) {
+        const crossingFraction = crossing.crossingTimeSeconds / resolution.lastFinishTimeSeconds;
+        const crossingWallMs = wallClockAtRaceFraction(crossingFraction, timing) * 1000;
+        coast = clamp((state.elapsedMs - crossingWallMs) / 1000, 0, 1);
+        if (state.elapsedMs >= crossingWallMs) {
+          const eased = coast * (2 - coast);
+          const distance = crossing.speed * 0.45 * eased;
+          x = crossing.x + Math.cos(crossing.heading) * distance;
+          y = crossing.y + Math.sin(crossing.heading) * distance;
+        }
       }
-    }
-
-    if (duckSelect) {
-      duckSelect.addEventListener('change', updateScoutAndStanceStats);
-    }
-
-    const stanceInputs = container.querySelectorAll('input[name="race-stance"]');
-    stanceInputs.forEach((input) => {
-      input.addEventListener('change', () => {
-        labelSafe?.classList.toggle('selected', safeRadio.checked);
-        labelSprint?.classList.toggle('selected', sprintRadio.checked);
-        updateScoutAndStanceStats();
+      if (position) {
+        position.style.left = coordinate(x, -52, 104);
+        position.style.top = coordinate(y, -32, 64);
+        const orientation = position.querySelector('[data-race-orientation]');
+        const heading = coast && crossing ? crossing.heading : entrantState.heading;
+        const steeringTilt = clamp(raceHeadingError(entrantState.progress, heading) * 180 / Math.PI, -35, 35);
+        if (orientation) orientation.style.transform = `perspective(180px) rotateY(${180 - raceDuckYaw(entrantState.progress)}deg) rotateZ(${steeringTilt}deg)`;
+        position.classList.toggle('is-crossed', Boolean(crossing && coast > 0));
+        position.setAttribute('aria-label', `${labels[entrantState.id]}${crossing ? `, crossed in place ${finishPlaces.get(entrantState.id)}` : ''}`);
+      }
+      const activeRecordedEvent = resolution.eventRecords.find((event) => {
+        if (!event.participants?.includes(entrantState.id)) return false;
+        const span = ['duck-contact', 'wall-impact'].includes(event.type) ? 22 : 1;
+        return state.cursorTick >= event.tick && state.cursorTick <= event.tick + span;
       });
-    });
-
-    updateScoutAndStanceStats();
-
-    const entryForm = container.querySelector('#race-entry-form');
-    const setupPanel = container.querySelector('#race-setup-panel');
-    const animPanel = container.querySelector('#race-animation-panel');
-    const resultsPanel = container.querySelector('#race-results-panel');
-
-    if (entryForm) {
-      entryForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const duckId = duckSelect?.value || defaultDuck.id;
-        const stance = safeRadio?.checked ? 'safe' : 'sprint';
-
-        if (setupPanel) setupPanel.style.display = 'none';
-        if (animPanel) animPanel.style.display = 'block';
-
-        const raceOutcome = onStartRace({ duckId, stance, raceNumber });
-
-        const isInstant = Boolean(globalThis.__E2E_INSTANT_RACE__);
-        const animDuration = isInstant ? 50 : 1200;
-
-        const runners = container.querySelectorAll('.lane-runner');
-        runners.forEach((r, idx) => {
-          const laneNum = idx + 1;
-          const targetPercent = laneNum === 2 
-            ? (raceOutcome.place === 1 ? 95 : (raceOutcome.place === 2 ? 88 : 80))
-            : Math.min(93, 75 + ((laneNum * 37) % 18));
-          
-          r.style.transition = `left ${animDuration}ms cubic-bezier(0.2, 0.8, 0.4, 1)`;
-          setTimeout(() => {
-            r.style.left = `${targetPercent}%`;
-          }, 50);
-        });
-
-        setTimeout(() => {
-          if (animPanel) animPanel.style.display = 'none';
-          if (resultsPanel) resultsPanel.style.display = 'block';
-
-          const placeBadge = container.querySelector('#result-place-badge');
-          const desc = container.querySelector('#result-desc');
-          const prize = container.querySelector('#result-prize-pill');
-
-          if (placeBadge) {
-            const suffix = ['th', 'st', 'nd', 'rd'][raceOutcome.place] || 'th';
-            placeBadge.textContent = `${raceOutcome.place}${suffix} Place`;
-            placeBadge.className = `result-place-badge place-${raceOutcome.place}`;
-          }
-
-          if (desc) {
-            if (raceOutcome.place === 1) {
-              desc.textContent = isTutorial
-                ? 'Tremendous start! Your duck dominated the pond with a decisive victory!'
-                : 'CHAMPION OF THE POND! You defeated the Rival Whale in a stunning upset!';
-            } else if (raceOutcome.place === 2) {
-              desc.textContent = 'A close second place! A valiant effort against tough competition.';
-            } else {
-              desc.textContent = `Finished ${raceOutcome.place}th. The competition on the pond was stiff today.`;
-            }
-          }
-
-          if (prize) {
-            prize.textContent = raceOutcome.payoutGems > 0 
-              ? `+${raceOutcome.payoutGems} Gems 💎` 
-              : '0 Gems (Top 3 only)';
-          }
-        }, animDuration + 300);
-      });
+      position?.classList.toggle('participant-glow', Boolean(activeRecordedEvent));
+      if (runner && entrantState.crossedAtFinish) position?.classList.add('is-crossed');
     }
+
+    const environment = container.querySelector('[data-race-camera]');
+    const reveal = state.revealProgress;
+    if (environment) {
+      const dim = Math.max(state.inHighlight ? 1 : 0, reveal);
+      environment.style.filter = dim > 0 ? `brightness(${1 - 0.57 * dim}) saturate(${1 - 0.25 * dim})` : '';
+    }
+    const camera = container.querySelector('[data-race-camera]');
+    if (camera) {
+      const fraction = resolution.finishTimeSeconds > 0 ? state.cursorTick / (resolution.finishTimeSeconds / resolution.dt) : 0;
+      const zoom = state.reduced ? 1 : closeZoom(fraction);
+      const focus = zoom > 1 ? clamp((zoom - 1) / 0.16, 0, 1) : 0;
+      const playerState = timeline.entrants.find((entrant) => entrant.id === 'P');
+      const stage = container.querySelector('.race-track-stage');
+      const width = stage?.clientWidth ?? 0;
+      const height = stage?.clientHeight ?? 0;
+      const px = (playerState?.x ?? 0) + 52;
+      const py = (playerState?.y ?? 0) + 32;
+      const playerX = px / 104 * width;
+      const playerY = py / 64 * height;
+      const tx = width / 2 * (1 - zoom) + (width / 2 - playerX * zoom - width / 2 * (1 - zoom)) * focus;
+      const ty = height / 2 * (1 - zoom) + (height / 2 - playerY * zoom - height / 2 * (1 - zoom)) * focus;
+      camera.style.transform = `matrix(${zoom}, 0, 0, ${zoom}, ${tx}, ${ty})`;
+      camera.style.setProperty('--camera-zoom', String(zoom));
+    }
+    const podium = container.querySelector('[data-race-podium]');
+    if (podium) {
+      podium.hidden = !state.podiumVisible;
+      podium.style.setProperty('--podium-progress', String(reveal));
+    }
+    podiumScope?.classList.toggle('is-visible', Boolean(state.podiumVisible));
+    const time = container.querySelector('[data-race-time]');
+    if (time) time.textContent = `${state.seconds.toFixed(2)} s`;
+    const commentary = container.querySelector('[data-race-commentary]');
+    if (commentary && state.commentary) commentary.textContent = state.commentary;
+    const pause = container.querySelector('[data-race-pause]');
+    if (pause) {
+      pause.textContent = state.settled
+        ? (state.podiumMotionPaused ? 'Resume' : 'Pause')
+        : (state.playing ? 'Pause' : 'Resume');
+      pause.setAttribute('aria-label', state.settled
+        ? (state.podiumMotionPaused ? 'Resume podium motion' : 'Pause podium motion')
+        : (state.playing ? 'Pause race playback' : 'Resume race playback'));
+      pause.setAttribute('aria-pressed', String(state.settled ? state.podiumMotionPaused : state.userPaused));
+      pause.disabled = state.reduced;
+    }
+    const skip = container.querySelector('[data-race-skip]');
+    if (skip) skip.disabled = state.settled || state.reduced;
+    const result = container.querySelector('[data-race-result-summary]');
+    if (result && state.settled) {
+      const winner = resolution.finish[0];
+      const player = resolution.finish.find((entrant) => entrant.id === 'P');
+      result.hidden = false;
+      const playerAward = player.place <= 3 ? `<p class="race-player-result">${placeLabel(player.place)} place! +${player.payout} Gems</p>` : `<p>Your duck finished ${placeLabel(player.place)} place.</p>`;
+      result.innerHTML = `<h3>${esc(labels[winner.id])} crossed first</h3>${playerAward}<p>Final results by finish order:</p><ol>${resolution.finish.map((entrant) => `<li>${esc(labels[entrant.id])} — place ${entrant.place}, ${entrant.payout} Gems${entrant.id === 'P' ? ' (you!)' : ''}</li>`).join('')}</ol>`;
+    }
+    motion?.setPresentationPaused(!state.playing && state.userPaused);
+    motion?.setPodiumVisible(state.podiumVisible);
+    motion?.setPodiumMotionPaused(state.podiumMotionPaused);
+    const banner = container.querySelector('[data-player-podium-banner]');
+    if (banner) banner.hidden = !state.podiumVisible;
+    if (state.settled !== completedMotionSet) {
+      motion?.setRaceComplete(state.settled);
+      completedMotionSet = state.settled;
+    }
+    motion?.updateRunnerRanks({ ...state, entrants: timeline.entrants });
+    if (state.visible && state.inHighlight && !highlightLogged) {
+      highlightLogged = true;
+      onCueDisplayed({ cueId: 'slow-motion-highlight', text: 'The race entered its recorded slow-motion highlight.' });
+    }
+    if (state.visible && state.podiumVisible && !podiumLogged) {
+      podiumLogged = true;
+      const settledDisplay = state.reduced || state.elapsedMs >= (timing.simulationWallSeconds + timing.revealSeconds) * 1000;
+      onCueDisplayed(settledDisplay
+        ? { cueId: 'podium-settled-result', text: 'The race podium was shown in its settled position.' }
+        : { cueId: 'podium-reveal', text: 'The finish podium began to descend.' });
+    }
+    if (state.visible && state.settled && !resultLogged) {
+      resultLogged = true;
+      const order = resolution.finish.map((entrant) => `${entrant.place}: ${labels[entrant.id]}`).join(', ');
+      onCueDisplayed({ cueId: 'final-race-results', text: `Final race results shown in crossing order: ${order}.` });
+    }
+  };
+
+  const playback = createRacePlaybackController(viewRoot, resolution, {
+    active,
+    initialSnapshot,
+    entrantLabels: labels,
+    onState: draw,
+    onAction,
+    onCueDisplayed: (cue) => {
+      motion?.playContact(resolution.eventRecords.find((event) => event.id === cue.eventId));
+      onCueDisplayed(cue);
+    },
+  });
+  const proceedButton = container.querySelector('[data-race-proceed]');
+  const onProceedClick = () => onProceed?.();
+  proceedButton?.addEventListener('click', onProceedClick);
+
+  return {
+    snapshot: () => playback.snapshot(),
+    setActive(value) { playback.setActive(value); motion?.setActive(value); },
+    destroy() {
+      playback.destroy();
+      proceedButton?.removeEventListener('click', onProceedClick);
+      motion?.destroy();
+      motion = null;
+    },
+  };
+}
+
+function eventLineForView(event, labels) {
+  const names = (event.participants ?? []).map((id) => labels[id] ?? id);
+  const subject = names.length ? names.join(' and ') : 'The field';
+  if (event.type === 'duck-contact') return `${subject} made contact`;
+  if (event.type === 'wall-impact') return `${subject} touched the wall`;
+  if (event.type === 'finish-line-crossing') return `${subject} crossed the line`;
+  if (event.type === 'leader-wobble-slowdown') return `${subject} lost speed while leading`;
+  if (event.type === 'catch-up-assist') return `${subject} received a brief assist`;
+  return `${subject} shifted across the course`;
+}
+
+function closeZoom(fraction) {
+  const smooth = (value) => value * value * (3 - 2 * value);
+  if (fraction < 0.34 || fraction > 0.76) return 1;
+  if (fraction < 0.42) return 1 + smooth((fraction - 0.34) / 0.08) * 0.16;
+  if (fraction <= 0.66) return 1.16;
+  return 1.16 - smooth((fraction - 0.66) / 0.1) * 0.16;
+}
+
+export function renderRaceView(container, engine, raceNumber, callbacks = {}, options = {}) {
+  const { onStartRace, onProceed, onChoiceShown = () => {}, onTrialOfferShown = () => {}, onAction = () => {}, onCueDisplayed = () => {}, onBuyTrial = () => {} } = callbacks;
+  const isTutorial = raceNumber === 1;
+  const fieldBaseSpeed = isTutorial ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
+  const existingAttempt = engine.getRaceAttempt?.(raceNumber) ?? engine.state.raceAttempts?.[raceNumber] ?? null;
+  const existingResolution = engine.getRaceResolution?.(raceNumber) ?? null;
+  const ownedDucks = engine.state.owned.map((id) => BANNER_1_ROSTER.find((duck) => duck.id === id)).filter(Boolean);
+  const defaultDuck = ownedDucks.slice().sort((a, b) => b.speed - a.speed)[0];
+
+  if (existingAttempt?.status === 'finished' && existingResolution) {
+    return mountPlayback(container, existingAttempt, existingResolution, raceNumber, callbacks, options);
   }
 
-  const btnContinue = container.querySelector('#btn-race-continue');
-  if (btnContinue && onProceed) {
-    btnContinue.addEventListener('click', onProceed);
+  if (existingAttempt?.status === 'unresolved') {
+    container.innerHTML = `<section class="race-view race-unresolved"><p class="race-eyebrow">${isTutorial ? 'Tutorial event' : 'Championship finale'}</p><h2>Race attempt unresolved</h2><p>${esc(statusText(existingAttempt))}</p><p>The attempt is recorded once. The story may continue, but this is not a finished race and does not count toward future rest.</p><button type="button" data-race-proceed class="race-control-button">Continue</button></section>`;
+    const proceed = container.querySelector('[data-race-proceed]');
+    const handler = () => onProceed?.();
+    proceed?.addEventListener('click', handler);
+    return { snapshot: () => null, setActive() {}, destroy() { proceed?.removeEventListener('click', handler); } };
   }
+
+  if (existingAttempt?.legacySummaryOnly) {
+    const summary = engine.state.raceResults?.[raceNumber] ?? existingAttempt;
+    container.innerHTML = `<section class="race-view race-legacy-summary"><p class="race-eyebrow">Saved race record</p><h2>Race result summary</h2><p>Your saved record shows place ${summary.place} and ${summary.payoutGems} Gems. This older save contains no race timeline, so its past presentation cannot be replayed.</p><button type="button" data-race-proceed class="race-control-button">Continue</button></section>`;
+    const proceed = container.querySelector('[data-race-proceed]');
+    const handler = () => onProceed?.();
+    proceed?.addEventListener('click', handler);
+    return { snapshot: () => null, setActive() {}, destroy() { proceed?.removeEventListener('click', handler); } };
+  }
+
+  container.innerHTML = `
+    <section class="race-view race-entry">
+      <header class="race-view-header"><h2>${isTutorial ? 'Opening Pond Trial' : 'Championship Race'}</h2><p class="race-eyebrow">${isTutorial ? 'Tutorial event' : 'Championship finale'}</p></header>
+      <div class="race-field-summary"><strong>Field pace:</strong> ${fieldBaseSpeed.toFixed(1)} rating. Finish places and awards are determined by actual crossings.</div>
+      <form class="race-entry-form" data-race-form>
+        <label for="race-duck-select-${raceNumber}">Choose an owned digital racer</label>
+        <select id="race-duck-select-${raceNumber}" name="duckId" required ${ownedDucks.length ? '' : 'disabled'}>
+          ${ownedDucks.map((duck) => `<option value="${esc(duck.id)}" ${duck.id === defaultDuck?.id ? 'selected' : ''}>${esc(duck.name)} — ${duck.tier}, rating ${duck.speed}</option>`).join('')}
+        </select>
+        <fieldset class="race-stance-options"><legend>Choose a stance</legend>
+          <label><input type="radio" name="stance" value="safe" checked> Steady pace <span>More consistent pacing</span></label>
+          <label><input type="radio" name="stance" value="sprint"> Variable pace <span>Wider swings in pacing</span></label>
+        </fieldset>
+        <div class="race-trial-offer" data-race-trial>
+          ${engine.state.raceTrialAvailable
+            ? '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>'
+            : `<button type="button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for +5% speed on one race</button><p>Available Down: ${engine.state.down}</p>`}
+        </div>
+        <button type="submit" class="race-control-button race-start-button" ${ownedDucks.length ? '' : 'disabled'}>Start race</button>
+      </form>
+    </section>`;
+
+  const form = container.querySelector('[data-race-form]');
+  const duckSelect = container.querySelector('select[name="duckId"]');
+  const choicePayload = () => ({ raceNumber, duckId: duckSelect?.value ?? null, fieldBaseSpeed, exposureId: `race-choice-${raceNumber}` });
+  let entryShown = false;
+  const recordEntryShown = () => {
+    if (entryShown) return;
+    entryShown = true;
+    onChoiceShown(choicePayload());
+    onTrialOfferShown({ raceNumber, costDown: GAME_CONSTANTS.RACE_TRIAL_COST, exposureId: `race-trial-${raceNumber}` });
+  };
+  if (options.active !== false) recordEntryShown();
+  const trialButton = container.querySelector('[data-buy-race-trial]');
+  const onTrialClick = () => {
+    if (!onBuyTrial()) return;
+    const trialPanel = container.querySelector('[data-race-trial]');
+    if (trialPanel) trialPanel.innerHTML = '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>';
+  };
+  trialButton?.addEventListener('click', onTrialClick);
+  let childHandle = null;
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const duckId = duckSelect?.value;
+    const stance = form.querySelector('input[name="stance"]:checked')?.value ?? 'safe';
+    const useTrial = Boolean(form.querySelector('input[name="useTrial"]:checked'));
+    const result = onStartRace?.({ duckId, stance, useTrial, raceNumber });
+    if (result?.attempt?.status === 'unresolved') {
+      childHandle = renderRaceView(container, engine, raceNumber, callbacks, options);
+      return;
+    }
+    if (result?.attempt?.status === 'finished' && result.resolution) {
+      childHandle = mountPlayback(container, result.attempt, result.resolution, raceNumber, callbacks, options);
+    }
+  };
+  form?.addEventListener('submit', onSubmit);
+  return {
+    snapshot: () => childHandle?.snapshot?.() ?? null,
+    setActive(value) {
+      childHandle?.setActive?.(value);
+      if (!childHandle && value) recordEntryShown();
+    },
+    destroy() {
+      childHandle?.destroy?.();
+      form?.removeEventListener('submit', onSubmit);
+      trialButton?.removeEventListener('click', onTrialClick);
+    },
+  };
 }

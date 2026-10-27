@@ -567,3 +567,189 @@ test('acquisition-queue [Plan 21 Repair 02]: inactive modal state suspends timer
   queue.destroy();
   t.mock.timers.reset();
 });
+
+test('acquisition-queue [Plan 21 Repair 03]: inactive queued work followed by reduced-motion change does not prematurely mutate or emit cues; reactivation resolves statically once', () => {
+  const engine = new GameEngine('plan21-review');
+  engine.start();
+  engine.commitPromotionalTenPull();
+
+  // Index 0: duck-3
+  engine.revealDrawAtIndex(0);
+
+  let motionListeners = [];
+  let isReducedMotion = false;
+  const originalWindow = globalThis.window;
+  globalThis.window = {
+    matchMedia: (q) => ({
+      matches: isReducedMotion,
+      addEventListener: (type, h) => { if (type === 'change') motionListeners.push(h); },
+      removeEventListener: (type, h) => { motionListeners = motionListeners.filter((x) => x !== h); },
+    }),
+  };
+
+  const container = {
+    ownerDocument: {
+      createElement: () => ({
+        className: '',
+        attributes: {},
+        children: [],
+        setAttribute() {},
+        addEventListener() {},
+        remove() {},
+      }),
+    },
+    children: [],
+    appendChild(c) { this.children.push(c); return c; },
+    removeChild(c) { this.children = this.children.filter((x) => x !== c); },
+  };
+
+  let persistCount = 0;
+  let completeCalls = [];
+
+  try {
+    // 1. Controller created with active: false (e.g. view hidden or modal open)
+    const queue = createAcquisitionQueueController(container, engine, {
+      active: false,
+      onPersist: () => { persistCount++; },
+      onComplete: (data) => { completeCalls.push(data); },
+    });
+
+    queue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
+
+    // While inactive: no seen mutation, no cues, no persistence, no completion
+    assert.equal(engine.state.seenDexEntries.includes('duck-3'), false);
+    assert.equal(engine.log.entries.filter((e) => e.type === 'cue_shown').length, 0);
+    assert.equal(persistCount, 0);
+    assert.equal(completeCalls.length, 0);
+    assert.equal(container.children.length, 0);
+
+    // 2. Reduced motion toggled to true while STILL inactive
+    isReducedMotion = true;
+    for (const listener of motionListeners) {
+      listener({ matches: true });
+    }
+
+    // Must still NOT prematurely mutate state, mark seen, emit cues, or call callbacks
+    assert.equal(engine.state.seenDexEntries.includes('duck-3'), false);
+    assert.equal(engine.log.entries.filter((e) => e.type === 'cue_shown').length, 0);
+    assert.equal(persistCount, 0);
+    assert.equal(completeCalls.length, 0);
+    assert.equal(container.children.length, 0);
+
+    // 3. Controller reactivated (e.g. modal closed / view activated)
+    queue.setActive(true);
+
+    // Resolves statically ONCE:
+    assert.ok(engine.state.seenDexEntries.includes('duck-3'));
+    const cues = engine.log.entries.filter((e) => e.type === 'cue_shown' && e.payload?.cueId === 'duck_dex_acquisition_static');
+    assert.equal(cues.length, 1);
+    assert.equal(persistCount, 1);
+    assert.equal(completeCalls.length, 1);
+    assert.equal(completeCalls[0].fastPull, true);
+    assert.equal(completeCalls[0].count, 1);
+    assert.equal(queue.isActive(), false); // never animates
+    assert.equal(container.children.length, 0); // no DOM overlay left
+
+    queue.destroy();
+  } finally {
+    globalThis.window = originalWindow;
+  }
+});
+
+test('acquisition-queue [Plan 21 Repair 03]: terminal guard prevents static resolution, mutations, cues, and callbacks', () => {
+  const engine = new GameEngine('seed-terminal-guard');
+  engine.start();
+  engine.state.phase = 'terminal';
+  engine.state.step = 'receipt';
+
+  const container = new MockContainer();
+  let persistCount = 0;
+  let completeCalls = [];
+
+  const queue = createAcquisitionQueueController(container, engine, {
+    active: true,
+    onPersist: () => { persistCount++; },
+    onComplete: (data) => { completeCalls.push(data); },
+  });
+
+  const draws = [
+    { commitSeq: 1, identity: 'duck-1', rarity: 'common', duplicate: false, revealed: true },
+  ];
+
+  queue.enqueueReveals(draws, { fastPull: true });
+
+  assert.equal(engine.state.seenDexEntries.includes('duck-1'), false);
+  assert.equal(engine.log.entries.filter((e) => e.type === 'cue_shown').length, 0);
+  assert.equal(persistCount, 0);
+  assert.equal(completeCalls.length, 0);
+  assert.equal(queue.isActive(), false);
+
+  queue.setActive(true);
+  assert.equal(persistCount, 0);
+  assert.equal(completeCalls.length, 0);
+
+  queue.destroy();
+});
+
+test('acquisition-queue [Plan 21 Repair 03]: hidden document mount with reduced motion does not resolve until visibility returns to visible', () => {
+  const engine = new GameEngine('seed-hidden-doc');
+  engine.start();
+
+  let visibility = 'hidden';
+  let visibilityListeners = [];
+  const originalDoc = globalThis.document;
+  const originalWindow = globalThis.window;
+
+  globalThis.document = {
+    get visibilityState() { return visibility; },
+    addEventListener: (type, h) => { if (type === 'visibilitychange') visibilityListeners.push(h); },
+    removeEventListener: (type, h) => { visibilityListeners = visibilityListeners.filter((x) => x !== h); },
+  };
+
+  globalThis.window = {
+    matchMedia: () => ({
+      matches: true, // reduced motion active
+      addEventListener() {},
+      removeEventListener() {},
+    }),
+  };
+
+  const container = new MockContainer();
+  let persistCount = 0;
+  let completeCalls = [];
+
+  try {
+    const queue = createAcquisitionQueueController(container, engine, {
+      active: true,
+      onPersist: () => { persistCount++; },
+      onComplete: (data) => { completeCalls.push(data); },
+    });
+
+    const draws = [
+      { commitSeq: 1, identity: 'duck-2', rarity: 'rare', duplicate: false, revealed: true },
+    ];
+
+    queue.enqueueReveals(draws, { fastPull: false });
+
+    // While document is hidden: zero seen mutation, zero cues, zero persistence
+    assert.equal(engine.state.seenDexEntries.includes('duck-2'), false);
+    assert.equal(engine.log.entries.filter((e) => e.type === 'cue_shown').length, 0);
+    assert.equal(persistCount, 0);
+    assert.equal(completeCalls.length, 0);
+
+    // Document becomes visible
+    visibility = 'visible';
+    for (const h of visibilityListeners) h();
+
+    // Resolves statically once
+    assert.ok(engine.state.seenDexEntries.includes('duck-2'));
+    assert.equal(engine.log.entries.filter((e) => e.type === 'cue_shown' && e.payload?.cueId === 'duck_dex_acquisition_static').length, 1);
+    assert.equal(persistCount, 1);
+    assert.equal(completeCalls.length, 1);
+
+    queue.destroy();
+  } finally {
+    globalThis.document = originalDoc;
+    globalThis.window = originalWindow;
+  }
+});

@@ -9,6 +9,7 @@ const MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 export function createAcquisitionQueueController(container, engine, callbacks = {}) {
   const { onComplete, onStateChange, onPersist, onFocusReturn, active = true } = callbacks;
   let isActive = Boolean(active);
+  let pendingFastPull = false;
   let queue = [];
   let activeItem = null;
   let isRunning = false;
@@ -49,6 +50,39 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
     activeItem = null;
     isRunning = false;
     activePhase = null;
+  }
+
+  function resolveStatically(count = 0) {
+    if (isDestroyed || !isEffectiveActive()) return;
+    if (timerId !== null) {
+      clearTimeout(timerId);
+      timerId = null;
+      timerRemaining = 0;
+    }
+    const itemsToResolve = [];
+    if (activeItem) {
+      itemsToResolve.push(activeItem);
+      activeItem = null;
+    }
+    while (queue.length > 0) {
+      itemsToResolve.push(queue.shift());
+    }
+    if (itemsToResolve.length === 0) {
+      pendingFastPull = false;
+      return;
+    }
+
+    for (const item of itemsToResolve) {
+      engine.recordAcquisitionCue(item.identity, { isStatic: true });
+      engine.markDexEntrySeen(item.identity);
+    }
+    const resolvedCount = count || itemsToResolve.length;
+    pendingFastPull = false;
+    onPersist?.();
+    cleanupOverlay();
+    onStateChange?.({ active: false });
+    onComplete?.({ fastPull: true, count: resolvedCount });
+    onFocusReturn?.();
   }
 
   function renderShelfSlot(duck, isTarget, isColorized) {
@@ -283,7 +317,7 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
   }
 
   function enqueueReveals(draws, { fastPull = false } = {}) {
-    if (isDestroyed) return;
+    if (isDestroyed || engine.isTerminal()) return;
     const newlyAcquired = [];
     const newlyAcquiredInBatch = new Set(
       draws.filter((d) => !d.duplicate).map((d) => d.identity)
@@ -311,15 +345,15 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
 
     if (newlyAcquired.length === 0) return;
 
-    // Fast-pull or reduced motion resolves immediately with static state change
-    if (fastPull || prefersReducedMotion()) {
-      for (const item of queue) {
-        engine.recordAcquisitionCue(item.identity, { isStatic: true });
-        engine.markDexEntrySeen(item.identity);
+    if (fastPull) {
+      pendingFastPull = true;
+    }
+
+    // Fast-pull or reduced motion resolves immediately with static state change only when active
+    if (pendingFastPull || prefersReducedMotion()) {
+      if (isEffectiveActive()) {
+        resolveStatically(newlyAcquired.length);
       }
-      queue = [];
-      onPersist?.();
-      onComplete?.({ fastPull: true, count: newlyAcquired.length });
       return;
     }
 
@@ -329,6 +363,7 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
   }
 
   function setActive(nextActive) {
+    if (isDestroyed || engine.isTerminal()) return;
     const wasEffective = isEffectiveActive();
     isActive = Boolean(nextActive);
     const nowEffective = isEffectiveActive();
@@ -341,8 +376,14 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
         timerRemaining = Math.max(0, timerRemaining - (Date.now() - timerStart));
       }
     } else if (!wasEffective && nowEffective) {
-      // Transitioning to active: resume suspended timer or process next queued item
-      if (isRunning && timerId === null && activeItem) {
+      // Transitioning to active: resolve statically if reduced motion or pending fast pull
+      if (pendingFastPull || prefersReducedMotion()) {
+        if (activeItem || queue.length > 0) {
+          resolveStatically();
+        } else {
+          pendingFastPull = false;
+        }
+      } else if (isRunning && timerId === null && activeItem) {
         timerStart = Date.now();
         timerId = setTimeout(() => {
           timerId = null;
@@ -360,6 +401,7 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
 
   // Automatic suspension without fake player skip logging
   function handleVisibilityChange() {
+    if (isDestroyed || engine.isTerminal()) return;
     if (document.visibilityState === 'hidden') {
       if (timerId !== null) {
         clearTimeout(timerId);
@@ -367,8 +409,13 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
         timerRemaining = Math.max(0, timerRemaining - (Date.now() - timerStart));
       }
     } else if (document.visibilityState === 'visible' && isEffectiveActive()) {
-      // Resume timer
-      if (isRunning && timerId === null && activeItem) {
+      if (pendingFastPull || prefersReducedMotion()) {
+        if (activeItem || queue.length > 0) {
+          resolveStatically();
+        } else {
+          pendingFastPull = false;
+        }
+      } else if (isRunning && timerId === null && activeItem) {
         timerStart = Date.now();
         timerId = setTimeout(() => {
           timerId = null;
@@ -386,25 +433,33 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
 
   const motionMedia = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia(MOTION_QUERY) : null;
   function handleMotionChange() {
-    if (prefersReducedMotion() && (isRunning || queue.length > 0)) {
+    if (isDestroyed || engine.isTerminal()) return;
+    if (prefersReducedMotion() && (isRunning || activeItem || queue.length > 0)) {
       if (timerId !== null) {
         clearTimeout(timerId);
         timerId = null;
+        timerRemaining = 0;
       }
-      if (activeItem) {
-        engine.recordAcquisitionCue(activeItem.identity, { isStatic: true });
-        engine.markDexEntrySeen(activeItem.identity);
+      if (isEffectiveActive()) {
+        resolveStatically();
+      } else {
+        // While inactive or suspended: do NOT mutate engine state, seen entries, cues, or callbacks.
+        // Safely preserve active item (if any) back into the pending queue and clean up DOM overlay.
+        if (activeItem) {
+          queue.unshift(activeItem);
+          activeItem = null;
+          isRunning = false;
+          activePhase = null;
+        }
+        if (overlayEl) {
+          overlayEl.remove();
+          overlayEl = null;
+        }
+        for (const el of priorInertElements) {
+          el.inert = false;
+        }
+        priorInertElements = [];
       }
-      while (queue.length > 0) {
-        const item = queue.shift();
-        engine.recordAcquisitionCue(item.identity, { isStatic: true });
-        engine.markDexEntrySeen(item.identity);
-      }
-      onPersist?.();
-      cleanupOverlay();
-      onStateChange?.({ active: false });
-      onComplete?.({ fastPull: true, count: 1 });
-      onFocusReturn?.();
     }
   }
   motionMedia?.addEventListener?.('change', handleMotionChange);
@@ -425,6 +480,9 @@ export function createAcquisitionQueueController(container, engine, callbacks = 
       }
       motionMedia?.removeEventListener?.('change', handleMotionChange);
       cleanupOverlay();
+      queue = [];
+      activeItem = null;
+      pendingFastPull = false;
     },
   };
 }

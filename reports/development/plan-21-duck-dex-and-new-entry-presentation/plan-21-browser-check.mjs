@@ -1,16 +1,68 @@
 // reports/development/plan-21-duck-dex-and-new-entry-presentation/plan-21-browser-check.mjs
-// Isolated headless browser verification for Plan 21 Repair 02.
+// Isolated headless browser verification for Plan 21 Repair 02 / Repair 03.
 // Validates:
 // 1. Real-state silhouette computed filter during Phase 1 and color transition in Phase 2.
 // 2. Settings modal opening during Phase 1 suspends timers and prevents background completion.
 // 3. Duplicate-first reveal triggers discovery; subsequent original reveal does not re-trigger.
 // 4. Reveal-All / Fast-Pull instant resolution with toast.
 // 5. Escape keyboard dismissal and focus return.
+// 6. Strict failure detection and nonzero exit code on any failed or missing required check.
 
 import { spawn } from 'node:child_process';
 import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { createServer } from 'node:net';
+
+export const REQUIRED_CHECKS = [
+  'ten_pull_committed',
+  'active_discovery_phase1_silhouette',
+  'active_discovery_phase2_color_transition',
+  'acquisition_completed_cleanup',
+  'inactive_modal_suspension_in_settings',
+  'duplicate_first_reveal_triggers_discovery',
+  'subsequent_original_reveal_does_not_retrigger',
+  'reveal_all_fast_pull_bypass',
+];
+
+export function evaluateObservations(observations, required = REQUIRED_CHECKS) {
+  if (!Array.isArray(observations.checks)) observations.checks = [];
+  const recorded = new Map(observations.checks.map((c) => [c.name, c]));
+  const missing = [];
+  for (const name of required) {
+    if (!recorded.has(name)) {
+      missing.push(name);
+      observations.checks.push({
+        name,
+        passed: false,
+        detail: `Missing required check: ${name}`,
+      });
+    }
+  }
+
+  const failed = observations.checks.filter((c) => !c.passed);
+  const allPassed = failed.length === 0 && !observations.error;
+  return { allPassed, missing, failed };
+}
+
+// Self-contained failure probe verification mode
+if (process.argv.includes('--probe-failure')) {
+  console.log('\n=== PLAN 21 BROWSER HARNESS FAILURE PROBE ===');
+  console.log('Testing harness failure detection with injected failure and missing required checks...');
+  const probeObservations = {
+    timestamp: new Date().toISOString(),
+    checks: [
+      { name: 'ten_pull_committed', passed: true, detail: 'OK' },
+      { name: 'active_discovery_phase1_silhouette', passed: false, detail: 'Injected test failure' },
+    ],
+  };
+  const { allPassed, missing, failed } = evaluateObservations(probeObservations);
+  console.log(`Probe evaluated: allPassed=${allPassed}, failedCount=${failed.length}, missingCount=${missing.length}`);
+  if (!allPassed) {
+    console.log('[PROBE VERIFIED] Harness correctly detected failure and missing checks. Setting process.exitCode = 1.');
+    process.exitCode = 1;
+  }
+  process.exit();
+}
 
 const host = '127.0.0.1';
 async function getFreePort() {
@@ -244,7 +296,13 @@ try {
     return { nextIdx, identity: pending[nextIdx].identity };
   })()`);
 
-  if (nextTargetInfo) {
+  if (!nextTargetInfo) {
+    observations.checks.push({
+      name: 'inactive_modal_suspension_in_settings',
+      passed: false,
+      detail: 'Fixture setup failure: no unrevealed new duck found for Settings suspension test',
+    });
+  } else {
     await click(`.card-back[data-card-idx="${nextTargetInfo.nextIdx}"]`);
     await waitFor('Boolean(document.querySelector(".acquisition-shelf-overlay"))', `acquisition overlay for card ${nextTargetInfo.nextIdx}`);
 
@@ -301,10 +359,22 @@ try {
     if (dupIdx === -1) return null;
     const dupId = pending[dupIdx].identity;
     const origIdx = pending.findIndex((d) => !d.duplicate && d.identity === dupId);
+    if (origIdx === -1) return null;
     return { dupIdx, origIdx, dupId };
   })()`);
 
-  if (batchInfo) {
+  if (!batchInfo) {
+    observations.checks.push({
+      name: 'duplicate_first_reveal_triggers_discovery',
+      passed: false,
+      detail: 'Fixture setup failure: no duplicate draw pair found in batch for duplicate-first test',
+    });
+    observations.checks.push({
+      name: 'subsequent_original_reveal_does_not_retrigger',
+      passed: false,
+      detail: 'Fixture setup failure: no duplicate draw pair found in batch for duplicate-first test',
+    });
+  } else {
     // 1. Reveal the duplicate card FIRST!
     await click(`.card-back[data-card-idx="${batchInfo.dupIdx}"]`);
     await waitFor('Boolean(document.querySelector(".acquisition-shelf-overlay"))', 'overlay on duplicate-first reveal');
@@ -357,11 +427,14 @@ try {
     detail: revealAllState,
   });
 
-  console.log('\n=== PLAN 21 REPAIR 02 HEADLESS BROWSER VERIFICATION ===');
-  let allPassed = true;
+  const { allPassed, missing, failed } = evaluateObservations(observations);
+
+  console.log('\n=== PLAN 21 REPAIR 03 HEADLESS BROWSER VERIFICATION ===');
   for (const check of observations.checks) {
     console.log(`  [${check.passed ? 'PASS' : 'FAIL'}] ${check.name}`);
-    if (!check.passed) allPassed = false;
+  }
+  if (missing.length > 0) {
+    console.log(`  Missing required checks: ${missing.join(', ')}`);
   }
   console.log(`\nOverall: ${allPassed ? 'ALL CHECKS PASSED' : 'SOME CHECKS FAILED'}`);
 
@@ -371,9 +444,23 @@ try {
   );
   console.log('Observations saved to repair-02-browser-observations.json\n');
 
+  if (!allPassed) {
+    process.exitCode = 1;
+  }
+
+} catch (err) {
+  console.error('\nBrowser verification encountered an unexpected error:', err);
+  observations.error = err.message || String(err);
+  process.exitCode = 1;
+  try {
+    writeFileSync(
+      path.resolve('reports/development/plan-21-duck-dex-and-new-entry-presentation/repair-02-browser-observations.json'),
+      JSON.stringify(observations, null, 2)
+    );
+  } catch {}
 } finally {
   cdp?.close();
-  browser.kill();
-  preview.kill();
+  browser?.kill();
+  preview?.kill();
   try { rmSync(profileDir, { recursive: true, force: true }); } catch {}
 }

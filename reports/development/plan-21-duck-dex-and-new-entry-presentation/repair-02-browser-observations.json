@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-27T03:42:23.945Z",
+  "timestamp": "2026-10-27T04:07:40.970Z",
   "checks": [
     {
       "name": "ten_pull_committed",
@@ -10,7 +10,7 @@
       "name": "active_discovery_phase1_silhouette",
       "passed": true,
       "detail": {
-        "targetId": "duck-1",
+        "targetId": "duck-4",
         "hasUnownedClass": true,
         "hasOwnedClass": false,
         "hasHighlightClass": true,
@@ -22,11 +22,11 @@
       "name": "active_discovery_phase2_color_transition",
       "passed": true,
       "detail": {
-        "targetId": "duck-1",
+        "targetId": "duck-4",
         "hasUnownedClass": false,
         "hasOwnedClass": true,
         "hasDiscoveringClass": true,
-        "nameText": "Rubber Mallard",
+        "nameText": "Turbo Drake",
         "transitionProperty": "filter, opacity"
       }
     },
@@ -40,7 +40,7 @@
       "passed": true,
       "detail": {
         "seenEntries": [
-          "duck-1"
+          "duck-4"
         ],
         "targetMarkedSeen": false,
         "settingsOpen": true
@@ -66,7 +66,7 @@
       "passed": true,
       "detail": {
         "cardBacks": 0,
-        "toast": "✨ 3 new ducks added to Duck-Dex!",
+        "toast": "✨ 4 new ducks added to Duck-Dex!",
         "overlay": false
       }
     }

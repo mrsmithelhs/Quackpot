@@ -84,3 +84,11 @@ No production build, general suite, production browser turn, save/migration/Rece
 **Advisor consultation:** Branch C — orchestrator-gate-only. No additional advisor was requested for this report-only study/preview repair; QP Orch directed that no reviewer be added here. The allowed Sol-low review budget for a later main production artifact remains unused.
 
 The scoped proposal, study and preview artifacts are committed as `3299d27`. This progress update is committed separately as the final Plan 23 write. No push or packet-status change was made.
+
+## Camera zoom owner-feedback repair (2026-10-27)
+
+QP Orch’s bounded preview-only repair found that the camera renderer was active, but the individual-race preview selected **Locked wide** by default. The preview now defaults to **Eased close mid-race, then wide**, keeps **Locked wide** as an explicit alternative, and describes the static/reduced-motion behavior. A report-only `data-resolution-fingerprint` is stamped when each committed resolution is created so presentation checks can confirm that pause/seek/restart/display changes keep the same mechanical result.
+
+The authorized 1280×720 isolated IAB check observed camera scale 1.0000 at the start and tick 67, 1.0988 at tick 167, 1.1589 at tick 180, and 1.1600 near tick 208; this shows intermediate eased motion. Pause held the tick-167 matrix unchanged for 500 ms. Seeking to tick 163 showed scale 1.0708; seeking to tick 38 returned to wide. Restart reset to identity, Skip to finish returned to identity, reduced/static stayed wide at 38% and the 50/75/100% checkpoints, and explicit Locked wide stayed at identity at tick 205.8. The diagnostic fingerprint `296539:9b0cce44` and result summary (`21.62s + 2.00s highlight`) remained unchanged. The isolated tab captured zero console errors/warnings and was closed to release the browser slot; owner Chrome and the existing local server were untouched.
+
+`node --check` on the modified preview controller and `git diff --check` passed. No production source, race model, constants, mechanics, packet status, or reward/save/Receipt lifecycle were changed or newly validated. The preview repair and evidence are committed as `21ffa84`; this progress entry will be committed separately as the final Plan 23 write. No push was performed.

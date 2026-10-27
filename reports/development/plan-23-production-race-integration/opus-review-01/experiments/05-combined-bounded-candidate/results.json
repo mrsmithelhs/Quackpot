@@ -1,0 +1,1504 @@
+{
+  "provenance": {
+    "sourceSha256": "3d3bd83107da7db38d2b4f902ce9be304aaed52fb49612cd9b90b9ed8ac7a07e",
+    "seeds": [
+      "opus-r01-combo-val-01",
+      "opus-r01-combo-val-02",
+      "opus-r01-combo-val-03",
+      "opus-r01-combo-val-04",
+      "opus-r01-combo-val-05",
+      "opus-r01-combo-val-06",
+      "opus-r01-combo-val-07",
+      "opus-r01-combo-val-08",
+      "opus-r01-combo-val-09",
+      "opus-r01-combo-val-10",
+      "opus-r01-combo-val-11",
+      "opus-r01-combo-val-12",
+      "opus-r01-combo-val-13",
+      "opus-r01-combo-val-14",
+      "opus-r01-combo-val-15",
+      "opus-r01-combo-val-16",
+      "opus-r01-combo-val-17",
+      "opus-r01-combo-val-18",
+      "opus-r01-combo-val-19",
+      "opus-r01-combo-val-20",
+      "opus-r01-combo-val-21",
+      "opus-r01-combo-val-22",
+      "opus-r01-combo-val-23",
+      "opus-r01-combo-val-24",
+      "opus-r01-combo-val-25",
+      "opus-r01-combo-val-26",
+      "opus-r01-combo-val-27",
+      "opus-r01-combo-val-28",
+      "opus-r01-combo-val-29",
+      "opus-r01-combo-val-30",
+      "opus-r01-combo-val-31",
+      "opus-r01-combo-val-32",
+      "opus-r01-combo-val-33",
+      "opus-r01-combo-val-34",
+      "opus-r01-combo-val-35",
+      "opus-r01-combo-val-36",
+      "opus-r01-combo-val-37",
+      "opus-r01-combo-val-38",
+      "opus-r01-combo-val-39",
+      "opus-r01-combo-val-40"
+    ],
+    "cells": "six groups (3 production, 1 future R03 0.75, 2 matrix-only R01 tired) × 3 tiers × steady/sprint × trial off/on = 72 matrix cells; rows 0,1,2 equally weighted",
+    "substitutions": [
+      "PRNG URL",
+      "topSpeed = 8.25 + 0.5*sampled (all arms)",
+      "combined-candidate: sprint mean 1.1→1.0 and rowSpacing 4→1.5",
+      "player start row swap for rows 1/2"
+    ]
+  },
+  "results": {
+    "affine-current": {
+      "arm": {
+        "name": "affine-current",
+        "sprintMean": "1.1",
+        "rowSpacing": 4
+      },
+      "races": 8640,
+      "unresolved": 0,
+      "timingProduction": {
+        "n": 4320,
+        "median": 20.896567,
+        "p95": 21.497898,
+        "max": 21.852866,
+        "over23": 0,
+        "under17": 0
+      },
+      "timingAllSixGroups": {
+        "n": 8640,
+        "median": 21.00183,
+        "p95": 21.742098,
+        "max": 22.006732,
+        "over23": 0,
+        "under17": 0
+      },
+      "meanLeadChangesAfter3s": 1.353935185185185,
+      "shareWithLeadChange": 0.7238425925925925,
+      "overallWin": {
+        "row0": {
+          "n": 2880,
+          "winRate": 0.6166666666666667,
+          "meanPlace": 2.214236111111111
+        },
+        "slotBalanced": {
+          "n": 8640,
+          "winRate": 0.42997685185185186,
+          "meanPlace": 2.9756944444444446
+        }
+      },
+      "byRow": {
+        "row0": {
+          "n": 2880,
+          "winRate": 0.6166666666666667,
+          "meanPlace": 2.214236111111111
+        },
+        "row1": {
+          "n": 2880,
+          "winRate": 0.39895833333333336,
+          "meanPlace": 2.9430555555555555
+        },
+        "row2": {
+          "n": 2880,
+          "winRate": 0.2743055555555556,
+          "meanPlace": 3.769791666666667
+        }
+      },
+      "winTable": {
+        "R01-rest1|common|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.6083333333333333,
+          "meanPlace": 1.7625
+        },
+        "R01-rest1|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.9625,
+          "meanPlace": 1.0375
+        },
+        "R01-rest1|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7375,
+          "meanPlace": 1.55
+        },
+        "R01-rest1|rare|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.975,
+          "meanPlace": 1.0291666666666666
+        },
+        "R01-rest1|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9791666666666666,
+          "meanPlace": 1.0291666666666666
+        },
+        "R01-rest1|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|common|steady|row0": {
+          "n": 80,
+          "winRate": 0.2875,
+          "meanPlace": 2.2
+        },
+        "R03-rest1|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.09583333333333334,
+          "meanPlace": 3.870833333333333
+        },
+        "R03-rest1|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.5375,
+          "meanPlace": 1.775
+        },
+        "R03-rest1|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.2125,
+          "meanPlace": 3.3291666666666666
+        },
+        "R03-rest1|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.95,
+          "meanPlace": 1.05
+        },
+        "R03-rest1|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.45416666666666666,
+          "meanPlace": 2.158333333333333
+        },
+        "R03-rest1|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.975,
+          "meanPlace": 1.025
+        },
+        "R03-rest1|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.5875,
+          "meanPlace": 1.8541666666666667
+        },
+        "R03-rest1|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7375,
+          "meanPlace": 1.4958333333333333
+        },
+        "R03-rest1|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7333333333333333,
+          "meanPlace": 1.4833333333333334
+        },
+        "R03-rest0.5|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.95
+        },
+        "R03-rest0.5|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.983333333333333
+        },
+        "R03-rest0.5|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.45
+        },
+        "R03-rest0.5|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.795833333333333
+        },
+        "R03-rest0.5|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.0125,
+          "meanPlace": 4.4125
+        },
+        "R03-rest0.5|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.004166666666666667,
+          "meanPlace": 5.2625
+        },
+        "R03-rest0.5|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 0.2875,
+          "meanPlace": 2.2
+        },
+        "R03-rest0.5|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.09583333333333334,
+          "meanPlace": 3.870833333333333
+        },
+        "R03-rest0.5|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 0.5375,
+          "meanPlace": 1.775
+        },
+        "R03-rest0.5|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.2125,
+          "meanPlace": 3.3291666666666666
+        },
+        "R03-rest0.75-future|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 4.875
+        },
+        "R03-rest0.75-future|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.558333333333334
+        },
+        "R03-rest0.75-future|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.05,
+          "meanPlace": 3.7125
+        },
+        "R03-rest0.75-future|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.016666666666666666,
+          "meanPlace": 4.883333333333334
+        },
+        "R03-rest0.75-future|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.4125,
+          "meanPlace": 1.9
+        },
+        "R03-rest0.75-future|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.14166666666666666,
+          "meanPlace": 3.6
+        },
+        "R03-rest0.75-future|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.625,
+          "meanPlace": 1.6
+        },
+        "R03-rest0.75-future|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.25,
+          "meanPlace": 3.1
+        },
+        "R03-rest0.75-future|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest0.75-future|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.5375,
+          "meanPlace": 1.9375
+        },
+        "R03-rest0.75-future|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest0.75-future|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.65,
+          "meanPlace": 1.6791666666666667
+        },
+        "R01-rest0.5-matrix|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.9875
+        },
+        "R01-rest0.5-matrix|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.995833333333334
+        },
+        "R01-rest0.5-matrix|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.15
+        },
+        "R01-rest0.5-matrix|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.6375
+        },
+        "R01-rest0.5-matrix|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.15,
+          "meanPlace": 2.6875
+        },
+        "R01-rest0.5-matrix|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.05,
+          "meanPlace": 4.233333333333333
+        },
+        "R01-rest0.5-matrix|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.475,
+          "meanPlace": 2.0875
+        },
+        "R01-rest0.5-matrix|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.1875,
+          "meanPlace": 3.591666666666667
+        },
+        "R01-rest0.5-matrix|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.5-matrix|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.6083333333333333,
+          "meanPlace": 1.7625
+        },
+        "R01-rest0.5-matrix|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 0.9625,
+          "meanPlace": 1.0375
+        },
+        "R01-rest0.5-matrix|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7375,
+          "meanPlace": 1.55
+        },
+        "R01-rest0.75-matrix|common|steady|row0": {
+          "n": 80,
+          "winRate": 0.3625,
+          "meanPlace": 2.075
+        },
+        "R01-rest0.75-matrix|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.12083333333333333,
+          "meanPlace": 3.7375
+        },
+        "R01-rest0.75-matrix|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.625,
+          "meanPlace": 1.7125
+        },
+        "R01-rest0.75-matrix|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.2708333333333333,
+          "meanPlace": 3.1083333333333334
+        },
+        "R01-rest0.75-matrix|rare|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7083333333333334,
+          "meanPlace": 1.525
+        },
+        "R01-rest0.75-matrix|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.9875,
+          "meanPlace": 1.0125
+        },
+        "R01-rest0.75-matrix|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7916666666666666,
+          "meanPlace": 1.3958333333333333
+        },
+        "R01-rest0.75-matrix|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9833333333333333,
+          "meanPlace": 1.0166666666666666
+        },
+        "R01-rest0.75-matrix|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9916666666666667,
+          "meanPlace": 1.0083333333333333
+        }
+      },
+      "sprintVsSteady": {
+        "all|row0": {
+          "pairs": 1440,
+          "meanDeltaPlace": -0.28541666666666665,
+          "improved": 0.1951388888888889,
+          "worsened": 0.018055555555555554,
+          "winChangePp": 7.222222222222219,
+          "meanDeltaMargin": 1.9939256944444461
+        },
+        "R01-rest1|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.0375,
+          "improved": 0,
+          "worsened": 0.0375,
+          "winChangePp": -3.749999999999998,
+          "meanDeltaMargin": 1.8002500000000015
+        },
+        "R01-rest1|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.9333375
+        },
+        "R01-rest1|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.06994999999999933
+        },
+        "R03-rest1|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.425,
+          "improved": 0.3875,
+          "worsened": 0.05,
+          "winChangePp": 25,
+          "meanDeltaMargin": 2.532487499999994
+        },
+        "R03-rest1|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.025,
+          "improved": 0.0375,
+          "worsened": 0.0125,
+          "winChangePp": 2.500000000000002,
+          "meanDeltaMargin": 1.3802625000000002
+        },
+        "R03-rest1|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.06348750000000045
+        },
+        "R03-rest0.5|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.05,
+          "improved": 0.0375,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 4.777425
+        },
+        "R03-rest0.5|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -1.0375,
+          "improved": 0.5875,
+          "worsened": 0.0125,
+          "winChangePp": 1.25,
+          "meanDeltaMargin": 2.7432749999999997
+        },
+        "R03-rest0.5|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.425,
+          "improved": 0.3875,
+          "worsened": 0.05,
+          "winChangePp": 25,
+          "meanDeltaMargin": 2.532487499999994
+        },
+        "R03-rest0.75-future|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -1.1625,
+          "improved": 0.6125,
+          "worsened": 0,
+          "winChangePp": 5,
+          "meanDeltaMargin": 2.7685124999999977
+        },
+        "R03-rest0.75-future|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.3,
+          "improved": 0.2875,
+          "worsened": 0.05,
+          "winChangePp": 21.250000000000004,
+          "meanDeltaMargin": 2.4370874999999943
+        },
+        "R03-rest0.75-future|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.9763125000000017
+        },
+        "R01-rest0.5-matrix|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.8375,
+          "improved": 0.4375,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 3.8484375
+        },
+        "R01-rest0.5-matrix|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.6,
+          "improved": 0.4125,
+          "worsened": 0.0375,
+          "winChangePp": 32.49999999999999,
+          "meanDeltaMargin": 2.440574999999993
+        },
+        "R01-rest0.5-matrix|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.0375,
+          "improved": 0,
+          "worsened": 0.0375,
+          "winChangePp": -3.749999999999998,
+          "meanDeltaMargin": 1.8002500000000015
+        },
+        "R01-rest0.75-matrix|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.3625,
+          "improved": 0.325,
+          "worsened": 0.025,
+          "winChangePp": 26.25,
+          "meanDeltaMargin": 2.3584249999999924
+        },
+        "R01-rest0.75-matrix|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.0125,
+          "improved": 0,
+          "worsened": 0.0125,
+          "winChangePp": -1.2499999999999956,
+          "meanDeltaMargin": 1.6606375000000004
+        },
+        "R01-rest0.75-matrix|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.7674625000000009
+        },
+        "all|slot-balanced": {
+          "pairs": 4320,
+          "meanDeltaPlace": -0.30972222222222223,
+          "improved": 0.2310185185185185,
+          "worsened": 0.021296296296296296,
+          "winChangePp": 6.921296296296298,
+          "meanDeltaMargin": 1.975604398148145
+        },
+        "R01-rest1|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.2125,
+          "improved": 0.21666666666666667,
+          "worsened": 0.05416666666666667,
+          "winChangePp": 12.916666666666677,
+          "meanDeltaMargin": 1.8619666666666623
+        },
+        "R01-rest1|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0.004166666666666667,
+          "worsened": 0.004166666666666667,
+          "winChangePp": 0.4166666666666652,
+          "meanDeltaMargin": 1.0320833333333341
+        },
+        "R01-rest1|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.04923749999999944
+        },
+        "R03-rest1|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.5416666666666666,
+          "improved": 0.425,
+          "worsened": 0.03333333333333333,
+          "winChangePp": 11.666666666666666,
+          "meanDeltaMargin": 2.4139166666666636
+        },
+        "R03-rest1|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.30416666666666664,
+          "improved": 0.2875,
+          "worsened": 0.025,
+          "winChangePp": 13.333333333333336,
+          "meanDeltaMargin": 1.3845041666666649
+        },
+        "R03-rest1|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.0125,
+          "improved": 0.016666666666666666,
+          "worsened": 0.004166666666666667,
+          "winChangePp": -0.4166666666666763,
+          "meanDeltaMargin": 0.058016666666668354
+        },
+        "R03-rest0.5|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.016666666666666666,
+          "improved": 0.0125,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 4.522008333333334
+        },
+        "R03-rest0.5|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.5333333333333333,
+          "improved": 0.325,
+          "worsened": 0.008333333333333333,
+          "winChangePp": 0.4166666666666667,
+          "meanDeltaMargin": 2.813645833333332
+        },
+        "R03-rest0.5|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.5416666666666666,
+          "improved": 0.425,
+          "worsened": 0.03333333333333333,
+          "winChangePp": 11.666666666666666,
+          "meanDeltaMargin": 2.4139166666666636
+        },
+        "R03-rest0.75-future|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.675,
+          "improved": 0.39166666666666666,
+          "worsened": 0.004166666666666667,
+          "winChangePp": 1.6666666666666667,
+          "meanDeltaMargin": 2.7840291666666688
+        },
+        "R03-rest0.75-future|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.5,
+          "improved": 0.37916666666666665,
+          "worsened": 0.0375,
+          "winChangePp": 10.833333333333334,
+          "meanDeltaMargin": 2.391420833333329
+        },
+        "R03-rest0.75-future|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.25833333333333336,
+          "improved": 0.23333333333333334,
+          "worsened": 0.016666666666666666,
+          "winChangePp": 11.250000000000004,
+          "meanDeltaMargin": 1.006345833333331
+        },
+        "R01-rest0.5-matrix|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.35833333333333334,
+          "improved": 0.2,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 3.800037500000002
+        },
+        "R01-rest0.5-matrix|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.6416666666666667,
+          "improved": 0.43333333333333335,
+          "worsened": 0.025,
+          "winChangePp": 13.750000000000002,
+          "meanDeltaMargin": 2.310337499999997
+        },
+        "R01-rest0.5-matrix|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.2125,
+          "improved": 0.21666666666666667,
+          "worsened": 0.05416666666666667,
+          "winChangePp": 12.916666666666677,
+          "meanDeltaMargin": 1.8619666666666623
+        },
+        "R01-rest0.75-matrix|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.6291666666666667,
+          "improved": 0.44166666666666665,
+          "worsened": 0.041666666666666664,
+          "winChangePp": 14.999999999999996,
+          "meanDeltaMargin": 2.3084999999999956
+        },
+        "R01-rest0.75-matrix|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.12916666666666668,
+          "improved": 0.14166666666666666,
+          "worsened": 0.041666666666666664,
+          "winChangePp": 8.333333333333325,
+          "meanDeltaMargin": 1.7535166666666655
+        },
+        "R01-rest0.75-matrix|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.008333333333333333,
+          "improved": 0.008333333333333333,
+          "worsened": 0,
+          "winChangePp": 0.8333333333333415,
+          "meanDeltaMargin": 0.7954291666666663
+        }
+      }
+    },
+    "combined-candidate": {
+      "arm": {
+        "name": "combined-candidate",
+        "sprintMean": "1.0",
+        "rowSpacing": 1.5
+      },
+      "races": 8640,
+      "unresolved": 0,
+      "timingProduction": {
+        "n": 4320,
+        "median": 20.850519,
+        "p95": 21.416632,
+        "max": 21.744281,
+        "over23": 0,
+        "under17": 0
+      },
+      "timingAllSixGroups": {
+        "n": 8640,
+        "median": 20.93629,
+        "p95": 21.690379,
+        "max": 22.069531,
+        "over23": 0,
+        "under17": 0
+      },
+      "meanLeadChangesAfter3s": 1.5810185185185186,
+      "shareWithLeadChange": 0.7899305555555556,
+      "overallWin": {
+        "row0": {
+          "n": 2880,
+          "winRate": 0.5357638888888889,
+          "meanPlace": 2.71875
+        },
+        "slotBalanced": {
+          "n": 8640,
+          "winRate": 0.4648148148148148,
+          "meanPlace": 3.073611111111111
+        }
+      },
+      "byRow": {
+        "row0": {
+          "n": 2880,
+          "winRate": 0.5357638888888889,
+          "meanPlace": 2.71875
+        },
+        "row1": {
+          "n": 2880,
+          "winRate": 0.45,
+          "meanPlace": 3.0930555555555554
+        },
+        "row2": {
+          "n": 2880,
+          "winRate": 0.40868055555555555,
+          "meanPlace": 3.4090277777777778
+        }
+      },
+      "winTable": {
+        "R01-rest1|common|steady|row0": {
+          "n": 80,
+          "winRate": 0.9875,
+          "meanPlace": 1.0125
+        },
+        "R01-rest1|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.8583333333333333,
+          "meanPlace": 1.2416666666666667
+        },
+        "R01-rest1|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.8625,
+          "meanPlace": 1.2
+        },
+        "R01-rest1|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.75,
+          "meanPlace": 1.5791666666666666
+        },
+        "R01-rest1|rare|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest1|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|common|steady|row0": {
+          "n": 80,
+          "winRate": 0.125,
+          "meanPlace": 3.2125
+        },
+        "R03-rest1|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.05,
+          "meanPlace": 4.166666666666667
+        },
+        "R03-rest1|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.1625,
+          "meanPlace": 3.1625
+        },
+        "R03-rest1|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.1,
+          "meanPlace": 4.008333333333334
+        },
+        "R03-rest1|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.95,
+          "meanPlace": 1.05
+        },
+        "R03-rest1|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7083333333333334,
+          "meanPlace": 1.5958333333333334
+        },
+        "R03-rest1|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.9375,
+          "meanPlace": 1.15
+        },
+        "R03-rest1|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.6791666666666667,
+          "meanPlace": 1.6833333333333333
+        },
+        "R03-rest1|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9208333333333333,
+          "meanPlace": 1.1625
+        },
+        "R03-rest1|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest1|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9166666666666666,
+          "meanPlace": 1.1666666666666667
+        },
+        "R03-rest0.5|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R03-rest0.5|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.925
+        },
+        "R03-rest0.5|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.975
+        },
+        "R03-rest0.5|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.7375
+        },
+        "R03-rest0.5|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.9125
+        },
+        "R03-rest0.5|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 0.125,
+          "meanPlace": 3.2125
+        },
+        "R03-rest0.5|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.05,
+          "meanPlace": 4.166666666666667
+        },
+        "R03-rest0.5|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 0.1625,
+          "meanPlace": 3.1625
+        },
+        "R03-rest0.5|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.1,
+          "meanPlace": 4.008333333333334
+        },
+        "R03-rest0.75-future|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.825
+        },
+        "R03-rest0.75-future|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.9375
+        },
+        "R03-rest0.75-future|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.4875
+        },
+        "R03-rest0.75-future|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.783333333333333
+        },
+        "R03-rest0.75-future|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.2125,
+          "meanPlace": 2.6875
+        },
+        "R03-rest0.75-future|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.09583333333333334,
+          "meanPlace": 3.716666666666667
+        },
+        "R03-rest0.75-future|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.2625,
+          "meanPlace": 2.6875
+        },
+        "R03-rest0.75-future|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.15833333333333333,
+          "meanPlace": 3.591666666666667
+        },
+        "R03-rest0.75-future|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R03-rest0.75-future|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.8083333333333333,
+          "meanPlace": 1.3708333333333333
+        },
+        "R03-rest0.75-future|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 0.95,
+          "meanPlace": 1.0875
+        },
+        "R03-rest0.75-future|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.7791666666666667,
+          "meanPlace": 1.4583333333333333
+        },
+        "R01-rest0.5-matrix|common|steady|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R01-rest0.5-matrix|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 6
+        },
+        "R01-rest0.5-matrix|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0,
+          "meanPlace": 5.95
+        },
+        "R01-rest0.5-matrix|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0,
+          "meanPlace": 5.983333333333333
+        },
+        "R01-rest0.5-matrix|rare|steady|row0": {
+          "n": 80,
+          "winRate": 0.0375,
+          "meanPlace": 4.05
+        },
+        "R01-rest0.5-matrix|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.0125,
+          "meanPlace": 4.725
+        },
+        "R01-rest0.5-matrix|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.1875,
+          "meanPlace": 3.8875
+        },
+        "R01-rest0.5-matrix|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.09166666666666666,
+          "meanPlace": 4.45
+        },
+        "R01-rest0.5-matrix|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 0.9875,
+          "meanPlace": 1.0125
+        },
+        "R01-rest0.5-matrix|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.8583333333333333,
+          "meanPlace": 1.2416666666666667
+        },
+        "R01-rest0.5-matrix|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 0.8625,
+          "meanPlace": 1.2
+        },
+        "R01-rest0.5-matrix|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.75,
+          "meanPlace": 1.5791666666666666
+        },
+        "R01-rest0.75-matrix|common|steady|row0": {
+          "n": 80,
+          "winRate": 0.2375,
+          "meanPlace": 2.95
+        },
+        "R01-rest0.75-matrix|common|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.10416666666666667,
+          "meanPlace": 3.841666666666667
+        },
+        "R01-rest0.75-matrix|common|sprint|row0": {
+          "n": 80,
+          "winRate": 0.3125,
+          "meanPlace": 3.125
+        },
+        "R01-rest0.75-matrix|common|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.19583333333333333,
+          "meanPlace": 3.8
+        },
+        "R01-rest0.75-matrix|rare|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|rare|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 0.9208333333333333,
+          "meanPlace": 1.1208333333333333
+        },
+        "R01-rest0.75-matrix|rare|sprint|row0": {
+          "n": 80,
+          "winRate": 0.925,
+          "meanPlace": 1.1
+        },
+        "R01-rest0.75-matrix|rare|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 0.825,
+          "meanPlace": 1.3833333333333333
+        },
+        "R01-rest0.75-matrix|legendary|steady|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|legendary|steady|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|legendary|sprint|row0": {
+          "n": 80,
+          "winRate": 1,
+          "meanPlace": 1
+        },
+        "R01-rest0.75-matrix|legendary|sprint|slot-balanced": {
+          "n": 240,
+          "winRate": 1,
+          "meanPlace": 1
+        }
+      },
+      "sprintVsSteady": {
+        "all|row0": {
+          "pairs": 1440,
+          "meanDeltaPlace": 0,
+          "improved": 0.09236111111111112,
+          "worsened": 0.09652777777777778,
+          "winChangePp": -0.2083333333333326,
+          "meanDeltaMargin": -0.04722847222222217
+        },
+        "R01-rest1|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.1875,
+          "improved": 0,
+          "worsened": 0.1375,
+          "winChangePp": -12.5,
+          "meanDeltaMargin": -0.40861249999999744
+        },
+        "R01-rest1|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.40973749999999926
+        },
+        "R01-rest1|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.13739999999999847
+        },
+        "R03-rest1|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.05,
+          "improved": 0.25,
+          "worsened": 0.225,
+          "winChangePp": 3.7500000000000004,
+          "meanDeltaMargin": 0.2760625000000008
+        },
+        "R03-rest1|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.1,
+          "improved": 0.025,
+          "worsened": 0.0625,
+          "winChangePp": -1.2499999999999956,
+          "meanDeltaMargin": 0.02076249999999824
+        },
+        "R03-rest1|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.1025124999999992
+        },
+        "R03-rest0.5|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.9793124999999983
+        },
+        "R03-rest0.5|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.1875,
+          "improved": 0.1125,
+          "worsened": 0.0125,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.3196000000000005
+        },
+        "R03-rest0.5|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.05,
+          "improved": 0.25,
+          "worsened": 0.225,
+          "winChangePp": 3.7500000000000004,
+          "meanDeltaMargin": 0.2760625000000008
+        },
+        "R03-rest0.75-future|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.3375,
+          "improved": 0.1875,
+          "worsened": 0.0125,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.06708750000000023
+        },
+        "R03-rest0.75-future|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0.225,
+          "worsened": 0.2375,
+          "winChangePp": 5.000000000000002,
+          "meanDeltaMargin": 0.3440000000000012
+        },
+        "R03-rest0.75-future|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.0875,
+          "improved": 0,
+          "worsened": 0.05,
+          "winChangePp": -5.000000000000004,
+          "meanDeltaMargin": -0.0538499999999992
+        },
+        "R01-rest0.5-matrix|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.05,
+          "improved": 0.05,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.33288750000000106
+        },
+        "R01-rest0.5-matrix|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": -0.1625,
+          "improved": 0.35,
+          "worsened": 0.275,
+          "winChangePp": 15,
+          "meanDeltaMargin": -0.15092500000000583
+        },
+        "R01-rest0.5-matrix|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.1875,
+          "improved": 0,
+          "worsened": 0.1375,
+          "winChangePp": -12.5,
+          "meanDeltaMargin": -0.40861249999999744
+        },
+        "R01-rest0.75-matrix|common|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.175,
+          "improved": 0.2125,
+          "worsened": 0.2875,
+          "winChangePp": 7.500000000000001,
+          "meanDeltaMargin": -0.24785000000000146
+        },
+        "R01-rest0.75-matrix|rare|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0.1,
+          "improved": 0,
+          "worsened": 0.075,
+          "winChangePp": -7.499999999999996,
+          "meanDeltaMargin": -0.4750749999999989
+        },
+        "R01-rest0.75-matrix|legendary|row0": {
+          "pairs": 80,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.4055375000000009
+        },
+        "all|slot-balanced": {
+          "pairs": 4320,
+          "meanDeltaPlace": 0.006944444444444444,
+          "improved": 0.1037037037037037,
+          "worsened": 0.09884259259259259,
+          "winChangePp": -0.2314814814814825,
+          "meanDeltaMargin": -0.05954467592592591
+        },
+        "R01-rest1|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.3375,
+          "improved": 0.029166666666666667,
+          "worsened": 0.22083333333333333,
+          "winChangePp": -10.833333333333329,
+          "meanDeltaMargin": -0.48810833333333054
+        },
+        "R01-rest1|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.3601749999999999
+        },
+        "R01-rest1|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.1722041666666661
+        },
+        "R03-rest1|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.15833333333333333,
+          "improved": 0.3125,
+          "worsened": 0.17916666666666667,
+          "winChangePp": 5,
+          "meanDeltaMargin": 0.26655833333333245
+        },
+        "R03-rest1|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.0875,
+          "improved": 0.1,
+          "worsened": 0.125,
+          "winChangePp": -2.9166666666666674,
+          "meanDeltaMargin": -0.00805833333333285
+        },
+        "R03-rest1|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.004166666666666667,
+          "improved": 0,
+          "worsened": 0.004166666666666667,
+          "winChangePp": -0.4166666666666652,
+          "meanDeltaMargin": -0.08848749999999986
+        },
+        "R03-rest0.5|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.7466833333333327
+        },
+        "R03-rest0.5|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.0625,
+          "improved": 0.0375,
+          "worsened": 0.004166666666666667,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.40779583333333386
+        },
+        "R03-rest0.5|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.15833333333333333,
+          "improved": 0.3125,
+          "worsened": 0.17916666666666667,
+          "winChangePp": 5,
+          "meanDeltaMargin": 0.26655833333333245
+        },
+        "R03-rest0.75-future|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.15416666666666667,
+          "improved": 0.09583333333333334,
+          "worsened": 0.008333333333333333,
+          "winChangePp": 0,
+          "meanDeltaMargin": 0.4159791666666667
+        },
+        "R03-rest0.75-future|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.125,
+          "improved": 0.29583333333333334,
+          "worsened": 0.18333333333333332,
+          "winChangePp": 6.249999999999998,
+          "meanDeltaMargin": 0.27297083333333205
+        },
+        "R03-rest0.75-future|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.0875,
+          "improved": 0.0625,
+          "worsened": 0.0875,
+          "winChangePp": -2.9166666666666674,
+          "meanDeltaMargin": -0.061729166666666536
+        },
+        "R01-rest0.5-matrix|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.016666666666666666,
+          "improved": 0.016666666666666666,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.4828083333333337
+        },
+        "R01-rest0.5-matrix|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.275,
+          "improved": 0.30416666666666664,
+          "worsened": 0.17083333333333334,
+          "winChangePp": 7.916666666666666,
+          "meanDeltaMargin": -0.19506666666666964
+        },
+        "R01-rest0.5-matrix|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.3375,
+          "improved": 0.029166666666666667,
+          "worsened": 0.22083333333333333,
+          "winChangePp": -10.833333333333329,
+          "meanDeltaMargin": -0.48810833333333054
+        },
+        "R01-rest0.75-matrix|common|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": -0.041666666666666664,
+          "improved": 0.2625,
+          "worsened": 0.23333333333333334,
+          "winChangePp": 9.166666666666666,
+          "meanDeltaMargin": -0.24409166666666865
+        },
+        "R01-rest0.75-matrix|rare|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0.2625,
+          "improved": 0.008333333333333333,
+          "worsened": 0.1625,
+          "winChangePp": -9.583333333333332,
+          "meanDeltaMargin": -0.5147291666666641
+        },
+        "R01-rest0.75-matrix|legendary|slot-balanced": {
+          "pairs": 240,
+          "meanDeltaPlace": 0,
+          "improved": 0,
+          "worsened": 0,
+          "winChangePp": 0,
+          "meanDeltaMargin": -0.3447833333333345
+        }
+      }
+    }
+  }
+}

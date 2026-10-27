@@ -1,0 +1,803 @@
+{
+  "provenance": {
+    "sourcePath": "reports/development/plan-13-race-staging-and-run-pacing/race-physics.mjs",
+    "sourceSha256": "3d3bd83107da7db38d2b4f902ce9be304aaed52fb49612cd9b90b9ed8ac7a07e",
+    "substitutions": [
+      "PRNG import URL",
+      "sampled topSpeed clamp replaced by named map (identity unless stated)",
+      "Part B only: player start row swapped with same-lane rival"
+    ],
+    "note": "Solo laps use fieldBaseSpeed 0.5 so the player leads; steady stance still samples ±5%, so sampledTopSpeed is reported."
+  },
+  "analyticReach": {
+    "cornerTargetAtLaneOffset": 11.315928440541029,
+    "cornerTargetAtCentre": 11.443409387022257,
+    "openingHalfStraightFromStartSpeed6": 13.663213829738172,
+    "middleStraightFromCorner": 19.184635427118373,
+    "closingHalfStraightFromCorner": 17.551359960739376,
+    "bendLengthShareOfLap": 0.5115273563044784
+  },
+  "envelope": {
+    "noWeave": [
+      {
+        "ratingInput": 6,
+        "sampledTopSpeed": 6.192,
+        "finish": 39.675087,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9987421383647799,
+        "bendSeconds": 10.15,
+        "maxSpeedBySegment": {
+          "opening half-straight": 6.192,
+          "first bend": 6.192,
+          "middle straight": 6.192,
+          "closing half-straight": 6.192
+        }
+      },
+      {
+        "ratingInput": 7,
+        "sampledTopSpeed": 7.224,
+        "finish": 34.037322,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9882697947214076,
+        "bendSeconds": 8.700000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 7.224,
+          "first bend": 7.224,
+          "middle straight": 7.224,
+          "closing half-straight": 7.224
+        }
+      },
+      {
+        "ratingInput": 8,
+        "sampledTopSpeed": 8.256,
+        "finish": 29.851985,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9749582637729549,
+        "bendSeconds": 7.6000000000000005,
+        "maxSpeedBySegment": {
+          "opening half-straight": 8.256,
+          "first bend": 8.256,
+          "middle straight": 8.256,
+          "closing half-straight": 8.256
+        }
+      },
+      {
+        "ratingInput": 9,
+        "sampledTopSpeed": 9.288,
+        "finish": 26.634998,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9606741573033708,
+        "bendSeconds": 6.75,
+        "maxSpeedBySegment": {
+          "opening half-straight": 9.288,
+          "first bend": 9.288,
+          "middle straight": 9.288,
+          "closing half-straight": 9.288
+        }
+      },
+      {
+        "ratingInput": 10,
+        "sampledTopSpeed": 10.32,
+        "finish": 24.095827,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9420289855072463,
+        "bendSeconds": 6.1000000000000005,
+        "maxSpeedBySegment": {
+          "opening half-straight": 10.32,
+          "first bend": 10.32,
+          "middle straight": 10.32,
+          "closing half-straight": 10.32
+        }
+      },
+      {
+        "ratingInput": 11,
+        "sampledTopSpeed": 11.352,
+        "finish": 22.085226,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.41309255079006774,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 11.352,
+          "first bend": 11.316,
+          "middle straight": 11.352,
+          "closing half-straight": 11.352
+        }
+      },
+      {
+        "ratingInput": 12,
+        "sampledTopSpeed": 12.384,
+        "finish": 21.384199,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.331002331002331,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 12.384,
+          "first bend": 11.316,
+          "middle straight": 12.384,
+          "closing half-straight": 12.384
+        }
+      },
+      {
+        "ratingInput": 13,
+        "sampledTopSpeed": 13.416,
+        "finish": 20.897216,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.25059665871121717,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.416,
+          "first bend": 11.316,
+          "middle straight": 13.416,
+          "closing half-straight": 13.416
+        }
+      },
+      {
+        "ratingInput": 14,
+        "sampledTopSpeed": 14.448,
+        "finish": 20.564913,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.1937046004842615,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 14.448,
+          "closing half-straight": 14.448
+        }
+      },
+      {
+        "ratingInput": 15,
+        "sampledTopSpeed": 15.48,
+        "finish": 20.315641,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.14215686274509803,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 15.48,
+          "closing half-straight": 15.48
+        }
+      },
+      {
+        "ratingInput": 16,
+        "sampledTopSpeed": 16.512,
+        "finish": 20.177996,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.09382716049382717,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 16.512,
+          "closing half-straight": 16.512
+        }
+      },
+      {
+        "ratingInput": 17,
+        "sampledTopSpeed": 17.544,
+        "finish": 20.108015,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.04207920792079208,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 17.544,
+          "closing half-straight": 17.478
+        }
+      },
+      {
+        "ratingInput": 18,
+        "sampledTopSpeed": 18.576,
+        "finish": 20.068488,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.01488833746898263,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 18.576,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 19,
+        "sampledTopSpeed": 19.608,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 20,
+        "sampledTopSpeed": 20.64,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 21,
+        "sampledTopSpeed": 21.672,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 22,
+        "sampledTopSpeed": 22.704,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 23,
+        "sampledTopSpeed": 23.736,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 24,
+        "sampledTopSpeed": 24.768,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 25,
+        "sampledTopSpeed": 25.8,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      },
+      {
+        "ratingInput": 26,
+        "sampledTopSpeed": 26.832,
+        "finish": 20.068479,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.550000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.65,
+          "first bend": 11.316,
+          "middle straight": 19.116,
+          "closing half-straight": 17.521
+        }
+      }
+    ],
+    "selectedWeaveContact": [
+      {
+        "ratingInput": 6,
+        "sampledTopSpeed": 6.192,
+        "finish": 39.868908,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9987484355444305,
+        "bendSeconds": 10.200000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 6.192,
+          "first bend": 6.192,
+          "middle straight": 6.192,
+          "closing half-straight": 6.192
+        }
+      },
+      {
+        "ratingInput": 7,
+        "sampledTopSpeed": 7.224,
+        "finish": 34.174907,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9883211678832117,
+        "bendSeconds": 8.700000000000001,
+        "maxSpeedBySegment": {
+          "opening half-straight": 7.224,
+          "first bend": 7.224,
+          "middle straight": 7.224,
+          "closing half-straight": 7.224
+        }
+      },
+      {
+        "ratingInput": 8,
+        "sampledTopSpeed": 8.256,
+        "finish": 29.984522,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9750415973377704,
+        "bendSeconds": 7.6000000000000005,
+        "maxSpeedBySegment": {
+          "opening half-straight": 8.256,
+          "first bend": 8.256,
+          "middle straight": 8.256,
+          "closing half-straight": 8.256
+        }
+      },
+      {
+        "ratingInput": 9,
+        "sampledTopSpeed": 9.288,
+        "finish": 26.780832,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9608938547486033,
+        "bendSeconds": 6.75,
+        "maxSpeedBySegment": {
+          "opening half-straight": 9.288,
+          "first bend": 9.288,
+          "middle straight": 9.288,
+          "closing half-straight": 9.288
+        }
+      },
+      {
+        "ratingInput": 10,
+        "sampledTopSpeed": 10.32,
+        "finish": 24.210326,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.9423868312757202,
+        "bendSeconds": 6.1000000000000005,
+        "maxSpeedBySegment": {
+          "opening half-straight": 10.32,
+          "first bend": 10.32,
+          "middle straight": 10.32,
+          "closing half-straight": 10.32
+        }
+      },
+      {
+        "ratingInput": 11,
+        "sampledTopSpeed": 11.352,
+        "finish": 22.398247,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.47216035634743875,
+        "bendSeconds": 5.6000000000000005,
+        "maxSpeedBySegment": {
+          "opening half-straight": 11.352,
+          "first bend": 11.352,
+          "middle straight": 11.352,
+          "closing half-straight": 11.352
+        }
+      },
+      {
+        "ratingInput": 12,
+        "sampledTopSpeed": 12.384,
+        "finish": 21.617462,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.31797235023041476,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 12.384,
+          "first bend": 11.441,
+          "middle straight": 12.384,
+          "closing half-straight": 12.384
+        }
+      },
+      {
+        "ratingInput": 13,
+        "sampledTopSpeed": 13.416,
+        "finish": 21.207306,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.23943661971830985,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.416,
+          "first bend": 11.441,
+          "middle straight": 13.416,
+          "closing half-straight": 13.416
+        }
+      },
+      {
+        "ratingInput": 14,
+        "sampledTopSpeed": 14.448,
+        "finish": 20.771048,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.18944844124700239,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 14.448,
+          "closing half-straight": 14.448
+        }
+      },
+      {
+        "ratingInput": 15,
+        "sampledTopSpeed": 15.48,
+        "finish": 20.530496,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.1407766990291262,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 15.48,
+          "closing half-straight": 15.48
+        }
+      },
+      {
+        "ratingInput": 16,
+        "sampledTopSpeed": 16.512,
+        "finish": 20.381858,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.09046454767726161,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 16.512,
+          "closing half-straight": 16.512
+        }
+      },
+      {
+        "ratingInput": 17,
+        "sampledTopSpeed": 17.544,
+        "finish": 20.2844,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.03931203931203931,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 17.544,
+          "closing half-straight": 17.519
+        }
+      },
+      {
+        "ratingInput": 18,
+        "sampledTopSpeed": 18.576,
+        "finish": 20.266858,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0.012285012285012284,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 18.576,
+          "closing half-straight": 17.516
+        }
+      },
+      {
+        "ratingInput": 19,
+        "sampledTopSpeed": 19.608,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 20,
+        "sampledTopSpeed": 20.64,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 21,
+        "sampledTopSpeed": 21.672,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 22,
+        "sampledTopSpeed": 22.704,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 23,
+        "sampledTopSpeed": 23.736,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 24,
+        "sampledTopSpeed": 24.768,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 25,
+        "sampledTopSpeed": 25.8,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      },
+      {
+        "ratingInput": 26,
+        "sampledTopSpeed": 26.832,
+        "finish": 20.272341,
+        "status": "finished",
+        "shareOfLapAtTopSpeed": 0,
+        "bendSeconds": 5.65,
+        "maxSpeedBySegment": {
+          "opening half-straight": 13.5,
+          "first bend": 11.442,
+          "middle straight": 19.085,
+          "closing half-straight": 17.533
+        }
+      }
+    ]
+  },
+  "marginalBoostSolo": [
+    {
+      "rating": 5,
+      "affine": {
+        "base": 22.5224,
+        "boosted": 22.283035,
+        "secondsSaved": 0.23936499999999938
+      },
+      "identity": {
+        "base": null,
+        "boosted": null,
+        "secondsSaved": 0
+      }
+    },
+    {
+      "rating": 7.5,
+      "affine": {
+        "base": 21.384199,
+        "boosted": 21.279272,
+        "secondsSaved": 0.10492699999999999
+      },
+      "identity": {
+        "base": 31.799484,
+        "boosted": 30.314679,
+        "secondsSaved": 1.484804999999998
+      }
+    },
+    {
+      "rating": 10,
+      "affine": {
+        "base": 20.798734,
+        "boosted": 20.714024,
+        "secondsSaved": 0.08471000000000117
+      },
+      "identity": {
+        "base": 24.095827,
+        "boosted": 23.019888,
+        "secondsSaved": 1.0759389999999982
+      }
+    },
+    {
+      "rating": 14,
+      "affine": {
+        "base": 20.290012,
+        "boosted": 20.233881,
+        "secondsSaved": 0.0561310000000006
+      },
+      "identity": {
+        "base": 20.564913,
+        "boosted": 20.381101,
+        "secondsSaved": 0.18381199999999964
+      }
+    },
+    {
+      "rating": 20,
+      "affine": {
+        "base": 20.068335,
+        "boosted": 20.068479,
+        "secondsSaved": -0.00014399999999881175
+      },
+      "identity": {
+        "base": 20.068479,
+        "boosted": 20.068479,
+        "secondsSaved": 0
+      }
+    }
+  ],
+  "startGridBias": {
+    "row0|equal-at-finale-11.2|identity": {
+      "playerRow": 0,
+      "rating": 11.2,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.39666666666666667,
+      "meanPlace": 2.316666666666667,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row0|equal-at-finale-11.2|affine": {
+      "playerRow": 0,
+      "rating": 11.2,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0.45,
+      "meanPlace": 1.8533333333333333,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row0|equal-at-common-10|identity": {
+      "playerRow": 0,
+      "rating": 10,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.32,
+      "meanPlace": 2.6066666666666665,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row0|equal-at-common-10|affine": {
+      "playerRow": 0,
+      "rating": 10,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0.42,
+      "meanPlace": 1.83,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row1|equal-at-finale-11.2|identity": {
+      "playerRow": 1,
+      "rating": 11.2,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.11333333333333333,
+      "meanPlace": 3.3566666666666665,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row1|equal-at-finale-11.2|affine": {
+      "playerRow": 1,
+      "rating": 11.2,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0.06,
+      "meanPlace": 3.283333333333333,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row1|equal-at-common-10|identity": {
+      "playerRow": 1,
+      "rating": 10,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.14,
+      "meanPlace": 3.4366666666666665,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row1|equal-at-common-10|affine": {
+      "playerRow": 1,
+      "rating": 10,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0.05333333333333334,
+      "meanPlace": 3.27,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row2|equal-at-finale-11.2|identity": {
+      "playerRow": 2,
+      "rating": 11.2,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.016666666666666666,
+      "meanPlace": 4.503333333333333,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row2|equal-at-finale-11.2|affine": {
+      "playerRow": 2,
+      "rating": 11.2,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0,
+      "meanPlace": 5.156666666666666,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row2|equal-at-common-10|identity": {
+      "playerRow": 2,
+      "rating": 10,
+      "map": "identity",
+      "races": 300,
+      "winRate": 0.04666666666666667,
+      "meanPlace": 4.3,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    },
+    "row2|equal-at-common-10|affine": {
+      "playerRow": 2,
+      "rating": 10,
+      "map": "affine",
+      "races": 300,
+      "winRate": 0,
+      "meanPlace": 5.24,
+      "fairShareWinRate": 0.16666666666666666,
+      "fairMeanPlace": 3.5
+    }
+  }
+}

@@ -1,0 +1,26 @@
+# Plan23 finish and podium follow-up
+
+2026-10-27. Owner asks for racers to slow smoothly to rest within about one second of finishing, keeping playback alive until all have stopped. Owner also proposes a large podium dropping from above with about one second of ease-out, in/over the centre and lower oval, leaving finishers visible along the top. Root assigns the independent podium prototype to the current isolated preview now. No production adoption follows.
+
+## Pending finish-rule decision
+
+Current accepted model stops at the first actual crossing and classifies followers at that instant. Most followers have not crossed. The implementer correctly identified that the existing saved trace cannot supply their future crossings. Cosmetic extrapolation cannot be called continued simulated racing, and future crossing order must not silently replace locked official standings.
+
+Root recommends genuinely simulating remaining entrants through their crossings and using crossing order for lower places, with individual one-second presentation braking afterward. This is a proposed revision to accepted same-instant classification: it may change lower placements and Gem recipients. The winner and first-crossing timing-distribution target remain distinct from total last-finisher/coast/podium playback time. An alternative is preserving official classification and explicitly cosmetic run-out, which creates a less intuitive finishing display. Owner was asked to choose before dependent implementation. No answer is inferred from elapsed time.
+
+Any continuation must bound unresolved entrants honestly, preserve seeded reproduction and one-time rewards, and distinguish competitive simulated trajectories from post-crossing braking. No forced crossings, unreported new balancing, false finish times or repeated rewards. Prototype proposal and measured tail duration precede production adoption. Exact continuation rules, result versioning, watchdog and non-finish classification must be reviewed before a resolver change.
+
+## Independent podium assignment
+
+Root approves the implementer to edit only `drama-preview-01/preview-controller.mjs`, `preview.html`, `preview.css`, `README.md`, `evidence/` and the packet progress report. Start with the current terminal/result hook; connect to all-stopped only after the finish decision. Preserve model files, production, Plan10 and orchestration files.
+
+Use original SVG stacked-paper stepped plinths in 2/1/3 order, large local duck rigs, readable HTML/CSS names/place/Gem labels and a player marker. Display actual resolved Gem recipients, not extra awards. Keep the upper course and finish line visible. The descending panel should settle over about one second, with no bounce requirement or new animation catalog/audio. Reduced motion and skip use the settled display; pause freezes it; restart or earlier event seeking hides it. Keep immediate exit and no duplicate mechanical reward writes.
+
+Podium cues belong in presentation evidence only when actually displayed. Replays can truthfully record another display under their replay index; deduplicate accidental rerenders, not genuine later displays. Do not log a skipped slide as watched. SVG references must be instance-safe. Request browser turns and preserve owner tabs/saves/server. No additional reviewer is authorized for this bounded repair.
+
+## Inspiration
+
+Official sources establish kart-racer precedents for a separate top-three awards presentation: Nintendo's Mario Kart DS manual describes a podium ceremony, and Activision's Crash Team Racing update notes describe top-three podium animations. These support the general winner-celebration pattern, not the proposed Quackpot layout or an assertion of psychological efficacy. No branded art is imported.
+
+- https://www.nintendo.com/eu/media/downloads/games_8/emanuals/nintendo_ds_21/Manual_NintendoDS_MarioKartDS_FR.pdf
+- https://support.activision.com/content/atvi/support/web/fi/crash-team-racing/articles/crash-team-racing-nitro-fueled-updates.html

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as original from './candidate-model.mjs';
-import { COURSE_LENGTH, firstCrossingParityProjection, orderCrossingsByTime, resolveSeededRace, runEndpointResolution } from './individual-finish-model.mjs';
+import { COURSE_LENGTH, firstCrossingParityProjection, interpolateSnapshot, orderCrossingsByTime, resolveSeededRace, runEndpointResolution, runTransactionalEndpointResolution } from './individual-finish-model.mjs';
 
 const fixture = (extra = {}) => ({
   seed: 'plan23-drama2-val-01', raceId: 'R01', playerBaseSpeed: 10, fieldBaseSpeed: 8,
@@ -74,6 +74,32 @@ test('crossed entrants do not participate in endpoint records or later opportuni
   const sameTickEvent = result.eventRecords.find((item) => item.type === 'finish-line-crossing' && item.id.startsWith('finish-line-443-'));
   assert.deepEqual(sameTickEvent.crossingFractions.map((item) => item.id), ['B', 'C']);
   assert.ok(sameTickEvent.crossingFractions[0].fraction < sameTickEvent.crossingFractions[1].fraction);
+  const earlierCrossingFrame = interpolateSnapshot(result, 442 + sameTickEvent.crossingFractions[0].fraction);
+  assert.ok(earlierCrossingFrame.entrants.find((entrant) => entrant.id === 'B').progress >= COURSE_LENGTH - 0.01);
+  assert.ok(earlierCrossingFrame.entrants.find((entrant) => entrant.id === 'C').progress < COURSE_LENGTH,
+    'C must remain before its later within-tick crossing at B’s crossing time');
+});
+
+test('returned trajectory prefix matches the historical interpolation and does not move later same-tick crossers early', () => {
+  const input = fixture({ seed: 'plan23-drama2-val-04', playerBaseSpeed: 7.5 });
+  const expected = original.resolveSeededRace(input);
+  const actual = resolveSeededRace(input);
+  const firstCrossing = actual.finishCrossings[0];
+  const terminalTick = expected.ticks;
+  for (let tick = 0; tick < Math.floor(terminalTick); tick += 1) {
+    const oldFrame = original.interpolateSnapshot(expected, tick);
+    const newFrame = interpolateSnapshot(actual, tick);
+    assert.deepEqual(newFrame.entrants, oldFrame.entrants, `returned trace differs at tick ${tick}`);
+  }
+  assert.deepEqual(interpolateSnapshot(actual, terminalTick).entrants,
+    original.interpolateSnapshot(expected, terminalTick).entrants, 'actual terminal frame must match the historical renderer input');
+  const laterSameTick = actual.finishCrossings.filter((item) => item.tick === firstCrossing.tick && item.fraction > firstCrossing.fraction);
+  assert.ok(laterSameTick.some((item) => ['A', 'C'].includes(item.id)), 'fixture includes later A/C crossings in the winner tick');
+  const terminal = interpolateSnapshot(actual, terminalTick);
+  for (const crossing of laterSameTick) {
+    assert.ok(terminal.entrants.find((entrant) => entrant.id === crossing.id).progress < COURSE_LENGTH,
+      `${crossing.id} must remain before its later within-tick crossing at the first crossing frame`);
+  }
 });
 
 test('crossing-tick endpoint dispatcher runs wall then contact resolution once on survivors only', () => {
@@ -90,6 +116,38 @@ test('crossing-tick endpoint dispatcher runs wall then contact resolution once o
   assert.deepEqual(wallChecks, ['B']);
   assert.deepEqual(surviving.map((entrant) => entrant.id), ['B', 'C']);
   assert.deepEqual(contactChecks, [{ count: 1, participants: ['B', 'C'] }]);
+});
+
+test('endpoint-resolution failure rolls back survivor mutations and does not dispatch contact afterward', () => {
+  const entrants = [{ id: 'P', lateral: 8 }, { id: 'A', lateral: 0 }];
+  let contactCalled = false;
+  assert.throws(() => runTransactionalEndpointResolution(entrants, [],
+    (entrant) => { entrant.lateral = 1; throw new Error('forced wall endpoint failure'); },
+    () => { contactCalled = true; }), /forced wall endpoint failure/);
+  assert.equal(entrants[0].lateral, 8);
+  assert.equal(entrants[1].lateral, 0);
+  assert.equal(contactCalled, false);
+});
+
+test('mechanical-event cap rolls back the entire failed crossing tick and keeps crossing evidence consistent', () => {
+  const beforeFirst = resolveSeededRace(fixture(), { maxMechanicalEvents: 26 });
+  assert.equal(beforeFirst.status, 'unresolved');
+  assert.equal(beforeFirst.winner, null);
+  assert.equal(beforeFirst.finishTimeSeconds, null);
+  assert.equal(beforeFirst.firstCrossingWitness, null);
+  assert.deepEqual(beforeFirst.finishCrossings, []);
+  assert.equal(beforeFirst.eventRecords.some((event) => event.type === 'finish-line-crossing'), false);
+  assert.equal(beforeFirst.ticks, beforeFirst.guardEvidence.tick - 1);
+
+  const afterTwo = resolveSeededRace(fixture(), { maxMechanicalEvents: 28 });
+  assert.equal(afterTwo.status, 'partial-unresolved');
+  assert.deepEqual(afterTwo.finishCrossings.map((crossing) => crossing.id), ['P', 'A']);
+  const recorded = afterTwo.eventRecords.filter((event) => event.type === 'finish-line-crossing')
+    .flatMap((event) => event.crossingFractions.map((crossing) => ({ id: crossing.id, fraction: crossing.fraction })));
+  assert.deepEqual(recorded, afterTwo.finishCrossings.map((crossing) => ({ id: crossing.id, fraction: crossing.fraction })));
+  assert.deepEqual(afterTwo.finish, []);
+  assert.equal(afterTwo.finishCrossings.some((crossing) => crossing.tick === afterTwo.guardEvidence.tick), false);
+  assert.equal(afterTwo.trajectory.at(-1).tick, afterTwo.guardEvidence.tick - 1);
 });
 
 test('completion watchdog keeps factual crossings but withholds placed finishes and payouts', () => {

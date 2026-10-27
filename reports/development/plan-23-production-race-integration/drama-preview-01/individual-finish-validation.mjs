@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import * as original from './candidate-model.mjs';
-import { firstCrossingParityProjection, resolveSeededRace } from './individual-finish-model.mjs';
+import { firstCrossingParityProjection, interpolateSnapshot as interpolateExtendedSnapshot, resolveSeededRace } from './individual-finish-model.mjs';
 
 const folder = import.meta.dirname;
 const sourcePath = resolve(folder, '../drama-study-02/validation-results.json');
@@ -20,6 +20,29 @@ const quantile = (values, p) => {
 };
 const summary = (values) => ({ n: values.length, min: Math.min(...values), p50: quantile(values, 0.5), p90: quantile(values, 0.9), p95: quantile(values, 0.95), max: Math.max(...values) });
 const sha = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+function returnedPrefix(historical, extended) {
+  const ticks = Array.from({ length: Math.floor(historical.ticks) + 1 }, (_, tick) => tick);
+  if (!ticks.some((tick) => Math.abs(tick - historical.ticks) <= 1e-12)) ticks.push(historical.ticks);
+  const fields = ['progress', 'lateral', 'heading', 'speed', 'x', 'y'];
+  for (const tick of ticks) {
+    const expected = original.interpolateSnapshot(historical, tick);
+    const actual = interpolateExtendedSnapshot(extended, tick);
+    for (const expectedEntrant of expected.entrants) {
+      const actualEntrant = actual.entrants.find((entrant) => entrant.id === expectedEntrant.id);
+      for (const field of fields) {
+        if (!actualEntrant || Math.abs(expectedEntrant[field] - actualEntrant[field]) > 1e-8) {
+          return { matches: false, sampleCount: ticks.length, tick, entrantId: expectedEntrant.id, field,
+            expected: expectedEntrant[field], actual: actualEntrant?.[field] ?? null };
+        }
+      }
+    }
+  }
+  const samples = ticks.map((tick) => {
+    const snapshot = interpolateExtendedSnapshot(extended, tick);
+    return { tick, entrants: snapshot.entrants.map((entrant) => ({ id: entrant.id, ...Object.fromEntries(fields.map((field) => [field, entrant[field]])) })) };
+  });
+  return { matches: true, sampleCount: ticks.length, sha256: sha(samples) };
+}
 const attempts = [];
 const firstWinnerTimes = [];
 const lastWinnerTimes = [];
@@ -48,10 +71,12 @@ for (const [index, row] of rows.entries()) {
   const baselineWitness = firstCrossingParityProjection(historical);
   const extendedWitness = firstCrossingParityProjection(extended);
   const witnessMatches = JSON.stringify(baselineWitness) === JSON.stringify(extendedWitness);
+  const trajectoryPrefix = returnedPrefix(historical, extended);
   const frozenRowMatches = historical.status === row.status && historical.winner === row.winner && historical.finishTimeSeconds === row.finishTimeSeconds;
-  if ((!witnessMatches || !frozenRowMatches) && !firstMismatch) {
-    firstMismatch = { kind: !frozenRowMatches ? 'frozen-study-row' : 'first-cross-causal-parity', index, seed: row.seed, tier: row.tier, field: row.field, stance: row.stance, trialCommitted: row.trialCommitted, rest: row.rest,
+  if ((!witnessMatches || !trajectoryPrefix.matches || !frozenRowMatches) && !firstMismatch) {
+    firstMismatch = { kind: !frozenRowMatches ? 'frozen-study-row' : !witnessMatches ? 'first-cross-causal-parity' : 'returned-trajectory-prefix', index, seed: row.seed, tier: row.tier, field: row.field, stance: row.stance, trialCommitted: row.trialCommitted, rest: row.rest,
       frozenWinner: row.winner, frozenTime: row.finishTimeSeconds, frozenStatus: row.status,
+      trajectoryPrefix,
       expectedHash: sha(baselineWitness), actualHash: sha(extendedWitness), expectedWinner: baselineWitness.winner,
       actualWinner: extendedWitness.winner, expectedTime: baselineWitness.finishTimeSeconds, actualTime: extendedWitness.finishTimeSeconds };
   }
@@ -89,6 +114,7 @@ for (const [index, row] of rows.entries()) {
   attempts.push({
     seed: row.seed, tier: row.tier, field: row.field, stance: row.stance, trialCommitted: row.trialCommitted, rest: row.rest,
     witnessSha256: sha(extendedWitness), firstWinner: historical.winner, firstWinnerSeconds: historical.finishTimeSeconds,
+    trajectoryPrefixSampleCount: trajectoryPrefix.sampleCount, trajectoryPrefixSha256: trajectoryPrefix.sha256,
     extendedStatus: extended.status, lastFinishSeconds: extended.lastFinishTimeSeconds, tailSeconds: tail,
     lowerPlaceChanges: lowerPlaceChanges.map((id) => ({ id, oldPlace: oldPlace.get(id), newPlace: newPlace.get(id) })),
     payoutChanges: payoutChanges.map((id) => ({ id, oldPayout: oldPayout.get(id), newPayout: newPayout.get(id) })),
@@ -111,7 +137,8 @@ const output = {
     attempts: rows.length, seedSet: 'plan23-drama2-val-01 through -20',
     caveat: 'This validates the report-only extended resolver against a frozen selected study set; it is not production validation or evidence about unseen seed populations.',
   },
-  firstCrossingParity: { verified: attempts.length, mismatches: 0, projection: 'plan23-first-crossing-causal-parity-v1', definition: 'inputs, old winner and time, trajectory through the original duplicated terminal snapshot, causal event records with only post-stop recovery/end copies normalized away, opportunity records, keyed draw keys, draw counts, and terminal-step ordering' },
+  firstCrossingParity: { verified: attempts.length, mismatches: 0, projection: 'plan23-first-crossing-causal-parity-v1', definition: 'inputs, old winner and time, causal witness projection, every integer-tick returned interpolation through the old first-crossing tick plus the exact terminal frame, causal event records with only post-stop recovery/end copies normalized away, opportunity records, keyed draw keys, draw counts, and terminal-step ordering' },
+  returnedTrajectoryPrefix: { cases: attempts.length, sampleFrames: attempts.reduce((total, attempt) => total + attempt.trajectoryPrefixSampleCount, 0), mismatches: 0, tolerance: 1e-8, definition: 'Compare actual interpolateSnapshot output for all integer ticks through each historical resolution.ticks and the exact historical terminal tick, across progress/lateral/heading/speed/x/y for every entrant; this independently checks renderer input and cannot be satisfied by firstCrossingWitness alone.' },
   results: {
     historicalFirstWinnerSeconds: summary(firstWinnerTimes),
     extendedLastFinisherSeconds: lastWinnerTimes.length ? summary(lastWinnerTimes) : null,

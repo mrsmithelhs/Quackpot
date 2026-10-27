@@ -1,6 +1,8 @@
 import * as baselineModel from './baseline-model.mjs';
 import * as candidateModel from './candidate-model.mjs';
 import * as individualFinishModel from './individual-finish-model.mjs';
+import { cameraFractionAtTick, individualPresentationTiming, raceFractionAtPlanWallClock,
+  resultRevealDueAtElapsedMilliseconds, revealProgressAtElapsedMilliseconds, wallClockAtPlanFraction } from './presentation-timing.mjs';
 import { createDigitalDuckSvg } from '../../../../src/ui/duck-rig-view.mjs';
 import { createDuckMotionController } from '../../../../src/ui/duck-motion-controller.mjs';
 
@@ -92,14 +94,8 @@ function freshState(resolution) {
 function presentationPlanFor(resolution) {
   const base = buildPresentationPlan(resolution, currentPresentationSettings());
   const hasIndividualFinish = resolution.rulesVersion === individualFinishModel.PHYSICS.version && resolution.status === 'finished';
-  const duration = hasIndividualFinish ? resolution.lastFinishTimeSeconds : base.duration;
-  const simulationWallSeconds = duration + base.highlightSeconds;
-  const winnerFraction = hasIndividualFinish ? clamp(resolution.finishTimeSeconds / resolution.horizonSeconds, 0, 1) : 0.5;
-  const highlightStartFraction = hasIndividualFinish ? clamp(winnerFraction - 0.03, 0, 0.94) : 0.47;
-  return { ...base, duration, simulationWallSeconds, highlightStartFraction,
-    highlightEndFraction: highlightStartFraction + 0.06,
-    resultRevealSeconds: hasIndividualFinish ? 1 : 0,
-    totalWallSeconds: simulationWallSeconds + (hasIndividualFinish ? 1 : 0) };
+  if (hasIndividualFinish) return individualPresentationTiming(base, resolution);
+  return { ...base, simulationWallSeconds: base.duration + base.highlightSeconds, resultRevealSeconds: 0 };
 }
 
 function modeLabel(mode) {
@@ -531,7 +527,10 @@ function renderRunners(tickFloat) {
   }
   const reducedNow = reduced;
   const fraction = state.cursorTick / state.resolution.ticks;
-  const zoom = !reducedNow && $('camera').value === 'scripted' ? smoothCloseZoom(fraction) : 1;
+  const cameraFraction = state.resolution.rulesVersion === individualFinishModel.PHYSICS.version
+    ? cameraFractionAtTick(state.cursorTick, state.resolution.finishTimeSeconds / state.resolution.dt, state.resolution.ticks)
+    : fraction;
+  const zoom = !reducedNow && $('camera').value === 'scripted' ? smoothCloseZoom(cameraFraction) : 1;
   const player = snap.entrants.find((e) => e.id === 'P');
   const px = 450 + player.x * PX_PER_METER; const py = 250 + player.y * PX_PER_METER;
   const focus = zoom > 1 ? clamp((zoom - 1) / 0.16, 0, 1) : 0;
@@ -571,43 +570,15 @@ function playbackFraction() {
   return raceFractionAtPlanWallClock(elapsedBeforePause / 1000, state.presentationPlan);
 }
 
-function wallClockAtPlanFraction(fraction, plan) {
-  const f = clamp(fraction, 0, 1);
-  const { duration, highlightSeconds } = plan;
-  const start = plan.highlightStartFraction ?? .47;
-  const end = plan.highlightEndFraction ?? .53;
-  if (!highlightSeconds) return f * duration;
-  const slowedWallSpan = duration * (end - start) + highlightSeconds;
-  if (f <= start) return f * duration;
-  if (f <= end) return start * duration + ((f - start) / (end - start)) * slowedWallSpan;
-  return start * duration + slowedWallSpan + (f - end) * duration;
-}
-
-function raceFractionAtPlanWallClock(elapsedSeconds, plan) {
-  const { duration, highlightSeconds } = plan;
-  const start = plan.highlightStartFraction ?? .47;
-  const end = plan.highlightEndFraction ?? .53;
-  const elapsed = clamp(elapsedSeconds, 0, duration + highlightSeconds);
-  if (!highlightSeconds) return elapsed / duration;
-  const baseStart = start * duration;
-  const slowedWallSpan = duration * (end - start) + highlightSeconds;
-  const baseEnd = baseStart + slowedWallSpan;
-  if (elapsed <= baseStart) return elapsed / duration;
-  if (elapsed < baseEnd) return start + ((elapsed - baseStart) / slowedWallSpan) * (end - start);
-  return Math.min(1, end + (elapsed - baseEnd) / duration);
-}
-
 function tick(now) {
   if (!running || !state) return;
   const elapsed = elapsedBeforePause + now - startedAt;
   const total = state.presentationPlan.totalWallSeconds * 1000;
   const fraction = raceFractionAtPlanWallClock(elapsed / 1000, state.presentationPlan);
   const currentTick = fraction * state.resolution.ticks;
-  state.resultRevealProgress = state.presentationPlan.resultRevealSeconds
-    ? clamp((elapsed - state.presentationPlan.simulationWallSeconds) / (state.presentationPlan.resultRevealSeconds * 1000), 0, 1)
-    : 0;
+  state.resultRevealProgress = revealProgressAtElapsedMilliseconds(elapsed, state.presentationPlan);
   renderRunners(currentTick);
-  if (state.presentationPlan.resultRevealSeconds && elapsed >= state.presentationPlan.simulationWallSeconds) startResultReveal();
+  if (resultRevealDueAtElapsedMilliseconds(elapsed, state.presentationPlan)) startResultReveal();
   revealReachedEvents(currentTick);
   $('race-status').textContent = `Race playing · ${(elapsed / 1000).toFixed(1)} / ${state.presentationPlan.totalWallSeconds}s playback · simulation ${currentTick.toFixed(1)} / ${state.resolution.ticks} ticks.`;
   if (elapsed >= total) { finishRace('finish'); return; }
@@ -648,6 +619,10 @@ function startPlayback() {
 function finishRace(reason) {
   stopPlayback(); state.finished = true; state.cursorTick = state.resolution.ticks;
   elapsedBeforePause = state.presentationPlan.totalWallSeconds * 1000;
+  if (state.presentationPlan.resultRevealSeconds && state.resolution.status === 'finished') {
+    state.resultRevealStarted = true;
+    state.resultRevealProgress = 1;
+  }
   revealReachedEvents(state.cursorTick, true);
   renderSummary(true); renderRecord(true); renderOpportunityDiagnostics(true); renderRunners(state.cursorTick);
   $('race-status').textContent = reason === 'skip'
@@ -978,7 +953,7 @@ $('pause').addEventListener('click', () => {
   const elapsed = elapsedBeforePause + performance.now() - startedAt;
   state.cursorTick = raceFractionAtPlanWallClock(elapsed / 1000, state.presentationPlan) * state.resolution.ticks;
   if (state.presentationPlan.resultRevealSeconds) {
-    state.resultRevealProgress = clamp((elapsed - state.presentationPlan.simulationWallSeconds) / (state.presentationPlan.resultRevealSeconds * 1000), 0, 1);
+    state.resultRevealProgress = revealProgressAtElapsedMilliseconds(elapsed, state.presentationPlan);
   }
   elapsedBeforePause = elapsed; stopPlayback(); renderRunners(state.cursorTick);
   $('race-status').textContent = `Paused at tick ${state.cursorTick.toFixed(1)}; resume continues from here.`;

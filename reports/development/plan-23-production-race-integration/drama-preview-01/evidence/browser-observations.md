@@ -56,3 +56,11 @@ This verifies report-preview camera presentation only. It does not exercise prod
 - Captured browser diagnostics for this tab contained zero warnings or errors after these interactions.
 
 This is presentation evidence for a single report-only witness. The 1,440-case offline causal-parity and tail-validation evidence is in `../individual-finish-validation-results.json`. No production model, save, Receipt, reward path, packet status or deployed browser was tested.
+
+## Resolver/presentation boundary repair — 2026-10-27
+
+**Browser:** QP Orch-reserved isolated preview tab using the already-running localhost server. The visible Chrome window was 1525 × 814 px; this continuation did not establish 1280 × 720 CSS-pixel behavior. No other page or owner Chrome tab was used.
+
+- **Reduced/static sequence:** selecting Static / reduced motion and starting the selected individual-crossing result showed fixed checkpoints at 0%, 25%, 50%, 75%, and 100% of the same committed race. At 100% the status reported all six ducks crossed (Player first at 21.62 s; last at 22.67 s), the settled podium was present, and the displayed summary retained the two-second highlight and overlapping one-second coast/reveal timing. This check observed the 100% completed state after refreshing the browser tree; it did not inspect every podium transition frame.
+- Earlier in this authorized continuation, normal playback showed no podium at approximately 18.9 seconds, before the last crossing. Skip to finish showed the settled crossing order and payout summary without a mechanics/RNG rerun. The browser was not held at the animated reveal boundary for a new pause/resume measurement in this continuation.
+- **Limits:** this continuation does not add evidence for event-linked seeking, restart/replay, intermediate camera easing, reveal pause/resume, or 1280 × 720 layout. Those interactions were recorded in earlier authorized preview sessions above; this repair's direct timer/camera boundary tests and source checks are reported separately in the Plan 23 progress note. No production code or lifecycle behavior was exercised.

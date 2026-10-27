@@ -684,6 +684,20 @@ export function runEndpointResolution(entrants, crossedIds, resolveWallEndpoint,
   return surviving;
 }
 
+export function runTransactionalEndpointResolution(entrants, crossedIds, resolveWallEndpoint, resolveContactEndpoint) {
+  const snapshot = entrants.map((entrant) => structuredClone(entrant));
+  try {
+    return runEndpointResolution(entrants, crossedIds, resolveWallEndpoint, resolveContactEndpoint);
+  } catch (error) {
+    for (let index = 0; index < entrants.length; index += 1) {
+      const entrant = entrants[index];
+      for (const key of Object.keys(entrant)) delete entrant[key];
+      Object.assign(entrant, snapshot[index]);
+    }
+    throw error;
+  }
+}
+
 function interpolatedState(before, after, fraction, tick) {
   return {
     tick,
@@ -818,6 +832,15 @@ function simulate(input, guardLimitOverrides = {}) {
     const tickOpportunities = [...opportunityRecords];
     const tickDrawKeys = [...drawKeys];
     const tickAssistanceSnapshot = assistanceAudit.map((item) => structuredClone(item));
+    const tickCheckpoint = {
+      entrants: entrants.map((entrant) => structuredClone(entrant)),
+      priorPositions: structuredClone(priorPositions),
+      finishCrossings: structuredClone(finishCrossings),
+      trajectoryLength: trajectory.length,
+      firstCrossingTick, tailTicks, status, unresolvedReason, finishTimeSeconds,
+      lastFinishTimeSeconds, winner, firstCrossingWitness, unresolvedEntrants: structuredClone(unresolvedEntrants),
+      guardEvidence: structuredClone(guardEvidence), terminalStepOrdering: structuredClone(terminalStepOrdering),
+    };
     const tickStartOrder = rankAt(activeEntrants);
     try {
       const dueResult = processWeaveDue(activeEntrants, input, tick, tickOpportunities, tickEvents, tickDrawKeys, limits);
@@ -935,6 +958,8 @@ function simulate(input, guardLimitOverrides = {}) {
       }
       const terminalTick = tick - 1 + firstFraction;
       const terminal = interpolatedState(before, activeEntrants, firstFraction, terminalTick);
+      const firstCrossingIds = new Set(crossed.filter((item) => Math.abs(item.fraction - firstFraction) * PHYSICS.dt <= 1e-9).map((item) => item.id));
+      for (const item of terminal.entrants) if (firstCrossingIds.has(item.id)) item.progress = q(COURSE_LENGTH, 1000);
       const crossedById = new Map(crossed.map((item) => [item.id, item]));
       for (const item of crossed) {
         const live = activeEntrants.find((entrant) => entrant.id === item.id);
@@ -955,15 +980,11 @@ function simulate(input, guardLimitOverrides = {}) {
       if (finishTimeSeconds === null) {
         finishTimeSeconds = finishCrossings[0].crossingTimeSeconds;
         winner = finishCrossings[0].id;
-        const frozenTerminal = { ...terminal, entrants: terminal.entrants.map((item) => {
-          const witness = finishCrossings.find((crossing) => crossing.id === item.id);
-          return witness ? { ...item, progress: witness.progress, lateral: witness.lateral, heading: witness.heading, speed: witness.speed, x: witness.x, y: witness.y } : item;
-        }) };
         // Capture only causal state through the first interpolated line crossing. Fields that depend on later entrants are excluded.
         firstCrossingWitness = makeFirstCrossingWitness({ input, trajectory, events: tickEvents, opportunities: tickOpportunities, drawKeys: tickDrawKeys, entrants: activeEntrants, terminal, crossed, tick, firstFraction, terminalStepOrdering });
-        trajectory.push(frozenTerminal);
+        trajectory.push(terminal);
       }
-      const surviving = runEndpointResolution(activeEntrants, crossedById.keys(),
+      const surviving = runTransactionalEndpointResolution(activeEntrants, crossedById.keys(),
         (entrant) => resolveWall(entrant, tick, tickEvents, limits),
         (remaining) => resolveOneDuckContact(remaining, tick, input, tickEvents, tickDrawKeys, priorPositions, limits));
       priorPositions = Object.fromEntries(surviving.map((entrant) => [entrant.id, pos(entrant)]));
@@ -986,7 +1007,7 @@ function simulate(input, guardLimitOverrides = {}) {
       }
       continue;
     }
-    runEndpointResolution(activeEntrants, [],
+    runTransactionalEndpointResolution(activeEntrants, [],
       (entrant) => resolveWall(entrant, tick, tickEvents, limits),
       (remaining) => resolveOneDuckContact(remaining, tick, input, tickEvents, tickDrawKeys, priorPositions, limits));
     trajectory.push(copyState(entrants, tick));
@@ -997,13 +1018,35 @@ function simulate(input, guardLimitOverrides = {}) {
     if (firstCrossingTick !== null) tailTicks += 1;
     } catch (error) {
       if (!(error instanceof MechanicalEventCapError)) throw error;
+      for (let index = 0; index < entrants.length; index += 1) {
+        const entrant = entrants[index];
+        for (const key of Object.keys(entrant)) delete entrant[key];
+        Object.assign(entrant, structuredClone(tickCheckpoint.entrants[index]));
+      }
+      priorPositions = tickCheckpoint.priorPositions;
+      finishCrossings = tickCheckpoint.finishCrossings;
+      trajectory.length = tickCheckpoint.trajectoryLength;
+      firstCrossingTick = tickCheckpoint.firstCrossingTick;
+      tailTicks = tickCheckpoint.tailTicks;
+      status = tickCheckpoint.status;
+      finishTimeSeconds = tickCheckpoint.finishTimeSeconds;
+      lastFinishTimeSeconds = tickCheckpoint.lastFinishTimeSeconds;
+      winner = tickCheckpoint.winner;
+      firstCrossingWitness = tickCheckpoint.firstCrossingWitness;
+      unresolvedEntrants = tickCheckpoint.unresolvedEntrants;
+      terminalStepOrdering = tickCheckpoint.terminalStepOrdering;
       unresolvedReason = 'mechanical_event_cap';
-      if (firstCrossingTick !== null) {
+      if (finishCrossings.length) {
         status = 'partial-unresolved';
         unresolvedEntrants = entrants.filter((entrant) => !finishCrossings.some((item) => item.id === entrant.id)).map((entrant) => ({ id: entrant.id, progress: q(entrant.progress, 1000), speed: q(entrant.speed, 1000) }));
       }
       eventRecords.splice(0, eventRecords.length, ...priorEventSnapshot);
       assistanceAudit.splice(0, assistanceAudit.length, ...tickAssistanceSnapshot);
+      for (const entrant of entrants) {
+        entrant.assistEventRecord = entrant.assistEventRecord ? eventRecords.find((event) => event.id === entrant.assistEventRecord.id) ?? null : null;
+        entrant.leaderSlowdownEventRecord = entrant.leaderSlowdownEventRecord ? eventRecords.find((event) => event.id === entrant.leaderSlowdownEventRecord.id) ?? null : null;
+        entrant.assistAuditRecord = entrant.assistAuditRecord ? assistanceAudit.find((record) => record.id === entrant.assistAuditRecord.id) ?? null : null;
+      }
       guardEvidence = { kind: unresolvedReason, tick, limit: error.limit, attemptedCount: error.count,
         eventType: error.event.type, eventId: error.event.id, tickRecordsDiscarded: tickEvents.length - priorEventCount };
       break;

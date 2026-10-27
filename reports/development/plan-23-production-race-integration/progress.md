@@ -245,7 +245,7 @@ No production source, tests, build, or browser work was performed. `git diff --c
 
 ## Production presentation closure repair — 2026-10-27
 
-QP Orch authorized a bounded production-presentation repair after integrated review. Normal race playback now completes on its own: the success heading and Skip control are removed, and Continue remains unavailable until all finishers coast and the podium settles. Rewinding clears unsettled result text, podium cards/banner, and unearned crossing-place labels from the live view while leaving committed results and append-only evidence intact. The future timeline uses generic upcoming labels; reached items receive event-specific descriptions, aligned with the playback clock. The course-time readout shares one row with concise commentary. Runner orientation, upright/staggered labels, finish overlay, whole-stage dim layer, highlight/reveal easing, and role/contact motion were refined without changing race positions or mechanics.
+QP Orch authorized a bounded production-presentation repair after integrated review. Normal race playback now completes on its own: the success heading and Skip control are removed, and Continue remains unavailable until all finishers coast and the podium settles. Rewinding clears unsettled result text, podium cards/banner, and unearned crossing-place labels from the live view while leaving committed results and append-only evidence intact. The future timeline uses generic upcoming labels; reached items receive event-specific descriptions. The course-time readout shares one row with concise commentary. Runner orientation, upright/staggered labels, finish overlay, whole-stage dim layer, highlight/reveal easing, and role/contact motion were refined without changing race positions or mechanics.
 
 Recorded contacts now animate the accepted rig’s wrapper, head/wing groups, and paper layers for a one-shot recovery. Pause/resume, seek, replay, reduce-motion, visibility, role changes, and teardown cancel or hold those effects without leaving stale loops. Initial and rewound rank samples assign the sampled leader roles immediately. Participant glow uses an eased 2.2-second presentation envelope. The production smoke journey now waits for natural completion and explicitly rejects a Skip control.
 
@@ -261,3 +261,13 @@ Recorded contacts now animate the accepted rig’s wrapper, head/wing groups, an
 **Remaining closure gates:** QP Orch must complete integrated review and disposition any findings; the owner must accept the rendered production result. The smoke-browser process-start limitation remains documented. The timing acceptance is still the winner crossing criterion from DECISION-019; last crossing and full playback are reported separately above. Plan 22 rest integration remains future work through the existing effective-speed input.
 
 No packet status was set and no push was performed. The source/test/smoke-script repair is committed separately; this entry is the final scoped report write.
+
+## Timeline clock-domain correction — 2026-10-27
+
+QP Orch's integrated review identified that timeline event/checkpoint labels used presentation wall-clock seconds, including the extra two-second highlight, while the visible race clock and seek snapshot use simulated course seconds. The report's earlier statement that those labels aligned with the displayed clock was incorrect. Labels now use the course-time fraction multiplied by race duration; presentation wall-clock conversion remains in seek scheduling and animation timing. A focused regression compares checkpoint and event label values to the seek snapshot before, during, and after the highlight.
+
+- `npm test` — 171/171 passed, including the new course-time alignment regression.
+- `npm run build` — passed; `git diff --check` — passed; `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- No browser, reviewer, or smoke run was needed for this pure display-time conversion; the earlier smoke launch limitation remains as recorded above.
+
+No race mechanics or persistence behavior changed. Packet status was not changed and no push was performed. This progress update is the final scoped write for the correction.

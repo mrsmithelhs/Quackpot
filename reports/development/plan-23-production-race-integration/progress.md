@@ -138,3 +138,19 @@ Validation for this repair:
 No production source, production build, full project suite, save/migration/Receipt path, reward idempotency, or packet status was changed or validated. Production work remains behind QP Orch's handoff and ownership gates. **Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch's explicit direction not to add another reviewer. The allowed Sol-low review budget for a later main production artifact remains unused.
 
 The scoped repair and evidence commit precedes this progress update; this progress update is the final Plan 23 write. No push was performed.
+
+## Completed-race event-seek repair — 2026-10-27
+
+QP Orch's review found that selecting a committed event after full playback hid the podium but left the transient playback state `finished`, disabling Resume despite the event view saying playback could continue. The report-only controller now resets cursor presentation state on every `pauseAtTick`: playback becomes resumable, reveal/coast returns to zero, and the podium/lighting layer is canceled and hidden. The already-committed resolution, crossing order, and payouts remain untouched. The state transition lives in the pure `playbackStateAtSeek()` helper and has focused regression coverage.
+
+Authorized isolated-browser verification selected Rival E's 22.49 s crossing after natural completion, confirmed the hidden podium and enabled Resume, resumed through the final crossing, paused after the reveal started at tick 454, and resumed to the same completed result. Restart returned to tick 0 on the same committed race; Skip settled the podium without rerunning mechanics/RNG; reduced/static mode reached 25/50/75/100% and settled the result at 100%. The podium remained readable during the paused reveal. The dedicated tab was closed after the checks.
+
+Validation for this UI-only repair:
+
+- Focused resolver and presentation tests — 13/13 passed.
+- `node --check` on the preview controller and timing module — passed.
+- `git diff --check` — passed.
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- The frozen 1,440-case numeric audit was not rerun because this repair changes only report-preview playback state; the previously committed model audit remains unchanged.
+
+No production source, resolver mechanics, numerical constants, production build, full suite, save/migration/Receipt path, reward idempotency, packet status, or push was changed. Advisor consultation remains Branch C — orchestrator-gate-only under QP Orch's no-additional-review direction. The repair and evidence are committed in a scoped repair commit; this progress entry is committed separately as the final Plan 23 write.

@@ -20,3 +20,7 @@ The design anticipates cuts/compositions within one apartment and visual emptyin
 ## Delivery and coordination
 
 Own only reports/development/plan-10-metagame-duck-cinematography/. Do not edit packet/status/canonical docs or src. Request an isolated browser turn through root after source/preflight checks; Plan23 has released its browser slots and is holding for owner feedback. No browser turn before the grant. Inspect wide/medium/close and shadow/layer ordering; record actual zoom limitations without substituting viewport changes for real browser zoom. No additional repair reviewer. Commit explicit scoped files, progress last, no push. Owner visual selection and production integration remain separate gates.
+
+## Root delivery review
+
+Root inspected scoped source commit `eed77c6` and evidence commit `c2b52e9`; independently ran `node --check duck-views.js` successfully. Source diff stays within the Plan10 report folder and includes view projection, desk/staging/light and furniture layering changes. Implementer observed contact sheet and responsive staging in its coordinated browser turn. Root did not independently repeat those rendered checks. Final rear/low close crops were not re-rendered after the last edits; actual browser zoom remains unverified. Return as a revised owner comparison with those limits, not coherent-model acceptance or production-ready art. Plan10 remains in-progress and writer holds pending owner feedback. Plan23's concurrent production edits are unrelated and untouched.

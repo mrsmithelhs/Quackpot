@@ -49,6 +49,8 @@
   background: #91b8a9;
   isolation: isolate;
 }
+.race-scene-dim { position: absolute; z-index: 4; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+.race-finish-overlay { position: absolute; z-index: 4; inset: 0; width: 100%; height: 100%; pointer-events: none; transform-origin: 0 0; }
 .race-camera-layer { position: absolute; inset: 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
 .race-environment,.race-finish-markings { position: absolute; inset: 0; width: 100%; height: 100%; }
 .race-environment { z-index: 0; }
@@ -70,7 +72,7 @@
   position: absolute;
   left: 50%;
   bottom: 98%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--race-label-x, 0px)));
   width: max-content;
   max-width: 10rem;
   padding: .12rem .35rem;
@@ -83,8 +85,9 @@
   white-space: nowrap;
   box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 }
+.race-runner-label[data-side="below"] { top: 98%; bottom: auto; }
 .race-runner-position.is-crossed { z-index: 4; }
-.race-runner-position.participant-glow { filter: drop-shadow(0 0 7px #ffe26a) drop-shadow(0 0 13px #ffbd35) drop-shadow(0 2px 2px rgb(21 58 74 / 40%)); }
+.race-runner-position.participant-glow { filter: drop-shadow(0 0 7px rgb(255 226 106 / var(--participant-glow-opacity, 0))) drop-shadow(0 0 13px rgb(255 189 53 / var(--participant-glow-opacity, 0))) drop-shadow(0 2px 2px rgb(21 58 74 / 40%)); }
 
 .race-podium-scope { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 .race-podium { position: absolute; left: 50%; bottom: 1%; display: flex; align-items: end; justify-content: center; gap: 1%; width: min(96%, 900px); transform: translate(-50%, calc((1 - var(--podium-progress, 0)) * 45px)); opacity: var(--podium-progress, 0); transition: none; pointer-events: none; }
@@ -103,8 +106,9 @@
 .race-player-podium-banner[hidden] { display: none; }
 .race-player-result { padding: .65rem .85rem; border: 2px solid #f3c84b; border-radius: .6rem; background: #fff8d8; font-size: 1.15rem; font-weight: 900; }
 
-.race-commentary { min-height: 1.5em; margin: .75rem 0 .25rem; font-weight: 700; }
-.race-time-readout { display: flex; justify-content: space-between; color: #475569; font-variant-numeric: tabular-nums; }
+.race-live-readout { display: flex; justify-content: space-between; align-items: baseline; gap: .75rem; margin: .75rem 0 .25rem; }
+.race-commentary { min-height: 1.5em; margin: 0; font-weight: 700; }
+.race-time-readout { flex: 0 0 auto; margin: 0; color: #475569; font-variant-numeric: tabular-nums; }
 .race-playback-controls,.race-checkpoints { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 .race-checkpoints { align-items: center; }
 .race-event-seeking { margin-top: 1rem; }

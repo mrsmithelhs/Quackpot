@@ -6,15 +6,24 @@ function mockScene() {
   const mediaHandlers = new Map();
   const media = { matches: false, addEventListener(name, callback) { mediaHandlers.set(name, callback); }, removeEventListener(name) { mediaHandlers.delete(name); } };
   const contactLayers = [];
+  const createAnimated = () => {
+    const target = { style: {}, animations: [], getAnimations() { return this.animations; },
+      animate(frames, options) { const animation = { frames, options, playState: 'running', finished: Promise.resolve(), cancel() { this.cancelled = true; this.playState = 'idle'; }, pause() { this.playState = 'paused'; }, play() { this.playState = 'running'; } }; this.animations.push(animation); return animation; } };
+    return target;
+  };
   const scopes = Array.from({ length: 6 }, (_, index) => {
     const id = ['A', 'P', 'B', 'C', 'D', 'E'][index];
-    const shell = { dataset: { raceId: id, duckMotion: 'paddle' } };
+    const shell = createAnimated();
+    shell.dataset = { raceId: id, duckPrefix: `race-${id}`, duckMotion: 'paddle' };
+    const svgNodes = new Map(['body-backing-rim', 'tail-backing', 'head-backing-rim', 'head-group', 'wing-group', 'wing-mid', 'wing-under-seam', 'wing-top', 'wing-mid-seam'].map((name) => [name, createAnimated()]));
+    const svg = { querySelector(selector) { return svgNodes.get(selector.split('-').slice(2).join('-')) ?? null; } };
+    shell.querySelector = (selector) => selector === 'svg' ? svg : selector.startsWith('#') ? svg.querySelector(selector) : null;
     const layer = { animations: [], getAnimations() { return this.animations; }, animate(frames, options) { const animation = { frames, options, cancel() { this.cancelled = true; } }; this.animations.push(animation); return animation; } };
     contactLayers.push(layer);
     return {
       querySelector(selector) { return selector === '[data-duck-motion]' ? shell : selector === '[data-race-contact-layer]' ? layer : null; },
-      querySelectorAll() { return []; },
-      shell, layer,
+      querySelectorAll(selector) { return selector === '*' ? [shell, ...svgNodes.values()] : []; },
+      shell, layer, svgNodes,
     };
   });
   const toggle = {
@@ -41,7 +50,7 @@ function mockScene() {
   return { container, scopes, podiumScope, media, mediaHandlers, instances, motionControllerFactory, matchMedia: () => media };
 }
 
-test('Plan 23 motion maps two sampled leaders to bob, contacts to hits, and cleans up loops', () => {
+test('Plan 23 motion maps sampled leaders, handles backward role seeks, animates recorded contacts on paper layers, and cleans up loops', () => {
   const scene = mockScene();
   const controller = createRaceMotionController(scene.container, {
     matchMedia: scene.matchMedia, documentRef: null, motionControllerFactory: scene.motionControllerFactory,
@@ -57,11 +66,20 @@ test('Plan 23 motion maps two sampled leaders to bob, contacts to hits, and clea
   assert.equal(scene.scopes[1].shell.dataset.duckMotion, 'graceful-bob');
   assert.equal(scene.scopes[2].shell.dataset.duckMotion, 'paddle');
 
+  const reversed = [
+    { id: 'B', progress: 30 }, { id: 'A', progress: 29 }, { id: 'P', progress: 28 },
+    { id: 'C', progress: 27 }, { id: 'D', progress: 26 }, { id: 'E', progress: 25 },
+  ];
+  controller.updateRunnerRanks({ cursorTick: 10, entrants: reversed });
+  assert.equal(scene.scopes[1].shell.dataset.duckMotion, 'paddle', 'backward seeks restore the role at the sought race time immediately');
+  assert.equal(scene.scopes[2].shell.dataset.duckMotion, 'graceful-bob');
+
   controller.playContact({ type: 'duck-contact', participants: ['P', 'A'], recovery: {} });
-  assert.equal(scene.scopes[0].layer.animations.length, 1);
-  assert.equal(scene.scopes[1].layer.animations.length, 1);
+  assert.ok(scene.scopes[1].svgNodes.get('wing-top').animations.length > 0, 'recorded contact articulates an accepted factor-four wing paper layer');
+  assert.ok(scene.scopes[0].svgNodes.get('head-backing-rim').animations.length > 0, 'recorded contact articulates the head backing paper');
+  assert.ok(scene.scopes[1].shell.animations.some((animation) => animation.options.duration === 1100), 'impact recovery uses the accepted one-shot duration');
   controller.playContact({ type: 'wall-overlap', participants: ['B'], recovery: {} });
-  assert.equal(scene.scopes[2].layer.animations.length, 0, 'only recorded wall impacts and duck contacts animate impact recovery');
+  assert.equal(scene.scopes[2].svgNodes.get('wing-top').animations.length, 0, 'only recorded wall impacts and duck contacts animate impact recovery');
 
   controller.setRaceComplete(true);
   controller.setPodiumVisible(true);
@@ -79,6 +97,8 @@ test('Plan 23 motion maps two sampled leaders to bob, contacts to hits, and clea
   assert.equal(scene.mediaHandlers.size, 0);
   assert.ok(scene.instances.every((item) => item.destroyed));
   assert.ok(scene.scopes.every((scope) => scope.layer.animations.every((animation) => animation.cancelled)));
+  assert.ok(scene.scopes.flatMap((scope) => [scope.shell, ...scope.svgNodes.values()]).every((target) => target.animations.every((animation) => animation.cancelled)),
+    'destroy cancels in-flight contact tracks across the wrapper and paper layers');
 });
 
 test('Plan 23 motion responds to reduced-motion preference changes without retaining loops', () => {
@@ -86,9 +106,13 @@ test('Plan 23 motion responds to reduced-motion preference changes without retai
   const controller = createRaceMotionController(scene.container, {
     matchMedia: scene.matchMedia, documentRef: null, motionControllerFactory: scene.motionControllerFactory,
   });
+  controller.playContact({ type: 'wall-impact', participants: ['P'] });
+  const activeContactTracks = [scene.scopes[1].shell, ...scene.scopes[1].svgNodes.values()].flatMap((target) => target.animations);
+  assert.ok(activeContactTracks.length > 0);
   scene.media.matches = true;
   controller.setPodiumMotionPaused(true);
   scene.mediaHandlers.get('change')?.();
+  assert.ok(activeContactTracks.every((animation) => animation.cancelled), 'switching to reduced motion cancels active impact/recovery tracks');
   assert.ok(scene.instances.every((item) => item.destroyed));
   const reducedCount = scene.instances.length;
   controller.playContact({ type: 'duck-contact', participants: ['P'], recovery: {} });
@@ -98,5 +122,20 @@ test('Plan 23 motion responds to reduced-motion preference changes without retai
   assert.equal(scene.instances.length, reducedCount + 7);
   const recreatedPodium = scene.instances.findLast((item) => item.scope === scene.podiumScope);
   assert.equal(recreatedPodium.paused, true, 'reduced-motion loop recreation preserves the settled podium pause state');
+  controller.destroy();
+});
+
+test('event seek freezes a readable impact pose and replay reset cancels it', () => {
+  const scene = mockScene();
+  const controller = createRaceMotionController(scene.container, {
+    matchMedia: scene.matchMedia, documentRef: null, motionControllerFactory: scene.motionControllerFactory,
+  });
+  controller.playContact({ type: 'duck-contact', participants: ['P'] }, { seekPose: true });
+  const tracks = [scene.scopes[1].shell, ...scene.scopes[1].svgNodes.values()].flatMap((target) => target.animations);
+  assert.ok(tracks.length > 0);
+  assert.ok(tracks.every((animation) => animation.playState === 'paused' && animation.currentTime === 450),
+    'seeking to a contact shows the mid-impact paper pose without autoplay');
+  controller.resetContactMotions();
+  assert.ok(tracks.every((animation) => animation.cancelled), 'replay removes the sought impact pose before the race restarts');
   controller.destroy();
 });

@@ -54,6 +54,10 @@ function eventLine(event, labels) {
   return `${subject}: ${String(event.type).replaceAll('-', ' ')}.`;
 }
 
+export function describeRaceEvent(event, labels = {}) {
+  return eventLine(event, labels);
+}
+
 export function createRacePlaybackController(container, resolution, {
   active = true,
   initialSnapshot = null,
@@ -96,10 +100,16 @@ export function createRacePlaybackController(container, resolution, {
     const seconds = currentPlanTime();
     const tick = clamp((seconds / plan.duration) * totalTicks, 0, totalTicks);
     cursorTick = tick;
+    const smoothstep = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
     const revealStartMs = plan.simulationWallSeconds * 1000;
-    const revealProgress = reduced ? (staticResultAtEnd() ? 1 : 0) : clamp((elapsedMs - revealStartMs) / (plan.revealSeconds * 1000), 0, 1);
+    const revealProgress = reduced ? (staticResultAtEnd() ? 1 : 0) : smoothstep((elapsedMs - revealStartMs) / (plan.revealSeconds * 1000));
     const inHighlight = !reduced && elapsedMs / 1000 >= plan.highlightStartFraction * plan.duration
       && elapsedMs / 1000 <= wallClockAtRaceFraction(plan.highlightEndFraction, plan);
+    const highlightStart = plan.highlightStartFraction * plan.duration;
+    const highlightEnd = wallClockAtRaceFraction(plan.highlightEndFraction, plan);
+    const highlightEaseSeconds = 0.25;
+    const highlightProgress = reduced ? 0 : smoothstep((elapsedMs / 1000 - highlightStart) / highlightEaseSeconds)
+      * (1 - smoothstep((elapsedMs / 1000 - (highlightEnd - highlightEaseSeconds)) / highlightEaseSeconds));
     const snapshot = {
       elapsedMs,
       seconds,
@@ -108,6 +118,7 @@ export function createRacePlaybackController(container, resolution, {
       revealProgress,
       podiumVisible: reduced ? staticResultAtEnd() : revealProgress > 0,
       inHighlight,
+      highlightProgress,
       playing,
       userPaused,
       settled: settled(),
@@ -210,15 +221,6 @@ export function createRacePlaybackController(container, resolution, {
       onAction('pause', { cursorTick });
     } else resume(true);
   };
-  const onSkipButton = () => {
-    if (settled()) return;
-    stopFrame();
-    playing = false;
-    userPaused = false;
-    elapsedMs = totalWallMs;
-    onAction('skip', { cursorTick: totalTicks });
-    update();
-  };
   const onReplayButton = () => {
     elapsedMs = 0;
     cursorTick = 0;
@@ -261,11 +263,9 @@ export function createRacePlaybackController(container, resolution, {
     lastCueCursor = Math.max(mechanicalEvent.tick, (mechanicalEvent.time ?? 0) / resolution.dt);
   };
   const pauseButton = container.querySelector('[data-race-pause]');
-  const skipButton = container.querySelector('[data-race-skip]');
   const replayButton = container.querySelector('[data-race-replay]');
   const proceedButton = container.querySelector('[data-race-proceed]');
   pauseButton?.addEventListener('click', onPauseButton);
-  skipButton?.addEventListener('click', onSkipButton);
   replayButton?.addEventListener('click', onReplayButton);
   container.addEventListener('click', onCheckpoint);
   container.addEventListener('click', onEventSeek);
@@ -295,7 +295,6 @@ export function createRacePlaybackController(container, resolution, {
       destroyed = true;
       stopFrame();
       pauseButton?.removeEventListener('click', onPauseButton);
-      skipButton?.removeEventListener('click', onSkipButton);
       replayButton?.removeEventListener('click', onReplayButton);
       container.removeEventListener('click', onCheckpoint);
       container.removeEventListener('click', onEventSeek);

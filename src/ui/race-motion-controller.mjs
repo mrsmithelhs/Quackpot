@@ -25,8 +25,10 @@ export function createRaceMotionController(container, {
   let podiumVisible = false;
   let destroyed = false;
   let lastRankSample = -Infinity;
+  let previousRankCursor = -Infinity;
   const roleStreaks = new Map();
   const runnerControllers = new Map();
+  const contactMotions = new Map();
   let podiumController = null;
 
   const runnerScopes = () => [...container.querySelectorAll('[data-race-runner-scope]')];
@@ -55,6 +57,27 @@ export function createRaceMotionController(container, {
     podiumController = null;
   };
 
+  const cancelContactMotions = (resumeLoops = false) => {
+    const ids = [...contactMotions.keys()];
+    for (const { animations } of contactMotions.values()) {
+      for (const animation of animations) animation.cancel();
+    }
+    contactMotions.clear();
+    if (resumeLoops) {
+      for (const id of ids) runnerControllers.get(id)?.controller.setActive(raceWasActive && !racePaused && !raceComplete && !reduced);
+    }
+  };
+
+  const setRunnerRole = (id, desired) => {
+    const record = runnerControllers.get(id);
+    if (!record || desired === record.role) return;
+    record.controller.destroy();
+    record.shell.dataset.duckMotion = desired;
+    runnerControllers.delete(id);
+    roleStreaks.set(id, 0);
+    createRunnerController(record.scope);
+  };
+
   const createLoops = () => {
     if (destroyed || reduced) return;
     for (const scope of runnerScopes()) createRunnerController(scope);
@@ -69,6 +92,7 @@ export function createRaceMotionController(container, {
     const nextReduced = isReducedMotion(matchMedia);
     if (nextReduced === reduced) return;
     reduced = nextReduced;
+    if (reduced) cancelContactMotions();
     destroyLoops();
     if (!reduced) createLoops();
   };
@@ -80,6 +104,12 @@ export function createRaceMotionController(container, {
   return {
     setActive(value) {
       raceWasActive = Boolean(value);
+      for (const { animations } of contactMotions.values()) {
+        for (const animation of animations) {
+          if (raceWasActive && !racePaused && !raceComplete && !reduced) animation.play();
+          else animation.pause();
+        }
+      }
       if (reduced) return;
       for (const record of runnerControllers.values()) record.controller.setActive(raceWasActive && !racePaused && !raceComplete);
       podiumController?.setActive(raceWasActive && podiumVisible && !racePaused);
@@ -105,6 +135,7 @@ export function createRaceMotionController(container, {
       podiumVisible = Boolean(value);
       podiumController?.setActive(podiumVisible && raceWasActive && !racePaused && !reduced);
     },
+    syncPodium() { podiumController?.syncNewCards(); },
     setPodiumMotionPaused(value) {
       podiumMotionPaused = Boolean(value);
       if (!reduced && podiumToggle?.getAttribute('aria-pressed') !== String(podiumMotionPaused)) podiumToggle?.click();
@@ -115,48 +146,92 @@ export function createRaceMotionController(container, {
       if (podiumVisible && !reduced) podiumController?.setActive(raceWasActive && !racePaused);
     },
     updateRunnerRanks(snapshot) {
-      if (reduced || !snapshot || !Number.isFinite(snapshot.cursorTick) || snapshot.cursorTick - lastRankSample < 20) return;
+      if (reduced || !snapshot || !Number.isFinite(snapshot.cursorTick)) return;
+      const rewound = snapshot.cursorTick < previousRankCursor;
+      const firstSample = lastRankSample === -Infinity;
+      previousRankCursor = snapshot.cursorTick;
+      if (!rewound && snapshot.cursorTick - lastRankSample < 20) return;
       lastRankSample = snapshot.cursorTick;
       const ordered = [...snapshot.entrants].sort((a, b) => b.progress - a.progress || a.id.localeCompare(b.id));
       const leaders = new Set(ordered.slice(0, 2).map((entrant) => entrant.id));
       for (const [id, record] of runnerControllers) {
         const desired = leaders.has(id) ? 'graceful-bob' : 'paddle';
+        if (rewound || firstSample) {
+          setRunnerRole(id, desired);
+          continue;
+        }
         const streak = desired === record.role ? 0 : (roleStreaks.get(id) ?? 0) + 1;
         roleStreaks.set(id, streak);
         if (desired === record.role || streak < 2) continue;
-        record.controller.destroy();
-        record.shell.dataset.duckMotion = desired;
-        runnerControllers.delete(id);
-        roleStreaks.set(id, 0);
-        createRunnerController(record.scope);
+        setRunnerRole(id, desired);
       }
     },
-    playContact(event) {
+    playContact(event, { seekPose = false } = {}) {
       if (reduced || !event || !['duck-contact', 'wall-impact'].includes(event.type)) return;
-      const participantIds = event.participants ?? [];
-      const recovery = event.recovery ?? {};
-      for (const id of participantIds) {
+      const identity = 'translate(0px, 0px) rotate(0deg)';
+      const paperTransform = (x, y, degrees = 0) => `translate(${x * 4}px, ${y * 4}px) rotate(${degrees * 4}deg)`;
+      const oneShot = (element, peak, settle, onset, peakAt, settleAt, rebound = identity) => {
+        if (!element?.animate) return null;
+        return element.animate([
+          { transform: identity, offset: 0 },
+          { transform: identity, offset: onset },
+          { transform: peak, offset: peakAt },
+          { transform: settle, offset: settleAt },
+          { transform: rebound, offset: .92 },
+          { transform: identity, offset: 1 },
+        ], { duration: 1100, easing: 'ease-out', fill: 'none' });
+      };
+      for (const id of event.participants ?? []) {
         const record = runnerControllers.get(id);
         const layer = record?.scope.querySelector('[data-race-contact-layer]');
-        if (!layer?.animate) continue;
-        for (const animation of layer.getAnimations()) animation.cancel();
-        const detail = recovery[id];
-        const measured = detail?.recenteredAt && detail?.startedAt ? detail.recenteredAt - detail.startedAt : 0.7;
-        const duration = clamp(measured * 1000, 300, 1200);
-        const direction = id.charCodeAt(0) % 2 ? 1 : -1;
-        layer.animate([
-          { transform: 'translate(0, 0) rotate(0deg)' },
-          { transform: `translate(${direction * 7}px, -2px) rotate(${direction * 10}deg)`, offset: 0.2 },
-          { transform: `translate(${direction * -3}px, 1px) rotate(${direction * -5}deg)`, offset: 0.52 },
-          { transform: 'translate(0, 0) rotate(0deg)' },
-        ], { duration, easing: 'ease-out', fill: 'none' });
+        const svg = record?.shell.querySelector('svg');
+        if (!record || !layer?.animate || !svg) continue;
+        const previous = contactMotions.get(id);
+        for (const animation of previous?.animations ?? []) animation.cancel();
+        const token = Symbol(id);
+        record.controller.setActive(false);
+        const byId = (name) => svg.querySelector(`#${record.shell.dataset.duckPrefix}-${name}`);
+        const head = byId('head-group');
+        const wing = byId('wing-group');
+        if (head) { head.style.transformBox = 'view-box'; head.style.transformOrigin = '48px 46px'; }
+        if (wing) { wing.style.transformBox = 'view-box'; wing.style.transformOrigin = '52px 56px'; }
+        for (const name of ['wing-mid', 'wing-under-seam', 'wing-top', 'wing-mid-seam']) {
+          const paper = byId(name);
+          if (paper) { paper.style.transformBox = 'view-box'; paper.style.transformOrigin = '52px 56px'; }
+        }
+        const animations = [
+          oneShot(record.shell, 'translateY(8%) rotate(-6deg)', 'translateY(2%) rotate(-2deg)', .08, .3, .68),
+          oneShot(byId('body-backing-rim'), paperTransform(.7, .25), paperTransform(.18, .08), .08, .26, .68, paperTransform(-.04, 0)),
+          oneShot(byId('tail-backing'), paperTransform(.5, .2), paperTransform(.12, .04), .12, .32, .74, paperTransform(-.03, 0)),
+          oneShot(head, 'rotate(-16deg)', 'rotate(-4deg)', .16, .36, .8),
+          oneShot(byId('head-backing-rim'), paperTransform(.45, .25), paperTransform(.12, .06), .2, .42, .88),
+          oneShot(wing, 'rotate(-24deg)', 'rotate(-6deg)', .1, .28, .72),
+          oneShot(byId('wing-mid'), paperTransform(.8, .3, .5), paperTransform(.2, .08, .12), .1, .3, .68, paperTransform(-.05, 0, -.04)),
+          oneShot(byId('wing-under-seam'), paperTransform(.8, .3, .5), paperTransform(.2, .08, .12), .1, .3, .68, paperTransform(-.05, 0, -.04)),
+          oneShot(byId('wing-top'), paperTransform(1.1, .35, -.8), paperTransform(.24, .08, -.16), .16, .4, .78, paperTransform(.04, 0, .04)),
+          oneShot(byId('wing-mid-seam'), paperTransform(1.1, .35, -.8), paperTransform(.24, .08, -.16), .16, .4, .78, paperTransform(.04, 0, .04)),
+        ].filter(Boolean);
+        contactMotions.set(id, { token, animations });
+        if (seekPose) {
+          for (const animation of animations) {
+            animation.pause();
+            animation.currentTime = 450;
+          }
+        }
+        Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+          if (contactMotions.get(id)?.token !== token) return;
+          contactMotions.delete(id);
+          record.controller.setActive(raceWasActive && !racePaused && !raceComplete && !reduced);
+        });
       }
     },
+    resetContactMotions() { cancelContactMotions(true); },
     destroy() {
       if (destroyed) return;
       destroyed = true;
       if (media?.removeEventListener) media.removeEventListener('change', onMotionChange);
       else media?.removeListener?.(onMotionChange);
+      cancelContactMotions();
       for (const scope of container.querySelectorAll('[data-race-contact-layer]')) {
         for (const animation of scope.getAnimations?.() ?? []) animation.cancel();
       }

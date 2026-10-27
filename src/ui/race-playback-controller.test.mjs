@@ -20,7 +20,7 @@ function harness() {
     fire(name = 'click') { this.handlers.get(name)?.({ target: this }); },
   });
   const controls = {
-    '[data-race-pause]': button(), '[data-race-skip]': button(),
+    '[data-race-pause]': button(),
     '[data-race-replay]': button(), '[data-race-proceed]': button(),
   };
   const container = {
@@ -61,7 +61,7 @@ test('Plan 23 presentation reserves the accepted two-second highlight after actu
   assert.ok(timing.duration > 0);
 });
 
-test('Plan 23 playback pauses, seeks by event identity, skips, and releases listeners and frames', () => {
+test('Plan 23 playback pauses, seeks by event identity, and releases listeners and frames', () => {
   const ui = harness();
   const states = [];
   const actions = [];
@@ -98,9 +98,6 @@ test('Plan 23 playback pauses, seeks by event identity, skips, and releases list
   assert.equal(cues.filter((item) => item.eventId === event.id).length, 1,
     'resuming from a fractional-time crossing does not log the sought cue twice');
 
-  ui.controls['[data-race-skip]'].fire();
-  assert.equal(states.at(-1).settled, true);
-  assert.equal(states.at(-1).revealProgress, 1);
   controller.destroy();
   assert.equal(ui.container.listenerCount(), 0);
   assert.equal(ui.documentHandlers.size, 0);
@@ -147,11 +144,12 @@ test('the shared Pause control pauses podium loops after completion without resu
   });
   assert.equal(ui.controls['[data-race-proceed]'].disabled, true,
     'Continue remains unavailable until playback and podium settle');
-  ui.controls['[data-race-skip]'].fire();
+  ui.stepFrame(100);
+  ui.stepFrame((individualPresentationTiming(fixture()).simulationWallSeconds + 1) * 1000 + 100);
   assert.equal(states.at(-1).settled, true);
   assert.equal(states.at(-1).podiumVisible, true);
   assert.equal(ui.controls['[data-race-proceed]'].disabled, false,
-    'Continue becomes available after skip settles the presentation');
+    'Continue becomes available after the full presentation settles');
   ui.controls['[data-race-pause]'].fire();
   assert.equal(states.at(-1).settled, true);
   assert.equal(states.at(-1).playing, false);
@@ -161,6 +159,27 @@ test('the shared Pause control pauses podium loops after completion without resu
   assert.equal(states.at(-1).podiumMotionPaused, false);
   assert.deepEqual(actions.filter((action) => action.includes('podium-motion')),
     ['pause-podium-motion', 'resume-podium-motion']);
+  controller.destroy();
+});
+
+test('highlight and reveal lighting envelopes ease while reduced motion remains static', () => {
+  const ui = harness();
+  const states = [];
+  const resolution = fixture();
+  const controller = createRacePlaybackController(ui.container, resolution, {
+    matchMedia: ui.matchMedia, documentRef: ui.documentRef,
+    requestFrame: ui.requestFrame, cancelFrame: ui.cancelFrame,
+    onState: (state) => states.push(state),
+  });
+  const timing = individualPresentationTiming(resolution);
+  const highlightStartMs = timing.highlightStartFraction * timing.duration * 1000;
+  ui.stepFrame(100);
+  ui.stepFrame(100 + highlightStartMs + 100);
+  assert.ok(states.at(-1).highlightProgress > 0 && states.at(-1).highlightProgress < 1,
+    'highlight begins on an eased envelope');
+  ui.stepFrame(100 + (timing.simulationWallSeconds + 0.2) * 1000);
+  assert.ok(states.at(-1).revealProgress > 0 && states.at(-1).revealProgress < 1,
+    'podium reveal begins on an eased envelope');
   controller.destroy();
 });
 

@@ -186,11 +186,22 @@ async function waitForVisible(cdp, selector, maxWaitMs = 5000, pollIntervalMs = 
   throw new Error(`Timed out waiting for visible selector "${selector}" after ${maxWaitMs}ms`);
 }
 
+async function waitForEnabled(cdp, selector, maxWaitMs = 40000, pollIntervalMs = 100) {
+  const start = Date.now();
+  while (Date.now() - start < maxWaitMs) {
+    const enabled = await evalExpr(cdp, `(() => { const el = document.querySelector(${JSON.stringify(selector)}); return Boolean(el && !el.disabled); })()`);
+    if (enabled) return true;
+    await sleep(pollIntervalMs);
+  }
+  throw new Error(`Timed out waiting for enabled selector "${selector}" after ${maxWaitMs}ms`);
+}
+
 async function startAndSettleRace(cdp) {
   await waitForSelector(cdp, '[data-race-form]');
   await clickSelector(cdp, '[data-race-form] button[type="submit"]');
-  await waitForSelector(cdp, '[data-race-skip]');
-  await clickSelector(cdp, '[data-race-skip]');
+  const hasSkip = await evalExpr(cdp, `Boolean(document.querySelector('[data-race-skip]'))`);
+  if (hasSkip) throw new Error('Normal race playback must not expose a Skip control.');
+  await waitForEnabled(cdp, '[data-race-proceed]');
   await waitForVisible(cdp, '[data-race-result-summary]');
 }
 
@@ -701,8 +712,9 @@ async function runSmoke() {
     await sleep(500);
 
     // Verify after reload: Results panel is visible, entry form is hidden, gems remain exactly 50!
-    await waitForSelector(cdp, '[data-race-skip]');
-    await clickSelector(cdp, '[data-race-skip]');
+    const hasSkip = await evalExpr(cdp, `Boolean(document.querySelector('[data-race-skip]'))`);
+    if (hasSkip) throw new Error('Reloaded normal race playback must not expose a Skip control.');
+    await waitForEnabled(cdp, '[data-race-proceed]');
     await waitForVisible(cdp, '[data-race-result-summary]');
     const gemsAfterReload = await evalExpr(cdp, `document.querySelector('#hud-gems .pill-val')?.textContent`);
     const startRaceFormVisible = await evalExpr(cdp, `Boolean(document.querySelector('[data-race-form]'))`);

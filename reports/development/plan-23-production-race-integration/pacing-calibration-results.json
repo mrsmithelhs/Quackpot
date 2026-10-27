@@ -1,0 +1,204 @@
+{
+  "provenance": {
+    "source": "accepted Plan 13 race-physics.mjs; in-memory post-sampling adapter only",
+    "referenceSourceSha256": "3d3bd83107da7db38d2b4f902ce9be304aaed52fb49612cd9b90b9ed8ac7a07e",
+    "experiment": "weave-rank-strong-contact",
+    "seeds": [
+      "plan23-pacing-validation-01",
+      "plan23-pacing-validation-02",
+      "plan23-pacing-validation-03",
+      "plan23-pacing-validation-04",
+      "plan23-pacing-validation-05",
+      "plan23-pacing-validation-06",
+      "plan23-pacing-validation-07",
+      "plan23-pacing-validation-08",
+      "plan23-pacing-validation-09",
+      "plan23-pacing-validation-10",
+      "plan23-pacing-validation-11",
+      "plan23-pacing-validation-12",
+      "plan23-pacing-validation-13",
+      "plan23-pacing-validation-14",
+      "plan23-pacing-validation-15",
+      "plan23-pacing-validation-16",
+      "plan23-pacing-validation-17",
+      "plan23-pacing-validation-18",
+      "plan23-pacing-validation-19",
+      "plan23-pacing-validation-20",
+      "plan23-pacing-validation-21",
+      "plan23-pacing-validation-22",
+      "plan23-pacing-validation-23",
+      "plan23-pacing-validation-24",
+      "plan23-pacing-validation-25",
+      "plan23-pacing-validation-26",
+      "plan23-pacing-validation-27",
+      "plan23-pacing-validation-28",
+      "plan23-pacing-validation-29",
+      "plan23-pacing-validation-30"
+    ],
+    "seedsPerCell": 30,
+    "mappings": [
+      "sqrt10_45"
+    ],
+    "racesPerMapping": 2160,
+    "totalRaces": 2160,
+    "validRaces": "Only finished rows counted; unresolved count is recorded per mapping.",
+    "inputDomain": {
+      "low": 4.4,
+      "high": 27.72
+    }
+  },
+  "results": {
+    "sqrt10_45": {
+      "transformSamples": {
+        "atCommon": 11.209558868093504,
+        "atRare": 11.444496002232416,
+        "atLegendary": 11.717738630393278,
+        "atLow": 10.45,
+        "atHigh": 12,
+        "trialBaseDelta": {
+          "common": 0.03318399825351115,
+          "rare": 0.035619771706947745,
+          "legendary": 0.04000155446020237
+        },
+        "restDeltaCommon": {
+          "25": 0.19442898578634882,
+          "50": 0.5109348675354006
+        }
+      },
+      "overall": {
+        "n": 2160,
+        "mean": 22.390941526388925,
+        "sd": 0.25979425897562425,
+        "skew": 0.2800052873980819,
+        "median": 22.358109,
+        "p90": 22.748268,
+        "p95": 22.893462,
+        "p99": 22.985796,
+        "min": 21.685472,
+        "max": 23.060401,
+        "over23Share": 0.008796296296296297,
+        "in17to23Share": 0.9912037037037037,
+        "under17Share": 0
+      },
+      "unresolved": 0,
+      "byRest": {
+        "rested": {
+          "n": 720,
+          "mean": 22.23997854861111,
+          "sd": 0.21426586719642612,
+          "skew": 0.05183706765675998,
+          "median": 22.238292,
+          "p90": 22.542249,
+          "p95": 22.605485,
+          "p99": 22.720566,
+          "min": 21.685472,
+          "max": 22.795131,
+          "over23Share": 0,
+          "in17to23Share": 1,
+          "under17Share": 0
+        },
+        "one-race-rest": {
+          "n": 720,
+          "mean": 22.38864624861106,
+          "sd": 0.23065352895277216,
+          "skew": 0.3889306688591799,
+          "median": 22.350077,
+          "p90": 22.712635,
+          "p95": 22.818532,
+          "p99": 22.940065,
+          "min": 21.85385,
+          "max": 22.996416,
+          "over23Share": 0,
+          "in17to23Share": 1,
+          "under17Share": 0
+        },
+        "zero-race-rest": {
+          "n": 720,
+          "mean": 22.54419978194442,
+          "sd": 0.23892483519034702,
+          "skew": 0.30789694886731706,
+          "median": 22.542249,
+          "p90": 22.908369,
+          "p95": 22.957403,
+          "p99": 23.036707,
+          "min": 22.083884,
+          "max": 23.060401,
+          "over23Share": 0.02638888888888889,
+          "in17to23Share": 0.9736111111111111,
+          "under17Share": 0
+        }
+      },
+      "byTierTime": {
+        "common": {
+          "n": 720,
+          "mean": 22.536563659722216,
+          "sd": 0.23281099083967738,
+          "skew": 0.3212958987590454,
+          "median": 22.530691,
+          "p90": 22.894018,
+          "p95": 22.94131,
+          "p99": 23.036707,
+          "min": 22.083884,
+          "max": 23.060401,
+          "over23Share": 0.016666666666666666,
+          "in17to23Share": 0.9833333333333333,
+          "under17Share": 0
+        },
+        "rare": {
+          "n": 720,
+          "mean": 22.407321774999975,
+          "sd": 0.23302669782598467,
+          "skew": 0.533721896640771,
+          "median": 22.364626,
+          "p90": 22.74544,
+          "p95": 22.862113,
+          "p99": 22.974372,
+          "min": 21.894167,
+          "max": 23.025452,
+          "over23Share": 0.009722222222222222,
+          "in17to23Share": 0.9902777777777778,
+          "under17Share": 0
+        },
+        "legendary": {
+          "n": 720,
+          "mean": 22.22893914444442,
+          "sd": 0.21507645528476563,
+          "skew": 0.12214387612494135,
+          "median": 22.227402,
+          "p90": 22.540158,
+          "p95": 22.599401,
+          "p99": 22.720566,
+          "min": 21.685472,
+          "max": 22.795131,
+          "over23Share": 0,
+          "in17to23Share": 1,
+          "under17Share": 0
+        }
+      },
+      "perTierRank": {
+        "common": {
+          "meanPlace": 2.7125,
+          "winRate": 0.3472222222222222,
+          "n": 720
+        },
+        "rare": {
+          "meanPlace": 1.6125,
+          "winRate": 0.6083333333333333,
+          "n": 720
+        },
+        "legendary": {
+          "meanPlace": 1.1722222222222223,
+          "winRate": 0.8458333333333333,
+          "n": 720
+        }
+      },
+      "averagePairedEffectsAcrossConditionCells": {
+        "cells": 36,
+        "trialSeconds": -0.022142819444444604,
+        "trialPlace": -0.112962962962963,
+        "sprintSecondsSaved": -0.03999499166666541,
+        "sprintPlaceImproved": 0.15925925925925924
+      }
+    }
+  }
+}

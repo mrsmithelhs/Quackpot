@@ -55,7 +55,23 @@ The late tail was concentrated in the future 50%-rest group: 2.64% of that group
 
 The +5% trial remained strictly ordered but was heavily compressed: it changed mapped base speed by only 0.033–0.040 m/s across the three tiers. Across 36 paired condition-cell averages it shifted mean place by 0.113 and finish time by 0.022s; that is a small aggregate effect, not a guaranteed per-seed benefit. Sprint shifted mean place by 0.159 and saved 0.040s across paired cell means. A 10 m/s Common base maps to 11.210; its 25% and 50% rest inputs map 0.194 and 0.511 m/s lower. Thus this mapping fits the requested late tail and retains mathematical ordering, while weakening the trial and rest effects. It cannot be represented as preserving the original physical +5% speed benefit unchanged.
 
-This follow-up makes the pacing trade-off more concrete: **sqrt10.45 is the best current report-only candidate if the owner accepts the smaller mapped trial/rest deltas.** It does not authorize production integration. The earlier no-candidate statement applies to the first screen's stricter modifier-preservation gate; this candidate now passes the owner's approximate 5% late-race tolerance, but does not pass the stronger modifier-magnitude expectation. The choice remains owner-gated before any source or browser work.
+This follow-up makes the pacing trade-off more concrete: **sqrt10.45 is the best current report-only timing candidate if the owner accepts the smaller mapped trial/rest deltas.** It does not authorize production integration. The earlier no-candidate statement applies to the first screen's stricter modifier-preservation gate; this candidate now passes the owner's approximate 5% late-race tolerance, but does not pass the stronger modifier-magnitude expectation. The choice remains owner-gated before any source or browser work.
+
+## Owner timing preference and effect-size comparison
+
+The owner further clarified that finishes under 17 seconds are acceptable and preferred to a heavy late tail. This sets a one-sided preference: keep the share strictly over 23 seconds near or below 5%, while permitting the distribution to shift early of the 17–23 second band. The current 30-seed calibration candidate had no finishes under 17 seconds, but it was tuned on that seed set; it is not independent validation and should not be used to claim a population distribution or normality.
+
+The following table compares the owner's authored modifiers with their nominal transformed-speed deltas under sqrt10.45. “Raw difference” is the physical input difference before the global transform. The Sprint column is the nominal mean-speed difference (1.10× versus 1.00×); actual accepted Sprint variance remains seed-dependent. The rest rows are future Plan 22 analysis inputs only.
+
+| Authored base | Plan 17 +5% raw → mapped | Sprint +10% nominal raw → mapped | 25% rest raw difference → mapped | 50% rest raw difference → mapped |
+|---:|---:|---:|---:|---:|
+| Common 10 m/s | 0.500 → 0.033 m/s | 1.000 → 0.065 m/s | 2.500 → 0.194 m/s | 5.000 → 0.511 m/s |
+| Rare 14 m/s | 0.700 → 0.036 m/s | 1.400 → 0.070 m/s | 3.500 → 0.202 m/s | 7.000 → 0.477 m/s |
+| Legendary 20 m/s | 1.000 → 0.040 m/s | 2.000 → 0.079 m/s | 5.000 → 0.223 m/s | 10.000 → 0.508 m/s |
+
+Thus sqrt10.45 keeps the sign/order of these inputs but compresses their absolute gaps, especially for Plan 17. One possible follow-up for owner consideration is a **global vertical translation** of this monotonic transform, `gδ(x)=f(x)−δ`, rather than changing its slope or restoring a clamp. Within its valid domain, that would preserve every transformed speed difference in the table exactly while lowering all nominal speeds and likely moving race finishes earlier. The amount `δ`, valid input/output bounds, and finish-time distribution must be measured; no value is recommended or authorized here. A translated map must not bypass accepted physics bounds or create unresolved guards. Its purpose would be to test the newly stated early-over-late preference while preserving modifiers, not to assert that speed differences translate linearly into finish-time differences.
+
+The next numerical step is therefore an owner choice: authorize one bounded, report-only comparison of a global shift family against sqrt10.45, with the shift fixed on calibration seeds and then assessed on untouched validation seeds, or accept sqrt10.45's compressed effects and stop calibration. The shift comparison should use the one-sided criterion `P(finish > 23s) ≤ about 5%`; under-17 outcomes are reported but are not a failure. Keep per-cell outcomes and unresolved attempts visible; never remove guard failures from the attempt denominator. Continue to report simulation duration and the selected +2s highlight playback separately. No additional wide sweep, production edit, test, or browser session is authorized by this timing preference alone.
 
 ## Payload and diagnostic sizing
 

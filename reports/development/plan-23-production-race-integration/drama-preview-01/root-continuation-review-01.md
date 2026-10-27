@@ -1,0 +1,19 @@
+# Individual finish delivery review — repair required
+
+2026-10-27. Reviewed commits 4eaad99 and 3b508ad. Root read resolver/controller/tests, reran six focused tests (all pass), independently opened individual mode in an isolated IAB tab, and used read-only Luna-high resolver audit. Root verified the audit's guard defect with direct resolver probes. Browser tab closed; slot released to implementer. Production remains untouched/unverified.
+
+## Confirmed blockers sent for repair
+
+1. **Milliseconds/seconds reveal boundary.** `simulationWallSeconds` is in seconds while `tick()` and pause use elapsed milliseconds. Root observed podium visible and lighting opacity0.0885 at tick5/0.24s/1%, showing winners before racing finishes. The same error makes the coast clock jump toward final positions. Correct trigger/progress/pause units and test before/at/during/after last-crossing boundary. Prior settled/pause observations did not establish the reveal trigger.
+2. **Changed highlight/camera anchor.** Highlight starts near winner fraction of the extended race rather than the midpoint of the original first-crossing segment; camera still uses extended-horizon fraction. Preserve the original first-segment camera and two-second highlight schedule. Individual mode should be the review default, with historical modes explicit alternatives.
+3. **Skip/static coast state.** `finishRace()` renders before establishing completed coast progress; initialized zero defeats the intended completed fallback. Set final presentation state before rendering, including fresh skip/static, then clear it on restart/earlier seek. Verify final resting poses as well as podium.
+4. **Non-atomic crossing guard.** Fixture val-01/R01/player10/field8/steady/no-trial, selected risk-only, maxMechanicalEvents26 returns crossing[P], no crossing event, no first-cross witness, winner null and trajectory ending434 while guard crossing is435. Cap28 retains B/C crossings without their event/trajectory; cap30 retains all six while D's event is missing. Commit or roll back crossing facts/events/trajectory/state together; force boundary failures in tests.
+5. **Stored witness masks a changed actual trajectory.** Val-04/R01/player7.5/field8/steady/no-trial: old first tick443.3039828708289/winnerE has Aprogress245.451 and C245.254. Extended `interpolateSnapshot` at that same tick moves both to245.663706 (their later crossing positions), yet the separate parity projection reports equal. The frozen earliest terminal frame overwrites every same-step crosser with its own future crossing state. Preserve the real earliest-fraction snapshot and each later crossing witness separately. Add actual returned-prefix/interpolation checks, not just captured-witness parity.
+
+## Repair and evidence scope
+
+Root sent all findings directly to QP Impl23 under existing supervision. Repair only the approved report resolver/preview/tests/evidence; no tuning, production source, extra implementer reviewer, packet status or push. Model fixes require one final 1,440-case rerun after repairs, including actual returned-prefix comparison. UI-only fixes alone would not justify a numerical rerun.
+
+The helper dispatcher is used by the resolver, but the direct helper test does not establish a natural surviving wall/contact on a crossing tick; add a resolver-level witness if practical and disclose the coverage limit. Existing late-last-finisher9.10% is not itself a failure of the owner-selected first-winner criterion. Do not reopen calibration merely to meet a superseded interpretation.
+
+**Disposition:** not ready for owner review of the new finish sequence. Historical candidate evidence remains separate. Await repaired delivery and fresh root rendered verification, including absence of the podium before the last crossing, intermediate reveal/dimming/coast, pause/resume, skip/restart/static/seek behavior.

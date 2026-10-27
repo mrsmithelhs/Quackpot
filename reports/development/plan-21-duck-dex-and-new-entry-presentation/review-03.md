@@ -1,0 +1,19 @@
+# Plan21 Repair02 review — two narrow corrections remain
+
+Date: 2026-10-26. Reviewed `e40a3af`. Root reran147 repository tests,11 focused UI tests and production build: all pass. Root inspected the production source and saved8-check browser artifact; root did not rerun a browser during this review. Packet remains in-progress, owner rendered acceptance pending.
+
+The three prior blockers are repaired in source: active target presentation is independent of ownership and begins as silhouette; any revealed card discovers its identity and duplicate-first can enqueue one presentation; modal inactive state is passed to the controller and mount resumption is gated. Saved browser evidence observes those paths. This is a substantially narrowed return, not rejection of that work.
+
+## Remaining defects
+
+1. **P2 — Static/reduced-motion paths bypass activity guards.** `src/ui/acquisition-queue.mjs` gates animated `processNext` with `isEffectiveActive`, but its enqueue fast/static branch and `handleMotionChange` do not. Root used the real engine seed `plan21-review`, revealed one identity, created a controller with `active:false`, enqueued the reveal while reduced motion was false, then dispatched a reduce-preference change. Before: inactive, no seen entries, zero persistence calls. After: still inactive, `seenDexEntries=['duck-3']`, one static acquisition cue and one persistence call, with no shelf mount. The same path can occur for a hidden document with a pending paused queue; initial hidden mounting with reduced motion also bypasses animation's visibility guard. Current Settings remount gating prevents its automatic enqueue, so this is not claimed as a reproduced current Settings failure. Make static resolution obey the same active/visible/terminal boundary, retain pending work safely, and resolve correctly on reactivation even if reduced motion changed while suspended. Do not simply drop the media event and resume animation under reduced motion.
+
+2. **P2 — Browser harness does not fail reliably.** `plan-21-browser-check.mjs` conditionally omits Settings/duplicate-first checks if fixture discovery returns null, without recording a failure. Its final `allPassed` false case prints failure but sets no nonzero process exit status. Current saved observations contain all8 checks and pass; that artifact is valid for those executed checks, but repeated command success alone cannot establish coverage. Require all named cases, explicit failure when setup is unavailable (or use a deterministic isolated fixture), and a nonzero exit on any failed/missing check. Prove the failure path, not just the success path.
+
+Independent review: requested Luna-high read-only follow-up; it corroborated both issues. Root independently reproduced the activity-guard mutation and checked harness control flow. No browser stacking/visual-coverage claim is inferred from raw z-index values.
+
+## Repair03 handoff
+
+Continue under `coordination-steering-01.md`. Fix only the controller's static/reduced activity boundary and its focused regression tests, plus the report-folder browser harness failure/coverage contract. Preserve the accepted Repair02 behavior and other agents' files. No new advisor, phone/race edits, cleanup, packet status change or push.
+
+Test hidden/inactive queued work followed by reduced-motion change: no premature cue, seen mutation, completion callback or persistence; reactivation produces the intended static result once, never an animated continuation. Include terminal guard and normal active fast-pull behavior. Make browser checks fail nonzero for failed assertions and missing required journeys; retain a clean positive run with isolated state. Coordinate browser ownership and write new observations within this packet's report folder. Update progress, commit explicit scoped paths and return for review.

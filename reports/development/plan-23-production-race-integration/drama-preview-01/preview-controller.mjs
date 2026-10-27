@@ -45,10 +45,13 @@ function svgStadiumPath(radius) {
 function setTrackGeometry() {
   const outer = svgStadiumPath(26);
   const inner = svgStadiumPath(14);
+  const trackSurface = `${outer} ${inner}`;
   $('track-shore').setAttribute('d', outer);
   $('track-shore').setAttribute('fill', 'none');
-  $('track-surface').setAttribute('d', `${outer} ${inner}`);
+  $('track-surface').setAttribute('d', trackSurface);
   $('track-surface').setAttribute('fill-rule', 'evenodd');
+  $('result-lighting').setAttribute('d', trackSurface);
+  $('result-lighting').setAttribute('fill-rule', 'evenodd');
   $('lane-divider').setAttribute('d', svgStadiumPath(20));
   $('inner-pond').setAttribute('d', inner);
 }
@@ -681,10 +684,15 @@ function buildPodium() {
 
   const namespace = `qp23-podium-${stablePodiumHash(raceFingerprint(state.resolution))}`;
   const positions = {
-    1: { x: 390, top: 354, duckY: 238 },
-    2: { x: 270, top: 389, duckY: 274 },
-    3: { x: 510, top: 408, duckY: 292 },
+    1: { x: 342, top: 336, duckY: 160 },
+    2: { x: 82, top: 356, duckY: 180 },
+    3: { x: 602, top: 372, duckY: 196 },
   };
+  const podiumWidth = 216;
+  const podiumLip = 18;
+  const podiumBottom = 480;
+  const cardWidth = 252;
+  const cardLabelHeight = 126;
   const palette = { 1: '#b28b45', 2: '#718d98', 3: '#91765e' };
   const steps = document.createElementNS(NS, 'g');
   steps.setAttribute('class', 'podium-plinths');
@@ -694,16 +702,16 @@ function buildPodium() {
     group.setAttribute('id', `${namespace}-plinth-${place}`);
     group.setAttribute('class', `podium-plinth podium-plinth-${place}`);
     const face = document.createElementNS(NS, 'rect');
-    face.setAttribute('x', String(x)); face.setAttribute('y', String(top + 12)); face.setAttribute('width', '120'); face.setAttribute('height', String(466 - top));
+    face.setAttribute('x', String(x)); face.setAttribute('y', String(top + 12)); face.setAttribute('width', String(podiumWidth)); face.setAttribute('height', String(podiumBottom - top - 12));
     face.setAttribute('rx', '3'); face.setAttribute('fill', palette[place]); face.setAttribute('class', 'podium-plinth-face');
     const topFace = document.createElementNS(NS, 'path');
-    topFace.setAttribute('d', `M ${x} ${top + 12} l 18 -12 h 84 l 18 12 z`);
+    topFace.setAttribute('d', `M ${x} ${top + 12} l ${podiumLip} -12 h ${podiumWidth - podiumLip * 2} l ${podiumLip} 12 z`);
     topFace.setAttribute('fill', '#f3eee2'); topFace.setAttribute('class', 'podium-plinth-top');
     group.append(face, topFace);
     for (let layerIndex = 1; layerIndex <= 3; layerIndex += 1) {
       const edge = document.createElementNS(NS, 'path');
       const y = top + 23 + layerIndex * 12;
-      edge.setAttribute('d', `M ${x + 2} ${y} h 116`);
+      edge.setAttribute('d', `M ${x + 2} ${y} h ${podiumWidth - 4}`);
       edge.setAttribute('class', `podium-paper-edge podium-paper-edge-${layerIndex}`);
       group.append(edge);
     }
@@ -716,8 +724,8 @@ function buildPodium() {
     if (!entrant) continue;
     const { x, top, duckY } = positions[place];
     const foreign = document.createElementNS(NS, 'foreignObject');
-    foreign.setAttribute('x', String(x - 4)); foreign.setAttribute('y', String(duckY));
-    foreign.setAttribute('width', '128'); foreign.setAttribute('height', String(top + 68 - duckY));
+    foreign.setAttribute('x', String(x - (cardWidth - podiumWidth) / 2)); foreign.setAttribute('y', String(duckY));
+    foreign.setAttribute('width', String(cardWidth)); foreign.setAttribute('height', String(top + cardLabelHeight - duckY));
     foreign.setAttribute('class', 'podium-entrant-art');
     const prefix = `${namespace}-duck-${entrant.id.toLowerCase()}-${place}`;
     const ordinal = podiumOrdinal(place);
@@ -778,9 +786,9 @@ function startResultReveal() {
   stage.classList.add('result-reveal');
   const layer = $('result-lighting');
   if (!reduced && typeof layer.animate === 'function') {
-    lightingAnimation = layer.animate([{ opacity: 0 }, { opacity: .34 }],
+    lightingAnimation = layer.animate([{ opacity: 0 }, { opacity: .52 }],
       { duration: 1000, easing: 'ease-out', fill: 'forwards' });
-  } else layer.setAttribute('opacity', '.34');
+  } else layer.setAttribute('opacity', '.52');
   appendPresentationRecord('podium and finish lighting reveal started', {
     tick: state.resolution.ticks, lastFinishTimeSeconds: state.resolution.lastFinishTimeSeconds,
     coastSeconds: 1, podiumSeconds: 1,
@@ -791,7 +799,7 @@ function settleResultLighting() {
   $('stage-shell').classList.add('result-reveal');
   const layer = $('result-lighting');
   lightingAnimation?.finish();
-  if (layer) layer.setAttribute('opacity', '.34');
+  if (layer) layer.setAttribute('opacity', '.52');
 }
 
 function hidePodium() {

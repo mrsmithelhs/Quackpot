@@ -31,6 +31,16 @@
 
 These observations apply only to the report-only preview in this browser. No production source, save/reload, schema migration, Receipt output, reward idempotency, hardware screen reader, physical device, audience response, or deployed site was exercised. The model timing evidence is the 20-seed offline validation reported in `../drama-study-02/README.md`; browser playback is not a new timing-distribution study.
 
+## Owner podium-size and track-lighting refinement — 2026-10-27
+
+**Browser:** QP Orch-authorized isolated in-app preview tab. The desktop viewport was set to exactly 1280×720 CSS px; the same tab was then checked with a 390×844 viewport override. The viewport override was reset and the isolated tab closed after capture, releasing the browser slot. The owner Chrome tab and existing Vite server were untouched.
+
+- **Desktop layout:** the race SVG measured 698.1×387.8 CSS px at (99.6, 64.4). The finish-line segment occupied y=112.5–145.8; all six finishing ducks occupied y=102.2–185.9. The podium labels began at y=325.0 (winner), 340.5 (second), and 352.9 (third), leaving at least 139 CSS px between the last duck’s lower edge and the first podium label. No racer was covered or clipped.
+- **Rendered result cards:** each podium card measured 195.5 CSS px wide. Label areas measured 195.5×97.7 CSS px, with 22px computed desktop text (about 17px after SVG viewport scaling). All displayed names, placements, and Gem amounts fit without overflow. The 1280×720 viewport screenshot showed the whole track, finishers, enlarged podium, controls, and result summary.
+- **Narrow layout:** at 390×844, the CSS layout viewport was 390px and the race SVG measured 300.8×167.1 CSS px. Podium labels measured 84.2×42.1 CSS px; the declared 24px text scales with the SVG to about 8.0px on screen. The three actual labels had no content overflow, but label text is materially smaller than the desktop result and remains a narrow-screen readability limit. This check did not exercise a physical phone or browser zoom setting.
+- **Lighting and contrast:** the result layer’s computed fill was `rgb(7, 25, 37)` at 0.52 opacity and its even-odd path matched only the track ring. Over the original `#327987` track, the approximate blended color is `#1c4754`. The pond, racers, finish line, podium, and cards were not darkened. The cream `#fffdf5` card with `#162b38` text has 14.35:1 WCAG contrast; Gem text `#664f20` on the cream card has 7.63:1. These are calculations from authored sRGB values, not instrument readings.
+- **Scope:** this visual-only refinement kept finish timing, order, reward display, reveal trigger, and mechanics unchanged. The frozen 1,440-case model audit and lifecycle were not rerun. No reduced-motion checkpoint, production flow, user study, or screen-reader/device check was repeated in this narrow visual turn; earlier static behavior remains documented above.
+
 ## Camera zoom repair — 2026-10-27
 
 **Browser:** authorized isolated Codex in-app browser tab at 1280 × 720 CSS px. The owner’s Chrome tab was not used. Existing localhost server was left running; this repair did not start or stop it. The isolated IAB tab was closed after the checks to release the browser slot.

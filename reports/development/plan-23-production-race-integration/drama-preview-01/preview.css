@@ -41,17 +41,17 @@
     .podium-plinth-top { stroke:#344b52; stroke-width:2; }
     .podium-paper-edge { fill:none; stroke:#fff; stroke-width:2; opacity:.62; }
     .podium-entrant-art { overflow:visible; }
-    .podium-card { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#162b38; text-align:center; font:700 13px/1.18 system-ui,Segoe UI,sans-serif; }
-    .podium-duck { width:88px; height:88px; flex:0 0 auto; filter:drop-shadow(0 2px 2px #102c3840); }
+    .podium-card { width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; color:#162b38; text-align:center; font:800 22px/1.12 system-ui,Segoe UI,sans-serif; }
+    .podium-duck { width:176px; height:176px; flex:0 0 auto; filter:drop-shadow(0 3px 4px #102c3850); }
     .podium-duck svg { display:block; width:100%; height:100%; }
-    .podium-card-label { width:100%; min-height:72px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:3px 4px; border-radius:8px; background:#f7f4eced; box-shadow:0 1px 4px #19344130; }
-    .podium-card-label strong { font-size:14px; }
+    .podium-card-label { width:100%; min-height:126px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:8px 6px; border-radius:12px; background:#fffdf5; box-shadow:0 2px 8px #19344155; }
+    .podium-card-label strong { font-size:27px; }
     .podium-name { max-width:100%; overflow-wrap:anywhere; }
     .podium-gems { font-weight:800; color:#664f20; }
-    .podium-you { display:inline-block; padding:1px 6px; border-radius:999px; background:#174e63; color:white; font-size:10px; letter-spacing:.05em; }
+    .podium-you { display:inline-block; padding:2px 8px; border-radius:999px; background:#174e63; color:white; font-size:17px; letter-spacing:.05em; }
     .podium-player-note { margin:4px 0 0; font-weight:750; color:#155d72; }
-    .result-lighting { fill:#071925; opacity:0; pointer-events:none; }
-    .stage-shell.result-reveal #result-lighting { opacity:.34; }
+    .result-lighting { fill:#071925; fill-rule:evenodd; opacity:0; pointer-events:none; }
+    .stage-shell.result-reveal #result-lighting { opacity:.52; }
     .race-motion-container,.race-duck-shell,.race-orientation { width:100%; height:100%; overflow:visible; }
     .race-motion-container { display:grid; place-items:center; }
     .race-duck-shell { display:grid; place-items:center; transform-origin:50% 50%; }
@@ -84,6 +84,6 @@
     .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
     .fine-print { font-size:.9rem; color:var(--muted); }
     @media (max-width:800px) { .race-layout { grid-template-columns:1fr; } .choice-grid { grid-template-columns:1fr; } .pace-grid { grid-template-columns:1fr; } }
-    @media (max-width:560px) { main { padding-top:64px; } .exit { top:8px; right:8px; } .controls label:not(.inline-control) { width:100%; min-width:0; } .controls label:not(.inline-control) select,.controls label:not(.inline-control) input { width:100%; min-width:0; max-width:100%; } .controls > button { width:100%; } }
+    @media (max-width:560px) { main { padding-top:64px; } .exit { top:8px; right:8px; } .controls label:not(.inline-control) { width:100%; min-width:0; } .controls label:not(.inline-control) select,.controls label:not(.inline-control) input { width:100%; min-width:0; max-width:100%; } .controls > button { width:100%; } .podium-card { font-size:24px; } .podium-card-label { gap:2px; padding:4px; } .podium-card-label strong { font-size:26px; } .podium-you { font-size:18px; } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
     .reduce-motion * { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }

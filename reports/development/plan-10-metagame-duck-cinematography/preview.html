@@ -53,10 +53,17 @@
     .swatch p { margin: .2rem 0 0; font-size: .9rem; }
     .swatch h3 { margin: 0; font-size: 1rem; }
     .duck-fill { fill: #f4bc32; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
-    .duck-shadow { fill: #d3941e; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
+    .duck-belly-shadow { fill: #dfa52f; opacity: .68; }
+    .duck-outline { fill: none; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
+    .duck-neck-line { fill: none; stroke: #4b241b; stroke-width: 5; stroke-linecap: round; }
     .duck-highlight { fill: none; stroke: #ffe27c; stroke-width: 9; stroke-linecap: round; }
     .wing { fill: #e6a924; stroke: #4b241b; stroke-width: 6; stroke-linejoin: round; }
+    .wing-groove { fill: none; stroke: #9c681e; stroke-width: 3; stroke-linecap: round; }
+    .far-wing { fill: #dba02a; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
     .beak { fill: #f36e2c; stroke: #4b241b; stroke-width: 7; stroke-linejoin: round; }
+    .beak-lower { fill: #e85e28; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
+    .beak-seam { fill: none; stroke: #9b401f; stroke-width: 4; stroke-linecap: round; }
+    .tail-seam { fill: none; stroke: #4b241b; stroke-width: 4; stroke-linecap: round; }
     .eye { fill: #45251f; stroke: #4b241b; stroke-width: 5; }
     .eye-glint { fill: #fff4d8; }
     @media (max-width: 650px) { .stage { min-height: 310px; } .caption { max-width: 58%; font-size: .85rem; } .window { border-width: 5px; } }
@@ -110,14 +117,8 @@
     <div class="swatches" id="swatches"></div>
   </section>
 </main>
-<script>
-  const views = {
-    front: { label: 'Front three-quarter', note: 'Primary proportions and face placement.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Front three-quarter static duck"><path class="duck-fill" d="M73 190 Q61 156 87 127 L114 102 Q120 53 174 36 Q233 21 264 71 Q280 95 275 124 L310 143 Q329 160 319 199 Q310 235 259 239 L118 239 Q79 235 73 190Z"/><path class="duck-shadow" d="M82 185 Q128 211 190 208 Q246 209 301 184 Q314 210 282 229 Q247 241 117 234 Q86 228 82 185Z"/><path class="duck-highlight" d="M126 104 Q131 58 178 47 Q207 41 229 52"/><path class="wing" d="M206 159 Q241 138 274 147 Q292 154 289 175 Q282 196 250 202 Q220 204 201 190Z"/><path class="beak" d="M111 109 Q90 108 67 118 L42 120 Q29 127 39 139 L76 158 Q97 165 122 148 L143 131Z"/><ellipse class="eye" cx="166" cy="91" rx="13" ry="17"/><circle class="eye-glint" cx="162" cy="85" r="4"/><path d="M116 125 Q97 132 79 130" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
-    side: { label: 'Side profile', note: 'Eye and beak projection under compressed depth.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Side profile static duck facing left"><path class="duck-fill" d="M89 215 Q63 197 75 160 Q88 125 126 112 Q134 61 188 48 Q242 35 271 78 Q290 105 278 140 Q322 148 328 181 Q337 217 294 232 Q243 249 135 239 Q105 235 89 215Z"/><path class="duck-shadow" d="M83 193 Q151 217 223 212 Q281 211 316 190 Q324 218 292 231 Q242 248 135 238 Q99 233 83 193Z"/><path class="duck-highlight" d="M143 107 Q148 63 190 58 Q219 53 239 68"/><path class="wing" d="M181 159 Q221 142 260 153 Q279 163 269 183 Q251 204 208 201 Q183 193 181 159Z"/><path class="beak" d="M119 120 Q88 112 60 116 L30 126 Q21 137 34 146 L84 160 Q108 162 130 145Z"/><ellipse class="eye" cx="145" cy="101" rx="12" ry="16"/><circle class="eye-glint" cx="141" cy="95" r="4"/><path d="M76 132 Q55 137 37 135" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
-    rear: { label: 'Rear three-quarter', note: 'Wing and body contour as the face recedes.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Rear three-quarter static duck facing away"><path class="duck-fill" d="M82 194 Q69 158 98 126 Q119 103 133 84 Q149 41 201 37 Q251 37 274 77 Q293 111 276 142 Q319 160 315 196 Q308 232 263 239 L117 238 Q90 231 82 194Z"/><path class="duck-shadow" d="M88 192 Q141 211 200 208 Q257 209 302 187 Q317 214 278 232 Q236 244 119 236 Q94 231 88 192Z"/><path class="duck-highlight" d="M151 77 Q168 47 204 48 Q235 48 251 68"/><path class="wing" d="M155 143 Q190 124 231 137 Q259 146 254 174 Q248 201 207 208 Q173 205 155 181Z"/><path d="M285 130 Q305 136 321 153 Q329 164 317 171 Q301 174 282 160Z" fill="#f4bc32" stroke="#4b241b" stroke-width="7" stroke-linejoin="round"/><path d="M127 116 Q143 128 157 132" fill="none" stroke="#4b241b" stroke-width="6" stroke-linecap="round"/></svg>` },
-    high: { label: 'High angle', note: 'Head/body overlap and top silhouette.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="High angle static duck"><path class="duck-fill" d="M46 169 Q46 118 95 93 Q112 31 181 29 Q254 28 275 90 Q320 115 319 168 Q319 219 257 233 Q183 249 101 229 Q48 214 46 169Z"/><path class="duck-shadow" d="M52 180 Q121 200 183 199 Q254 198 312 176 Q308 216 256 231 Q180 248 102 228 Q61 216 52 180Z"/><path class="duck-highlight" d="M119 85 Q135 43 181 42 Q221 42 243 65"/><path class="wing" d="M197 142 Q234 119 275 138 Q297 151 286 177 Q269 195 229 190 Q203 183 197 142Z"/><path class="beak" d="M98 112 Q71 99 47 103 L25 115 Q19 128 32 136 L79 151 Q100 150 119 134Z"/><ellipse class="eye" cx="147" cy="85" rx="12" ry="15"/><circle class="eye-glint" cx="143" cy="80" r="4"/><path d="M70 120 Q50 123 34 119" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` },
-    low: { label: 'Low angle', note: 'Underside contour, occlusion, and outline.', svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Low angle static duck"><path class="duck-fill" d="M63 129 Q79 96 127 95 Q146 41 198 44 Q249 46 267 92 Q311 106 322 147 Q329 194 277 215 Q221 239 131 226 Q76 219 61 181 Q50 154 63 129Z"/><path class="duck-shadow" d="M65 160 Q134 177 207 172 Q277 169 319 146 Q329 189 279 213 Q225 237 132 225 Q76 217 65 183Z"/><path class="duck-highlight" d="M147 91 Q160 56 199 57 Q229 58 246 76"/><path class="wing" d="M195 132 Q229 112 265 126 Q285 137 276 159 Q259 179 223 180 Q201 172 195 132Z"/><path class="beak" d="M125 111 Q95 104 68 112 L44 124 Q39 137 53 145 L99 153 Q120 152 139 134Z"/><ellipse class="eye" cx="157" cy="88" rx="12" ry="15"/><circle class="eye-glint" cx="153" cy="83" r="4"/><path d="M86 127 Q66 133 49 130" fill="none" stroke="#a74420" stroke-width="4" stroke-linecap="round"/></svg>` }
-  };
+<script type="module">
+  import { views } from './duck-views.js';
   const stage = document.querySelector('#stage');
   const duck = document.querySelector('#duck');
   const selection = document.querySelector('#selection');
@@ -125,8 +126,19 @@
   const viewIds = { front:'P10-V01', side:'P10-V02', rear:'P10-V03', high:'P10-V04', low:'P10-V05' };
   const shotIds = { wide:'P10-C01', medium:'P10-C02', close:'P10-C03' };
   const lightLabels = { neutral:'neutral', light:'window', dark:'dark' };
+  let svgInstance = 0;
+  function renderViewSvg(viewId) {
+    const template = views[viewId].svg;
+    const bodyD = template.match(/<path class="duck-fill" d="([^"]+)"\/>/)[1];
+    const clipId = `p10-body-clip-${++svgInstance}`;
+    const opening = template.match(/^<svg[^>]*>/)[0];
+    let rendered = template.replace(opening, `${opening}<defs><clipPath id="${clipId}"><path d="${bodyD}"/></clipPath></defs>`);
+    rendered = rendered.replace('<path class="duck-belly-shadow"', `<path class="duck-belly-shadow" clip-path="url(#${clipId})"`);
+    rendered = rendered.replace(/<path class="duck-belly-shadow"[^>]*\/>/, shadow => `${shadow}<path class="duck-outline" d="${bodyD}"/>`);
+    return rendered;
+  }
   function update() {
-    duck.innerHTML = views[selectedView].svg;
+    duck.innerHTML = renderViewSvg(selectedView);
     stage.dataset.shot = selectedShot;
     stage.dataset.light = selectedLight;
     selection.textContent = `${viewIds[selectedView]} / ${shotIds[selectedShot]} — ${views[selectedView].label}, ${selectedShot}, ${lightLabels[selectedLight]} light.`;
@@ -135,7 +147,7 @@
   document.querySelectorAll('input[name="view"]').forEach(el => el.addEventListener('change', () => { selectedView = el.value; update(); }));
   document.querySelectorAll('input[name="shot"]').forEach(el => el.addEventListener('change', () => { selectedShot = el.value; update(); }));
   document.querySelectorAll('input[name="light"]').forEach(el => el.addEventListener('change', () => { selectedLight = el.value; update(); }));
-  document.querySelector('#swatches').innerHTML = Object.entries(views).map(([id, view]) => `<article class="swatch"><h3>${viewIds[id]} · ${view.label}</h3>${view.svg}<p>${view.note}</p></article>`).join('');
+  document.querySelector('#swatches').innerHTML = Object.entries(views).map(([id, view]) => `<article class="swatch"><h3>${viewIds[id]} · ${view.label}</h3>${renderViewSvg(id)}<p>${view.note}</p></article>`).join('');
   document.querySelector('#select-notes').addEventListener('click', () => document.querySelector('#owner-notes').select());
   update();
 </script>

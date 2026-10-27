@@ -65,6 +65,11 @@ export function validateSave(envelope) {
       if (!Array.isArray(state.owned)) {
         errors.push('state.owned must be an array');
       }
+      if (state.seenDexEntries !== undefined) {
+        if (!Array.isArray(state.seenDexEntries) || !state.seenDexEntries.every((id) => typeof id === 'string')) {
+          errors.push('state.seenDexEntries must be an array of string duck IDs');
+        }
+      }
       if (!Array.isArray(state.pendingReveals)) {
         errors.push('state.pendingReveals must be an array');
       }

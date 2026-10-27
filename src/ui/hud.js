@@ -2,7 +2,7 @@
 // Persistent HUD displaying clock, resources, save controls, and persistent Uninstall button.
 
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
-  const { onSave, onSettings, onReturnToApartment, onUninstall, showReturn = false } = callbacks;
+  const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false } = callbacks;
   const state = engine.state;
   const isTerminal = engine.isTerminal();
 
@@ -30,6 +30,7 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
             ${isTerminal ? 'Locked' : 'Save'}
           </button>
           <button id="btn-open-settings" class="btn btn-secondary btn-sm">Settings</button>
+          ${showDex && !isTerminal ? `<button id="btn-open-duck-dex" class="btn btn-secondary btn-sm" title="View Duck-Dex Collection">🦆 Duck-Dex</button>` : ''}
           ${showReturn && !isTerminal ? `<button id="btn-return-apartment" class="btn btn-secondary btn-sm">Return to apartment</button>` : ''}
           ${!isTerminal ? `
             <button id="btn-uninstall" class="btn btn-danger btn-sm" title="Uninstall the gacha game">
@@ -78,9 +79,14 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
 
   const btnSave = container.querySelector('#btn-manual-save');
   const btnSettings = container.querySelector('#btn-open-settings');
+  const btnDex = container.querySelector('#btn-open-duck-dex');
   const btnReturn = container.querySelector('#btn-return-apartment');
   const btnUninstall = container.querySelector('#btn-uninstall');
   const saveToast = container.querySelector('#save-notification');
+
+  if (btnDex && onOpenDex && !isTerminal) {
+    btnDex.addEventListener('click', onOpenDex);
+  }
 
   if (btnSave && onSave && !isTerminal) {
     btnSave.addEventListener('click', () => {

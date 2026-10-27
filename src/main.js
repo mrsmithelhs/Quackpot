@@ -5,6 +5,7 @@ import './style.css';
 import './ui/shell.css';
 import './ui/stage-transition.css';
 import './ui/duck-motion.css';
+import './ui/duck-dex.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';
@@ -21,6 +22,7 @@ import {
 import { renderHud } from './ui/hud.js';
 import { renderDeskView } from './ui/desk-view.js';
 import { renderGachaView } from './ui/gacha-view.js';
+import { renderDuckDexView } from './ui/duck-dex-view.mjs';
 import { renderRaceView } from './ui/race-view.js';
 import {
   renderStarterOffer,
@@ -47,6 +49,8 @@ if (app) {
   let settingsTriggerId = 'btn-open-settings';
   let stageTransition = null;
   let gachaViewHandle = null;
+  let duckDexViewHandle = null;
+  let dexReturnStep = 'd1_morning_gacha';
   let duckMotionPaused = false;
 
   function generateRandomSeed() {
@@ -166,6 +170,7 @@ if (app) {
     }
 
     currentStep = 'desk';
+    dexReturnStep = 'd1_morning_gacha';
     duckMotionPaused = false;
     phoneOpen = false;
     activeModal = null;
@@ -187,7 +192,16 @@ if (app) {
         settingsOpen = true;
         renderApp();
       },
-      showReturn: phoneOpen && !engine.isTerminal(),
+      showReturn: phoneOpen && !engine.isTerminal() && currentStep !== 'duck_dex',
+      showDex: phoneOpen && !engine.isTerminal() && currentStep !== 'duck_dex',
+      onOpenDex: () => {
+        stageTransition?.cancel();
+        dexReturnStep = currentStep;
+        currentStep = 'duck_dex';
+        engine.recordDexViewed('hud');
+        maybeAutosave();
+        renderApp();
+      },
       onReturnToApartment: () => {
         stageTransition?.run('return').then((completed) => {
           if (!completed || engine.isTerminal() || settingsOpen) return;
@@ -229,6 +243,8 @@ if (app) {
   function renderApp() {
     gachaViewHandle?.destroy();
     gachaViewHandle = null;
+    duckDexViewHandle?.destroy();
+    duckDexViewHandle = null;
     settingsCleanup?.();
     settingsCleanup = null;
     updateHud();
@@ -308,6 +324,13 @@ if (app) {
           currentStep = 'd1_midday_race';
           engine.state.step = currentStep;
           maybeAutosave();
+          renderApp();
+        },
+      });
+    } else if (currentStep === 'duck_dex') {
+      duckDexViewHandle = renderDuckDexView(mainContainer, engine, {
+        onReturn: () => {
+          currentStep = dexReturnStep || 'd1_morning_gacha';
           renderApp();
         },
       });

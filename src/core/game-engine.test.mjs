@@ -555,3 +555,112 @@ test('engine [Repair 02 P1]: hydration reconstructs race completion so deleting 
   assert.equal(res2.place, res1.place);
   assert.equal(restored.state.gems, 50); // Gems remain 50, not 100!
 });
+
+test('engine [Plan 21]: getDexCollectionState accurately reflects owned, seen, and missing identities with cosmetics', () => {
+  const engine = new GameEngine('seed-plan21-dex-state');
+  engine.start();
+  engine.state.owned = ['duck-0', 'duck-2'];
+  engine.state.seenDexEntries = ['duck-0'];
+
+  const dexState = engine.getDexCollectionState();
+  assert.equal(dexState.totalDucks, BANNER_1_ROSTER.length);
+  assert.equal(dexState.ownedCount, 2);
+  assert.equal(dexState.isComplete, false);
+
+  const d0 = dexState.roster.find((d) => d.id === 'duck-0');
+  assert.equal(d0.owned, true);
+  assert.equal(d0.seen, true);
+  assert.equal(d0.cosmetics.palette, 'classic-yellow');
+
+  const d2 = dexState.roster.find((d) => d.id === 'duck-2');
+  assert.equal(d2.owned, true);
+  assert.equal(d2.seen, false); // owned but not yet seen in Dex presentation
+  assert.equal(d2.cosmetics.palette, 'bubblegum-pink');
+  assert.equal(d2.cosmetics.hat, 'sailor-cap');
+
+  const d5 = dexState.roster.find((d) => d.id === 'duck-5');
+  assert.equal(d5.owned, false);
+  assert.equal(d5.seen, false);
+
+  assert.equal(dexState.sets.length, 1);
+  assert.equal(dexState.sets[0].owned, 2);
+  assert.equal(dexState.sets[0].total, 6);
+  assert.equal(dexState.sets[0].complete, false);
+});
+
+test('engine [Plan 21]: recordDexViewed logs action and emits completion_pressure cue only when incomplete', () => {
+  const engine = new GameEngine('seed-plan21-dex-viewed');
+  engine.start();
+  engine.state.owned = ['duck-0', 'duck-1'];
+
+  // Incomplete collection: emits completion_pressure cue
+  const res1 = engine.recordDexViewed('hud');
+  assert.equal(res1.action.type, 'action');
+  assert.equal(res1.action.payload.kind, 'duck_dex_viewed');
+  assert.equal(res1.action.payload.source, 'hud');
+  assert.ok(res1.cue);
+  assert.equal(res1.cue.type, 'cue_shown');
+  assert.equal(res1.cue.payload.cueId, 'completion_pressure');
+  assert.equal(res1.cue.payload.technique, 'completion_pressure');
+  assert.equal(res1.cue.payload.incompleteSets, 1);
+  assert.deepEqual(res1.cue.payload.setProgress, [{ set: 'Pond of Destiny', owned: 2, total: 6 }]);
+
+  // Own all 6 ducks: viewing Dex does not emit completion_pressure
+  engine.state.owned = BANNER_1_ROSTER.map((d) => d.id);
+  const res2 = engine.recordDexViewed('hud');
+  assert.equal(res2.action.type, 'action');
+  assert.equal(res2.cue, null);
+});
+
+test('engine [Plan 21]: recordAcquisitionCue and skipAcquisitionPresentation log truthful events', () => {
+  const engine = new GameEngine('seed-plan21-dex-cue');
+  engine.start();
+
+  const cue = engine.recordAcquisitionCue('duck-1', { focusMs: 2000, transitionMs: 2500 });
+  assert.equal(cue.type, 'cue_shown');
+  assert.equal(cue.payload.cueId, 'duck_dex_acquisition');
+  assert.equal(cue.payload.identity, 'duck-1');
+  assert.equal(cue.payload.rarity, 'common');
+  assert.equal(cue.payload.focusMs, 2000);
+  assert.equal(cue.payload.transitionMs, 2500);
+  assert.ok(engine.state.seenDexEntries.includes('duck-1'));
+
+  // Static acquisition (e.g. reduced motion or fast pull)
+  const staticCue = engine.recordAcquisitionCue('duck-2', { isStatic: true });
+  assert.equal(staticCue.type, 'cue_shown');
+  assert.equal(staticCue.payload.cueId, 'duck_dex_acquisition_static');
+  assert.equal(staticCue.payload.focusMs, 0);
+  assert.equal(staticCue.payload.transitionMs, 0);
+
+  // Skip presentation
+  const skipAction = engine.skipAcquisitionPresentation(3);
+  assert.equal(skipAction.type, 'action');
+  assert.equal(skipAction.payload.kind, 'acquisition_presentation_skipped');
+  assert.equal(skipAction.payload.remainingCount, 3);
+});
+
+test('engine [Plan 21]: seenDexEntries hydrates safely and validates in storage envelope', () => {
+  const engine = new GameEngine('seed-plan21-dex-storage');
+  engine.start();
+  engine.commitPromotionalTenPull();
+  engine.state.seenDexEntries = [...engine.state.owned];
+
+  const envelope = engine.toEnvelope();
+  const valResult = validateSave(envelope);
+  assert.equal(valResult.valid, true, JSON.stringify(valResult.errors));
+
+  // Hydration preserves seenDexEntries
+  const restored = GameEngine.fromEnvelope(envelope);
+  assert.deepEqual(restored.state.seenDexEntries, engine.state.seenDexEntries);
+
+  // Legacy save without seenDexEntries falls back to state.owned
+  delete envelope.state.seenDexEntries;
+  const legacyRestored = GameEngine.fromEnvelope(envelope);
+  assert.deepEqual(legacyRestored.state.seenDexEntries, engine.state.owned);
+
+  // Corrupted seenDexEntries fails semantic validation
+  envelope.state.seenDexEntries = 'not-an-array';
+  const badResult = validateSave(envelope);
+  assert.equal(badResult.valid, false);
+  assert.ok(badResult.errors.some((e) => e.includes('seenDexEntries')));
+});

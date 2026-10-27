@@ -1,0 +1,464 @@
+/* src/ui/duck-dex.css */
+/* Styles for Duck-Dex collection shelf, factual inspector, and first-owned acquisition queue */
+
+.duck-dex-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem;
+  color: #1e293b;
+  font-family: inherit;
+}
+
+.duck-dex-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.duck-dex-title-group h2 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.duck-dex-summary-stats {
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.duck-dex-return-btn {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Set Progress Banner */
+.duck-dex-set-card {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.set-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.set-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.set-card-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.set-card-badge.badge-complete {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.set-progress-track {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.set-progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.set-effect-gap-note {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+  padding-top: 0.25rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+/* Curio Shelf Grid */
+.duck-dex-shelf-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 1rem;
+}
+
+.duck-dex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.duck-dex-slot {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.duck-dex-slot:hover,
+.duck-dex-slot:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+  border-color: #94a3b8;
+  outline: none;
+}
+
+.duck-dex-slot.slot-unowned {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+}
+
+.slot-tier-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.slot-tier-badge.tier-common {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.slot-tier-badge.tier-rare {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.slot-tier-badge.tier-legendary {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.slot-duck-art {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0 1rem;
+}
+
+.slot-duck-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+.slot-unowned .slot-duck-art svg {
+  filter: brightness(0) opacity(0.35);
+}
+
+.slot-duck-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.slot-unowned .slot-duck-name {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.slot-duck-stat {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Factual Inspector Modal */
+.duck-dex-inspector-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem;
+}
+
+.duck-dex-inspector-card {
+  background: #ffffff;
+  border-radius: 16px;
+  max-width: 480px;
+  width: 100%;
+  padding: 1.5rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.inspector-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+.inspector-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.inspector-art-container {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 1rem;
+}
+
+.inspector-art-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.inspector-art-container.art-silhouette svg {
+  filter: brightness(0) opacity(0.35);
+}
+
+.inspector-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+}
+
+.inspector-tier-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.inspector-data-list {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.inspector-data-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.inspector-data-label {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.inspector-data-value {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.inspector-plan22-note {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0.5rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+}
+
+/* First-Owned Acquisition Presentation Theater */
+.acquisition-theater-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1.5rem;
+  color: #ffffff;
+}
+
+.acquisition-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 440px;
+  width: 100%;
+}
+
+.acquisition-badge {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f59e0b;
+  margin-bottom: 0.75rem;
+}
+
+.acquisition-art-box {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-bottom: 1.5rem;
+}
+
+.acquisition-glow-backdrop {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, rgba(245, 158, 11, 0) 70%);
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+.acquisition-glow-backdrop.glow-active {
+  opacity: 1;
+}
+
+.acquisition-duck-svg-wrap {
+  width: 100%;
+  height: 100%;
+  transition: filter 2.5s ease, transform 2.0s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.acquisition-duck-svg-wrap.is-silhouette svg {
+  filter: brightness(0) opacity(0.35);
+}
+
+.acquisition-duck-svg-wrap.is-colorized svg {
+  filter: brightness(1) opacity(1);
+}
+
+.acquisition-duck-name {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.5s;
+}
+
+.acquisition-duck-name.show-details {
+  opacity: 1;
+}
+
+.acquisition-duck-stat {
+  font-size: 1rem;
+  color: #cbd5e1;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.8s ease 1.8s;
+}
+
+.acquisition-duck-stat.show-details {
+  opacity: 1;
+}
+
+.acquisition-skip-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.acquisition-skip-btn:hover,
+.acquisition-skip-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.3);
+  outline: 2px solid #ffffff;
+}
+
+/* Fast Pull Non-blocking Toast */
+.fast-pull-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid #334155;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  font-size: 0.95rem;
+  font-weight: 700;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: toastFadeIn 0.3s ease;
+}
+
+@keyframes toastFadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Reduced Motion Overrides */
+@media (prefers-reduced-motion: reduce) {
+  .duck-dex-slot,
+  .set-progress-fill,
+  .acquisition-glow-backdrop,
+  .acquisition-duck-svg-wrap,
+  .acquisition-duck-name,
+  .acquisition-duck-stat {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}

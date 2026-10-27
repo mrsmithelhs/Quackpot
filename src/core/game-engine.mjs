@@ -21,6 +21,15 @@ export const BANNER_1_ROSTER = [
   { id: 'duck-5', name: 'Biblically Accurate Duck', tier: 'legendary', speed: 20.0 },
 ];
 
+export const DUCK_COSMETICS = Object.freeze({
+  'duck-0': Object.freeze({ palette: 'classic-yellow', hat: 'none', accessory: 'none' }),
+  'duck-1': Object.freeze({ palette: 'mallard-green', hat: 'none', accessory: 'none' }),
+  'duck-2': Object.freeze({ palette: 'bubblegum-pink', hat: 'sailor-cap', accessory: 'none' }),
+  'duck-3': Object.freeze({ palette: 'classic-yellow', hat: 'sailor-cap', accessory: 'none' }),
+  'duck-4': Object.freeze({ palette: 'mallard-green', hat: 'tiny-top-hat', accessory: 'bow-tie' }),
+  'duck-5': Object.freeze({ palette: 'bubblegum-pink', hat: 'tiny-top-hat', accessory: 'monocle' }),
+});
+
 export const GAME_CONSTANTS = {
   START_CASH: 15.00,
   START_HEALTH: 100,
@@ -88,6 +97,7 @@ export class GameEngine {
       pityCount: 0,
       physicalCompanion: { name: 'Professor Quacks', style: 'classic-yellow', pawned: false },
       owned: [], // array of duck id strings
+      seenDexEntries: [], // array of duck id strings whose Dex acquisition was presented or skipped
       pendingReveals: [], // queue of committed unrevealed draws
       lastRacedId: null,
       tenPullCommitted: false,
@@ -284,6 +294,96 @@ export class GameEngine {
     return this.log.append('action', {
       kind: 'duplicate_help_dismissed',
       sourceCueSeq: state.cue.seq,
+    }, this.state.clock);
+  }
+
+  /** Returns pure collection and set progress state for the Duck-Dex shelf */
+  getDexCollectionState() {
+    const ownedSet = new Set(this.state.owned || []);
+    const seenSet = new Set(this.state.seenDexEntries || []);
+    const roster = BANNER_1_ROSTER.map((duck) => ({
+      ...duck,
+      cosmetics: DUCK_COSMETICS[duck.id] || { palette: 'classic-yellow', hat: 'none', accessory: 'none' },
+      owned: ownedSet.has(duck.id),
+      seen: seenSet.has(duck.id),
+    }));
+    const totalDucks = BANNER_1_ROSTER.length;
+    const ownedCount = this.state.owned.length;
+    const isComplete = ownedCount >= totalDucks;
+    const sets = [
+      {
+        id: 'pond_of_destiny',
+        name: 'Pond of Destiny',
+        banner: 1,
+        owned: ownedCount,
+        total: totalDucks,
+        complete: isComplete,
+        effectText: 'None active (investigation only — no mechanical bonus applied)',
+      },
+    ];
+    return {
+      roster,
+      totalDucks,
+      ownedCount,
+      isComplete,
+      sets,
+    };
+  }
+
+  /**
+   * Records a voluntary Duck-Dex inspection action.
+   * Emits a completion_pressure cue if any sets remain incomplete.
+   */
+  recordDexViewed(source = 'hud') {
+    if (this.isTerminal()) return null;
+    const action = this.log.append('action', {
+      kind: 'duck_dex_viewed',
+      source,
+    }, this.state.clock);
+
+    let cue = null;
+    const state = this.getDexCollectionState();
+    if (!state.isComplete) {
+      cue = this.log.append('cue_shown', {
+        cueId: 'completion_pressure',
+        technique: 'completion_pressure',
+        setProgress: state.sets.map((s) => ({ set: s.name, owned: s.owned, total: s.total })),
+        incompleteSets: state.sets.filter((s) => !s.complete).length,
+      }, this.state.clock);
+    }
+    return { action, cue };
+  }
+
+  /** Marks a newly acquired duck identity as seen in the Duck-Dex */
+  markDexEntrySeen(duckId) {
+    if (!Array.isArray(this.state.seenDexEntries)) {
+      this.state.seenDexEntries = [];
+    }
+    if (!this.state.seenDexEntries.includes(duckId)) {
+      this.state.seenDexEntries.push(duckId);
+    }
+  }
+
+  /** Records a real presentation cue for a newly acquired duck entry */
+  recordAcquisitionCue(duckId, { focusMs = 2000, transitionMs = 2500, isStatic = false } = {}) {
+    if (this.isTerminal()) return null;
+    this.markDexEntrySeen(duckId);
+    const duck = BANNER_1_ROSTER.find((d) => d.id === duckId);
+    return this.log.append('cue_shown', {
+      cueId: isStatic ? 'duck_dex_acquisition_static' : 'duck_dex_acquisition',
+      identity: duckId,
+      rarity: duck?.tier || 'common',
+      focusMs: isStatic ? 0 : focusMs,
+      transitionMs: isStatic ? 0 : transitionMs,
+    }, this.state.clock);
+  }
+
+  /** Records an explicit player skip of the acquisition presentation sequence */
+  skipAcquisitionPresentation(remainingCount = 0) {
+    if (this.isTerminal()) return null;
+    return this.log.append('action', {
+      kind: 'acquisition_presentation_skipped',
+      remainingCount,
     }, this.state.clock);
   }
 
@@ -850,6 +950,9 @@ export class GameEngine {
     if (!engine.state.completedRaces) engine.state.completedRaces = [];
     if (!engine.state.raceResults) engine.state.raceResults = {};
     if (!engine.state.billsSettled) engine.state.billsSettled = [];
+    if (!Array.isArray(engine.state.seenDexEntries)) {
+      engine.state.seenDexEntries = [...(engine.state.owned || [])];
+    }
 
     for (const e of engine.log.entries) {
       if (e.type === 'race_result') {

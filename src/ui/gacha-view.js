@@ -1,9 +1,10 @@
 // src/ui/gacha-view.js
 // Promotional 10-Pull theater with truthful commit-before-reveal card flipping.
 
-import { BANNER_1_ROSTER } from '../core/game-engine.mjs';
+import { BANNER_1_ROSTER, DUCK_COSMETICS } from '../core/game-engine.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 import { createDuckMotionController, selectGachaDuckMotion } from './duck-motion-controller.mjs';
+import { createAcquisitionQueueController } from './acquisition-queue.mjs';
 
 function renderCard(card, idx, { revealEnter = false } = {}) {
   const duckDef = BANNER_1_ROSTER.find((d) => d.id === card.identity);
@@ -196,6 +197,28 @@ export function renderGachaView(container, engine, callbacks = {}) {
     </div>
   `;
 
+  const showFastPullToast = (count) => {
+    if (count <= 0) return;
+    const existing = container.querySelector('.fast-pull-toast');
+    existing?.remove();
+    const toast = container.ownerDocument.createElement('div');
+    toast.className = 'fast-pull-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.textContent = `✨ ${count} new duck${count > 1 ? 's' : ''} added to Duck-Dex!`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+  };
+
+  const acquisitionQueue = createAcquisitionQueueController(container, engine, {
+    onComplete: ({ fastPull, count } = {}) => {
+      if (fastPull && count > 0) {
+        showFastPullToast(count);
+      }
+      callbacks.onAcquisitionComplete?.();
+    },
+  });
+
   const btnClaim = container.querySelector('#btn-claim-pull');
   if (btnClaim && onClaimPull) {
     btnClaim.addEventListener('click', onClaimPull);
@@ -203,12 +226,18 @@ export function renderGachaView(container, engine, callbacks = {}) {
 
   const btnNext = container.querySelector('#btn-reveal-next');
   if (btnNext && onRevealCard) {
-    btnNext.addEventListener('click', onRevealCard);
+    btnNext.addEventListener('click', () => {
+      onRevealCard();
+      acquisitionQueue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
+    });
   }
 
   const btnAll = container.querySelector('#btn-reveal-all');
   if (btnAll && onRevealAll) {
-    btnAll.addEventListener('click', onRevealAll);
+    btnAll.addEventListener('click', () => {
+      onRevealAll();
+      acquisitionQueue.enqueueReveals(engine.state.pendingReveals, { fastPull: true });
+    });
   }
 
   const btnProceed = container.querySelector('#btn-gacha-proceed');
@@ -383,6 +412,7 @@ export function renderGachaView(container, engine, callbacks = {}) {
       } else if (typeof onRevealCard === 'function') {
         onRevealCard();
       }
+      acquisitionQueue.enqueueReveals(engine.state.pendingReveals, { fastPull: false });
     });
   });
 
@@ -428,10 +458,12 @@ export function renderGachaView(container, engine, callbacks = {}) {
 
   return {
     update,
+    acquisitionQueue,
     destroy() {
       if (destroyed) return;
       destroyed = true;
       motionController.destroy();
+      acquisitionQueue.destroy();
       removeHelpCallout();
     },
   };

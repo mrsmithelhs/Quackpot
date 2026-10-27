@@ -154,3 +154,19 @@ Validation for this UI-only repair:
 - The frozen 1,440-case numeric audit was not rerun because this repair changes only report-preview playback state; the previously committed model audit remains unchanged.
 
 No production source, resolver mechanics, numerical constants, production build, full suite, save/migration/Receipt path, reward idempotency, packet status, or push was changed. Advisor consultation remains Branch C — orchestrator-gate-only under QP Orch's no-additional-review direction. The repair and evidence are committed in a scoped repair commit; this progress entry is committed separately as the final Plan 23 write.
+
+## Owner podium-scale and track-dimming refinement — 2026-10-27
+
+Following QP Orch’s visual review, the report-only preview enlarges podium ducks, platforms, and name cards; widens the name area to support wrapping; and moves the platform arrangement lower while retaining the finish line and every finisher above the result. A separate even-odd SVG mask now dims only the oval race surface to 52% opacity. The reveal trigger, one-second coast/podium overlap, committed order, result, and mechanics are unchanged. Static/skip presentation uses the settled layer value and adds no animated dimming.
+
+QP Orch authorized an isolated browser slot for 1280×720 desktop and 390×844 narrow viewport checks. Desktop cards rendered 195.5px wide; labels rendered 195.5×97.7px, with about 17px effective text after SVG scaling. All finishers remained visible above the podium, and displayed names and payouts fit. At 390px width, the 300.8px-wide race SVG scales labels to 84.2×42.1px with about 8px effective text; the actual labels did not overflow, but this is a narrow-screen readability limitation. The track blend is approximately `#1c4754` from `#327987` beneath `#071925` at 52%; the pond, finish line, racers, and podium remain undimmed. The authorized 1280×720 screenshot and computed layout/style readings were observed; the viewport override was reset and the isolated tab closed to release the slot. Details are in `drama-preview-01/evidence/browser-observations.md`.
+
+Validation for this presentation-only owner refinement:
+
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- `node --check reports/development/plan-23-production-race-integration/drama-preview-01/preview-controller.mjs` — passed.
+- `git diff --check` — passed.
+- Authorized browser inspection — 1280×720 and 390×844; no captured console errors or warnings; isolated tab closed and viewport reset.
+- The frozen 1,440-case numerical audit, focused model tests, production source, save/reload, Receipt, reward idempotency, reduced-motion interaction, and production flows were not rerun or newly validated. This turn changed only report-preview presentation and evidence.
+
+No packet status was changed and no push was performed. The scoped preview change is committed separately from this progress update; this progress entry is the final Plan 23 write.

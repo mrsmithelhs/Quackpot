@@ -115,6 +115,52 @@ Validation in this follow-up:
 
 No production build, full project suite, save/reload or migration test, Receipt test, reward-idempotency test, or production browser test was run or claimed. Production lifecycle resolution-once behavior, versioned save compatibility, idempotent rewards, append-only mechanical/display evidence, focused race view, commentary, Plan 22 effective-speed/rest composition, and production file ownership remain for QP Orch's separately authorized implementation gate. The selected model's last-finisher late fraction above is an explicit calibration interpretation point for that gate.
 
+## Production integration delivery — 2026-10-27
+
+**Status:** The owner-adopted DECISION-023/024 production target is implemented in the approved source set and ready for Root orchestration review. This report does not set Plan 23 status or claim owner closure. Owner rendered acceptance remains open. No push or deployment was performed.
+
+This delivery section supersedes earlier historical snapshots in this file that described production integration as not yet implemented or the main-artifact reviewer budget as unused; those statements recorded the state at their earlier dates.
+
+### What is implemented
+
+- Added the pure, versioned production race resolver and port-parity driver/artifact. The production resolver imports no report artifact. `GameEngine.runRace()` validates the owned roster selection, stance and explicit trial choice; prepares effective speed with `restFactor: 1` for later Plan 22 composition; resolves/serializes before mutation; and returns a prior keyed attempt on duplicate calls. Successful commit logs immutable finish order/results once, consumes an explicitly selected Plan 17 trial once and pays existing placements once. A guarded unresolved attempt retains factual crossing/guard evidence without place, reward, trial consumption or rest completion.
+- Added schema-v2 race resolution persistence with summary-only v1 migration, lossless bounded resolution encoding, corrupt-save fallback, and semantic cross-checks. Finished and unresolved cached attempts now reconcile identity/status/digest/order/times/places/payouts/trial/evidence against both append-only payload and decoded canonical resolution. `raceResults` cached fields also reconcile. Added the state-only identity/place/payout/fabricated-order regression and a same-length changed-order regression after Root reproduced the gap.
+- Added focused race playback, event seeking/checkpoints, selected rig motion and teardown controllers; the shared camera; accepted duck orientation/labels/event glow; genuine individual crossings, per-duck coast, last-cross podium and whole-scene dimming; accurate player podium identity/payout; plain narration; Receipt evidence projection; and narrow source wiring. Pause preserves existing podium loop phase. Continue stays disabled until the final coast/podium settles; Skip is the explicit early-settlement action. Resolver event names now map to the expected wall-recovery/leader-slowdown language.
+- Refreshed the implementation proposal to reflect the superseding owner presentation decisions. Added reproducible production parity data and `production-browser-observations.md` in the Plan 23 evidence folder. Browser screenshots were captured in the coordinated CUA sessions but were not materialized as local PNG files; the observation artifact carries the recorded measurements.
+
+### Validation evidence
+
+- `node reports/development/plan-23-production-race-integration/production-parity.mjs` — 1,440/1,440 frozen selected cases matched the accepted first-cross causal projection; zero mismatches. 613,391 sampled interpolation frames through the original prefix matched within 1e-8. This validates named inputs and the first-cross prefix, not the distribution of unseen production seeds.
+- The accepted timing metric remains the **winner crossing**: n=1,440, p50 21.249505 s, p95 22.165199 s, max 22.448141 s, 0/1,440 strictly over 23 s. Last crossing is reported separately: p50 22.454363 s, p95 23.427473 s, max 24.736054 s, 131/1,440 (9.10%) strictly over 23 s. Playback including the two-second highlight and one-second reveal is separately estimated at p50 25.50 s, p95 26.45 s, max 27.75 s. Per DECISION-019, the <=5% late criterion applies to the winner crossing; no silent retuning was made to lower the last-finisher tail.
+- Two-race concrete save-size fixture: R01 153,939 bytes, R02 151,719 bytes, both resolutions 305,658 bytes, complete envelope 318,876 bytes. The two-resolution value is under the provisional combined 1 MiB budget. `npm test` also exercises v1 migration/static-summary behavior, lossless round trip, corruption, unresolved guard handling, resolve-once/reload, reward/trial idempotency, and receipt separation.
+- Final `npm test` — passed, 168/168 tests. Final `npm run build` — passed. `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`. Final `git diff --check` — passed (Git emitted expected LF-to-CRLF working-copy notices).
+- Coordinated production IAB checks used 1280×720 and 390×844 on the local production route. Active runner transforms and course position changed during normal playback; exact full-scene filter was brightness(.43)/saturate(.75) during both highlight and reveal. Narrow header kept event title left/event right; document width was 375 px within a 390 px viewport. The final natural finish and Skip path both correctly gated Continue; event seeking displayed actual leader slowdown and wall recovery copy. Player place/banner, 2/1/3 podium, Gem values, pause/resume freeze, no false rival award and zero browser console warnings/errors were observed. Event/contact highlighting and checkpoint/event seeks were observed in earlier coordinated turns.
+- Reduced-motion behavior, static result equivalence, no-frame scheduling and retained pause state across controller recreation were verified in focused tests. Reduced-motion was not separately forced in the final browser session because that would have changed a system preference.
+- `rg` found no production references to Plan 23 report modules. Production browser source remained the actual application route; no report preview was imported.
+- `npm run test:smoke` — attempted twice after all coordinated IAB turns were closed. Its pretest Vite build passed and Vite Preview started, but the dedicated Chrome process exited with Windows code 2147483651 (`0x80000003`) before CDP connected or page assertions began. Both runs cleaned the dedicated test profile. This is recorded as a smoke-browser launch limitation; no assertion pass is claimed and the harness was not weakened. The isolated production IAB evidence above is independent of this harness failure.
+
+### Main-artifact reviewer consultation and disposition
+
+One allowed read-only main-artifact reviewer consultation ran before delivery. Requested model/effort was `gpt-6-sol` / `low` through the explicit agent launch override. The reviewer reported that its runtime did not expose its actual model or effort, so the observed identity cannot be independently confirmed; no second advisor was launched. Effective posture was instruction-read-only with post-hoc workspace verification. A post-consultation status inspection found no reviewer edits; Root-owned `reports/orchestration/plan-23-production-review-02.md` remains untouched and excluded from all commits. Root's independent Luna-high review remains a separate orchestration control.
+
+| Finding | Independent check and disposition | Change |
+|---|---|---|
+| Continue was enabled before individual coast and podium settlement. | Accepted. Verified live before/after state; the Continue control is disabled until `settled()`, while Skip remains an explicit path to settle. Focused controller test and actual production natural-finish/replay/skip witnesses passed. | Fixed in the race view/playback boundary. |
+| Wall-impact and leader-wobble event names fell through to generic commentary. | Accepted. Compared playback formatter branches to emitted resolver event types; focused event-seek test and production-seed wall/leader event seeks now show specific copy. | Fixed aliases while retaining old labels for compatibility. |
+| No additional concrete engine/storage issue found by the advisor. | No new claim; Root's separate cache/log consistency reproduction was independently confirmed and repaired before this consultation. | See semantic validation regression above. |
+
+### Files and commits
+
+Production/test/proposal/parity/browser-observation work was committed in `2609032` (`Integrate Plan 23 production race`). This report is committed separately as the final scoped write. Root-owned `reports/orchestration/plan-23-production-review-02.md` is deliberately uncommitted by this implementer. Other approved paths are listed in commit `2609032`.
+
+### Remaining gates and limitations
+
+- Root must complete the integrated artifact review and disposition any new findings. Owner rendered acceptance of the production result remains required; neither review is inferred from the preview decision or this report.
+- The isolated Playwright-style smoke harness remains blocked before page setup by its dedicated Chrome launch failure. Reduced-motion static parity is test-verified but was not separately rendered in the final browser turn. IAB screenshots are conversation captures, not local image files.
+- The 1,440-case frozen audit is parity evidence for its named fixture set; it is not a population claim. Last-finisher p95 and late fraction exceed the winner-crossing criterion but that is the accepted metric split, not a hidden retune request. Plan 22 rest remains unimplemented here; the explicit effective-speed input is ready for later composition.
+
+**Ready for Root review:** yes. **Owner closure:** pending. **Packet status:** unchanged by this implementer.
+
 **Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch's direction not to add another reviewer to this report-only continuation. The allowed Sol-low review budget for the later production artifact remains unused.
 
 The scoped resolver, focused tests, frozen validation artifact, preview, and browser evidence are committed separately from this progress report. This progress entry is the final Plan 23 write. No packet status was changed and no push was performed.

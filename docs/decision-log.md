@@ -245,3 +245,13 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **New selected presentation:** For a player podium finish, mark its place '(you!)', provide a visible non-colour-only player accent and a large actual-result/Gem banner above the podium. No false player award for a rival podium. Owner removes the separate podium-motion pause button; the shared Pause/Resume must also control post-finish ambient loops while retaining the completed race state. This supersedes the earlier separate-button preference, not free motion pause or reduced/static stills.
 
 **Limits:** Existing course geometry/model/tuning, actual results, reward amounts, save/log/Receipt honesty and immediate exit remain. Tutorial/finale are race events/fields; no additional course catalogue is selected. Plan23 stays in-progress; root technical/rendered review and final integrated owner acceptance are still required. No push/deployment.
+
+### DECISION-025 — Production race presentation repair and normal playback controls
+
+**Date:** 2026-10-27
+
+**Owner direction:** The reviewed production delivery remains unaccepted. Initial racers must face right along travel, with duck-only Y turns and upright labels. Remove the successful-playback status subheader, including misleading `Race complete` at race start. Remove the normal-motion `Skip presentation` control; preserve free static/reduced-motion checkpoints and existing immediate exit. Continue follows settled playback. This supersedes prior approval of the visible normal-motion Skip button; internal presentation sampling is not a player control requirement.
+
+Restore meaningful short event descriptions in the chronological timeline as they are reached, with no premature outcome disclosure. Combine current event commentary left and timecode right on one row, without `Recorded course time`. Dim the entire visible race environment, including background exposed by camera movement, using eased highlight onset/offset and eased podium dimming. Participant highlights have at least two seconds of presentation-time duration and eased edges. Pause/seek/replay/static paths must derive correct presentation without changing mechanical events, outcomes or rewards.
+
+During playback, the two current leaders visibly use graceful bob, others paddle, and duck/wall contacts use the accepted paper-layer impact/recover animation before returning to their current role. A wrapper rotation or merely changing transform is insufficient evidence of those roles. Root supervises another bounded implementation repair and checks actual starting facing, visible role/layer motion, complete-scene lighting and timeline wording. No mechanics retuning, extra repair reviewer, packet closure, push or deployment is authorized.

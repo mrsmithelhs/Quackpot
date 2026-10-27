@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   cameraFractionAtTick,
   individualPresentationTiming,
+  playbackStateAtSeek,
   raceFractionAtPlanWallClock,
   resultRevealDueAtElapsedMilliseconds,
   revealProgressAtElapsedMilliseconds,
@@ -46,4 +47,27 @@ test('individual camera follows the original first-crossing segment and holds wi
   assert.equal(cameraFractionAtTick(225, 450, 480), 0.5);
   assert.equal(cameraFractionAtTick(450, 450, 480), 1);
   assert.equal(cameraFractionAtTick(480, 450, 480), 1);
+});
+
+test('seeking from a completed result restores resumable playback state without changing the resolution', () => {
+  const resolution = { ticks: 454, status: 'finished', finish: ['committed result'] };
+  const state = {
+    resolution,
+    cursorTick: resolution.ticks,
+    finished: true,
+    podiumVisible: true,
+    resultRevealStarted: true,
+    resultRevealProgress: 1,
+  };
+  const seekTick = 449.8;
+
+  Object.assign(state, playbackStateAtSeek(seekTick));
+
+  assert.equal(state.cursorTick, seekTick);
+  assert.equal(state.finished, false);
+  assert.equal(state.podiumVisible, false);
+  assert.equal(state.resultRevealStarted, false);
+  assert.equal(state.resultRevealProgress, 0);
+  assert.equal(state.resolution, resolution);
+  assert.deepEqual(state.resolution.finish, ['committed result']);
 });

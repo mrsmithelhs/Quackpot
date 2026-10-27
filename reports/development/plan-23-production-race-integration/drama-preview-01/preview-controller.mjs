@@ -2,7 +2,7 @@ import * as baselineModel from './baseline-model.mjs';
 import * as candidateModel from './candidate-model.mjs';
 import * as individualFinishModel from './individual-finish-model.mjs';
 import { cameraFractionAtTick, individualPresentationTiming, raceFractionAtPlanWallClock,
-  resultRevealDueAtElapsedMilliseconds, revealProgressAtElapsedMilliseconds, wallClockAtPlanFraction } from './presentation-timing.mjs';
+  playbackStateAtSeek, resultRevealDueAtElapsedMilliseconds, revealProgressAtElapsedMilliseconds, wallClockAtPlanFraction } from './presentation-timing.mjs';
 import { createDigitalDuckSvg } from '../../../../src/ui/duck-rig-view.mjs';
 import { createDuckMotionController } from '../../../../src/ui/duck-motion-controller.mjs';
 
@@ -595,7 +595,8 @@ function stopPlayback() {
 
 function pauseAtTick(tick, status) {
   stopPlayback();
-  state.cursorTick = clamp(tick, 0, state.resolution.ticks);
+  hidePodium();
+  Object.assign(state, playbackStateAtSeek(clamp(tick, 0, state.resolution.ticks)));
   elapsedBeforePause = wallClockAtPlanFraction(state.cursorTick / state.resolution.ticks, state.presentationPlan) * 1000;
   revealReachedEvents(state.cursorTick);
   $('race-status').textContent = status;

@@ -65,3 +65,13 @@ export function cameraFractionAtTick(cursorTick, firstCrossTick, totalTicks) {
   if (!Number.isFinite(firstCrossTick) || firstCrossTick <= 0) return clamp(cursorTick / totalTicks, 0, 1);
   return clamp(cursorTick / firstCrossTick, 0, 1);
 }
+
+export function playbackStateAtSeek(tick) {
+  return {
+    cursorTick: tick,
+    finished: false,
+    podiumVisible: false,
+    resultRevealStarted: false,
+    resultRevealProgress: 0,
+  };
+}

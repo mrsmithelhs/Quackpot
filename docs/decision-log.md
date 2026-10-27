@@ -197,3 +197,11 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Decision:** Owner directs Plan23 to model race timing statistically: at most5% of races finish strictly later than23s, around the roughly20s target. This replaces the prior hard-upper-bound interpretation of±15% tolerance. Long individual races remain legitimate results of the seeded mechanics; no forced crossing or23s truncation. Canonical design/AGENTS/orchestrator contracts synchronized.
 
 **Evidence boundary:** Seed/configuration distributions, late fraction/quantiles/sample uncertainty and independent validation are required; do not infer a population guarantee from20sample races. Watchdog/unresolved outcomes stay explicit. Simulated race finish and selected2s-highlight wall playback remain separate measures. No automatic production tuning, source handoff, push or deployment is authorized.
+
+### DECISION-020 — Plan 20 production card motion and duplicate help accepted
+
+**Date:** 2026-10-26
+
+**Decision:** Owner approves the corrected speech bubble and requests closure after previous rendered review of card behavior. Accept Plan20's ModeC/factor-four keyed loops, per-card reveal/phase preservation, responsive stable grid and first-duplicate explanatory bubble with visible source pointer and persistent dismissal. Final pointer repair `f0cd77b`/`5af086a`, root review05 includes direct screenshot inspection; earlier reviews/tests bound acceptance.
+
+**Limits and handoff:** Actual system reduced-motion=true, physical touch and rendered long-name limits remain. Unauthorized extraSol-lowrepairreview remains a disclosed budget deviation. Production source lane is released; Plan23 may receive ownership only after its calibration/lifecycle proposal is approved. No new identity art, production race/calibration decision, Dex/rest implementation, push or deployment follows from closure.

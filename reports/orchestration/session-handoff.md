@@ -2,6 +2,8 @@
 
 **Updated:** 2026-10-26
 
+- Owner closesPlan20 aftervisible speech-bubble approval, DECISION-020. Sourcehandoffhold released; Plan23 remainsreport-only pending calibration/lifecycle/ownership approval. Latest screen sqrt10.45–12 yields19/2160>23s but heavilycompresses trial/rest effects; noadoption inferred. Plan21Dexdraft, Plan22restdepends23. Browserfree; reviewerbudgetdeviationinPlan20 preserved.
+
 - Owner closes Plan13 and selects combined rank-weighted weave +15–20° contact with2s slow-motion highlight (DECISION-018). Canonical contracts synchronized. DraftPlan23 is proposed production model/input/save/log/race/motion port, depends13/20; Plan22 rest now follows23. Plan20delivered awaitingowner cardmotion acceptance; Plan21Dexdraft. No new assignment/push/deployment. Prior Plan13 implementation/pendingselection bullets below are historical.
 
 - Plan09 owner-approved and closed after factor-four layer refinement (`2786feb`/`22534ce`, reviews02–05), DECISION-016. Draft Plan20 now scopes production ModeC rig/controller integration with first source/lifecycle/trigger proposal; no assignment inferred. Race-event wiring waits for accepted Plan13 semantics, while non-race integration could run alongside its report-only investigation. Physical companion remains separate; system reduced-motion=true/fine small-sprite limits remain explicit. Plan13 Proposal03 is owner-approved for isolated implementation (`000a3a4`); code/headless work underway, browser turn required.

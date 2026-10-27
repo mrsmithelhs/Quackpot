@@ -1,7 +1,8 @@
 ---
 id: plan-20
 title: Digital rig and accepted motion integration
-status: delivered
+status: complete
+resolution: "Owner approves corrected production speech bubble and closure on2026-10-26. Card rig/motion, per-card reveal phase, responsive grid and first-duplicate help accepted within documented tests/rendered limits; reviewer-budget deviation preserved. Release Plan23 source hold, retain its proposal/calibration gate. No push/deployment."
 depends_on: [plan-04, plan-09, plan-19]
 gate: "QP Orch may approve the bounded source/lifecycle proposal and supervise implementation; owner reviews the rendered production result. Race-event wiring awaits accepted Plan 13 semantics."
 summary: >-
@@ -22,6 +23,8 @@ summary: >-
 - Expected artifacts: `reports/development/plan-20-digital-rig-and-motion-integration/proposal.md`, implementation evidence and `progress.md`
 
 ## Goal and why now
+
+**Owner closeout, 2026-10-26:** Owner inspected the corrected speech bubble, approves the result and requests closure. Close with selected Mode C/factor-four card loops, stable per-card reveal/phase behavior, stable responsive grid and first-duplicate attached help. Root review05 directly inspected visible-tail screenshots; prior tests/repair evidence and limits remain. Reviewer-budget deviation stays disclosed. Release source-handoff hold for Plan23, but its adapter/proposal/ownership gate remains; closure is not permission to silently weaken trial/rest effects or race rules.
 
 **Visible-pointer repair delivered, 2026-10-26:** `f0cd77b`/`5af086a` separates scrollable body from overflow-visible bubble shell; external triangle no longer clipped. Root directly viewed all three desktop/narrow screenshot witnesses in `review-05.md`, confirming visible attached tail rather than computed styles alone. Delivered for owner acceptance, no closure or production handoff yet.
 

@@ -27,6 +27,8 @@ Owner closes Plan13 with combined rank-weighted weave +15–20° contact and2s s
 
 ## Required investigation before integration
 
+**Plan20 source hold released, 2026-10-26:** Owner accepts Plan20 and closes it (DECISION-020). Its production-writing lane is released. This removes the concurrent-source hold only; Plan23's calibration/modifier-preservation, lifecycle/storage and explicit file-ownership proposal gates still apply. Current square-root10.45–12 screen meets sampled timing but compresses trial/rest; return this decision clearly before source edits. Do not treat closure as acceptance of that mapping.
+
 **Owner timing refinement, 2026-10-26:** Owner directs proposal/analysis to use at most5% of races finishing strictly later than23s, not a universal upper cutoff. Nominal target remains roughly20s. Report empirical late fraction, sample size/configuration, median/p90/p95/max and uncertainty; use separate calibration/validation seeds, no dropped guard failures or cherry-picked seeds. Unresolved runs remain explicit and must not falsely improve the rate. Report actual simulated crossings and2s-highlight wall playback separately. Preserve meaningful input ordering/trial/stance and no-per-variant balancing; do not silently tune selected mechanics to meet a tail-only proxy. Rest50/25 integration later may change distribution and needs separate checks.
 
 **Chat coordination, 2026-10-26:** Owner connected QP Impl23 (`01a17a86-a37a-7952-9158-d1e0aa6723d0`, local) with bidirectional supervision. Root introduction confirms report-only ownership; Plan20 retains production lane for newly requested stable card sizing and first-duplicate help. Return proposal before any production edit or browser test; source handoff remains mandatory.

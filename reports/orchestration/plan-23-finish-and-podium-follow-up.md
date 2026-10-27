@@ -12,6 +12,8 @@ Any continuation must bound unresolved entrants honestly, preserve seeded reprod
 
 ## Independent podium assignment
 
+**Owner decision received:** Owner explicitly chose actual individual crossing order. DECISION-022 supersedes the pending choice above and historical same-instant follower classification. Root sent the implementer that decision and requested exact continuation/file-scope/validation details before model edits; no cosmetic exhibition fallback is selected. Production integration remains gated.
+
 Root approves the implementer to edit only `drama-preview-01/preview-controller.mjs`, `preview.html`, `preview.css`, `README.md`, `evidence/` and the packet progress report. Start with the current terminal/result hook; connect to all-stopped only after the finish decision. Preserve model files, production, Plan10 and orchestration files.
 
 Use original SVG stacked-paper stepped plinths in 2/1/3 order, large local duck rigs, readable HTML/CSS names/place/Gem labels and a player marker. Display actual resolved Gem recipients, not extra awards. Keep the upper course and finish line visible. The descending panel should settle over about one second, with no bounce requirement or new animation catalog/audio. Reduced motion and skip use the settled display; pause freezes it; restart or earlier event seeking hides it. Keep immediate exit and no duplicate mechanical reward writes.

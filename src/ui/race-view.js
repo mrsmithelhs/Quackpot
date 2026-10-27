@@ -2,7 +2,7 @@ import { BANNER_1_ROSTER, DUCK_COSMETICS, GAME_CONSTANTS } from '../core/game-en
 import { raceDuckYaw, raceHeadingError, sampleTrajectory } from '../core/race-resolver.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 import { createRaceMotionController } from './race-motion-controller.mjs';
-import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, wallClockAtRaceFraction } from './race-playback-controller.mjs';
+import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, raceCourseTimeAtFraction, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
 const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
@@ -77,9 +77,9 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
     : '';
   const timelineItems = [0, 25, 50, 75, 100].map((percent) => ({
     tick: resolution.ticks * percent / 100,
-    time: wallClockAtRaceFraction(percent / 100, timing),
+    time: raceCourseTimeAtFraction(percent / 100, timing),
     kind: 'checkpoint', percent,
-  })).concat(timelineEvents.map((event) => ({ tick: event.tick, time: wallClockAtRaceFraction(event.tick / resolution.ticks, timing), kind: 'event', event })))
+  })).concat(timelineEvents.map((event) => ({ tick: event.tick, time: raceCourseTimeAtFraction(event.tick / resolution.ticks, timing), kind: 'event', event })))
     .sort((a, b) => a.tick - b.tick || (a.kind === 'checkpoint' ? -1 : 1));
 
   container.innerHTML = `
@@ -260,9 +260,9 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
       if (!event) continue;
       const reached = state.cursorTick >= event.tick || state.settled;
       const text = reached ? describeRaceEvent(event, labels) : 'Upcoming race moment';
-      const eventWallSeconds = wallClockAtRaceFraction(event.tick / Math.max(1, resolution.ticks), timing);
-      button.textContent = `${text} · ${eventWallSeconds.toFixed(2)}s`;
-      button.setAttribute('aria-label', reached ? `${text} at ${eventWallSeconds.toFixed(2)} seconds` : `Upcoming race moment at ${eventWallSeconds.toFixed(2)} seconds`);
+      const eventCourseSeconds = raceCourseTimeAtFraction(event.tick / Math.max(1, resolution.ticks), timing);
+      button.textContent = `${text} · ${eventCourseSeconds.toFixed(2)}s`;
+      button.setAttribute('aria-label', reached ? `${text} at ${eventCourseSeconds.toFixed(2)} seconds` : `Upcoming race moment at ${eventCourseSeconds.toFixed(2)} seconds`);
     }
     const commentary = container.querySelector('[data-race-commentary]');
     if (commentary && state.commentary) commentary.textContent = state.commentary;

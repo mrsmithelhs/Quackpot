@@ -42,6 +42,10 @@ export function wallClockAtRaceFraction(fraction, plan) {
   return start * duration + slowSpan + (f - end) * duration;
 }
 
+export function raceCourseTimeAtFraction(fraction, plan) {
+  return clamp(fraction, 0, 1) * plan.duration;
+}
+
 function eventLine(event, labels) {
   const names = (event.participants ?? []).map((id) => labels[id] ?? id);
   const subject = names.length ? names.join(' and ') : 'The field';

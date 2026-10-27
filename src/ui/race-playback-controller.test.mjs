@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { resolveSeededRace } from '../core/race-resolver.mjs';
-import { createRacePlaybackController, individualPresentationTiming } from './race-playback-controller.mjs';
+import { createRacePlaybackController, individualPresentationTiming, raceCourseTimeAtFraction, raceFractionAtWallClock, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
 function fixture() {
   return resolveSeededRace({
@@ -59,6 +59,28 @@ test('Plan 23 presentation reserves the accepted two-second highlight after actu
   assert.equal(timing.simulationWallSeconds, timing.duration + 2);
   assert.equal(timing.revealSeconds, 1);
   assert.ok(timing.duration > 0);
+});
+
+test('timeline event and checkpoint labels use the same course-time domain as the seek clock', () => {
+  const resolution = fixture();
+  const timing = individualPresentationTiming(resolution);
+  const midpoint = (timing.highlightStartFraction + timing.highlightEndFraction) / 2;
+  const event = resolution.eventRecords.reduce((closest, candidate) =>
+    Math.abs(candidate.tick / resolution.ticks - midpoint) < Math.abs(closest.tick / resolution.ticks - midpoint)
+      ? candidate
+      : closest);
+  const cases = [
+    { kind: 'checkpoint', fraction: 0.25 },
+    { kind: 'event', fraction: event.tick / resolution.ticks },
+    { kind: 'checkpoint', fraction: 0.75 },
+  ];
+
+  for (const { kind, fraction } of cases) {
+    const wallSeconds = wallClockAtRaceFraction(fraction, timing);
+    const snapshotSeconds = raceFractionAtWallClock(wallSeconds, timing) * timing.duration;
+    assert.ok(Math.abs(raceCourseTimeAtFraction(fraction, timing) - snapshotSeconds) < 1e-9,
+      `${kind} label at fraction ${fraction} matches the seek snapshot before/during/after the highlight`);
+  }
 });
 
 test('Plan 23 playback pauses, seeks by event identity, and releases listeners and frames', () => {

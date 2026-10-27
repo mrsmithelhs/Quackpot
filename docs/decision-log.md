@@ -235,3 +235,13 @@ The owner selects a fictional-phone quarter-turn into landscape followed by stag
 **Authority and remaining work:** Production adoption is settled. QP Orch supervises the refreshed exact source/test ownership and resolve-once, PRNG, versioned-save, idempotent reward/trial, displayed-evidence/Receipt and focused-view boundaries before production writes. Implementer must port into production modules without runtime report imports and demonstrate representative actual roster/input effects, legacy-save honesty, corruption/exit/reload behavior, scoped motion cleanup, accessible playback and production browser evidence. Owner then reviews the integrated race; Plan23 remains in-progress until delivered and accepted. Existing report data does not prove production conformance or whole-run balance.
 
 **Preserved boundaries:** Winner-crossing timing criterion remains; last crossing/full playback reported separately. Plan22 owns rest lifecycle, and no6Down pull exchange, new audio/art catalog, calendar/story work, push or deployment is authorized here. Shared contract documents are synchronized. Existing settled rules are not reopened by technical proposal review.
+
+### DECISION-024 — Production race clarity, player podium emphasis and timeline
+
+**Date:** 2026-10-27
+
+**Owner direction:** In-progress production integration has not preserved the accepted preview. Restore correct runner orientation/Y-axis turns with upright independent labels, eased camera, highlight participants, playback motion and large left2/centre1/right3 podium composition. Remove the quoted developer-facing status/subtitle/playback guarantees and unselected POND COURSE label. Keep Opening Pond Trial left and Tutorial event right in its header. Present event stills and reduced-motion checkpoints together as a vertical timeline.
+
+**New selected presentation:** For a player podium finish, mark its place '(you!)', provide a visible non-colour-only player accent and a large actual-result/Gem banner above the podium. No false player award for a rival podium. Owner removes the separate podium-motion pause button; the shared Pause/Resume must also control post-finish ambient loops while retaining the completed race state. This supersedes the earlier separate-button preference, not free motion pause or reduced/static stills.
+
+**Limits:** Existing course geometry/model/tuning, actual results, reward amounts, save/log/Receipt honesty and immediate exit remain. Tutorial/finale are race events/fields; no additional course catalogue is selected. Plan23 stays in-progress; root technical/rendered review and final integrated owner acceptance are still required. No push/deployment.

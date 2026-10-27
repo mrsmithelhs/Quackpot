@@ -1,0 +1,9 @@
+# Production integration in-progress review
+
+2026-10-27. Owner inspected the development game and supplied screenshot/feedback. Root checked QP Impl23: idle with uncommitted production changes and no final production progress/evidence handoff; the stop was not a completed delivery or root acceptance. Root resumed the authorized writer with a complete repair directive. Preserve all current work; no reset/cleanup of uncommitted changes.
+
+Root source inspection confirms whole-runner CSS `rotate(var(--duck-yaw))` applies a Z rotation to labels as descendants. The accepted heading helper's180° face adjustment belongs on a Y-axis duck-only layer, not this parent. Production scene has no shared eased-camera implementation despite the adopted preview, and podium markup maps sorted finish entries1/2/3 with small capped duck dimensions rather than accepted2/1/3 composition. Root sent these and all owner-reported missing motion/highlight symptoms for actual browser diagnosis, not assertion-only fixes.
+
+DECISION-024 and the packet record the owner's additional player emphasis, shared post-finish motion pause, vertical timeline/checkpoint layout, header alignment and removal of developer copy. Root requested runtime motion/observer/activation checks, always-upright labels, real player payout banner and no model tuning. Current `src/ui/receipt-view.js` edits were outside the exact original write list; writer must explain the existing hunk before further edits there. New report parity runner/results are validation artifacts, never runtime dependencies.
+
+Read-only Luna-high renderer audit runs separately; root will verify findings. No owner-ready claim until production parity/lifecycle/save/Receipt tests, scoped commits/final report and coordinated production browser evidence are complete. Main-artifact single Sol-low reviewer remains allowed only if not already used; no added repair reviewer. No packet status/push/deployment.

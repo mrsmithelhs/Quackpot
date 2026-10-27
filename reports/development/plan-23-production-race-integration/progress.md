@@ -188,3 +188,11 @@ Validation for this presentation-only continuation:
 - Frozen 1,440-case audit was not rerun. No production source, model mechanics, numerical values, save/Receipt/reward path, packet status, or push changed.
 
 **Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch’s direction not to add another reviewer to this report-preview continuation. No packet status was set and no push was performed. The preview/evidence change is committed separately; this progress entry is the final Plan 23 write.
+
+## Production ownership and lifecycle proposal refresh — 2026-10-27
+
+QP Orch relayed the owner’s DECISION-023 adoption of the tested `R2combined-risk-only`/affine candidate and latest presentation, authorizing Plan23 implementation under orchestration. I refreshed `proposal.md` against the current packet, source map, decisions, Plan13/20/22 boundaries, current engine/storage/log/Receipt/race view/main, accepted rig/controller, and preview manifest/validation artifacts. `node scripts/dev/plan-status.js check plan-23` reports `RUNNABLE`.
+
+The refresh names a bounded proposed source/test write set and the resolve-once, keyed-seed, schema-v2 migration, legacy static-result, idempotent trial/reward, Receipt evidence, focused playback, motion-cleanup, and browser-validation boundaries. Two current report-preview cases measured 621,611–629,251 bytes full JSON and 90,703–92,614 bytes with a proposed integer trajectory projection; theoretical caps still require round-trip and maximum-cap measurement. The refreshed proposal surfaces one unresolved guard policy for QP Orch: whether a committed unresolved race consumes an already-purchased Plan17 trial and how existing progression handles it. Current `runRace()` does not implement the accepted Plan17 trial or the new resolver; `race_choice_offered` is presently appended after player commit, so production must record actual pre-choice display separately.
+
+No production source, tests, build, or browser work was performed. `git diff --check` initially caught trailing spaces in the new proposal header; those were removed. The proposal and this handoff are returned to QP Orch for source/lifecycle review before any production write. No packet status was set and no push was performed.

@@ -1,0 +1,11 @@
+# Plan10 proposal approval and oversight
+
+Date: 2026-10-27. Owner explicitly authorizes two-way communication with **QP Impl 10**, local thread `01a17d20-ee04-7171-8ebe-13df0f7333a5`, and asks QP Orch to supervise through delivery for owner review. Root thread is `01a16bb0-8611-7243-8c10-562b96083d60`.
+
+Root verified packet RUNNABLE, read the implementer's initial proposal, inspected selected D2 image and the physical/digital boundary. Approve the bounded prototype: coherent front-three-quarter/side/rear-three-quarter/high/low static SVG views, three apartment compositions for one beat, neutral/light/dark lighting and wide/medium/close framing. Keep the same molded rubber-toy silhouette/material/feature placement; authoring groups do not authorize visible paper articulation or autonomous motion. Any failed2D view remains a reported limitation, not a3D-pipeline grant.
+
+The implementer solely owns `reports/development/plan-10-metagame-duck-cinematography/`, including its durable proposal, authored SVG/HTML/CSS, helpers, evidence and progress. Production, canonical docs, packet status, other plans and orchestrator notes are excluded. Preserve foreign changes; no cleanup/restore/stash or new dependency/image-generation work. Review captions are acceptable; new story mechanics/canonical dialogue are not part of this assignment.
+
+Report actual rendered coherence, close crops, viewport sizes and browser-zoom evidence. CSS scaling/viewport overrides cannot be relabeled as100/200/400% browser zoom; unsupported settings remain untested. Root will review the actual artifacts, not infer quality from test counts. One Sol-low main-artifact review remains permitted under the owner budget, none for the proposal or small repairs; root independent reviews remain Luna-high.
+
+Plan23 camera repair is verified and its writer is holding for owner feedback. Agent browser slot is currently free; Plan10 must request a slot before browser-driving work. Use an isolated report route on the existing approved localhost server and preserve owner tabs/saves. Root coordinates turns and grants bounded repairs without reopening selected D2/physical immobility. Final owner visual acceptance and packet closure remain separate from prototype approval.

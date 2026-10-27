@@ -33,36 +33,22 @@
     .table::before { left: 10%; } .table::after { right: 10%; }
     .duck { position: absolute; width: 29%; height: 72%; left: 31%; bottom: 22%; display: grid; place-items: center; transform-origin: 50% 75%; transition: left .2s, bottom .2s, width .2s, height .2s; }
     .duck svg { width: 100%; height: 100%; overflow: visible; }
-    .lighting { position: absolute; inset: 0; z-index: 3; pointer-events: none; transition: background .2s; }
+    .lighting { position: absolute; inset: 0; z-index: 3; pointer-events: none; transition: background .2s; --px: 44%; --py: 48%; }
     .stage[data-light="neutral"] .lighting { background: rgb(255 247 227 / 5%); }
     .stage[data-light="light"] .lighting { background: linear-gradient(115deg, rgb(255 245 205 / 24%), transparent 58%); }
-    .stage[data-light="dark"] .lighting { background: radial-gradient(ellipse 58% 58% at 44% 48%, rgb(255 190 98 / 48%) 0%, rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%) 100%); }
+    .stage[data-light="dark"] .lighting { background: radial-gradient(ellipse 58% 58% at var(--px) var(--py), rgb(255 190 98 / 48%) 0%, rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%) 100%); }
+    .stage[data-shot="desk-side"] .lighting { --px: 33%; --py: 62%; }
+    .stage[data-shot="desk-top"] .lighting { --px: 38%; --py: 52%; }
     .stage[data-shot="wide"] .duck { width: 21%; height: 56%; left: 36%; bottom: 20%; }
     .stage[data-shot="medium"] .duck { width: 34%; height: 78%; left: 29%; bottom: 18%; }
-    .stage[data-shot="close"] .window, .stage[data-shot="close"] .sofa, .stage[data-shot="close"] .table { display: none; }
-    .desk { display: none; position: absolute; inset: 0; }
-    .stage[data-shot="close"] .desk { display: block; }
-    .desk-top { position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: linear-gradient(170deg,#8e6748,#5c3e2d); box-shadow: 0 -8px 20px rgb(31 20 15 / 35%); }
-    .desk-edge { position: absolute; left: 0; right: 0; bottom: 0; height: 8%; background: #3e2a21; }
-    .phone { position: absolute; z-index: 2; left: 66%; bottom: 46%; width: 15%; height: 38%; border: 4px solid #282627; border-radius: 12px; background: #e8e0d2; box-shadow: -8px 8px 10px rgb(23 14 10 / 38%); transform: rotate(4deg); }
-    .phone::before { content: ""; position: absolute; inset: 7% 8%; border-radius: 5px; background: linear-gradient(#f4ead6,#dfd2b9); }
-    .phone::after { content: ""; position: absolute; width: 28%; height: 4px; left: 36%; top: 3%; border-radius: 4px; background: #4e4b48; }
-    .phone-stand { position: absolute; z-index: 1; left: 69%; bottom: 43%; width: 10%; height: 13%; background: #413b36; clip-path: polygon(50% 0,100% 100%,0 100%); }
-    .pen { position: absolute; z-index: 2; left: 48%; bottom: 47%; width: 19%; height: 2%; border-radius: 8px; background: #292d35; transform: rotate(-18deg); }
-    .pen::after { content: ""; position: absolute; right: -7%; top: 0; border-left: 8px solid #d5c8ae; border-top: 3px solid transparent; border-bottom: 3px solid transparent; }
-    .papers { position: absolute; z-index: 1; left: 45%; bottom: 46%; width: 19%; height: 18%; background: #e9e0cf; transform: rotate(-8deg); box-shadow: -3px 3px 0 #c6baa4; }
-    .keyring { position: absolute; z-index: 2; left: 84%; bottom: 46%; width: 5%; height: 9%; border: 3px solid #bdb8ad; border-radius: 50%; }
-    .keyring::after { content: ""; position: absolute; width: 180%; height: 3px; left: 55%; top: 70%; background: #aaa398; transform: rotate(35deg); }
-    .lip-balm { position: absolute; z-index: 2; left: 90%; bottom: 46%; width: 4%; height: 15%; border-radius: 7px; background: linear-gradient(90deg,#ddd4c6,#f5eee0,#bdb3a4); transform: rotate(12deg); }
-    .lip-balm::before { content: ""; position: absolute; top: -16%; width: 100%; height: 22%; border-radius: 4px 4px 0 0; background: #58504a; }
-    .desk-lamp { position: absolute; z-index: 4; right: 3%; top: 8%; width: 13%; height: 44%; }
-    .desk-lamp::before { content: ""; position: absolute; right: 0; top: 3%; width: 78%; height: 30%; background: #514038; clip-path: polygon(20% 0,100% 15%,82% 100%,0 80%); }
-    .stage[data-light="dark"] .desk-lamp { filter: drop-shadow(-35px 38px 18px rgb(255 181 92 / 55%)); }
-    .stage[data-light="dark"] .desk-lamp::before { background: linear-gradient(155deg,#764a2b,#d0934b 68%,#ffc875); box-shadow: 0 16px 24px rgb(255 180 88 / 35%); }
-    .desk-lamp::after { content: ""; position: absolute; right: 18%; top: 25%; width: 5px; height: 76%; background: #514038; transform: rotate(-12deg); transform-origin: top; }
-    .lamp-base { position: absolute; z-index: 2; right: 0; bottom: 46%; width: 11%; height: 2%; border-radius: 50%; background: #514038; }
-    .stage[data-shot="close"] .duck { z-index: 2; width: 30%; height: 52%; left: 14%; bottom: 40.5%; filter: drop-shadow(-10px 9px 7px rgb(25 15 10 / 45%)); }
-    .stage[data-shot="close"] .caption { display: none; }
+    .stage[data-shot^="desk"] .room, .stage[data-shot^="desk"] .duck, .stage[data-shot^="desk"] .caption { display: none; }
+    .desk-layer { position: absolute; inset: 0; z-index: 1; display: none; }
+    .stage[data-shot^="desk"] .desk-layer { display: block; }
+    .desk-scene { width: 100%; height: 100%; display: block; overflow: visible; }
+    .desk-scene .cast [fill]:not([fill="none"]) { fill: #1a0f0a; }
+    .desk-scene .cast [stroke]:not([stroke="none"]) { stroke: #1a0f0a; }
+    .desk-scene .lamp-on { opacity: 0; transition: opacity .2s; }
+    .stage[data-light="dark"] .desk-scene .lamp-on { opacity: 1; }
     .caption { position: absolute; z-index: 4; right: 1rem; bottom: .8rem; max-width: 38%; padding: .5rem .65rem; background: rgb(255 250 240 / 88%); border-radius: .35rem; }
     .caption small { display: block; color: #51483e; }
     .owner-notes { margin: 1rem 0 1.5rem; }
@@ -80,26 +66,10 @@
     .cmp-row figure { margin: 0; text-align: center; }
     .cmp-row img { display: block; width: 100%; height: auto; max-height: 230px; object-fit: contain; }
     .cmp-row figcaption { font-size: .85rem; color: #51483e; }
-    .duck-fill { fill: #f4bc32; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
-    .duck-belly-shadow { fill: #dfa52f; opacity: .68; }
-    .low-projection .duck-belly-shadow { fill: #9a6d20; opacity: .94; }
-    .duck-outline { fill: none; stroke: #4b241b; stroke-width: 8; stroke-linejoin: round; }
-    .duck-neck-line { fill: none; stroke: #4b241b; stroke-width: 5; stroke-linecap: round; }
-    .duck-highlight { fill: none; stroke: #ffe27c; stroke-width: 9; stroke-linecap: round; }
-    .wing { fill: #e6a924; stroke: #4b241b; stroke-width: 6; stroke-linejoin: round; }
-    .wing-groove { fill: none; stroke: #9c681e; stroke-width: 3; stroke-linecap: round; }
-    .far-wing { fill: #dba02a; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
-    .beak { fill: #f36e2c; stroke: #4b241b; stroke-width: 7; stroke-linejoin: round; }
-    .beak-lower { fill: #e85e28; stroke: #4b241b; stroke-width: 5; stroke-linejoin: round; }
-    .beak-seam { fill: none; stroke: #9b401f; stroke-width: 4; stroke-linecap: round; }
-    .tail-seam { fill: none; stroke: #4b241b; stroke-width: 4; stroke-linecap: round; }
-    .eye { fill: #45251f; stroke: #4b241b; stroke-width: 5; }
-    .eye-glint { fill: #fff4d8; }
     @media (max-width: 650px) {
       .stage { min-height: 310px; }
       .caption { max-width: 58%; font-size: .85rem; }
-      .stage:not([data-shot="close"]) .caption { top: .5rem; bottom: auto; right: .5rem; }
-      .stage[data-shot="close"] .duck { width: 42%; height: 72%; left: 8%; bottom: 40.5%; }
+      .stage:not([data-shot^="desk"]) .caption { top: .5rem; bottom: auto; right: .5rem; }
       .window { border-width: 5px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
@@ -124,7 +94,8 @@
       <fieldset><legend>Composition</legend>
         <label><input type="radio" name="shot" value="wide" checked> Wide</label>
         <label><input type="radio" name="shot" value="medium"> Medium</label>
-        <label><input type="radio" name="shot" value="close"> Desk close-up</label>
+        <label><input type="radio" name="shot" value="desk-side"> Desk — side view</label>
+        <label><input type="radio" name="shot" value="desk-top"> Desk — top-down</label>
       </fieldset>
       <fieldset><legend>Room light</legend>
         <label><input type="radio" name="light" value="neutral" checked> Neutral</label>
@@ -133,12 +104,14 @@
       </fieldset>
     </div>
     <div class="stage" id="stage" data-shot="wide" data-light="neutral">
-      <div class="room" aria-hidden="true"><div class="window"></div><div class="sofa"></div><div class="table"></div><div class="desk"><div class="desk-top"></div><div class="desk-edge"></div><div class="papers"></div><div class="phone-stand"></div><div class="phone"></div><div class="pen"></div><div class="keyring"></div><div class="lip-balm"></div><div class="lamp-base"></div><div class="desk-lamp"></div></div></div>
+      <div class="room" aria-hidden="true"><div class="window"></div><div class="sofa"></div><div class="table"></div></div>
+      <div class="desk-layer" id="desk-layer" aria-hidden="true"></div>
       <div class="duck" id="duck" aria-label="Static physical rubber duck view"></div>
       <div class="lighting" aria-hidden="true"></div>
       <div class="caption"><strong>Player:</strong> [review caption]<small>Placeholder text; no new story mechanic.</small></div>
     </div>
     <p id="selection" aria-live="polite">Front three-quarter, wide, neutral light.</p>
+    <p class="notice"><strong>Desk cameras.</strong> Each desk composition uses ONE camera for every object. <em>Side view:</em> eye-level, horizontal camera across the desk (home-office set: lamp, duck, mug, phone on a stand, books and a plant); upright objects show their fronts, the tabletop is a thin band with a front edge. The duck uses its own front/side/rear view (the elevated and low duck views need other cameras). <em>Top-down:</em> camera straight above (student/craft set: duck, phone lying flat, notepad, pencil, keys, lip balm, coins, lamp seen from above); every object is a footprint and shadows fall away from the lamp at the upper left. The overhead duck is an extra drawing made for this camera, not one of the five views. Phone proportions follow the game's desk phone (9:17, bezel, 9:41 status row, QUACKPOT invitation text); object sizes use one scale of 2.2 units per millimetre, with real-world sizes assumed (the repo specifies no physical sizes).</p>
   </section>
   <section class="owner-notes" aria-labelledby="notes-heading">
     <h2 id="notes-heading">Copyable owner notes</h2>
@@ -161,25 +134,185 @@
   import { views } from './duck-views.js';
   const stage = document.querySelector('#stage');
   const duck = document.querySelector('#duck');
+  const deskLayer = document.querySelector('#desk-layer');
   const selection = document.querySelector('#selection');
   let selectedView = 'front', selectedShot = 'wide', selectedLight = 'neutral';
   const viewIds = { front:'P10-V01', side:'P10-V02', rear:'P10-V03', high:'P10-V04', low:'P10-V05' };
-  const shotIds = { wide:'P10-C01', medium:'P10-C02', close:'P10-C03' };
+  const shotIds = { wide:'P10-C01', medium:'P10-C02', 'desk-side':'P10-C03', 'desk-top':'P10-C04' };
+  const shotLabels = { wide:'wide', medium:'medium', 'desk-side':'desk side view (horizontal camera)', 'desk-top':'desk top-down (overhead camera)' };
   const lightLabels = { neutral:'neutral', light:'window', dark:'warm desk lamp' };
   let svgInstance = 0;
-  function renderViewSvg(viewId) {
-    // Each view carries its own clipPaths/inline styling; only make ids unique per rendered instance.
+  function uniq(svg) {
+    // Every drawing carries its own clipPaths/inline styling; only make ids unique per rendered instance.
     const suffix = `-i${++svgInstance}`;
-    return views[viewId].svg
+    return svg
       .replace(/\bid="([^"]+)"/g, (_, id) => `id="${id}${suffix}"`)
       .replace(/url\(#([^)]+)\)/g, (_, id) => `url(#${id}${suffix})`);
   }
+  const renderViewSvg = viewId => uniq(views[viewId].svg);
+  const inner = svg => svg.match(/^<svg[^>]*>([\s\S]*)<\/svg>$/)[1];
+
+  // ---- desk scenes ---------------------------------------------------------------------------
+  // One scale for every object in both desk scenes: 1 mm = PX_MM scene units. Sizes in mm are
+  // assumed real-world sizes (the repo defines none); the phone ratio is the game's desk phone.
+  const PX_MM = 2.2;
+  const PHONE_MM = { w: 72, h: 136 };                    // 9:17 outer box (.desk-phone, src/ui/desk-phone.css)
+  const DUCK_SCALE = 0.62;                               // duck view units -> scene units (~64 mm tall duck)
+  const DUCK_CX = { front: 180, side: 176, rear: 180 };  // horizontal centre of each view's content
+
+  const sceneDefs = `<defs>
+    <linearGradient id="g-bezel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#343944"/><stop offset=".54" stop-color="#11151d"/><stop offset="1" stop-color="#292d36"/></linearGradient>
+    <radialGradient id="g-screen" cx=".5" cy=".35" r=".75"><stop offset="0" stop-color="#263b53"/><stop offset=".62" stop-color="#111b2c"/><stop offset="1" stop-color="#0b101a"/></radialGradient>
+    <radialGradient id="g-soft"><stop offset="0" stop-color="#1a0f0a" stop-opacity=".55"/><stop offset="1" stop-color="#1a0f0a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="g-wood-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8e6748"/><stop offset="1" stop-color="#6e4b35"/></linearGradient>
+    <linearGradient id="g-wood-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a7352"/><stop offset="1" stop-color="#6a4833"/></linearGradient>
+    <linearGradient id="g-cone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd48a" stop-opacity=".8"/><stop offset="1" stop-color="#ffb35a" stop-opacity=".08"/></linearGradient>
+    <radialGradient id="g-glow"><stop offset="0" stop-color="#ffcf80" stop-opacity=".9"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>
+    <filter id="f-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>
+  </defs>`;
+
+  // The game's desk phone drawn face-on at (0,0), width w, height h (9:17), same regions as desk-phone.css.
+  function phoneFace(w, h) {
+    const pad = w * .055, r = w * .13, f = w / 158;
+    const sx = pad + 9 * f, line = (y, size, weight, fill, text, extra = '') => `<text x="${sx}" y="${y}" font-family="system-ui,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}" ${extra}>${text}</text>`;
+    return `<rect width="${w}" height="${h}" rx="${r}" fill="url(#g-bezel)" stroke="#707784" stroke-width="2"/>
+      <rect x="${pad}" y="${pad}" width="${w - 2 * pad}" height="${h - 2 * pad}" rx="${r * .73}" fill="url(#g-screen)"/>
+      ${line(pad + 18 * f, 8 * f, 700, '#dbe5f0', '9:41')}
+      <g fill="#dbe5f0"><circle cx="${w - pad - 38 * f}" cy="${pad + 14.5 * f}" r="2.4"/><circle cx="${w - pad - 28 * f}" cy="${pad + 14.5 * f}" r="2.4"/><circle cx="${w - pad - 18 * f}" cy="${pad + 14.5 * f}" r="2.4"/></g>
+      ${line(h * .43, 8.4 * f, 900, '#fbbf24', 'QUACKPOT', `letter-spacing="${1.3 * f}"`)}
+      ${line(h * .43 + 21 * f, 17 * f, 800, '#f8fafc', 'Welcome')}
+      ${line(h * .43 + 40 * f, 17 * f, 800, '#f8fafc', 'Festival')}
+      ${line(h * .43 + 62 * f, 11.2 * f, 700, '#f8fafc', '10 FREE pulls')}
+      ${line(h * .43 + 77 * f, 11.2 * f, 700, '#f8fafc', 'waiting!')}
+      ${line(h * .43 + 94 * f, 7.6 * f, 400, '#cbd5e1', 'Limited-time invitation')}
+      <rect x="${(w - 35 * f) / 2}" y="${h - pad - 11 * f}" width="${35 * f}" height="${3.2 * f}" rx="2" fill="#fff" fill-opacity=".8"/>`;
+  }
+
+  function sideDeskScene(viewId) {
+    const dx = 270 - DUCK_CX[viewId] * DUCK_SCALE, dy = 414 - 250 * DUCK_SCALE;
+    const pw = PHONE_MM.w * PX_MM, ph = PHONE_MM.h * PX_MM, pcx = 690;
+    const duckInner = inner(renderViewSvg(viewId));
+    return `<svg class="desk-scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${sceneDefs}
+      <rect x="-900" y="-600" width="2760" height="1100" fill="#d5d0c6"/>
+      <rect x="-900" y="500" width="2760" height="300" fill="#a59582"/>
+      <g><rect x="380" y="36" width="270" height="190" fill="#eee5d5"/><rect x="389" y="45" width="252" height="172" fill="#b9d2d7"/><rect x="512" y="45" width="6" height="172" fill="#eee5d5"/><rect x="389" y="140" width="252" height="6" fill="#eee5d5"/></g>
+      <rect x="-900" y="470" width="2760" height="60" fill="#1a0f0a" opacity=".16"/>
+      <rect x="-900" y="384" width="2760" height="5" fill="#1a0f0a" opacity=".16"/>
+      <path d="M-900 388H1860V432H-900Z" fill="url(#g-wood-side)"/>
+      <rect x="-900" y="432" width="2760" height="38" fill="#5c3e2d"/><rect x="-900" y="432" width="2760" height="2" fill="#b08a66"/>
+      <rect x="44" y="470" width="36" height="120" fill="#4a3326"/><rect x="882" y="470" width="36" height="120" fill="#4a3326"/>
+
+      <g id="lamp-side">
+        <polygon class="lamp-on" points="283,91 246,161 296,410 560,410" fill="url(#g-cone)"/>
+        <ellipse cx="84" cy="398" rx="50" ry="9" fill="#514038"/>
+        <path d="M84 392L118 196L238 112" fill="none" stroke="#514038" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="118" cy="196" r="10" fill="#6b574a"/>
+        <g transform="translate(238 112) rotate(28)"><polygon points="-30,-26 30,-40 30,40 -30,26" fill="#514038" stroke="#3a2c26" stroke-width="3" stroke-linejoin="round"/><line x1="30" y1="-40" x2="30" y2="40" stroke="#d9d2c4" stroke-width="5"/><line class="lamp-on" x1="30" y1="-40" x2="30" y2="40" stroke="#ffd48a" stroke-width="7"/></g>
+        <circle class="lamp-on" cx="266" cy="128" r="70" fill="url(#g-glow)"/>
+      </g>
+
+      <g class="cast" opacity=".32" filter="url(#f-blur)"><ellipse cx="300" cy="418" rx="105" ry="10"/><ellipse cx="506" cy="428" rx="88" ry="9"/><ellipse cx="716" cy="412" rx="80" ry="8"/><ellipse cx="880" cy="410" rx="96" ry="9"/></g>
+
+      <g id="phone-side"><rect x="${pcx - 70}" y="398" width="140" height="10" rx="5" fill="#413b36"/>
+        <g transform="translate(${pcx - pw / 2} ${398 - ph})">${phoneFace(pw, ph)}</g>
+        <rect x="${pcx - 50}" y="380" width="100" height="22" rx="6" fill="#413b36"/></g>
+
+      <g id="books-plant-side">
+        <rect x="785" y="344" width="160" height="62" fill="#4f6b7a"/><rect x="785" y="354" width="160" height="5" fill="#e8dcc0"/><rect x="785" y="392" width="160" height="3" fill="#e8dcc0" opacity=".7"/>
+        <rect x="797" y="282" width="140" height="62" fill="#8a5a44"/><rect x="797" y="292" width="140" height="5" fill="#e8dcc0"/><rect x="797" y="330" width="140" height="3" fill="#e8dcc0" opacity=".7"/>
+        <rect x="925" y="282" width="12" height="124" fill="#1a0f0a" opacity=".16"/>
+        <g fill="#5f9a62" stroke="#3f6e44" stroke-width="2"><ellipse cx="885" cy="208" rx="11" ry="30" transform="rotate(-42 885 236)"/><ellipse cx="885" cy="208" rx="11" ry="30" transform="rotate(42 885 236)"/><ellipse cx="885" cy="206" rx="11" ry="31" transform="rotate(-18 885 236)"/><ellipse cx="885" cy="206" rx="11" ry="31" transform="rotate(18 885 236)"/><ellipse cx="885" cy="204" rx="12" ry="32"/></g>
+        <path d="M840 236H930L922 282H848Z" fill="#b5654a" stroke="#7d4130" stroke-width="3" stroke-linejoin="round"/><rect x="836" y="230" width="98" height="10" rx="4" fill="#c5745a" stroke="#7d4130" stroke-width="3"/>
+      </g>
+
+      <g id="mug-side"><path d="M395 254H545V412Q545 424 533 424H407Q395 424 395 412Z" fill="#b86b4b" stroke="#7f4630" stroke-width="3"/>
+        <rect x="520" y="262" width="25" height="160" fill="#1a0f0a" opacity=".14"/><rect x="406" y="264" width="13" height="140" rx="6" fill="#fff" opacity=".2"/>
+        <path d="M545 284C592 280 594 374 545 378" fill="none" stroke="#b86b4b" stroke-width="14"/><path d="M545 284C592 280 594 374 545 378" fill="none" stroke="#7f4630" stroke-width="2" opacity=".6" transform="translate(6 0)"/>
+        <ellipse cx="470" cy="254" rx="75" ry="7" fill="#5a3322" stroke="#7f4630" stroke-width="3"/></g>
+
+      <svg x="${dx}" y="${dy}" width="${360 * DUCK_SCALE}" height="${270 * DUCK_SCALE}" viewBox="0 0 360 270" overflow="visible" role="img" aria-label="${views[viewId].label} rubber duck on the desk">${duckInner}</svg>
+    </svg>`;
+  }
+
+  // Overhead duck (additional drawing for the top-down camera): head circle, bill ahead, body oval
+  // behind, wing lobes at the flanks, tail bump; light from the upper left like every other view.
+  function topDuckInner() {
+    const form = (id, shape, lit, dark, shift, hl, sw) => `<clipPath id="${id}">${shape('')}</clipPath><g>${shape(`fill="${lit}"`)}<g clip-path="url(#${id})">${shape(`fill="${dark}"`)}${shape(`fill="${lit}" transform="translate(${shift[0]} ${shift[1]})"`)}${hl ? shape(`fill="none" stroke="#ffe27c" stroke-width="${hl}" stroke-opacity=".8" transform="translate(6 7)"`) : ''}</g>${shape(`fill="none" stroke="#4b241b" stroke-width="${sw}" stroke-linejoin="round"`)}</g>`;
+    const ell = (cx, cy, rx, ry) => a => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" ${a}/>`;
+    const groove = y => `<path d="M${y < 135 ? '214 72Q232 74 246 80' : '214 198Q232 196 246 190'}" fill="none" stroke="#9c681e" stroke-width="2.6" stroke-linecap="round"/>`;
+    const bill = a => `<path d="M121 112Q98 105 80 111Q69 135 80 159Q98 165 121 158Z" ${a}/>`;
+    return `${form('td-body', ell(180, 135, 102, 71), '#f4bc32', '#dfa52f', [-9, -11], 3.5, 5)}
+      ${form('td-tail', ell(258, 135, 26, 17), '#eeb52c', '#d29a26', [-4, -5], 0, 4.5)}
+      ${form('td-wing-a', ell(197, 77, 52, 15), '#ebb02a', '#cf9421', [-5, -6], 0, 4.5)}${groove(77)}
+      ${form('td-wing-b', ell(197, 193, 52, 15), '#dba02a', '#c08720', [-4, -5], 0, 4.5)}${groove(193)}
+      ${form('td-bill', bill, '#f36e2c', '#d9541f', [-3, -4], 0, 4.5)}
+      <path d="M84 135Q100 137 121 135" fill="none" stroke="#9b401f" stroke-width="3" stroke-linecap="round"/><circle cx="105" cy="123" r="2.3" fill="#9b401f"/><circle cx="105" cy="147" r="2.3" fill="#9b401f"/>
+      ${form('td-head', a => `<circle cx="163" cy="135" r="68" ${a}/>`, '#f6c238', '#e2a82f', [-8, -9], 5, 5)}
+      <g><ellipse cx="124" cy="102" rx="8" ry="10" fill="#45251f" stroke="#2c1510" stroke-width="2"/><circle cx="121" cy="98" r="2.4" fill="#fff4d8"/>
+      <ellipse cx="124" cy="168" rx="8" ry="10" fill="#45251f" stroke="#2c1510" stroke-width="2"/><circle cx="121" cy="164" r="2.4" fill="#fff4d8"/></g>`;
+  }
+
+  function topDeskScene() {
+    const pw = PHONE_MM.w * PX_MM, ph = PHONE_MM.h * PX_MM;
+    const S = 0.8, duckT = `translate(470 330) rotate(-10) scale(${S}) translate(-178.5 -135)`;
+    const obj = (cx, cy, rot, shape) => `<g class="cast" opacity=".3" filter="url(#f-blur)" transform="translate(${cx + 13} ${cy + 15}) rotate(${rot})">${shape}</g><g transform="translate(${cx} ${cy}) rotate(${rot})">${shape}</g>`;
+    const key = (rot, len) => `<g transform="rotate(${rot})"><g transform="translate(24 0)"><circle cx="13" cy="0" r="13" fill="#d8c27a" stroke="#8a7634" stroke-width="2.5"/><circle cx="13" cy="0" r="4.5" fill="#6a4833"/><path d="M26 -5H${len}V-1H${len - 9}V3H${len - 18}V-1H${len - 28}V6H26Z" fill="#d8c27a" stroke="#8a7634" stroke-width="2.5" stroke-linejoin="round"/></g></g>`;
+    const pencil = `<rect x="-190" y="-7.5" width="330" height="15" fill="#e0a526" stroke="#8a6414" stroke-width="2"/><rect x="-190" y="-2" width="330" height="4" fill="#f5c64a"/><polygon points="-190,-7.5 -228,0 -190,7.5" fill="#e8c79a" stroke="#8a6414" stroke-width="2" stroke-linejoin="round"/><polygon points="-228,0 -214,-3.7 -214,3.7" fill="#3a3a3a"/><rect x="140" y="-7.5" width="26" height="15" fill="#c9ccd1" stroke="#7d8189" stroke-width="2"/><rect x="166" y="-7.5" width="20" height="15" rx="5" fill="#e69aa0" stroke="#a15a60" stroke-width="2"/>`;
+    const lines = Array.from({ length: 13 }, (_, i) => `<line x1="-104" y1="${-120 + i * 18}" x2="104" y2="${-120 + i * 18}" stroke="#8fb1c9" stroke-width="1.4"/>`).join('');
+    const notepad = `<rect x="-115" y="-163" width="231" height="326" rx="6" fill="#efe6d2" stroke="#b9ad92" stroke-width="2.5"/>${lines}<rect x="-115" y="-163" width="231" height="26" rx="6" fill="#d9ccb0"/>${Array.from({ length: 9 }, (_, i) => `<circle cx="${-90 + i * 22.5}" cy="-150" r="4.5" fill="#6a5b46"/>`).join('')}`;
+    const balm = `<rect x="-66" y="-16.5" width="132" height="33" rx="11" fill="#ddd4c6" stroke="#9c9183" stroke-width="2.5"/><rect x="-66" y="-16.5" width="50" height="33" rx="11" fill="#58504a"/><rect x="-18" y="-16.5" width="4" height="33" fill="#8f877d"/>`;
+    const coin = (c, s) => `<circle r="21" fill="${c}" stroke="${s}" stroke-width="2.5"/><circle r="14" fill="none" stroke="${s}" stroke-width="1.4" opacity=".6"/>`;
+    const grain = Array.from({ length: 16 }, (_, i) => `<path d="M-900 ${40 + i * 33}C-300 ${30 + i * 33} 300 ${52 + i * 33} 1860 ${40 + i * 33}" fill="none" stroke="#fff" stroke-opacity=".035" stroke-width="2"/>`).join('');
+    return `<svg class="desk-scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${sceneDefs}
+      <rect x="-900" y="-900" width="2760" height="2340" fill="url(#g-wood-top)"/>${grain}
+      <g stroke="#1a0f0a" stroke-opacity=".3" stroke-width="3"><line x1="-900" y1="170" x2="1860" y2="170"/><line x1="-900" y1="350" x2="1860" y2="350"/><line x1="-900" y1="530" x2="1860" y2="530"/></g>
+      <g stroke="#fff" stroke-opacity=".08" stroke-width="2"><line x1="-900" y1="173" x2="1860" y2="173"/><line x1="-900" y1="353" x2="1860" y2="353"/><line x1="-900" y1="533" x2="1860" y2="533"/></g>
+
+      ${obj(215, 350, 5, notepad)}
+      ${obj(300, 238, 12, '<rect x="-35" y="-35" width="70" height="70" fill="#f1d36a" stroke="#c6a53f" stroke-width="2"/><rect x="-35" y="-35" width="70" height="14" fill="#e9c24e"/>')}
+      ${obj(385, 448, -14, pencil)}
+      ${obj(590, 115, 0, `<circle r="27" fill="none" stroke="#c3beb2" stroke-width="6"/><rect x="-6" y="24" width="12" height="26" rx="3" fill="#3f6e8a" transform="rotate(-20)"/>${key(75, 100)}${key(20, 92)}`)}
+      ${obj(905, 118, 28, balm)}
+      ${obj(612, 468, 0, coin('#d8b04a', '#8a6a1c'))}${obj(650, 490, 0, coin('#cfd2d6', '#7d8189'))}${obj(576, 504, 0, coin('#d8b04a', '#8a6a1c'))}
+      ${obj(790, 300, -6, `<g transform="translate(${-pw / 2} ${-ph / 2})">${phoneFace(pw, ph)}</g>`)}
+
+      <g class="cast" opacity=".32" filter="url(#f-blur)"><g transform="translate(13 15)"><g transform="${duckT}"><ellipse cx="180" cy="135" rx="102" ry="71"/><circle cx="163" cy="135" r="68"/><ellipse cx="197" cy="77" rx="52" ry="15"/><ellipse cx="197" cy="193" rx="52" ry="15"/></g></g></g>
+      <g transform="${duckT}" role="img" aria-label="Overhead rubber duck on the desk">${uniq(topDuckInner())}</g>
+
+      <g id="lamp-top">
+        <circle class="lamp-on" cx="265" cy="175" r="250" fill="url(#g-glow)" opacity=".5"/>
+        <g class="cast" opacity=".3" filter="url(#f-blur)" transform="translate(14 16)"><path d="M85 70L175 130L265 175" fill="none" stroke="#000" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="85" cy="70" r="62"/><circle cx="265" cy="175" r="72"/></g>
+        <circle cx="85" cy="70" r="62" fill="#514038" stroke="#3a2c26" stroke-width="3"/><circle cx="85" cy="70" r="40" fill="#5f4a40"/>
+        <path d="M85 70L175 130L265 175" fill="none" stroke="#514038" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="175" cy="130" r="10" fill="#6b574a"/>
+        <circle cx="265" cy="175" r="72" fill="#b88650" stroke="#6f4b2a" stroke-width="4"/><circle cx="265" cy="175" r="46" fill="#d0a066" stroke="#8a6034" stroke-width="2.5"/><circle cx="265" cy="175" r="16" fill="#6b574a"/>
+        <circle class="lamp-on" cx="265" cy="175" r="72" fill="none" stroke="#ffd48a" stroke-width="8"/>
+      </g>
+    </svg>`;
+  }
+
   function update() {
-    duck.innerHTML = renderViewSvg(selectedView);
+    const isDesk = selectedShot.startsWith('desk');
     stage.dataset.shot = selectedShot;
     stage.dataset.light = selectedLight;
-    selection.textContent = `${viewIds[selectedView]} / ${shotIds[selectedShot]} — ${views[selectedView].label}, ${selectedShot}, ${lightLabels[selectedLight]} light.`;
-    document.querySelector('#owner-notes').value = `Plan 10 review — ${viewIds[selectedView]} / ${shotIds[selectedShot]}\nView: ${views[selectedView].label}\nComposition: ${selectedShot}\nLighting: ${lightLabels[selectedLight]}\nReview focus: same-object silhouette, molded features, overlap, material, and framing. Emotional interpretation belongs to owner feedback.`;
+    let shownView = selectedView, note = '';
+    if (isDesk) {
+      if (selectedShot === 'desk-top') {
+        shownView = 'top';
+        deskLayer.innerHTML = topDeskScene();
+        note = ' The overhead duck is an extra drawing for this camera; the selected duck view is not used.';
+      } else {
+        shownView = ['front', 'side', 'rear'].includes(selectedView) ? selectedView : 'side';
+        deskLayer.innerHTML = sideDeskScene(shownView);
+        if (shownView !== selectedView) note = ` The ${views[selectedView].label.toLowerCase()} duck needs a different camera, so the Side view is shown.`;
+      }
+      duck.innerHTML = '';
+    } else {
+      deskLayer.innerHTML = '';
+      duck.innerHTML = renderViewSvg(selectedView);
+    }
+    const duckLabel = shownView === 'top' ? 'Overhead duck (extra drawing)' : views[shownView].label;
+    selection.textContent = `${viewIds[selectedView]} / ${shotIds[selectedShot]} — ${duckLabel}, ${shotLabels[selectedShot]}, ${lightLabels[selectedLight]} light.${note}`;
+    document.querySelector('#owner-notes').value = `Plan 10 review — ${viewIds[selectedView]} / ${shotIds[selectedShot]}\nView: ${duckLabel}\nComposition: ${shotLabels[selectedShot]}\nLighting: ${lightLabels[selectedLight]}\nReview focus: same-object silhouette, molded features, overlap, material, and framing; for desk shots, one camera for every object and the game's phone proportions. Emotional interpretation belongs to owner feedback.`;
   }
   document.querySelectorAll('input[name="view"]').forEach(el => el.addEventListener('change', () => { selectedView = el.value; update(); }));
   document.querySelectorAll('input[name="shot"]').forEach(el => el.addEventListener('change', () => { selectedShot = el.value; update(); }));

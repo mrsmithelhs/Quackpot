@@ -69,3 +69,17 @@ Each was re-wrapped with the shared header (viewBox, bottom alignment, aria-labe
 - Changed: `duck-views.js` (all five views), `preview.html` (id-uniquifying render helper replaces the old body-path regex; compact candidate comparison section and CSS), `proposal.md` (dated geometry approach).
 - Added: `sonnet-view-repair.md`, `haiku-experiments/` (SPEC, guides, ten experiment folders with `duck.svg`, `notes.md`, `render.png`; `references.md`), `sonnet-candidates/` (five projection-baked drafts + two offline contact-sheet PNGs).
 - Not touched: `src/`, packet/status/index, canonical design, shared assets, apartment/desk/lamp CSS, the shared 5181 server.
+
+## Desk staging revision (owner-authorized scope expansion, 2026-10-27)
+
+The owner found the old desk close-up confusing: upright objects and flat objects were drawn from different cameras, so it was neither a top-down nor a side view. `preview.html` now offers two separate desk compositions in place of the old single "close" shot, each with ONE camera for every object (see `desk-references.md` for the research and the game's real phone dimensions):
+
+- **Desk — side view (P10-C03):** eye-level horizontal camera; the tabletop is a thin band with a front edge, upright objects show their fronts, one light direction (lamp at the left, matching the duck's upper-left shading). Home-office set: lamp, duck, mug, phone on a stand, books and a succulent. The duck is drawn with its front, side or rear view (High/Low need other cameras and fall back to the Side view with an on-page note).
+- **Desk — top-down (P10-C04):** camera straight above; every object is a footprint, shadows fall to the lower right away from the lamp at the upper left. Student/craft set: duck, phone lying flat, notepad, sticky note, pencil, keyring with keys, lip balm, coins, lamp seen from above. This scene uses an extra hand-drawn overhead duck (head circle, bill ahead, body oval, wing lobes, tail bump) embedded in `preview.html`; it is not one of the five views in `duck-views.js`.
+- **Phone:** redrawn at the game's desk-phone proportions (9:17, bezel, navy screen, 9:41 status row, QUACKPOT invitation text, home bar); the old preview phone was 0.82 wide-to-tall and tilted.
+- **Scale:** one scale for all objects (2.2 scene units per mm) with assumed real sizes; the repo specifies none, and the game's own UI shows the duck far larger relative to the phone than physical proportions.
+- Removed: the old combined desk CSS/markup (papers, pen, keyring, lip balm, phone-stand, `desk-lamp` divs).
+
+Browser checks (same isolated tab, 1200×800 and 375×812): both scenes in neutral and warm-lamp light; side desk with side/rear/high duck selections; top-down at mobile width (no horizontal scroll); no console errors. Not checked: window light on the desk scenes, real browser zoom, the overhead duck enlarged, other duck views on the side desk beyond rear/high.
+
+Known weaknesses: the overhead duck is simple and reads small beside the phone at physical scale; the lamp shade in the top-down view overlaps the notepad corner; the top-down lamp arm, keys and lip balm are schematic; the side desk's phone has no lean-back perspective; shot/view IDs in the status text still show the selected view's ID even when a different duck is displayed.

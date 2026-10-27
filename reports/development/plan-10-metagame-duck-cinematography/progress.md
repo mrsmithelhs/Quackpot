@@ -6,7 +6,7 @@ Date: 2026-10-27
 
 The packet check passed and the owner/orchestrator approved the bounded D2/2D proposal before preview authoring. This delivery contains a local report preview with five static SVG views, three apartment framings, neutral/window/dark lighting controls, view and composition IDs, and a copyable owner-note field. After root's comparison with D2, the drawings were refined to show a distinct round head/neck overlap, rounded body, raised tail, molded lobed wing, dimensional upper/lower bill, angle-specific occlusion, and a restrained lower-body shadow. The physical duck remains static and rubber-like; no E2 paper anatomy, production code, new story mechanic, 3D pipeline, remote asset, or dependency was added.
 
-The model sheet is an authored approximation of the selected D2 reference, not accepted production art. Same-object coherence and emotional interpretation remain for owner review. QP Orch is conducting an independent final visual check; this delivery is ready for orchestrator review, not owner visual acceptance or packet closure.
+The model sheet is an authored approximation of the selected D2 reference, not accepted production art. Same-object coherence and emotional interpretation remain for owner review. QP Orch source-checked the final clipping helper and verified it in a fresh render. The investigation artifact is ready for owner visual review; it is not production art and packet closure remains separate.
 
 ## Files changed and artifacts
 
@@ -46,11 +46,12 @@ The reviewer also found no obvious control-state bug, no remote assets or networ
 - An intermediate low/dark render showed a black-looking abdominal stripe. The cause was a shadow form whose boundary sat too high in the body; all five shadow shapes were lowered, lightened, and left without strokes, then low/close/dark was re-rendered.
 - The initial SVG frame alignment left visible whitespace beneath the duck, making it appear to float. The SVGs now use bottom alignment and each composition has a separately tuned bottom offset. Wide and medium renders were rechecked against the tabletop.
 - The shadow fill initially interrupted and extended outside the body outline. Unique per-SVG-instance clipping plus a final outline pass resolved the visible leak in the low/close/dark render; the same helper applies across all five templates and the contact-sheet/live instances.
+- QP Orch independently source-checked the helper and fresh-rendered the low/close/dark view. It confirmed the continuous contour, absence of golden wedges, and six unique IDs for six SVG instances.
 - The in-app browser did not expose a demonstrable actual-zoom control. This was reported as unverified rather than approximated with CSS transforms, viewport changes, or an alternate uncoordinated browser.
 
 ## Remaining risks and follow-ups
 
-- QP Orch's independent source check of the final shadow clipping helper is pending; its disposition is outside this implementer report.
+- Owner visual review remains the next gate. The D2 set is still an authored approximation, and actual browser zoom remains unverified.
 - Actual 100%, 200%, and 400% browser zoom remains unverified; stroke and close-detail quality at those browser zoom levels is unknown.
 - The authored five projections have not been approved as a coherent same-object model sheet; owner interpretation remains necessary, especially for high/low-angle projection and rear-view geometry.
 - Assistive-technology behavior was not tested. Root's visual check found outlines readable in neutral/dark close views; this is a visual observation, not a contrast ratio.
@@ -60,4 +61,4 @@ The reviewer also found no obvious control-state bug, no remote assets or networ
 
 Advisor consultation ran once with the requested/observed model discrepancy recorded above. Review posture: instruction-read-only with post-hoc verification. No repeat consultation is planned under the one-reviewer budget.
 
-**Ready for orchestrator review: yes.** QP Orch's independent source check of the last repair is pending before any owner visual delivery. Actual 100%, 200%, and 400% browser zoom remains unverified. Packet status was not changed.
+**Ready for owner visual review: yes, as an investigation artifact.** QP Orch independently source-checked and rendered the final repair. This is not accepted production art or packet closure. Actual 100%, 200%, and 400% browser zoom remains unverified. Packet status was not changed.

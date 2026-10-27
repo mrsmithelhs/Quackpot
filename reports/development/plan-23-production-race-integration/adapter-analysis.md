@@ -97,9 +97,35 @@ Recommend **`internalSpeed = 8.25 + 0.5 × ratingInput` for owner review**, as t
 
 The affine conversion applies the selected +5%, Sprint factor/variance, and later rest factor once to the rating before conversion. Table gaps are standalone deltas at each un-rested authored base; when rest precedes trial, its factor also scales the raw trial increment before conversion. The slope deliberately retains half of each raw absolute speed gap uniformly; the positive intercept changes relative percentages in internal-speed terms. That compression is explicit, not a cap plateau: every supported sampled input remains strictly ordered. Across 36 matched validation condition-cell means, the trial shifted mean place by −0.149 places and finish time by −0.034s; Sprint improved mean place by 0.246 and saved 0.057s. Across 24 paired cells, the 25%-rest input added 0.242s and 50%-rest input added 0.519s. These are average effects, not per-seed guarantees. Candidate tier win rates were Common 27.3%, Rare 56.5%, Legendary 85.8%; mean places were 3.67, 2.22, and 1.30. Do not add per-duck tuning.
 
+The absolute speed deltas are half-scale, and the positive intercept also reduces their relative percentages: rating 10 maps to 13.25, while the once-applied +5% rating input 10.5 maps to 13.50, a **1.89% increase in internal topSpeed**. A 50%-rest rating input maps from `f(10)=13.25` to `f(5)=10.75`, an **18.87% reduction** in internal topSpeed (the input penalty is still applied exactly once before mapping). Although paired race-time changes are modest, the rest groups show materially different race outcomes:
+
+| Future rest input | Mean finish | Mean player place | Player win rate |
+|---|---:|---:|---:|
+| Rested | 20.769s | 1.315 | 84.6% |
+| One race rest (25%) | 21.011s | 2.052 | 60.4% |
+| Zero races rest (50%) | 21.288s | 3.823 | 24.6% |
+
+These grouped outcomes come from 480 attempts per rest condition across the same tier/field/stance/trial mix. Since the race terminates at the first entrant's crossing, finish-time deltas do not summarize player-impact size by themselves; rank and win differences must also be reviewed. Rest conditions are inputs for this comparison only; Plan 22 still owns their later lifecycle integration.
+
 Identity conversion preserves raw absolute deltas but performs poorly against the distribution goal: its median (22.313s) is on target, yet 30.49% of validation races exceed 23 seconds and p95 is 30.557s. The affine candidate reduces the tail without early finishes and retains substantially more tier/modifier separation than sqrt10.45. The slope's half-scale effect remains an explicit owner trade-off, so this recommendation is **for owner calibration review only**, not production adoption. Production work still requires QP Orch's explicit source/lifecycle/file assignment and a separate owner decision on the proposed calibration.
 
-Reproduce the matched run with `node reports/development/plan-23-production-race-integration/linear-speed-comparison.mjs`; full per-cell/group results and seed provenance are in `linear-speed-comparison-results.json`. No browser, build, or repository tests were run.
+Reproduce the matched run with `node reports/development/plan-23-production-race-integration/linear-speed-comparison.mjs`; full per-cell/group results and seed provenance are in `linear-speed-comparison-results.json`. A separate bounded track-geometry screen is documented below. No browser, build, or repository tests were run.
+
+## Follow-up geometry screen: identity mapping, radius fixed
+
+QP Orch requested a single bounded geometry check to see whether track length alone can retain the identity speed mapping and meet both timing criteria. Using the existing eight calibration seeds across the same 72 cells, the screen compared straight lengths 60, 40, and 20 while holding radius at 20. Identity rating-to-topSpeed conversion was used with the 8–12 sampled clamp removed. The accepted `maxSpeed=12` corner-target search bound, all other Plan 13 physics constants, turn law, weave/contact schedules, and exact finish logic stayed unchanged. Course circumferences were 245.664, 205.664, and 165.664 model units respectively. All 1,728 attempted races finished; no attempt was filtered. The held-out set was not run because neither changed geometry passed calibration.
+
+| Straight length | Course length | Mean | Median | p90 | p95 | p99 | Min–max | Under 17s | Over 23s | Unresolved | Calibration decision |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| 60 (reference) | 245.664 | 23.013s | 22.354s | 29.747s | 30.237s | 30.600s | 20.112–30.626s | 0/576 | 165/576 (28.65%) | 0 | Fail: late tail |
+| 40 | 205.664 | 19.656s | 18.814s | 24.859s | 25.339s | 25.702s | 17.652–25.702s | 0/576 | 77/576 (13.37%) | 0 | Fail: late tail |
+| 20 | 165.664 | 16.118s | 15.446s | 20.057s | 20.424s | 20.935s | 14.758–20.935s | 477/576 (82.81%) | 0/576 | 0 | Fail: median below 17s |
+
+The 40-unit result has a median in the desired band but exceeds the late limit; 12/72 cells had at least one late result. Its late rate Wilson 95% interval is 10.83–16.39%, with an 8-seed block-bootstrap sensitivity interval of 11.81–14.93%. The 20-unit result has no late cases (Wilson attempt-level upper bound 0.663%) but its median is below target and 82.81% of attempts finish under 17 seconds. Neither setting qualifies for held-out validation. The 60-unit reference result repeats the already-observed identity-mapping failure on the calibration seed set.
+
+Rest still had large player-outcome differences under identity conversion. On straight 40, Common/Rare/Legendary win rates were 28.6%/64.1%/87.5%; 25%/50% rest groups had 20/480 (4.17%) and 57/480 (11.88%) late outcomes, versus zero for rested ducks. On straight 20, tier win rates were 28.1%/61.5%/82.8%; rest win rates were 82.8% rested, 63.0% after one race, and 26.6% after zero intervening races. These are 8-seed calibration observations, not Plan 22 lifecycle evidence.
+
+**Geometry conclusion:** straight-length adjustment at these two bounded values does not solve the distribution while preserving the identity mapping. Stop geometry search here as requested; do not run validation for either setting and do not try an unapproved third value. The affine speed mapping above remains a report-only candidate for owner choice, with its half-scale modifier effects stated explicitly. Reproduce this screen with `node reports/development/plan-23-production-race-integration/track-length-comparison.mjs`; all cells, groups, seeds, and playback summaries are in `track-length-comparison-results.json`.
 
 ## Payload and diagnostic sizing
 

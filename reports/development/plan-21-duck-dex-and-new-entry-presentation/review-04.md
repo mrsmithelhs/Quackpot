@@ -1,0 +1,9 @@
+# Plan21 Repair03 — technical acceptance, owner visual review pending
+
+Date: 2026-10-27. Reviewed `94a7c8e`. The remaining Repair03 activity-guard and browser failure-contract findings are resolved within this packet's bounded scope. No packet closure, deployment or push is authorized by this technical acceptance.
+
+Root inspected the guarded static resolver, deferred reduced-motion handling and reactivation paths. Root reran147 repository tests and14 focused UI tests, plus the static build; all passed. Root ran the harness `--probe-failure` and observed the intended nonzero exit1 for failed/missing checks. Root then ran the same production browser harness in an isolated temporary Chrome profile, changing only its output filename in memory to preserve the implementer's artifact. All8 required feature checks passed with exit0. Fresh evidence: `review-04-browser-observations.json`.
+
+The mounted check covers committed ten-pull, actual target silhouette/computed filter, color-phase class/property, cleanup, Settings interruption, duplicate-first discovery, no repeated original-card presentation and Reveal All bypass. Focused tests cover inactive/hidden reduced-motion state, reactivation, terminal protection and active fast-pull. These do not establish physical assistive-technology behavior, every viewport, every retention timing, actual OS preference changes in-browser or perception/visual approval. No claim of exhaustive accessibility or unchanged full-run pacing is made.
+
+Owner should now inspect voluntary collection access, a normal new-identity discovery and free instant reveal/skip, then accept or request visual refinements. Packet remains in-progress pending that acceptance. The Plan21 implementation is a stable technical handoff baseline; later shared-source changes still require explicit ownership coordination.

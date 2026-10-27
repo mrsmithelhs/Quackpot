@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-10-27T04:20:15.051Z",
+  "checks": [
+    {
+      "name": "ten_pull_committed",
+      "passed": true,
+      "detail": "10 card backs present on initial commit"
+    },
+    {
+      "name": "active_discovery_phase1_silhouette",
+      "passed": true,
+      "detail": {
+        "targetId": "duck-3",
+        "hasUnownedClass": true,
+        "hasOwnedClass": false,
+        "hasHighlightClass": true,
+        "nameText": "??? (Unowned)",
+        "computedFilter": "brightness(0) opacity(0.35)"
+      }
+    },
+    {
+      "name": "active_discovery_phase2_color_transition",
+      "passed": true,
+      "detail": {
+        "targetId": "duck-3",
+        "hasUnownedClass": false,
+        "hasOwnedClass": true,
+        "hasDiscoveringClass": true,
+        "nameText": "Bath Cadet",
+        "transitionProperty": "filter, opacity"
+      }
+    },
+    {
+      "name": "acquisition_completed_cleanup",
+      "passed": true,
+      "detail": "Overlay removed cleanly after 4.5s nominal presentation"
+    },
+    {
+      "name": "inactive_modal_suspension_in_settings",
+      "passed": true,
+      "detail": {
+        "seenEntries": [
+          "duck-3"
+        ],
+        "targetMarkedSeen": false,
+        "settingsOpen": true
+      }
+    },
+    {
+      "name": "duplicate_first_reveal_triggers_discovery",
+      "passed": true,
+      "detail": {
+        "slotFound": true,
+        "overlayTitle": "🦆 Duck-Dex Discovery"
+      }
+    },
+    {
+      "name": "subsequent_original_reveal_does_not_retrigger",
+      "passed": true,
+      "detail": {
+        "secondRevealOverlay": false
+      }
+    },
+    {
+      "name": "reveal_all_fast_pull_bypass",
+      "passed": true,
+      "detail": {
+        "cardBacks": 0,
+        "toast": "✨ 2 new ducks added to Duck-Dex!",
+        "overlay": false
+      }
+    }
+  ]
+}

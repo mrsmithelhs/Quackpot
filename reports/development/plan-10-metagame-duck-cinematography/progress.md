@@ -79,3 +79,14 @@ The reviewer also found no obvious control-state bug, no remote assets or networ
 Advisor consultation ran once with the requested/observed model discrepancy recorded above. Review posture: instruction-read-only with post-hoc verification. No repeat consultation is planned under the one-reviewer budget.
 
 **Ready for owner visual review: yes, as an investigation artifact.** QP Orch independently source-checked and rendered the final repair. This is not accepted production art or packet closure. Actual 100%, 200%, and 400% browser zoom remains unverified. Packet status was not changed.
+
+## Sonnet whole-object view redraw delivery (2026-10-27)
+
+Followed `reports/orchestration/plan-10-sonnet-view-handoff.md` with the owner's four Tinkercad captures as proportion/orientation witnesses. Diagnosis, landmark model, camera table (front 35°/+12°, side 90°/+5°, rear 148°/+16°, high 35°/+52°, low 35°/−16°), occlusion rules, per-view selection and remaining failures are in `sonnet-view-repair.md`; the geometry approach is appended to `proposal.md`.
+
+- **Changed:** `duck-views.js` (all five views redrawn; same keys/interface), `preview.html` (per-instance id uniquifier replaces the old body-path regex; compact candidate-comparison section), `proposal.md`. **Added:** `sonnet-view-repair.md`, `haiku-experiments/` (spec, guides, ten Haiku experiments, `references.md`), `sonnet-candidates/` (five projection-baked drafts and offline contact sheets).
+- **Method:** a throwaway projection script (session scratchpad, not shipped) produced consistent silhouettes and tracing guides; ten Haiku subagents (improve-a-copy and from-scratch per view) and one Haiku web researcher were run at the owner's request this session. The selected drawing per view is recorded in `sonnet-view-repair.md`.
+- **Verified:** `node --check duck-views.js`; all five views (after id uniquification) and all candidate SVGs parse as XML; `git diff --check` clean on owned files; offline Pillow raster of the five selected views and of the candidate grid.
+- **Not verified:** any browser rendering, medium/close framing, desk/warm-lamp composition, browser zoom 100/200/400% — pending an owner-obtained browser slot. No visual success is claimed from code or offline raster.
+- **Still failing or weak:** high angle reads closer to a plump high three-quarter than a true look-down; low reads partly as a bowl with a plate base and a stacked-pill bill; head reads as a ball on the body in side/rear. Final acceptance is the owner's.
+- Plan23's `src/` edits were left untouched. Packet status unchanged. Nothing pushed.

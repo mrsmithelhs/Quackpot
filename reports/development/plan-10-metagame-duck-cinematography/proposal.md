@@ -39,3 +39,13 @@ After approval, inspect the same selected views at wide, medium, and close frami
 ## Assumptions and gate
 
 D2 supplies the physical duck's material and silhouette direction. The five projections are to be authored as a coherent 2D set; apartment staging may shift the camera and lighting while preserving the fixed diegetic setting. This proposal requests approval to author the isolated report preview. It does not authorize production integration, a 3D pipeline, new dependencies, or new story mechanics.
+
+## Owner visual repair plan (2026-10-27)
+
+Use the four supplied Tinkercad captures only as orientation and proportion witnesses: the front view establishes the large round head, short beak, and paired side wings; the rear view establishes a head centered over a broad body, with near and far wings on opposite sides; the right-side view shows the beak receding behind the head and the near wing overlapping the body; the high rear view shows the top of the head/body and wing placement as the whole toy turns. Keep the D2 toy material and authored SVG style.
+
+For the repair, align each drawing to shared head, body, beak, wing-attachment, and tail landmarks. Rear three-quarter will turn head and body together, show the nape and back, offset the near wing over the body, and let the beak/eye recede at the far contour. High angle will foreshorten the head/body vertically and expose the upper surfaces; low angle will expose more underside and raise the head/beak silhouette. The paired wings must change scale, overlap, and separation with the turn rather than remain a front-view wing pasted on. The five-view sheet is the check for these landmarks and feature occlusion.
+
+Keep the same apartment. Draw sofa/table back legs behind their solid furniture surfaces, with front legs joining below the surfaces. Reframe the close composition as a tabletop study: the static duck sits beside a supported portrait phone with blank invitation space, plus generic pen, papers, keys, and lip-balm tube. Other apartment areas remain future proposals; no room catalog is part of this repair.
+
+For Dark, add a visible desk lamp and a strong warm pool centered over the duck and tabletop props, with gradual falloff, contact shadows, and subdued room edges. Compare neutral and warm lamp at the same desk composition; maintain one lamp direction across all objects and keep the duck details legible. This is a report-only staging repair; source and packet ownership remain unchanged.

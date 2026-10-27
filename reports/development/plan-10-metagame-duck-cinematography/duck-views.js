@@ -35,47 +35,50 @@ export const views = {
   },
   rear: {
     label: 'Rear three-quarter',
-    note: 'Face recedes; checks the far/near molded wings and raised tail.',
+    note: 'Head and body turn together: nape faces camera, near wing overlaps the back, far wing recedes, and the beak/eye barely clear the far edge.',
     svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Rear three-quarter static rubber duck turned away">
-      <path class="duck-fill" d="M68 169 Q83 139 119 128 Q162 117 208 130 Q250 137 283 123 Q297 96 307 91 Q316 89 321 105 L330 155 Q341 183 325 211 Q305 239 256 242 Q146 251 100 236 Q63 223 68 169Z"/>
-      <path class="duck-belly-shadow" d="M71 203 Q138 213 207 211 Q280 210 329 194 Q327 219 298 233 Q234 247 115 239 Q79 233 71 218Z"/>
-      <path class="far-wing" d="M99 163 Q117 147 134 153 Q146 157 150 172 Q145 186 126 191Z"/>
-      <path class="duck-fill" d="M126 137 Q96 119 101 75 Q108 35 142 22 Q180 8 214 31 Q244 54 234 100 Q228 129 203 145 Q163 154 126 137Z"/>
-      <path class="duck-neck-line" d="M128 137 Q156 154 185 149"/>
-      <path class="duck-highlight" d="M119 77 Q128 38 160 28 Q188 21 210 36"/>
-      <path class="wing" d="M156 155 Q176 140 193 147 Q207 152 215 144 Q225 137 236 144 Q244 148 244 156 Q259 159 263 171 Q267 182 253 190 Q237 199 221 201 Q202 209 183 200 Q166 194 160 180 Q153 167 156 155Z"/>
-      <path class="wing-groove" d="M211 151 Q220 163 236 165 M234 147 Q241 158 255 164"/>
-      <path class="tail-seam" d="M282 126 Q297 134 315 130"/>
+      <path class="duck-fill" d="M104 170 Q113 138 147 128 Q183 119 219 129 Q255 136 277 122 Q289 99 300 96 Q309 96 315 111 L319 153 Q329 184 313 211 Q293 238 251 243 Q166 251 121 235 Q96 222 104 170Z"/>
+      <path class="duck-belly-shadow" d="M108 203 Q162 213 217 210 Q274 207 317 193 Q313 218 284 233 Q230 248 137 239 Q111 233 108 218Z"/>
+      <path class="far-wing" d="M91 160 Q106 140 124 147 Q140 153 143 171 Q138 187 118 191 Q100 183 91 160Z"/>
+      <path class="duck-fill" d="M150 143 Q120 117 128 75 Q137 35 172 20 Q209 7 238 31 Q264 53 255 94 Q249 127 220 146 Q182 159 150 143Z"/>
+      <path class="duck-highlight" d="M121 74 Q129 39 159 28 Q187 20 209 34"/>
+      <path class="wing" d="M171 156 Q192 140 211 149 Q226 155 236 145 Q247 136 260 145 Q269 151 267 160 Q284 163 290 176 Q293 190 276 198 Q256 208 236 207 Q214 216 194 205 Q177 198 171 183 Q165 169 171 156Z"/>
+      <path class="wing-groove" d="M228 154 Q240 166 256 167 M252 147 Q263 160 278 166"/>
+      <path class="beak" d="M151 96 Q138 89 124 94 L101 102 Q94 106 98 114 L116 127 Q130 131 143 120 L157 110Z"/>
+      <ellipse class="eye" cx="142" cy="81" rx="5" ry="8"/>
+      <path class="tail-seam" d="M277 125 Q293 134 310 130"/>
     </svg>`
   },
   high: {
     label: 'High angle',
-    note: 'Top-down foreshortening flattens the head and body while retaining the eye, bill, raised tail, and molded wing landmarks.',
+    note: 'Elevated foreshortening shows more crown and back; the paired wings sit on the turned body sides and the face compresses toward its near edge.',
     svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="High angle static rubber duck">
       <path class="duck-fill" d="M58 155 Q65 120 112 109 Q157 99 207 107 Q260 117 290 103 Q301 82 310 79 Q318 77 323 93 L332 137 Q342 169 326 199 Q304 228 255 234 Q149 244 98 229 Q57 215 58 155Z"/>
       <path class="duck-belly-shadow" d="M61 195 Q135 207 207 204 Q281 202 330 186 Q326 211 297 224 Q232 239 115 231 Q76 225 61 211Z"/>
-      <path class="duck-fill" d="M124 129 Q100 118 104 78 Q108 46 140 34 Q179 17 212 34 Q238 48 234 82 Q230 113 204 132 Q163 143 124 129Z"/>
+      <path class="far-wing" d="M97 138 Q111 119 129 126 Q146 132 149 152 Q145 171 126 176 Q108 168 97 138Z"/>
+      <path class="duck-fill" d="M113 124 Q103 99 118 76 Q140 45 180 45 Q222 46 241 75 Q254 97 239 124 Q218 145 174 145 Q134 142 113 124Z"/>
       <path class="duck-neck-line" d="M126 128 Q154 142 185 137"/>
       <path class="duck-highlight" d="M119 73 Q126 43 157 35 Q185 28 209 40"/>
-      <path class="wing" d="M191 145 Q210 129 228 135 Q240 138 248 131 Q258 124 269 131 Q277 135 276 143 Q291 146 296 157 Q300 169 286 177 Q270 186 253 189 Q235 196 216 187 Q200 181 196 169 Q188 156 191 145Z"/>
-      <path class="wing-groove" d="M246 138 Q255 149 270 151 M267 132 Q274 145 288 150"/>
-      <path class="beak" d="M126 85 Q105 80 82 84 L45 90 Q32 93 35 102 L63 119 Q81 126 104 114 L136 100Z"/>
-      <path class="beak-lower" d="M39 102 Q66 105 87 114 Q110 123 133 100 Q140 108 132 117 Q107 134 77 128 Q52 123 39 112Z"/>
-      <path class="beak-seam" d="M43 101 Q72 103 100 115 Q119 119 135 104"/>
-      <ellipse class="eye" cx="163" cy="64" rx="10" ry="12"/><circle class="eye-glint" cx="160" cy="60" r="3"/>
+      <path class="wing" d="M236 133 Q254 122 273 133 Q289 145 285 166 Q278 182 259 181 Q241 174 236 155Z"/>
+      <path class="wing-groove" d="M252 138 Q267 145 274 162"/>
+      <path class="beak" d="M149 122 Q165 115 184 120 L204 131 Q208 137 200 142 Q180 151 159 141Z"/>
+      <path class="beak-lower" d="M158 139 Q179 146 201 138 Q199 148 181 151 Q164 150 158 139Z"/>
+      <ellipse class="eye" cx="145" cy="115" rx="7" ry="9"/><ellipse class="eye" cx="209" cy="115" rx="7" ry="9"/>
     </svg>`
-  },  low: {
+  },
+  low: {
     label: 'Low angle',
-    note: 'Low view emphasizes underside and raised tail with consistent head/wing placement.',
-    svg: `<svg viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Low angle static rubber duck">
+    note: 'Low view raises the head above a broad, shaded underside plane; near and far wings overlap the body at different scales.',
+    svg: `<svg class="low-projection" viewBox="0 0 360 270" preserveAspectRatio="xMidYMax meet" role="img" aria-label="Low angle static rubber duck">
       <path class="duck-fill" d="M76 154 Q90 128 124 125 Q163 120 205 130 Q253 138 286 126 Q298 98 308 94 Q317 92 322 108 L329 150 Q338 176 323 200 Q301 226 252 233 Q149 246 104 232 Q69 219 76 154Z"/>
-      <path class="duck-belly-shadow" d="M77 200 Q142 211 208 209 Q278 208 328 192 Q323 214 295 225 Q233 241 118 234 Q83 228 77 212Z"/>
-      <path class="duck-fill" d="M126 136 Q99 120 104 77 Q110 39 143 27 Q180 13 211 36 Q238 57 233 96 Q229 127 204 144 Q165 153 126 136Z"/>
+      <path class="duck-belly-shadow" d="M64 190 Q120 178 184 184 Q261 190 313 173 Q326 197 309 214 Q282 234 218 240 Q133 242 84 226 Q63 214 64 190Z"/>
+      <path class="far-wing" d="M96 159 Q111 143 130 150 Q144 157 146 173 Q140 188 122 189 Q104 181 96 159Z"/>
+      <path class="duck-fill" d="M119 143 Q92 124 99 83 Q106 45 140 31 Q180 14 214 38 Q240 59 233 100 Q228 132 202 149 Q160 160 119 143Z"/>
       <path class="duck-neck-line" d="M128 136 Q154 150 185 146"/>
       <path class="duck-highlight" d="M121 79 Q129 43 161 34 Q190 26 210 42"/>
-      <path class="wing" d="M194 156 Q211 143 229 149 Q240 152 248 145 Q258 138 269 145 Q277 149 276 157 Q290 160 294 171 Q297 183 283 190 Q267 199 251 201 Q232 208 214 200 Q198 194 194 181 Q188 168 194 156Z"/>
+      <path class="wing" d="M177 159 Q198 144 218 152 Q234 158 244 147 Q256 138 269 148 Q277 155 273 164 Q291 168 294 181 Q294 194 276 200 Q256 207 237 207 Q215 214 196 203 Q180 196 177 182 Q171 170 177 159Z"/>
       <path class="wing-groove" d="M245 152 Q254 163 269 165 M266 146 Q273 159 287 163"/>
-      <path class="beak" d="M129 92 Q107 85 84 92 L47 100 Q34 104 37 115 L64 134 Q82 142 106 130 L138 113Z"/>
+      <path class="beak" d="M121 99 Q104 91 87 97 L58 104 Q48 108 52 118 L76 132 Q94 136 111 125 L130 112Z"/>
       <path class="beak-lower" d="M41 115 Q68 118 89 127 Q113 137 136 113 Q143 122 135 131 Q109 149 79 142 Q53 137 41 125Z"/>
       <path class="beak-seam" d="M45 113 Q74 115 102 128 Q121 132 137 117"/>
       <ellipse class="eye" cx="154" cy="82" rx="11" ry="15"/><circle class="eye-glint" cx="151" cy="76" r="4"/>

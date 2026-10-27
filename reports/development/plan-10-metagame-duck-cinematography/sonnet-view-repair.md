@@ -2,7 +2,9 @@
 
 Handoff: `reports/orchestration/plan-10-sonnet-view-handoff.md`. The owner supplied four Tinkercad screenshots (front, right side, rear three-quarter, high rear) as orientation/proportion witnesses only. The owner also asked, in this session, for Haiku subagent experiments and a Haiku web search for extra reference images; both were run (the handoff's "no additional subagent budget" is superseded by that instruction).
 
-**Rendered verification status: PENDING.** Everything below was checked with an approximate offline rasteriser (Pillow, no gradients/filters) and XML parsing, not in a browser. No browser zoom (100/200/400%) was observed. No desk/lamp composition was rendered. Owner visual judgment is the gate.
+**Rendered verification:** done in one isolated tab of the in-app browser (owner-granted slot) on the approved route `http://127.0.0.1:5181/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html`; the shared server was not touched. Viewport 1200×800 (DPR 1.25), reset to the pane default afterwards. Owner visual judgment is still the gate.
+
+Observed in the browser: the five-view contact sheet (five unique-id SVGs, no console errors beyond Vite's debug lines); the candidate-comparison images; the live stage at medium (rear, neutral) with the duck sitting on the tabletop; desk close-up under the warm lamp for low and rear, and neutral for high — duck legible, outlines continuous, no clipped shadows or detached bill/wing seen. Close crops of rear, high and low were inspected by enlarging the live SVG with CSS in an overlay (760 px wide): **this is CSS scaling, not browser zoom.** **Actual browser zoom at 100/200/400% was not observed**: `Ctrl+=` did not change DPR or visual-viewport scale in this pane. Front and side were checked only at contact-sheet size and via the offline raster. Screenshots were captured in the harness cache, not saved into this folder. A subagent had opened a few `file://` tabs of its own SVGs in the pane during the experiments; I closed them before this check.
 
 ## Diagnosis
 
@@ -57,7 +59,9 @@ Each was re-wrapped with the shared header (viewBox, bottom alignment, aria-labe
 - **Rear head is a plain ball**; no nape detail beyond a rim highlight.
 - Wing on the near side is a lobe that is drawn rather than moulded in front and rear; the tail flick looks ear-like in the high view.
 - Mixed authorship: strokes, shading offsets and highlight treatment are close (shared palette/spec) but not identical across views.
-- Not checked: browser rendering of these SVGs (clip-path/translate behaviour should match the offline renderer, but this is unverified), medium/close framing, the desk composition under the warm lamp, real browser zoom. The `.duck` drop-shadow and lamp overlay are unchanged.
+- Not checked: real browser zoom (100/200/400%); front/side close crops and wide framing; window-light and mobile-width layouts. The `.duck` drop-shadow and lamp overlay are unchanged.
+- Staging mismatch: the high-angle duck sits in an eye-level room and desk, so the horizon and tabletop do not match a look-down camera; the low view shows its underside while resting on the desk. This is inherent to dropping elevation variants into one fixed room composition.
+- High view: the near eye touches the bill outline.
 - Not used: web references gave no head/bill/wing ratios (`haiku-experiments/references.md`); proportions come from the owner's captures.
 
 ## Files

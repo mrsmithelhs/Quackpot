@@ -3,6 +3,8 @@
 **Date:** 2026-10-26
 **Stage:** Report-only numerical investigation authorized by QP Orch. No mapping is approved for production.
 
+**Owner calibration clarification:** Treat roster/field inputs as abstract speed ratings for mapping purposes. Historical screens below describe values using the earlier m/s interpretation; those labels are not an approved player-facing unit. Any UI should say `Speed` or `Speed rating` unless a later owner decision establishes units.
+
 ## Method
 
 `adapter-analysis.mjs` reads the accepted Plan 13 `race-physics.mjs` and changes no source file. It loads an in-memory copy with a single post-sampling adapter inserted between `sampledPerformance` and `topSpeed`, leaving the selected model, random keys, event order, and physical rules unchanged. An unchanged direct reference call for the named Plan 13 R03 input produced fingerprint SHA-256 `e3e31dbfd758f6ff76ad11e897c0e5c06b5721413aae77ccba60a7a120036cf0`, finished at 22.159874 seconds, and used 443.1975 ticks. This confirms the unmodified reference path for that witness; it does not certify an eventual production port.
@@ -55,23 +57,49 @@ The late tail was concentrated in the future 50%-rest group: 2.64% of that group
 
 The +5% trial remained strictly ordered but was heavily compressed: it changed mapped base speed by only 0.033–0.040 m/s across the three tiers. Across 36 paired condition-cell averages it shifted mean place by 0.113 and finish time by 0.022s; that is a small aggregate effect, not a guaranteed per-seed benefit. Sprint shifted mean place by 0.159 and saved 0.040s across paired cell means. A 10 m/s Common base maps to 11.210; its 25% and 50% rest inputs map 0.194 and 0.511 m/s lower. Thus this mapping fits the requested late tail and retains mathematical ordering, while weakening the trial and rest effects. It cannot be represented as preserving the original physical +5% speed benefit unchanged.
 
-This follow-up makes the pacing trade-off more concrete: **sqrt10.45 is the best current report-only timing candidate if the owner accepts the smaller mapped trial/rest deltas.** It does not authorize production integration. The earlier no-candidate statement applies to the first screen's stricter modifier-preservation gate; this candidate now passes the owner's approximate 5% late-race tolerance, but does not pass the stronger modifier-magnitude expectation. The choice remains owner-gated before any source or browser work.
+This follow-up made the initial pacing trade-off more concrete: sqrt10.45 was the report-only timing candidate if the owner accepted the smaller mapped trial/rest deltas. It did not authorize production integration. The earlier no-candidate statement applies to the first screen's stricter modifier-preservation gate; sqrt10.45 passed the approximate 5% late-race tolerance in its calibration screen, but did not pass the stronger modifier-magnitude expectation. The owner-approved global linear comparison below supersedes this as the current recommendation.
 
-## Owner timing preference and effect-size comparison
+## Owner-approved global calibration comparison
 
-The owner further clarified that finishes under 17 seconds are acceptable and preferred to a heavy late tail. This sets a one-sided preference: keep the share strictly over 23 seconds near or below 5%, while permitting the distribution to shift early of the 17–23 second band. The current 30-seed calibration candidate had no finishes under 17 seconds, but it was tuned on that seed set; it is not independent validation and should not be used to claim a population distribution or normality.
+The owner authorized a bounded, report-only comparison of global input conversions. Finishes under 17 seconds are acceptable; the target is a median simulated finish of 17–23 seconds with at most about 5% strictly over 23 seconds. The 23-second value is a distribution measure, never a forced finish cutoff. Plan 13 mechanics, its course (`straight=60`, `curveRadius=20`), acceleration, braking, turn law, accepted curve-target search bound, keyed draws, contact/weave rules, and first-crossing finish remain fixed. The only substituted operation is the sampled `topSpeed` conversion before physics. The old 8–12 top-speed clamp is bypassed for the two linear arms; the square-root arm maps into the same numeric 10.45–12 interval as the prior candidate. No physics constants are changed. `PHYSICS.maxSpeed=12` remains in its accepted role as the upper search bound for curve-target speed; it does not clamp converted topSpeed on the straights.
 
-The following table compares the owner's authored modifiers with their nominal transformed-speed deltas under sqrt10.45. “Raw difference” is the physical input difference before the global transform. The Sprint column is the nominal mean-speed difference (1.10× versus 1.00×); actual accepted Sprint variance remains seed-dependent. The rest rows are future Plan 22 analysis inputs only.
+The matrix uses all 72 equally weighted cells: Common/Rare/Legendary ratings 10/14/20; Tutorial R01 field 8 and Finale R03 field 11.2; Safe and Sprint; trial off/on; and rested/25%-rest/50%-rest input factors. The factors are analytical inputs for Plan 22, not rest-history implementation. The accepted model applies trial once before stance sampling, then the one global conversion. Each cell gets 8 calibration seeds and a separate 20-seed validation set (576 and 1,440 attempts per model); all three arms use matched seed/configuration pairs. The linear candidate `8.25 + 0.5x` was fixed from the low-domain anchor and an explicit half-scale choice before validation. The machine record names every seed and retains every cell.
 
-| Authored base | Plan 17 +5% raw → mapped | Sprint +10% nominal raw → mapped | 25% rest raw difference → mapped | 50% rest raw difference → mapped |
-|---:|---:|---:|---:|---:|
-| Common 10 m/s | 0.500 → 0.033 m/s | 1.000 → 0.065 m/s | 2.500 → 0.194 m/s | 5.000 → 0.511 m/s |
-| Rare 14 m/s | 0.700 → 0.036 m/s | 1.400 → 0.070 m/s | 3.500 → 0.202 m/s | 7.000 → 0.477 m/s |
-| Legendary 20 m/s | 1.000 → 0.040 m/s | 2.000 → 0.079 m/s | 5.000 → 0.223 m/s | 10.000 → 0.508 m/s |
+Calibration results (8 seeds per cell):
 
-Thus sqrt10.45 keeps the sign/order of these inputs but compresses their absolute gaps, especially for Plan 17. One possible follow-up for owner consideration is a **global vertical translation** of this monotonic transform, `gδ(x)=f(x)−δ`, rather than changing its slope or restoring a clamp. Within its valid domain, that would preserve every transformed speed difference in the table exactly while lowering all nominal speeds and likely moving race finishes earlier. The amount `δ`, valid input/output bounds, and finish-time distribution must be measured; no value is recommended or authorized here. A translated map must not bypass accepted physics bounds or create unresolved guards. Its purpose would be to test the newly stated early-over-late preference while preserving modifiers, not to assert that speed differences translate linearly into finish-time differences.
+| Mapping | Mean | Median | p95 | Max | Over 23s |
+|---|---:|---:|---:|---:|---:|
+| sqrt10.45 baseline | 22.380s | 22.377s | 22.838s | 22.912s | 0/576 |
+| Identity `x` | 23.013s | 22.354s | 30.237s | 30.626s | 165/576 (28.65%) |
+| Linear `8.25 + 0.5x` | 20.932s | 20.937s | 21.721s | 21.925s | 0/576 |
 
-The next numerical step is therefore an owner choice: authorize one bounded, report-only comparison of a global shift family against sqrt10.45, with the shift fixed on calibration seeds and then assessed on untouched validation seeds, or accept sqrt10.45's compressed effects and stop calibration. The shift comparison should use the one-sided criterion `P(finish > 23s) ≤ about 5%`; under-17 outcomes are reported but are not a failure. Keep per-cell outcomes and unresolved attempts visible; never remove guard failures from the attempt denominator. Continue to report simulation duration and the selected +2s highlight playback separately. No additional wide sweep, production edit, test, or browser session is authorized by this timing preference alone.
+### Validation results
+
+| Mapping | Mean | p5 | Median | p90 | p95 | p99 | Min–max | 17–23s | Under 17s | Over 23s | Unresolved |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| sqrt10.45 baseline | 22.391s | 22.024s | 22.365s | 22.719s | 22.781s | 22.962s | 21.694–22.985s | 1,440/1,440 | 0 | 0/1,440 | 0 |
+| Identity `x` | 23.326s | 20.334s | 22.313s | 30.058s | 30.557s | 31.048s | 20.109–31.172s | 1,001/1,440 (69.51%) | 0 | 439/1,440 (30.49%) | 0 |
+| **Linear `8.25 + 0.5x`** | **21.023s** | **20.339s** | **21.006s** | **21.714s** | **21.769s** | **21.876s** | **20.109–21.893s** | **1,440/1,440** | **0** | **0/1,440** | **0** |
+
+For the recommended linear candidate, all 72 validation cells had 20/20 genuine finishes, no unresolved guard outcomes, and no finish over 23 seconds. The attempt-level Wilson 95% interval for a 0/1,440 late count is 0–0.266%; that interval assumes independent attempts, while the crossed seed/configuration design limits population inference. A seed-block bootstrap is degenerate when every block has zero late events, so it is not reported as a zero-width confidence interval. The identity mapping missed the late-tail criterion in 47/72 cells. Its Wilson interval is 28.16–32.91%; the 20-block bootstrap sensitivity interval is 26.60–35.00%. No arm produced a finish below 17 seconds. These samples do not establish a normal distribution.
+
+The selected highlight adds 2 seconds of playback only. For the linear candidate, validation playback mean/median/p95/max are 23.023/23.006/23.769/23.893 seconds; these are not race-finish times and are not compared to the 23-second simulated-finish threshold. The prior 30-seed sqrt10.45 calibration set had 19/2,160 (0.88%) over 23 seconds, while its fresh matched validation set here had 0/1,440. Keep that seed-set variation visible; do not convert either finite result into a guarantee.
+
+### Candidate input effects and recommendation
+
+Recommend **`internalSpeed = 8.25 + 0.5 × ratingInput` for owner review**, as the single global report-only candidate. It maps the supported sampled input domain 4.4–27.72 to 10.45–22.11 with no top-speed plateau; Plan 13's accepted corner law remains in force. Existing roster values should be presented as a `Speed`/`Speed rating`, not as an unsupported player-facing m/s claim. Roster fields map Common 10→13.25, Rare 14→15.25, Legendary 20→18.25; Tutorial field 8→12.25 and Finale field 11.2→13.85. This preserves strict tier order across the full input range.
+
+| Authored rating | Mapped base | Trial +5% input gap → mapped gap | Sprint +10% nominal gap → mapped gap | 25% rest input gap → mapped gap | 50% rest input gap → mapped gap |
+|---:|---:|---:|---:|---:|---:|
+| Common 10 | 13.25 | 0.500 → 0.250 | 1.000 → 0.500 | 2.500 → 1.250 | 5.000 → 2.500 |
+| Rare 14 | 15.25 | 0.700 → 0.350 | 1.400 → 0.700 | 3.500 → 1.750 | 7.000 → 3.500 |
+| Legendary 20 | 18.25 | 1.000 → 0.500 | 2.000 → 1.000 | 5.000 → 2.500 | 10.000 → 5.000 |
+
+The affine conversion applies the selected +5%, Sprint factor/variance, and later rest factor once to the rating before conversion. Table gaps are standalone deltas at each un-rested authored base; when rest precedes trial, its factor also scales the raw trial increment before conversion. The slope deliberately retains half of each raw absolute speed gap uniformly; the positive intercept changes relative percentages in internal-speed terms. That compression is explicit, not a cap plateau: every supported sampled input remains strictly ordered. Across 36 matched validation condition-cell means, the trial shifted mean place by −0.149 places and finish time by −0.034s; Sprint improved mean place by 0.246 and saved 0.057s. Across 24 paired cells, the 25%-rest input added 0.242s and 50%-rest input added 0.519s. These are average effects, not per-seed guarantees. Candidate tier win rates were Common 27.3%, Rare 56.5%, Legendary 85.8%; mean places were 3.67, 2.22, and 1.30. Do not add per-duck tuning.
+
+Identity conversion preserves raw absolute deltas but performs poorly against the distribution goal: its median (22.313s) is on target, yet 30.49% of validation races exceed 23 seconds and p95 is 30.557s. The affine candidate reduces the tail without early finishes and retains substantially more tier/modifier separation than sqrt10.45. The slope's half-scale effect remains an explicit owner trade-off, so this recommendation is **for owner calibration review only**, not production adoption. Production work still requires QP Orch's explicit source/lifecycle/file assignment and a separate owner decision on the proposed calibration.
+
+Reproduce the matched run with `node reports/development/plan-23-production-race-integration/linear-speed-comparison.mjs`; full per-cell/group results and seed provenance are in `linear-speed-comparison-results.json`. No browser, build, or repository tests were run.
 
 ## Payload and diagnostic sizing
 

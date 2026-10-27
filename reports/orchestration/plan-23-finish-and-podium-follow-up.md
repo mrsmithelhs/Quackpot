@@ -20,7 +20,21 @@ Use original SVG stacked-paper stepped plinths in 2/1/3 order, large local duck 
 
 Podium cues belong in presentation evidence only when actually displayed. Replays can truthfully record another display under their replay index; deduplicate accidental rerenders, not genuine later displays. Do not log a skipped slide as watched. SVG references must be instance-safe. Request browser turns and preserve owner tabs/saves/server. No additional reviewer is authorized for this bounded repair.
 
-## Inspiration
+## Continuation proposal gate — approved with corrections
+
+Root read the candidate resolver and obtained a read-only Luna-high proposal audit. Both identified crossing-step deferred wall/contact work, non-transitive epsilon sorting, separation of first-crossing parity from later-finalized result records, and the unsupported claim that PHYSICS.minSpeed supplies an applied speed floor. These are proposal corrections, not witnessed implementation bugs in the new resolver (which did not yet exist).
+
+Approve the proposed new report-only `individual-finish-model.mjs`, focused tests, validation runner and generated validation results inside `drama-preview-01/`, in addition to the already approved preview files. Preserve historical models/results. The implementation instructions sent to QP Impl23 require:
+
+- Strict unrounded crossing-time ordering and exact-equality ID tie-break; near-tie diagnostics separately. Any conflict with the historical winner in the 1,440 witnesses returns to root.
+- Freeze the original fractional first-crossing witness, process all same-step crossings in time order, then apply deferred endpoint wall/contact work only to still-active entrants, once. Finished entrants cannot influence later competitive events.
+- Explicit first-crossing parity projection against raw old-resolver results, distinguishing derived finalization/status fields from causal data. The extended full-result fingerprint necessarily differs. No weakened causal parity or redundant runtime resolver run to fabricate it.
+- Initial 800-tail-tick watchdog as a tested guard, not a guaranteed speed-derived bound. Compare all 1,440 selected-candidate inputs; report tail quantiles, unresolved/guards, lower places and changed Gem recipients. Partial-unresolved/no-final-payout is a conservative report-only policy; production policy remains gated. Future finishers cannot change the order of entrants that already crossed.
+- Original highlight/camera beat stays anchored to the first-crossing segment. Per-entrant one-second braking is separate presentation without a sudden heading snap. Podium follows all-stopped. Replay/skip/seek/pause/snapshot retain committed mechanics and correct presentation phase without new RNG or payouts.
+
+Root approved this scoped implementation after the proposal review, with no new tuning, production edits, extra implementer reviewer, status change or push. Return executable/rendered delivery for independent review and owner visual acceptance.
+
+## Inspiration sources
 
 Official sources establish kart-racer precedents for a separate top-three awards presentation: Nintendo's Mario Kart DS manual describes a podium ceremony, and Activision's Crash Team Racing update notes describe top-three podium animations. These support the general winner-celebration pattern, not the proposed Quackpot layout or an assertion of psychological efficacy. No branded art is imported.
 

@@ -118,3 +118,23 @@ No production build, full project suite, save/reload or migration test, Receipt 
 **Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch's direction not to add another reviewer to this report-only continuation. The allowed Sol-low review budget for the later production artifact remains unused.
 
 The scoped resolver, focused tests, frozen validation artifact, preview, and browser evidence are committed separately from this progress report. This progress entry is the final Plan 23 write. No packet status was changed and no push was performed.
+
+## Resolver/presentation boundary repair — 2026-10-27
+
+QP Orch requested a bounded repair after review of the individual-crossing preview. The selected mode is now the preview default and the prior same-instant classification remains an explicit historical comparison. Presentation timing moved into pure `presentation-timing.mjs`: the two-second highlight remains anchored to the middle of the original first-cross segment; camera progress is based on tick / first-cross tick; and reveal/coast trigger logic uses elapsed milliseconds consistently. A completed static/skip render settles final coast progress before drawing runners and podium.
+
+The resolver now rolls back an entire crossing tick if the mechanical event cap aborts it, including entrant/trajectory state and crossing evidence. Transactional endpoint dispatch restores survivor states if resolution throws. The terminal trajectory frame preserves the actual interpolation prefix rather than replacing later entrants with their future crossing witnesses. Focused coverage now checks caps 26 and 28, endpoint callback rollback, crossing-event consistency, and all returned trajectory states through the historical prefix. The regenerated 1,440-case artifact reports zero causal first-cross mismatches and zero returned-trajectory-prefix mismatches across 613,391 sampled frames (1e-8 tolerance).
+
+The authorized resumed browser check used the isolated preview at a 1525 × 814 visible window. It reached every reduced/static checkpoint through 100%; the final state reported all six genuine crossings and showed the settled podium. Earlier during this resumed browser turn, playback showed no podium before the last crossing and Skip presented the settled result. The animated reveal was not paused or sampled at an intermediate frame in this turn; event seeking/restart, 1280 × 720 layout and current-turn console diagnostics were also not revalidated. Earlier browser evidence remains in the preceding sections. The isolated preview tab was closed after evidence capture; the existing server was left running.
+
+Validation for this repair:
+
+- `node --test reports/development/plan-23-production-race-integration/drama-preview-01/individual-finish-model.test.mjs reports/development/plan-23-production-race-integration/drama-preview-01/presentation-timing.test.mjs` — 12/12 passed.
+- `node --check` on the preview controller, resolver, timing module and validation runner — passed.
+- `node reports/development/plan-23-production-race-integration/drama-preview-01/individual-finish-validation.mjs` — regenerated 1,440-case artifact; first-cross and returned-prefix parity both 0 mismatches.
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`.
+- `git diff --check` — passed.
+
+No production source, production build, full project suite, save/migration/Receipt path, reward idempotency, or packet status was changed or validated. Production work remains behind QP Orch's handoff and ownership gates. **Advisor consultation:** Branch C — orchestrator-gate-only, following QP Orch's explicit direction not to add another reviewer. The allowed Sol-low review budget for a later main production artifact remains unused.
+
+The scoped repair and evidence commit precedes this progress update; this progress update is the final Plan 23 write. No push was performed.

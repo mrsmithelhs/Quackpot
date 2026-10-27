@@ -2,6 +2,23 @@
 
 Date: 2026-10-27
 
+## Owner visual feedback repair (2026-10-27)
+
+QP Orch recorded the owner's feedback and authorized a bounded report-only repair in this folder. The four supplied Tinkercad captures were inspected as proportion/orientation references only; D2 remains the material and physical-object reference. The proposal now records the repair landmarks, furniture painter order, tabletop staging, and warm-lamp comparison before the updated SVG/HTML work.
+
+The rear three-quarter view now turns the head and body together, narrows the body depth, puts the nape toward camera, separates near/far wing scale and overlap, and leaves only a small eye/beak at the far edge. The high view foreshortens the head/body and shows paired wings with the face compressed toward the near edge. The low view raises the head above a distinct shaded underside plane. These are authored 2D projections for owner comparison; same-object coherence remains an owner judgment.
+
+The fixed apartment remains one room. Sofa and table legs are painted behind/below their solid surfaces. The close composition is a desk/table crop with the static duck beside a supported portrait phone with a blank screen, plus generic pen, papers, keys, and lip balm. Other apartment areas remain future proposals. The warm desk-lamp control now lights the source visibly and creates a focused amber pool with falloff and lower-left contact shadows; neutral leaves the lamp off for a same-composition comparison. The duck stays inanimate and unchanged across views.
+
+## Updated rendered evidence and limits
+
+- The refreshed five-view contact sheet was inspected at **1280 × 720 CSS pixels**. The rear body now reads more compact than the profile and separates the near and far wings; high and low views have visibly different foreshortening/underside treatment. The apartment wide render shows the table/sofa legs below their surfaces.
+- The desk close-up was rendered in neutral and warm-lamp conditions at the same front view. The phone remains upright and supported, the screen is blank, the listed everyday props are visible, the duck rests at the tabletop edge, and the warm condition illuminates the duck and desk while leaving the outer room subdued.
+- At **390 × 844 CSS pixels**, the view/composition/light controls stack without horizontal overflow in the observed viewport. Wide-shot caption placement no longer covers the duck. The desk close crop enlarges the duck while retaining the phone and props. Browser zoom levels 100%, 200%, and 400% remain unverified; viewport overrides were used only for responsive-size observations.
+- The final rear-body and low-underside refinements were inspected on the refreshed contact sheet, but their close-crop renders were not rechecked after those last edits. QP Orch directed no further browser turn for this repair, so close-detail behavior for those exact final shapes remains unverified.
+
+The earlier one-time advisor consultation and requested/observed model discrepancy remain as recorded below; no repair reviewer was added, per the orchestration repair direction. No production, canonical, packet-status, or non-owned files were changed by this work. The working tree contains concurrent `src/ui` edits from other work; they are preserved and excluded from this delivery.
+
 ## Overall summary
 
 The packet check passed and the owner/orchestrator approved the bounded D2/2D proposal before preview authoring. This delivery contains a local report preview with five static SVG views, three apartment framings, neutral/window/dark lighting controls, view and composition IDs, and a copyable owner-note field. After root's comparison with D2, the drawings were refined to show a distinct round head/neck overlap, rounded body, raised tail, molded lobed wing, dimensional upper/lower bill, angle-specific occlusion, and a restrained lower-body shadow. The physical duck remains static and rubber-like; no E2 paper anatomy, production code, new story mechanic, 3D pipeline, remote asset, or dependency was added.

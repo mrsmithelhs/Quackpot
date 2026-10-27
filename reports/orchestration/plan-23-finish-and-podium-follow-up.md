@@ -34,6 +34,12 @@ Approve the proposed new report-only `individual-finish-model.mjs`, focused test
 
 Root approved this scoped implementation after the proposal review, with no new tuning, production edits, extra implementer reviewer, status change or push. Return executable/rendered delivery for independent review and owner visual acceptance.
 
+## Owner reveal-timing and lighting refinement
+
+Owner explicitly approves the podium and refines its trigger: start the approximately one-second downward ease-out **at the last genuine crossing**, concurrently with the final duck's one-second coast, rather than waiting for all racers to stop. Ease scene lighting down during the reveal, in the visual language of race-drama lighting; preserve readable podium/labels and visibility of the upper course. Complete playback only when both all racers have stopped and the podium is settled. This supersedes the earlier sequential all-stopped/podium directions above.
+
+Root sent the refinement to the authorized implementer and synchronized design/AGENTS/orchestrator/packet. Pause freezes coast, lighting and slide together; earlier seeking/restart resets them. Reduced/static/skip use settled readable states without animated dimming or descent. Log only actual displayed cues, per appearance, rather than scheduling them as shown during resolution. No mechanics, reward, model-tuning or production scope expansion follows.
+
 ## Inspiration sources
 
 Official sources establish kart-racer precedents for a separate top-three awards presentation: Nintendo's Mario Kart DS manual describes a podium ceremony, and Activision's Crash Team Racing update notes describe top-three podium animations. These support the general winner-celebration pattern, not the proposed Quackpot layout or an assertion of psychological efficacy. No branded art is imported.

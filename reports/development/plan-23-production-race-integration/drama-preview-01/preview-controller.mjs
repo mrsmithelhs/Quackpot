@@ -18,7 +18,10 @@ let state;
 let raf = 0;
 let running = false;
 let podiumAnimation = null;
-let lightingAnimation = null;
+let environmentAnimation = null;
+let podiumMotionController = null;
+let podiumMotionPaused = false;
+let racePausedPodiumMotion = false;
 let startedAt = 0;
 let elapsedBeforePause = 0;
 let reduced = OSCillation.matches;
@@ -50,8 +53,6 @@ function setTrackGeometry() {
   $('track-shore').setAttribute('fill', 'none');
   $('track-surface').setAttribute('d', trackSurface);
   $('track-surface').setAttribute('fill-rule', 'evenodd');
-  $('result-lighting').setAttribute('d', trackSurface);
-  $('result-lighting').setAttribute('fill-rule', 'evenodd');
   $('lane-divider').setAttribute('d', svgStadiumPath(20));
   $('inner-pond').setAttribute('d', inner);
 }
@@ -396,6 +397,46 @@ function clearRaceMotions() {
   motionRoles.clear();
 }
 
+function podiumMotionToggle() {
+  return $('podium-layer')?.querySelector('[data-duck-motion-toggle]') ?? null;
+}
+
+function setPodiumMotionPaused(paused) {
+  const toggle = podiumMotionToggle();
+  if (!podiumMotionController || !toggle || toggle.disabled) return;
+  const isPaused = toggle.getAttribute('aria-pressed') === 'true';
+  if (isPaused !== paused) toggle.click();
+  podiumMotionPaused = toggle.getAttribute('aria-pressed') === 'true';
+  updatePodiumMotionControl();
+}
+
+function updatePodiumMotionControl() {
+  const button = $('podium-motion-control');
+  if (!button) return;
+  const available = Boolean(state?.finished && state.podiumVisible && !reduced && podiumMotionController);
+  button.hidden = !available;
+  button.disabled = !available || Boolean(podiumMotionToggle()?.disabled);
+  button.textContent = podiumMotionPaused ? 'Resume podium motion' : 'Pause podium motion';
+}
+
+function startPodiumMotion() {
+  if (!state?.podiumVisible || reduced || podiumMotionController) return;
+  podiumMotionController = createDuckMotionController($('podium-layer'), { active: true });
+  if (podiumMotionPaused) {
+    const toggle = podiumMotionToggle();
+    if (toggle && !toggle.disabled && toggle.getAttribute('aria-pressed') !== 'true') toggle.click();
+  }
+  updatePodiumMotionControl();
+}
+
+function stopPodiumMotion() {
+  podiumMotionController?.destroy();
+  podiumMotionController = null;
+  podiumMotionPaused = false;
+  racePausedPodiumMotion = false;
+  updatePodiumMotionControl();
+}
+
 function applyLocomotion(entrant, role) {
   if (motionRoles.get(entrant.id) === role) {
     motionControllers.get(entrant.id)?.setActive(running && !reduced);
@@ -592,7 +633,7 @@ function stopPlayback() {
   running = false; cancelAnimationFrame(raf);
   for (const controller of motionControllers.values()) controller.setActive(false);
   if (podiumAnimation?.playState === 'running') podiumAnimation.pause();
-  if (lightingAnimation?.playState === 'running') lightingAnimation.pause();
+  if (environmentAnimation?.playState === 'running') environmentAnimation.pause();
   $('play').disabled = false; $('pause').disabled = true;
 }
 
@@ -612,7 +653,11 @@ function startPlayback() {
   if (reduced) { nextCheckpoint(); return; }
   running = true; startedAt = performance.now();
   if (podiumAnimation?.playState === 'paused') podiumAnimation.play();
-  if (lightingAnimation?.playState === 'paused') lightingAnimation.play();
+  if (environmentAnimation?.playState === 'paused') environmentAnimation.play();
+  if (racePausedPodiumMotion) {
+    racePausedPodiumMotion = false;
+    setPodiumMotionPaused(false);
+  }
   for (const controller of motionControllers.values()) controller.setActive(true);
   state.started = true;
   $('play').disabled = true; $('pause').disabled = false;
@@ -651,9 +696,10 @@ function finishRace(reason) {
   if (reason === 'skip' || reduced) {
     state.skipReveal = reason === 'skip';
     showPodium({ animate: false });
-    if (state.resolution.status === 'finished') settleResultLighting();
+    if (state.resolution.status === 'finished') settleResultEnvironment();
     state.skipReveal = false;
   } else if (!state.presentationPlan.resultRevealSeconds) showPodium({ animate: true });
+  if (state.resolution.status === 'finished') settleResultEnvironment();
   updateControls();
 }
 
@@ -730,9 +776,14 @@ function buildPodium() {
     const prefix = `${namespace}-duck-${entrant.id.toLowerCase()}-${place}`;
     const ordinal = podiumOrdinal(place);
     const you = entrant.player ? '<span class="podium-you">YOU</span>' : '';
+    const motion = place === 1 ? 'graceful-bob' : 'paddle';
+    const motionToggle = place === 1
+      ? '<button class="podium-motion-controller-toggle" type="button" data-duck-motion-toggle aria-hidden="true" tabindex="-1" hidden>Pause podium motion</button>'
+      : '';
     foreign.innerHTML = `<div xmlns="http://www.w3.org/1999/xhtml" class="podium-card podium-card-${place}">
-      <div class="podium-duck">${createDigitalDuckSvg({ prefix, label: `${entrant.name}, ${ordinal} place podium duck`, palette: PALETTES_BY_ID[entrant.id] ?? 'classic-yellow', paperMode: 'hybrid' })}</div>
+      <div class="podium-duck" data-duck-prefix="${prefix}" data-duck-motion="${motion}">${createDigitalDuckSvg({ prefix, label: `${entrant.name}, ${ordinal} place podium duck`, palette: PALETTES_BY_ID[entrant.id] ?? 'classic-yellow', paperMode: 'hybrid' })}</div>
       <div class="podium-card-label"><strong>${ordinal} place</strong>${you}<span class="podium-name">${safeHtml(entrant.name)}</span><span class="podium-gems">${safeHtml(payoutLabel(entrant))}</span></div>
+      ${motionToggle}
     </div>`;
     layer.append(foreign);
   }
@@ -760,6 +811,7 @@ function showPodium({ animate = false } = {}) {
   if (!state) return;
   if (state.podiumVisible) {
     if (!animate && podiumAnimation && podiumAnimation.playState !== 'finished') podiumAnimation.finish();
+    startPodiumMotion();
     return;
   }
   if (!buildPodium()) return;
@@ -768,7 +820,9 @@ function showPodium({ animate = false } = {}) {
   state.podiumAppearanceCount += 1;
   layer.setAttribute('visibility', 'visible');
   appendPresentationRecord('podium shown', { replayIndex: state.replayNumber, appearance: state.podiumAppearanceCount,
-    presentation: animate ? 'animated descent' : 'settled view', skippedMotion: Boolean(state.skipReveal) });
+    presentation: animate ? 'animated descent' : 'settled view', entranceSkipped: Boolean(state.skipReveal),
+    ambientMotion: reduced ? 'static reduced motion' : 'Plan 20 podium loops started' });
+  startPodiumMotion();
   if (animate && !reduced && typeof layer.animate === 'function') {
     podiumAnimation = layer.animate([
       { transform: 'translateY(-190px)', opacity: 0 },
@@ -783,34 +837,42 @@ function startResultReveal() {
   state.resultRevealStarted = true;
   showPodium({ animate: !reduced });
   const stage = $('stage-shell');
+  const environment = $('environment');
+  const startingFilter = getComputedStyle(environment).filter;
   stage.classList.add('result-reveal');
-  const layer = $('result-lighting');
-  if (!reduced && typeof layer.animate === 'function') {
-    lightingAnimation = layer.animate([{ opacity: 0 }, { opacity: .52 }],
-      { duration: 1000, easing: 'ease-out', fill: 'forwards' });
-  } else layer.setAttribute('opacity', '.52');
-  appendPresentationRecord('podium and finish lighting reveal started', {
+  stage.classList.remove('result-settled');
+  if (!reduced && typeof environment.animate === 'function') {
+    environmentAnimation?.cancel();
+    environmentAnimation = environment.animate([
+      { filter: startingFilter }, { filter: 'brightness(0.43) saturate(0.75)' },
+    ], { duration: 1000, easing: 'ease-out', fill: 'forwards' });
+  }
+  appendPresentationRecord('podium and environment dim reveal started', {
     tick: state.resolution.ticks, lastFinishTimeSeconds: state.resolution.lastFinishTimeSeconds,
     coastSeconds: 1, podiumSeconds: 1,
   });
 }
 
-function settleResultLighting() {
+function settleResultEnvironment() {
   $('stage-shell').classList.add('result-reveal');
-  const layer = $('result-lighting');
-  lightingAnimation?.finish();
-  if (layer) layer.setAttribute('opacity', '.52');
+  $('stage-shell').classList.add('result-settled');
+  if (environmentAnimation) {
+    environmentAnimation.finish();
+    environmentAnimation.cancel();
+    environmentAnimation = null;
+  }
 }
 
 function hidePodium() {
+  stopPodiumMotion();
   podiumAnimation?.cancel(); podiumAnimation = null;
-  lightingAnimation?.cancel(); lightingAnimation = null;
-  $('stage-shell')?.classList.remove('result-reveal');
-  $('result-lighting')?.removeAttribute('opacity');
+  environmentAnimation?.cancel(); environmentAnimation = null;
+  $('stage-shell')?.classList.remove('result-reveal', 'result-settled');
   $('podium-layer')?.replaceChildren(); $('podium-layer')?.setAttribute('visibility', 'hidden');
   if ($('podium-summary')) { $('podium-summary').replaceChildren(); $('podium-summary').hidden = true; }
   if ($('podium-player-note')) { $('podium-player-note').textContent = ''; $('podium-player-note').hidden = true; }
   if (state) { state.podiumVisible = false; state.resultRevealStarted = false; state.resultRevealProgress = 0; }
+  updatePodiumMotionControl();
 }
 
 function seekCheckpoint(index) {
@@ -865,6 +927,7 @@ function updateControls() {
     ? state.started ? 'Static sequence active' : 'Start static race'
     : state.finished ? 'Race finished' : state.started ? 'Resume race' : 'Start race';
   $('snapshot-next').textContent = reduced ? 'Next view' : 'Next checkpoint';
+  updatePodiumMotionControl();
 }
 
 function onMotionModeChange() {
@@ -887,11 +950,13 @@ function onMotionModeChange() {
   }
   if (reduced) state.checkpointIndex = nearestCheckpointIndex(state.cursorTick);
   if (reduced && state.resultRevealStarted) {
-    podiumAnimation?.finish(); lightingAnimation?.finish();
+    podiumAnimation?.finish(); environmentAnimation?.finish();
     state.resultRevealProgress = 1;
     if (!state.finished) finishRace('finish');
   }
   renderRunners(state.cursorTick);
+  if (reduced) stopPodiumMotion();
+  else if (state.podiumVisible) startPodiumMotion();
   updateControls();
   $('race-status').textContent = `Display mode changed; same committed race paused at tick ${state.cursorTick.toFixed(1)}.`;
 }
@@ -964,7 +1029,10 @@ $('pause').addEventListener('click', () => {
   if (state.presentationPlan.resultRevealSeconds) {
     state.resultRevealProgress = revealProgressAtElapsedMilliseconds(elapsed, state.presentationPlan);
   }
-  elapsedBeforePause = elapsed; stopPlayback(); renderRunners(state.cursorTick);
+  elapsedBeforePause = elapsed; stopPlayback();
+  racePausedPodiumMotion = Boolean(state.podiumVisible && podiumMotionController && !podiumMotionPaused);
+  if (racePausedPodiumMotion) setPodiumMotionPaused(true);
+  renderRunners(state.cursorTick);
   $('race-status').textContent = `Paused at tick ${state.cursorTick.toFixed(1)}; resume continues from here.`;
   appendPresentationRecord('playback paused'); updateControls();
 });
@@ -973,6 +1041,10 @@ $('replay').addEventListener('click', replayRace);
 $('snapshot-next').addEventListener('click', nextCheckpoint);
 $('snapshot-prev').addEventListener('click', previousCheckpoint);
 $('resume-race').addEventListener('click', resumeFromCursor);
+$('podium-motion-control').addEventListener('click', () => {
+  racePausedPodiumMotion = false;
+  setPodiumMotionPaused(!podiumMotionPaused);
+});
 $('narrative-toggle').addEventListener('click', () => setNarrativeExpanded($('race-narrative').hidden));
 $('uninstall').addEventListener('click', () => { $('exit-note').textContent = 'This is a report-only preview. Closing it does not start or end a game run.'; });
 

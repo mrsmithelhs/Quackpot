@@ -68,7 +68,8 @@
                   <path class="race-track" id="track-surface"/>
                   <path class="lane-line" id="lane-divider"/>
                   <path id="inner-pond" fill="#91c9d2" stroke="#fff" stroke-width="3"/>
-                  <path id="result-lighting" class="result-lighting" aria-hidden="true"/>
+                </g>
+                <g id="course-overlay" aria-hidden="true">
                   <line class="finish-line" x1="450" y1="62" x2="450" y2="105"/>
                   <text class="lane-label" x="450" y="30" text-anchor="middle">START / FINISH</text>
                   <text class="stage-hud" id="simulation-hud" x="20" y="24">Race not started</text>
@@ -83,6 +84,7 @@
           <div class="panel-row">
             <button class="primary" id="play" type="button">Start race</button>
             <button id="pause" type="button" disabled>Pause</button>
+            <button id="podium-motion-control" type="button" aria-controls="podium-layer" hidden>Pause podium motion</button>
             <button id="skip-race" type="button">Skip to finish</button>
             <button id="replay" type="button" title="Restart this committed race from the beginning without new mechanics, random draws, or rewards.">Restart same race</button>
           <span id="race-status" class="status" role="status" aria-live="polite">Ready · selected model and input resolve one seeded race.</span>

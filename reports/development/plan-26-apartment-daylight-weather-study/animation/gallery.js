@@ -2,6 +2,7 @@
 import { renderStudyScene } from '../study/scene.mjs';
 import { createWeatherMotion, createFlashArbiter } from './index.mjs';
 import { createLightningEffect } from './lightning.mjs';
+import { createBrightLightningEffect } from './lightning-bright.mjs';
 import * as rainHarness from './tools/browser-harness.js';
 import * as flashHarness from './tools/flash-harness.js';
 const harness = { ...rainHarness, ...flashHarness };
@@ -16,9 +17,9 @@ const CELLS = {
   stormlamp: ['Storm + warm lamp', { weather: 'storm', light: 'warm' }],
   overcast: ['Overcast (no rain motion by design)', { weather: 'overcast' }]
 };
-const state = { framing: 'wide', stage: 'wide', show: 'all', selected: 'storm' };
-const choices = { framing: ['wide', 'medium'], stage: Object.keys(STAGES), show: ['all', 'one', 'dup4'], selected: Object.keys(CELLS) };
-const labels = { framing: 'Framing', stage: 'Stage shape', show: 'Scenes shown (all four / the selected one / four copies of the selected one)', selected: 'Selected scene' };
+const state = { framing: 'wide', stage: 'wide', show: 'all', selected: 'storm', look: 'bright' };
+const choices = { framing: ['wide', 'medium'], stage: Object.keys(STAGES), show: ['all', 'one', 'dup4'], selected: Object.keys(CELLS), look: ['bright', 'restrained'] };
+const labels = { framing: 'Framing', stage: 'Stage shape', show: 'Scenes shown (all four / the selected one / four copies of the selected one)', selected: 'Selected scene', look: 'Lightning look: bright (owner-directed: whole-scene white flash, window lingers) or restrained (the first, subtle pulse)' };
 $('#controls').innerHTML = Object.entries(choices).map(([k, list]) => `<fieldset><legend>${labels[k]}</legend><select data-k="${k}">${list.map(v => `<option value="${v}"${v === state[k] ? ' selected' : ''}>${k === 'stage' ? STAGES[v][0] : k === 'selected' ? CELLS[v][0] : v}</option>`).join('')}</select></fieldset>`).join('');
 $('#controls').addEventListener('change', e => { const k = e.target.dataset.k; if (!k) return; state[k] = e.target.value; render(); });
 
@@ -38,7 +39,7 @@ function instances() {
 }
 
 function makeController(inst) {
-  inst.ctl = createWeatherMotion(inst.root, { weather: inst.weather, arbiter, reducedMotion: reducedOption ? 'reduce' : 'auto', startPaused: !!prefs.paused[inst.id], startStopped: !!prefs.stopped[inst.id], active: !prefs.inactive[inst.id], flashEffect: createLightningEffect({ schedule: (fn, ms) => sched.fn(fn, ms) }) });
+  inst.ctl = createWeatherMotion(inst.root, { weather: inst.weather, arbiter, reducedMotion: reducedOption ? 'reduce' : 'auto', startPaused: !!prefs.paused[inst.id], startStopped: !!prefs.stopped[inst.id], active: !prefs.inactive[inst.id], flashEffect: (state.look === 'restrained' ? createLightningEffect : createBrightLightningEffect)({ schedule: (fn, ms) => sched.fn(fn, ms) }) });
   inst.unsub = inst.ctl.subscribe(() => paint(inst));
   paint(inst);
 }

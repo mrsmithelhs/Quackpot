@@ -10,6 +10,7 @@ Report-only. Host-side Web Animations API on an **inline** `<svg>` produced by t
 | `controller.mjs` | `createWeatherMotion(root, options)`: blockers, build/restore, pause/resume, stop/start, destroy |
 | `tests/*.test.mjs` | Node tests with a fake clock and a fake DOM (`node --test animation/tests/`) |
 | `lightning.mjs` | Stage C: `createLightningEffect()` (the injectable `flashEffect`), `LIGHTNING` constants, `pulseFactor`, keyframes |
+| `lightning-bright.mjs` | Stage C, owner-directed: `createBrightLightningEffect()`, the bright curve (whole-scene white flash, window lingers 500 ms longer); same effect contract, selectable in the gallery |
 | `lightning-mechanism.md` | Stage C mechanism note: curve, bounds, placement, interruption, measurement method |
 | `gallery.html`, `gallery.js`, `tools/browser-harness.js`, `tools/flash-harness.js`, `tools/flash-metrics.mjs`, `tools/estimate-lightning.mjs` | separate motion gallery, in-page rain and flash measurement helpers (browser turn), pure luminance/flash maths (Node-tested), analytic estimate |
 

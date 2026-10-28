@@ -39,3 +39,22 @@ Anything that could stop motion cancels the pulse to neutral at once: pending vi
 
 ## Not in scope
 Audio/thunder, other rooms, kit hooks, rain art changes, still changes, Plan 25 wiring, whole-room visibility policy (the glass gate stays), production promotion, device/performance evidence (Stage D).
+
+## Bright look (owner-directed variant, `lightning-bright.mjs`)
+**Why it exists.** The owner triggered the restrained pulse above in the gallery and could not tell any lightning was happening (measured peak lift about 0.07 on the glass and 0.03 elsewhere, which this note had warned could look subtle). The owner's direction: *a bright-white flash that takes over the whole scene, then quickly fades from the whole scene, while the window stays light for maybe half a second longer before it also fades out.* This variant implements exactly that. It is **selectable in the gallery** (Lightning look: `bright`, the default, or `restrained`); the restrained look and its curve are unchanged and still selectable. The earlier review said "no stronger effect"; this is a stronger effect by the owner's explicit instruction and **needs its own root review** before anything beyond this report-only gallery.
+
+**Unchanged and shared:** host-triggered only, one pulse per accepted event, no idle flashes, storm only, one page arbiter (>= 4000 ms from the start of the previous accepted pulse, refusal not queueing, recreation cannot reset it, no arbiter fails closed), every blocker (pending visibility, off-screen or cropped glass, hidden, inactive, pause, stop, reduced motion) cancels to neutral at once or refuses, outcomes `finished` / `cancelled` / `refused`, the `watchdog` reason, overlays removed at the end. Only `opacity` is animated.
+
+**Curve (linear segments, 800 ms total, factor x peak opacity):**
+| t (ms) | scene white (`#ffffff`, peak 0.90) | window white (`#f4f8ff`, peak 1.00) |
+|---|---|---|
+| 0 | 0 | 0 |
+| 40 | 1 | 1 |
+| 300 | 0 | 0.75 |
+| 800 | 0 | 0 |
+
+The scene flash rises in 40 ms (about two or three frames at 60 Hz) and is gone by 300 ms; the window is still at 0.75 at 300 ms and fades out by 800 ms, 500 ms longer. One maximum per layer, no second peak.
+
+**Placement.** Two overlay nodes inserted right after the existing `window-spill` ellipse: a full-scene white rect (the same 14000-unit span the rain tint uses) and a pane-clipped white rect over the glass. That puts them **above** the rain tint and vignette (so the white is not dimmed by them) and **above the duck**, but **below** the lamp spill and lamp glow. No node, transform or geometry of the duck or lamp is touched and there is no halo; but a whole-scene white overlay lights the duck and washes the room, and it also washes the lamp's glow region at the peak (measured: see progress.md 9.3). The original brief to keep the lamp warm and the duck unlit is therefore **not met at the peak** by this look, only before and after it.
+
+**Measurement.** Same method as above (positive control first, deterministic seek, baked rasters, streamed). Expected opacity is read from each layer's own keyframes. This look is a large-area, high-contrast flash: by the simplified luminance test essentially every pixel of the scene flashes (rise and fall of at least 0.10), so the flashing-pixel counts are large, not zero. One pulse is one flash and the scheduler allows at most one pulse per rolling second, but that is a design bound, not a conformance result, and no certification or area-based claim is made.

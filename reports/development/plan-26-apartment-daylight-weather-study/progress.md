@@ -133,7 +133,7 @@ The duck region in storm + lamp (81) is about 8 lower than in storm (89) because
 ### 7.5 Next gate
 Owner look at the five still weather cells (`.../plan-26-apartment-daylight-weather-study/gallery.html`, needs the existing dev server). Other rooms/desks, animated rain and lightning (retained, with a later bounded proposal covering embedding, pause/teardown, reduced motion, repeated-instance keyframes, aggregate flash behaviour and performance), kit promotion and Plan 25 integration remain separate gates.
 
-## 8. Stages A/B: weather motion controller and animated rain (report-only, source checks done, browser turn requested)
+## 8. Stages A/B: weather motion controller and animated rain (report-only, source checks and browser turn done, awaiting review)
 
 Owner and QP Orch approved the controller logic and animated-rain prototype (handoff `plan-26-animation-sonnet-handoff.md`). Everything is in the new `animation/` folder; the kit, `study/*`, the still gallery and the still generators are untouched (`animation/tests/still.test.mjs` asserts this). Contract and lifecycle table: `animation/interface.md`.
 
@@ -143,6 +143,32 @@ Owner and QP Orch approved the controller logic and animated-rain prototype (han
 
 **Source checks (Node, no browser):** `node --test animation/tests/*.test.mjs` 38/38: arbiter (boundary 3999.9 vs 4000 ms, no queueing, backwards clock, validation, burst); rain tile (spec determinism, loop vector along the still slant, geometric seam: visible streak set at phase 1 equals phase 0, and a two-copy tile fails that test, so it is a live check; coverage across phases; drops stay in the glass; keyframes touch only transform and opacity); controller (build and restore compared on final DOM serialisation, all 64 subset/order combinations of the four pause-class blockers, still-class dominance, live reduced preference, idempotent teardown with zero live animations/listeners/observers, `finished` rejections handled, three independent instances, shared-arbiter refusal and no cooldown reset on recreation, duck/lamp guard, `animate()` failure rolls back); still output byte-identical to the fingerprints recorded before any change (8 cells) and no animation constructs in it. Existing `tools/check.mjs` 151/151 and `tools/check-weather.mjs` 311/311 still pass; `check plan-26` runnable.
 
-**Not yet verified (needs the coordinated browser turn):** real WAAPI motion, the rendered seam, pane clipping and margins, the raster method's positive control, computed (composited) restore, real visibility/off-screen/reduced behaviour, two or more scenes, frame cadence. Tile speeds and densities are first-pass values for owner look. Frame cadence from this machine will not establish low-end performance. No claim is made about photosensitivity or flash safety.
+### 8.1 Browser turn (granted by the owner; Claude desktop built-in browser pane)
+Surface: one tab (`animation/gallery.html` on the existing dev server at 127.0.0.1:5181), plus one short-lived second tab to try a real hidden state. No owner tabs, storage, settings or server touched; I cannot prove isolation from other harnesses beyond that these were the only tabs in the pane. Viewports emulated: **1280x720** (dpr 1.25) and **390x844** (dpr 2, Android UA). Closed at the end; viewport override reset; slot released. In-page measurement via `animation/tools/browser-harness.js`; numbers are diagnostic, not a judgement of the art.
+
+| Check | 1280x720 | 390x844 |
+|---|---|---|
+| Console errors | none (only Vite connect) | not re-read |
+| Real WAAPI motion (rain/storm) | all animations progress; far, near and drops all move | scenes running with 9/12 animations; progress not re-sampled |
+| Raster positive control | raw clone blind (diff 0.000), baked clone differs (mean 0.084): method valid | same (0.084) |
+| Loop seam, mid-loop vs across-the-wrap diff ratio | rain 0.91 / 0.76; storm 0.99 / 1.20 (ratio near 1 = no jump) | storm 0.99 / 1.16 |
+| Clip: pixels beyond glass + 8 px vs still | 0 differing (rain and storm) | 0 differing |
+| Show still / reduced option / destroy: DOM equals recorded still, composited raster vs a fresh still | equal, mean diff 0, 0 live animations | not repeated |
+| Free pause | all animations `paused`, transforms frozen in place; resume runs again | not repeated |
+| Off-screen | scrolling pauses and resumes scenes by themselves (`offscreen` blocker) | not exercised (all on screen) |
+| One page, no overflow | n/a | no horizontal scroll at any stage shape or framing |
+| Page checks | ids unique, no dangling refs, storm/wide still equals the recorded fingerprint in this browser | same stills |
+
+**Real hidden state: not exercised.** Fronting a second tab did not change the first tab's `visibilityState` in this pane (the pane also reports itself hidden), so I could not produce a real hidden page. The controller's listener path was exercised with a **simulated** `visibilitychange` (state overridden on the document): hidden pauses all, a user pause survives becoming visible again, resume restores motion. That proves the wiring, not real browser hidden behaviour.
+**Reduced motion:** the pane cannot emulate the OS setting, so the controller option `reducedMotion: 'reduce'` was used; the OS preference path itself is unobserved.
+**Frame cadence:** with motion on, the pane's rAF median was 20.8 ms (p95 21.4, max 22, no long tasks) for one scene, all four, and four copies. The still baseline and the wide/medium case could not be compared: with nothing visibly animating, rAF fell to about 1 Hz in this unfocused pane (reproduced twice), so rAF is not a usable frame meter here, as the review warned. No claim about compositor cost or low-end devices.
+
+**Findings for review**
+1. *Fixed in this turn:* the gallery's dangling-reference check scanned its own result table after the first re-render and reported a false "1 dangling". It now scans only the scene grid (`gallery.js`).
+2. *Open, not fixed:* wide framing of the **medium** crop at the wide stage puts the window fully out of frame (glass 0% visible), yet the controller still runs 12 animations: its off-screen test watches the scene box, not the glass. Wasted work for a view where weather is ambience only; at the narrow stage the glass is 48% visible. A fix would observe the glass or stop motion for out-of-frame framings; I did not change controller behaviour after delivery review began.
+3. Measurement artifact worth knowing: right after `pause()` a computed transform can still change for a frame (pause is applied at the next frame); I read it only after waiting.
+4. Tile speeds and densities are still first-pass values for owner look.
+
+**Not verified:** a real hidden page, the OS reduced-motion preference, low-end/compositor performance, the medium framing in motion at the narrow stage by eye (numbers only), and phone interaction by touch (clicks only). No claim is made about photosensitivity or flash safety.
 
 **Next gate:** root/owner review after the browser turn. Lightning art and composite evidence remain a later explicitly approved stage; other rooms, kit hooks, Plan 25 and promotion remain separate.

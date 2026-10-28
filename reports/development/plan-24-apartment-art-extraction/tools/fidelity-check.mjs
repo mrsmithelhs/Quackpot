@@ -27,7 +27,8 @@ if (only.includes('static')) {
   if (!views) record('duck/views.mjs', false, 'missing');
   else {
     record('duck views deep-equal frozen duck-views.js', eqJson(views.views, base.views));
-    const text = (await import('node:fs')).readFileSync(path.join(KIT, 'duck/views.mjs'), 'utf8');
+    // Line-ending tolerant: a Windows checkout may rewrite LF as CRLF, which JS template literals normalise anyway.
+    const text = (await import('node:fs')).readFileSync(path.join(KIT, 'duck/views.mjs'), 'utf8').replace(/\r\n/g, '\n');
     record('duck/views.mjs body byte-identical to frozen blob', text.endsWith(base.duckViewsText), `${text.length} bytes`);
   }
   record('duck/overhead.mjs topDuckInner identical', !!overhead && overhead.topDuckInner() === base.api.topDuckInner());

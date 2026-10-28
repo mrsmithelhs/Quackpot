@@ -6,7 +6,7 @@
 
 A browser gacha game about collecting rubber ducks, wrapped in a satirical life metagame. The player has a job, rent, and food to pay for, and the game keeps finding reasons to spend fictional money. At the end, the game confesses: a Receipt shows what it displayed, what the player did, and asks whether it affected them.
 
-**Audience and use:** high school Video Game Design students. The game is a learning experience followed by discussion. The **floor** is a complete run of roughly 15 minutes; the **ceiling** is wide run-to-run variation that rewards replaying the game to examine it from a game-design perspective. A run may extend past a lesson; saves let it resume. High-drama scenes and consequential choices may take the time they need.
+**Audience and use:** high school Video Game Design students. The game is a learning experience followed by discussion. Owner pacing revision (2026-10-28): an ordinary engaged run should support at least roughly 25 minutes, including reading, choices and Receipt reflection; around 15 minutes describes a rapid, low-reading route. These are design targets awaiting validation, not enforced timers or a restriction on immediate Uninstall. Run-to-run variation rewards replaying the game to examine it from a game-design perspective. A run may extend past a lesson; saves let it resume.
 
 **Design thesis:** *The game manipulates you, then shows you exactly how.* The Receipt is the point.
 
@@ -18,7 +18,7 @@ These are owner decisions, not tuning choices. Changes below are dated.
 2. **No network calls from the game.** No network requests or telemetry calls; no accounts. Run state and the local Receipt event record stay in the browser. This remains absolute at runtime; runtime CDN loading is not allowed.
 3. **Student-initiated file submission only.** The game provides a Receipt export function that assembles run-usage data into a file for the student to download. The student may manually submit that file to an assignment store, such as Google Classroom. The game does not transmit it automatically. A teacher analysis view imports files locally and does not upload or sync them.
    - **Owner decision, 2026-10-23:** This is the narrow exception to the former rule that no student data could be submitted or stored outside the player's browser. No automatic external collection or transmission is permitted.
-4. **The game ends at a designed ending and is allowed to run long.** A complete run targets roughly 15 minutes as the floor experience. High-drama scenes and important choices may extend total time; a run may continue past a lesson (via saves) and beyond 15 in-game days. The game uses no retention techniques after the player reaches their Receipt; offering a fresh run is allowed.
+4. **The game ends at a designed ending and is allowed to run long.** Owner revision (2026-10-28): target at least roughly 25 minutes for an ordinary engaged run; roughly 15 minutes is a rapid, low-reading route. Do not enforce duration through filler waits or delayed exit. High-drama scenes and important choices may extend total time; a run may continue past a lesson (via saves) and beyond 15 in-game days. The game uses no retention techniques after the player reaches their Receipt; offering a fresh run is allowed.
    - **Owner decision, 2026-10-23:** Revise the former five-minute/15-day limit. "Allowed to run long" is the intended reading, not "designed to retain play." Floor set at roughly 15 minutes during GATE-53B review. Exact day count remains open.
 5. **Uninstall is always visible and is the best ending.** The player can leave immediately from its retention offer; choosing to leave reaches the ending and Receipt.
 6. **No real companies, games, people, or brands in the fiction.** Publisher, products, sponsors, and streamers are fictional. Owner-selected satirical names are retained. Owner-approved exception (2026-10-25): factual creator/source identities and license notices are permitted in Credits and asset-provenance records; this does not place real entities in the game's fiction.
@@ -27,7 +27,7 @@ These are owner decisions, not tuning choices. Changes below are dated.
 
 ## The five-minute experience
 
-This heading preserves the draft's section anchor, which the founding reviews cite; it is not a five-minute cap. The sequence is a pacing sketch for a floor run of roughly 15 minutes.
+This heading preserves the draft's section anchor, which the founding reviews cite; it is not a five-minute cap. The sequence is a pacing sketch; the current target is at least roughly 25 minutes for ordinary engaged play, with a rapid route around 15 minutes.
 
 1. **Opening.** Meet the player's existing rubber duck, name and style it, receive a free ten-pull, and win. A $0.99 starter offer follows the first win.
 2. **Pond Race.** Before the race, the player makes one choice about which duck to race or another narrowly scoped race option. Owner request for orchestration ideas on how fatigue could obscure choices — for example, scrambling letters in the options, making option positions hard to track, swapping click targets, or distracting with other animations during the choice. These examples are requests for proposals, not adopted mechanics.
@@ -92,7 +92,7 @@ The clock is hybrid:
 - Race timing is distribution-based: nominal target roughly20s, with at most5% finishing strictly later than23s (owner refinement2026-10-26, DECISION-019). This replaces a universal23s/±15% upper bound; individual long races are allowed. Report sample/configuration, late fraction, quantiles and uncertainty rather than claim a population guarantee from a small seed set. Simulation ends at a genuine crossing, never a forced23s result. A separate computation watchdog must report unresolved honestly. Show full playback wall time including the2s highlight separately from simulated finish time. Production calibration and run-level pacing remain bounded integration decisions.
 - Reveal theater, duck scenes, and other high-drama moments pause the running clock.
 - The overall time budget includes duck setup and the Receipt. High-drama scenes and important choices may extend total time, including past the lesson.
-- The floor run targets roughly 15 minutes; day count is not fixed, and a run may exceed 15 in-game days.
+- Ordinary engaged play targets at least roughly 25 minutes; a rapid low-reading route may take around 15 minutes. Day count is not fixed, and a run may exceed 15 in-game days.
 - Simulation and classroom hardware observation should measure the experience without rushing consequential scenes.
 
 ## Saving
@@ -230,7 +230,7 @@ The first guesses are not trusted values. The first headless simulation packet w
 - near-miss candidate eligibility and the firing rule; and
 - effects of Duck-Dex bonuses and bounded weekly curveballs.
 
-Use the no-per-variant-balancing bound. Pity thresholds, gem amounts, roster size, duplicate rates, event rates, set bonuses, credit-card interest, race duration, banner window, and day count remain open; the floor run targets roughly 15 minutes.
+Use the no-per-variant-balancing bound. Later accepted decisions govern selected numerical values; remaining tuning must validate the current pacing direction: at least roughly 25 minutes for ordinary engaged play and around 15 minutes for a rapid low-reading route. Historical simulation timing is not proof of the revised target.
 
 ### Starting values for simulation
 
@@ -256,7 +256,7 @@ The founding draft's first guesses, kept as the simulation's starting point. Non
 
 ## Classroom use
 
-Students can play without an introductory lecture, then discuss the Receipt. Choosing Uninstall right away is a legitimate ending worth trying, but the course expects students to play through the floor experience (roughly 15 minutes) to earn credit for playing; the teacher states this in class. The game itself never penalizes Uninstall.
+Students can play without an introductory lecture, then discuss the Receipt. Choosing Uninstall right away is a legitimate ending worth trying. The intended engaged experience now targets at least roughly 25 minutes, with around 15 minutes for rapid low-reading play; classroom participation expectations remain the teacher's instruction, not a game timer. The game itself never penalizes Uninstall.
 
 Suggested prompts:
 
@@ -275,7 +275,7 @@ A student may download a run-usage file and manually submit it to a class assign
 ## Open questions
 
 - What is the final title?
-- What in-game day count delivers the roughly 15-minute floor run, and how long should extended play go?
+- What in-game schedule supports at least roughly 25 minutes of engaged play, around 15 minutes for rapid play, and longer resumed runs?
 - Should saves use localStorage or IndexedDB, and how should resume behave on shared or cleared lab computers?
 - Can a teacher see whether students replayed — for example, through a run count or seed in the usage file?
 - What pity thresholds and banner carry/reset rule should simulation recommend?

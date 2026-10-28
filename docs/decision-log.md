@@ -295,3 +295,13 @@ Owner accepts Plan22 except the confusing term trial for the Down speed item. Re
 Owner explicitly closes24 and starts25 for Codex with one Terra-medium main-artifact pre-delivery review. Extracted art/scene lighting accepted; no production weather or all-room adoption implied. Owner likes existing searched audio/playback but requests a much larger recorded-effects catalog and multi-select role pools;18reopens for Sonnet-led bounded Haiku research and redesigned report audition. Do not juxtapose recorded candidates with disliked synthesized quacks in the main experience. Exact-license/local/Credits rules and separate production gate remain.
 
 Owner accepts26animation visuals. Root verifies pending-visibility repair8889e7d/7c036f8 with45tests, accepting A/B prototype technically with existing evidence limits. Owner then questions whole-plan closure because later C/D/E stages were proposed;26remainsopen until that scope disposition is settled. Rain acceptance is not permission to build lightning visuals or promote effects.
+
+### DECISION-031 — Engaged pacing revision and presentation follow-ups
+
+**Date:** 2026-10-28
+
+Owner accepts the direction of Plan25 apartment integration but requests phone-screen ambient glow (approximately3s ease-in/out cycle, nonzero baseline), compact accessible pause/play card-motion control to the right of Reveal All, and replacement of developer-facing starter narration. Plan25 remains open for bounded follow-up; exact source/lifecycle scope is root-gated, motion-off/reduced mode retains a static equivalent, physical companion remains non-emissive and still. No general visual-system selection follows.
+
+Owner revises pacing expectation to at least roughly25minutes for an ordinary engaged run, with around15minutes for rapid low-reading play. Canonical design/AGENTS/orchestrator contracts updated together. These are targets, not measurements, classroom grading rules or mandatory waits; immediate Uninstall and no post-Receipt retention remain binding.
+
+Owner requests richer consistent gacha presentation (existing Plan11), reflection-first Receipt with expandable lower-level evidence (draft Plan27), life choices in apartment settings/communications rather than gacha intrusion (draft Plan28), and believable financial stakes from accumulating small purchases rather than uniform currency scaling (draft Plan29). Drafts are not assignment or production authority. Preserve full append-only evidence and three-register honesty; presentation prioritization does not authorize deleting facts, inferred motives, changing economy constants or rewriting log/export schemas. No push/deployment.

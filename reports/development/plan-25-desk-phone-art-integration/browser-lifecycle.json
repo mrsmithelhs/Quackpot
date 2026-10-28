@@ -1,0 +1,77 @@
+{
+  "browser": "Chrome isolated temporary profile",
+  "build": "local Vite preview from current production build",
+  "buildAssets": [
+    {
+      "name": "duck-placeholder-Mhd15Sdp.svg",
+      "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f"
+    },
+    {
+      "name": "index-BIVrJZxZ.js",
+      "sha256": "25fb952c9d82ff421c3e9bfc5f9d53c0378087c49f5caa8cb9604fb497227307"
+    },
+    {
+      "name": "index-leWz3NUg.css",
+      "sha256": "d9ee3c3880d5d015557813f4c63aeb93bb8b134f44740e194943b34d77f4667a"
+    }
+  ],
+  "motion": "prefers-reduced-motion: reduce",
+  "fresh": {
+    "heading": "Welcome Festival",
+    "message": "10 FREE pulls waiting!",
+    "scene": {
+      "width": 818,
+      "height": 460.125
+    },
+    "button": {
+      "type": "submit",
+      "label": "Open Quackpot and claim the 10-pull invitation",
+      "rect": {
+        "x": 759.78125,
+        "y": 558.15625,
+        "width": 102,
+        "height": 53.78125
+      }
+    },
+    "phoneRect": {
+      "x": 750.8125,
+      "y": 418.203125,
+      "width": 119.9375,
+      "height": 238.21875
+    },
+    "overflow": false,
+    "controls": [
+      "companion-name-input",
+      "desk-autosave-checkbox"
+    ],
+    "svgText": ".apt-production-desk{width:100%;height:100%;display:block;overflow:visible}.apt-production-desk .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-production-desk .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-production-desk .cast{opacity:.3}.apt-production-desk .cast-keep{opacity:.3}.apt-production-desk .cast-lamp{display:none}.apt-production-desk .lamp-on{opacity:0}.apt-production-desk .lamp-pool{mix-blend-mode:screen}.apt-production-desk.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-production-desk.room-scene .o *{vector-effect:non-scaling-stroke}"
+  },
+  "afterReload": {
+    "title": "Companion: Ada\n              (classic-yellow)",
+    "step": "engine-present",
+    "desk": false
+  },
+  "returned": {
+    "heading": "Welcome back",
+    "message": "Your game is ready when you are.",
+    "companion": true,
+    "action": "Open Quackpot",
+    "overflow": false
+  },
+  "narrow": {
+    "width": 390,
+    "pageWidth": 390,
+    "sceneWidth": 332,
+    "buttonWidth": 286.40625,
+    "buttonHeight": 44,
+    "buttonVisible": true,
+    "overflow": false
+  },
+  "tiny": {
+    "width": 320,
+    "buttonVisible": true,
+    "buttonTop": 505.140625,
+    "sceneBottom": 562.140625,
+    "overflow": false
+  }
+}

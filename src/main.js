@@ -7,6 +7,7 @@ import './ui/stage-transition.css';
 import './ui/duck-motion.css';
 import './ui/duck-dex.css';
 import './ui/race-view.css';
+import './ui/apartment-view.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine } from './core/game-engine.mjs';

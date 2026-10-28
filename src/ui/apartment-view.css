@@ -1,0 +1,82 @@
+.apartment-desk-scene {
+  position: relative;
+  width: min(100%, 960px);
+  margin: 0 auto clamp(1rem, 3vw, 2rem);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(40, 34, 28, .55);
+  border-radius: .85rem;
+  background: #d5d0c6;
+  box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .28);
+}
+
+.apartment-desk-scene > svg { display: block; width: 100%; height: 100%; }
+
+.apartment-phone-content {
+  position: absolute;
+  left: 64.5%;
+  top: 20%;
+  width: 14.7%;
+  height: 52%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3%;
+  box-sizing: border-box;
+  padding: 1.1%;
+  overflow: hidden;
+  border-radius: 5%;
+  color: #f8fafc;
+  background: radial-gradient(ellipse at 50% 35%, #263b53 0%, #111b2c 62%, #0b101a 100%);
+  text-align: left;
+}
+
+.apartment-phone-brand { color: #fbbf24; font-size: .625rem; font-weight: 900; letter-spacing: .1em; }
+.apartment-phone-heading { margin: 0; font-size: .9rem; line-height: 1.05; font-weight: 800; }
+.apartment-phone-message { margin: 0; font-size: .8rem; line-height: 1.15; font-weight: 700; }
+.apartment-phone-action {
+  min-height: 2.75rem;
+  margin-top: 2%;
+  padding: .3rem .4rem;
+  border: 1px solid #fbbf24;
+  border-radius: .35rem;
+  color: #111827;
+  background: #fbbf24;
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  cursor: pointer;
+}
+.apartment-phone-action:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+.apartment-desk-copy { max-width: 42rem; margin: 0 auto 1.25rem; }
+.apartment-desk-copy h2, .apartment-desk-copy p { text-align: center; }
+.apartment-desk-form { max-width: 42rem; margin: 0 auto; text-align: left; }
+.apartment-desk-form .form-group { margin-bottom: 1rem; }
+
+@media (max-width: 720px) {
+  .apartment-desk-scene { width: 100%; aspect-ratio: auto; overflow: visible; border-radius: .5rem; }
+  .apartment-desk-scene > svg { height: auto; aspect-ratio: 16 / 9; }
+  .apartment-phone-content { position: static; width: auto; height: auto; min-height: 8rem; margin: .5rem; padding: .8rem; border: 1px solid #707784; border-radius: .75rem; gap: .4rem; }
+  .apartment-phone-brand { font-size: .7rem; letter-spacing: .08em; }
+  .apartment-phone-heading { font-size: 1rem; }
+  .apartment-phone-message { font-size: .9rem; }
+  .apartment-phone-action { width: 100%; min-height: 2.75rem; padding: .45rem .6rem; border-radius: .35rem; font-size: .9rem; }
+}
+
+@media (max-width: 360px) {
+  .apartment-desk-scene { overflow: visible; aspect-ratio: auto; border: 0; box-shadow: none; }
+  .apartment-desk-scene > svg { height: auto; aspect-ratio: 16 / 9; }
+  .apartment-phone-content { position: static; width: auto; height: auto; min-height: 7rem; margin: .5rem; padding: .75rem; border: 1px solid #707784; border-radius: .75rem; }
+  .apartment-phone-action { min-height: 2.75rem; font-size: .9rem; }
+}
+
+@media (max-height: 520px) and (min-width: 561px) {
+  .apartment-desk-scene { width: min(100%, 760px); margin-bottom: .75rem; }
+  .apartment-phone-content { gap: 1%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .apartment-desk-scene { scroll-behavior: auto; }
+}

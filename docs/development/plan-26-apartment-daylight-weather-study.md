@@ -51,6 +51,8 @@ Report-local SVG insertion may use exact source-verified anchors, but must fail 
 
 ## Work plan, stop and report
 
+**Owner Stage3 approval, 2026-10-27:** Owner approves the five living-room still cells (strong sun reference, overcast, rain, storm, storm+warm lamp). Keep restrained sun as reference; no extra cells or prerequisite daylight polish. See `reports/orchestration/plan-26-stage-3-sonnet-handoff.md`. Animated rain and lightning explicitly remain future options, not rejected; no animation/trigger/audio implementation is approved now. Stage3 source may proceed; a fresh coordinated browser slot is still required after checks. Stop at owner still-weather review.
+
 Read/check, pin input, submit compact mechanism/matrix, build scaffold, prove no-effect identity, implement still daylight, coordinate visual comparison, stop for owner look, then approved still-weather stage. Stop for kit mutation, material unexplained drift, missing API requiring production edits, new art pipeline or animation/lifecycle requirements. Stage gates preserve owner review without reopening the approved study.
 
 Do not change status, root review notes or declare owner acceptance/complete/shipping. Commit only explicit owned files, progress last, no push/deployment. Report `reports/development/plan-26-apartment-daylight-weather-study/progress.md`: source baseline, actual variants, checks/rendered observations, differences, limits, ready-for-review status and next gate. Reviewer declaration required; no extra implementer reviewer budget is granted, root independent review uses Terra-medium.

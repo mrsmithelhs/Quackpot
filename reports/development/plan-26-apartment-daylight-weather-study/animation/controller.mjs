@@ -34,7 +34,7 @@ export function createWeatherMotion(root, options = {}) {
   }
 
   const blockers = new Set(), subscribers = new Set();
-  let destroyed = false, built = null, flash = null, error = null, osReduced = false, io = null, mql = null, mqlHandler = null, visHandler = null;
+  let destroyed = false, built = null, flash = null, error = null, osReduced = false, visibilityPending = false, io = null, mql = null, mqlHandler = null, visHandler = null;
 
   // ---- build / restore ------------------------------------------------------------------------------------------------------------
   function buildMotion() {
@@ -152,7 +152,15 @@ export function createWeatherMotion(root, options = {}) {
     doc.addEventListener('visibilitychange', visHandler);
   }
   if (env.IntersectionObserver) {
-    io = new env.IntersectionObserver(entries => { const last = entries[entries.length - 1]; if (last) set('offscreen', !last.isIntersecting); });
+    // Visibility is unknown until the observer's first (asynchronous) callback, so start blocked: a window that is cropped out or off screen must never get a frame of rain or accept a flash in the meantime.
+    // Without an observer there is nothing to wait for and the scene counts as visible (the documented fallback).
+    visibilityPending = true; blockers.add('offscreen');
+    io = new env.IntersectionObserver(entries => {
+      const last = entries[entries.length - 1]; if (destroyed || !last) return;
+      const first = visibilityPending, was = blockers.has('offscreen'); visibilityPending = false;
+      set('offscreen', !last.isIntersecting);
+      if (first && was === blockers.has('offscreen')) for (const fn of [...subscribers]) fn(state());   // pending cleared with no blocker change: still tell listeners
+    });
     // The rain only lives in the glass, so the glass is what must be on screen: in a framing that crops the window out the scene box can be visible while no rain is.
     io.observe(root.querySelector('[data-p26="sky"]') || root);
   }
@@ -164,7 +172,7 @@ export function createWeatherMotion(root, options = {}) {
   // ---- public ---------------------------------------------------------------------------------------------------------------------
   function state() {
     const phase = destroyed ? 'destroyed' : built ? (built.playing ? 'running' : 'paused') : 'still';
-    return { weather, phase, blockers: [...blockers].sort(), motion: !!spec, animations: built ? built.anims.length : 0, flashActive: !!flash, error };
+    return { weather, phase, blockers: [...blockers].sort(), motion: !!spec, animations: built ? built.anims.length : 0, flashActive: !!flash, visibilityPending, error };
   }
   function destroy() {
     if (destroyed) return;

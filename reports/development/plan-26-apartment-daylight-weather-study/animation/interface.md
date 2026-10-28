@@ -27,7 +27,7 @@ ticket.done  ->  Promise<{ status:'finished'|'cancelled', id, reason? }>   (firs
 ## Controller
 ```
 const m = createWeatherMotion(root, { weather, arbiter, env, reducedMotion:'auto'|'reduce', startPaused, startStopped, active, flashEffect })
-m.state()      -> { weather, phase:'still'|'running'|'paused'|'destroyed', blockers:[...], motion, animations, flashActive, error }
+m.state()      -> { weather, phase:'still'|'running'|'paused'|'destroyed', blockers:[...], motion, animations, flashActive, visibilityPending, error }
 m.pause() / m.resume()      user freeze in place (WCAG 2.2.2 control, free)
 m.stop()  / m.start()       user "show the still": removes motion, restores the approved composition
 m.setActive(bool)           host: scene selected/active or not
@@ -43,7 +43,7 @@ Each blocker is its own flag; the scene moves only when the set is empty. Cleari
 |---|---|---|
 | `user-pause` | `pause()` / `startPaused` | pause (freeze in place) |
 | `hidden` | `document.visibilityState === 'hidden'` (live `visibilitychange`) | pause |
-| `offscreen` | `IntersectionObserver` not intersecting (absent observer: treated as on screen) | pause |
+| `offscreen` | `IntersectionObserver` not intersecting on the glass (scene box if no glass). **Set from creation while an observer exists** (`visibilityPending: true`) and cleared only when its first callback reports intersection, so nothing animates and no flash is accepted before visibility is known; absent observer: treated as on screen, never pending | pause |
 | `inactive` | `setActive(false)` / `active:false` | pause |
 | `user-stop` | `stop()` / `startStopped` | **still** |
 | `reduced` | `(prefers-reduced-motion: reduce)` live OR option `reducedMotion:'reduce'` (an option cannot override the user's preference) | **still** |

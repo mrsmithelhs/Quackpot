@@ -271,3 +271,21 @@ QP Orch's integrated review identified that timeline event/checkpoint labels use
 - No browser, reviewer, or smoke run was needed for this pure display-time conversion; the earlier smoke launch limitation remains as recorded above.
 
 No race mechanics or persistence behavior changed. Packet status was not changed and no push was performed. This progress update is the final scoped write for the correction.
+
+## Sticky timeline disclosure and focal participant glow repair — 2026-10-27
+
+Following owner feedback, the playback controller now retains a per-race timeline high-water independent of the current cursor. Rewind, replay, and view recreation keep reached descriptions visible; reaching the full checkpoint reveals every event description. Result and podium visibility remain tied to the current sought moment. Reload reconstruction uses only explicit `race_cue_displayed` evidence matching the exact race and timeline event; it does not infer disclosure from the mechanical result. The race view emits a timeline display cue only while its details are open and the race page is visible, with no per-frame logging.
+
+The previous glow selection covered contact and wall-impact participants only. Contact pulses remain intact; the accepted slow-motion highlight now also selects the nearest recorded participant-bearing event in the focal highlight window and applies an eased 2.2-second pulse only to that event's participants. This includes recorded weave, leader-slowdown, contact, wall-impact, or catch-up events when they occur in that window. It does not introduce mechanics or blanket-field glow.
+
+In a fresh authorized isolated production IAB session at 1280×720, Rival A's non-contact participant glow was visibly present over the dimmed whole-race scene at the focal highlight (about 10.1s). The expanded timeline showed reached event-specific descriptions and left unreached entries as generic upcoming moments. The 100% checkpoint revealed every event description and the same committed result: Biblically Accurate Duck 1st/+50 Gems, Rival A 2nd/+20, Rival C 3rd/+10, then Rival B, Rival E, and Rival D. The HUD balance was 50 Gems. Rewinding to the 1.35s event hid the result and podium while retaining all descriptions and the 50-Gem balance; replay restarted at 0.13s with those descriptions still present and no result banner or additional reward. This confirms rendered disclosure monotonicity and that presentation controls did not visibly rerun the award. Source tracing shows newly reached timeline descriptions call the main view callback only while the timeline is expanded and the race view is visible; `main.js` records that callback via `recordRaceCueDisplayed`. The isolated browser does not expose local storage or the live event-log contents, so the persisted cue entries were not directly inspected in-browser. The IAB tab is closed; the user's Chrome tab and existing server were untouched.
+
+The IAB runtime did not expose `localStorage`, so reload reconstruction was not directly inspected in the browser. Its source path is covered by focused tests using matching and non-matching stored display cues; no live-storage reload claim is made.
+
+- `npm test` — 176/176 passed, including sticky high-water through seek/rewind/replay/full checkpoint, inactive-view behavior, cue-evidence restore filtering, focal event/participant selection, and eased glow duration. These are focused source-level checks; direct live-log storage inspection was unavailable in the IAB.
+- `npm run build` — passed.
+- `git diff --check` — passed (Git reported only the existing LF-to-CRLF working-copy notices).
+- `node scripts/dev/plan-status.js check plan-23` — `RUNNABLE`; packet status was not changed.
+- No smoke rerun or additional reviewer was used. The prior dedicated Chrome smoke launch failure remains documented. No race mechanics, save format, reward path, or Plan22 rest behavior changed.
+
+QP Orch received the consolidated closure checklist and these repair findings. QP Orch has relayed that the owner accepts Plan 23 and requested closure; root will record acceptance and set packet status. The three scoped source/test files are committed before this progress report; this report is the final Plan 23 write. No packet status was set and no push was performed.

@@ -97,7 +97,7 @@ document.addEventListener('visibilitychange', () => log(`visibilityState: ${docu
 addEventListener('resize', () => { $('#status').textContent = `Stage ${STAGES[state.stage][0]}; viewport ${innerWidth}×${innerHeight}; ${scenes.size} scene(s).`; });
 
 async function checks() {
-  const root = document.querySelector('main'), ids = [...root.querySelectorAll('[id]')].map(e => e.id), dup = ids.filter((id, i) => ids.indexOf(id) !== i);
+  const root = document.querySelector('#grid'), ids = [...root.querySelectorAll('[id]')].map(e => e.id), dup = ids.filter((id, i) => ids.indexOf(id) !== i);
   const refs = [...root.innerHTML.matchAll(/url\(&quot;#([^&)]+)&quot;\)|url\(#([^)]+)\)/g)].map(m => m[1] || m[2]), known = new Set(ids), dangling = [...new Set(refs.filter(r => !known.has(r)))];
   const rows = [['ids on this page', `${ids.length}`, dup.length === 0 ? 'ok' : 'bad', `${dup.length} duplicates`], ['url(#…) references', `${refs.length}`, dangling.length === 0 ? 'ok' : 'bad', `${dangling.length} dangling`]];
   try {

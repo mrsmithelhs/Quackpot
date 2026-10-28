@@ -102,3 +102,7 @@ Owner feedback on the top-down desk (shadow distance, sticky-note shadow, coin d
 ## Lamp direction, pillow and mug fixes (2026-10-27)
 
 Owner feedback applied in `preview.html`: room lamps throw directional light cones (down, with a faint upward spill for open shades) instead of an even radial glow; the desk side-view lamp head and its soft beam now share one orientation and the mug is smaller; the couch pillow rests on the seat cushion. Warm-lamp scenes in four areas were browser-checked; neutral/window light and phone width were not re-run after this change.
+
+## Toy shelf clearance and session log (2026-10-27)
+
+Removed the robot antenna and scaled the rings and bunny to clear the plank above (owner feedback); added `session-log.md`, an index of the owner's requests, the changes, commits, deviations from the handoff and verification status. Browser-checked the bedroom at medium framing (no bad attributes).

@@ -283,12 +283,19 @@ assert len(paths) == len(set(paths)), "duplicate local path"
 MUSIC = [
     {"id": "qp18-m01", "title": "Chill lofi inspired [loop edit]", "creator": "omfgdude (composer); qubodup (loop edit)", "path": "audio/chilllofir-loop.ogg",
      "license": {"name": "CC0", "version": "1.0", "url": "https://creativecommons.org/publicdomain/zero/1.0/"}, "source": "https://opengameart.org/content/chill-lofi-inspired-loop-edit",
-     "sha256": "ccaa02bb60310146f1fa3b1c70be0a5a57f0674b9c4944a22b85b0c03e932cdb", "durationS": 97.216, "note": "Existing v1 music candidate, unchanged."},
+     "sha256": "ccaa02bb60310146f1fa3b1c70be0a5a57f0674b9c4944a22b85b0c03e932cdb", "durationS": 97.216, "note": "Existing v1 music candidate, unchanged.",
+     "licenseScope": "OpenGameArt entry page license box as recorded in the v1 provenance (2026-10-25); per-entry, not per-file.",
+     "attributionText": 'Optional credit (CC0): "Chill lofi inspired [loop edit]" by omfgdude (composer), made loopable by qubodup (OpenGameArt.org), CC0 1.0 Universal.',
+     "changeNotice": "No changes: the seamless Ogg loop edit as published by qubodup, kept bit-identical (see archive/v1-2026-10-25/provenance.md).",
+     "provenanceRef": "archive/v1-2026-10-25/provenance.md (Asset 4)"},
     {"id": "qp18-m02", "title": "Fluffing a Duck", "creator": "Kevin MacLeod (incompetech.com)", "path": "audio/fluffing-a-duck.ogg",
      "license": {"name": "CC BY", "version": "3.0", "url": "https://creativecommons.org/licenses/by/3.0/"}, "source": "https://commons.wikimedia.org/wiki/File:Kevin_MacLeod_-_Fluffing_a_Duck.ogg",
      "sha256": "2e38f6d769351fb1f763ebaa387ee24f9c8693391f9888d6b304d1adafa9253d", "durationS": 67.37,
      "attributionText": '"Fluffing a Duck" by Kevin MacLeod (incompetech.com), licensed under Creative Commons Attribution 3.0 Unported (CC BY 3.0) https://creativecommons.org/licenses/by/3.0/',
-     "note": "Existing v1 music candidate, unchanged."},
+     "note": "Existing v1 music candidate, unchanged.",
+     "licenseScope": "Wikimedia Commons file page for the exact file, as recorded in the v1 provenance (2026-10-25); CC BY 3.0 Unported, not the later CC BY 4.0 catalog offer.",
+     "changeNotice": "No changes: the Ogg Vorbis file exactly as downloaded from Wikimedia Commons (upstream: Free Music Archive, album 'Oddities').",
+     "provenanceRef": "archive/v1-2026-10-25/provenance.md (Asset 5)"},
 ]
 for m in MUSIC:
     assert sha256(j(report, m["path"])) == m["sha256"], m["id"]
@@ -363,8 +370,10 @@ for f in files:
            f"- License: {L['name']} {L['version'] or ''} {L['url'] or ''} (evidence: {L['scope']})",
            f"- Local file: `{f['local']['path']}`  sha256 `{f['local']['sha256']}`", f"- Credit text: {f['attributionText']}", f"- Changes: {f['changeNotice']}", ""]
 for m in MUSIC:
-    md += [f"## {m['id']} {m['title']} (music)", f"- Creator: {m['creator']}", f"- Source: {m['source']}", f"- License: {m['license']['name']} {m['license']['version']} {m['license']['url']}",
-           f"- Local file: `{m['path']}`  sha256 `{m['sha256']}`", ""]
+    md += [f"## {m['id']} {m['title']} (music)", f"- Creator: {m['creator']}", f"- Source: {m['source']}",
+           f"- License: {m['license']['name']} {m['license']['version']} {m['license']['url']} (evidence: {m['licenseScope']})",
+           f"- Local file: `{m['path']}`  sha256 `{m['sha256']}`", f"- Credit text: {m['attributionText']}", f"- Changes: {m['changeNotice']}",
+           f"- Provenance record: {m['provenanceRef']}", ""]
 open(j(report, "catalog", "ATTRIBUTIONS.md"), "w", encoding="utf-8").write("\n".join(md) + "\n")
 
 tot_new = sum(os.path.getsize(j(report, f["local"]["path"])) for f in files if f["local"]["path"].startswith("audio/") and not f["local"]["path"].startswith("audio/_originals") and f["sourceKey"] not in ("kenney-ui-audio", "kenney-casino-audio", "kenney-music-jingles"))

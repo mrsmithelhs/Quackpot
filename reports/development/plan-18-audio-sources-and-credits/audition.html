@@ -121,23 +121,146 @@ var musicById = {}; CAT.music.forEach(function (m) { musicById[m.id] = m; });
 var groups = CAT.roles;
 
 // ---------- state ----------
+var SCHEMA = 'qp18-owner-choices', SCHEMA_VERSION = 1;
+var LIMITS = { fileBytes: 1048576, pools: 300, idsPerSet: 500, ids: 2000, name: 30, note: 2000 };
+var ID_RE = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/, ROLE_RE = /^[a-z][a-z0-9-]{0,39}$/, REV_RE = /^[A-Za-z0-9._-]{1,64}$/;
+function isReserved(k) { return k === '__proto__' || k === 'constructor' || k === 'prototype'; }
+function nmap() { return Object.create(null); } // keyed maps never inherit from Object.prototype
+function isPlain(o) { return o !== null && typeof o === 'object' && !Array.isArray(o); }
+function validName(n) { return typeof n === 'string' && n.length >= 1 && n.length <= LIMITS.name && n === n.trim() && !/[\u0000-\u001f\u007f]/.test(n) && !isReserved(n); }
+function validId(id) { return typeof id === 'string' && ID_RE.test(id) && !isReserved(id); }
+function blankState() { return { catalogRevision: CAT.catalogRevision, pools: nmap(), shortlist: nmap(), rejected: nmap(), notes: nmap(), trims: nmap() }; }
 var state = blankState();
-function blankState() { return { schema: 'qp18-owner-choices', schemaVersion: 1, catalogRevision: CAT.catalogRevision, pools: {}, shortlist: {}, rejected: {}, notes: {}, trims: {} }; }
-var storageOK = true, staleFrom = null;
+var storageOK = true, staleFrom = null, writesBlocked = false, rawSaved = null, recoveryReason = null;
 function setStatus(msg, isErr) { var s = $('status'); s.textContent = msg; s.className = isErr ? 'err' : ''; }
+
+// Validate an entire choices object into a DETACHED candidate state. Never touches live state or storage.
+var KNOWN_TOP = ['schema', 'schemaVersion', 'catalogRevision', 'currentCatalogRevision', 'exportedAt', 'savedAt', 'note', 'pools', 'shortlistedIds', 'rejectedIds', 'notes', 'ownerTrimDb', 'files', 'idsMissingFromCatalog', 'rolesMissingFromCatalog'];
+// First reserved own key anywhere in the parsed JSON (bounded depth/size); JSON.parse keeps "__proto__" as an own key, so it is visible here.
+function reservedKeyPath(v, path, depth) {
+  if (v === null || typeof v !== 'object') return null;
+  if (depth > 8) return path + '/(too deep)';
+  var keys = Object.keys(v);
+  for (var i = 0; i < keys.length; i++) { if (isReserved(keys[i])) return path + '/' + keys[i]; }
+  for (var j = 0; j < keys.length && j < 5000; j++) { var r = reservedKeyPath(v[keys[j]], path + '/' + keys[j], depth + 1); if (r) return r; }
+  return null;
+}
+function parseChoices(o) {
+  var errs = [], st = blankState(), rep = { ignored: [], unknownIds: [], unknownRoles: [] };
+  function bad(m) { if (errs.length < 12) errs.push(m); else if (errs.length === 12) errs.push('…and more problems.'); }
+  if (!isPlain(o)) return { ok: false, errors: ['The top level is not an object.'] };
+  var rk = reservedKeyPath(o, '', 0);
+  if (rk) return { ok: false, errors: ['The file contains the reserved key "' + rk + '" (__proto__, constructor and prototype are not allowed as keys).'] };
+  if (o.schema !== SCHEMA) return { ok: false, errors: ['Not a Quackpot audition choices file (schema is ' + JSON.stringify(o.schema) + ').'] };
+  if (o.schemaVersion !== SCHEMA_VERSION) return { ok: false, errors: ['Unsupported schemaVersion ' + JSON.stringify(o.schemaVersion) + '; this page reads version ' + SCHEMA_VERSION + '.'] };
+  if (typeof o.catalogRevision !== 'string' || !REV_RE.test(o.catalogRevision)) bad('catalogRevision must be a short string.'); else st.catalogRevision = o.catalogRevision;
+  var pools = o.pools === undefined ? [] : o.pools;
+  if (!Array.isArray(pools)) bad('pools must be an array.');
+  else if (pools.length > LIMITS.pools) bad('pools has too many records.');
+  else {
+    var seen = nmap(), activeBy = nmap();
+    pools.forEach(function (p, i) {
+      var w = 'pools[' + i + ']';
+      if (!isPlain(p)) { bad(w + ' is not an object.'); return; }
+      if (typeof p.role !== 'string' || !ROLE_RE.test(p.role) || isReserved(p.role)) { bad(w + '.role is not a valid purpose id.'); return; }
+      if (!validName(p.pool)) { bad(w + '.pool is not a valid pool name (1-' + LIMITS.name + ' characters, no leading/trailing spaces, no reserved names).'); return; }
+      if (!Array.isArray(p.fileIds)) { bad(w + '.fileIds must be an array of file ID strings.'); return; }
+      if (p.fileIds.length > LIMITS.idsPerSet) { bad(w + '.fileIds is too long.'); return; }
+      if (p.active !== undefined && typeof p.active !== 'boolean') { bad(w + '.active must be true or false.'); return; }
+      var key = p.role + '|' + p.pool;
+      if (seen[key]) { bad(w + ' repeats pool "' + p.pool + '" for ' + p.role + '.'); return; }
+      seen[key] = true;
+      var ids = [], dup = nmap(), ok = true;
+      p.fileIds.forEach(function (id, j) {
+        if (!validId(id)) { bad(w + '.fileIds[' + j + '] is not a valid file ID string.'); ok = false; }
+        else if (dup[id]) { bad(w + ' lists ' + id + ' twice.'); ok = false; }
+        else { dup[id] = true; ids.push(id); }
+      });
+      if (!ok) return;
+      var role = st.pools[p.role] || (st.pools[p.role] = { active: null, sets: nmap() });
+      role.sets[p.pool] = ids;
+      if (p.active === true) { if (activeBy[p.role]) bad(w + ': purpose ' + p.role + ' has more than one active pool.'); else { activeBy[p.role] = true; role.active = p.pool; } }
+    });
+  }
+  function idList(name, arr, into) {
+    if (arr === undefined) return;
+    if (!Array.isArray(arr)) { bad(name + ' must be an array of file ID strings.'); return; }
+    if (arr.length > LIMITS.ids) { bad(name + ' is too long.'); return; }
+    arr.forEach(function (id, j) { if (!validId(id)) bad(name + '[' + j + '] is not a valid file ID string.'); else if (into[id]) bad(name + ' lists ' + id + ' twice.'); else into[id] = true; });
+  }
+  idList('shortlistedIds', o.shortlistedIds, st.shortlist);
+  idList('rejectedIds', o.rejectedIds, st.rejected);
+  function idMap(name, m, into, conv) {
+    if (m === undefined) return;
+    if (!isPlain(m)) { bad(name + ' must be an object keyed by file ID.'); return; }
+    var keys = Object.keys(m);
+    if (keys.length > LIMITS.ids) { bad(name + ' has too many entries.'); return; }
+    keys.forEach(function (k) { if (!validId(k)) { bad(name + ' has an invalid key.'); return; } var v = conv(m[k]); if (v === undefined) bad(name + '["' + k + '"] has an invalid value.'); else into[k] = v; });
+  }
+  idMap('notes', o.notes, st.notes, function (v) { return typeof v === 'string' && v.length <= LIMITS.note ? v : undefined; });
+  idMap('ownerTrimDb', o.ownerTrimDb, st.trims, function (v) { return typeof v === 'number' && isFinite(v) && v >= -24 && v <= 0 ? v : undefined; });
+  if (!errs.length) {
+    Object.keys(st.rejected).forEach(function (id) { Object.keys(st.pools).forEach(function (r) { Object.keys(st.pools[r].sets).forEach(function (n) { if (st.pools[r].sets[n].indexOf(id) >= 0) bad(id + ' is both rejected and in pool "' + n + '" (' + r + ').'); }); }); });
+  }
+  if (errs.length) return { ok: false, errors: errs };
+  Object.keys(st.pools).forEach(function (r) {
+    var role = st.pools[r], sets = nmap();
+    sets.Main = role.sets.Main || [];
+    Object.keys(role.sets).forEach(function (n) { if (n !== 'Main') sets[n] = role.sets[n]; });
+    role.sets = sets; if (!role.active) role.active = 'Main';
+    if (!groups.some(function (g) { return g.id === r; })) rep.unknownRoles.push(r);
+  });
+  var uk = nmap(); [st.shortlist, st.rejected, st.notes, st.trims].forEach(function (m) { Object.keys(m).forEach(function (id) { if (!filesById[id]) uk[id] = true; }); });
+  Object.keys(st.pools).forEach(function (r) { Object.keys(st.pools[r].sets).forEach(function (n) { st.pools[r].sets[n].forEach(function (id) { if (!filesById[id]) uk[id] = true; }); }); });
+  rep.unknownIds = Object.keys(uk);
+  rep.ignored = Object.keys(o).filter(function (k) { return KNOWN_TOP.indexOf(k) < 0; });
+  return { ok: true, errors: [], state: st, report: rep };
+}
+// Earlier saved format (pools as an object keyed by purpose) -> canonical, so older browser saves still load.
+function migrateStored(o) {
+  if (!isPlain(o) || o.schema !== SCHEMA || !isPlain(o.pools)) return o;
+  var pools = [];
+  Object.keys(o.pools).forEach(function (r) { var p = o.pools[r]; if (isPlain(p) && isPlain(p.sets)) Object.keys(p.sets).forEach(function (n) { pools.push({ role: r, pool: n, active: p.active === n, fileIds: p.sets[n] }); }); });
+  return { schema: SCHEMA, schemaVersion: o.schemaVersion, catalogRevision: o.catalogRevision, pools: pools, shortlistedIds: isPlain(o.shortlist) ? Object.keys(o.shortlist) : undefined, rejectedIds: isPlain(o.rejected) ? Object.keys(o.rejected) : undefined, notes: o.notes, ownerTrimDb: o.trims };
+}
+function serializeState(st) {
+  var order = groups.map(function (g) { return g.id; });
+  var roles = Object.keys(st.pools).sort(function (a, b) { var ia = order.indexOf(a), ib = order.indexOf(b); if (ia < 0) ia = 999; if (ib < 0) ib = 999; return ia - ib || (a < b ? -1 : a > b ? 1 : 0); });
+  var pools = [];
+  roles.forEach(function (r) {
+    var role = st.pools[r], names = Object.keys(role.sets);
+    if (names.length === 1 && names[0] === 'Main' && role.sets.Main.length === 0 && role.active === 'Main') return; // untouched default only
+    names.forEach(function (n) { pools.push({ role: r, pool: n, active: role.active === n, fileIds: role.sets[n].slice() }); });
+  });
+  var notes = {}, trims = {};
+  Object.keys(st.notes).forEach(function (k) { notes[k] = st.notes[k]; });
+  Object.keys(st.trims).forEach(function (k) { trims[k] = st.trims[k]; });
+  return { schema: SCHEMA, schemaVersion: SCHEMA_VERSION, catalogRevision: st.catalogRevision, currentCatalogRevision: CAT.catalogRevision, pools: pools, shortlistedIds: Object.keys(st.shortlist), rejectedIds: Object.keys(st.rejected), notes: notes, ownerTrimDb: trims };
+}
+function hasChoices(st) {
+  if (Object.keys(st.shortlist).length || Object.keys(st.rejected).length || Object.keys(st.notes).length || Object.keys(st.trims).length) return true;
+  return Object.keys(st.pools).some(function (r) { var p = st.pools[r], n = Object.keys(p.sets); return n.length > 1 || p.active !== 'Main' || p.sets.Main.length > 0; });
+}
+function summarize(st) {
+  var u = nmap(), np = 0; Object.keys(st.pools).forEach(function (r) { Object.keys(st.pools[r].sets).forEach(function (n) { np++; st.pools[r].sets[n].forEach(function (id) { u[id] = true; }); }); });
+  return Object.keys(u).length + ' sounds in pools (' + np + ' pools incl. empty), ' + Object.keys(st.shortlist).length + ' shortlisted, ' + Object.keys(st.rejected).length + ' rejected, ' + Object.keys(st.notes).length + ' notes';
+}
 function load() {
-  try {
-    var raw = localStorage.getItem(KEY);
-    if (!raw) return;
-    var o = JSON.parse(raw);
-    if (o && o.schema === 'qp18-owner-choices') { state = Object.assign(blankState(), o); if (o.catalogRevision !== CAT.catalogRevision) { staleFrom = o.catalogRevision; state.catalogRevision = o.catalogRevision; } }
-  } catch (e) { storageOK = false; setStatus('Could not read saved choices (' + e.name + '). Choices will work for this visit; use Export to keep them.', true); }
+  var raw;
+  try { raw = localStorage.getItem(KEY); } catch (e) { storageOK = false; setStatus('Saved choices are unavailable in this browser (' + e.name + '). You can still work this visit; use Download on "My choices" to keep them.', true); return; }
+  if (raw === null) return;
+  rawSaved = raw;
+  var res;
+  try { res = parseChoices(migrateStored(JSON.parse(raw))); } catch (e) { res = { ok: false, errors: ['Saved data is not valid JSON (' + e.name + ').'] }; }
+  if (res.ok) { state = res.state; if (state.catalogRevision !== CAT.catalogRevision) staleFrom = state.catalogRevision; }
+  else { writesBlocked = true; recoveryReason = res.errors.join(' '); }
 }
 function save() {
-  try { localStorage.setItem(KEY, JSON.stringify(Object.assign({}, state, { savedAt: new Date().toISOString() }))); storageOK = true; return true; }
-  catch (e) { storageOK = false; setStatus('Could not save choices in this browser (' + e.name + '). Use Export on "My choices" to keep them.', true); return false; }
+  if (writesBlocked) { setStatus('Not saved: unreadable saved data in this browser is being preserved untouched. Open "My choices" to download it, import a file, or discard it.', true); return false; }
+  try { var raw = JSON.stringify(Object.assign(serializeState(state), { savedAt: new Date().toISOString() })); localStorage.setItem(KEY, raw); rawSaved = raw; storageOK = true; return true; }
+  catch (e) { storageOK = false; setStatus('Could not save choices in this browser (' + e.name + '). Use Download on "My choices" to keep them.', true); return false; }
 }
-function poolOf(g) { var p = state.pools[g]; if (!p) p = state.pools[g] = { active: 'Main', sets: { Main: [] } }; if (!p.sets[p.active]) p.active = Object.keys(p.sets)[0] || 'Main'; if (!p.sets.Main) p.sets.Main = []; return p; }
+function poolOf(g) { var p = state.pools[g]; if (!p) p = state.pools[g] = { active: 'Main', sets: nmap() }; if (!p.sets.Main) p.sets.Main = []; if (!p.sets[p.active]) p.active = 'Main'; return p; }
 function activeSet(g) { var p = poolOf(g); return p.sets[p.active]; }
 function groupOfRole(r) { return r.split('.')[0]; }
 function fileGroups(f) { var s = {}; f.roles.forEach(function (r) { s[groupOfRole(r)] = 1; }); return Object.keys(s); }
@@ -163,11 +286,12 @@ function cardStatus(id, msg, isErr) { var e = els[id]; if (!e) return; e.forEach
 function stopVoice(id, why) {
   var v = voices.get(id); if (!v) return;
   voices.delete(id);
-  v.audio.onended = v.audio.onerror = v.audio.onpause = null;
+  v.audio.onended = v.audio.onerror = v.audio.onpause = v.audio.onplaying = null;
   try { v.audio.pause(); v.audio.currentTime = 0; } catch (e) { /* element may have failed to load */ }
   v.audio.removeAttribute('src'); try { v.audio.load(); } catch (e) { }
   setPlayingUI(id, false); updateVoiceCount();
   cardStatus(id, why || 'Stopped.', false);
+  if (v.onState) { try { v.onState('stopped', why || 'Stopped.'); } catch (e) { } }
 }
 var mockTimer = null;
 function stopAll(msg) { if (mockTimer) { clearTimeout(mockTimer); mockTimer = null; } Array.from(voices.keys()).forEach(function (id) { stopVoice(id); }); if (msg) setStatus(msg); }
@@ -181,23 +305,24 @@ function play(id, opts) {
   var a = new Audio(); a.preload = 'auto';
   a.volume = effVol(id, kind);
   a.loop = !!opts.loop;
-  voices.set(id, { audio: a, kind: kind }); setPlayingUI(id, true); updateVoiceCount(); cardStatus(id, 'Starting…');
-  a.onended = function () { if (voices.get(id) && voices.get(id).audio === a) { voices.delete(id); setPlayingUI(id, false); updateVoiceCount(); cardStatus(id, 'Finished.'); } };
+  function notify(s, d) { if (opts.onState) { try { opts.onState(s, d); } catch (e) { } } }
+  voices.set(id, { audio: a, kind: kind, onState: opts.onState }); setPlayingUI(id, true); updateVoiceCount(); cardStatus(id, 'Starting…'); notify('starting');
+  a.onended = function () { if (voices.get(id) && voices.get(id).audio === a) { voices.delete(id); setPlayingUI(id, false); updateVoiceCount(); cardStatus(id, 'Finished.'); notify('ended'); } };
   a.onerror = function () {
     if (!voices.has(id) || voices.get(id).audio !== a) return;
     voices.delete(id); setPlayingUI(id, false); updateVoiceCount();
     var code = a.error ? a.error.code : 0;
     var msg = code === 4 ? 'Cannot play: file missing or this browser cannot decode it.' : 'Playback error' + (code ? ' (code ' + code + ')' : '') + '.';
-    cardStatus(id, msg, true); setStatus(titleFor(id, kind) + ': ' + msg, true);
+    cardStatus(id, msg, true); setStatus(titleFor(id, kind) + ': ' + msg, true); notify('failed', msg);
   };
-  a.onplaying = function () { if (voices.get(id) && voices.get(id).audio === a) { cardStatus(id, a.volume === 0 ? 'Playing at zero volume (muted or master at 0).' : 'Playing.'); } };
+  a.onplaying = function () { if (voices.get(id) && voices.get(id).audio === a) { cardStatus(id, a.volume === 0 ? 'Playing at zero volume (muted or master at 0).' : 'Playing.'); notify('playing'); } };
   a.src = encodeURI(pathFor(id, kind));
   var p; try { p = a.play(); } catch (e) { p = Promise.reject(e); }
   if (p && p.catch) p.catch(function (e) {
     if (!voices.has(id) || voices.get(id).audio !== a) return;
     voices.delete(id); setPlayingUI(id, false); updateVoiceCount();
     var msg = e && e.name === 'NotAllowedError' ? 'The browser blocked playback until you interact with the page; press Play again.' : (e && e.name === 'NotSupportedError' ? 'Cannot play: file missing or format not supported here.' : 'Could not start playback (' + (e && e.name) + ').');
-    cardStatus(id, msg, true); setStatus(titleFor(id, kind) + ': ' + msg, true);
+    cardStatus(id, msg, true); setStatus(titleFor(id, kind) + ': ' + msg, true); notify('failed', msg);
   });
   return true;
 }
@@ -220,12 +345,21 @@ function pickFrom(g, setName) {
   var pick = pool[Math.floor(Math.random() * pool.length)];
   lastPlayed[key] = pick; return pick;
 }
+var previewToken = 0;
 function previewPool(g, out) {
   var p = poolOf(g), pick = pickFrom(g, p.active);
-  if (!pick) { out.textContent = 'Nothing selected in pool "' + p.active + '" yet. Tick "In pool" on candidates first.'; return; }
-  play(pick, {});
-  out.textContent = 'Played from pool "' + p.active + '" (' + p.sets[p.active].length + ' selected): ' + filesById[pick].title + ' [' + pick + ']';
-  setStatus(out.textContent);
+  if (!pick) { out.dataset.tok = ++previewToken; out.className = 'grow'; out.textContent = 'Nothing selected in pool "' + p.active + '" yet. Tick "In pool" on candidates first.'; return; }
+  var token = ++previewToken; out.dataset.tok = token; // per-role token: a newer preview in THIS role supersedes; one elsewhere only stops this one
+  var label = 'pool "' + p.active + '" (' + p.sets[p.active].length + ' selected): ' + filesById[pick].title + ' [' + pick + ']';
+  function say(text, isErr) { if (out.dataset.tok !== String(token)) return; out.className = 'grow' + (isErr ? ' err' : ''); out.textContent = text; setStatus(text, isErr); }
+  // Wording follows what the media element actually reports; "playback started" is not a listening check.
+  say('Requested from ' + label + ' — starting…');
+  play(pick, { onState: function (s, d) {
+    if (s === 'playing') say('Playback started from ' + label + '.');
+    else if (s === 'failed') say('Could not play from ' + label + ': ' + d, true);
+    else if (s === 'ended') say('Finished: ' + label + '.');
+    else if (s === 'stopped') say('Stopped: ' + label + '.');
+  } });
 }
 
 // ---------- effects tab ----------
@@ -340,6 +474,7 @@ function refreshAll() {
 }
 
 // ---------- mocks ----------
+var mockToken = 0;
 function renderMocks() {
   var root = $('p-mocks'); root.textContent = '';
   root.appendChild(h('div', { class: 'notice', text: 'Audition mocks layer two sounds from YOUR selected pools (active pool of each purpose) to hear how they sit together. They are not game events: no real race, reveal or Receipt is represented. At most ' + MAX_VOICES + ' voices play at once.' }));
@@ -350,10 +485,15 @@ function renderMocks() {
       var picks = m[1].map(function (g) { return pickFrom(g, poolOf(g).active); });
       var missing = m[1].filter(function (g, i) { return !picks[i]; });
       if (missing.length) { out.textContent = 'Select at least one sound in the pool for: ' + missing.map(groupLabel).join(', ') + '.'; out.className = 'cardstatus err'; return; }
-      out.className = 'cardstatus'; stopAll();
-      play(picks[0], { layer: true });
-      mockTimer = setTimeout(function () { mockTimer = null; play(picks[1], { layer: true }); }, 250);
-      out.textContent = 'Playing ' + filesById[picks[0]].title + ' then ' + filesById[picks[1]].title + ' (audition mock).';
+      stopAll();
+      var token = ++mockToken, states = ['starting', 'not yet requested'], T = [filesById[picks[0]].title, filesById[picks[1]].title];
+      var WORDS = { starting: 'starting…', playing: 'playback started', ended: 'finished', stopped: 'stopped' };
+      function describe(s) { return s.indexOf('failed:') === 0 ? 'FAILED — ' + s.slice(7) : (WORDS[s] || s); }
+      function show() { if (token !== mockToken) return; var failed = states.some(function (s) { return s.indexOf('failed:') === 0; }); out.className = 'cardstatus' + (failed ? ' err' : ''); out.textContent = 'Audition mock requested: ' + T[0] + ' (' + describe(states[0]) + '), then ' + T[1] + ' (' + describe(states[1]) + ').'; }
+      function hook(i) { return function (s, d) { states[i] = s === 'failed' ? 'failed:' + d : s; show(); }; }
+      show();
+      play(picks[0], { layer: true, onState: hook(0) });
+      mockTimer = setTimeout(function () { mockTimer = null; states[1] = 'starting'; show(); play(picks[1], { layer: true, onState: hook(1) }); }, 250);
     } });
     root.appendChild(h('div', { class: 'mock' }, h('strong', { text: m[0] }), h('div', { class: 'row' }, btn), out));
   });
@@ -381,47 +521,119 @@ function renderMusic() {
 
 // ---------- choices / export ----------
 function unknownIds() {
-  var seen = {}; Object.keys(state.pools).forEach(function (g) { Object.keys(state.pools[g].sets).forEach(function (n) { state.pools[g].sets[n].forEach(function (id) { if (!filesById[id]) seen[id] = 1; }); }); });
-  Object.keys(state.shortlist).concat(Object.keys(state.rejected), Object.keys(state.notes), Object.keys(state.trims)).forEach(function (id) { if (!filesById[id]) seen[id] = 1; });
+  var seen = nmap();
+  Object.keys(state.pools).forEach(function (g) { Object.keys(state.pools[g].sets).forEach(function (n) { state.pools[g].sets[n].forEach(function (id) { if (!filesById[id]) seen[id] = true; }); }); });
+  [state.shortlist, state.rejected, state.notes, state.trims].forEach(function (m) { Object.keys(m).forEach(function (id) { if (!filesById[id]) seen[id] = true; }); });
   return Object.keys(seen);
 }
+function unknownRoles() { return Object.keys(state.pools).filter(function (r) { return !groups.some(function (g) { return g.id === r; }); }); }
 function exportObject() {
-  var ids = {}; Object.keys(state.pools).forEach(function (g) { Object.keys(state.pools[g].sets).forEach(function (n) { state.pools[g].sets[n].forEach(function (id) { ids[id] = 1; }); }); });
-  Object.keys(state.shortlist).forEach(function (id) { ids[id] = 1; });
+  var base = serializeState(state), ids = nmap();
+  base.pools.forEach(function (p) { p.fileIds.forEach(function (id) { ids[id] = true; }); });
+  base.shortlistedIds.forEach(function (id) { ids[id] = true; });
   var finfo = {}; Object.keys(ids).forEach(function (id) { var f = filesById[id]; finfo[id] = f ? { title: f.title, path: f.local.path, sha256: f.local.sha256 } : { missingFromCatalog: true }; });
-  var pools = []; Object.keys(state.pools).forEach(function (g) { Object.keys(state.pools[g].sets).forEach(function (n) { if (state.pools[g].sets[n].length) pools.push({ role: g, pool: n, active: state.pools[g].active === n, fileIds: state.pools[g].sets[n].slice() }); }); });
-  return { schema: 'qp18-owner-choices', schemaVersion: 1, catalogRevision: state.catalogRevision, currentCatalogRevision: CAT.catalogRevision, exportedAt: new Date().toISOString(),
-    note: 'Owner audition preferences only; not verified game integration and not a production selection.',
-    pools: pools, shortlistedIds: Object.keys(state.shortlist), rejectedIds: Object.keys(state.rejected), notes: state.notes, ownerTrimDb: state.trims, files: finfo, idsMissingFromCatalog: unknownIds() };
+  return Object.assign(base, { exportedAt: new Date().toISOString(), note: 'Owner audition preferences only; not verified game integration and not a production selection. Empty pools and the active pool of each purpose are included on purpose.',
+    files: finfo, idsMissingFromCatalog: unknownIds(), rolesMissingFromCatalog: unknownRoles() });
+}
+function downloadText(text, filename, type) {
+  try { var blob = new Blob([text], { type: type }); var a = h('a', { href: URL.createObjectURL(blob), download: filename }); document.body.appendChild(a); a.click(); a.remove(); return null; }
+  catch (e) { return e; }
+}
+
+// ---------- import (validate -> detached candidate -> confirm -> persist -> replace) ----------
+var pendingImport = null;
+function failImport(msg) { setStatus('Import rejected; nothing was changed. ' + msg, true); }
+function handleImportText(text, fname) {
+  if (text.length > LIMITS.fileBytes) { failImport('The file is larger than 1 MB.'); return; }
+  var o; try { o = JSON.parse(text); } catch (e) { failImport('The file is not valid JSON.'); return; }
+  var res = parseChoices(o);
+  if (!res.ok) { failImport(res.errors.join(' ')); return; }
+  var cand = { name: fname, state: res.state, report: res.report };
+  if (hasChoices(state) || writesBlocked) {
+    pendingImport = cand;
+    renderChoices();
+    setStatus('Import file is valid but NOT applied yet. Review the replacement panel on "My choices", then Replace or Cancel.');
+    return;
+  }
+  applyImport(cand);
+}
+function applyImport(cand) {
+  var raw = JSON.stringify(Object.assign(serializeState(cand.state), { savedAt: new Date().toISOString() }));
+  var wrote = false, werr = null;
+  try { localStorage.setItem(KEY, raw); wrote = true; } catch (e) { werr = e; }
+  if (!wrote && (storageOK || writesBlocked)) {
+    // Storage worked before (or holds data we must preserve) and now refuses: do not diverge from what is saved.
+    pendingImport = null; renderChoices();
+    setStatus('Import NOT applied: the browser refused to save it (' + (werr && werr.name) + '). Your current choices and saved data are unchanged.', true);
+    return;
+  }
+  state = cand.state; staleFrom = state.catalogRevision !== CAT.catalogRevision ? state.catalogRevision : null;
+  if (wrote) { rawSaved = raw; storageOK = true; writesBlocked = false; recoveryReason = null; }
+  pendingImport = null; stopAll(); refreshAll(); renderChoices();
+  var extra = cand.report.unknownIds.length ? ' ' + cand.report.unknownIds.length + ' ID(s) not in this catalog were kept and are listed.' : '';
+  setStatus('Imported choices: ' + summarize(state) + '.' + extra + (wrote ? '' : ' They are NOT saved in this browser (storage unavailable); download them to keep them.'), !wrote);
+}
+function resetAll() {
+  var failed = null; try { localStorage.removeItem(KEY); } catch (e) { failed = e; }
+  if (failed && (storageOK || writesBlocked)) { setStatus('Nothing was cleared: the browser refused to remove the saved data (' + failed.name + '). Current choices and saved data are unchanged.', true); return false; }
+  stopAll(); state = blankState(); staleFrom = null; writesBlocked = false; rawSaved = null; recoveryReason = null; pendingImport = null;
+  refreshAll(); renderChoices();
+  setStatus(failed ? 'Cleared on screen only; this browser would not remove saved data (' + failed.name + ').' : 'All choices cleared.', !!failed);
+  return true;
+}
+function armedButton(label, armedLabel, onConfirm) {
+  var b = h('button', { type: 'button', class: 'danger', text: label, onclick: function () {
+    if (b.dataset.armed !== '1') { b.dataset.armed = '1'; b.textContent = armedLabel; setTimeout(function () { if (b.dataset.armed === '1') { b.dataset.armed = ''; b.textContent = label; } }, 6000); return; }
+    b.dataset.armed = ''; b.textContent = label; onConfirm();
+  } });
+  return b;
 }
 function renderChoices() {
   var root = $('p-choices'); root.textContent = '';
-  var out = h('p', { 'aria-live': 'polite', text: '' });
+  if (writesBlocked) {
+    root.appendChild(h('div', { class: 'notice warn' },
+      h('p', { text: 'Saved choices in this browser could not be read, so they have been left untouched and nothing you do this visit is saved. Reason: ' + recoveryReason }),
+      h('div', { class: 'row' },
+        h('button', { type: 'button', text: 'Download the saved data as it is', onclick: function () { var e = downloadText(rawSaved || '', 'quackpot-audition-unreadable-saved-data.txt', 'text/plain'); setStatus(e ? 'Download failed (' + e.name + ').' : 'Download started: the unreadable saved data, byte for byte.', !!e); } }),
+        armedButton('Discard saved data and start fresh…', 'Really discard it? Press again to confirm', resetAll)),
+      h('p', { text: 'Importing a valid choices file also replaces it, after you confirm below.' })));
+  }
   if (staleFrom) root.appendChild(h('div', { class: 'notice warn' }, h('p', { text: 'These choices were saved against catalog revision ' + staleFrom + '; the current catalog is ' + CAT.catalogRevision + '. Nothing was reset. IDs that no longer exist are listed below and kept until you remove them.' }),
-    h('button', { type: 'button', text: 'Mark reviewed for revision ' + CAT.catalogRevision, onclick: function () { state.catalogRevision = CAT.catalogRevision; staleFrom = null; save(); renderChoices(); setStatus('Choices marked as reviewed for the current catalog.'); } })));
-  if (!storageOK) root.appendChild(h('div', { class: 'notice warn', text: 'Saving in this browser is not working (private window or blocked storage). Export your choices before closing.' }));
+    h('button', { type: 'button', text: 'Mark reviewed for revision ' + CAT.catalogRevision, onclick: function () {
+      var prev = state.catalogRevision; state.catalogRevision = CAT.catalogRevision;
+      if (save()) { staleFrom = null; renderChoices(); setStatus('Choices marked as reviewed for the current catalog and saved.'); }
+      else { state.catalogRevision = prev; renderChoices(); setStatus('Not marked reviewed: the choices could not be saved. They are still on revision ' + prev + '.', true); }
+    } })));
+  if (!storageOK && !writesBlocked) root.appendChild(h('div', { class: 'notice warn', text: 'Saving in this browser is not working (private window or blocked storage). Choices live only in this page; download them before closing.' }));
   var pre = h('pre', { style: 'white-space:pre-wrap;word-break:break-word;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px;max-height:340px;overflow:auto' });
   pre.textContent = JSON.stringify(exportObject(), null, 1);
   var fileIn = h('input', { type: 'file', accept: 'application/json,.json', 'aria-label': 'Import choices JSON', onchange: function () {
-    var f = this.files[0]; if (!f) return; var r = new FileReader();
-    r.onload = function () { try { var o = JSON.parse(r.result); if (o.schema !== 'qp18-owner-choices') throw new Error('not a Quackpot audition export'); var n = blankState(); n.catalogRevision = o.catalogRevision || CAT.catalogRevision;
-        (o.pools || []).forEach(function (p) { var pp = n.pools[p.role] = n.pools[p.role] || { active: 'Main', sets: { Main: [] } }; pp.sets[p.pool] = p.fileIds.slice(); if (p.active) pp.active = p.pool; });
-        (o.shortlistedIds || []).forEach(function (id) { n.shortlist[id] = true; }); (o.rejectedIds || []).forEach(function (id) { n.rejected[id] = true; }); n.notes = o.notes || {}; n.trims = o.ownerTrimDb || {};
-        state = n; staleFrom = n.catalogRevision !== CAT.catalogRevision ? n.catalogRevision : null; var ok = save(); refreshAll(); renderChoices(); setStatus('Imported choices' + (staleFrom ? ' (older catalog revision ' + staleFrom + '; unknown IDs are kept and listed)' : '') + (ok ? '.' : ', but they could not be saved in this browser.'), !ok); }
-      catch (e) { setStatus('Import failed: ' + e.message, true); } };
-    r.onerror = function () { setStatus('Could not read that file.', true); }; r.readAsText(f); } });
-  var clearBtn = h('button', { type: 'button', class: 'danger', text: 'Clear all my choices…', onclick: function () {
-    if (clearBtn.dataset.armed !== '1') { clearBtn.dataset.armed = '1'; clearBtn.textContent = 'Really clear everything? Press again to confirm'; setTimeout(function () { if (clearBtn.dataset.armed === '1') { clearBtn.dataset.armed = ''; clearBtn.textContent = 'Clear all my choices…'; } }, 6000); return; }
-    stopAll(); state = blankState(); staleFrom = null; var failed = null; try { localStorage.removeItem(KEY); } catch (e) { failed = e; } refreshAll(); renderChoices();
-    if (failed) setStatus('Cleared on screen, but saved data could not be removed (' + failed.name + ').', true); else setStatus('All choices cleared.'); } });
+    var f = this.files[0]; this.value = ''; if (!f) return;
+    if (f.size > LIMITS.fileBytes) { failImport('The file is larger than 1 MB.'); return; }
+    var r = new FileReader(); r.onload = function () { handleImportText(String(r.result), f.name); }; r.onerror = function () { failImport('The file could not be read.'); }; r.readAsText(f); } });
+  if (pendingImport) {
+    var c = pendingImport, rp = c.report;
+    root.appendChild(h('div', { class: 'notice warn', role: 'group', 'aria-label': 'Confirm replacing your choices' },
+      h('p', { text: 'Replace your current choices with "' + c.name + '"?' }),
+      h('p', { text: 'Current: ' + (hasChoices(state) ? summarize(state) : 'nothing chosen') + '.' }),
+      h('p', { text: 'Import (catalog revision ' + c.state.catalogRevision + '): ' + summarize(c.state) + '.' }),
+      rp.unknownIds.length ? h('p', { text: 'IDs not in this catalog (kept): ' + rp.unknownIds.join(', ') }) : null,
+      rp.unknownRoles.length ? h('p', { text: 'Purposes not in this catalog (kept): ' + rp.unknownRoles.join(', ') }) : null,
+      rp.ignored.length ? h('p', { text: 'Unrecognized top-level fields ignored: ' + rp.ignored.join(', ') }) : null,
+      writesBlocked ? h('p', { text: 'This will overwrite the unreadable saved data. Download it first if you may need it.' }) : null,
+      h('div', { class: 'row' },
+        hasChoices(state) ? h('button', { type: 'button', text: 'Download backup of current choices', onclick: function () { var e = downloadText(JSON.stringify(exportObject(), null, 1), 'quackpot-audition-backup-' + CAT.catalogRevision + '.json', 'application/json'); setStatus(e ? 'Backup download failed (' + e.name + '); copy the text below instead.' : 'Backup download started.', !!e); } }) : null,
+        h('button', { type: 'button', class: 'primary', text: 'Replace current choices', onclick: function () { applyImport(pendingImport); } }),
+        h('button', { type: 'button', text: 'Cancel import', onclick: function () { pendingImport = null; renderChoices(); setStatus('Import cancelled; nothing was changed.'); } }))));
+  }
   root.appendChild(h('div', { class: 'row' },
-    h('button', { type: 'button', class: 'primary', text: 'Download choices (JSON)', onclick: function () {
-      try { var blob = new Blob([JSON.stringify(exportObject(), null, 1)], { type: 'application/json' }); var a = h('a', { href: URL.createObjectURL(blob), download: 'quackpot-audition-choices-' + CAT.catalogRevision + '.json' }); document.body.appendChild(a); a.click(); a.remove(); setStatus('Download started. Check your Downloads folder; if nothing appears, copy the text below.'); }
-      catch (e) { setStatus('Download failed (' + e.name + '). Copy the text below instead.', true); } } }),
+    h('button', { type: 'button', class: 'primary', text: 'Download choices (JSON)', onclick: function () { var e = downloadText(JSON.stringify(exportObject(), null, 1), 'quackpot-audition-choices-' + CAT.catalogRevision + '.json', 'application/json'); setStatus(e ? 'Download failed (' + e.name + '). Copy the text below instead.' : 'Download started. Check your Downloads folder; if nothing appears, copy the text below.', !!e); } }),
     h('button', { type: 'button', text: 'Copy JSON', onclick: function () { var t = JSON.stringify(exportObject(), null, 1); if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { setStatus('Copied.'); }, function () { setStatus('Copy blocked; select the text below manually.', true); }); else setStatus('Copy not available here; select the text below manually.', true); } }),
-    h('label', null, 'Import: ', fileIn), clearBtn));
-  root.appendChild(out);
-  var unk = unknownIds(); if (unk.length) root.appendChild(h('div', { class: 'notice warn', text: 'IDs not in this catalog: ' + unk.join(', ') }));
+    h('label', null, 'Import: ', fileIn),
+    armedButton('Clear all my choices…', 'Really clear everything? Press again to confirm', resetAll)));
+  root.appendChild(h('p', { class: 'cardstatus', text: 'Tip: download a copy before importing or clearing. Import checks the whole file first and changes nothing if anything is wrong.' }));
+  var unk = unknownIds(); if (unk.length) root.appendChild(h('div', { class: 'notice warn', text: 'IDs not in this catalog (kept): ' + unk.join(', ') }));
+  var ur = unknownRoles(); if (ur.length) root.appendChild(h('div', { class: 'notice warn', text: 'Purposes not in this catalog (kept): ' + ur.join(', ') }));
   root.appendChild(h('h2', { text: 'What would be exported' })); root.appendChild(pre);
 }
 
@@ -435,6 +647,15 @@ function renderCredits() {
         h('dt', { text: 'License' }), h('dd', null, f.license.url ? h('a', { href: f.license.url, target: '_blank', rel: 'noopener noreferrer', text: licBadge(f) }) : licBadge(f), ' — ' + f.license.scope),
         h('dt', { text: 'Credit text' }), h('dd', { text: f.attributionText }), h('dt', { text: 'Changes' }), h('dd', { text: f.changeNotice }),
         h('dt', { text: 'Local file' }), h('dd', { text: f.local.path + '  (sha256 ' + f.local.sha256 + ')' }))));
+  });
+  root.appendChild(h('h2', { text: 'Music (' + CAT.music.length + ')' }));
+  CAT.music.forEach(function (m) {
+    root.appendChild(h('details', { class: 'more', 'data-credit': m.id }, h('summary', { text: m.id + ' — ' + m.title + ' (music) — ' + m.license.name + ' ' + m.license.version }),
+      h('dl', null, h('dt', { text: 'Creator' }), h('dd', { text: m.creator }),
+        h('dt', { text: 'Source' }), h('dd', null, h('a', { href: m.source, target: '_blank', rel: 'noopener noreferrer', text: m.source })),
+        h('dt', { text: 'License' }), h('dd', null, h('a', { href: m.license.url, target: '_blank', rel: 'noopener noreferrer', text: m.license.name + ' ' + m.license.version }), ' — ' + m.licenseScope),
+        h('dt', { text: 'Credit text' }), h('dd', { text: m.attributionText }), h('dt', { text: 'Changes' }), h('dd', { text: m.changeNotice }),
+        h('dt', { text: 'Local file' }), h('dd', { text: m.path + '  (sha256 ' + m.sha256 + ')' }), h('dt', { text: 'Provenance record' }), h('dd', { text: m.provenanceRef }))));
   });
   root.appendChild(h('h2', { text: 'Gaps (reported, not padded)' })); var ul = h('ul'); CAT.gaps.forEach(function (g) { ul.appendChild(h('li', { text: g })); }); root.appendChild(ul);
   root.appendChild(h('h2', { text: 'Quarantined or out-of-scope leads' })); var ul2 = h('ul'); CAT.quarantined.forEach(function (g) { ul2.appendChild(h('li', { text: g })); }); root.appendChild(ul2);
@@ -452,7 +673,8 @@ TABS.forEach(function (t) { $('t-' + t).addEventListener('click', function () { 
 
 load();
 renderEffects(); renderMusic(); renderCredits(); refreshAll();
-if (staleFrom) setStatus('Saved choices are from catalog revision ' + staleFrom + '; see "My choices". Nothing was reset.');
+if (writesBlocked) setStatus('Saved choices in this browser could not be read. They are preserved untouched and nothing is saved this visit; open "My choices" to download, replace or discard them.', true);
+else if (staleFrom) setStatus('Saved choices are from catalog revision ' + staleFrom + '; see "My choices". Nothing was reset.');
 else if (!storageOK) { /* status already set */ } else setStatus('Ready. Nothing plays until you press Play. Esc stops everything.');
 })();
 </script>

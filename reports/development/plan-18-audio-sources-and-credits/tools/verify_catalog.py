@@ -57,6 +57,23 @@ for f in cat["files"]:
     if f["auditionGainDb"] > 0:
         err(f"{f['id']} gain would amplify")
 
+attrib = open(j(report, "catalog", "ATTRIBUTIONS.md"), encoding="utf-8").read()
+for m in cat["music"]:
+    for k in ("creator", "source", "licenseScope", "attributionText", "changeNotice", "provenanceRef", "sha256", "path"):
+        if not m.get(k):
+            err(f"music {m['id']} missing {k}")
+    L = m.get("license", {})
+    if not (L.get("name") and L.get("version") and L.get("url")):
+        err(f"music {m['id']} license incomplete")
+    if hashlib.sha256(open(j(report, m["path"]), "rb").read()).hexdigest() != m["sha256"]:
+        err(f"music {m['id']} sha256 mismatch")
+    for needle in (m["id"], m["attributionText"], m["changeNotice"], m["license"]["url"]):
+        if needle not in attrib:
+            err(f"ATTRIBUTIONS.md lacks music {m['id']} text {needle[:40]!r}")
+for f in cat["files"]:
+    if f["id"] not in attrib or f["attributionText"] not in attrib or f["changeNotice"] not in attrib:
+        err(f"ATTRIBUTIONS.md lacks effect {f['id']} credit/change text")
+
 js = open(j(report, "catalog", "catalog-data.js"), encoding="ascii").read()
 m = re.search(r"window\.QP18_CATALOG = (.*);\s*$", js, re.S)
 if json.loads(m.group(1)) != cat:
@@ -67,6 +84,9 @@ for pat in (r"DuckSynth", r"synth", r"AudioContext", r"fetch\(", r"XMLHttpReques
     hits = re.findall(pat, page, re.I)
     if hits:
         err(f"page contains forbidden pattern {pat!r}: {hits[:2]}")
+credits_fn = re.search(r"function renderCredits\(\) \{.*?\n\}\n", page, re.S)
+if not credits_fn or "CAT.files.forEach" not in credits_fn.group(0) or "CAT.music.forEach" not in credits_fn.group(0):
+    err("renderCredits must iterate both CAT.files and CAT.music")
 ext_links = re.findall(r"href=\"(https?://[^\"]+)\"", page)
 notes.append(f"page static external href count: {len(ext_links)} (explicit navigation only)")
 

@@ -98,3 +98,10 @@ Known weaknesses: the overhead duck is simple and reads small beside the phone a
 **Browser-checked** (isolated tab): all ten area-by-framing combinations free of NaN/undefined SVG attributes; living, kitchen and bedroom in neutral and warm light; top-down warm lamp; phone width (375 px) without horizontal scroll. **Not checked:** window light in each room, medium framing of every room beyond bedroom at phone width, real browser zoom.
 
 **Known weaknesses:** the duck is physically small (about 64 mm), so wide room shots show it at 35–60 px and Medium framing is needed to see it; the toy shelf is large in the bedroom frame and its bottom row is partly cropped; the bed is cropped at the right edge; the kitchen and bedroom camera heights are tuned by eye; the living-room couch and TV share the back wall, a stage-set convention; floor planks and rugs are schematic; the other apartment areas (entryway, empty-desk pawn scene) are not drawn.
+
+## Lamp direction, pillow and mug fixes (owner feedback, 2026-10-27)
+
+- **Room lamps are now directional.** A lampshade is open at top and bottom, so each room lamp throws a blurred downward cone plus (for the floor and bedside lamps) a fainter upward spill, with only a small halo at the shade; the old circular pool is gone. The screen-darkening overlay is also shaped per room (taller than wide for the living room's floor lamp, shifted below the shade) instead of one symmetric radial. Applied to the living-room floor lamp, kitchen pendant (down only, closed dome) and bedside lamp.
+- **Desk side view:** the lamp head is turned 80° so its opening faces down and slightly right; the light is two blurred cones (about ±26° and ±46°) computed from that opening, plus a soft pool on the desk, so the beam direction follows the lamp's orientation and falls on the duck. The mug is 72% of its previous size.
+- **Couch pillow** now rests on the seat cushion instead of floating above it.
+- Browser-checked in the isolated tab: living (warm), desk side (warm), kitchen and bedroom (warm), no bad SVG attributes. Not rechecked: neutral/window light after the change, other framings, phone width.

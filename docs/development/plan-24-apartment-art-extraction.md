@@ -55,6 +55,8 @@ First write a concise proposal: module/file ownership, dependencies, exported in
 
 ## Stop conditions and delivery
 
+**Root implementation gate, 2026-10-27:** Proposal `b2ed380` is approved with binding clarifications in `reports/orchestration/plan-24-extraction-gate-01.md`. Independent couch/TV flags, baked lighting, report-local frozen-baseline tooling and bounded escaped phone copy are selected. Use explicit `.mjs`, complete actual-view fallback metadata, verify source hashes and fidelity negative controls, and compare final baked lighting to the original CSS-overlay composite. Mixed sale states are new unbaselined combinations. Existing four-Haiku/two-concurrent ownership is approved after shared interfaces are published. No further owner gate before source extraction; owner fidelity acceptance remains open.
+
 Stop for incompatible interfaces requiring runtime changes, settled-rule changes, new pipeline/dependencies or unexplained visual drift. Do not edit runtime to make gallery pass. You may not set packet status, edit root dispositions or declare owner acceptance/shipping. Report readiness against appearance preservation and separability, not test count. Commit explicit owned files, progress report last; never push.
 
 Report: `reports/development/plan-24-apartment-art-extraction/progress.md`. Checklist: approved proposal; mapped sources; isolated reusable modules; gallery; repeated IDs/refs checked; rendered baseline comparison with honest limits; no unrelated changes; final report and scoped commits; root/owner gates preserved.

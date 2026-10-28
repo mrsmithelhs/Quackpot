@@ -47,9 +47,22 @@
    "pageDurationDisplayed": "0:00.816",
    "descriptionExcerpt": "Extracted from ducks1.wav by Freesound user squashy555.",
    "modifications": "none; unmodified original as downloaded",
-   "flags": [
-    "derivative-source-license-not-captured"
-   ]
+   "flags": [],
+   "derivedFrom": {
+    "freesoundId": "244329",
+    "title": "ducks1.wav",
+    "uploader": "squashy555",
+    "pageUrl": "https://freesound.org/people/squashy555/sounds/244329/",
+    "license": {
+     "name": "CC0",
+     "version": "1.0",
+     "displayedOnPage": "Creative Commons 0"
+    },
+    "pageDateUploaded": "2014-08-08",
+    "pageDurationDisplayed": "0:26.098",
+    "description": "lots of Ducks being fed in the park, fighting each other over the food. Recorded with Tascam DR07",
+    "evidence": "owner screenshot attached in chat (not saved in repo)"
+   }
   },
   {
    "intakeId": "fs-719115",

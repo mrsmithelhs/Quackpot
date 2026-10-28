@@ -1,0 +1,695 @@
+{
+ "schemaVersion": 1,
+ "note": "Staging records for owner-downloaded Freesound originals; catalogId assigned when the central catalog is built. Not an owner selection.",
+ "createdOn": "2026-10-28",
+ "records": [
+  {
+   "intakeId": "fs-418509",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "418509",
+    "assetPageUrl": "https://freesound.org/people/Mikes-MultiMedia/sounds/418509/",
+    "uploader": "Mikes-MultiMedia",
+    "title": "single quack from a duck",
+    "pageDateUploaded": "2018-02-18",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 111550); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"single quack from a duck\" by Mikes-MultiMedia (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/418509__mikes-multimedia__single-quack-from-a-duck.wav",
+    "downloadedFilename": "418509__mikes-multimedia__single-quack-from-a-duck.wav",
+    "bytes": 72090,
+    "sha256": "3651114bd5fd5231e91385e3f176297874877b4ad4d3e5ddc3f08e323e2d3ba1",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 44100 Hz, 1 ch",
+     "durationS": 0.817,
+     "channels": 1,
+     "sampleRate": 44100,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:00.816",
+   "descriptionExcerpt": "Extracted from ducks1.wav by Freesound user squashy555.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "derivative-source-license-not-captured"
+   ]
+  },
+  {
+   "intakeId": "fs-719115",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "719115",
+    "assetPageUrl": "https://freesound.org/people/OwennewO/sounds/719115/",
+    "uploader": "OwennewO",
+    "title": "Ducks Quacking To Each Other",
+    "pageDateUploaded": "2024-01-13",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 111612); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"Ducks Quacking To Each Other\" by OwennewO (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/719115__owennewo__ducks-quacking-to-each-other.wav",
+    "downloadedFilename": "719115__owennewo__ducks-quacking-to-each-other.wav",
+    "bytes": 120466,
+    "sha256": "5a656383f845bfb41b4030c8760f00a3032b6f67b662f5463767c22c5c8d9383",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 48000 Hz, 1 ch",
+     "durationS": 1.254,
+     "channels": 1,
+     "sampleRate": 48000,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:01.254",
+   "descriptionExcerpt": "A male and female duck quacking to each other at the same time.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": []
+  },
+  {
+   "intakeId": "fs-188375",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "188375",
+    "assetPageUrl": "https://freesound.org/people/calodas/sounds/188375/",
+    "uploader": "calodas",
+    "title": "Duck_quack_2_Sweden.wav",
+    "pageDateUploaded": "2013-05-14",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 111641); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"Duck_quack_2_Sweden.wav\" by calodas (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/188375__calodas__duck_quack_2_sweden.wav",
+    "downloadedFilename": "188375__calodas__duck_quack_2_sweden.wav",
+    "bytes": 6211628,
+    "sha256": "0e6047a05c0b12b423b7183c6b5468a891264a95278cb77f6bcf7d4107f4da98",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 44100 Hz, 2 ch",
+     "durationS": 35.213,
+     "channels": 2,
+     "sampleRate": 44100,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:35.213",
+   "descriptionExcerpt": "A duck quacking in the water by the sea in Eastern Sweden. Recorded April 2013.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "long-needs-trim"
+   ]
+  },
+  {
+   "intakeId": "fs-442820",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "442820",
+    "assetPageUrl": "https://freesound.org/people/qubodup/sounds/442820/",
+    "uploader": "qubodup",
+    "title": "Duck Quack",
+    "pageDateUploaded": "2018-10-12",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 111732); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC BY",
+    "version": "4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "displayedOnPage": "Attribution 4.0",
+    "level": "file-page",
+    "attributionRequired": true,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "\"Duck Quack\" by qubodup (https://freesound.org/s/442820/), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+   "local": {
+    "path": "audio/_originals/freesound/442820__qubodup__duck-quack.wav",
+    "downloadedFilename": "442820__qubodup__duck-quack.wav",
+    "bytes": 100102,
+    "sha256": "c584b6358eeeb9b73a03deeac4103c9949d0b1a92a0b755499c19c0455f8fc10",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 44100 Hz, 1 ch",
+     "durationS": 1.13,
+     "channels": 1,
+     "sampleRate": 44100,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [
+      "LIST",
+      "id3 "
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:01.130",
+   "descriptionExcerpt": "Made to replace quack.wav in FreeDink.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": []
+  },
+  {
+   "intakeId": "fs-249943",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "249943",
+    "assetPageUrl": "https://freesound.org/people/IllusiaProductions/sounds/249943/",
+    "uploader": "IllusiaProductions",
+    "title": "1. Ducks.wav",
+    "pageDateUploaded": "2014-09-27",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 111758); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC BY",
+    "version": "4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "displayedOnPage": "Attribution 4.0",
+    "level": "file-page",
+    "attributionRequired": true,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "\"1. Ducks.wav\" by IllusiaProductions (https://freesound.org/s/249943/), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+   "local": {
+    "path": "audio/_originals/freesound/249943__illusiaproductions__1-ducks.wav",
+    "downloadedFilename": "249943__illusiaproductions__1-ducks.wav",
+    "bytes": 3602238,
+    "sha256": "5d18cd4bdccc0b811b83f8c6b0fa3b1e2997e3fd1697cce171ff7dbc36737959",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 24-bit PCM, 44100 Hz, 2 ch",
+     "durationS": 13.614,
+     "channels": 2,
+     "sampleRate": 44100,
+     "bitDepth": 24,
+     "kbps": null,
+     "otherChunks": [
+      "LIST"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:13.613",
+   "descriptionExcerpt": "Quacking in the distance.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "long-needs-trim"
+   ]
+  },
+  {
+   "intakeId": "fs-201285",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "201285",
+    "assetPageUrl": "https://freesound.org/people/panmaterac/sounds/201285/",
+    "uploader": "panmaterac",
+    "title": "Rubber duck toy squeaking.wav",
+    "pageDateUploaded": "2013-09-24",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 151514); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"Rubber duck toy squeaking.wav\" by panmaterac (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/201285__panmaterac__rubber-duck-toy-squeaking.wav",
+    "downloadedFilename": "201285__panmaterac__rubber-duck-toy-squeaking.wav",
+    "bytes": 1335412,
+    "sha256": "c7ee4db329f1c7647933845c475742272b56ebdc8e35ec09222da7cc1ac0f4a1",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 44100 Hz, 2 ch",
+     "durationS": 7.57,
+     "channels": 2,
+     "sampleRate": 44100,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [
+      "LIST"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:07.569",
+   "descriptionExcerpt": "Yellow, small rubber duck toy squeaking. Short sequence.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": []
+  },
+  {
+   "intakeId": "fs-403507",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "403507",
+    "assetPageUrl": "https://freesound.org/people/LamaMakesMusic/sounds/403507/",
+    "uploader": "LamaMakesMusic",
+    "title": "Rubber-Duck_Squeezes.wav",
+    "pageDateUploaded": "2017-10-03",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 151540); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"Rubber-Duck_Squeezes.wav\" by LamaMakesMusic (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/403507__lamamakesmusic__rubber-duck_squeezes.wav",
+    "downloadedFilename": "403507__lamamakesmusic__rubber-duck_squeezes.wav",
+    "bytes": 4084328,
+    "sha256": "68e34c1483168b6d060e63793ede3c8f5287cffe0f6789b5a2972302e58def71",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 96000 Hz, 2 ch",
+     "durationS": 10.636,
+     "channels": 2,
+     "sampleRate": 96000,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:10.636",
+   "descriptionExcerpt": "Squeezing a rubber duck. Tascam DR-40 built-in mics.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "96kHz-source"
+   ]
+  },
+  {
+   "intakeId": "fs-350917",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "350917",
+    "assetPageUrl": "https://freesound.org/people/csaszi/sounds/350917/",
+    "uploader": "csaszi",
+    "title": "rubber duck -CsG-.wav",
+    "pageDateUploaded": "2016-07-27",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 151614); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"rubber duck -CsG-.wav\" by csaszi (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/350917__csaszi__rubber-duck-csg.wav",
+    "downloadedFilename": "350917__csaszi__rubber-duck-csg.wav",
+    "bytes": 1718412,
+    "sha256": "e7a3a69117e2c0b1c08058a0dac21cc27e1e5c6183f116bd7d20ef4eb1150bca",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 24-bit PCM, 48000 Hz, 1 ch",
+     "durationS": 11.86,
+     "channels": 1,
+     "sampleRate": 48000,
+     "bitDepth": 24,
+     "kbps": null,
+     "otherChunks": [
+      "JUNK",
+      "bext",
+      "minf",
+      "elm1",
+      "regn",
+      "umid",
+      "DGDA"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:11.859",
+   "descriptionExcerpt": "h2n",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": []
+  },
+  {
+   "intakeId": "fs-818396",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "818396",
+    "assetPageUrl": "https://freesound.org/people/treefit.2025/sounds/818396/",
+    "uploader": "treefit.2025",
+    "title": "duck quack",
+    "pageDateUploaded": "2025-08-03",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshots 151640 + 152302); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC BY",
+    "version": "4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "displayedOnPage": "Attribution 4.0",
+    "level": "file-page",
+    "attributionRequired": true,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "\"duck quack\" by treefit.2025 (https://freesound.org/s/818396/), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+   "local": {
+    "path": "audio/_originals/freesound/818396__treefit2025__duck-quack.wav",
+    "downloadedFilename": "818396__treefit2025__duck-quack.wav",
+    "bytes": 30914,
+    "sha256": "ae8c5729b132460708f7d94f1e3698a6a531d88dae073bf19bddf62b3d2858a9",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 44100 Hz, 1 ch",
+     "durationS": 0.35,
+     "channels": 1,
+     "sampleRate": 44100,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:00.350",
+   "descriptionExcerpt": "Remix of duck.aif by vzykov (https://freesound.org/s/31271/), License: Attribution 4.0. Only one quack.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "remix-source-license-not-captured",
+    "credit-source-author"
+   ]
+  },
+  {
+   "intakeId": "fs-448208",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "448208",
+    "assetPageUrl": "https://freesound.org/people/florianreichelt/sounds/448208/",
+    "uploader": "florianreichelt",
+    "title": "Sound of a Duck",
+    "pageDateUploaded": "2018-11-17",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 152358); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": null,
+    "version": null,
+    "level": "unverified",
+    "attributionRequired": null
+   },
+   "suggestedAttribution": null,
+   "local": {
+    "path": "audio/_originals/freesound/448208__florianreichelt__sound-of-a-duck.wav",
+    "downloadedFilename": "448208__florianreichelt__sound-of-a-duck.wav",
+    "bytes": 1752464,
+    "sha256": "8fb63655e8c5b8e178991c982eb6d58718af0e8b148c22630119c5cf05973bb1",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 32-bit float, 48000 Hz, 2 ch",
+     "durationS": 4.544,
+     "channels": 2,
+     "sampleRate": 48000,
+     "bitDepth": 32,
+     "kbps": null,
+     "otherChunks": [
+      "LIST",
+      "bext",
+      "iXML",
+      "_PMX"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "(not captured)",
+   "descriptionExcerpt": "Description says free for commercial/non-commercial use and asks for an Instagram tag; no license panel in frame.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "LICENSE-PANEL-NOT-CAPTURED",
+    "human-made-label",
+    "description-promo-text"
+   ]
+  },
+  {
+   "intakeId": "fs-547601",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "547601",
+    "assetPageUrl": "https://freesound.org/people/martian/sounds/547601/",
+    "uploader": "martian",
+    "title": "quack quack.SRBD.wav",
+    "pageDateUploaded": "2020-12-11",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 152437); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"quack quack.SRBD.wav\" by martian (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/547601__martian__quack-quacksrbd.wav",
+    "downloadedFilename": "547601__martian__quack-quacksrbd.wav",
+    "bytes": 131072,
+    "sha256": "6cb6b0e1bfd13dd49f76070de53344c3c16efce982231186604a68b3b1808064",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 16-bit PCM, 48000 Hz, 1 ch",
+     "durationS": 1.323,
+     "channels": 1,
+     "sampleRate": 48000,
+     "bitDepth": 16,
+     "kbps": null,
+     "otherChunks": [
+      "FLLR"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:01.322",
+   "descriptionExcerpt": "Grumpy duck quack made by recording a human, processed in Reason NNXT.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "human-imitation-not-a-duck"
+   ]
+  },
+  {
+   "intakeId": "fs-749445",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "749445",
+    "assetPageUrl": "https://freesound.org/people/dumnezilla/sounds/749445/",
+    "uploader": "dumnezilla",
+    "title": "desperate duck quack",
+    "pageDateUploaded": "2024-07-31",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 152513); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "Optional: \"desperate duck quack\" by dumnezilla (Freesound), CC0 1.0",
+   "local": {
+    "path": "audio/_originals/freesound/749445__dumnezilla__desperate-duck-quack.mp3",
+    "downloadedFilename": "749445__dumnezilla__desperate-duck-quack.mp3",
+    "bytes": 212113,
+    "sha256": "ff41197a8572eef8ac784c48f9df85846076dffbfc678743441772acb58338bc",
+    "measured": {
+     "container": "MP3",
+     "format": "MP3 320 kbps, 44100 Hz, 2 ch",
+     "durationS": 5.303,
+     "channels": 2,
+     "sampleRate": 44100,
+     "bitDepth": null,
+     "kbps": 320,
+     "otherChunks": [],
+     "durationBasis": "summed frame durations (not decoder-verified)"
+    }
+   },
+   "pageDurationDisplayed": "0:05.225",
+   "descriptionExcerpt": "A person quacking like a crazed duck; recorded in Audacity.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "human-imitation-not-a-duck"
+   ]
+  },
+  {
+   "intakeId": "fs-90029",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "90029",
+    "assetPageUrl": "https://freesound.org/people/tewell/sounds/90029/",
+    "uploader": "tewell",
+    "title": "TwoShortOneHighQuacks.wav",
+    "pageDateUploaded": "2010-02-10",
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (screenshot 152543); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": "CC BY",
+    "version": "3.0",
+    "url": "https://creativecommons.org/licenses/by/3.0/",
+    "displayedOnPage": "Attribution 3.0",
+    "level": "file-page",
+    "attributionRequired": true,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
+   },
+   "suggestedAttribution": "\"TwoShortOneHighQuacks.wav\" by tewell (https://freesound.org/s/90029/), licensed CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)",
+   "local": {
+    "path": "audio/_originals/freesound/90029__tewell__twoshortonehighquacks.wav",
+    "downloadedFilename": "90029__tewell__twoshortonehighquacks.wav",
+    "bytes": 406933,
+    "sha256": "e871070380ee540e7a4a7b75de6ac073aa9bb269ab036ed6c9a637f914735fa9",
+    "measured": {
+     "container": "WAV",
+     "format": "WAV 24-bit PCM, 44100 Hz, 1 ch",
+     "durationS": 3.07,
+     "channels": 1,
+     "sampleRate": 44100,
+     "bitDepth": 24,
+     "kbps": null,
+     "otherChunks": [
+      "bext",
+      "junk"
+     ],
+     "durationBasis": "WAV data chunk length"
+    }
+   },
+   "pageDurationDisplayed": "0:03.070",
+   "descriptionExcerpt": "Produced by Terry Ewell with \"Wacky Quackers\" toy; description carries trademark references.",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "trademark-mentions-in-description",
+    "credit-terry-ewell"
+   ]
+  },
+  {
+   "intakeId": "fs-348791",
+   "catalogId": null,
+   "source": {
+    "library": "Freesound",
+    "soundId": "348791",
+    "assetPageUrl": "https://freesound.org/people/nebyoolae/sounds/348791/",
+    "uploader": "nebyoolae",
+    "title": "Toy Ducks Quacking",
+    "pageDateUploaded": null,
+    "retrievedOn": "2026-10-28",
+    "retrievedBy": "owner, own Freesound login (no account use by agent)",
+    "evidence": "owner screenshot (NO SCREENSHOT); to be deleted by owner after record verified"
+   },
+   "license": {
+    "name": null,
+    "version": null,
+    "level": "unverified",
+    "attributionRequired": null
+   },
+   "suggestedAttribution": null,
+   "local": {
+    "path": "audio/_originals/freesound/348791__nebyoolae__toy-ducks-quacking.mp3",
+    "downloadedFilename": "348791__nebyoolae__toy-ducks-quacking.mp3",
+    "bytes": 53976,
+    "sha256": "e135a3ff25f20b9279b2660c1c02f56aa6e9035d4da44c8eaf4e5888139560fa",
+    "measured": {
+     "container": "MP3",
+     "format": "MP3 128 kbps, 44100 Hz, 1 ch",
+     "durationS": 4.859,
+     "channels": 1,
+     "sampleRate": 44100,
+     "bitDepth": null,
+     "kbps": 128,
+     "otherChunks": [],
+     "durationBasis": "summed frame durations (not decoder-verified)"
+    }
+   },
+   "pageDurationDisplayed": "(not captured)",
+   "descriptionExcerpt": "",
+   "modifications": "none; unmodified original as downloaded",
+   "flags": [
+    "NO-SCREENSHOT",
+    "LICENSE-UNVERIFIED"
+   ]
+  }
+ ]
+}

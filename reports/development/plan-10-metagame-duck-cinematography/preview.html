@@ -20,35 +20,27 @@
     input { accent-color: #725032; }
     button { font: inherit; }
     .stage { position: relative; min-height: 360px; height: min(56vw, 540px); overflow: hidden; border: 1px solid #a69b8d; border-radius: .7rem; isolation: isolate; background: #d8d3c8; }
-    .room { position: absolute; inset: 0; background: linear-gradient(#d5d0c6 0 65%, #a59582 65% 100%); transition: filter .2s; }
-    .window { position: absolute; top: 8%; left: 9%; width: 28%; height: 39%; background: #b9d2d7; border: 9px solid #eee5d5; box-shadow: inset 0 0 0 3px #9b8f7f; }
-    .window::before, .window::after { content: ""; position: absolute; background: #eee5d5; }
-    .window::before { width: 5px; height: 100%; left: calc(50% - 2px); }
-    .window::after { height: 5px; width: 100%; top: calc(55% - 2px); }
-    .sofa { position: absolute; z-index: 1; left: 58%; bottom: 21%; width: 29%; height: 28%; border-radius: 18% 18% 8% 8%; background: #77776d; box-shadow: inset 0 16px #8a897e; }
-    .sofa::before, .sofa::after { content: ""; position: absolute; z-index: -1; width: 8%; height: 35%; bottom: -22%; background: #5d5347; }
-    .sofa::before { left: 12%; } .sofa::after { right: 12%; }
-    .table { position: absolute; z-index: 2; left: 24%; bottom: 14%; width: 43%; height: 10%; border-radius: 3px; background: #74553e; box-shadow: 0 12px #594332; }
-    .table::before, .table::after { content: ""; position: absolute; z-index: -1; top: 96%; width: 5%; height: 120%; background: #594332; }
-    .table::before { left: 10%; } .table::after { right: 10%; }
-    .duck { position: absolute; width: 29%; height: 72%; left: 31%; bottom: 22%; display: grid; place-items: center; transform-origin: 50% 75%; transition: left .2s, bottom .2s, width .2s, height .2s; }
-    .duck svg { width: 100%; height: 100%; overflow: visible; }
     .lighting { position: absolute; inset: 0; z-index: 3; pointer-events: none; transition: background .2s; --px: 44%; --py: 48%; }
     .stage[data-light="neutral"] .lighting { background: rgb(255 247 227 / 5%); }
     .stage[data-light="light"] .lighting { background: linear-gradient(115deg, rgb(255 245 205 / 24%), transparent 58%); }
     .stage[data-light="dark"] .lighting { background: radial-gradient(ellipse 58% 58% at var(--px) var(--py), rgb(255 190 98 / 48%) 0%, rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%) 100%); }
-    .stage[data-shot="desk-side"] .lighting { --px: 33%; --py: 62%; }
-    .stage[data-shot="desk-top"] .lighting { --px: 38%; --py: 52%; }
-    .stage[data-shot="wide"] .duck { width: 21%; height: 56%; left: 36%; bottom: 20%; }
-    .stage[data-shot="medium"] .duck { width: 34%; height: 78%; left: 29%; bottom: 18%; }
-    .stage[data-shot^="desk"] .room, .stage[data-shot^="desk"] .duck, .stage[data-shot^="desk"] .caption { display: none; }
-    .desk-layer { position: absolute; inset: 0; z-index: 1; display: none; }
-    .stage[data-shot^="desk"] .desk-layer { display: block; }
+    .desk-layer { position: absolute; inset: 0; z-index: 1; }
+    .stage[data-area="desk-side"] .lighting { --px: 33%; --py: 62%; }
+    .stage[data-area="desk-top"] .lighting { --px: 28%; --py: 38%; }
+    .stage[data-area^="desk"] .caption { display: none; }
+    .room-scene .o { stroke: #3a2c26; stroke-width: 2; stroke-linejoin: round; }
+    .room-scene .o * { vector-effect: non-scaling-stroke; }
     .desk-scene { width: 100%; height: 100%; display: block; overflow: visible; }
     .desk-scene .cast [fill]:not([fill="none"]) { fill: #1a0f0a; }
     .desk-scene .cast [stroke]:not([stroke="none"]) { stroke: #1a0f0a; }
+    .desk-scene .cast { opacity: .3; }
+    .desk-scene .cast-keep { opacity: .3; }
+    .desk-scene .cast-lamp { display: none; }
+    .stage[data-light="dark"] .desk-scene .cast-amb { display: none; }
+    .stage[data-light="dark"] .desk-scene .cast-lamp { display: inline; opacity: .42; }
     .desk-scene .lamp-on { opacity: 0; transition: opacity .2s; }
     .stage[data-light="dark"] .desk-scene .lamp-on { opacity: 1; }
+    .desk-scene .lamp-pool { mix-blend-mode: screen; }
     .caption { position: absolute; z-index: 4; right: 1rem; bottom: .8rem; max-width: 38%; padding: .5rem .65rem; background: rgb(255 250 240 / 88%); border-radius: .35rem; }
     .caption small { display: block; color: #51483e; }
     .owner-notes { margin: 1rem 0 1.5rem; }
@@ -69,8 +61,7 @@
     @media (max-width: 650px) {
       .stage { min-height: 310px; }
       .caption { max-width: 58%; font-size: .85rem; }
-      .stage:not([data-shot^="desk"]) .caption { top: .5rem; bottom: auto; right: .5rem; }
-      .window { border-width: 5px; }
+      .stage:not([data-area^="desk"]) .caption { top: .5rem; bottom: auto; right: .5rem; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
   </style>
@@ -91,27 +82,34 @@
         <label><input type="radio" name="view" value="high"> High angle</label>
         <label><input type="radio" name="view" value="low"> Low angle</label>
       </fieldset>
-      <fieldset><legend>Composition</legend>
+      <fieldset><legend>Apartment area</legend>
+        <label><input type="radio" name="area" value="living" checked> Living room</label>
+        <label><input type="radio" name="area" value="kitchen"> Kitchen</label>
+        <label><input type="radio" name="area" value="bedroom"> Bedroom + toy shelf</label>
+        <label><input type="radio" name="area" value="desk-side"> Desk — side view</label>
+        <label><input type="radio" name="area" value="desk-top"> Desk — top-down</label>
+      </fieldset>
+      <fieldset id="framing-fs"><legend>Framing</legend>
         <label><input type="radio" name="shot" value="wide" checked> Wide</label>
         <label><input type="radio" name="shot" value="medium"> Medium</label>
-        <label><input type="radio" name="shot" value="desk-side"> Desk — side view</label>
-        <label><input type="radio" name="shot" value="desk-top"> Desk — top-down</label>
+      </fieldset>
+      <fieldset id="state-fs"><legend>Living room state</legend>
+        <label><input type="radio" name="state" value="full" checked> Furnished</label>
+        <label><input type="radio" name="state" value="sold"> Couch and TV sold</label>
       </fieldset>
       <fieldset><legend>Room light</legend>
         <label><input type="radio" name="light" value="neutral" checked> Neutral</label>
         <label><input type="radio" name="light" value="light"> Window light</label>
-        <label><input type="radio" name="light" value="dark"> Warm desk lamp</label>
+        <label><input type="radio" name="light" value="dark"> Warm lamp</label>
       </fieldset>
     </div>
-    <div class="stage" id="stage" data-shot="wide" data-light="neutral">
-      <div class="room" aria-hidden="true"><div class="window"></div><div class="sofa"></div><div class="table"></div></div>
+    <div class="stage" id="stage" data-area="living" data-light="neutral">
       <div class="desk-layer" id="desk-layer" aria-hidden="true"></div>
-      <div class="duck" id="duck" aria-label="Static physical rubber duck view"></div>
       <div class="lighting" aria-hidden="true"></div>
       <div class="caption"><strong>Player:</strong> [review caption]<small>Placeholder text; no new story mechanic.</small></div>
     </div>
     <p id="selection" aria-live="polite">Front three-quarter, wide, neutral light.</p>
-    <p class="notice"><strong>Desk cameras.</strong> Each desk composition uses ONE camera for every object. <em>Side view:</em> eye-level, horizontal camera across the desk (home-office set: lamp, duck, mug, phone on a stand, books and a plant); upright objects show their fronts, the tabletop is a thin band with a front edge. The duck uses its own front/side/rear view (the elevated and low duck views need other cameras). <em>Top-down:</em> camera straight above (student/craft set: duck, phone lying flat, notepad, pencil, keys, lip balm, coins, lamp seen from above); every object is a footprint and shadows fall away from the lamp at the upper left. The overhead duck is an extra drawing made for this camera, not one of the five views. Phone proportions follow the game's desk phone (9:17, bezel, 9:41 status row, QUACKPOT invitation text); object sizes use one scale of 2.2 units per millimetre, with real-world sizes assumed (the repo specifies no physical sizes).</p>
+    <p class="notice"><strong>Cameras and scale.</strong> Every area uses ONE camera for all its objects. <em>Rooms (living, kitchen, bedroom):</em> one horizontal pinhole camera per room; every object is drawn as a front elevation at its true depth, so the fridge, couch, TV, toy shelf and the duck keep consistent proportions and perspective (camera height is set per room so the duck's surface lands in the lower third; tabletop and shelf tops are drawn as receding surfaces). <em>Desk side view:</em> eye-level across the desk. <em>Desk top-down:</em> camera straight above; every object is a footprint, with shadows scaled to object height and, under the warm lamp, pointing away from it. The duck uses its front/side/rear view in every non-overhead scene (High and Low need other cameras and fall back to Side); the overhead duck is an extra drawing, not one of the five views. Phone proportions follow the game's desk phone (9:17, 9:41 status row, QUACKPOT invitation text). Real-world sizes are assumed (the repo specifies none): duck about 64 mm tall, so it is small in wide room shots; use Medium framing. The living-room “Couch and TV sold” state previews the design's visible emptying.</p>
   </section>
   <section class="owner-notes" aria-labelledby="notes-heading">
     <h2 id="notes-heading">Copyable owner notes</h2>
@@ -133,14 +131,13 @@
 <script type="module">
   import { views } from './duck-views.js';
   const stage = document.querySelector('#stage');
-  const duck = document.querySelector('#duck');
   const deskLayer = document.querySelector('#desk-layer');
   const selection = document.querySelector('#selection');
-  let selectedView = 'front', selectedShot = 'wide', selectedLight = 'neutral';
+  let selectedView = 'front', selectedShot = 'wide', selectedArea = 'living', selectedState = 'full', selectedLight = 'neutral';
   const viewIds = { front:'P10-V01', side:'P10-V02', rear:'P10-V03', high:'P10-V04', low:'P10-V05' };
-  const shotIds = { wide:'P10-C01', medium:'P10-C02', 'desk-side':'P10-C03', 'desk-top':'P10-C04' };
-  const shotLabels = { wide:'wide', medium:'medium', 'desk-side':'desk side view (horizontal camera)', 'desk-top':'desk top-down (overhead camera)' };
-  const lightLabels = { neutral:'neutral', light:'window', dark:'warm desk lamp' };
+  const shotIds = { 'living-wide':'P10-C01', 'living-medium':'P10-C02', 'desk-side':'P10-C03', 'desk-top':'P10-C04', 'kitchen-wide':'P10-C05', 'kitchen-medium':'P10-C06', 'bedroom-wide':'P10-C07', 'bedroom-medium':'P10-C08' };
+  const areaLabels = { living:'living room', kitchen:'kitchen', bedroom:'bedroom and toy shelf', 'desk-side':'desk, side view (horizontal camera)', 'desk-top':'desk, top-down (overhead camera)' };
+  const lightLabels = { neutral:'neutral', light:'window', dark:'warm lamp' };
   let svgInstance = 0;
   function uniq(svg) {
     // Every drawing carries its own clipPaths/inline styling; only make ids unique per rendered instance.
@@ -167,8 +164,12 @@
     <linearGradient id="g-wood-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8e6748"/><stop offset="1" stop-color="#6e4b35"/></linearGradient>
     <linearGradient id="g-wood-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9a7352"/><stop offset="1" stop-color="#6a4833"/></linearGradient>
     <linearGradient id="g-cone" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd48a" stop-opacity=".8"/><stop offset="1" stop-color="#ffb35a" stop-opacity=".08"/></linearGradient>
+    <radialGradient id="g-pool"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".62"/><stop offset=".25" stop-color="#ffc77a" stop-opacity=".38"/><stop offset=".6" stop-color="#ffb35a" stop-opacity=".14"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>
     <radialGradient id="g-glow"><stop offset="0" stop-color="#ffcf80" stop-opacity=".9"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>
     <filter id="f-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="f-blur-s" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <radialGradient id="g-coin-gold" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#f3d985"/><stop offset="1" stop-color="#cfa23e"/></radialGradient>
+    <radialGradient id="g-coin-silver" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#eef0f2"/><stop offset="1" stop-color="#b3b8be"/></radialGradient>
   </defs>`;
 
   // The game's desk phone drawn face-on at (0,0), width w, height h (9:17), same regions as desk-phone.css.
@@ -255,67 +256,246 @@
   function topDeskScene() {
     const pw = PHONE_MM.w * PX_MM, ph = PHONE_MM.h * PX_MM;
     const S = 0.8, duckT = `translate(470 330) rotate(-10) scale(${S}) translate(-178.5 -135)`;
-    const obj = (cx, cy, rot, shape) => `<g class="cast" opacity=".3" filter="url(#f-blur)" transform="translate(${cx + 13} ${cy + 15}) rotate(${rot})">${shape}</g><g transform="translate(${cx} ${cy}) rotate(${rot})">${shape}</g>`;
+    // Warm-lamp mode: shadows point directly away from the lamp (shorter the farther away); other
+    // light modes use one fixed ambient offset. Both shadow sets are in the DOM; CSS picks one.
+    const LAMP = { x: 185, y: 128 };
+    // Shadow offset scales with the object's height above the desk (`lift`, px): flat things hug their
+    // shadow, the duck throws a longer one; lift 0 (a sticky note) casts none.
+    const away = (cx, cy, lift) => { const vx = cx - LAMP.x, vy = cy - LAMP.y, d = Math.hypot(vx, vy) || 1, len = lift * Math.max(.7, Math.min(1.5, 420 / d)); return [Math.round(vx / d * len * 10) / 10, Math.round(vy / d * len * 10) / 10]; };
+    const obj = (cx, cy, rot, shape, lift = 6) => {
+      if (!lift) return `<g transform="translate(${cx} ${cy}) rotate(${rot})">${shape}</g>`;
+      const [ax, ay] = away(cx, cy, lift), blur = lift <= 8 ? 'f-blur-s' : 'f-blur';
+      return `<g class="cast cast-amb" filter="url(#${blur})" transform="translate(${cx + lift * .85} ${cy + lift}) rotate(${rot})">${shape}</g><g class="cast cast-lamp" filter="url(#${blur})" transform="translate(${cx + ax} ${cy + ay}) rotate(${rot})">${shape}</g><g transform="translate(${cx} ${cy}) rotate(${rot})">${shape}</g>`;
+    };
     const key = (rot, len) => `<g transform="rotate(${rot})"><g transform="translate(24 0)"><circle cx="13" cy="0" r="13" fill="#d8c27a" stroke="#8a7634" stroke-width="2.5"/><circle cx="13" cy="0" r="4.5" fill="#6a4833"/><path d="M26 -5H${len}V-1H${len - 9}V3H${len - 18}V-1H${len - 28}V6H26Z" fill="#d8c27a" stroke="#8a7634" stroke-width="2.5" stroke-linejoin="round"/></g></g>`;
     const pencil = `<rect x="-190" y="-7.5" width="330" height="15" fill="#e0a526" stroke="#8a6414" stroke-width="2"/><rect x="-190" y="-2" width="330" height="4" fill="#f5c64a"/><polygon points="-190,-7.5 -228,0 -190,7.5" fill="#e8c79a" stroke="#8a6414" stroke-width="2" stroke-linejoin="round"/><polygon points="-228,0 -214,-3.7 -214,3.7" fill="#3a3a3a"/><rect x="140" y="-7.5" width="26" height="15" fill="#c9ccd1" stroke="#7d8189" stroke-width="2"/><rect x="166" y="-7.5" width="20" height="15" rx="5" fill="#e69aa0" stroke="#a15a60" stroke-width="2"/>`;
     const lines = Array.from({ length: 13 }, (_, i) => `<line x1="-104" y1="${-120 + i * 18}" x2="104" y2="${-120 + i * 18}" stroke="#8fb1c9" stroke-width="1.4"/>`).join('');
     const notepad = `<rect x="-115" y="-163" width="231" height="326" rx="6" fill="#efe6d2" stroke="#b9ad92" stroke-width="2.5"/>${lines}<rect x="-115" y="-163" width="231" height="26" rx="6" fill="#d9ccb0"/>${Array.from({ length: 9 }, (_, i) => `<circle cx="${-90 + i * 22.5}" cy="-150" r="4.5" fill="#6a5b46"/>`).join('')}`;
     const balm = `<rect x="-66" y="-16.5" width="132" height="33" rx="11" fill="#ddd4c6" stroke="#9c9183" stroke-width="2.5"/><rect x="-66" y="-16.5" width="50" height="33" rx="11" fill="#58504a"/><rect x="-18" y="-16.5" width="4" height="33" fill="#8f877d"/>`;
-    const coin = (c, s) => `<circle r="21" fill="${c}" stroke="${s}" stroke-width="2.5"/><circle r="14" fill="none" stroke="${s}" stroke-width="1.4" opacity=".6"/>`;
+    const coin = (kind) => { const gold = kind === 'gold', fill = gold ? 'url(#g-coin-gold)' : 'url(#g-coin-silver)', lo = gold ? '#8a6a1c' : '#7d8189', hi = gold ? '#f6e3a0' : '#f4f5f7'; return `<circle r="21" fill="${fill}" stroke="${lo}" stroke-width="2.2"/><circle r="17.6" fill="none" stroke="${lo}" stroke-width="1.1" stroke-dasharray="1.5 1.5" opacity=".65"/><circle r="13.2" fill="none" stroke="${lo}" stroke-width="1.2" opacity=".85"/>${gold ? '<polygon points="0,-8 2.4,-2.5 8,-2.5 3.6,1.2 5,7 0,3.7 -5,7 -3.6,1.2 -8,-2.5 -2.4,-2.5" fill="' + lo + '" opacity=".7"/>' : '<text y="5.4" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="800" fill="' + lo + '" opacity=".8">Q</text>'}<path d="M-16 -6Q-12 -14 -4 -17" fill="none" stroke="${hi}" stroke-width="2" stroke-linecap="round" opacity=".85"/>`; };
     const grain = Array.from({ length: 16 }, (_, i) => `<path d="M-900 ${40 + i * 33}C-300 ${30 + i * 33} 300 ${52 + i * 33} 1860 ${40 + i * 33}" fill="none" stroke="#fff" stroke-opacity=".035" stroke-width="2"/>`).join('');
     return `<svg class="desk-scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${sceneDefs}
       <rect x="-900" y="-900" width="2760" height="2340" fill="url(#g-wood-top)"/>${grain}
       <g stroke="#1a0f0a" stroke-opacity=".3" stroke-width="3"><line x1="-900" y1="170" x2="1860" y2="170"/><line x1="-900" y1="350" x2="1860" y2="350"/><line x1="-900" y1="530" x2="1860" y2="530"/></g>
       <g stroke="#fff" stroke-opacity=".08" stroke-width="2"><line x1="-900" y1="173" x2="1860" y2="173"/><line x1="-900" y1="353" x2="1860" y2="353"/><line x1="-900" y1="533" x2="1860" y2="533"/></g>
 
-      ${obj(215, 350, 5, notepad)}
-      ${obj(300, 238, 12, '<rect x="-35" y="-35" width="70" height="70" fill="#f1d36a" stroke="#c6a53f" stroke-width="2"/><rect x="-35" y="-35" width="70" height="14" fill="#e9c24e"/>')}
-      ${obj(385, 448, -14, pencil)}
-      ${obj(590, 115, 0, `<circle r="27" fill="none" stroke="#c3beb2" stroke-width="6"/><rect x="-6" y="24" width="12" height="26" rx="3" fill="#3f6e8a" transform="rotate(-20)"/>${key(75, 100)}${key(20, 92)}`)}
-      ${obj(905, 118, 28, balm)}
-      ${obj(612, 468, 0, coin('#d8b04a', '#8a6a1c'))}${obj(650, 490, 0, coin('#cfd2d6', '#7d8189'))}${obj(576, 504, 0, coin('#d8b04a', '#8a6a1c'))}
-      ${obj(790, 300, -6, `<g transform="translate(${-pw / 2} ${-ph / 2})">${phoneFace(pw, ph)}</g>`)}
+      ${obj(215, 350, 5, notepad, 5)}
+      ${obj(300, 238, 12, '<rect x="-35" y="-35" width="70" height="70" fill="#f1d36a" stroke="#c6a53f" stroke-width="1.5"/><rect x="-35" y="-35" width="70" height="13" fill="#e9c24e"/><path d="M-30 -8H22M-30 6H10" stroke="#c9a94a" stroke-width="1.4" stroke-linecap="round" opacity=".7"/>', 0)}
+      ${obj(385, 448, -14, pencil, 4)}
+      ${obj(590, 115, 0, `<circle r="27" fill="none" stroke="#c3beb2" stroke-width="6"/><rect x="-6" y="24" width="12" height="26" rx="3" fill="#3f6e8a" transform="rotate(-20)"/>${key(75, 100)}${key(20, 92)}`, 4)}
+      ${obj(905, 118, 28, balm, 8)}
+      ${obj(612, 466, 0, coin('gold'), 2.5)}${obj(645, 480, 0, coin('silver'), 2.5)}${obj(584, 500, 0, coin('gold'), 2.5)}
+      ${obj(790, 300, -6, `<g transform="translate(${-pw / 2} ${-ph / 2})">${phoneFace(pw, ph)}</g>`, 7)}
 
-      <g class="cast" opacity=".32" filter="url(#f-blur)"><g transform="translate(13 15)"><g transform="${duckT}"><ellipse cx="180" cy="135" rx="102" ry="71"/><circle cx="163" cy="135" r="68"/><ellipse cx="197" cy="77" rx="52" ry="15"/><ellipse cx="197" cy="193" rx="52" ry="15"/></g></g></g>
+      ${(() => { const [ax, ay] = away(470, 330, 22); const shape = `<g transform="${duckT}"><ellipse cx="180" cy="135" rx="102" ry="71"/><circle cx="163" cy="135" r="68"/><ellipse cx="197" cy="77" rx="52" ry="15"/><ellipse cx="197" cy="193" rx="52" ry="15"/></g>`; return `<g class="cast cast-amb" filter="url(#f-blur)"><g transform="translate(18 22)">${shape}</g></g><g class="cast cast-lamp" filter="url(#f-blur)"><g transform="translate(${ax} ${ay})">${shape}</g></g>`; })()}
       <g transform="${duckT}" role="img" aria-label="Overhead rubber duck on the desk">${uniq(topDuckInner())}</g>
 
+      <g class="lamp-on lamp-pool" aria-hidden="true"><circle cx="185" cy="128" r="520" fill="url(#g-pool)"/><circle cx="185" cy="128" r="170" fill="url(#g-glow)" opacity=".7"/></g>
       <g id="lamp-top">
-        <circle class="lamp-on" cx="265" cy="175" r="250" fill="url(#g-glow)" opacity=".5"/>
-        <g class="cast" opacity=".3" filter="url(#f-blur)" transform="translate(14 16)"><path d="M85 70L175 130L265 175" fill="none" stroke="#000" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="85" cy="70" r="62"/><circle cx="265" cy="175" r="72"/></g>
-        <circle cx="85" cy="70" r="62" fill="#514038" stroke="#3a2c26" stroke-width="3"/><circle cx="85" cy="70" r="40" fill="#5f4a40"/>
-        <path d="M85 70L175 130L265 175" fill="none" stroke="#514038" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="175" cy="130" r="10" fill="#6b574a"/>
-        <circle cx="265" cy="175" r="72" fill="#b88650" stroke="#6f4b2a" stroke-width="4"/><circle cx="265" cy="175" r="46" fill="#d0a066" stroke="#8a6034" stroke-width="2.5"/><circle cx="265" cy="175" r="16" fill="#6b574a"/>
-        <circle class="lamp-on" cx="265" cy="175" r="72" fill="none" stroke="#ffd48a" stroke-width="8"/>
+        <g class="cast cast-keep" filter="url(#f-blur)" transform="translate(12 14)"><path d="M62 48L125 88L185 128" fill="none" stroke="#000" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="62" cy="48" r="54"/><circle cx="185" cy="128" r="70"/></g>
+        <circle cx="62" cy="48" r="54" fill="#514038" stroke="#3a2c26" stroke-width="3"/><circle cx="62" cy="48" r="35" fill="#5f4a40"/>
+        <path d="M62 48L125 88L185 128" fill="none" stroke="#514038" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="125" cy="88" r="10" fill="#6b574a"/>
+        <circle cx="185" cy="128" r="70" fill="#b88650" stroke="#6f4b2a" stroke-width="4"/><circle cx="185" cy="128" r="45" fill="#d0a066" stroke="#8a6034" stroke-width="2.5"/><circle cx="185" cy="128" r="15" fill="#6b574a"/>
+        <circle class="lamp-on" cx="185" cy="128" r="70" fill="none" stroke="#ffd48a" stroke-width="8"/>
       </g>
     </svg>`;
   }
 
+  // ---- apartment room scenes ---------------------------------------------------------------
+  // One pinhole camera per scene: x = 480 + F*X/z, y = hy + F*(camH - Y)/z (mm, Y up). Objects are
+  // drawn in millimetres as front elevations (origin = base centre, y negative up) and scaled by
+  // F/z, so duck, furniture and appliances keep consistent proportions; strokes stay constant in px.
+  // camH is chosen per scene so the surface the duck sits on lands in the lower third of the frame.
+  const F = 950, CX = 480, DUCK_UNITS_PER_MM = 3.34;   // duck views: ~214 units for a ~64 mm duck
+  const proj = (sc, X, z, Y = 0) => { const s = F / z; return { s, x: CX + s * X, y: sc.hy + s * (sc.camH - Y) }; };
+  const put = (sc, X, z, Y, mm, cls = '') => { const p = proj(sc, X, z, Y); return `<g class="o ${cls}" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(4)})">${mm}</g>`; };
+  const R = (x, y, w, h, fill, rx = 0, ex = '') => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${fill}" ${ex}/>`;
+  const Ci = (cx, cy, r, fill, ex = '') => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" ${ex}/>`;
+  const El = (cx, cy, rx, ry, fill, ex = '') => `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${fill}" ${ex}/>`;
+  const Pg = (pts, fill, ex = '') => `<polygon points="${pts}" fill="${fill}" ${ex}/>`;
+  const Pa = (d, fill, ex = '') => `<path d="${d}" fill="${fill}" ${ex}/>`;
+  const NS = 'stroke="none"';
+
+  // --- shared furniture/props (mm) ---
+  const art = (kind, w = 960, h = 640) => {
+    const iw = w - 80, ih = h - 80, x = -iw / 2, y = -h + 40;
+    const body = kind === 'night'
+      ? R(x, y, iw, ih, '#26325a', 0, NS) + Ci(iw * .22, y + ih * .3, 70, '#f3e6b0', NS) + Ci(iw * .22 + 28, y + ih * .3 - 14, 60, '#26325a', NS) + [[-220, .25], [-60, .4], [140, .2], [250, .45], [-300, .5]].map(([sx, sy]) => Ci(sx, y + ih * sy, 7, '#f3e6b0', NS)).join('') + Pa(`M${x} ${y + ih}V${y + ih * .72}Q${x + iw * .3} ${y + ih * .55} ${x + iw * .55} ${y + ih * .74}T${x + iw} ${y + ih * .68}V${y + ih}Z`, '#18203f', NS)
+      : R(x, y, iw, ih, '#f0e3c8', 0, NS) + R(x, y, iw, ih * .55, '#9ec3cf', 0, NS) + Ci(iw * .22, y + ih * .3, 70, '#f6c35b', NS) + Pa(`M${x} ${y + ih * .62}Q${x + iw * .25} ${y + ih * .35} ${x + iw * .5} ${y + ih * .6}T${x + iw} ${y + ih * .55}V${y + ih}H${x}Z`, '#7a9a62', NS) + Pa(`M${x} ${y + ih * .82}Q${x + iw * .35} ${y + ih * .62} ${x + iw * .7} ${y + ih * .85}T${x + iw} ${y + ih * .8}V${y + ih}H${x}Z`, '#5c7b4c', NS);
+    return R(-w / 2, -h, w, h, '#8a6a4a', 8) + R(x - 14, y - 14, iw + 28, ih + 28, '#f6efe0', 0) + body;
+  };
+  const windowMm = (w, h, curtain = '#c6a97a') => R(-w / 2 - 60, -40, w + 120, 60, '#eee5d5') + R(-w / 2, -h, w, h, '#eee5d5') + R(-w / 2 + 30, -h + 30, w - 60, h - 60, '#b9d2d7') + R(-8, -h + 30, 16, h - 60, '#eee5d5', 0, NS) + R(-w / 2 + 30, -h * .45 - 8, w - 60, 16, '#eee5d5', 0, NS) + Pg(`${-w / 2 + 60},${-h + 60} ${-w / 2 + 230},${-h + 60} ${-w / 2 + 60},${-h * .55}`, '#fff', 'stroke="none" opacity=".25"') + R(-w / 2 - 230, -h - 120, 210, h + 120, curtain, 20) + R(w / 2 + 20, -h - 120, 210, h + 120, curtain, 20) + R(-w / 2 - 260, -h - 150, w + 520, 30, '#7d6240', 10);
+  const plant = (h = 900) => Pg('-150,-380 150,-380 110,0 -110,0', '#b5654a') + R(-170, -420, 340, 50, '#c5745a', 14) + [-50, -25, 0, 25, 50].map((a, i) => El(0, -420 - h * (.25 + (i === 2 ? .1 : .02 * i)), 62, h * .27, i % 2 ? '#5f9a62' : '#4f8a55', `transform="rotate(${a} 0 -420)"`)).join('');
+  const mug = (col = '#b86b4b') => R(-45, -95, 90, 95, col, 10) + El(0, -95, 45, 9, '#5a3322') + Pa('M45 -75C80 -75 80 -25 45 -22', 'none', 'stroke-width="9"');
+  const sofa = (w = 1500) => R(-w / 2 + 20, -120, 70, 120, '#3a2c26', 10, NS) + R(w / 2 - 90, -120, 70, 120, '#3a2c26', 10, NS) + R(-w / 2 + 110, -860, w - 220, 470, '#6d6d64', 80) + R(-w / 2, -610, 160, 500, '#65655c', 60) + R(w / 2 - 160, -610, 160, 500, '#65655c', 60) + R(-w / 2 + 150, -440, (w - 300) / 2, 310, '#8a897e', 40) + R(0, -440, (w - 300) / 2, 310, '#8a897e', 40) + R(-w / 2 + 150, -150, w - 300, 40, '#5e5e56') + R(-w / 2 + 200, -770, 330, 280, '#c9a96a', 60) + Pa(`M${-w / 2 + 215} -640H${-w / 2 + 515}`, 'none', 'stroke="#a98a4c" stroke-width="3"');
+  const coffeeTable = (w = 1100) => R(-w / 2, -430, w, 55, '#74553e', 8) + R(-w / 2 + 50, -375, 45, 375, '#5d4331', 4) + R(w / 2 - 95, -375, 45, 375, '#5d4331', 4) + R(-w / 2 + 95, -190, w - 190, 30, '#5d4331');
+  const tvUnit = (sold) => R(-650, -520, 1300, 520, '#5d4331', 14) + R(-6, -500, 12, 480, '#46342a', 0, NS) + R(-300, -380, 40, 20, '#c9a574', 8, NS) + R(260, -380, 40, 20, '#c9a574', 8, NS) + R(-600, -40, 70, 40, '#3a2c26', 6, NS) + R(530, -40, 70, 40, '#3a2c26', 6, NS) + (sold ? '' : R(-120, -540, 240, 22, '#2b2b2f', 4) + R(-560, -1190, 1120, 650, '#15191f', 18) + R(-538, -1168, 1076, 606, '#1f2c38', 8, NS) + Pg('-538,-1168 -230,-1168 -538,-760', '#fff', 'stroke="none" opacity=".08"') + Ci(520, -556, 6, '#c33', NS));
+  const floorLamp = () => El(0, -24, 150, 24, '#514038') + R(-12, -1300, 24, 1280, '#514038', 0, NS) + Pg('-170,-1540 170,-1540 245,-1200 -245,-1200', '#e8dcc0') + R(-30, -1216, 60, 30, '#514038', 6, NS);
+  const fridge = () => R(-350, -1750, 700, 1750, '#dfe3e6', 40) + R(-350, -1180, 700, 14, '#a9b0b6', 0, NS) + R(250, -1650, 18, 330, '#9aa2a8', 9, NS) + R(250, -1110, 18, 440, '#9aa2a8', 9, NS) + R(-190, -1540, 150, 190, '#f4f1e8', 4, 'stroke-width="1.5"') + R(-130, -1390, 70, 60, '#e9857d', 4, NS) + R(40, -1560, 60, 60, '#6fa3c7', 4, NS) + R(-300, -60, 600, 60, '#b5bbc0', 0, NS);
+  const cabinetRun = (w = 2100) => R(-w / 2, -860, w, 860, '#8d6b4f') + [1, 2, 3].map(i => R(-w / 2 + i * w / 4 - 3, -840, 6, 800, '#6e523d', 0, NS)).join('') + [0, 1, 2, 3].map(i => R(-w / 2 + i * w / 4 + w / 8 - 40, -770, 80, 14, '#d9c8a8', 7, NS)).join('') + R(-w / 2, -100, w, 100, '#4a3326', 0, NS) + R(-w / 2 - 25, -910, w + 50, 55, '#cfc8ba', 6);
+  const stove = () => R(-300, -860, 600, 860, '#3f444a', 8) + R(-250, -700, 500, 360, '#1c2126', 12) + R(-240, -770, 480, 24, '#9aa2a8', 12, NS) + [-180, -60, 60, 180].map(x => Ci(x, -820, 22, '#c9ced3', 'stroke-width="1.5"')).join('') + R(-300, -935, 600, 28, '#15181c', 4, NS);
+  const pot = () => R(-130, -190, 260, 190, '#b9bec4', 16) + R(-150, -215, 300, 28, '#a3a8ae', 10) + R(-190, -130, 60, 18, '#8a9097', 8, NS) + R(130, -130, 60, 18, '#8a9097', 8, NS) + Ci(0, -228, 14, '#6d727a', NS);
+  const hood = () => Pg('-330,-1550 330,-1550 190,-1850 -190,-1850', '#9aa2a8') + R(-110, -2150, 220, 300, '#8a9097', 4);
+  const upperCabs = (w) => R(-w / 2, -700, w, 700, '#9a7656') + R(-3, -680, 6, 660, '#755a42', 0, NS) + R(-w / 4 - 40, -90, 80, 14, '#d9c8a8', 7, NS) + R(w / 4 - 40, -90, 80, 14, '#d9c8a8', 7, NS);
+  const clock = () => Ci(0, -170, 170, '#f6f1e4', 'stroke-width="5"') + [0, 90, 180, 270].map(a => R(-4, -170 - 150, 8, 28, '#3a2c26', 0, `transform="rotate(${a} 0 -170)" stroke="none"`)).join('') + Pa('M0 -170L0 -270M0 -170L70 -140', 'none', 'stroke-width="9" stroke-linecap="round"') + Ci(0, -170, 12, '#3a2c26', NS);
+  const kettle = () => Pa('M-70 0L-80 -150Q0 -210 80 -150L70 0Z', '#c8473d') + Pa('M70 -120C150 -150 150 -60 80 -40', 'none', 'stroke-width="12"') + Pa('M-76 -130L-130 -190L-110 -200L-60 -150', '#c8473d') + Ci(0, -200, 18, '#3a2c26', NS);
+  const toaster = () => R(-110, -150, 220, 150, '#b9c4cc', 28) + R(-70, -150, 140, 14, '#2b2f33', 6, NS) + R(112, -100, 28, 12, '#2b2f33', 6, NS);
+  const jars = () => [-120, 0, 120].map((x, i) => R(x - 48, -170 + i * 20, 96, 170 - i * 20, ['#cfae6a', '#9fb7a6', '#d0a08a'][i], 12) + R(x - 56, -190 + i * 20, 112, 26, '#7a5a43', 8)).join('');
+  const bar = (w = 1500) => R(-w / 2 - 30, -900, w + 60, 70, '#c9a574', 12) + R(-w / 2 + 20, -830, w - 40, 830, '#7a8a73') + R(-w / 2 + 70, -770, w - 140, 560, '#6d7d67', 14, 'stroke-width="1.5"') + R(-w / 2 + 70, -170, w - 140, 130, '#6d7d67', 14, 'stroke-width="1.5"') + R(-w / 2 + 20, -60, w - 40, 60, '#3a4a38', 0, NS);
+  const stool = () => R(-170, -720, 340, 60, '#c9a574', 26) + [-130, 130].map(x => Pg(`${x - 10},-660 ${x + 10},-660 ${x + (x < 0 ? -45 : 45)},0 ${x + (x < 0 ? -65 : 25)},0`, '#6b4f38')).join('') + R(-120, -300, 240, 20, '#6b4f38', 0, NS);
+  const fruit = () => El(0, -78, 112, 24, '#a8956b') + Ci(-52, -100, 34, '#d95b43') + Ci(30, -106, 36, '#e9a43d') + Ci(-6, -138, 32, '#7fb04e') + Ci(70, -92, 27, '#d95b43') + Pa('M-112 -78Q-100 0 -42 0H42Q100 0 112 -78Q0 -44 -112 -78Z', '#d8c79f') + R(-48, 0, 96, 8, '#b9a67c', 3, NS);
+  const pendant = (cordTop) => R(-4, cordTop, 8, -cordTop - 164, '#3a2c26', 0, NS) + Pa('M-190 0Q-190 -160 0 -160Q190 -160 190 0Z', '#c7a15a') + R(-48, -190, 96, 34, '#3a2c26', 8, NS) + El(0, 0, 190, 12, '#f3d79a', NS);
+  const bed = () => R(-1080, -300, 60, 300, '#5a4333', 6, NS) + R(1020, -300, 60, 300, '#5a4333', 6, NS) + R(-1100, -1060, 100, 780, '#7a5a43', 22) + R(1010, -660, 90, 380, '#7a5a43', 22) + R(-1010, -560, 2020, 270, '#e3e6ee', 36) + R(-980, -720, 440, 170, '#f4f1ea', 70) + R(-520, -690, 360, 140, '#eceff4', 60) + R(-480, -620, 1520, 330, '#6f8fb0', 44) + [-340, -150, 40, 230, 420, 610, 800].map(x => R(x, -610, 22, 310, '#8aa8c6', 0, NS)).join('') + R(-480, -400, 1520, 24, '#587a9c', 0, NS);
+  const bedside = () => R(-240, -560, 480, 560, '#8a6b52', 12) + R(-210, -500, 420, 200, '#7a5b42', 10, 'stroke-width="1.5"') + Ci(0, -400, 16, '#e0cfa8', NS) + R(-210, -270, 420, 230, '#7a5b42', 10, 'stroke-width="1.5"') + R(-190, -625, 380, 65, '#a98a5c', 6, NS);
+  const bedLamp = () => R(-45, -90, 90, 90, '#e8d9b9', 8) + R(-9, -250, 18, 170, '#8a7a5c', 0, NS) + Pg('-140,-330 140,-330 190,-190 -190,-190', '#f1d9a0') + R(-60, -200, 120, 20, '#8a7a5c', 6, NS);
+  const clockSmall = () => R(-60, -80, 120, 80, '#3a4a68', 14) + Ci(0, -40, 26, '#e9eef7', 'stroke-width="2"') + Pa('M0 -40L0 -58M0 -40L14 -32', 'none', 'stroke-width="3"');
+  const toyShelf = () => R(-350, -1036, 36, 1036, '#c9a574', 4) + R(314, -1036, 36, 1036, '#c9a574', 4) + R(-350, -1036, 700, 36, '#c9a574', 4) + R(-314, -1000, 628, 1000, '#ead6ac', 0, NS) + [60, 300, 540, 780].map(y => R(-314, -y, 628, 28, '#c9a574', 3)).join('') + R(-350, -60, 700, 60, '#b5905f', 4);
+  const sc_ = (mm, f) => `<g transform="scale(${f})">${mm}</g>`;
+  const teddy = () => El(0, -80, 66, 82, '#b5835a') + Ci(0, -205, 54, '#b5835a') + Ci(-44, -250, 20, '#b5835a') + Ci(44, -250, 20, '#b5835a') + El(0, -190, 26, 19, '#e0b88a', NS) + Ci(-20, -214, 5, '#3a2c26', NS) + Ci(20, -214, 5, '#3a2c26', NS) + Ci(0, -196, 7, '#3a2c26', NS) + El(-70, -105, 22, 40, '#b5835a', 'transform="rotate(20 -70 -105)"') + El(70, -105, 22, 40, '#b5835a', 'transform="rotate(-20 70 -105)"');
+  const block = (col, ch) => R(-45, -90, 90, 90, col, 4) + `<text x="0" y="-26" text-anchor="middle" font-family="system-ui,sans-serif" font-size="56" font-weight="800" fill="#fff" stroke="none">${ch}</text>`;
+  const robot = () => R(-60, -170, 120, 150, '#9aa6b2', 12) + R(-48, -255, 96, 72, '#b9c3cd', 12) + Ci(-20, -222, 11, '#f3d35b', NS) + Ci(20, -222, 11, '#f3d35b', NS) + R(-4, -300, 8, 48, '#6d7780', 0, NS) + Ci(0, -306, 12, '#d95b43') + R(-90, -160, 28, 100, '#7e8993', 10) + R(62, -160, 28, 100, '#7e8993', 10) + R(-48, -20, 36, 28, '#6d7780', 4) + R(12, -20, 36, 28, '#6d7780', 4) + Ci(-22, -130, 9, '#d95b43', NS) + Ci(22, -130, 9, '#6fa3c7', NS);
+  const truck = () => R(-110, -100, 150, 80, '#d9534f', 8) + R(40, -120, 74, 100, '#f0b44a', 10) + R(54, -105, 40, 40, '#b9d2d7', 4, NS) + Ci(-60, -22, 26, '#2f3236') + Ci(70, -22, 26, '#2f3236') + Ci(-60, -22, 10, '#9aa0a6', NS) + Ci(70, -22, 10, '#9aa0a6', NS);
+  const rings = () => R(-9, -230, 18, 230, '#8b5a3c', 4) + [['#d95b43', 170], ['#e9a43d', 140], ['#7fb04e', 112], ['#4f8fc0', 84], ['#8a5fb0', 56]].map(([c, w], i) => El(0, -24 - i * 30, w / 2, 17, c)).join('') + Ci(0, -232, 11, '#d95b43');
+  const ball = () => Ci(0, -62, 62, '#f3efe4') + Pa('M-62 -62A62 62 0 0 1 0 -124L0 -62Z', '#d95b43', NS) + Pa('M62 -62A62 62 0 0 1 0 0L0 -62Z', '#4f8fc0', NS) + Ci(0, -62, 62, 'none');
+  const bunny = () => El(0, -80, 60, 78, '#e9e3da') + Ci(0, -190, 46, '#e9e3da') + El(-22, -280, 16, 52, '#e9e3da') + El(22, -280, 16, 52, '#e9e3da') + El(-22, -278, 7, 34, '#e9a6a6', NS) + El(22, -278, 7, 34, '#e9a6a6', NS) + Ci(-16, -196, 4.5, '#3a2c26', NS) + Ci(16, -196, 4.5, '#3a2c26', NS) + Ci(0, -178, 6, '#e08a8a', NS);
+  const magazines = () => R(-130, -26, 260, 26, '#d95b43', 3) + R(-120, -52, 240, 26, '#4f8fc0', 3);
+
+  // --- scene specs: items are far-to-near sorted by z automatically ---
+  const ROOM_SPECS = {
+    living: {
+      label: 'Living room', hy: 250, camH: 638, zw: 4000, wall: '#d5d0c6', floor: '#a59582',
+      anchor: { X: -150, z: 900, Y: 430 }, lampAt: { X: 480, z: 3500, Y: 1380, r: 1700 },
+      items: sold => [
+        { X: -150, z: 4000, Y: 750, mm: windowMm(900, 800) },
+        { X: 1350, z: 4000, Y: 850, mm: art('land') },
+        { X: -1500, z: 3950, Y: 0, mm: tvUnit(sold), shadow: 1300 },
+        ...(sold ? [{ X: 1350, z: 4000, Y: 0, mm: `<rect x="-760" y="-880" width="1520" height="830" fill="#c9c3b8" stroke="none" opacity=".55"/>`, ghost: true }, { X: -1500, z: 3999, Y: 560, mm: `<rect x="-590" y="-720" width="1180" height="710" fill="#c9c3b8" stroke="none" opacity=".55"/>`, ghost: true }] : [{ X: 1350, z: 3900, Y: 0, mm: sofa(1500), shadow: 1600 }]),
+        { X: -700, z: 3700, Y: 0, mm: plant(800), shadow: 380 },
+        { X: 480, z: 3500, Y: 0, mm: floorLamp(), shadow: 420 },
+        { X: -150, z: 700, Y: 0, mm: coffeeTable(1100), shadow: 1200 }
+      ],
+      onTable: [{ X: -470, z: 900, Y: 430, mm: mug('#b86b4b') }, { X: 260, z: 900, Y: 430, mm: magazines() }],
+      surfaces: [{ X: -150, w: 1100, zf: 700, zb: 1100, Y: 430, fill: '#86664d' }],
+      rug: [[-1300, 650], [1300, 650], [1700, 2900], [-1700, 2900]], rugFill: '#b8836a', rugTrim: '#9a6a52'
+    },
+    kitchen: {
+      label: 'Kitchen', hy: 250, camH: 1132, zw: 3700, wall: '#d7dccf', floor: '#b8a58c', tiles: true,
+      anchor: { X: -100, z: 1000, Y: 900 }, lampAt: { X: -100, z: 1700, Y: 1200, r: 1500 },
+      items: () => [
+        { X: 1700, z: 3700, Y: 1000, mm: windowMm(600, 800, '#8fb0a0') },
+        { X: -1500, z: 3500, Y: 0, mm: fridge(), shadow: 760 },
+        { X: -700, z: 3500, Y: 1350, mm: upperCabs(800) },
+        { X: 800, z: 3500, Y: 1350, mm: upperCabs(1000) },
+        { X: -150, z: 3500, Y: 0, mm: hood(), hoodOnly: true },
+        { X: 100, z: 3350, Y: 0, mm: cabinetRun(2100), shadow: 2100 },
+        { X: -150, z: 3340, Y: 0, mm: stove() },
+        { X: -150, z: 3340, Y: 935, mm: pot() },
+        { X: 560, z: 3340, Y: 910, mm: kettle() }, { X: 960, z: 3340, Y: 910, mm: toaster() }, { X: 1380, z: 3340, Y: 910, mm: jars() },
+        { X: -100, z: 800, Y: 0, mm: bar(1500), shadow: 1600 },
+        { X: -1200, z: 1250, Y: 0, mm: stool(), shadow: 420 }, { X: 1000, z: 1250, Y: 0, mm: stool(), shadow: 420 }
+      ],
+      onTable: [{ X: -440, z: 1000, Y: 900, mm: mug('#4f8fc0') }, { X: 470, z: 1050, Y: 900, mm: fruit() }],
+      pendant: { X: -100, z: 1700, Y: 1250 },
+      surfaces: [{ X: -100, w: 1560, zf: 800, zb: 1200, Y: 900, fill: '#d6b684' }],
+      rug: null
+    },
+    bedroom: {
+      label: 'Bedroom and toy shelf', hy: 250, camH: 933, zw: 3700, wall: '#cfc8d0', floor: '#a8927c',
+      anchor: { X: -250, z: 1700, Y: 540 }, lampAt: { X: 1650, z: 3400, Y: 780, r: 1500 },
+      items: () => [
+        { X: 500, z: 3700, Y: 1000, mm: windowMm(800, 800, '#9b8fb0') },
+        { X: -600, z: 3700, Y: 1180, mm: art('night', 900, 560) },
+        { X: 500, z: 3450, Y: 0, mm: sc_(bed(), .9), shadow: 1950 },
+        { X: 1650, z: 3400, Y: 0, mm: bedside(), shadow: 560 },
+        { X: 1650, z: 3400, Y: 625, mm: bedLamp() }, { X: 1480, z: 3400, Y: 625, mm: clockSmall() },
+        { X: -250, z: 1500, Y: 0, mm: toyShelf(), shadow: 760 }
+      ],
+      onTable: [
+        { X: -440, z: 1700, Y: 780, mm: sc_(teddy(), .72) }, { X: -180, z: 1700, Y: 780, mm: block('#d96c5a', 'A') }, { X: -90, z: 1700, Y: 780, mm: block('#4f8fc0', 'B') }, { X: -135, z: 1700, Y: 870, mm: block('#e9a43d', 'C') },
+        { X: -480, z: 1700, Y: 540, mm: sc_(robot(), .72) }, { X: -50, z: 1700, Y: 540, mm: truck() },
+        { X: -480, z: 1700, Y: 300, mm: sc_(rings(), .85) }, { X: -270, z: 1700, Y: 300, mm: ball() }, { X: -60, z: 1700, Y: 300, mm: sc_(bunny(), .6) }
+      ],
+      surfaces: [780, 540, 300].map(Y => ({ X: -250, w: 628, zf: 1500, zb: 1900, Y, fill: '#d7bd90' })),
+      rug: [[-1400, 700], [900, 700], [1300, 3000], [-1800, 3000]], rugFill: '#8a9ab0', rugTrim: '#6e7e96'
+    }
+  };
+
+  function roomScene(areaId, viewId, framing, sold) {
+    const sc = ROOM_SPECS[areaId], wallBase = proj(sc, 0, sc.zw), sw = wallBase.s;
+    const items = sc.items(sold).slice().sort((a, b) => b.z - a.z);
+    const out = [], glows = [];
+    const floorLines = [-9, -7, -5, -3, -1, 1, 3, 5, 7, 9].map(i => { const X = i * 650, yb = 700, sNear = (yb - sc.hy) / sc.camH; return `<line x1="${CX + sw * X}" y1="${wallBase.y}" x2="${CX + sNear * X}" y2="${yb}" stroke="#000" stroke-opacity=".07" stroke-width="2"/>`; }).join('');
+    const tile = sc.tiles ? `<pattern id="k-tile" width="${sw * 120}" height="${sw * 120}" patternUnits="userSpaceOnUse"><rect width="${sw * 120}" height="${sw * 120}" fill="${sc.wall}"/><path d="M0 0H${sw * 120}M0 0V${sw * 120}" stroke="#a9b3a0" stroke-width="1.2" fill="none"/></pattern>` : '';
+    const wallFill = sc.tiles ? 'url(#k-tile)' : sc.wall;
+    out.push(`<rect x="-900" y="-700" width="2760" height="${wallBase.y + 700}" fill="${wallFill}"/>`);
+    if (sc.tiles) out.push(`<rect x="-900" y="-700" width="2760" height="${proj(sc, 0, sc.zw, 1700).y + 700}" fill="${sc.wall}" opacity=".0"/>`);
+    out.push(`<rect x="-900" y="${wallBase.y}" width="2760" height="900" fill="${sc.floor}"/>${floorLines}`);
+    out.push(`<rect x="-900" y="${wallBase.y - sw * 100}" width="2760" height="${sw * 100}" fill="#000" opacity=".12"/>`);
+    if (sc.rug) { const pts = sc.rug.map(([X, z]) => { const p = proj(sc, X, z); return `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }).join(' '); out.push(`<polygon points="${pts}" fill="${sc.rugFill}" stroke="${sc.rugTrim}" stroke-width="4"/>`); }
+    const duckView = ['front', 'side', 'rear'].includes(viewId) ? viewId : 'side';
+    const k = proj(sc, 0, sc.anchor.z).s / DUCK_UNITS_PER_MM, dp = proj(sc, sc.anchor.X, sc.anchor.z, sc.anchor.Y);
+    const duckSvg = `<svg x="${(dp.x - DUCK_CX[duckView] * k).toFixed(1)}" y="${(dp.y - 250 * k).toFixed(1)}" width="${360 * k}" height="${270 * k}" viewBox="0 0 360 270" overflow="visible" role="img" aria-label="${views[duckView].label} rubber duck in the ${sc.label.toLowerCase()}">${inner(renderViewSvg(duckView))}</svg>`;
+    const dShadow = `<ellipse cx="${dp.x + k * 20}" cy="${dp.y + 2}" rx="${k * 105}" ry="${k * 11}" fill="url(#g-soft)"/>`;
+    for (const it of items) {
+      if (it.ghost) { out.push(put(sc, it.X, it.z, it.Y, it.mm)); continue; }
+      if (it.shadow) { const p = proj(sc, it.X, it.z, 0); out.push(`<ellipse cx="${(p.x + p.s * it.shadow * .06).toFixed(1)}" cy="${(p.y + 2).toFixed(1)}" rx="${(p.s * it.shadow * .56).toFixed(1)}" ry="${(p.s * Math.min(it.shadow, 900) * .05).toFixed(1)}" fill="url(#g-soft)"/>`); }
+      out.push(put(sc, it.X, it.z, it.Y, it.mm));
+    }
+    for (const sf of sc.surfaces || []) {
+      const q = [[sf.X - sf.w / 2, sf.zb], [sf.X + sf.w / 2, sf.zb], [sf.X + sf.w / 2, sf.zf], [sf.X - sf.w / 2, sf.zf]].map(([X, z]) => { const pp = proj(sc, X, z, sf.Y); return `${pp.x.toFixed(1)},${pp.y.toFixed(1)}`; }).join(' ');
+      out.push(`<polygon points="${q}" fill="${sf.fill}" stroke="#3a2c26" stroke-width="2" stroke-linejoin="round"/>`);
+    }
+    // things on the duck's surface, then duck, then foreground pendant
+    const nearAnchor = [];
+    for (const it of sc.onTable.filter(t => t.X < sc.anchor.X)) nearAnchor.push(it);
+    for (const it of sc.onTable.filter(t => t.X >= sc.anchor.X)) nearAnchor.push(it);
+    for (const it of nearAnchor) out.push(put(sc, it.X, it.z, it.Y, it.mm));
+    out.push(dShadow + duckSvg);
+    if (sc.pendant) { const p = sc.pendant; out.push(put(sc, p.X, p.z, p.Y, pendant(-3600), 'pendant')); }
+    // lamp glow
+    const L = sc.lampAt, lp = proj(sc, L.X, L.z, L.Y);
+    glows.push(put(sc, L.X, L.z, L.Y, `<circle r="${L.r}" fill="url(#g-pool)"/><circle r="${L.r * .32}" fill="url(#g-glow)" opacity=".8"/>`, 'lamp-on lamp-pool'));
+    const vb = framing === 'medium' ? (() => { const w = 440, h = w * 540 / 960; return `${(dp.x - w * .46).toFixed(1)} ${Math.max(0, Math.min(540 - h, dp.y - h * .66)).toFixed(1)} ${w} ${h.toFixed(1)}`; })() : '0 0 960 540';
+    const [vx, vy, vw, vh] = vb.split(' ').map(Number);
+    return {
+      lamp: { x: Math.max(5, Math.min(95, (lp.x - vx) / vw * 100)), y: Math.max(5, Math.min(95, (lp.y - vy) / vh * 100)) },
+      svg: `<svg class="desk-scene room-scene" viewBox="${vb}" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${sceneDefs}<defs>${tile}</defs>${out.join('')}${glows.join('')}</svg>`
+    };
+  }
+
   function update() {
-    const isDesk = selectedShot.startsWith('desk');
-    stage.dataset.shot = selectedShot;
+    const isDesk = selectedArea.startsWith('desk');
+    stage.dataset.area = selectedArea;
     stage.dataset.light = selectedLight;
-    let shownView = selectedView, note = '';
-    if (isDesk) {
-      if (selectedShot === 'desk-top') {
-        shownView = 'top';
-        deskLayer.innerHTML = topDeskScene();
-        note = ' The overhead duck is an extra drawing for this camera; the selected duck view is not used.';
-      } else {
-        shownView = ['front', 'side', 'rear'].includes(selectedView) ? selectedView : 'side';
-        deskLayer.innerHTML = sideDeskScene(shownView);
-        if (shownView !== selectedView) note = ` The ${views[selectedView].label.toLowerCase()} duck needs a different camera, so the Side view is shown.`;
-      }
-      duck.innerHTML = '';
+    document.querySelectorAll('#framing-fs input').forEach(el => { el.disabled = isDesk; });
+    document.querySelectorAll('#state-fs input').forEach(el => { el.disabled = selectedArea !== 'living'; });
+    const lighting = stage.querySelector('.lighting');
+    lighting.style.removeProperty('--px'); lighting.style.removeProperty('--py');
+    let shownView = ['front', 'side', 'rear'].includes(selectedView) ? selectedView : 'side', note = '';
+    const shotKey = isDesk ? selectedArea : `${selectedArea}-${selectedShot}`;
+    if (shownView !== selectedView) note = ` The ${views[selectedView].label.toLowerCase()} duck needs a different camera, so the Side view is shown.`;
+    if (selectedArea === 'desk-top') {
+      shownView = 'top';
+      deskLayer.innerHTML = topDeskScene();
+      note = ' The overhead duck is an extra drawing for this camera; the selected duck view is not used.';
+    } else if (selectedArea === 'desk-side') {
+      deskLayer.innerHTML = sideDeskScene(shownView);
     } else {
-      deskLayer.innerHTML = '';
-      duck.innerHTML = renderViewSvg(selectedView);
+      const sold = selectedState === 'sold' && selectedArea === 'living';
+      const r = roomScene(selectedArea, shownView, selectedShot, sold);
+      deskLayer.innerHTML = r.svg;
+      lighting.style.setProperty('--px', `${r.lamp.x.toFixed(1)}%`); lighting.style.setProperty('--py', `${r.lamp.y.toFixed(1)}%`);
+      if (sold) note += ' Couch and TV sold: pale marks show where they stood.';
     }
     const duckLabel = shownView === 'top' ? 'Overhead duck (extra drawing)' : views[shownView].label;
-    selection.textContent = `${viewIds[selectedView]} / ${shotIds[selectedShot]} — ${duckLabel}, ${shotLabels[selectedShot]}, ${lightLabels[selectedLight]} light.${note}`;
-    document.querySelector('#owner-notes').value = `Plan 10 review — ${viewIds[selectedView]} / ${shotIds[selectedShot]}\nView: ${duckLabel}\nComposition: ${shotLabels[selectedShot]}\nLighting: ${lightLabels[selectedLight]}\nReview focus: same-object silhouette, molded features, overlap, material, and framing; for desk shots, one camera for every object and the game's phone proportions. Emotional interpretation belongs to owner feedback.`;
+    const framingText = isDesk ? '' : `, ${selectedShot}`;
+    selection.textContent = `${viewIds[selectedView]} / ${shotIds[shotKey]} — ${duckLabel}, ${areaLabels[selectedArea]}${framingText}, ${lightLabels[selectedLight]} light.${note}`;
+    document.querySelector('#owner-notes').value = `Plan 10 review — ${viewIds[selectedView]} / ${shotIds[shotKey]}\nView: ${duckLabel}\nArea: ${areaLabels[selectedArea]}${framingText}\nLighting: ${lightLabels[selectedLight]}\nReview focus: same-object silhouette, molded features, overlap, material, and framing; one camera per scene with consistent object scale; standard apartment items and their size relative to the duck. Emotional interpretation belongs to owner feedback.`;
   }
   document.querySelectorAll('input[name="view"]').forEach(el => el.addEventListener('change', () => { selectedView = el.value; update(); }));
   document.querySelectorAll('input[name="shot"]').forEach(el => el.addEventListener('change', () => { selectedShot = el.value; update(); }));
+  document.querySelectorAll('input[name="area"]').forEach(el => el.addEventListener('change', () => { selectedArea = el.value; update(); }));
+  document.querySelectorAll('input[name="state"]').forEach(el => el.addEventListener('change', () => { selectedState = el.value; update(); }));
   document.querySelectorAll('input[name="light"]').forEach(el => el.addEventListener('change', () => { selectedLight = el.value; update(); }));
   document.querySelector('#swatches').innerHTML = Object.entries(views).map(([id, view]) => `<article class="swatch"><h3>${viewIds[id]} · ${view.label}</h3>${renderViewSvg(id)}<p>${view.note}</p></article>`).join('');
   const cmpCols = [['Sonnet projection', v => `sonnet-candidates/${v}.svg`], ['Haiku improve', v => `haiku-experiments/${v}-improve/duck.svg`], ['Haiku scratch', v => `haiku-experiments/${v}-scratch/duck.svg`]];

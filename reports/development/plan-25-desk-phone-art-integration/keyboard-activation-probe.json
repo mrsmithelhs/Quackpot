@@ -1,0 +1,250 @@
+{
+  "browser": "Chrome isolated temporary profile",
+  "build": "existing dist bundle; no rebuild",
+  "buildAssets": [
+    {
+      "name": "duck-placeholder-Mhd15Sdp.svg",
+      "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f"
+    },
+    {
+      "name": "index-DLOLES48.js",
+      "sha256": "dfb02b6e7f098a9b893ea4b2d352bd1b707a306d46a7012245971c7616fe6312"
+    },
+    {
+      "name": "index-DN4GAXoa.css",
+      "sha256": "1a7c0ca2fc92b8236fb5874e78610ad7ed981dbd7165d9469508daa59408236d"
+    }
+  ],
+  "pageReady": {
+    "buttonExists": true,
+    "buttonDisabled": false,
+    "formId": "desk-companion-form",
+    "activeElement": ""
+  },
+  "recorder": {
+    "installed": true
+  },
+  "control": {
+    "ready": {
+      "active": "native-enter-probe-button",
+      "formId": "native-enter-probe-form",
+      "disabled": false
+    },
+    "events": [
+      {
+        "phase": "capture",
+        "type": "keydown",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "keydown",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "keypress",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "keypress",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "click",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "click",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "submit",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "native-enter-probe-form",
+        "button": null,
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "submit",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "native-enter-probe-form",
+        "button": null,
+        "form": "native-enter-probe-form",
+        "defaultPrevented": true
+      },
+      {
+        "phase": "capture",
+        "type": "keyup",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "keyup",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "native-enter-probe-button",
+        "button": "native-enter-probe-button",
+        "form": "native-enter-probe-form",
+        "defaultPrevented": false
+      }
+    ]
+  },
+  "product": {
+    "ready": {
+      "active": "btn-start-app",
+      "formId": "desk-companion-form",
+      "disabled": false
+    },
+    "transitioned": true,
+    "deskPresent": false,
+    "gachaPresent": true,
+    "events": [
+      {
+        "phase": "capture",
+        "type": "keydown",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "keydown",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "keypress",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "keypress",
+        "isTrusted": true,
+        "key": "Enter",
+        "code": "Enter",
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "click",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "click",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "btn-start-app",
+        "button": "btn-start-app",
+        "form": null,
+        "defaultPrevented": false
+      },
+      {
+        "phase": "capture",
+        "type": "submit",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "desk-companion-form",
+        "button": null,
+        "form": "desk-companion-form",
+        "defaultPrevented": false
+      },
+      {
+        "phase": "bubble",
+        "type": "submit",
+        "isTrusted": true,
+        "key": null,
+        "code": null,
+        "target": "desk-companion-form",
+        "button": null,
+        "form": "desk-companion-form",
+        "defaultPrevented": true
+      }
+    ]
+  },
+  "limits": {
+    "eventCap": 50,
+    "productWaitMs": 2
+  }
+}

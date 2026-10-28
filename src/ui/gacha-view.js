@@ -163,7 +163,7 @@ export function renderGachaView(container, engine, callbacks = {}) {
         ${!hasPending ? `
           <div class="gacha-claim-section">
             <p class="gacha-prompt">
-              The app presents an eye-catching golden button. No gems or cash are required for this first promotional roll!
+              Your first flock starts here. Ten free pulls—meet your racing team.
             </p>
             <button id="btn-claim-pull" class="btn btn-gold btn-lg">
               ✨ Claim Free 10-Pull! ✨
@@ -175,22 +175,21 @@ export function renderGachaView(container, engine, callbacks = {}) {
               <span class="gacha-theater-status" data-gacha-theater-status>
                 ${allRevealed ? '✓ All 10 ducks revealed!' : `Cards waiting: ${unrevealedCount} unrevealed`}
               </span>
-              <div class="gacha-motion-control">
-                <button type="button" class="btn btn-secondary btn-sm" data-duck-motion-toggle aria-pressed="${duckMotionPaused}">
-                  ${duckMotionPaused ? 'Resume duck motion' : 'Pause duck motion'}
-                </button>
-                <span class="gacha-motion-status" data-duck-motion-status role="status" aria-live="polite"></span>
-              </div>
-              ${!allRevealed ? `
-                <div class="gacha-theater-actions">
+              <div class="gacha-theater-actions">
+                ${!allRevealed ? `
                   <button id="btn-reveal-next" class="btn btn-primary btn-sm">
                     Flip Next Card
                   </button>
                   <button id="btn-reveal-all" class="btn btn-secondary btn-sm">
                     Reveal All
                   </button>
-                </div>
-              ` : ''}
+                ` : ''}
+                <button type="button" class="gacha-motion-toggle" data-duck-motion-toggle aria-pressed="${duckMotionPaused}" aria-label="${duckMotionPaused ? 'Resume duck motion' : 'Pause duck motion'}" title="${duckMotionPaused ? 'Resume duck motion' : 'Pause duck motion'}" aria-describedby="gacha-motion-help">
+                  <span data-duck-motion-icon aria-hidden="true">${duckMotionPaused ? '▶' : 'Ⅱ'}</span>
+                </button>
+                <span class="gacha-motion-status visually-hidden" data-duck-motion-status role="status" aria-live="polite"></span>
+                <span class="visually-hidden" id="gacha-motion-help" data-duck-motion-help></span>
+              </div>
             </div>
 
             <div class="card-grid">
@@ -471,7 +470,8 @@ export function renderGachaView(container, engine, callbacks = {}) {
       : `Cards waiting: ${nextUnrevealedCount} unrevealed`;
 
     if (nextAllRevealed) {
-      container.querySelector('.gacha-theater-actions')?.remove();
+      container.querySelector('#btn-reveal-next')?.remove();
+      container.querySelector('#btn-reveal-all')?.remove();
       if (!container.querySelector('[data-gacha-complete]')) {
         cardGrid.insertAdjacentHTML('afterend', renderCompletion(nextEngine));
         const proceedButton = container.querySelector('#btn-gacha-proceed');

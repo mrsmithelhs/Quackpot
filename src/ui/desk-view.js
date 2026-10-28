@@ -1,4 +1,5 @@
 import { buildApartmentDesk } from './apartment-view.mjs';
+import { createAmbientGlowController } from './ambient-glow-controller.mjs';
 
 // Production apartment desk: static scene art with real HTML controls and invitation copy.
 export function renderDeskView(container, _duckSvgUrl, onStartApp, options = {}) {
@@ -27,6 +28,7 @@ export function renderDeskView(container, _duckSvgUrl, onStartApp, options = {})
         <div class="apartment-desk-scene" aria-label="Apartment desk with your still rubber duck and phone">
           ${presentation.scene}
           <div class="apartment-phone-content" aria-label="Phone invitation">
+            <span class="apartment-phone-glow" aria-hidden="true"></span>
             <span class="apartment-phone-brand" aria-hidden="true">QUACKPOT</span>
             <h2 class="apartment-phone-heading">${heading}</h2>
             <p class="apartment-phone-message">${message}</p>
@@ -54,6 +56,12 @@ export function renderDeskView(container, _duckSvgUrl, onStartApp, options = {})
     const autosaveEnabled = autosaveCheckbox ? autosaveCheckbox.checked : true;
     onStartApp({ name, style, autosaveEnabled, returning });
   });
+
+  const glow = createAmbientGlowController(container, {
+    active: options.phoneGlowActive !== false,
+    animateEnabled: options.animatePhoneGlow !== false,
+  });
+  return { destroy: () => glow.destroy() };
 }
 
 function escapeHtml(value) {

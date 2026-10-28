@@ -70,9 +70,16 @@ function createFixture() {
   elements.push(shell);
   const button = new FakeElement();
   const status = new FakeElement();
+  const help = new FakeElement();
+  const icon = new FakeElement();
   const container = {
     querySelectorAll: () => elements,
-    querySelector: (selector) => selector === '[data-duck-motion-toggle]' ? button : status,
+    querySelector: (selector) => ({
+      '[data-duck-motion-toggle]': button,
+      '[data-duck-motion-status]': status,
+      '[data-duck-motion-help]': help,
+      '[data-duck-motion-icon]': icon,
+    })[selector] || null,
   };
   const listeners = new Map();
   const documentRef = {
@@ -96,7 +103,7 @@ function createFixture() {
     unobserve(target) { observedTargets.delete(target); }
     disconnect() { disconnected = true; observedTargets.clear(); }
   }
-  return { container, shell, svg, elements, button, status, documentRef, media, listeners, Observer, observedTargets, observerCallback: () => observerCallback, disconnected: () => disconnected };
+  return { container, shell, svg, elements, button, status, help, icon, documentRef, media, listeners, Observer, observedTargets, observerCallback: () => observerCallback, disconnected: () => disconnected };
 }
 
 test('controller pauses and resumes on visibility/offscreen changes and resets on reduced motion or teardown', () => {
@@ -166,6 +173,10 @@ test('controller honors user pause and inactive mount without discarding live co
   assert.ok(fixture.shell.animations.length > 0);
   fixture.button.listeners.get('click')();
   assert.equal(persistedPause, true);
+  assert.equal(fixture.button.attributes['aria-pressed'], 'true');
+  assert.equal(fixture.button.attributes['aria-label'], 'Resume duck motion');
+  assert.equal(fixture.button.title, 'Resume duck motion');
+  assert.equal(fixture.icon.textContent, '▶');
   assert.ok(fixture.shell.animations.every((animation) => animation.paused));
   controller.setActive(false);
   assert.ok(fixture.shell.animations.every((animation) => animation.cancelled));
@@ -184,7 +195,7 @@ test('controller keeps a static fallback when intersection visibility cannot be 
   });
   assert.equal(fixture.shell.animations.length, 0);
   assert.equal(fixture.button.disabled, true);
-  assert.equal(fixture.button.textContent, 'Motion off (visibility unavailable)');
+  assert.equal(fixture.help.textContent, 'Duck motion is off because this browser cannot track which cards are visible.');
   controller.destroy();
 });
 
@@ -253,7 +264,11 @@ test('controller starts static when system reduced motion is already enabled', (
   assert.equal(fixture.shell.animations.length, 0);
   assert.equal(fixture.button.disabled, true);
   fixture.observerCallback()([{ target: fixture.shell, isIntersecting: true, intersectionRatio: 1 }]);
-  assert.equal(fixture.button.textContent, 'Motion off (reduced motion)');
+  assert.equal(fixture.button.attributes['aria-label'], 'Pause duck motion');
+  assert.equal(fixture.button.title, 'Pause duck motion');
+  assert.equal(fixture.button.attributes['aria-pressed'], 'false');
+  assert.equal(fixture.help.textContent, 'Duck motion is off because reduced motion is enabled.');
+  assert.equal(fixture.icon.textContent, 'Ⅱ');
   fixture.media.change(false);
   assert.ok(fixture.shell.animations.length > 0);
   fixture.media.change(true);

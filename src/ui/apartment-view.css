@@ -24,12 +24,24 @@
   gap: 3%;
   box-sizing: border-box;
   padding: 1.1%;
-  overflow: hidden;
+  overflow: visible;
+  isolation: isolate;
   border-radius: 5%;
   color: #f8fafc;
   background: radial-gradient(ellipse at 50% 35%, #263b53 0%, #111b2c 62%, #0b101a 100%);
   text-align: left;
 }
+
+.apartment-phone-glow {
+  position: absolute;
+  z-index: 0;
+  inset: -30%;
+  pointer-events: none;
+  opacity: .16;
+  background: radial-gradient(ellipse at 50% 50%, rgba(110, 190, 255, .72) 0%, rgba(73, 143, 219, .32) 42%, rgba(73, 143, 219, 0) 74%);
+}
+
+.apartment-phone-content > :not(.apartment-phone-glow) { position: relative; z-index: 1; }
 
 .apartment-phone-brand { color: #fbbf24; font-size: .625rem; font-weight: 900; letter-spacing: .1em; }
 .apartment-phone-heading { margin: 0; font-size: .9rem; line-height: 1.05; font-weight: 800; }
@@ -58,7 +70,8 @@
 @media (max-width: 720px) {
   .apartment-desk-scene { width: 100%; aspect-ratio: auto; overflow: visible; border-radius: .5rem; }
   .apartment-desk-scene > svg { height: auto; aspect-ratio: 16 / 9; }
-  .apartment-phone-content { position: static; width: auto; height: auto; min-height: 8rem; margin: .5rem; padding: .8rem; border: 1px solid #707784; border-radius: .75rem; gap: .4rem; }
+  .apartment-phone-content { position: relative; inset: auto; width: auto; height: auto; min-height: 8rem; margin: .5rem; padding: .8rem; border: 1px solid #707784; border-radius: .75rem; gap: .4rem; }
+  .apartment-phone-glow { inset: 0; }
   .apartment-phone-brand { font-size: .7rem; letter-spacing: .08em; }
   .apartment-phone-heading { font-size: 1rem; }
   .apartment-phone-message { font-size: .9rem; }
@@ -68,7 +81,7 @@
 @media (max-width: 360px) {
   .apartment-desk-scene { overflow: visible; aspect-ratio: auto; border: 0; box-shadow: none; }
   .apartment-desk-scene > svg { height: auto; aspect-ratio: 16 / 9; }
-  .apartment-phone-content { position: static; width: auto; height: auto; min-height: 7rem; margin: .5rem; padding: .75rem; border: 1px solid #707784; border-radius: .75rem; }
+  .apartment-phone-content { position: relative; inset: auto; width: auto; height: auto; min-height: 7rem; margin: .5rem; padding: .75rem; border: 1px solid #707784; border-radius: .75rem; }
   .apartment-phone-action { min-height: 2.75rem; font-size: .9rem; }
 }
 

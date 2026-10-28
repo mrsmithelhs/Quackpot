@@ -1,5 +1,5 @@
 export function renderSettingsModal(container, options = {}) {
-  const { autosaveEnabled, autosaveLocked, saveDisabled = false, onAutosaveChange, onSave, onClose } = options;
+  const { autosaveEnabled, autosaveLocked, animatePhoneGlow = true, saveDisabled = false, onAutosaveChange, onAnimatePhoneGlowChange, onSave, onClose } = options;
   container.innerHTML = `
     <div class="modal-backdrop settings-backdrop" data-settings-backdrop>
       <section class="modal-card settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
@@ -9,6 +9,10 @@ export function renderSettingsModal(container, options = {}) {
         <label class="settings-row">
           <input type="checkbox" data-settings-autosave ${autosaveEnabled ? 'checked' : ''} ${autosaveLocked ? 'disabled' : ''}>
           <span><strong>Automatic saving</strong><small>Save at safe points during play</small></span>
+        </label>
+        <label class="settings-row">
+          <input type="checkbox" data-settings-phone-glow ${animatePhoneGlow ? 'checked' : ''}>
+          <span><strong>Animate phone glow</strong><small>When off, the phone keeps a soft static glow. Reduced-motion settings also keep it static.</small></span>
         </label>
         <div class="settings-actions">
           <button type="button" class="btn btn-secondary" data-settings-save ${saveDisabled ? 'disabled aria-disabled="true"' : ''}>Save now</button>
@@ -28,6 +32,7 @@ export function renderSettingsModal(container, options = {}) {
   const closeButton = container.querySelector('[data-settings-close]');
   const doneButton = container.querySelector('[data-settings-done]');
   const autosaveInput = container.querySelector('[data-settings-autosave]');
+  const phoneGlowInput = container.querySelector('[data-settings-phone-glow]');
   const saveButton = container.querySelector('[data-settings-save]');
   const priorInert = new Map();
 
@@ -44,6 +49,7 @@ export function renderSettingsModal(container, options = {}) {
     if (event.target === backdrop) close();
   });
   autosaveInput.addEventListener('change', (event) => onAutosaveChange?.(event.target.checked));
+  phoneGlowInput.addEventListener('change', (event) => onAnimatePhoneGlowChange?.(event.target.checked));
   saveButton.addEventListener('click', () => {
     if (saveDisabled) return;
     const result = onSave?.();

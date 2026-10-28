@@ -106,6 +106,8 @@ export function createDuckMotionController(container, {
 } = {}) {
   const pauseButton = container.querySelector('[data-duck-motion-toggle]');
   const status = container.querySelector('[data-duck-motion-status]');
+  const help = container.querySelector('[data-duck-motion-help]');
+  const icon = container.querySelector('[data-duck-motion-icon]');
   const media = matchMedia?.('(prefers-reduced-motion: reduce)');
   const canObserveVisibility = typeof IntersectionObserverRef === 'function';
   const records = [];
@@ -125,10 +127,15 @@ export function createDuckMotionController(container, {
     const disabled = isReduced() || records.length === 0 || visibilityUnavailable;
     pauseButton.disabled = disabled;
     pauseButton.setAttribute('aria-pressed', String(userPaused));
-    pauseButton.textContent = isReduced()
-      ? 'Motion off (reduced motion)'
-      : visibilityUnavailable ? 'Motion off (visibility unavailable)'
-      : userPaused ? 'Resume duck motion' : 'Pause duck motion';
+    const label = userPaused ? 'Resume duck motion' : 'Pause duck motion';
+    pauseButton.setAttribute('aria-label', label);
+    pauseButton.title = label;
+    if (icon) icon.textContent = userPaused ? '▶' : 'Ⅱ';
+    if (help) help.textContent = isReduced()
+      ? 'Duck motion is off because reduced motion is enabled.'
+      : visibilityUnavailable ? 'Duck motion is off because this browser cannot track which cards are visible.'
+      : records.length === 0 ? 'Reveal a duck to enable this motion control.'
+      : 'Pause or resume the decorative motion on revealed digital ducks.';
     if (announce && status) status.textContent = userPaused ? 'Duck motion paused.' : 'Duck motion resumed where visible.';
   };
 

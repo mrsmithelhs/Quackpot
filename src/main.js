@@ -51,10 +51,12 @@ if (app) {
   let settingsTriggerId = 'btn-open-settings';
   let stageTransition = null;
   let gachaViewHandle = null;
+  let deskViewHandle = null;
   let duckDexViewHandle = null;
   let raceViewHandle = null;
   let dexReturnStep = 'd1_morning_gacha';
   let duckMotionPaused = false;
+  let animatePhoneGlow = true;
 
   function generateRandomSeed() {
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
@@ -247,6 +249,8 @@ if (app) {
     const racePlaybackSnapshot = raceViewHandle?.snapshot?.() ?? null;
     raceViewHandle?.destroy?.();
     raceViewHandle = null;
+    deskViewHandle?.destroy?.();
+    deskViewHandle = null;
     gachaViewHandle?.destroy();
     gachaViewHandle = null;
     duckDexViewHandle?.destroy();
@@ -262,7 +266,7 @@ if (app) {
 
     // Render active view based on authoritative progression step
     if (!phoneOpen) {
-      renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled, returning }) => {
+      deskViewHandle = renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled, returning }) => {
         if (returning) {
           phoneOpen = true;
           renderApp();
@@ -288,6 +292,8 @@ if (app) {
       }, {
         returning: currentStep !== 'desk',
         companion: engine.state.physicalCompanion,
+        animatePhoneGlow,
+        phoneGlowActive: !settingsOpen && !activeModal && !engine.isTerminal(),
       });
     } else if (currentStep === 'd1_morning_gacha') {
       const isGachaActive = !settingsOpen && !activeModal && !engine.isTerminal();
@@ -610,6 +616,7 @@ if (app) {
     if (settingsOpen) {
       settingsCleanup = renderSettingsModal(modalContainer, {
         autosaveEnabled: engine.autosaveEnabled,
+        animatePhoneGlow,
         autosaveLocked: isTemporaryPreservationMode() || engine.isTerminal(),
         saveDisabled: engine.isTerminal(),
         onAutosaveChange: (checked) => {
@@ -618,6 +625,7 @@ if (app) {
           if (engine.autosaveEnabled) maybeAutosave();
           else saveNow();
         },
+        onAnimatePhoneGlowChange: (checked) => { animatePhoneGlow = checked; },
         onSave: saveNow,
         onClose: () => {
           settingsOpen = false;

@@ -7,15 +7,99 @@
       "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f"
     },
     {
-      "name": "index-BIVrJZxZ.js",
-      "sha256": "25fb952c9d82ff421c3e9bfc5f9d53c0378087c49f5caa8cb9604fb497227307"
+      "name": "index-B2hAeyck.js",
+      "sha256": "ec3ac054e4c101f681c8aedd7637779de7547385ee9f18724434310b1610a36c"
     },
     {
-      "name": "index-leWz3NUg.css",
-      "sha256": "d9ee3c3880d5d015557813f4c63aeb93bb8b134f44740e194943b34d77f4667a"
+      "name": "index-C5uq8mod.css",
+      "sha256": "66f4029709bd6696f0cd78eed9083765ea3ddff867c642e512c9dea868e48a01"
     }
   ],
-  "motion": "prefers-reduced-motion: reduce",
+  "glowProgression": {
+    "samples": [
+      0.16,
+      0.165676,
+      0.186939,
+      0.221998,
+      0.271253
+    ],
+    "animations": [
+      {
+        "duration": 3000,
+        "infinite": true
+      }
+    ]
+  },
+  "reducedGlow": {
+    "opacity": 0.16,
+    "animations": 0
+  },
+  "manualGlowOff": {
+    "checked": false,
+    "opacity": 0.16,
+    "animations": 0
+  },
+  "manualGlowOn": {
+    "checked": true,
+    "animations": [
+      3000
+    ]
+  },
+  "keyboard": {
+    "setup": "companion-name-input",
+    "autosave": "desk-autosave-checkbox",
+    "launch": "btn-start-app",
+    "launchAfterSettingsFocus": "btn-start-app"
+  },
+  "settingsFocus": "btn-open-settings",
+  "starterCopy": "Your first flock starts here. Ten free pulls—meet your racing team.",
+  "motionButton": {
+    "before": {
+      "label": "Pause duck motion",
+      "title": "Pause duck motion",
+      "pressed": "false",
+      "size": {
+        "width": 44,
+        "height": 44
+      },
+      "rightOfRevealAll": true
+    }
+  },
+  "motionPaused": {
+    "label": "Resume duck motion",
+    "title": "Resume duck motion",
+    "pressed": "true",
+    "icon": "▶",
+    "liveAnimations": 9,
+    "pausedAnimations": 9
+  },
+  "motionResumed": {
+    "label": "Pause duck motion",
+    "title": "Pause duck motion",
+    "pressed": "false",
+    "icon": "Ⅱ",
+    "liveAnimations": 9,
+    "runningAnimations": 9
+  },
+  "allRevealedMotion": {
+    "exists": true,
+    "insideActions": true,
+    "size": {
+      "width": 44,
+      "height": 44
+    },
+    "revealAllRemoved": true
+  },
+  "preReducedDuckMotion": {
+    "shellCount": 10,
+    "liveAnimations": 90
+  },
+  "reducedDuckMotion": {
+    "disabled": true,
+    "pressed": "false",
+    "reason": "Duck motion is off because reduced motion is enabled.",
+    "animated": 0
+  },
   "fresh": {
     "heading": "Welcome Festival",
     "message": "10 FREE pulls waiting!",
@@ -58,20 +142,76 @@
     "action": "Open Quackpot",
     "overflow": false
   },
+  "intermediate": {
+    "requestedWidth": 640,
+    "innerWidth": 640,
+    "clientWidth": 625,
+    "visualViewportWidth": 625,
+    "scrollbarWidth": 15,
+    "scene": {
+      "left": 38.59375,
+      "right": 586.40625,
+      "width": 547.8125
+    },
+    "phone": {
+      "left": 47.59375,
+      "right": 577.40625,
+      "width": 529.8125
+    },
+    "glowWidth": 527.8125,
+    "glowPosition": "relative",
+    "glowAnimations": 1,
+    "scrollWidth": 625
+  },
   "narrow": {
-    "width": 390,
-    "pageWidth": 390,
-    "sceneWidth": 332,
-    "buttonWidth": 286.40625,
-    "buttonHeight": 44,
-    "buttonVisible": true,
-    "overflow": false
+    "requestedWidth": 390,
+    "innerWidth": 390,
+    "clientWidth": 375,
+    "visualViewportWidth": 375,
+    "scrollbarWidth": 15,
+    "pageWidth": 375,
+    "scene": {
+      "left": 29,
+      "right": 346,
+      "width": 317
+    },
+    "phone": {
+      "left": 38,
+      "right": 337,
+      "width": 299
+    },
+    "glowWidth": 297,
+    "glowPosition": "relative",
+    "button": {
+      "left": 51.796875,
+      "right": 323.203125,
+      "top": 502.28125,
+      "bottom": 546.28125,
+      "width": 271.40625,
+      "height": 44
+    },
+    "buttonWithinViewportWidth": true
   },
   "tiny": {
-    "width": 320,
-    "buttonVisible": true,
-    "buttonTop": 505.140625,
-    "sceneBottom": 562.140625,
-    "overflow": false
+    "requestedWidth": 320,
+    "innerWidth": 320,
+    "clientWidth": 305,
+    "visualViewportWidth": 305,
+    "scrollbarWidth": 15,
+    "buttonWithinViewportWidth": true,
+    "buttonWidth": 205,
+    "buttonHeight": 44,
+    "buttonTop": 534.546875,
+    "scene": {
+      "left": 29,
+      "right": 276,
+      "bottom": 591.546875
+    },
+    "phone": {
+      "left": 37,
+      "right": 268
+    },
+    "glowPosition": "relative",
+    "scrollWidth": 305
   }
 }

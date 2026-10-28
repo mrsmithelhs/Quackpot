@@ -19,9 +19,11 @@ Scope: living room, still images only. Everything lives in this folder; `src/ass
 
 | Block | Anchor | Content |
 |---|---|---|
-| `sun-floor` | after the rug polygon (`fill="#b8836a"…`) | sun patch (four window panes projected on the floor) + item shadows; under every item |
-| `sun-table` | before the duck's contact-shadow ellipse | short directional shadows of the duck and mug on the table top; duck markup untouched |
-| `sun-atmosphere` | after the duck's closing `</svg>`, before the first lamp glow | cool shade tint (multiply), window bloom (screen), white-out panes |
+| `sun-floor` | after the rug polygon (`fill="#b8836a"…`) | long item shadows on the floor; a floor sun patch only if any of it is in frame (at the study's sun it is not) |
+| `sun-window-glass` | after the window item (rebuilt exactly with the kit's own `put` + `windowMm`) | white-out of the four panes, under everything standing in front of the window |
+| `sun-table-plane` | after the coffee-table top polygon (`fill="#86664d"…`) | the window beam on the table with the window-frame shadow, plus plant-leaf and lamp-shade shadows crossing it; clipped to the table outline |
+| `sun-table-objects` | before the duck's contact-shadow ellipse | rounded shadows of the duck and mug; duck markup untouched |
+| `sun-atmosphere` | after the duck's closing `</svg>`, before the first lamp glow | light cool shade tint (multiply) and a wide warm window bloom (screen) |
 
 Only the global shade tint can change pixels of the lamp layers; the lamp markup itself is byte-identical (checked), and in all Stage-2 variants the lamp is off.
 
@@ -46,13 +48,13 @@ Stage 3 will use a small **named** set (for example: overcast, rain, storm, each
 
 ## 5. Sun model and honest approximations
 
-- One sun for the room: travels toward the camera and to the right (azimuth 25°), elevation 36° (`SUN` in `study/daylight.mjs`).
-- Floor patch: the four window panes (glass 780–1520 mm, mullions widened to 48 mm so the cross reads) projected along the sun to the floor with the kit's own `proj`. At this elevation it lands on the far rug and the bare floor behind it, in a thin foreshortened strip; the coffee table occludes part of it in the kit's own paint order.
-- Shadows: strips/tapers for sofa, TV and unit, plant and floor lamp, plus duck and mug on the table, offset along the same direction with height-based length; the kit's own ground ellipses stay on top as contact shadows. Cool multiply tint.
-- Approximate, not physical: the shadows are not clipped to the beam (one window would not light the whole floor), the sun does not light walls or furniture faces, silhouettes are simplified, the tint is global. Window geometry supports the picture; it does not prove the projection is correct. The coffee table's own sun shadow falls below the frame.
-- Window glare (bloom and white-out panes) is drawn over later furniture, so it can wash a plant leaf that overlaps the window; this is intentional veiling glare and is listed as a visual check.
+- **Low late-afternoon sun**: elevation 16 degrees, azimuth -6 degrees (travels toward the camera, very slightly left). Reason found in the first browser pass: in this camera the coffee table covers the foreground floor (the rug/floor shows only as a thin band behind the table and at the right), so a high sun's floor patch (tried first at 36 degrees) lands behind the table and is invisible. A low sun carries the window beam onto the table top where the duck stands.
+- The four window panes (glass 780-1520 mm, mullion gaps widened to 48 mm so the cross reads) are projected along the sun onto the table plane (height 430 mm) with the kit's own `proj`, and clipped to the table outline; at this elevation only the upper part of the beam reaches the table, so the lit area is a diagonal band with the frame cross shadow in it.
+- Shadows: strips/tapers for sofa, TV and unit, plant and floor lamp on the floor; plant leaves and lamp shade onto the table; rounded capsules for the duck and mug; all offset along the same direction with height-based length (rays are cut 250 mm in front of the camera). The kit's own ground ellipses stay on top as contact shadows. Cool multiply colour.
+- Approximate, not physical: floor shadows are drawn broadly although one window would not light the whole floor; the sun does not light walls or furniture faces; silhouettes are simplified; the tint is global; the coffee table's own sun shadow falls below the frame. Window geometry supports the picture; it does not prove the projection is correct.
+- Window glare: the white-out panes sit under foreground furniture (the first version drew them on top and left a hard rectangle over a plant leaf, found in the browser pass and fixed); only the soft bloom is drawn over furniture, so a leaf overlapping the window is lightly veiled.
 
 ## 6. Checks and what they do not show
 
-`tools/check.mjs` (153 checks at checkpoint): pin and git cross-check; keyed geometry equals kit specs; no-effect identity; precedence and rejections; per-variant: layers removed → kit output exactly, well-formed XML, unique/resolvable ids, duck and lamp markup byte-identical, no animation constructs, expected three blocks; two simultaneous instances; deterministic output; missing/ambiguous/changed-anchor failures.
+`tools/check.mjs` (153 checks): pin and git cross-check; keyed geometry equals kit specs; no-effect identity; precedence and rejections; per-variant: layers removed → kit output exactly, well-formed XML, unique/resolvable ids, duck and lamp markup byte-identical, no animation constructs, expected three blocks; two simultaneous instances; deterministic output; missing/ambiguous/changed-anchor failures.
 These are structural. They do not establish that the daylight looks good; that is the owner look in the browser stage. Difference images, when used, are diagnostic only.

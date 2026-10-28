@@ -5,7 +5,7 @@
 import { renderScene } from '../../../../src/assets/apartment/index.mjs';
 import { resolveStudyOptions } from './options.mjs';
 import { insertAt } from './anchors.mjs';
-import { floorLayer, tableLayer, atmosphereLayer, SUN } from './daylight.mjs';
+import { floorLayer, windowGlassLayer, windowItemMarkup, tablePlaneLayer, tableObjectsLayer, atmosphereLayer, SUN } from './daylight.mjs';
 
 const STUDY_KEYS = ['daylight', 'weather', 'strength'];
 // In Node the delivered kit must equal the pin before anything renders; the browser gallery cannot read files and relies on tools/check.mjs.
@@ -23,11 +23,15 @@ export function renderStudyScene(options = {}) {
   let svg = kit.svg;
   // 1. after the rug, under every item: sun patch + item shadows
   svg = insertAt(svg, { name: 'sun-floor', anchor: /<polygon points="[^"]*" fill="#b8836a" stroke="#9a6a52" stroke-width="4"\/>/, where: 'after' }, floorLayer({ id, furnishings, strength }));
-  // 2. before the duck's contact shadow: table-top shadows of the duck and mug (the duck markup itself is untouched)
-  svg = insertAt(svg, { name: 'sun-table', anchor: new RegExp(`<ellipse [^>]*fill="url\\(#${prefix}-g-soft\\)"/><svg x="[^"]*" y="[^"]*" width="[^"]*" height="[^"]*" viewBox="0 0 360 270" overflow="visible" role="img"`), where: 'before' }, tableLayer({ id, strength }));
-  // 3. above furniture and duck, below the first lamp glow: shade tint, bloom, white-out panes
+  // 2. right after the window item (the farthest item): white-out panes under everything that stands in front of the window
+  svg = insertAt(svg, { name: 'sun-window-glass', anchor: windowItemMarkup(), where: 'after' }, windowGlassLayer({ strength }));
+  // 3. right after the coffee-table top, under the mug, magazines and duck: the window beam on the table + shadows crossing it
+  svg = insertAt(svg, { name: 'sun-table-plane', anchor: /<polygon points="[^"]*" fill="#86664d" stroke="#3a2c26" stroke-width="2" stroke-linejoin="round"\/>/, where: 'after' }, tablePlaneLayer({ id, strength }));
+  // 4. before the duck's contact shadow: table-top shadows of the duck and mug (the duck markup itself is untouched)
+  svg = insertAt(svg, { name: 'sun-table-objects', anchor: new RegExp(`<ellipse [^>]*fill="url\\(#${prefix}-g-soft\\)"/><svg x="[^"]*" y="[^"]*" width="[^"]*" height="[^"]*" viewBox="0 0 360 270" overflow="visible" role="img"`), where: 'before' }, tableObjectsLayer({ id, strength }));
+  // 5. above furniture and duck, below the first lamp glow: shade tint, bloom, white-out panes
   svg = insertAt(svg, { name: 'sun-atmosphere', anchor: /<\/svg>(?=<g class="o lamp-on lamp-pool" )/, where: 'after' }, atmosphereLayer({ id, strength }));
-  study.inserted = ['sun-floor', 'sun-table', 'sun-atmosphere'];
+  study.inserted = ['sun-floor', 'sun-window-glass', 'sun-table-plane', 'sun-table-objects', 'sun-atmosphere'];
   study.sun = { ...SUN, strength };
   study.approximations = ['one sun direction/elevation for the room', 'window projected to the floor plane only', 'item shadows are strips/tapers, not silhouettes', 'shadows are not clipped to the beam', 'global multiply shade tint'];
   return { ...kit, svg, study };

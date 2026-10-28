@@ -34,7 +34,7 @@ const living = ROOM_SPECS.living.items({ couch: 'present', tv: 'present' });
 const at = (X, z) => living.find(i => i.X === X && i.z === z);
 ok('window keyed to the kit spec (position and windowMm(900,800))', (() => { const w = at(WINDOW.X, WINDOW.z); return w && w.Y === WINDOW.Y && w.mm === windowMm(WINDOW.w, WINDOW.h); })());
 ok('sofa/tv/plant/lamp keyed to kit spec positions', Object.values(KEYED_ITEMS).every(k => at(k.X, k.z)));
-ok('four sun-patch quads', patchQuads().length === 4);
+ok('four sun-patch quads at each plane', patchQuads(0).length === 4 && patchQuads(430).length === 4);
 
 // --- identity: no-effect output equals the kit ------------------------------------------------------
 const areas = ['living', 'kitchen', 'bedroom', 'desk-side', 'desk-top'];
@@ -72,7 +72,7 @@ for (const strength of ['restrained', 'strong']) for (const framing of ['wide', 
   const glow = s => (s.match(/<g class="o lamp-on lamp-pool"[\s\S]*?<\/g>/g) || []).join('|');
   ok(`sun ${tag}: lamp glow markup byte-identical`, glow(r.svg).length > 0 && glow(r.svg) === glow(kit.svg));
   ok(`sun ${tag}: no animation constructs`, !/<animate|<set |@keyframes|animation\s*:|requestAnimationFrame|<script/i.test(r.svg));
-  ok(`sun ${tag}: inserted blocks are the three expected`, insertedNames(r.svg).join() === 'sun-floor,sun-table,sun-atmosphere');
+  ok(`sun ${tag}: inserted blocks are the five expected`, insertedNames(r.svg).join() === 'sun-floor,sun-window-glass,sun-table-plane,sun-table-objects,sun-atmosphere');
   ok(`sun ${tag}: root viewBox and class unchanged`, r.svg.slice(0, 120) === kit.svg.slice(0, 120));
 }
 { const a = renderStudyScene({ ...base, idPrefix: 'inst-a', daylight: 'sun', strength: 'strong' }).svg, b = renderStudyScene({ ...base, idPrefix: 'inst-b', daylight: 'sun', strength: 'restrained', framing: 'medium' }).svg;

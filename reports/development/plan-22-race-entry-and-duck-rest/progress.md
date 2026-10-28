@@ -33,7 +33,8 @@ The deterministic report runner recorded 558 accepted-resolver calls: 270 cases 
 - The first sandboxed dedicated Chrome launch stopped before page load with exit code `4294930433` and Crashpad `TransactNamedPipe` failure. The exact output is preserved in `browser-results-restricted.json`; that temporary profile was removed. No owner Chrome or native browser profile was touched.
 - The permission-backed, report-local isolated harness then passed desktop 1280×720 and narrow 390×844 race-entry cases with reduced motion, plus a 1280×720 no-preference case. It recorded only fully visible cards, refreshed candidate exposure while scrolling, recorded the trial panel when visible, verified keyboard selection, and captured full-page plus viewport screenshots. `browser-results.json` records the exact DOM text/rectangles, visible exposure IDs, trial refresh, screenshot names and profile cleanup.
 - The same harness followed the actual story: race 1 finished; the starter was purchased; the rent-recovery choice was taken; then race 2 selected the same duck. The narrow screenshot shows the tired duck still selectable at a 50% lower race rating. The selected factor 0.50 matches the race result, attempt cache, choice action and resolver input; the Receipt reports the penalty. No synthetic history was inserted. The isolated profile and its storage were cleared and removed.
-- Existing `npm run test:smoke` passed all eight repository journeys, including result reload without duplicate reward, purchase/recovery/finale, reload boundaries, and all three zero-cash routes. That script regenerated `reports/development/plan-03-mechanism-slice/repair-02-observations.json`; it is intentionally unstaged and excluded from the Plan 22 commit.
+- The earlier `npm run test:smoke` completed at `2026-10-28T02:59:05.441Z` against `index-B4AihKLr.js`. `src/core/game-engine.mjs` and its rest test changed afterward, so that run is retained as pre-final provenance only and is not claimed as verification of the final engine. Its output is archived as `smoke-observations-pre-final.json`.
+- A final `npm run test:smoke` completed at `2026-10-28T03:10:14Z` against the frozen runtime source commit `a59c043babf26d62feec840ba7325f72fc9405c6` (committed `2026-10-27 23:00:37 -0400`). It built and served `index-CV2H5-uy.js`, passed all eight journeys and all 20 recorded summary checks, observed zero runtime exceptions and zero external requests, and cleaned up its dedicated temporary profile. The final output is archived as `smoke-observations-final.json`; its SHA-256 matches the generated Plan 03 observation file. The generated Plan 03 file remains outside the Plan 22 commit for root restoration after archive verification.
 
 ## Terra-medium read-only review
 
@@ -53,7 +54,7 @@ The separate root review also found a schema downgrade bypass, an activation rec
 - `node scripts/dev/plan-status.js check plan-22` → `RUNNABLE: plan-22 is ready to implement`.
 - `npm test` → 194 passed, 0 failed.
 - `npm run build` → passed (Vite 8.3.5).
-- `npm run test:smoke` → all 8 existing journeys passed.
+- `npm run test:smoke` → final frozen-source run passed all 8 journeys; 20/20 summary checks true, zero runtime exceptions and zero external requests. Loaded bundle: `index-CV2H5-uy.js`; source commit/time recorded above.
 - Report-local browser harness → passed the three viewport/motion cases, scrolling exposure assertions, trial refresh, and natural tired race-two commit.
 - `git diff --check` → no whitespace errors (Git emitted only its normal LF→CRLF working-copy notices).
 

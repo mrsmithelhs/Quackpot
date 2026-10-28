@@ -1,21 +1,24 @@
 {
-  "occurredAt": "2026-10-28T20:38:24.184Z",
-  "error": "Error: Intermediate 640px CSS layout escaped its requested viewport: {\"requestedWidth\":640,\"innerWidth\":640,\"clientWidth\":625,\"visualViewportWidth\":625,\"scene\":{\"left\":38.59375,\"right\":586.40625,\"width\":547.8125},\"phone\":{\"left\":47.59375,\"right\":577.40625,\"width\":529.8125},\"glowWidth\":527.8125,\"phoneInset\":\"0px\",\"glowAnimations\":1,\"scrollWidth\":625}\n    at file:///C:/AI/Quackpot/reports/development/plan-25-desk-phone-art-integration/browser-lifecycle.mjs:301:11",
+  "occurredAt": "2026-10-28T20:58:56.895Z",
+  "error": "Error: Chrome exited before target discovery (code=4294930433, signal=null); stderr=[1028/165856.853:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: The pipe has been ended. (0x6D)\r\n[1028/165856.886:ERROR:third_party\\crashpad\\crashpad\\client\\crashpad_client_win.cc:145] crash server failed to launch, self-terminating\r\n; last target-discovery detail: fetch failed; Chrome exit: {\"code\":4294930433,\"signal\":null}; stderr: [1028/165856.853:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: The pipe has been ended. (0x6D)\r\n[1028/165856.886:ERROR:third_party\\crashpad\\crashpad\\client\\crashpad_client_win.cc:145] crash server failed to launch, self-terminating\r\n\n    at file:///C:/AI/Quackpot/reports/development/plan-25-desk-phone-art-integration/browser-lifecycle.mjs:169:11",
   "buildAssets": [
     {
       "name": "duck-placeholder-Mhd15Sdp.svg",
       "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f"
     },
     {
-      "name": "index-B2hAeyck.js",
-      "sha256": "ec3ac054e4c101f681c8aedd7637779de7547385ee9f18724434310b1610a36c"
+      "name": "index-B9GTazJy.js",
+      "sha256": "5e7bb055a351de9ce883f69d9f91ad56367ed0f2f47587c283fd819c72c8981b"
     },
     {
-      "name": "index-C5uq8mod.css",
-      "sha256": "66f4029709bd6696f0cd78eed9083765ea3ddff867c642e512c9dea868e48a01"
+      "name": "index-IHRjW_xF.css",
+      "sha256": "cb56083951aed5d70336d32a7ddbb87e2a3eade6d59df3af9f36ad266d0c0bfc"
     }
   ],
-  "targetDiscoveryError": "target found",
-  "chromeExit": null,
-  "chromeStderr": "[24304:44180:1028/163820.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[24304:44180:1028/163820.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:9223/devtools/browser/b3fbf3a5-30cc-41ad-b204-c37afa35316b\r\n"
+  "targetDiscoveryError": "fetch failed",
+  "chromeExit": {
+    "code": 4294930433,
+    "signal": null
+  },
+  "chromeStderr": "[1028/165856.853:ERROR:third_party\\crashpad\\crashpad\\util\\win\\registration_protocol_win.cc:136] TransactNamedPipe: The pipe has been ended. (0x6D)\r\n[1028/165856.886:ERROR:third_party\\crashpad\\crashpad\\client\\crashpad_client_win.cc:145] crash server failed to launch, self-terminating\r\n"
 }

@@ -225,6 +225,16 @@ try {
       || Math.max(...glowProgression.samples) - Math.min(...glowProgression.samples) < .04) {
     throw new Error(`Normal-motion phone glow did not show the approved 3-second opacity cycle: ${JSON.stringify(glowProgression)}`);
   }
+  await evaluate(`(async () => { const glow=document.querySelector('.apartment-phone-glow'),animation=glow.getAnimations()[0]; animation.pause(); animation.currentTime=0; await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame); })()`);
+  const glowMinimum = await evaluate(`(() => { const glow=document.querySelector('.apartment-phone-glow'),art=document.querySelector('.apartment-art-frame').getBoundingClientRect(),spill=glow.getBoundingClientRect(); return {opacity:Number(getComputedStyle(glow).opacity),art:{x:art.x,y:art.y,width:art.width,height:art.height},spill:{x:spill.x,y:spill.y,width:spill.width,height:spill.height}}; })()`);
+  if (Math.abs(glowMinimum.opacity - .28) > .02 || Math.abs(glowMinimum.spill.x-glowMinimum.art.x)>1 || Math.abs(glowMinimum.spill.y-glowMinimum.art.y)>1 || Math.abs(glowMinimum.spill.width-glowMinimum.art.width)>1 || Math.abs(glowMinimum.spill.height-glowMinimum.art.height)>1) throw new Error(`Minimum light level or art-frame anchoring was incorrect: ${JSON.stringify(glowMinimum)}`);
+  await send('Page.captureScreenshot', { format: 'png' }).then(({ data }) => writeFileSync(path.join(outputDir, 'desk-light-min.png'), Buffer.from(data, 'base64')));
+  await evaluate(`(async () => { const animation=document.querySelector('.apartment-phone-glow').getAnimations()[0]; animation.currentTime=1500; await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame); })()`);
+  const glowPeak = await evaluate(`Number(getComputedStyle(document.querySelector('.apartment-phone-glow')).opacity)`);
+  if (Math.abs(glowPeak - .62) > .02) throw new Error(`Peak light level was not 0.62: ${glowPeak}`);
+  await send('Page.captureScreenshot', { format: 'png' }).then(({ data }) => writeFileSync(path.join(outputDir, 'desk-light-peak.png'), Buffer.from(data, 'base64')));
+  await evaluate(`document.querySelector('.apartment-phone-glow').getAnimations()[0].play()`);
+  const glowComparison = { minimum: glowMinimum, peakOpacity: glowPeak, static: null, screenshots: ['desk-light-min.png', 'desk-light-peak.png', 'desk-light-static.png'] };
   const fresh = await evaluate(`(() => {
     const scene = document.querySelector('.apartment-desk-scene');
     const phone = document.querySelector('.apartment-phone-content');
@@ -251,12 +261,14 @@ try {
   };
   await reduceMotion('reduce');
   try {
-    await waitForPage(`(() => { const glow=document.querySelector('.apartment-phone-glow'); return glow.getAnimations().length===0 && Math.abs(Number(getComputedStyle(glow).opacity)-.16)<.02; })()`);
+    await waitForPage(`(() => { const glow=document.querySelector('.apartment-phone-glow'); return glow.getAnimations().length===0 && Math.abs(Number(getComputedStyle(glow).opacity)-.28)<.02; })()`);
   } catch {
     throw new Error(`Reduced-motion phone glow did not settle within 2 seconds: ${JSON.stringify(await glowDebug())}`);
   }
-  const reducedGlow = await evaluate(`(() => { const glow=document.querySelector('.apartment-phone-glow'); return { opacity:Number(getComputedStyle(glow).opacity), animations:glow.getAnimations().length }; })()`);
-  if (reducedGlow.animations !== 0 || Math.abs(reducedGlow.opacity - .16) > .02) throw new Error(`Reduced motion did not leave the static halo baseline: ${JSON.stringify(reducedGlow)}`);
+  const reducedGlow = await evaluate(`(() => { const glow=document.querySelector('.apartment-phone-glow'),art=document.querySelector('.apartment-art-frame').getBoundingClientRect(),spill=glow.getBoundingClientRect(); return { opacity:Number(getComputedStyle(glow).opacity), animations:glow.getAnimations().length, art:{x:art.x,y:art.y,width:art.width,height:art.height},spill:{x:spill.x,y:spill.y,width:spill.width,height:spill.height} }; })()`);
+  if (reducedGlow.animations !== 0 || Math.abs(reducedGlow.opacity - .28) > .02) throw new Error(`Reduced motion did not leave the static spill baseline: ${JSON.stringify(reducedGlow)}`);
+  glowComparison.static = reducedGlow;
+  await send('Page.captureScreenshot', { format: 'png' }).then(({ data }) => writeFileSync(path.join(outputDir, 'desk-light-static.png'), Buffer.from(data, 'base64')));
   await reduceMotion('no-preference');
   await evaluate('document.querySelector("#btn-open-settings").click()');
   await until(async () => evaluate('Boolean(document.querySelector("[data-settings-phone-glow]"))'));
@@ -268,7 +280,7 @@ try {
   const settingsFocus = await evaluate('document.activeElement.id');
   if (settingsFocus !== 'btn-open-settings') throw new Error(`Settings dismissal did not restore focus to its trigger: ${settingsFocus}`);
   const manualGlowOff = await evaluate(`(() => { const glow=document.querySelector('.apartment-phone-glow'); return { checked:${phoneGlowSettingOff}, opacity:Number(getComputedStyle(glow).opacity), animations:glow.getAnimations().length }; })()`);
-  if (manualGlowOff.checked || manualGlowOff.animations !== 0 || Math.abs(manualGlowOff.opacity - .16) > .02) throw new Error(`Manual phone-glow pause did not leave the static baseline: ${JSON.stringify(manualGlowOff)}`);
+  if (manualGlowOff.checked || manualGlowOff.animations !== 0 || Math.abs(manualGlowOff.opacity - .28) > .02) throw new Error(`Manual phone-glow pause did not leave the static baseline: ${JSON.stringify(manualGlowOff)}`);
   await evaluate('document.querySelector("#btn-open-settings").click()');
   await until(async () => evaluate('Boolean(document.querySelector("[data-settings-phone-glow]"))'));
   await evaluate(`(() => { const input=document.querySelector('[data-settings-phone-glow]'); input.checked=true; input.dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('[data-settings-done]').click(); })()`);
@@ -293,22 +305,22 @@ try {
     overflow: document.documentElement.scrollWidth > innerWidth })`);
 
   await send('Emulation.setDeviceMetricsOverride', { width: 640, height: 720, deviceScaleFactor: 1, mobile: false });
-  const intermediate = await evaluate(`(() => { const scene=document.querySelector('.apartment-desk-scene'), phone=document.querySelector('.apartment-phone-content'), glow=document.querySelector('.apartment-phone-glow'),s=scene.getBoundingClientRect(),p=phone.getBoundingClientRect(),g=glow.getBoundingClientRect(); return { requestedWidth:640, innerWidth, clientWidth:document.documentElement.clientWidth, visualViewportWidth:visualViewport.width, scrollbarWidth:innerWidth-document.documentElement.clientWidth, scene:{left:s.left,right:s.right,width:s.width}, phone:{left:p.left,right:p.right,width:p.width}, glowWidth:g.width, glowPosition:getComputedStyle(phone).position, glowAnimations:glow.getAnimations().length, scrollWidth:document.documentElement.scrollWidth }; })()`);
+  const intermediate = await evaluate(`(() => { const scene=document.querySelector('.apartment-desk-scene'),art=document.querySelector('.apartment-art-frame'), phone=document.querySelector('.apartment-phone-content'), glow=document.querySelector('.apartment-phone-glow'),s=scene.getBoundingClientRect(),a=art.getBoundingClientRect(),p=phone.getBoundingClientRect(),g=glow.getBoundingClientRect(); return { requestedWidth:640, innerWidth, clientWidth:document.documentElement.clientWidth, visualViewportWidth:visualViewport.width, scrollbarWidth:innerWidth-document.documentElement.clientWidth, scene:{left:s.left,right:s.right,width:s.width}, art:{left:a.left,right:a.right,width:a.width,height:a.height}, phone:{left:p.left,right:p.right,width:p.width}, spill:{left:g.left,right:g.right,width:g.width,height:g.height}, glowPosition:getComputedStyle(phone).position, glowAnimations:glow.getAnimations().length, scrollWidth:document.documentElement.scrollWidth }; })()`);
   if (intermediate.innerWidth !== 640 || intermediate.clientWidth > intermediate.innerWidth || intermediate.scrollbarWidth < 0 || intermediate.scrollbarWidth > 20
       || Math.abs(intermediate.visualViewportWidth - intermediate.clientWidth) > 1 || intermediate.scrollWidth > intermediate.clientWidth + 1
       || intermediate.scene.left < 0 || intermediate.scene.right > intermediate.clientWidth
       || intermediate.phone.left < intermediate.scene.left || intermediate.phone.right > intermediate.scene.right
-      || intermediate.glowPosition !== 'relative' || intermediate.glowWidth > intermediate.phone.width + 1) {
+      || intermediate.glowPosition !== 'relative' || Math.abs(intermediate.spill.width-intermediate.art.width)>1 || Math.abs(intermediate.spill.height-intermediate.art.height)>1 || Math.abs(intermediate.art.width/intermediate.art.height-16/9)>.01) {
     throw new Error(`Intermediate 640px CSS layout escaped its requested viewport: ${JSON.stringify(intermediate)}`);
   }
 
   await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 520, deviceScaleFactor: 1, mobile: false });
-  const narrow = await evaluate(`(() => { const scene=document.querySelector('.apartment-desk-scene'), button=document.querySelector('#btn-start-app'), phone=document.querySelector('.apartment-phone-content'), glow=document.querySelector('.apartment-phone-glow'); const s=scene.getBoundingClientRect(),r=button.getBoundingClientRect(),p=phone.getBoundingClientRect(),g=glow.getBoundingClientRect(); return { requestedWidth:390, innerWidth, clientWidth:document.documentElement.clientWidth, visualViewportWidth:visualViewport.width, scrollbarWidth:innerWidth-document.documentElement.clientWidth, pageWidth:document.documentElement.scrollWidth,
-    scene:{left:s.left,right:s.right,width:s.width}, phone:{left:p.left,right:p.right,width:p.width}, glowWidth:g.width, glowPosition:getComputedStyle(phone).position, button:{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}, buttonWithinViewportWidth:r.width>0&&r.height>0&&r.left>=0&&r.right<=document.documentElement.clientWidth }; })()`);
+  const narrow = await evaluate(`(() => { const scene=document.querySelector('.apartment-desk-scene'),art=document.querySelector('.apartment-art-frame'), button=document.querySelector('#btn-start-app'), phone=document.querySelector('.apartment-phone-content'), glow=document.querySelector('.apartment-phone-glow'); const s=scene.getBoundingClientRect(),a=art.getBoundingClientRect(),r=button.getBoundingClientRect(),p=phone.getBoundingClientRect(),g=glow.getBoundingClientRect(); return { requestedWidth:390, innerWidth, clientWidth:document.documentElement.clientWidth, visualViewportWidth:visualViewport.width, scrollbarWidth:innerWidth-document.documentElement.clientWidth, pageWidth:document.documentElement.scrollWidth,
+    scene:{left:s.left,right:s.right,width:s.width}, art:{left:a.left,right:a.right,width:a.width,height:a.height}, phone:{left:p.left,right:p.right,width:p.width}, spill:{left:g.left,right:g.right,width:g.width,height:g.height}, glowPosition:getComputedStyle(phone).position, button:{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}, buttonWithinViewportWidth:r.width>0&&r.height>0&&r.left>=0&&r.right<=document.documentElement.clientWidth }; })()`);
   if (narrow.innerWidth !== 390 || narrow.clientWidth > narrow.innerWidth || narrow.scrollbarWidth < 0 || narrow.scrollbarWidth > 20
       || Math.abs(narrow.visualViewportWidth - narrow.clientWidth) > 1 || narrow.pageWidth > narrow.clientWidth + 1
       || narrow.scene.left < 0 || narrow.scene.right > narrow.clientWidth || narrow.phone.left < narrow.scene.left || narrow.phone.right > narrow.scene.right
-      || narrow.glowPosition !== 'relative' || narrow.glowWidth > narrow.phone.width + 1 || !narrow.buttonWithinViewportWidth || narrow.button.height < 44) {
+      || narrow.glowPosition !== 'relative' || Math.abs(narrow.spill.width-narrow.art.width)>1 || Math.abs(narrow.spill.height-narrow.art.height)>1 || Math.abs(narrow.art.width/narrow.art.height-16/9)>.01 || !narrow.buttonWithinViewportWidth || narrow.button.height < 44) {
     throw new Error(`Narrow 390px CSS layout escaped its requested viewport: ${JSON.stringify(narrow)}`);
   }
   await send('Page.captureScreenshot', { format: 'png' }).then(({ data }) => writeFileSync(path.join(outputDir, 'desk-narrow.png'), Buffer.from(data, 'base64')));
@@ -356,7 +368,7 @@ try {
   }
   const reducedDuckMotion = await evaluate(`(() => { const button=document.querySelector('[data-duck-motion-toggle]'); const animated=[...document.querySelectorAll('[data-duck-motion] *')].reduce((n,el)=>n+el.getAnimations().length,0); return { disabled:button.disabled, pressed:button.getAttribute('aria-pressed'), reason:document.querySelector('#gacha-motion-help').textContent, animated }; })()`);
   if (!reducedDuckMotion.disabled || !reducedDuckMotion.reason.includes('reduced motion') || reducedDuckMotion.animated !== 0) throw new Error(`Reduced-motion duck state was not static and explained: ${JSON.stringify(reducedDuckMotion)}`);
-  const record = { browser: 'Chrome isolated temporary profile', build: 'local Vite preview from current production build', buildAssets: currentBuildAssets(), glowProgression, reducedGlow, manualGlowOff, manualGlowOn, keyboard:{ setup:keyboard, autosave:keyboardAutosave, launch:keyboardLaunch, launchAfterSettingsFocus:launchKeyboardTarget }, settingsFocus, starterCopy, motionButton, motionPaused, motionResumed, allRevealedMotion, preReducedDuckMotion, reducedDuckMotion, fresh, afterReload, returned, intermediate, narrow, tiny };
+  const record = { browser: 'Chrome isolated temporary profile', build: 'local Vite preview from current production build', buildAssets: currentBuildAssets(), glowProgression, glowComparison, reducedGlow, manualGlowOff, manualGlowOn, keyboard:{ setup:keyboard, autosave:keyboardAutosave, launch:keyboardLaunch, launchAfterSettingsFocus:launchKeyboardTarget }, settingsFocus, starterCopy, motionButton, motionPaused, motionResumed, allRevealedMotion, preReducedDuckMotion, reducedDuckMotion, fresh, afterReload, returned, intermediate, narrow, tiny };
   writeFileSync(path.join(outputDir, 'browser-lifecycle.json'), JSON.stringify(record, null, 2));
   ws.close();
   console.log(JSON.stringify(record, null, 2));

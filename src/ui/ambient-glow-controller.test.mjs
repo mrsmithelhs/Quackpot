@@ -45,7 +45,7 @@ function fixture() {
   };
 }
 
-test('phone glow cycles on opacity only and stops for manual, page, reduced, offscreen, and inactive states', () => {
+test('scene-anchored phone light cycles on opacity only and stops for manual, page, reduced, offscreen, and inactive states', () => {
   const f = fixture();
   const controller = createAmbientGlowController(f.container, {
     documentRef: f.documentRef,
@@ -58,9 +58,9 @@ test('phone glow cycles on opacity only and stops for manual, page, reduced, off
   assert.equal(animation.options.duration, 3000);
   assert.equal(animation.options.iterations, Infinity);
   assert.deepEqual(animation.frames, [
-    { opacity: .16 },
-    { opacity: .4, offset: .5 },
-    { opacity: .16 },
+    { opacity: .28 },
+    { opacity: .62, offset: .5 },
+    { opacity: .28 },
   ]);
 
   controller.setEnabled(false);

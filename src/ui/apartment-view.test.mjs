@@ -43,6 +43,7 @@ test('fresh desk uses accessible HTML invitation action and preserves existing f
   assert.match(container.innerHTML, /form="desk-companion-form"/);
   assert.match(container.innerHTML, /id="companion-name-input"/);
   assert.match(container.innerHTML, /id="desk-autosave-checkbox"/);
+  assert.match(container.innerHTML, /class="apartment-art-frame"[\s\S]*<svg class="desk-scene[^\"]*"[\s\S]*class="apartment-phone-glow"[\s\S]*class="apartment-phone-content"/);
   assert.ok(container.innerHTML.indexOf('id="companion-name-input"') < container.innerHTML.indexOf('id="btn-start-app"'));
   assert.ok(container.innerHTML.indexOf('id="desk-autosave-checkbox"') < container.innerHTML.indexOf('id="btn-start-app"'));
   assert.doesNotMatch(container.innerHTML, /id="companion-style-select"/);

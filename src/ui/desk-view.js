@@ -26,9 +26,11 @@ export function renderDeskView(container, _duckSvgUrl, onStartApp, options = {})
           </div>`}
         </form>
         <div class="apartment-desk-scene" aria-label="Apartment desk with your still rubber duck and phone">
-          ${presentation.scene}
+          <div class="apartment-art-frame">
+            ${presentation.scene}
+            <div class="apartment-phone-glow" aria-hidden="true"></div>
+          </div>
           <div class="apartment-phone-content" aria-label="Phone invitation">
-            <span class="apartment-phone-glow" aria-hidden="true"></span>
             <span class="apartment-phone-brand" aria-hidden="true">QUACKPOT</span>
             <h2 class="apartment-phone-heading">${heading}</h2>
             <p class="apartment-phone-message">${message}</p>

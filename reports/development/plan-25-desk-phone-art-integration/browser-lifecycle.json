@@ -7,21 +7,21 @@
       "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f"
     },
     {
-      "name": "index-B2hAeyck.js",
-      "sha256": "ec3ac054e4c101f681c8aedd7637779de7547385ee9f18724434310b1610a36c"
+      "name": "index-B9GTazJy.js",
+      "sha256": "5e7bb055a351de9ce883f69d9f91ad56367ed0f2f47587c283fd819c72c8981b"
     },
     {
-      "name": "index-C5uq8mod.css",
-      "sha256": "66f4029709bd6696f0cd78eed9083765ea3ddff867c642e512c9dea868e48a01"
+      "name": "index-IHRjW_xF.css",
+      "sha256": "cb56083951aed5d70336d32a7ddbb87e2a3eade6d59df3af9f36ad266d0c0bfc"
     }
   ],
   "glowProgression": {
     "samples": [
-      0.16,
-      0.165676,
-      0.186939,
-      0.221998,
-      0.271253
+      0.28,
+      0.289255,
+      0.318175,
+      0.367818,
+      0.43759
     ],
     "animations": [
       {
@@ -30,13 +30,64 @@
       }
     ]
   },
+  "glowComparison": {
+    "minimum": {
+      "opacity": 0.28,
+      "art": {
+        "x": 224.5,
+        "y": 326.578125,
+        "width": 816,
+        "height": 458.125
+      },
+      "spill": {
+        "x": 224.5,
+        "y": 326.578125,
+        "width": 816,
+        "height": 458.125
+      }
+    },
+    "peakOpacity": 0.62,
+    "static": {
+      "opacity": 0.28,
+      "animations": 0,
+      "art": {
+        "x": 224.5,
+        "y": 326.578125,
+        "width": 816,
+        "height": 458.125
+      },
+      "spill": {
+        "x": 224.5,
+        "y": 326.578125,
+        "width": 816,
+        "height": 458.125
+      }
+    },
+    "screenshots": [
+      "desk-light-min.png",
+      "desk-light-peak.png",
+      "desk-light-static.png"
+    ]
+  },
   "reducedGlow": {
-    "opacity": 0.16,
-    "animations": 0
+    "opacity": 0.28,
+    "animations": 0,
+    "art": {
+      "x": 224.5,
+      "y": 326.578125,
+      "width": 816,
+      "height": 458.125
+    },
+    "spill": {
+      "x": 224.5,
+      "y": 326.578125,
+      "width": 816,
+      "height": 458.125
+    }
   },
   "manualGlowOff": {
     "checked": false,
-    "opacity": 0.16,
+    "opacity": 0.28,
     "animations": 0
   },
   "manualGlowOn": {
@@ -153,12 +204,23 @@
       "right": 586.40625,
       "width": 547.8125
     },
+    "art": {
+      "left": 39.59375,
+      "right": 585.40625,
+      "width": 545.8125,
+      "height": 307.015625
+    },
     "phone": {
       "left": 47.59375,
       "right": 577.40625,
       "width": 529.8125
     },
-    "glowWidth": 527.8125,
+    "spill": {
+      "left": 39.59375,
+      "right": 585.40625,
+      "width": 545.8125,
+      "height": 307.015625
+    },
     "glowPosition": "relative",
     "glowAnimations": 1,
     "scrollWidth": 625
@@ -175,12 +237,23 @@
       "right": 346,
       "width": 317
     },
+    "art": {
+      "left": 30,
+      "right": 345,
+      "width": 315,
+      "height": 177.1875
+    },
     "phone": {
       "left": 38,
       "right": 337,
       "width": 299
     },
-    "glowWidth": 297,
+    "spill": {
+      "left": 30,
+      "right": 345,
+      "width": 315,
+      "height": 177.1875
+    },
     "glowPosition": "relative",
     "button": {
       "left": 51.796875,
@@ -201,11 +274,11 @@
     "buttonWithinViewportWidth": true,
     "buttonWidth": 205,
     "buttonHeight": 44,
-    "buttonTop": 534.546875,
+    "buttonTop": 533.09375,
     "scene": {
       "left": 29,
       "right": 276,
-      "bottom": 591.546875
+      "bottom": 590.09375
     },
     "phone": {
       "left": 37,

@@ -1,4 +1,4 @@
-/** Own the non-layout phone halo and stop it whenever motion is not appropriate. */
+/** Own scene-anchored phone light spill and stop it whenever motion is not appropriate. */
 export function createAmbientGlowController(container, {
   active = true,
   animateEnabled = true,
@@ -34,9 +34,9 @@ export function createAmbientGlowController(container, {
     }
     if (animation) return;
     animation = glow.animate([
-      { opacity: .16 },
-      { opacity: .4, offset: .5 },
-      { opacity: .16 },
+      { opacity: .28 },
+      { opacity: .62, offset: .5 },
+      { opacity: .28 },
     ], { duration: 3000, iterations: Infinity, easing: 'ease-in-out' });
   };
 

@@ -206,7 +206,10 @@ test('an effect that rejects or throws is reported as cancelled / refused, not f
   assert.deepEqual(await t.done, { status: 'cancelled', id: t.id, reason: 'effect-aborted' });
   const bad = { start() { throw new Error('boom'); } }, c2 = clock(), arb2 = createFlashArbiter({ now: c2.now });
   const { m: m2 } = mount(makeWorld(), { arbiter: arb2, flashEffect: bad });
-  assert.equal(m2.requestFlash().reason, 'effect-start-failed'); assert.equal(arb2.snapshot().stats.cancelled, 1); assert.equal(arb2.snapshot().stats.finished, 0);
+  const r2 = m2.requestFlash();                                  // the budget was spent, so this is the accepted ticket, already cancelled: not a budget-free refusal
+  assert.equal(r2.status, 'accepted'); assert.deepEqual(r2.outcome(), { status: 'cancelled', id: r2.id, reason: 'effect-start-failed' }); assert.deepEqual(await r2.done, { status: 'cancelled', id: r2.id, reason: 'effect-start-failed' });
+  assert.deepEqual([arb2.snapshot().stats.accepted, arb2.snapshot().stats.cancelled, arb2.snapshot().stats.finished], [1, 1, 0]); assert.equal(m2.state().flashActive, false);
+  c2.add(100); assert.equal(m2.requestFlash().reason, 'cooldown', 'no cooldown refund after a start failure');
 });
 
 test('off-screen watches the glass, not the scene box (a framing that crops the window out must not run rain)', () => {

@@ -58,9 +58,13 @@ export function createLightningEffect({ schedule = defaultSchedule, look = LIGHT
       }
     } catch (e) { for (const a of anims) { try { a.cancel(); } catch { /* gone */ } } cleanup(); throw e; }
 
-    const cancel = () => { settled = true; for (const a of anims) { try { a.cancel(); } catch { /* already gone */ } } cleanup(); };
-    clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel(); }, look.durationMs + look.watchdogSlackMs);
-    const finished = Promise.all(anims.map(a => a.finished)).then(() => { settled = true; cleanup(); }, err => { settled = true; cleanup(); throw err; });
+    let why = null;                                                     // why this pulse was cancelled by the effect itself (e.g. `watchdog`); carried on the rejection so the ticket keeps it
+    const cancel = reason => { if (reason && !why) why = reason; settled = true; for (const a of anims) { try { a.cancel(); } catch { /* already gone */ } } cleanup(); };
+    clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel('watchdog'); }, look.durationMs + look.watchdogSlackMs);
+    const finished = Promise.all(anims.map(a => a.finished)).then(() => { settled = true; cleanup(); }, cause => {
+      settled = true; cleanup();
+      const e = new Error('lightning pulse cancelled'); e.name = 'PulseCancelled'; e.reason = why || 'effect-aborted'; e.cause = cause; throw e;
+    });
     return { finished, cancel, animations: anims, targets };
   }
 

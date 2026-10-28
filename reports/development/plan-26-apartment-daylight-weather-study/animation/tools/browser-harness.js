@@ -33,7 +33,7 @@ export async function raster(stage, W, H, bake) {
   const clone = stageClone(stage, bake); clone.style.width = `${W}px`; clone.style.height = `${H}px`; clone.style.aspectRatio = 'auto';
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject width="${W}" height="${H}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${W}px;height:${H}px;background:#fff"><style>${css()}</style>${ser.serializeToString(clone)}</div></foreignObject></svg>`;
   const img = new Image(); await new Promise((ok, bad) => { img.onload = ok; img.onerror = () => bad(new Error('raster failed')); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
-  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, W, H);
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.drawImage(img, 0, 0); const data = x.getImageData(0, 0, W, H); c.width = c.height = 0; img.src = ''; return data;   // release the canvas and image right away: captures are streamed, not retained
 }
 export const stageSize = (stage, W) => { const r = stage.getBoundingClientRect(); return [W, Math.round(W * r.height / r.width)]; };
 /** Mean absolute channel difference (0-255), share of pixels differing by > 24, and the same restricted by an optional pixel mask(x, y). */

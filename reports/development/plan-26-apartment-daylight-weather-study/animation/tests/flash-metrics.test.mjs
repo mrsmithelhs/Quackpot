@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { REFERENCE_FIELD, relLuminance, luminanceFrame, frameStats, swingsOf, flashesOf, pixelFlashes, maxInWindow } from '../tools/flash-metrics.mjs';
+import { REFERENCE_FIELD, relLuminance, luminanceFrame, frameStats, swingsOf, flashesOf, pixelFlashes, createSwingTracker, maxInWindow } from '../tools/flash-metrics.mjs';
 
 const near = (a, b, e = 1e-4) => assert.ok(Math.abs(a - b) <= e, `${a} vs ${b}`);
 
@@ -40,4 +40,15 @@ test('frameStats and pixelFlashes over a tiny frame set with a mask', () => {
 
 test('maxInWindow: rolling-window count of event starts', () => {
   assert.equal(maxInWindow([0, 4000, 8000]), 1); assert.equal(maxInWindow([0, 999, 4000]), 2); assert.equal(maxInWindow([0, 1000]), 1, 'window is half-open'); assert.equal(maxInWindow([]), 0);
+});
+
+test('streaming swing tracker equals the series-based counter pixel by pixel, without retaining frames', () => {
+  let seed = 7; const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  const n = 64, frames = Array.from({ length: 40 }, () => Float32Array.from({ length: n }, () => rnd()));
+  for (let p = 0; p < n; p += 3) for (let f = 10; f < 20; f++) frames[f][p] = .05 + .3 * Math.sin((f - 10) / 9 * Math.PI);        // some smooth pulses among the noise
+  const t = createSwingTracker(n); frames.forEach(f => t.push(f));
+  for (let p = 0; p < n; p++) assert.equal(t.swingsAt(p), swingsOf(frames.map(f => f[p])), `pixel ${p}`);
+  const ref = pixelFlashes(frames), got = t.result(); assert.deepEqual([got.flashingPixels, got.maxFlashes, got.frames], [ref.flashingPixels, ref.maxFlashes, 40]);
+  assert.equal(t.result(p => p < 10).flashingPixels, pixelFlashes(frames, { mask: p => p < 10 }).flashingPixels);
+  assert.throws(() => t.push(new Float32Array(3)), RangeError);
 });

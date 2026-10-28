@@ -127,12 +127,12 @@ export function createWeatherMotion(root, options = {}) {
     const ticket = arbiter.request({ requester });
     if (ticket.status === 'refused') return ticket;
     let handle;
-    try { handle = flashEffect.start(ctx); } catch { ticket.cancel('effect-start-failed'); return refuse('effect-start-failed'); }
+    try { handle = flashEffect.start(ctx); } catch { ticket.cancel('effect-start-failed'); return ticket; }   // the budget WAS spent: return the accepted ticket, already settled `cancelled`; never a budget-free refusal and never a visual claim
     const mine = { ticket, handle };
     flash = mine;
     Promise.resolve(handle.finished).then(
       () => { if (flash === mine) { flash = null; ticket.finish(); for (const fn of [...subscribers]) fn(state()); } },
-      () => { if (flash === mine) { flash = null; ticket.cancel('effect-aborted'); for (const fn of [...subscribers]) fn(state()); } }
+      err => { if (flash === mine) { flash = null; ticket.cancel((err && err.reason) || 'effect-aborted'); for (const fn of [...subscribers]) fn(state()); } }   // an effect may say why (e.g. `watchdog`)
     );
     for (const fn of [...subscribers]) fn(state());
     return ticket;

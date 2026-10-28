@@ -57,6 +57,36 @@ export function pixelFlashes(frames, { delta = .1, darkMax = .8, mask = null } =
   return { counts, flashingPixels: flashing, maxFlashes: max };
 }
 
+/**
+ * Streaming per-pixel swing tracker: push luminance frames one at a time, no frame list is retained (about 17 bytes of state per pixel).
+ * Same zig-zag rules as swingsOf, so for any pixel it reports the same swings as swingsOf over that pixel's series.
+ */
+export function createSwingTracker(n, { delta = .1, darkMax = .8 } = {}) {
+  const EPS = 1e-9, ext = new Float32Array(n), lo = new Float32Array(n), hi = new Float32Array(n), loI = new Int32Array(n), hiI = new Int32Array(n), dir = new Int8Array(n), swings = new Uint8Array(n);
+  let count = 0;
+  function push(frame) {
+    if (frame.length !== n) throw new RangeError('swing tracker: frame length differs');
+    if (count === 0) { ext.set(frame); lo.set(frame); hi.set(frame); count = 1; return; }
+    const at = count++;
+    for (let p = 0; p < n; p++) {
+      const v = frame[p], d = dir[p];
+      if (d === 0) {
+        if (v > hi[p]) { hi[p] = v; hiI[p] = at; } if (v < lo[p]) { lo[p] = v; loI[p] = at; }
+        if (hi[p] - lo[p] >= delta - EPS && Math.min(hi[p], lo[p]) < darkMax) { swings[p]++; dir[p] = hiI[p] > loI[p] ? 1 : -1; ext[p] = dir[p] === 1 ? hi[p] : lo[p]; }
+      } else if (d === 1) {
+        if (v > ext[p]) ext[p] = v; else if (ext[p] - v >= delta - EPS && Math.min(ext[p], v) < darkMax) { swings[p]++; dir[p] = -1; ext[p] = v; }
+      } else if (v < ext[p]) ext[p] = v; else if (v - ext[p] >= delta - EPS && Math.min(ext[p], v) < darkMax) { swings[p]++; dir[p] = 1; ext[p] = v; }
+    }
+  }
+  /** Flashing pixels (>= 1 opposing swing pair) over an optional mask(i) -> bool. */
+  function result(mask = null) {
+    let flashing = 0, max = 0;
+    for (let p = 0; p < n; p++) { if (mask && !mask(p)) continue; const f = swings[p] >> 1; if (f) flashing++; if (f > max) max = f; }
+    return { flashingPixels: flashing, maxFlashes: max, frames: count };
+  }
+  return { push, result, frames: () => count, swingsAt: p => swings[p] };
+}
+
 /** Largest number of event start times falling in any half-open window of `windowMs`. */
 export function maxInWindow(startsMs, windowMs = 1000) {
   const t = [...startsMs].sort((a, b) => a - b); let best = 0;

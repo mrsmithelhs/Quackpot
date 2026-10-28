@@ -164,16 +164,18 @@ test('late callbacks and teardown: destroy after finish, destroy twice mid-pulse
   {
     const { c, t: tm, arbiter, effect } = kit(), w = makeWorld(), { root, m } = scene(w, { arbiter, effect }), t = m.requestFlash();
     assert.equal(tm.list.length, 1); assert.equal(tm.list[0].ms, 600 + 1500);
-    tm.fire(0); assert.equal((await t.done).status, 'cancelled'); assert.equal(root.querySelector('[data-p26-flash]'), null); assert.equal(m.state().flashActive, false);
+    tm.fire(0); assert.deepEqual(await t.done, { status: 'cancelled', id: t.id, reason: 'watchdog' }, 'the watchdog reason survives to the ticket'); assert.equal(root.querySelector('[data-p26-flash]'), null); assert.equal(m.state().flashActive, false);
     c.add(4000); assert.equal(m.requestFlash().status, 'accepted', 'a watchdog-cancelled pulse frees the scene after the cooldown');
   }
   { const { arbiter, effect, t: tm } = kit(), w = makeWorld(), { m } = scene(w, { arbiter, effect }), t = m.requestFlash(); m.flashAnimations().forEach(a => a.finish()); await t.done; assert.equal(tm.list[0].cleared, true, 'watchdog cleared on finish'); }
 });
 
-test('an effect start failure after acceptance rolls back the overlay, settles the ticket cancelled and still counts against the budget (conservative)', async () => {
+test('an effect start failure after acceptance rolls back the overlay and returns the ACCEPTED ticket already cancelled (budget spent, no refund, no visual claimed)', async () => {
   const c = clock(), arbiter = createFlashArbiter({ now: c.now }), effect = createLightningEffect({ schedule: () => () => {} }), w = makeWorld(), { root, m } = scene(w, { arbiter, effect });
   const spill = root.querySelector('[data-p26="window-spill"]').parentNode, real = spill.insertBefore.bind(spill); spill.insertBefore = () => { throw new Error('boom'); };
-  const r = m.requestFlash(); assert.equal(r.reason, 'effect-start-failed'); spill.insertBefore = real;
-  assert.equal(root.querySelector('[data-p26-flash]'), null, 'partial overlay rolled back'); assert.equal(arbiter.snapshot().activeId, null);
+  const r = m.requestFlash(); spill.insertBefore = real;
+  assert.equal(r.status, 'accepted'); assert.deepEqual(await r.done, { status: 'cancelled', id: r.id, reason: 'effect-start-failed' });
+  assert.equal(root.querySelector('[data-p26-flash]'), null, 'partial overlay rolled back'); assert.equal(arbiter.snapshot().activeId, null); assert.equal(m.state().flashActive, false);
+  assert.deepEqual([arbiter.snapshot().stats.accepted, arbiter.snapshot().stats.cancelled, arbiter.snapshot().stats.finished], [1, 1, 0]);
   c.add(100); assert.equal(m.requestFlash().reason, 'cooldown');
 });

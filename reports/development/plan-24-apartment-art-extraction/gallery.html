@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 24 — apartment art kit gallery</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.45 system-ui, sans-serif; color: #28221d; background: #f1eee8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header, main { max-width: 1240px; margin: auto; padding: 1.25rem; }
+    h1 { margin: 0 0 .4rem; font-size: clamp(1.4rem, 4vw, 2rem); }
+    h2 { margin: 1.6rem 0 .5rem; font-size: 1.15rem; }
+    p, li { max-width: 80ch; }
+    .notice { border-left: 4px solid #805638; padding: .6rem .9rem; background: #fffaf0; }
+    .controls { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: .8rem 0; }
+    fieldset { min-width: 0; border: 1px solid #b8afa3; border-radius: .5rem; padding: .4rem .7rem .55rem; }
+    legend { padding: 0 .25rem; font-weight: 700; font-size: .9rem; }
+    label { display: inline-flex; align-items: center; gap: .3rem; margin: .1rem .5rem .1rem 0; }
+    select, button { font: inherit; }
+    /* The same stage geometry as the Plan 10 page: sized from the baseline's own measured stage box. */
+    .stage { position: relative; overflow: hidden; border: 1px solid #a69b8d; border-radius: .7rem; isolation: isolate; background: #d8d3c8; }
+    .stage .layer { position: absolute; inset: 0; z-index: 1; }
+    .cmp { position: relative; margin: .5rem 0; }
+    .cmp.side { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+    .cmp figure { margin: 0; }
+    .cmp figcaption { font-size: .85rem; color: #51483e; margin-top: .25rem; }
+    .clip { position: relative; overflow: hidden; }
+    .clip iframe { position: absolute; border: 0; background: #f1eee8; }
+    .cmp.diff { display: block; position: relative; }
+    .cmp.diff .basefig { position: absolute; left: 0; top: 0; z-index: 2; mix-blend-mode: difference; pointer-events: none; }
+    .cmp.diff .basefig figcaption { display: none; }
+    .cmp.only-base .kitfig { display: none; }
+    .cmp.only-kit .basefig { visibility: hidden; position: absolute; left: 0; top: 0; }   /* keep the baseline laid out so it can still be measured */
+    .ducks { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .75rem; }
+    .card { padding: .6rem; border: 1px solid #c0b7ab; border-radius: .55rem; background: #fffaf2; }
+    .card svg { display: block; width: 100%; height: auto; }
+    .card h3 { margin: 0 0 .25rem; font-size: .95rem; }
+    .card p { margin: .25rem 0 0; font-size: .82rem; }
+    .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: .75rem; }
+    .scenes .stage { aspect-ratio: 16 / 9; }
+    table { border-collapse: collapse; font-size: .88rem; }
+    th, td { border: 1px solid #c0b7ab; padding: .25rem .5rem; text-align: left; }
+    .ok { color: #1f6b2f; font-weight: 700; } .bad { color: #a01919; font-weight: 700; }
+    code { background: #e8e1d6; padding: 0 .25rem; border-radius: 3px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Plan 24 — apartment art kit gallery</h1>
+  <p class="notice"><strong>Review page, not game UI.</strong> Everything on the right-hand side is rendered by <code>src/assets/apartment/index.mjs</code> only. The left-hand baseline is the unchanged Plan 10 page loaded in an iframe (same origin) and driven through its own controls; it is review scaffolding, not an art dependency. Pre-bake string equality (Node harness) shows structure only; this page is for judging the rendered result.</p>
+</header>
+<main>
+  <section>
+    <h2>1. Six duck representations</h2>
+    <div class="ducks" id="ducks"></div>
+  </section>
+
+  <section>
+    <h2>2. Baseline comparison</h2>
+    <p>Pick a state; the left iframe sets the same state on the original page. <em>Side by side</em> shows both; <em>Difference</em> stacks the baseline over the kit with <code>mix-blend-mode: difference</code> (black = identical pixels, brightness = difference); the others show one at a time. The baseline's placeholder caption box is hidden inside the iframe for comparison. The baseline has no overlay for mixed couch/TV states or the overhead duck outside <em>desk-top</em>; those are unbaselined.</p>
+    <div class="controls" id="cmpControls"></div>
+    <div id="cmpStatus" aria-live="polite"></div>
+    <div class="cmp side" id="cmp"></div>
+  </section>
+
+  <section>
+    <h2>3. Scene states (kit only)</h2>
+    <div class="controls"><fieldset><legend>Light for every scene below</legend><select id="sceneLight"></select></fieldset>
+      <fieldset><legend>Overlay</legend><select id="sceneOverlay"><option value="svg">in-SVG (default)</option><option value="none">none</option></select></fieldset></div>
+    <div class="scenes" id="scenes"></div>
+  </section>
+
+  <section>
+    <h2>4. Requested vs actual duck view</h2>
+    <p>Horizontal cameras cannot show the high, low or overhead duck, and the overhead desk always shows the overhead duck. The kit reports the actual view; labels below come from <code>meta</code>, not from the request.</p>
+    <table id="fallbacks"></table>
+  </section>
+
+  <section>
+    <h2>5. Repeated-instance stress</h2>
+    <p>Twelve scenes and six duck drawings share this page, each with its own <code>idPrefix</code>. The check scans this page's own DOM (iframe excluded).</p>
+    <div class="scenes" id="stress"></div>
+    <p id="stressResult"></p>
+  </section>
+
+  <section>
+    <h2>6. Coverage</h2>
+    <ul id="coverage"></ul>
+  </section>
+</main>
+<script type="module" src="./gallery.js"></script>
+</body>
+</html>

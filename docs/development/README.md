@@ -34,6 +34,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-23` | Selected race dynamics and presentation integration | complete | Port the selected combined weave/contact race with two-second highlight into production, preserving real outcomes, save integrity and accessible playback. |
 | `plan-24` | Apartment art extraction and comparison gallery | in-progress | Extract selected Sonnet physical-duck, apartment, prop and lighting SVG sources into focused reusable modules and prove fidelity in a separate comparison gallery. |
 | `plan-25` | Desk and phone artwork production integration | draft | Integrate one selected extracted apartment desk composition with the persistent portrait phone and static physical companion while preserving real controls and Shell A. |
+| `plan-26` | Living-room daylight and still weather study | in-progress | Compare stronger living-room daylight and still overcast, rain and storm art in an isolated experiment while preserving the extracted apartment kit unchanged. |
 <!-- plan-index:end -->
 
 ## Report Folders

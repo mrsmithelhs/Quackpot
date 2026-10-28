@@ -271,3 +271,9 @@ Owner replaces prior Luna-high root reviews and Sol-low Codex implementation rev
 Owner accepts Plan23 production race and closes it; final focal-glow/sticky-timeline repair source9d03dcd and report712e474 retain176-test/build evidence and explicit smoke/live-storage limits. Owner also closes the expanded Sonnet Plan10 duck/apartment investigation with its recorded view/zoom/render limits. Closure does not imply every art variant is a final production selection.
 
 Owner requests Plans24/25: Plan24 apartment-art extraction is assigned in-progress to the same Sonnet thread, with bounded Haiku extraction tasks and root interface/fidelity review; Plan25 desk/phone integration remains draft until24accepted. Root recommends Plan22 as disjoint parallel work but does not promote it without assignment. No publication/push, new race rules, rest implementation or whole-apartment runtime import is authorized by these closures.
+
+### DECISION-028 — Separate living-room still daylight/weather investigation
+
+**Date:** 2026-10-27
+
+Owner approves the scoped recommendation in `reports/orchestration/apartment-daylight-weather-review-01.md`. Plan26 is assigned in-progress to the existing Sonnet art thread: unchanged-output scaffold, living-room still daylight, then owner-reviewed still weather. Existing window light stays. Living room only initially; default still, no idle or host-triggered lightning, rain animation, audio, kit hooks or production integration. Each later visual stage/browser turn is coordinated; animation/other rooms/promotion require separate decisions. Plan24 remains independently reviewable; Plan25 is not made dependent on weather. No deployment/push.

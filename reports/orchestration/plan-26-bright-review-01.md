@@ -1,0 +1,19 @@
+# Plan 26 bright Stage C — technical review / narrow repair
+Date:2026-10-28. Owner explicitly selects the stronger report-only lightning look after working with Sonnet. This supersedes earlier restrained-only bounds for this gallery variant, not production adoption. Root and requested Terra-medium read-only child reviewed current bright source/shared controller/tests/progress; no Node/browser launched. Child cannot independently observe runtime model/effort.
+
+## Accepted direction and evidence boundaries
+Source matches40ms peak, scene returns neutral300ms, window neutral800ms (500ms tail), two opacity animations and one pulse per accepted event. Shared >=4s arbiter, pre-eligibility refusals, accepted/cancelled start failures, interruption cancellation and watchdog reasons are retained. Owner selection includes whole-scene bright white, lamp washed white at peak and external illumination of static duck; no anatomy/geometry/halo change. These measured properties are not defects merely because earlier restrained study kept the lamp warm.
+
+Browser-held composite measurements/positive controls are reported, with high-contrast large-area general-flash behavior explicitly disclosed. Tests69/69 are implementer-run evidence, not reproduced by root. Real-time completion/perceived timing, actual hidden-page/OS-preference behavior, red-transition analysis and representative-device performance remain unverified. No conformance/safety or production-readiness claim. Existing finite14000-unit overlay matches weather tint; coverage proven only for tested framings, not arbitrary future crops.
+
+## Required source repair before technical acceptance
+In animation/lightning-bright.mjs start(), nodes enter made[] only after both scene and window-group insertions succeed. If the second insert throws, the first overlay remains, breaking restoration and blocking future requests. Register each node immediately after its successful insertion, in both before-sibling and append branches. The restrained effect has analogous multi-insertion registration; inspect and fix that same bounded failure path if present, without altering either curve.
+
+Watchdog schedule setup is outside the exception-safe start block. If scheduling throws after creating animations, cleanup must cancel those animations and remove all inserted nodes before rethrowing; accepted ticket must settle cancelled via controller, budget retained. Do not leave a pulse running without a returned handle.
+
+Add meaningful injected-failure cases: second overlay insertion failure after first succeeds; watchdog scheduler throws after animations created. Assert exact DOM restoration, no live animations/timers, accepted/cancelled outcome and retained cooldown, and successful later request after cooldown once injected failure removed. Keep current successful and interruption paths unchanged. Clarify mechanism header that restrained LIGHTNING and bright BRIGHT each own their documented constants.
+
+## Bounded continuation
+Source/test/docs repair within existing report animation folder and progress only; kit/stills/production read-only. One focused animation test run is authorized after fixes, serial with hard timeout and heap bound. On Windows use existing reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1 (read-only) with explicit node -ArgumentVector test paths,1GiBheap/2GiBsample90s; preserve unrelated work/processes. No watcher, full-suite, mutation run, extra reviewer or browser rerun needed for these exception-only paths. Stop/report failure, no blind retry. If the established monitor cannot be used, report before launching alternatives.
+
+Return scoped commit/progress and test results; don't set packetstatus/push/deploy. After repair root can accept StageC as bounded investigation with outstanding live/performance evidence, without another owner brightness vote. StageD and separately gated StageE remain outstanding.

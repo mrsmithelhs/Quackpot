@@ -12,6 +12,7 @@ import { createRng, restoreRng } from './prng.mjs';
 import { EventLog, verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } from './race-resolver.mjs';
+import { RACE_REST_POLICY_VERSION, deriveRaceRestBoundary, makeRaceRestEvidence, stableExposureSignature } from './race-rest.mjs';
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -431,25 +432,77 @@ export class GameEngine {
     return encoded ? restoreRaceResolution(encoded) : null;
   }
 
+  activateRaceRestPolicy() {
+    const existing = this.log.entries.find((entry) => entry.type === 'race_rest_policy_activated');
+    if (existing) return existing;
+    const boundary = deriveRaceRestBoundary(this.log.entries);
+    return this.log.append('race_rest_policy_activated', {
+      policyVersion: RACE_REST_POLICY_VERSION,
+      historyBaselineSeq: boundary.boundarySeq,
+      historyLimited: boundary.historyLimited,
+      rule: { interveningCompletedRaces: [0, 1, '2+'], restFactors: [0.5, 0.75, 1] },
+    }, this.state.clock);
+  }
+
   /** Record the pre-race controls only after the entry form has actually rendered. */
-  recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId = `race-choice-${raceNumber}` } = {}) {
-    const duckDef = BANNER_1_ROSTER.find((duck) => duck.id === duckId);
-    if (!duckDef || !this.state.owned.includes(duckId)) return null;
-    if (this.log.entries.some((entry) => entry.type === 'race_choice_offered' && entry.payload?.exposureId === exposureId)) return null;
+  recordRaceChoicesShown(raceNumber, { candidates, duckId, fieldBaseSpeed, trialState = {}, exposureId } = {}) {
+    this.activateRaceRestPolicy();
+    const renderedIds = Array.isArray(candidates) ? candidates.map((item) => item.duckId) : [];
+    const inputCandidates = Array.isArray(candidates) ? candidates : [];
+    const renderedCandidates = inputCandidates.map((item) => {
+      const duck = BANNER_1_ROSTER.find((definition) => definition.id === item.duckId);
+      if (!duck || !this.state.owned.includes(duck.id)) return null;
+      const evidence = makeRaceRestEvidence(this.log.entries, duck.id, duck.speed);
+      return {
+        duckId: duck.id,
+        authoredRating: duck.speed,
+        restFactor: evidence.restFactor,
+        historyLimited: evidence.historyLimited,
+        effectiveBaseInput: evidence.effectiveBaseInput,
+        effectiveWithTrialInput: evidence.effectiveBaseInput * (trialState.selected ? GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER : 1),
+        rendered: true,
+      };
+    }).filter(Boolean);
+    renderedCandidates.sort((a, b) => b.effectiveBaseInput - a.effectiveBaseInput || b.authoredRating - a.authoredRating
+      || this.state.owned.indexOf(a.duckId) - this.state.owned.indexOf(b.duckId) || a.duckId.localeCompare(b.duckId));
+    if (renderedIds.length && (renderedIds.length !== renderedCandidates.length || renderedIds.some((id, index) => id !== renderedCandidates[index]?.duckId))) return null;
+    if (!renderedCandidates.length && duckId) {
+      const duckDef = BANNER_1_ROSTER.find((duck) => duck.id === duckId);
+      if (duckDef && this.state.owned.includes(duckId)) {
+        const evidence = makeRaceRestEvidence(this.log.entries, duckId, duckDef.speed);
+        renderedCandidates.push({
+          duckId, authoredRating: duckDef.speed, restFactor: evidence.restFactor, historyLimited: evidence.historyLimited,
+          effectiveBaseInput: evidence.effectiveBaseInput,
+          effectiveWithTrialInput: evidence.effectiveBaseInput * (trialState.selected ? GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER : 1),
+          rendered: true,
+        });
+      }
+    }
+    if (!renderedCandidates.length) return null;
+    const verifiedTrialState = { available: Boolean(this.state.raceTrialAvailable), selected: Boolean(trialState.selected && this.state.raceTrialAvailable), multiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER };
+    const signaturePayload = { candidates: renderedCandidates, fieldBaseSpeed, trialState: verifiedTrialState, duckId };
+    const signature = stableExposureSignature(signaturePayload);
+    const stableExposureId = `race-choice-${raceNumber}-${signature}`;
+    if (this.log.entries.some((entry) => entry.type === 'race_choice_offered' && entry.payload?.exposureId === stableExposureId)) return null;
     return this.log.append('race_choice_offered', {
       raceNumber,
-      exposureId,
+      exposureId: stableExposureId,
+      signature,
       options: {
-        safe: { label: 'Safe Pace', mean: 1, noise: 0.05 },
-        sprint: { label: 'Sprint', mean: 1, noise: 0.20 },
+        safe: { label: 'Steady pace', detail: 'More consistent pacing' },
+        sprint: { label: 'Variable pace', detail: 'Wider swings in pacing' },
       },
-      duckId,
+      selectedDuckId: duckId ?? renderedCandidates[0]?.duckId ?? null,
+      foregroundedDuckId: renderedCandidates[0]?.duckId ?? null,
+      candidates: renderedCandidates,
       fieldBaseSpeed,
       trialAvailable: Boolean(this.state.raceTrialAvailable),
+      trialState: verifiedTrialState,
     }, this.state.clock);
   }
 
   recordRaceTrialOfferShown(raceNumber, costDown = GAME_CONSTANTS.RACE_TRIAL_COST, exposureId = `race-trial-${raceNumber}`) {
+    this.activateRaceRestPolicy();
     if (this.log.entries.some((entry) => entry.type === 'race_trial_offer_shown' && entry.payload?.exposureId === exposureId)) return null;
     return this.log.append('race_trial_offer_shown', {
       raceNumber,
@@ -508,11 +561,12 @@ export class GameEngine {
     if (typeof useTrial !== 'boolean') throw new TypeError('useTrial must be boolean');
     if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
 
+    this.activateRaceRestPolicy();
     const fieldBaseSpeed = raceNumber === 1 ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
     const trialCommitted = Boolean(useTrial && this.state.raceTrialAvailable);
-    // Plan 22 owns rest calculation; keep its effective-speed input explicit here.
-    const restFactor = 1;
-    const effectivePlayerRating = duckDef.speed * restFactor;
+    const restEvidence = makeRaceRestEvidence(this.log.entries, duckId, duckDef.speed);
+    const restFactor = restEvidence.restFactor;
+    const effectivePlayerRating = restEvidence.effectiveBaseInput;
     const resolverInput = {
       seed: this.seed,
       raceId,
@@ -536,13 +590,14 @@ export class GameEngine {
     const isFinished = resolution.status === 'finished' && resolution.finish.length === 6 && player?.place;
     const nextStep = raceNumber === 1 ? 'd1_midday_race_result' : 'd3_midday_race_result';
 
-    this.log.append('action', { kind: 'race_choice', stance, duckId, raceId, trialCommitted }, this.state.clock);
+    this.log.append('action', { kind: 'race_choice', stance, duckId, raceId, trialCommitted, restEvidence: { ...restEvidence, trialCommitted, trialMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER } }, this.state.clock);
     this.state.raceResolutions[raceId] = saved.encoded;
 
     if (!isFinished) {
       const attempt = {
         raceNumber,
         raceId,
+        duckId,
         status: 'unresolved',
         resolutionStatus: resolution.status,
         resolutionDigest: saved.digest,
@@ -551,6 +606,7 @@ export class GameEngine {
         knownCrossings: resolution.finishCrossings.map((crossing) => ({ id: crossing.id, crossingTimeSeconds: crossing.crossingTimeSeconds })),
         trialAvailable: Boolean(this.state.raceTrialAvailable),
         trialCommitted,
+        restEvidence: { ...restEvidence, trialCommitted, trialMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER },
       };
       this.log.append('race_attempt_unresolved', attempt, this.state.clock);
       this.state.raceAttempts[raceNumber] = deepFreeze(attempt);
@@ -576,6 +632,7 @@ export class GameEngine {
       resolutionDigest: saved.digest,
       finishOrder: resolution.finish.map((entrant) => ({ id: entrant.id, place: entrant.place, payout: entrant.payout })),
       trialConsumed: trialCommitted,
+      restEvidence: { ...restEvidence, trialCommitted, trialMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER },
     };
     const gemsAfter = this.state.gems + payoutGems;
 
@@ -1035,7 +1092,8 @@ export class GameEngine {
   /** Serializes complete game snapshot into storage envelope */
   toEnvelope() {
     return {
-      schemaVersion: 2,
+      schemaVersion: 3,
+      raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,
       state: structuredClone(this.state),

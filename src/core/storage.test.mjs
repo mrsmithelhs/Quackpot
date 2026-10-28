@@ -16,6 +16,7 @@ import {
 import { EventLog } from './event-log.mjs';
 import { createRng } from './prng.mjs';
 import { GameEngine } from './game-engine.mjs';
+import { resolveSeededRace, restoreRaceResolution, serializeRaceResolution } from './race-resolver.mjs';
 
 function createMockStorage(initialData = {}) {
   const store = new Map(Object.entries(initialData));
@@ -160,7 +161,8 @@ test('storage [Plan 23]: schema-v1 migration creates only summary-only race stat
   const loaded = loadGame(storage);
   assert.equal(loaded.valid, true, JSON.stringify(loaded.errors));
   assert.equal(loaded.migrated, true);
-  assert.equal(loaded.envelope.schemaVersion, 2);
+  assert.equal(loaded.envelope.schemaVersion, 3);
+  assert.equal(loaded.envelope.raceRestEvidenceVersion, 1);
   assert.equal(loaded.envelope.state.raceAttempts[1].legacySummaryOnly, true);
   assert.equal(loaded.envelope.state.raceResolutions['R01'], undefined,
     'migration must not fabricate trajectories or displayed race cues');
@@ -177,6 +179,158 @@ function makeFinishedPlan23Envelope() {
   engine.runRace(1, engine.state.owned[0], 'safe');
   return engine.toEnvelope();
 }
+
+function makeTiredPlan22Envelope() {
+  const engine = new GameEngine('root-plan22-downgrade-probe');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  const duckId = engine.state.owned[0];
+  engine.runRace(1, duckId, 'safe');
+  engine.runRace(2, duckId, 'safe');
+  return engine.toEnvelope();
+}
+
+function stripRestEvidence(envelope, type) {
+  const changed = new EventLog();
+  for (const entry of envelope.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === type) delete payload.restEvidence;
+    changed.append(entry.type, payload, entry.clock);
+  }
+  return { ...envelope, eventLog: changed.entries };
+}
+
+test('storage [Plan 22]: post-policy finished and unresolved rest evidence cannot be removed', () => {
+  const finished = stripRestEvidence(makeFinishedPlan23Envelope(), 'race_result');
+  const finishedResult = validateSave(finished);
+  assert.equal(finishedResult.valid, false);
+  assert.ok(finishedResult.errors.some((error) => /missing required rest evidence/.test(error)));
+
+  const engine = new GameEngine('plan22-unresolved-evidence');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  engine.resolveRaceCandidate = (input) => resolveSeededRace(input, { maxCompletionTicks: 1 });
+  const attempt = engine.runRace(1, engine.state.owned[0], 'safe');
+  assert.equal(attempt.status, 'unresolved');
+  const unresolved = stripRestEvidence(engine.toEnvelope(), 'race_attempt_unresolved');
+  const unresolvedResult = validateSave(unresolved);
+  assert.equal(unresolvedResult.valid, false);
+  assert.ok(unresolvedResult.errors.some((error) => /missing required rest evidence/.test(error)));
+});
+
+test('storage [Plan 22]: schema downgrade and stripped rest caches cannot relabel a tired resolver result as legacy', () => {
+  const envelope = makeTiredPlan22Envelope();
+  const tiredRace = envelope.eventLog.find((entry) => entry.type === 'race_result' && entry.payload.raceNumber === 2);
+  assert.equal(tiredRace.payload.restEvidence.restFactor, 0.5);
+
+  envelope.schemaVersion = 2;
+  delete envelope.raceRestEvidenceVersion;
+  const legacyLabel = validateSave(envelope);
+  assert.equal(legacyLabel.valid, false);
+  assert.ok(legacyLabel.errors.some((error) => /requires schema 3/.test(error)));
+
+  const downgraded = structuredClone(envelope);
+  downgraded.eventLog = downgraded.eventLog
+    .filter((entry) => entry.type !== 'race_rest_policy_activated')
+    .map((entry) => {
+      const payload = structuredClone(entry.payload);
+      delete payload.restEvidence;
+      if (Array.isArray(payload.candidates)) delete payload.candidates;
+      return { type: entry.type, payload, clock: entry.clock };
+    });
+  const rechained = new EventLog();
+  downgraded.eventLog.forEach((entry) => rechained.append(entry.type, entry.payload, entry.clock));
+  downgraded.eventLog = rechained.entries;
+  for (const attempt of Object.values(downgraded.state.raceAttempts)) delete attempt.restEvidence;
+  for (const result of Object.values(downgraded.state.raceResults)) delete result.restEvidence;
+  const stripped = validateSave(downgraded);
+  assert.equal(stripped.valid, false);
+  assert.ok(stripped.errors.some((error) => /requires schema 3/.test(error)), JSON.stringify(stripped.errors));
+});
+
+test('storage [Plan 22]: pre-policy schema 2 factor-1 race remains valid without new-policy facts', () => {
+  const envelope = makeFinishedPlan23Envelope();
+  envelope.schemaVersion = 2;
+  delete envelope.raceRestEvidenceVersion;
+  envelope.eventLog = envelope.eventLog
+    .filter((entry) => entry.type !== 'race_rest_policy_activated')
+    .map((entry) => {
+      const payload = structuredClone(entry.payload);
+      delete payload.restEvidence;
+      if (Array.isArray(payload.candidates)) delete payload.candidates;
+      return { type: entry.type, payload, clock: entry.clock };
+    });
+  const rechained = new EventLog();
+  envelope.eventLog.forEach((entry) => rechained.append(entry.type, entry.payload, entry.clock));
+  envelope.eventLog = rechained.entries;
+  for (const attempt of Object.values(envelope.state.raceAttempts)) delete attempt.restEvidence;
+  for (const result of Object.values(envelope.state.raceResults)) delete result.restEvidence;
+  const valid = validateSave(envelope);
+  assert.equal(valid.valid, true, JSON.stringify(valid.errors));
+});
+
+test('storage [Plan 22]: post-policy event, choice identity, caches, and resolution inputs stay bound', () => {
+  const baseline = makeTiredPlan22Envelope();
+  assert.equal(validateSave(baseline).valid, true);
+
+  const badCache = structuredClone(baseline);
+  badCache.state.raceResults[2].restEvidence.restFactor = 0.75;
+  const cacheResult = validateSave(badCache);
+  assert.equal(cacheResult.valid, false);
+  assert.ok(cacheResult.errors.some((error) => /raceResults\[2\]\.restEvidence/.test(error)));
+
+  const badIdentity = structuredClone(baseline);
+  const log = new EventLog();
+  for (const entry of badIdentity.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === 'action' && payload.kind === 'race_choice' && payload.raceId === 'R02') payload.duckId = 'duck-999';
+    log.append(entry.type, payload, entry.clock);
+  }
+  badIdentity.eventLog = log.entries;
+  const identityResult = validateSave(badIdentity);
+  assert.equal(identityResult.valid, false);
+  assert.ok(identityResult.errors.some((error) => /missing required rest evidence|rest evidence does not match its completed history or action/.test(error)));
+
+  const badResolution = structuredClone(baseline);
+  const alteredResolution = structuredClone(restoreRaceResolution(badResolution.state.raceResolutions.R02));
+  alteredResolution.inputs.restFactor = 0.75;
+  badResolution.state.raceResolutions.R02 = serializeRaceResolution(alteredResolution).encoded;
+  const resolutionResult = validateSave(badResolution);
+  assert.equal(resolutionResult.valid, false);
+  assert.ok(resolutionResult.errors.some((error) => /resolver inputs do not match required rest evidence/.test(error)));
+
+  const badRating = structuredClone(baseline);
+  const ratingLog = new EventLog();
+  for (const entry of badRating.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === 'action' && payload.kind === 'race_choice' && payload.raceId === 'R01') {
+      payload.restEvidence.authoredRating = 999;
+    }
+    ratingLog.append(entry.type, payload, entry.clock);
+  }
+  badRating.eventLog = ratingLog.entries;
+  const ratingResult = validateSave(badRating);
+  assert.equal(ratingResult.valid, false);
+  assert.ok(ratingResult.errors.some((error) => /invalid authored rating/.test(error)));
+});
+
+test('storage [Plan 22]: policy activation must precede each bound race-choice action', () => {
+  const envelope = makeFinishedPlan23Envelope();
+  const activation = envelope.eventLog.find((entry) => entry.type === 'race_rest_policy_activated');
+  const reordered = envelope.eventLog.filter((entry) => entry.type !== 'race_rest_policy_activated');
+  const actionIndex = reordered.findIndex((entry) => entry.type === 'action' && entry.payload?.kind === 'race_choice' && entry.payload.raceId === 'R01');
+  reordered.splice(actionIndex + 1, 0, activation);
+  const log = new EventLog();
+  reordered.forEach((entry) => log.append(entry.type, entry.payload, entry.clock));
+  envelope.eventLog = log.entries;
+  const result = validateSave(envelope);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((error) => /missing required rest evidence or its committed choice action/.test(error)));
+});
 
 test('storage [Plan 23]: finished cached attempt must match canonical race record and resolution', () => {
   const envelope = makeFinishedPlan23Envelope();

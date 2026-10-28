@@ -2,11 +2,30 @@ import { BANNER_1_ROSTER, DUCK_COSMETICS, GAME_CONSTANTS } from '../core/game-en
 import { raceDuckYaw, raceHeadingError, sampleTrajectory } from '../core/race-resolver.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 import { createRaceMotionController } from './race-motion-controller.mjs';
+import { deriveRaceRest, formatRaceRating, stableExposureSignature } from '../core/race-rest.mjs';
+import './race-entry.css';
 import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, participantGlowEnvelope, raceCourseTimeAtFraction, raceHighlightParticipantEvents, restoreRaceTimelineState, RACE_TIMELINE_EVENT_TYPES, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
 const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const LABEL_SHIFTS = [-96, 0, 96, -96, 0, 96];
+
+function isFullyVisibleInViewport(element) {
+  if (!element || document.visibilityState === 'hidden') return false;
+  for (let ancestor = element; ancestor instanceof Element; ancestor = ancestor.parentElement) {
+    const style = getComputedStyle(ancestor);
+    if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0) return false;
+  }
+  const rect = element.getBoundingClientRect();
+  const hud = document.querySelector('#hud-container');
+  const hudRect = hud?.getBoundingClientRect();
+  const hudStyle = hud ? getComputedStyle(hud) : null;
+  const stickyHudCoversCandidate = hudRect && hudStyle?.position === 'sticky'
+    && hudRect.top <= 0 && hudRect.bottom > 0 && rect.top < hudRect.bottom
+    && rect.right > hudRect.left && rect.left < hudRect.right;
+  return !stickyHudCoversCandidate && rect.width > 0 && rect.height > 0 && rect.left >= 0 && rect.top >= 0
+    && rect.right <= window.innerWidth && rect.bottom <= window.innerHeight;
+}
 
 function duckSvg(duckId, name, prefix) {
   const cosmetics = DUCK_COSMETICS[duckId] ?? DUCK_COSMETICS['duck-0'];
@@ -388,7 +407,11 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const existingAttempt = engine.getRaceAttempt?.(raceNumber) ?? engine.state.raceAttempts?.[raceNumber] ?? null;
   const existingResolution = engine.getRaceResolution?.(raceNumber) ?? null;
   const ownedDucks = engine.state.owned.map((id) => BANNER_1_ROSTER.find((duck) => duck.id === id)).filter(Boolean);
-  const defaultDuck = ownedDucks.slice().sort((a, b) => b.speed - a.speed)[0];
+  const restCandidates = ownedDucks.map((duck, index) => {
+    const evidence = deriveRaceRest(engine.log?.entries ?? [], duck.id);
+    return { ...duck, originalIndex: index, restEvidence: evidence, restFactor: evidence.restFactor, effectiveBaseInput: duck.speed * evidence.restFactor };
+  }).sort((a, b) => b.effectiveBaseInput - a.effectiveBaseInput || b.speed - a.speed || a.originalIndex - b.originalIndex || a.id.localeCompare(b.id));
+  const defaultDuck = restCandidates[0];
 
   if (existingAttempt?.status === 'finished' && existingResolution) {
     const timelineState = restoreRaceTimelineState(existingResolution, {
@@ -425,10 +448,20 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
       <header class="race-view-header"><h2>${isTutorial ? 'Opening Pond Trial' : 'Championship Race'}</h2><p class="race-eyebrow">${isTutorial ? 'Tutorial event' : 'Championship finale'}</p></header>
       <div class="race-field-summary"><strong>Field pace:</strong> ${fieldBaseSpeed.toFixed(1)} rating. Finish places and awards are determined by actual crossings.</div>
       <form class="race-entry-form" data-race-form>
-        <label for="race-duck-select-${raceNumber}">Choose an owned digital racer</label>
-        <select id="race-duck-select-${raceNumber}" name="duckId" required ${ownedDucks.length ? '' : 'disabled'}>
-          ${ownedDucks.map((duck) => `<option value="${esc(duck.id)}" ${duck.id === defaultDuck?.id ? 'selected' : ''}>${esc(duck.name)} — ${duck.tier}, rating ${duck.speed}</option>`).join('')}
-        </select>
+        <fieldset class="race-candidate-list" ${ownedDucks.length ? '' : 'disabled'}>
+          <legend>Choose an owned digital racer</legend>
+          ${restCandidates.some((duck) => duck.restEvidence.historyLimited) ? '<p class="race-rest-note">Rest tracking starts after an older completed race whose duck identity was not recorded.</p>' : ''}
+          ${restCandidates.map((duck) => `<label class="race-candidate-card ${duck.id === defaultDuck?.id ? 'selected' : ''}" data-candidate-id="${esc(duck.id)}">
+            <input type="radio" name="duckId" value="${esc(duck.id)}" required ${duck.id === defaultDuck?.id ? 'checked' : ''}>
+            <span class="race-candidate-art">${duckSvg(duck.id, `${duck.name}, ${duck.restFactor < 1 ? 'needs rest' : 'rested'}`, `qp-race-${raceNumber}-${duck.id}`)}</span>
+            <span class="race-candidate-name">${esc(duck.name)}</span>
+            <span class="race-candidate-meta">${duck.tier} · speed rating ${duck.speed}</span>
+            <span class="race-candidate-effective" data-candidate-effective>Race rating ${formatRaceRating(duck.effectiveBaseInput)}</span>
+            <span class="race-candidate-reason">${duck.restFactor === 1 ? (duck.restEvidence.historyLimited ? 'Rested under tracked history.' : (duck.restEvidence.lastRaceSeq === null ? 'Rested. No prior finished race.' : 'Rested. Two other races have finished since its last race.')) : `Needs rest · ${Math.round((1 - duck.restFactor) * 100)}% lower race rating.`}</span>
+          </label>`).join('')}
+          <p class="race-rest-note">A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.</p>
+          ${ownedDucks.length ? '' : '<p>No owned digital ducks are available to enter.</p>'}
+        </fieldset>
         <fieldset class="race-stance-options"><legend>Choose a stance</legend>
           <label><input type="radio" name="stance" value="safe" checked> Steady pace <span>More consistent pacing</span></label>
           <label><input type="radio" name="stance" value="sprint"> Variable pace <span>Wider swings in pacing</span></label>
@@ -436,34 +469,74 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
         <div class="race-trial-offer" data-race-trial>
           ${engine.state.raceTrialAvailable
             ? '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>'
-            : `<button type="button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for +5% speed on one race</button><p>Available Down: ${engine.state.down}</p>`}
+            : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for +5% speed on one race</button><p>Available Down: ${engine.state.down}</p>`}
         </div>
         <button type="submit" class="race-control-button race-start-button" ${ownedDucks.length ? '' : 'disabled'}>Start race</button>
       </form>
     </section>`;
 
   const form = container.querySelector('[data-race-form]');
-  const duckSelect = container.querySelector('select[name="duckId"]');
-  const choicePayload = () => ({ raceNumber, duckId: duckSelect?.value ?? null, fieldBaseSpeed, exposureId: `race-choice-${raceNumber}` });
-  let entryShown = false;
-  const recordEntryShown = () => {
-    if (entryShown) return;
-    entryShown = true;
-    onChoiceShown(choicePayload());
-    onTrialOfferShown({ raceNumber, costDown: GAME_CONSTANTS.RACE_TRIAL_COST, exposureId: `race-trial-${raceNumber}` });
+  let entryActive = options.active !== false;
+  const selectedDuck = () => form.querySelector('input[name="duckId"]:checked')?.value ?? null;
+  const trialState = () => ({ available: Boolean(engine.state.raceTrialAvailable), selected: Boolean(form.querySelector('input[name="useTrial"]:checked')), multiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER });
+  const choicePayload = () => {
+    const visibleIds = new Set([...container.querySelectorAll('.race-candidate-card')]
+      .filter(isFullyVisibleInViewport).map((card) => card.dataset.candidateId));
+    const candidates = restCandidates.filter((duck) => visibleIds.has(duck.id)).map((duck) => ({
+      duckId: duck.id,
+      authoredRating: duck.speed,
+      restFactor: duck.restFactor,
+      historyLimited: duck.restEvidence.historyLimited,
+      effectiveBaseInput: duck.effectiveBaseInput,
+      effectiveWithTrialInput: duck.effectiveBaseInput * (trialState().selected ? GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER : 1),
+      rendered: true,
+    }));
+    const selected = selectedDuck();
+    const payload = { candidates, fieldBaseSpeed, trialState: trialState(), duckId: visibleIds.has(selected) ? selected : null };
+    return { raceNumber, ...payload, exposureId: `race-choice-${raceNumber}-${stableExposureSignature(payload)}` };
   };
-  if (options.active !== false) recordEntryShown();
+  const recordEntryShown = () => {
+    const payload = choicePayload();
+    container.querySelectorAll('.race-candidate-card').forEach((card) => {
+      const candidate = payload.candidates.find((item) => item.duckId === card.dataset.candidateId);
+      const value = card.querySelector('[data-candidate-effective]');
+      if (candidate && value) value.textContent = payload.trialState.selected
+        ? `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}; with trial ${formatRaceRating(candidate.effectiveWithTrialInput)}`
+        : `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}`;
+    });
+    if (entryActive && payload.candidates.length) onChoiceShown(payload);
+    const trialPanel = container.querySelector('[data-race-trial]');
+    if (entryActive && isFullyVisibleInViewport(trialPanel)) {
+      onTrialOfferShown({ raceNumber, costDown: GAME_CONSTANTS.RACE_TRIAL_COST, exposureId: `race-trial-${raceNumber}` });
+    }
+  };
+  if (entryActive) recordEntryShown();
+  const onViewportChange = () => { if (entryActive && !childHandle) recordEntryShown(); };
+  window.addEventListener('scroll', onViewportChange, { capture: true, passive: true });
+  window.addEventListener('resize', onViewportChange, { passive: true });
+  document.addEventListener('visibilitychange', onViewportChange);
   const trialButton = container.querySelector('[data-buy-race-trial]');
   const onTrialClick = () => {
     if (!onBuyTrial()) return;
     const trialPanel = container.querySelector('[data-race-trial]');
     if (trialPanel) trialPanel.innerHTML = '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>';
+    bindTrialInput();
+    recordEntryShown();
   };
+  const onTrialChange = () => recordEntryShown();
+  const bindTrialInput = () => container.querySelector('input[name="useTrial"]')?.addEventListener('change', onTrialChange);
+  const onCandidateChange = (event) => {
+    if (!event.target?.matches?.('input[name="duckId"]')) return;
+    container.querySelectorAll('.race-candidate-card').forEach((card) => card.classList.toggle('selected', card.querySelector('input')?.checked));
+    recordEntryShown();
+  };
+  form?.addEventListener('change', onCandidateChange);
+  bindTrialInput();
   trialButton?.addEventListener('click', onTrialClick);
   let childHandle = null;
   const onSubmit = (event) => {
     event.preventDefault();
-    const duckId = duckSelect?.value;
+    const duckId = selectedDuck();
     const stance = form.querySelector('input[name="stance"]:checked')?.value ?? 'safe';
     const useTrial = Boolean(form.querySelector('input[name="useTrial"]:checked'));
     const result = onStartRace?.({ duckId, stance, useTrial, raceNumber });
@@ -488,13 +561,19 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   return {
     snapshot: () => childHandle?.snapshot?.() ?? null,
     setActive(value) {
+      entryActive = Boolean(value);
       childHandle?.setActive?.(value);
-      if (!childHandle && value) recordEntryShown();
+      if (!childHandle && entryActive) recordEntryShown();
     },
     destroy() {
       childHandle?.destroy?.();
       form?.removeEventListener('submit', onSubmit);
+      form?.removeEventListener('change', onCandidateChange);
+      container.querySelector('input[name="useTrial"]')?.removeEventListener('change', onTrialChange);
       trialButton?.removeEventListener('click', onTrialClick);
+      window.removeEventListener('scroll', onViewportChange, true);
+      window.removeEventListener('resize', onViewportChange);
+      document.removeEventListener('visibilitychange', onViewportChange);
     },
   };
 }

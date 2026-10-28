@@ -357,8 +357,8 @@ if (app) {
           updateHud();
           return { attempt: outcome, resolution: engine.getRaceResolution(raceNumber) };
         },
-        onChoiceShown: ({ raceNumber, duckId, fieldBaseSpeed, exposureId }) => {
-          if (engine.recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId })) maybeAutosave();
+        onChoiceShown: ({ raceNumber, duckId, candidates, fieldBaseSpeed, trialState, exposureId }) => {
+          if (engine.recordRaceChoicesShown(raceNumber, { duckId, candidates, fieldBaseSpeed, trialState, exposureId })) maybeAutosave();
         },
         onTrialOfferShown: ({ raceNumber, costDown, exposureId }) => {
           if (engine.recordRaceTrialOfferShown(raceNumber, costDown, exposureId)) maybeAutosave();
@@ -457,8 +457,8 @@ if (app) {
           updateHud();
           return { attempt: outcome, resolution: engine.getRaceResolution(raceNumber) };
         },
-        onChoiceShown: ({ raceNumber, duckId, fieldBaseSpeed, exposureId }) => {
-          if (engine.recordRaceChoicesShown(raceNumber, { duckId, fieldBaseSpeed, exposureId })) maybeAutosave();
+        onChoiceShown: ({ raceNumber, duckId, candidates, fieldBaseSpeed, trialState, exposureId }) => {
+          if (engine.recordRaceChoicesShown(raceNumber, { duckId, candidates, fieldBaseSpeed, trialState, exposureId })) maybeAutosave();
         },
         onTrialOfferShown: ({ raceNumber, costDown, exposureId }) => {
           if (engine.recordRaceTrialOfferShown(raceNumber, costDown, exposureId)) maybeAutosave();

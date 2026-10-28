@@ -1,0 +1,650 @@
+{
+  "url": "http://127.0.0.1:5181/Quackpot/",
+  "browserPath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "viewportCases": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "url": "http://127.0.0.1:5181/Quackpot/",
+      "title": "Opening Pond Trial",
+      "cards": [
+        {
+          "id": "duck-2",
+          "name": "Pond Rocket",
+          "authored": "rare · speed rating 14",
+          "effective": "Race rating 14",
+          "reason": "Rested. No prior finished race.",
+          "checked": true,
+          "rect": {
+            "x": 193,
+            "y": 269.953125,
+            "width": 441.796875,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Pond Rocket, rested",
+            "rect": {
+              "x": 233.578125,
+              "y": 301.40625,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-4",
+          "name": "Turbo Drake",
+          "authored": "rare · speed rating 14",
+          "effective": "Race rating 14",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 645.1875,
+            "y": 269.953125,
+            "width": 441.8125,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Turbo Drake, rested",
+            "rect": {
+              "x": 685.765625,
+              "y": 301.40625,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-0",
+          "name": "Puddle Quacker",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 193,
+            "y": 407.25,
+            "width": 441.796875,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Puddle Quacker, rested",
+            "rect": {
+              "x": 233.578125,
+              "y": 438.703125,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-1",
+          "name": "Rubber Mallard",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 645.1875,
+            "y": 407.25,
+            "width": 441.8125,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Rubber Mallard, rested",
+            "rect": {
+              "x": 685.765625,
+              "y": 438.703125,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-3",
+          "name": "Bath Cadet",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 193,
+            "y": 544.546875,
+            "width": 441.796875,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Bath Cadet, rested",
+            "rect": {
+              "x": 233.578125,
+              "y": 576,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        }
+      ],
+      "allSelectable": true,
+      "restExplanation": "A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.",
+      "trial": "Exchange 3 Down for +5% speed on one race\n\nAvailable Down: 9",
+      "trialInput": false,
+      "submit": "Start race",
+      "submitDisabled": false,
+      "formRect": {
+        "x": 193,
+        "y": 224.953125,
+        "width": 894,
+        "height": 798.0625
+      },
+      "scroll": {
+        "height": 1205,
+        "client": 720,
+        "y": 97
+      },
+      "activeTag": "BODY",
+      "activeName": "\n    \n      \n        \n        \n    \n      \n        \n          \n            \n          \n          \n            Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          🦆 Duck-Dex\n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 1:\n          day 1 midday\n        \n        \n          💵\n          Cash:\n          $10.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          100 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      Opening Pond TrialTutorial event\n      Field pace: 8.0 rating. Finish places and awards are determined by actual crossings.\n      \n        \n          Choose an owned digital racer\n          \n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Pond Rocket\n            rare · speed rating 14\n            Race rating 14\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n        \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Turbo Drake\n            rare · speed rating 14\n            Race rating 14\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Puddle Quacker\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Rubber Mallard\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Bath Cadet\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n          A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n          \n        \n        Choose a stance\n           Steady pace More consistent pacing\n           Variable pace Wider swings in pacing\n        \n        \n          Exchange 3 Down for +5% speed on one raceAvailable Down: 9\n        \n        Start race\n      \n    \n        \n      \n    \n    \n  \n\n",
+      "keyboardSelection": {
+        "active": "duck-0",
+        "selected": "duck-0"
+      },
+      "trialSelection": {
+        "checked": true,
+        "displayedRatings": [
+          "Race rating 14; with trial 14.7",
+          "Race rating 14; with trial 14.7",
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5"
+        ]
+      },
+      "exposureProof": {
+        "entryAtPageTop": {
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "candidateCount": 5,
+          "choiceEvents": 1,
+          "trialEvents": 1
+        },
+        "listTopExposure": {
+          "fullyVisibleDuckIds": [
+            "duck-2",
+            "duck-4",
+            "duck-0",
+            "duck-1",
+            "duck-3"
+          ],
+          "loggedDuckIds": [
+            "duck-2",
+            "duck-4",
+            "duck-0",
+            "duck-1",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        },
+        "firstExposure": {
+          "visibleDuckIds": [
+            "duck-2",
+            "duck-4",
+            "duck-0",
+            "duck-1",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        },
+        "finalExposure": {
+          "candidateIds": [
+            "duck-3",
+            "duck-2",
+            "duck-4",
+            "duck-0",
+            "duck-1"
+          ],
+          "expectedIds": [
+            "duck-2",
+            "duck-4",
+            "duck-0",
+            "duck-1",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:5181/Quackpot/",
+      "title": "Opening Pond Trial",
+      "cards": [
+        {
+          "id": "duck-0",
+          "name": "Puddle Quacker",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": true,
+          "rect": {
+            "x": 25.796875,
+            "y": 430.9375,
+            "width": 338.40625,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Puddle Quacker, rested",
+            "rect": {
+              "x": 66.375,
+              "y": 462.390625,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-3",
+          "name": "Bath Cadet",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 25.796875,
+            "y": 568.234375,
+            "width": 338.40625,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Bath Cadet, rested",
+            "rect": {
+              "x": 66.375,
+              "y": 599.6875,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-1",
+          "name": "Rubber Mallard",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 25.796875,
+            "y": 705.53125,
+            "width": 338.40625,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Rubber Mallard, rested",
+            "rect": {
+              "x": 66.375,
+              "y": 736.984375,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        }
+      ],
+      "allSelectable": true,
+      "restExplanation": "A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.",
+      "trial": "Exchange 3 Down for +5% speed on one race\n\nAvailable Down: 7",
+      "trialInput": false,
+      "submit": "Start race",
+      "submitDisabled": false,
+      "formRect": {
+        "x": 25.796875,
+        "y": 385.9375,
+        "width": 338.40625,
+        "height": 921.234375
+      },
+      "scroll": {
+        "height": 1411,
+        "client": 844,
+        "y": 58
+      },
+      "activeTag": "BODY",
+      "activeName": "\n    \n      \n        \n        \n    \n      \n        \n          \n            \n          \n          \n            Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          🦆 Duck-Dex\n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 1:\n          day 1 midday\n        \n        \n          💵\n          Cash:\n          $10.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          100 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      Opening Pond TrialTutorial event\n      Field pace: 8.0 rating. Finish places and awards are determined by actual crossings.\n      \n        \n          Choose an owned digital racer\n          \n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Puddle Quacker\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Bath Cadet\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Rubber Mallard\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n          A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n          \n        \n        Choose a stance\n           Steady pace More consistent pacing\n           Variable pace Wider swings in pacing\n        \n        \n          Exchange 3 Down for +5% speed on one raceAvailable Down: 7\n        \n        Start race\n      \n    \n        \n      \n    \n    \n  \n\n",
+      "keyboardSelection": {
+        "active": "duck-1",
+        "selected": "duck-1"
+      },
+      "trialSelection": {
+        "checked": true,
+        "displayedRatings": [
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5"
+        ]
+      },
+      "exposureProof": {
+        "entryAtPageTop": {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "scrollY": 0,
+          "candidateCount": 3,
+          "choiceEvents": 0,
+          "trialEvents": 1
+        },
+        "listTopExposure": {
+          "fullyVisibleDuckIds": [
+            "duck-0",
+            "duck-3",
+            "duck-1"
+          ],
+          "loggedDuckIds": [
+            "duck-0",
+            "duck-3",
+            "duck-1"
+          ],
+          "trialEvents": 1
+        },
+        "firstExposure": {
+          "visibleDuckIds": [
+            "duck-0",
+            "duck-3",
+            "duck-1"
+          ],
+          "trialEvents": 1
+        },
+        "finalExposure": {
+          "candidateIds": [
+            "duck-0",
+            "duck-3",
+            "duck-1"
+          ],
+          "expectedIds": [
+            "duck-0",
+            "duck-3",
+            "duck-1"
+          ],
+          "trialEvents": 1
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "url": "http://127.0.0.1:5181/Quackpot/",
+      "title": "Opening Pond Trial",
+      "cards": [
+        {
+          "id": "duck-4",
+          "name": "Turbo Drake",
+          "authored": "rare · speed rating 14",
+          "effective": "Race rating 14",
+          "reason": "Rested. No prior finished race.",
+          "checked": true,
+          "rect": {
+            "x": 193,
+            "y": 269.953125,
+            "width": 441.796875,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Turbo Drake, rested",
+            "rect": {
+              "x": 233.578125,
+              "y": 301.40625,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-1",
+          "name": "Rubber Mallard",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 645.1875,
+            "y": 269.953125,
+            "width": 441.8125,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Rubber Mallard, rested",
+            "rect": {
+              "x": 685.765625,
+              "y": 301.40625,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-0",
+          "name": "Puddle Quacker",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 193,
+            "y": 407.25,
+            "width": 441.796875,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Puddle Quacker, rested",
+            "rect": {
+              "x": 233.578125,
+              "y": 438.703125,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        },
+        {
+          "id": "duck-3",
+          "name": "Bath Cadet",
+          "authored": "common · speed rating 10",
+          "effective": "Race rating 10",
+          "reason": "Rested. No prior finished race.",
+          "checked": false,
+          "rect": {
+            "x": 645.1875,
+            "y": 407.25,
+            "width": 441.8125,
+            "height": 126.90625
+          },
+          "art": {
+            "svg": true,
+            "label": "Bath Cadet, rested",
+            "rect": {
+              "x": 685.765625,
+              "y": 438.703125,
+              "width": 64,
+              "height": 64
+            }
+          },
+          "display": "grid",
+          "visibility": "visible"
+        }
+      ],
+      "allSelectable": true,
+      "restExplanation": "A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.",
+      "trial": "Exchange 3 Down for +5% speed on one race\n\nAvailable Down: 6",
+      "trialInput": false,
+      "submit": "Start race",
+      "submitDisabled": false,
+      "formRect": {
+        "x": 193,
+        "y": 224.953125,
+        "width": 894,
+        "height": 660.765625
+      },
+      "scroll": {
+        "height": 1068,
+        "client": 720,
+        "y": 97
+      },
+      "activeTag": "BODY",
+      "activeName": "\n    \n      \n        \n        \n    \n      \n        \n          \n            \n          \n          \n            Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          🦆 Duck-Dex\n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 1:\n          day 1 midday\n        \n        \n          💵\n          Cash:\n          $10.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          100 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      Opening Pond TrialTutorial event\n      Field pace: 8.0 rating. Finish places and awards are determined by actual crossings.\n      \n        \n          Choose an owned digital racer\n          \n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n        \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Turbo Drake\n            rare · speed rating 14\n            Race rating 14\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Rubber Mallard\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            Puddle Quacker\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n            \n            \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            Bath Cadet\n            common · speed rating 10\n            Race rating 10\n            Rested. No prior finished race.\n          \n          A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n          \n        \n        Choose a stance\n           Steady pace More consistent pacing\n           Variable pace Wider swings in pacing\n        \n        \n          Exchange 3 Down for +5% speed on one raceAvailable Down: 6\n        \n        Start race\n      \n    \n        \n      \n    \n    \n  \n\n",
+      "keyboardSelection": {
+        "active": "duck-0",
+        "selected": "duck-0"
+      },
+      "trialSelection": {
+        "checked": true,
+        "displayedRatings": [
+          "Race rating 14; with trial 14.7",
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5",
+          "Race rating 10; with trial 10.5"
+        ]
+      },
+      "exposureProof": {
+        "entryAtPageTop": {
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "scrollY": 0,
+          "candidateCount": 4,
+          "choiceEvents": 1,
+          "trialEvents": 1
+        },
+        "listTopExposure": {
+          "fullyVisibleDuckIds": [
+            "duck-4",
+            "duck-1",
+            "duck-0",
+            "duck-3"
+          ],
+          "loggedDuckIds": [
+            "duck-4",
+            "duck-1",
+            "duck-0",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        },
+        "firstExposure": {
+          "visibleDuckIds": [
+            "duck-4",
+            "duck-1",
+            "duck-0",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        },
+        "finalExposure": {
+          "candidateIds": [
+            "duck-0",
+            "duck-3",
+            "duck-4",
+            "duck-1"
+          ],
+          "expectedIds": [
+            "duck-4",
+            "duck-1",
+            "duck-0",
+            "duck-3"
+          ],
+          "trialEvents": 1
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "screenshot": "entry-1280x720-reduce.png",
+      "fullPageScreenshot": "entry-full-1280x720-reduce.png",
+      "mechanism": "separate Chrome process",
+      "profileIsolated": true,
+      "reducedMotionPreference": "reduce"
+    },
+    {
+      "screenshot": "entry-390x844.png",
+      "fullPageScreenshot": "entry-full-390x844.png",
+      "mechanism": "separate Chrome process",
+      "profileIsolated": true,
+      "reducedMotionPreference": "reduce"
+    },
+    {
+      "screenshot": "entry-1280x720-no-preference.png",
+      "fullPageScreenshot": "entry-full-1280x720-no-preference.png",
+      "mechanism": "separate Chrome process",
+      "profileIsolated": true,
+      "reducedMotionPreference": "no-preference"
+    }
+  ],
+  "tiredSecondRace": {
+    "screenshot": "tired-selectable-390x844.png",
+    "storyJourney": [
+      "race 1 finished",
+      "starter purchase",
+      "rent recovery choice",
+      "race 2 finished"
+    ],
+    "duckId": "duck-4",
+    "candidate": {
+      "id": "duck-4",
+      "reason": "Needs rest · 50% lower race rating.",
+      "raceRating": "Race rating 7",
+      "authoredRating": 14,
+      "selectable": true,
+      "checked": false,
+      "svg": true
+    },
+    "selected": true,
+    "committedRestFactor": 0.5,
+    "attemptRestFactor": 0.5,
+    "actionRestFactor": 0.5,
+    "resolverRestFactor": 0.5,
+    "receiptMentionsPenalty": true
+  },
+  "cleanup": {
+    "localStorageCleared": true,
+    "profilePath": "C:\\AI\\Quackpot\\reports\\development\\plan-22-race-entry-and-duck-rest\\.plan22-isolated-profile-f83Ymt",
+    "profileRemoved": true
+  }
+}

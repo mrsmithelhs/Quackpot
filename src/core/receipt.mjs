@@ -7,6 +7,7 @@
 // Every line carries `seq`, the log entry it comes from (null only for "none recorded" statements).
 
 import { verifyChain, verifyCompleteness } from './event-log.mjs';
+import { formatRaceRating } from './race-rest.mjs';
 
 const money = (x) => `$${Number(x).toFixed(2)}`;
 
@@ -283,8 +284,30 @@ export function projectReceipt(entries) {
 
   const raceDisplayed = [];
   const raceDid = [];
+  for (const event of ofType('race_rest_policy_activated')) {
+    raceDid.push(line(event.payload.historyLimited
+      ? 'Race rest tracking began after an older completed race without a recorded duck identity; earlier racer identity is unknown.'
+      : 'Race rest rules became active; previously recorded duck identities remain part of the race history.', event.seq));
+  }
   for (const event of ofType('race_choice_offered')) {
-    raceDisplayed.push(line(`Race ${event.payload.raceNumber} options shown: Safe pace (±5%) and Sprint (±20% variation).`, event.seq));
+    const payload = event.payload ?? {};
+    if (!Array.isArray(payload.candidates) || !payload.trialState) {
+      const options = payload.options && typeof payload.options === 'object'
+        ? Object.keys(payload.options).filter((key) => ['safe', 'sprint'].includes(key))
+        : [];
+      const optionLabels = options.map((key) => key === 'safe' ? 'Safe pace' : 'Sprint');
+      const optionText = optionLabels.length ? ` Recorded pace options: ${optionLabels.join(' and ')}.` : '';
+      raceDisplayed.push(line(`Race ${payload.raceNumber} choice offered; older record has no candidate details.${optionText}`, event.seq));
+      continue;
+    }
+    const candidates = payload.candidates.map((candidate) => `${candidate.duckId}: race rating ${formatRaceRating(candidate.effectiveWithTrialInput ?? candidate.effectiveBaseInput)}${candidate.restFactor < 1 ? ` (${Math.round((1 - candidate.restFactor) * 100)}% rest penalty)` : (candidate.historyLimited ? ' (rest history limited by an older unknown identity)' : ' (rested)')}`).join('; ');
+    const trial = payload.trialState.available
+      ? ` Purchased trial ${payload.trialState.selected ? 'selected' : 'available'} (+5%).`
+      : '';
+    const foregrounded = payload.foregroundedDuckId ? ` ${payload.foregroundedDuckId} was foregrounded by race rating.` : '';
+    const paceOptions = Object.values(payload.options ?? {}).map((option) => option?.label).filter((label) => typeof label === 'string');
+    const paceText = paceOptions.length ? ` Pace options: ${paceOptions.join(' and ')}.` : '';
+    raceDisplayed.push(line(`Race ${payload.raceNumber} choices shown in race-rating order: ${candidates}.${foregrounded}${paceText}${trial}`, event.seq));
   }
   for (const event of ofType('race_trial_offer_shown')) {
     raceDisplayed.push(line(event.payload.alreadyPurchased
@@ -295,7 +318,11 @@ export function projectReceipt(entries) {
     raceDisplayed.push(line(event.payload.text || `Race cue shown: ${event.payload.cueId}.`, event.seq));
   }
   for (const event of ofType('action')) {
-    if (event.payload.kind === 'race_choice') raceDid.push(line(`Entered ${event.payload.duckId} with the ${event.payload.stance} stance.`, event.seq));
+    if (event.payload.kind === 'race_choice') {
+      const rest = event.payload.restEvidence;
+      const restText = rest ? ` Rest factor ${rest.restFactor} applied to speed rating ${formatRaceRating(rest.authoredRating)} (race rating ${formatRaceRating(rest.effectiveBaseInput)}).` : '';
+      raceDid.push(line(`Entered ${event.payload.duckId} with the ${event.payload.stance} stance.${restText}`, event.seq));
+    }
     if (event.payload.kind === 'race_trial_purchased') raceDid.push(line(`Bought the one-race speed trial for ${event.payload.costDown} Down.`, event.seq));
     if (event.payload.kind === 'race_trial_consumed') raceDid.push(line('The available speed trial was used on this finished race.', event.seq));
   }
@@ -308,7 +335,8 @@ export function projectReceipt(entries) {
   }
   for (const event of ofType('race_attempt_unresolved')) {
     const trialFact = event.payload.trialAvailable ? ' A purchased trial stayed available.' : ' No trial was committed.';
-    raceDid.push(line(`Race ${event.payload.raceNumber} remained unresolved; no finish place or Gems were recorded.${trialFact}`, event.seq));
+    const restFact = event.payload.restEvidence ? ` Attempted with rest factor ${event.payload.restEvidence.restFactor.toFixed(2)}; unresolved attempts do not advance rest.` : '';
+    raceDid.push(line(`Race ${event.payload.raceNumber} remained unresolved; no finish place or Gems were recorded.${trialFact}${restFact}`, event.seq));
   }
 
   return {

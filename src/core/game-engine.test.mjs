@@ -587,7 +587,7 @@ test('engine [Plan 23]: affine race input, trial purchase/consumption, save relo
   const resolution = engine.state.raceResolutions[first.raceId];
   assert.equal(resolution.metadata.inputs.playerBaseSpeed, BANNER_1_ROSTER.find((duck) => duck.id === duckId).speed);
   assert.equal(resolution.metadata.inputs.authoredPlayerRating, BANNER_1_ROSTER.find((duck) => duck.id === duckId).speed);
-  assert.equal(resolution.metadata.inputs.restFactor, 1, 'Plan 22 rest lifecycle remains a separate future effective-speed input');
+  assert.equal(resolution.metadata.inputs.restFactor, 1, 'never-raced identity keeps the selected rested factor');
   assert.equal(resolution.metadata.inputs.trialCommitted, true);
   assert.equal(resolution.metadata.inputs.dramaArm, 'R2combined-risk-only');
   assert.equal(resolution.metadata.inputs.experiment, 'weave-rank-strong-contact');
@@ -605,7 +605,7 @@ test('engine [Plan 23]: affine race input, trial purchase/consumption, save relo
   assert.equal(restored.log.entries.filter((entry) => entry.type === 'reward' && entry.payload?.raceId === first.raceId).length, 1);
   assert.equal(restored.log.entries.filter((entry) => entry.type === 'action' && entry.payload?.kind === 'race_trial_consumed').length, 1);
   const raceReceipt = projectReceipt(restored.log.entries).raceEvidence;
-  assert.ok(raceReceipt.displayed.some((item) => item.text.includes('Safe pace')));
+  assert.ok(raceReceipt.displayed.some((item) => item.text.includes('Steady pace')));
   assert.ok(raceReceipt.displayed.some((item) => item.text === 'Your duck crossed the finish.'));
   assert.ok(raceReceipt.did.some((item) => item.text.includes('crossing order')));
   assert.ok(raceReceipt.did.some((item) => item.text.includes('skip')));
@@ -644,6 +644,27 @@ test('engine [Plan 23]: unresolved guard is persisted once without payout or tri
   assert.equal(restored.state.raceTrialAvailable, true);
   assert.equal(restored.state.completedRaces.includes(1), false);
   assert.equal(restored.log.entries.filter((entry) => entry.type === 'race_attempt_unresolved').length, 1);
+});
+
+test('engine [Plan 22]: completed race applies the selected 50% repeat penalty exactly once', () => {
+  const engine = new GameEngine('plan22-repeat-rest-commit');
+  engine.start();
+  engine.setupCompanion();
+  engine.commitPromotionalTenPull();
+  engine.revealAllPending();
+  const duckId = engine.state.owned[0];
+  const first = engine.runRace(1, duckId, 'safe');
+  assert.equal(first.status, 'finished');
+  const second = engine.runRace(2, duckId, 'safe');
+  assert.equal(second.status, 'finished');
+  assert.equal(second.restEvidence.restFactor, 0.5);
+  assert.equal(engine.state.raceResolutions.R02.metadata.inputs.playerBaseSpeed, BANNER_1_ROSTER.find((duck) => duck.id === duckId).speed * 0.5);
+  assert.equal(engine.state.raceResolutions.R02.metadata.inputs.restFactor, 0.5);
+  assert.equal(validateSave(engine.toEnvelope()).valid, true);
+  const retry = engine.runRace(2, duckId, 'sprint');
+  assert.equal(retry.resolutionDigest, second.resolutionDigest);
+  assert.equal(engine.log.entries.filter((entry) => entry.type === 'race_result' && entry.payload.raceNumber === 2).length, 1);
+  assert.equal(engine.log.entries.filter((entry) => entry.type === 'reward' && entry.payload.raceId === second.raceId).length, second.payoutGems > 0 ? 1 : 0);
 });
 
 test('engine [Plan 23]: both race resolutions fit the paired-save budget and round-trip unchanged', () => {

@@ -1,0 +1,89 @@
+.race-candidate-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 0.65rem;
+  min-width: 0;
+  margin: 1rem 0;
+  padding: 0;
+  border: 0;
+}
+
+.race-candidate-list legend {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.race-candidate-card {
+  display: grid;
+  grid-template-columns: auto 4.25rem minmax(0, 1fr);
+  gap: 0.25rem 0.65rem;
+  align-content: start;
+  padding: 0.75rem;
+  border: 2px solid var(--border, #b8b2a7);
+  border-radius: 0.75rem;
+  background: var(--surface, #fffdf8);
+  cursor: pointer;
+}
+
+.race-candidate-card.selected,
+.race-candidate-card:focus-within {
+  border-color: var(--accent, #7651a8);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent, #7651a8) 22%, transparent);
+}
+
+.race-candidate-card input {
+  grid-row: 1 / span 5;
+  margin: 0.15rem 0.2rem 0 0;
+}
+
+.race-candidate-art {
+  grid-column: 2;
+  grid-row: 1 / span 5;
+  width: 4rem;
+  height: 4rem;
+  align-self: center;
+}
+
+.race-candidate-name,
+.race-candidate-meta,
+.race-candidate-effective,
+.race-candidate-reason {
+  grid-column: 3;
+  line-height: 1.35;
+}
+
+.race-candidate-name,
+.race-candidate-effective {
+  font-weight: 700;
+}
+
+.race-candidate-meta,
+.race-candidate-reason {
+  color: #475569;
+  font-size: 0.92rem;
+}
+
+.race-rest-note {
+  grid-column: 1 / -1;
+  margin: 0.1rem 0 0.5rem;
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.race-candidate-list:disabled .race-candidate-card {
+  cursor: default;
+}
+
+@media (max-width: 32rem) {
+  .race-candidate-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .race-candidate-card {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}

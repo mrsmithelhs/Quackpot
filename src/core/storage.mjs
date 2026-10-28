@@ -3,10 +3,32 @@
 
 import { verifyChain } from './event-log.mjs';
 import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './race-resolver.mjs';
+import { RACE_REST_POLICY_VERSION, isKnownRaceDuckId, makeRaceRestEvidence } from './race-rest.mjs';
+import { BANNER_1_ROSTER } from './game-engine.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
+
+function hasRaceRestPolicyFacts(envelope, entries = envelope?.eventLog) {
+  const state = envelope?.state ?? {};
+  const logFact = Array.isArray(entries) && entries.some((entry) => {
+    const payload = entry.payload ?? {};
+    if (entry.type === 'race_rest_policy_activated') return true;
+    if (payload.restEvidence) return true;
+    if (entry.type === 'race_choice_offered' && Array.isArray(payload.candidates)
+      && payload.candidates.some((candidate) => Object.hasOwn(candidate, 'restFactor'))) return true;
+    return false;
+  });
+  const resolutionFact = Object.values(state.raceResolutions ?? {}).some((resolution) => {
+    const factor = resolution?.inputs?.restFactor ?? resolution?.input?.restFactor
+      ?? resolution?.metadata?.inputs?.restFactor;
+    return Number.isFinite(factor) && factor < 1;
+  });
+  const cacheFact = [...Object.values(state.raceAttempts ?? {}), ...Object.values(state.raceResults ?? {})]
+    .some((attempt) => Boolean(attempt?.restEvidence));
+  return logFact || resolutionFact || cacheFact;
+}
 
 // In-memory fallback session store when localStorage is unavailable or throws quota error
 let inMemoryStore = null;
@@ -42,8 +64,17 @@ export function validateSave(envelope) {
       return { valid: false, errors: ['Save payload is not an object'] };
     }
 
-    if (![1, CURRENT_SCHEMA_VERSION].includes(envelope.schemaVersion)) {
-      errors.push(`Incompatible schema version: expected 1 or ${CURRENT_SCHEMA_VERSION}, got ${envelope.schemaVersion}`);
+    if (![1, 2, CURRENT_SCHEMA_VERSION].includes(envelope.schemaVersion)) {
+      errors.push(`Incompatible schema version: expected 1, 2, or ${CURRENT_SCHEMA_VERSION}, got ${envelope.schemaVersion}`);
+    }
+    if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION && envelope.raceRestEvidenceVersion !== 1) {
+      errors.push('Current save schema requires raceRestEvidenceVersion 1');
+    }
+    if (envelope.schemaVersion < CURRENT_SCHEMA_VERSION && hasRaceRestPolicyFacts(envelope)) {
+      errors.push('Race rest policy evidence requires schema 3; older schema labels cannot bypass rest validation');
+    }
+    if (envelope.schemaVersion < CURRENT_SCHEMA_VERSION && envelope.raceRestEvidenceVersion !== undefined) {
+      errors.push('Race rest evidence version marker cannot appear on an older schema label');
     }
 
     if (typeof envelope.savedAt !== 'number' || isNaN(envelope.savedAt) || envelope.savedAt <= 0) {
@@ -74,7 +105,7 @@ export function validateSave(envelope) {
       if (!Array.isArray(state.pendingReveals)) {
         errors.push('state.pendingReveals must be an array');
       }
-      if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION) {
+      if (envelope.schemaVersion >= 2) {
         if (!state.raceAttempts || typeof state.raceAttempts !== 'object' || Array.isArray(state.raceAttempts)) {
           errors.push('state.raceAttempts must be an object');
         }
@@ -139,6 +170,81 @@ export function validateSave(envelope) {
       if (!verifyChain(entries)) {
         errors.push('eventLog failed verifyChain (corrupted hash chain or non-sequential IDs)');
       } else if (state && Array.isArray(state.owned) && Array.isArray(state.pendingReveals)) {
+        const hasRestFacts = hasRaceRestPolicyFacts(envelope, entries);
+        const restActivations = entries.filter((entry) => entry.type === 'race_rest_policy_activated');
+        if (restActivations.length > 1) errors.push('race rest policy may be activated only once');
+        const restActivation = restActivations[0];
+        if (restActivation) {
+          const activation = restActivation.payload ?? {};
+          if (activation.policyVersion !== RACE_REST_POLICY_VERSION || !Number.isInteger(activation.historyBaselineSeq)
+            || activation.historyBaselineSeq < -1 || activation.historyBaselineSeq >= restActivation.seq) {
+            errors.push('race rest policy activation has invalid version or history baseline');
+          }
+          if (JSON.stringify(activation.rule) !== JSON.stringify({ interveningCompletedRaces: [0, 1, '2+'], restFactors: [0.5, 0.75, 1] })) {
+            errors.push('race rest policy activation rule does not match the selected 50%/25%/rested values');
+          }
+          const lastUnknownSeq = entries.filter((entry) => entry.type === 'race_result'
+            && !isKnownRaceDuckId(entry.payload?.duckId)).at(-1)?.seq ?? -1;
+          if (activation.historyBaselineSeq !== lastUnknownSeq || Boolean(activation.historyLimited) !== (lastUnknownSeq >= 0)) {
+            errors.push('race rest policy activation baseline does not match unknown-identity history');
+          }
+          const raceEvents = entries.filter((entry) => ['race_result', 'race_attempt_unresolved'].includes(entry.type));
+          const actionsByRace = new Map(entries.filter((entry) => entry.type === 'action' && entry.payload?.kind === 'race_choice')
+            .map((entry) => [entry.payload.raceId, entry]));
+          for (const event of raceEvents.filter((entry) => entry.seq > restActivation.seq)) {
+            const payload = event.payload ?? {};
+            const action = actionsByRace.get(payload.raceId);
+            const duckId = payload.duckId ?? action?.payload?.duckId;
+            const evidence = payload.restEvidence;
+            if (!isKnownRaceDuckId(payload.duckId) || !duckId || !action || !evidence
+              || action.seq <= restActivation.seq || action.seq >= event.seq || action.payload.duckId !== payload.duckId) {
+              errors.push(`Post-policy race ${payload.raceNumber} is missing required rest evidence or its committed choice action`);
+              continue;
+            }
+            const authoredRating = action.payload.restEvidence?.authoredRating;
+            const duckDefinition = BANNER_1_ROSTER.find((duck) => duck.id === duckId);
+            if (!duckDefinition || !Number.isFinite(authoredRating) || authoredRating !== duckDefinition.speed) {
+              errors.push(`Post-policy race ${payload.raceNumber} has an invalid authored rating in its choice evidence`);
+              continue;
+            }
+            const expected = makeRaceRestEvidence(entries.slice(0, action.seq), duckId, authoredRating);
+            const coreEvidence = { ...evidence };
+            delete coreEvidence.trialCommitted;
+            delete coreEvidence.trialMultiplier;
+            if (JSON.stringify(coreEvidence) !== JSON.stringify(expected)
+              || evidence.trialCommitted !== (action.payload.trialCommitted ?? false)
+              || evidence.trialMultiplier !== 1.05
+              || JSON.stringify(action.payload.restEvidence) !== JSON.stringify(evidence)) {
+              errors.push(`Post-policy race ${payload.raceNumber} rest evidence does not match its completed history or action`);
+            }
+            const attempt = state.raceAttempts?.[payload.raceNumber];
+            if (!attempt || JSON.stringify(attempt.restEvidence) !== JSON.stringify(evidence)
+              || attempt.duckId !== payload.duckId) {
+              errors.push(`state.raceAttempts[${payload.raceNumber}].restEvidence does not match post-policy event`);
+            }
+            if (event.type === 'race_result') {
+              const result = state.raceResults?.[payload.raceNumber];
+              if (!result || JSON.stringify(result.restEvidence) !== JSON.stringify(evidence) || result.duckId !== payload.duckId) {
+                errors.push(`state.raceResults[${payload.raceNumber}].restEvidence does not match post-policy event`);
+              }
+            }
+            const encoded = state.raceResolutions?.[payload.raceId];
+            try {
+              const restored = encoded ? restoreRaceResolution(encoded) : null;
+            if (!restored || restored.inputs.restFactor !== expected.restFactor
+                || restored.inputs.authoredPlayerRating !== expected.authoredRating
+                || restored.inputs.playerBaseSpeed !== expected.effectiveBaseInput
+              || restored.inputs.trialCommitted !== evidence.trialCommitted
+              || restored.inputs.trialMultiplier !== evidence.trialMultiplier) {
+                errors.push(`Post-policy race ${payload.raceNumber} resolver inputs do not match required rest evidence`);
+              }
+            } catch {
+              errors.push(`Post-policy race ${payload.raceNumber} has no valid rest-bound resolver inputs`);
+            }
+          }
+        } else if (hasRestFacts) {
+          errors.push('Race rest policy evidence exists without its append-only activation boundary');
+        }
         // Reconcile state against event log
         let calcCash = 15.00;
         let calcGems = 0;
@@ -302,7 +408,7 @@ export function validateSave(envelope) {
           }
         }
 
-        if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION && state.raceAttempts && state.raceResolutions) {
+        if (envelope.schemaVersion >= 2 && state.raceAttempts && state.raceResolutions) {
           const attemptMap = new Map(entries.filter((entry) => ['race_result', 'race_attempt_unresolved'].includes(entry.type))
             .map((entry) => [entry.payload.raceNumber, { type: entry.type, ...entry.payload }]));
           let totalRaceResolutionBytes = 0;
@@ -320,8 +426,8 @@ export function validateSave(envelope) {
               continue;
             }
             const attemptFields = attempt.type === 'race_attempt_unresolved'
-              ? ['raceNumber', 'raceId', 'status', 'resolutionStatus', 'resolutionDigest', 'unresolvedReason', 'guardEvidence', 'knownCrossings', 'trialAvailable', 'trialCommitted']
-              : ['raceNumber', 'raceId', 'duckId', 'status', 'resolutionStatus', 'place', 'payoutGems', 'rivalPlace', 'playerPerf', 'winner', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'resolutionDigest', 'finishOrder', 'trialConsumed'];
+              ? ['raceNumber', 'raceId', 'duckId', 'status', 'resolutionStatus', 'resolutionDigest', 'unresolvedReason', 'guardEvidence', 'knownCrossings', 'trialAvailable', 'trialCommitted', 'restEvidence']
+              : ['raceNumber', 'raceId', 'duckId', 'status', 'resolutionStatus', 'place', 'payoutGems', 'rivalPlace', 'playerPerf', 'winner', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'resolutionDigest', 'finishOrder', 'trialConsumed', 'restEvidence'];
             for (const field of attemptFields) {
               if (JSON.stringify(storedAttempt[field]) !== JSON.stringify(attempt[field])) {
                 errors.push(`state.raceAttempts[${raceNumber}].${field} does not match the append-only race record`);
@@ -332,7 +438,7 @@ export function validateSave(envelope) {
               if (!cachedResult) {
                 errors.push(`state.raceResults missing cached result for finished race ${raceNumber}`);
               } else {
-                for (const field of ['raceId', 'duckId', 'place', 'payoutGems', 'resolutionDigest', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'finishOrder', 'trialConsumed']) {
+                for (const field of ['raceId', 'duckId', 'place', 'payoutGems', 'resolutionDigest', 'finishTimeSeconds', 'lastFinishTimeSeconds', 'finishOrder', 'trialConsumed', 'restEvidence']) {
                   if (JSON.stringify(cachedResult[field]) !== JSON.stringify(attempt[field])) {
                     errors.push(`state.raceResults[${raceNumber}].${field} does not match the append-only race record`);
                   }
@@ -568,6 +674,7 @@ function migrateLegacyEnvelope(envelope) {
   return {
     ...envelope,
     schemaVersion: CURRENT_SCHEMA_VERSION,
+    raceRestEvidenceVersion: 1,
     state: {
       ...state,
       raceAttempts,

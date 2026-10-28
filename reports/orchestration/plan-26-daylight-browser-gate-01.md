@@ -1,0 +1,9 @@
+# Plan 26 mechanism checkpoint and daylight browser slot
+
+2026-10-27. Root read delivered mechanism.md against the approved packet. Pinned5237a2a source, no-effect identity, explicit requested/effective precedence, still-only rejection of weather/lamp combinations, scoped fail-closed anchors and documented simplified sun projection are consistent with the approved study. The checkpoint arrived with source already authored; root accepts this bounded mechanism now. This does not waive future staged checkpoints or establish visual quality.
+
+Grant Sonnet one isolated browser slot NOW for `http://127.0.0.1:5181/Quackpot/reports/development/plan-26-apartment-daylight-weather-study/gallery.html`, after confirming the actual filename. Plan26 living-room daylight only: neutral/legacy window/restrained/strong sun and explicitly labeled host-overlay control. Check actual1280x720 and390x844 viewport plus wide/medium and stage shapes/letterboxing; inspect rug/floor projection, shadows, contact/occlusion, glare over foreground plant and cropped window. Default reference is scene-anchored kit; don't imply host-overlay comparison is the same look. No other rooms, weather stills, flash/rain motion, kit mutation or new worker browser tabs.
+
+Use existing server and isolated IAB tab; no owner tabs/storage/settings/server replacement. Root/Plan22 will not drive browser concurrently. Routine report-only daylight fixes permitted; rerun affected checks and final render, record limits. Close/reset/release after comparison; return evidence for owner look before weather stage. No packet/status/push.
+
+Owner accepts Plan24 extracted art/scene lighting with host alternative, except furniture-removal observation under investigation. Plan26 pinnedkit remains read-only. Do not fold a Plan24 source repair into this browser work. Root will distinguish kit bug from ambiguous baseline comparison separately.

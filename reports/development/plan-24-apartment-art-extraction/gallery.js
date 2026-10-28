@@ -20,8 +20,8 @@ $('#cmpControls').addEventListener('change', e => { const k = e.target.dataset.k
 
 const BASE_LIGHT = { neutral: 'neutral', window: 'light', warm: 'dark' };
 // Persistent structure: the iframe is never re-parented (moving it would reload the baseline).
-$('#cmp').innerHTML = `<figure class="basefig"><div class="zoomwrap" id="baseZoom"><div class="zoominner"><div class="clip" id="baseClip"></div></div></div><figcaption id="baseCap"></figcaption></figure>`
-  + `<figure class="kitfig"><div class="zoomwrap" id="kitZoom"><div class="zoominner"><div class="stage" id="kitStage"><div class="layer" id="kitLayer"></div></div></div></div><figcaption id="kitCap"></figcaption></figure>`;
+$('#cmp').innerHTML = `<figure class="basefig"><figcaption id="baseCap"></figcaption><div class="zoomwrap" id="baseZoom"><div class="zoominner"><div class="clip" id="baseClip"></div></div></div></figure>`
+  + `<figure class="kitfig"><figcaption id="kitCap"></figcaption><div class="zoomwrap" id="kitZoom"><div class="zoominner"><div class="stage" id="kitStage"><div class="layer" id="kitLayer"></div></div></div></div></figure>`;
 let frame = null, baselineReady = Promise.resolve();
 function reloadBaseline() {
   baselineReady = new Promise(resolve => {   // resolves when the baseline has loaded (render() awaits this; it must not wait on itself)
@@ -56,10 +56,12 @@ async function render() {
   $('#kitLayer').innerHTML = scene.svg;
   const cmp = $('#cmp'); cmp.className = `cmp ${state.mode === 'diff' ? 'diff' : 'side'}${state.mode === 'only-base' ? ' only-base' : ''}${state.mode === 'only-kit' ? ' only-kit' : ''}`;
   if (state.mode === 'diff') cmp.style.minHeight = `${H}px`; else cmp.style.minHeight = '';
-  $('#baseCap').textContent = `Baseline: unchanged Plan 10 page (${W}×${H}px stage)`;
-  $('#kitCap').textContent = `Kit: renderScene → ${scene.meta.shotKey}, duck ${scene.meta.duckView}${scene.meta.fallback ? ' (fallback)' : ''}`;
+  $('#baseCap').textContent = mixed
+    ? 'ORIGINAL BASELINE — individual removals unsupported; both items remain here. Inspect the extracted kit panel below, or select Display: only-kit.'
+    : `ORIGINAL BASELINE — unchanged Plan 10 page (${W}×${H}px stage)`;
+  $('#kitCap').textContent = `EXTRACTED KIT — ${scene.meta.shotKey}, duck ${scene.meta.duckView}${scene.meta.fallback ? ' (fallback)' : ''}${state.area === 'living' ? `; couch ${state.couch}, TV ${state.tv}` : ''}`;
   const notes = [];
-  if (mixed) notes.push('mixed couch/TV state: no baseline exists (unbaselined derived composition)');
+  if (mixed) notes.push('Individual-removal choices apply ONLY to the extracted kit. The original baseline shown first stays fully furnished. Select Display: only-kit to inspect the selected state directly; this is an unbaselined derived composition');
   if (scene.meta.fallback) notes.push(`duck: requested ${scene.meta.fallback.from}, kit shows ${scene.meta.fallback.to} — ${scene.meta.fallback.reason}`);
   if (state.area === 'desk-top' && state.duckView !== 'top') notes.push('baseline desk-top ignores the duck selection (always overhead)');
   if (scene.meta.ignored.length) notes.push(`ignored options: ${scene.meta.ignored.join(', ')}`);

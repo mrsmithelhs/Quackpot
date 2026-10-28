@@ -1,11 +1,9 @@
 ---
 id: plan-22
 title: Visual race entry and soft two-race duck rest
-status: draft
+status: in-progress
 depends_on: [plan-23]
 gate: "Owner/orchestrator approves race-entry, rest lifecycle and simulation evidence before integration; owner rendered acceptance follows."
-superseded_by: null
-resolution: null
 summary: >-
   Implement selected two-race rest penalties with eligible small-roster fallback
   and foregrounded effective-speed candidates in race preparation.
@@ -36,3 +34,5 @@ Race prep should show visual candidate cards with factual recommendation reasons
 Compare no-rest baseline against adopted penalties across 1/2/3+identity rosters and race cadence, checking strategy dominance, reward/income, repeat feasibility and interaction with strongest roster/soft recovery. Current slice has only two races, so use honest engine-generated fixtures for longer histories; don't claim three-race rotation observed in current story. Preserve valid historical saves via proposed migration/default, no fabricated past race/display events. Test commit/cancel/reload/duplicate replay/terminal exits, penalty progression after other identities race, trial consumed once and Receipt evidence of actual available/displayed options/actions/effects. Browser-inspect real selection and return paths at desktop/narrow with reduced motion; coordinator owns browser turns.
 
 No unapproved fatigue-obscuring text/click targets, new in-race choices, odds/pity/cost changes, extra race schedule, set bonuses, paid rest or deployment. Production changes after Plan13 semantics/Plan20 source handoff and approved file ownership only. Commit scoped work/final report with reviewer declaration; no packet status changes or push.
+
+**Owner assignment, 2026-10-27:** Owner set Plan22 in-progress and will start a Codex implementer. Use `reports/orchestration/plan-22-codex-starting-handoff.md`; proposal/ownership gate precedes production writes. One read-only gpt-6.1-terra/medium pre-delivery reviewer is authorized after main implementation, no pre-proposal or repeated small-repair reviews. Plan26 owns current browser slot; request turn-taking. Apartment/art/weather scopes remain separate.

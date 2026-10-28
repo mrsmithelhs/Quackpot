@@ -49,7 +49,7 @@ Commands (all single-process, short, no watchers, no repeated suites, no paralle
 
 ## 6. Remaining risks / follow-ups
 
-- Open `audition.html` by double-click once (real `file://`) before owner selection, or have root confirm it; everything else in §4 was exercised on localhost.
+- `file://` loading remains unverified: the owner chose to skip that test (2026-10-28) and sent the page to technical review as is. If a double-click open fails, the likely causes are the relative `catalog/catalog-data.js` script and `audio/` paths; serving the report folder over localhost (as in §4) is the known-working fallback. Everything else in §4 was exercised on localhost.
 - Owner listening may reject many name-based picks; gaps may need a bounded follow-up search (not granted).
 - Kenney member provenance pending; OGA creators are sometimes only the uploader.
 - 25 files have no loudness measurement; level matching is approximate attenuation only.

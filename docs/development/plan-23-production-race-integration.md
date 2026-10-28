@@ -1,7 +1,8 @@
 ---
 id: plan-23
 title: Selected race dynamics and presentation integration
-status: in-progress
+status: complete
+resolution: "Owner accepted integrated production race on 2026-10-27 including final glow and persistent timeline repair9d03dcd/712e474. Genuine crossings, selected model/presentation and bounded lifecycle evidence delivered; Chrome pre-page smoke and live cue-storage inspection limits remain recorded. No push or deployment."
 depends_on: [plan-13]
 gate: "Proposal work may start while Plan20 repairs run; production writes require Plan20 acceptance/source handoff and approved file/lifecycle proposal. Owner reviews production race."
 summary: >-

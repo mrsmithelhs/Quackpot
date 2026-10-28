@@ -4,7 +4,7 @@ You are an orchestration model working with the integration owner of the **Quack
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: development underway; mechanism slice, Mode C rig, Shell A, Plan09 motion, Plan13 reference race/highlight, Plan20 card motion/duplicate help, Plan21 Duck-Dex and bounded Plan17 evidence are accepted. Plan23's latest race preview/configuration is owner-accepted for production integration under orchestrator supervision; production delivery remains open. Plan22 rest follows race integration. Licensed audio and broader assets remain owner-gated.**
+**Current stage: development underway. Owner accepted and closed Plan23 production race and Plan10 physical-duck/apartment art investigation on 2026-10-27. Plan24 apartment art extraction is in-progress for the existing Sonnet thread; Plan25 desk/phone production integration is draft and depends on accepted extraction. Plan22 race entry/rest is the next disjoint parallel candidate, still draft. Existing mechanism, rig, Shell A, card motion and Duck-Dex remain accepted. Licensed audio and new asset/integration selections remain gated.**
 
 ## Your Role in This Thread
 

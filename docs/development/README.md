@@ -18,7 +18,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-07` | Run-usage export and teacher analyzer investigation | draft | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
 | `plan-08` | Duck visual-direction prototypes and owner gallery | complete | A separate Gemini thread generates five visual styles with three shape variants each and builds a local HTML gallery for owner comparison before SVG authoring. |
 | `plan-09` | Digital gacha duck motion comparison | complete | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
-| `plan-10` | Physical metagame duck views and cinematic staging | in-progress | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
+| `plan-10` | Physical metagame duck views and cinematic staging | complete | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
 | `plan-11` | Gacha visual compositions before environment and UI assets | draft | Compare paper-style and mixed-style gacha compositions using owner-approved concept generations before committing to environment, effect and UI SVG assets. |
 | `plan-12` | Guided opening and progressive shop investigation | complete | Propose an experiential opening that introduces Gems, duplicates and Down in context, and a shop that grows in complexity without an opening lecture. |
 | `plan-13` | Race staging and run pacing investigation | complete | Compare readable oval-course race drama and camera direction alongside a timed day/run beat map toward the roughly fifteen-minute floor. |
@@ -31,7 +31,9 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-20` | Digital rig and accepted motion integration | complete | Integrate the accepted Mode C digital rig and factor-four motion controller through focused source modules; preserve the physical companion and defer race-event wiring until its mechanics are accepted. |
 | `plan-21` | Duck-Dex inspection and first-owned entry presentation | complete | Add voluntary collection inspection and connect first-owned card reveals to skippable shelf-focus and silhouette-to-color sequences. |
 | `plan-22` | Visual race entry and soft two-race duck rest | draft | Implement selected two-race rest penalties with eligible small-roster fallback and foregrounded effective-speed candidates in race preparation. |
-| `plan-23` | Selected race dynamics and presentation integration | in-progress | Port the selected combined weave/contact race with two-second highlight into production, preserving real outcomes, save integrity and accessible playback. |
+| `plan-23` | Selected race dynamics and presentation integration | complete | Port the selected combined weave/contact race with two-second highlight into production, preserving real outcomes, save integrity and accessible playback. |
+| `plan-24` | Apartment art extraction and comparison gallery | in-progress | Extract selected Sonnet physical-duck, apartment, prop and lighting SVG sources into focused reusable modules and prove fidelity in a separate comparison gallery. |
+| `plan-25` | Desk and phone artwork production integration | draft | Integrate one selected extracted apartment desk composition with the persistent portrait phone and static physical companion while preserving real controls and Shell A. |
 <!-- plan-index:end -->
 
 ## Report Folders

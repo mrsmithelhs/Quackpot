@@ -1,7 +1,8 @@
 ---
 id: plan-10
 title: Physical metagame duck views and cinematic staging
-status: in-progress
+status: complete
+resolution: "Owner accepted the expanded Sonnet physical-duck and apartment art investigation on 2026-10-27; selected source, alternatives and session records preserved. Extraction and production integration move to Plans24/25; recorded zoom/view/lighting limitations remain explicit."
 depends_on: [plan-08]
 gate: "Owner approves coherent 2D views and staging; any 3D source pipeline needs a separate evidence-based decision."
 summary: >-

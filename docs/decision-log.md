@@ -263,3 +263,11 @@ During playback, the two current leaders visibly use graceful bob, others paddle
 Owner prefers Sonnet for future SVG drawing plans after the Plan10 redraw/staging session. Bounded Haiku drawing variants and separate reference research proved useful in that owner-directed session; future packets should explicitly budget these experiments and keep candidate ownership disjoint, with one final integration writer and coordinated browser turns. Sonnet scope expansions are indexed in the Plan10 session log and are not inferred as blanket future authority. Asset selection/production integration and packet closure remain separate.
 
 Owner replaces prior Luna-high root reviews and Sol-low Codex implementation reviews with Terra-medium. Root independent reviews use gpt-6.1-terra at explicit medium; root judges when a Codex implementer may use one read-only post-implementation Terra-medium reviewer before delivery. No automatic pre-proposal/repeated repair budget or silent substitution. Preserve requested/observed settings, actual findings and dispositions, and historical reviewer records. AGENTS, both starting prompts and Codex reviewer configuration are updated. No game behavior or hard constraint changes.
+
+### DECISION-027 — Close race/art investigations and assign extraction
+
+**Date:** 2026-10-27
+
+Owner accepts Plan23 production race and closes it; final focal-glow/sticky-timeline repair source9d03dcd and report712e474 retain176-test/build evidence and explicit smoke/live-storage limits. Owner also closes the expanded Sonnet Plan10 duck/apartment investigation with its recorded view/zoom/render limits. Closure does not imply every art variant is a final production selection.
+
+Owner requests Plans24/25: Plan24 apartment-art extraction is assigned in-progress to the same Sonnet thread, with bounded Haiku extraction tasks and root interface/fidelity review; Plan25 desk/phone integration remains draft until24accepted. Root recommends Plan22 as disjoint parallel work but does not promote it without assignment. No publication/push, new race rules, rest implementation or whole-apartment runtime import is authorized by these closures.

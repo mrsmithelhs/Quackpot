@@ -287,3 +287,5 @@ A student may download a run-usage file and manually submit it to a class assign
 - Which implementation should the local teacher analyzer use? Bootstrap is allowed but not selected.
 - What provenance note is appropriate for model-generated music?
 - Which assets show a measured benefit from PNG delivery?
+
+**Owner delivery acceptance, 2026-10-27:** Plan23 integrated race (including focal glow and monotonic timeline disclosure) and Plan10 expanded Sonnet physical-duck/apartment investigation are owner-accepted and closed. This supersedes the earlier pending-delivery stage statements; recorded smoke, storage-inspection, zoom and visual coverage limits remain evidence limits, not erased claims. Plan24 extracts approved art into reusable modules/gallery; Plan25 later integrates a selected desk/phone scene. Plan22 rest remains draft and unimplemented. No new mechanics, broad asset selection, push or deployment is implied by closure.

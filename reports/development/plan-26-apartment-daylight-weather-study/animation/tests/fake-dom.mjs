@@ -4,7 +4,8 @@ export class FakeAnimation {
   play() { this.calls.push('play'); if (this.playState !== 'idle') this.playState = 'running'; }
   pause() { this.calls.push('pause'); if (this.playState !== 'idle') this.playState = 'paused'; }
   cancel() { this.calls.push('cancel'); if (this.playState === 'idle') return; this.playState = 'idle'; const e = new Error('AbortError'); e.name = 'AbortError'; this._rej(e); }
-  get live() { return this.playState !== 'idle'; }
+  finish() { this.calls.push('finish'); if (this.playState === 'idle' || this.playState === 'finished') return; this.playState = 'finished'; this._res(this); }
+  get live() { return this.playState !== 'idle' && this.playState !== 'finished'; }
 }
 
 export class FakeNode {
@@ -49,9 +50,10 @@ export function makeWorld({ reducedPref = false } = {}) {
   /** root svg > clip group > [sky, clouds, rain-streaks, droplets]; plus a duck svg and lamp group elsewhere. */
   world.makeRoot = ({ withRain = true } = {}) => {
     const root = world.node('svg', { viewBox: '0 0 960 540' }), clip = world.node('g', { 'clip-path': 'url(#x-panes)' });
-    clip.appendChild(world.node('rect', { 'data-p26': 'sky' })); clip.appendChild(world.node('g', { 'data-p26': 'clouds' }));
+    clip.appendChild(world.node('rect', { 'data-p26': 'sky', x: 100, y: 50, width: 200, height: 160 })); clip.appendChild(world.node('g', { 'data-p26': 'clouds' }));
     if (withRain) { clip.appendChild(world.node('g', { 'data-p26': 'rain-streaks' })).appendChild(world.node('path', { d: 'M0 0L1 1' })); clip.appendChild(world.node('g', { 'data-p26': 'droplets' })).appendChild(world.node('ellipse', { cx: 1 })); }
     root.appendChild(world.node('g', { id: 'window-item' })); root.appendChild(clip);
+    root.appendChild(world.node('ellipse', { 'data-p26': 'window-spill', cx: 200, cy: 130, rx: 380, ry: 240 }));
     const duckWrap = root.appendChild(world.node('g', { 'data-test': 'duck-wrap' })); duckWrap.appendChild(world.node('svg', { role: 'img' }));
     root.appendChild(world.node('g', { class: 'o lamp-on lamp-pool' }));
     return root;

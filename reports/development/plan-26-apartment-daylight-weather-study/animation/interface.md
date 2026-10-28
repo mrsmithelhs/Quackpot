@@ -1,6 +1,6 @@
 # Weather motion: controller and arbiter interface, lifecycle table (Plan 26 Stages A/B)
 
-Report-only. Host-side Web Animations API on an **inline** `<svg>` produced by the unchanged study wrapper. No controller means exactly the approved still. The kit, `study/*`, `gallery.*` and the still generators are not touched. Lightning is **not built**: only the page arbiter and the controller's refusal/cancel logic exist (tested with a fake effect); the flash art and composite evidence are a later gate.
+Report-only. Host-side Web Animations API on an **inline** `<svg>` produced by the unchanged study wrapper. No controller means exactly the approved still. The kit, `study/*`, `gallery.*` and the still generators are not touched. Stage C adds a single-pulse lightning study (`lightning.mjs`, mechanism and measurement method in `lightning-mechanism.md`); the browser composite evidence is a later step of the same stage.
 
 ## Files
 | File | Role |
@@ -9,7 +9,9 @@ Report-only. Host-side Web Animations API on an **inline** `<svg>` produced by t
 | `rain-motion.mjs` | pure spec of the animation-only rain layers (seamless tile geometry, speeds, drops); no DOM |
 | `controller.mjs` | `createWeatherMotion(root, options)`: blockers, build/restore, pause/resume, stop/start, destroy |
 | `tests/*.test.mjs` | Node tests with a fake clock and a fake DOM (`node --test animation/tests/`) |
-| `gallery.html`, `gallery.js`, `tools/browser-harness.js` | separate motion gallery and in-page measurement helpers (browser turn) |
+| `lightning.mjs` | Stage C: `createLightningEffect()` (the injectable `flashEffect`), `LIGHTNING` constants, `pulseFactor`, keyframes |
+| `lightning-mechanism.md` | Stage C mechanism note: curve, bounds, placement, interruption, measurement method |
+| `gallery.html`, `gallery.js`, `tools/browser-harness.js`, `tools/flash-harness.js`, `tools/flash-metrics.mjs`, `tools/estimate-lightning.mjs` | separate motion gallery, in-page rain and flash measurement helpers (browser turn), pure luminance/flash maths (Node-tested), analytic estimate |
 
 ## Arbiter (host creates ONE per page and injects it)
 ```
@@ -63,5 +65,6 @@ Restore is checked on the final DOM (serialisation before start equals after sto
 ### Animation-only layers (see `rain-motion.mjs`)
 Inside the existing pane-clipped group, after the original droplets: `g[data-p26-motion=rain]` holding far streaks, near streaks and sliding drops. Streak layers are three copies of one tile (one `<path>` each, offsets `k*v` for k = -2, -1, 0) in a group animated by `transform` translate by exactly one tile vector `v` along the streak direction, linear, infinite. Only `transform` and `opacity` are animated. Nothing animates the duck, its ancestors or the lamp layers; no cloud drift.
 
-### Flash (logic only)
-Refusal precedence: `destroyed` > `reduced-motion` > `stopped` > `blocked:<blockers>` > `flash-visual-not-built` > `no-arbiter` > arbiter refusals. The first five consume no cooldown. With an injected test `flashEffect` (`start(ctx) -> { finished: Promise, cancel() }`): accepted -> ticket; natural end -> `finished`; any blocker appearing, or destroy, while a flash runs -> effect cancelled to neutral, outcome `cancelled`; clearing the blocker never resumes that beat. Outcomes a future host can use: `refused` / `finished` / `cancelled`; no audio is wired.
+### Flash (Stage C)
+`m.requestFlash({requester})` -> accepted ticket | `{status:'refused', reason}`. Refusal precedence, none of which touches the arbiter except the last: `destroyed` > `reduced-motion` > `stopped` > `blocked:<blockers>` (includes pending visibility and a cropped-out glass) > `motion-unavailable` (rain failed to build) > `flash-visual-not-built` > `no-arbiter` (fails closed) > the effect's own `canStart` reason (`not-storm`, `no-glass`, `no-room-anchor`, `flash-nodes-present`; skipped while this scene's own pulse runs, so that case reads `active`) > arbiter refusals (`active`, `cooldown`). `effect-start-failed` after acceptance rolls the overlay back and settles the ticket `cancelled`; that attempt still counts against the budget (conservative).
+Effect contract (`flashEffect`): `canStart({root, weather, createSvg}) -> reason|null`, `start(ctx) -> { finished, cancel(), animations, targets }`. The lightning effect adds two animation-only overlay nodes (`window-lift`, `room-lift`), animates only their `opacity` once (600 ms), and removes them when it finishes or is cancelled. A natural end -> `finished`; any blocker or destroy while it runs -> cancelled to neutral, outcome `cancelled`, never resumed; a watchdog (nominal end + 1500 ms) cancels a pulse that never settles. Outcomes a host sees: `refused` / `finished` / `cancelled` (via `ticket.done`). `m.flashAnimations()` / `m.flashTargets()` expose the running pulse for tests and measurement only. No audio is wired. Other page flash producers are outside this coverage.

@@ -118,12 +118,16 @@ export function createWeatherMotion(root, options = {}) {
     if (blockers.has('reduced')) return refuse('reduced-motion');
     if (blockers.has('user-stop')) return refuse('stopped');
     if (blockers.size) return refuse(`blocked:${[...blockers].sort().join(',')}`);
+    if (spec && !built) return refuse('motion-unavailable');          // e.g. animate() failed: the still stays, and so does the refusal
     if (!flashEffect) return refuse('flash-visual-not-built');
     if (!arbiter) return refuse('no-arbiter');
+    const ctx = { root, weather, createSvg: env.createSvg };
+    const unavailable = !flash && flashEffect.canStart ? flashEffect.canStart(ctx) : null;   // the effect's own preconditions, before any budget is touched (own pulse still running: the arbiter says 'active')
+    if (unavailable) return refuse(unavailable);
     const ticket = arbiter.request({ requester });
     if (ticket.status === 'refused') return ticket;
     let handle;
-    try { handle = flashEffect.start({ root }); } catch { ticket.cancel('effect-start-failed'); return refuse('effect-start-failed'); }
+    try { handle = flashEffect.start(ctx); } catch { ticket.cancel('effect-start-failed'); return refuse('effect-start-failed'); }
     const mine = { ticket, handle };
     flash = mine;
     Promise.resolve(handle.finished).then(
@@ -195,7 +199,9 @@ export function createWeatherMotion(root, options = {}) {
     stop: () => set('user-stop', true), start: () => set('user-stop', false),
     setActive: on => set('inactive', !on),
     subscribe: fn => { if (destroyed) return () => {}; subscribers.add(fn); return () => subscribers.delete(fn); },
-    targets: () => (built ? [...built.targets] : [])
+    targets: () => (built ? [...built.targets] : []),
+    flashAnimations: () => (flash && flash.handle.animations ? [...flash.handle.animations] : []),
+    flashTargets: () => (flash && flash.handle.targets ? [...flash.handle.targets] : [])
   };
 }
 const r2 = n => Math.round(n * 100) / 100;

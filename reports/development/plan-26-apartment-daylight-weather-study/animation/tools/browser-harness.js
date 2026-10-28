@@ -5,6 +5,7 @@
 // its un-animated position. `bakedClone()` therefore writes each animated element's computed transform/opacity into the clone's style.
 // positiveControl() proves the difference on this very browser: raw clones at two times are identical (method blind), baked clones differ.
 // Nothing here judges the art; diagnostic numbers only.
+const BAKE = '[data-p26-motion-target],[data-p26-flash-target]';          // animated overlay nodes whose computed state is baked into a raster clone
 const ser = new XMLSerializer(), sleep = ms => new Promise(r => setTimeout(r, ms));
 const css = () => [...document.querySelectorAll('head style')].map(s => s.textContent).join('\n');
 
@@ -23,18 +24,18 @@ export function seekEach(ctl, fn) {                          // fn(name, animati
 function stageClone(stage, bake) {
   const clone = stage.cloneNode(true);
   if (bake) {
-    const a = [...stage.querySelectorAll('[data-p26-motion-target]')], b = [...clone.querySelectorAll('[data-p26-motion-target]')];
+    const a = [...stage.querySelectorAll(BAKE)], b = [...clone.querySelectorAll(BAKE)];
     a.forEach((el, i) => { const cs = getComputedStyle(el); b[i].style.transform = cs.transform === 'none' ? '' : cs.transform; b[i].style.opacity = cs.opacity; });
   }
   return clone;
 }
-async function raster(stage, W, H, bake) {
+export async function raster(stage, W, H, bake) {
   const clone = stageClone(stage, bake); clone.style.width = `${W}px`; clone.style.height = `${H}px`; clone.style.aspectRatio = 'auto';
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject width="${W}" height="${H}"><div xmlns="http://www.w3.org/1999/xhtml" style="width:${W}px;height:${H}px;background:#fff"><style>${css()}</style>${ser.serializeToString(clone)}</div></foreignObject></svg>`;
   const img = new Image(); await new Promise((ok, bad) => { img.onload = ok; img.onerror = () => bad(new Error('raster failed')); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); });
   const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, W, H);
 }
-const stageSize = (stage, W) => { const r = stage.getBoundingClientRect(); return [W, Math.round(W * r.height / r.width)]; };
+export const stageSize = (stage, W) => { const r = stage.getBoundingClientRect(); return [W, Math.round(W * r.height / r.width)]; };
 /** Mean absolute channel difference (0-255), share of pixels differing by > 24, and the same restricted by an optional pixel mask(x, y). */
 function diff(a, b, mask) {
   let sum = 0, n = 0, c24 = 0; const W = a.width, d1 = a.data, d2 = b.data;
@@ -44,7 +45,7 @@ function diff(a, b, mask) {
   }
   return { mean: +(sum / Math.max(1, n)).toFixed(3), over24: +(c24 / Math.max(1, n) * 100).toFixed(3), pixels: n };
 }
-const sceneOf = id => { const inst = window.__p26m.scenes.get(id); if (!inst) throw new Error(`no scene ${id}`); return { inst, stage: inst.root.closest('.stage') }; };
+export const sceneOf = id => { const inst = window.__p26m.scenes.get(id); if (!inst) throw new Error(`no scene ${id}`); return { inst, stage: inst.root.closest('.stage') }; };
 
 /** Positive control: raw vs baked raster at two animation times. Method is only trustworthy if raw is identical and baked differs. */
 export async function positiveControl(id, W = 640) {

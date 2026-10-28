@@ -24,14 +24,15 @@ $('#cmp').innerHTML = `<figure class="basefig"><div class="zoomwrap" id="baseZoo
   + `<figure class="kitfig"><div class="zoomwrap" id="kitZoom"><div class="zoominner"><div class="stage" id="kitStage"><div class="layer" id="kitLayer"></div></div></div></div><figcaption id="kitCap"></figcaption></figure>`;
 let frame = null, baselineReady = Promise.resolve();
 function reloadBaseline() {
-  baselineReady = new Promise(resolve => {
+  baselineReady = new Promise(resolve => {   // resolves when the baseline has loaded (render() awaits this; it must not wait on itself)
     frame = document.createElement('iframe');
     frame.src = BASELINE_URL; frame.width = String(state.width); frame.height = '1500'; frame.scrolling = 'no'; frame.title = 'Unchanged Plan 10 baseline page';
     frame.addEventListener('load', () => {
       const d = frame.contentDocument; const st = d.createElement('style'); st.textContent = '.caption{display:none !important}'; d.head.append(st); resolve();
     }, { once: true });
     $('#baseClip').replaceChildren(frame);
-  }).then(() => render());
+  });
+  baselineReady.then(() => render());
 }
 const setRadio = (d, name, value) => { const el = d.querySelector(`input[name="${name}"][value="${value}"]`); if (!el) return false; el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); return true; };
 
@@ -45,7 +46,7 @@ async function render() {
   setRadio(d, 'light', BASE_LIGHT[state.light]);
   setRadio(d, 'view', ['front', 'side', 'rear', 'high', 'low'].includes(state.duckView) ? state.duckView : 'side');
   if (state.area === 'living') setRadio(d, 'state', state.couch === 'removed' && state.tv === 'removed' ? 'sold' : 'full');
-  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  await new Promise(r => setTimeout(r, 60));   // let the baseline restyle (a timer, not rAF: rAF never fires in a hidden pane/tab)
   const box = d.querySelector('#stage').getBoundingClientRect(), W = Math.round(box.width), H = Math.round(box.height), z = state.zoom;
   const origin = state.area === 'desk-top' ? '45% 55%' : '35% 70%';
   for (const id of ['#baseZoom', '#kitZoom']) { const w = $(id); w.style.cssText = `width:${W}px;height:${H}px;overflow:hidden;border-radius:.7rem`; const i = w.firstElementChild; i.style.cssText = `width:${W}px;height:${H}px;transform:scale(${z});transform-origin:${origin}`; }

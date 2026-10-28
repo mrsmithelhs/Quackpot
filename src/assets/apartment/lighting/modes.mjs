@@ -38,7 +38,25 @@ export function overlayMarkup(mode, box, hint) {
     const cx = vx + vw / 2, cy = vy + vh / 2, f = n => Math.round(n * 100) / 100;
     return `<defs><linearGradient id="g-overlay" gradientUnits="userSpaceOnUse" x1="${f(cx - dx * len / 2)}" y1="${f(cy - dy * len / 2)}" x2="${f(cx + dx * len / 2)}" y2="${f(cy + dy * len / 2)}"><stop offset="0" stop-color="rgb(255,245,205)" stop-opacity=".24"/><stop offset=".58" stop-color="rgb(255,245,205)" stop-opacity="0"/></linearGradient></defs><rect ${BIG} fill="url(#g-overlay)"/>`;
   }
-  // warm: CSS radial-gradient(ellipse rx ry at px py, rgb(255 190 98 / 48%), rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%)).
+  // warm: CSS radial-gradient(ellipse rx ry at px, py, rgb(255 190 98 / 48%), rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%)).
   const cx = vx + vw * hint.x / 100, cy = vy + vh * hint.y / 100, rx = vw * hint.rx / 100, ry = vh * hint.ry / 100, f = n => Math.round(n * 100) / 100;
-  return `<defs><radialGradient id="g-overlay" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(${f(cx)} ${f(cy)}) scale(${f(rx)} ${f(ry)})"><stop offset="0" stop-color="rgb(255,190,98)" stop-opacity=".48"/><stop offset=".34" stop-color="rgb(255,171,76)" stop-opacity=".2"/><stop offset="1" stop-color="rgb(18,19,29)" stop-opacity=".82"/></radialGradient></defs><rect ${BIG} fill="url(#g-overlay)"/>`;
+  const stops = premultipliedStops(WARM_STOPS, 8).map(s => `<stop offset="${s.offset}" stop-color="rgb(${s.rgb.join(',')})" stop-opacity="${s.a}"/>`).join('');
+  return `<defs><radialGradient id="g-overlay" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(${f(cx)} ${f(cy)}) scale(${f(rx)} ${f(ry)})">${stops}</radialGradient></defs><rect ${BIG} fill="url(#g-overlay)"/>`;
+}
+
+// CSS gradients interpolate in premultiplied alpha; SVG gradients interpolate straight colour and alpha, which makes the
+// middle of the warm pool noticeably lighter than the original. `premultipliedStops` samples the CSS curve into `n` SVG
+// stops per segment so the rendered pool matches.
+const WARM_STOPS = [{ offset: 0, rgb: [255, 190, 98], a: .48 }, { offset: .34, rgb: [255, 171, 76], a: .2 }, { offset: 1, rgb: [18, 19, 29], a: .82 }];
+function premultipliedStops(stops, n) {
+  const out = [], r = (v, p) => Math.round(v * p) / p;
+  for (let i = 0; i < stops.length - 1; i++) {
+    const s0 = stops[i], s1 = stops[i + 1];
+    for (let k = i === 0 ? 0 : 1; k <= n; k++) {
+      const t = k / n, a = s0.a + (s1.a - s0.a) * t;
+      const rgb = [0, 1, 2].map(c => Math.round(((s0.rgb[c] * s0.a) * (1 - t) + (s1.rgb[c] * s1.a) * t) / a));
+      out.push({ offset: r(s0.offset + (s1.offset - s0.offset) * t, 1000), rgb, a: r(a, 1000) });
+    }
+  }
+  return out;
 }

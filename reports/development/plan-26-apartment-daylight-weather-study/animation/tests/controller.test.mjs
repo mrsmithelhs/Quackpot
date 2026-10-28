@@ -205,3 +205,10 @@ test('an effect that rejects or throws is reported as cancelled / refused, not f
   const { m: m2 } = mount(makeWorld(), { arbiter: arb2, flashEffect: bad });
   assert.equal(m2.requestFlash().reason, 'effect-start-failed'); assert.equal(arb2.snapshot().stats.cancelled, 1); assert.equal(arb2.snapshot().stats.finished, 0);
 });
+
+test('off-screen watches the glass, not the scene box (a framing that crops the window out must not run rain)', () => {
+  const { root, w } = mount(); const sky = root.querySelector('[data-p26="sky"]');
+  assert.ok(sky, 'fixture has a glass'); assert.deepEqual(w.observers.at(-1).targets, [sky]);
+  const w2 = makeWorld(), r2 = w2.makeRoot(); const g = r2.querySelector('[data-p26="sky"]'); g.parentNode.childNodes.splice(g.parentNode.childNodes.indexOf(g), 1);
+  createWeatherMotion(r2, { weather: 'storm', env: w2.env() }); assert.deepEqual(w2.observers.at(-1).targets, [r2], 'falls back to the root when no glass is present');
+});

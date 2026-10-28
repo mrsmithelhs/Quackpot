@@ -153,7 +153,8 @@ export function createWeatherMotion(root, options = {}) {
   }
   if (env.IntersectionObserver) {
     io = new env.IntersectionObserver(entries => { const last = entries[entries.length - 1]; if (last) set('offscreen', !last.isIntersecting); });
-    io.observe(root);
+    // The rain only lives in the glass, so the glass is what must be on screen: in a framing that crops the window out the scene box can be visible while no rain is.
+    io.observe(root.querySelector('[data-p26="sky"]') || root);
   }
   if (options.startPaused) blockers.add('user-pause');
   if (options.startStopped) blockers.add('user-stop');

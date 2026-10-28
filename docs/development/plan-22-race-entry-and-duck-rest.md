@@ -1,7 +1,8 @@
 ---
 id: plan-22
 title: Visual race entry and soft two-race duck rest
-status: in-progress
+status: complete
+resolution: "Owner accepted race entry/rest on 2026-10-28 with copy-only upgrade naming repair b3f2b3d/a6f61b0 verified by focused tests/build. Main194-test, real tired-race2 and final-source8-journey smoke evidence retained; internal trial keys preserved. No push/deploy."
 depends_on: [plan-23]
 gate: "Owner/orchestrator approves race-entry, rest lifecycle and simulation evidence before integration; owner rendered acceptance follows."
 summary: >-

@@ -1,6 +1,6 @@
 # Lightning study: mechanism note (Plan 26 Stage C, report-only)
 
-Written before any flash is rendered. All numbers are **design choices for review, not safety thresholds or a certification**. Source of truth in code: `LIGHTNING` in `lightning.mjs`; change a number there and in this note together.
+Written before any flash is rendered. All numbers are **design choices for review, not safety thresholds or a certification**. There are two looks and each owns its own documented constants: the **restrained** look (sections up to "Bright look") is defined by `LIGHTNING` in `lightning.mjs`, and the owner-selected **bright** look (section "Bright look", added later) is defined by `BRIGHT` in `lightning-bright.mjs`. Change a number in the file that owns it and in its section of this note together; the two sets of constants are independent, and the bright section supersedes the restrained numbers only for the bright look.
 
 ## What an event is
 - Host-triggered only (`controller.requestFlash`). No timer, no idle flash, no random scheduling, no audio.

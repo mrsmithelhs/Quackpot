@@ -179,3 +179,35 @@ test('an effect start failure after acceptance rolls back the overlay and return
   assert.deepEqual([arbiter.snapshot().stats.accepted, arbiter.snapshot().stats.cancelled, arbiter.snapshot().stats.finished], [1, 1, 0]);
   c.add(100); assert.equal(m.requestFlash().reason, 'cooldown');
 });
+
+// ---- injected start failures after acceptance: exact restoration, accepted-then-cancelled, budget kept, later request works ----------------------------------
+test('injected failure: the SECOND overlay insertion throws after the first succeeded -> exact DOM restoration, accepted-then-cancelled, cooldown kept, later request works', async () => {
+  const c = clock(), tm = timers(), arbiter = createFlashArbiter({ now: c.now }), effect = createLightningEffect({ schedule: tm.schedule }), w = makeWorld(), { root, m } = scene(w, { arbiter, effect });
+  const before = root.serialize(), liveBefore = w.live().length, parent = root.querySelector('[data-p26="window-spill"]').parentNode, real = parent.insertBefore.bind(parent); let calls = 0;
+  parent.insertBefore = (n, ref) => { if (++calls === 2) throw new Error('second insert fails'); return real(n, ref); };
+  const r = m.requestFlash(); parent.insertBefore = real;
+  assert.equal(calls, 2, 'the first insertion really happened before the failure');
+  assert.equal(r.status, 'accepted'); assert.deepEqual(await r.done, { status: 'cancelled', id: r.id, reason: 'effect-start-failed' });
+  assert.equal(root.serialize(), before, 'exact DOM restoration: the first overlay is gone too'); assert.equal(root.querySelector('[data-p26-flash]'), null);
+  assert.equal(w.live().length, liveBefore, 'no live animation left behind'); assert.equal(tm.list.length, 0, 'no watchdog timer was armed');
+  assert.deepEqual([arbiter.snapshot().stats.accepted, arbiter.snapshot().stats.cancelled, arbiter.snapshot().stats.finished], [1, 1, 0]); assert.equal(arbiter.snapshot().activeId, null); assert.equal(m.state().flashActive, false);
+  c.add(100); assert.equal(m.requestFlash().reason, 'cooldown', 'the cooldown is kept');
+  c.add(3900); const ok = m.requestFlash(); assert.equal(ok.status, 'accepted', 'a later request works once the failure is removed and the cooldown has passed'); assert.equal(tm.list.length, 1);
+  m.flashAnimations().forEach(a => a.finish()); assert.equal((await ok.done).status, 'finished'); assert.equal(tm.list[0].cleared, true); await flush(); assert.equal(root.serialize(), before);
+});
+
+test('injected failure: the watchdog scheduler throws AFTER the animations exist -> animations cancelled, every node removed, accepted-then-cancelled, cooldown kept, later request works', async () => {
+  const c = clock(), tm = timers(); let broken = true;
+  const effect = createLightningEffect({ schedule: (fn, ms) => { if (broken) throw new Error('no timer available'); return tm.schedule(fn, ms); } });
+  const arbiter = createFlashArbiter({ now: c.now }), w = makeWorld(), { root, m } = scene(w, { arbiter, effect });
+  const before = root.serialize(), liveBefore = w.live().length, animsBefore = w.animations.length;
+  const r = m.requestFlash();
+  assert.equal(w.animations.length, animsBefore + 2, 'the two pulse animations really were created before the scheduler failed');
+  assert.equal(r.status, 'accepted'); assert.deepEqual(await r.done, { status: 'cancelled', id: r.id, reason: 'effect-start-failed' });
+  assert.equal(root.serialize(), before, 'exact DOM restoration'); assert.equal(root.querySelector('[data-p26-flash]'), null);
+  assert.equal(w.live().length, liveBefore, 'the pulse animations were cancelled: no pulse runs without a handle'); assert.equal(tm.list.length, 0, 'no timer exists');
+  assert.deepEqual([arbiter.snapshot().stats.accepted, arbiter.snapshot().stats.cancelled, arbiter.snapshot().stats.finished], [1, 1, 0]); assert.equal(arbiter.snapshot().activeId, null); assert.equal(m.state().flashActive, false);
+  c.add(100); assert.equal(m.requestFlash().reason, 'cooldown', 'the cooldown is kept');
+  broken = false; c.add(3900); const ok = m.requestFlash(); assert.equal(ok.status, 'accepted'); assert.equal(tm.list.length, 1);
+  m.flashAnimations().forEach(a => a.finish()); assert.equal((await ok.done).status, 'finished'); assert.equal(tm.list[0].cleared, true); await flush(); assert.equal(root.serialize(), before);
+});

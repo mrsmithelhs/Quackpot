@@ -51,8 +51,8 @@ export function createLightningEffect({ schedule = defaultSchedule, look = LIGHT
       defs.appendChild(grad);
       const room = createSvg('ellipse', { 'data-p26-flash': 'room-lift', 'data-p26-flash-target': 'room-lift', cx: spill.getAttribute('cx'), cy: spill.getAttribute('cy'), rx: spill.getAttribute('rx'), ry: spill.getAttribute('ry'), fill: `url(#${gid})`, opacity: 0, style: 'mix-blend-mode:screen', 'pointer-events': 'none' });
       const after = spill.nextSibling, parent = spill.parentNode;
-      if (after) { parent.insertBefore(defs, after); parent.insertBefore(room, after); } else { parent.appendChild(defs); parent.appendChild(room); }
-      made.push(defs, room);
+      if (after) { parent.insertBefore(defs, after); made.push(defs); parent.insertBefore(room, after); made.push(room); }   // each node is registered the moment it is in the DOM, so a failure between the two inserts still cleans up the first
+      else { parent.appendChild(defs); made.push(defs); parent.appendChild(room); made.push(room); }
       for (const [el, peak] of [[win, look.windowPeak], [room, look.roomPeak]]) {
         const a = el.animate(pulseKeyframes(peak, look), pulseTiming(look)); swallow(a.finished); anims.push(a); targets.push(el);
       }
@@ -60,7 +60,8 @@ export function createLightningEffect({ schedule = defaultSchedule, look = LIGHT
 
     let why = null;                                                     // why this pulse was cancelled by the effect itself (e.g. `watchdog`); carried on the rejection so the ticket keeps it
     const cancel = reason => { if (reason && !why) why = reason; settled = true; for (const a of anims) { try { a.cancel(); } catch { /* already gone */ } } cleanup(); };
-    clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel('watchdog'); }, look.durationMs + look.watchdogSlackMs);
+    try { clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel('watchdog'); }, look.durationMs + look.watchdogSlackMs); }
+    catch (e) { cancel(); throw e; }                                   // animations already exist: cancel them and remove every node before the failure propagates, so no pulse runs without a handle
     const finished = Promise.all(anims.map(a => a.finished)).then(() => { settled = true; cleanup(); }, cause => {
       settled = true; cleanup();
       const e = new Error('lightning pulse cancelled'); e.name = 'PulseCancelled'; e.reason = why || 'effect-aborted'; e.cause = cause; throw e;

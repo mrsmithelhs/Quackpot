@@ -58,15 +58,16 @@ export function createBrightLightningEffect({ schedule = defaultSchedule, look =
       const win = createSvg('rect', { 'data-p26-flash-target': 'window-flash', x: sky.getAttribute('x'), y: sky.getAttribute('y'), width: sky.getAttribute('width'), height: sky.getAttribute('height'), fill: look.window.color, opacity: 0, 'pointer-events': 'none' });
       group.appendChild(win);
       const after = spill.nextSibling, parent = spill.parentNode;
-      if (after) { parent.insertBefore(scene, after); parent.insertBefore(group, after); } else { parent.appendChild(scene); parent.appendChild(group); }
-      made.push(scene, group);
+      if (after) { parent.insertBefore(scene, after); made.push(scene); parent.insertBefore(group, after); made.push(group); }   // each node is registered the moment it is in the DOM, so a failure between the two inserts still cleans up the first
+      else { parent.appendChild(scene); made.push(scene); parent.appendChild(group); made.push(group); }
       for (const [el, layer] of [[scene, look.scene], [win, look.window]]) {
         const a = el.animate(layerKeyframes(layer, look.durationMs), pulseTiming(look)); swallow(a.finished); anims.push(a); targets.push(el);
       }
     } catch (e) { for (const a of anims) { try { a.cancel(); } catch { /* gone */ } } cleanup(); throw e; }
 
     const cancel = reason => { if (reason && !why) why = reason; settled = true; for (const a of anims) { try { a.cancel(); } catch { /* already gone */ } } cleanup(); };
-    clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel('watchdog'); }, look.durationMs + look.watchdogSlackMs);
+    try { clearWatchdog = schedule(() => { if (!settled && !cleaned) cancel('watchdog'); }, look.durationMs + look.watchdogSlackMs); }
+    catch (e) { cancel(); throw e; }                                   // animations already exist: cancel them and remove every node before the failure propagates, so no pulse runs without a handle
     const finished = Promise.all(anims.map(a => a.finished)).then(() => { settled = true; cleanup(); }, cause => {
       settled = true; cleanup();
       const e = new Error('lightning pulse cancelled'); e.name = 'PulseCancelled'; e.reason = why || 'effect-aborted'; e.cause = cause; throw e;

@@ -1,6 +1,6 @@
-# Plan 26 progress — living-room still daylight (Stage 2)
+# Plan 26 progress — living-room still daylight (Stage 2) and still weather (Stage 3)
 
-Status: **ready for owner look at the daylight comparison.** Weather stills (Stage 3) are not started and wait for the owner's stage permission. No packet, status, push, production import or kit change. Plan status is unchanged.
+Status: **Stage 2 daylight was owner-reviewed (strong-sun shadows liked); Stage 3 still weather is ready for owner review (section 7 below).** Animated rain and lightning are retained as future options and are not built. No packet, status, push, production import or kit change. Plan status is unchanged.
 
 Commits (local, explicit paths): `521f682` scaffold · `d905074` gallery · this stage's fixes, tools and report in the final commit that carries this file.
 
@@ -80,3 +80,55 @@ Browser: one tab (mine), closed; 390 and 1280 viewport overrides reset; slot rel
 
 ## 6. Next gate
 Owner look at the daylight comparison (gallery: `http://127.0.0.1:5181/Quackpot/reports/development/plan-26-apartment-daylight-weather-study/gallery.html`, needs the existing dev server). Stage 3 (overcast/rain/storm stills, with a defined lamp variant set) starts only after the owner reviews this or gives explicit permission.
+
+## 7. Stage 3: still weather (overcast, rain, storm, storm + lamp)
+
+Commits (local): `324162b` weather layers, precedence, gallery section and checks · `0fda0d1` lamp correction · `2c20847` warmer lamp-following spill and truthful window-visibility captions · this report.
+
+### 7.1 Lamp correction (root request)
+The first storm + lamp cell had a warm glow centred on the duck, which made the duck look like the light source. I withdraw the earlier claim that the added pool was acceptable. It was removed. The duck now gets **no added light**. The kit's own lamp (floor lamp right of the sofa) keeps its glow, down cone and up spill, drawn after the storm tint so it stays warm. The only added warm light is a restrained spill centred on that lamp (a wide ellipse around the middle of its down cone and a smaller one above the shade). A check asserts its centre equals the lamp's x (610.3) and is far from the duck's (328.0), and that no duck-centred glow exists in any variant. The kit's warm full-room overlay is omitted in this cell (rule R4: it would leave the duck in near-black shade and the storm tint supplies the darkness); the cell's notes say so. A second pass warmed the spill after the 1:1 comparison with the ordinary warm scene showed it too pale and pinkish.
+
+### 7.2 Source checks (Node)
+`tools/check.mjs` 151/151 and `tools/check-weather.mjs` 311/311: no-effect identity (including plain kit warm); precedence R1-R4 and rejections (rain/overcast/sun + lamp, unknown weather, other areas); per variant (overcast, rain, storm, storm + lamp x wide/medium x three duck views, plus furnishings removed): layers removed returns the kit output for the effective options exactly, well-formed XML, ids unique and resolvable, duck markup and lamp-glow markup byte-identical, no animation/timing/flash/lightning constructs, three expected blocks, soft ambient shadows and no sun blocks, lamp spill only in the lamp cell and centred on the lamp; rain vs storm differ (streaks 62 vs 150, longer, more slanted, more droplets, different sky, stronger tint); four simultaneous instances; determinism. Structural only.
+
+### 7.3 Browser surface and rendered comparison
+Surface: the Claude desktop app's built-in browser pane (tools `mcp__Claude_Browser__*`), one tab opened and closed by me; no worker tabs; no owner tabs, storage, settings or server touched. I cannot independently prove isolation from other harnesses beyond that this tab was the only one in a closed pane. Closed at the end; viewport overrides (1280x720, 390x844, 800x450 for 1:1 detail) reset; slot released.
+
+Actually emulated and inspected: **1280x720** (two columns, stage 597 px) and **390x844** (one column, stage 358x332, no horizontal scroll). Cells: clear strong sun (reference), overcast, rain, storm, storm + lamp, plus an extra labelled ordinary kit warm scene for comparison.
+
+| Viewport | Stage shape | Framing | Seen |
+|---|---|---|---|
+| 1280x720 | wide 2.07:1 | wide | all six cells (sun, overcast, rain, storm in one view; rain, storm, lamp, warm reference in another) |
+| 1280x720 | wide 2.07:1 | medium | storm + lamp and warm reference (small, scaled capture); the other cells at this combination were not individually looked at |
+| 1280x720 | 16:9 | wide | numbers only |
+| 390x844 | narrow 1.08:1 | wide | storm, storm + lamp, overcast, rain, warm reference |
+| 390x844 | narrow 1.08:1 | medium | storm and storm + lamp; overcast, rain, sun and warm reference not looked at at this combination |
+
+What I saw:
+- **Distinct weather:** overcast has a pale grey sky with cloud forms and no streaks; rain a dim blue-grey sky with fine near-vertical streaks and droplets; storm a dark sky with dense, longer, strongly slanted streaks and the darkest room. The room tint steps down overcast, rain, storm. Streaks and sky are clipped to the four panes, mullions stay, and the plant and curtains stay in front (the corrected paint order).
+- **Storm + lamp:** the room stays cool and dark; warm light comes from the lamp (shade, wall, sofa, floor) and follows its cone. The duck is dim olive-yellow but readable, with no halo. In the ordinary kit warm scene the duck is almost black.
+- **Consistency with the ordinary warm scene:** same lamp, same cone shape and position at both widths and crops. The ordinary scene is a much stronger, more saturated pool with a dark vignette; the storm + lamp pool is deliberately weaker and cooler because the room stays storm-lit.
+- **Medium crop:** at desktop (wide stage) the window is out of frame, so weather there is ambience only and the captions say so. At the narrow stage the taller stage shows more above the box, so the window is partly visible (caption: partly cropped). The first version of this caption wrongly said "out of frame" at the narrow stage; found in the browser and fixed to use the real stage geometry.
+- **Letterboxing:** as in Stage 2, the kit paints beyond its box, so a taller stage shows wall colour above, not bars; the TV and sofa are cut at the box edges at the narrow stage, as in neutral.
+
+Numbers (in-page rasteriser; mean luminance 0-255 / warmth R-B), diagnostic only:
+
+| Region (16:9 stage, wide) | Clear sun | Overcast | Rain | Storm | Storm + lamp | Ordinary warm |
+|---|---|---|---|---|---|---|
+| duck | 154 / 75 | 119 / 78 | 108 / 66 | 89 / 48 | 81 / 49 | 38 / 7 |
+| around the lamp | 191 / 27 | 181 / 22 | 163 / 12 | 133 / 3 | 188 / 36 | 202 / 78 |
+| sofa | 163 / 26 | 154 / 20 | 139 / 12 | 113 / 4 | 173 / 45 | 176 / 69 |
+| left wall (control), luminance only | 138 | 134 | 121 | 100 | 92 | 40 |
+
+The duck region in storm + lamp (81) is about 8 lower than in storm (89) because the lamp cell has no kit neutral 5% warm overlay; the lamp spill adds nothing there. At medium framing the duck region reads 94 (storm) / 86 (storm + lamp) / 39 (ordinary warm); at the narrow stage, wide frame, 106 / 100 / 50. Around the lamp, storm + lamp is clearly warmer than storm (36 vs 3) but weaker than the ordinary scene (78). Unchanged lamp markup is verified structurally; the pixels around the lamp do change (global tint, vignette and the spill), as these numbers show.
+
+### 7.4 Limits and open items
+- **Kit glow ring:** a faint thin circular ring around the lamp shade is visible in storm + lamp (clearer at narrow width and at 3x CSS crop). It is the kit's own lamp-glow circle: the ordinary warm scene shows it too, only hidden by that scene's overlay. It cannot be fixed here without changing the kit, so it is recorded for the Plan 24 side.
+- **Study addition:** the lamp spill is a report-local approximation (two ellipses), not derived from kit light geometry beyond the lamp's position.
+- **Not looked at:** the 16:9 stage as screenshots; medium framing for overcast, rain and clear sun at 390 and 1280; 390 with the wide or 16:9 stage shapes (numbers depend on stage shape, not viewport). Browser zoom is unsupported; crops were CSS scaling.
+- **Capture reliability:** the pane's screenshots were sometimes stale or timed out, and the shared Vite server reloaded my page when other agents edited source (state resets, `__p26` lost); conclusions above were re-checked against DOM state or a fresh capture, and the captures marked "small, scaled" are legible but low resolution.
+- **Browser independence:** declared above; I did not operate or see any other agent's browser.
+- Daylight shadow-slab polish remains later art polish, not done.
+
+### 7.5 Next gate
+Owner look at the five still weather cells (`.../plan-26-apartment-daylight-weather-study/gallery.html`, needs the existing dev server). Other rooms/desks, animated rain and lightning (retained, with a later bounded proposal covering embedding, pause/teardown, reduced motion, repeated-instance keyframes, aggregate flash behaviour and performance), kit promotion and Plan 25 integration remain separate gates.

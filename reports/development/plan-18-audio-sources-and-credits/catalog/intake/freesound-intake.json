@@ -417,7 +417,7 @@
     "attributionRequired": true,
     "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
    },
-   "suggestedAttribution": "\"duck quack\" by treefit.2025 (https://freesound.org/s/818396/), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+   "suggestedAttribution": "\"duck quack\" by treefit.2025 (https://freesound.org/s/818396/), remix of \"duck.aif\" by vzykov (https://freesound.org/s/31271/), licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
    "local": {
     "path": "audio/_originals/freesound/818396__treefit2025__duck-quack.wav",
     "downloadedFilename": "818396__treefit2025__duck-quack.wav",
@@ -439,9 +439,22 @@
    "descriptionExcerpt": "Remix of duck.aif by vzykov (https://freesound.org/s/31271/), License: Attribution 4.0. Only one quack.",
    "modifications": "none; unmodified original as downloaded",
    "flags": [
-    "remix-source-license-not-captured",
     "credit-source-author"
-   ]
+   ],
+   "remixSource": {
+    "freesoundId": "31271",
+    "title": "duck.aif",
+    "uploader": "vzykov",
+    "pageUrl": "https://freesound.org/people/vzykov/sounds/31271/",
+    "license": {
+     "name": "CC BY",
+     "version": "4.0",
+     "displayedOnPage": "Attribution 4.0"
+    },
+    "pageDateUploaded": "2007-02-21",
+    "description": "An animatronic Easter duck at RiteAid.",
+    "evidence": "owner screenshot attached in chat (not saved in repo)"
+   }
   },
   {
    "intakeId": "fs-448208",
@@ -455,15 +468,18 @@
     "pageDateUploaded": "2018-11-17",
     "retrievedOn": "2026-10-28",
     "retrievedBy": "owner, own Freesound login (no account use by agent)",
-    "evidence": "owner screenshot (screenshot 152358); to be deleted by owner after record verified"
+    "evidence": "owner screenshots 152358 (description, scrolled) + one attached in chat showing the license panel (CC0); not saved in repo"
    },
    "license": {
-    "name": null,
-    "version": null,
-    "level": "unverified",
-    "attributionRequired": null
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
    },
-   "suggestedAttribution": null,
+   "suggestedAttribution": "Optional: \"Sound of a Duck\" by florianreichelt (Freesound), CC0 1.0",
    "local": {
     "path": "audio/_originals/freesound/448208__florianreichelt__sound-of-a-duck.wav",
     "downloadedFilename": "448208__florianreichelt__sound-of-a-duck.wav",
@@ -486,13 +502,13 @@
      "durationBasis": "WAV data chunk length"
     }
    },
-   "pageDurationDisplayed": "(not captured)",
+   "pageDurationDisplayed": "0:04.543",
    "descriptionExcerpt": "Description says free for commercial/non-commercial use and asks for an Instagram tag; no license panel in frame.",
    "modifications": "none; unmodified original as downloaded",
    "flags": [
-    "LICENSE-PANEL-NOT-CAPTURED",
     "human-made-label",
-    "description-promo-text"
+    "description-promo-text",
+    "description-states-free-use-and-asks-for-instagram-tag-not-a-license-condition"
    ]
   },
   {
@@ -654,18 +670,21 @@
     "assetPageUrl": "https://freesound.org/people/nebyoolae/sounds/348791/",
     "uploader": "nebyoolae",
     "title": "Toy Ducks Quacking",
-    "pageDateUploaded": null,
+    "pageDateUploaded": "2016-06-30",
     "retrievedOn": "2026-10-28",
     "retrievedBy": "owner, own Freesound login (no account use by agent)",
-    "evidence": "owner screenshot (NO SCREENSHOT); to be deleted by owner after record verified"
+    "evidence": "owner screenshot attached in chat (not saved in repo)"
    },
    "license": {
-    "name": null,
-    "version": null,
-    "level": "unverified",
-    "attributionRequired": null
+    "name": "CC0",
+    "version": "1.0",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "displayedOnPage": "Creative Commons 0",
+    "level": "file-page",
+    "attributionRequired": false,
+    "noticeNote": "Freesound panel text observed in screenshot; deed link not captured"
    },
-   "suggestedAttribution": null,
+   "suggestedAttribution": "Optional: \"Toy Ducks Quacking\" by nebyoolae (Freesound), CC0 1.0",
    "local": {
     "path": "audio/_originals/freesound/348791__nebyoolae__toy-ducks-quacking.mp3",
     "downloadedFilename": "348791__nebyoolae__toy-ducks-quacking.mp3",
@@ -683,13 +702,13 @@
      "durationBasis": "summed frame durations (not decoder-verified)"
     }
    },
-   "pageDurationDisplayed": "(not captured)",
-   "descriptionExcerpt": "",
+   "pageDurationDisplayed": "0:04.788",
+   "descriptionExcerpt": "A children's toy duck that quacks when you pull a string.",
    "modifications": "none; unmodified original as downloaded",
    "flags": [
-    "NO-SCREENSHOT",
-    "LICENSE-UNVERIFIED"
+    "mp3-duration-differs-from-page-by-0.07s-encoder-padding-likely"
    ]
   }
- ]
+ ],
+ "updatedOn": "2026-10-28"
 }

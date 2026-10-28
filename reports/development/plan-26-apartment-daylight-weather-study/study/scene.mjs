@@ -3,16 +3,15 @@
 // With no effect requested (daylight 'off', weather 'clear') `svg` is EXACTLY the kit's output. With daylight 'sun' (living room only)
 // three layer blocks are inserted at verified anchors; removing them (anchors.stripInserted) returns the kit output unchanged.
 import { renderScene } from '../../../../src/assets/apartment/index.mjs';
-import { assertPinnedKit } from './pin.mjs';
 import { resolveStudyOptions } from './options.mjs';
 import { insertAt } from './anchors.mjs';
 import { floorLayer, tableLayer, atmosphereLayer, SUN } from './daylight.mjs';
 
 const STUDY_KEYS = ['daylight', 'weather', 'strength'];
-let pinChecked = false;   // module-level memo of a pure verification result (file contents), not scene state
+// In Node the delivered kit must equal the pin before anything renders; the browser gallery cannot read files and relies on tools/check.mjs.
+if (typeof process !== 'undefined' && process.versions?.node) (await import('./pin.mjs')).assertPinnedKit();
 
 export function renderStudyScene(options = {}) {
-  if (typeof process !== 'undefined' && process.versions?.node && !pinChecked) { assertPinnedKit(); pinChecked = true; }   // Node only; the browser gallery relies on the Node check
   const kitOptions = Object.fromEntries(Object.entries(options).filter(([k]) => !STUDY_KEYS.includes(k)));
   const resolved = resolveStudyOptions({ daylight: options.daylight, weather: options.weather, light: kitOptions.light ?? 'neutral', strength: options.strength });
   if (!resolved.noEffect && (kitOptions.area ?? 'living') !== 'living') throw new RangeError(`Plan 26 daylight is living-room only in this study (area '${String(kitOptions.area)}')`);

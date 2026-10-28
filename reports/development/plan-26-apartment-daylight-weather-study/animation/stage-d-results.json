@@ -1,0 +1,3354 @@
+{
+  "startedAt": "2026-10-28T23:56:52.000Z",
+  "page": "http://localhost:5173/Quackpot/reports/development/plan-26-apartment-daylight-weather-study/animation/gallery.html",
+  "note": "Stage D evidence: one isolated headless Chrome on this machine only; not a certificate, no general performance claim.",
+  "cells": [
+    {
+      "cell": "1 still baseline (storm + lamp, Show still), 1280x720 dpr1",
+      "setup": {
+        "waitedMs": 505,
+        "states": {
+          "stormlamp": "still:user-stop:anims0:pending0"
+        }
+      },
+      "windowMs": 3007,
+      "frames": 410,
+      "medianMs": 6.9,
+      "p95Ms": 7.1,
+      "maxMs": 8,
+      "over25ms": 0,
+      "over50ms": 0,
+      "framesPerSecond": 136.4,
+      "longTasksSupported": true,
+      "longTasks": 0,
+      "longTaskMsTotal": 0,
+      "timelineAdvancedMs": 3008,
+      "timelineVsWall": 1.001,
+      "runningAnimationsAtEnd": 0,
+      "runningAnimationMovedMs": null,
+      "heapMB": {
+        "start": 5.2,
+        "end": 5.3
+      },
+      "states": {
+        "stormlamp": "still:user-stop:anims0:pending0"
+      },
+      "vis": "visible",
+      "focus": false,
+      "cdp": {
+        "taskMs": 81.7,
+        "scriptMs": 12.1,
+        "layoutMs": 2.3,
+        "styleRecalcMs": 0.3,
+        "layoutCount": 13,
+        "styleRecalcCount": 13,
+        "mainThreadBusyShare": 0.027,
+        "nodes": 2817,
+        "jsHeapMB": 3.4
+      }
+    },
+    {
+      "cell": "2 rain, one scene running, 1280x720 dpr1",
+      "setup": {
+        "waitedMs": 504,
+        "states": {
+          "rain": "running:-:anims9:pending0"
+        }
+      },
+      "windowMs": 3006,
+      "frames": 432,
+      "medianMs": 7,
+      "p95Ms": 7.1,
+      "maxMs": 7.6,
+      "over25ms": 0,
+      "over50ms": 0,
+      "framesPerSecond": 143.7,
+      "longTasksSupported": true,
+      "longTasks": 0,
+      "longTaskMsTotal": 0,
+      "timelineAdvancedMs": 3009,
+      "timelineVsWall": 1.001,
+      "runningAnimationsAtEnd": 9,
+      "runningAnimationMovedMs": 3009,
+      "heapMB": {
+        "start": 5.7,
+        "end": 5.8
+      },
+      "states": {
+        "rain": "running:-:anims9:pending0"
+      },
+      "vis": "visible",
+      "focus": false,
+      "cdp": {
+        "taskMs": 430.9,
+        "scriptMs": 11.4,
+        "layoutMs": 27.3,
+        "styleRecalcMs": 49.9,
+        "layoutCount": 434,
+        "styleRecalcCount": 434,
+        "mainThreadBusyShare": 0.143,
+        "nodes": 4105,
+        "jsHeapMB": 3.7
+      }
+    },
+    {
+      "cell": "3 storm + lamp, one scene running, 1280x720 dpr1",
+      "setup": {
+        "waitedMs": 504,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        }
+      },
+      "windowMs": 3007,
+      "frames": 432,
+      "medianMs": 7,
+      "p95Ms": 7.1,
+      "maxMs": 7.5,
+      "over25ms": 0,
+      "over50ms": 0,
+      "framesPerSecond": 143.7,
+      "longTasksSupported": true,
+      "longTasks": 0,
+      "longTaskMsTotal": 0,
+      "timelineAdvancedMs": 3014,
+      "timelineVsWall": 1.002,
+      "runningAnimationsAtEnd": 12,
+      "runningAnimationMovedMs": 3014,
+      "heapMB": {
+        "start": 7.4,
+        "end": 7.5
+      },
+      "states": {
+        "stormlamp": "running:-:anims12:pending0"
+      },
+      "vis": "visible",
+      "focus": false,
+      "cdp": {
+        "taskMs": 439.2,
+        "scriptMs": 11.9,
+        "layoutMs": 27.1,
+        "styleRecalcMs": 54.7,
+        "layoutCount": 434,
+        "styleRecalcCount": 434,
+        "mainThreadBusyShare": 0.146,
+        "nodes": 5440,
+        "jsHeapMB": 3.8
+      }
+    },
+    {
+      "cell": "4 REAL-TIME bright pulse (one, requested 400 ms into 3 s), storm + lamp, 1280x720 dpr1",
+      "setup": {
+        "waitedMs": 505,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        }
+      },
+      "windowMs": 3000,
+      "pulse": {
+        "status": "accepted",
+        "reason": null,
+        "outcome": {
+          "status": "finished",
+          "id": 1
+        },
+        "settledAfterRequestMs": 812.9,
+        "requestRightAfterSettle": "cooldown (retry in 2687 ms)",
+        "acceptedAtMsOfWindow": 402.9,
+        "stateBeforeRequest": "running:-",
+        "timing": {
+          "firstVisibleAfterRequestMs": 12.9,
+          "peakOpacity": 0.9984,
+          "peakAtMs": 47.7,
+          "sceneFlashZeroAtMs": 311.7,
+          "windowZeroAtMs": 805.3,
+          "windowTailAfterSceneZeroMs": 493.6,
+          "overlayNodesGoneAtMs": 812.3
+        },
+        "framesFromRequestToSettle": 117,
+        "frameIntervalsDuringPulse": {
+          "frames": 116,
+          "medianMs": 6.9,
+          "p95Ms": 7.1,
+          "maxMs": 8,
+          "over25ms": 0,
+          "over50ms": 0
+        },
+        "staleOverlayFramesAfterSettle": 0,
+        "overlayNodesAtEnd": 0,
+        "flashActiveAtEnd": false,
+        "arbiter": {
+          "cooldownMs": 4000,
+          "activeId": null,
+          "lastStartedAt": 11684.100000023842,
+          "nextAllowedAt": 15684.100000023842,
+          "stats": {
+            "accepted": 1,
+            "refusedCooldown": 1,
+            "refusedActive": 0,
+            "finished": 1,
+            "cancelled": 0
+          }
+        },
+        "series": [
+          {
+            "t": -397.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -390.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -383.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -376.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -369.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -362.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -355.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -348.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -341.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -334.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -327.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -320.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -313.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -306.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -299.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -292.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -285.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -279,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -272,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -265.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -258.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -251.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -244.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -237.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -230.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -223.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -216.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -209.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -202.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -195.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -188.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -181.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -174.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -167.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -160.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -153.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -146.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -140,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -133,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -126.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -119.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -112.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -105.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -98.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -91.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -84.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -77.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -70.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -63.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -56.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -49.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -42.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -35.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -28.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -21.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -14.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": -1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 6,
+            "op": [
+              0,
+              0
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 12.9,
+            "op": [
+              0.1555,
+              0.1728
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 19.9,
+            "op": [
+              0.313,
+              0.3478
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 26.8,
+            "op": [
+              0.4683,
+              0.5203
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 33.7,
+            "op": [
+              0.6235,
+              0.6928
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 40.8,
+            "op": [
+              0.7833,
+              0.8703
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 47.7,
+            "op": [
+              0.8941,
+              0.9984
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 54.6,
+            "op": [
+              0.8702,
+              0.9917
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 61.6,
+            "op": [
+              0.846,
+              0.985
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 68.5,
+            "op": [
+              0.8221,
+              0.9784
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 75.4,
+            "op": [
+              0.7982,
+              0.9717
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 82.5,
+            "op": [
+              0.7736,
+              0.9649
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 89.4,
+            "op": [
+              0.7497,
+              0.9583
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 96.3,
+            "op": [
+              0.7258,
+              0.9516
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 103.3,
+            "op": [
+              0.7016,
+              0.9449
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 110.4,
+            "op": [
+              0.677,
+              0.9381
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 117.1,
+            "op": [
+              0.6538,
+              0.9316
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 124.1,
+            "op": [
+              0.6296,
+              0.9249
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 131,
+            "op": [
+              0.6057,
+              0.9183
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 138.1,
+            "op": [
+              0.5811,
+              0.9114
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 144.9,
+            "op": [
+              0.5576,
+              0.9049
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 151.9,
+            "op": [
+              0.5334,
+              0.8982
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 158.9,
+            "op": [
+              0.5091,
+              0.8914
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 165.9,
+            "op": [
+              0.4849,
+              0.8847
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 173.2,
+            "op": [
+              0.4596,
+              0.8777
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 179.7,
+            "op": [
+              0.4371,
+              0.8714
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 186.7,
+            "op": [
+              0.4129,
+              0.8647
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 193.6,
+            "op": [
+              0.389,
+              0.8581
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 200.6,
+            "op": [
+              0.3648,
+              0.8513
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 208.1,
+            "op": [
+              0.3388,
+              0.8441
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 214.4,
+            "op": [
+              0.317,
+              0.8381
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 221.4,
+            "op": [
+              0.2928,
+              0.8313
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 228.4,
+            "op": [
+              0.2686,
+              0.8246
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 235.3,
+            "op": [
+              0.2447,
+              0.818
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 242.3,
+            "op": [
+              0.2205,
+              0.8112
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 249.2,
+            "op": [
+              0.1966,
+              0.8046
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 256.2,
+            "op": [
+              0.1723,
+              0.7979
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 263.2,
+            "op": [
+              0.1481,
+              0.7911
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 270.7,
+            "op": [
+              0.1221,
+              0.7839
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 277.1,
+            "op": [
+              0.1,
+              0.7778
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 284,
+            "op": [
+              0.0761,
+              0.7711
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 290.9,
+            "op": [
+              0.0522,
+              0.7645
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 297.9,
+            "op": [
+              0.028,
+              0.7578
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 304.9,
+            "op": [
+              0.0038,
+              0.751
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 311.7,
+            "op": [
+              0,
+              0.7414
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 318.8,
+            "op": [
+              0,
+              0.7308
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 325.7,
+            "op": [
+              0,
+              0.7204
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 332.6,
+            "op": [
+              0,
+              0.7101
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 339.6,
+            "op": [
+              0,
+              0.6996
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 346.5,
+            "op": [
+              0,
+              0.6892
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 353.5,
+            "op": [
+              0,
+              0.6787
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 360.4,
+            "op": [
+              0,
+              0.6684
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 367.4,
+            "op": [
+              0,
+              0.6579
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 374.4,
+            "op": [
+              0,
+              0.6474
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 381.4,
+            "op": [
+              0,
+              0.6369
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 388.3,
+            "op": [
+              0,
+              0.6265
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 395.2,
+            "op": [
+              0,
+              0.6162
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 402.2,
+            "op": [
+              0,
+              0.6057
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 409.1,
+            "op": [
+              0,
+              0.5953
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 416,
+            "op": [
+              0,
+              0.585
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 424,
+            "op": [
+              0,
+              0.573
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 430,
+            "op": [
+              0,
+              0.564
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 436.9,
+            "op": [
+              0,
+              0.5536
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 443.9,
+            "op": [
+              0,
+              0.5431
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 450.8,
+            "op": [
+              0,
+              0.5328
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 457.8,
+            "op": [
+              0,
+              0.5223
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 464.7,
+            "op": [
+              0,
+              0.5119
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 471.7,
+            "op": [
+              0,
+              0.5014
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 478.6,
+            "op": [
+              0,
+              0.4911
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 485.6,
+            "op": [
+              0,
+              0.4806
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 492.5,
+            "op": [
+              0,
+              0.4702
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 499.5,
+            "op": [
+              0,
+              0.4597
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 506.4,
+            "op": [
+              0,
+              0.4494
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 513.4,
+            "op": [
+              0,
+              0.4389
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 520.3,
+            "op": [
+              0,
+              0.4285
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 527.3,
+            "op": [
+              0,
+              0.418
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 534.2,
+            "op": [
+              0,
+              0.4077
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 541.1,
+            "op": [
+              0,
+              0.3973
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 548,
+            "op": [
+              0,
+              0.387
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 555.1,
+            "op": [
+              0,
+              0.3763
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 562,
+            "op": [
+              0,
+              0.366
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 569,
+            "op": [
+              0,
+              0.3555
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 575.9,
+            "op": [
+              0,
+              0.3451
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 582.9,
+            "op": [
+              0,
+              0.3346
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 589.8,
+            "op": [
+              0,
+              0.3243
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 596.8,
+            "op": [
+              0,
+              0.3138
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 603.7,
+            "op": [
+              0,
+              0.3034
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 610.6,
+            "op": [
+              0,
+              0.2931
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 617.6,
+            "op": [
+              0,
+              0.2826
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 624.5,
+            "op": [
+              0,
+              0.2722
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 631.5,
+            "op": [
+              0,
+              0.2617
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 638.4,
+            "op": [
+              0,
+              0.2514
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 645.5,
+            "op": [
+              0,
+              0.2407
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 652.4,
+            "op": [
+              0,
+              0.2304
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 659.5,
+            "op": [
+              0,
+              0.2197
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 666.2,
+            "op": [
+              0,
+              0.2097
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 673.3,
+            "op": [
+              0,
+              0.199
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 680.2,
+            "op": [
+              0,
+              0.1887
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 687.1,
+            "op": [
+              0,
+              0.1783
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 694.1,
+            "op": [
+              0,
+              0.1678
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 701,
+            "op": [
+              0,
+              0.1575
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 708,
+            "op": [
+              0,
+              0.147
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 714.9,
+            "op": [
+              0,
+              0.1366
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 721.8,
+            "op": [
+              0,
+              0.1263
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 728.8,
+            "op": [
+              0,
+              0.1158
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 735.8,
+            "op": [
+              0,
+              0.1053
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 742.8,
+            "op": [
+              0,
+              0.0948
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 749.7,
+            "op": [
+              0,
+              0.0844
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 756.6,
+            "op": [
+              0,
+              0.0741
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 763.5,
+            "op": [
+              0,
+              0.0637
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 770.5,
+            "op": [
+              0,
+              0.0532
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 777.9,
+            "op": [
+              0,
+              0.0421
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 784.4,
+            "op": [
+              0,
+              0.0324
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 791.3,
+            "op": [
+              0,
+              0.022
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 798.3,
+            "op": [
+              0,
+              0.0115
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 805.3,
+            "op": [
+              0,
+              0.001
+            ],
+            "nodes": 2,
+            "flashActive": true
+          },
+          {
+            "t": 812.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 819.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 826.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 833.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 840,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 846.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 853.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 860.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 867.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 874.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 881.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 888.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 896.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 902.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 909.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 916.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 923.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 930.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 937.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 944.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 951.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 958.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 965.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 972,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 979.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 985.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 992.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 999.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1006.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1013.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1020.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1027.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1034.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1041.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1048.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1055.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1062.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1069.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1076.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1083.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1090.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1097.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1104.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1111,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1118,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1125,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1132.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1138.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1145.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1152.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1159.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1166.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1173.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1180.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1187.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1194.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1201.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1208.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1215.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1222.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1229.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1236.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1243.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1250.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1257.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1264,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1271,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1277.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1284.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1291.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1298.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1305.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1312.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1319.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1326.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1333.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1340.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1347.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1354.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1361.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1368.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1375.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1382.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1389,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1396,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1403,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1409.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1416.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1423.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1430.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1437.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1444.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1451.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1458.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1465.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1472.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1479.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1486.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1493.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1500.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1507.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1514.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1521.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1528,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1535.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1541.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1548.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1555.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1562.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1569.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1576.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1583.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1590.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1597.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1604.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1611.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1618.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1625.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1632.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1639.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1646.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1653.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1660.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1667,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1674,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1681,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1688,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1694.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1701.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1708.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1715.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1723,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1729.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1736.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1744.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1750.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1757.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1765,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1771.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1778.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1785.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1792.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1799,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1806.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1813,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1819.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1827,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1833.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1840.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1847.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1854.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1861.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1868.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1875.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1882.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1889.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1896.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1903.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1910.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1917.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1924.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1931.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1938.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1945,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1952,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1959,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1965.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1972.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1979.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1986.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 1993.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2000.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2007.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2014.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2021.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2028.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2035.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2042.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2049.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2056.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2063.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2070.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2077.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2084.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2091,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2098,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2104.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2111.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2118.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2125.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2132.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2139.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2146.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2153.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2160.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2167.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2174.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2181.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2188.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2195.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2202.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2209.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2216.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2223.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2230,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2237.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2243.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2250.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2257.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2264.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2271.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2278.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2285.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2292.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2299.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2306.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2313.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2321,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2327.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2334.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2341.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2348.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2355.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2362.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2369,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2376,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2382.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2389.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2396.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2403.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2410.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2417.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2424.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2431.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2438.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2445.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2452.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2459.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2466.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2473.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2480.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2487.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2494.2,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2501.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2508.1,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2515,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2522,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2528.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2535.9,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2542.8,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2549.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2556.6,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2563.7,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2570.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2577.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2584.5,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2591.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2598.4,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          },
+          {
+            "t": 2605.3,
+            "op": [],
+            "nodes": 0,
+            "flashActive": false
+          }
+        ]
+      },
+      "cdp": {
+        "taskMs": 453.4,
+        "scriptMs": 26.9,
+        "layoutMs": 27.2,
+        "styleRecalcMs": 52.7,
+        "layoutCount": 433,
+        "styleRecalcCount": 433,
+        "mainThreadBusyShare": 0.151,
+        "nodes": 6806,
+        "jsHeapMB": 4.4
+      }
+    },
+    {
+      "cell": "5 DIAGNOSTIC four storm scenes (as many as are visible), 1280x720 dpr1",
+      "setup": {
+        "waitedMs": 510,
+        "states": {
+          "storm-1": "running:-:anims12:pending0",
+          "storm-2": "running:-:anims12:pending0",
+          "storm-3": "running:-:anims12:pending0",
+          "storm-4": "running:-:anims12:pending0"
+        }
+      },
+      "windowMs": 3007,
+      "frames": 432,
+      "medianMs": 6.9,
+      "p95Ms": 7.1,
+      "maxMs": 7.5,
+      "over25ms": 0,
+      "over50ms": 0,
+      "framesPerSecond": 143.7,
+      "longTasksSupported": true,
+      "longTasks": 0,
+      "longTaskMsTotal": 0,
+      "timelineAdvancedMs": 3012,
+      "timelineVsWall": 1.002,
+      "runningAnimationsAtEnd": 48,
+      "runningAnimationMovedMs": 3012,
+      "heapMB": {
+        "start": 8.5,
+        "end": 5.3
+      },
+      "states": {
+        "storm-1": "running:-:anims12:pending0",
+        "storm-2": "running:-:anims12:pending0",
+        "storm-3": "running:-:anims12:pending0",
+        "storm-4": "running:-:anims12:pending0"
+      },
+      "vis": "visible",
+      "focus": false,
+      "cdp": {
+        "taskMs": 960.5,
+        "scriptMs": 11.9,
+        "layoutMs": 55.7,
+        "styleRecalcMs": 139.7,
+        "layoutCount": 434,
+        "styleRecalcCount": 434,
+        "mainThreadBusyShare": 0.319,
+        "nodes": 1625,
+        "jsHeapMB": 3
+      }
+    },
+    {
+      "cell": "6 storm + lamp, one scene running, 390x844 dpr2 (viewport emulation only)",
+      "setup": {
+        "waitedMs": 509,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        }
+      },
+      "windowMs": 3007,
+      "frames": 432,
+      "medianMs": 7,
+      "p95Ms": 7.1,
+      "maxMs": 7.3,
+      "over25ms": 0,
+      "over50ms": 0,
+      "framesPerSecond": 143.7,
+      "longTasksSupported": true,
+      "longTasks": 0,
+      "longTaskMsTotal": 0,
+      "timelineAdvancedMs": 3018,
+      "timelineVsWall": 1.004,
+      "runningAnimationsAtEnd": 12,
+      "runningAnimationMovedMs": 3018,
+      "heapMB": {
+        "start": 5.4,
+        "end": 4.5
+      },
+      "states": {
+        "stormlamp": "running:-:anims12:pending0"
+      },
+      "vis": "visible",
+      "focus": false,
+      "cdp": {
+        "taskMs": 449,
+        "scriptMs": 10.4,
+        "layoutMs": 24,
+        "styleRecalcMs": 47.1,
+        "layoutCount": 434,
+        "styleRecalcCount": 434,
+        "mainThreadBusyShare": 0.149,
+        "nodes": 654,
+        "jsHeapMB": 2.9
+      }
+    }
+  ],
+  "lifecycle": {
+    "hiddenPage": {
+      "before": {
+        "vis": "visible",
+        "focus": false,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        },
+        "media": false
+      },
+      "whileOtherTabActive": {
+        "vis": "hidden",
+        "focus": false,
+        "states": {
+          "stormlamp": "paused:hidden:anims12:pending0"
+        },
+        "media": false
+      },
+      "refusalWhileOtherTabActive": "blocked:hidden",
+      "afterReturning": {
+        "vis": "visible",
+        "focus": false,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        },
+        "media": false
+      },
+      "coverage": "real hidden state reached by activating another tab in this isolated Chrome"
+    },
+    "reducedMotionEmulated": {
+      "label": "browser-emulated media feature (Emulation.setEmulatedMedia), NOT the actual OS setting",
+      "whileReduced": {
+        "vis": "visible",
+        "focus": false,
+        "states": {
+          "stormlamp": "still:reduced:anims0:pending0"
+        },
+        "media": true
+      },
+      "refusal": "reduced-motion",
+      "afterClearing": {
+        "vis": "visible",
+        "focus": false,
+        "states": {
+          "stormlamp": "running:-:anims12:pending0"
+        },
+        "media": false
+      }
+    }
+  },
+  "browser": {
+    "product": "Chrome/156.0.8078.73",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "mode": "--headless=new, temporary profile, GPU flag left at Chrome default (no --disable-gpu), no sandbox/Crashpad bypass flags"
+  },
+  "gpu": {
+    "devices": [
+      " AMD Radeon 780M Graphics driver 32.0.31033.3",
+      " Microsoft Basic Render Driver driver 10.0.26100.9711"
+    ],
+    "glRenderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11-32.0.31033.3)",
+    "featureStatus": {
+      "2d_canvas": "enabled",
+      "direct_rendering_display_compositor": "disabled_off_ok",
+      "gpu_compositing": "enabled",
+      "multiple_raster_threads": "enabled_on",
+      "opengl": "enabled_on",
+      "rasterization": "enabled",
+      "raw_draw": "disabled_off_ok",
+      "skia_graphite": "disabled_off",
+      "trees_in_viz": "disabled_off",
+      "video_decode": "enabled",
+      "video_encode": "enabled",
+      "webgl": "enabled",
+      "webgpu": "enabled",
+      "webnn": "disabled_off"
+    },
+    "model": null
+  },
+  "pageEnv": {
+    "vp": "1280x720",
+    "dpr": 1,
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "cores": 16,
+    "vis": "visible",
+    "focus": false,
+    "look": "bright",
+    "reducedMedia": false
+  },
+  "arbiterAtEnd": {
+    "cooldownMs": 4000,
+    "activeId": null,
+    "lastStartedAt": 11684.100000023842,
+    "nextAllowedAt": 15684.100000023842,
+    "stats": {
+      "accepted": 1,
+      "refusedCooldown": 1,
+      "refusedActive": 0,
+      "finished": 1,
+      "cancelled": 0
+    }
+  },
+  "finishedAt": "2026-10-28T23:57:19.247Z",
+  "cleanupNotes": [
+    "profile cleanup: EPERM"
+  ]
+}

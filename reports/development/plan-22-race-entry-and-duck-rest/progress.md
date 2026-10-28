@@ -5,6 +5,12 @@
 **Implementation/evidence commit:** `a59c043` (`Implement Plan 22 race rest`).
 **Production posture:** local implementation only; no push or deployment.
 
+## Owner copy repair (2026-10-28)
+
+- Renamed the Down-funded +5% single-race choice to a “one-race speed upgrade” in the purchase button, purchased checkbox (initial and post-purchase), selected candidate rating, and player-facing Receipt text. Kept the `Opening Pond Trial` event title and all `trial` selectors, save keys, event names, methods, costs, and rules unchanged.
+- Updated the Receipt and race-view copy assertions and the report-local browser harness visible-text assertion. Source/test/harness commit: `b3f2b3d` (`Call race trial a one-race speed upgrade`).
+- `node --test src/ui/race-view.test.mjs src/core/receipt.test.mjs` passed (5/5); `npm run build` passed (Vite 8.3.5); `git diff --check` passed. No browser run or additional reviewer was needed for this copy-only repair. Packet status was not changed.
+
 ## Implemented mechanism
 
 - Rest is derived per owned digital duck identity from completed `race_result` events. The selected factors remain unchanged: no other completed race since this duck raced gives 0.50; one gives 0.75; two or more gives 1.00; no usable prior identity history gives rested.

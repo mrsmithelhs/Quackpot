@@ -194,7 +194,7 @@ try {
     const trialButtonEnabled = await socket.evaluate('Boolean(document.querySelector("[data-buy-race-trial]:not(:disabled)"))');
     if (trialButtonEnabled) {
       await socket.click('[data-buy-race-trial]');
-      await socket.waitFor('Boolean(document.querySelector("input[name=useTrial]"))', 'purchased trial choice');
+      await socket.waitFor('Boolean(document.querySelector("input[name=useTrial]"))', 'purchased one-race speed upgrade choice');
       await socket.evaluate('document.querySelector("input[name=useTrial]").click()');
       await socket.evaluate(`(() => {
         document.querySelector('.race-view-header')?.scrollIntoView({block:'start'});
@@ -204,7 +204,7 @@ try {
       })()`);
       await wait(150);
       const trialValues = await socket.evaluate('[...document.querySelectorAll("[data-candidate-effective]")].map(e=>e.textContent)');
-      if (!trialValues.every((value) => value.includes('with trial'))) throw new Error(`Displayed candidate race ratings did not refresh for the selected trial: ${JSON.stringify(trialValues)}`);
+      if (!trialValues.every((value) => value.includes('with upgrade'))) throw new Error(`Displayed candidate race ratings did not refresh for the selected one-race speed upgrade: ${JSON.stringify(trialValues)}`);
       observation.trialSelection = { checked: true, displayedRatings: trialValues };
       await socket.screenshot(`trial-entry-${suffix}.png`);
     } else observation.trialSelection = { available: false, note: 'Isolated deterministic free pull yielded insufficient Down for purchase; no synthetic state was inserted.' };

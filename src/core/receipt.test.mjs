@@ -11,17 +11,28 @@ test('Plan 23 Receipt separates race material shown, player actions, and committ
     options: { safe: { label: 'Safe Pace' }, sprint: { label: 'Sprint' } },
   }, clock);
   log.append('race_trial_offer_shown', { raceNumber: 1, costDown: 3, alreadyPurchased: false }, clock);
+  log.append('race_choice_offered', {
+    raceNumber: 1, candidates: [], trialState: { available: true, selected: true },
+  }, clock);
+  log.append('action', { kind: 'race_trial_purchased', costDown: 3 }, clock);
+  log.append('action', { kind: 'race_trial_consumed', raceNumber: 1 }, clock);
   log.append('action', { kind: 'race_choice', raceNumber: 1, duckId: 'duck-0', stance: 'sprint', trialCommitted: false }, clock);
   log.append('race_result', {
     raceNumber: 1, raceId: 'R01', resolutionDigest: '1234abcd', place: 2, payoutGems: 20,
     finishOrder: [{ id: 'A', place: 1, payout: 50 }, { id: 'P', place: 2, payout: 20 }],
   }, clock);
+  log.append('reveal_shown', { duplicate: true, identity: 'duck-1', downGained: 1 }, clock);
   log.append('race_cue_displayed', { raceNumber: 1, raceId: 'R01', cueId: 'podium-reveal', text: 'The podium began to descend.' }, clock);
   log.append('race_playback_action', { raceNumber: 1, raceId: 'R01', action: 'skip' }, clock);
 
-  const evidence = projectReceipt(log.entries).raceEvidence;
+  const report = projectReceipt(log.entries);
+  const evidence = report.raceEvidence;
   assert.ok(evidence.displayed.some((item) => item.text.includes('Safe pace')));
-  assert.ok(evidence.displayed.some((item) => item.text.includes('3 Down')));
+  assert.ok(evidence.displayed.some((item) => item.text.includes('One-race speed upgrade offer shown: 3 Down for +5% base speed on one race.')));
+  assert.ok(evidence.displayed.some((item) => item.text.includes('Purchased one-race speed upgrade selected (+5% base speed this race).')));
+  assert.ok(evidence.did.some((item) => item.text.includes('Bought the one-race speed upgrade for 3 Down.')));
+  assert.ok(evidence.did.some((item) => item.text.includes('available one-race speed upgrade was used')));
+  assert.ok(report.findings.find((item) => item.technique === 'secondary_currency')?.did.some((item) => item.text.includes('Spent 3 Down for the one-race speed upgrade.')));
   assert.ok(evidence.displayed.some((item) => item.text === 'The podium began to descend.'));
   assert.ok(evidence.did.some((item) => item.text.includes('sprint stance')));
   assert.ok(evidence.did.some((item) => item.text.includes('crossing order')));
@@ -67,6 +78,7 @@ test('Plan 22 Receipt separates candidate exposure from applied rest and history
     'a legacy offer without trial-state evidence must not invent trial availability');
   assert.ok(evidence.did.some((item) => item.text.includes('race rating 15')));
   assert.ok(evidence.did.some((item) => item.text.includes('unresolved attempts do not advance rest')));
+  assert.ok(evidence.did.some((item) => item.text.includes('No speed upgrade was committed.')));
   assert.equal(evidence.displayed.some((item) => item.text.includes('older completed race without a recorded duck identity')), false);
   assert.equal(evidence.did.some((item) => item.text.includes('Race rest tracking began after an older completed race without a recorded duck identity')), true,
     'policy activation is game-record evidence, not a displayed cue or player action');
@@ -79,5 +91,5 @@ test('Plan 22 Receipt does not invent candidate ordering or trial availability f
   assert.equal(evidence.displayed.length, 1);
   assert.match(evidence.displayed[0].text, /choice offered; older record has no candidate details/);
   assert.match(evidence.displayed[0].text, /Recorded pace options: Safe pace and Sprint/);
-  assert.doesNotMatch(evidence.displayed[0].text, /effective-input order|trial available|winner/i);
+  assert.doesNotMatch(evidence.displayed[0].text, /effective-input order|upgrade available|winner/i);
 });

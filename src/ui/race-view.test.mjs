@@ -14,6 +14,12 @@ test('Plan 22 race entry source keeps all owned candidates keyboard-selectable a
   assert.match(view, /effectiveBaseInput/);
   assert.match(view, /historyLimited/);
   assert.match(view, /speed rating/);
+  assert.match(view, /Opening Pond Trial/);
+  assert.equal(view.match(/Use purchased one-race speed upgrade: \+5% base speed on this race\./g)?.length, 2,
+    'the initial and post-purchase checkbox copy use the same one-race upgrade name');
+  assert.match(view, /Exchange 3 Down for a \+5% one-race speed upgrade/);
+  assert.match(view, /with upgrade/);
+  assert.doesNotMatch(view, /with trial|Use purchased race trial|Exchange 3 Down for \+5% speed on one race/);
   assert.match(view, /Needs rest/);
   assert.match(view, /50% lower immediately after racing, 25% lower after one other race finishes/);
   assert.match(view, /recordEntryShown\(\)/);

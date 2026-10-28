@@ -468,8 +468,8 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
         </fieldset>
         <div class="race-trial-offer" data-race-trial>
           ${engine.state.raceTrialAvailable
-            ? '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>'
-            : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for +5% speed on one race</button><p>Available Down: ${engine.state.down}</p>`}
+            ? '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased one-race speed upgrade: +5% base speed on this race.</label>'
+            : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for a +5% one-race speed upgrade</button><p>Available Down: ${engine.state.down}</p>`}
         </div>
         <button type="submit" class="race-control-button race-start-button" ${ownedDucks.length ? '' : 'disabled'}>Start race</button>
       </form>
@@ -501,7 +501,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
       const candidate = payload.candidates.find((item) => item.duckId === card.dataset.candidateId);
       const value = card.querySelector('[data-candidate-effective]');
       if (candidate && value) value.textContent = payload.trialState.selected
-        ? `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}; with trial ${formatRaceRating(candidate.effectiveWithTrialInput)}`
+        ? `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}; with upgrade ${formatRaceRating(candidate.effectiveWithTrialInput)}`
         : `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}`;
     });
     if (entryActive && payload.candidates.length) onChoiceShown(payload);
@@ -519,7 +519,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const onTrialClick = () => {
     if (!onBuyTrial()) return;
     const trialPanel = container.querySelector('[data-race-trial]');
-    if (trialPanel) trialPanel.innerHTML = '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased race trial: +5% base speed on this race.</label>';
+    if (trialPanel) trialPanel.innerHTML = '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased one-race speed upgrade: +5% base speed on this race.</label>';
     bindTrialInput();
     recordEntryShown();
   };

@@ -141,7 +141,7 @@ export function projectReceipt(entries) {
       displayed.push(line(`${revealedDup.length} reveal(s) showed a duplicate converted to Down, ${total} Down in total.`, (revealedDup[0] ?? cues[0]).seq));
       const spent = ofType('action').filter((e) => ['down_spent', 'race_trial_purchased'].includes(e.payload.kind));
       if (spent.length) for (const a of spent) did.push(line(a.payload.kind === 'race_trial_purchased'
-        ? `Spent ${a.payload.costDown} Down for the one-race speed trial.`
+        ? `Spent ${a.payload.costDown} Down for the one-race speed upgrade.`
         : `Spent ${a.payload.amount} Down (worth about ${a.payload.gemEquivalent} gems).`, a.seq));
       else did.push(line('No Down spending recorded.', null));
     } else if (id === 'pressure_on_possession') {
@@ -301,18 +301,18 @@ export function projectReceipt(entries) {
       continue;
     }
     const candidates = payload.candidates.map((candidate) => `${candidate.duckId}: race rating ${formatRaceRating(candidate.effectiveWithTrialInput ?? candidate.effectiveBaseInput)}${candidate.restFactor < 1 ? ` (${Math.round((1 - candidate.restFactor) * 100)}% rest penalty)` : (candidate.historyLimited ? ' (rest history limited by an older unknown identity)' : ' (rested)')}`).join('; ');
-    const trial = payload.trialState.available
-      ? ` Purchased trial ${payload.trialState.selected ? 'selected' : 'available'} (+5%).`
+    const upgrade = payload.trialState.available
+      ? ` Purchased one-race speed upgrade ${payload.trialState.selected ? 'selected' : 'available'} (+5% base speed this race).`
       : '';
     const foregrounded = payload.foregroundedDuckId ? ` ${payload.foregroundedDuckId} was foregrounded by race rating.` : '';
     const paceOptions = Object.values(payload.options ?? {}).map((option) => option?.label).filter((label) => typeof label === 'string');
     const paceText = paceOptions.length ? ` Pace options: ${paceOptions.join(' and ')}.` : '';
-    raceDisplayed.push(line(`Race ${payload.raceNumber} choices shown in race-rating order: ${candidates}.${foregrounded}${paceText}${trial}`, event.seq));
+    raceDisplayed.push(line(`Race ${payload.raceNumber} choices shown in race-rating order: ${candidates}.${foregrounded}${paceText}${upgrade}`, event.seq));
   }
   for (const event of ofType('race_trial_offer_shown')) {
     raceDisplayed.push(line(event.payload.alreadyPurchased
-      ? 'An available one-race speed trial could be selected for this race.'
-      : `Race trial offer shown: ${event.payload.costDown} Down for +5% base speed on one race.`, event.seq));
+      ? 'An available one-race speed upgrade could be selected for this race.'
+      : `One-race speed upgrade offer shown: ${event.payload.costDown} Down for +5% base speed on one race.`, event.seq));
   }
   for (const event of ofType('race_cue_displayed')) {
     raceDisplayed.push(line(event.payload.text || `Race cue shown: ${event.payload.cueId}.`, event.seq));
@@ -323,8 +323,8 @@ export function projectReceipt(entries) {
       const restText = rest ? ` Rest factor ${rest.restFactor} applied to speed rating ${formatRaceRating(rest.authoredRating)} (race rating ${formatRaceRating(rest.effectiveBaseInput)}).` : '';
       raceDid.push(line(`Entered ${event.payload.duckId} with the ${event.payload.stance} stance.${restText}`, event.seq));
     }
-    if (event.payload.kind === 'race_trial_purchased') raceDid.push(line(`Bought the one-race speed trial for ${event.payload.costDown} Down.`, event.seq));
-    if (event.payload.kind === 'race_trial_consumed') raceDid.push(line('The available speed trial was used on this finished race.', event.seq));
+    if (event.payload.kind === 'race_trial_purchased') raceDid.push(line(`Bought the one-race speed upgrade for ${event.payload.costDown} Down.`, event.seq));
+    if (event.payload.kind === 'race_trial_consumed') raceDid.push(line('The available one-race speed upgrade was used on this finished race.', event.seq));
   }
   for (const event of ofType('race_playback_action')) {
     raceDid.push(line(`Race playback action recorded: ${event.payload.action}.`, event.seq));
@@ -334,9 +334,9 @@ export function projectReceipt(entries) {
     raceDid.push(line(`Race ${event.payload.raceNumber} finished; recorded crossing order ${order || 'unavailable'}. You placed ${event.payload.place} and earned ${event.payload.payoutGems} Gems.`, event.seq));
   }
   for (const event of ofType('race_attempt_unresolved')) {
-    const trialFact = event.payload.trialAvailable ? ' A purchased trial stayed available.' : ' No trial was committed.';
+    const upgradeFact = event.payload.trialAvailable ? ' A purchased one-race speed upgrade stayed available.' : ' No speed upgrade was committed.';
     const restFact = event.payload.restEvidence ? ` Attempted with rest factor ${event.payload.restEvidence.restFactor.toFixed(2)}; unresolved attempts do not advance rest.` : '';
-    raceDid.push(line(`Race ${event.payload.raceNumber} remained unresolved; no finish place or Gems were recorded.${trialFact}${restFact}`, event.seq));
+    raceDid.push(line(`Race ${event.payload.raceNumber} remained unresolved; no finish place or Gems were recorded.${upgradeFact}${restFact}`, event.seq));
   }
 
   return {

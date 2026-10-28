@@ -102,6 +102,8 @@ Derivatives (trim/convert) get their own ID/hash with a mapping back to the unto
 
 Folders created: `inbox/freesound/` (originals, default Freesound filename kept) and `inbox/freesound/screens/<soundId>.png`. A scrolled screenshot must show the URL bar, title/uploader, license name+version, sound-information panel and description/tags. I compute hash/format/duration from the file. CC0 and CC BY only; the owner's login is theirs and I never use it. Suggested 14 links were given in chat; T6's login-free options may reduce that need.
 
+**Update, 2026-10-28 (after the checkpoint's first commit):** the owner downloaded 14 Freesound originals with their own login. They are unmodified under `audio/_originals/freesound/` with staging records in `catalog/intake/freesound-intake.json` (file-level license read from owner screenshots by a seventh Haiku task, spot-checked by me; hashes, formats and durations measured from the files; remix/derivative sources for 818396 and 418509 recorded). 10 are CC0 and 4 need CC BY attribution (3 at 4.0, 1 at 3.0); 547601 and 749445 are human-voiced imitations and 448208 is labelled "Human made" on its page. The screenshots were deleted by the owner and never committed. Formats are mixed (16/24-bit WAV, one 32-bit float, 44.1/48/96 kHz, two MP3s). The seventh Haiku task exceeded the handoff's six-task budget on the owner's explicit request.
+
 ## 7. Questions for QP Orch (the decisions the workers could not make)
 
 1. **Kenney primary verification.** kenney.nl resets connections from this machine. May root/owner confirm CC0 + credit wording via a browser, or accept mirror LICENSE evidence plus the 2026-10-25 capture as "pack-level, pending"?

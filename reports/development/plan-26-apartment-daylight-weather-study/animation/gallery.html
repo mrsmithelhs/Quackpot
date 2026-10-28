@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 26 — weather motion prototype</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.45 system-ui, sans-serif; color: #28221d; background: #f1eee8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header, main { max-width: 1240px; margin: auto; padding: 1rem; }
+    h1 { margin: 0 0 .4rem; font-size: clamp(1.3rem, 5vw, 1.9rem); }
+    h2 { margin: 1.4rem 0 .4rem; font-size: 1.1rem; }
+    p, li { max-width: 80ch; }
+    .notice { border-left: 4px solid #805638; padding: .5rem .8rem; background: #fffaf0; }
+    .controls { display: flex; flex-wrap: wrap; gap: .4rem .8rem; margin: .6rem 0; align-items: flex-start; }
+    fieldset { min-width: 0; border: 1px solid #b8afa3; border-radius: .5rem; padding: .3rem .6rem .45rem; }
+    legend { padding: 0 .25rem; font-weight: 700; font-size: .85rem; }
+    select, button { font: inherit; max-width: 100%; }
+    button { min-height: 2.2rem; padding: .1rem .7rem; border: 1px solid #805638; border-radius: .4rem; background: #fff; color: #28221d; cursor: pointer; }
+    button[aria-pressed="true"] { background: #805638; color: #fff; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #1b5fb3; outline-offset: 2px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: .9rem; }
+    figure { margin: 0; min-width: 0; }
+    figcaption { font-size: .85rem; color: #51483e; margin-top: .25rem; }
+    figcaption strong { color: #28221d; }
+    .stage { position: relative; overflow: hidden; border: 1px solid #a69b8d; border-radius: .7rem; isolation: isolate; background: #d8d3c8; width: 100%; aspect-ratio: var(--ar, 560 / 270); }
+    .stage .layer { position: absolute; inset: 0; }
+    .tools { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .3rem; }
+    .status { font: .8rem/1.3 ui-monospace, Consolas, monospace; color: #3b332b; margin-top: .25rem; }
+    table { border-collapse: collapse; font-size: .85rem; }
+    th, td { border: 1px solid #c0b7ab; padding: .2rem .45rem; text-align: left; }
+    .ok { color: #1f6b2f; font-weight: 700; } .bad { color: #a01919; font-weight: 700; }
+    code { background: #e8e1d6; padding: 0 .25rem; border-radius: 3px; }
+    #log { font: .8rem/1.35 ui-monospace, Consolas, monospace; max-height: 14rem; overflow: auto; background: #fff; border: 1px solid #c0b7ab; padding: .4rem; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Plan 26 — weather motion prototype</h1>
+  <p class="notice"><strong>Review page, not game UI. Rain motion only.</strong> The scenes are the approved still weather SVGs, unchanged, with a host-side controller (<code>animation/controller.mjs</code>) that adds animation-only rain layers while motion is allowed and restores the exact approved still otherwise. <strong>Lightning is not built</strong>; the page arbiter and refusal logic exist but no flash is drawn. The controls below are free to use: pause freezes in place, <em>Show still</em> restores the approved still.</p>
+</header>
+<main>
+  <section>
+    <h2>1. Scenes</h2>
+    <div class="controls" id="controls"></div>
+    <div class="controls">
+      <fieldset><legend>All scenes</legend><button id="pause-all" type="button" aria-pressed="false">Pause all</button> <button id="stop-all" type="button" aria-pressed="false">Show still (all)</button></fieldset>
+      <fieldset><legend>Reduced motion</legend><label><input type="checkbox" id="reduced-opt"> controller option <code>reducedMotion: 'reduce'</code></label><div class="status" id="os-reduced"></div></fieldset>
+      <fieldset><legend>Flash (logic only)</legend><button id="flash" type="button">Request flash on selected scene</button><div class="status">No visual exists: the controller refuses (<code>flash-visual-not-built</code>) and consumes no cooldown.</div></fieldset>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="status" id="status" aria-live="polite"></p>
+  </section>
+  <section>
+    <h2>2. Page events</h2>
+    <div id="log" role="log" aria-live="off"></div>
+  </section>
+  <section>
+    <h2>3. Page checks</h2>
+    <table id="checks"></table>
+  </section>
+  <section>
+    <h2>4. Not covered here</h2>
+    <ul>
+      <li>Lightning art, flash evidence, audio, other rooms, kit hooks, production wiring: later gates or out of scope.</li>
+      <li>The pane cannot emulate the OS reduced-motion setting; the controller option above exercises the same path.</li>
+      <li>Frame cadence from this machine says nothing about low-end hardware.</li>
+    </ul>
+  </section>
+</main>
+<script type="module" src="./gallery.js"></script>
+</body>
+</html>

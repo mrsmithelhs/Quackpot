@@ -1,0 +1,11 @@
+{
+  "_note": "sha256 of the approved still weather SVG strings (renderStudyScene, idPrefix 'fp', area living), recorded before any animation work. tests/still.test.mjs fails if the still output ever changes.",
+  "overcast/wide": "1042dff929daedaef715c5863b4aea7fc0ea164b7c4c9ce0d172273908ade3bf",
+  "overcast/medium": "d3f28ccbca14b35ecb04516df61d0a8ff92af8995e25c5aa82ee470fe68ddaf3",
+  "rain/wide": "a8363a8cd44593f7286af52e3e300af310bfd7b3bc02c4612eec8aad96ded8ac",
+  "rain/medium": "bca89a26207c63a5a10dc35343713c9f15b5d694225923f62f043b9dd8bacb8c",
+  "storm/wide": "562c16d452d100cc15b22ddd6d7b211f681f2f5bd330eec4c71069786e2afd61",
+  "storm/medium": "08060f5355d12c749eb2118482bb4f05eba2ba37a96fd7b56666738792ffffd6",
+  "stormlamp/wide": "d2d0ce220d9f7374b9e846feab59b3fa2e2dbde2bc75a9f17136c431d0fba295",
+  "stormlamp/medium": "3e82647b2d16d5ab52ab0731e3ffc65a26fb21cbcf0aacad56ab8c32b3deced5"
+}

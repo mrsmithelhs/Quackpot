@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quackpot — Plan 18 Audio Audition & Credits Workbench (Repair 01)</title>
+  <style>
+    :root {
+      --bg-canvas: #f6f3ee;
+      --bg-card: #ffffff;
+      --bg-header: #ede7de;
+      --text-main: #2b2623;
+      --text-muted: #6e645d;
+      --border-color: #dcd4cc;
+      --primary: #c2593f;
+      --primary-hover: #a84830;
+      --accent-duck: #e5a93b;
+      --accent-blue: #3d7ea6;
+      --shadow: 0 4px 12px rgba(43, 38, 35, 0.08);
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.5;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      padding: 1.5rem 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      color: #1f1b18;
+      margin-bottom: 0.35rem;
+    }
+
+    .header-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      background-color: #d7e8d6;
+      color: #275225;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .provenance-tag {
+      display: inline-block;
+      background-color: #f0e6dc;
+      color: #634b3d;
+      font-size: 0.75rem;
+      font-family: monospace;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.4rem;
+    }
+
+    /* Master Controls Bar */
+    .master-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .master-control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn:hover { background-color: var(--primary-hover); }
+
+    .btn-secondary {
+      background-color: #ede7de;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover { background-color: #dfd7cc; }
+
+    .btn-small {
+      padding: 0.35rem 0.65rem;
+      font-size: 0.85rem;
+    }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Section & Cards */
+    .section-title {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #38312d;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.4rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .audio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .audio-card.playing {
+      border-color: var(--accent-duck);
+      box-shadow: 0 0 0 2px rgba(229, 169, 59, 0.4);
+    }
+
+    .card-role-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      background-color: #e9f0f5;
+      color: #21597e;
+    }
+
+    .card-role-tag.tag-music {
+      background-color: #f7ede6;
+      color: #9c442e;
+    }
+
+    .card-role-tag.tag-synth {
+      background-color: #fdf5e2;
+      color: #8c6712;
+    }
+
+    .card-role-tag.tag-rec {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-creator {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: #554e48;
+      background: #fbf9f6;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      border: 1px dashed var(--border-color);
+    }
+
+    .card-meta div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.2rem;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .slider-container input[type="range"] {
+      flex: 1;
+    }
+
+    /* Live Caption Feed */
+    .live-caption-box {
+      background: #2b2623;
+      color: #f6f3ee;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 1.75rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      box-shadow: var(--shadow);
+    }
+
+    .live-caption-header {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #d1c8be;
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .live-caption-text {
+      color: #ffd97d;
+      font-size: 1.05rem;
+      min-height: 1.6rem;
+    }
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: var(--bg-card);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow);
+    }
+
+    .data-table th, .data-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #ede7de;
+    }
+
+    .data-table th {
+      background-color: var(--bg-header);
+      font-weight: 700;
+      color: #38312d;
+    }
+
+    .data-table tr:hover { background-color: #faf7f2; }
+
+    /* Operable Credits Dialog */
+    .preview-entry-bar {
+      background: #ede7de;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .credits-dialog {
+      border: 1px solid #d4c5b9;
+      border-radius: 8px;
+      background-color: #faf7f2;
+      color: #2b2623;
+      max-width: 640px;
+      width: 90vw;
+      max-height: 85vh;
+      padding: 0;
+      box-shadow: 0 12px 32px rgba(43, 38, 35, 0.25);
+      margin: auto;
+    }
+
+    .credits-dialog::backdrop {
+      background-color: rgba(43, 38, 35, 0.6);
+      backdrop-filter: blur(2px);
+    }
+
+    .credits-container {
+      display: flex;
+      flex-direction: column;
+      max-height: 85vh;
+    }
+
+    .credits-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e6ded6;
+      background-color: #f2ece4;
+    }
+
+    .credits-heading {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1a1614;
+    }
+
+    .btn-close-dialog {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #736961;
+      padding: 0.25rem 0.5rem;
+      line-height: 1;
+    }
+
+    .btn-close-dialog:hover, .btn-close-dialog:focus { color: #1a1614; }
+
+    .credits-body {
+      padding: 1.25rem 1.5rem;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .credits-section {
+      margin-bottom: 1.25rem;
+    }
+
+    .credits-subheading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 0.4rem 0;
+      border-bottom: 1px solid #ece4dc;
+      padding-bottom: 0.2rem;
+    }
+
+    .credit-item {
+      margin-bottom: 0.85rem;
+      padding-left: 0.6rem;
+      border-left: 3px solid var(--primary);
+    }
+
+    .credit-title { font-weight: 700; color: #1a1614; }
+    .credit-details { font-size: 0.85rem; color: #4a423d; }
+    .credit-url { font-size: 0.8rem; color: #736961; word-break: break-all; }
+
+    .credits-footer {
+      padding: 0.85rem 1.5rem;
+      border-top: 1px solid #e6ded6;
+      background-color: #f2ece4;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .settings-demo-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .settings-demo-box h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #38312d;
+    }
+
+    .settings-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+  </style>
+  <!-- Authoritative compiled synth bundle from src/audio/synth.mjs (Zero drift) -->
+  <script src="bundled-synth.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <span class="status-badge">Plan 18 Verification Evidence &bull; Repair 01</span>
+    <h1>Quackpot Audio Audition & Credits Proof</h1>
+    <p class="header-sub">
+      Licensed Creative Commons Shortlist (DECISION-010) &bull; Authoritative Synth Parity &bull; Operable Credits Dialog
+    </p>
+    <div class="provenance-tag">
+      Authored Synth SHA-256: 98572e98263e... &bull; Exact CC BY 3.0 / CC0 &bull; Offline Local Play
+    </div>
+  </header>
+
+  <!-- Master Controls -->
+  <div class="master-bar">
+    <div class="master-control-group">
+      <button class="btn" id="btn-resume-audio">
+        <span>&#9658;</span> Unlock / Resume Audio
+      </button>
+      <button class="btn btn-secondary" id="btn-stop-all">
+        <span>&#9632;</span> Stop All
+      </button>
+      <button class="btn btn-secondary" id="btn-toggle-mute">
+        <span id="mute-icon">&#128266;</span> <span id="mute-label">Mute All</span>
+      </button>
+    </div>
+    <div class="master-control-group">
+      <label for="master-volume" style="font-size: 0.85rem; font-weight: 600;">Master Volume:</label>
+      <input type="range" id="master-volume" min="0" max="1" step="0.05" value="0.8" style="width: 110px;">
+      <span id="master-vol-label" style="font-size: 0.85rem; min-width: 35px;">80%</span>
+    </div>
+  </div>
+
+  <!-- Live Accessible Caption & Lifecycle Feed -->
+  <div class="live-caption-box" role="status" aria-live="polite">
+    <div class="live-caption-header">
+      <span>Accessible Equivalent / Live Lifecycle Status</span>
+      <span id="caption-timestamp">Ready</span>
+    </div>
+    <div class="live-caption-text" id="caption-text">
+      [Select an audio candidate below to audition]
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-audition">Audio Audition Gallery</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-credits">Operable Credits Preview</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-specs">Technical Specification Matrix</button>
+  </div>
+
+  <!-- Tab 1: Audition Gallery -->
+  <div id="tab-audition" class="tab-pane active" role="tabpanel">
+    <!-- Sound Effects -->
+    <h2 class="section-title">Licensed Sound Effects (At Most Three Candidates)</h2>
+    <div class="card-grid">
+      <!-- Effect 1 -->
+      <div class="audio-card" id="card-click1">
+        <div>
+          <span class="card-role-tag">UI Button Feedback</span>
+          <h3 class="card-title">Click 1</h3>
+          <p class="card-creator">By Kenney ([UI Audio](https://kenney.nl/assets/ui-audio)) &bull; CC0 1.0 Universal</p>
+          <div class="card-meta">
+            <div><span>Format:</span><span>WAV 16-bit 44.1kHz Stereo</span></div>
+            <div><span>Duration:</span><span>0.103s (103 ms)</span></div>
+            <div><span>Size:</span><span>18,254 bytes</span></div>
+            <div><span>PCM Peak / RMS:</span><span>-1.54 dBFS / -24.53 dBFS</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-play-click1" onclick="playEffect('click1')">&#9658; Play</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Tactile UI Button Tap</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Effect 2 -->
+      <div class="audio-card" id="card-cardSlide1">
+        <div>
+          <span class="card-role-tag">Down Feather Dissolve</span>
+          <h3 class="card-title">Card Slide 1</h3>
+          <p class="card-creator">By Kenney ([Casino Audio](https://kenney.nl/assets/casino-audio)) &bull; CC0 1.0 Universal</p>
+          <div class="card-meta">
+            <div><span>Format:</span><span>OGG Vorbis 44.1kHz Stereo</span></div>
+            <div><span>Duration:</span><span>0.601s (601 ms)</span></div>
+            <div><span>Size:</span><span>17,704 bytes</span></div>
+            <div><span>Ogg Levels:</span><span>Uncalculated (Vorbis bitstream)</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-play-cardSlide1" onclick="playEffect('cardSlide1')">&#9658; Play</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Paper Card Slide / Friction</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Effect 3 -->
+      <div class="audio-card" id="card-jingleSteel">
+        <div>
+          <span class="card-role-tag">Rarity Reveal Chime</span>
+          <h3 class="card-title">Steel Jingle 00</h3>
+          <p class="card-creator">By Kenney ([Music Jingles](https://kenney.nl/assets/music-jingles)) &bull; CC0 1.0 Universal</p>
+          <div class="card-meta">
+            <div><span>Format:</span><span>OGG Vorbis 44.1kHz Stereo</span></div>
+            <div><span>Duration:</span><span>0.933s (933 ms)</span></div>
+            <div><span>Size:</span><span>15,691 bytes</span></div>
+            <div><span>Ogg Levels:</span><span>Uncalculated (Vorbis bitstream)</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-play-jingleSteel" onclick="playEffect('jingleSteel')">&#9658; Play</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">4★/5★ Pull Reveal Fanfare</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Music Candidates -->
+    <h2 class="section-title">Licensed Music Candidates (At Most Two Candidates)</h2>
+    <div class="card-grid">
+      <!-- Music 1 -->
+      <div class="audio-card" id="card-lofi">
+        <div>
+          <span class="card-role-tag tag-music">Apartment Lo-Fi Loop</span>
+          <h3 class="card-title">Chill lofi inspired [loop edit]</h3>
+          <p class="card-creator">omfgdude, arr. qubodup ([OpenGameArt #135940](https://opengameart.org/content/chill-lofi-inspired-loop-edit)) &bull; CC0 1.0 Universal</p>
+          <div class="card-meta">
+            <div><span>Format:</span><span>OGG Vorbis 44.1kHz (Loop edit)</span></div>
+            <div><span>Duration:</span><span>97.216s (1m 37s)</span></div>
+            <div><span>Size:</span><span>2,360,833 bytes</span></div>
+            <div><span>Browser Support:</span><span>Chrome, Edge, Firefox, Safari 18.4+</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-lofi-play" onclick="toggleMusic('lofi')">&#9658; Play</button>
+            <button class="btn btn-secondary btn-small" onclick="stopMusic('lofi')">&#9632; Stop</button>
+            <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem;">
+              <input type="checkbox" id="lofi-loop" checked onchange="toggleLoop('lofi', this.checked)"> Loop
+            </label>
+          </div>
+          <div class="slider-container">
+            <span>Track Vol:</span>
+            <input type="range" id="lofi-vol" min="0" max="1" step="0.05" value="0.6" oninput="setTrackVolume('lofi', this.value)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Music 2 -->
+      <div class="audio-card" id="card-duck">
+        <div>
+          <span class="card-role-tag tag-music">Gacha App Theme</span>
+          <h3 class="card-title">Fluffing a Duck</h3>
+          <p class="card-creator">Kevin MacLeod ([Incompetech](https://incompetech.com) / [Wikimedia](https://commons.wikimedia.org/wiki/File:Kevin_MacLeod_-_Fluffing_a_Duck.ogg)) &bull; CC BY 3.0</p>
+          <div class="card-meta">
+            <div><span>Format:</span><span>OGG Vorbis 44.1kHz Stereo</span></div>
+            <div><span>Duration:</span><span>67.370s (1m 07s)</span></div>
+            <div><span>Size:</span><span>1,405,902 bytes</span></div>
+            <div><span>Exact License:</span><span>CC BY 3.0 Unported</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-duck-play" onclick="toggleMusic('duck')">&#9658; Play</button>
+            <button class="btn btn-secondary btn-small" onclick="stopMusic('duck')">&#9632; Stop</button>
+            <label style="font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem;">
+              <input type="checkbox" id="duck-loop" onchange="toggleLoop('duck', this.checked)"> Loop
+            </label>
+          </div>
+          <div class="slider-container">
+            <span>Track Vol:</span>
+            <input type="range" id="duck-vol" min="0" max="1" step="0.05" value="0.55" oninput="setTrackVolume('duck', this.value)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Retained Synthesized Quacks -->
+    <h2 class="section-title">Retained Reference Options: Plan 04 Synthesized Quacks</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+      Executed via authoritative bundle from <code>src/audio/synth.mjs</code>. DECISION-009 selected visual Mode C and retained all three audio candidates; no primary quack sound was selected. All three remain available for comparison.
+    </p>
+    <div class="card-grid">
+      <!-- Synth A -->
+      <div class="audio-card" id="card-synthA">
+        <div>
+          <span class="card-role-tag tag-synth">Candidate A Control</span>
+          <h3 class="card-title">Baseline Quack</h3>
+          <p class="card-creator">Plan 04 Retained Reference &bull; Zero External Assets</p>
+          <div class="card-meta">
+            <div><span>Treatment:</span><span>Sawtooth + Vibrato FM</span></div>
+            <div><span>Pitch Bend:</span><span>340 Hz &rarr; 200 Hz (-140 Hz)</span></div>
+            <div><span>Duration:</span><span>0.220s</span></div>
+            <div><span>Master Gain:</span><span>0.15</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-synth-A" onclick="playSynthesizedQuack('A')">&#9658; Synthesize</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Unchanged Control Signal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synth B -->
+      <div class="audio-card" id="card-synthB">
+        <div>
+          <span class="card-role-tag tag-synth">Candidate B Articulated</span>
+          <h3 class="card-title">Articulated ADSR Quack</h3>
+          <p class="card-creator">Plan 04 Retained Reference &bull; Zero External Assets</p>
+          <div class="card-meta">
+            <div><span>Treatment:</span><span>Sawtooth + Snappy ADSR</span></div>
+            <div><span>Pitch Bend:</span><span>380 Hz &rarr; 340 Hz (-40 Hz)</span></div>
+            <div><span>Duration:</span><span>0.105s (Fast Envelope)</span></div>
+            <div><span>Master Gain:</span><span>0.14</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-synth-B" onclick="playSynthesizedQuack('B')">&#9658; Synthesize</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Snappy Parameter Preset</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synth C -->
+      <div class="audio-card" id="card-synthC">
+        <div>
+          <span class="card-role-tag tag-rec">Candidate C (Recommended Vocal)</span>
+          <h3 class="card-title">Formant & Breath Quack</h3>
+          <p class="card-creator">Plan 04 Retained Reference &bull; Zero External Assets</p>
+          <div class="card-meta">
+            <div><span>Treatment:</span><span>Dual Formants + LCG Noise</span></div>
+            <div><span>Bandpass Formants:</span><span>750 Hz (Q3) & 1600 Hz (Q3.5)</span></div>
+            <div><span>Duration:</span><span>0.150s + 15ms Bill Click</span></div>
+            <div><span>Loudness:</span><span>Audibly Softer (Bandpass filtered)</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="controls-row">
+            <button class="btn btn-small" id="btn-synth-C" onclick="playSynthesizedQuack('C')">&#9658; Synthesize</button>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Nasal Resonance & Bill Click</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 2: Operable Credits Preview -->
+  <div id="tab-credits" class="tab-pane" role="tabpanel">
+    <h2 class="section-title">Operable Credits Screen Simulation</h2>
+    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+      Demonstrates the in-game entry points, native <code>&lt;dialog&gt;</code> modal, focus containment, keyboard dismissal (<code>Escape</code>), and focus return to opener, while keeping real creator identities strictly separate from fictional gameplay entities (Hard Constraint #6).
+    </p>
+
+    <!-- Simulated UI Entry Points -->
+    <div class="preview-entry-bar">
+      <div>
+        <strong style="display: block; font-size: 0.95rem; margin-bottom: 0.25rem;">Opening Title Screen Entry</strong>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">Simulates secondary text link on start screen</span>
+      </div>
+      <button type="button" class="btn" id="btn-open-title-credits" aria-haspopup="dialog">
+        Open Credits (from Title)
+      </button>
+    </div>
+
+    <div class="settings-demo-box">
+      <h4>Simulated In-Game Settings Panel</h4>
+      <div class="settings-options">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="demo-setting-mute" onchange="toggleDemoMute(this.checked)">
+          <span><strong>Mute Audio</strong> (Independent audio toggle &mdash; silences all sound without affecting visuals)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="demo-setting-motion" onchange="toggleDemoMotion(this.checked)">
+          <span><strong>Reduced Motion</strong> (Independent motion preference &mdash; disables screen shakes/camera turns; does NOT mute audio)</span>
+        </label>
+      </div>
+      <div style="margin-top: 1rem; border-top: 1px dashed var(--border-color); padding-top: 0.75rem;">
+        <button type="button" class="btn btn-secondary" id="btn-open-settings-credits" aria-haspopup="dialog">
+          View Game & Audio Credits (from Settings)
+        </button>
+      </div>
+    </div>
+
+    <!-- The Actual Operable Credits Modal -->
+    <dialog id="credits-dialog" class="credits-dialog" aria-labelledby="credits-title" aria-modal="true">
+      <div class="credits-container">
+        <header class="credits-header">
+          <h3 id="credits-title" class="credits-heading">Quackpot Credits & Attribution</h3>
+          <button type="button" class="btn-close-dialog" id="btn-close-credits-x" aria-label="Close credits dialog">&times;</button>
+        </header>
+        
+        <div class="credits-body" tabindex="0">
+          <section class="credits-section">
+            <h4 class="credits-subheading">Course & Project Context</h4>
+            <p style="font-size: 0.85rem; color: #4a423d; margin-bottom: 0.5rem;">
+              Quackpot is an educational gacha game created for <strong>CourseVGD</strong> to analyze microtransaction manipulation and monetization psychology.
+              All in-game publishers, sponsors, currency packs, and streamer testimonials are fictional and satirical.
+            </p>
+          </section>
+
+          <section class="credits-section">
+            <h4 class="credits-subheading">Music Attribution</h4>
+            <div class="credit-item">
+              <div class="credit-title">"Fluffing a Duck"</div>
+              <div class="credit-details">Composed and produced by Kevin MacLeod (incompetech.com)</div>
+              <div class="credit-details">Licensed under Creative Commons: By Attribution 3.0 Unported (CC BY 3.0)</div>
+              <div class="credit-url">https://creativecommons.org/licenses/by/3.0/</div>
+            </div>
+
+            <div class="credit-item">
+              <div class="credit-title">"Chill lofi inspired [loop edit]"</div>
+              <div class="credit-details">Composed by omfgdude; seamless loop edit by qubodup (OpenGameArt.org)</div>
+              <div class="credit-details">Dedicated to the Public Domain under Creative Commons CC0 1.0 Universal</div>
+              <div class="credit-url">https://creativecommons.org/publicdomain/zero/1.0/</div>
+            </div>
+          </section>
+
+          <section class="credits-section">
+            <h4 class="credits-subheading">Sound Effects Attribution</h4>
+            <div class="credit-item">
+              <div class="credit-title">UI Audio (Click 1)</div>
+              <div class="credit-details">Created by Kenney (www.kenney.nl) &bull; Dedicated to the Public Domain under CC0 1.0 Universal</div>
+            </div>
+
+            <div class="credit-item">
+              <div class="credit-title">Casino Audio (Card Slide 1)</div>
+              <div class="credit-details">Created by Kenney (www.kenney.nl) &bull; Dedicated to the Public Domain under CC0 1.0 Universal</div>
+            </div>
+
+            <div class="credit-item">
+              <div class="credit-title">Music Jingles (Steel Jingle 00)</div>
+              <div class="credit-details">Created by Kenney (www.kenney.nl) &bull; Dedicated to the Public Domain under CC0 1.0 Universal</div>
+            </div>
+
+            <div class="credit-item">
+              <div class="credit-title">Synthesized Duck Vocal Quack FX</div>
+              <div class="credit-details">Procedural Web Audio API sound synthesis authored directly in Quackpot. Zero external audio dependencies.</div>
+            </div>
+          </section>
+        </div>
+
+        <footer class="credits-footer">
+          <button type="button" class="btn btn-secondary" id="btn-close-credits-btn">Close Credits</button>
+        </footer>
+      </div>
+    </dialog>
+  </div>
+
+  <!-- Tab 3: Technical Specifications -->
+  <div id="tab-specs" class="tab-pane" role="tabpanel">
+    <h2 class="section-title">Audio Asset Technical Verification Matrix</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+      Exact local files verified via <code>review-01-file-checks.mjs</code> and <code>parity.test.mjs</code>. PCM levels measured for WAV; Ogg numerical levels marked uncalculated as Vorbis bitstreams are lossy compressed data.
+    </p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Asset Filename</th>
+          <th>Intended Game Role</th>
+          <th>Creator & License</th>
+          <th>Format</th>
+          <th>Duration</th>
+          <th>File Size</th>
+          <th>Levels / Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>click1.wav</strong></td>
+          <td>Primary UI Button Tap</td>
+          <td>Kenney &bull; CC0 1.0</td>
+          <td>WAV 16-bit 44.1kHz Stereo</td>
+          <td>0.103s (103 ms)</td>
+          <td>18,254 B</td>
+          <td>PCM Peak -1.54 dBFS / RMS -24.53 dBFS</td>
+        </tr>
+        <tr>
+          <td><strong>cardSlide1.ogg</strong></td>
+          <td>Down Feather / Card Slide</td>
+          <td>Kenney &bull; CC0 1.0</td>
+          <td>OGG Vorbis 44.1kHz Stereo</td>
+          <td>0.601s (601 ms)</td>
+          <td>17,704 B</td>
+          <td>Uncalculated (Vorbis stream)</td>
+        </tr>
+        <tr>
+          <td><strong>jingles_STEEL00.ogg</strong></td>
+          <td>Rarity Reveal (4★/5★ Chime)</td>
+          <td>Kenney &bull; CC0 1.0</td>
+          <td>OGG Vorbis 44.1kHz Stereo</td>
+          <td>0.933s (933 ms)</td>
+          <td>15,691 B</td>
+          <td>Uncalculated (Vorbis stream)</td>
+        </tr>
+        <tr>
+          <td><strong>chilllofir-loop.ogg</strong></td>
+          <td>Apartment Metagame Loop</td>
+          <td>omfgdude/qubodup &bull; CC0</td>
+          <td>OGG Vorbis 44.1kHz Stereo</td>
+          <td>97.216s (1m 37s)</td>
+          <td>2,360,833 B</td>
+          <td>Uncalculated (Seamless loop edit)</td>
+        </tr>
+        <tr>
+          <td><strong>fluffing-a-duck.ogg</strong></td>
+          <td>Gacha App & Theater Theme</td>
+          <td>Kevin MacLeod &bull; CC BY 3.0</td>
+          <td>OGG Vorbis 44.1kHz Stereo</td>
+          <td>67.370s (1m 07s)</td>
+          <td>1,405,902 B</td>
+          <td>Uncalculated (Vorbis stream)</td>
+        </tr>
+        <tr>
+          <td><strong>QUACK_A_CONTROL</strong></td>
+          <td>Reference Quack Baseline</td>
+          <td>Quackpot Authored &bull; Plan 04</td>
+          <td>Web Audio Sawtooth</td>
+          <td>0.220s</td>
+          <td>0 B (Text params)</td>
+          <td>Master Gain 0.15</td>
+        </tr>
+        <tr>
+          <td><strong>QUACK_B_SYNTH_ADSR</strong></td>
+          <td>Articulated Cartoon Quack</td>
+          <td>Quackpot Authored &bull; Plan 04</td>
+          <td>Web Audio Sawtooth</td>
+          <td>0.105s</td>
+          <td>0 B (Text params)</td>
+          <td>Master Gain 0.14</td>
+        </tr>
+        <tr>
+          <td><strong>QUACK_C_FORMANT_NOISE</strong></td>
+          <td>Recommended Vocal Candidate</td>
+          <td>Quackpot Authored &bull; Plan 04</td>
+          <td>Dual Bandpass + LCG Noise</td>
+          <td>0.150s</td>
+          <td>0 B (Text params)</td>
+          <td>Gain 0.15 (Audibly Softer)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Tab Switching
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Master State
+  let isMuted = false;
+  let masterVolume = 0.8;
+  let auditionContext = null;
+  let auditionMasterGain = null;
+  let auditionFacade = null;
+
+  function updateSynthMasterVolume() {
+    if (auditionMasterGain && auditionContext?.state !== 'closed') {
+      auditionMasterGain.gain.setValueAtTime(isMuted ? 0 : masterVolume, auditionContext.currentTime);
+    }
+  }
+
+  function getAuditionContext() {
+    const context = window.DuckSynth?.getOrCreateAudioContext();
+    if (!context) return null;
+    if (context !== auditionContext || !auditionMasterGain) {
+      auditionContext = context;
+      auditionMasterGain = context.createGain();
+      auditionMasterGain.connect(context.destination);
+      const output = auditionMasterGain;
+      // Audition-only output bus; source presets/graphs remain unchanged.
+      auditionFacade = new Proxy(context, {
+        get(target, key) {
+          if (key === 'destination') return output;
+          const value = Reflect.get(target, key, target);
+          return typeof value === 'function' ? value.bind(target) : value;
+        }
+      });
+      updateSynthMasterVolume();
+    }
+    return auditionFacade;
+  }
+
+  const audioElements = {
+    click1: new Audio('audio/click1.wav'),
+    cardSlide1: new Audio('audio/cardSlide1.ogg'),
+    jingleSteel: new Audio('audio/jingles_STEEL00.ogg'),
+    lofi: new Audio('audio/chilllofir-loop.ogg'),
+    duck: new Audio('audio/fluffing-a-duck.ogg')
+  };
+
+  // Configure loop defaults
+  audioElements.lofi.loop = true;
+  audioElements.duck.loop = false;
+
+  const trackVolumes = {
+    lofi: 0.6,
+    duck: 0.55
+  };
+
+  function updateAudioElementVolumes() {
+    const effectiveMaster = isMuted ? 0 : masterVolume;
+    audioElements.click1.volume = effectiveMaster;
+    audioElements.cardSlide1.volume = effectiveMaster;
+    audioElements.jingleSteel.volume = effectiveMaster;
+    audioElements.lofi.volume = effectiveMaster * trackVolumes.lofi;
+    audioElements.duck.volume = effectiveMaster * trackVolumes.duck;
+  }
+  updateAudioElementVolumes();
+
+  // Caption updater
+  function setCaption(text) {
+    const captionEl = document.getElementById('caption-text');
+    const timeEl = document.getElementById('caption-timestamp');
+    captionEl.textContent = text;
+    timeEl.textContent = new Date().toLocaleTimeString();
+  }
+
+  // Master UI Events
+  document.getElementById('btn-resume-audio').addEventListener('click', async () => {
+    try {
+      const ctx = getAuditionContext();
+      if (!ctx) {
+        setCaption('[Web Audio unavailable — recorded samples can still be auditioned]');
+        return;
+      }
+      if (ctx && ctx.state === 'suspended') {
+        await ctx.resume();
+      }
+      setCaption(ctx.state === 'running'
+        ? '[Audio Context Initialized and Ready for Audition]'
+        : '[Audio Context is not running — playback remains unavailable]');
+    } catch (err) {
+      setCaption(`[Audio Context Error: ${err.message}]`);
+    }
+  });
+
+  document.getElementById('master-volume').addEventListener('input', (e) => {
+    masterVolume = parseFloat(e.target.value);
+    document.getElementById('master-vol-label').textContent = Math.round(masterVolume * 100) + '%';
+    updateAudioElementVolumes();
+    updateSynthMasterVolume();
+  });
+
+  document.getElementById('btn-toggle-mute').addEventListener('click', () => {
+    isMuted = !isMuted;
+    document.getElementById('mute-icon').innerHTML = isMuted ? '&#128263;' : '&#128266;';
+    document.getElementById('mute-label').textContent = isMuted ? 'Unmute All' : 'Mute All';
+    updateAudioElementVolumes();
+    updateSynthMasterVolume();
+    setCaption(isMuted ? '[System: Master Audio Muted]' : '[System: Master Audio Unmuted]');
+  });
+
+  document.getElementById('btn-stop-all').addEventListener('click', () => {
+    stopAllAudio();
+    setCaption('[System: All Audio Stopped — Media paused & Web Audio context closed/halted]');
+  });
+
+  function stopAllAudio() {
+    // 1. Halt HTML5 Audio
+    for (const key of Object.keys(audioElements)) {
+      audioElements[key].pause();
+      audioElements[key].currentTime = 0;
+    }
+    document.getElementById('btn-lofi-play').innerHTML = '&#9658; Play';
+    document.getElementById('btn-duck-play').innerHTML = '&#9658; Play';
+    document.querySelectorAll('.audio-card').forEach(c => c.classList.remove('playing'));
+
+    // 2. Halt Web Audio Synth (Closes active context, terminating any scheduled nodes)
+    if (window.DuckSynth?.resetAudioContextForTesting) {
+      window.DuckSynth.resetAudioContextForTesting();
+    }
+    auditionContext = null;
+    auditionMasterGain = null;
+    auditionFacade = null;
+  }
+
+  // Sound Effects with honest promise handling
+  async function playEffect(id) {
+    const sound = audioElements[id];
+    if (!sound) return;
+
+    const card = document.getElementById(
+      id === 'click1' ? 'card-click1' :
+      id === 'cardSlide1' ? 'card-cardSlide1' : 'card-jingleSteel'
+    );
+
+    sound.currentTime = 0;
+    try {
+      await sound.play();
+      card.classList.add('playing');
+      if (id === 'click1') {
+        setCaption('[Audio: Crisp wooden tactile UI click — Click 1 by Kenney]');
+      } else if (id === 'cardSlide1') {
+        setCaption('[Audio: Soft paper card slide & Down feather flutter — Card Slide 1 by Kenney]');
+      } else if (id === 'jingleSteel') {
+        setCaption('[Audio: High-rarity celebratory steel chime fanfare — Steel Jingle 00 by Kenney]');
+      }
+      setTimeout(() => card.classList.remove('playing'), Math.min(800, (sound.duration || 0.8) * 1000));
+    } catch (err) {
+      card.classList.remove('playing');
+      setCaption(`[Playback Error: ${err.name} — ${err.message}. If using older Safari, note Ogg Vorbis requires Safari 18.4+]`);
+    }
+  }
+
+  // Music Controls with honest promise handling
+  async function toggleMusic(track) {
+    const sound = audioElements[track];
+    const btn = document.getElementById(track === 'lofi' ? 'btn-lofi-play' : 'btn-duck-play');
+    const card = document.getElementById(track === 'lofi' ? 'card-lofi' : 'card-duck');
+
+    if (sound.paused) {
+      try {
+        await sound.play();
+        btn.innerHTML = '&#10074;&#10074; Pause';
+        card.classList.add('playing');
+        if (track === 'lofi') {
+          setCaption('[Music: Mellow apartment lo-fi groove playing — Chill lofi inspired (CC0)]');
+        } else {
+          setCaption('[Music: Upbeat comedic gacha app theme playing — Fluffing a Duck (CC BY 3.0)]');
+        }
+      } catch (err) {
+        btn.innerHTML = '&#9658; Play';
+        card.classList.remove('playing');
+        setCaption(`[Music Playback Error: ${err.name} — ${err.message}. If using older Safari, note Ogg Vorbis requires Safari 18.4+]`);
+      }
+    } else {
+      sound.pause();
+      btn.innerHTML = '&#9658; Play';
+      card.classList.remove('playing');
+      setCaption(`[Music: ${track === 'lofi' ? 'Chill lofi' : 'Fluffing a Duck'} Paused]`);
+    }
+  }
+
+  function stopMusic(track) {
+    const sound = audioElements[track];
+    const btn = document.getElementById(track === 'lofi' ? 'btn-lofi-play' : 'btn-duck-play');
+    const card = document.getElementById(track === 'lofi' ? 'card-lofi' : 'card-duck');
+    sound.pause();
+    sound.currentTime = 0;
+    btn.innerHTML = '&#9658; Play';
+    card.classList.remove('playing');
+    setCaption(`[Music: ${track === 'lofi' ? 'Chill lofi' : 'Fluffing a Duck'} Stopped]`);
+  }
+
+  function toggleLoop(track, isLooping) {
+    audioElements[track].loop = isLooping;
+  }
+
+  function setTrackVolume(track, val) {
+    trackVolumes[track] = parseFloat(val);
+    updateAudioElementVolumes();
+  }
+
+  audioElements.lofi.addEventListener('ended', () => {
+    document.getElementById('btn-lofi-play').innerHTML = '&#9658; Play';
+    document.getElementById('card-lofi').classList.remove('playing');
+  });
+  audioElements.duck.addEventListener('ended', () => {
+    document.getElementById('btn-duck-play').innerHTML = '&#9658; Play';
+    document.getElementById('card-duck').classList.remove('playing');
+  });
+
+  // Web Audio Synthesizer via Authoritative Compiled Bundle
+  async function playSynthesizedQuack(candidateKey) {
+    if (!window.DuckSynth) {
+      setCaption('[Error: Authoritative DuckSynth bundle not loaded]');
+      return;
+    }
+
+    const card = document.getElementById(
+      candidateKey === 'A' ? 'card-synthA' :
+      candidateKey === 'B' ? 'card-synthB' : 'card-synthC'
+    );
+
+    const basePreset =
+      candidateKey === 'A' ? window.DuckSynth.QUACK_A_CONTROL :
+      candidateKey === 'B' ? window.DuckSynth.QUACK_B_SYNTH_ADSR :
+      window.DuckSynth.QUACK_C_FORMANT_NOISE;
+
+    if (isMuted || masterVolume === 0) {
+      card.classList.remove('playing');
+      setCaption('[Synth silent — audio is muted or master volume is zero]');
+      return;
+    }
+    let res;
+    try {
+      const context = getAuditionContext();
+      if (!context) {
+        card.classList.remove('playing');
+        setCaption('[Synth unavailable — Web Audio is not supported]');
+        return;
+      }
+      res = await window.DuckSynth.playSynthesizedSound(basePreset, { audioContext: context });
+    } catch (err) {
+      card.classList.remove('playing');
+      setCaption(`[Synth playback error: ${err.message}]`);
+      return;
+    }
+
+    if (res.played) {
+      card.classList.add('playing');
+      if (candidateKey === 'A') {
+        setCaption('[Duck Vocal: Baseline Control Quack — 340 Hz Sawtooth with Vibrato]');
+      } else if (candidateKey === 'B') {
+        setCaption('[Duck Vocal: Candidate B Articulated ADSR Quack — Snappy 380 Hz Cartoon Snap]');
+      } else if (candidateKey === 'C') {
+        setCaption('[Duck Vocal: Candidate C Formant Quack — Dual Bandpass Filtered & Breath (Audibly Softer)]');
+      }
+      setTimeout(() => card.classList.remove('playing'), (res.duration || 0.2) * 1000 + 50);
+    } else {
+      card.classList.remove('playing');
+      setCaption(`[Synth Playback Status: ${res.reason || 'silent fallback'}]`);
+    }
+  }
+
+  // Operable Credits Dialog with Verified Focus Return & Escape
+  const creditsDialog = document.getElementById('credits-dialog');
+  let lastFocusedElement = null;
+
+  function openCreditsModal(triggerElement) {
+    lastFocusedElement = triggerElement;
+    if (typeof creditsDialog.showModal === 'function') {
+      creditsDialog.showModal();
+    } else {
+      // Fallback for non-supporting browsers
+      creditsDialog.setAttribute('open', '');
+    }
+    setCaption('[Dialog: Credits & Legal attribution dialog opened]');
+  }
+
+  function closeCreditsModal() {
+    if (typeof creditsDialog.close === 'function') {
+      creditsDialog.close();
+    } else {
+      creditsDialog.removeAttribute('open');
+    }
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+    }
+    setCaption('[Dialog: Credits dialog closed; focus returned cleanly]');
+  }
+
+  document.getElementById('btn-open-title-credits').addEventListener('click', (e) => {
+    openCreditsModal(e.currentTarget);
+  });
+
+  document.getElementById('btn-open-settings-credits').addEventListener('click', (e) => {
+    openCreditsModal(e.currentTarget);
+  });
+
+  document.getElementById('btn-close-credits-x').addEventListener('click', () => {
+    closeCreditsModal();
+  });
+
+  document.getElementById('btn-close-credits-btn').addEventListener('click', () => {
+    closeCreditsModal();
+  });
+
+  creditsDialog.addEventListener('cancel', () => {
+    // Native escape key triggers cancel
+    if (lastFocusedElement) {
+      setTimeout(() => lastFocusedElement.focus(), 0);
+    }
+    setCaption('[Dialog: Credits closed via Escape key; focus returned]');
+  });
+
+  // Settings Demo Checkbox Handlers
+  function toggleDemoMute(muted) {
+    isMuted = muted;
+    document.getElementById('mute-icon').innerHTML = isMuted ? '&#128263;' : '&#128266;';
+    document.getElementById('mute-label').textContent = isMuted ? 'Unmute All' : 'Mute All';
+    updateAudioElementVolumes();
+    setCaption(isMuted ? '[Settings: Audio Muted independently]' : '[Settings: Audio Unmuted]');
+  }
+
+  function toggleDemoMotion(reduced) {
+    setCaption(reduced 
+      ? '[Settings: Reduced Motion enabled — visual transitions silenced without muting audio]'
+      : '[Settings: Standard Motion enabled]'
+    );
+  }
+</script>
+
+</body>
+</html>

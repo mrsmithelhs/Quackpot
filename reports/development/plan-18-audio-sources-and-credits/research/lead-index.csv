@@ -1,0 +1,168 @@
+id,title,creator,source_library,license_name,license_version,license_level,login_required,restrictions_flags,suggested_roles,duration_s,asset_page_url
+T1-001,select_003,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,UI,,https://kenney.nl/assets/interface-sounds
+T1-002,confirmation_001,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,UI,,https://kenney.nl/assets/interface-sounds
+T1-003,back_001,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,UI,,https://kenney.nl/assets/interface-sounds
+T1-004,close_001,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,UI,,https://kenney.nl/assets/interface-sounds
+T1-005,tick_001,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,UI,,https://kenney.nl/assets/interface-sounds
+T1-006,click1,Kenney Vleugels (Kenney.nl),Kenney.nl,CC0,1.0,pack-level,false,,UI,,https://kenney.nl/assets/ui-audio
+T1-007,cardSlide2,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-008,cardPlace1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-009,cardShuffle,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-010,cardFan1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-011,cardOpenPackage1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-012,cardShove1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,CARD,,https://kenney.nl/assets/casino-audio
+T1-013,jingles-hit_01,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/music-jingles
+T1-014,jingles-steel_03,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/music-jingles
+T1-015,powerUp6,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/digital-audio
+T1-016,pepSound1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/digital-audio
+T1-017,twoTone1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/digital-audio
+T1-018,powerUp2,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,WIN,,https://kenney.nl/assets/digital-audio
+T1-019,highDown,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,DUP,,https://kenney.nl/assets/digital-audio
+T1-020,lowDown,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,DUP,,https://kenney.nl/assets/digital-audio
+T1-021,phaserDown2,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,DUP,,https://kenney.nl/assets/digital-audio
+T1-022,phaserDown1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,DUP,,https://kenney.nl/assets/digital-audio
+T1-023,minimize_007,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,DUP,,https://kenney.nl/assets/interface-sounds
+T1-024,impactSoft_medium_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-025,impactSoft_heavy_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-026,impactWood_light_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-027,impactPlank_medium_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-028,impactGeneric_light_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-029,impactWood_medium_000,Kenney,Kenney.nl,CC0,1.0,pack-level,false,,IMPACT,,https://kenney.nl/assets/impact-sounds
+T1-030,chipLay1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/casino-audio
+T1-031,chipsCollide1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/casino-audio
+T1-032,handleCoins2,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/rpg-audio
+T1-033,bookFlip2,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/rpg-audio
+T1-034,pluck_001,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/interface-sounds
+T1-035,doorClose_1,Kenney,Kenney.nl,CC0,1.0,unverified-lead,false,,META,,https://kenney.nl/assets/rpg-audio
+T2-001,Ducks Quacking To Each Other,OwennewO,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK;DUP,1.254,https://freesound.org/people/OwennewO/sounds/719115/
+T2-002,single quack from a duck,Mikes-MultiMedia,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,0.816,https://freesound.org/people/Mikes-MultiMedia/sounds/418509/
+T2-003,Mallard Duck Quack Flying Away.wav,WavJunction.com,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,25.9,https://freesound.org/people/WavJunction.com/sounds/456770/
+T2-004,Duck quacking.mp3,DigPro120,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,1.748,https://freesound.org/people/DigPro120/sounds/558858/
+T2-005,Duck_quack_2_Sweden.wav,calodas,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK;AMB,35.213,https://freesound.org/people/calodas/sounds/188375/
+T2-006,Duck_quack_1_Sweden.wav,calodas,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK;AMB,37.151,https://freesound.org/people/calodas/sounds/188376/
+T2-007,duck.wav,Jonnyhoff91,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,9.656,https://freesound.org/people/Jonnyhoff91/sounds/187261/
+T2-008,Sound of a Duck,florianreichelt,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,4.543,https://freesound.org/people/florianreichelt/sounds/448208/
+T2-009,Ducks.wav,deleted_user_8803593,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK;CROWD;AMB,56.499,https://freesound.org/people/deleted_user_8803593/sounds/455887/
+T2-010,Quacking Ducks.wav,deleted_user_8803593,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,CROWD;AMB,111,https://freesound.org/people/deleted_user_8803593/sounds/445984/
+T2-011,quack quack.SRBD.wav,martian,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,1.322,https://freesound.org/people/martian/sounds/547601/
+T2-012,desperate duck quack,dumnezilla,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,5.225,https://freesound.org/people/dumnezilla/sounds/749445/
+T2-013,Toy Ducks Quacking,nebyoolae,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,4.788,https://freesound.org/people/nebyoolae/sounds/348791/
+T2-014,Rubber duck toy squeaking.wav,panmaterac,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,7.569,https://freesound.org/people/panmaterac/sounds/201285/
+T2-015,toy squeak.wav,Reitanna,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,44.559,https://freesound.org/people/Reitanna/sounds/215344/
+T2-016,rubber duck -CsG-.wav,csaszi,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,11.859,https://freesound.org/people/csaszi/sounds/350917/
+T2-017,Rubber-Duck_Squeezes.wav,LamaMakesMusic,Freesound,Creative Commons 0,1.0,unverified-lead,true,login-required,DUCK,10.636,https://freesound.org/people/LamaMakesMusic/sounds/403507/
+T2-018,TwoFranticQuacks.wav,tewell (Terry Ewell),Freesound,Attribution,3.0,unverified-lead,true,login-required,DUCK;DUP,3.633,https://freesound.org/people/tewell/sounds/90028/
+T2-019,TwoShortOneHighQuacks.wav,tewell (Terry Ewell),Freesound,Attribution,3.0,unverified-lead,true,login-required,DUCK;DUP,3.07,https://freesound.org/people/tewell/sounds/90029/
+T2-020,FourShortQuacks.wav,tewell (Terry Ewell),Freesound,Attribution,3.0,unverified-lead,true,login-required,DUCK,2.596,https://freesound.org/people/tewell/sounds/90027/
+T2-021,shocked duck.wav,crazyduckman,Freesound,Attribution,3.0,unverified-lead,true,login-required,DUCK,1.134,https://freesound.org/people/crazyduckman/sounds/185550/
+T2-022,Duck Quack,qubodup,Freesound,Attribution,4.0,unverified-lead,true,login-required,DUCK,1.13,https://freesound.org/people/qubodup/sounds/442820/
+T2-023,ducks 250206 1231 PM,klankbeeld,Freesound,Attribution,4.0,unverified-lead,true,login-required,DUCK;AMB,11.403,https://freesound.org/people/klankbeeld/sounds/788054/
+T2-024,duck quack,treefit.2025,Freesound,Attribution,4.0,unverified-lead,true,login-required,DUCK;UI,0.35,https://freesound.org/people/treefit.2025/sounds/818396/
+T2-025,1. Ducks.wav,IllusiaProductions,Freesound,Attribution,4.0,unverified-lead,true,login-required,DUCK;AMB,13.613,https://freesound.org/people/IllusiaProductions/sounds/249943/
+T2-026,duck quarrel.wav,dibko,Freesound,Attribution,4.0,unverified-lead,true,login-required,DUCK;AMB,202.409,https://freesound.org/people/dibko/sounds/615593/
+T2-027,air release out of rubber duck.wav,rubenvvuuren,Freesound,Attribution,3.0,unverified-lead,true,login-required,DUCK;UI,8.107,https://freesound.org/people/rubenvvuuren/sounds/594420/
+T2-028,Ducks landing in water,U.S. Fish and Wildlife Service (Commons upload by User:Richard001),Wikimedia Commons,Public domain,,file-page,false,,AMB;DUCK,9.792,https://commons.wikimedia.org/wiki/File:Ducks_landing_in_water.ogg
+T3-001,confirm-1 (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,UI,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T3-002,JRPG Style UI: confirm,KillaMaaki,OpenGameArt.org,CC BY,3.0,pack-level,false,,UI,,https://opengameart.org/content/jrpg-style-ui-sounds
+T3-003,JRPG Style UI: move cursor,KillaMaaki,OpenGameArt.org,CC BY,3.0,pack-level,false,,UI,,https://opengameart.org/content/jrpg-style-ui-sounds
+T3-004,JRPG Style UI: close UI,KillaMaaki,OpenGameArt.org,CC BY,3.0,pack-level,false,,UI,,https://opengameart.org/content/jrpg-style-ui-sounds
+T3-005,"click-ui (Click UI Menu SFX, yes/no/select) archive",qubodup,OpenGameArt.org,CC0,1.0,pack-level,false,needs-compat-check,UI,,https://opengameart.org/content/click-ui-menu-sfx-yesnoselect
+T3-006,GUI Sound Effects by Lokif (menu clicks and positive/negative),Lokif (LokiF),OpenGameArt.org,CC0,1.0,pack-level,false,,UI,,https://opengameart.org/content/gui-sound-effects
+T3-007,"UI Sound Effects (Button Clicks, User Feedback, Notifications) ogg set",Robin Lamb,OpenGameArt.org,CC0,1.0,pack-level,false,,UI,,https://opengameart.org/content/ui-sound-effects-button-clicks-user-feedback-notifications
+T3-008,shuffle.wav (Playing Card Sounds),BMacZero (Brian MacIntosh per copyright notice),OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/playing-card-sounds
+T3-009,shuffleandbridge.wav (Playing Card Sounds),BMacZero (Brian MacIntosh per copyright notice),OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/playing-card-sounds
+T3-010,contact1.wav (Playing Card Sounds),BMacZero (Brian MacIntosh per copyright notice),OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/playing-card-sounds
+T3-011,contact2.wav (Playing Card Sounds),BMacZero (Brian MacIntosh per copyright notice),OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/playing-card-sounds
+T3-012,cut.wav (Playing Card Sounds),BMacZero (Brian MacIntosh per copyright notice),OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/playing-card-sounds
+T3-013,whoosh2.wav (Air whoosh loop),pyranostudios,OpenGameArt.org,CC0,1.0,file-page,false,,CARD,,https://opengameart.org/content/air-whoosh
+T3-014,Cardsounds.zip (Card Game sounds),HaelDB,OpenGameArt.org,CC0,1.0,pack-level,false,,CARD;UI,,https://opengameart.org/content/card-game-sounds
+T3-015,Win sound.wav,Listener,OpenGameArt.org,CC0,1.0,file-page,false,,WIN,,https://opengameart.org/content/win-sound-effect
+T3-016,power_up_sound_v1.ogg (Power-Up Sound Effects),Spring Spring,OpenGameArt.org,CC0,1.0,file-page,false,,WIN,,https://opengameart.org/content/power-up-sound-effects
+T3-017,power_up_sound_v2.ogg (Power-Up Sound Effects),Spring Spring,OpenGameArt.org,CC0,1.0,file-page,false,,WIN,,https://opengameart.org/content/power-up-sound-effects
+T3-018,power_up_sound_v3.ogg (Power-Up Sound Effects),Spring Spring,OpenGameArt.org,CC0,1.0,file-page,false,,WIN,,https://opengameart.org/content/power-up-sound-effects
+T3-019,achievement (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,WIN,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T3-020,level-up-bright (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,WIN,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T3-021,quest-complete-bright (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,WIN,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T3-022,"quiz_sfx_cc0.zip (Quiz and Game Show Sound Effects, 23 SFX)",Quiz Zukan,OpenGameArt.org,CC0,1.0,pack-level,false,,WIN,,https://opengameart.org/content/quiz-and-game-show-sound-effects-23-sfx
+T3-023,"SoundPack01.zip (Level up, power up, Coin get, 13 sounds)",wobbleboxx,OpenGameArt.org,CC0,1.0,pack-level,false,,WIN,,https://opengameart.org/content/level-up-power-up-coin-get-13-sounds
+T3-024,coin_sounds.zip (10 8bit coin sounds),Luke.RUSTLTD,OpenGameArt.org,CC0,1.0,pack-level,false,,WIN,,https://opengameart.org/content/10-8bit-coin-sounds
+T3-025,Coins sounds [OGG].zip (Coins Sounds),jalastram (copyright notice names Jesús Lastra),OpenGameArt.org,CC BY,3.0,pack-level,false,,WIN,,https://opengameart.org/content/coins-sounds
+T3-026,MachinePowerOff.ogg (Machine shutting down),Cough-E,OpenGameArt.org,CC0,1.0,file-page,false,derivative-source-unverified,DUP,,https://opengameart.org/content/machine-shutting-down
+T3-027,Sound effects Pack 2 (Lose and Power-up folders),phoenix1291,OpenGameArt.org,CC0,1.0,pack-level,false,,DUP,,https://opengameart.org/content/sound-effects-pack-2
+T3-028,sell-coins (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,DUP,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T3-029,game-over-warm (Cozy SFX Sampler),Spaceyyy (page author field: roberto mellado),OpenGameArt.org,CC BY,4.0,pack-level,false,,DUP,,https://opengameart.org/content/cozy-sfx-sampler-%E2%80%94-60-cute-sound-effects-ui-farm-rpg-retro-spooky-footsteps
+T4-001,Free Crowd Cheering Sounds (11-track zip),Gregor Quendel,OpenGameArt.org,Creative Commons Attribution 4.0,4.0,file-page,false,,CROWD,,https://opengameart.org/content/free-crowd-cheering-sounds
+T4-002,"Clapping hurray (cropped, 9.8 s)",starlite (source PDSounds.org; Commons upload by Fae),Wikimedia Commons,Public domain (explicit release by author),,file-page,false,,CROWD;WIN,9.8,https://commons.wikimedia.org/wiki/File:Clapping_hurray_(cropped).oga
+T4-003,Applause-2 (audience applauding in concert hall),Sandermotions (Commons upload by Victorgrigas),Wikimedia Commons,Creative Commons CC0 1.0 Universal Public Domain Dedication,1.0,file-page,false,,CROWD,6.3,https://commons.wikimedia.org/wiki/File:277021_sandermotions_applause-2.wav
+T4-004,Applause (cut from Yo Frankie! endgame sound),Blender Foundation (submitted by LeeZH),OpenGameArt.org,Creative Commons Attribution 3.0 Unported,3.0,file-page,false,,CROWD;WIN,,https://opengameart.org/content/applause
+T4-005,Well Done (win success with clapping),qubodup (own recording made at a hackathon),OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,WIN;CROWD,,https://opengameart.org/content/well-done
+T4-006,Win sound (positive success effect),Listener,OpenGameArt.org,Creative Commons Zero (CC0) 1.0 (public domain statement on page),1.0,file-page,false,,WIN,,https://opengameart.org/content/win-sound-effect
+T4-007,Completion sound (task-complete ding),Brandon Morris (submitted by HaelDB),OpenGameArt.org,CC0 1.0 (elected option); page also offers OGA-BY 3.0,1.0 (CC0); 3.0 (OGA-BY alternative),file-page,false,dual-license-owner-must-elect-CC0,WIN;UI,,https://opengameart.org/content/completion-sound
+T4-008,Pleasing Bell Sound Effect (pleasing-bell.wav),Spring Spring (Julie Damsgaard),OpenGameArt.org,CC0 (Creative Commons Zero),1.0,file-page,false,,RACE;WIN,,https://opengameart.org/content/pleasing-bell-sound-effect
+T4-009,Basic Sound Effects - bell1.mp3 (2DOM! SFX),n4,OpenGameArt.org,CC0 (Creative Commons Zero),1.0 (from CC0 link; no version printed on page),file-page,false,,RACE;WIN,,https://opengameart.org/content/basic-sound-effects
+T4-010,Soft Whistle,stilgar (source PDSounds.org; Commons upload by Fae),Wikimedia Commons,Public domain (explicit release by author),,file-page,false,,RACE,5.4,https://commons.wikimedia.org/wiki/File:Soft_whistle.ogg
+T4-011,Race Start Countdown (3-2-1-go beeps),kheetor,OpenGameArt.org,UNRESOLVED: page shows several license badges with no file mapping,,unverified-lead,false,license-ambiguous;GPL-or-SA-badges-present;synthesized-tone,RACE,,https://opengameart.org/content/race-start-countdown
+T4-012,40 CC0 water / splash / slime SFX (zip),rubberduck,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,IMPACT,,https://opengameart.org/content/40-cc0-water-splash-slime-sfx
+T4-013,Water Splash and sand footsteps (splash1.wav),Peludo,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,IMPACT,,https://opengameart.org/content/water-splash-and-sand-footsteps
+T4-014,Water splashes (splash.7z),Michel Baradari (apollo-music.de); submitted by qubodup,OpenGameArt.org,Creative Commons Attribution 3.0 Unported,3.0,file-page,false,7z-archive;format-unverified,IMPACT,,https://opengameart.org/content/water-splashes
+T4-015,Object dropping into water (water_drops_1.ogg),angeloyazar,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,IMPACT,,https://opengameart.org/content/object-dropping-into-water-0
+T4-016,100 CC0 SFX (zip),rubberduck,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,zip-integrity-reported-by-commenter,IMPACT;WIN,,https://opengameart.org/content/100-cc0-sfx
+T4-017,squeakyclick1.wav (Mechanical Sounds pack),BMacZero (optional credit: Brian MacIntosh),OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,IMPACT,,https://opengameart.org/content/mechanical-sounds
+T4-018,Squeak toy sounds (squeak_toy.zip),bart,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,,IMPACT,,https://opengameart.org/content/squeak-toy-sounds
+T4-019,BOING! (boing.flac),Aeva,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,synthesized-not-recorded,IMPACT,,https://opengameart.org/content/boing
+T4-020,Thwack sounds (thwack-1.0.zip),Jordan Irwin (AntumDeluge),OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,may-be-too-sharp,IMPACT,,https://opengameart.org/content/thwack-sounds
+T4-021,Applause in a large hall or church (immersive church crowd),eXpl0it3r,OpenGameArt.org,Creative Commons Zero (CC0) 1.0,1.0,file-page,false,may-exceed-8s;may-be-loud,CROWD,,https://opengameart.org/content/applause-in-a-large-hall-or-church
+T4-022,R02-13-Group Applause (Red Library: Crowds Applause),USC Cinema/Sunset Editorial collection (digitized by Craig Smith); uploaded by Jason Scott,Internet Archive,CC0 1.0 Universal,1.0,file-page,false,,CROWD,,https://archive.org/details/Red_Library_Crowds_Applause
+T4-023,R02-06-Medium Crowd Applause (Red Library: Crowds Applause),USC Cinema/Sunset Editorial collection (digitized by Craig Smith); uploaded by Jason Scott,Internet Archive,CC0 1.0 Universal,1.0,file-page,false,,CROWD,,https://archive.org/details/Red_Library_Crowds_Applause
+T4-024,R07-41-Race Track Voices (Red Library: Crowds Sports),USC Cinema/Sunset Editorial collection (digitized by Craig Smith); uploaded by Jason Scott,Internet Archive,CC0 1.0 Universal,1.0,file-page,false,,CROWD;RACE,,https://archive.org/details/Red_Library_Crowds_Sports
+T4-025,Small applause (~30 people),Breviceps,Freesound,Creative Commons 0 (as displayed on Freesound page),1.0 (CC0 name only on page),unverified-lead,true,login-required;preview-only,CROWD,4.486,https://freesound.org/people/Breviceps/sounds/462362/
+T4-026,"Crowd Cheering (medium crowd, clapping, woo-ing)",SoundsExciting,Freesound,Creative Commons 0 (as displayed on Freesound page),1.0 (CC0 name only on page),unverified-lead,true,login-required;preview-only;over-8s,CROWD,13.248,https://freesound.org/people/SoundsExciting/sounds/365132/
+T5-001,Alert/Notification Sound,frosty ham,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META;UI,,https://opengameart.org/content/alertnotification-sound
+T5-002,UI Sounds,HaelDB,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,UI;META,,https://opengameart.org/content/ui-sounds-0
+T5-003,"UI Sound Effects (Button Clicks, User Feedback, Notifications)",Robin Lamb,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,UI;META,,https://opengameart.org/content/ui-sound-effects-button-clicks-user-feedback-notifications
+T5-004,various sound effects,"Not stated (uploaded by Patrick Lauser, 2017)",Internet Archive,CC0 1.0 Universal,1.0,pack-level,false,weather-not-approved,META;AMB,,https://archive.org/details/various-sound-effects
+T5-005,Notification Sound 1,deadrobotmusic,Freesound,CC0 1.0 Universal (as shown on Freesound page),1.0,unverified-lead,true,login-required;preview-only,META;UI,0.601,https://freesound.org/people/deadrobotmusic/sounds/750607/
+T5-006,Old Pages/Flip with sound,yd,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/old-pagesflip-with-sound
+T5-007,Book Flip Sounds,Voltiment555,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/book-flip-sounds
+T5-008,Various Paper Sound Effects,Luckius,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/various-paper-sound-effects
+T5-009,Sound Effects Pack,OwlishMedia,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/sound-effects-pack
+T5-010,202 More Sound Effects,OwlishMedia,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/202-more-sound-effects
+T5-011,100 CC0 SFX,rubberduck,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META;IMPACT,,https://opengameart.org/content/100-cc0-sfx
+T5-012,10 8bit coin sounds,Luke.RUSTLTD,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/10-8bit-coin-sounds
+T5-013,12 Coin Sound Effects,StarNinjas,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/12-coin-sound-effects
+T5-014,coin sounds,syncopika,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/coin-sounds
+T5-015,Coin Drop,Vinrax,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/coin-drop
+T5-016,Plingy Coin,Fupi,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/plingy-coin
+T5-017,Cash register.ogg,Not stated on fetched page,Wikimedia Commons,Public domain (self-declared; PD-self),Not stated,file-page,false,,META,2.2,https://commons.wikimedia.org/wiki/File:Cash_register.ogg
+T5-018,Light Switch Turn On And Off SFX,FunnyDude,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/light-switch-turn-on-and-off-sfx-0
+T5-019,"Door Open, Door Close Set",qubodup,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/door-open-door-close-set
+T5-020,"Door open, door close",Iwan Gabovitch (submitted by qubodup),OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,,META,,https://opengameart.org/content/door-open-door-close
+T5-021,Door Open SFX,Oiboo,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,,META,,https://opengameart.org/content/door-open-sfx
+T5-022,Closing an old door,ezwa,Wikimedia Commons,Public domain (author dedication; box labelled 'Public domain'),Not stated,file-page,false,,META,5.5,https://commons.wikimedia.org/wiki/File:Closing_an_old_door.ogg
+T5-023,Elevator door closing,stephan (via pdsounds.org),Wikimedia Commons,Public domain (author dedication; box labelled 'Public domain'),Not stated,file-page,false,,META,8.1,https://commons.wikimedia.org/wiki/File:Elevator_door_closing.ogg
+T5-024,Rain (loopable),Ylmir,OpenGameArt.org,CC0 1.0 Universal,1.0,pack-level,false,weather-not-approved,AMB,,https://opengameart.org/content/rain-loopable
+T5-025,AMB Rain Loop 2,Kresiek The Furry,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,weather-not-approved,AMB,,https://opengameart.org/content/amb-rain-loop-2
+T5-026,Rain against the window,cori,Wikimedia Commons,Public domain (author dedication; box labelled 'Public domain'),Not stated,file-page,false,weather-not-approved,AMB,81.7,https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg
+T5-027,Rain (Wikimedia),Not stated on fetched page,Wikimedia Commons,Public domain (self-declared; PD-self),Not stated,file-page,false,weather-not-approved,AMB,10,https://commons.wikimedia.org/wiki/File:Rain.ogg
+T5-028,Rain and Thunder Loop,DoKashiteru,OpenGameArt.org,Creative Commons Attribution 3.0 (CC BY 3.0),3.0,file-page,false,thunder-flag;weather-not-approved,AMB,,https://opengameart.org/content/rain-and-thunder-loop
+T5-029,rumble fx,cinameng,OpenGameArt.org,CC0 1.0 Universal,1.0,file-page,false,thunder-flag;weather-not-approved,AMB,19,https://opengameart.org/content/rumble-fx
+T5-030,Ceramic_Mug_Cup.wav,Jamitch2,Freesound,CC0 1.0 Universal (as shown on Freesound page),1.0,unverified-lead,true,login-required;preview-only,META,19.888,https://freesound.org/people/Jamitch2/sounds/344704/
+T6-001,Mallard Duck Quacking,Mike Koenig,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,DUCK;CARD,,https://soundbible.com/1862-Mallard-Duck-Quacking.html
+T6-002,Mallard Duck,Mike Koenig,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,DUCK;CARD,,https://soundbible.com/1852-Mallard-Duck.html
+T6-003,Mallard Duck 2,Tony Phillips,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,DUCK;CARD,,https://soundbible.com/1197-Mallard-Duck-2.html
+T6-004,Pissed Off Duck,Mike Koenig,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,DUCK;IMPACT,,https://soundbible.com/1859-Pissed-Off-Duck.html
+T6-005,Ducks Landing In Water,fws.gov (uploader label on SoundBible),SoundBible.com,Public Domain (SoundBible label),,file-page,false,US-government-origin-unconfirmed,DUCK;AMB,,https://soundbible.com/234-Ducks-Landing-In-Water.html
+T6-006,Ducks snatching,Bert76,Wikimedia Commons,Creative Commons CC0 1.0 Universal Public Domain Dedication,1.0,file-page,false,,DUCK;AMB,3.7,https://commons.wikimedia.org/wiki/File:Ducks_snatching.ogg
+T6-007,Ducks landing in water,U.S. Fish and Wildlife Service (uploader User:Richard001),Wikimedia Commons,Public domain (PD-USGov-FWS template),,file-page,false,US-government-template-scope,DUCK;AMB,9.8,https://commons.wikimedia.org/wiki/File:Ducks_landing_in_water.ogg
+T6-008,Ducks,DenisChardonnet,BigSoundBank,CC0 (public domain): Free and royalty-free (per-sound label),not stated,file-page,false,site-license-wording-differs,DUCK;AMB,22,https://bigsoundbank.com/ducks-s0276.html
+T6-009,Single Duck Quack Sound Effect,not named on page (freesoundslibrary.com),Free Sounds Library,Attribution 4.0 International (CC BY 4.0),4.0,file-page,false,creator-unknown;custom-royalty-free-wording,DUCK;CARD,1,https://www.freesoundslibrary.com/single-duck-quack-sound-effect/
+T6-010,Duck Quack,not named on page (freesoundslibrary.com),Free Sounds Library,Attribution 4.0 International (CC BY 4.0),4.0,file-page,false,creator-unknown;custom-royalty-free-wording,DUCK;AMB,18,https://www.freesoundslibrary.com/duck-quack/
+T6-011,Quack Sound Effect (Funny & Realistic Duck Quack),not named on page (freesoundslibrary.com),Free Sounds Library,Attribution 4.0 International (CC BY 4.0),4.0,file-page,false,creator-unknown;custom-royalty-free-wording,DUCK;CARD,1,https://www.freesoundslibrary.com/quack-sound-effect/
+T6-012,Duck Noises,not named on page (freesoundslibrary.com),Free Sounds Library,Attribution 4.0 International (CC BY 4.0),4.0,file-page,false,creator-unknown;custom-royalty-free-wording,DUCK;AMB,56,https://www.freesoundslibrary.com/duck-noises/
+T6-013,The duck's quack (1923 78 rpm instrumental),Hannibal Maguire; Corona Dance Orchestra [Frank Westphal Orchestra]; Frank Westphal (per Library of Congress National Jukebox metadata),Internet Archive (mirror of Library of Congress National Jukebox),Public Domain Mark 1.0,1.0,file-page,false,content-unverified;instrumental,DUCK;META,,https://archive.org/details/loc-jukebox-670960-the-duck-s-quack
+T6-014,Squeak toy sounds,bart,OpenGameArt.org,CC0 1.0 Universal (CC0),1.0,pack-level,false,contents-unverified,DUCK;UI,,https://opengameart.org/content/squeak-toy-sounds
+T6-015,Woosh,Mark DiAngelo,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,UI;CARD,,https://soundbible.com/2068-Woosh.html
+T6-016,Flyby,Conor,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed,UI;CARD,,https://soundbible.com/1891-Flyby.html
+T6-017,Sad Trombone,Joe Lamb,SoundBible.com,Attribution 3.0 (SoundBible label),3.0,file-page,false,CC-identity-unconfirmed;comedic-tone,META;IMPACT,,https://soundbible.com/1830-Sad-Trombone.html
+T6-018,Fast whoosh (MixClap),not stated in listing (Freesound-sourced per site text),MixClap (reseller of Freesound-sourced sounds),CC0 (per MixClap listing tag),,unverified-lead,unknown,reseller;underlying-source-unverified;MixClap-terms-undefined,UI;CARD,0.5,https://www.mixclap.com/en/blog/transition-sound-effects
+T6-019,Reverse cymbal (MixClap),not stated in listing (Freesound-sourced per site text),MixClap (reseller of Freesound-sourced sounds),CC0 (per MixClap listing tag),,unverified-lead,unknown,reseller;underlying-source-unverified;MixClap-terms-undefined,CARD;UI,2,https://www.mixclap.com/en/blog/transition-sound-effects

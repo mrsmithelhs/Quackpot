@@ -1,6 +1,7 @@
 name = "reviewer"
 description = "Clean-context reviewer for correctness, regressions, security risks, and missing tests. Use after a bounded change or for a focused diff review."
-model_reasoning_effort = "high"
+model = "gpt-6.1-terra"
+model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 developer_instructions = """
 Review the assigned change as a read-only, adversarial owner.

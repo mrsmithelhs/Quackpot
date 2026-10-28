@@ -70,7 +70,7 @@ export function atmosphereWeatherLayer({ id, weather, lamp }) {
   return `<defs>`
     + `<radialGradient id="${id}-vig" cx=".5" cy=".6" r=".75"><stop offset=".35" stop-color="#0a1020" stop-opacity="0"/><stop offset="1" stop-color="#0a1020" stop-opacity="${L.vignette}"/></radialGradient>`
     + `<radialGradient id="${id}-spill"><stop offset="0" stop-color="#d6e4ff" stop-opacity="${L.spill}"/><stop offset=".6" stop-color="#c3d6f5" stop-opacity="${(L.spill * .3).toFixed(3)}"/><stop offset="1" stop-color="#b8cdee" stop-opacity="0"/></radialGradient>`
-    + (lamp ? `<radialGradient id="${id}-spill-lamp"><stop offset="0" stop-color="#ffc98a" stop-opacity=".34"/><stop offset=".55" stop-color="#ffb86e" stop-opacity=".13"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>` : '')
+    + (lamp ? `<radialGradient id="${id}-spill-lamp"><stop offset="0" stop-color="#ffb55e" stop-opacity=".55"/><stop offset=".55" stop-color="#ffa64a" stop-opacity=".22"/><stop offset="1" stop-color="#ff9f45" stop-opacity="0"/></radialGradient>` : '')
     + `</defs>`
     + `<rect data-p26="weather-tint" x="-6000" y="-6000" width="14000" height="14000" pointer-events="none" fill="${L.tint[0]}" opacity="${L.tint[1]}" style="mix-blend-mode:multiply"/>`
     + (L.vignette ? `<rect data-p26="weather-vignette" x="-6000" y="-6000" width="14000" height="14000" pointer-events="none" fill="url(#${id}-vig)" style="mix-blend-mode:multiply"/>` : '')

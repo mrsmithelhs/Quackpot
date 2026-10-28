@@ -1,7 +1,10 @@
 // Plan 26 motion gallery (report page, not game UI). Scenes come from the unchanged study wrapper; motion comes from the controller.
 import { renderStudyScene } from '../study/scene.mjs';
 import { createWeatherMotion, createFlashArbiter } from './index.mjs';
-import * as harness from './tools/browser-harness.js';
+import { createLightningEffect } from './lightning.mjs';
+import * as rainHarness from './tools/browser-harness.js';
+import * as flashHarness from './tools/flash-harness.js';
+const harness = { ...rainHarness, ...flashHarness };
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -22,7 +25,8 @@ $('#controls').addEventListener('change', e => { const k = e.target.dataset.k; i
 const arbiter = createFlashArbiter();                       // ONE per page, injected into every controller
 const prefs = { paused: {}, stopped: {}, inactive: {} };    // per scene instance; survive controller recreation and re-render
 const scenes = new Map();                                    // instance id -> { id, key, root, ctl, stillHTML, weather }
-let reducedOption = false;
+let reducedOption = false, lightningOn = false;
+const sched = { fn: (fn, ms) => { const h = setTimeout(fn, ms); return () => clearTimeout(h); } };   // the lightning watchdog; the measurement harness swaps it out while it samples
 
 const t0 = performance.now();
 function log(msg) { const el = $('#log'); el.textContent = `${((performance.now() - t0) / 1000).toFixed(2)}s  ${msg}\n` + el.textContent.split('\n').slice(0, 40).join('\n'); }
@@ -34,7 +38,7 @@ function instances() {
 }
 
 function makeController(inst) {
-  inst.ctl = createWeatherMotion(inst.root, { weather: inst.weather, arbiter, reducedMotion: reducedOption ? 'reduce' : 'auto', startPaused: !!prefs.paused[inst.id], startStopped: !!prefs.stopped[inst.id], active: !prefs.inactive[inst.id] });
+  inst.ctl = createWeatherMotion(inst.root, { weather: inst.weather, arbiter, reducedMotion: reducedOption ? 'reduce' : 'auto', startPaused: !!prefs.paused[inst.id], startStopped: !!prefs.stopped[inst.id], active: !prefs.inactive[inst.id], flashEffect: createLightningEffect({ schedule: (fn, ms) => sched.fn(fn, ms) }) });
   inst.unsub = inst.ctl.subscribe(() => paint(inst));
   paint(inst);
 }
@@ -47,6 +51,7 @@ function paint(inst) {
   set('stop', has('user-stop') ? 'Allow motion' : 'Show still', has('user-stop'), dead || !s.motion);
   set('active', has('inactive') ? 'Scene inactive (click to activate)' : 'Scene active', has('inactive'), dead);
   set('destroy', dead ? 'Recreate controller' : 'Destroy controller', dead, false);
+  const fb = card.querySelector('[data-act="flash"]'); if (fb) fb.disabled = !lightningOn || dead;
   card.querySelector('.status').textContent = `${s.phase}${s.motion ? '' : ' (no rain motion for this weather)'} · blockers: ${s.blockers.join(', ') || 'none'} · animations: ${s.animations}${s.error ? ` · ERROR ${s.error}` : ''}`;
 }
 
@@ -54,7 +59,7 @@ function render() {
   for (const inst of scenes.values()) { inst.unsub?.(); inst.ctl.destroy(); }
   scenes.clear();
   const [, ar] = STAGES[state.stage], list = instances();
-  $('#grid').innerHTML = list.map(({ id, key }) => `<figure data-inst="${id}"><div class="stage" style="--ar:${ar}"><div class="layer"></div></div><figcaption><strong>${esc(CELLS[key][0])}</strong> · ${esc(id)}</figcaption><div class="tools"><button type="button" data-act="pause"></button><button type="button" data-act="stop"></button><button type="button" data-act="active"></button><button type="button" data-act="destroy"></button></div><div class="status" aria-live="off"></div></figure>`).join('');
+  $('#grid').innerHTML = list.map(({ id, key }) => `<figure data-inst="${id}"><div class="stage" style="--ar:${ar}"><div class="layer"></div></div><figcaption><strong>${esc(CELLS[key][0])}</strong> · ${esc(id)}</figcaption><div class="tools"><button type="button" data-act="pause"></button><button type="button" data-act="stop"></button><button type="button" data-act="active"></button><button type="button" data-act="destroy"></button>${CELLS[key][1].weather === 'storm' ? '<button type="button" data-act="flash">Lightning (one pulse)</button>' : ''}</div><div class="status" aria-live="off"></div></figure>`).join('');
   list.forEach(({ id, key }, i) => {
     const [, opts] = CELLS[key], card = document.querySelector(`[data-inst="${id}"]`), layer = card.querySelector('.layer');
     layer.innerHTML = renderStudyScene({ area: 'living', idPrefix: `m-${id}`, framing: state.framing, duckView: 'side', furnishings: { couch: 'present', tv: 'present' }, ...opts }).svg;
@@ -62,7 +67,7 @@ function render() {
     scenes.set(id, inst); makeController(inst);
   });
   $('#status').textContent = `Stage ${STAGES[state.stage][0]}; viewport ${innerWidth}×${innerHeight}; ${scenes.size} scene(s).`;
-  syncPageButtons(); checks();
+  syncPageButtons(); syncLightning(); checks();
 }
 
 $('#grid').addEventListener('click', e => {
@@ -71,6 +76,7 @@ $('#grid').addEventListener('click', e => {
   if (act === 'pause') { if (s.blockers.includes('user-pause')) { inst.ctl.resume(); prefs.paused[inst.id] = false; } else { inst.ctl.pause(); prefs.paused[inst.id] = true; } }
   else if (act === 'stop') { if (s.blockers.includes('user-stop')) { inst.ctl.start(); prefs.stopped[inst.id] = false; } else { inst.ctl.stop(); prefs.stopped[inst.id] = true; } }
   else if (act === 'active') { const on = s.blockers.includes('inactive'); inst.ctl.setActive(on); prefs.inactive[inst.id] = !on; }
+  else if (act === 'flash') { fire(inst); return; }
   else if (act === 'destroy') { if (s.phase === 'destroyed') makeController(inst); else { inst.unsub?.(); inst.ctl.destroy(); paint(inst); } }
   log(`${inst.id}: ${act} -> ${JSON.stringify(inst.ctl.state())}`); syncPageButtons();
 });
@@ -85,10 +91,24 @@ function syncPageButtons() {
 $('#pause-all').addEventListener('click', () => { const on = $('#pause-all').getAttribute('aria-pressed') !== 'true'; for (const i of scenes.values()) { if (i.ctl.state().phase === 'destroyed') continue; prefs.paused[i.id] = on; on ? i.ctl.pause() : i.ctl.resume(); } log(`pause all: ${on}`); syncPageButtons(); });
 $('#stop-all').addEventListener('click', () => { const on = $('#stop-all').getAttribute('aria-pressed') !== 'true'; for (const i of scenes.values()) { if (i.ctl.state().phase === 'destroyed') continue; prefs.stopped[i.id] = on; on ? i.ctl.stop() : i.ctl.start(); } log(`show still (all): ${on}`); syncPageButtons(); });
 $('#reduced-opt').addEventListener('change', e => { reducedOption = e.target.checked; log(`reducedMotion option: ${reducedOption ? "'reduce'" : "'auto'"}`); render(); });
-$('#flash').addEventListener('click', () => {
-  const inst = scenes.get(state.show === 'dup4' ? `${state.selected}-1` : state.selected) || [...scenes.values()][0];
-  const out = inst.ctl.requestFlash({ requester: inst.id }); log(`flash request on ${inst.id}: ${JSON.stringify({ status: out.status, reason: out.reason })}; arbiter ${JSON.stringify(arbiter.snapshot().stats)}`);
-});
+function fire(inst) {
+  const t = inst.ctl.requestFlash({ requester: inst.id });
+  if (t.status === 'accepted') { log(`${inst.id}: lightning ACCEPTED (#${t.id})`); t.done.then(o => { log(`${inst.id}: lightning #${o.id} ${o.status.toUpperCase()}${o.reason ? ` (${o.reason})` : ''}`); paintArbiter(); }); }
+  else log(`${inst.id}: lightning REFUSED: ${t.reason}${t.retryAfterMs ? ` (retry in ${Math.ceil(t.retryAfterMs)} ms)` : ''}`);
+  paintArbiter(); return t;
+}
+function paintArbiter() {
+  const a = arbiter.snapshot(), st = a.stats, wait = a.nextAllowedAt === null ? 0 : Math.max(0, a.nextAllowedAt - performance.now());
+  $('#arbiter').textContent = `page arbiter: accepted ${st.accepted} · refused cooldown ${st.refusedCooldown} / active ${st.refusedActive} · finished ${st.finished} · cancelled ${st.cancelled} · ${a.activeId ? 'pulse active' : wait > 0 ? `next allowed in ${Math.ceil(wait)} ms` : 'ready'}`;
+}
+function syncLightning() {
+  for (const b of document.querySelectorAll('#grid [data-act="flash"]')) b.disabled = !lightningOn;
+  $('#flash').disabled = !lightningOn; $('#flash-all').disabled = !lightningOn; paintArbiter();
+}
+$('#lightning-on').addEventListener('change', e => { lightningOn = e.target.checked; log(`lightning requests ${lightningOn ? 'ENABLED' : 'disabled'} (never automatic; one pulse per accepted request)`); syncLightning(); });
+$('#flash').addEventListener('click', () => { const inst = scenes.get(state.show === 'dup4' ? `${state.selected}-1` : state.selected) || [...scenes.values()][0]; fire(inst); });
+$('#flash-all').addEventListener('click', () => { const storm = [...scenes.values()].filter(i => i.weather === 'storm'); log(`aggregate demo: one request on each of ${storm.length} storm scene(s) in the same tick`); for (const i of storm) fire(i); });
+setInterval(paintArbiter, 250);
 const mq = matchMedia('(prefers-reduced-motion: reduce)');
 const showOs = () => { $('#os-reduced').textContent = `OS preference (live): ${mq.matches ? 'reduce' : 'no preference'}`; };
 mq.addEventListener('change', () => { showOs(); log(`OS reduced-motion preference changed: ${mq.matches}`); });
@@ -108,5 +128,5 @@ async function checks() {
   $('#checks').innerHTML = rows.map(([a, b, c, d]) => `<tr><td>${a}</td><td class="${c}">${b}</td><td>${d}</td></tr>`).join('');
 }
 
-window.__p26m = { scenes, prefs, arbiter, state, harness, rebuild: render, get reducedOption() { return reducedOption; }, set: async (k, v) => { const s = document.querySelector(`#controls select[data-k="${k}"]`); s.value = v; s.dispatchEvent(new Event('change', { bubbles: true })); } };
+window.__p26m = { scenes, prefs, arbiter, state, harness, get schedule() { return sched.fn; }, set schedule(v) { sched.fn = v; }, rebuild: render, get reducedOption() { return reducedOption; }, set: async (k, v) => { const s = document.querySelector(`#controls select[data-k="${k}"]`); s.value = v; s.dispatchEvent(new Event('change', { bubbles: true })); } };
 render();

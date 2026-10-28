@@ -38,7 +38,7 @@
 <body>
 <header>
   <h1>Plan 26 — weather motion prototype</h1>
-  <p class="notice"><strong>Review page, not game UI. Rain motion only.</strong> The scenes are the approved still weather SVGs, unchanged, with a host-side controller (<code>animation/controller.mjs</code>) that adds animation-only rain layers while motion is allowed and restores the exact approved still otherwise. <strong>Lightning is not built</strong>; the page arbiter and refusal logic exist but no flash is drawn. The controls below are free to use: pause freezes in place, <em>Show still</em> restores the approved still.</p>
+  <p class="notice"><strong>Review page, not game UI. Rain motion and a single-pulse lightning study.</strong> The scenes are the approved still weather SVGs, unchanged, with a host-side controller (<code>animation/controller.mjs</code>) that adds animation-only rain layers while motion is allowed and restores the exact approved still otherwise. <strong>Lightning is host-triggered only</strong> (button presses below, disabled until you tick the checkbox): one brief cool lift of the window and room per accepted request, never automatic. <strong>Warning: this page can flash.</strong> It is a design study, not a photosensitivity certification. The controls are free to use: pause freezes in place, <em>Show still</em> restores the approved still, and reduced motion keeps the still and refuses flashes.</p>
 </header>
 <main>
   <section>
@@ -47,7 +47,12 @@
     <div class="controls">
       <fieldset><legend>All scenes</legend><button id="pause-all" type="button" aria-pressed="false">Pause all</button> <button id="stop-all" type="button" aria-pressed="false">Show still (all)</button></fieldset>
       <fieldset><legend>Reduced motion</legend><label><input type="checkbox" id="reduced-opt"> controller option <code>reducedMotion: 'reduce'</code></label><div class="status" id="os-reduced"></div></fieldset>
-      <fieldset><legend>Flash (logic only)</legend><button id="flash" type="button">Request flash on selected scene</button><div class="status">No visual exists: the controller refuses (<code>flash-visual-not-built</code>) and consumes no cooldown.</div></fieldset>
+      <fieldset><legend>Lightning (one pulse per request)</legend>
+        <label><input type="checkbox" id="lightning-on"> enable lightning requests</label>
+        <div><button id="flash" type="button" disabled>Request lightning on selected scene</button> <button id="flash-all" type="button" disabled>Request on every storm scene at once</button></div>
+        <div class="status" id="arbiter"></div>
+        <div class="status">Off by default; nothing flashes unless you press a button. One pulse is about 0.6 s, at most one per four seconds on the whole page; other requests are refused, never queued. Storm scenes only.</div>
+      </fieldset>
     </div>
     <div class="grid" id="grid"></div>
     <p class="status" id="status" aria-live="polite"></p>
@@ -63,7 +68,7 @@
   <section>
     <h2>4. Not covered here</h2>
     <ul>
-      <li>Lightning art, flash evidence, audio, other rooms, kit hooks, production wiring: later gates or out of scope.</li>
+      <li>Audio/thunder, other rooms, kit hooks, production wiring, device performance and flash producers outside this page: later gates or out of scope. Composite flash measurements are in the progress report, not on this page.</li>
       <li>The pane cannot emulate the OS reduced-motion setting; the controller option above exercises the same path.</li>
       <li>Frame cadence from this machine says nothing about low-end hardware.</li>
     </ul>

@@ -34,7 +34,7 @@
 <body>
 <header>
   <h1>Plan 26 — living-room daylight study</h1>
-  <p class="notice"><strong>Review page, not game UI. Still images only.</strong> Every scene comes from <code>study/scene.mjs</code> wrapping the pinned, read-only Plan 24 kit. <em>Neutral</em> and <em>legacy window</em> are the kit's own output; <em>sun</em> adds three inserted layers (shade tint, sun patch with window-frame shadow, directional shadows). The sun model is an approximation (see <code>mechanism.md</code>).</p>
+  <p class="notice"><strong>Review page, not game UI. Still images only.</strong> Every scene comes from <code>study/scene.mjs</code> wrapping the pinned, read-only Plan 24 kit. <em>Neutral</em> and <em>legacy window</em> are the kit's own output; <em>sun</em> and the <em>weather</em> cells add inserted layers at verified anchors. The sun and weather models are approximations (see <code>mechanism.md</code>).</p>
 </header>
 <main>
   <section>
@@ -44,13 +44,18 @@
     <p id="status" aria-live="polite"></p>
   </section>
   <section>
-    <h2>2. Page checks</h2>
+    <h2>2. Still weather comparison (Stage 3)</h2>
+    <p>Five named cells, same controls as above. Weather is <strong>still imagery only</strong> (static streaks and droplets clipped to the panes; no flash, no motion). Animated rain and lightning are retained as future options and are not built here. Weather suppresses direct sun and the legacy window wash; only the storm + lamp pairing exists. In framings that hide the window the caption says the weather reads as ambience.</p>
+    <div class="grid" id="wgrid"></div>
+  </section>
+  <section>
+    <h2>3. Page checks</h2>
     <table id="checks"></table>
   </section>
   <section>
-    <h2>3. Not covered here</h2>
+    <h2>4. Not covered here</h2>
     <ul>
-      <li>Warm lamp pairings, overcast/rain/storm stills, other rooms and desks, animation: later stages or out of scope.</li>
+      <li>Other lamp pairings, other rooms and desks, animation, lightning, audio: later gates or out of scope.</li>
       <li>"CSS crop zoom" is CSS scaling, not browser zoom (unsupported in this pane).</li>
       <li>The <em>host/stage-anchored legacy window</em> cell is a labelled extra control: the kit with <code>overlay:'none'</code> and the original page's stage CSS gradient laid over the stage.</li>
     </ul>

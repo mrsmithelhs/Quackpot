@@ -52,8 +52,7 @@ const r1 = resolveStudyOptions({ daylight: 'sun', light: 'window' });
 ok('sun + window: window wash suppressed (effective neutral), reported', r1.effective.sun && r1.effective.kitLight === 'neutral' && r1.notes.some(n => n.startsWith('R2')));
 ok('sun + neutral: effective sun, no notes', (() => { const r = resolveStudyOptions({ daylight: 'sun' }); return r.effective.sun && r.notes.length === 0; })());
 throws('sun + warm lamp rejected (Stage 3 pairing)', () => resolveStudyOptions({ daylight: 'sun', light: 'warm' }), RangeError, /R3/);
-throws('weather stills rejected in this stage (rain)', () => resolveStudyOptions({ weather: 'rain' }), RangeError, /R4/);
-throws('sun + overcast: weather rule R1 evaluated, then Stage 3 rejection', () => resolveStudyOptions({ daylight: 'sun', weather: 'overcast' }), RangeError, /R4/);
+// (weather precedence, rejections and the weather variants are checked in tools/check-weather.mjs)
 throws('unknown daylight rejected', () => resolveStudyOptions({ daylight: 'noon' }), RangeError);
 throws('daylight outside the living room rejected', () => renderStudyScene({ area: 'kitchen', idPrefix: 'k1', daylight: 'sun' }), RangeError, /living-room only/);
 

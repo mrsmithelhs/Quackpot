@@ -1,6 +1,7 @@
 // Plan 26 daylight comparison gallery. Imports only the study wrapper (which wraps the pinned, read-only kit).
 import { renderStudyScene } from './study/scene.mjs';
 import { renderScene } from '../../../src/assets/apartment/index.mjs';
+import { glassRects } from './study/daylight.mjs';
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -24,14 +25,34 @@ function scene(prefix, opts) {
   return renderStudyScene({ area: 'living', idPrefix: prefix, framing: state.framing, duckView: state.duckView, furnishings: { couch: state.couch, tv: state.tv }, ...opts });
 }
 
+/** Fraction of the window glass inside the scene's viewBox (weather art lives in the glass; the medium crop may hide it). */
+function windowShare(svg) {
+  const vb = svg.match(/viewBox="([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)"/); if (!vb) return 1;
+  const [, vx, vy, vw, vh] = vb.map(Number), g = glassRects(); let total = 0, inside = 0;
+  for (const r of g) { total += r.w * r.h; const w = Math.max(0, Math.min(r.x + r.w, vx + vw) - Math.max(r.x, vx)), h = Math.max(0, Math.min(r.y + r.h, vy + vh) - Math.max(r.y, vy)); inside += w * h; }
+  return inside / total;
+}
+
+function cell({ key, title, opts, host, diff, ar, weather }) {
+  const a = scene(`g-${key}`, opts);
+  const layers = diff ? `<div class="layer">${scene('g-base', { light: 'neutral' }).svg.replace(/id="g-base-/g, `id="gb-${key}-`).replace(/#g-base-/g, `#gb-${key}-`)}</div><div class="layer second">${a.svg}</div>` : `<div class="layer">${a.svg}</div>`;
+  const notes = [...a.study.notes];
+  if (weather) { const share = windowShare(a.svg); if (share < .05) notes.push('window out of frame: weather reads as AMBIENCE (tint/vignette), not visible rainfall'); else if (share < .95) notes.push('window partly cropped'); }
+  return `<figure><div class="stage" style="--ar:${ar};--z:${state.zoom}">${layers}${host && !diff ? '<div class="host-wash"></div>' : ''}</div><figcaption><strong>${esc(title)}</strong> · ${esc(a.meta.shotKey)} · duck ${esc(a.meta.duckView)}${notes.length ? ' · ' + esc(notes.join('; ')) : ''}</figcaption></figure>`;
+}
+
+const WEATHER_CELLS = [
+  ['clearsun', 'Clear, strong sun (daylight reference, lamp off)', { light: 'neutral', daylight: 'sun', strength: 'strong' }],
+  ['overcast', 'Overcast (lamp off)', { weather: 'overcast' }],
+  ['rain', 'Rain (lamp off)', { weather: 'rain' }],
+  ['storm', 'Storm, no flash (lamp off)', { weather: 'storm' }],
+  ['stormlamp', 'Storm + warm lamp', { weather: 'storm', light: 'warm' }]
+];
+
 function render() {
   const diff = state.mode === 'diff', [, ar] = STAGES[state.stage];
-  const cells = CELLS.filter(c => !(diff && c[0] === 'neutral'));
-  $('#grid').innerHTML = cells.map(([key, title, opts, host]) => {
-    const a = scene(`g-${key}`, opts), layers = diff ? `<div class="layer">${scene('g-base', { light: 'neutral' }).svg.replace(/id="g-base-/g, `id="gb-${key}-`).replace(/#g-base-/g, `#gb-${key}-`)}</div><div class="layer second">${a.svg}</div>` : `<div class="layer">${a.svg}</div>`;
-    const note = a.study.notes.length ? ` · ${esc(a.study.notes.join('; '))}` : '';
-    return `<figure><div class="stage" style="--ar:${ar};--z:${state.zoom}">${layers}${host && !diff ? '<div class="host-wash"></div>' : ''}</div><figcaption><strong>${esc(title)}</strong> · ${esc(a.meta.shotKey)} · duck ${esc(a.meta.duckView)}${note}</figcaption></figure>`;
-  }).join('');
+  $('#grid').innerHTML = CELLS.filter(c => !(diff && c[0] === 'neutral')).map(([key, title, opts, host]) => cell({ key, title, opts, host, diff, ar })).join('');
+  $('#wgrid').innerHTML = WEATHER_CELLS.map(([key, title, opts]) => cell({ key: `w${key}`, title, opts, diff, ar, weather: key !== 'clearsun' })).join('');
   $('#status').textContent = `Stage ${STAGES[state.stage][0]}; viewport ${innerWidth}×${innerHeight}.`;
 }
 render();

@@ -58,3 +58,30 @@ Stage 3 will use a small **named** set (for example: overcast, rain, storm, each
 
 `tools/check.mjs` (153 checks): pin and git cross-check; keyed geometry equals kit specs; no-effect identity; precedence and rejections; per-variant: layers removed → kit output exactly, well-formed XML, unique/resolvable ids, duck and lamp markup byte-identical, no animation constructs, expected three blocks; two simultaneous instances; deterministic output; missing/ambiguous/changed-anchor failures.
 These are structural. They do not establish that the daylight looks good; that is the owner look in the browser stage. Difference images, when used, are diagnostic only.
+
+## 7. Stage 3: still weather (added after owner approval; source side)
+
+Approved named set (no larger matrix): **1** clear strong sun (reference, lamp off) · **2** overcast · **3** rain · **4** storm, no flash · **5** storm + warm lamp. Restrained sun stays in section 1 of the gallery as a reference; nothing accepted was removed. Animated rain and lightning are **retained as future options, not built, not selected**.
+
+Precedence as built (`study/options.mjs`, replaces the Stage 2 R3/R4):
+
+| Rule | Statement |
+|---|---|
+| R1 | Any weather suppresses direct sun (no sun band, no directional shadows). |
+| R2 | Sun and any weather supersede the legacy window wash (requested `light:'window'` -> effective kit `neutral`). |
+| R3 | The lamp is independent of the sky in principle, but only storm + lamp is built. Lamp with sun, overcast or rain throws. Lamp with a clear sky and no study effect is the kit's own warm light, passed through byte-identically. |
+| R4 | storm + lamp: the kit's warm full-room overlay (a dark vignette anchored to the lamp, which would leave the duck in deep shade) is omitted: effective overlay `none`, reported in `study.notes` even when `overlay:'svg'` was requested. The lamp's own glow layers stay on; the storm tint supplies the darkness. |
+
+Blocks inserted for weather (same verified-anchor mechanism; removing them returns the kit output for the effective kit options byte for byte):
+
+| Block | Anchor | Content |
+|---|---|---|
+| `wx-floor` | after the rug | soft, non-directional ambient shadows under the large furniture (flags respected) |
+| `wx-window` | after the window item | sky gradient, ellipse clouds, seeded static rain streaks and droplets, all clipped to the four panes; under plant, lamp and curtains |
+| `wx-atmosphere` | after the duck's `</svg>`, before the first lamp glow | cool tint, vignette, cool window spill; in the lamp cell a warm focus glow around the duck, drawn before the lamp glows so the lamp stays warm |
+
+Rain and storm differ by art, not only darkness: sky and cloud colours, streak count (62 vs 150), length (12-20 vs 20-34), slant (11 vs 30 degrees), weight and opacity, droplet count (7 vs 10), tint strength and vignette. Overcast has no streaks. Storm has no flash layer. Streaks are seeded, so output is identical on every render. Elements are grouped by role (`sky`, `clouds`, `rain-streaks`, `droplets`), which would let a later, separately approved motion stage address them; no timing, keyframe, trigger or flash exists anywhere.
+
+Approximations: flat gradient sky with ellipse clouds; global multiply tint and vignette; the storm + lamp focus glow around the duck is a study addition (the kit's lamp pool, at the lamp on the right, does not reach the duck); the medium crop hides the window, so there weather is ambience only (the gallery caption says so). Unchanged lamp markup is checked structurally; the final composite around the lamp and duck is measured separately in the browser (`tools/browser-measure.js` `regions()`).
+
+Checks: `tools/check.mjs` (151, Stage 2 and identity) and `tools/check-weather.mjs` (304: precedence, per-variant stripping to the kit output, XML/ids, duck and lamp markup, no animation/flash constructs, expected blocks, rain vs storm differences, simultaneous instances, determinism).

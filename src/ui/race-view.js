@@ -2,7 +2,7 @@ import { BANNER_1_ROSTER, DUCK_COSMETICS, GAME_CONSTANTS } from '../core/game-en
 import { raceDuckYaw, raceHeadingError, sampleTrajectory } from '../core/race-resolver.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
 import { createRaceMotionController } from './race-motion-controller.mjs';
-import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, raceCourseTimeAtFraction, wallClockAtRaceFraction } from './race-playback-controller.mjs';
+import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, participantGlowEnvelope, raceCourseTimeAtFraction, raceHighlightParticipantEvents, restoreRaceTimelineState, RACE_TIMELINE_EVENT_TYPES, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
 const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
@@ -68,8 +68,12 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
   const { onProceed, onAction = () => {}, onCueDisplayed = () => {} } = callbacks;
   const { active = true, initialSnapshot = null } = options;
   const { labels, runners, podium: podiumMarkup } = sceneMarkup(resolution, raceNumber, attempt);
-  const timelineEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn'].includes(event.type));
+  const timelineEvents = resolution.eventRecords.filter((event) => RACE_TIMELINE_EVENT_TYPES.includes(event.type));
   const timing = individualPresentationTiming(resolution);
+  const contactGlowEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact'].includes(event.type));
+  const highlightParticipantEvents = raceHighlightParticipantEvents(resolution);
+  const highlightCenterFraction = (timing.highlightStartFraction + timing.highlightEndFraction) / 2;
+  const highlightGlowStartSeconds = wallClockAtRaceFraction(highlightCenterFraction, timing) - 1.1;
   const finishPlaces = new Map(resolution.finish.map((entrant) => [entrant.id, entrant.place]));
   const playerFinish = resolution.finish.find((entrant) => entrant.id === 'P');
   const playerPodiumText = playerFinish?.place <= 3
@@ -137,6 +141,8 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
   const viewRoot = container.querySelector('.race-playback');
   const runnerLayer = container.querySelector('[data-race-runners]');
   const podiumScope = container.querySelector('[data-race-podium-scope]');
+  const timelineDetails = container.querySelector('.race-event-seeking');
+  const timelineDisplayedEventIds = new Set(initialSnapshot?.timelineDisplayedEventIds ?? []);
   let motion = createRaceMotionController(container, { active, podiumMotionPaused: initialSnapshot?.podiumMotionPaused });
   let previousElapsed = initialSnapshot?.elapsedMs ?? 0;
   let highlightLogged = false;
@@ -200,15 +206,17 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
         position.classList.toggle('is-crossed', hasCrossed && coast > 0);
         position.setAttribute('aria-label', `${labels[entrantState.id]}${hasCrossed ? `, crossed in place ${finishPlaces.get(entrantState.id)}` : ''}`);
       }
-      const glow = resolution.eventRecords.reduce((strongest, event) => {
-        if (!event.participants?.includes(entrantState.id) || !['duck-contact', 'wall-impact'].includes(event.type)) return strongest;
+      const contactGlow = contactGlowEvents.reduce((strongest, event) => {
+        if (!event.participants?.includes(entrantState.id)) return strongest;
         const startedAt = wallClockAtRaceFraction(event.tick / Math.max(1, resolution.ticks), timing);
         const age = state.elapsedMs / 1000 - startedAt;
-        const duration = 2.2;
-        const ease = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
-        const envelope = ease(age / 0.25) * (1 - ease((age - (duration - 0.25)) / 0.25));
+        const envelope = participantGlowEnvelope(age);
         return Math.max(strongest, envelope);
       }, 0);
+      const highlightGlow = highlightParticipantEvents.some((event) => event.participants.includes(entrantState.id))
+        ? participantGlowEnvelope(state.elapsedMs / 1000 - highlightGlowStartSeconds)
+        : 0;
+      const glow = Math.max(contactGlow, highlightGlow);
       position?.style.setProperty('--participant-glow-opacity', glow.toFixed(3));
       position?.classList.toggle('participant-glow', glow > 0);
       if (runner && entrantState.crossedAtFinish) position?.classList.add('is-crossed');
@@ -255,14 +263,25 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
     podiumScope?.classList.toggle('is-visible', Boolean(state.podiumVisible));
     const time = container.querySelector('[data-race-time]');
     if (time) time.textContent = `${state.seconds.toFixed(2)}s`;
+    const revealedEventIds = new Set(state.revealedEventIds ?? []);
     for (const button of container.querySelectorAll('[data-race-seek]')) {
       const event = resolution.eventRecords.find((candidate) => candidate.id === button.dataset.raceSeek);
       if (!event) continue;
-      const reached = state.cursorTick >= event.tick || state.settled;
+      const reached = revealedEventIds.has(event.id);
       const text = reached ? describeRaceEvent(event, labels) : 'Upcoming race moment';
       const eventCourseSeconds = raceCourseTimeAtFraction(event.tick / Math.max(1, resolution.ticks), timing);
       button.textContent = `${text} · ${eventCourseSeconds.toFixed(2)}s`;
       button.setAttribute('aria-label', reached ? `${text} at ${eventCourseSeconds.toFixed(2)} seconds` : `Upcoming race moment at ${eventCourseSeconds.toFixed(2)} seconds`);
+      if (state.visible && timelineDetails?.open && reached && !timelineDisplayedEventIds.has(event.id)) {
+        timelineDisplayedEventIds.add(event.id);
+        onCueDisplayed({
+          cueId: `race-timeline-event:${event.id}`,
+          eventId: event.id,
+          text,
+          timeSeconds: eventCourseSeconds,
+          timeline: true,
+        });
+      }
     }
     const commentary = container.querySelector('[data-race-commentary]');
     if (commentary && state.commentary) commentary.textContent = state.commentary;
@@ -335,15 +354,18 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
       onCueDisplayed(cue);
     },
   });
+  const onTimelineToggle = () => playback.refresh();
+  timelineDetails?.addEventListener('toggle', onTimelineToggle);
   const proceedButton = container.querySelector('[data-race-proceed]');
   const onProceedClick = () => onProceed?.();
   proceedButton?.addEventListener('click', onProceedClick);
 
   return {
-    snapshot: () => playback.snapshot(),
+    snapshot: () => ({ ...playback.snapshot(), timelineDisplayedEventIds: [...timelineDisplayedEventIds] }),
     setActive(value) { playback.setActive(value); motion?.setActive(value); },
     destroy() {
       playback.destroy();
+      timelineDetails?.removeEventListener('toggle', onTimelineToggle);
       proceedButton?.removeEventListener('click', onProceedClick);
       motion?.destroy();
       motion = null;
@@ -369,7 +391,16 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const defaultDuck = ownedDucks.slice().sort((a, b) => b.speed - a.speed)[0];
 
   if (existingAttempt?.status === 'finished' && existingResolution) {
-    return mountPlayback(container, existingAttempt, existingResolution, raceNumber, callbacks, options);
+    const timelineState = restoreRaceTimelineState(existingResolution, {
+      raceNumber,
+      raceId: existingAttempt.raceId,
+      initialSnapshot: options.initialSnapshot,
+      logEntries: engine.log?.entries ?? [],
+    });
+    return mountPlayback(container, existingAttempt, existingResolution, raceNumber, callbacks, {
+      ...options,
+      initialSnapshot: { ...options.initialSnapshot, ...timelineState },
+    });
   }
 
   if (existingAttempt?.status === 'unresolved') {
@@ -441,7 +472,16 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
       return;
     }
     if (result?.attempt?.status === 'finished' && result.resolution) {
-      childHandle = mountPlayback(container, result.attempt, result.resolution, raceNumber, callbacks, options);
+      const timelineState = restoreRaceTimelineState(result.resolution, {
+        raceNumber,
+        raceId: result.attempt.raceId,
+        initialSnapshot: options.initialSnapshot,
+        logEntries: engine.log?.entries ?? [],
+      });
+      childHandle = mountPlayback(container, result.attempt, result.resolution, raceNumber, callbacks, {
+        ...options,
+        initialSnapshot: { ...options.initialSnapshot, ...timelineState },
+      });
     }
   };
   form?.addEventListener('submit', onSubmit);

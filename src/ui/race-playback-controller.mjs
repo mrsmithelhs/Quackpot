@@ -1,5 +1,9 @@
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 
+export const RACE_TIMELINE_EVENT_TYPES = Object.freeze([
+  'duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn',
+]);
+
 export function individualPresentationTiming(resolution) {
   const duration = resolution.lastFinishTimeSeconds;
   const firstCrossSeconds = resolution.finishTimeSeconds;
@@ -44,6 +48,55 @@ export function wallClockAtRaceFraction(fraction, plan) {
 
 export function raceCourseTimeAtFraction(fraction, plan) {
   return clamp(fraction, 0, 1) * plan.duration;
+}
+
+export function raceHighlightParticipantEvents(resolution) {
+  const totalTicks = Math.max(1, resolution?.ticks ?? 0);
+  const timing = individualPresentationTiming(resolution);
+  const center = (timing.highlightStartFraction + timing.highlightEndFraction) / 2;
+  const nearest = (resolution?.eventRecords ?? [])
+    .filter((event) => event.participants?.length
+      && Math.abs(event.tick / totalTicks - center) <= 0.08)
+    .sort((a, b) => Math.abs(a.tick / totalTicks - center) - Math.abs(b.tick / totalTicks - center)
+      || a.id.localeCompare(b.id))[0];
+  return nearest ? [nearest] : [];
+}
+
+export function participantGlowEnvelope(ageSeconds, durationSeconds = 2.2, edgeSeconds = 0.25) {
+  const ease = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
+  return ease(ageSeconds / edgeSeconds) * (1 - ease((ageSeconds - (durationSeconds - edgeSeconds)) / edgeSeconds));
+}
+
+export function restoreRaceTimelineState(resolution, {
+  raceNumber,
+  raceId,
+  initialSnapshot = null,
+  logEntries = [],
+} = {}) {
+  const totalTicks = Math.max(1, resolution?.trajectory?.at(-1)?.tick ?? resolution?.ticks ?? 0);
+  const timelineEvents = (resolution?.eventRecords ?? []).filter((event) => RACE_TIMELINE_EVENT_TYPES.includes(event.type));
+  const eventsById = new Map(timelineEvents.map((event) => [event.id, event]));
+  const displayedEventIds = new Set((initialSnapshot?.timelineDisplayedEventIds ?? []).filter((id) => eventsById.has(id)));
+  for (const entry of logEntries) {
+    const payload = entry?.payload;
+    const event = eventsById.get(payload?.eventId);
+    if (entry?.type !== 'race_cue_displayed'
+      || payload?.raceNumber !== raceNumber
+      || payload?.raceId !== raceId
+      || payload?.cueId !== `race-timeline-event:${payload?.eventId}`
+      || !event) continue;
+    displayedEventIds.add(event.id);
+  }
+  const evidenceHighWater = Math.max(0, ...[...displayedEventIds].map((id) => eventsById.get(id).tick));
+  let highWaterTick = Math.max(
+    Number.isFinite(initialSnapshot?.timelineHighWaterTick) ? initialSnapshot.timelineHighWaterTick : 0,
+    evidenceHighWater,
+  );
+  if (timelineEvents.length > 0 && timelineEvents.every((event) => displayedEventIds.has(event.id))) highWaterTick = totalTicks;
+  return {
+    timelineHighWaterTick: clamp(highWaterTick, 0, totalTicks),
+    timelineDisplayedEventIds: [...displayedEventIds],
+  };
 }
 
 function eventLine(event, labels) {
@@ -92,6 +145,8 @@ export function createRacePlaybackController(container, resolution, {
   let frameId = null;
   let lastFrameTime = null;
   let elapsedMs = Number.isFinite(initialSnapshot?.elapsedMs) ? clamp(initialSnapshot.elapsedMs, 0, totalWallMs) : 0;
+  let timelineHighWaterTick = Number.isFinite(initialSnapshot?.timelineHighWaterTick)
+    ? clamp(initialSnapshot.timelineHighWaterTick, 0, totalTicks) : 0;
   let cursorTick = 0;
   let lastCueCursor = -1;
   let seekCommentary = null;
@@ -104,6 +159,10 @@ export function createRacePlaybackController(container, resolution, {
     const seconds = currentPlanTime();
     const tick = clamp((seconds / plan.duration) * totalTicks, 0, totalTicks);
     cursorTick = tick;
+    if (isActive && visible) timelineHighWaterTick = Math.max(timelineHighWaterTick, tick);
+    const revealedEventIds = resolution.eventRecords
+      .filter((event) => RACE_TIMELINE_EVENT_TYPES.includes(event.type) && event.tick <= timelineHighWaterTick)
+      .map((event) => event.id);
     const smoothstep = (value) => { const t = clamp(value, 0, 1); return t * t * (3 - 2 * t); };
     const revealStartMs = plan.simulationWallSeconds * 1000;
     const revealProgress = reduced ? (staticResultAtEnd() ? 1 : 0) : smoothstep((elapsedMs - revealStartMs) / (plan.revealSeconds * 1000));
@@ -118,6 +177,8 @@ export function createRacePlaybackController(container, resolution, {
       elapsedMs,
       seconds,
       cursorTick: tick,
+      timelineHighWaterTick,
+      revealedEventIds,
       progress: totalTicks > 0 ? tick / totalTicks : 1,
       revealProgress,
       podiumVisible: reduced ? staticResultAtEnd() : revealProgress > 0,
@@ -286,7 +347,13 @@ export function createRacePlaybackController(container, resolution, {
   }
 
   return {
-    snapshot: () => ({ elapsedMs, userPaused, podiumMotionPaused }),
+    snapshot: () => ({
+      elapsedMs, userPaused, podiumMotionPaused, timelineHighWaterTick,
+      revealedEventIds: resolution.eventRecords
+        .filter((event) => RACE_TIMELINE_EVENT_TYPES.includes(event.type) && event.tick <= timelineHighWaterTick)
+        .map((event) => event.id),
+    }),
+    refresh: update,
     setActive(value) {
       isActive = Boolean(value);
       if (!isActive) pause('inactive');

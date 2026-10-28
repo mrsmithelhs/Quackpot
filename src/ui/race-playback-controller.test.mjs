@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { resolveSeededRace } from '../core/race-resolver.mjs';
-import { createRacePlaybackController, individualPresentationTiming, raceCourseTimeAtFraction, raceFractionAtWallClock, wallClockAtRaceFraction } from './race-playback-controller.mjs';
+import { createRacePlaybackController, individualPresentationTiming, participantGlowEnvelope, raceCourseTimeAtFraction, raceFractionAtWallClock, raceHighlightParticipantEvents, restoreRaceTimelineState, wallClockAtRaceFraction } from './race-playback-controller.mjs';
 
 function fixture() {
   return resolveSeededRace({
@@ -81,6 +81,112 @@ test('timeline event and checkpoint labels use the same course-time domain as th
     assert.ok(Math.abs(raceCourseTimeAtFraction(fraction, timing) - snapshotSeconds) < 1e-9,
       `${kind} label at fraction ${fraction} matches the seek snapshot before/during/after the highlight`);
   }
+});
+
+test('timeline high-water stays sticky through rewind and replay, and full seek reveals every event', () => {
+  const ui = harness();
+  const resolution = fixture();
+  const controller = createRacePlaybackController(ui.container, resolution, {
+    matchMedia: ui.matchMedia, documentRef: ui.documentRef,
+    requestFrame: ui.requestFrame, cancelFrame: ui.cancelFrame,
+  });
+  const timelineEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn'].includes(event.type));
+  const lateEvent = timelineEvents.at(-1);
+  const earlyEvent = timelineEvents[0];
+  const seek = (event) => ui.container.fireClick({
+    dataset: { raceSeek: event.id },
+    closest(selector) { return selector === '[data-race-seek]' ? this : null; },
+  });
+
+  seek(lateEvent);
+  const highWater = controller.snapshot().timelineHighWaterTick;
+  assert.ok(highWater >= lateEvent.tick);
+  seek(earlyEvent);
+  assert.equal(controller.snapshot().timelineHighWaterTick, highWater,
+    'seeking backwards retains reached timeline history');
+  ui.controls['[data-race-replay]'].fire();
+  assert.equal(controller.snapshot().timelineHighWaterTick, highWater,
+    'replay restarts the current cursor without retracting timeline history');
+  ui.container.fireClick({
+    dataset: { raceCheckpoint: '100' },
+    closest(selector) { return selector === '[data-race-checkpoint]' ? this : null; },
+  });
+  const finishedSnapshot = controller.snapshot();
+  assert.equal(finishedSnapshot.timelineHighWaterTick, resolution.trajectory.at(-1).tick);
+  assert.equal(finishedSnapshot.revealedEventIds.length, timelineEvents.length,
+    'the full checkpoint reveals every timeline event');
+  controller.destroy();
+});
+
+test('timeline high-water does not advance while the race view is inactive', () => {
+  const ui = harness();
+  const resolution = fixture();
+  const controller = createRacePlaybackController(ui.container, resolution, {
+    active: false, matchMedia: ui.matchMedia, documentRef: ui.documentRef,
+    requestFrame: ui.requestFrame, cancelFrame: ui.cancelFrame,
+  });
+  ui.container.fireClick({
+    dataset: { raceCheckpoint: '100' },
+    closest(selector) { return selector === '[data-race-checkpoint]' ? this : null; },
+  });
+  assert.equal(controller.snapshot().timelineHighWaterTick, 0);
+  controller.setActive(true);
+  assert.equal(controller.snapshot().timelineHighWaterTick, resolution.trajectory.at(-1).tick,
+    'reaching a timeline point while visible can then unlock its event descriptions');
+  controller.destroy();
+});
+
+test('reload restores timeline reveal only from matching stored timeline cue evidence', () => {
+  const resolution = fixture();
+  const timelineEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn'].includes(event.type));
+  const first = timelineEvents[0];
+  const entries = [
+    { type: 'race_cue_displayed', payload: { raceNumber: 1, raceId: 'R01', cueId: `race-timeline-event:${first.id}`, eventId: first.id } },
+    { type: 'race_cue_displayed', payload: { raceNumber: 2, raceId: 'R02', cueId: `race-timeline-event:${timelineEvents.at(-1).id}`, eventId: timelineEvents.at(-1).id } },
+    { type: 'race_cue_displayed', payload: { raceNumber: 1, raceId: 'R01', cueId: `event:${timelineEvents.at(-1).id}`, eventId: timelineEvents.at(-1).id } },
+  ];
+  const restored = restoreRaceTimelineState(resolution, { raceNumber: 1, raceId: 'R01', logEntries: entries });
+  assert.deepEqual(restored.timelineDisplayedEventIds, [first.id]);
+  assert.equal(restored.timelineHighWaterTick, first.tick);
+});
+
+test('highlight glow follows recorded participant events and has eased two-second presentation duration', () => {
+  const resolution = fixture();
+  const highlightEvents = raceHighlightParticipantEvents(resolution);
+  assert.ok(highlightEvents.length <= 1, 'the slow-motion cue highlights one recorded event, not the whole field');
+  const center = (individualPresentationTiming(resolution).highlightStartFraction + individualPresentationTiming(resolution).highlightEndFraction) / 2;
+  for (const type of ['weave-turn', 'leader-wobble-slowdown', 'duck-contact', 'wall-impact', 'catch-up-assist']) {
+    const selected = raceHighlightParticipantEvents({
+      ...resolution,
+      eventRecords: [{ id: `${type}-highlight`, type, participants: ['A'], tick: Math.round(center * resolution.ticks) }],
+    });
+    assert.equal(selected[0]?.type, type, `${type} can provide an accepted highlight participant`);
+    assert.deepEqual(selected[0]?.participants, ['A'], 'only recorded event participants are selected');
+  }
+  assert.deepEqual(raceHighlightParticipantEvents({
+    ...resolution,
+    eventRecords: [{ id: 'distant-highlight', type: 'weave-turn', participants: ['A'], tick: Math.round(0.9 * resolution.ticks) }],
+  }), [], 'events outside the selected highlight window do not create a highlight pulse');
+
+  assert.equal(participantGlowEnvelope(0), 0);
+  assert.ok(participantGlowEnvelope(0.125) > 0 && participantGlowEnvelope(0.125) < 1,
+    'glow has an eased onset');
+  assert.equal(participantGlowEnvelope(1), 1);
+  assert.ok(participantGlowEnvelope(2.1) > 0,
+    'the effect remains visible past two seconds');
+  assert.equal(participantGlowEnvelope(2.2), 0);
+});
+
+test('stored reveal evidence can restore the entire timeline high-water', () => {
+  const resolution = fixture();
+  const timelineEvents = resolution.eventRecords.filter((event) => ['duck-contact', 'wall-impact', 'leader-wobble-slowdown', 'catch-up-assist', 'finish-line-crossing', 'weave-turn'].includes(event.type));
+  const entries = timelineEvents.map((event) => ({
+    type: 'race_cue_displayed',
+    payload: { raceNumber: 1, raceId: 'R01', cueId: `race-timeline-event:${event.id}`, eventId: event.id },
+  }));
+  const restored = restoreRaceTimelineState(resolution, { raceNumber: 1, raceId: 'R01', logEntries: entries });
+  assert.equal(restored.timelineHighWaterTick, resolution.trajectory.at(-1).tick);
+  assert.equal(restored.timelineDisplayedEventIds.length, timelineEvents.length);
 });
 
 test('Plan 23 playback pauses, seeks by event identity, and releases listeners and frames', () => {

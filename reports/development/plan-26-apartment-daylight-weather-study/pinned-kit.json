@@ -1,0 +1,30 @@
+{
+  "note": "Plan 26 pin of the delivered Plan 24 kit (src/assets/apartment/); git blob ids of LF-normalised files",
+  "commit": "5237a2a4f58922ff713240a9e4c7221ab89e6c62",
+  "files": {
+    "README.md": "929915b2af055f5a857fe36e476ef76552088e83",
+    "apartment.test.mjs": "c6c75995a0ce5e7e6e3874ca91b9c15844bbc53b",
+    "core/constants.mjs": "5a8c8f228fab6cb795298188bd6f7f8b807ed489",
+    "core/ids.mjs": "960a7f68b5e7981fdf981cd77b3785c5307a593a",
+    "core/svg.mjs": "ae0fec5d326d915f84e75e87b3356451ab0ed7a4",
+    "desk/phone.mjs": "e6475edcd751a201c94f4de28e4dcb84f376ba93",
+    "desk/side.mjs": "0a778f5b720f92ffc42bde586d717bf1db0d1073",
+    "desk/top.mjs": "c8861c5100bbe5adb06e4ee2548c5b30d439f016",
+    "duck/index.mjs": "6399be825e7d5157e5844371cce669a06c158423",
+    "duck/overhead.mjs": "e16c9b909c43ff8b4dec724e4368b9e3f02d872a",
+    "duck/views.mjs": "cb77be95a5951821e4bb577daa11c72953b22ba9",
+    "index.mjs": "e08544e19533add5e08f47f0ef83ede91d9a1d82",
+    "lighting/defs.mjs": "6c160af6b025e64116ad20914392b74d44196ae9",
+    "lighting/modes.mjs": "91ef24d4050c4da2b687c141a56fb1cb08fc1126",
+    "props/bedroom.mjs": "824c4d7a09582bfdecf18868af1bf0994ba24d88",
+    "props/decor.mjs": "445d0aa08be5a5439027b87e8e28306190d2d559",
+    "props/index.mjs": "943f94cd44dafb333ab53644e666964baffe5a84",
+    "props/kitchen.mjs": "376c9abb58af8e404fc2aa940a8bf2306090064a",
+    "props/living.mjs": "80cc60c9703f7d586aa139273b5ee77206c7f3d0",
+    "props/prims.mjs": "c475166bc0e4ce74bb3718f9e4e9735777c5c403",
+    "props/toys.mjs": "e01fbe7b3dcddcf8c928f3d4c8a7e998fb11a0d1",
+    "rooms/camera.mjs": "e8e96a172b46d93a83f6cce53b352794414fe294",
+    "rooms/scene.mjs": "a2f7ca4d53cb88ffea77933e6c0f2e8186df3bb3",
+    "rooms/specs.mjs": "8aa51104a967ae9454128d79594b4df5eb5809c9"
+  }
+}

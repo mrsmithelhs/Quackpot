@@ -48,11 +48,14 @@ const WEATHER_CELLS = [
   ['storm', 'Storm, no flash (lamp off)', { weather: 'storm' }],
   ['stormlamp', 'Storm + warm lamp', { weather: 'storm', light: 'warm' }]
 ];
+// Comparison aid, not an approved weather cell: the ordinary kit warm scene (same lamp, kit's own scene-anchored overlay).
+const WARM_REFERENCE = ['warmref', 'REFERENCE (not a weather cell): ordinary kit warm scene', { light: 'warm' }];
 
 function render() {
   const diff = state.mode === 'diff', [, ar] = STAGES[state.stage];
   $('#grid').innerHTML = CELLS.filter(c => !(diff && c[0] === 'neutral')).map(([key, title, opts, host]) => cell({ key, title, opts, host, diff, ar })).join('');
   $('#wgrid').innerHTML = WEATHER_CELLS.map(([key, title, opts]) => cell({ key: `w${key}`, title, opts, diff, ar, weather: key !== 'clearsun' })).join('');
+  $('#wgrid').insertAdjacentHTML('beforeend', cell({ key: `w${WARM_REFERENCE[0]}`, title: WARM_REFERENCE[1], opts: WARM_REFERENCE[2], diff, ar }));
   $('#status').textContent = `Stage ${STAGES[state.stage][0]}; viewport ${innerWidth}×${innerHeight}.`;
 }
 render();

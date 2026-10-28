@@ -45,7 +45,7 @@ export function renderStudyScene(options = {}) {
     svg = insertAt(svg, { name: 'wx-window', anchor: windowItemMarkup(), where: 'after' }, windowWeatherLayer({ id, weather }));
     svg = insertAt(svg, { name: 'wx-atmosphere', anchor: BEFORE_FIRST_GLOW, where: 'after' }, atmosphereWeatherLayer({ id, weather, lamp: eff.lamp }));
     study.inserted = ['wx-floor', 'wx-window', 'wx-atmosphere'];
-    study.approximations = ['flat gradient sky with ellipse clouds', 'seeded static streaks and droplets clipped to the panes', 'soft non-directional shadows', 'global multiply tint and vignette', ...(eff.lamp ? ['warm focus glow around the duck is a study addition (the kit lamp pool does not reach the duck)'] : [])];
+    study.approximations = ['flat gradient sky with ellipse clouds', 'seeded static streaks and droplets clipped to the panes', 'soft non-directional shadows', 'global multiply tint and vignette', ...(eff.lamp ? ['restrained warm spill follows the kit lamp (shade opening, down cone, up spill); the duck gets no added light'] : [])];
   }
   return { ...kit, svg, study };
 }

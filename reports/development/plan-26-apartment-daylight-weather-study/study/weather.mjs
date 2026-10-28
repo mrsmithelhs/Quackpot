@@ -4,8 +4,9 @@
 //
 // Rain and storm differ by art, not only darkness: sky and cloud colours, streak density, length, slant and weight, droplet count, tint
 // strength and vignette. Storm has NO flash layer. Overcast has no streaks. APPROXIMATIONS: the sky is a flat gradient with ellipse
-// clouds; streaks are random-looking but seeded (identical every render); the room tint is a global multiply; the storm + lamp focus
-// glow around the duck is a study addition (the kit's own lamp pool does not reach the duck), not derived from the lamp position.
+// clouds; streaks are random-looking but seeded (identical every render); the room tint is a global multiply; the storm + lamp spill is a
+// restrained study addition that follows the kit lamp's own position (shade opening, down cone, up spill). The duck gets NO added light:
+// the kit's lamp does not reach it, so it stays readable in shade like it does in the ordinary warm scene.
 import { ROOM_SPECS } from '../../../../src/assets/apartment/rooms/specs.mjs';
 import { proj } from '../../../../src/assets/apartment/rooms/camera.mjs';
 import { glassRects, KEYED_ITEMS } from './daylight.mjs';
@@ -62,17 +63,17 @@ export function floorWeatherLayer({ id, furnishings, weather }) {
     + `<g data-p26="ambient-shadows" fill="#2c3d63" opacity="${L.soft}" filter="url(#${id}-soft-blur)" style="mix-blend-mode:multiply">${items.join('')}</g>`;
 }
 
-/** Room atmosphere (above furniture and duck, below the first lamp glow): cool tint, vignette, cool window spill, and for the lamp cell a warm focus around the duck. */
+/** Room atmosphere (above furniture and duck, below the first lamp glow): cool tint, vignette, cool window spill, and for the lamp cell a restrained warm spill that follows the kit lamp (no light is added to the duck). */
 export function atmosphereWeatherLayer({ id, weather, lamp }) {
   const L = WEATHER_LOOK[weather], b = glassBox(), cx = b.x + b.w / 2, cy = b.y + b.h / 2;
-  const duck = proj(sc, -144, 900, 430 + 40);
+  const LP = sc.lampAt, open = proj(sc, LP.X, LP.z, 1200), mid = proj(sc, LP.X, LP.z, 650), up = proj(sc, LP.X, LP.z, 1700);   // the kit lamp: shade opening, middle of its down cone, above the shade
   return `<defs>`
     + `<radialGradient id="${id}-vig" cx=".5" cy=".6" r=".75"><stop offset=".35" stop-color="#0a1020" stop-opacity="0"/><stop offset="1" stop-color="#0a1020" stop-opacity="${L.vignette}"/></radialGradient>`
     + `<radialGradient id="${id}-spill"><stop offset="0" stop-color="#d6e4ff" stop-opacity="${L.spill}"/><stop offset=".6" stop-color="#c3d6f5" stop-opacity="${(L.spill * .3).toFixed(3)}"/><stop offset="1" stop-color="#b8cdee" stop-opacity="0"/></radialGradient>`
-    + (lamp ? `<radialGradient id="${id}-focus"><stop offset="0" stop-color="#ffd08a" stop-opacity=".62"/><stop offset=".5" stop-color="#ffc27a" stop-opacity=".26"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>` : '')
+    + (lamp ? `<radialGradient id="${id}-spill-lamp"><stop offset="0" stop-color="#ffc98a" stop-opacity=".34"/><stop offset=".55" stop-color="#ffb86e" stop-opacity=".13"/><stop offset="1" stop-color="#ffb35a" stop-opacity="0"/></radialGradient>` : '')
     + `</defs>`
     + `<rect data-p26="weather-tint" x="-6000" y="-6000" width="14000" height="14000" pointer-events="none" fill="${L.tint[0]}" opacity="${L.tint[1]}" style="mix-blend-mode:multiply"/>`
     + (L.vignette ? `<rect data-p26="weather-vignette" x="-6000" y="-6000" width="14000" height="14000" pointer-events="none" fill="url(#${id}-vig)" style="mix-blend-mode:multiply"/>` : '')
     + `<ellipse data-p26="window-spill" cx="${f1(cx)}" cy="${f1(cy)}" rx="${f1(b.w * 1.9)}" ry="${f1(b.h * 1.5)}" fill="url(#${id}-spill)" style="mix-blend-mode:screen"/>`
-    + (lamp ? `<ellipse data-p26="lamp-focus" cx="${f1(duck.x)}" cy="${f1(duck.y)}" rx="165" ry="105" fill="url(#${id}-focus)" style="mix-blend-mode:screen"/>` : '');
+    + (lamp ? `<g data-p26="lamp-spill" style="mix-blend-mode:screen"><ellipse cx="${f1(mid.x)}" cy="${f1(mid.y)}" rx="${f1(mid.s * 950)}" ry="${f1(mid.s * 800)}" fill="url(#${id}-spill-lamp)"/><ellipse cx="${f1(up.x)}" cy="${f1(up.y)}" rx="${f1(up.s * 520)}" ry="${f1(up.s * 420)}" fill="url(#${id}-spill-lamp)" opacity=".6"/></g>` : '');
 }

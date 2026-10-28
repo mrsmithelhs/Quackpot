@@ -3,6 +3,8 @@
 // Structural checks only: they say nothing about whether the weather looks good, and unchanged lamp markup does not mean unchanged lamp
 // pixels (the global tint is drawn before the lamp glow but the vignette/tint affect everything beneath it); the browser pass measures that.
 import { renderScene } from '../../../../src/assets/apartment/index.mjs';
+import { ROOM_SPECS } from '../../../../src/assets/apartment/rooms/specs.mjs';
+import { CX, F } from '../../../../src/assets/apartment/core/constants.mjs';
 import { renderStudyScene } from '../study/scene.mjs';
 import { resolveStudyOptions } from '../study/options.mjs';
 import { stripInserted, insertedNames } from '../study/anchors.mjs';
@@ -53,7 +55,13 @@ for (const [name, o] of cells) for (const framing of ['wide', 'medium']) for (co
   ok(`weather ${tag}: no animation, timing or flash constructs`, !/<animate|<set |@keyframes|animation\s*:|transition\s*:|requestAnimationFrame|setTimeout|<script|flash|lightning|bolt/i.test(r.svg));
   ok(`weather ${tag}: three inserted blocks, sun not effective`, insertedNames(r.svg).join() === 'wx-floor,wx-window,wx-atmosphere' && !e.sun);
   ok(`weather ${tag}: root viewBox and class unchanged`, r.svg.slice(0, 120) === kit.svg.slice(0, 120));
-  ok(`weather ${tag}: lamp focus only in the lamp cell; kit warm overlay absent there`, name === 'storm+lamp' ? (r.svg.includes('data-p26="lamp-focus"') && !/g-overlay/.test(r.svg)) : !r.svg.includes('data-p26="lamp-focus"'));
+  ok(`weather ${tag}: lamp spill only in the lamp cell; kit warm overlay absent there; no duck-centred glow anywhere`, (name === 'storm+lamp' ? (r.svg.includes('data-p26="lamp-spill"') && !/g-overlay/.test(r.svg)) : !r.svg.includes('data-p26="lamp-spill"')) && !r.svg.includes('lamp-focus'));
+  if (name === 'storm+lamp') {
+    const spill = r.svg.match(/data-p26="lamp-spill"[^>]*>([\s\S]*?)<\/g>/)?.[1] || '', cxs = [...spill.matchAll(/<ellipse cx="([\d.]+)" cy="([-\d.]+)"/g)].map(m => [Number(m[1]), Number(m[2])]);
+    const sc = ROOM_SPECS.living, L = sc.lampAt, lx = CX + (F / L.z) * L.X, dx = CX + (F / 900) * (-144), vb = r.svg.match(/viewBox="([-\d.]+) ([-\d.]+) ([-\d.]+) ([-\d.]+)"/).slice(1).map(Number);
+    ok(`weather ${tag}: lamp spill centred on the kit lamp (x ${cxs.map(c => c[0]).join('/')} vs lamp ${lx.toFixed(1)}), far from the duck (x ${dx.toFixed(1)})`, cxs.length === 2 && cxs.every(([x]) => Math.abs(x - lx) < 3 && Math.abs(x - dx) > 150));
+    void vb;
+  }
   const soft = r.svg.match(/data-p26="ambient-shadows"/g) || []; ok(`weather ${tag}: soft ambient shadows, no directional sun shadows`, soft.length === 1 && !/data-p26="sun-/.test(r.svg));
 }
 { const w = k => out[`${k}/wide/side`], o = streakStats(w('overcast')), ra = streakStats(w('rain')), st = streakStats(w('storm'));

@@ -1,0 +1,11 @@
+Source record oga-pleasing-bell-sound-effect (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/pleasing-bell-sound-effect
+Entry title: User login
+authorField: Spring Spring
+pagePostDate: Saturday, July 14, 2018 - 00:47
+descriptionExcerpt: what the title says.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/pleasing-bell.wav  109392 bytes  sha256 3c851939ccf9146e49c1be0272386fdca1b1442bb034a5e6dcdfb3e0e144a411  retrieved 2026-10-28
+Files used from this source: qp18-0030 <- pleasing-bell.wav

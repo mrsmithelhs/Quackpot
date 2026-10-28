@@ -1,0 +1,10 @@
+Source record freesound-749445 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/dumnezilla/sounds/749445/
+Title: desperate duck quack
+Uploader: dumnezilla
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 749445__dumnezilla__desperate-duck-quack.mp3  sha256 ff41197a8572eef8ac784c48f9df85846076dffbfc678743441772acb58338bc
+Description excerpt: A person quacking like a crazed duck; recorded in Audacity.

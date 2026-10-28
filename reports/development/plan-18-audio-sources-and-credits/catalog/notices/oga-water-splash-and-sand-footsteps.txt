@@ -1,0 +1,12 @@
+Source record oga-water-splash-and-sand-footsteps (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/water-splash-and-sand-footsteps
+Entry title: User login
+authorField: Peludo
+pagePostDate: Sunday, January 31, 2021 - 00:39
+descriptionExcerpt: Some water experiment and footsteps in the beach. Made by a Trust webcam, bucket of water, and a tapioca bag
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/splash1_0.wav  225378 bytes  sha256 e45d466f7e63e5d566f8a822a7a1a3f7d5131319d17ca0436dcc615b251e9277  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/splash2_0.wav  150572 bytes  sha256 ad9472b711666de2d43c3b102d155a5d1118b1fcd0ecd29cb63177256ab63f31  retrieved 2026-10-28
+Files used from this source: qp18-0047 <- splash1.wav

@@ -1,0 +1,10 @@
+Source record commons-soft-whistle-ogg (captured 2026-10-28)
+
+Library: Wikimedia Commons
+Entry page: https://commons.wikimedia.org/wiki/File:Soft_whistle.ogg
+Entry title: File:Soft whistle.ogg
+artist: stilgar
+credit: http://www.pdsounds.org/audio/download/619/softwhistle.flac PDSounds description: http://www.pdsounds.org/sounds/soft_whistle Transferred by Fæ
+licenseShortName: Public domain
+Downloaded: https://upload.wikimedia.org/wikipedia/commons/8/86/Soft_whistle.ogg  80733 bytes  sha256 4146ba2c56e7ef0c7c633364fff27634b9058f7dc233eb6b904346cdbdcdc7e9  retrieved 2026-10-28
+Files used from this source: qp18-0038 <- Soft_whistle.ogg

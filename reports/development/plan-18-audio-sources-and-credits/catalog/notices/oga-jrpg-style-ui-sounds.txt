@@ -1,0 +1,11 @@
+Source record oga-jrpg-style-ui-sounds (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/jrpg-style-ui-sounds
+Entry title: User login
+authorField: KillaMaaki
+pagePostDate: Wednesday, February 17, 2016 - 01:20
+descriptionExcerpt: A collection of very synth-y UI sounds I created in the style of JRPGs. Contains: Battle intro sound Move cursor Confirm sound Open UI sound Close UI sound Error sound Load/save sound Equip item sound Purchase/sell item sound
+Licenses shown on page: CC-BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+Downloaded: https://opengameart.org/sites/default/files/JRPG_UI.zip  1048479 bytes  sha256 618009ce462cfbac1e2fe547a3a98369a3700c1d84cf3d7ecd3ad1bfd3e76455  retrieved 2026-10-28
+Files used from this source: qp18-0017 <- JRPG_UI.zip::Confirm.wav; qp18-0018 <- JRPG_UI.zip::Cursor.wav; qp18-0020 <- JRPG_UI.zip::Close.wav

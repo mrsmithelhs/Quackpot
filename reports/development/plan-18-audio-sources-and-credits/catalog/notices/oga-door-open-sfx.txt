@@ -1,0 +1,11 @@
+Source record oga-door-open-sfx (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/door-open-sfx
+Entry title: User login
+authorField: Oiboo
+pagePostDate: Tuesday, September 24, 2019 - 01:35
+descriptionExcerpt: Door Open SFX
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/door_open.wav  769792 bytes  sha256 111215fb974a4f7f7a94890e09c03bd301607cca813054f027be8424685d4444  retrieved 2026-10-28
+Files used from this source: qp18-0060 <- door_open.wav

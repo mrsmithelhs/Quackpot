@@ -1,0 +1,11 @@
+Source record oga-card-game-sounds (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/card-game-sounds
+Entry title: User login
+authorField: HaelDB
+pagePostDate: Monday, July 2, 2012 - 14:13
+descriptionExcerpt: sounds I made for the game "Cockatrice" Sounds In order of preview Game Start Draw Card Error Hover over Or interface click Notification (pass turn) PLay card Shuffle Stage Change Tap Untap There is also a Dice roll in there as well.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/Cardsounds.zip  238226 bytes  sha256 0c01b7807909119a4d93364fa3661f7c4be1421721e65da8a816edd71cf3f899  retrieved 2026-10-28
+Files used from this source: qp18-0025 <- Cardsounds.zip::cockatrice/draw.wav; qp18-0026 <- Cardsounds.zip::cockatrice/playcard.wav

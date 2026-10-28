@@ -1,12 +1,12 @@
 # Plan 18 expanded audition — taxonomy / source / manifest / interaction checkpoint
 
-**Date:** 2026-10-28. **Author:** Sonnet implementer thread. **Scope:** `reports/development/plan-18-audio-sources-and-credits/` only. **Status:** proposal for QP Orch. No bulk download, no page rebuild, no production change, no packet-status change has happened. Research continues to be filed under `research/`; I am waiting on the root answers in §7 before downloading.
+**Date:** 2026-10-28. **Author:** Sonnet implementer thread. **Scope:** `reports/development/plan-18-audio-sources-and-credits/` only. **Status of this document:** the checkpoint as first written (before root's answers). It is kept as the record of the proposal; **root answered it in `reports/orchestration/plan-18-checkpoint-disposition-02.md`**, after which the bounded catalog/audition rebuild proceeded (see `progress.md`). Wording below that says "no downloads" refers to the six *search* tasks, not to later work: owner-assisted Freesound intake (14 files) and the approved individual-file/small-pack downloads happened afterwards and are accounted for in `progress.md`.
 
 ## 1. What has been done
 
 - `plan-status.js check plan-18` → RUNNABLE.
 - v1 audition/provenance/credits/report/progress preserved byte-for-byte in `archive/v1-2026-10-25/` (original files left in place for now; the rebuild will replace them, the archive is the record). The five v1 binaries in `audio/` are untouched.
-- **Haiku budget used: 6 of 6 search tasks, never more than 3 concurrent**, each into its own `research/<task>/` folder; no nested agents, browser tabs, downloads, accounts or credential use (confirmed from their reports; one harness refusal of `summary.md` in T1–T3 means those three have no summary file, the content is folded in here).
+- **Search budget used: 6 of 6 Haiku search tasks, never more than 3 concurrent**, each into its own `research/<task>/` folder; the search workers made no nested agents, browser tabs, downloads, accounts or credential use (confirmed from their reports; one harness refusal of `summary.md` in T1–T3 means those three have no summary file, the content is folded in here). A seventh Haiku task (screenshot transcription for owner-assisted Freesound intake, T7) was an **owner-authorized exception**, not an unused search task and not an automatic future budget.
 
 | Task | Focus | Leads | Notes |
 |---|---|---|---|

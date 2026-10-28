@@ -1,0 +1,10 @@
+Source record commons-clapping-hurray-cropped-oga (captured 2026-10-28)
+
+Library: Wikimedia Commons
+Entry page: https://commons.wikimedia.org/wiki/File:Clapping_hurray_(cropped).oga
+Entry title: File:Clapping hurray (cropped).oga
+artist: Starlite
+credit: File:Clapping_hurray.ogg
+licenseShortName: Public domain
+Downloaded: https://upload.wikimedia.org/wikipedia/commons/1/1b/Clapping_hurray_%28cropped%29.oga  188398 bytes  sha256 4d5537bb38a4f3a92194261ed2ace4544825327912f47334ef9a33f32e8ff406  retrieved 2026-10-28
+Files used from this source: qp18-0040 <- Clapping_hurray_(cropped).oga

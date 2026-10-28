@@ -1,0 +1,10 @@
+Source record ia-red_library_crowds_applause (captured 2026-10-28)
+
+Library: Internet Archive
+Entry page: https://archive.org/details/Red_Library_Crowds_Applause
+Entry title: Red Library Crowds Applause
+uploader: jscott@archive.org
+licenseUrl: https://creativecommons.org/publicdomain/zero/1.0/
+Downloaded: https://archive.org/download/Red_Library_Crowds_Applause/R02-06-Medium%20Crowd%20Applause.mp3  246536 bytes  sha256 ce53e1776d4a2debba30a4b18c8f8a94737b038b668a55ff3fb8fc49147c65a1  retrieved 2026-10-28
+Downloaded: https://archive.org/download/Red_Library_Crowds_Applause/R02-13-Group%20Applause.mp3  32784 bytes  sha256 6f572b0c6709daf19adee987fecc0d0f351b73e42871126c9529a562b341cd37  retrieved 2026-10-28
+Files used from this source: qp18-0043 <- R02-13-Group Applause.mp3

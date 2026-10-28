@@ -1,0 +1,14 @@
+Source record oga-mechanical-sounds (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/mechanical-sounds
+Entry title: User login
+authorField: BMacZero
+pagePostDate: Sunday, October 4, 2020 - 18:28
+descriptionExcerpt: A small collection of mechanical impacts, ratchets, etc.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/lightclunk1.wav  32812 bytes  sha256 d5a2aa8764c02924f6ed6fbaad0c650ab2d57ec57a626cee9e6645f941dbc8fa  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/lightclunk2.wav  26668 bytes  sha256 987be837a5941ded9a81572c319b9bf8f57d9f89741a5781fc7104adc87d60f5  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/squeakyclick1.wav  35884 bytes  sha256 27b9430c35123a6b2e662b4268adb2238c59fa02522b060756d47666c6b0ffe0  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/squeakyclick2.wav  48172 bytes  sha256 33adab3bd231593b4d1a7d3735b869275550e469fa6656ff7f836d8c391e5f0e  retrieved 2026-10-28
+Files used from this source: qp18-0045 <- lightclunk1.wav

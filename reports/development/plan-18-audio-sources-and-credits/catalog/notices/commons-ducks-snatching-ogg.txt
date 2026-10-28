@@ -1,0 +1,11 @@
+Source record commons-ducks-snatching-ogg (captured 2026-10-28)
+
+Library: Wikimedia Commons
+Entry page: https://commons.wikimedia.org/wiki/File:Ducks_snatching.ogg
+Entry title: File:Ducks snatching.ogg
+artist: Bert76
+credit: Own work
+licenseShortName: CC0
+licenseUrl: http://creativecommons.org/publicdomain/zero/1.0/deed.en
+Downloaded: https://upload.wikimedia.org/wikipedia/commons/f/f1/Ducks_snatching.ogg  72952 bytes  sha256 24eefe8a596b6c8a4c99b7942b9a094510df240797278618f9534fca819539ec  retrieved 2026-10-28
+Files used from this source: qp18-0006 <- Ducks_snatching.ogg

@@ -1,0 +1,7 @@
+Source record kenney-ui-audio (captured 2026-10-28)
+
+Library: Kenney.nl, pack 'UI Audio'
+Official pack page (verified by root 2026-10-28): https://kenney.nl/assets/ui-audio
+Official support: credit optional; if crediting use 'Kenney' and not the logo.
+Mirror used in v1: https://raw.githubusercontent.com/Calinou/kenney-ui-audio/master/addons/kenney_ui_audio/click1.wav
+Member provenance pending (2014-era mirror snapshot).

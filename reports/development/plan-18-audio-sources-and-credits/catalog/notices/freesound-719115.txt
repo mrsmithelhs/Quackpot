@@ -1,0 +1,10 @@
+Source record freesound-719115 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/OwennewO/sounds/719115/
+Title: Ducks Quacking To Each Other
+Uploader: OwennewO
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 719115__owennewo__ducks-quacking-to-each-other.wav  sha256 5a656383f845bfb41b4030c8760f00a3032b6f67b662f5463767c22c5c8d9383
+Description excerpt: A male and female duck quacking to each other at the same time.

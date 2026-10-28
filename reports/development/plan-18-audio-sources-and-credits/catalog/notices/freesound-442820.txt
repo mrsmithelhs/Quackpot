@@ -1,0 +1,10 @@
+Source record freesound-442820 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/qubodup/sounds/442820/
+Title: Duck Quack
+Uploader: qubodup
+License shown on page: Attribution 4.0 (CC BY 4.0) https://creativecommons.org/licenses/by/4.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 442820__qubodup__duck-quack.wav  sha256 c584b6358eeeb9b73a03deeac4103c9949d0b1a92a0b755499c19c0455f8fc10
+Description excerpt: Made to replace quack.wav in FreeDink.

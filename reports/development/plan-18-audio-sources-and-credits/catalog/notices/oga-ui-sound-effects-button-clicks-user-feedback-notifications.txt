@@ -1,0 +1,11 @@
+Source record oga-ui-sound-effects-button-clicks-user-feedback-notifications (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/ui-sound-effects-button-clicks-user-feedback-notifications
+Entry title: User login
+authorField: Robin Lamb
+pagePostDate: Saturday, July 23, 2022 - 23:48
+descriptionExcerpt: This is a collection of sounds from the public domain music sample libraries VCSL and VSCO 2 CE suitable for button clicks, selections, notifications, user feedback, etc. Some were tweaked and modified by me in Audacity. I have included them in both OGG and WAV files. Here are the links to the libraries: VCSL Library VSCO 2 CE Library
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/ui_wav.zip  1364100 bytes  sha256 8e4e23dd4ec501776dab1428c5f1e405b5065e296518feb04816f2892d163053  retrieved 2026-10-28
+Files used from this source: qp18-0016 <- ui_wav.zip::ui_wav/click_2.wav; qp18-0021 <- ui_wav.zip::ui_wav/dum.wav; qp18-0028 <- ui_wav.zip::ui_wav/Ding.wav; qp18-0029 <- ui_wav.zip::ui_wav/ding_deep.wav; qp18-0052 <- ui_wav.zip::ui_wav/chimes.wav

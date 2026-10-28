@@ -1,0 +1,15 @@
+Source record oga-playing-card-sounds (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/playing-card-sounds
+Entry title: User login
+authorField: BMacZero
+pagePostDate: Sunday, October 4, 2020 - 18:36
+descriptionExcerpt: A small collection of playing card sound effects.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/shuffle.wav  68652 bytes  sha256 eedc3d3112c593f0a9bc3697dcb496e1b03ac5423b0f45f89e412f7b62818729  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/shuffleandbridge.wav  158764 bytes  sha256 7178fdd4b85875fc74aa0aaf534acbec8dad393006156cf7e679443dd6a4f85b  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/contact1.wav  7212 bytes  sha256 6b5c7632849848604d4321e37af0a93369eda54d2190b433454151a3e9b81e86  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/contact2.wav  26668 bytes  sha256 7a30a388cab6ce4b9da74fbc13f3a376ec4e588a024d1e26d59545d0153e5433  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/cut.wav  15404 bytes  sha256 e34049add637cd31efe11aedfd93d5834f9e469ffb083b444c15aa709f1ac1d1  retrieved 2026-10-28
+Files used from this source: qp18-0022 <- shuffle.wav; qp18-0023 <- contact1.wav; qp18-0024 <- cut.wav

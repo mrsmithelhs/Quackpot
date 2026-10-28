@@ -1,0 +1,13 @@
+Source record oga-power-up-sound-effects (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/power-up-sound-effects
+Entry title: User login
+authorField: Spring Spring
+pagePostDate: Saturday, December 28, 2024 - 15:01
+descriptionExcerpt: What the title says. 3 slightly different versions.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/power_up_sound_v1_0.ogg  123120 bytes  sha256 111ce73c362601bd04002cf1f00003016019dcacc03bf5f7175aa960756cb44a  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/power_up_sound_v2_0.ogg  98738 bytes  sha256 6b273ecea00aed36ccd5c6d246042903e5ae9ee01f6b19690a3ff15c6bac63e9  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/power_up_sound_v3_0.ogg  71844 bytes  sha256 bb75dcb6ca5edcd84dbf8358fbfb242443c554714f86cff6c8475754589cfddb  retrieved 2026-10-28
+Files used from this source: qp18-0033 <- power_up_sound_v1.ogg

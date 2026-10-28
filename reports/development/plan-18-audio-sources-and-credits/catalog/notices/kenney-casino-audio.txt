@@ -1,0 +1,7 @@
+Source record kenney-casino-audio (captured 2026-10-28)
+
+Library: Kenney.nl, pack 'Casino Audio'
+Official pack page (verified by root 2026-10-28): https://kenney.nl/assets/casino-audio
+Official support: credit optional; if crediting use 'Kenney' and not the logo.
+Mirror used in v1: https://raw.githubusercontent.com/iwenzhou/kenney/master/Audio%20(295%20files)/Casino%20sounds%20(50%20sounds)/cardSlide1.ogg
+Member provenance pending (2014-era mirror snapshot).

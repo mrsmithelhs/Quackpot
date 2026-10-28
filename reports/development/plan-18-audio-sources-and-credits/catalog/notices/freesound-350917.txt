@@ -1,0 +1,10 @@
+Source record freesound-350917 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/csaszi/sounds/350917/
+Title: rubber duck -CsG-.wav
+Uploader: csaszi
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 350917__csaszi__rubber-duck-csg.wav  sha256 e7a3a69117e2c0b1c08058a0dac21cc27e1e5c6183f116bd7d20ef4eb1150bca
+Description excerpt: h2n

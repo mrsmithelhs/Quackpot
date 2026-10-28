@@ -1,0 +1,1488 @@
+{
+ "schemaVersion": 1,
+ "capturedOn": "2026-10-28",
+ "sources": [
+  {
+   "key": "oga-12-coin-sound-effects",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/12-coin-sound-effects",
+   "entryTitle": "User login",
+   "authorField": "StarNinjas",
+   "collaborators": null,
+   "pagePostDate": "Saturday, March 6, 2021 - 12:57",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "These are twelve coin sound effects I made by rumbling them in my hand. This could possibly be used for like trading or when a coin/money is picked up. Enjoy! Youtube channel: https://www.youtube.com/channel/UCxLPx862bQqxGUOkfZOtvZA Discord: https://discord.gg/nKUAtJmtKj",
+   "pageFileList": [
+    {
+     "name": "coins_-_starninjas.zip",
+     "size": "116.4 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/coins_-_starninjas.zip",
+     "dest": "dl/oga/12-coin-sound-effects/coins_-_starninjas.zip",
+     "bytes": 116352,
+     "sha256": "3af4ef8dedb45868055dae6c8f1b35daea13d89736e5ac812a9047c0755725ac",
+     "lastModified": "Sat, 06 Mar 2021 20:56:58 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-40-cc0-water-splash-slime-sfx",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+   "entryTitle": "User login",
+   "authorField": "rubberduck",
+   "collaborators": null,
+   "pagePostDate": "Sunday, July 29, 2018 - 07:40",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "I created some water, splash and slime sounds: 3x bubble 6x loop sounds (bubbles, rain, water) 16x slime (partly recorded from real slime) 15x splash The loop sounds are also a bit longer as in the preview.",
+   "pageFileList": [
+    {
+     "name": "water-splash-slime-sfx.zip",
+     "size": "2.3 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+     "dest": "dl/oga/40-cc0-water-splash-slime-sfx/water-splash-slime-sfx.zip",
+     "bytes": 2259262,
+     "sha256": "7cd39abb49d4362a37ba18dc0e454c7dc1d08029d4e5b683149046bc237b2eba",
+     "lastModified": "Sun, 29 Jul 2018 14:40:21 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-alertnotification-sound",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/alertnotification-sound",
+   "entryTitle": "User login",
+   "authorField": "frosty ham",
+   "collaborators": null,
+   "pagePostDate": "Wednesday, December 31, 2025 - 18:58",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Simple sound I made just so I could say I was active this year. BeepBox link",
+   "pageFileList": [
+    {
+     "name": "alert.wav",
+     "size": "197.2 Kb"
+    },
+    {
+     "name": "alert.flac",
+     "size": "34.3 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/alert.wav",
+     "dest": "dl/oga/alertnotification-sound/alert.wav",
+     "bytes": 197184,
+     "sha256": "d275225f0d68e14331fade06451e3ce3a0f6665219936553968300557ff82666",
+     "lastModified": "Thu, 01 Jan 2026 02:55:51 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-applause",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/applause",
+   "entryTitle": "User login",
+   "authorField": "Blender Foundation (Submitted by LeeZH )",
+   "collaborators": null,
+   "pagePostDate": "Monday, May 23, 2011 - 08:21",
+   "licensesShownOnPage": [
+    {
+     "name": "CC-BY 3.0",
+     "url": "http://creativecommons.org/licenses/by/3.0/"
+    }
+   ],
+   "descriptionExcerpt": "This is just a simple cut of the applause section from Yo Frankie!'s end game sound ( http://opengameart.org/content/endgame ). I did this so that it would be more useful for games that don't want that brass band sound (like one of my projects).",
+   "pageFileList": [
+    {
+     "name": "applause.wav",
+     "size": "1.5 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/applause.wav",
+     "dest": "dl/oga/applause/applause.wav",
+     "bytes": 1468034,
+     "sha256": "d8d44ae50a16ba4218c1861c8fa236c481c2caf56195883edc81f89919fb6958",
+     "lastModified": "Sat, 09 Jul 2011 04:46:40 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-book-flip-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/book-flip-sounds",
+   "entryTitle": "User login",
+   "authorField": "Voltiment555",
+   "collaborators": null,
+   "pagePostDate": "Tuesday, April 11, 2017 - 16:03",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "13 .wav-Sounds of book pages flip",
+   "pageFileList": [
+    {
+     "name": "BookFlip_SFX.zip",
+     "size": "3.7 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/BookFlip_SFX.zip",
+     "dest": "dl/oga/book-flip-sounds/BookFlip_SFX.zip",
+     "bytes": 3677801,
+     "sha256": "aa59a4f7a1f0aa1d1cbcb9561cf1120f2cc66a07ff49b7cc7dc8810ccb9646fe",
+     "lastModified": "Tue, 11 Apr 2017 23:02:32 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-card-game-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/card-game-sounds",
+   "entryTitle": "User login",
+   "authorField": "HaelDB",
+   "collaborators": null,
+   "pagePostDate": "Monday, July 2, 2012 - 14:13",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "sounds I made for the game \"Cockatrice\" Sounds In order of preview Game Start Draw Card Error Hover over Or interface click Notification (pass turn) PLay card Shuffle Stage Change Tap Untap There is also a Dice roll in there as well.",
+   "pageFileList": [
+    {
+     "name": "Cardsounds.zip",
+     "size": "238.2 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/Cardsounds.zip",
+     "dest": "dl/oga/card-game-sounds/Cardsounds.zip",
+     "bytes": 238226,
+     "sha256": "0c01b7807909119a4d93364fa3661f7c4be1421721e65da8a816edd71cf3f899",
+     "lastModified": "Fri, 06 Jul 2012 00:24:50 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-coin-drop",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/coin-drop",
+   "entryTitle": "User login",
+   "authorField": "Vinrax",
+   "collaborators": "Vinrax",
+   "pagePostDate": "Monday, August 25, 2014 - 00:28",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Dropping coin on table",
+   "pageFileList": [
+    {
+     "name": "coin_drop.wav",
+     "size": "249.9 Kb"
+    },
+    {
+     "name": "coin_drop.mp3",
+     "size": "47.7 Kb"
+    },
+    {
+     "name": "coin_drop.ogg",
+     "size": "26.2 Kb"
+    },
+    {
+     "name": "coin_drop.flac",
+     "size": "56.2 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/coin_drop.ogg",
+     "dest": "dl/oga/coin-drop/coin_drop.ogg",
+     "bytes": 26164,
+     "sha256": "a2363d7c1671dfd350dc79b76debad41473e7d8ed0a1c1e3094bad35d80dd553",
+     "lastModified": "Mon, 25 Aug 2014 07:28:07 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-coin-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/coin-sounds",
+   "entryTitle": "User login",
+   "authorField": "syncopika",
+   "collaborators": null,
+   "pagePostDate": "Saturday, January 10, 2015 - 04:40",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "some coin sounds I recorded today with real coins! :D",
+   "pageFileList": [
+    {
+     "name": "coinsounds011015.ogg",
+     "size": "382.6 Kb"
+    },
+    {
+     "name": "coinsounds011015.wav",
+     "size": "3.7 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/coinsounds011015_0.ogg",
+     "dest": "dl/oga/coin-sounds/coinsounds011015.ogg",
+     "bytes": 382619,
+     "sha256": "bcc062e880e98dc9999ccff281494d5fed03423c4594b349ab97aec23ae5d859",
+     "lastModified": "Sat, 10 Jan 2015 12:40:16 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-completion-sound",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/completion-sound",
+   "entryTitle": "User login",
+   "authorField": "Brandon Morris (Submitted by HaelDB )",
+   "collaborators": null,
+   "pagePostDate": "Tuesday, March 22, 2011 - 19:03",
+   "licensesShownOnPage": [
+    {
+     "name": "OGA-BY 3.0",
+     "url": "http://opengameart.org/content/oga-by-30-faq"
+    },
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "This sound I made for someone to use for either a completed task or an acknowledgment sound it makes when you hit the button to continue reading text. Or even a coin or rupee sound like in ocarina of time. :P second sound was used in the OGA game jam competition.",
+   "pageFileList": [
+    {
+     "name": "completetask_0.mp3",
+     "size": "18.2 Kb"
+    },
+    {
+     "name": "gmae.wav",
+     "size": "132.3 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/gmae.wav",
+     "dest": "dl/oga/completion-sound/gmae.wav",
+     "bytes": 132344,
+     "sha256": "4c4ad47a68cfed8450d8ebdad189635de085a533d8ab4fcfb86a9127f4fb8d6e",
+     "lastModified": "Sat, 09 Jul 2011 04:42:14 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/completetask_0.mp3",
+     "dest": "dl/oga/completion-sound/completetask_0.mp3",
+     "bytes": 18180,
+     "sha256": "64598fb07a4fe6635ab3f5827515ea83a1b76d3b1afa4fc1d725ea7c8017c4ae",
+     "lastModified": "Sat, 09 Jul 2011 04:42:13 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-door-open-sfx",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/door-open-sfx",
+   "entryTitle": "User login",
+   "authorField": "Oiboo",
+   "collaborators": null,
+   "pagePostDate": "Tuesday, September 24, 2019 - 01:35",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Door Open SFX",
+   "pageFileList": [
+    {
+     "name": "door_open.wav",
+     "size": "769.8 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/door_open.wav",
+     "dest": "dl/oga/door-open-sfx/door_open.wav",
+     "bytes": 769792,
+     "sha256": "111215fb974a4f7f7a94890e09c03bd301607cca813054f027be8424685d4444",
+     "lastModified": "Tue, 24 Sep 2019 08:35:26 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-jrpg-style-ui-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/jrpg-style-ui-sounds",
+   "entryTitle": "User login",
+   "authorField": "KillaMaaki",
+   "collaborators": null,
+   "pagePostDate": "Wednesday, February 17, 2016 - 01:20",
+   "licensesShownOnPage": [
+    {
+     "name": "CC-BY 3.0",
+     "url": "http://creativecommons.org/licenses/by/3.0/"
+    }
+   ],
+   "descriptionExcerpt": "A collection of very synth-y UI sounds I created in the style of JRPGs. Contains: Battle intro sound Move cursor Confirm sound Open UI sound Close UI sound Error sound Load/save sound Equip item sound Purchase/sell item sound",
+   "pageFileList": [
+    {
+     "name": "JRPG_UI.zip",
+     "size": "1 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/JRPG_UI.zip",
+     "dest": "dl/oga/jrpg-style-ui-sounds/JRPG_UI.zip",
+     "bytes": 1048479,
+     "sha256": "618009ce462cfbac1e2fe547a3a98369a3700c1d84cf3d7ecd3ad1bfd3e76455",
+     "lastModified": "Wed, 17 Feb 2016 09:17:52 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-level-up-power-up-coin-get-13-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/level-up-power-up-coin-get-13-sounds",
+   "entryTitle": "User login",
+   "authorField": "wobbleboxx",
+   "collaborators": null,
+   "pagePostDate": "Sunday, November 16, 2014 - 08:49",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "This small sound fx pack contains 13 sounds that can be used for all kinds of level up, power up, get, check, click, ding, bat, hit, and much more... Enjoy! :)",
+   "pageFileList": [
+    {
+     "name": "SoundPack01.zip",
+     "size": "6.8 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/SoundPack01.zip",
+     "dest": "dl/oga/level-up-power-up-coin-get-13-sounds/SoundPack01.zip",
+     "bytes": 6780792,
+     "sha256": "b3405c1c98f5223c101fdbfd445903c0b558ebb325b85306964d64a34ef82db3",
+     "lastModified": "Sun, 16 Nov 2014 16:40:14 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-light-switch-turn-on-and-off-sfx-0",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/light-switch-turn-on-and-off-sfx-0",
+   "entryTitle": "User login",
+   "authorField": "FunnyDude",
+   "collaborators": null,
+   "pagePostDate": "Wednesday, June 4, 2025 - 03:40",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Use it for whatever you like, but if you have problems? Contact me at Discord if you have problems or just simply want support : @flipppyRBLX",
+   "pageFileList": [
+    {
+     "name": "lightswitch.zip",
+     "size": "19.8 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/lightswitch_1.zip",
+     "dest": "dl/oga/light-switch-turn-on-and-off-sfx-0/lightswitch.zip",
+     "bytes": 19830,
+     "sha256": "2fccfdf18abab82af7ac2cd0e8bf3406f39eab290a442882d42232543ebbee2e",
+     "lastModified": "Wed, 04 Jun 2025 10:58:31 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-mechanical-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/mechanical-sounds",
+   "entryTitle": "User login",
+   "authorField": "BMacZero",
+   "collaborators": null,
+   "pagePostDate": "Sunday, October 4, 2020 - 18:28",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "A small collection of mechanical impacts, ratchets, etc.",
+   "pageFileList": [
+    {
+     "name": "clank1.wav",
+     "size": "59.4 Kb"
+    },
+    {
+     "name": "lightclunk1.wav",
+     "size": "32.8 Kb"
+    },
+    {
+     "name": "lightclunk2.wav",
+     "size": "26.7 Kb"
+    },
+    {
+     "name": "rattle1.wav",
+     "size": "68.7 Kb"
+    },
+    {
+     "name": "squeakyclick1.wav",
+     "size": "35.9 Kb"
+    },
+    {
+     "name": "squeakyclick2.wav",
+     "size": "48.2 Kb"
+    },
+    {
+     "name": "mechanical1.wav",
+     "size": "80.9 Kb"
+    },
+    {
+     "name": "mechanical2.wav",
+     "size": "53.3 Kb"
+    },
+    {
+     "name": "typewriter.wav",
+     "size": "10.3 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/lightclunk1.wav",
+     "dest": "dl/oga/mechanical-sounds/lightclunk1.wav",
+     "bytes": 32812,
+     "sha256": "d5a2aa8764c02924f6ed6fbaad0c650ab2d57ec57a626cee9e6645f941dbc8fa",
+     "lastModified": "Mon, 05 Oct 2020 01:27:23 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/lightclunk2.wav",
+     "dest": "dl/oga/mechanical-sounds/lightclunk2.wav",
+     "bytes": 26668,
+     "sha256": "987be837a5941ded9a81572c319b9bf8f57d9f89741a5781fc7104adc87d60f5",
+     "lastModified": "Mon, 05 Oct 2020 01:27:29 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/squeakyclick1.wav",
+     "dest": "dl/oga/mechanical-sounds/squeakyclick1.wav",
+     "bytes": 35884,
+     "sha256": "27b9430c35123a6b2e662b4268adb2238c59fa02522b060756d47666c6b0ffe0",
+     "lastModified": "Mon, 05 Oct 2020 01:27:44 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/squeakyclick2.wav",
+     "dest": "dl/oga/mechanical-sounds/squeakyclick2.wav",
+     "bytes": 48172,
+     "sha256": "33adab3bd231593b4d1a7d3735b869275550e469fa6656ff7f836d8c391e5f0e",
+     "lastModified": "Mon, 05 Oct 2020 01:27:48 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-object-dropping-into-water-0",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/object-dropping-into-water-0",
+   "entryTitle": "User login",
+   "authorField": "angeloyazar",
+   "collaborators": null,
+   "pagePostDate": "Tuesday, May 12, 2015 - 09:20",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "A short clip of an object dropping into water",
+   "pageFileList": [
+    {
+     "name": "water_drops.ogg",
+     "size": "105.3 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/water_drops_1.ogg",
+     "dest": "dl/oga/object-dropping-into-water-0/water_drops.ogg",
+     "bytes": 105251,
+     "sha256": "48857b0463638599d22f1d4bf70ba0d91456f0a6ef75c29fa85d70a8d8d3eb37",
+     "lastModified": "Tue, 12 May 2015 16:20:15 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-old-pagesflip-with-sound",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/old-pagesflip-with-sound",
+   "entryTitle": "User login",
+   "authorField": "yd",
+   "collaborators": null,
+   "pagePostDate": "Tuesday, January 31, 2012 - 19:18",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Old paper page from the image of the old public domain book. A simple animation of flipping a page with sound.",
+   "pageFileList": [
+    {
+     "name": "FlippingPages.ogg",
+     "size": "9.9 Kb"
+    },
+    {
+     "name": "FlippingPages.xcf",
+     "size": "12.5 Mb"
+    },
+    {
+     "name": "OldTwoPages.xcf",
+     "size": "2.1 Mb"
+    },
+    {
+     "name": "OldPage.xcf",
+     "size": "4.5 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/FlippingPages_0.ogg",
+     "dest": "dl/oga/old-pagesflip-with-sound/FlippingPages.ogg",
+     "bytes": 9906,
+     "sha256": "d76f9ed7080b8b1a050a942f59f07e03ed35867b8cc6b5eac78f6478e3cbc283",
+     "lastModified": "Wed, 01 Feb 2012 03:15:41 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-playing-card-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/playing-card-sounds",
+   "entryTitle": "User login",
+   "authorField": "BMacZero",
+   "collaborators": null,
+   "pagePostDate": "Sunday, October 4, 2020 - 18:36",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "A small collection of playing card sound effects.",
+   "pageFileList": [
+    {
+     "name": "shuffle.wav",
+     "size": "68.7 Kb"
+    },
+    {
+     "name": "shuffleandbridge.wav",
+     "size": "158.8 Kb"
+    },
+    {
+     "name": "contact1.wav",
+     "size": "7.2 Kb"
+    },
+    {
+     "name": "contact2.wav",
+     "size": "26.7 Kb"
+    },
+    {
+     "name": "cut.wav",
+     "size": "15.4 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/shuffle.wav",
+     "dest": "dl/oga/playing-card-sounds/shuffle.wav",
+     "bytes": 68652,
+     "sha256": "eedc3d3112c593f0a9bc3697dcb496e1b03ac5423b0f45f89e412f7b62818729",
+     "lastModified": "Mon, 05 Oct 2020 01:36:01 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/shuffleandbridge.wav",
+     "dest": "dl/oga/playing-card-sounds/shuffleandbridge.wav",
+     "bytes": 158764,
+     "sha256": "7178fdd4b85875fc74aa0aaf534acbec8dad393006156cf7e679443dd6a4f85b",
+     "lastModified": "Mon, 05 Oct 2020 01:36:08 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/contact1.wav",
+     "dest": "dl/oga/playing-card-sounds/contact1.wav",
+     "bytes": 7212,
+     "sha256": "6b5c7632849848604d4321e37af0a93369eda54d2190b433454151a3e9b81e86",
+     "lastModified": "Mon, 05 Oct 2020 01:36:13 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/contact2.wav",
+     "dest": "dl/oga/playing-card-sounds/contact2.wav",
+     "bytes": 26668,
+     "sha256": "7a30a388cab6ce4b9da74fbc13f3a376ec4e588a024d1e26d59545d0153e5433",
+     "lastModified": "Mon, 05 Oct 2020 01:36:18 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/cut.wav",
+     "dest": "dl/oga/playing-card-sounds/cut.wav",
+     "bytes": 15404,
+     "sha256": "e34049add637cd31efe11aedfd93d5834f9e469ffb083b444c15aa709f1ac1d1",
+     "lastModified": "Mon, 05 Oct 2020 01:36:23 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-pleasing-bell-sound-effect",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/pleasing-bell-sound-effect",
+   "entryTitle": "User login",
+   "authorField": "Spring Spring",
+   "collaborators": null,
+   "pagePostDate": "Saturday, July 14, 2018 - 00:47",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "what the title says.",
+   "pageFileList": [
+    {
+     "name": "pleasing-bell.wav",
+     "size": "109.4 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/pleasing-bell.wav",
+     "dest": "dl/oga/pleasing-bell-sound-effect/pleasing-bell.wav",
+     "bytes": 109392,
+     "sha256": "3c851939ccf9146e49c1be0272386fdca1b1442bb034a5e6dcdfb3e0e144a411",
+     "lastModified": "Sat, 14 Jul 2018 07:47:01 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-plingy-coin",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/plingy-coin",
+   "entryTitle": "User login",
+   "authorField": "Fupi",
+   "collaborators": null,
+   "pagePostDate": "Sunday, October 4, 2020 - 16:54",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "A simple plingy coin sound... It's like every single other coin pickup sound out there but more nasal-y I guess?",
+   "pageFileList": [
+    {
+     "name": "coin.wav",
+     "size": "159.6 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/coin.wav",
+     "dest": "dl/oga/plingy-coin/coin.wav",
+     "bytes": 159596,
+     "sha256": "d0a0a830ec4e2ed70d58d065edf7136ef5db45f0f977238be3b0ba8cf9fdc3f8",
+     "lastModified": "Mon, 05 Oct 2020 23:53:09 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-power-up-sound-effects",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/power-up-sound-effects",
+   "entryTitle": "User login",
+   "authorField": "Spring Spring",
+   "collaborators": null,
+   "pagePostDate": "Saturday, December 28, 2024 - 15:01",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "What the title says. 3 slightly different versions.",
+   "pageFileList": [
+    {
+     "name": "power_up_sound_v1.ogg",
+     "size": "123.1 Kb"
+    },
+    {
+     "name": "power_up_sound_v2.ogg",
+     "size": "98.7 Kb"
+    },
+    {
+     "name": "power_up_sound_v3.ogg",
+     "size": "71.8 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/power_up_sound_v1_0.ogg",
+     "dest": "dl/oga/power-up-sound-effects/power_up_sound_v1.ogg",
+     "bytes": 123120,
+     "sha256": "111ce73c362601bd04002cf1f00003016019dcacc03bf5f7175aa960756cb44a",
+     "lastModified": "Sat, 28 Dec 2024 23:00:36 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/power_up_sound_v2_0.ogg",
+     "dest": "dl/oga/power-up-sound-effects/power_up_sound_v2.ogg",
+     "bytes": 98738,
+     "sha256": "6b273ecea00aed36ccd5c6d246042903e5ae9ee01f6b19690a3ff15c6bac63e9",
+     "lastModified": "Sat, 28 Dec 2024 23:00:42 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/power_up_sound_v3_0.ogg",
+     "dest": "dl/oga/power-up-sound-effects/power_up_sound_v3.ogg",
+     "bytes": 71844,
+     "sha256": "bb75dcb6ca5edcd84dbf8358fbfb242443c554714f86cff6c8475754589cfddb",
+     "lastModified": "Sat, 28 Dec 2024 23:00:46 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-rain-loopable",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/rain-loopable",
+   "entryTitle": "User login",
+   "authorField": "Ylmir",
+   "collaborators": null,
+   "pagePostDate": "Monday, March 28, 2016 - 08:56",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Four loopable rain SFX, with a length varying between 25 and 45 seconds. Recorded about two hours ago with a single mono mic at my window, then I processed it a bit, trying to make it sound stereo. It was more an experiment, but it can probably be useful anyway ;) Available in two formats, the samples are the same : - MP3, 192 kbps, constant bitrate - OGG, 160 kbps",
+   "pageFileList": [
+    {
+     "name": "Rain MP3.zip",
+     "size": "3.2 Mb"
+    },
+    {
+     "name": "Rain OGG.zip",
+     "size": "2.7 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/Rain%20OGG.zip",
+     "dest": "dl/oga/rain-loopable/Rain OGG.zip",
+     "bytes": 2736596,
+     "sha256": "e68f3e1c77493cf43bec84cebff5043bff6be9ce16d59b24caa988cd460aa75b",
+     "lastModified": "Mon, 28 Mar 2016 15:52:31 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-sound-effects-pack-2",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/sound-effects-pack-2",
+   "entryTitle": "User login",
+   "authorField": "phoenix1291",
+   "collaborators": null,
+   "pagePostDate": "Thursday, December 7, 2017 - 09:58",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "[FLAC] [MP3] [OGG] [WAV] 10 sound effects per folder, 4 format, 110 unique sound effect in total [1up] [Blip] [Coins] [Explosions] [Hit] [Jump] [Laser-weapon] [Lose] [Power-up] [Random] [Teleport] Don't forget to support me on itch.io or Patreon if you like my work.",
+   "pageFileList": [
+    {
+     "name": "Sound effects Pack 2.zip",
+     "size": "15.2 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/Sound%20effects%20Pack%202.zip",
+     "dest": "dl/oga/sound-effects-pack-2/Sound effects Pack 2.zip",
+     "bytes": 15160723,
+     "sha256": "dff072356b9d48b41dc0f05dc79f7befdf8e63cb2093be335d86e62376164b95",
+     "lastModified": "Thu, 07 Dec 2017 17:58:18 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-squeak-toy-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/squeak-toy-sounds",
+   "entryTitle": "User login",
+   "authorField": "bart",
+   "collaborators": null,
+   "pagePostDate": "Saturday, April 30, 2011 - 18:45",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Attribution appreciated. :)",
+   "pageFileList": [
+    {
+     "name": "squeak_toy.zip",
+     "size": "898.1 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/squeak_toy.zip",
+     "dest": "dl/oga/squeak-toy-sounds/squeak_toy.zip",
+     "bytes": 898071,
+     "sha256": "3ba6419b05ebf8e0b7dd4395b3c10f26811c037e357143f10a159acdb2dabfb8",
+     "lastModified": "Sat, 09 Jul 2011 04:44:46 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-thwack-sounds",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/thwack-sounds",
+   "entryTitle": "User login",
+   "authorField": "AntumDeluge",
+   "collaborators": null,
+   "pagePostDate": "Sunday, September 22, 2019 - 13:09",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Some simple \"thwack\" sounds made by hitting stuff. Note: Numbers 01 & 10 are unfiltered. Licensing: Creative Common Zero (CC0) Canonical link: https://opengameart.org/node/100746",
+   "pageFileList": [
+    {
+     "name": "thwack-1.0.zip",
+     "size": "378.1 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/thwack-1.0.zip",
+     "dest": "dl/oga/thwack-sounds/thwack-1.0.zip",
+     "bytes": 378057,
+     "sha256": "8edb002735a01369ef4d6259573be4885f9fe32c9a9efa89dfbbb14067c8c8e5",
+     "lastModified": "Sun, 22 Sep 2019 20:09:07 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/ui-sound-effects-button-clicks-user-feedback-notifications",
+   "entryTitle": "User login",
+   "authorField": "Robin Lamb",
+   "collaborators": null,
+   "pagePostDate": "Saturday, July 23, 2022 - 23:48",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "This is a collection of sounds from the public domain music sample libraries VCSL and VSCO 2 CE suitable for button clicks, selections, notifications, user feedback, etc. Some were tweaked and modified by me in Audacity. I have included them in both OGG and WAV files. Here are the links to the libraries: VCSL Library VSCO 2 CE Library",
+   "pageFileList": [
+    {
+     "name": "ui_ogg.zip",
+     "size": "231.2 Kb"
+    },
+    {
+     "name": "ui_wav.zip",
+     "size": "1.4 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/ui_wav.zip",
+     "dest": "dl/oga/ui-sound-effects-button-clicks-user-feedback-notifications/ui_wav.zip",
+     "bytes": 1364100,
+     "sha256": "8e4e23dd4ec501776dab1428c5f1e405b5065e296518feb04816f2892d163053",
+     "lastModified": "Sun, 24 Jul 2022 06:47:22 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-ui-sounds-0",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/ui-sounds-0",
+   "entryTitle": "User login",
+   "authorField": "HaelDB",
+   "collaborators": null,
+   "pagePostDate": "Thursday, January 21, 2021 - 03:51",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Just a small package of UI sounds. Error, Accept, Notification, Attention. etc. Nothing too fancy.",
+   "pageFileList": [
+    {
+     "name": "ui_sounds.zip",
+     "size": "2.8 Mb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/ui_sounds.zip",
+     "dest": "dl/oga/ui-sounds-0/ui_sounds.zip",
+     "bytes": 2805236,
+     "sha256": "441a5e0200a879a38ef53596252670522f2ad761528e3fa28a2a6d92be93634d",
+     "lastModified": "Fri, 26 Feb 2021 12:53:37 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-various-paper-sound-effects",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/various-paper-sound-effects",
+   "entryTitle": "User login",
+   "authorField": "Luckius",
+   "collaborators": null,
+   "pagePostDate": "Friday, July 2, 2021 - 04:58",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "I made these paper sound effect for a map opening/closing in one of my games, and I made other interesting sounds in the process so I'm sharing with everyone. This pack contains : - 2 crushing sounds - 1 ripping sound - 4 other sounds It would be great if you credit me but this is not mandatory. Have fun :p",
+   "pageFileList": [
+    {
+     "name": "sounds.zip",
+     "size": "974.2 Kb"
+    },
+    {
+     "name": "paper_crushed_-_1.mp3",
+     "size": "28.2 Kb"
+    },
+    {
+     "name": "paper_crushed_-_2.mp3",
+     "size": "20.3 Kb"
+    },
+    {
+     "name": "paper_ripped_-_1.mp3",
+     "size": "12 Kb"
+    },
+    {
+     "name": "paper_sound_-_1.mp3",
+     "size": "12.3 Kb"
+    },
+    {
+     "name": "paper_sound_-_2.mp3",
+     "size": "12.8 Kb"
+    },
+    {
+     "name": "paper_sound_-_3.mp3",
+     "size": "15.2 Kb"
+    },
+    {
+     "name": "paper_sound_-_4.mp3",
+     "size": "53.5 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_crushed_-_1.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_crushed_-_1.mp3",
+     "bytes": 28158,
+     "sha256": "f43b208fada1e29e086dc3b9df8d1208dea7d5b0a0496a755d793c2f620b7de2",
+     "lastModified": "Fri, 02 Jul 2021 11:52:43 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_ripped_-_1.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_ripped_-_1.mp3",
+     "bytes": 11978,
+     "sha256": "e282eb21412fb78d6f31ba88fae52a94b23cc9e75e5531b59a1e0cef4358d728",
+     "lastModified": "Fri, 02 Jul 2021 11:53:14 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_sound_-_1.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_sound_-_1.mp3",
+     "bytes": 12292,
+     "sha256": "f62e6cab41a9c0a8c67b5752c95e80e6adc681110d579ada982627909be1773d",
+     "lastModified": "Fri, 02 Jul 2021 11:53:21 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_sound_-_2.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_sound_-_2.mp3",
+     "bytes": 12811,
+     "sha256": "6e81a68cfe8283f7e0ebfae637f15c1a2de4b9e4a306d0da2338663c6d5d7196",
+     "lastModified": "Fri, 02 Jul 2021 11:53:27 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_sound_-_3.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_sound_-_3.mp3",
+     "bytes": 15212,
+     "sha256": "20dae9f0684f732015e74a01bda408fe516a9b7a1214d187ef8c956eb5c64a3d",
+     "lastModified": "Fri, 02 Jul 2021 11:53:34 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/paper_sound_-_4.mp3",
+     "dest": "dl/oga/various-paper-sound-effects/paper_sound_-_4.mp3",
+     "bytes": 53511,
+     "sha256": "69f65b053e6b96b1ffe065637f20e5dce990de3ce600fe6fb837d73243f76d41",
+     "lastModified": "Fri, 02 Jul 2021 11:53:43 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-water-splash-and-sand-footsteps",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/water-splash-and-sand-footsteps",
+   "entryTitle": "User login",
+   "authorField": "Peludo",
+   "collaborators": null,
+   "pagePostDate": "Sunday, January 31, 2021 - 00:39",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Some water experiment and footsteps in the beach. Made by a Trust webcam, bucket of water, and a tapioca bag",
+   "pageFileList": [
+    {
+     "name": "splash1.wav",
+     "size": "225.4 Kb"
+    },
+    {
+     "name": "splash2.wav",
+     "size": "150.6 Kb"
+    },
+    {
+     "name": "drowning.wav",
+     "size": "659.4 Kb"
+    },
+    {
+     "name": "sand_footsteps.mp3",
+     "size": "333.3 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/splash1_0.wav",
+     "dest": "dl/oga/water-splash-and-sand-footsteps/splash1.wav",
+     "bytes": 225378,
+     "sha256": "e45d466f7e63e5d566f8a822a7a1a3f7d5131319d17ca0436dcc615b251e9277",
+     "lastModified": "Sun, 31 Jan 2021 08:37:04 GMT",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://opengameart.org/sites/default/files/splash2_0.wav",
+     "dest": "dl/oga/water-splash-and-sand-footsteps/splash2.wav",
+     "bytes": 150572,
+     "sha256": "ad9472b711666de2d43c3b102d155a5d1118b1fcd0ecd29cb63177256ab63f31",
+     "lastModified": "Sun, 31 Jan 2021 08:37:27 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-well-done",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/well-done",
+   "entryTitle": "User login",
+   "authorField": "qubodup",
+   "collaborators": null,
+   "pagePostDate": "Saturday, February 2, 2013 - 21:02",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Congratulations win success sound. People clapping. Own recording made at a hackathon then mixed. Both files are mono channel Flac is 96kHZ OGG Vorbis is 44.1kHZ Changed to CC0 on 2024-10-05. Feel free to ignore the \"CCBY3\" in the filename now.",
+   "pageFileList": [
+    {
+     "name": "Well Done CCBY3.ogg",
+     "size": "44.1 Kb"
+    },
+    {
+     "name": "Well Done CCBY3.flac",
+     "size": "306.2 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/Well%20Done%20CCBY3.ogg",
+     "dest": "dl/oga/well-done/Well Done CCBY3.ogg",
+     "bytes": 44069,
+     "sha256": "8ef5cdf2323ce9efd19f5553757c607ecb57647bd568316958472ab6b9048dfc",
+     "lastModified": "Sun, 03 Feb 2013 05:01:47 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "oga-win-sound-effect",
+   "library": "OpenGameArt.org",
+   "entryUrl": "https://opengameart.org/content/win-sound-effect",
+   "entryTitle": "User login",
+   "authorField": "Listener",
+   "collaborators": null,
+   "pagePostDate": "Monday, February 4, 2019 - 00:06",
+   "licensesShownOnPage": [
+    {
+     "name": "CC0",
+     "url": "http://creativecommons.org/publicdomain/zero/1.0/"
+    }
+   ],
+   "descriptionExcerpt": "Hi, it's a positive success sound effect, perfect for games. Enjoy!) The .mp3 and .wav formats include",
+   "pageFileList": [
+    {
+     "name": "Win sound.wav",
+     "size": "785.1 Kb"
+    }
+   ],
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://opengameart.org/sites/default/files/Win%20sound.wav",
+     "dest": "dl/oga/win-sound-effect/Win sound.wav",
+     "bytes": 785082,
+     "sha256": "e4bb5377bf9490ca9bc5bc4d3d957f1ec74b930450d8ad578d15fe1c4f319caf",
+     "lastModified": "Mon, 04 Feb 2019 08:05:48 GMT",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-277021-sandermotions-applause-2-wav",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:277021_sandermotions_applause-2.wav",
+   "entryTitle": "File:277021 sandermotions applause-2.wav",
+   "licenseShortName": "CC0",
+   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "artist": "Sandermotions",
+   "credit": "https://freesound.org/people/Sandermotions/sounds/277021/",
+   "dateTime": "2015-06-20",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/277021_sandermotions_applause-2.wav",
+     "dest": "dl/commons/277021_sandermotions_applause-2.wav",
+     "bytes": 1213484,
+     "sha256": "81d52260cee58e0f284a0236c9d4a0e40463df182ea869ee14da70bfa6258b5e",
+     "sha1": "73c1b58ccc6251406346f3f4cbc161dc858c73da",
+     "commonsTitle": "File:277021 sandermotions applause-2.wav",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-cash-register-ogg",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Cash_register.ogg",
+   "entryTitle": "File:Cash register.ogg",
+   "licenseShortName": "Public domain",
+   "licenseUrl": null,
+   "artist": "Me",
+   "credit": "http://soundbible.com/333-Cash-Register-Cha-Ching.html",
+   "dateTime": "08/6/10",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Cash_register.ogg",
+     "dest": "dl/commons/Cash_register.ogg",
+     "bytes": 27858,
+     "sha256": "3793d8a57f408a23d52ca9672f221d06feae2c56cca870910619b0e22f64894e",
+     "sha1": "c789a1a76e78af18370df374f4274a55e6fc9d5c",
+     "commonsTitle": "File:Cash register.ogg",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-clapping-hurray-cropped-oga",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Clapping_hurray_(cropped).oga",
+   "entryTitle": "File:Clapping hurray (cropped).oga",
+   "licenseShortName": "Public domain",
+   "licenseUrl": null,
+   "artist": "Starlite",
+   "credit": "File:Clapping_hurray.ogg",
+   "dateTime": "2013-12-14 10:47:44",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Clapping_hurray_%28cropped%29.oga",
+     "dest": "dl/commons/Clapping_hurray_(cropped).oga",
+     "bytes": 188398,
+     "sha256": "4d5537bb38a4f3a92194261ed2ace4544825327912f47334ef9a33f32e8ff406",
+     "sha1": "c59f0d90453634d48edd6654709a7833ec9937b9",
+     "commonsTitle": "File:Clapping hurray (cropped).oga",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-closing-an-old-door-ogg",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Closing_an_old_door.ogg",
+   "entryTitle": "File:Closing an old door.ogg",
+   "licenseShortName": "Public domain",
+   "licenseUrl": null,
+   "artist": "ezwa",
+   "credit": "http://www.pdsounds.org/audio/download/661/closinganolddoor.mp3 PDSounds description: http://www.pdsounds.org/sounds/closing_an_old_door Transferred by Fæ",
+   "dateTime": "2008-11-12",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Closing_an_old_door.ogg",
+     "dest": "dl/commons/Closing_an_old_door.ogg",
+     "bytes": 82246,
+     "sha256": "340796b59606c67138e95a9457d38a84a3835c0dbeaf289f0addf0fc147cbe97",
+     "sha1": "29b9821c33a267314355973fdf6a1ab15455fcf1",
+     "commonsTitle": "File:Closing an old door.ogg",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-ducks-snatching-ogg",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Ducks_snatching.ogg",
+   "entryTitle": "File:Ducks snatching.ogg",
+   "licenseShortName": "CC0",
+   "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "artist": "Bert76",
+   "credit": "Own work",
+   "dateTime": "2022-03-30",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Ducks_snatching.ogg",
+     "dest": "dl/commons/Ducks_snatching.ogg",
+     "bytes": 72952,
+     "sha256": "24eefe8a596b6c8a4c99b7942b9a094510df240797278618f9534fca819539ec",
+     "sha1": "352ed7cc239838ca34639fc7f416e71092335d2e",
+     "commonsTitle": "File:Ducks snatching.ogg",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-rain-against-the-window-ogg",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg",
+   "entryTitle": "File:Rain against the window.ogg",
+   "licenseShortName": "Public domain",
+   "licenseUrl": null,
+   "artist": "cori",
+   "credit": "http://www.pdsounds.org/audio/download/600/july-rain08.mp3 PDSounds description: http://www.pdsounds.org/sounds/rain_against_the_window Transferred by Fæ",
+   "dateTime": "2008-07-07",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Rain_against_the_window.ogg",
+     "dest": "dl/commons/Rain_against_the_window.ogg",
+     "bytes": 1208332,
+     "sha256": "85be295e9936fbf003ae5dbc0e106b77e60854ea4b19bfb7b232420f291a737e",
+     "sha1": "9d37ead83781913c95c026559a9ea3490c765d72",
+     "commonsTitle": "File:Rain against the window.ogg",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "commons-soft-whistle-ogg",
+   "library": "Wikimedia Commons",
+   "entryUrl": "https://commons.wikimedia.org/wiki/File:Soft_whistle.ogg",
+   "entryTitle": "File:Soft whistle.ogg",
+   "licenseShortName": "Public domain",
+   "licenseUrl": null,
+   "artist": "stilgar",
+   "credit": "http://www.pdsounds.org/audio/download/619/softwhistle.flac PDSounds description: http://www.pdsounds.org/sounds/soft_whistle Transferred by Fæ",
+   "dateTime": "2008-08-26",
+   "restrictions": "",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Soft_whistle.ogg",
+     "dest": "dl/commons/Soft_whistle.ogg",
+     "bytes": 80733,
+     "sha256": "4146ba2c56e7ef0c7c633364fff27634b9058f7dc233eb6b904346cdbdcdc7e9",
+     "sha1": "c7870202d2cbd62806e825e7684c7788075664fe",
+     "commonsTitle": "File:Soft whistle.ogg",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "ia-red_library_crowds_applause",
+   "library": "Internet Archive",
+   "entryUrl": "https://archive.org/details/Red_Library_Crowds_Applause",
+   "entryTitle": "Red Library Crowds Applause",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "uploader": "jscott@archive.org",
+   "note": "Item-level license URL from archive.org metadata API; MP3 files are the item's own derivatives of the uploaded WAV.",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://archive.org/download/Red_Library_Crowds_Applause/R02-06-Medium%20Crowd%20Applause.mp3",
+     "dest": "dl/ia/R02-06-Medium Crowd Applause.mp3",
+     "bytes": 246536,
+     "sha256": "ce53e1776d4a2debba30a4b18c8f8a94737b038b668a55ff3fb8fc49147c65a1",
+     "iaItem": "Red_Library_Crowds_Applause",
+     "retrievedOn": "2026-10-28"
+    },
+    {
+     "url": "https://archive.org/download/Red_Library_Crowds_Applause/R02-13-Group%20Applause.mp3",
+     "dest": "dl/ia/R02-13-Group Applause.mp3",
+     "bytes": 32784,
+     "sha256": "6f572b0c6709daf19adee987fecc0d0f351b73e42871126c9529a562b341cd37",
+     "iaItem": "Red_Library_Crowds_Applause",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  },
+  {
+   "key": "ia-red_library_crowds_sports",
+   "library": "Internet Archive",
+   "entryUrl": "https://archive.org/details/Red_Library_Crowds_Sports",
+   "entryTitle": "Red Library Crowds Sports",
+   "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+   "uploader": "jscott@archive.org",
+   "note": "Item-level license URL from archive.org metadata API; MP3 files are the item's own derivatives of the uploaded WAV.",
+   "retrievedOn": "2026-10-28",
+   "downloads": [
+    {
+     "url": "https://archive.org/download/Red_Library_Crowds_Sports/R07-41-Race%20Track%20Voices.mp3",
+     "dest": "dl/ia/R07-41-Race Track Voices.mp3",
+     "bytes": 267470,
+     "sha256": "b8594bb7dc29c70980c6e428a2f5a406c04059d2c2eb3e385a01eaf9cd6ebaaa",
+     "iaItem": "Red_Library_Crowds_Sports",
+     "retrievedOn": "2026-10-28"
+    }
+   ]
+  }
+ ]
+}

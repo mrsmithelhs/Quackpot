@@ -1,0 +1,10 @@
+Source record freesound-348791 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/nebyoolae/sounds/348791/
+Title: Toy Ducks Quacking
+Uploader: nebyoolae
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 348791__nebyoolae__toy-ducks-quacking.mp3  sha256 e135a3ff25f20b9279b2660c1c02f56aa6e9035d4da44c8eaf4e5888139560fa
+Description excerpt: A children's toy duck that quacks when you pull a string.

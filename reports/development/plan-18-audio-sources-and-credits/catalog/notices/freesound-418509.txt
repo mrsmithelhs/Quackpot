@@ -1,0 +1,11 @@
+Source record freesound-418509 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/Mikes-MultiMedia/sounds/418509/
+Title: single quack from a duck
+Uploader: Mikes-MultiMedia
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 418509__mikes-multimedia__single-quack-from-a-duck.wav  sha256 3651114bd5fd5231e91385e3f176297874877b4ad4d3e5ddc3f08e323e2d3ba1
+Description excerpt: Extracted from ducks1.wav by Freesound user squashy555.
+Derived from: {"freesoundId": "244329", "title": "ducks1.wav", "uploader": "squashy555", "pageUrl": "https://freesound.org/people/squashy555/sounds/244329/", "license": {"name": "CC0", "version": "1.0", "displayedOnPage": "Creative Commons 0"}, "pageDateUploaded": "2014-08-08", "pageDurationDisplayed": "0:26.098", "description": "lots of Ducks being fed in the park, fighting each other over the food. Recorded with Tascam DR07", "evidence": "owner screenshot attached in chat (not saved in repo)"}

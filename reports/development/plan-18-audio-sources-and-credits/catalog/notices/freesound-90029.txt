@@ -1,0 +1,10 @@
+Source record freesound-90029 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/tewell/sounds/90029/
+Title: TwoShortOneHighQuacks.wav
+Uploader: tewell
+License shown on page: Attribution 3.0 (CC BY 3.0) https://creativecommons.org/licenses/by/3.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 90029__tewell__twoshortonehighquacks.wav  sha256 e871070380ee540e7a4a7b75de6ac073aa9bb269ab036ed6c9a637f914735fa9
+Description excerpt: Produced by Terry Ewell with "Wacky Quackers" toy; description carries trademark references.

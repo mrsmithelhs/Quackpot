@@ -1,0 +1,10 @@
+Source record freesound-249943 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/IllusiaProductions/sounds/249943/
+Title: 1. Ducks.wav
+Uploader: IllusiaProductions
+License shown on page: Attribution 4.0 (CC BY 4.0) https://creativecommons.org/licenses/by/4.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 249943__illusiaproductions__1-ducks.wav  sha256 5d18cd4bdccc0b811b83f8c6b0fa3b1e2997e3fd1697cce171ff7dbc36737959
+Description excerpt: Quacking in the distance.

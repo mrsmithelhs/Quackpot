@@ -1,0 +1,11 @@
+Source record oga-plingy-coin (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/plingy-coin
+Entry title: User login
+authorField: Fupi
+pagePostDate: Sunday, October 4, 2020 - 16:54
+descriptionExcerpt: A simple plingy coin sound... It's like every single other coin pickup sound out there but more nasal-y I guess?
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/coin.wav  159596 bytes  sha256 d0a0a830ec4e2ed70d58d065edf7136ef5db45f0f977238be3b0ba8cf9fdc3f8  retrieved 2026-10-28
+Files used from this source: qp18-0057 <- coin.wav

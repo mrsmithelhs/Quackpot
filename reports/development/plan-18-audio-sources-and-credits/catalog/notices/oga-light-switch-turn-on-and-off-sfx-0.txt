@@ -1,0 +1,11 @@
+Source record oga-light-switch-turn-on-and-off-sfx-0 (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/light-switch-turn-on-and-off-sfx-0
+Entry title: User login
+authorField: FunnyDude
+pagePostDate: Wednesday, June 4, 2025 - 03:40
+descriptionExcerpt: Use it for whatever you like, but if you have problems? Contact me at Discord if you have problems or just simply want support : @flipppyRBLX
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/lightswitch_1.zip  19830 bytes  sha256 2fccfdf18abab82af7ac2cd0e8bf3406f39eab290a442882d42232543ebbee2e  retrieved 2026-10-28
+Files used from this source: qp18-0059 <- lightswitch.zip::light_switch_turn_on.mp3

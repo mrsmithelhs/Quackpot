@@ -1,0 +1,11 @@
+Source record oga-win-sound-effect (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/win-sound-effect
+Entry title: User login
+authorField: Listener
+pagePostDate: Monday, February 4, 2019 - 00:06
+descriptionExcerpt: Hi, it's a positive success sound effect, perfect for games. Enjoy!) The .mp3 and .wav formats include
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/Win%20sound.wav  785082 bytes  sha256 e4bb5377bf9490ca9bc5bc4d3d957f1ec74b930450d8ad578d15fe1c4f319caf  retrieved 2026-10-28
+Files used from this source: qp18-0031 <- Win sound.wav

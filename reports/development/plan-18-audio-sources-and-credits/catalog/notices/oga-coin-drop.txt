@@ -1,0 +1,12 @@
+Source record oga-coin-drop (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/coin-drop
+Entry title: User login
+authorField: Vinrax
+collaborators: Vinrax
+pagePostDate: Monday, August 25, 2014 - 00:28
+descriptionExcerpt: Dropping coin on table
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/coin_drop.ogg  26164 bytes  sha256 a2363d7c1671dfd350dc79b76debad41473e7d8ed0a1c1e3094bad35d80dd553  retrieved 2026-10-28
+Files used from this source: qp18-0056 <- coin_drop.ogg

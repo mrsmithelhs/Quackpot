@@ -1,0 +1,11 @@
+Source record commons-277021-sandermotions-applause-2-wav (captured 2026-10-28)
+
+Library: Wikimedia Commons
+Entry page: https://commons.wikimedia.org/wiki/File:277021_sandermotions_applause-2.wav
+Entry title: File:277021 sandermotions applause-2.wav
+artist: Sandermotions
+credit: https://freesound.org/people/Sandermotions/sounds/277021/
+licenseShortName: CC0
+licenseUrl: http://creativecommons.org/publicdomain/zero/1.0/deed.en
+Downloaded: https://upload.wikimedia.org/wikipedia/commons/6/6d/277021_sandermotions_applause-2.wav  1213484 bytes  sha256 81d52260cee58e0f284a0236c9d4a0e40463df182ea869ee14da70bfa6258b5e  retrieved 2026-10-28
+Files used from this source: qp18-0041 <- 277021_sandermotions_applause-2.wav

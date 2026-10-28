@@ -1,0 +1,638 @@
+{
+ "schemaVersion": 1,
+ "items": [
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "fs",
+   "title": "Single quack from a duck",
+   "note": "Short single quack; extracted by the uploader from a longer park recording.",
+   "intake": "fs-418509"
+  },
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "fs",
+   "title": "Ducks Quacking To Each Other",
+   "note": "Male and female duck quacking together.",
+   "intake": "fs-719115"
+  },
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "fs",
+   "title": "Duck quack (sea, Sweden) - trimmed excerpt",
+   "note": "Excerpt of a 35 s recording of one duck on the water; original kept unmodified.",
+   "intake": "fs-188375",
+   "derive": {
+    "lengthS": 3.0,
+    "preRollS": 0.15,
+    "thresholdFrac": 0.35,
+    "fadeMs": 10
+   }
+  },
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "fs",
+   "title": "Duck quack (FreeDink)",
+   "note": "Duck quack made for a game.",
+   "intake": "fs-442820"
+  },
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "fs",
+   "title": "Quacking in the distance - trimmed excerpt",
+   "note": "Distant quacks; trimmed from a 13.6 s recording; original kept unmodified.",
+   "intake": "fs-249943",
+   "derive": {
+    "lengthS": 4.0,
+    "preRollS": 0.15,
+    "thresholdFrac": 0.35,
+    "fadeMs": 10
+   }
+  },
+  {
+   "roles": [
+    "duck.naturalistic"
+   ],
+   "src": "commons-ducks-snatching-ogg",
+   "title": "Ducks snatching",
+   "note": "Short squabbling ducks.",
+   "file": "Ducks_snatching.ogg"
+  },
+  {
+   "roles": [
+    "duck.toy"
+   ],
+   "src": "fs",
+   "title": "Toy ducks quacking (pull-string toy)",
+   "note": "Children's pull-string toy duck; MP3 as published.",
+   "intake": "fs-348791"
+  },
+  {
+   "roles": [
+    "duck.toy"
+   ],
+   "src": "fs",
+   "title": "Rubber duck toy squeaking",
+   "note": "Small yellow rubber duck, 7.6 s sequence, untrimmed.",
+   "intake": "fs-201285"
+  },
+  {
+   "roles": [
+    "duck.toy"
+   ],
+   "src": "fs",
+   "title": "Rubber duck squeezes - trimmed excerpt",
+   "note": "Squeezed rubber duck; trimmed from 10.6 s (96 kHz source); original kept unmodified.",
+   "intake": "fs-403507",
+   "derive": {
+    "lengthS": 3.5,
+    "preRollS": 0.15,
+    "thresholdFrac": 0.35,
+    "fadeMs": 10
+   }
+  },
+  {
+   "roles": [
+    "duck.toy"
+   ],
+   "src": "fs",
+   "title": "Rubber duck - trimmed excerpt",
+   "note": "Rubber duck recording trimmed from 11.9 s (24-bit source); original kept unmodified.",
+   "intake": "fs-350917",
+   "derive": {
+    "lengthS": 3.5,
+    "preRollS": 0.15,
+    "thresholdFrac": 0.35,
+    "fadeMs": 10
+   }
+  },
+  {
+   "roles": [
+    "duck.toy"
+   ],
+   "src": "fs",
+   "title": "Duck quack (single, remix)",
+   "note": "Very short single quack; remix of another Freesound sound (chain recorded).",
+   "intake": "fs-818396"
+  },
+  {
+   "roles": [
+    "duck.cartoon"
+   ],
+   "src": "fs",
+   "title": "Sound of a Duck",
+   "note": "Human-made imitation (page label \"Human made\"); not a duck recording.",
+   "intake": "fs-448208"
+  },
+  {
+   "roles": [
+    "duck.cartoon"
+   ],
+   "src": "fs",
+   "title": "Quack quack (grumpy)",
+   "note": "Processed human recording, not a duck recording.",
+   "intake": "fs-547601"
+  },
+  {
+   "roles": [
+    "duck.cartoon"
+   ],
+   "src": "fs",
+   "title": "Desperate duck quack",
+   "note": "A person quacking; not a duck recording.",
+   "intake": "fs-749445"
+  },
+  {
+   "roles": [
+    "duck.cartoon"
+   ],
+   "src": "fs",
+   "title": "Two short, one high quack",
+   "note": "Toy \"Wacky Quackers\" recording.",
+   "intake": "fs-90029"
+  },
+  {
+   "roles": [
+    "ui.confirm-navigate"
+   ],
+   "src": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "title": "Click 2",
+   "note": "Short click.",
+   "file": "ui_wav.zip",
+   "member": "ui_wav/click_2.wav"
+  },
+  {
+   "roles": [
+    "ui.confirm-navigate"
+   ],
+   "src": "oga-jrpg-style-ui-sounds",
+   "title": "JRPG UI: Confirm",
+   "note": "Synth-style confirm.",
+   "file": "JRPG_UI.zip",
+   "member": "Confirm.wav"
+  },
+  {
+   "roles": [
+    "ui.confirm-navigate"
+   ],
+   "src": "oga-jrpg-style-ui-sounds",
+   "title": "JRPG UI: Cursor",
+   "note": "Synth-style cursor move.",
+   "file": "JRPG_UI.zip",
+   "member": "Cursor.wav"
+  },
+  {
+   "roles": [
+    "ui.confirm-navigate"
+   ],
+   "src": "kenney-v1",
+   "title": "Kenney Click 1",
+   "note": "Retained from the v1 audition (owner liked).",
+   "path": "audio/click1.wav"
+  },
+  {
+   "roles": [
+    "ui.dismiss-back"
+   ],
+   "src": "oga-jrpg-style-ui-sounds",
+   "title": "JRPG UI: Close",
+   "note": "Closing cue, 0.9 s.",
+   "file": "JRPG_UI.zip",
+   "member": "Close.wav"
+  },
+  {
+   "roles": [
+    "ui.dismiss-back"
+   ],
+   "src": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "title": "Dum",
+   "note": "Soft low tick.",
+   "file": "ui_wav.zip",
+   "member": "ui_wav/dum.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "oga-playing-card-sounds",
+   "title": "Card shuffle",
+   "note": "Real playing-card shuffle.",
+   "file": "shuffle.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "oga-playing-card-sounds",
+   "title": "Card contact 1",
+   "note": "Card on table.",
+   "file": "contact1.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "oga-playing-card-sounds",
+   "title": "Card cut",
+   "note": "Cutting a deck.",
+   "file": "cut.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "oga-card-game-sounds",
+   "title": "Card draw",
+   "note": "Draw card.",
+   "file": "Cardsounds.zip",
+   "member": "cockatrice/draw.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "oga-card-game-sounds",
+   "title": "Card play",
+   "note": "Play card; quiet.",
+   "file": "Cardsounds.zip",
+   "member": "cockatrice/playcard.wav"
+  },
+  {
+   "roles": [
+    "card.turn-shuffle-reveal"
+   ],
+   "src": "kenney-v1",
+   "title": "Kenney Card Slide 1",
+   "note": "Retained from the v1 audition (owner liked).",
+   "path": "audio/cardSlide1.ogg"
+  },
+  {
+   "roles": [
+    "reward.success-chime"
+   ],
+   "src": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "title": "Ding",
+   "note": "Single bell-like ding.",
+   "file": "ui_wav.zip",
+   "member": "ui_wav/Ding.wav"
+  },
+  {
+   "roles": [
+    "reward.success-chime",
+    "race.finish"
+   ],
+   "src": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "title": "Ding (deep)",
+   "note": "Lower, longer ding (1.9 s).",
+   "file": "ui_wav.zip",
+   "member": "ui_wav/ding_deep.wav"
+  },
+  {
+   "roles": [
+    "reward.success-chime",
+    "race.finish"
+   ],
+   "src": "oga-pleasing-bell-sound-effect",
+   "title": "Pleasing bell",
+   "note": "Vibraphone-like bell.",
+   "file": "pleasing-bell.wav"
+  },
+  {
+   "roles": [
+    "reward.success-chime"
+   ],
+   "src": "oga-win-sound-effect",
+   "title": "Win sound",
+   "note": "Positive success sound; longer.",
+   "file": "Win sound.wav"
+  },
+  {
+   "roles": [
+    "reward.rarity-accent"
+   ],
+   "src": "kenney-v1",
+   "title": "Kenney Steel Jingle 00",
+   "note": "Retained from the v1 audition (owner liked).",
+   "path": "audio/jingles_STEEL00.ogg"
+  },
+  {
+   "roles": [
+    "reward.rarity-accent"
+   ],
+   "src": "oga-power-up-sound-effects",
+   "title": "Power-up v1",
+   "note": "Power-up cue.",
+   "file": "power_up_sound_v1.ogg"
+  },
+  {
+   "roles": [
+    "reward.rarity-accent"
+   ],
+   "src": "oga-sound-effects-pack-2",
+   "title": "Power-up 3",
+   "note": "Very short power-up blip.",
+   "file": "Sound effects Pack 2.zip",
+   "member": "Sound effects Pack 2/Power-up/OGG/Powerup 3 - Sound effects Pack 2.ogg"
+  },
+  {
+   "roles": [
+    "dup.down"
+   ],
+   "src": "oga-sound-effects-pack-2",
+   "title": "Lose 2",
+   "note": "Soft descending \"lose\" cue; may read as game-over.",
+   "file": "Sound effects Pack 2.zip",
+   "member": "Sound effects Pack 2/Lose/OGG/Lose 2 - Sound effects Pack 2.ogg"
+  },
+  {
+   "roles": [
+    "dup.down"
+   ],
+   "src": "oga-sound-effects-pack-2",
+   "title": "Lose 5",
+   "note": "Soft descending \"lose\" cue; may read as game-over.",
+   "file": "Sound effects Pack 2.zip",
+   "member": "Sound effects Pack 2/Lose/OGG/Lose 5 - Sound effects Pack 2.ogg"
+  },
+  {
+   "roles": [
+    "dup.down"
+   ],
+   "src": "oga-sound-effects-pack-2",
+   "title": "Lose 8",
+   "note": "Soft descending \"lose\" cue; may read as game-over.",
+   "file": "Sound effects Pack 2.zip",
+   "member": "Sound effects Pack 2/Lose/OGG/Lose 8 - Sound effects Pack 2.ogg"
+  },
+  {
+   "roles": [
+    "race.start"
+   ],
+   "src": "commons-soft-whistle-ogg",
+   "title": "Soft whistle",
+   "note": "Soft whistle, 5.4 s.",
+   "file": "Soft_whistle.ogg"
+  },
+  {
+   "roles": [
+    "race.finish"
+   ],
+   "src": "oga-completion-sound",
+   "title": "Completion ding (MP3)",
+   "note": "Short task-complete ding.",
+   "file": "completetask_0.mp3"
+  },
+  {
+   "roles": [
+    "crowd.cheer-applause"
+   ],
+   "src": "commons-clapping-hurray-cropped-oga",
+   "title": "Clapping hurray (cropped)",
+   "note": "Small clapping/cheer, 9.8 s.",
+   "file": "Clapping_hurray_(cropped).oga"
+  },
+  {
+   "roles": [
+    "crowd.cheer-applause"
+   ],
+   "src": "commons-277021-sandermotions-applause-2-wav",
+   "title": "Applause (concert hall)",
+   "note": "Audience applause, 6.3 s.",
+   "file": "277021_sandermotions_applause-2.wav"
+  },
+  {
+   "roles": [
+    "crowd.cheer-applause"
+   ],
+   "src": "oga-applause",
+   "title": "Applause (Yo Frankie! cut)",
+   "note": "Applause without the brass band; CC BY 3.0 derivative of the Yo Frankie! end-game sound.",
+   "file": "applause.wav",
+   "chain": {
+    "title": "Success Trumpets and Claps (Yo Frankie!) end-game sound (end_level.flac)",
+    "uploader": "Blender Foundation (submitted to OpenGameArt by Lamoot)",
+    "pageUrl": "https://opengameart.org/content/endgame",
+    "license": "CC-BY 3.0 (entry page read 2026-10-28)"
+   }
+  },
+  {
+   "roles": [
+    "crowd.cheer-applause"
+   ],
+   "src": "ia-red_library_crowds_applause",
+   "title": "Group applause (short)",
+   "note": "Short group applause, 2.1 s.",
+   "file": "R02-13-Group Applause.mp3"
+  },
+  {
+   "roles": [
+    "crowd.cheer-applause",
+    "reward.success-chime"
+   ],
+   "src": "oga-well-done",
+   "title": "Well done (clapping win)",
+   "note": "People clapping with success tone.",
+   "file": "Well Done CCBY3.ogg"
+  },
+  {
+   "roles": [
+    "contact.bump"
+   ],
+   "src": "oga-mechanical-sounds",
+   "title": "Light clunk 1",
+   "note": "Soft mechanical bump.",
+   "file": "lightclunk1.wav"
+  },
+  {
+   "roles": [
+    "contact.bump"
+   ],
+   "src": "oga-thwack-sounds",
+   "title": "Thwack 03",
+   "note": "Short thwack; peaks at 0 dBFS.",
+   "file": "thwack-1.0.zip",
+   "member": "PCM/thwack-03.wav"
+  },
+  {
+   "roles": [
+    "contact.splash"
+   ],
+   "src": "oga-water-splash-and-sand-footsteps",
+   "title": "Water splash 1",
+   "note": "Real splash.",
+   "file": "splash1.wav"
+  },
+  {
+   "roles": [
+    "contact.splash"
+   ],
+   "src": "oga-40-cc0-water-splash-slime-sfx",
+   "title": "Splash 10",
+   "note": "Small splash, 0.3 s.",
+   "file": "water-splash-slime-sfx.zip",
+   "member": "splash_10.ogg"
+  },
+  {
+   "roles": [
+    "contact.splash"
+   ],
+   "src": "oga-object-dropping-into-water-0",
+   "title": "Object dropping into water",
+   "note": "Drop into water.",
+   "file": "water_drops.ogg"
+  },
+  {
+   "roles": [
+    "contact.recovery"
+   ],
+   "src": "oga-squeak-toy-sounds",
+   "title": "Squeak toy 1",
+   "note": "Rubber squeak for recovery/wobble accents.",
+   "file": "squeak_toy.zip",
+   "member": "squeak toy/squeak toy - squeak1.wav"
+  },
+  {
+   "roles": [
+    "meta.phone"
+   ],
+   "src": "oga-alertnotification-sound",
+   "title": "Alert / notification",
+   "note": "Simple notification beeps.",
+   "file": "alert.wav"
+  },
+  {
+   "roles": [
+    "meta.phone"
+   ],
+   "src": "oga-ui-sound-effects-button-clicks-user-feedback-notifications",
+   "title": "Chimes",
+   "note": "Soft chimes, 2 s; quiet.",
+   "file": "ui_wav.zip",
+   "member": "ui_wav/chimes.wav"
+  },
+  {
+   "roles": [
+    "meta.paper"
+   ],
+   "src": "oga-various-paper-sound-effects",
+   "title": "Paper ripped",
+   "note": "Paper tear.",
+   "file": "paper_ripped_-_1.mp3"
+  },
+  {
+   "roles": [
+    "meta.paper"
+   ],
+   "src": "oga-various-paper-sound-effects",
+   "title": "Paper sound 2",
+   "note": "Paper handling.",
+   "file": "paper_sound_-_2.mp3"
+  },
+  {
+   "roles": [
+    "meta.paper"
+   ],
+   "src": "oga-book-flip-sounds",
+   "title": "Book flip 4",
+   "note": "Page flip.",
+   "file": "BookFlip_SFX.zip",
+   "member": "BookFlip4.wav"
+  },
+  {
+   "roles": [
+    "meta.coins"
+   ],
+   "src": "oga-coin-drop",
+   "title": "Coin drop",
+   "note": "Coin dropped on table.",
+   "file": "coin_drop.ogg"
+  },
+  {
+   "roles": [
+    "meta.coins"
+   ],
+   "src": "oga-plingy-coin",
+   "title": "Plingy coin",
+   "note": "Game-style coin pickup.",
+   "file": "coin.wav"
+  },
+  {
+   "roles": [
+    "meta.coins"
+   ],
+   "src": "oga-12-coin-sound-effects",
+   "title": "Coin 3",
+   "note": "Coin rumbled in hand.",
+   "file": "coins_-_starninjas.zip",
+   "member": "coin.3.ogg"
+  },
+  {
+   "roles": [
+    "meta.apartment"
+   ],
+   "src": "oga-light-switch-turn-on-and-off-sfx-0",
+   "title": "Light switch on",
+   "note": "Short switch click.",
+   "file": "lightswitch.zip",
+   "member": "light_switch_turn_on.mp3"
+  },
+  {
+   "roles": [
+    "meta.apartment"
+   ],
+   "src": "oga-door-open-sfx",
+   "title": "Door open",
+   "note": "Door opening.",
+   "file": "door_open.wav"
+  },
+  {
+   "roles": [
+    "ambience.rain"
+   ],
+   "src": "oga-rain-loopable",
+   "title": "Rain loop 1 (27 s)",
+   "note": "Weather audio is NOT approved for production; audition only.",
+   "file": "Rain OGG.zip",
+   "member": "1.ogg",
+   "flags": [
+    "weather-not-approved",
+    "loop-seam-unverified"
+   ]
+  },
+  {
+   "roles": [
+    "ambience.rain"
+   ],
+   "src": "oga-rain-loopable",
+   "title": "Rain loop 3 (45 s)",
+   "note": "Weather audio is NOT approved for production; audition only.",
+   "file": "Rain OGG.zip",
+   "member": "3.ogg",
+   "flags": [
+    "weather-not-approved",
+    "loop-seam-unverified"
+   ]
+  },
+  {
+   "roles": [
+    "ambience.rain"
+   ],
+   "src": "commons-rain-against-the-window-ogg",
+   "title": "Rain against the window (82 s)",
+   "note": "Weather audio is NOT approved for production; audition only.",
+   "file": "Rain_against_the_window.ogg",
+   "flags": [
+    "weather-not-approved"
+   ]
+  }
+ ]
+}

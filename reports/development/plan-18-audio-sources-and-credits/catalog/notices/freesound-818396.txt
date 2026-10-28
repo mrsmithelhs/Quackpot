@@ -1,0 +1,11 @@
+Source record freesound-818396 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/treefit.2025/sounds/818396/
+Title: duck quack
+Uploader: treefit.2025
+License shown on page: Attribution 4.0 (CC BY 4.0) https://creativecommons.org/licenses/by/4.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 818396__treefit2025__duck-quack.wav  sha256 ae8c5729b132460708f7d94f1e3698a6a531d88dae073bf19bddf62b3d2858a9
+Description excerpt: Remix of duck.aif by vzykov (https://freesound.org/s/31271/), License: Attribution 4.0. Only one quack.
+Remix source: {"freesoundId": "31271", "title": "duck.aif", "uploader": "vzykov", "pageUrl": "https://freesound.org/people/vzykov/sounds/31271/", "license": {"name": "CC BY", "version": "4.0", "displayedOnPage": "Attribution 4.0"}, "pageDateUploaded": "2007-02-21", "description": "An animatronic Easter duck at RiteAid.", "evidence": "owner screenshot attached in chat (not saved in repo)"}

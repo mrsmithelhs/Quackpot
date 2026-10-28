@@ -1,0 +1,16 @@
+Source record oga-various-paper-sound-effects (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/various-paper-sound-effects
+Entry title: User login
+authorField: Luckius
+pagePostDate: Friday, July 2, 2021 - 04:58
+descriptionExcerpt: I made these paper sound effect for a map opening/closing in one of my games, and I made other interesting sounds in the process so I'm sharing with everyone. This pack contains : - 2 crushing sounds - 1 ripping sound - 4 other sounds It would be great if you credit me but this is not mandatory. Have fun :p
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/paper_crushed_-_1.mp3  28158 bytes  sha256 f43b208fada1e29e086dc3b9df8d1208dea7d5b0a0496a755d793c2f620b7de2  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/paper_ripped_-_1.mp3  11978 bytes  sha256 e282eb21412fb78d6f31ba88fae52a94b23cc9e75e5531b59a1e0cef4358d728  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/paper_sound_-_1.mp3  12292 bytes  sha256 f62e6cab41a9c0a8c67b5752c95e80e6adc681110d579ada982627909be1773d  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/paper_sound_-_2.mp3  12811 bytes  sha256 6e81a68cfe8283f7e0ebfae637f15c1a2de4b9e4a306d0da2338663c6d5d7196  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/paper_sound_-_3.mp3  15212 bytes  sha256 20dae9f0684f732015e74a01bda408fe516a9b7a1214d187ef8c956eb5c64a3d  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/paper_sound_-_4.mp3  53511 bytes  sha256 69f65b053e6b96b1ffe065637f20e5dce990de3ce600fe6fb837d73243f76d41  retrieved 2026-10-28
+Files used from this source: qp18-0053 <- paper_ripped_-_1.mp3; qp18-0054 <- paper_sound_-_2.mp3

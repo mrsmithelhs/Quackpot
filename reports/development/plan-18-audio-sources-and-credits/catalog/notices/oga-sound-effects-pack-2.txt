@@ -1,0 +1,11 @@
+Source record oga-sound-effects-pack-2 (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/sound-effects-pack-2
+Entry title: User login
+authorField: phoenix1291
+pagePostDate: Thursday, December 7, 2017 - 09:58
+descriptionExcerpt: [FLAC] [MP3] [OGG] [WAV] 10 sound effects per folder, 4 format, 110 unique sound effect in total [1up] [Blip] [Coins] [Explosions] [Hit] [Jump] [Laser-weapon] [Lose] [Power-up] [Random] [Teleport] Don't forget to support me on itch.io or Patreon if you like my work.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/Sound%20effects%20Pack%202.zip  15160723 bytes  sha256 dff072356b9d48b41dc0f05dc79f7befdf8e63cb2093be335d86e62376164b95  retrieved 2026-10-28
+Files used from this source: qp18-0034 <- Sound effects Pack 2.zip::Sound effects Pack 2/Power-up/OGG/Powerup 3 - Sound effects Pack 2.ogg; qp18-0035 <- Sound effects Pack 2.zip::Sound effects Pack 2/Lose/OGG/Lose 2 - Sound effects Pack 2.ogg; qp18-0036 <- Sound effects Pack 2.zip::Sound effects Pack 2/Lose/OGG/Lose 5 - Sound effects Pack 2.ogg; qp18-0037 <- Sound effects Pack 2.zip::Sound effects Pack 2/Lose/OGG/Lose 8 - Sound effects Pack 2.ogg

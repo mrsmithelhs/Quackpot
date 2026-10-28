@@ -1,0 +1,11 @@
+Source record oga-well-done (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/well-done
+Entry title: User login
+authorField: qubodup
+pagePostDate: Saturday, February 2, 2013 - 21:02
+descriptionExcerpt: Congratulations win success sound. People clapping. Own recording made at a hackathon then mixed. Both files are mono channel Flac is 96kHZ OGG Vorbis is 44.1kHZ Changed to CC0 on 2024-10-05. Feel free to ignore the "CCBY3" in the filename now.
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/Well%20Done%20CCBY3.ogg  44069 bytes  sha256 8ef5cdf2323ce9efd19f5553757c607ecb57647bd568316958472ab6b9048dfc  retrieved 2026-10-28
+Files used from this source: qp18-0044 <- Well Done CCBY3.ogg

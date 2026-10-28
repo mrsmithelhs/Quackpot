@@ -1,0 +1,10 @@
+Source record freesound-188375 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/calodas/sounds/188375/
+Title: Duck_quack_2_Sweden.wav
+Uploader: calodas
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 188375__calodas__duck_quack_2_sweden.wav  sha256 0e6047a05c0b12b423b7183c6b5468a891264a95278cb77f6bcf7d4107f4da98
+Description excerpt: A duck quacking in the water by the sea in Eastern Sweden. Recorded April 2013.

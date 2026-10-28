@@ -1,0 +1,11 @@
+Source record oga-squeak-toy-sounds (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/squeak-toy-sounds
+Entry title: User login
+authorField: bart
+pagePostDate: Saturday, April 30, 2011 - 18:45
+descriptionExcerpt: Attribution appreciated. :)
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/squeak_toy.zip  898071 bytes  sha256 3ba6419b05ebf8e0b7dd4395b3c10f26811c037e357143f10a159acdb2dabfb8  retrieved 2026-10-28
+Files used from this source: qp18-0050 <- squeak_toy.zip::squeak toy/squeak toy - squeak1.wav

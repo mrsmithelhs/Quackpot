@@ -1,0 +1,11 @@
+Source record oga-alertnotification-sound (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/alertnotification-sound
+Entry title: User login
+authorField: frosty ham
+pagePostDate: Wednesday, December 31, 2025 - 18:58
+descriptionExcerpt: Simple sound I made just so I could say I was active this year. BeepBox link
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/alert.wav  197184 bytes  sha256 d275225f0d68e14331fade06451e3ce3a0f6665219936553968300557ff82666  retrieved 2026-10-28
+Files used from this source: qp18-0051 <- alert.wav

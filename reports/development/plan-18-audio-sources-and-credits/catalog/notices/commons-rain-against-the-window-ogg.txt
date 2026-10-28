@@ -1,0 +1,10 @@
+Source record commons-rain-against-the-window-ogg (captured 2026-10-28)
+
+Library: Wikimedia Commons
+Entry page: https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg
+Entry title: File:Rain against the window.ogg
+artist: cori
+credit: http://www.pdsounds.org/audio/download/600/july-rain08.mp3 PDSounds description: http://www.pdsounds.org/sounds/rain_against_the_window Transferred by Fæ
+licenseShortName: Public domain
+Downloaded: https://upload.wikimedia.org/wikipedia/commons/4/41/Rain_against_the_window.ogg  1208332 bytes  sha256 85be295e9936fbf003ae5dbc0e106b77e60854ea4b19bfb7b232420f291a737e  retrieved 2026-10-28
+Files used from this source: qp18-0063 <- Rain_against_the_window.ogg

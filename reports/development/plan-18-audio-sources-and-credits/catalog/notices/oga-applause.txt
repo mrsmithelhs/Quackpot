@@ -1,0 +1,11 @@
+Source record oga-applause (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/applause
+Entry title: User login
+authorField: Blender Foundation (Submitted by LeeZH )
+pagePostDate: Monday, May 23, 2011 - 08:21
+descriptionExcerpt: This is just a simple cut of the applause section from Yo Frankie!'s end game sound ( http://opengameart.org/content/endgame ). I did this so that it would be more useful for games that don't want that brass band sound (like one of my projects).
+Licenses shown on page: CC-BY 3.0 (http://creativecommons.org/licenses/by/3.0/)
+Downloaded: https://opengameart.org/sites/default/files/applause.wav  1468034 bytes  sha256 d8d44ae50a16ba4218c1861c8fa236c481c2caf56195883edc81f89919fb6958  retrieved 2026-10-28
+Files used from this source: qp18-0042 <- applause.wav

@@ -1,0 +1,12 @@
+Source record oga-completion-sound (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/completion-sound
+Entry title: User login
+authorField: Brandon Morris (Submitted by HaelDB )
+pagePostDate: Tuesday, March 22, 2011 - 19:03
+descriptionExcerpt: This sound I made for someone to use for either a completed task or an acknowledgment sound it makes when you hit the button to continue reading text. Or even a coin or rupee sound like in ocarina of time. :P second sound was used in the OGA game jam competition.
+Licenses shown on page: OGA-BY 3.0 (http://opengameart.org/content/oga-by-30-faq); CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/gmae.wav  132344 bytes  sha256 4c4ad47a68cfed8450d8ebdad189635de085a533d8ab4fcfb86a9127f4fb8d6e  retrieved 2026-10-28
+Downloaded: https://opengameart.org/sites/default/files/completetask_0.mp3  18180 bytes  sha256 64598fb07a4fe6635ab3f5827515ea83a1b76d3b1afa4fc1d725ea7c8017c4ae  retrieved 2026-10-28
+Files used from this source: qp18-0039 <- completetask_0.mp3

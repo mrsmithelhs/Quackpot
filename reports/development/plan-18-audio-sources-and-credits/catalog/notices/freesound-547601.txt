@@ -1,0 +1,10 @@
+Source record freesound-547601 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/martian/sounds/547601/
+Title: quack quack.SRBD.wav
+Uploader: martian
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 547601__martian__quack-quacksrbd.wav  sha256 6cb6b0e1bfd13dd49f76070de53344c3c16efce982231186604a68b3b1808064
+Description excerpt: Grumpy duck quack made by recording a human, processed in Reason NNXT.

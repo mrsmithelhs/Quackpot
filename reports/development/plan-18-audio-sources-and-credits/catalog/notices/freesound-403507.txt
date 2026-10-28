@@ -1,0 +1,10 @@
+Source record freesound-403507 (captured 2026-10-28)
+
+Library: Freesound
+Sound page: https://freesound.org/people/LamaMakesMusic/sounds/403507/
+Title: Rubber-Duck_Squeezes.wav
+Uploader: LamaMakesMusic
+License shown on page: Creative Commons 0 (CC0 1.0) https://creativecommons.org/publicdomain/zero/1.0/
+Retrieved by: owner, own Freesound login (no account use by agent)
+File: 403507__lamamakesmusic__rubber-duck_squeezes.wav  sha256 68e34c1483168b6d060e63793ede3c8f5287cffe0f6789b5a2972302e58def71
+Description excerpt: Squeezing a rubber duck. Tascam DR-40 built-in mics.

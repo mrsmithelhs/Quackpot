@@ -1,0 +1,11 @@
+Source record oga-rain-loopable (captured 2026-10-28)
+
+Library: OpenGameArt.org
+Entry page: https://opengameart.org/content/rain-loopable
+Entry title: User login
+authorField: Ylmir
+pagePostDate: Monday, March 28, 2016 - 08:56
+descriptionExcerpt: Four loopable rain SFX, with a length varying between 25 and 45 seconds. Recorded about two hours ago with a single mono mic at my window, then I processed it a bit, trying to make it sound stereo. It was more an experiment, but it can probably be useful anyway ;) Available in two formats, the samples are the same : - MP3, 192 kbps, constant bitrate - OGG, 160 kbps
+Licenses shown on page: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
+Downloaded: https://opengameart.org/sites/default/files/Rain%20OGG.zip  2736596 bytes  sha256 e68f3e1c77493cf43bec84cebff5043bff6be9ce16d59b24caa988cd460aa75b  retrieved 2026-10-28
+Files used from this source: qp18-0061 <- Rain OGG.zip::1.ogg; qp18-0062 <- Rain OGG.zip::3.ogg

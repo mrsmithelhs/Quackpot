@@ -15,3 +15,9 @@ Root authorizes this narrow repair within the existing animation folder. Rerun a
 ## Remaining gates
 
 Owner still-weather look is accepted. Rain motion/seam/speed is still an owner visual gate unless explicitly accepted separately. Real hidden-page browser behavior, actual OS media preference and representative-device/compositor performance are recorded limitations; simulated events/options must not be called those real observations. A/B acceptance is distinct from lightning art/composite and production promotion. Future lightning may need its own visibility definition (room-light effect versus glass-only rain); do not generalize the current glass observer into an unreviewed flash rule.
+
+## Startup repair acceptance — 2026-10-28
+
+Root inspected8889e7d and progress7c036f8 and independently ran45/45 animation tests. The observer branch now starts blocked/pending, clears pending only after the first observation, preserves other blockers and skips late callbacks after destroy; no-observer fallback remains explicit. New tests cover those paths, and the writer's mutation control reportedly makes4 fail without the guard. The narrow finding is repaired. Previous151/311 static checks remain relevant because the repair changes controller/interface/tests only; no root repeat browser or whole seam matrix is claimed.
+
+Owner explicitly accepts animation visuals. A/B still/rain prototype is technically accepted with recorded real-hidden/OS-preference/device/performance limitations; those remain future integration evidence, not certification. Owner has questioned closing the whole plan because proposed C(lightning), D(representative performance) and E(promotion) remain. Root therefore leaves26in-progress pending agreement on whether to close delivered scope and track follow-ups separately or continue this packet. No lightning/production code is authorized by acceptance of rain.

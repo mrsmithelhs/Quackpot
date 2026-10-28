@@ -1,7 +1,7 @@
 ---
 id: plan-18
 title: Local audio sources and credits investigation
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Owner selects audition samples and provenance before production integration; audio-source policy approved 2026-10-25."
 summary: >-
@@ -27,3 +27,5 @@ Read AGENTS.md, canonical Assets, triage T10/T12 as historical rationale, DECISI
 3. Make only an isolated local audition proof of that small shortlist and a proposed local Credits page. Downloads for the approved research scope belong under the report folder; keep original license records and modification/local-file mapping. Compare timbre, contextual usefulness, documented levels, small-file delivery/decoding, gesture startup, mute, looping and accessible information equivalents. Return concrete samples/credits for owner selection before production integration. No remote runtime audio, CDN, telemetry or automatic third-party requests. Real credit identities must remain outside fictional game entities.
 
 Keep this small: no whole-game soundscape, automatic library migration, general audio engine or production UI. Coordinate later reveal/rarity roles with Plan 15; don't change the retained three Plan 04 quacks to suit library samples. Report checks/untested conditions, consultation branch and recommendations. Owner approves before separately scoped integration. Commit owned artifacts and final progress report, never push or set packet status.
+
+**Owner expansion, 2026-10-28 (supersedes initial shortlist cap):** Owner likes existing searched samples/playback but requests a substantially larger recorded-audio catalog and multi-select purpose pools. Plan18 reopens in-progress under `reports/orchestration/plan-18-expanded-audition-sonnet-handoff.md`. Same report-folder ownership; up to6bounded Haiku searches/3concurrent, Sonnet integration, proposed36–60distinct short effects and100MiB download ceiling after taxonomy/source/manifest/page checkpoint. Remove disliked synth-quack juxtaposition from main audition, preserving historical/shared source. Existing max3effects/2music applies to the earlier delivery, not this explicit expansion. Exact-file licenses/local playback/Credits remain mandatory; no production imports or adopted audio choices.

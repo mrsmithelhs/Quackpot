@@ -1,7 +1,8 @@
 ---
 id: plan-24
 title: Apartment art extraction and comparison gallery
-status: in-progress
+status: complete
+resolution: "Owner explicitly closes extraction on2026-10-28; reusable kit/gallery delivered, scene-anchored lighting accepted with host option retained. Mixed-removal observation traced to unchanged baseline; kit independent states and clearer labels retained. Known zoom/render/performance limits remain; no production integration."
 depends_on: [plan-10]
 gate: "Orchestrator approves extraction interfaces and ownership before source writes; owner reviews visual fidelity before production integration."
 summary: >-

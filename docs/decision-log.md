@@ -287,3 +287,11 @@ Owner approves the scoped recommendation in `reports/orchestration/apartment-day
 **Date:** 2026-10-28
 
 Owner accepts Plan22 except the confusing term trial for the Down speed item. Rename player-facing copy and Receipt wording to one-race speed upgrade (including with upgrade on candidate ratings), retaining3Down/+5%/one-race/nonstacking rules and internal saved/event/API names. Opening Pond Trial is a race event title, not this item, and is unchanged. Copy repair b3f2b3d and final progress a6f61b0 pass focused5tests/build; root independently confirms. Main implementation/evidence a59c043/390ce1d passed194tests/build, actual tired-duck story path and frozen-source8-journey smoke with explicit provenance; copy-only follow-up did not rerun smoke. Root closes Plan22 under owner's conditional acceptance. Art extraction/weather gates remain separate; no push/deploy.
+
+### DECISION-030 — Extraction closure, desk integration assignment and audio expansion
+
+**Date:** 2026-10-28
+
+Owner explicitly closes24 and starts25 for Codex with one Terra-medium main-artifact pre-delivery review. Extracted art/scene lighting accepted; no production weather or all-room adoption implied. Owner likes existing searched audio/playback but requests a much larger recorded-effects catalog and multi-select role pools;18reopens for Sonnet-led bounded Haiku research and redesigned report audition. Do not juxtapose recorded candidates with disliked synthesized quacks in the main experience. Exact-license/local/Credits rules and separate production gate remain.
+
+Owner accepts26animation visuals. Root verifies pending-visibility repair8889e7d/7c036f8 with45tests, accepting A/B prototype technically with existing evidence limits. Owner then questions whole-plan closure because later C/D/E stages were proposed;26remainsopen until that scope disposition is settled. Rain acceptance is not permission to build lightning visuals or promote effects.

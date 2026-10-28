@@ -1,11 +1,9 @@
 ---
 id: plan-25
 title: Desk and phone artwork production integration
-status: draft
+status: in-progress
 depends_on: [plan-19, plan-24]
 gate: "Root approves selected composition, state mapping and exact source ownership before mutation; owner accepts integrated production desk."
-superseded_by: null
-resolution: null
 summary: >-
   Integrate one selected extracted apartment desk composition with the persistent
   portrait phone and static physical companion while preserving real controls and Shell A.
@@ -54,3 +52,5 @@ Verify actual production desktop/narrow: fresh invitation, activation/entry, ret
 Request root browser allocation; do not touch owner tabs/saves or modify shared server. Use bounded fixtures if already accepted; no new test backdoor merely to skip lifecycle. Root decides Terra-medium post-implementation review budget at proposal approval. Stop/report for rule changes, missing selected assets, unsupported persisted states, inaccessible scene layout or scope conflicts. No automatic publication.
 
 Implementers may not change status/root review records or declare owner acceptance, complete/shipping. Commit explicit scoped paths; final progress report last; no push. Report `reports/development/plan-25-desk-phone-art-integration/progress.md`: actual states/viewports checked, functional/visual evidence, changes, findings, limits and remaining owner gate. Checklist: approved composition/ownership; no runtime reports; focused source; functional/static/exit parity; measured visual checks; report/commits; no unrelated changes.
+
+**Owner assignment, 2026-10-28:** Owner closes Plan24 and starts Plan25 for Codex. Use `reports/orchestration/plan-25-codex-starting-handoff.md`; selected scene-anchored lighting with host alternative is the input. One read-only Terra-medium reviewer after main implementation pre-delivery is authorized; proposal/ownership gate still precedes mutation. Plan26 effects remain report-only, not a dependency. No new asset drawing; route separately approved drawing to Sonnet.

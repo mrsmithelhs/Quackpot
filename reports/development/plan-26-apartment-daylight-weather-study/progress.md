@@ -259,3 +259,36 @@ The earlier analytic estimate (0.024-0.032) **under-predicted** the measured com
 **Still unverified:** the Node tests (all edits since the review repairs, including the tests I edited and the streaming-tracker test, have not been run; no Node launch was authorised); a real hidden page; the OS reduced-motion setting (the controller option was used); frame delivery, compositor cost and low-end devices; a real-time view of the pulse; red-transition analysis; any whole-viewport area evaluation. Stage D and Stage E remain outstanding.
 
 **Node test result (authorised afterwards by the owner: one bounded run, hard timeout, no background loops, no mutation runs):** `node --test animation/tests/*.test.mjs` on the final source: **63/63 pass, 0 fail, 0 cancelled, 0.3 s** (62 before, plus the streaming-tracker test). This verifies the review repairs and the edited tests: the start-failure accepted-and-cancelled ticket, the `watchdog` reason, and the streaming swing tracker equal to the series counter. `tools/check.mjs` and `tools/check-weather.mjs` were not re-run in this pass (not part of the authorisation); their last recorded results (151/151, 311/311) pre-date these edits, which do not touch the stills or the kit. The earlier "tests not run" statements in 9.1 and 9.2 are superseded by this line.
+
+### 9.3 Owner feedback: the restrained pulse was invisible; bright look added (owner-directed, needs root review)
+
+**Feedback (owner, after trying the gallery's pulse buttons on one scene and from the top control):** could not tell any lightning was happening. Wanted *a bright-white flash that takes over the whole scene, then quickly fades from the whole scene, while the window stays light for maybe half a second longer before it also fades out.*
+
+**Diagnosis:** the pulse ran as specified; the specification was too weak for what the owner had in mind. Measured peak composite lift of the restrained look was 0.073-0.080 on the glass and about 0.026-0.029 elsewhere (section 9.2), and the room only tinted slightly. That is a subtle brightening, which the progress report and mechanism note had warned about. (Separately, the top "all storm scenes" button flashes only one scene by design: one accepted pulse per request, the rest refused `active`.)
+
+**Change (report-only, additive):** new `animation/lightning-bright.mjs` with `createBrightLightningEffect()` and the curve in `lightning-mechanism.md` ("Bright look"). The gallery has a new control, **Lightning look: bright (default) or restrained**; the restrained effect and its curve are untouched. The measurement harness now reads each pulse's own keyframes, so it works for either look. Everything else (one pulse per accepted event, the shared arbiter and four-second cooldown, refusals, all blockers, reduced motion, watchdog, cleanup) is shared. **The earlier review said "no stronger effect"; this is stronger by the owner's explicit instruction and needs its own root review.**
+
+**Measured (browser, 1280x720 and 390x844, held-pulse composites, positive control first):**
+
+| | 1280x720 storm | 1280x720 storm + lamp | 390x844 storm |
+|---|---|---|---|
+| positive control: raw clone blind, baked sees pulse, t=0 equals no overlay | yes / yes / yes | n/a (measured directly) | yes / yes / yes |
+| animation vs its own keyframes, max opacity error | 0.000001 | 0.000001 | 0.000001 |
+| peak at (ms) | 40 | 40 | 40 |
+| peak max per-pixel luminance lift (0-1) | 0.894 | 0.911 | 0.894 |
+| peak whole-stage mean lift | 0.712 | 0.697 | 0.710 |
+| peak glass mean lift | 0.815 | 0.782 | 0.823 |
+| duck region mean / max lift at peak | 0.717 / 0.795 | 0.734 / 0.803 | 0.721 / 0.795 |
+| share of the stage that lifts | 98.9% | n/a | 98.2% |
+| flashing pixels (rise >= 0.10 then fall >= 0.10), 20 ms / 60 Hz / all samples, of the raster | 170,102 / 170,102 / 170,102 of 171,936 | 170,102 of 171,936 | 60,808 of 61,934 |
+| largest frame-to-frame step in the merged samples | 0.426 | 0.434 | 0.427 |
+| restoration: overlay nodes removed, neutral vs pre-flash reference (rain frozen identically) | yes, diff 0 | yes, diff 0 | yes, diff 0 |
+
+Shape check from the sampled series (storm, 1280): whole-stage mean luminance 0.152 at 0 ms, 0.419 at 20 ms, **0.864 at 40 ms**, 0.641 at 100 ms, 0.359 at 200 ms, **0.180 at 300 ms** (the room is back to normal) while the **glass mean is 0.573 at 300 ms, 0.438 at 400 ms, 0.235 at 600 ms, 0.110 at 800 ms**: the window lingers about half a second longer and then fades, as described. By-eye capture next to the live stage at 40 ms (whole scene washed near white, window brightest) and at 400 ms (room normal, window still light) matched the numbers; geometry and colours matched the live scene. Four storm copies, one request each: 1 accepted, 3 refused `active` (1208x839 grid raster, GRID-LEVEL DIAGNOSTIC): one scene flashes, peak lift 0.894, 170,102 flashing pixels, restoration exact. Peak JS heap growth 74 MB in the aggregate (bound 200 MB).
+
+**What this look does that the earlier brief ruled out, stated plainly:**
+- **Lamp:** at the 40 ms peak the lamp's glow region is white (R/B 1.002; before the flash 1.103, at 400 ms 1.096), so the lamp is **not warm at the peak**; it recovers as the scene flash fades.
+- **Duck:** no node, transform or halo is added to the duck, but the whole-scene white lights it strongly at the peak (mean lift 0.72).
+- **Flash character:** a hard near-white rise over almost the whole scene (a frame-to-frame step of 0.43 in relative luminance), one pulse, at most one per rolling second by the scheduler and one per four seconds from the same page by the arbiter. Under the simplified luminance test this is a general flash over the whole scene area; the study makes no area, frequency or red-transition conformance claim and is not a photosensitivity certification. This is a decision for root and the owner, not a measurement that clears it. Reduced motion, pause, stop and the opt-in checkbox are the controls that exist; the gallery still ships with lightning off.
+
+**Verification status:** the bright effect, its harness generalisation and the gallery selector were exercised in the browser (all numbers above). A new Node test file, `animation/tests/lightning-bright.test.mjs` (curve and 500 ms linger, one pulse and two animations, placement and exact cleanup, duck/lamp untouched, refusals, interruption and watchdog reason, shared arbiter and boundary), **has been written but not run**: the earlier Node authorisation was for one run and has been used. The previously verified 63/63 animation tests covered the restrained look and shared code, which this change does not edit. Not verified, as before: a real-time pulse in this pane (it starves animations of frames when idle, so natural completion and true-speed viewing are unobserved), a real hidden page, the OS reduced-motion setting, devices, and red transitions.

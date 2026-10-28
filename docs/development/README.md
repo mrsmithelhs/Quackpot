@@ -38,6 +38,10 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-27` | Receipt reflection and evidence hierarchy | draft | Design a reflection-first Receipt with expandable evidence while preserving the append-only log and three-register honesty. |
 | `plan-28` | Apartment choices and diegetic communications | draft | Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons. |
 | `plan-29` | Life economy scale and session pacing | draft | Investigate believable life expenses and accumulation of small gacha purchases under a roughly 25-minute engaged-run direction. |
+| `plan-30` | TV music source and apartment acoustics | draft | Investigate a diegetic animated TV music source, track cycling, room acoustics and silence after sale. |
+| `plan-31` | Influencer apartment transformation study | draft | Compare apartment transformations and displaced possessions for a possible future influencer ending. |
+| `plan-32` | Gacha music hook and arrangement prototypes | draft | Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis. |
+| `plan-33` | Recognizable music emotional transformation research | draft | Research and propose ways to retain musical identity while shifting gacha music toward tension. |
 <!-- plan-index:end -->
 
 ## Report Folders

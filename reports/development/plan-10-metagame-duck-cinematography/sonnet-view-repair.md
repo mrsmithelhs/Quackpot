@@ -105,3 +105,7 @@ Known weaknesses: the overhead duck is simple and reads small beside the phone a
 - **Desk side view:** the lamp head is turned 80° so its opening faces down and slightly right; the light is two blurred cones (about ±26° and ±46°) computed from that opening, plus a soft pool on the desk, so the beam direction follows the lamp's orientation and falls on the duck. The mug is 72% of its previous size.
 - **Couch pillow** now rests on the seat cushion instead of floating above it.
 - Browser-checked in the isolated tab: living (warm), desk side (warm), kitchen and bedroom (warm), no bad SVG attributes. Not rechecked: neutral/window light after the change, other framings, phone width.
+
+## Toy shelf clearance (owner feedback, 2026-10-27)
+
+The robot's antenna poked through the plank above it and was removed; the stacking-ring tower and the bunny were scaled down so nothing touches the plank above. An index of every owner request, the changes, commits and verification status is in `session-log.md`.

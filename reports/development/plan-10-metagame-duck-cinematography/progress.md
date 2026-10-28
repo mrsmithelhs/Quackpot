@@ -98,3 +98,7 @@ At the owner's request (and authorized scope expansion to `preview.html`), the s
 ## Top-down desk fixes and apartment areas (2026-10-27)
 
 Owner feedback on the top-down desk (shadow distance, sticky-note shadow, coin detail, lamp head position, lamp glow radius) was applied. At the owner's request and authorized scope expansion to `preview.html`, living room, kitchen and bedroom/toy-shelf areas were built as SVG scenes with a pinhole-camera model, plus a couch-and-TV-sold state; a Haiku explorer supplied story-beat context (`apartment-story-beats.md`). Browser-checked in the isolated tab: all area/framing combinations parse without bad attributes, neutral and warm light on the main scenes, 375 px width; window light per room, real browser zoom and several framings not checked. Weaknesses listed in `sonnet-view-repair.md`.
+
+## Lamp direction, pillow and mug fixes (2026-10-27)
+
+Owner feedback applied in `preview.html`: room lamps throw directional light cones (down, with a faint upward spill for open shades) instead of an even radial glow; the desk side-view lamp head and its soft beam now share one orientation and the mug is smaller; the couch pillow rests on the seat cushion. Warm-lamp scenes in four areas were browser-checked; neutral/window light and phone width were not re-run after this change.

@@ -1,7 +1,7 @@
 # Plan 34 progress — weather runtime extraction without mounting
 
 **Date:** 2026-10-28  
-**Status:** implementation delivered for orchestrator review; packet status was not changed.
+**Status:** implementation and orchestration acceptance repair delivered for orchestrator review; packet status was not changed.
 
 ## Summary
 
@@ -12,12 +12,13 @@ Extracted Plan 26's accepted living-room weather stills, seeded rain specificati
 - `src/ui/weather-flash-arbiter.mjs` and focused tests.
 - `src/ui/weather-rain-spec.mjs` and focused tests.
 - `src/ui/weather-motion-controller.mjs` and focused tests.
+- `src/ui/weather-glass-contract.mjs`, shared by controller and bright effect.
 - `src/ui/weather-lightning-effect.mjs` and focused tests.
 - `src/assets/apartment-weather/{geometry.mjs,weather-art.mjs,layers.mjs,README.md}` plus real-kit and source-fingerprint tests.
 - `src/test/weather-fake-dom.mjs` for test-only lifecycle fixtures.
 - `package.json` explicit test-list update.
 
-Source commit: `0b4230f` (`Extract unmounted Plan 34 weather helpers`). The progress report is being committed separately as the final scoped commit.
+Initial source commit: `0b4230f` (`Extract unmounted Plan 34 weather helpers`). The acceptance-repair source commit is `eb7b000` (`Validate weather pane clip contracts`). The progress report is committed separately after scoped source work.
 
 ## Contract and implementation evidence
 
@@ -78,3 +79,21 @@ No second reviewer pass was run. Primary implementation independently verified e
 ## Ready for orchestrator review
 
 **Yes.** The scoped source/tests and this report are committed locally. No packet status, push, deployment, mounting, app settings, save schema, log, or production view changed.
+
+## Orchestration acceptance repair — 2026-10-28
+
+The orchestrator's independent read-only Terra-medium review of the committed source found one P2 issue: clip-path syntax alone did not prove that the referenced clip existed exactly once, had the right SVG element type, or contained the rain nodes that the controller animates. The review also identified an outdated bright-effect comment that said the lamp stays warm.
+
+Added `validateWeatherGlass(root, { requireRain })` in `src/ui/weather-glass-contract.mjs`, shared by the controller and bright effect. It requires one rectangular sky role inside a group, parses the local `url(#id)` reference without interpolating it into a selector, confirms exactly one in-root `clipPath` has that ID, and, for rain/storm, confirms unique rain-streak and droplets groups are children of that same clipped pane group. Invalid structure keeps the source DOM static and causes controller refusal before arbiter use; bright `canStart` independently refuses it. The fake DOM now includes a real clipPath fixture. The bright placement comment now states that the selected scene wash reaches the lamp while its source geometry remains untouched.
+
+Negative regressions cover missing clip target, wrong target element type, duplicate clip ID, and rain groups relocated outside the clipped pane. Each controller case verifies unchanged DOM, zero animations, static state, flash refusal, and zero accepted arbiter requests. The effect tests independently require `canStart()` to return `no-glass` for each malformed target. Existing valid clipped fixtures, including the real apartment layer-contract suite, still pass.
+
+Bounded serial validation after repair:
+
+- `node --test src/ui/weather-motion-controller.test.mjs` — 29/29 passed.
+- `node --test src/ui/weather-lightning-effect.test.mjs` — 9/9 passed.
+- `node --test src/assets/apartment-weather/layers.test.mjs` — 5/5 passed.
+- One final bounded Vite build passed. All five dist artifact sizes and hashes in the table above remain exactly equal to baseline.
+- The final focused-test count across Plan 34 suites is 61 (arbiter 8, rain spec 9, controller 29, bright effect 9, layer contract 5, kit fingerprint 1). No second advisor/reviewer call was made; the orchestrator review and this narrow repair were handled within the original gate.
+
+Acceptance-repair source commit: `eb7b000`. This progress report update is the final scoped commit. Packet remains `in-progress` pending orchestrator/owner acceptance. No mount, browser, full suite, status edit, push, or deployment was performed. The unrelated untracked Plan 33 report folder remains untouched.

@@ -11,7 +11,6 @@ window.QUACKPOT_PLAN32_EXTENSIONS = Object.freeze({
     tonicMidi: 62,
     tempoBpm: 100,
     beatsPerBar: 4,
-    beatsPerBar: 4,
     bars: 2,
     events: [
       { beat: 0, midi: 78, durationBeats: 0.5, velocity: 0.78 },

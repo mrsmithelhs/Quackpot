@@ -12,6 +12,7 @@
   const savedUrls = new Set();
   let activeAudio = null;
   let rendering = false;
+  let playRequestToken = 0;
 
   function validateSource() {
     if (!data || data.schema !== "quackpot.plan32-composition-extensions/v1" ||
@@ -170,7 +171,7 @@
         structure: { id: structure.id, title: structure.title, sections: structure.sections },
         render: { tempoBpm:data.source.tempoBpm, bars:8, musicalSeconds:19.2, tailSeconds:.12, durationSeconds:19.32, elapsedMilliseconds:result.elapsedMilliseconds,
           sampleRate:48000, channels:2, format:"PCM16", waveform:"triangle", masterGain:.7,
-          normalization:"none", measurements },
+          normalization:"none", measurements:measurement },
         events: result.events.map((event) => ({ beat:event.beat,midi:event.midi,durationBeats:event.durationBeats,velocity:event.velocity,
           role:event.role,origin:event.origin,sourceEventIndex:event.sourceEventIndex ?? null,transform:event.transform ?? null,section:event.section ?? null })),
         loop: "No seamless-loop or crossfade claim; music form plus release tail"
@@ -187,6 +188,7 @@
   }
 
   function stopAudio() {
+    playRequestToken += 1;
     if (activeAudio) { activeAudio.pause(); activeAudio.currentTime=0; activeAudio=null; }
     stopButton.disabled=true;
   }
@@ -197,12 +199,30 @@
     savedUrls.clear(); savedList.replaceChildren();
   }
 
-  function playSaved(file,url,button) {
-    stopAudio(); const audio=new Audio(url); activeAudio=audio; stopButton.disabled=false;
-    audio.addEventListener("ended",stopAudio,{once:true});
-    audio.addEventListener("error",() => { status.textContent=`Could not play ${file.name}.`; stopAudio(); },{once:true});
-    button.addEventListener("click",stopAudio,{once:true});
-    void audio.play().catch((error) => { status.textContent=`Playback did not start: ${error.message}`; stopAudio(); });
+  async function playAudio(audio,title) {
+    stopAudio();
+    const requestToken=++playRequestToken;
+    activeAudio=audio; stopButton.disabled=false;
+    audio.addEventListener("ended",() => {
+      if (requestToken===playRequestToken && activeAudio===audio) { activeAudio=null; stopButton.disabled=true; }
+    },{once:true});
+    audio.addEventListener("error",() => {
+      if (requestToken===playRequestToken && activeAudio===audio) {
+        activeAudio=null; stopButton.disabled=true; status.textContent=`Could not play ${title}.`;
+      }
+    },{once:true});
+    try {
+      await audio.play();
+      if (requestToken===playRequestToken && activeAudio===audio) status.textContent=`Playing ${title}. Use Stop audio to stop immediately.`;
+    } catch (error) {
+      if (requestToken===playRequestToken && activeAudio===audio) {
+        activeAudio=null; stopButton.disabled=true; status.textContent=`Could not play preview: ${error.message}`;
+      }
+    }
+  }
+
+  function playSaved(file,url) {
+    void playAudio(new Audio(url),file.name);
   }
 
   function addSavedFiles() {
@@ -211,7 +231,7 @@
       if (!file.name.toLowerCase().endsWith(".wav") || file.size > 3800000) { status.textContent=`Skipped unsupported or oversized file ${file.name}.`; continue; }
       const url=URL.createObjectURL(file); savedUrls.add(url);
       const li=document.createElement("li"); const button=document.createElement("button");
-      button.type="button"; button.textContent=`Play ${file.name}`; button.addEventListener("click",() => playSaved(file,url,button));
+      button.type="button"; button.textContent=`Play ${file.name}`; button.addEventListener("click",() => playSaved(file,url));
       li.append(button); savedList.append(li);
     }
   }
@@ -224,6 +244,7 @@
   renderButton.addEventListener("click",renderSelected);
   stopButton.addEventListener("click",stopAudio);
   fileInput.addEventListener("change",addSavedFiles);
+  document.addEventListener("visibilitychange",() => { if (document.hidden) stopAudio(); });
   window.addEventListener("pagehide",() => { stopAudio(); clearSaved(); });
   try { validateSource(); updateDescription(); }
   catch (error) { renderButton.disabled=true; status.textContent=`Source validation failed: ${error.message}`; }

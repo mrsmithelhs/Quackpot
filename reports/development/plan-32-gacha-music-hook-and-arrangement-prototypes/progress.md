@@ -8,6 +8,8 @@ The headless runs did not audition audio. The owner selected motif C, “Lucky R
 
 QP Orch subsequently approved Stage 1 source authoring. The source maps three eight-bar forms around the exact C motif and the accessible report-local renderer. The existing Plan 32 runner now has a separate `--extensions` mode that reuses its process ownership, isolated Chrome/CDP and cleanup lifecycle. These source changes are awaiting root review: no runner, browser, render or audio job was launched in this stage. Stage 2 progressions and the five later mood tracks remain unassigned until the owner chooses a structure.
 
+During root's source review, a correction pass found and fixed the undefined provenance field (`measurements` now explicitly references the render measurement value), removed a duplicate `beatsPerBar` property, and aligned saved-audio playback with the existing request-token/current-audio handling. Playback now stops when the page becomes hidden. Rechecking the runner confirmed that its extensions branch already recognizes the extension status text and provenance labels, waits for the two automatic downloads without clicking a second link, maps the exact S1/S2/S3 filenames, and validates each completed file; no runner change was needed for that review comment. No script or browser was launched during this correction pass.
+
 ## Files in scope
 
 - `proposal.md` — three motif sketches, Plan 33 grounded recommendation, later five-track design, evidence limits, and gates.

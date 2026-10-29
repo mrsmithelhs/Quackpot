@@ -1,7 +1,7 @@
 # Plan 32 — Motif, Rendering and Listening Proposal
 
 **Prepared:** 2026-10-29
-**Stage:** Proposal and bounded preview source prepared under the 2026-10-29 owner authorization. QP Orch's first headless attempt rendered A and B, then failed before C because native-select keyboard automation chose B again; those partial files are preserved in `motif-preview/history/attempt-01/`. After the selector repair, root rendered all three previews successfully in `motif-preview/history/attempt-02/`. The owner and implementer have not auditioned the clips; these results do not include a motif choice.
+**Stage:** The three approved bare-melody previews are complete. QP Orch's first headless attempt rendered A and B, then failed before C because native-select keyboard automation chose B again; those partial files are preserved in `motif-preview/history/attempt-01/`. After the selector repair, root rendered all three previews successfully in `motif-preview/history/attempt-02/`. The owner selected C, “Lucky Ripple,” as the source for the next composition step. The implementer has not auditioned the audio.
 
 ## Recommendation
 
@@ -13,7 +13,7 @@ This recommendation aims for an identifiable tune that is easy to hum after a fe
 
 Notation is editable text: `bar.beat pitch duration`. Beats use quarter-note = 1 beat; `e` = eighth, `q` = quarter, `h` = half. Sketches are candidates, not audio or finalized scores. Each describes a two-bar, 4/4 phrase that can be repeated or lightly varied across the eight-bar loop. All three audition candidates will be transposed to D major so tonic and pitch range remain controlled; the event-data differences preserve each candidate's contour and rhythm.
 
-### A — “Prize Lantern” (recommended)
+### A — “Prize Lantern” (initial proposal recommendation)
 
 ```text
 Tempo 100; D major; 4/4
@@ -43,21 +43,21 @@ Tempo 100; A major; 4/4
 
 Ten notes form a quick opening turn followed by a descending answer; the phrase begins on beat one rather than with an anacrusis. It may feel lighter and less stately than A. Suggested sound: muted pluck with a very quiet sustained fifth; avoid adding a fast arpeggio that competes with reading.
 
-## Owner-approved motif-preview scope; execution still gated
+## Owner-approved motif-preview scope and result
 
-The notation candidates are not a good basis for an owner to choose an unheard tune. The owner approved creation of exactly three two-bar bare-melody snippets (A, B and C), with the same lead patch, tempo and tonic and one conservative fixed-gain policy. Report PCM sample peak and RMS with an explicit statement that they are not LUFS or true-peak matches. These previews are for choosing the motif; they are not the five full-loop renderings and do not add a sixth arrangement to that set. Keep their source event data and patch parameters portable and editable. Ask the owner to choose a preferred contour, say which preview is easiest to remember/hum, and note whether any brings a familiar tune to mind. This is owner art direction, not a listener study or proof of originality.
+The notation candidates were not a sufficient basis for choosing an unheard tune. The owner approved exactly three two-bar bare-melody snippets (A, B and C), with the same lead patch, tempo and tonic and one conservative fixed-gain policy. The completed previews report PCM sample peak and RMS only, explicitly not LUFS or true peak. These were for choosing the motif; they are not the five full-loop renderings and do not add a sixth arrangement to that set. Their source event data and patch parameters are portable and editable. The owner selected C (“Lucky Ripple”) for the next composition step. This is owner art direction, not a listener study or proof of originality.
 
-Owner authorization covers these three previews. QP Orch has approved authoring the report-local preview code and must review the exact renderer, runner, file list, commands and resource cleanup before any execution. The owner selects a motif after hearing the previews. Root retains the loudness-meter decision for the later full arrangements; the small preview PCM sample-peak/RMS convention does not authorize the five eight-bar tracks. After motif selection, root and owner must separately approve the full-render mechanism and listening brief before generating the five variants.
+Owner authorization covered these three previews; root reviewed the exact code and ran the single successful bounded attempt. The output files and cleanup evidence are documented below. Root retains the loudness-meter decision for later full arrangements; the small-preview PCM sample-peak/RMS convention does not authorize the five full tracks. The separate [composition extension proposal](composition-extension-proposal.md) defines the proposed longer phrase work and its own source, listening, and resource gates.
 
 ## Proposed five-track arrangement plan
 
 | Track | Shared elements | Change to judge |
 |---|---|---|
-| `Base` | Selected hook, 100 BPM, selected tonic, eight bars | Bright, inviting, lightly bouncy major accompaniment; comfortable beneath reading; resolved final cadence. |
+| `Base` | Owner-selected eight-bar structure containing C; 100 BPM, selected tonic and later-selected backing | Bright, inviting, lightly bouncy major accompaniment; comfortable beneath reading; resolved final cadence. |
 | `Foil` | Tempo, selected tonic, lead patch, palette and broad Base style | A different original melody, so the owner can tell same-hook transformation from merely similar style. |
-| `Uneasy` | Same hook notes/rhythm, tempo, tonic and lead patch as Base | Replace some primary triads with diatonic `ii`, `iii` or `vi`; thin the middle texture; introduce at most one borrowed chord and a low pedal; delay or withhold the final resolution. Keep it uneasy, not horror. |
-| `Dire-Clean` | Same hook notes/rhythm, tempo, tonic and unfiltered Base lead | Sparse, low, unresolved accompaniment. Use restrained suspended/cluster-adjacent voicings only if they remain comfortable. Begin with space and unresolved pressure rather than dense roughness. |
-| `Dire-Filtered` | Identical note data and backing to `Dire-Clean` | Apply only a gentle low-pass change to the same lead voice. No detuning, tempo, note or backing change. |
+| `Uneasy` | Same selected structure, hook placement/density, tempo, tonic and lead patch as Base | Replace some primary triads with diatonic `ii`, `iii` or `vi`; thin the accompaniment; introduce at most one borrowed chord and a low pedal; delay or withhold final resolution. Keep it uneasy, not horror. |
+| `Dire-Clean` | Same selected structure, hook placement/density, tempo, tonic and unfiltered Base lead | Sparse, low, unresolved accompaniment. Use restrained suspended/cluster-adjacent voicings only if they remain comfortable. Begin with space and unresolved pressure rather than dense roughness. |
+| `Dire-Filtered` | Identical note data, structure and backing to `Dire-Clean` | Apply only a gentle low-pass change to the same lead voice. No detuning, tempo, note or backing change. |
 
 Plan 33’s reported experiments and craft examples motivate these as hypotheses. In particular, the borrowed harmony, low-register voicings and roughness are not proven Quackpot settings, and no frequency recipe guarantees laptop audibility. Do not infer distress, addiction, dopamine response, motive or behavior from the tune. The Receipt may report only an actually displayed music state, consistent with the current design; Plan 32 selects no story trigger or Receipt implementation.
 
@@ -80,13 +80,13 @@ The inspected Plan 18 `audio_probe.py` is standard-library-only and measures WAV
 
 ## Owner art-direction questions (after authorized previews)
 
-After separately authorized previews have actually been heard, ask:
+For the next, separately gated long-phrase previews, ask:
 
-1. Which contour is the best starting hook, or should the motif be revised?
-2. Which preview is easiest to remember or hum, and does any sound too familiar?
-3. Is the bright pluck over a warm, sparse pulse the right baseline palette for a later full-loop comparison?
+1. Which eight-bar structure is the strongest continuation of the selected C hook?
+2. Should the full C hook return at the end, in the middle, or leave space for shorter echoes?
+3. Which new answer phrase or gap should be kept, and does any new figure sound familiar?
 
-Only after a motif is selected and the five full loops are separately authorized, ask whether Base remains comfortable beneath reading, Uneasy loses some comfort without becoming horror, Dire feels restrained and unresolved, and `Dire-Clean`/`Dire-Filtered` differ in a useful way. The owner is not asked to select tooling or make LUFS/true-peak claims; root resolves available measurement tools and the mechanism gate.
+After the owner chooses a longer structure, a separate backing study may ask which mapped house-inspired chord loop supports it best. Only after that composition direction and the five full loops are separately authorized, ask whether Base remains comfortable beneath reading, Uneasy loses some comfort without becoming horror, Dire feels restrained and unresolved, and `Dire-Clean`/`Dire-Filtered` differ in a useful way. The owner is not asked to select tooling or make LUFS/true-peak claims; root resolves available measurement tools and the mechanism gate.
 
 The listening is the owner’s art direction, not a participant experiment or population evidence. Headphones and one built-in laptop/phone speaker are useful practical checks; their results do not establish behavior on all student devices.
 
@@ -100,7 +100,7 @@ Current scope includes the following authored preview sources and generated audi
 - `motif-preview/runner.mjs` — isolated headless Chrome/CDP launch, bounded rendering and download capture, numbered attempt records with cleanup status, owned-process cleanup, with no local server or playback;
 - `motif-preview/README.md` — exact proposed bounded command, resource envelope and output cleanup notes.
 
-The first attempt's A/B WAV and JSON partials are retained as unchanged copies in `motif-preview/history/attempt-01/`, along with a failure record that identifies the missing process/profile cleanup evidence; their original files remain in `motif-preview/previews/`. The repaired root-owned run completed A/B/C in `motif-preview/history/attempt-02/`; its attempt record confirms completed downloads, owned Chrome-tree termination, and temporary-profile removal. The owner may open `motif-preview/index.html`, load those three saved WAV files, and audition them at their own pace. No preference or listening result has been recorded. Only after the owner picks a motif and root/owner separately authorize full arrangements would we add:
+The first attempt's A/B WAV and JSON partials are retained as unchanged copies in `motif-preview/history/attempt-01/`, along with a failure record that identifies the missing process/profile cleanup evidence; their original files remain in `motif-preview/previews/`. The repaired root-owned run completed A/B/C in `motif-preview/history/attempt-02/`; its attempt record confirms completed downloads, owned Chrome-tree termination, and temporary-profile removal. The owner selected C for the composition-extension work. The owner may open `motif-preview/index.html`, load the three saved WAV files, and listen at their own pace. The implementer has not auditioned them.
 
 Completed preview files:
 
@@ -108,6 +108,10 @@ Completed preview files:
 - B — [Pond Ticket WAV](motif-preview/history/attempt-02/plan32-motif-b.wav) and [provenance JSON](motif-preview/history/attempt-02/plan32-motif-b-manifest.json)
 - C — [Lucky Ripple WAV](motif-preview/history/attempt-02/plan32-motif-c.wav) and [provenance JSON](motif-preview/history/attempt-02/plan32-motif-c-manifest.json)
 - [Run manifest](motif-preview/history/attempt-02/run-manifest.json) and [attempt/cleanup record](motif-preview/history/attempt-02/attempt-record.json)
+
+The next proposed document is [composition-extension-proposal.md](composition-extension-proposal.md). Future source and audio files listed there remain gated.
+
+If the owner selects a longer phrase and root/owner separately authorize full arrangements, later work may include:
 
 - selected hook and foil event data plus versioned arrangement parameters in `composition.json`;
 - five named WAV outputs and an `audio-manifest.json` recording composition revision, renderer, sample format, settings, meter readings, gains and hashes;
@@ -117,4 +121,4 @@ No full five-track arrangement, production source, app code, selected Plan 18 ca
 
 ## Stop conditions
 
-The three approved short previews are complete and awaiting owner art direction. This does not authorize the five full arrangements, their meter/tool selection, another provider, a production tune, a story trigger, Receipt changes, asset integration, dependencies or deployment.
+The three approved short previews are complete, and motif C is owner-selected. The longer phrase and backing comparisons await review of `composition-extension-proposal.md`. This does not authorize the five full arrangements, their meter/tool selection, another provider, a production tune, a story trigger, Receipt changes, asset integration, dependencies or deployment.

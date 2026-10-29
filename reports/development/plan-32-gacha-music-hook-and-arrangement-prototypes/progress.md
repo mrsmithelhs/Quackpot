@@ -4,12 +4,13 @@
 
 Prepared the motif, rendering and listening proposal from repaired Plan 33 research. The owner authorized exactly three short bare-melody previews on a common lead patch, tempo, tonic, and fixed-gain basis. QP Orch's first headless attempt rendered A and B but failed before C because keyboard automation left B selected. Root repaired selection automation and completed a second bounded headless run with A, B, and C. All three WAV/JSON pairs, a success manifest, and a cleanup-aware attempt record are in `motif-preview/history/attempt-02/`. The failed attempt remains separately archived in `attempt-01/`; original A/B partials remain untouched in `motif-preview/previews/`.
 
-The headless runs did not audition audio. No owner preference or listening result exists. No five-track arrangement, production integration, library installation, deployment, or packet-status change occurred. Root, not this implementer, executed the successful renderer.
+The headless runs did not audition audio. The owner selected motif C, “Lucky Ripple,” for the next composition step and approved exploring a longer phrase. The implementer has not auditioned the audio. No five-track arrangement, production integration, library installation, deployment, or packet-status change occurred. Root, not this implementer, executed the successful renderer.
 
 ## Files in scope
 
 - `proposal.md` — three motif sketches, Plan 33 grounded recommendation, later five-track design, evidence limits, and gates.
 - `progress.md` — execution evidence and handoff status.
+- `composition-extension-proposal.md` — source-traceable eight-bar form options, two mapped progression candidates, staged listening sequence, and proposed file/resource gates.
 - `motif-preview/README.md` — source inventory, guarded command, numbered attempts, and owner listening steps.
 - `motif-preview/index.html`, `preview.css`, `motifs.js`, `preview.js` — report-local source data, renderer, and owner playback controls.
 - `motif-preview/runner.mjs` — bounded headless browser/CDP renderer with unique attempt directories and cleanup-aware records.
@@ -31,6 +32,7 @@ No files outside `reports/development/plan-32-gacha-music-hook-and-arrangement-p
 - `package.json`, relevant `src/audio/synth.mjs` source (read-only)
 - `reports/orchestration/plan-32-preview-authorization.md`
 - Plan 16 `run-controlled-vite-phase.mjs` and `checkpoint-proof.mjs` as read-only process-lifecycle references
+- Owner's post-preview selection of C and direction relayed by QP Orch for a bounded longer-phrase proposal
 
 ## Checks and execution evidence
 
@@ -73,14 +75,14 @@ The first headless attempt's selection failure and unknown detailed cleanup disp
 
 ## Owner handoff and remaining gates
 
-Open `motif-preview/index.html`, select all three WAV files from `history/attempt-02/` in the saved-file picker, and use the explicit Play/Stop controls at the owner's own pace. The owner is asked to choose a preferred contour, identify which is easiest to remember or hum, note any familiar-sounding figure, and comment on the bright pluck/warm sparse-pulse palette. No response or audition evidence has been recorded.
+Motif C is owner-selected. Open `motif-preview/index.html`, select the WAV files from `history/attempt-02/` in the saved-file picker, and use the explicit Play/Stop controls at the owner's own pace. The next proposed owner listening decision—after root reviews and separately authorizes extension previews—is which longer phrase structure to pursue and which later chord loop supports the hook. No listening notes about the generated previews have been relayed; the motif selection is recorded as the owner's choice.
 
-After the owner chooses a hook, the five full-loop variants remain separately gated. Root must resolve an available offline BS.1770/R128 integrated-loudness and dBTP meter or another comparison convention before that work. The current readings do not authorize loudness-matched arrangement claims, production integration, or deployment.
+The proposed two-stage extension work and exact file/resource scope are in `composition-extension-proposal.md`. The five full-loop variants remain separately gated. Root must resolve an available offline BS.1770/R128 integrated-loudness and dBTP meter or another comparison convention before that work. The current readings do not authorize loudness-matched arrangement claims, production integration, or deployment.
 
 ## Consultation posture
 
-**Branch C — orchestrator-gate-only.** No advisor consultation ran. The owner authorized only this report-local three-preview work; root reviewed the exact source/command and owned the single successful execution. No advisor budget or provider dispatch was assigned. No reviewer or model consultation is claimed.
+**Branch C — orchestrator-gate-only.** No advisor consultation ran. The owner authorized the three-preview work and selected C for the proposed longer-phrase exploration; root reviewed the exact source/command and owned the single successful execution. The current composition extension is still a proposal. No advisor budget or provider dispatch was assigned. No reviewer or model consultation is claimed.
 
 ## Handoff status
 
-Ready for owner art direction on the three completed short previews. This does not complete Plan 32 or authorize the five longer arrangements. Do not set packet completion status. Production source, music integration, credits/licensing work for any later asset, and deployment remain gated.
+Ready for root review of `composition-extension-proposal.md`. Motif C is owner-selected. Any extension source/rendering needs a separate root gate under the proposal's staged scope; the five longer controlled arrangements and all production changes remain separately gated. This does not complete Plan 32. Do not set packet completion status.

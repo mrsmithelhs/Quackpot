@@ -25,6 +25,8 @@ summary: >-
 
 ## Goal, scope and delivery
 
+**Owner sound-selection follow-up,2026-10-28:** Both existing audition music tracks are liked, but owner wants a larger variety of genuinely looping apartment tracks in a later bounded search. This is not a remaining Plan18 task and no new search budget is assigned here. Use the accepted starting repertoire where suitable; loop quality, more candidates and final TV/apartment assignments require this packet's later approved brief. Early production may iterate on sound quality without claiming final polish.
+
 Owner proposes the living-room TV showing an abstract fictional music-player display as the visible source of apartment music. Click/keyboard action cycles a small selected looping-track pool; selling TV removes apartment music. This is investigation authority only, not shipped music/TV-sale mechanics.
 
 Own NEW reports/development/plan-30-tv-music-source-and-apartment-acoustics/. Read Plan24 art API/current TV flags, Plan18 candidate/selection/provenance, Plan25 context/settings, Plan28 apartment routing and core sale history. Distinguish art visibility flags from real game sale state; never infer sale from a missing SVG. A paused/muted game must not secretly restart music on scene navigation.

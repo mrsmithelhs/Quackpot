@@ -1,0 +1,424 @@
+{
+ "schema": "qp18-owner-choices",
+ "schemaVersion": 1,
+ "catalogRevision": "2026-10-28.1",
+ "currentCatalogRevision": "2026-10-28.1",
+ "pools": [
+  {
+   "role": "duck",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0004",
+    "qp18-0006",
+    "qp18-0001",
+    "qp18-0003",
+    "qp18-0008",
+    "qp18-0009",
+    "qp18-0010",
+    "qp18-0015"
+   ]
+  },
+  {
+   "role": "ui",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0016",
+    "qp18-0017",
+    "qp18-0018",
+    "qp18-0019",
+    "qp18-0021",
+    "qp18-0020"
+   ]
+  },
+  {
+   "role": "card",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0023",
+    "qp18-0024",
+    "qp18-0025",
+    "qp18-0026",
+    "qp18-0027"
+   ]
+  },
+  {
+   "role": "reward",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0028",
+    "qp18-0029",
+    "qp18-0030",
+    "qp18-0031",
+    "qp18-0044",
+    "qp18-0032",
+    "qp18-0033",
+    "qp18-0034"
+   ]
+  },
+  {
+   "role": "dup",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0035",
+    "qp18-0036",
+    "qp18-0037"
+   ]
+  },
+  {
+   "role": "race",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0029",
+    "qp18-0030",
+    "qp18-0039"
+   ]
+  },
+  {
+   "role": "crowd",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0041",
+    "qp18-0042",
+    "qp18-0044"
+   ]
+  },
+  {
+   "role": "contact",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0045",
+    "qp18-0046",
+    "qp18-0047",
+    "qp18-0049",
+    "qp18-0048",
+    "qp18-0050"
+   ]
+  },
+  {
+   "role": "meta",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0051",
+    "qp18-0052",
+    "qp18-0053",
+    "qp18-0054",
+    "qp18-0056",
+    "qp18-0058",
+    "qp18-0059"
+   ]
+  },
+  {
+   "role": "ambience",
+   "pool": "Main",
+   "active": true,
+   "fileIds": [
+    "qp18-0061",
+    "qp18-0062"
+   ]
+  }
+ ],
+ "shortlistedIds": [],
+ "rejectedIds": [
+  "qp18-0002",
+  "qp18-0005",
+  "qp18-0011",
+  "qp18-0007",
+  "qp18-0012",
+  "qp18-0013",
+  "qp18-0014",
+  "qp18-0038",
+  "qp18-0060",
+  "qp18-0057",
+  "qp18-0055",
+  "qp18-0043",
+  "qp18-0040",
+  "qp18-0022",
+  "qp18-0063"
+ ],
+ "notes": {},
+ "ownerTrimDb": {
+  "qp18-0020": -12,
+  "qp18-0016": -6,
+  "qp18-0018": -6,
+  "qp18-0019": -6,
+  "qp18-0029": -12,
+  "qp18-0031": -6,
+  "qp18-0044": -6,
+  "qp18-0032": -12,
+  "qp18-0033": -12,
+  "qp18-0034": -12,
+  "qp18-0035": -12,
+  "qp18-0036": -12,
+  "qp18-0037": -6,
+  "qp18-0040": -12,
+  "qp18-0041": -6,
+  "qp18-0042": -6,
+  "qp18-0045": -12,
+  "qp18-0047": -12,
+  "qp18-0048": -6,
+  "qp18-0050": -6,
+  "qp18-0052": -6,
+  "qp18-0053": -12,
+  "qp18-0054": -12,
+  "qp18-0056": -12,
+  "qp18-0058": -6,
+  "qp18-0059": -12,
+  "qp18-0061": -12,
+  "qp18-0062": -12
+ },
+ "exportedAt": "2026-10-29T01:11:55.696Z",
+ "note": "Owner audition preferences only; not verified game integration and not a production selection. Empty pools and the active pool of each purpose are included on purpose.",
+ "files": {
+  "qp18-0004": {
+   "title": "Duck quack (FreeDink)",
+   "path": "audio/_originals/freesound/442820__qubodup__duck-quack.wav",
+   "sha256": "c584b6358eeeb9b73a03deeac4103c9949d0b1a92a0b755499c19c0455f8fc10"
+  },
+  "qp18-0006": {
+   "title": "Ducks snatching",
+   "path": "audio/duck/qp18-0006.ogg",
+   "sha256": "24eefe8a596b6c8a4c99b7942b9a094510df240797278618f9534fca819539ec"
+  },
+  "qp18-0001": {
+   "title": "Single quack from a duck",
+   "path": "audio/_originals/freesound/418509__mikes-multimedia__single-quack-from-a-duck.wav",
+   "sha256": "3651114bd5fd5231e91385e3f176297874877b4ad4d3e5ddc3f08e323e2d3ba1"
+  },
+  "qp18-0003": {
+   "title": "Duck quack (sea, Sweden) - trimmed excerpt",
+   "path": "audio/duck/qp18-0003.wav",
+   "sha256": "4c85b503d8211f14b0ab33737a77c3793695d992ef49100ecb7f756ab31a1911"
+  },
+  "qp18-0008": {
+   "title": "Rubber duck toy squeaking",
+   "path": "audio/_originals/freesound/201285__panmaterac__rubber-duck-toy-squeaking.wav",
+   "sha256": "c7ee4db329f1c7647933845c475742272b56ebdc8e35ec09222da7cc1ac0f4a1"
+  },
+  "qp18-0009": {
+   "title": "Rubber duck squeezes - trimmed excerpt",
+   "path": "audio/duck/qp18-0009.wav",
+   "sha256": "61f870c744643bc160989a8bcb7105aa16aae00eeb306b14bb53fae0cef2f07a"
+  },
+  "qp18-0010": {
+   "title": "Rubber duck - trimmed excerpt",
+   "path": "audio/duck/qp18-0010.wav",
+   "sha256": "004f81543a695a158b67a837fe1abd5a9dd9a987232c32048f055b3e3befac38"
+  },
+  "qp18-0015": {
+   "title": "Two short, one high quack",
+   "path": "audio/_originals/freesound/90029__tewell__twoshortonehighquacks.wav",
+   "sha256": "e871070380ee540e7a4a7b75de6ac073aa9bb269ab036ed6c9a637f914735fa9"
+  },
+  "qp18-0016": {
+   "title": "Click 2",
+   "path": "audio/ui/qp18-0016.wav",
+   "sha256": "724cece7d086ace50800fea7a8922bf8a2b28063e98ce0ff11da3425cab83889"
+  },
+  "qp18-0017": {
+   "title": "JRPG UI: Confirm",
+   "path": "audio/ui/qp18-0017.wav",
+   "sha256": "fdc65ae7f1c127b28319e8990608e319c59c5f8afe64024604c5113867632cab"
+  },
+  "qp18-0018": {
+   "title": "JRPG UI: Cursor",
+   "path": "audio/ui/qp18-0018.wav",
+   "sha256": "87d8685754082f3acf76ed61b6bc4773f41e49da258637163aa42d6169a36145"
+  },
+  "qp18-0019": {
+   "title": "Kenney Click 1",
+   "path": "audio/click1.wav",
+   "sha256": "dd90b97f38b0ec7d52161d7c3bf8d61a66655766fd0af06439963351b4853a83"
+  },
+  "qp18-0021": {
+   "title": "Dum",
+   "path": "audio/ui/qp18-0021.wav",
+   "sha256": "5df9394299cebbcef5a2fd42fd546da138f8bbc1b8a3ba13bf8dadd4533e8d80"
+  },
+  "qp18-0020": {
+   "title": "JRPG UI: Close",
+   "path": "audio/ui/qp18-0020.wav",
+   "sha256": "21890ebb3243725b2a5bf37e5c879df9c35394776ee23a5bd455d472f584d253"
+  },
+  "qp18-0023": {
+   "title": "Card contact 1",
+   "path": "audio/card/qp18-0023.wav",
+   "sha256": "6b5c7632849848604d4321e37af0a93369eda54d2190b433454151a3e9b81e86"
+  },
+  "qp18-0024": {
+   "title": "Card cut",
+   "path": "audio/card/qp18-0024.wav",
+   "sha256": "e34049add637cd31efe11aedfd93d5834f9e469ffb083b444c15aa709f1ac1d1"
+  },
+  "qp18-0025": {
+   "title": "Card draw",
+   "path": "audio/card/qp18-0025.wav",
+   "sha256": "55e3d04cdaacde727ccc9bf177ff2ab3ab68eca1408c4d74479db75f72bc306c"
+  },
+  "qp18-0026": {
+   "title": "Card play",
+   "path": "audio/card/qp18-0026.wav",
+   "sha256": "b480c607962e17d11d707fcb5c17f0d2f555c57ed32bff6b4aa262d47bac14ec"
+  },
+  "qp18-0027": {
+   "title": "Kenney Card Slide 1",
+   "path": "audio/cardSlide1.ogg",
+   "sha256": "c562897f8dd486cd622341fa57cf1cf3a5087140b7c0ac2219db90faca913177"
+  },
+  "qp18-0028": {
+   "title": "Ding",
+   "path": "audio/reward/qp18-0028.wav",
+   "sha256": "4e48a181a9b537689e7e0a5958ddfe9952f4b6eef915ab8286228241ee32658d"
+  },
+  "qp18-0029": {
+   "title": "Ding (deep)",
+   "path": "audio/reward/qp18-0029.wav",
+   "sha256": "b4af6f4331a22a01ef51f13a41b58dd3df6633ccf19d32f23c5e332d14699db6"
+  },
+  "qp18-0030": {
+   "title": "Pleasing bell",
+   "path": "audio/reward/qp18-0030.wav",
+   "sha256": "3c851939ccf9146e49c1be0272386fdca1b1442bb034a5e6dcdfb3e0e144a411"
+  },
+  "qp18-0031": {
+   "title": "Win sound",
+   "path": "audio/reward/qp18-0031.wav",
+   "sha256": "e4bb5377bf9490ca9bc5bc4d3d957f1ec74b930450d8ad578d15fe1c4f319caf"
+  },
+  "qp18-0044": {
+   "title": "Well done (clapping win)",
+   "path": "audio/crowd/qp18-0044.ogg",
+   "sha256": "8ef5cdf2323ce9efd19f5553757c607ecb57647bd568316958472ab6b9048dfc"
+  },
+  "qp18-0032": {
+   "title": "Kenney Steel Jingle 00",
+   "path": "audio/jingles_STEEL00.ogg",
+   "sha256": "8799eb726d784ae0aa1a9df80648a873ac60015bc00aea12c8e2dd1431a2bd7d"
+  },
+  "qp18-0033": {
+   "title": "Power-up v1",
+   "path": "audio/reward/qp18-0033.ogg",
+   "sha256": "111ce73c362601bd04002cf1f00003016019dcacc03bf5f7175aa960756cb44a"
+  },
+  "qp18-0034": {
+   "title": "Power-up 3",
+   "path": "audio/reward/qp18-0034.ogg",
+   "sha256": "679387db22042603eb4b26bb2f1ec70ca9efc8badd0bef008d6c2840c74fd709"
+  },
+  "qp18-0035": {
+   "title": "Lose 2",
+   "path": "audio/dup/qp18-0035.ogg",
+   "sha256": "318513aeb38dfd7fb2f0501e0affebe794fbd42067a2563ca137f93acd9a694c"
+  },
+  "qp18-0036": {
+   "title": "Lose 5",
+   "path": "audio/dup/qp18-0036.ogg",
+   "sha256": "88b030ec6a2b9269783f3b4a1bc08dc2ceef9c24e44ac0d998eba21ad64d0230"
+  },
+  "qp18-0037": {
+   "title": "Lose 8",
+   "path": "audio/dup/qp18-0037.ogg",
+   "sha256": "758189d2d69cca4178fa7dfb3b78235db3dad2ee32819a0c774e5d0714e36c69"
+  },
+  "qp18-0039": {
+   "title": "Completion ding (MP3)",
+   "path": "audio/race/qp18-0039.mp3",
+   "sha256": "64598fb07a4fe6635ab3f5827515ea83a1b76d3b1afa4fc1d725ea7c8017c4ae"
+  },
+  "qp18-0041": {
+   "title": "Applause (concert hall)",
+   "path": "audio/crowd/qp18-0041.wav",
+   "sha256": "81d52260cee58e0f284a0236c9d4a0e40463df182ea869ee14da70bfa6258b5e"
+  },
+  "qp18-0042": {
+   "title": "Applause (Yo Frankie! cut)",
+   "path": "audio/crowd/qp18-0042.wav",
+   "sha256": "d8d44ae50a16ba4218c1861c8fa236c481c2caf56195883edc81f89919fb6958"
+  },
+  "qp18-0045": {
+   "title": "Light clunk 1",
+   "path": "audio/contact/qp18-0045.wav",
+   "sha256": "d5a2aa8764c02924f6ed6fbaad0c650ab2d57ec57a626cee9e6645f941dbc8fa"
+  },
+  "qp18-0046": {
+   "title": "Thwack 03",
+   "path": "audio/contact/qp18-0046.wav",
+   "sha256": "9c36a279381bb7d984fb0e4cb2bd075ad8c9736524af1d950a1e08b03aee2b29"
+  },
+  "qp18-0047": {
+   "title": "Water splash 1",
+   "path": "audio/contact/qp18-0047.wav",
+   "sha256": "e45d466f7e63e5d566f8a822a7a1a3f7d5131319d17ca0436dcc615b251e9277"
+  },
+  "qp18-0049": {
+   "title": "Object dropping into water",
+   "path": "audio/contact/qp18-0049.ogg",
+   "sha256": "48857b0463638599d22f1d4bf70ba0d91456f0a6ef75c29fa85d70a8d8d3eb37"
+  },
+  "qp18-0048": {
+   "title": "Splash 10",
+   "path": "audio/contact/qp18-0048.ogg",
+   "sha256": "69ec352dc6c0ea4691435e692063f903c98e5292579ba71297d4fbdb51c33649"
+  },
+  "qp18-0050": {
+   "title": "Squeak toy 1",
+   "path": "audio/contact/qp18-0050.wav",
+   "sha256": "a89853f355ce7c6c60ee9695f5e725250c6a74f4a177b549afa0a30ff98ff362"
+  },
+  "qp18-0051": {
+   "title": "Alert / notification",
+   "path": "audio/meta/qp18-0051.wav",
+   "sha256": "d275225f0d68e14331fade06451e3ce3a0f6665219936553968300557ff82666"
+  },
+  "qp18-0052": {
+   "title": "Chimes",
+   "path": "audio/meta/qp18-0052.wav",
+   "sha256": "8d2a772df3931b0b341e6f2a956becf1699a7607ad5b6919e06e33b475626083"
+  },
+  "qp18-0053": {
+   "title": "Paper ripped",
+   "path": "audio/meta/qp18-0053.mp3",
+   "sha256": "e282eb21412fb78d6f31ba88fae52a94b23cc9e75e5531b59a1e0cef4358d728"
+  },
+  "qp18-0054": {
+   "title": "Paper sound 2",
+   "path": "audio/meta/qp18-0054.mp3",
+   "sha256": "6e81a68cfe8283f7e0ebfae637f15c1a2de4b9e4a306d0da2338663c6d5d7196"
+  },
+  "qp18-0056": {
+   "title": "Coin drop",
+   "path": "audio/meta/qp18-0056.ogg",
+   "sha256": "a2363d7c1671dfd350dc79b76debad41473e7d8ed0a1c1e3094bad35d80dd553"
+  },
+  "qp18-0058": {
+   "title": "Coin 3",
+   "path": "audio/meta/qp18-0058.ogg",
+   "sha256": "a9ecc094db6685247c6031c1e4f3989ba8ccc0cf3abf3ed9d414f46a5268c4a5"
+  },
+  "qp18-0059": {
+   "title": "Light switch on",
+   "path": "audio/meta/qp18-0059.mp3",
+   "sha256": "e3ae95399ccc927509df086741eab834a88e80349a06d12ce4b42f0f85247cbb"
+  },
+  "qp18-0061": {
+   "title": "Rain loop 1 (27 s)",
+   "path": "audio/ambience/qp18-0061.ogg",
+   "sha256": "4f659f68cf5219007d0bb0969a1862491ceee4057fda4c491c6001e8608fa2cb"
+  },
+  "qp18-0062": {
+   "title": "Rain loop 3 (45 s)",
+   "path": "audio/ambience/qp18-0062.ogg",
+   "sha256": "73a0f5ef19ed9f64599c0425b1fb52d857acfc42c0fd5eab85c4577ace18f0ed"
+  }
+ },
+ "idsMissingFromCatalog": [],
+ "rolesMissingFromCatalog": []
+}

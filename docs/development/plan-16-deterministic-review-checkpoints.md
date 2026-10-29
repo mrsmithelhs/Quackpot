@@ -1,16 +1,16 @@
 ---
 id: plan-16
 title: Deterministic review checkpoints and browser briefs
-status: draft
+status: in-progress
 depends_on: [plan-03]
 gate: "Owner approves the checkpoint/load architecture and small first catalog before implementation or agent fan-out."
-superseded_by: null
-resolution: null
 summary: >-
   Propose valid engine-generated seeded checkpoints and short review briefs so
   targeted browser checks can start at the relevant game or metagame beat.
 ---
 # Plan 16: Deterministic review checkpoints and browser briefs
+
+**Owner assignment2026-10-28:** Run the report-only architecture investigation in Codex alongside Plan27, with disjoint report folders. Use reports/orchestration/plan-16-codex-starting-handoff.md. No executable proof, generator/loader implementation or reviewer fanout until owner architecture approval. Historical session/source assumptions must be checked against current engine/storage. No initial subagent budget.
 
 **Date:** 2026-10-24. **Type:** testing-tools investigation. **Mutation:** report and bounded proof after owner architecture approval. **Owner/model:** one investigator; later cheap read-only reviewers. **Expected artifacts:** `reports/development/plan-16-deterministic-review-checkpoints/proposal.md`, a small proposed manifest/brief format and `progress.md`.
 
@@ -28,7 +28,7 @@ Specify an isolated local test loader/browser context that protects ordinary sav
 
 ## Targeted cheap review workflow
 
-Propose a single-writer generator and a bounded read-only reviewer batch with separate browser contexts/profiles, so agents cannot overwrite one another's saves. Existing local server/port and browser ownership must be coordinated. A brief names the checkpoint, exact action sequence, deterministic versus variable outcomes, viewport/input context, look-fors, and expected report/evidence. Use Luna-high where requested and available, or owner-selected harness alternatives; requested model and observed routing remain distinct. Do not promise a model/provider path before checking actual tools.
+Propose a single-writer generator and a bounded read-only reviewer batch with separate browser contexts/profiles, so agents cannot overwrite one another's saves. Existing local server/port and browser ownership must be coordinated. A brief names the checkpoint, exact action sequence, deterministic versus variable outcomes, viewport/input context, look-fors, and expected report/evidence. Follow current owner model routing; any cheap spot-check model and budget is a later explicit selection, not authorization from this packet. Requested and observed routing remain distinct. Do not promise a model/provider path before checking actual tools.
 
 Select reviewers by changed-area/risk coverage, not all fixtures on every change. Give each a small task and observation budget; findings must distinguish observed failure, taste/proposal and untested concern. Root verifies material findings; cheap agents do not approve gates or establish learner comprehension. This is not authorization to launch a hundred agents, publish artifacts or send cross-thread messages.
 

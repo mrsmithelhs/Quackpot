@@ -1,12 +1,10 @@
 ---
 id: plan-27
 title: Receipt reflection and evidence hierarchy
-status: draft
+status: in-progress
 
 depends_on: [plan-23]
 gate: "Owner approves investigation scope before assignment, then selects recommendation before production changes."
-superseded_by: null
-resolution: null
 summary: >-
   Design a reflection-first Receipt with expandable evidence while preserving the append-only log and three-register honesty.
 ---
@@ -24,6 +22,8 @@ summary: >-
 - Approval gate: owner selection before production implementation
 
 ## Goal, scope and delivery
+
+**Owner assignment2026-10-28:** Run in Codex alongside Plan16 with disjoint report ownership, using reports/orchestration/plan-27-codex-starting-handoff.md. Initial comparison/data/file plan precedes artifact work. Report-local synthetic presentation cases are labelled illustrations, not engine-generated saves or observed player events; actual trace generation/browser work requires a bounded root gate. One read-only Terra-medium consultation is authorized after the interactive main artifact, not preproposal/repeated repairs. No production edits.
 
 The owner sees excessive race detail on the end Receipt. Current src/core/receipt.mjs collects per-race choices/cues/playback actions/results, and src/ui/receipt-view.js renders the arrays in full. Investigate presentation hierarchy, not deletion of evidence.
 

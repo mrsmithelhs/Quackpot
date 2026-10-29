@@ -1,7 +1,8 @@
 ---
 id: plan-25
 title: Desk and phone artwork production integration
-status: in-progress
+status: complete
+resolution: "Owner accepted apartment integration, starter promotional copy, compact card-motion control and repaired blue phone-light spill. Scoped source/build/focused tests and guarded exact-width lifecycle evidence reviewed. Optional dark and warm-lamp report helper is prepared but uncaptured because no dev server was available; owner allowed skipping. Full legacy smoke and actual assistive-technology coverage remain explicit limits; no push or deployment."
 depends_on: [plan-19, plan-24]
 gate: "Root approves selected composition, state mapping and exact source ownership before mutation; owner accepts integrated production desk."
 summary: >-

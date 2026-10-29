@@ -137,9 +137,9 @@
       "loaderValidation": {
         "mode": "captured-fixture-loader",
         "recipeFile": "reports/development/plan-16-deterministic-review-checkpoints/checkpoint-proof.mjs",
-        "recipeFingerprint": null,
+        "recipeFingerprint": "12072011757e0f755a5196d1f2651f07a6e391d9db8a68bdbb640c38e80d6b37",
         "productionSourceClosure": "checkpoint.sourceFiles",
-        "bindingStatus": "pending-final-loader-commit"
+        "bindingStatus": "bound-after-loader-commit"
       },
       "seed": "qp16-pending-seed-v1",
       "schemaVersion": 3,

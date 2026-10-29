@@ -60,7 +60,7 @@
     const patch = source.patch;
     const finite = [source.tempoBpm, source.tonicMidi, patch.sampleRate, patch.voicePeak, patch.masterGain,
       patch.attackSeconds, patch.decaySeconds, patch.sustainRatio, patch.releaseSeconds, patch.tailSeconds];
-    if (finite.some((value) => !Number.isFinite(value)) || source.tempoBpm <= 0 || source.sampleRate !== 48000 ||
+    if (finite.some((value) => !Number.isFinite(value)) || source.tempoBpm <= 0 ||
         source.bars !== 2 || source.beatsPerBar !== 4 || patch.sampleRate !== 48000 || patch.masterGain <= 0 || patch.masterGain > 1 ||
         patch.waveform !== "triangle" ||
         patch.voicePeak <= 0 || patch.voicePeak > 1 || patch.tailSeconds <= 0 || patch.tailSeconds > 0.5 ||

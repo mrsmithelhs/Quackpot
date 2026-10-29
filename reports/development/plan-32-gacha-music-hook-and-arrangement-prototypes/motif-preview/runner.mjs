@@ -260,12 +260,14 @@ async function renderAndDownload(cdp, id) {
   await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x: renderPoint.x, y: renderPoint.y, button: "left", clickCount: 1 });
   await cdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: renderPoint.x, y: renderPoint.y, button: "left", clickCount: 1 });
 
-  const status = await waitUntil(async () => {
+  const outcome = await waitUntil(async () => {
     const result = await evaluate(cdp, `(() => ({ text: document.querySelector("#status")?.textContent || "", disabled: Boolean(document.querySelector("#render-button")?.disabled) }))()`);
-    if (result.text.includes("Preview render stopped:")) throw new Error(`${id} render failed: ${result.text}`);
+    if (result.text.includes("Preview render stopped:")) return { failed: result.text };
     if (result.text.includes("rendered once at fixed common gain") && !result.disabled) return result.text;
     return null;
   }, RENDER_TIMEOUT_MS + 500, `${id} offline render`);
+  if (typeof outcome === "object" && outcome?.failed) throw new Error(`${id} render failed: ${outcome.failed}`);
+  const status = outcome;
   const rowMetrics = await evaluate(cdp, `(() => { const row = [...document.querySelectorAll("#preview-list .preview-row")].find((item) => item.textContent.includes(${JSON.stringify(`${id} —`)})); return row?.querySelector(".preview-meta span")?.textContent || null; })()`);
   if (!rowMetrics || !rowMetrics.includes("not LUFS / not true peak")) throw new Error(`${id} preview lacks its PCM-only limitation label.`);
 
@@ -335,7 +337,7 @@ async function main() {
     "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
     "--disable-background-networking", "--disable-sync", "--disable-extensions", "--disable-default-apps",
     "--disable-component-update", "--disable-features=MediaRouter", "--autoplay-policy=user-gesture-required",
-    "--remote-debugging-port=0", "--remote-allow-origins=*", `--user-data-dir=${profile}`,
+    "--remote-debugging-port=0", `--user-data-dir=${profile}`,
     "--window-size=1120,850", pageUrl
   ];
   // Register ownership and bounded stdio before awaiting readiness.

@@ -1,0 +1,5 @@
+# Plan26 closeout —2026-10-28
+
+Owner explicitly closes the daylight/weather investigation and assigns separate Plan34 unmounted extraction to a new Codex thread. Accepted still art, rain controller and selected bright lightning remain frozen report references, not runtime imports. StageC repaired73test evidence, held-composite results and bounded StageD machine/lifecycle evidence accepted within reported coverage. Custom red tracker is descriptive only; teacher/slowerdevice, human liveview, actualOS/otherbrowser and proper flash assessment gaps carry to future mounting. Do not claim these results exist.
+
+StageE proposal split adopted. Plan34 extracts bright runtime beside unchanged kit, separate defaultoff flash control and conservative fallback, no game consumer. E2 surface/triggers/preferences/log/credits/device/composite criteria remain futuregate. No mounting/audio/TV integration/push/deployment authorized. Packet complete with written resolution; Plan34 checkedRUNNABLE after assignment.

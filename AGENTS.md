@@ -9,7 +9,7 @@
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: development underway. Plans10,18,22,23,24 and25 are owner-accepted and closed. Plan18 owner pools are preserved; production audio/preparation and pending member provenance remain separately gated. Plan25 optional dark/lamp comparison helper is prepared but uncaptured. Plan26 evidence is accepted within reported limits, with extraction/mounting split proposed as draft Plan34; no runtime promotion authorized. Plans27–34 are drafts, not assignments or production decisions. Existing app/rig/Shell A/Duck-Dex rules remain binding; no push/deployment authorized.**
+**Current stage: development underway. Plans10,18,22,23,24,25 and26 are owner-accepted and closed;26 closes as an investigation with explicit pre-mount evidence limits. Plan34 unmounted weather extraction is in-progress for a new Codex thread; actual game mounting remains separately gated. Plan18 owner pools are preserved; production audio/preparation and pending member provenance remain separate. Plan25 optional dark/lamp comparison helper is prepared but uncaptured. Plans27–33 remain drafts. Existing app/rig/Shell A/Duck-Dex rules bind; no push/deployment authorized.**
 
 ---
 

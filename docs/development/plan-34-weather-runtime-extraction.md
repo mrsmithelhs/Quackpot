@@ -1,12 +1,10 @@
 ---
 id: plan-34
 title: Weather runtime extraction without mounting
-status: draft
+status: in-progress
 
 depends_on: [plan-26]
 gate: "Owner authorizes extraction assignment after Plan26 investigation closure; root reviews exact contract and delivery. Mounting remains a separate packet."
-superseded_by: null
-resolution: null
 summary: >-
   Extract accepted weather still/motion and bright lightning into tested unmounted
   source modules, preserving the art kit and current game behavior.
@@ -18,7 +16,7 @@ summary: >-
 - Packet id: plan-34
 - Packet title: Weather runtime extraction without mounting
 - Status: (see frontmatter)
-- Owner/model: unassigned; existing Sonnet thread recommended
+- Owner/model: new Codex implementation thread (owner assignment2026-10-28); one writer
 - Date: 2026-10-28
 - Packet type: extraction / feature helpers
 - Mutation level: new unmounted source modules and explicit test-list update
@@ -29,7 +27,7 @@ summary: >-
 
 Adopt the Plan26 E1 proposal as a bounded extraction, not a live feature. Required references: AGENTS, decision log, packet index, repo structure, Plan26 stage-e-proposal.md, stage-e1-packet-draft.md, interface/mechanism/progress and root StageC/D reviews. Run check plan-34 before starting; stop if blocked. Draft is not assignment authority.
 
-Root recommendations R1–R4: accept extraction/mount split, wrapper beside kit (optionA), flat focused weather UI modules, bounded process validation. D8 recommendation: bright only in runtime because that is the owner-selected look; restrained comparison stays report-only. Owner may select an intensity alternative later. New assignment approval adopts this scope; no extra brightness vote required. R5 and D1–D7 concern mounting and remain unresolved.
+Owner assignment2026-10-28 adopts R1–R4: extraction/mount split, wrapper beside kit (optionA), flat focused weather UI modules, bounded process validation. D8: bright only in runtime because that is the owner-selected look; restrained comparison stays report-only. Owner may select an intensity alternative later. No extra brightness vote required. R5 and D1–D7 concern mounting and remain unresolved. Use reports/orchestration/plan-34-codex-starting-handoff.md; one post-main-implementation read-only Terra-medium review is authorized, not preproposal/repeatedrepair consultations.
 
 ## Exact ownership
 

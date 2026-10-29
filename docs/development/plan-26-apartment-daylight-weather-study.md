@@ -1,7 +1,8 @@
 ---
 id: plan-26
 title: Living-room daylight and still weather study
-status: in-progress
+status: complete
+resolution: "Owner accepts the still/rain and bright-lightning investigation and authorizes a separate unmounted extraction in Plan34. Root accepted repaired StageC and bounded StageD evidence within recorded limits; StageE proposal split adopted. Teacher/slower-device, human live-viewing, actual OS and red-flash assessment gaps carry into later mounting gates, not claims of production readiness. No kit/game promotion, push or deployment."
 depends_on: [plan-10]
 gate: "Owner approved report-only living-room still study; staged visual review precedes animation, other rooms, kit hooks or production promotion."
 summary: >-

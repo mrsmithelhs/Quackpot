@@ -1,0 +1,55 @@
+{
+  "artifact": "quackpot-plan32-preview-attempt-record",
+  "attempt": "attempt-01",
+  "status": "failed-incomplete",
+  "sourceRevision": "96815f0",
+  "recordedAt": "2026-10-29T06:58:35.4082761-04:00",
+  "playback": "none; root reported this was the headless renderer run, with no audition",
+  "failure": {
+    "message": "Motif selection control chose B; expected C.",
+    "reportedAt": "runner.mjs line 257 in the attempted source revision",
+    "context": "A and B completed before selection for C failed."
+  },
+  "outerRun": {
+    "elapsedSeconds": 2.866,
+    "peakSampledPrivateBytes": 328609792,
+    "outerStop": null,
+    "wrapperCleanupNotes": "none reported by root"
+  },
+  "cleanup": {
+    "runnerCleanupRecord": "not available; the attempted runner version did not persist an attempt record",
+    "processAndProfileDisposition": "not independently recorded in durable runner output; no additional cleanup claim is made here"
+  },
+  "preservedFiles": [
+    {
+      "name": "plan32-motif-a.wav",
+      "bytes": 944684,
+      "sha256": "13621D6C4890A873EC067EFF64F360685D571053E22177AAE80A3A7C076A2985",
+      "preservedCopyOf": "previews/plan32-motif-a.wav"
+    },
+    {
+      "name": "plan32-motif-a-manifest.json",
+      "bytes": 2077,
+      "sha256": "C63672A197DB3D2BA50F83D606854A71044E6171F213F74FD25600E7254BECD9",
+      "preservedCopyOf": "previews/plan32-motif-a-manifest.json"
+    },
+    {
+      "name": "plan32-motif-b.wav",
+      "bytes": 944684,
+      "sha256": "4AE20D7BF5CCFF240D4518DB904738D3C2D79000FF98E5B90D927FA633B8657D",
+      "preservedCopyOf": "previews/plan32-motif-b.wav"
+    },
+    {
+      "name": "plan32-motif-b-manifest.json",
+      "bytes": 1960,
+      "sha256": "A4F663BD9624EAD8151E7D448198F3AC519854F217F9573FBA06EE81D2DFE471",
+      "preservedCopyOf": "previews/plan32-motif-b-manifest.json"
+    }
+  ],
+  "missingExpectedFiles": [
+    "plan32-motif-c.wav",
+    "plan32-motif-c-manifest.json",
+    "run-manifest.json"
+  ],
+  "originalFiles": "The original partial files in previews/ were left in place; these archive entries are copies."
+}

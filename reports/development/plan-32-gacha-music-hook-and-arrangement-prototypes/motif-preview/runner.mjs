@@ -10,8 +10,9 @@ import { setTimeout as delay } from "node:timers/promises";
 
 const ROOT = "C:/AI/Quackpot";
 const BASE = "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview";
+const HISTORY = `${BASE}/history`;
 const PAGE = `${BASE}/index.html`;
-const OUTPUT = `${BASE}/previews`;
+const OUTPUT = `${HISTORY}/attempt-02`;
 const HOST = "127.0.0.1";
 const CHROME = process.env.QUACKPOT_CHROME_PATH || "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const MAX_TOTAL_MS = 79000;
@@ -28,6 +29,7 @@ const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const startedAt = Date.now();
 
 let profile = null;
+let activeOutputPath = null;
 let chromeRecord = null;
 let browserCdp = null;
 let pageCdp = null;
@@ -177,11 +179,6 @@ async function evaluate(cdp, expression) {
   return result.result?.value;
 }
 
-async function pressKey(cdp, key, code, virtualKeyCode) {
-  await cdp.send("Input.dispatchKeyEvent", { type: "keyDown", key, code, windowsVirtualKeyCode: virtualKeyCode });
-  await cdp.send("Input.dispatchKeyEvent", { type: "keyUp", key, code, windowsVirtualKeyCode: virtualKeyCode });
-}
-
 async function stopOwned(record, label) {
   if (!record) return { stopped: true, childExited: true, treeTerminationConfirmed: true, residual: false, uncertainty: false, pid: null };
   const existing = stopPromises.get(record);
@@ -244,16 +241,55 @@ async function cleanup() {
   return cleanupPromise;
 }
 
+function listAttemptFiles() {
+  if (!activeOutputPath || !existsSync(activeOutputPath)) return [];
+  return readdirSync(activeOutputPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name !== "attempt-record.json")
+    .map((entry) => {
+      const filePath = path.join(activeOutputPath, entry.name);
+      try {
+        const bytes = readFileSync(filePath);
+        return { name: entry.name, bytes: bytes.length, sha256: sha256(bytes) };
+      } catch (error) {
+        return { name: entry.name, readError: error.message };
+      }
+    });
+}
+
+function writeAttemptRecord(cleanupResult) {
+  if (!activeOutputPath) return;
+  const failed = Boolean(fatalError || workTimedOut || totalTimedOut || cleanupResult.chrome.residual ||
+    cleanupResult.chrome.uncertainty || cleanupResult.profileCleanupError);
+  const downloads = [...downloadRecords.values()].map(({ guid, name, state, receivedBytes, totalBytes, filePath }) =>
+    ({ guid, name, state, receivedBytes: receivedBytes ?? null, totalBytes: totalBytes ?? null, filePath: filePath ?? null }));
+  const sourceFiles = ["index.html", "preview.css", "motifs.js", "preview.js", "runner.mjs"];
+  const sourceHashes = Object.fromEntries(sourceFiles.map((file) => {
+    try { return [file, sha256(readFileSync(path.join(ROOT, BASE, file)))]; }
+    catch (error) { return [file, { readError: error.message }]; }
+  }));
+  const record = {
+    artifact: "quackpot-plan32-preview-attempt-record",
+    attempt: path.basename(activeOutputPath),
+    status: failed ? "failed" : "completed",
+    startedAt: new Date(startedAt).toISOString(),
+    endedAt: new Date().toISOString(),
+    failure: fatalError ? { message: fatalError.message, stack: fatalError.stack ?? null } : null,
+    timedOut: { browserWork: workTimedOut, totalRunner: totalTimedOut },
+    sourceHashes,
+    browser: { kind: "isolated headless Chrome", launched: Boolean(chromeRecord?.child?.pid),
+      pid: chromeRecord?.child?.pid ?? null, exit: chromeRecord?.exit ?? null, spawnError: chromeRecord?.error?.message ?? null,
+      stderr: chromeRecord?.stderr?.value ?? "" },
+    playback: "none; the headless runner did not audition audio",
+    downloads,
+    outputFiles: listAttemptFiles(),
+    cleanup: cleanupResult
+  };
+  writeFileSync(path.join(activeOutputPath, "attempt-record.json"), `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+}
+
 async function renderAndDownload(cdp, id) {
   assertWorkBudget(`${id} preview`, RENDER_TIMEOUT_MS + 1000 + FILE_TIMEOUT_MS * 2 + 2500);
-  const selectPoint = await evaluate(cdp, `(() => { const element = document.querySelector("#motif-select"); const rect = element.getBoundingClientRect(); return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }; })()`);
-  await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: selectPoint.x, y: selectPoint.y });
-  await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x: selectPoint.x, y: selectPoint.y, button: "left", clickCount: 1 });
-  await cdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: selectPoint.x, y: selectPoint.y, button: "left", clickCount: 1 });
-  await pressKey(cdp, "Home", "Home", 36);
-  for (let index = 0; index < IDS.indexOf(id); index += 1) await pressKey(cdp, "ArrowDown", "ArrowDown", 40);
-  await pressKey(cdp, "Enter", "Enter", 13);
-  const selectedId = await evaluate(cdp, `document.querySelector("#motif-select")?.value || null`);
+  const selectedId = await evaluate(cdp, `(() => { const select = document.querySelector("#motif-select"); if (!select) return null; select.value = ${JSON.stringify(id)}; select.dispatchEvent(new Event("change", { bubbles: true })); return select.value; })()`);
   if (selectedId !== id) throw new Error(`Motif selection control chose ${selectedId}; expected ${id}.`);
   const renderPoint = await evaluate(cdp, `(() => { const element = document.querySelector("#render-button"); element.scrollIntoView({ block: "center" }); const rect = element.getBoundingClientRect(); return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }; })()`);
   await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: renderPoint.x, y: renderPoint.y });
@@ -328,9 +364,17 @@ async function main() {
   const outputPath = path.resolve(ROOT, OUTPUT);
   if (!existsSync(previewPath)) throw new Error(`Preview page missing: ${previewPath}`);
   if (!existsSync(CHROME)) throw new Error(`Chrome executable missing: ${CHROME}`);
-  mkdirSync(outputPath, { recursive: true });
+  const historyPath = path.resolve(ROOT, HISTORY);
+  mkdirSync(historyPath, { recursive: true });
+  const reportRoot = path.resolve(ROOT, BASE);
+  const historyRelative = path.relative(reportRoot, realpathSync(historyPath));
+  if (historyRelative === ".." || historyRelative.startsWith(`..${path.sep}`) || path.isAbsolute(historyRelative)) {
+    throw new Error("Plan 32 history folder resolves outside its report-local source directory.");
+  }
+  if (existsSync(outputPath)) throw new Error(`Refusing to reuse existing attempt folder: ${outputPath}`);
+  mkdirSync(outputPath);
+  activeOutputPath = outputPath;
   if (realpathSync(outputPath).toLowerCase() !== outputPath.toLowerCase()) throw new Error("Preview output directory resolves outside its report folder.");
-  if (readdirSync(outputPath).length !== 0) throw new Error(`Refusing to overwrite non-empty preview output folder: ${outputPath}`);
   profile = mkdtempSync(path.join(os.tmpdir(), "quackpot-plan32-headless-"));
   const pageUrl = pathToFileURL(previewPath).href;
   const browserArgs = [
@@ -439,5 +483,10 @@ main().catch((error) => {
   const result = await cleanup();
   if (fatalError || workTimedOut || totalTimedOut || result.chrome.residual || result.chrome.uncertainty || result.profileCleanupError) {
     process.exitCode = 1;
+  }
+  try { writeAttemptRecord(result); }
+  catch (error) {
+    process.exitCode = 1;
+    process.stderr.write(`Plan 32 could not persist the attempt record: ${error.stack || error.message}\n`);
   }
 });

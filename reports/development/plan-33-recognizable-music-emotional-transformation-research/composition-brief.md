@@ -1,66 +1,59 @@
-# Plan 33 → Plan 32: practical composition brief
+# Plan 33 → Plan 32: Practical Composition & Paired-Listening Brief
 
-Prepared 2026-10-28. This is a brief for *later original composition* in Plan 32 once the owner approves it. It contains **no score, no audio, no rendering, no library choice and no trigger schedule.** Numbers below are proposals for the owner to accept, change or reject; arithmetic is labelled. Evidence labels as in `recommendation.md`.
+**Date:** 2026-10-28 (system clock; updated by Gemini 4 Argon integrator)
+**Scope:** Actionable specification for a **later, owner-gated composition and paired-listening experiment in Plan 32**. This brief contains **no score, no audio files, no synthesis code, no library selection, and no runtime story-state schedule**. Approving this brief authorizes only the composition and owner-only listening test (Stage A decisions in `recommendation.md`), without locking in future runtime fade timings or triggers (Stage B).
 
-## 1. What to compose (a few variations, not a soundtrack)
+---
 
-**One original gacha hook, three arrangements** (base / uneasy / dire), plus one **foil hook** of similar style used only to test identity.
+## 1. What to Compose for the Experiment
 
-- **Hook (the identity):** a short melody of roughly 5–9 notes with a distinctive rhythm and an easily hummable contour, written from scratch (no borrowed melodic fragments). Craft guidance only **[P/H]**: make the *rhythm onset pattern* and *contour* memorable, because contour plus interval sizes and rhythm carry tune identity more than harmony does **[E-abs: Dowling & Fujitani 1971; Kuusi 2009]**.
-- **Instrument palette (representation):** one lead voice that stays identical in every state (e.g., a bell/pluck-type synth), a rhythm/percussion layer, a bass voice, and a harmony/pad voice. Palette *names* are placeholders; Plan 32 proposes the actual synthesis approach for owner approval. Keep the lead voice unchanged across states **[E-full: Schellenberg & Habashi 2015; E-full: Eerola 2013]**.
-- **Recommended arrangement family:** Approach 2 (reharmonize/revoice the accompaniment) on Approach 1's stem structure; see `transformation-matrix.md`. Approach 3 is a *separate pair*, not part of the first set.
+Compose **one original gacha hook** (plus **one foil hook** of similar style/length for identity calibration) and render a small, controlled set of variants:
 
-## 2. Representation, length and loop boundaries (proposals)
+1. **The Hook (Identity Core):**
+   - A short, memorable melody of **5–9 notes per phrase** over an **8-bar loop in 4/4** (or 16-bar A/A′ if testing repetition fatigue), written from scratch with zero borrowed fragments.
+   - **Pass the "V0 Bare-Melody Test" (`[P]`: HOYO-MiX / Yu-Peng Chen 2020; Lena Raine 2018):** Before writing any chords or bass, verify that the unaccompanied single-voice melody has a distinctive rhythmic onset profile and pitch contour that is recognizable on its own. Why? Pitch contour/intervals (`[E-abs]`: Dowling & Fujitani 1971) and intact rhythm (`[E-full]`: Kuusi 2009, where stripping rhythm cost 15–34 recognition points) carry identity for non-musicians (`[E-abs]`: Mélen & Deliège 1995).
+2. **Variants to Render (All Matched to the Same Integrated Loudness in LUFS/RMS):**
+   - **V-Base:** Bright, consonant diatonic triads (I, IV, V), normal mid-bass register, steady pulse, clear authentic cadence at bar 8.
+   - **V-Foil:** A *different* original melody using the exact same tempo, key, lead timbre, and Base accompaniment style (calibrates "different tune" ratings).
+   - **V-Uneasy (Approach 2):** Identical hook pitches, rhythm, tempo, key, and lead patch. Accompaniment uses **diatonic/modal-mixture substitutions** (`ii`, `vi`, `iv`, $\flat\text{VI}$) with **one unexpected chord** (`[E-full]`/`[E-abs]`: Liu 2018; Steinbeis et al. 2006), a **hollow texture** (thinned midrange over a low minor-3rd modal drone: `[E-full]`: Trevor et al. 2023; Bostwick et al. 2018), **dynamic swells/dropouts** ($\pm 6\text{ dB}$ internal variability at matched integrated LUFS: `[E-full]`: Trevor et al. 2023), and a **withheld half/deceptive cadence** at bar 8 (`[E-full]`: Sears et al. 2020; Choi & Fujioka 2025). Avoid groove syncopation (`[E-full]`: Keller & Schubert 2011).
+   - **V-Dire-2A (Approach 2, Clean Lead):** Identical hook pitches, rhythm, tempo, key, and **untouched Base lead patch**. Accompaniment drops the bass to **55–110 Hz with 110–240 Hz harmonic saturation** (audible on laptop/Chromebook speakers: `[E-full]`: Huron et al. 2006; Granot & Eitan 2011), introduces **30–150 Hz psychoacoustic roughness and inharmonicity** in clashing tritone/minor-second pad voicings (`[E-full]`: Farbood & Price 2017; Pressnitzer et al. 2000; Trevor et al. 2020, 2023), and leaves bar 8 unresolved. *(Optionally render a sparse/exposed backing sub-variant vs. a dense $>3$ events/s backing sub-variant to test Silvey 2011 vs. Trevor et al. 2023.)*
+   - **V-Dire-2B (Approach 2, Within-Patch Filtered Lead):** Identical to **V-Dire-2A**, except the lead synth patch receives **subtle within-patch low-pass filtering or mild detuning** (`[E-abs]`: Lim & Goh 2012 within-family timbre preservation; `[P]`: Korb 2020; Ueda 2017).
+   - **V-Dire-3 (Credible Alternative — Approach 3):** Drops the lead melody by 1 octave (`[E-full]`: Eerola et al. 2013; Huron et al. 2006), inflects major thirds/sixths toward minor/Phrygian (`[P]`: Raine 2018 *Celeste*), and adds subtle beat hesitation (`[E-full]`: Trevor et al. 2023 low pulse clarity).
 
-| Item | Proposal | Basis |
+---
+
+## 2. Representation, Grid, and Memory Budget Arithmetic (`[T]`)
+
+| Parameter | Proposal | Evidence / Technical Basis |
 |---|---|---|
-| Source format | Editable text note/event data (track, bar, beat, MIDI pitch, duration, velocity) plus a per-state chord/voicing table | Lets the same hook be re-rendered deterministically; avoids repeated lossy edits. Plan 32 still chooses the renderer. |
-| Loop length | **8 bars of 4/4** as the main loop; a 16-bar A/A′ version as an alternative if fatigue is a concern | At 100 bpm 8 bars = 32 beats = 19.2 s [T arithmetic]. Decoded-buffer designs are documented for short snippets (about 45 s or less) [T: MDN AudioBuffer, T4 src 13]. |
-| Tempo | One tempo for all states, e.g., 96–108 bpm; owner picks | Holding tempo fixed avoids a known identity cost and a confound [E-full: Schellenberg & Habashi 2015]. |
-| Key | One key for all states | Same reason. |
-| Loop seam | Every stem exactly the same length, boundary on a bar line; no tail ring-out crossing the seam, or render the tail into the loop start | Seam audibility is a practitioner concern [P: Martins]; sample-indexed buffer loops are the documented way to loop precisely, while codec padding is not addressed by the docs [T4 findings F5]. |
-| State changes | Allowed only on a bar line (or loop boundary), never mid-bar | Bar-aligned changes are standard practice [P: Phillips] |
+| **Source representation** | Deterministic text note/event data (bar, beat, MIDI pitch, duration, velocity) + per-state chord/voicing/filter parameters | Allows exact reproduction, loudness matching, and either offline stem export or local Web Audio synthesis (`src/audio/synth.mjs`) in Plan 32. |
+| **Loop grid** | **8 bars of 4/4** at ~96–108 bpm ($\approx 17.8\text{–}20.0\text{ s}$; $19.2\text{ s}$ at 100 bpm), or **16-bar A/A′** ($\approx 38.4\text{ s}$) | Short loops (~15 s) over 20 min of play trended toward time overestimation and fatigue in pilot testing (`[E-full]`: McNamara et al. 2022), and repetition is a top cause of player muting (`[E-full]`: Rogers & Weber 2019, $N=737$). An A/A′ 16-bar loop or subtle per-loop filter/velocity micro-variation (`[E-abs]`: Worrall 2025) reduces verbatim fatigue. |
+| **Seam & alignment** | Bar-aligned loop boundaries; zero reverb/release tail crossing bar 8 unrendered; state switches quantized to measure downbeats (`every measure`) | Measure-quantized switching is shipped practice (`[P]`: Korb 2020 *Hades*); prevents rhythmic seam glitches. |
+| **Decoded PCM arithmetic** | At 48 kHz stereo float32 ($384,000\text{ B/s}$), one $19.2\text{ s}$ stem $\approx 7.37\text{ MB}$ ($3.69\text{ MB}$ mono) | **3 pre-rendered full mixes** (Base, Uneasy, Dire) $\approx 22.1\text{ MB}$ stereo. **5 stems** (shared lead, shared rhythm, 3 state accompaniments) $\approx 36.9\text{ MB}$ stereo (or $\approx 22\text{ MB}$ if lead/bass are mono). Procedural synthesis from note tables requires near-zero buffer memory. |
 
-**Stem layout (proposal) and arithmetic [T]:** stereo 48 kHz float32 = 384,000 bytes per second, so one 19.2 s stereo stem ≈ 7.4 MB decoded.
+---
 
-- *Lean:* lead (shared) + rhythm (shared) + one accompaniment stem per state × 3 = **5 stems ≈ 37 MB** decoded.
-- *Fuller:* lead + rhythm + bass ×3 + harmony ×3 = **8 stems ≈ 59 MB** decoded. Mono stems for lead/bass halve their cost.
-- Add the apartment music track(s) (Plan 30) on top. These figures are arithmetic only; **no measurement on the target school machines has been made.**
+## 3. Small Owner-Only Paired-Listening Protocol (Not Run in Plan 33)
 
-## 3. The three arrangements (summary; detail in `transformation-matrix.md`)
+- **Listener:** The **owner only** (no students, no external subjects, no telemetry).
+- **Playback hygiene:** Fixed listening volume on the owner's reference headphones **and** a second quick check on a built-in laptop/phone speaker (to verify that the 55–110 Hz + 110–240 Hz bass register remains audible without subwoofers). All stimuli normalized to identical integrated loudness (LUFS/RMS) except Pair P5.
 
-- **Base:** consonant, bright voicings, normal bass register, clear cadence at the phrase end.
-- **Uneasy:** modal-mixture or minor-leaning chords; bass lowered; one unexpected chord at one phrase point; softer, wider voicings; last bar left slightly unresolved.
-- **Dire:** low bass with a pedal tone; cluster/tritone or mildly detuned voicings; no cadence; sparse upper harmony so the melody sounds exposed.
-
-Constant in all three: hook pitches and rhythm, lead voice, key, tempo, loop length, loudness.
-
-## 4. Paired-listening comparisons (to be run later by the owner; not run here)
-
-Listener: the **owner only** in the first pass. No student data, no collection, no accounts. A wider panel would need a separate owner decision. Fixed playback level and headphones/speakers; order counterbalanced; loudness matched (integrated LUFS/RMS) and peak-checked.
-
-| Pair | Compare | Questions (owner ratings) | Evidence purpose |
+| Pair ID | Stimuli Compared | Owner Judgment Questions | Hypothesis / Gap Tested |
 |---|---|---|---|
-| P1 Identity | Base vs uneasy vs dire, each against the base | "Same tune?" 1–5; what, if anything, changed? | Does Approach 2 keep the hook recognizable? (Primary risk: no replacement-harmony study exists.) |
-| P2 Identity foil | Base vs the foil hook | Same scale | Calibrates what "different tune" sounds like |
-| P3 Tension | Base → uneasy → dire in order, and shuffled | Tension 1–7; "uneasy" vs "dire" ordering correct? | Do the steps feel ordered? Is "dire" distinguishable from "uneasy"? |
-| P4 One lever | Change only bass register; only the unexpected chord; only the withheld cadence; only roughness | Tension 1–7 and "same tune?" | Which lever carries the unease cheaply? (Drone, withheld cadence and detune are untested in the literature.) |
-| P5 Loudness | Matched vs a +3 dB louder dire | Tension 1–7 | How much of "dire" is loudness (a known confound [E-full: Eerola 2013])? |
-| P6 Approach 3 | Recommended dire vs Approach 3 dire (tempo/register/timbre) | "Same tune?" and tension | Does the extra expressive range cost identity? |
-| P7 Fatigue | Each state's loop repeated ~5 times (about 1.5 minutes at 19.2 s) | Note when irritation or boredom starts | Repetition fatigue is a composer-reported risk [P]; the threshold is unmeasured |
-| P8 Step ordering | Hear base then uneasy, uneasy then dire, as would occur in play | "Did the change feel like the same story?" | Tests abrupt steps (no gradual-morph evidence exists) |
-| P9 No-change control | Base looped with a bar-aligned *re-trigger* of the same material at the moment a step would occur | Tension 1–7 | Separates "any change adds tension" (suggested by an adaptive-music study [E-full: Plut & Pasquier 2019, N=30]) from the effect of the new arrangement |
+| **P1 — Reharmonization Identity** | `V-Base` (2 loops to establish theme: Pollard-Gott 1983) → `V-Uneasy` → `V-Dire-2A` | 1. *"Same tune?"* (1–5)<br>2. *"Did the melody stay clear?"* | Tests whether staged diatonic → chromatic/rough reharmonization preserves hook identity (`[E-full]`: Liu 2018). |
+| **P2 — Foil Calibration** | `V-Base` → `V-Foil` | *"Same tune?"* (1–5) | Anchors the bottom of the "same tune" scale. |
+| **P3 — State Ordering & Salience** | `V-Base` → `V-Uneasy` → `V-Dire-2A` (in order and shuffled) | 1. *Tension / dread* (1–7)<br>2. *"Is each step clearly noticeable?"* | Tests state ordering and Darren Korb's `[P]` "effectiveness bell curve" (steps must be clearly audible). |
+| **P4 — Lead Timbre Nuance (2A vs. 2B)** | `V-Dire-2A` (clean lead) vs. `V-Dire-2B` (within-patch filtered/detuned lead) | 1. *"Same tune?"* (1–5)<br>2. *"Which sounds more genuinely dire vs. ironically mismatched?"* | Tests relaxing the strict lead-timbre freeze via within-family filtering (`[E-abs]`: Lim & Goh 2012). |
+| **P5 — Sparse vs. Dense Dire** | `V-Dire-2B (Sparse/Exposed)` vs. `V-Dire-2B (Dense/Rough)` at matched LUFS, plus a $+3\text{ dB}$ louder check | *Tension / dread* (1–7) and *clarity* | Resolves **Silvey (2011)** (`[E-full]`, non-musicians rate sparse solo tenser) vs. **Trevor et al. (2023)** (`[E-full]`, terror cues are denser), and isolates loudness confound. |
+| **P6 — Credible Alternative (Approach 2 vs. 3)** | `V-Dire-2B` vs. `V-Dire-3` (octave drop + minor inflection + pulse hesitation) | 1. *"Same tune?"* (1–5)<br>2. *Tension / dread* (1–7) | Measures whether Approach 3's extra expressive range is worth its stacked identity risk (`[E-full]`: Schellenberg & Habashi 2015). |
+| **P7 — No-Change Re-Trigger Control** | `V-Base` → bar-aligned re-trigger of `V-Base` vs. `V-Base` → `V-Uneasy` | *Tension change* (1–7) | Controls for **Plut & Pasquier (2019)** (`[E-full]`, $N=30$), where any perceived adaptation/change shifted ratings relative to static playback. |
+| **P8 — Repetition & Hardware Check** | Repeat each state loop 5× (~1.5 min) on headphones and laptop speakers | *"When does loop fatigue start, and does the low bass survive on laptop speakers?"* | Tests loop fatigue (`[E-full]`: Rogers & Weber 2019; McNamara et al. 2022) and >100 Hz transducer roll-off (`argon-f2`). |
 
-## 5. Owner questions for the composition round
+---
 
-1. **Recognition:** is "same tune" the *melody* (so timbre could vary) or the *sound* (so timbre is fixed)?
-2. **Tension:** is "uneasy" meant as *unresolved/ambiguous* and "dire" as *threatening/heavy*? (Roughness evidence supports energy/anger/dominance, which may sound more aggressive than uneasy.)
-3. **Culture and audience:** who will hear this — which age and background? Mode effects were culture-specific in one study [E-full: Athanasopoulos 2021].
-4. **Fatigue:** how long will players sit in the gacha screen per visit? 8-bar loops repeat quickly.
-5. **Base mood:** should the base be *enticing/peaceful* rather than cheerful? A cheerful base against a menacing underlay can read as ironic.
-6. **Steps:** abrupt state steps or crossfaded morphs between accompaniments? (See `transition-contract.md`.)
-7. **Rights/provenance:** original composition and generated-music provenance need an explicit later decision (design open question). Credits stay factual and local.
+## 4. Composition-Stage Owner Questions (Stage A Only)
 
-## 6. Not in this brief
-
-No melody, chords, score, rendering, library, soundtrack adoption, story trigger, or schedule. Plan 18's repertoire and Plan 30's apartment-music search are not reopened here.
+To authorize Plan 32's composition experiment, the owner only needs to answer the three **Stage A** questions in `recommendation.md` §7:
+1. Approve composing the single 8-bar hook + foil and rendering `V-Base`, `V-Uneasy`, `V-Dire-2A`, `V-Dire-2B`, and `V-Dire-3` for the owner-only listening test?
+2. Confirm whether both **clean lead (`2A`)** and **within-patch filtered lead (`2B`)** (plus **octave/modal `3`**) should be included in the listening pairs?
+3. Indicate whether **Base** should lean *peaceful/inviting* or *bouncy-arcade*, and whether **Dire** should test both *sparse/exposed* and *dense/rough* accompaniment textures?

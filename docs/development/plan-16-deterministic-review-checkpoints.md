@@ -1,7 +1,8 @@
 ---
 id: plan-16
 title: Deterministic review checkpoints and browser briefs
-status: in-progress
+status: complete
+resolution: "Owner accepted architecture and amended two-checkpoint proof on 2026-10-29; generated pending proof and captured starter continuations verified, historical recipe and offline-only final guard limits retained; no production integration."
 depends_on: [plan-03]
 gate: "Owner approves the checkpoint/load architecture and small first catalog before implementation or agent fan-out."
 summary: >-

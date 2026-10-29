@@ -1,6 +1,6 @@
 # Plan 32 — Composition Extension Proposal
 
-**Status:** Stage 1 source authoring approved by QP Orch. The owner selected motif C, “Lucky Ripple,” and approved testing extensions. This phase authors three longer forms and a local preview renderer for root review. It does not run a script, browser, renderer, or audio job. Stage 2 progressions and the five mood variants remain unassigned until the owner chooses a structure.
+**Status:** Stage 1 source authoring is complete and QP Orch has rendered the three previews once under the bounded command below. The owner selected motif C, “Lucky Ripple,” and approved testing extensions. The implementer did not run the script or audition audio. See [`composition-preview/evidence-report.md`](composition-preview/evidence-report.md) and the files in `composition-preview/history/attempt-01/`. Stage 2 progressions and the five mood variants remain unassigned until the owner chooses a structure.
 
 ## Recommendation
 
@@ -87,7 +87,7 @@ These are future design constraints, not authorization for the five renders, pro
 
 ### First batch: three structure previews
 
-After root reviews the exact composition data, browser page, command, and cleanup source, render S1/S2/S3 serially in one isolated browser session. Each WAV is a 19.2-second form plus 0.12-second tail; retain a WAV, a small provenance JSON, and a run record for each attempt. The original short C WAV remains the reference and is not overwritten. No seamless-loop or crossfade claim is made; loop-wrap treatment is a separate later choice.
+QP Orch rendered S1/S2/S3 serially in one isolated browser session after source/command review. Each output is a 19.2-second form plus the 0.12-second tail, with a WAV, provenance JSON, and run record preserved in `composition-preview/history/attempt-01/`. The original short C WAV remains the reference and was not overwritten. No seamless-loop or crossfade claim is made; loop-wrap treatment is a separate later choice.
 
 At stereo 48 kHz PCM16, a 19.32-second WAV is 3,709,484 bytes including its 44-byte header. Three files total 11,128,452 bytes. A stereo float32 working buffer is 7,418,880 bytes per render, with exactly one buffer/context alive at once. Proposed caps: 3,800,000 bytes per WAV, 32 KiB per provenance file, and 32 KiB for the portable source script. These are calculated file/buffer sizes, not measured browser memory or render-time claims. Preserve the common gain settings; these files have PCM peak/RMS readings only, not LUFS/true-peak matching. Metering of later full mixes is a separate question.
 
@@ -101,7 +101,7 @@ Owner questions for the second batch: Which loop supports the C melody and the c
 
 ### Proposed process envelope
 
-Reuse the existing Plan 25 bounded launcher only after root reviews the future exact command. Proposed outer cap remains 90 seconds, 2 GiB sampled process-tree private bytes, and 1 GiB Node heap. Proposed runner caps are 70 seconds browser work and 79 seconds total; serialize every OfflineAudioContext and cap each 19.2-second render at 15 seconds wall time. Stop on any failed render, unexpected external request, malformed/oversized output, nonfinite PCM, clipping, or uncertain process/profile cleanup. Use a new, unused report-local attempt folder for each batch; never overwrite or automatically retry partials. These are proposed guards, not browser performance guarantees. No library install, server, CDN, provider request, app integration, or audio playback occurs in the renderer.
+The Stage 1 render used the existing Plan 25 bounded launcher and the reused Plan 32 Chrome/CDP process and cleanup lifecycle. Its outer cap was 90 seconds, 2 GiB sampled process-tree private bytes, and 1 GiB Node heap. Runner caps were 70 seconds browser work and 79 seconds total; each OfflineAudioContext had a 15-second render limit. The runner stopped on failed output validation, unexpected external requests, malformed/oversized output, nonfinite PCM, clipping, or uncertain process/profile cleanup, and refused an existing attempt folder. These controls bound this run; they are not browser performance guarantees. No library, server, CDN, provider, app integration, or playback was used by the renderer.
 
 ## Exact files proposed after separate gates
 
@@ -111,13 +111,13 @@ Stage 1 source files now under root review:
 - `composition-preview/index.html`, `preview.css`, and `preview.js` — report-local, accessible serial renderer/listener using the approved local patch and common controls.
 - `motif-preview/runner.mjs` adds explicit `--extensions` mode, reusing its isolated Chrome/CDP lifecycle, process ownership and cleanup record. It writes only to `composition-preview/history/attempt-01/`, refuses an existing attempt directory, and validates the adapted filenames, WAV and provenance.
 
-The exact proposed root-review command is:
+The exact command QP Orch used is:
 
 ```powershell
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/runner.mjs','--extensions')
 ```
 
-Runner limits in this mode are 15 seconds per render, 70 seconds browser work, and 79 seconds total runner; the existing outer wrapper remains 90 seconds, 2 GiB sampled process-tree private bytes, and 1 GiB Node heap. WAV cap: 3,800,000 bytes; provenance cap: 32 KiB. The calculated WAV is 3,709,484 bytes and the one-at-a-time float32 buffer is 7,418,880 bytes. These limits still need root confirmation against the exact source and changed runner. No command was run in this phase.
+Runner limits in this mode are 15 seconds per render, 70 seconds browser work, and 79 seconds total runner; the existing outer wrapper remains 90 seconds, 2 GiB sampled process-tree private bytes, and 1 GiB Node heap. WAV cap: 3,800,000 bytes; provenance cap: 32 KiB. The calculated and observed WAV size is 3,709,484 bytes and the one-at-a-time float32 buffer is 7,418,880 bytes. Root's successful run took 3.5260813 seconds at 343,146,496 peak sampled private bytes. See the evidence report for PCM readings, hashes, cleanup, and the failed prelaunch guard attempt retained separately in progress history.
 
 Expected outputs are `plan32-extension-s1-call-answer.wav`, `plan32-extension-s2-bookend.wav`, and `plan32-extension-s3-spacious.wav`, with provenance sidecars and an attempt record in the fresh attempt folder.
 
@@ -127,4 +127,4 @@ The portable source data also leaves a future, optional path for a bounded exter
 
 ## Gate requested
 
-Root review and disposition on the authored Stage 1 source, preview UI, adapted runner branch, exact proposed command, the three phrase forms, fixed D/A bed, resource/file caps, and the staged two-progression follow-up. No source or runner command has been launched. No audio is produced in this phase. No library, runtime trigger, Receipt behavior, production integration, or deployment is requested.
+The Stage 1 source and runner path have been reviewed and the previews rendered. The owner still needs to listen and choose a structure before Stage 2 can be assigned. The root-run headless renderer did not play audio. No library, runtime trigger, Receipt behavior, production integration, or deployment is requested.

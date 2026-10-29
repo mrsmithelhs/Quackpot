@@ -1,7 +1,7 @@
 # Plan 32 — Motif, Rendering and Listening Proposal
 
 **Prepared:** 2026-10-29
-**Stage:** Proposal and bounded preview source prepared under the 2026-10-29 owner authorization. QP Orch's first headless attempt rendered A and B, then failed before C because native-select keyboard automation chose B again. Those partial files are preserved in `motif-preview/history/attempt-01/`; there is no complete three-preview set, and no listening/audition evidence is claimed. The runner repair routes any next root-owned attempt to a new `attempt-02/` folder and writes an attempt/cleanup record on failure or completion.
+**Stage:** Proposal and bounded preview source prepared under the 2026-10-29 owner authorization. QP Orch's first headless attempt rendered A and B, then failed before C because native-select keyboard automation chose B again; those partial files are preserved in `motif-preview/history/attempt-01/`. After the selector repair, root rendered all three previews successfully in `motif-preview/history/attempt-02/`. The owner and implementer have not auditioned the clips; these results do not include a motif choice.
 
 ## Recommendation
 
@@ -92,7 +92,7 @@ The listening is the owner’s art direction, not a participant experiment or po
 
 ## Proposed files after approval
 
-Current scope now includes the following authored preview sources in this report folder; they are not executed yet:
+Current scope includes the following authored preview sources and generated audition artifacts in this report folder:
 
 - `motif-preview/motifs.js` — portable two-bar MIDI event data, shared D tonic, tempo and voice parameters;
 - `motif-preview/index.html` and `preview.css` — minimal accessible owner audition interface;
@@ -100,14 +100,21 @@ Current scope now includes the following authored preview sources in this report
 - `motif-preview/runner.mjs` — isolated headless Chrome/CDP launch, bounded rendering and download capture, numbered attempt records with cleanup status, owned-process cleanup, with no local server or playback;
 - `motif-preview/README.md` — exact proposed bounded command, resource envelope and output cleanup notes.
 
-The first attempt's A/B WAV and JSON partials are retained as unchanged copies in `motif-preview/history/attempt-01/`, along with an honest failure/cleanup record; their original files remain in `motif-preview/previews/`. The repaired runner is configured to refuse any existing attempt folder and write a next run only to the unused `motif-preview/history/attempt-02/`. The owner may listen later using the saved-file picker, but no preference or audition result has been recorded. Only after the owner picks a motif and root/owner separately authorize full arrangements would we add:
+The first attempt's A/B WAV and JSON partials are retained as unchanged copies in `motif-preview/history/attempt-01/`, along with a failure record that identifies the missing process/profile cleanup evidence; their original files remain in `motif-preview/previews/`. The repaired root-owned run completed A/B/C in `motif-preview/history/attempt-02/`; its attempt record confirms completed downloads, owned Chrome-tree termination, and temporary-profile removal. The owner may open `motif-preview/index.html`, load those three saved WAV files, and audition them at their own pace. No preference or listening result has been recorded. Only after the owner picks a motif and root/owner separately authorize full arrangements would we add:
+
+Completed preview files:
+
+- A — [Prize Lantern WAV](motif-preview/history/attempt-02/plan32-motif-a.wav) and [provenance JSON](motif-preview/history/attempt-02/plan32-motif-a-manifest.json)
+- B — [Pond Ticket WAV](motif-preview/history/attempt-02/plan32-motif-b.wav) and [provenance JSON](motif-preview/history/attempt-02/plan32-motif-b-manifest.json)
+- C — [Lucky Ripple WAV](motif-preview/history/attempt-02/plan32-motif-c.wav) and [provenance JSON](motif-preview/history/attempt-02/plan32-motif-c-manifest.json)
+- [Run manifest](motif-preview/history/attempt-02/run-manifest.json) and [attempt/cleanup record](motif-preview/history/attempt-02/attempt-record.json)
 
 - selected hook and foil event data plus versioned arrangement parameters in `composition.json`;
 - five named WAV outputs and an `audio-manifest.json` recording composition revision, renderer, sample format, settings, meter readings, gains and hashes;
 - `audition.html` with minimal accessible playback controls and listening prompts.
 
-No full five-track arrangement, production source, app code, selected Plan 18 catalog/pool, packet/status, canonical document, other report, Plan 16 checkpoint or Plan 27 layout is created or modified by this proposal and bounded-preview step. The only audio files present are the partial A/B previews from QP Orch's failed first attempt, preserved as described above.
+No full five-track arrangement, production source, app code, selected Plan 18 catalog/pool, packet/status, canonical document, other report, Plan 16 checkpoint or Plan 27 layout is created or modified by this proposal and bounded-preview step. The completed three short audio previews are report-only artifacts; the failed first attempt's A/B partials remain preserved separately.
 
 ## Stop conditions
 
-The first root-owned renderer attempt and its A/B partial outputs are recorded above. The repaired runner is source-only for the current implementer; root owns any next bounded run after reviewing these changes. Do not generate the five full arrangements, install or adopt dependencies, dispatch another provider, select a production tune, update Plan 18, add a story trigger, change Receipt behavior, or integrate assets in this phase.
+The three approved short previews are complete and awaiting owner art direction. This does not authorize the five full arrangements, their meter/tool selection, another provider, a production tune, a story trigger, Receipt changes, asset integration, dependencies or deployment.

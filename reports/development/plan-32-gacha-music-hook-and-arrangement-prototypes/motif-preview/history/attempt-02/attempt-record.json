@@ -1,0 +1,153 @@
+{
+  "artifact": "quackpot-plan32-preview-attempt-record",
+  "attempt": "attempt-02",
+  "status": "completed",
+  "startedAt": "2026-10-29T11:01:15.426Z",
+  "endedAt": "2026-10-29T11:01:18.090Z",
+  "failure": null,
+  "timedOut": {
+    "browserWork": false,
+    "totalRunner": false
+  },
+  "sourceHashes": {
+    "index.html": "e6ee4ba31e2779bbff94ee8a0a5ed67dbe030423a8bd3e0035c2591fbe88bfac",
+    "preview.css": "403f2f1c683c6ca476de3f4b99d3e6537682ff5635fe24cc92a7d8e1beafbcb7",
+    "motifs.js": "3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02",
+    "preview.js": "3d041e642802f6390e12755c1753759aa899c3bd6270716c280d4ede41e440a9",
+    "runner.mjs": "ebeceb9f19cb04159baaf831ddbb1781b7f4ec5a19e82055a2817e4705ff19cb"
+  },
+  "browser": {
+    "kind": "isolated headless Chrome",
+    "launched": true,
+    "pid": 16432,
+    "exit": {
+      "code": 1,
+      "signal": null,
+      "at": "2026-10-29T11:01:18.056Z"
+    },
+    "spawnError": null,
+    "stderr": "\r\nDevTools listening on ws://127.0.0.1:52412/devtools/browser/ce51eb5b-211b-4647-81b4-2f1c19a88738\r\n"
+  },
+  "playback": "none; the headless runner did not audition audio",
+  "downloads": [
+    {
+      "guid": "794d43ff-932e-4907-b41d-5337578ec59f",
+      "name": "plan32-motif-a.wav",
+      "state": "completed",
+      "receivedBytes": 944684,
+      "totalBytes": 944684,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-a.wav"
+    },
+    {
+      "guid": "4e8359f6-91b6-4441-8035-5edbfe439ed6",
+      "name": "plan32-motif-a-manifest.json",
+      "state": "completed",
+      "receivedBytes": 2077,
+      "totalBytes": 2077,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-a-manifest.json"
+    },
+    {
+      "guid": "87bf8f4b-4b8c-4348-a56f-de398305ccff",
+      "name": "plan32-motif-b.wav",
+      "state": "completed",
+      "receivedBytes": 944684,
+      "totalBytes": 944684,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-b.wav"
+    },
+    {
+      "guid": "de97f212-8487-4dff-a06b-d57f5184cd30",
+      "name": "plan32-motif-b-manifest.json",
+      "state": "completed",
+      "receivedBytes": 1960,
+      "totalBytes": 1960,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-b-manifest.json"
+    },
+    {
+      "guid": "f2fbe3c4-2003-4fe5-9a63-d2d1a222d882",
+      "name": "plan32-motif-c.wav",
+      "state": "completed",
+      "receivedBytes": 944684,
+      "totalBytes": 944684,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-c.wav"
+    },
+    {
+      "guid": "3cc2e838-f2b3-4154-9458-e2aa5ab1c714",
+      "name": "plan32-motif-c-manifest.json",
+      "state": "completed",
+      "receivedBytes": 2082,
+      "totalBytes": 2082,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\motif-preview\\history\\attempt-02\\plan32-motif-c-manifest.json"
+    }
+  ],
+  "outputFiles": [
+    {
+      "name": "plan32-motif-a-manifest.json",
+      "bytes": 2077,
+      "sha256": "82d19b558ee04d2d71877dae92c1ef5ba010096d217fae596428a44403969c96"
+    },
+    {
+      "name": "plan32-motif-a.wav",
+      "bytes": 944684,
+      "sha256": "13621d6c4890a873ec067eff64f360685d571053e22177aae80a3a7c076a2985"
+    },
+    {
+      "name": "plan32-motif-b-manifest.json",
+      "bytes": 1960,
+      "sha256": "35bbdc65afec71f664dc8cdb474307e40c7cbea574722eb46e414bccff72771b"
+    },
+    {
+      "name": "plan32-motif-b.wav",
+      "bytes": 944684,
+      "sha256": "4ae20d7bf5ccff240d4518db904738d3c2d79000ff98e5b90d927fa633b8657d"
+    },
+    {
+      "name": "plan32-motif-c-manifest.json",
+      "bytes": 2082,
+      "sha256": "d49ed97cd1c6022b2e6e6be271ae317c77c09a6ff2eefd906fc0a055ba84b1f1"
+    },
+    {
+      "name": "plan32-motif-c.wav",
+      "bytes": 944684,
+      "sha256": "b76e9a2f0d357ba4c7c9fc313e54c4e0e621c2774c20bdae5295441d21de4bf6"
+    },
+    {
+      "name": "run-manifest.json",
+      "bytes": 4436,
+      "sha256": "60316b1c8f505571853bd5442b5c852b56a2ded0eb4e14bad1b591b227b0de33"
+    }
+  ],
+  "cleanup": {
+    "chrome": {
+      "stopped": true,
+      "childExited": true,
+      "treeTerminationConfirmed": true,
+      "residual": false,
+      "uncertainty": false,
+      "pid": 16432,
+      "exit": {
+        "code": 1,
+        "signal": null,
+        "at": "2026-10-29T11:01:18.056Z"
+      },
+      "treeKill": {
+        "pid": 16288,
+        "exit": {
+          "code": 0,
+          "signal": null,
+          "at": "2026-10-29T11:01:18.012Z"
+        },
+        "close": {
+          "code": 0,
+          "signal": null,
+          "at": "2026-10-29T11:01:18.012Z"
+        },
+        "error": null,
+        "stdout": "SUCCESS: The process with PID 29844 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 29648 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 10232 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 28404 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 11064 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 1280 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 9840 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 13576 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 30420 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 12780 (child process of PID 16432) has been terminated.\r\nSUCCESS: The process with PID 16432 (child process of PID 29544) has been terminated.\r\n",
+        "stderr": ""
+      }
+    },
+    "profileRemoved": true,
+    "profileCleanupError": null,
+    "preservedProfilePath": null
+  }
+}

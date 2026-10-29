@@ -1,0 +1,98 @@
+{
+  "artifact": "quackpot-plan32-bare-melody-preview",
+  "sourceVersion": 1,
+  "motif": {
+    "id": "C",
+    "title": "Lucky Ripple",
+    "events": [
+      {
+        "beat": 0,
+        "midi": 78,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 0.5,
+        "midi": 81,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 1,
+        "midi": 86,
+        "durationBeats": 1,
+        "velocity": 0.78
+      },
+      {
+        "beat": 2,
+        "midi": 85,
+        "durationBeats": 1,
+        "velocity": 0.78
+      },
+      {
+        "beat": 3,
+        "midi": 81,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 3.5,
+        "midi": 78,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 4,
+        "midi": 83,
+        "durationBeats": 1,
+        "velocity": 0.78
+      },
+      {
+        "beat": 5,
+        "midi": 81,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 5.5,
+        "midi": 78,
+        "durationBeats": 0.5,
+        "velocity": 0.78
+      },
+      {
+        "beat": 6,
+        "midi": 74,
+        "durationBeats": 2,
+        "velocity": 0.78
+      }
+    ]
+  },
+  "tempoBpm": 100,
+  "tonic": "D",
+  "bars": 2,
+  "beatsPerBar": 4,
+  "patch": {
+    "waveform": "triangle",
+    "attackSeconds": 0.012,
+    "decaySeconds": 0.075,
+    "sustainRatio": 0.22,
+    "releaseSeconds": 0.09,
+    "voicePeak": 0.24,
+    "masterGain": 0.7,
+    "sampleRate": 48000,
+    "tailSeconds": 0.12,
+    "noise": false
+  },
+  "render": {
+    "fileName": "plan32-motif-c.wav",
+    "format": "WAV PCM16",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSeconds": 4.92,
+    "elapsedMilliseconds": 34,
+    "commonGainPolicy": "fixed masterGain; no per-preview normalization or compression",
+    "samplePeakDbfs": -16.5,
+    "rmsDbfs": -31.8,
+    "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+  }
+}

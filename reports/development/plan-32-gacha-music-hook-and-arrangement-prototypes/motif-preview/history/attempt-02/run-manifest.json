@@ -1,0 +1,115 @@
+{
+  "artifact": "quackpot-plan32-three-bare-melody-previews",
+  "generatedAt": "2026-10-29T11:01:17.759Z",
+  "browser": {
+    "kind": "isolated headless Chrome",
+    "pageUrl": "file:///C:/AI/Quackpot/reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/index.html",
+    "loopbackDebugPort": 52412
+  },
+  "guards": {
+    "browserWorkMs": 70000,
+    "totalRunnerMs": 79000,
+    "outerWrapper": "Plan 25 bounded-node-run.ps1: 90 seconds, 2 GiB sampled process-tree private bytes, Node heap 1 GiB"
+  },
+  "playback": "none; the headless renderer did not play or audition audio",
+  "network": {
+    "blockedPageUrls": [
+      "http://*",
+      "https://*"
+    ],
+    "observedNonLocalPageRequests": []
+  },
+  "sourceHashes": {
+    "index.html": "e6ee4ba31e2779bbff94ee8a0a5ed67dbe030423a8bd3e0035c2591fbe88bfac",
+    "preview.css": "403f2f1c683c6ca476de3f4b99d3e6537682ff5635fe24cc92a7d8e1beafbcb7",
+    "motifs.js": "3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02",
+    "preview.js": "3d041e642802f6390e12755c1753759aa899c3bd6270716c280d4ede41e440a9",
+    "runner.mjs": "ebeceb9f19cb04159baaf831ddbb1781b7f4ec5a19e82055a2817e4705ff19cb"
+  },
+  "previews": [
+    {
+      "id": "A",
+      "displayedMetrics": "4.92 s · PCM sample peak -16.4 dBFS · RMS -31.8 dBFS · not LUFS / not true peak",
+      "measurements": {
+        "fileName": "plan32-motif-a.wav",
+        "format": "WAV PCM16",
+        "sampleRate": 48000,
+        "channels": 2,
+        "durationSeconds": 4.92,
+        "elapsedMilliseconds": 40,
+        "commonGainPolicy": "fixed masterGain; no per-preview normalization or compression",
+        "samplePeakDbfs": -16.4,
+        "rmsDbfs": -31.8,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "files": {
+        "wav": {
+          "name": "plan32-motif-a.wav",
+          "bytes": 944684,
+          "sha256": "13621d6c4890a873ec067eff64f360685d571053e22177aae80a3a7c076a2985"
+        },
+        "provenance": {
+          "name": "plan32-motif-a-manifest.json",
+          "bytes": 2077,
+          "sha256": "82d19b558ee04d2d71877dae92c1ef5ba010096d217fae596428a44403969c96"
+        }
+      }
+    },
+    {
+      "id": "B",
+      "displayedMetrics": "4.92 s · PCM sample peak -16.4 dBFS · RMS -32.1 dBFS · not LUFS / not true peak",
+      "measurements": {
+        "fileName": "plan32-motif-b.wav",
+        "format": "WAV PCM16",
+        "sampleRate": 48000,
+        "channels": 2,
+        "durationSeconds": 4.92,
+        "elapsedMilliseconds": 39,
+        "commonGainPolicy": "fixed masterGain; no per-preview normalization or compression",
+        "samplePeakDbfs": -16.4,
+        "rmsDbfs": -32.1,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "files": {
+        "wav": {
+          "name": "plan32-motif-b.wav",
+          "bytes": 944684,
+          "sha256": "4ae20d7bf5ccff240d4518db904738d3c2d79000ff98e5b90d927fa633b8657d"
+        },
+        "provenance": {
+          "name": "plan32-motif-b-manifest.json",
+          "bytes": 1960,
+          "sha256": "35bbdc65afec71f664dc8cdb474307e40c7cbea574722eb46e414bccff72771b"
+        }
+      }
+    },
+    {
+      "id": "C",
+      "displayedMetrics": "4.92 s · PCM sample peak -16.5 dBFS · RMS -31.8 dBFS · not LUFS / not true peak",
+      "measurements": {
+        "fileName": "plan32-motif-c.wav",
+        "format": "WAV PCM16",
+        "sampleRate": 48000,
+        "channels": 2,
+        "durationSeconds": 4.92,
+        "elapsedMilliseconds": 34,
+        "commonGainPolicy": "fixed masterGain; no per-preview normalization or compression",
+        "samplePeakDbfs": -16.5,
+        "rmsDbfs": -31.8,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "files": {
+        "wav": {
+          "name": "plan32-motif-c.wav",
+          "bytes": 944684,
+          "sha256": "b76e9a2f0d357ba4c7c9fc313e54c4e0e621c2774c20bdae5295441d21de4bf6"
+        },
+        "provenance": {
+          "name": "plan32-motif-c-manifest.json",
+          "bytes": 2082,
+          "sha256": "d49ed97cd1c6022b2e6e6be271ae317c77c09a6ff2eefd906fc0a055ba84b1f1"
+        }
+      }
+    }
+  ]
+}

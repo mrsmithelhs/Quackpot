@@ -10,9 +10,11 @@ import { setTimeout as delay } from "node:timers/promises";
 
 const ROOT = "C:/AI/Quackpot";
 const BASE = "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview";
-const HISTORY = `${BASE}/history`;
-const PAGE = `${BASE}/index.html`;
-const OUTPUT = `${HISTORY}/attempt-02`;
+const MODE = process.argv[2] === "--extensions" ? "extensions" : process.argv.length === 2 ? "motifs" : "invalid";
+const EXT_BASE = "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes";
+const HISTORY = MODE === "extensions" ? `${EXT_BASE}/composition-preview/history` : `${BASE}/history`;
+const PAGE = MODE === "extensions" ? `${EXT_BASE}/composition-preview/index.html` : `${BASE}/index.html`;
+const OUTPUT = MODE === "extensions" ? `${HISTORY}/attempt-01` : `${HISTORY}/attempt-02`;
 const HOST = "127.0.0.1";
 const CHROME = process.env.QUACKPOT_CHROME_PATH || "C:/Program Files/Google/Chrome/Application/chrome.exe";
 const MAX_TOTAL_MS = 79000;
@@ -20,11 +22,14 @@ const MAX_WORK_MS = 70000;
 const MAX_CLEANUP_WAIT_MS = 4500;
 const MAX_STDIO_CHARS = 8192;
 const CDP_COMMAND_TIMEOUT_MS = 3000;
-const RENDER_TIMEOUT_MS = 8000;
+const RENDER_TIMEOUT_MS = MODE === "extensions" ? 15000 : 8000;
 const FILE_TIMEOUT_MS = 2000;
-const MAX_OUTPUT_FILE_BYTES = 2000000;
-const EXPECTED_WAV_BYTES = 44 + Math.ceil((8 * 60 / 100 + 0.12) * 48000) * 2 * 2;
-const IDS = ["A", "B", "C"];
+const MAX_OUTPUT_FILE_BYTES = MODE === "extensions" ? 3800000 : 2000000;
+const EXPECTED_WAV_BYTES = MODE === "extensions" ? 44 + Math.ceil(19.32 * 48000) * 2 * 2 : 44 + Math.ceil((8 * 60 / 100 + 0.12) * 48000) * 2 * 2;
+const IDS = MODE === "extensions" ? ["S1", "S2", "S3"] : ["A", "B", "C"];
+const SOURCE_FILES = MODE === "extensions"
+  ? [`${EXT_BASE}/composition-extensions.js`, `${EXT_BASE}/composition-preview/index.html`, `${EXT_BASE}/composition-preview/preview.css`, `${EXT_BASE}/composition-preview/preview.js`, `${BASE}/runner.mjs`]
+  : ["index.html", "preview.css", "motifs.js", "preview.js", "runner.mjs"].map((file) => `${BASE}/${file}`);
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const startedAt = Date.now();
 
@@ -262,13 +267,12 @@ function writeAttemptRecord(cleanupResult) {
     cleanupResult.chrome.uncertainty || cleanupResult.profileCleanupError);
   const downloads = [...downloadRecords.values()].map(({ guid, name, state, receivedBytes, totalBytes, filePath }) =>
     ({ guid, name, state, receivedBytes: receivedBytes ?? null, totalBytes: totalBytes ?? null, filePath: filePath ?? null }));
-  const sourceFiles = ["index.html", "preview.css", "motifs.js", "preview.js", "runner.mjs"];
-  const sourceHashes = Object.fromEntries(sourceFiles.map((file) => {
-    try { return [file, sha256(readFileSync(path.join(ROOT, BASE, file)))]; }
+  const sourceHashes = Object.fromEntries(SOURCE_FILES.map((file) => {
+    try { return [file, sha256(readFileSync(path.join(ROOT, file)))]; }
     catch (error) { return [file, { readError: error.message }]; }
   }));
   const record = {
-    artifact: "quackpot-plan32-preview-attempt-record",
+    artifact: MODE === "extensions" ? "quackpot-plan32-composition-attempt-record" : "quackpot-plan32-preview-attempt-record",
     attempt: path.basename(activeOutputPath),
     status: failed ? "failed" : "completed",
     startedAt: new Date(startedAt).toISOString(),
@@ -289,8 +293,9 @@ function writeAttemptRecord(cleanupResult) {
 
 async function renderAndDownload(cdp, id) {
   assertWorkBudget(`${id} preview`, RENDER_TIMEOUT_MS + 1000 + FILE_TIMEOUT_MS * 2 + 2500);
-  const selectedId = await evaluate(cdp, `(() => { const select = document.querySelector("#motif-select"); if (!select) return null; select.value = ${JSON.stringify(id)}; select.dispatchEvent(new Event("change", { bubbles: true })); return select.value; })()`);
-  if (selectedId !== id) throw new Error(`Motif selection control chose ${selectedId}; expected ${id}.`);
+  const selectorId = MODE === "extensions" ? "structure-select" : "motif-select";
+  const selectedId = await evaluate(cdp, `(() => { const select = document.querySelector(${JSON.stringify(`#${selectorId}`)}); if (!select) return null; select.value = ${JSON.stringify(id)}; select.dispatchEvent(new Event("change", { bubbles: true })); return select.value; })()`);
+  if (selectedId !== id) throw new Error(`Preview selection control chose ${selectedId}; expected ${id}.`);
   const renderPoint = await evaluate(cdp, `(() => { const element = document.querySelector("#render-button"); element.scrollIntoView({ block: "center" }); const rect = element.getBoundingClientRect(); return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }; })()`);
   await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: renderPoint.x, y: renderPoint.y });
   await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x: renderPoint.x, y: renderPoint.y, button: "left", clickCount: 1 });
@@ -298,23 +303,30 @@ async function renderAndDownload(cdp, id) {
 
   const outcome = await waitUntil(async () => {
     const result = await evaluate(cdp, `(() => ({ text: document.querySelector("#status")?.textContent || "", disabled: Boolean(document.querySelector("#render-button")?.disabled) }))()`);
-    if (result.text.includes("Preview render stopped:")) return { failed: result.text };
-    if (result.text.includes("rendered once at fixed common gain") && !result.disabled) return result.text;
+    if (result.text.includes(MODE === "extensions" ? "Render stopped:" : "Preview render stopped:")) return { failed: result.text };
+    if ((MODE === "extensions" ? result.text.includes(`${id} rendered:`) : result.text.includes("rendered once at fixed common gain")) && !result.disabled) return result.text;
     return null;
   }, RENDER_TIMEOUT_MS + 500, `${id} offline render`);
   if (typeof outcome === "object" && outcome?.failed) throw new Error(`${id} render failed: ${outcome.failed}`);
   const status = outcome;
-  const rowMetrics = await evaluate(cdp, `(() => { const row = [...document.querySelectorAll("#preview-list .preview-row")].find((item) => item.textContent.includes(${JSON.stringify(`${id} —`)})); return row?.querySelector(".preview-meta span")?.textContent || null; })()`);
-  if (!rowMetrics || !rowMetrics.includes("not LUFS / not true peak")) throw new Error(`${id} preview lacks its PCM-only limitation label.`);
+  const rowMetrics = MODE === "extensions" ? status : await evaluate(cdp, `(() => { const row = [...document.querySelectorAll("#preview-list .preview-row")].find((item) => item.textContent.includes(${JSON.stringify(`${id} —`)})); return row?.querySelector(".preview-meta span")?.textContent || null; })()`);
+  if (!rowMetrics || !(MODE === "extensions" ? rowMetrics.includes("not LUFS or true peak") : rowMetrics.includes("not LUFS / not true peak"))) throw new Error(`${id} preview lacks its PCM-only limitation label.`);
 
   const files = [];
-  for (const name of [`plan32-motif-${id.toLowerCase()}.wav`, `plan32-motif-${id.toLowerCase()}-manifest.json`]) {
-    const selector = `a[download=${JSON.stringify(name)}]`;
-    const point = await evaluate(cdp, `(() => { const element = document.querySelector(${JSON.stringify(selector)}); if (!element) return null; element.scrollIntoView({ block: "center" }); const rect = element.getBoundingClientRect(); return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }; })()`);
-    if (!point) throw new Error(`Preview download link missing: ${name}`);
-    await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: point.x, y: point.y });
-    await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x: point.x, y: point.y, button: "left", clickCount: 1 });
-    await cdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: point.x, y: point.y, button: "left", clickCount: 1 });
+  let outputNames;
+  if (MODE === "extensions") {
+    const suffix = { S1: "call-answer", S2: "bookend", S3: "spacious" }[id];
+    outputNames = [`plan32-extension-${id.toLowerCase()}-${suffix}.wav`, `plan32-extension-${id.toLowerCase()}-${suffix}-provenance.json`];
+  } else outputNames = [`plan32-motif-${id.toLowerCase()}.wav`, `plan32-motif-${id.toLowerCase()}-manifest.json`];
+  for (const name of outputNames) {
+    if (MODE !== "extensions") {
+      const selector = `a[download=${JSON.stringify(name)}]`;
+      const point = await evaluate(cdp, `(() => { const element = document.querySelector(${JSON.stringify(selector)}); if (!element) return null; element.scrollIntoView({ block: "center" }); const rect = element.getBoundingClientRect(); return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }; })()`);
+      if (!point) throw new Error(`Preview download link missing: ${name}`);
+      await cdp.send("Input.dispatchMouseEvent", { type: "mouseMoved", x: point.x, y: point.y });
+      await cdp.send("Input.dispatchMouseEvent", { type: "mousePressed", x: point.x, y: point.y, button: "left", clickCount: 1 });
+      await cdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: point.x, y: point.y, button: "left", clickCount: 1 });
+    }
     const deadline = Date.now() + FILE_TIMEOUT_MS;
     let download = null;
     while (Date.now() < deadline) {
@@ -330,7 +342,8 @@ async function renderAndDownload(cdp, id) {
     await waitUntil(() => existsSync(filePath) && !readdirSync(path.dirname(filePath)).some((entry) => entry.endsWith(".crdownload")) && statSync(filePath).size > 0,
       750, `download flush ${name}`);
     const size = statSync(filePath).size;
-    if (size > MAX_OUTPUT_FILE_BYTES) throw new Error(`Unexpectedly large preview output: ${name} (${size} bytes).`);
+    if (size > MAX_OUTPUT_FILE_BYTES) throw new Error(`Unexpectedly large preview output: ${name} (${size} bytes; cap ${MAX_OUTPUT_FILE_BYTES}).`);
+    if (MODE === "extensions" && name.endsWith(".json") && size > 32768) throw new Error(`Provenance exceeded 32 KiB cap: ${name} (${size} bytes).`);
     if (name.endsWith(".wav") && size !== EXPECTED_WAV_BYTES) throw new Error(`Unexpected WAV size for ${name}: ${size} bytes, expected ${EXPECTED_WAV_BYTES}.`);
     files.push({ path: filePath, name, size, sha256: sha256(readFileSync(filePath)), downloadGuid: download.guid });
   }
@@ -344,23 +357,35 @@ async function renderAndDownload(cdp, id) {
   }
   const manifestPath = files.find((file) => file.name.endsWith(".json")).path;
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  const measurement = manifest.render;
-  if (!manifest.motif?.events?.length || !Number.isFinite(measurement?.sampleRate) || measurement.sampleRate !== 48000 ||
+  const measurement = MODE === "extensions" ? { ...manifest.render, ...manifest.render?.measurements } : manifest.render;
+  const eventsPresent = MODE === "extensions" ? manifest.events?.length >= 10 && manifest.source?.sha256 : manifest.motif?.events?.length;
+  const pcmBasis = MODE === "extensions" ? manifest.render?.measurements?.basis : measurement?.measurementBasis;
+  if (!eventsPresent || (MODE === "extensions" && (manifest.source.sha256 !== sha256(readFileSync(path.join(ROOT, `${BASE}/motifs.js`))) ||
+      manifest.render?.channels !== 2 || manifest.render?.format !== "PCM16" || manifest.render?.musicalSeconds !== 19.2 || manifest.render?.tailSeconds !== 0.12)) ||
+      !Number.isFinite(measurement?.sampleRate) || measurement.sampleRate !== 48000 ||
       !Number.isFinite(measurement?.durationSeconds) || !Number.isFinite(measurement?.elapsedMilliseconds) ||
       !(Number.isFinite(measurement?.samplePeakDbfs) || measurement?.samplePeakDbfs === null) ||
       !(Number.isFinite(measurement?.rmsDbfs) || measurement?.rmsDbfs === null) ||
-      !String(measurement?.measurementBasis).includes("not LUFS or true peak")) {
+      !String(pcmBasis).includes(MODE === "extensions" ? "not LUFS or true peak" : "not LUFS or true peak")) {
     throw new Error(`${id} provenance manifest lacks finite PCM readings or the no-LUFS/no-true-peak statement.`);
   }
   return { id, status, displayedMetrics: rowMetrics, files, measurement };
 }
 
 async function main() {
+  if (MODE === "invalid") throw new Error("Usage: runner.mjs [--extensions].");
   if (process.platform !== "win32") throw new Error("Plan 32 controlled renderer is scoped to the authorized Windows host.");
   const actualRoot = realpathSync(process.cwd()).toLowerCase();
   const expectedRoot = realpathSync(ROOT).toLowerCase();
   if (actualRoot !== expectedRoot) throw new Error(`Run from exact repository root ${ROOT}.`);
   const previewPath = path.resolve(ROOT, PAGE);
+  if (MODE === "extensions") {
+    const sourceScript = readFileSync(path.join(ROOT, `${EXT_BASE}/composition-extensions.js`), "utf8");
+    const motifSource = readFileSync(path.join(ROOT, `${BASE}/motifs.js`));
+    const expectedHash = sha256(motifSource);
+    if (!sourceScript.includes(`sha256: "${expectedHash}"`)) throw new Error("Extension source hash does not match the unchanged selected motif source.");
+    if (Buffer.byteLength(sourceScript, "utf8") > 32768) throw new Error("Portable extension source exceeded the 32 KiB source cap.");
+  }
   const outputPath = path.resolve(ROOT, OUTPUT);
   if (!existsSync(previewPath)) throw new Error(`Preview page missing: ${previewPath}`);
   if (!existsSync(CHROME)) throw new Error(`Chrome executable missing: ${CHROME}`);
@@ -425,16 +450,17 @@ async function main() {
       if (sourceRequests.length > 128) sourceRequests.shift();
     }
   });
-  await waitUntil(async () => evaluate(pageCdp, `(() => document.readyState === "complete" && Boolean(document.querySelector("#motif-select") && document.querySelector("#render-button")))()`), 5000, "preview page load");
+  const readySelector = MODE === "extensions" ? "structure-select" : "motif-select";
+  await waitUntil(async () => evaluate(pageCdp, `(() => document.readyState === "complete" && Boolean(document.querySelector(${JSON.stringify(`#${readySelector}`)}) && document.querySelector("#render-button")))()`), 5000, "preview page load");
 
   const previews = [];
   for (const id of IDS) previews.push(await renderAndDownload(pageCdp, id));
   const externalRequests = sourceRequests.filter((url) => !url.startsWith("file:") && !url.startsWith("data:") && !url.startsWith("blob:"));
   if (externalRequests.length) throw new Error(`Unexpected non-local page requests: ${externalRequests.join(", ")}`);
-  const inputs = ["index.html", "preview.css", "motifs.js", "preview.js", "runner.mjs"];
-  const sourceHashes = Object.fromEntries(inputs.map((file) => [file, sha256(readFileSync(path.join(ROOT, BASE, file)))]));
+  const inputs = SOURCE_FILES;
+  const sourceHashes = Object.fromEntries(inputs.map((file) => [file, sha256(readFileSync(path.join(ROOT, file)))]));
   const report = {
-    artifact: "quackpot-plan32-three-bare-melody-previews",
+    artifact: MODE === "extensions" ? "quackpot-plan32-three-composition-structure-previews" : "quackpot-plan32-three-bare-melody-previews",
     generatedAt: new Date().toISOString(),
     browser: { kind: "isolated headless Chrome", pageUrl, loopbackDebugPort: endpoint.port },
     guards: { browserWorkMs: MAX_WORK_MS, totalRunnerMs: MAX_TOTAL_MS, outerWrapper: "Plan 25 bounded-node-run.ps1: 90 seconds, 2 GiB sampled process-tree private bytes, Node heap 1 GiB" },

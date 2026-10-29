@@ -30,7 +30,7 @@ The runner creates a unique profile under the system temporary directory and ope
 
 Headless rendering never plays audio. To audition the completed set at the owner's pace, open `index.html`, choose the A, B, and C WAV files from `history/attempt-02/` in its saved-file picker, then use the explicit Play and Stop buttons. No listening time window is imposed. The page permits one active audio source and stops playback when hidden or closed. The JSON provenance files stay alongside their WAV files.
 
-The owner selected C for the next composition step. See [`../composition-extension-proposal.md`](../composition-extension-proposal.md) for the proposed longer phrase structures and staged backing study. No extension source or audio has been created.
+The owner selected C for the next composition step. See [`../composition-extension-proposal.md`](../composition-extension-proposal.md) for the Stage 1 longer-phrase source and local audition page. Their code is ready for root review; the bounded `runner.mjs --extensions` mode has not been run. Stage 2 backing progressions remain unassigned until the owner chooses a phrase structure.
 
 ## Later evidence to preserve
 

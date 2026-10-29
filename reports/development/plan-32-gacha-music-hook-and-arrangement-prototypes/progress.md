@@ -6,11 +6,15 @@ Prepared the motif, rendering and listening proposal from repaired Plan 33 resea
 
 The headless runs did not audition audio. The owner selected motif C, “Lucky Ripple,” for the next composition step and approved exploring a longer phrase. The implementer has not auditioned the audio. No five-track arrangement, production integration, library installation, deployment, or packet-status change occurred. Root, not this implementer, executed the successful renderer.
 
+QP Orch subsequently approved Stage 1 source authoring. The source maps three eight-bar forms around the exact C motif and the accessible report-local renderer. The existing Plan 32 runner now has a separate `--extensions` mode that reuses its process ownership, isolated Chrome/CDP and cleanup lifecycle. These source changes are awaiting root review: no runner, browser, render or audio job was launched in this stage. Stage 2 progressions and the five later mood tracks remain unassigned until the owner chooses a structure.
+
 ## Files in scope
 
 - `proposal.md` — three motif sketches, Plan 33 grounded recommendation, later five-track design, evidence limits, and gates.
 - `progress.md` — execution evidence and handoff status.
 - `composition-extension-proposal.md` — source-traceable eight-bar form options, two mapped progression candidates, staged listening sequence, and proposed file/resource gates.
+- `composition-extensions.js` — portable classic-script source wrapper, exact C source hash and origin-annotated S1/S2/S3 event maps.
+- `composition-preview/index.html`, `preview.css`, `preview.js` — accessible local renderer and owner playback controls with fixed gain and PCM-only labels.
 - `motif-preview/README.md` — source inventory, guarded command, numbered attempts, and owner listening steps.
 - `motif-preview/index.html`, `preview.css`, `motifs.js`, `preview.js` — report-local source data, renderer, and owner playback controls.
 - `motif-preview/runner.mjs` — bounded headless browser/CDP renderer with unique attempt directories and cleanup-aware records.
@@ -35,6 +39,17 @@ No files outside `reports/development/plan-32-gacha-music-hook-and-arrangement-p
 - Owner's post-preview selection of C and direction relayed by QP Orch for a bounded longer-phrase proposal
 
 ## Checks and execution evidence
+
+- For this source-authoring phase, `git diff --check` was the only workspace validation check. A read-only SHA-256 lookup recorded the current motif source identity. No JavaScript syntax command, test, build, browser, runner, or audio rendering job was run. Source review confirmed that the local page uses classic script loading rather than `fetch()` for `file://` compatibility and that the runner uses the existing guarded lifecycle.
+- The motif source SHA-256 embedded in `composition-extensions.js` is `3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02`, read from the current unchanged `motif-preview/motifs.js`. Extension runner mode checks this relationship before launching Chrome.
+- The extension preview is 19.2 seconds of musical form plus 0.12 seconds of release tail: 19.32 seconds, 3,709,484 bytes for stereo 48 kHz PCM16, and one 7,418,880-byte float32 buffer. The UI and runner cap WAVs at 3,800,000 bytes. These are calculated bounds, not observed render or memory results.
+- Proposed command for root review only; **not run**:
+
+  ```powershell
+  .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/runner.mjs','--extensions')
+  ```
+
+- The `--extensions` mode selects the new page and a fresh `composition-preview/history/attempt-01/`, caps each render at 15 seconds, browser work at 70 seconds, total runner at 79 seconds, each WAV at 3,800,000 bytes, and provenance at 32 KiB. It refuses reuse of an existing attempt directory. Outer launcher caps remain 90 seconds, 2 GiB sampled process-tree private bytes and 1 GiB Node heap. Root must review the exact changed runner and command before any launch.
 
 - Initial `node scripts/dev/plan-status.js check 32` returned `RUNNABLE: plan-32 is ready to implement`. **Preflight process deviation:** the read-only check was accidentally invoked directly through Node before seeing the handoff's more specific wrapper instruction. Root reviewed it and dispositioned that no repeat was needed. No retry was made.
 - Read-only inspection found Vite as the sole package dependency, no audio-specific dependency, the existing Plan 18 PCM peak/RMS probe, and no `ffmpeg`, `ffprobe`, `sox` or Audacity executable on PATH. No Python audio packages were probed.
@@ -77,12 +92,12 @@ The first headless attempt's selection failure and unknown detailed cleanup disp
 
 Motif C is owner-selected. Open `motif-preview/index.html`, select the WAV files from `history/attempt-02/` in the saved-file picker, and use the explicit Play/Stop controls at the owner's own pace. The next proposed owner listening decision—after root reviews and separately authorizes extension previews—is which longer phrase structure to pursue and which later chord loop supports the hook. No listening notes about the generated previews have been relayed; the motif selection is recorded as the owner's choice.
 
-The proposed two-stage extension work and exact file/resource scope are in `composition-extension-proposal.md`. The five full-loop variants remain separately gated. Root must resolve an available offline BS.1770/R128 integrated-loudness and dBTP meter or another comparison convention before that work. The current readings do not authorize loudness-matched arrangement claims, production integration, or deployment.
+The completed Stage 1 source and exact command proposal are in `composition-extension-proposal.md`; root review is the next gate before any execution. The 3.8 MB WAV cap, classic-script local data loading, S1/S2/S3 labels, 19.32-second duration, non-normalized fixed gain, and PCM-only labels reflect QP Orch's scope clarifications. There is no seamless-loop/crossfade claim. The owner’s later structure selection is required before Stage 2 harmonic loops can be assigned. The five full-loop variants, loudness metering, production integration, and deployment remain separately gated.
 
 ## Consultation posture
 
-**Branch C — orchestrator-gate-only.** No advisor consultation ran. The owner authorized the three-preview work and selected C for the proposed longer-phrase exploration; root reviewed the exact source/command and owned the single successful execution. The current composition extension is still a proposal. No advisor budget or provider dispatch was assigned. No reviewer or model consultation is claimed.
+**Branch C — orchestrator-gate-only.** No advisor consultation ran. QP Orch authorized Stage 1 source authoring and the bounded runner adaptation, but assigned no reviewer or advisor budget. No rendering, playback or audio claims are made in this source-review phase.
 
 ## Handoff status
 
-Ready for root review of `composition-extension-proposal.md`. Motif C is owner-selected. Any extension source/rendering needs a separate root gate under the proposal's staged scope; the five longer controlled arrangements and all production changes remain separately gated. This does not complete Plan 32. Do not set packet completion status.
+Ready for root review of `composition-extensions.js`, the `composition-preview/` page, the `--extensions` runner branch, and the proposed guarded command in `composition-extension-proposal.md`. No command was run. This does not complete Plan 32. Stage 2 remains unassigned pending the owner’s structure choice. Do not set packet completion status.

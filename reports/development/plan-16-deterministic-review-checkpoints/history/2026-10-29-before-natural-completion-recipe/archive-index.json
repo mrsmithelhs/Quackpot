@@ -1,0 +1,24 @@
+{
+  "archive": "pre-natural-completion-recipe",
+  "archivedAt": "2026-10-29",
+  "sourceRevision": "d15b526",
+  "purpose": "Preserve original fixture bytes, manifest provenance and append-only create-pending regeneration records before the approved pending-restore recipe revision.",
+  "note": "Original hashes verified before and after Move-Item. Existing controlled-vite-phase-results.jsonl remains active and unchanged.",
+  "files": [
+    {
+      "file": "checkpoint-manifest.json",
+      "bytes": 11566,
+      "sha256": "92b5ea49e14b9fdaee29ac74c771b6bc661dc302c379e7bd88ad44ee164c7c86"
+    },
+    {
+      "file": "pending-reveal.save.json",
+      "bytes": 7134,
+      "sha256": "8fddc14974b59aca6eefb61244114d1a914a6bf34dec56ce1d582ad057b4b099"
+    },
+    {
+      "file": "proof-results.jsonl",
+      "bytes": 22209,
+      "sha256": "0f09e0a6917d694cfb18435bd4ca4aeb6e65dec81c9ed3ea9887678adb25b2af"
+    }
+  ]
+}

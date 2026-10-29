@@ -39,8 +39,16 @@
 
     <section aria-labelledby="result-heading">
       <h2 id="result-heading">Rendered previews</h2>
-      <p class="muted">Preview samples appear here one at a time. Render A, B and C serially. Download links save WAV files into the runner’s approved Plan 32 preview folder.</p>
+      <p class="muted">Preview samples appear here one at a time. Render A, B and C serially. The headless runner saves WAV and provenance files into the approved Plan 32 preview folder.</p>
       <ol id="preview-list" class="preview-list" aria-label="Rendered motif previews"></ol>
+    </section>
+
+    <section aria-labelledby="saved-heading">
+      <h2 id="saved-heading">Listen later to saved previews</h2>
+      <p>After the bounded render run, select its three saved WAV files here. Play one at a time, or stop immediately. The page does not autoplay. The associated JSON provenance files remain alongside each WAV.</p>
+      <label class="file-label" for="saved-preview-files">Choose saved Plan 32 WAV previews</label>
+      <input id="saved-preview-files" type="file" accept="audio/wav,.wav" multiple>
+      <ol id="saved-preview-list" class="preview-list" aria-label="Saved previews ready to play"></ol>
     </section>
 
     <section aria-labelledby="listening-heading">

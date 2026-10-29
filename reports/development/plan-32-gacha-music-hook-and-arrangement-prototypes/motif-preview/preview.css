@@ -57,6 +57,7 @@ button, select, a.download {
   color: var(--ink);
   font: inherit;
 }
+input[type="file"] { display: block; margin: 8px 0; max-width: 100%; }
 button, a.download { cursor: pointer; }
 button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
 @media (prefers-color-scheme: dark) { button.primary { color: #10201d; } }

@@ -8,9 +8,14 @@
   const stopButton = document.getElementById("stop-button");
   const status = document.getElementById("status");
   const list = document.getElementById("preview-list");
+  const savedFiles = document.getElementById("saved-preview-files");
+  const savedList = document.getElementById("saved-preview-list");
   const rendered = new Map();
+  const savedUrls = new Set();
   let activeAudio = null;
   let renderInProgress = false;
+  let renderFailedClosed = false;
+  let playRequestToken = 0;
 
   const secondsPerBeat = 60 / source.tempoBpm;
   const phraseSeconds = source.bars * source.beatsPerBar * secondsPerBeat;
@@ -40,6 +45,7 @@
       const samples = buffer.getChannelData(channel);
       for (let index = 0; index < samples.length; index += 1) {
         const value = samples[index];
+        if (!Number.isFinite(value)) throw new Error("Offline render produced a non-finite PCM sample.");
         const magnitude = Math.abs(value);
         if (magnitude > peak) peak = magnitude;
         sumSquares += value * value;
@@ -47,6 +53,27 @@
       }
     }
     return { peak, rms: Math.sqrt(sumSquares / Math.max(count, 1)) };
+  }
+
+  function validateMotif(motif) {
+    const phraseBeats = source.bars * source.beatsPerBar;
+    const patch = source.patch;
+    const finite = [source.tempoBpm, source.tonicMidi, patch.sampleRate, patch.voicePeak, patch.masterGain,
+      patch.attackSeconds, patch.decaySeconds, patch.sustainRatio, patch.releaseSeconds, patch.tailSeconds];
+    if (finite.some((value) => !Number.isFinite(value)) || source.tempoBpm <= 0 || source.sampleRate !== 48000 ||
+        source.bars !== 2 || source.beatsPerBar !== 4 || patch.sampleRate !== 48000 || patch.masterGain <= 0 || patch.masterGain > 1 ||
+        patch.waveform !== "triangle" ||
+        patch.voicePeak <= 0 || patch.voicePeak > 1 || patch.tailSeconds <= 0 || patch.tailSeconds > 0.5 ||
+        !Array.isArray(motif.events) || motif.events.length < 1 || motif.events.length > 16) {
+      throw new Error("Preview source settings failed their finite, bounded validation.");
+    }
+    for (const event of motif.events) {
+      if (![event.beat, event.midi, event.durationBeats, event.velocity].every(Number.isFinite) ||
+          event.beat < 0 || event.durationBeats <= 0 || event.beat + event.durationBeats > phraseBeats ||
+          !Number.isInteger(event.midi) || event.midi < 0 || event.midi > 127 || event.velocity < 0 || event.velocity > 1) {
+        throw new Error(`Invalid note event in motif ${motif.id}.`);
+      }
+    }
   }
 
   function writeAscii(view, offset, value) {
@@ -88,9 +115,13 @@
   }
 
   function renderMotif(motif) {
+    validateMotif(motif);
     const patch = source.patch;
     const duration = phraseSeconds + patch.tailSeconds;
     const frameCount = Math.ceil(duration * patch.sampleRate);
+    if (!Number.isFinite(frameCount) || frameCount < 1 || frameCount > patch.sampleRate * 10) {
+      throw new Error("Preview frame count exceeds its ten-second bound.");
+    }
     const context = new OfflineAudioContext(2, frameCount, patch.sampleRate);
     const output = context.createGain();
     output.gain.value = patch.masterGain;
@@ -119,15 +150,45 @@
       voice.stop(end);
     });
 
-    return context.startRendering();
+    let timer;
+    const rendering = context.startRendering();
+    const deadline = new Promise((resolve, reject) => {
+      timer = setTimeout(() => {
+        const error = new Error("Offline render exceeded its 8-second per-preview limit; stop this run and report it to root.");
+        error.code = "RENDER_TIMEOUT";
+        reject(error);
+      }, 8000);
+    });
+    return Promise.race([rendering, deadline]).finally(() => clearTimeout(timer));
   }
 
   function stopAudio() {
-    if (!activeAudio) return;
-    activeAudio.pause();
-    activeAudio.currentTime = 0;
+    playRequestToken += 1;
+    if (activeAudio) {
+      activeAudio.pause();
+      activeAudio.currentTime = 0;
+    }
     activeAudio = null;
     stopButton.disabled = true;
+  }
+
+  async function playAudio(audio, title) {
+    stopAudio();
+    const requestToken = ++playRequestToken;
+    activeAudio = audio;
+    stopButton.disabled = false;
+    try {
+      await audio.play();
+      if (requestToken === playRequestToken && activeAudio === audio) {
+        status.textContent = `Playing ${title}. Use Stop audio to stop immediately.`;
+      }
+    } catch (error) {
+      if (requestToken === playRequestToken && activeAudio === audio) {
+        activeAudio = null;
+        stopButton.disabled = true;
+        status.textContent = `Could not play preview: ${error.message}`;
+      }
+    }
   }
 
   function renderRow(motif, record) {
@@ -149,22 +210,12 @@
     audio.preload = "none";
     audio.hidden = true;
     audio.src = record.url;
-    play.addEventListener("click", async () => {
-      stopAudio();
-      activeAudio = audio;
-      stopButton.disabled = false;
-      try {
-        await audio.play();
-        status.textContent = `Playing ${motif.title}. Use Stop audio to stop immediately.`;
-      } catch (error) {
-        activeAudio = null;
-        stopButton.disabled = true;
-        status.textContent = `Could not play preview: ${error.message}`;
-      }
-    });
+    play.addEventListener("click", () => { void playAudio(audio, motif.title); });
     audio.addEventListener("ended", () => {
-      if (activeAudio === audio) stopAudio();
-      status.textContent = `${motif.title} finished.`;
+      if (activeAudio === audio) {
+        stopAudio();
+        status.textContent = `${motif.title} finished.`;
+      }
     });
 
     const download = document.createElement("a");
@@ -178,6 +229,36 @@
     manifest.download = `plan32-motif-${motif.id.toLowerCase()}-manifest.json`;
     manifest.textContent = `Download ${motif.id} data`;
     row.append(meta, play, download, manifest, audio);
+    return row;
+  }
+
+  function renderSavedRow(file) {
+    const row = document.createElement("li");
+    row.className = "preview-row";
+    const meta = document.createElement("div");
+    meta.className = "preview-meta";
+    const title = document.createElement("strong");
+    title.textContent = file.name;
+    const note = document.createElement("span");
+    note.textContent = "Saved WAV · owner listening only · no LUFS/true-peak claim";
+    meta.append(title, note);
+    const audio = document.createElement("audio");
+    audio.preload = "none";
+    audio.hidden = true;
+    audio.src = URL.createObjectURL(file);
+    savedUrls.add(audio.src);
+    const play = document.createElement("button");
+    play.type = "button";
+    play.textContent = "Play";
+    play.setAttribute("aria-label", `Play saved preview ${file.name}`);
+    play.addEventListener("click", () => { void playAudio(audio, file.name); });
+    audio.addEventListener("ended", () => {
+      if (activeAudio === audio) {
+        stopAudio();
+        status.textContent = `${file.name} finished.`;
+      }
+    });
+    row.append(meta, play, audio);
     return row;
   }
 
@@ -201,6 +282,10 @@
   renderButton.addEventListener("click", async () => {
     if (renderInProgress) return;
     const motif = getMotif(select.value);
+    if (renderFailedClosed) {
+      status.textContent = "Rendering stopped after a bounded failure. Close the page and report the error to root.";
+      return;
+    }
     if (!motif || typeof OfflineAudioContext !== "function") {
       status.textContent = "This browser does not provide OfflineAudioContext. Stop here and report the limitation to root.";
       return;
@@ -258,10 +343,11 @@
       status.textContent = `${motif.title} rendered once at fixed common gain. PCM sample peak ${formatDbfs(record.peak)}; RMS ${formatDbfs(record.rms)}. These are not LUFS or true-peak readings. Download the WAV if needed.`;
     } catch (error) {
       status.textContent = `Preview render stopped: ${error.message}`;
+      renderFailedClosed = true;
     } finally {
       buffer = null;
       renderInProgress = false;
-      renderButton.disabled = false;
+      renderButton.disabled = renderFailedClosed;
       select.disabled = false;
       refreshDescription();
     }
@@ -272,6 +358,22 @@
     status.textContent = "Audio stopped.";
   });
 
+  savedFiles.addEventListener("change", () => {
+    stopAudio();
+    for (const url of savedUrls) URL.revokeObjectURL(url);
+    savedUrls.clear();
+    const files = [...savedFiles.files].filter((file) => file.name.toLowerCase().endsWith(".wav"));
+    savedList.replaceChildren(...files.map(renderSavedRow));
+    status.textContent = files.length ? `Loaded ${files.length} saved WAV preview${files.length === 1 ? "" : "s"}. No audio starts until Play is pressed.` : "Choose one or more saved WAV preview files.";
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden" && activeAudio) {
+      stopAudio();
+      status.textContent = "Audio stopped because the page was hidden.";
+    }
+  });
+
   window.addEventListener("pagehide", () => {
     stopAudio();
     rendered.forEach((record) => {
@@ -279,5 +381,7 @@
       URL.revokeObjectURL(record.manifestUrl);
     });
     rendered.clear();
+    for (const url of savedUrls) URL.revokeObjectURL(url);
+    savedUrls.clear();
   }, { once: true });
 })();

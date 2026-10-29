@@ -1,7 +1,8 @@
 ---
 id: plan-34
 title: Weather runtime extraction without mounting
-status: in-progress
+status: complete
+resolution: "Owner accepts unmounted weather extraction after root source review and clip-contract repair. Focused serial tests and identical baseline/final dist hashes recorded; no current app consumer or visual change. Runtime mounting, surfaces/triggers/preferences/Receipt/credits and pending device/composite evidence remain separate gates. No push or deployment."
 
 depends_on: [plan-26]
 gate: "Owner authorizes extraction assignment after Plan26 investigation closure; root reviews exact contract and delivery. Mounting remains a separate packet."

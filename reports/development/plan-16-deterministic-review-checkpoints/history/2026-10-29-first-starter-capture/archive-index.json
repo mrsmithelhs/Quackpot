@@ -1,0 +1,37 @@
+{
+  "archive": "first-starter-capture-provenance",
+  "archivedAt": "2026-10-29",
+  "checkpointId": "qp16.starter-offer.v1",
+  "captureSourceRevision": "cdf757a2ce3f98f64f9159521ad20854cf8e917e",
+  "captureSourceFingerprint": "2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d",
+  "captureRecipeFingerprint": "cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185",
+  "fixtureSha256": "e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9",
+  "purpose": "Freeze the exact first mounted starter capture and its original manifest, recipe and append-only evidence before adding a separate replay-loader identity.",
+  "files": [
+    {
+      "file": "starter-offer.save.json",
+      "bytes": 169427,
+      "sha256": "e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9"
+    },
+    {
+      "file": "checkpoint-proof.capture.mjs",
+      "bytes": 42131,
+      "sha256": "cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185"
+    },
+    {
+      "file": "checkpoint-manifest.capture.json",
+      "bytes": 25956,
+      "sha256": "000a721a8a1d8c3616148634e08ebdf520a1993ea36691e50e3fec58f24a3909"
+    },
+    {
+      "file": "proof-results.capture.jsonl",
+      "bytes": 50926,
+      "sha256": "b3033a9ea2d325d60985b8d18e07ef37d03fc444bb1e98425da633d242b916a0"
+    },
+    {
+      "file": "controlled-vite-phase-results.capture.jsonl",
+      "bytes": 109508,
+      "sha256": "30923dc3eb9d1f0b24b65d0cd2e76bf147d16a034a630d4d4e1cb11eeacb23f5"
+    }
+  ]
+}

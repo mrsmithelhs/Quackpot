@@ -28,7 +28,12 @@ const SERVED_FILES = [
 const SOURCE_ROOT_FILES = ['index.html', 'vite.config.mjs', 'package.json', 'package-lock.json'];
 const MANIFEST_PATH = path.join(OUT, 'checkpoint-manifest.json');
 const RESULT_PATH = path.join(OUT, 'proof-results.jsonl');
-const PHASES = new Set(['create-pending', 'pending-restore', 'starter-capture', 'branch-accept', 'branch-decline']);
+const STARTER_CAPTURE_ARCHIVE = path.join(OUT, 'history/2026-10-29-first-starter-capture');
+const STARTER_CAPTURE_RECIPE_SHA256 = 'cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185';
+const STARTER_CAPTURE_FIXTURE_SHA256 = 'e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9';
+const STARTER_CAPTURE_SOURCE_REVISION = 'cdf757a2ce3f98f64f9159521ad20854cf8e917e';
+const STARTER_CAPTURE_SOURCE_FINGERPRINT = '2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d';
+const PHASES = new Set(['create-pending', 'pending-restore', 'branch-accept', 'branch-decline']);
 const argv = process.argv.slice(2);
 const arg = (name) => {
   const index = argv.indexOf(name);
@@ -71,6 +76,109 @@ function manifestEntryFresh(entry, source) {
   return Boolean(entry && entry.sourceFingerprint === source.fingerprint
     && entry.recipeFingerprint === source.recipeFingerprint
     && JSON.stringify(entry.sourceFiles) === JSON.stringify(source.files));
+}
+
+function capturedStarterLoaderIdentityFresh(entry, source) {
+  return Boolean(entry?.checkpointMode === 'captured-replayable'
+    && entry.recipeFingerprint === STARTER_CAPTURE_RECIPE_SHA256
+    && entry.fixtureSha256 === STARTER_CAPTURE_FIXTURE_SHA256
+    && entry.sourceRevision === STARTER_CAPTURE_SOURCE_REVISION
+    && entry.sourceFingerprint === STARTER_CAPTURE_SOURCE_FINGERPRINT
+    && entry.captureProvenance?.mode === 'single-mounted-capture'
+    && entry.captureProvenance.recipeFingerprint === STARTER_CAPTURE_RECIPE_SHA256
+    && entry.captureProvenance.sourceRevision === STARTER_CAPTURE_SOURCE_REVISION
+    && entry.captureProvenance.sourceFingerprint === STARTER_CAPTURE_SOURCE_FINGERPRINT
+    && entry.captureProvenance.fixtureSha256 === STARTER_CAPTURE_FIXTURE_SHA256
+    && entry.loaderValidation?.mode === 'captured-fixture-loader'
+    && entry.loaderValidation.recipeFile === 'reports/development/plan-16-deterministic-review-checkpoints/checkpoint-proof.mjs'
+    && entry.loaderValidation.recipeFingerprint === source.recipeFingerprint
+    && entry.loaderValidation.productionSourceClosure === 'checkpoint.sourceFiles'
+    && JSON.stringify(entry.sourceFiles) === JSON.stringify(source.files)
+  );
+}
+
+function assertCapturedStarterLoaderNegativeControls(entry, source) {
+  const staleLoader = structuredClone(entry);
+  staleLoader.loaderValidation.recipeFingerprint = 'stale-loader-recipe';
+  if (capturedStarterLoaderIdentityFresh(staleLoader, source)) fail('Stale captured-fixture loader recipe negative control was accepted.');
+  const staleSource = structuredClone(entry);
+  staleSource.sourceFiles['src/core/game-engine.mjs'] = 'stale-production-source';
+  if (capturedStarterLoaderIdentityFresh(staleSource, source)) fail('Stale captured-fixture production-source negative control was accepted.');
+  return { staleLoaderRecipeRejected: true, staleProductionSourceRejected: true };
+}
+
+async function assertCapturedStarterFresh(manifest, source, fixtureRaw) {
+  const checkpointId = 'qp16.starter-offer.v1';
+  const entry = manifest.checkpoints?.[checkpointId];
+  if (!capturedStarterLoaderIdentityFresh(entry, source)) fail('Captured starter is stale for current production source or loader identity.');
+  if (sha256(fixtureRaw) !== STARTER_CAPTURE_FIXTURE_SHA256) fail('Captured starter active fixture bytes differ from the owner-approved capture hash.');
+
+  const archiveIndex = await readJson(path.join(STARTER_CAPTURE_ARCHIVE, 'archive-index.json'));
+  if (archiveIndex.checkpointId !== checkpointId
+      || archiveIndex.captureRecipeFingerprint !== STARTER_CAPTURE_RECIPE_SHA256
+      || archiveIndex.captureSourceRevision !== STARTER_CAPTURE_SOURCE_REVISION
+      || archiveIndex.captureSourceFingerprint !== STARTER_CAPTURE_SOURCE_FINGERPRINT
+      || archiveIndex.fixtureSha256 !== STARTER_CAPTURE_FIXTURE_SHA256) {
+    fail('Captured starter archive provenance does not match its pinned original capture identity.');
+  }
+  const expectedFiles = [
+    'starter-offer.save.json', 'checkpoint-proof.capture.mjs', 'checkpoint-manifest.capture.json',
+    'proof-results.capture.jsonl', 'controlled-vite-phase-results.capture.jsonl',
+  ].sort();
+  const archiveFiles = archiveIndex.files;
+  if (!Array.isArray(archiveFiles) || JSON.stringify(archiveFiles.map((item) => item.file).sort()) !== JSON.stringify(expectedFiles)) {
+    fail('Captured starter archive file set differs from the approved provenance set.');
+  }
+  let archiveBytes = 0;
+  const archiveContents = {};
+  for (const record of archiveFiles) {
+    if (!Number.isSafeInteger(record.bytes) || record.bytes < 0 || record.bytes > 1024 * 1024 || !/^[a-f0-9]{64}$/.test(record.sha256 ?? '')) {
+      fail(`Captured starter archive index has an invalid size/hash entry for ${record.file}.`);
+    }
+    archiveBytes += record.bytes;
+    if (archiveBytes > 2 * 1024 * 1024) fail('Captured starter provenance archive exceeds its 2 MiB verification bound.');
+    const bytes = await readFile(path.join(STARTER_CAPTURE_ARCHIVE, record.file));
+    if (bytes.length !== record.bytes || sha256(bytes) !== record.sha256) fail(`Captured starter archive hash/size mismatch for ${record.file}.`);
+    archiveContents[record.file] = bytes;
+  }
+  if (sha256(archiveContents['checkpoint-proof.capture.mjs']) !== STARTER_CAPTURE_RECIPE_SHA256
+      || sha256(archiveContents['starter-offer.save.json']) !== STARTER_CAPTURE_FIXTURE_SHA256) {
+    fail('Archived starter recipe or fixture fails its pinned original SHA-256.');
+  }
+  const originalManifest = JSON.parse(archiveContents['checkpoint-manifest.capture.json'].toString('utf8'));
+  const originalEntry = originalManifest.checkpoints?.[checkpointId];
+  if (!originalEntry || originalEntry.recipeFingerprint !== STARTER_CAPTURE_RECIPE_SHA256
+      || originalEntry.fixtureSha256 !== STARTER_CAPTURE_FIXTURE_SHA256
+      || originalEntry.sourceRevision !== STARTER_CAPTURE_SOURCE_REVISION
+      || originalEntry.sourceFingerprint !== STARTER_CAPTURE_SOURCE_FINGERPRINT
+      || JSON.stringify(originalEntry.sourceFiles) !== JSON.stringify(entry.sourceFiles)) {
+    fail('Archived original starter manifest does not match the pinned capture provenance.');
+  }
+  if (sha256(JSON.stringify({ files: originalEntry.sourceFiles, recipeFingerprint: originalEntry.recipeFingerprint })) !== STARTER_CAPTURE_SOURCE_FINGERPRINT) {
+    fail('Archived starter source fingerprint does not match its original source-file map and recipe hash.');
+  }
+  const archivedProofResults = archiveContents['proof-results.capture.jsonl'].toString('utf8').split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line));
+  const capturedRecord = archivedProofResults.filter((record) => record.phase === 'starter-capture'
+    && record.fixtureHash === STARTER_CAPTURE_FIXTURE_SHA256 && record.valid === true);
+  if (capturedRecord.length !== 1) fail('Archive does not contain exactly one successful first starter-capture proof record.');
+  const archivedHelperResults = archiveContents['controlled-vite-phase-results.capture.jsonl'].toString('utf8').split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line));
+  const successfulCapture = archivedHelperResults.filter((record) => record.phase === 'starter-capture'
+    && record.proof?.exit?.code === 0 && record.cleanup?.residual === false && record.cleanup?.uncertainty === false);
+  if (successfulCapture.length !== 1) fail('Archive does not contain exactly one clean controlled helper record for the first starter capture.');
+
+  const provenanceControls = assertCapturedStarterLoaderNegativeControls(entry, source);
+  return {
+    checkpointClass: entry.checkpointMode,
+    fixtureSha256: STARTER_CAPTURE_FIXTURE_SHA256,
+    captureSourceRevision: STARTER_CAPTURE_SOURCE_REVISION,
+    captureSourceFingerprint: STARTER_CAPTURE_SOURCE_FINGERPRINT,
+    captureRecipeFingerprint: STARTER_CAPTURE_RECIPE_SHA256,
+    loaderRecipeFingerprint: source.recipeFingerprint,
+    loaderProductionFilesMatched: true,
+    archiveFilesVerified: archiveFiles.length,
+    archiveBytesVerified: archiveBytes,
+    provenanceControls,
+  };
 }
 
 async function atomicJson(file, value) {
@@ -545,9 +653,8 @@ async function runBranch(branch) {
   const fixturePath = path.join(OUT, 'starter-offer.save.json');
   const fixtureRaw = await readFile(fixturePath, 'utf8');
   const manifest = await readJson(MANIFEST_PATH);
-  assertFreshManifest(manifest, 'qp16.starter-offer.v1', sourceProof.local);
+  const starterProvenance = await assertCapturedStarterFresh(manifest, sourceProof.local, fixtureRaw);
   if (!manifest.servedSourceHashes || JSON.stringify(manifest.servedSourceHashes) !== JSON.stringify(sourceProof.served)) fail('Served source identity differs from the exact source map recorded in the manifest.');
-  if (sha256(fixtureRaw) !== manifest.checkpoints['qp16.starter-offer.v1']?.fixtureSha256) fail('Starter fixture hash mismatch.');
   assertValid(JSON.parse(fixtureRaw), 'starter fixture');
   let browser;
   try {
@@ -570,16 +677,16 @@ async function runBranch(branch) {
         || after.envelope.state.starterBought !== (branch === 'accept')) fail(`Starter ${branch} branch reward/state effect mismatch.`);
     const roundTrip = GameEngine.fromEnvelope(after.envelope).toEnvelope();
     if (semanticJson(after.envelope) !== semanticJson(roundTrip)) fail(`Starter ${branch} continuation hydrate/serialize round-trip differed.`);
-    await appendResult({ phase: `branch-${branch}`, source: sourceProof, fixtureHash: sha256(fixtureRaw), outcome: branch, addedEvents: relevant.map((entry) => ({ type: entry.type, payload: entry.payload })), starterEventCount: starterEvents.length, finalContext: { step: after.envelope.state.step, activeModal: after.envelope.state.activeModal, day: after.envelope.state.clock.day, phase: after.envelope.state.phase }, expectedCash, actualCash: after.envelope.state.cash, expectedGems: before.gems + (branch === 'accept' ? 240 : 0), actualGems: after.envelope.state.gems, continuationValid: true, autosaveMatchesMountedRoute: true });
+    await appendResult({ phase: `branch-${branch}`, source: sourceProof, fixtureHash: sha256(fixtureRaw), starterProvenance, outcome: branch, addedEvents: relevant.map((entry) => ({ type: entry.type, payload: entry.payload })), starterEventCount: starterEvents.length, finalContext: { step: after.envelope.state.step, activeModal: after.envelope.state.activeModal, day: after.envelope.state.clock.day, phase: after.envelope.state.phase }, expectedCash, actualCash: after.envelope.state.cash, expectedGems: before.gems + (branch === 'accept' ? 240 : 0), actualGems: after.envelope.state.gems, continuationValid: true, autosaveMatchesMountedRoute: true });
   } finally { await closeChrome(browser); }
 }
 
 async function main() {
+  if (phase === 'starter-capture') fail('Fresh starter capture is disabled after the owner-approved immutable capture amendment; preserve and replay the pinned starter fixture.');
   if (!PHASES.has(phase)) fail(`Choose one phase: ${[...PHASES].join(', ')}`);
   await mkdir(OUT, { recursive: true });
   if (phase === 'create-pending') return createPending();
   if (phase === 'pending-restore') return runPendingRestore();
-  if (phase === 'starter-capture') return runStarterCapture();
   return runBranch(phase.slice('branch-'.length));
 }
 

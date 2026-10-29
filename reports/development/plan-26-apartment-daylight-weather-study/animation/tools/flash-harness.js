@@ -256,9 +256,9 @@ export async function flashRedDiagnostic(id, { W = null } = {}) {
   } finally { for (const a of held.anims) { try { a.cancel(); } catch { /* gone */ } } await sleep(80); held.done(); restoreRain(inst.ctl); }
   return {
     id, look: lookName(), viewport: `${innerWidth}x${innerHeight}`, dpr: devicePixelRatio, rasterSize: `${w}x${h}`, rasterScaleToCss: round(w / sr.width, 3), pixels: n, framesSampled: times.length,
-    definition: 'saturated red: R/(R+G+B) >= 0.8; red value: max(0, R-G-B)*320 on 0..1 channels; red transition: consecutive frames with either end saturated red and a red-value change >= 20; red flash pixel: has both a rising and a falling red transition; both channel bases shown',
+    definition: 'HISTORICAL CUSTOM METRIC (Stage D review correction): reports saturated-red PRESENCE (R/(R+G+B) >= 0.8, both channel bases) and an ADJACENT-SAMPLE red-step counter (red value max(0,R-G-B)*320 changing by >= 20 between consecutive frames, either end saturated red). It is NOT an adequate red-flash test: it does not look for peak/valley transitions across the pulse, so a gradual return can be an opposing transition that no single adjacent step shows, and "0 opposing pairs" is not evidence of no red flashes. It is not the W3C method (linearised RGB with a CIE 1976 chromaticity-distance reading).',
     srgbEncoded: trackers.srgb.result(), linearised: trackers.linear.result(),
-    limits: 'totals over the whole raster at CSS scale; no area, frequency or pass claim; simplified, not a conformance analysis; says nothing about colours outside the sampled frames or other framings',
+    limits: 'only the descriptive counts are meaningful (saturated-red pixels present in the sampled frames, per basis); totals over the whole raster at CSS scale; positions and directions of any transition were not recorded; "maxRedValue" and the transition and opposing-pair counts are NOT standards bounds and are not safety evidence; red-flash assessment remains unresolved; no area, frequency or pass claim; says nothing about colours outside the sampled frames or other framings',
     heapGrowthMB: heap() === null ? null : Math.round((heap() - h0) / 1e6)
   };
 }

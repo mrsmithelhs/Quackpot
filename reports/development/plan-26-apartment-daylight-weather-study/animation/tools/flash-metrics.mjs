@@ -88,7 +88,10 @@ export function createSwingTracker(n, { delta = .1, darkMax = .8 } = {}) {
 }
 
 /**
- * Saturated-red diagnostic, streamed over RGBA frames (a simplified reading of the WCAG red-flash idea; NOT a conformance analysis). Per pixel and frame:
+ * HISTORICAL CUSTOM METRIC, kept as it was run (Stage D review correction): a saturated-red PRESENCE counter plus an ADJACENT-SAMPLE red-step counter. It is NOT an
+ * adequate red-flash test: it never compares peaks and valleys across the pulse, so a gradual return can be an opposing transition that no single adjacent step
+ * shows, and a zero opposing-pair count is not evidence of no red flashes. It is not the W3C method (linearised RGB, CIE 1976 chromaticity distance). Only the
+ * presence counts are meaningful; the step and pair counts and the red value are not standards bounds. Not a conformance analysis. Per pixel and frame:
  * saturated red = R / (R + G + B) >= `threshold` (0.8); red value = max(0, R - G - B) * 320 on 0..1 channels. A "red transition" is a step between consecutive
  * frames where either end is saturated red and the red value changes by at least `delta` (20). A pixel "flashes red" when it has both a rising and a falling
  * red transition. `linear` picks the channel basis: false = sRGB-encoded values / 255, true = linearised values. Both bases are reported by the harness because

@@ -1,0 +1,3 @@
+# Plan 32 three-melody preview authorization
+
+2026-10-29: owner approves creation of three short bare-melody previews on the proposed basis. Same instrument/tempo/tonic, common conservative gain, sample-peak/RMS only with explicit no-LUFS/true-peak-match claim. Portable source/patch data and local explicit-play/stop audition. Root supervises source review and exact resource/browser batches before renders. No full five-loop arrangements, package installation, other-provider dispatch or production integration authorized. Owner listens and selects motif before full arrangement gate. QP Impl32 notified directly under authorized two-way supervision.

@@ -23,6 +23,8 @@ summary: >-
 
 ## Goal, scope and delivery
 
+**Owner listening decision 2026-10-29:** C, Lucky Ripple, selected from the three short previews. Explore longer melodic structures, accompaniment-led house progressions and occasional motif echoes instead of continuous full-hook repetition. See reports/orchestration/plan-32-motif-c-selection-and-extension-direction.md. Next bounded listening/render proposal precedes executable jobs; no soundtrack or runtime adoption implied.
+
 **Owner assignment 2026-10-29:** In-progress in Codex after accepted Plan 33 research. Use reports/orchestration/plan-32-codex-starting-handoff.md. First return motif/rendering/listening proposal; no audio rendering until owner motif/listening gate and root resource clearance. Later approved first pass targets five renderings: Base, Foil, Uneasy, Dire-Clean and Dire-Filtered. No automatic provider augmentation or subagent budget.
 
 Owner wants synth music with recognizable melodic hooks, recurring instrumentation and room for progressively tense arrangements as metagame circumstances worsen. This packet proposes/composes source motifs; Plan33 independently researches transformation methods. Neither adopts a production audio library or narrative trigger schedule.

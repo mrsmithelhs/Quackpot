@@ -1,0 +1,9 @@
+# Plan 32 — owner chooses Lucky Ripple and broadens musical structure
+
+2026-10-29: owner selects melody option C, Lucky Ripple (reference to Plan16 in the message clearly concerns current Plan32 audio previews). Preserve original preview/source as selected hook, not a complete soundtrack or fixed timbre approval.
+
+Owner wants longer previews embedding the short hook in a larger melody; less-melodic accompaniment-led sections using a few recurring chord progressions/instrument arrangements; possible changes of musical style; and motif echoes even where the full hook is absent. Constant full-hook playback is not required. These are accepted exploration directions, not selected arrangements, production soundtrack adoption or story-trigger policy.
+
+Root directs QP Impl32 to propose a small next listening batch and exact file/rendering scope before executable jobs. Recommended first comparison: three eight-bar extensions, opening/returning to the intact C hook with call-answer, contrasting middle/return and spacious fragmented treatments. Keep first structure comparison broadly common in tempo/tonal center/palette; no full3x5 mood factorial. Then a few coherent accompaniment-led house progressions, with explicit hook-compatible harmony/motif placement rather than generic chord loops. Base/Uneasy/Dire mood remains distinct from hook density or activity intensity. Preserve editable sources for later authorized provider alternatives.
+
+No new provider/subagent budget, installs, render commands, full arrangement library or runtime changes are assigned by this record. Root may clear routine mechanism/resources after proposal review; owner selects audible extension/arrangement direction. Current common-gain/samplepeak/RMS convention applies to approved short previews only; measurement for varied mixes remains an explicit follow-up.

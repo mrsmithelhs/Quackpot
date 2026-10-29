@@ -16,6 +16,8 @@ After that narrow path repair, root ran `node --check` on the runner (0.5179s, p
 
 The runner readings are PCM sample peak/RMS, not LUFS or true peak: S1 -15.65/-32.96 dBFS; S2 -15.64/-32.01 dBFS; S3 -16.23/-35.09 dBFS. Each WAV is 19.32 seconds and 3,709,484 bytes. No perceived-loudness or musical-quality conclusion is made. `composition-preview/evidence-report.md` contains the exact output/source hashes, per-track timings, run controls, cleanup and the retained prelaunch failure evidence. Read-only recomputation matched all five recorded source hashes and the seven output hashes listed in `attempt-record.json`; the embedded motif-source hash also matches the unchanged motif file.
 
+QP Orch authorized a separate delivery commit for the eight existing `composition-preview/history/attempt-01/` outputs (three WAVs, three provenance files, `run-manifest.json`, and `attempt-record.json`). The original untracked `motif-preview/previews/` files remain excluded and untouched. No new rendering, playback, tests or other execution is part of that delivery.
+
 ## Files in scope
 
 - `proposal.md` — three motif sketches, Plan 33 grounded recommendation, later five-track design, evidence limits, and gates.

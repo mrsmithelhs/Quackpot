@@ -1,0 +1,153 @@
+{
+  "artifact": "quackpot-plan32-composition-attempt-record",
+  "attempt": "attempt-01",
+  "status": "completed",
+  "startedAt": "2026-10-29T12:47:51.731Z",
+  "endedAt": "2026-10-29T12:47:54.787Z",
+  "failure": null,
+  "timedOut": {
+    "browserWork": false,
+    "totalRunner": false
+  },
+  "sourceHashes": {
+    "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/composition-extensions.js": "197a304b6adb9199fa858becf6ec83c6216e3608b37b73d76119709c1ae43362",
+    "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/composition-preview/index.html": "b5026abc2cf4b929b8417e948c158ca2003da56f1f5d50929be222a872333586",
+    "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/composition-preview/preview.css": "db74ef5b6369d981d84ca27a25a17f872d3f58a60a06ce14a5326fdd13cabd8d",
+    "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/composition-preview/preview.js": "d3fedffd268254882f0137526239a1d6f62388f396ac0be0cf4eee7b4294716d",
+    "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/runner.mjs": "efb5859503a85e827b55a8f16464d05360b0e182c72b296d8628b4f3647c42bb"
+  },
+  "browser": {
+    "kind": "isolated headless Chrome",
+    "launched": true,
+    "pid": 3192,
+    "exit": {
+      "code": 1,
+      "signal": null,
+      "at": "2026-10-29T12:47:54.710Z"
+    },
+    "spawnError": null,
+    "stderr": "\r\nDevTools listening on ws://127.0.0.1:57335/devtools/browser/b7d3731c-7ef3-4186-ab91-ac0d930e926e\r\n"
+  },
+  "playback": "none; the headless runner did not audition audio",
+  "downloads": [
+    {
+      "guid": "5903c1a1-2952-4b08-b269-09ddd35fa5f4",
+      "name": "plan32-extension-s1-call-answer.wav",
+      "state": "completed",
+      "receivedBytes": 3709484,
+      "totalBytes": 3709484,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s1-call-answer.wav"
+    },
+    {
+      "guid": "bc31c5db-212d-4438-9021-b8483b0d1440",
+      "name": "plan32-extension-s1-call-answer-provenance.json",
+      "state": "completed",
+      "receivedBytes": 13382,
+      "totalBytes": 13382,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s1-call-answer-provenance.json"
+    },
+    {
+      "guid": "4f73bda0-ff00-4322-8912-fa4b23f30301",
+      "name": "plan32-extension-s2-bookend.wav",
+      "state": "completed",
+      "receivedBytes": 3709484,
+      "totalBytes": 3709484,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s2-bookend.wav"
+    },
+    {
+      "guid": "16ee2f1b-14fc-450e-8f12-d88272ee0e8a",
+      "name": "plan32-extension-s2-bookend-provenance.json",
+      "state": "completed",
+      "receivedBytes": 13872,
+      "totalBytes": 13872,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s2-bookend-provenance.json"
+    },
+    {
+      "guid": "f49799ba-defe-43c9-abe9-bc2da1862ae2",
+      "name": "plan32-extension-s3-spacious-provenance.json",
+      "state": "completed",
+      "receivedBytes": 10430,
+      "totalBytes": 10430,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s3-spacious-provenance.json"
+    },
+    {
+      "guid": "1750353d-0035-4339-9683-3e7d703fa871",
+      "name": "plan32-extension-s3-spacious.wav",
+      "state": "completed",
+      "receivedBytes": 3709484,
+      "totalBytes": 3709484,
+      "filePath": "C:\\AI\\Quackpot\\reports\\development\\plan-32-gacha-music-hook-and-arrangement-prototypes\\composition-preview\\history\\attempt-01\\plan32-extension-s3-spacious.wav"
+    }
+  ],
+  "outputFiles": [
+    {
+      "name": "plan32-extension-s1-call-answer-provenance.json",
+      "bytes": 13382,
+      "sha256": "3167a210195b444ed8f6a663b68645d6870c0bdd71cdba49e2d3caa0950d4ffd"
+    },
+    {
+      "name": "plan32-extension-s1-call-answer.wav",
+      "bytes": 3709484,
+      "sha256": "f405eb94341407325f2c23dcf2e2215041ffeb4fc53e768fcdc536266d73d2f1"
+    },
+    {
+      "name": "plan32-extension-s2-bookend-provenance.json",
+      "bytes": 13872,
+      "sha256": "a3e0190794a10e17cf3d214465e8f59893ba6bfca9ca9a8ad3fa4c3893875bcf"
+    },
+    {
+      "name": "plan32-extension-s2-bookend.wav",
+      "bytes": 3709484,
+      "sha256": "9b29ff14d71489653ed58fa2c38fb14ed2f65af88d3daf0d6eaf41618a29f5e3"
+    },
+    {
+      "name": "plan32-extension-s3-spacious-provenance.json",
+      "bytes": 10430,
+      "sha256": "8ab3ef259d695a47f24014b996a2136956f1846e6b439b3b73b4ac7f06cac746"
+    },
+    {
+      "name": "plan32-extension-s3-spacious.wav",
+      "bytes": 3709484,
+      "sha256": "6b921deaaceef64662f900f372b160543ef58e5ce6e81b4449aa917a07f779cc"
+    },
+    {
+      "name": "run-manifest.json",
+      "bytes": 5701,
+      "sha256": "ae1a4fc71860bab86483f03da1b5b1661c59f911d4cff0f3d36e9f2a9b9d9be3"
+    }
+  ],
+  "cleanup": {
+    "chrome": {
+      "stopped": true,
+      "childExited": true,
+      "treeTerminationConfirmed": true,
+      "residual": false,
+      "uncertainty": false,
+      "pid": 3192,
+      "exit": {
+        "code": 1,
+        "signal": null,
+        "at": "2026-10-29T12:47:54.710Z"
+      },
+      "treeKill": {
+        "pid": 31328,
+        "exit": {
+          "code": 0,
+          "signal": null,
+          "at": "2026-10-29T12:47:54.655Z"
+        },
+        "close": {
+          "code": 0,
+          "signal": null,
+          "at": "2026-10-29T12:47:54.655Z"
+        },
+        "error": null,
+        "stdout": "SUCCESS: The process with PID 6108 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 34996 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 37644 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 6440 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 29844 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 31828 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 20624 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 24384 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 23480 (child process of PID 3192) has been terminated.\r\nSUCCESS: The process with PID 3192 (child process of PID 19752) has been terminated.\r\n",
+        "stderr": ""
+      }
+    },
+    "profileRemoved": true,
+    "profileCleanupError": null,
+    "preservedProfilePath": null
+  }
+}

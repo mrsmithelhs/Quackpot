@@ -1,0 +1,620 @@
+{
+  "artifact": "quackpot-plan32-composition-preview",
+  "schema": "quackpot.plan32-composition-extensions/v1",
+  "source": {
+    "file": "motif-preview/motifs.js",
+    "sha256": "3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02",
+    "motifId": "C",
+    "title": "Lucky Ripple",
+    "sourceVersion": 1
+  },
+  "structure": {
+    "id": "S1",
+    "title": "Call, answer, return",
+    "sections": [
+      {
+        "bars": "1-2",
+        "kind": "full-source-hook"
+      },
+      {
+        "bars": "3-4",
+        "kind": "new-answer",
+        "eventRange": [
+          0,
+          10
+        ]
+      },
+      {
+        "bars": "5-6",
+        "kind": "lead-rest-source-echo"
+      },
+      {
+        "bars": "7-8",
+        "kind": "full-source-hook"
+      }
+    ]
+  },
+  "render": {
+    "tempoBpm": 100,
+    "bars": 8,
+    "musicalSeconds": 19.2,
+    "tailSeconds": 0.12,
+    "durationSeconds": 19.32,
+    "elapsedMilliseconds": 157.4,
+    "sampleRate": 48000,
+    "channels": 2,
+    "format": "PCM16",
+    "waveform": "triangle",
+    "masterGain": 0.7,
+    "normalization": "none",
+    "measurements": {
+      "samplePeakDbfs": -15.65,
+      "rmsDbfs": -32.96,
+      "basis": "PCM sample readings only; not LUFS or true peak; no normalization"
+    }
+  },
+  "events": [
+    {
+      "beat": 0,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 0,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 0,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 0.5,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 1,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 1,
+      "midi": 86,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 2,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 2,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 2,
+      "midi": 85,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 3,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 3,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 4,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 3.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 5,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 4,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 4,
+      "midi": 83,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 6,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 5,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 7,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 5.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 8,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 6,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 6,
+      "midi": 74,
+      "durationBeats": 2,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 9,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 8,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 8,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 8.5,
+      "midi": 76,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 9,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 9.5,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 10,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 10,
+      "midi": 83,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 11,
+      "midi": 81,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 12,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 12,
+      "midi": 78,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 13,
+      "midi": 76,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 13.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 14,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 14,
+      "midi": 74,
+      "durationBeats": 2,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "new",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": "answer"
+    },
+    {
+      "beat": 16,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.72,
+      "role": "backing",
+      "origin": "source-derived",
+      "sourceEventIndex": 0,
+      "transform": "unchanged pitch and duration; backing role",
+      "section": null
+    },
+    {
+      "beat": 16,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 16.5,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.72,
+      "role": "backing",
+      "origin": "source-derived",
+      "sourceEventIndex": 1,
+      "transform": "unchanged pitch and duration; backing role",
+      "section": null
+    },
+    {
+      "beat": 18,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 20,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 22,
+      "midi": 85,
+      "durationBeats": 1,
+      "velocity": 0.72,
+      "role": "backing",
+      "origin": "source-derived",
+      "sourceEventIndex": 3,
+      "transform": "unchanged pitch and duration; backing role",
+      "section": null
+    },
+    {
+      "beat": 22,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 23,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.72,
+      "role": "backing",
+      "origin": "source-derived",
+      "sourceEventIndex": 4,
+      "transform": "unchanged pitch and duration; backing role",
+      "section": null
+    },
+    {
+      "beat": 23.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.72,
+      "role": "backing",
+      "origin": "source-derived",
+      "sourceEventIndex": 5,
+      "transform": "unchanged pitch and duration; backing role",
+      "section": null
+    },
+    {
+      "beat": 24,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 24,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 0,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 24.5,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 1,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 25,
+      "midi": 86,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 2,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 26,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 26,
+      "midi": 85,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 3,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 27,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 4,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 27.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 5,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 28,
+      "midi": 50,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 28,
+      "midi": 83,
+      "durationBeats": 1,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 6,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 29,
+      "midi": 81,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 7,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 29.5,
+      "midi": 78,
+      "durationBeats": 0.5,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 8,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 30,
+      "midi": 57,
+      "durationBeats": 2,
+      "velocity": 0.72,
+      "role": "bed",
+      "origin": "shared-support",
+      "sourceEventIndex": null,
+      "transform": null,
+      "section": null
+    },
+    {
+      "beat": 30,
+      "midi": 74,
+      "durationBeats": 2,
+      "velocity": 0.78,
+      "role": "lead",
+      "origin": "source-reused",
+      "sourceEventIndex": 9,
+      "transform": null,
+      "section": null
+    }
+  ],
+  "loop": "No seamless-loop or crossfade claim; music form plus release tail"
+}

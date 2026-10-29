@@ -1,0 +1,5 @@
+# Plan18 closeout — 2026-10-28
+
+Owner accepted starting repertoire:48effects in10pools,15rejected, both music tracks. Export preserved unchanged, SHA256 b8e977ace335b467ef9bf76826c896d2a3006698a5b8681d784f47b65e70eeb2; catalog IDs/paths/hashes match. Main audition repairs and final legacy migration recovery are accepted after source inspection and reported isolated regressions (30 malformed legacy cases, valid compatibility, owner selection exact roundtrip, unchanged canonical paths). Root reran offline Python catalog verifier successfully; no new browser/Node tests. file:// skipped by owner; other browser/AT and listening coverage limited to owner use. Audit details in progress/regression reports.
+
+Packet complete with resolution via bounded CLI; no production audio integration. Selected pending Kenney member provenance stays gated, no silent clearance. Trimming/format/level/mapping/Credits are later preparation/integration. More looping apartment music recorded in Plan30, not closure work. No push/deployment.

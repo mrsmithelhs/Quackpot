@@ -1,7 +1,8 @@
 ---
 id: plan-18
 title: Local audio sources and credits investigation
-status: in-progress
+status: complete
+resolution: "Owner selected 48 effects in 10 pools, rejected 15 and liked both music tracks; export preserved and matched to catalog. Root verified final legacy migration recovery fix and source/evidence; isolated regression covers malformed legacy data and exact owner selection round-trip. Licensed candidate audition complete; member-provenance flags, production preparation/integration and more apartment loops remain separate follow-ups. file URL and other browser/assistive-tech limits retained; no push or deployment."
 depends_on: []
 gate: "Owner selects audition samples and provenance before production integration; audio-source policy approved 2026-10-25."
 summary: >-

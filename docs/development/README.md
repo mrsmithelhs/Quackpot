@@ -26,7 +26,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-15` | Pull anticipation and bounded local cue investigation | draft | Compare short pull anticipation and graceful fast reveal, then investigate bounded fictional cues responding to local actions with truthful Receipt evidence. |
 | `plan-16` | Deterministic review checkpoints and browser briefs | draft | Propose valid engine-generated seeded checkpoints and short review briefs so targeted browser checks can start at the relevant game or metagame beat. |
 | `plan-17` | Down exchange and whole-wallet validation | complete | Validate owner-selected Down prices and odd-bundle examples using actual duplicate payouts, pity rules and whole-wallet balances before shop integration. |
-| `plan-18` | Local audio sources and credits investigation | in-progress | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
+| `plan-18` | Local audio sources and credits investigation | complete | Compare a small set of licensed local sound/music sources and propose opening-screen credits under the owner-approved CC audio policy, without production integration. |
 | `plan-19` | Shell A and context-transition integration | complete | Integrate the selected full-width Shell A, quiet settings/save controls and automatic phone entry/animated return into focused production modules. |
 | `plan-20` | Digital rig and accepted motion integration | complete | Integrate the accepted Mode C digital rig and factor-four motion controller through focused source modules; preserve the physical companion and defer race-event wiring until its mechanics are accepted. |
 | `plan-21` | Duck-Dex inspection and first-owned entry presentation | complete | Add voluntary collection inspection and connect first-owned card reveals to skippable shelf-focus and silhouette-to-color sequences. |
@@ -42,6 +42,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-31` | Influencer apartment transformation study | draft | Compare apartment transformations and displaced possessions for a possible future influencer ending. |
 | `plan-32` | Gacha music hook and arrangement prototypes | draft | Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis. |
 | `plan-33` | Recognizable music emotional transformation research | draft | Research and propose ways to retain musical identity while shifting gacha music toward tension. |
+| `plan-34` | Weather runtime extraction without mounting | draft | Extract accepted weather still/motion and bright lightning into tested unmounted source modules, preserving the art kit and current game behavior. |
 <!-- plan-index:end -->
 
 ## Report Folders

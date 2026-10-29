@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Plan 32 — Bare-melody previews</title>
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Quackpot · Plan 32 · Owner art direction</p>
+    <h1>Choose a gacha hook</h1>
+    <p>Three original two-bar melody sketches use the same triangle voice, D tonic, 100 BPM, and fixed gain. Render them one at a time, then listen and compare. This is a tune-selection preview, not a full arrangement audition.</p>
+  </header>
+
+  <main>
+    <section class="notice" aria-labelledby="limits-heading">
+      <h2 id="limits-heading">What these previews show</h2>
+      <ul>
+        <li>Each clip is a bare melody with one voice. There is no accompaniment, noise, normalization, or compression.</li>
+        <li>Displayed sample peak and RMS are PCM measurements only. They are not LUFS or true-peak measurements.</li>
+        <li>“Original” means no intentional copying and an inspectable note source. Short patterns can resemble existing music by coincidence.</li>
+        <li>No audio starts until you press a button. Only one clip plays at a time. Nothing is sent over the network.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="controls-heading">
+      <h2 id="controls-heading">Preview controls</h2>
+      <div class="control-row">
+        <label for="motif-select">Motif</label>
+        <select id="motif-select" aria-describedby="motif-description"></select>
+        <button id="render-button" class="primary" type="button">Render selected melody</button>
+        <button id="stop-button" type="button" disabled>Stop audio</button>
+      </div>
+      <p id="motif-description" class="muted"></p>
+      <p id="status" role="status" aria-live="polite">Choose a motif, then render it. Each render takes one two-bar phrase plus its short release tail.</p>
+    </section>
+
+    <section aria-labelledby="result-heading">
+      <h2 id="result-heading">Rendered previews</h2>
+      <p class="muted">Preview samples appear here one at a time. Render A, B and C serially. Download links save WAV files into the runner’s approved Plan 32 preview folder.</p>
+      <ol id="preview-list" class="preview-list" aria-label="Rendered motif previews"></ol>
+    </section>
+
+    <section aria-labelledby="listening-heading">
+      <h2 id="listening-heading">Listening notes</h2>
+      <ol>
+        <li>Which contour is easiest to remember or hum after a short pause?</li>
+        <li>Which one feels like the strongest starting point for Quackpot?</li>
+        <li>Does any short figure bring another tune to mind?</li>
+      </ol>
+      <p class="muted">These are owner art-direction observations, not a listener study or evidence about student psychology.</p>
+    </section>
+  </main>
+
+  <script src="motifs.js"></script>
+  <script src="preview.js"></script>
+</body>
+</html>

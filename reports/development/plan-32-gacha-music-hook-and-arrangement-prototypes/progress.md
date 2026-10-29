@@ -2,12 +2,18 @@
 
 ## Overall summary
 
-Prepared and revised the bounded motif, rendering and listening proposal at `proposal.md` after root review. This is a report-only handoff for root and owner review. No score or audio was rendered or auditioned; no library was installed; no browser, server, renderer or listening job was launched; no production or canonical document was changed.
+After owner authorization and root direction, authored a report-local three-motif preview page plus isolated browser runner. The code is pending QP Orch source review and has not been executed. No score or audio was rendered or auditioned; no library was installed; no browser or server was launched; no production or canonical document was changed.
 
 ## Files changed
 
 - `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/proposal.md`
 - `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/progress.md`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/motifs.js`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/index.html`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/preview.css`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/preview.js`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/runner.mjs`
+- `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/README.md`
 
 No other files were written intentionally.
 
@@ -20,6 +26,7 @@ No other files were written intentionally.
 - Repaired Plan 33 `recommendation.md`, `composition-brief.md`, `transformation-matrix.md` and `transition-contract.md`
 - Plan 18 progress, credits proposal, selection catalog and standard-library `audio_probe.py`
 - `package.json`, relevant `src/audio/synth.mjs` source (read-only)
+- `reports/orchestration/plan-32-preview-authorization.md` (owner preview approval and root source-review gate)
 
 ## Checks and evidence
 
@@ -28,23 +35,26 @@ No other files were written intentionally.
 - **Preflight process deviation:** the check above was accidentally invoked directly through Node before the handoff’s more specific wrapper instruction was seen. Root reviewed this deviation and dispositioned that the successful read-only check need not be repeated solely to satisfy the invocation count. Future Node commands must use the bounded wrapper and coordinate with root. No preflight retry was made.
 - The initial and follow-up process inspection showed no local `node` process. Root later confirmed that the Plan 16 status batch had finished and no proof job was currently active. No Node command has run since the initial preflight.
 - Read-only inspection found `vite` as the sole package dependency, no audio-specific dependency, the existing Plan 18 PCM peak/RMS probe, and no `ffmpeg`, `ffprobe`, `sox` or Audacity executable on PATH. No Python audio packages were probed.
-- No test, build, browser, render, audio playback or package command was run.
+- Owner explicitly approved authoring three short bare-melody previews on a common instrument/tempo/tonic/gain basis; PCM sample-peak/RMS only, explicitly not LUFS/true-peak matched. Root approved source authoring and requires source review before execution. The full five-track arrangement, production integration, new dependencies and provider dispatch remain unauthorized.
+- Authored `motif-preview/` source with portable note/patch parameters, explicit render/play/download/stop controls, no autoplay, one active playback source, serial `OfflineAudioContext` rendering, sample-peak/RMS labels and JSON provenance download. The browser runner opens only an isolated visible Chrome profile from a local file, uses no server, places explicit downloads in the owned preview folder, and cleans only its own browser tree/profile.
+- Proposed command and guards are recorded in `motif-preview/README.md`: run through Plan 25's bounded Node wrapper, with its 90-second / 2-GiB process-tree cap; the owned runner closes Chrome at 80 seconds. These are whole-session caps, not per-render limits or performance claims.
+- No test, build, browser, render, audio playback, Node renderer, runner or package command was run. Do not run one until QP Orch reviews the exact code/command and releases the source-review gate.
 
 ## Problems and resolution
 
-The required packet check was done outside the handoff’s mandated guarded launcher. This procedural deviation is disclosed above; root reviewed it and said not to repeat the successful read-only check just to satisfy the count. Any future Node execution requires the bounded wrapper and root coordination.
+The required packet check was done outside the handoff’s mandated guarded launcher. This procedural deviation is disclosed above; root reviewed it and said not to repeat the successful read-only check just to satisfy the count. Any future Node execution requires the bounded wrapper and root coordination. The preview renderer/runner has not been source-reviewed or executed yet.
 
 ## Remaining decisions and risks
 
-- Root/owner approval of a proposed three-snippet bare-melody preview gate before any audio is rendered; the owner should choose after hearing previews, not from pitch letters alone.
-- Owner choice of motif and art direction after authorized previews; then separate root/owner approval before generating the five unchanged full-loop variants.
-- Root approval of the local renderer, an enforceable per-render resource guard, and an already-available offline BS.1770/R128 integrated-loudness and dBTP meter or a clearly stated alternative comparison convention. The Plan 18 probe measures PCM peak/RMS only, which cannot substantiate LUFS or true-peak claims. The owner is not asked to decide tooling.
+- QP Orch source review of all authored preview files, exact bounded command, runner behavior, temporary-profile cleanup and output folder before any execution.
+- The owner must listen and select a motif after the authorized three previews; then a separate root/owner gate is required before creating the five unchanged full-loop variants.
+- Root must resolve an available offline BS.1770/R128 integrated-loudness and dBTP meter or an alternative comparison convention before those five variants. The Plan 18 probe and current preview page report PCM peak/RMS only, which cannot substantiate LUFS or true-peak claims. The owner is not asked to decide tooling.
 - Later audition evidence will be limited to owner art direction and named devices; it will not establish a population response or universal laptop audibility.
 
 ## Consultation posture
 
-No advisor consultation ran. This proposal-only, docs/report change has no behavioral code surface, so a pre-delivery advisor consultation is not warranted. The assignment separately says there is no initial subagent budget. Root/orchestrator review is the current gate.
+**Branch C — orchestrator-gate-only.** No advisor consultation ran. This thread cannot confidently match itself to an advisor-capable entry. The owner authorized this small report-local preview surface, but the current handoff requires QP Orch to source-review the exact renderer and runner before execution; no advisor budget or provider dispatch was assigned. Root/orchestrator review is the current gate.
 
 ## Root review and ready status
 
-Root reviewed the proposal and requested the prose refinements now incorporated. Ready for owner/root review of the proposed preview gate and listening brief. Stop before rendering, installation, library adoption, browser/server launch or any production integration.
+Ready for QP Orch source review of the three-preview implementation only. The owner approved preview creation; the current stop is source-review and runner-clearance before any browser/render execution. The five full-loop tracks and all production integration remain gated.

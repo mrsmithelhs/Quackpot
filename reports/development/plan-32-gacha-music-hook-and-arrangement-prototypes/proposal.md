@@ -1,7 +1,7 @@
 # Plan 32 — Motif, Rendering and Listening Proposal
 
 **Prepared:** 2026-10-29
-**Stage:** Proposal only; stop for root mechanism/resource review and owner motif/listening approval. No score has been rendered and no audio has been played in this work.
+**Stage:** Preview source authored under the 2026-10-29 owner authorization; stop for QP Orch source review and execution clearance. No audio has been rendered or played in this work.
 
 ## Recommendation
 
@@ -43,11 +43,11 @@ Tempo 100; A major; 4/4
 
 Ten notes form a quick opening turn followed by a descending answer; the phrase begins on beat one rather than with an anacrusis. It may feel lighter and less stately than A. Suggested sound: muted pluck with a very quiet sustained fifth; avoid adding a fast arpeggio that competes with reading.
 
-## Proposed motif-preview gate (not yet authorized)
+## Owner-approved motif-preview scope; execution still gated
 
-The notation candidates are not a good basis for an owner to choose an unheard tune. I recommend a small, separately approved preview step: render only three two-bar bare-melody snippets (A, B and C), with the same lead patch, tempo and tonic, using one common gain policy. Claim level matching only if root's approved meter supports and verifies it. These previews are for choosing the motif; they are not the five full-loop renderings and do not add a sixth arrangement to that set. Keep their source event data and patch parameters portable and editable. Ask the owner to choose a preferred contour, say which preview is easiest to remember/hum, and note whether any brings a familiar tune to mind. This is owner art direction, not a listener study or proof of originality.
+The notation candidates are not a good basis for an owner to choose an unheard tune. The owner approved creation of exactly three two-bar bare-melody snippets (A, B and C), with the same lead patch, tempo and tonic and one conservative fixed-gain policy. Report PCM sample peak and RMS with an explicit statement that they are not LUFS or true-peak matches. These previews are for choosing the motif; they are not the five full-loop renderings and do not add a sixth arrangement to that set. Keep their source event data and patch parameters portable and editable. Ask the owner to choose a preferred contour, say which preview is easiest to remember/hum, and note whether any brings a familiar tune to mind. This is owner art direction, not a listener study or proof of originality.
 
-This is a proposed scope amendment, not rendering authority. Root must approve the preview mechanism, file boundary, resource guard and measurement method, and the owner must approve the listening brief before even the three snippets are rendered. After the owner selects a motif, root and owner must separately approve the full-render mechanism and listening brief before generating the five eight-bar variants. If no preview is authorized, the project remains at text notation and the owner should not be asked to select among motifs by note letters alone.
+Owner authorization covers these three previews. QP Orch has approved authoring the report-local preview code and must review the exact renderer, runner, file list, commands and resource cleanup before any execution. The owner selects a motif after hearing the previews. Root retains the loudness-meter decision for the later full arrangements; the small preview PCM sample-peak/RMS convention does not authorize the five eight-bar tracks. After motif selection, root and owner must separately approve the full-render mechanism and listening brief before generating the five variants.
 
 ## Proposed five-track arrangement plan
 
@@ -68,15 +68,15 @@ Plan 33’s reported experiments and craft examples motivate these as hypotheses
 - Store the selected composition as portable JSON event tables: bar, beat, MIDI pitch, duration, velocity, plus named chord/pad/filter settings and patch parameters. Keep each arrangement’s changed fields explicit and reviewable so a later bounded independent provider critique, if separately authorized, can use the same musical material without being assigned now.
 - Schedule note starts from absolute beat positions at `60 / 100` seconds per beat in one `OfflineAudioContext` per render. Use fixed oscillator types (triangle/sine family), short per-note gain envelopes, a quiet low-pulse voice, and a restrained sustained backing voice. Keep all noise out of this first pass; if noise is later proposed, give it a separate fixed seed and do not let it consume the game PRNG.
 - Render one variant at a time, then release its context and PCM before starting the next. Keep each output to the exact eight-bar duration; fit note releases within the loop and inspect the bar-8-to-bar-1 seam. If a seam needs a crossfade, surface that as an explicit audio transformation in the manifest and inspect it; do not silently trim away a note tail.
-- Save uncompressed local WAV for transparent inspection and browser playback. At 48 kHz, stereo float working PCM is 7,372,800 bytes per 19.2-second render; stereo 16-bit WAV payload is 3,686,400 bytes per render, about 18.4 MB for five payloads before WAV headers. These are sample-buffer/payload calculations, not measured browser memory, file-size, CPU or render-time claims. Use one render page and one active variant at a time. Proposed guard: at most 60 seconds and 1 GiB process-tree private memory for each render invocation, enforced by a root-approved runner; record actual elapsed time and memory, and stop if either cap is reached. Root should confirm that the selected harness can enforce this before use. These are safety caps, not a claim that the browser will render within them.
+- Save uncompressed local WAV for transparent inspection and browser playback. At 48 kHz, stereo float working PCM is 1,889,280 bytes per 4.92-second two-bar preview; stereo 16-bit WAV payload is 944,640 bytes per preview, 2,833,920 bytes for three before WAV headers. For later 19.2-second full loops, those payload figures are 7,372,800 bytes float and 3,686,400 bytes PCM16 per render. These are sample-buffer/payload calculations, not measured browser memory, file-size, CPU or render-time claims. Use one preview page and one active `OfflineAudioContext` at a time. The proposed Plan 25 wrapper limits the complete owned browser session to 90 seconds and 2 GiB private bytes, while the runner closes its Chrome window after 80 seconds for cleanup. These are whole-session safety caps, not per-render caps or performance claims. Record each render’s actual elapsed time; stop if the page errors or either outer cap is reached.
 - Audition from a local report page with explicit Play, Stop/Mute and track selection; stop the prior source before switching and play one track at a time. Provide loop-once and short 3–5-repeat comfort/seam choices, keyboard-operable controls, visible track names, and immediate mute. No autoplay, telemetry, external request, student data, owner tabs, new server or hosting stack.
 - If the authorized browser/runner cannot support reliable offline rendering, stop and ask root to select a bounded local tool or provider handoff. Do not install a library or download a sound bank in response.
 
-### Loudness measurement gate
+### Preview readings and later loudness gate
 
-Plan 33 corrects the target notation to `-16.0 LUFS ±0.5 LU` integrated and a `-1.0 dBTP` ceiling. The inspected Plan 18 `audio_probe.py` is standard-library-only and measures WAV duration, sample rate, channels, bit depth, sample peak and RMS; it does **not** measure LUFS or true peak. RMS is not a replacement for either. The command lookup found no `ffmpeg`/`ffprobe`/`sox`/Audacity, and I did not probe unverified Python packages or run a meter.
+For the three short motif previews, QP Orch recommends one conservative common gain and PCM sample-peak/RMS readings, explicitly not LUFS or true-peak matched. The preview page reports those values from its float32 render buffer before PCM16 WAV quantization. These simple readings let the owner compare bare contours; they do not establish equal perceived loudness.
 
-Therefore the proposed renderer is mechanically feasible, but the five files cannot yet be honestly promised to meet Plan 33’s loudness convention. Root should resolve whether an already-available, offline BS.1770/R128 integrated-loudness and true-peak meter is usable, or recommend a different comparison rule with the limitation stated for owner approval. Do not call sample peak a true peak or call RMS LUFS. Record the chosen meter, version, settings, readings and applied gain per file; if no approved meter is available, stop before rendering rather than mislabel the matches.
+The inspected Plan 18 `audio_probe.py` is standard-library-only and measures WAV duration, sample rate, channels, bit depth, sample peak and RMS; it does **not** measure LUFS or true peak. The command lookup found no `ffmpeg`/`ffprobe`/`sox`/Audacity, and I did not probe unverified Python packages or run a meter. Before the five full arrangements, root must resolve whether an already-available offline BS.1770/R128 integrated-loudness and true-peak meter is usable, or recommend a different comparison rule with its limitation for owner approval. Never call sample peak true peak or RMS LUFS.
 
 ## Owner art-direction questions (after authorized previews)
 
@@ -92,20 +92,22 @@ The listening is the owner’s art direction, not a participant experiment or po
 
 ## Proposed files after approval
 
-Current scope creates only this `proposal.md` and its required `progress.md`. If the owner and root approve the proposed preview gate, create the following in this report folder and stop for motif selection:
+Current scope now includes the following authored preview sources in this report folder; they are not executed yet:
 
-- `composition.json` — the three candidate note/event sets and shared versioned patch parameters, portable for later separately authorized critique;
-- three short bare-melody preview WAVs, with only their preview manifest and checks;
-- `render.mjs` or a local `renderer.html` plus a small module — explicit deterministic render implementation;
+- `motif-preview/motifs.js` — portable two-bar MIDI event data, shared D tonic, tempo and voice parameters;
+- `motif-preview/index.html` and `preview.css` — minimal accessible owner audition interface;
+- `motif-preview/preview.js` — one-at-a-time `OfflineAudioContext` render, PCM sample peak/RMS readings, PCM16 WAV and per-preview JSON data downloads, one-active playback and immediate stop;
+- `motif-preview/runner.mjs` — isolated visible Chrome launch and owned-process cleanup, with no local server;
+- `motif-preview/README.md` — exact proposed bounded command, resource envelope and output cleanup notes.
 
-Only after the owner picks a motif and root/owner separately authorize full arrangements, add:
+After root source review and execution clearance, the owner may render the three previews serially and download WAV plus JSON records into `motif-preview/previews/`. That folder is empty before the approved run. Only after the owner picks a motif and root/owner separately authorize full arrangements would we add:
 
 - selected hook and foil event data plus versioned arrangement parameters in `composition.json`;
 - five named WAV outputs and an `audio-manifest.json` recording composition revision, renderer, sample format, settings, meter readings, gains and hashes;
 - `audition.html` with minimal accessible playback controls and listening prompts.
 
-No files in these later lists are created under this proposal gate. No selected Plan 18 catalog/pool, production source, app code, packets, canonical documents, other report, Plan 16 checkpoint, Plan 27 layout or status is modified.
+No preview WAV, manifest, five-track arrangement, production source, app code, selected Plan 18 catalog/pool, packet/status, canonical document, other report, Plan 16 checkpoint or Plan 27 layout is created or modified by this source-authoring step.
 
 ## Stop conditions
 
-Stop here for root review of mechanism, tool, file and resource choices and owner approval of motif/listening brief. Do not render audio, install or adopt dependencies, launch any rendering/listening/browser/server job, select a production tune, update Plan 18, add a story trigger, change Receipt behavior, or integrate assets in this phase.
+Stop here for QP Orch source review of the exact renderer/runner code, resource guard, cleanup and proposed command. Do not execute the renderer or launch the browser until root releases that review gate. Do not generate the five full arrangements, install or adopt dependencies, dispatch another provider, select a production tune, update Plan 18, add a story trigger, change Receipt behavior, or integrate assets in this phase.

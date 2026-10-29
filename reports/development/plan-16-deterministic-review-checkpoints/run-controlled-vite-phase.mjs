@@ -143,32 +143,50 @@ async function responseHashes(source) {
   const hashes = {};
   let aggregateBytes = 0;
   let reservedBytes = 0;
-  for (let offset = 0; offset < entries.length; offset += 4) {
+  for (let offset = 0; offset < entries.length; offset += 2) {
     assertWorkBudget('served-entry hashing');
-    const batch = entries.slice(offset, offset + 4);
+    const batch = entries.slice(offset, offset + 2);
     const results = await Promise.all(batch.map(async (entry) => {
       assertWorkBudget(`served-entry hashing for ${entry}`);
       if (aggregateBytes + reservedBytes + MAX_ENTRY_BYTES > MAX_SERVED_BYTES) throw new Error('Controlled Vite response exceeds the 24 MiB aggregate reservation cap.');
       reservedBytes += MAX_ENTRY_BYTES;
       let reservationActive = true;
+      let url = null;
+      let stage = 'url-validation';
+      const controller = new AbortController();
+      const timeoutMs = Math.min(5000, remainingWorkMs());
+      const responseTimer = setTimeout(() => controller.abort(), timeoutMs);
       try {
-        const url = new URL(entry, BASE_URL);
+        url = new URL(entry, BASE_URL);
         if (url.origin !== new URL(BASE_URL).origin || !url.pathname.startsWith('/Quackpot/')) throw new Error(`Refusing served-entry URL outside the controlled base: ${url.href}`);
-        const response = await fetch(url, { signal: AbortSignal.timeout(Math.min(1200, remainingWorkMs())), redirect: 'manual' });
+        stage = 'http-fetch';
+        const response = await fetch(url, { signal: controller.signal, redirect: 'manual' });
         if (response.status !== 200 || response.url !== url.href) {
           await response.body?.cancel();
-          throw new Error(`Vite entry identity fetch failed for ${entry}: HTTP ${response.status}; redirects are rejected.`);
+          const error = new Error(`HTTP ${response.status}; redirects are rejected.`);
+          error.qp16Outcome = 'http';
+          throw error;
         }
         const reader = response.body?.getReader();
-        if (!reader) throw new Error(`No response body for controlled Vite entry ${entry}.`);
+        if (!reader) {
+          const error = new Error('response body missing');
+          error.qp16Outcome = 'missing-body';
+          throw error;
+        }
         const chunks = [];
         let size = 0;
+        stage = 'body-read';
         try {
           while (true) {
             const { done, value } = await reader.read();
             if (done) break;
             size += value.byteLength;
-            if (size > MAX_ENTRY_BYTES) { await reader.cancel(); throw new Error(`Vite entry exceeded the 3 MiB cap: ${entry}`); }
+            if (size > MAX_ENTRY_BYTES) {
+              await reader.cancel();
+              const error = new Error('response exceeded the 3 MiB per-entry cap');
+              error.qp16Outcome = 'size-cap';
+              throw error;
+            }
             chunks.push(value);
           }
         } finally { reader.releaseLock(); }
@@ -177,7 +195,12 @@ async function responseHashes(source) {
         reservationActive = false;
         if (aggregateBytes > MAX_SERVED_BYTES) throw new Error('Controlled Vite served-entry responses exceeded the 24 MiB aggregate cap.');
         return [entry, sha256(Buffer.concat(chunks, size)), size];
+      } catch (error) {
+        const timedOut = controller.signal.aborted || error.name === 'TimeoutError' || error.name === 'AbortError';
+        const outcome = error.qp16Outcome ?? (timedOut ? 'timeout' : stage === 'body-read' ? 'body-read' : 'request');
+        throw new Error(`Served-entry failure: entry=${entry}; url=${url?.href ?? '(invalid URL)'}; outcome=${outcome}; stage=${stage}; detail=${error.message}`);
       } finally {
+        clearTimeout(responseTimer);
         if (reservationActive) reservedBytes -= MAX_ENTRY_BYTES;
       }
     }));
@@ -196,23 +219,32 @@ function stopOwned(record, label) {
     const child = record.child;
     let treeKill = null;
     if (process.platform === 'win32' && child.pid) {
-      const killer = ownedSpawn('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { cwd: ROOT, stdio: ['ignore', 'ignore', 'ignore'] });
+      const killer = ownedSpawn('taskkill.exe', ['/PID', String(child.pid), '/T', '/F'], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
       try { await waitEvent(killer, 'close', 1500, `${label} tree cleanup`, true); }
       catch { try { killer.child.kill(); } catch {} }
-      treeKill = { pid: killer.child.pid, exit: killer.exit, spawnError: killer.error?.message ?? null };
+      treeKill = { pid: killer.child.pid, exit: killer.exit, close: killer.closed, spawnError: killer.error?.message ?? null,
+        stdout: killer.stdout.value, stderr: killer.stderr.value };
       if (!killer.closed || killer.closed.code !== 0) {
         try { child.kill(); } catch {}
         try { await waitEvent(killer, 'close', 500, `${label} taskkill cleanup`, true); } catch {}
-        return { stopped: false, pid: child.pid, command: record.command, treeKill, reason: 'owned process-tree termination was not confirmed' };
+        if (!record.exit) {
+          try { await waitEvent(record, 'exit', 2000, `${label} direct-child exit check`, true); } catch {}
+        }
+        const childExited = Boolean(record.exit);
+        return { stopped: childExited, childExited, treeTerminationConfirmed: false, residual: !childExited,
+          uncertainty: childExited, pid: child.pid, command: record.command, exit: record.exit, treeKill,
+          reason: childExited ? 'owned child exited but process-tree termination was unconfirmed' : 'owned child remained active after cleanup window' };
       }
     } else {
       try { child.kill('SIGTERM'); } catch {}
     }
     if (!record.exit) {
       try { await waitEvent(record, 'exit', 2000, `${label} cleanup`, true); }
-      catch { return { stopped: false, pid: child.pid, command: record.command, treeKill, reason: 'owned process did not exit within cleanup window' }; }
+      catch { return { stopped: false, childExited: false, treeTerminationConfirmed: Boolean(treeKill), residual: true,
+        uncertainty: false, pid: child.pid, command: record.command, treeKill, reason: 'owned process remained active after cleanup window' }; }
     }
-    return { stopped: true, pid: child.pid, exit: record.exit, treeKill };
+    return { stopped: true, childExited: true, treeTerminationConfirmed: Boolean(treeKill), residual: false,
+      uncertainty: false, pid: child.pid, exit: record.exit, treeKill };
   })();
   stopPromises.set(record, operation);
   return operation;
@@ -279,9 +311,9 @@ function cleanup() {
   cleanupPromise = (async () => {
     const proof = await stopOwned(proofChild, 'proof phase');
     const vite = await stopOwned(serverChild, 'Vite server');
-    const result = { proof, vite, residual: !proof.stopped || !vite.stopped };
+    const result = { proof, vite, residual: Boolean(proof.residual || vite.residual), uncertainty: Boolean(proof.uncertainty || vite.uncertainty) };
     evidence.cleanup = result;
-    if (result.residual) process.exitCode = 1;
+    if (result.residual || result.uncertainty) process.exitCode = 1;
     return result;
   })();
   return cleanupPromise;

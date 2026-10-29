@@ -29,11 +29,12 @@ const SOURCE_ROOT_FILES = ['index.html', 'vite.config.mjs', 'package.json', 'pac
 const MANIFEST_PATH = path.join(OUT, 'checkpoint-manifest.json');
 const RESULT_PATH = path.join(OUT, 'proof-results.jsonl');
 const STARTER_CAPTURE_ARCHIVE = path.join(OUT, 'history/2026-10-29-first-starter-capture');
+const STARTER_CAPTURE_ARCHIVE_INDEX_SHA256 = '4b25c518f66ef322a3b163d275e9b3eb0bffa4b5d9664b3c7e36105268b36b2d';
 const STARTER_CAPTURE_RECIPE_SHA256 = 'cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185';
 const STARTER_CAPTURE_FIXTURE_SHA256 = 'e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9';
 const STARTER_CAPTURE_SOURCE_REVISION = 'cdf757a2ce3f98f64f9159521ad20854cf8e917e';
 const STARTER_CAPTURE_SOURCE_FINGERPRINT = '2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d';
-const PHASES = new Set(['create-pending', 'pending-restore', 'branch-accept', 'branch-decline']);
+const PHASES = new Set(['captured-archive-preflight', 'create-pending', 'pending-restore', 'branch-accept', 'branch-decline']);
 const argv = process.argv.slice(2);
 const arg = (name) => {
   const index = argv.indexOf(name);
@@ -113,34 +114,7 @@ async function assertCapturedStarterFresh(manifest, source, fixtureRaw) {
   if (!capturedStarterLoaderIdentityFresh(entry, source)) fail('Captured starter is stale for current production source or loader identity.');
   if (sha256(fixtureRaw) !== STARTER_CAPTURE_FIXTURE_SHA256) fail('Captured starter active fixture bytes differ from the owner-approved capture hash.');
 
-  const archiveIndex = await readJson(path.join(STARTER_CAPTURE_ARCHIVE, 'archive-index.json'));
-  if (archiveIndex.checkpointId !== checkpointId
-      || archiveIndex.captureRecipeFingerprint !== STARTER_CAPTURE_RECIPE_SHA256
-      || archiveIndex.captureSourceRevision !== STARTER_CAPTURE_SOURCE_REVISION
-      || archiveIndex.captureSourceFingerprint !== STARTER_CAPTURE_SOURCE_FINGERPRINT
-      || archiveIndex.fixtureSha256 !== STARTER_CAPTURE_FIXTURE_SHA256) {
-    fail('Captured starter archive provenance does not match its pinned original capture identity.');
-  }
-  const expectedFiles = [
-    'starter-offer.save.json', 'checkpoint-proof.capture.mjs', 'checkpoint-manifest.capture.json',
-    'proof-results.capture.jsonl', 'controlled-vite-phase-results.capture.jsonl',
-  ].sort();
-  const archiveFiles = archiveIndex.files;
-  if (!Array.isArray(archiveFiles) || JSON.stringify(archiveFiles.map((item) => item.file).sort()) !== JSON.stringify(expectedFiles)) {
-    fail('Captured starter archive file set differs from the approved provenance set.');
-  }
-  let archiveBytes = 0;
-  const archiveContents = {};
-  for (const record of archiveFiles) {
-    if (!Number.isSafeInteger(record.bytes) || record.bytes < 0 || record.bytes > 1024 * 1024 || !/^[a-f0-9]{64}$/.test(record.sha256 ?? '')) {
-      fail(`Captured starter archive index has an invalid size/hash entry for ${record.file}.`);
-    }
-    archiveBytes += record.bytes;
-    if (archiveBytes > 2 * 1024 * 1024) fail('Captured starter provenance archive exceeds its 2 MiB verification bound.');
-    const bytes = await readFile(path.join(STARTER_CAPTURE_ARCHIVE, record.file));
-    if (bytes.length !== record.bytes || sha256(bytes) !== record.sha256) fail(`Captured starter archive hash/size mismatch for ${record.file}.`);
-    archiveContents[record.file] = bytes;
-  }
+  const { archiveIndex, archiveContents, archiveBytes } = await verifyCapturedStarterArchive();
   if (sha256(archiveContents['checkpoint-proof.capture.mjs']) !== STARTER_CAPTURE_RECIPE_SHA256
       || sha256(archiveContents['starter-offer.save.json']) !== STARTER_CAPTURE_FIXTURE_SHA256) {
     fail('Archived starter recipe or fixture fails its pinned original SHA-256.');
@@ -179,6 +153,70 @@ async function assertCapturedStarterFresh(manifest, source, fixtureRaw) {
     archiveBytesVerified: archiveBytes,
     provenanceControls,
   };
+}
+
+function parsePinnedStarterArchiveIndex(bytes) {
+  if (sha256(bytes) !== STARTER_CAPTURE_ARCHIVE_INDEX_SHA256) {
+    fail('Captured starter archive-index bytes differ from the independently pinned SHA-256.');
+  }
+  return JSON.parse(bytes.toString('utf8'));
+}
+
+async function verifyCapturedStarterArchive() {
+  const indexBytes = await readFile(path.join(STARTER_CAPTURE_ARCHIVE, 'archive-index.json'));
+  const archiveIndex = parsePinnedStarterArchiveIndex(indexBytes);
+  if (archiveIndex.checkpointId !== 'qp16.starter-offer.v1'
+      || archiveIndex.captureRecipeFingerprint !== STARTER_CAPTURE_RECIPE_SHA256
+      || archiveIndex.captureSourceRevision !== STARTER_CAPTURE_SOURCE_REVISION
+      || archiveIndex.captureSourceFingerprint !== STARTER_CAPTURE_SOURCE_FINGERPRINT
+      || archiveIndex.fixtureSha256 !== STARTER_CAPTURE_FIXTURE_SHA256) {
+    fail('Captured starter archive provenance does not match its pinned original capture identity.');
+  }
+  const expectedFiles = [
+    'starter-offer.save.json', 'checkpoint-proof.capture.mjs', 'checkpoint-manifest.capture.json',
+    'proof-results.capture.jsonl', 'controlled-vite-phase-results.capture.jsonl',
+  ].sort();
+  const archiveFiles = archiveIndex.files;
+  if (!Array.isArray(archiveFiles) || JSON.stringify(archiveFiles.map((item) => item.file).sort()) !== JSON.stringify(expectedFiles)) {
+    fail('Captured starter archive file set differs from the approved provenance set.');
+  }
+  let archiveBytes = 0;
+  const archiveContents = {};
+  for (const record of archiveFiles) {
+    if (!Number.isSafeInteger(record.bytes) || record.bytes < 0 || record.bytes > 1024 * 1024 || !/^[a-f0-9]{64}$/.test(record.sha256 ?? '')) {
+      fail(`Captured starter archive index has an invalid size/hash entry for ${record.file}.`);
+    }
+    archiveBytes += record.bytes;
+    if (archiveBytes > 2 * 1024 * 1024) fail('Captured starter provenance archive exceeds its 2 MiB verification bound.');
+    const bytes = await readFile(path.join(STARTER_CAPTURE_ARCHIVE, record.file));
+    if (bytes.length !== record.bytes || sha256(bytes) !== record.sha256) fail(`Captured starter archive hash/size mismatch for ${record.file}.`);
+    archiveContents[record.file] = bytes;
+  }
+  return { archiveIndex, archiveContents, archiveBytes };
+}
+
+async function capturedArchivePreflight() {
+  const { archiveIndex, archiveBytes } = await verifyCapturedStarterArchive();
+  const indexBytes = await readFile(path.join(STARTER_CAPTURE_ARCHIVE, 'archive-index.json'));
+  const changedIndex = Buffer.from(indexBytes);
+  changedIndex[0] = changedIndex[0] === 0x7b ? 0x21 : 0x7b;
+  let changedIndexRejected = false;
+  try { parsePinnedStarterArchiveIndex(changedIndex); }
+  catch (error) { changedIndexRejected = error.message.includes('independently pinned SHA-256'); }
+  if (!changedIndexRejected) fail('Archive index alone negative control did not stop at the pinned-index check.');
+
+  const coordinatedIndex = JSON.parse(indexBytes.toString('utf8'));
+  const record = coordinatedIndex.files[0];
+  const simulatedArchiveFile = Buffer.from(await readFile(path.join(STARTER_CAPTURE_ARCHIVE, record.file)));
+  simulatedArchiveFile[0] ^= 1;
+  record.bytes = simulatedArchiveFile.length;
+  record.sha256 = sha256(simulatedArchiveFile);
+  const coordinatedBytes = Buffer.from(JSON.stringify(coordinatedIndex));
+  let coordinatedMutationRejected = false;
+  try { parsePinnedStarterArchiveIndex(coordinatedBytes); }
+  catch (error) { coordinatedMutationRejected = error.message.includes('independently pinned SHA-256'); }
+  if (!coordinatedMutationRejected) fail('Coordinated archive-file/index negative control did not stop at the pinned-index check.');
+  process.stdout.write(`${JSON.stringify({ phase: 'captured-archive-preflight', archiveIndexSha256: STARTER_CAPTURE_ARCHIVE_INDEX_SHA256, verifiedFiles: archiveIndex.files.length, verifiedArchiveBytes: archiveBytes, changedIndexRejectedBeforeParse: changedIndexRejected, coordinatedFileIndexMutationRejectedBeforeArchiveTrust: coordinatedMutationRejected })}\n`);
 }
 
 async function atomicJson(file, value) {
@@ -685,6 +723,7 @@ async function main() {
   if (phase === 'starter-capture') fail('Fresh starter capture is disabled after the owner-approved immutable capture amendment; preserve and replay the pinned starter fixture.');
   if (!PHASES.has(phase)) fail(`Choose one phase: ${[...PHASES].join(', ')}`);
   await mkdir(OUT, { recursive: true });
+  if (phase === 'captured-archive-preflight') return capturedArchivePreflight();
   if (phase === 'create-pending') return createPending();
   if (phase === 'pending-restore') return runPendingRestore();
   return runBranch(phase.slice('branch-'.length));

@@ -10,6 +10,8 @@ summary: >-
 ---
 # Plan 27: Receipt reflection and evidence hierarchy
 
+**Owner selection 2026-10-28:** Layout A, Three-register cards, is selected. Preserve both comparison layouts and the report. See reports/orchestration/plan-27-owner-layout-selection.md. This is hierarchy selection, not production implementation or rendered verification.
+
 ## Packet Metadata
 
 - Packet id: plan-27

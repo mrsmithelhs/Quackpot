@@ -10,6 +10,8 @@ summary: >-
 ---
 # Plan 16: Deterministic review checkpoints and browser briefs
 
+**Owner architecture approval 2026-10-28:** Revised proposal approved. Continue under root supervision with the bounded pending-reveal and starter-modal proof in reports/orchestration/plan-16-proof-authorization.md. No production source changes or reviewer fan-out; exact implementation/command scope goes to root before execution. This supersedes the initial report-only hold below for that proof alone.
+
 **Owner assignment2026-10-28:** Run the report-only architecture investigation in Codex alongside Plan27, with disjoint report folders. Use reports/orchestration/plan-16-codex-starting-handoff.md. No executable proof, generator/loader implementation or reviewer fanout until owner architecture approval. Historical session/source assumptions must be checked against current engine/storage. No initial subagent budget.
 
 **Date:** 2026-10-24. **Type:** testing-tools investigation. **Mutation:** report and bounded proof after owner architecture approval. **Owner/model:** one investigator; later cheap read-only reviewers. **Expected artifacts:** `reports/development/plan-16-deterministic-review-checkpoints/proposal.md`, a small proposed manifest/brief format and `progress.md`.

@@ -7,7 +7,7 @@
 // counting uses per-pixel running state), canvases are released after each capture, and a pixel limit and a JS-heap growth guard stop a run early.
 // Numbers are diagnostic only. They are not a conformance analysis, find no maximum flashing area in any reference field, and certify nothing.
 import { raster, sceneOf, seek, sleep } from './browser-harness.js';
-import { luminanceFrame, frameStats, createSwingTracker, pixelFlashes, swingsOf, maxInWindow, REFERENCE_FIELD } from './flash-metrics.mjs';
+import { luminanceFrame, frameStats, createSwingTracker, createRedTracker, pixelFlashes, swingsOf, maxInWindow, REFERENCE_FIELD } from './flash-metrics.mjs';
 import { createLightningEffect } from '../lightning.mjs';
 
 const STEP_MS = 20, HZ60 = 1000 / 60, MAX_STAGE_PX = 1.2e6, MAX_GRID_PX = 2.4e6, MAX_HEAP_GROWTH = 200e6;
@@ -227,6 +227,40 @@ export async function flashAggregate() {
     };
   } finally { m.schedule = restore; for (const s of storm) restoreRain(s.ctl); }
   return out;
+}
+
+/** Hand-computed cases for the saturated-red tracker (no scene needed). */
+export function redSelfCheck() {
+  const px = (...c) => c.flatMap(([r, g, b]) => [r, g, b, 255]), red = [255, 0, 0], white = [255, 255, 255], near = [240, 30, 20], justUnder = [230, 40, 20], grey = [120, 100, 100];
+  const frames = [px(red, white, near, justUnder, grey), px(white, white, white, white, grey), px(red, white, near, justUnder, grey)].map(a => Uint8ClampedArray.from(a));
+  const out = {};
+  for (const linear of [false, true]) {
+    const t = createRedTracker(5, { linear }); frames.forEach(f => t.push(f)); out[linear ? 'linear' : 'srgb'] = t.result();
+  }
+  const s = out.srgb, ok = s.redPixelsInFirstFrame === 2 && s.pixelsEverSaturatedRed === 2 && s.redTransitionEvents === 4 && s.pixelsWithOpposingRedTransitions === 2 && s.maxRedValue0to320 > 300;
+  return { ok, expected: 'sRGB basis: 2 saturated-red pixels (pure red and 240,30,20; 230,40,20 and grey are not), 4 transition events, 2 opposing pairs', got: out };
+}
+
+/**
+ * Saturated-red diagnostic on the held pulse (ONE scene, streamed): the same deterministic seek and baked rasters as flashMeasure, RGB analysed instead of
+ * luminance, in both channel bases. Reports totals over the raster only. No area, frequency or pass claim; a simplified red-flash reading, not a conformance test.
+ */
+export async function flashRedDiagnostic(id, { W = null } = {}) {
+  const { inst, stage } = sceneOf(id), sr = stage.getBoundingClientRect(), w = W || Math.round(sr.width), h = Math.round(w * sr.height / sr.width), n = w * h;
+  if (n > MAX_STAGE_PX) return { id, refused: `raster ${w}x${h} exceeds the ${MAX_STAGE_PX} px bound` };
+  const h0 = heap(); freezeRain(inst.ctl);
+  const held = await startHeld(inst.ctl, 'red-diagnostic'); if (held.refused) return { id, refused: held.refused, retryAfterMs: held.retryAfterMs };
+  const times = sampleTimes(held.info), trackers = { srgb: createRedTracker(n, { linear: false }), linear: createRedTracker(n, { linear: true }) };
+  try {
+    for (const t of times) { setPulseTime(held.anims, t); const rgba = (await raster(stage, w, h, true)).data; trackers.srgb.push(rgba); trackers.linear.push(rgba); guard(h0, `red diagnostic t=${round(t, 1)}`); }
+  } finally { for (const a of held.anims) { try { a.cancel(); } catch { /* gone */ } } await sleep(80); held.done(); restoreRain(inst.ctl); }
+  return {
+    id, look: lookName(), viewport: `${innerWidth}x${innerHeight}`, dpr: devicePixelRatio, rasterSize: `${w}x${h}`, rasterScaleToCss: round(w / sr.width, 3), pixels: n, framesSampled: times.length,
+    definition: 'saturated red: R/(R+G+B) >= 0.8; red value: max(0, R-G-B)*320 on 0..1 channels; red transition: consecutive frames with either end saturated red and a red-value change >= 20; red flash pixel: has both a rising and a falling red transition; both channel bases shown',
+    srgbEncoded: trackers.srgb.result(), linearised: trackers.linear.result(),
+    limits: 'totals over the whole raster at CSS scale; no area, frequency or pass claim; simplified, not a conformance analysis; says nothing about colours outside the sampled frames or other framings',
+    heapGrowthMB: heap() === null ? null : Math.round((heap() - h0) / 1e6)
+  };
 }
 
 export { createLightningEffect };

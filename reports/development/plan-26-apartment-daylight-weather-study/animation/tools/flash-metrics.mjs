@@ -87,6 +87,38 @@ export function createSwingTracker(n, { delta = .1, darkMax = .8 } = {}) {
   return { push, result, frames: () => count, swingsAt: p => swings[p] };
 }
 
+/**
+ * Saturated-red diagnostic, streamed over RGBA frames (a simplified reading of the WCAG red-flash idea; NOT a conformance analysis). Per pixel and frame:
+ * saturated red = R / (R + G + B) >= `threshold` (0.8); red value = max(0, R - G - B) * 320 on 0..1 channels. A "red transition" is a step between consecutive
+ * frames where either end is saturated red and the red value changes by at least `delta` (20). A pixel "flashes red" when it has both a rising and a falling
+ * red transition. `linear` picks the channel basis: false = sRGB-encoded values / 255, true = linearised values. Both bases are reported by the harness because
+ * the choice is not settled here. Totals are over the raster; no area, frequency or pass claim.
+ */
+export function createRedTracker(n, { threshold = .8, delta = 20, linear = false } = {}) {
+  const prevVal = new Float32Array(n), prevFlag = new Uint8Array(n), up = new Uint8Array(n), down = new Uint8Array(n), ever = new Uint8Array(n), perFrameRed = [];
+  let count = 0, firstRed = 0, maxVal = 0, events = 0;
+  const chan = (v) => (linear ? LUT[v] : v / 255);
+  function push(rgba) {
+    if (rgba.length !== n * 4) throw new RangeError('red tracker: frame size differs');
+    let redNow = 0;
+    for (let p = 0; p < n; p++) {
+      const R = chan(rgba[p * 4]), G = chan(rgba[p * 4 + 1]), B = chan(rgba[p * 4 + 2]), sum = R + G + B;
+      const flag = sum > 0 && R / sum >= threshold ? 1 : 0, val = Math.max(0, R - G - B) * 320;
+      if (flag) { redNow++; ever[p] = 1; } if (val > maxVal) maxVal = val;
+      if (count > 0 && (prevFlag[p] || flag) && Math.abs(val - prevVal[p]) >= delta) { events++; if (val > prevVal[p]) up[p] = 1; else down[p] = 1; }
+      prevVal[p] = val; prevFlag[p] = flag;
+    }
+    if (count === 0) firstRed = redNow;
+    perFrameRed.push(redNow); count++;
+  }
+  function result(mask = null) {
+    let everRed = 0, withTransition = 0, opposing = 0;
+    for (let p = 0; p < n; p++) { if (mask && !mask(p)) continue; if (ever[p]) everRed++; if (up[p] || down[p]) withTransition++; if (up[p] && down[p]) opposing++; }
+    return { frames: count, basis: linear ? 'linearised channels' : 'sRGB-encoded channels', redPixelsInFirstFrame: firstRed, mostRedPixelsInAnyFrame: Math.max(0, ...perFrameRed), pixelsEverSaturatedRed: everRed, maxRedValue0to320: +maxVal.toFixed(2), redTransitionEvents: events, pixelsWithAnyRedTransition: withTransition, pixelsWithOpposingRedTransitions: opposing };
+  }
+  return { push, result, frames: () => count };
+}
+
 /** Largest number of event start times falling in any half-open window of `windowMs`. */
 export function maxInWindow(startsMs, windowMs = 1000) {
   const t = [...startsMs].sort((a, b) => a - b); let best = 0;

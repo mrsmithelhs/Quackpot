@@ -52,3 +52,13 @@ test('streaming swing tracker equals the series-based counter pixel by pixel, wi
   assert.equal(t.result(p => p < 10).flashingPixels, pixelFlashes(frames, { mask: p => p < 10 }).flashingPixels);
   assert.throws(() => t.push(new Float32Array(3)), RangeError);
 });
+
+test('saturated-red tracker: hand-computed cases (pure red and 240,30,20 are saturated red in sRGB; 230,40,20 and grey are not), transitions and opposing pairs', async () => {
+  const { createRedTracker } = await import('../tools/flash-metrics.mjs');
+  const px = (...c) => c.flatMap(([r, g, b]) => [r, g, b, 255]), red = [255, 0, 0], white = [255, 255, 255], near = [240, 30, 20], justUnder = [230, 40, 20], grey = [120, 100, 100];
+  const frames = [px(red, white, near, justUnder, grey), px(white, white, white, white, grey), px(red, white, near, justUnder, grey)].map(a => Uint8ClampedArray.from(a));
+  const t = createRedTracker(5); frames.forEach(f => t.push(f)); const r = t.result();
+  assert.deepEqual([r.redPixelsInFirstFrame, r.pixelsEverSaturatedRed, r.redTransitionEvents, r.pixelsWithOpposingRedTransitions], [2, 2, 4, 2]); assert.ok(r.maxRedValue0to320 > 300);
+  const lin = createRedTracker(5, { linear: true }); frames.forEach(f => lin.push(f)); assert.equal(lin.result().pixelsEverSaturatedRed, 3, 'the linearised basis also flags 230,40,20: the basis matters, so both are reported');
+  assert.throws(() => t.push(new Uint8ClampedArray(8)), RangeError);
+});

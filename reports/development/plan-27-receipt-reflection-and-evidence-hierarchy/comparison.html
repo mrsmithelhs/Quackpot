@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 27 — Receipt layout comparison</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202a31;
+      --muted: #52636d;
+      --paper: #fffdf7;
+      --ground: #eaf0ed;
+      --line: #a8b8b4;
+      --accent: #245b50;
+      --focus: #9b4d00;
+      --display: #e8f2ff;
+      --action: #f4edff;
+      --reflection: #fff2d5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--ground);
+      font: 1rem/1.55 system-ui, "Segoe UI", sans-serif;
+    }
+    button, select, input { font: inherit; }
+    .page { width: min(100%, 1100px); margin: 0 auto; padding: 1rem; }
+    header, main, footer { background: var(--paper); border: 1px solid var(--line); }
+    header { padding: clamp(1rem, 4vw, 2rem); border-radius: 1rem 1rem 0 0; }
+    main { border-top: 0; padding: clamp(1rem, 4vw, 2rem); }
+    footer { border-top: 0; border-radius: 0 0 1rem 1rem; padding: 1rem clamp(1rem, 4vw, 2rem); color: var(--muted); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { line-height: 1.15; }
+    h2 { margin-bottom: .5rem; }
+    .eyebrow { color: var(--accent); font-weight: 750; letter-spacing: .04em; text-transform: uppercase; }
+    .notice {
+      border: 2px solid #8b4b00; background: #fff0d2; padding: .85rem 1rem;
+      font-weight: 750; border-radius: .4rem; margin: 1rem 0;
+    }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem; margin-top: 1.25rem; }
+    fieldset { border: 1px solid var(--line); border-radius: .6rem; padding: .8rem 1rem 1rem; min-width: 0; }
+    legend { font-weight: 750; padding: 0 .35rem; }
+    .choice-list { display: grid; gap: .5rem; }
+    label.choice { display: flex; align-items: flex-start; gap: .65rem; padding: .45rem; border-radius: .35rem; }
+    label.choice:hover { background: #f0f5f2; }
+    input[type="radio"] { margin: .3rem 0 0; accent-color: var(--accent); flex: none; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .case-status { color: var(--muted); margin: .75rem 0 0; }
+    .summary {
+      border-left: .35rem solid var(--accent); background: #edf5f1; padding: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: .6rem 1rem; margin: .7rem 0 0; }
+    .summary-grid div { min-width: 0; }
+    .summary-grid dt { color: var(--muted); font-size: .9rem; }
+    .summary-grid dd { margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+    .domain, .reflection-card { border: 1px solid var(--line); border-radius: .65rem; padding: 1rem; margin: 1rem 0; }
+    .domain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: .25rem 1rem; align-items: start; }
+    .domain > h3 { margin-bottom: .6rem; }
+    .registers { display: grid; gap: .65rem; }
+    .register { padding: .8rem; border-radius: .45rem; overflow-wrap: anywhere; }
+    .register h4 { font-size: .96rem; margin: 0 0 .3rem; }
+    .register p, .register ul { margin: 0; }
+    .register ul { padding-left: 1.25rem; }
+    .reg-displayed { background: var(--display); }
+    .reg-did { background: var(--action); }
+    .reg-question { background: var(--reflection); }
+    .seq { white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 750; }
+    .question { font-weight: 750; }
+    details { margin-top: .8rem; border-top: 1px solid var(--line); padding-top: .65rem; }
+    summary { cursor: pointer; font-weight: 750; color: var(--accent); padding: .25rem; width: fit-content; }
+    summary::marker { color: var(--accent); }
+    .evidence-list { display: grid; gap: .5rem; padding: 0; list-style: none; }
+    .evidence-list li { border-left: .2rem solid var(--line); padding: .35rem .65rem; overflow-wrap: anywhere; }
+    .empty-note { border: 1px dashed var(--line); background: #f7f8f5; padding: .8rem; border-radius: .4rem; }
+    .small { color: var(--muted); font-size: .92rem; }
+    .legend { display: flex; flex-wrap: wrap; gap: .45rem .8rem; margin: .8rem 0; }
+    .legend span { padding: .2rem .5rem; border-radius: .3rem; }
+    [hidden] { display: none !important; }
+    @media (max-width: 560px) {
+      .page { padding: .5rem; }
+      header, main, footer { padding: 1rem; }
+      .register { padding: .65rem; }
+    }
+    @media print {
+      :root { color-scheme: light; }
+      body { background: white; font-size: 10.5pt; }
+      .page { width: auto; padding: 0; }
+      header, main, footer { border-color: #777; border-radius: 0; }
+      .controls, .screen-only { display: none !important; }
+      .case-panel[hidden], .layout-panel[hidden] { display: none !important; }
+      details:not([open]) > :not(summary) { display: block !important; }
+      details summary { list-style: none; }
+      a { color: inherit; }
+      .notice { break-inside: avoid; }
+      .domain, .reflection-card, .summary { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <p class="eyebrow">Plan 27 · report-local design study</p>
+      <h1>A Receipt that starts with reflection</h1>
+      <p>This comparison explores how the end-of-run Receipt can keep its reflection and evidence honest while making long race records easier to navigate.</p>
+      <p class="notice">SYNTHETIC PRESENTATION EXAMPLES — These are hand-authored illustrations, not valid saves, engine-generated traces, or observed player histories. They do not establish that the represented events actually co-occurred.</p>
+      <p class="small">Every case uses only kinds of facts represented by the current Receipt projection. Sequence numbers and values below are illustrative labels; no game run was replayed to produce them.</p>
+      <div class="legend" aria-label="Receipt register color key">
+        <span class="reg-displayed">We displayed</span>
+        <span class="reg-did">You did</span>
+        <span class="reg-question">Did this affect you?</span>
+      </div>
+      <div class="controls screen-only">
+        <fieldset>
+          <legend>Choose a layout</legend>
+          <div class="choice-list">
+            <label class="choice"><input type="radio" name="layout" value="cards" checked aria-controls="layout-cards"><span><strong>A. Three-register cards</strong><br><span class="small">Topics in first-event order, with all three registers visible.</span></span></label>
+            <label class="choice"><input type="radio" name="layout" value="run" aria-controls="layout-run"><span><strong>B. Reflection-first run view</strong><br><span class="small">Factual outcome, then reflection groups by run domain.</span></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Choose a synthetic case</legend>
+          <div class="choice-list">
+            <label class="choice"><input type="radio" name="case" value="race" checked aria-controls="cards-content run-content"><span>Longer race-heavy example</span></label>
+            <label class="choice"><input type="radio" name="case" value="exit" aria-controls="cards-content run-content"><span>Early Uninstall, no offered technique</span></label>
+            <label class="choice"><input type="radio" name="case" value="cash" aria-controls="cards-content run-content"><span>Zero cash, no unpaid bill recorded</span></label>
+          </div>
+          <p id="control-status" class="case-status" aria-live="polite">Layout A, longer race-heavy synthetic example selected.</p>
+        </fieldset>
+      </div>
+    </header>
+
+    <main>
+      <section id="layout-cards" class="layout-panel" aria-labelledby="cards-title">
+        <h2 id="cards-title">Layout A · Three-register cards</h2>
+        <p>Each topic keeps its cue, recorded action or outcome, and reflection question together. More detailed entries open on request.</p>
+        <div id="cards-content"></div>
+      </section>
+      <section id="layout-run" class="layout-panel" aria-labelledby="run-title" hidden>
+        <h2 id="run-title">Layout B · Reflection-first run view</h2>
+        <p>Begin with the recorded ending and factual totals. Then scan a compact domain board; every group keeps its cue, action, and reflection question visible before its sequence-level disclosure.</p>
+        <div id="run-content"></div>
+      </section>
+    </main>
+    <footer>
+      <p><strong>Presentation boundary:</strong> this page demonstrates hierarchy only. It does not read browser storage, import run files, create a Receipt export, or change the production Receipt.</p>
+      <p class="small">Print view includes the selected case and layout. Closed evidence disclosures expand in print so a printed copy retains the supporting details. On screen, disclosures use the browser's native keyboard-operable details/summary control.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Report-local hand-authored examples. These data objects are deliberately not log envelopes.
+    const cases = {
+      race: {
+        label: 'longer race-heavy synthetic example',
+        assumption: 'Illustrative complete presentation record; four race attempts are represented to make the evidence hierarchy legible. This is not a measured 25-minute run and not a valid save.',
+        outcome: [
+          ['Terminal route', 'Run complete (synthetic label)'],
+          ['Race attempts represented', '4 (example count)'],
+          ['Cash balance', '$8.25 (example total)'],
+          ['Debt', '$0.00 (example total)'],
+        ],
+        topics: [
+          {
+            id: 'race-choices', domain: 'Races', order: 12, title: 'Race choices and outcomes',
+            displayed: [
+              { seq: '12', text: 'Race 1 pace options were shown: Safe pace and Sprint.' },
+              { seq: '38', text: 'A race cue was displayed: “The crowd leaned toward the finish.”' },
+              { seq: '55', text: 'Race 2 pace options were shown: Safe pace and Sprint.' },
+              { seq: '82', text: 'Race 3 pace options were shown: Safe pace and Sprint.' },
+              { seq: '109', text: 'Race 4 pace options were shown: Safe pace and Sprint.' },
+            ],
+            did: [
+              { seq: '13', text: 'Race 1 was entered with the Safe pace.' },
+              { seq: '31', text: 'Game recorded result: Race 1 finish order, player placement and Gems payout.' },
+              { seq: '39', text: 'Player chose to skip race playback after the result.' },
+              { seq: '56', text: 'Player entered Race 2. Game recorded its crossing order, player placement and payout.' },
+              { seq: '83', text: 'Player entered Race 3. Game recorded its crossing order, player placement and payout.' },
+              { seq: '110', text: 'Player entered Race 4. Game recorded its crossing order, player placement and payout.' },
+            ],
+            question: 'Did the race presentation or its outcome affect what you did next?',
+            evidence: [
+              { seq: '12', type: 'race_choice_offered', detail: 'Pace labels shown. A displayed choice is not evidence that every visual element was noticed.' },
+              { seq: '13', type: 'action / race_choice', detail: 'Recorded stance and selected duck; rest evidence may be present when the event carries it.' },
+              { seq: '31', type: 'race_result', detail: 'Committed crossing order, player placement and payout. Mechanical events such as contacts are not displayed cues.' },
+              { seq: '38', type: 'race_cue_displayed', detail: 'A cue is listed as displayed only because a display event is represented.' },
+              { seq: '39', type: 'race_playback_action', detail: 'Playback action recorded as skip; it does not erase the committed result.' },
+              { seq: '55, 82, 109', type: 'race_choice_offered', detail: 'Additional race choice exposures, shown here as compact sequence references.' },
+              { seq: '56, 83, 110', type: 'race_result', detail: 'Additional committed race outcomes, retained in the expandable chronological detail.' },
+            ],
+            omitted: 'Repeated per-racer crossing lines are summarized in the visible register; the expandable evidence retains the result-record references. No collision/contact is described as watched.',
+          },
+          {
+            id: 'pity', domain: 'Spending and pulls', order: 21, title: 'Pity counter and committed draws',
+            displayed: [{ seq: '21', text: 'The pity counter was shown at its recorded value.' }],
+            did: [{ seq: '22', text: 'A draw was committed after the counter display.' }],
+            question: 'Did the pity counter affect how many pulls you made?',
+            evidence: [
+              { seq: '21', type: 'cue_shown / sunk_cost_pity', detail: 'Display payload supplies the shown counter and threshold.' },
+              { seq: '22', type: 'draw_committed', detail: 'Each expanded draw row must copy its exact conditional pre-draw odds from payload.odds (Legendary / Rare / Common), alongside draw index and commitment sequence. This illustration does not invent numeric odds.' },
+            ],
+            omitted: 'The default says one draw followed the display. It does not claim the cue caused the draw or reconstruct conditional odds from the final result.',
+          },
+        ],
+      },
+      exit: {
+        label: 'early Uninstall without an offered technique',
+        assumption: 'Illustrative complete-log example with an early Uninstall and no technique offer or cue event represented. In a partial, old, or incomplete record, absence cannot be presented as proof that no cue appeared.',
+        outcome: [
+          ['Terminal route', 'Uninstall (synthetic label)'],
+          ['Technique cues represented', 'None in this complete-example assumption'],
+          ['Further play after exit', 'None represented'],
+        ],
+        topics: [
+          {
+            id: 'early-exit', domain: 'Life and exit', order: 1, title: 'Leaving early',
+            displayed: [{ seq: '—', text: 'No technique cue is represented in this complete-log illustration. This is an example assumption, not an inference from a partial history.' }],
+            did: [
+              { seq: '2', text: 'The player chose to leave.' },
+              { seq: '3', text: 'The recorded terminal route was Uninstall.' },
+            ],
+            question: 'Did this affect you?',
+            questionNote: 'Broad open reflection about the recorded exit; no technique cue was recorded to connect to a technique-specific question.',
+            evidence: [
+              { seq: '2', type: 'action / leave_immediately', detail: 'Recorded exit action.' },
+              { seq: '3', type: 'terminal', detail: 'Terminal route is Uninstall. No retention offer or named technique is included in this example.' },
+              { seq: '—', type: 'absence boundary', detail: 'The example assumes a complete record. Missing or legacy event evidence must be labelled unknown, not “none displayed.”' },
+            ],
+            omitted: 'No technique card is invented to fill the space. The visible question is about the recorded exit context, not a claim about why the player left.',
+          },
+        ],
+      },
+      cash: {
+        label: 'zero-cash synthetic example',
+        assumption: 'Illustrative complete presentation record with a zero final cash balance, no cash-paid expense, no unpaid expense represented, and no debt event represented. Zero cash alone does not mean debt, failure, or an unpaid bill.',
+        outcome: [
+          ['Terminal route', 'Run complete (synthetic label)'],
+          ['Final cash balance', '$0.00 (example total)'],
+          ['Cash expenses paid', '$0.00; none represented'],
+          ['Unpaid expense', 'None represented in this complete-example assumption'],
+          ['Debt', '$0.00; no debt event represented'],
+        ],
+        topics: [
+          {
+            id: 'cash-balance', domain: 'Life and spending', order: 4, title: 'Cash balance is not the same as an unpaid bill',
+            displayed: [{ seq: '—', text: 'No displayed financial cue is represented in this example.' }],
+            did: [
+              { seq: '4', text: 'Final cash balance: $0.00 (synthetic example total).' },
+              { seq: '—', text: 'Cash expenses paid: $0.00; no expense_paid entry is represented.' },
+              { seq: '—', text: 'No expense_due entry remains unpaid in this complete-example assumption.' },
+              { seq: '—', text: 'No debt event is represented; zero cash is not labelled as debt.' },
+            ],
+            question: 'Did this affect you?',
+            questionNote: 'Broad open reflection about the cash balance and bill entries; no answer or effect is recorded.',
+            evidence: [
+              { seq: '—', type: 'summary', detail: 'Final cash is an event-derived cumulative total; this displayed value is illustrative, not recalculated from a real log.' },
+              { seq: '—', type: 'expense_paid / expense_due', detail: 'A cash payment requires a recorded paid amount. An unpaid bill requires a due event with no matching settlement under the Receipt projection. They are separate facts.' },
+              { seq: '—', type: 'interest_charged / escalation_result', detail: 'Debt requires recorded debt-changing events. It is not inferred from cash reaching zero.' },
+            ],
+            omitted: 'No amount, bill, debt, or causal consequence is added beyond the fields named in the synthetic assumption. “None represented” is valid only under that complete-example assumption.',
+          },
+        ],
+      },
+    };
+
+    const esc = (value) => String(value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const seq = (value) => `<span class="seq">[#${esc(value)}]</span>`;
+    const renderList = (items) => items.length
+      ? `<ul>${items.map((item) => `<li>${seq(item.seq)} ${esc(item.text)}</li>`).join('')}</ul>`
+      : '<p class="empty-note">No entry represented in this example. That does not establish absence in an incomplete or older record.</p>';
+    const register = (label, cls, items) => `<section class="register ${cls}"><h4>${label}</h4>${renderList(items)}</section>`;
+    const evidence = (topic) => `<details><summary>Supporting evidence and sequence references</summary><p>${esc(topic.omitted)}</p><ol class="evidence-list">${topic.evidence.map((item) => `<li>${seq(item.seq)} <strong>${esc(item.type)}:</strong> ${esc(item.detail)}</li>`).join('')}</ol></details>`;
+    const renderTopic = (topic, includeDomain) => `<article class="${includeDomain ? 'reflection-card' : 'domain'}" data-order="${topic.order}">
+      ${includeDomain ? `<p class="eyebrow">${esc(topic.domain)}</p>` : ''}
+      <h3>${esc(topic.title)}</h3>
+      <div class="registers">
+        ${register('We displayed', 'reg-displayed', topic.displayed)}
+        ${register('You did', 'reg-did', topic.did)}
+        <section class="register reg-question"><h4>Did this affect you?</h4>${topic.question === 'Did this affect you?' ? '' : `<p class="question">${esc(topic.question)}</p>`}<p class="small">${esc(topic.questionNote || 'No answer is recorded or inferred here.')}</p></section>
+      </div>
+      ${evidence(topic)}
+    </article>`;
+    const renderSummary = (example) => `<section class="summary" aria-label="Factual run outcome summary">
+      <h3>Recorded outcome and totals</h3><p>${esc(example.assumption)}</p>
+      <dl class="summary-grid">${example.outcome.map(([term, value]) => `<div><dt>${esc(term)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>
+    </section>`;
+    const renderCards = (example) => `${renderSummary(example)}${[...example.topics].sort((a, b) => a.order - b.order).map((topic) => renderTopic(topic, true)).join('')}`;
+    const renderRunView = (example) => {
+      const groups = [...new Set(example.topics.map((t) => t.domain))];
+      return `${renderSummary(example)}<section class="domain-grid" aria-label="Reflection groups">${groups.map((domain) => `<section class="domain"><h3>${esc(domain)}</h3>${example.topics.filter((t) => t.domain === domain).sort((a,b) => a.order - b.order).map((topic) => renderTopic(topic, false)).join('')}</section>`).join('')}</section>`;
+    };
+    let selectedCase = 'race';
+    let selectedLayout = 'cards';
+    const status = document.getElementById('control-status');
+    function render() {
+      const example = cases[selectedCase];
+      document.getElementById('cards-content').innerHTML = renderCards(example);
+      document.getElementById('run-content').innerHTML = renderRunView(example);
+      document.getElementById('layout-cards').hidden = selectedLayout !== 'cards';
+      document.getElementById('layout-run').hidden = selectedLayout !== 'run';
+      status.textContent = `Layout ${selectedLayout === 'cards' ? 'A' : 'B'}, ${example.label} selected.`;
+    }
+    document.querySelectorAll('input[name="layout"]').forEach((input) => input.addEventListener('change', () => {
+      if (input.checked) { selectedLayout = input.value; render(); }
+    }));
+    document.querySelectorAll('input[name="case"]').forEach((input) => input.addEventListener('change', () => {
+      if (input.checked) { selectedCase = input.value; render(); }
+    }));
+    render();
+  </script>
+</body>
+</html>

@@ -102,12 +102,15 @@ test("option reducedMotion:'reduce' behaves as reduced and the OS preference can
   assert.throws(() => createWeatherMotion(w.makeRoot(), { weather: 'rain', env: w.env(), reducedMotion: 'ignore' }), RangeError);
 });
 
-test('overcast has no motion and wrong roots are rejected', () => {
+test('overcast stays still and malformed rain roots fail closed', () => {
   const w = makeWorld(), root = w.makeRoot({ withRain: false }), before = root.serialize();
   const m = create(w, root, { weather: 'overcast'  });
   assert.deepEqual([m.state().phase, m.state().motion, m.state().animations], ['still', false, 0]); assert.equal(root.serialize(), before);
   m.pause(); m.resume(); m.destroy();
-  assert.throws(() => createWeatherMotion(w.makeRoot({ withRain: false }), { weather: 'storm', env: w.env() }), TypeError);
+  const malformed = w.makeRoot({ withRain: false }), unchanged = malformed.serialize();
+  const bad = createWeatherMotion(malformed, { weather: 'storm', flashEnabled: true, env: w.env() });
+  assert.equal(bad.state().phase, 'still'); assert.ok(bad.state().blockers.includes('motion-unavailable'));
+  assert.equal(malformed.serialize(), unchanged); assert.match(bad.requestFlash().reason, /motion-unavailable/); bad.destroy();
   assert.throws(() => createWeatherMotion(w.makeRoot(), { weather: 'hail', env: w.env() }), RangeError);
 });
 
@@ -308,6 +311,26 @@ test('reduced-motion blocker transitions are atomic and missing live-change supp
   w2.observers[0].fire(true);
   assert.equal(m2.state().phase, 'still'); assert.ok(m2.state().blockers.includes('reduced-unknown')); assert.equal(root2.serialize(), before);
   m2.destroy();
+});
+
+test('invalid glass target contracts stay static, preserve DOM, and refuse before the shared arbiter', () => {
+  const mutate = (world, root, issue) => {
+    const clipPath = root.querySelector('[id="x-panes"]');
+    if (issue === 'missing-clip') clipPath.parentNode.removeChild(clipPath);
+    if (issue === 'wrong-clip-type') { clipPath.parentNode.removeChild(clipPath); root.appendChild(world.node('g', { id: 'x-panes' })); }
+    if (issue === 'duplicate-id') root.appendChild(world.node('clipPath', { id: 'x-panes' }));
+    if (issue === 'relocated-rain') {
+      for (const role of ['rain-streaks', 'droplets']) { const node = root.querySelector(`[data-weather="${role}"]`); node.parentNode.removeChild(node); root.appendChild(node); }
+    }
+  };
+  for (const issue of ['missing-clip', 'wrong-clip-type', 'duplicate-id', 'relocated-rain']) {
+    const w = makeWorld(), root = w.makeRoot(); mutate(w, root, issue); const before = root.serialize();
+    const c = clock(), arbiter = createFlashArbiter({ now: c.now }), m = createWeatherMotion(root, { weather: 'storm', flashEnabled: true, env: w.env(), arbiter, flashEffect: fakeEffect() });
+    assert.equal(m.state().phase, 'still', issue); assert.ok(m.state().blockers.includes('motion-unavailable'), issue);
+    assert.equal(w.animations.length, 0, issue); assert.equal(root.serialize(), before, issue);
+    assert.match(m.requestFlash().reason, /motion-unavailable/, issue);
+    assert.equal(arbiter.snapshot().stats.accepted, 0, issue); m.destroy();
+  }
 });
 
 test('preference setters are independent; disabling motion restores still and flash-off cancels without a cooldown refund', async () => {

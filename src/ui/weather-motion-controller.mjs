@@ -1,6 +1,7 @@
 // Plan 34 unmounted extraction: host-side weather motion controller (Web Animations API on a weather-layer SVG).
 // No controller = the approved still. Nothing here touches the duck, its ancestors, or the lamp layers; no module-level state.
 import { rainMotionSpec, keyframesFor, dropKeyframes } from './weather-rain-spec.mjs';
+import { validateWeatherGlass } from './weather-glass-contract.mjs';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 export const WEATHER_MOTION_VERSION = 1;
@@ -28,15 +29,9 @@ export function createWeatherMotionController(root, options = {}) {
   const env = options.env || browserEnv(root);
   const doc = env.document;
 
-  let streaksEl = null, dropletsEl = null;
-  const skyNodes = root.querySelectorAll('[data-weather="sky"]');
-  const skyEl = skyNodes.length === 1 ? skyNodes[0] : null;
-  const clipPath = skyEl?.parentNode?.getAttribute?.('clip-path') || '';
-  const validGlass = !!(skyEl && /^url\(#[^)]+\)$/.test(clipPath));
-  if (spec) {
-    streaksEl = root.querySelector('[data-weather="rain-streaks"]'); dropletsEl = root.querySelector('[data-weather="droplets"]');
-    if (!streaksEl || !dropletsEl) throw new TypeError(`weather motion: root has no rain layers for '${weather}' (weather must match the rendered scene)`);
-  }
+  const glass = validateWeatherGlass(root, { requireRain: !!spec });
+  const skyEl = glass.valid ? glass.sky : null;
+  const streaksEl = glass.valid ? glass.rainStreaks : null, dropletsEl = glass.valid ? glass.droplets : null;
 
   const blockers = new Set(), subscribers = new Set();
   let destroyed = false, built = null, flash = null, error = null, flashOn = !!flashEnabled, osReduced = false, visibilityPending = false, io = null, mql = null, mqlHandler = null, visHandler = null;
@@ -174,7 +169,7 @@ export function createWeatherMotionController(root, options = {}) {
     // Visibility is unknown until the observer's first (asynchronous) callback, so start blocked: a window that is cropped out or off screen must never get a frame of rain or accept a flash in the meantime.
     // The glass stays blocked until its own first asynchronous visibility callback.
     visibilityPending = true; blockers.add('offscreen');
-    try { if (!validGlass) throw new Error('weather motion: one clipped sky role is required for visibility'); io = new env.IntersectionObserver(entries => {
+    try { if (!glass.valid) throw new Error('weather motion: invalid glass contract'); io = new env.IntersectionObserver(entries => {
       const last = entries[entries.length - 1]; if (destroyed || !last) return;
       const first = visibilityPending, was = blockers.has('offscreen'); visibilityPending = false;
       set('offscreen', !last.isIntersecting);
@@ -184,7 +179,7 @@ export function createWeatherMotionController(root, options = {}) {
     io.observe(skyEl);
     } catch { if (io) io.disconnect(); io = null; visibilityPending = true; blockers.add('offscreen'); }
   } else { visibilityPending = true; blockers.add('offscreen'); }
-  if (!validGlass) blockers.add('motion-unavailable');
+  if (!glass.valid) blockers.add('motion-unavailable');
   if (!env.matchMedia || !mql || !doc) blockers.add('reduced-unknown');
   if (motionEnabled === false) blockers.add('motion-disabled');
   if (options.startPaused) blockers.add('user-pause');

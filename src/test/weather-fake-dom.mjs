@@ -41,15 +41,16 @@ class FakeMedia {
   set(matches) { this.matches = matches; for (const f of [...this.l]) f({ matches }); }
 }
 
-/** A world: shared document, media query, observers, animations; makeEnv() builds a controller env; makeRoot() a fake study SVG. */
+/** A world: shared document, media query, observers, animations; makeEnv() builds a controller env; makeRoot() a clipped weather SVG. */
 export function makeWorld({ reducedPref = false } = {}) {
   const world = { animations: [], observers: [], doc: new FakeDocument(), media: new FakeMedia(reducedPref) };
   world.node = (tag, attrs) => new FakeNode(world, tag, attrs);
   world.IO = class { constructor(cb) { this.cb = cb; this.targets = []; this.connected = true; world.observers.push(this); } observe(t) { this.targets.push(t); } disconnect() { this.connected = false; this.targets = []; } fire(isIntersecting) { this.cb([{ isIntersecting }]); } };
   world.env = () => ({ document: world.doc, matchMedia: () => world.media, IntersectionObserver: world.IO, createSvg: (tag, attrs) => world.node(tag, attrs) });
-  /** root svg > clip group > [sky, clouds, rain-streaks, droplets]; plus a duck svg and lamp group elsewhere. */
+  /** root svg > defs#x-panes and clipped group > [sky, clouds, rain-streaks, droplets], plus duck and lamp groups. */
   world.makeRoot = ({ withRain = true } = {}) => {
-    const root = world.node('svg', { viewBox: '0 0 960 540' }), clip = world.node('g', { 'clip-path': 'url(#x-panes)' });
+    const root = world.node('svg', { viewBox: '0 0 960 540' }), defs = world.node('defs'), clipPath = world.node('clipPath', { id: 'x-panes' }), clip = world.node('g', { 'clip-path': 'url(#x-panes)' });
+    clipPath.appendChild(world.node('rect', { x: 0, y: 0, width: 400, height: 300 })); defs.appendChild(clipPath); root.appendChild(defs);
     clip.appendChild(world.node('rect', { 'data-weather': 'sky', x: 100, y: 50, width: 200, height: 160 })); clip.appendChild(world.node('g', { 'data-weather': 'clouds' }));
     if (withRain) { clip.appendChild(world.node('g', { 'data-weather': 'rain-streaks' })).appendChild(world.node('path', { d: 'M0 0L1 1' })); clip.appendChild(world.node('g', { 'data-weather': 'droplets' })).appendChild(world.node('ellipse', { cx: 1 })); }
     root.appendChild(world.node('g', { id: 'window-item' })); root.appendChild(clip);

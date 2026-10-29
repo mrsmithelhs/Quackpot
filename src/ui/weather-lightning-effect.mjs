@@ -4,6 +4,7 @@
 // Everything else is unchanged and shared: host-triggered only, ONE pulse per accepted event, the page arbiter (>= 4000 ms), every blocker, reduced motion
 // refusing, cancel-to-neutral, overlays removed at the end. All numbers are design choices for review, NOT safety thresholds and NOT a certification.
 // This look is a large-area, high-contrast flash (see lightning-mechanism.md section "Bright look"); it needs its own root review.
+import { validateWeatherGlass } from './weather-glass-contract.mjs';
 
 export const BRIGHT = Object.freeze({
   name: 'bright',
@@ -32,15 +33,13 @@ export const pulseTiming = (look = BRIGHT) => ({ duration: look.durationMs, easi
 
 const defaultSchedule = (fn, ms) => { const h = setTimeout(fn, ms); return () => clearTimeout(h); };
 const swallow = p => { if (p && typeof p.catch === 'function') p.catch(() => {}); };
-const GLASS_CLIP = /^url\(#(.+)\)$/;
 
 /** The injectable controller `flashEffect` for the bright look. `schedule(fn, ms) -> cancel` is only the watchdog (tests pass a fake). */
 export function createBrightLightningEffect({ schedule = defaultSchedule, look = BRIGHT } = {}) {
   /** Why a pulse cannot start here, or null. Checked BEFORE the arbiter so a refusal consumes no budget. */
   function canStart({ root, weather } = {}) {
     if (!look.weathers.includes(weather)) return 'not-storm';
-    const sky = root && root.querySelector('[data-weather="sky"]'), clip = sky && sky.parentNode, ref = clip && GLASS_CLIP.exec(clip.getAttribute('clip-path') || '');
-    if (!ref) return 'no-glass';
+    if (!validateWeatherGlass(root, { requireRain: true }).valid) return 'no-glass';
     if (!root.querySelector('[data-weather="window-spill"]')) return 'no-room-anchor';
     if (root.querySelector('[data-weather-flash]')) return 'flash-nodes-present';
     return null;
@@ -52,7 +51,7 @@ export function createBrightLightningEffect({ schedule = defaultSchedule, look =
     let cleaned = false, settled = false, clearWatchdog = null, why = null;
     const cleanup = () => { if (cleaned) return; cleaned = true; if (clearWatchdog) { clearWatchdog(); clearWatchdog = null; } for (const n of made) if (n.parentNode) n.parentNode.removeChild(n); };
     try {
-      // Above the rain tint and vignette (so the white is not dimmed by them), below the lamp spill and lamp glow (so the lamp stays warm). Nothing of the duck or lamp is touched.
+      // Above the rain tint and vignette; the selected scene wash reaches the lamp while leaving duck and lamp geometry untouched.
       const scene = createSvg('rect', { 'data-weather-flash': 'scene-flash', 'data-weather-flash-target': 'scene-flash', x: -6000, y: -6000, width: 14000, height: 14000, fill: look.scene.color, opacity: 0, 'pointer-events': 'none' });
       const group = createSvg('g', { 'data-weather-flash': 'window-clip', 'clip-path': clipAttr });
       const win = createSvg('rect', { 'data-weather-flash-target': 'window-flash', x: sky.getAttribute('x'), y: sky.getAttribute('y'), width: sky.getAttribute('width'), height: sky.getAttribute('height'), fill: look.window.color, opacity: 0, 'pointer-events': 'none' });

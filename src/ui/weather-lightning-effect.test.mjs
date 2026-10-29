@@ -72,6 +72,20 @@ test('refusals before the arbiter consume no budget; storm only', () => {
   const st = arbiter.snapshot().stats; assert.deepEqual([st.accepted, st.refusedCooldown, st.refusedActive], [0, 0, 0]);
 });
 
+test('bright effect independently refuses invalid clip references and displaced rain targets before arbiter use', () => {
+  const effect = createBrightLightningEffect(), issues = ['missing-clip', 'wrong-clip-type', 'duplicate-id', 'relocated-rain'];
+  for (const issue of issues) {
+    const w = makeWorld(), root = w.makeRoot(), clipPath = root.querySelector('[id="x-panes"]');
+    if (issue === 'missing-clip') clipPath.parentNode.removeChild(clipPath);
+    if (issue === 'wrong-clip-type') { clipPath.parentNode.removeChild(clipPath); root.appendChild(w.node('g', { id: 'x-panes' })); }
+    if (issue === 'duplicate-id') root.appendChild(w.node('clipPath', { id: 'x-panes' }));
+    if (issue === 'relocated-rain') {
+      for (const role of ['rain-streaks', 'droplets']) { const node = root.querySelector(`[data-weather="${role}"]`); node.parentNode.removeChild(node); root.appendChild(node); }
+    }
+    assert.equal(effect.canStart({ root, weather: 'storm' }), 'no-glass', issue);
+  }
+});
+
 test('every interruption cancels the bright pulse at once, cooldown kept, never resumed; the watchdog reason survives', async () => {
   for (const how of ['pause', 'hidden', 'inactive', 'offscreen', 'reduced', 'stop', 'destroy']) {
     const { c, arbiter, effect } = kit(), w = makeWorld(), { root, m } = scene(w, { arbiter, effect }), t = m.requestFlash(), fa = m.flashAnimations();

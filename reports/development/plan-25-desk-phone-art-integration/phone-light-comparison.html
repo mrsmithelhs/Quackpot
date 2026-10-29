@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 25 phone light comparison (report only)</title>
+  <link rel="stylesheet" href="/Quackpot/src/ui/apartment-view.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #111827; color: #f8fafc; font: 16px/1.45 system-ui, sans-serif; }
+    body { min-width: 1100px; padding: 30px 40px; }
+    .comparison-page { width: 100%; max-width: 960px; margin: 0 auto; }
+    .comparison-title { min-height: 62px; margin: 0 0 14px; color: #e5e7eb; font-size: 18px; font-weight: 750; letter-spacing: .04em; }
+    .comparison-title small { display: block; margin-top: 4px; color: #aab8cb; font-size: 13px; font-weight: 500; letter-spacing: 0; }
+    .apartment-desk-scene { width: 818px; height: 460.125px; aspect-ratio: auto; margin: 0 auto; overflow: hidden; }
+    .apartment-art-frame { position: absolute; inset: 0; overflow: hidden; }
+    #scene-art { position: absolute; z-index: 0; inset: 0; }
+    #scene-art svg { display: block; width: 100%; height: 100%; }
+    .apartment-art-frame > svg { display: block; width: 100%; height: 100%; }
+    .apartment-scene-dim { display: none; }
+    .comparison-dark .apartment-scene-dim { display: block; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: rgba(10, 23, 48, .46); }
+    .comparison-dark .apartment-phone-glow { z-index: 2; }
+    .comparison-dark .apartment-phone-content { z-index: 3; }
+    .apartment-phone-content { z-index: 2; }
+    .apartment-phone-content > * { position: relative; z-index: 1; }
+    .apartment-desk-scene, .apartment-art-frame, .apartment-phone-content { box-sizing: border-box; }
+    .apartment-phone-heading { font-family: system-ui, sans-serif; }
+    .apartment-phone-message { font-family: system-ui, sans-serif; }
+    .apartment-phone-action { font-family: system-ui, sans-serif; }
+    .comparison-note { margin: 16px 0 0; color: #aab8cb; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main class="comparison-page" id="comparison-root">
+    <p class="comparison-title" id="comparison-label"></p>
+    <div class="apartment-desk-scene" aria-label="Report-only apartment desk light comparison">
+      <div class="apartment-art-frame">
+        <div id="scene-art"></div>
+        <div class="apartment-scene-dim" aria-hidden="true"></div>
+        <div class="apartment-phone-glow" aria-hidden="true"></div>
+      </div>
+      <div class="apartment-phone-content" aria-label="Phone invitation">
+        <span class="apartment-phone-brand" aria-hidden="true">QUACKPOT</span>
+        <h2 class="apartment-phone-heading">Welcome Festival</h2>
+        <p class="apartment-phone-message">10 FREE pulls waiting!</p>
+        <button type="button" class="apartment-phone-action">Open Quackpot &amp; Claim 10-Pull</button>
+      </div>
+    </div>
+    <p class="comparison-note">Report-only lighting comparison. Dark mode is a cool-dim treatment on the illustration layer only; phone HTML and the accepted blue spill remain at normal color.</p>
+  </main>
+  <script type="module">
+    import { renderScene } from '/Quackpot/src/assets/apartment/index.mjs';
+    const query = new URLSearchParams(location.search);
+    const mode = query.get('mode') === 'warm' ? 'warm' : 'dark';
+    const level = query.get('level') === 'peak' ? 'peak' : 'min';
+    const phone = { status: '', brand: '', heading: [], body: [], note: '' };
+    const scene = renderScene({ area: 'desk-side', idPrefix: 'production-desk', duckView: 'side', light: mode === 'warm' ? 'warm' : 'neutral', phone, decorative: true });
+    document.querySelector('#scene-art').innerHTML = scene.svg;
+    document.querySelector('#comparison-root').classList.toggle('comparison-dark', mode === 'dark');
+    document.querySelector('#comparison-label').innerHTML = mode === 'warm'
+      ? `WARM LAMP · ${level.toUpperCase()} LIGHT LEVEL<small>Existing extracted apartment kit warm-light option</small>`
+      : `COOL DIM · ${level.toUpperCase()} LIGHT LEVEL<small>Report-only illustration treatment; not a production night mode</small>`;
+    const glow = document.querySelector('.apartment-phone-glow');
+    glow.style.opacity = level === 'peak' ? '.62' : '.28';
+    document.documentElement.dataset.ready = 'true';
+    document.documentElement.dataset.mode = mode;
+    document.documentElement.dataset.level = level;
+  </script>
+</body>
+</html>

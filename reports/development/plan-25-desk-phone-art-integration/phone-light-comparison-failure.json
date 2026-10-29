@@ -1,0 +1,6 @@
+{
+  "occurredAt": "2026-10-29T00:34:55.440Z",
+  "failureClass": "basepath-mismatch",
+  "diagnosis": "Capture helper requested the report at /reports/... while vite.config.mjs serves the project under /Quackpot/. Vite never returned the expected helper URL before the 15-second readiness timeout. No browser was launched and no screenshots were captured.",
+  "error": "Error: Timed out after 15000ms\n    at waitFor (file:///C:/AI/Quackpot/reports/development/plan-25-desk-phone-art-integration/capture-phone-light-comparison.mjs:29:9)\n    at async file:///C:/AI/Quackpot/reports/development/plan-25-desk-phone-art-integration/capture-phone-light-comparison.mjs:65:3"
+}

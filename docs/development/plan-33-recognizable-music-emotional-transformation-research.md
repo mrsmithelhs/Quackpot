@@ -1,12 +1,10 @@
 ---
 id: plan-33
 title: Recognizable music emotional transformation research
-status: draft
+status: in-progress
 
 depends_on: []
 gate: "Owner approves bounded investigation brief before assignment and selects results before production adoption."
-superseded_by: null
-resolution: null
 summary: >-
   Research and propose ways to retain musical identity while shifting gacha music toward tension.
 ---
@@ -17,13 +15,15 @@ summary: >-
 - Packet id: plan-33
 - Packet title: Recognizable music emotional transformation research
 - Status: (see frontmatter)
-- Owner/model: unassigned; root coordination; Sonnet preferred for approved SVG work
+- Owner/model: fresh Sonnet research integrator; four bounded Haiku researchers, at most two concurrent (owner assignment2026-10-28)
 - Date: 2026-10-28
 - Packet type: investigation / proposal
 - Mutation level: report-only
 - Approval gate: owner brief and result selection before implementation
 
 ## Goal, scope and delivery
+
+**Owner assignment2026-10-28:** proceed under reports/orchestration/plan-33-sonnet-research-handoff.md with four Haiku tasks (identity, tension, game-composer practice, browser constraints), at most two concurrently, disjoint research folders and Sonnet-only central synthesis. No nested/extra agents, code/audio/generation/download or production budget. The scoped search plan is recorded first but needs no repeated gate; conflicts beyond budget/scope return for approval. One guarded packet preflight is allowed; no other Node work needed. This explicit assignment supersedes the earlier no-implicit-subagents sentence below only for the named four tasks.
 
 Owner wants familiar gacha tunes to take on a more ominous character as story pressure grows, potentially illustrating the character's changing relationship to the same game. This is a designed expressive device, not a diagnosis of player addiction or proof of dopamine effects. It must never label the actual player from inferred motives.
 

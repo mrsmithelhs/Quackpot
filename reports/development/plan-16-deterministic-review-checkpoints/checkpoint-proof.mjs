@@ -41,6 +41,7 @@ const sha256 = (value) => createHash('sha256').update(value).digest('hex');
 const fail = (message) => { throw new Error(message); };
 const ownedBrowsers = new Set();
 const cleanupNotes = [];
+let failureScreenshotTaken = false;
 
 function canonical(value, topLevel = true) {
   if (Array.isArray(value)) return value.map((item) => canonical(item, false));
@@ -286,9 +287,26 @@ async function waitFor(cdp, sessionId, expression, label, timeout = 12000) {
 }
 
 async function clickVisible(cdp, sessionId, selector) {
-  const expression = `(() => { const e=document.querySelector(${JSON.stringify(selector)}); if(!e) return {error:'missing'}; e.scrollIntoView({block:'center',inline:'center'}); const r=e.getBoundingClientRect(); const x=r.left+r.width/2,y=r.top+r.height/2; const inert=e.closest('[inert]'); const hit=document.elementFromPoint(x,y); if(!r.width||!r.height||e.disabled||inert||getComputedStyle(e).pointerEvents==='none'||r.left<0||r.top<0||r.right>innerWidth||r.bottom>innerHeight||!(hit===e||e.contains(hit))) return {error:'not-hit-testable',x,y,hit:hit?.tagName??null}; return {x,y}; })()`;
+  const expression = `(() => { const e=document.querySelector(${JSON.stringify(selector)}); if(!e) return {error:'missing',selector,scroll:{x:scrollX,y:scrollY}}; e.scrollIntoView({block:'center',inline:'center'}); const r=e.getBoundingClientRect(); const x=r.left+r.width/2,y=r.top+r.height/2; const inert=e.closest('[inert]'); const hit=document.elementFromPoint(x,y); const describe=(node)=>{ if(!node) return null; const s=getComputedStyle(node),b=node.getBoundingClientRect(); return {tag:node.tagName,className:typeof node.className==='string'?node.className:'',rect:{x:b.x,y:b.y,width:b.width,height:b.height},style:{position:s.position,zIndex:s.zIndex,pointerEvents:s.pointerEvents,visibility:s.visibility,opacity:s.opacity,transform:s.transform}}; }; if(!r.width||!r.height||e.disabled||inert||getComputedStyle(e).pointerEvents==='none'||r.left<0||r.top<0||r.right>innerWidth||r.bottom>innerHeight||!(hit===e||e.contains(hit))) return {error:'not-hit-testable',selector,x,y,target:describe(e),hit:describe(hit),scroll:{x:scrollX,y:scrollY},visualViewport:visualViewport?{offsetLeft:visualViewport.offsetLeft,offsetTop:visualViewport.offsetTop,width:visualViewport.width,height:visualViewport.height,scale:visualViewport.scale}:null}; return {x,y}; })()`;
   const point = await evaluate(cdp, sessionId, expression);
-  if (point?.error) fail(`Cannot pointer-activate ${selector}: ${JSON.stringify(point)}`);
+  if (point?.error) {
+    let screenshot = null;
+    if (!failureScreenshotTaken) {
+      failureScreenshotTaken = true;
+      try {
+        const captured = await cdp.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false, fromSurface: true }, sessionId);
+        const bytes = Buffer.from(captured.data || '', 'base64');
+        const screenshotPath = path.join(OUT, 'failure-hit-test.png');
+        if (bytes.length > 0 && bytes.length <= 2 * 1024 * 1024) {
+          try { await readFile(screenshotPath); fail('Refusing to overwrite the existing bounded hit-test screenshot.'); }
+          catch (error) { if (error.code !== 'ENOENT') throw error; }
+          await writeFile(screenshotPath, bytes, { flag: 'wx' });
+          screenshot = { file: path.basename(screenshotPath), bytes: bytes.length, sha256: sha256(bytes) };
+        } else screenshot = { omitted: true, reason: 'captured PNG was empty or exceeded the 2 MiB bound', bytes: bytes.length };
+      } catch (error) { screenshot = { omitted: true, reason: `capture failed: ${error.message}` }; }
+    }
+    fail(`Cannot pointer-activate ${selector}: ${JSON.stringify({ ...point, failureScreenshot: screenshot, screenshotAlreadyCaptured: failureScreenshotTaken && screenshot === null })}`);
+  }
   await cdp.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: point.x, y: point.y }, sessionId);
   await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', x: point.x, y: point.y, button: 'left', clickCount: 1 }, sessionId);
   await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: point.x, y: point.y, button: 'left', clickCount: 1 }, sessionId);
@@ -408,9 +426,7 @@ async function runPendingRestore() {
     if (targetIndex < 0) fail('Pending recipe has no first-owned card for a stable one-card reveal continuation.');
     await clickVisible(browser.cdp, fixturePage.sessionId, `.card-back[data-card-idx="${targetIndex}"]`);
     await waitFor(browser.cdp, fixturePage.sessionId, `(() => { try { const e=JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)})); return e?.eventLog?.filter(x=>x.type==='reveal_shown').length===1; } catch { return false; } })()`, 'one normally displayed reveal');
-    const acquisition = await evaluate(browser.cdp, fixturePage.sessionId, `!!document.querySelector('.acquisition-shelf-overlay')`);
-    if (acquisition) await clickVisible(browser.cdp, fixturePage.sessionId, '#btn-skip-acq');
-    await waitFor(browser.cdp, fixturePage.sessionId, `(() => { const e=document.querySelector('.acquisition-shelf-overlay'); return !e; })()`, 'acquisition overlay completion after one reveal', 12000);
+    await waitFor(browser.cdp, fixturePage.sessionId, `(() => { const e=document.querySelector('.acquisition-shelf-overlay'); return !e; })()`, 'natural acquisition presentation completion after one reveal', 12000);
     const after = await pageSave(browser.cdp, fixturePage.sessionId);
     assertValid(after.envelope, 'post-reveal save');
     const revealed = after.envelope.state.pendingReveals.filter((item) => item.revealed);

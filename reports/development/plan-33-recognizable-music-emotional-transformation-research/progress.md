@@ -1,23 +1,22 @@
 # Plan 33 progress report — recognizable music emotional transformation research
 
-Date: 2026-10-28 (system clock).
+Date: 2026-10-28 (system clock; updated for Review 01 repairs).
 - **Phase 1 Integrator (prior pass, `b1bd633` / `a22e750`):** Fresh Sonnet thread (`claude-sonnet-5-5`) with 6 Haiku worker tasks (`T1`–`T4`, `B1`–`B2`).
-- **Phase 2 Integrator (this pass):** Fresh **Gemini 4 Argon (Medium)** thread under `reports/orchestration/plan-33-argon-integration-handoff.md`, with 4 bounded **Gemini Flash** worker tasks (`argon-f1`–`argon-f4`, max 2 concurrent, 0 nested).
+- **Phase 2 Integrator & Review 01 Repair Pass (this thread):** Fresh **Gemini 4 Argon (Medium)** thread under `reports/orchestration/plan-33-argon-integration-handoff.md` and `reports/orchestration/plan-33-argon-integration-review-01.md`, with 4 bounded **Gemini Flash** worker tasks (`argon-f1`–`argon-f4`, max 2 concurrent, 0 nested) in Phase 2 and **zero additional subagent/Flash tasks** during the Review 01 repair pass.
 - Packet status was **not** set or edited; `docs/development/plan-33-recognizable-music-emotional-transformation-research.md` remains `status: draft` for the orchestrator/owner. **Ready for orchestrator review: yes.**
 
 ---
 
-## Overall summary (Argon Phase 2 Integration)
+## Overall summary (Argon Phase 2 Integration + Review 01 Repairs)
 
-Integrated the committed Sonnet/Haiku synthesis (`b1bd633` / `a22e750`) with the six external deep-research reports (`deep-research/prompt-a/*`, `deep-research/prompt-b/*`), audited every decision-shaping citation against primary sources via four bounded Flash verification tasks (`argon-f1`–`argon-f4`) and direct Argon primary checks, separated Prompt A and Prompt B claim verification into `deep-research/prompt-a/verification.md` and `deep-research/prompt-b/verification.md`, and updated `recommendation.md`, `transformation-matrix.md`, `composition-brief.md`, `transition-contract.md`, `sources/index.md`, and `integration-status.md`.
+Integrated the committed Sonnet/Haiku synthesis (`b1bd633` / `a22e750`) with the six external deep-research reports (`deep-research/prompt-a/*`, `deep-research/prompt-b/*`), audited decision-shaping citations against primary sources via four bounded Flash verification tasks (`argon-f1`–`argon-f4`) and direct Argon primary checks, and implemented all seven targeted repairs from `reports/orchestration/plan-33-argon-integration-review-01.md` across `recommendation.md`, `transformation-matrix.md`, `composition-brief.md`, `transition-contract.md`, `sources/index.md`, `deep-research/prompt-a/verification.md`, `deep-research/prompt-b/verification.md`, `research/argon-f1/`, and `integration-status.md`.
 
-### Key upgrades from Phase 1
-1. **Harmony conservation upgraded from `[H]` to `[E-full]` / `[E-abs]`:** **Liu (2018, *JRME* 66:210, $N = 80$, `[E-full]`/`[E-abs]`)** and **Liu (2022, *JRME* 70:173, $N = 131$ China / $N = 61$ US, `[E-abs]`)** directly test whether adult listeners judge a familiar melody to remain the "same melody" when harmony is added, removed, or changed, and show that diatonic substitutions (`ii`, `iii`, `vi`) preserve identity significantly better than secondary/chromatic chords.
-2. **Kuusi (2009) (`[E-full]`, $N = 46$, 19 familiar tunes selected, 14 analyzed) integrated in full:** Intact tune recognition was 95.9% / 93.6% / 86.5% vs. isochronous 500 ms melody-only 76.1% / 67.4% / 53.3% (removing rhythm costs **15.1 to 33.9 percentage points**), while standard chordal harmony added only **0.6 to 5.2 percentage points** over melody alone (`81.3% / 68.0% / 53.9%`).
-3. **Refined lead-timbre vs. accompaniment-roughness guidance (`Dire-2A` vs. `Dire-2B`):** Cross-family instrument swaps (`piano ↔ sax` in Schellenberg & Habashi 2015, $N = 96$; `piano ↔ orchestra` in Poulin-Charronnat et al. 2004, $N = 64$) degrade recognition of newly learned melodies and can invert tension between musicians and non-musicians (Silvey 2011, $N = 40$, `[E-full]`), whereas within-family timbre shifts preserve recognition (Lim & Goh 2012, `[E-abs]`) and psychoacoustic **roughness (30–150 Hz modulation), inharmonicity, and spectral flatness** are top drivers of threat/tension (Farbood & Price 2017, $N = 24$, `[E-full]`; Pressnitzer et al. 2000, $N = 17$, `[E-full]`; Trevor et al. 2020, 2023, `[E-full]`). Recommendation splits Approach 2 into **Dire-2A (clean lead over rough accompaniment)** vs. **Dire-2B (subtle within-patch lead low-pass/detuning)** for a small owner-only paired-listening test alongside **Approach 3 (octave drop + minor inflection + pulse hesitation)**.
-4. **Empirical acoustic separation of "Uneasy" vs. "Dire" (`[E-full]`):** **Trevor, Renner, & Frühholz (2023, *JASA* 153:384, $N = 99$, FEARMUS)** empirically distinguishes anxious/uneasy cues (sparse `2.176 events/s`, hollow extreme registers, darker spectrum, high loudness variability `0.561`) from terrifying/dire cues (dense `3.190 events/s`, rough 30–150 Hz modulation, higher RMS `0.194`). Drones (**Bostwick, Seror, & Neill 2018**, $N = 32$, `[E-full]`; **Friedman 2019**, `[E-abs]`) and deceptive/half cadences (**Sears et al. 2020**, $N = 40$; **Choi & Fujioka 2025**, $N = 38$; **Smit et al. 2020**, $N = 66$, `[E-full]`) now carry `[E-full]`/`[E-abs]` support for modal sadness/tension and suspended completion.
-5. **Adaptive game music & gacha composer evidence (`[E-full]`, `[P]`):** Integrated **Heikkilä, Danso, & Luck (2026 *PLOS ONE*, `[E-full]`)** meta-analysis ($g = 0.34$ homogeneous effect vs. silence), **HOYO-MiX / Yu-Peng Chen & Zoe Cai (2020, `[P]`)** (*Genshin Impact* V0 bare solo-piano test and shared-melody day/dawn/dusk/night variants), **Darren Korb (2020–2026, `[P]`)** (*Hades* 8 stems, `every measure` markers, and the reactivity effectiveness bell curve), and **Masami Ueda / Keiichi Okabe (2017, `[P]`)** (*NieR: Automata* tempo/time-signature-locked S/M/L layers).
-6. **External AI fabrications and inversions caught and excluded:** Caught and documented `Gemini-A`'s inversion of **Jimenez, Kuusi, & Ojala (2022)** (which tested chord memory, not melody recognition) and **Farbood (2012)** ("65% loudness failures" were stationary-pitch controls); `Gemini-B`'s fabricated physiological arousal in **Plut & Pasquier (2019)**, fabricated **salivary cortisol** in **Klimmt et al. (2019)**, fabricated `<30s / 1–2 min / >3–5 min` table in **Rogers & Weber (2019)**, and fabricated `0.5–2.0s` / `3.0–5.0s` crossfade numbers for *NieR* / *Genshin*; plus `ChatGPT-A`'s author misattribution (`Friedman` for `Bostwick, Seror, & Neill 2018`) and `Gemini-A`'s DOI typo on **Trevor et al. (2023)**.
+### Key synthesis outcomes & Review 01 repairs
+1. **Kuusi (2009) descriptive condition differences & confounds (`[E-full]`, $N = 46$, 19 tunes selected, 14 analyzed):** Reports the descriptive condition means—intact tune **95.9% / 93.6% / 86.5%** vs. isochronous 500 ms melody alone **76.1% / 67.4% / 53.3%** vs. isochronous melody + standard harmony **81.3% / 68.0% / 53.9%** (+0.6 to +5.2 pts over melody alone) vs. monotone rhythm alone **50.5% / 15.6% / 2.5%** vs. rhythm+harmony without melody **37.6% / 8.5% / 18.6%**—together with the three methodological confounds on the intact-vs-altered gap (intact combined original harmony + rhythm + melody, always followed the two altered presentations, and altered scores excluded tunes not identified intact). Keeps preserving hook rhythm as a practical inference (`[H]`).
+2. **Evidence vs. musical recipe (`Liu 2018/2022`, `Farbood & Price 2017`, `Trevor et al. 2023`, `Athanasopoulos et al. 2021`):** Reconciles **Liu (2018)** ($N = 80$) to **`[E-abs]`** (verified official SAGE abstract) + **`[E-sec]`** (secondary-reported Task 2 result that primary→diatonic substitutions `ii, iii, vi` preserved melody conservation better than primary→secondary chords), alongside **Liu (2022)** ($N = 131$ China / $N = 61$ US, `[E-abs]`). Explicitly distinguishes diatonic substitutions from borrowed minor modal mixture (`iv`, $\flat\text{VI}$), chromatic clusters, and the proposed **Base → Uneasy → Dire** state progression (`[H]` craft choices). Defines "same key" as shared tonic/tonal center. Distinguishes isolated 2-s sound-pair experiments (**Farbood & Price 2017**, $N = 24$, `[E-full]`) from correlational horror-excerpt classification (**Trevor, Renner, & Frühholz 2023**, $N = 99$, `[E-abs]`/`[E-full]`) and cross-cultural/training moderation (**Athanasopoulos et al. 2021**, $N = 169$, `[E-full]`; **Silvey 2011**, $N = 40$, `[E-full]`).
+3. **Reading-depth & provenance consistency (`[E-sec]` separated from `[E-abs]`; Contradicted vs. Unsupported separated):** Keeps secondary-reported results separately tagged (`[E-sec]`) rather than broadening `[E-abs]`, reconciles `argon-f1`'s over-broad `full text` tag on paywalled Liu (2018), and separates external AI claims **contradicted by primary full text** (`Gemini-A` on Jimenez et al. 2022 and Farbood 2012; `Gemini-B` on Plut & Pasquier 2019 physiological arousal, Klimmt et al. 2019 salivary cortisol, and Rogers & Weber 2019 loop-duration table; `ChatGPT-A` on Bostwick et al. 2018 authorship) from claims **unsupported by the cited practitioner source** (`Gemini-B`'s `0.5–2.0s` *NieR* and `3.0–5.0s` *Genshin* crossfade numbers).
+4. **Experimental parameters, loudness matching & exact PCM arithmetic:** Labels proposed synth settings (e.g., ~55–110 Hz bass with ~110–240 Hz overtones, $\pm 6\text{ dB}$ swells, controlled roughness, and loop-fatigue benefits) as `[H]` starting parameters requiring direct laptop/phone speaker checks, and avoids uncomfortable roughness by default. Specifies **ITU-R BS.1770 / EBU R128 integrated loudness (`-16.0 LUFS`, `-1.0 dBFS` true peak)** as the primary matching method with unweighted RMS logged separately. Corrects all decoded 48 kHz `float32` arithmetic for a $19.2\text{ s}$ loop: **`7.3728 MB`** per stereo stem (`3.6864 MB` mono), **`22.1184 MB`** for 3 stereo mixes, **`36.864 MB`** for 5 stereo stems, and **`29.4912 MB`** for 2 mono + 3 stereo stems (replacing the prior `~22 MB` error), while noting real-time voice/filter/scheduling costs for procedural synthesis.
+5. **Lean 5-rendering first pass, art-direction framing & explicit Plan 32 gate:** Aligns on Root's provisional musical recommendation—bright, inviting, lightly bouncy `Base` that stays comfortable during reading; `Uneasy` that loses comfort without becoming horror; `Dire` aimed first at **restrained, sparse, unresolved pressure**—and reduces the proposed first pass to **five renderings (`Base`, `Foil`, `Uneasy`, `Dire-Clean`, `Dire-Filtered` with low-pass filtering only, separated from detuning)** and five practical checks (same-tune/foil, mood-order/salience, clean-vs-filtered lead, speaker check, loop check). Holds `Approach 3` and denser/rougher variants in reserve. Defines originality as no intentional copying + an auditable composition record, and states that accepting Plan 33 does not auto-start Plan 32.
 
 No audio, music download, library installation, score, production edit, experiment execution, trigger schedule, source selection, packet status edit, or `git push` was performed.
 
@@ -33,102 +32,61 @@ No audio, music download, library installation, score, production edit, experime
 - `deep-research/prompt-b/claude-research-b.md` (`40,175` bytes, `SHA-256: 9F4211B8667FDC3824EB412CB04A753347E5B7909A0B19011FB64C93BD7C426C`)
 - `deep-research/prompt-b/gemini-research-b.md` (`110,081` bytes, `SHA-256: 01A170F16510B4F84ED7EDA48AE1C9A645354DAC6A1F62E09E13CC76F9E6B40F`)
 
-### New verification, status, and Flash worker records
-- `deep-research/prompt-a/verification.md`
-- `deep-research/prompt-b/verification.md`
-- `integration-status.md`
-- `research/argon-f1/brief.md`, `research/argon-f1/sources.md`, `research/argon-f1/findings.md`
-- `research/argon-f2/brief.md`, `research/argon-f2/sources.md`, `research/argon-f2/findings.md`
-- `research/argon-f3/brief.md`, `research/argon-f3/sources.md`, `research/argon-f3/findings.md`
-- `research/argon-f4/brief.md`, `research/argon-f4/sources.md`, `research/argon-f4/findings.md`
-
-### Updated synthesis deliverables
+### Updated in Review 01 repair pass
 - `recommendation.md`
 - `transformation-matrix.md`
 - `composition-brief.md`
 - `transition-contract.md`
 - `sources/index.md`
+- `deep-research/prompt-a/verification.md`
+- `deep-research/prompt-b/verification.md`
+- `integration-status.md`
+- `research/argon-f1/sources.md`, `research/argon-f1/findings.md` (reconciled Liu 2018 reading depth and Kuusi 2009 confounds)
 - `progress.md` (committed last)
-
-### Preserved Phase 1 files (unchanged)
-- `deep-research-prompts.md`, `search-plan.md`, `status-for-orchestration.md`, `research/common-brief.md`, `research/t1-identity/*`, `research/t2-tension/*`, `research/t3-game-practice/*`, `research/t4-browser/*`, `research/browser-pass-*`.
 
 ---
 
 ## Tasks, models and budget (exact)
 
-### Phase 2 (Gemini Argon integration pass)
-
-| Task | Scope | Requested Model / Role | Observed Conversation ID & Execution | Authority |
+| Task | Scope | Requested Model / Role | Worker Self-Reported / Observed Info | Authority |
 |---|---|---|---|---|
-| Integrator | Plan 33 synthesis & primary verification | Gemini 4 Argon (Medium) | `d99d1d09-c81f-4803-bb6e-9e247381ac6b` | `reports/orchestration/plan-33-argon-integration-handoff.md` |
-| `argon-f1` | Prompt A: Musical identity & reharmonization (`Kuusi 2009`, `Jimenez et al. 2022`, `Liu 2018/2022`, `Lim & Goh 2012`, `Silvey 2011`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `d6e3b4a4-baeb-43bc-8402-d14c52a5ef0d` (Batch 1, concurrent with `argon-f2`) | Authorized 4 Flash tasks (max 2 concurrent) |
-| `argon-f2` | Prompt A: Tension, drones, cadences & horror acoustics (`Trevor et al. 2023`, `Bostwick et al. 2018`, `Friedman 2019`, `Sears et al. 2020`, `Smit et al. 2020`, `Farbood & Price 2017`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `73ed9aaa-0411-40d8-b3cc-f0990d88bb1b` (Batch 1, concurrent with `argon-f1`) | Authorized 4 Flash tasks (max 2 concurrent) |
-| `argon-f3` | Prompt B: Adaptive game audio experiments (`Klimmt et al. 2019`, `Heikkilä et al. 2026`, `Plut & Pasquier 2019`, `Rogers & Weber 2019`, `Toprac & Abdel-Meguid 2010`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `2a43b3eb-7b28-4414-91d2-3c8ee4adde0c` (Batch 2, concurrent with `argon-f4`) | Authorized 4 Flash tasks (max 2 concurrent) |
-| `argon-f4` | Prompt B: Gacha & game composer practices (`HOYO-MiX 2020`, `Korb 2020–2026`, `Ueda/Okabe 2017`, `Peacock 2018`, `FMOD/Wwise`, `Tone.js/Howler.js`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `c42c06f6-8d39-4886-b86a-0d0d2a7f0189` (Batch 2, concurrent with `argon-f3`) | Authorized 4 Flash tasks (max 2 concurrent) |
+| Integrator | Plan 33 Phase 2 synthesis + Review 01 repairs | Gemini 4 Argon (Medium) | `d99d1d09-c81f-4803-bb6e-9e247381ac6b` | `plan-33-argon-integration-handoff.md` & `plan-33-argon-integration-review-01.md` |
+| `argon-f1` | Prompt A: Musical identity & reharmonization (`Kuusi 2009`, `Jimenez et al. 2022`, `Liu 2018/2022`, `Lim & Goh 2012`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `d6e3b4a4-baeb-43bc-8402-d14c52a5ef0d`; self-reported `Google Gemini 2.5 Flash` | Phase 2 authorized 4 Flash tasks (max 2 concurrent) |
+| `argon-f2` | Prompt A: Tension, drones, cadences & horror acoustics (`Trevor et al. 2023`, `Bostwick et al. 2018`, `Farbood & Price 2017`, `Silvey 2011`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `73ed9aaa-0411-40d8-b3cc-f0990d88bb1b`; self-reported `Google Gemini 2.5 Flash` | Phase 2 authorized 4 Flash tasks (max 2 concurrent) |
+| `argon-f3` | Prompt B: Adaptive game audio experiments (`Klimmt et al. 2019`, `Heikkilä et al. 2026`, `Plut & Pasquier 2019`, `Rogers & Weber 2019`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `2a43b3eb-7b28-4414-91d2-3c8ee4adde0c`; self-reported `Google Gemini 2.5 Flash` | Phase 2 authorized 4 Flash tasks (max 2 concurrent) |
+| `argon-f4` | Prompt B: Gacha & game composer practices (`HOYO-MiX 2020`, `Korb 2020–2026`, `Ueda/Okabe 2017–2018`, `Raine 2018`) | `Model: "flash"`, `TypeName: "argon-flash-researcher"` (`EnableSubagentTools: false`) | `c42c06f6-8d39-4886-b86a-0d0d2a7f0189`; self-reported `Google Gemini Flash tier` | Phase 2 authorized 4 Flash tasks (max 2 concurrent) |
 
-- **Concurrency & nesting:** Batch 1 (`argon-f1` + `argon-f2`) ran with 2 concurrent workers and completed before Batch 2 (`argon-f3` + `argon-f4`) was launched. Maximum concurrency: 2. Total Flash tasks: 4 of 4. Nested agents: 0 (`EnableSubagentTools: false`).
-- **Observed model note:** Subagents were invoked via `invoke_subagent` with `Model: "flash"`; the subagent tool returns `conversationId` and transcript path rather than an internal model-version string, so `Model: "flash"` is recorded as requested/enforced by the harness tool parameter.
-
-*(Phase 1 Sonnet/Haiku task table is preserved in git history at `a22e750` and summarized above.)*
+- **Model identity distinction (Review 01 Item 7):** `Model: "flash"` was requested via the harness tool parameter and workers self-reported `Google Gemini 2.5 Flash` / `Gemini Flash tier`; requested and self-reported identities are recorded distinctly from independently verified runtime model identity.
+- **Review 01 pass budget:** Zero new Flash tasks and zero reviewer consultations were invoked.
 
 ---
 
-## Commands run and results (Phase 2)
+## Commands run and process disclosure
 
-1. **Process inspection before Node preflight:**
-   - Inspected existing `node` processes (`19` processes, `34.72 MB`–`135.93 MB` `WorkingSet64`) and verified SHA-256 hashes and byte sizes of all 6 raw deep-research files.
-2. **Packet status preflight check:**
-   - *Initial unguarded call (disclosed):* `node scripts/dev/plan-status.js check 33` ran in parallel with reading `reports/orchestration/plan-33-argon-integration-handoff.md` before seeing the guarded-launcher clause (`ExitCode: 0`, `RUNNABLE: plan-33 is ready to implement`).
-   - *Guarded call via `bounded-node-run.ps1`:* After Windows PowerShell 5.1 failed on `.NET Framework` `ArgumentList` / `Kill(bool)`, ran under PowerShell 7:
+1. **Phase 2 preflight (partial adherence to guarded-only rule disclosed):**
+   - Inspected existing `node` processes (`19` processes, `34.72 MB`–`135.93 MB` `WorkingSet64`).
+   - *Initial unguarded call:* `node scripts/dev/plan-status.js check 33` ran in parallel with reading `plan-33-argon-integration-handoff.md` before seeing the guarded-launcher clause (`ExitCode: 0`, `RUNNABLE: plan-33 is ready to implement`). Because of this initial unguarded invocation, we do **not** claim complete adherence to the once-only guarded execution rule.
+   - *Subsequent guarded call via `bounded-node-run.ps1` (under `pwsh`):*
      `pwsh -NoProfile -ExecutionPolicy Bypass -Command "& 'C:\AI\Quackpot\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1' -Executable node.exe -ArgumentVector @('scripts/dev/plan-status.js','check','plan-33')"`
      → `ExitCode: 0`, `TimedOut: false`, `MemoryExceeded: false`, `StopReason: null`, `ElapsedSeconds: 0.5398951`, `PeakSampledPrivateBytes: 3969024`, `StandardOutput: "RUNNABLE: plan-33 is ready to implement\n"`.
-   - Zero further Node commands were run.
-3. **Git and hash verification commands:**
-   - PowerShell `Get-FileHash -Algorithm SHA256` on all 6 raw deep-research files (confirmed identical before and after all edits).
-   - `git status --short` and explicit-path `git add` / `git commit` inside `reports/development/plan-33-recognizable-music-emotional-transformation-research/` only.
+2. **Review 01 repair pass commands:**
+   - **Zero** Node, build, test, server, or browser commands were run.
+   - Ran PowerShell `Get-FileHash -Algorithm SHA256` verification on all 6 raw deep-research files (confirmed byte-identical) and explicit-path `git add` / `git commit` inside `reports/development/plan-33-recognizable-music-emotional-transformation-research/` only, with `progress.md` committed last.
 
 ---
 
-## Validation checks performed
+## Short Owner Decision List
 
-- **Raw-file immutability:** Verified that all 6 files in `deep-research/prompt-a/` and `deep-research/prompt-b/` match their exact initial byte counts and SHA-256 hashes prior to committing.
-- **Primary-source verification of external AI claims:** Cross-checked overlapping and single-provider claims across `ChatGPT-A/B`, `Claude-A/B`, and `Gemini-A/B` against open-access full texts, PubMed Central / JASA / PLOS ONE / Music Perception / JRME records, and official W3C / MDN / FMOD / Wwise / Tone.js / Howler.js documentation.
-- **Foreign file isolation:** Verified via `git status --short` that untracked foreign files in `reports/development/plan-16-deterministic-review-checkpoints/` (`checkpoint-proof.mjs`, `proof-plan.md`) and all files outside `reports/development/plan-33-recognizable-music-emotional-transformation-research/` were untouched and excluded from staging.
+### Gate 1 — Research Acceptance & Separate Plan 32 First-Pass Authorization
+1. **Accept the repaired Plan 33 research synthesis?** (Closes Plan 33 research only; does not auto-start Plan 32 or adopt any music.)
+2. **Separately authorize a lean Plan 32 first-pass art-direction listening set (5 renderings)?** When ready to open Plan 32, authorize composing one original 8-bar hook (no intentional copying + auditable composition record) and rendering **five loudness-matched files (`-16.0 LUFS` integrated, `-1.0 dBFS` true peak)**: **`Base`** (bright, inviting, lightly bouncy, comfortable during reading), **`Foil`** (different melody, same style), **`Uneasy`** (loses comfort without horror), **`Dire-Clean`** (restrained, sparse, unresolved pressure with untouched lead), and **`Dire-Filtered`** (same Dire backing with **gentle low-pass filtering only** on the lead).
+3. **Keep fuller alternatives in reserve?** Hold **Approach 3** (octave drop + minor inflection + pulse hesitation) and extra dense/rough or detuned sub-variants as later options only if the 5-file first pass lacks contrast.
 
----
-
-## Problems encountered and resolved
-
-1. **Initial unguarded `plan-status.js` invocation & PowerShell 5.1 vs. 7 for `bounded-node-run.ps1`:**
-   - The first `node scripts/dev/plan-status.js check 33` call was issued in parallel with reading the handoff file; once the guarded-launcher requirement was read, `bounded-node-run.ps1` was invoked via `pwsh` (`PowerShell 7`) because Windows PowerShell 5.1 lacks `ProcessStartInfo.ArgumentList` and `Process.Kill(bool)`. Both calls exited cleanly (`0`) and no further Node commands were executed.
-2. **External AI citation hallucinations and inversions:**
-   - `Gemini-A` inverted Jimenez et al. (2022) and misstated Farbood (2012); `Gemini-B` fabricated cortisol measurements in Klimmt et al. (2019), physiological arousal in Plut & Pasquier (2019), a loop-length table in Rogers & Weber (2019), and crossfade durations in *NieR* / *Genshin*. All were caught by primary-source inspection and documented as `[Rejected]` in `deep-research/prompt-a/verification.md`, `deep-research/prompt-b/verification.md`, and `sources/index.md`.
-
----
-
-## Remaining risks and follow-ups
-
-- **Residual empirical gaps (`[H]`):** No controlled study directly tests replacing accompaniment with *dissonant/clashing* horror voicings under a newly composed, loop-repeated 4–8 bar hook over a 15–25 minute session, nor compares clean lead (`Dire-2A`) vs. subtle within-patch lead filtering/detuning (`Dire-2B`) vs. octave-dropped minor variation (`Approach 3`) side-by-side. The proposed owner-only paired-listening comparison (5 files × 19.2 s) resolves this before production integration.
-- **Original-music provenance:** Remains gated by `docs/open-questions.md` and owner decision before any generated or composed audio ships in `src/`.
-
----
-
-## Owner decisions needed (separated by stage)
-
-### Stage A — Needed before Plan 32 (hook & variation sketching)
-1. **Identity definition ("same tune"):** Should "the same tune" mean **melody/rhythm invariance with accompaniment transformation (Approach 2)**, or **verbatim audio until Dire, then melodic/octave/pulse variation (Approach 3)**?
-2. **Approve the small owner-only paired-listening comparison?** Authorize generating 5 local 19.2-second candidate files (`Base`, `Uneasy-2`, `Dire-2A` clean lead, `Dire-2B` subtle within-patch lead filter/detune, `Dire-3` octave drop + `♭3`/`♭6` + pulse hesitation) for the owner alone to audition.
-3. **Architecture & budget selection:** Confirm **Option A (3 whole-loop files: Base / Uneasy / Dire)** vs. **Option B (4–5 vertical stems)** and compressed format (**OGG Opus / Vorbis** recommended over raw WAV).
-4. **Original-music provenance rule (`docs/open-questions.md`):** Confirm whether Plan 32 uses deterministic Web Audio synth parameter recipes (extending `src/audio/synth.mjs`), human-composed local stems, or another owner-approved local method.
-
-### Stage B — Needed before runtime / story-state integration
-5. **Story-state trigger mapping:** Choose how Base → Uneasy → Dire transitions are driven (explicit narrative act flags vs. monotonic debt/manipulation threshold counters vs. scene-plus-state hybrid) and whether progression is strictly one-way (`Math.max`).
-6. **Transition timing & loop continuity:** Choose between **phrase-aligned bar/loop-boundary swap (`every measure` / loop wrap)** vs. **equal-power crossfade (`1.5–2.5 s`)** vs. **hybrid**, and whether the phase clock runs continuously across views or resets on scene entry.
-7. **Terminal & lifecycle silence rules:** Confirm immediate hard stop (`< 50 ms`) on **Uninstall**, **silent Receipt / debrief by default**, and **immediate pause on `visibilitychange` (`document.hidden`)**.
+### Gate 2 — Deferred Runtime & Integration Decisions (After Listening Selection)
+4. **Story-state trigger & lifecycle rules (`transition-contract.md`):** Which explicit authored state (`S1` story flag, `S2` visible stage threshold, or `S3` scene map) drives Base → Uneasy → Dire; apartment ↔ gacha transition style; hidden-tab policy; Uninstall/Receipt silence rules; and local Credits provenance wording.
 
 ---
 
 ## Consultation posture
 
-**Advisor consultation not warranted — prose-only research report with no code, script or schema.** No extra consultant budget was assumed or spent.
+**Advisor consultation not warranted — prose-only research report repairs with no code, script, or schema.** Root's Terra-medium Review 01 (`reports/orchestration/plan-33-argon-integration-review-01.md`) was directly implemented; no extra consultant budget was assumed or spent.

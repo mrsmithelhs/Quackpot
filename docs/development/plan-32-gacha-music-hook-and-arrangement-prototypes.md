@@ -1,12 +1,10 @@
 ---
 id: plan-32
 title: Gacha music hook and arrangement prototypes
-status: draft
+status: in-progress
 
 depends_on: []
 gate: "Owner approves bounded investigation brief before assignment and selects results before production adoption."
-superseded_by: null
-resolution: null
 summary: >-
   Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis.
 ---
@@ -17,13 +15,15 @@ summary: >-
 - Packet id: plan-32
 - Packet title: Gacha music hook and arrangement prototypes
 - Status: (see frontmatter)
-- Owner/model: unassigned; root coordination; Sonnet preferred for approved SVG work
+- Owner/model: Codex implementer; root coordination (owner assignment 2026-10-29)
 - Date: 2026-10-28
 - Packet type: investigation / proposal
 - Mutation level: report-only
 - Approval gate: owner brief and result selection before implementation
 
 ## Goal, scope and delivery
+
+**Owner assignment 2026-10-29:** In-progress in Codex after accepted Plan 33 research. Use reports/orchestration/plan-32-codex-starting-handoff.md. First return motif/rendering/listening proposal; no audio rendering until owner motif/listening gate and root resource clearance. Later approved first pass targets five renderings: Base, Foil, Uneasy, Dire-Clean and Dire-Filtered. No automatic provider augmentation or subagent budget.
 
 Owner wants synth music with recognizable melodic hooks, recurring instrumentation and room for progressively tense arrangements as metagame circumstances worsen. This packet proposes/composes source motifs; Plan33 independently researches transformation methods. Neither adopts a production audio library or narrative trigger schedule.
 

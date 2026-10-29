@@ -1,0 +1,45 @@
+# T4 sources: official browser-audio constraints
+
+**Provenance:** Authored by Haiku worker T4 (Plan 33); saved by the Sonnet integrator from the worker's returned text (the worker was told not to write files). Accessed 2026-10-28 for every row.
+
+**Access note (from worker):** every source was read through WebFetch, which returns a model-written summary of the page, not verbatim text. Long specs were read in chunks and only partly. No quotes are given because the worker could not verify them word-for-word. The integrator has not independently re-opened these pages.
+
+| # | Title | Creator(s) | Venue/publisher | Date/year | URL | Access | Evidence type | Note on limits |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Web Audio API 1.1 (Working Draft) | W3C Audio WG | W3C | WD 22 Sep 2026 (per fetched page; latest published link is w3.org/TR/webaudio-1.1/) | https://www.w3.org/TR/webaudio/ | Docs page via summary, about 300k of 398k characters across 3 chunks. Read: states, resume/suspend, render quantum, AudioParam 1.6.2, AudioBufferSourceNode 1.9.2/1.9.5/1.9.6, start 1.7.2, IIR (1.21). Not reached: AudioWorklet detail, createMediaElementSource, DynamicsCompressorNode, the cause of "interrupted". | [T] | Normative text, but only summarized. |
+| 2 | Audio Session API (Working Draft) | Youenn Fablet (Apple), Alastor Wu (Mozilla) | W3C Media WG | WD 13 Nov 2024 | https://www.w3.org/TR/audio-session/ | Docs page via summary (full draft) | [T] | Explicitly a draft; no browser support stated. |
+| 3 | HTML Living Standard, media elements (4.8.8–4.8.11) | WHATWG | WHATWG | Last updated 26 Oct 2026 | https://html.spec.whatwg.org/multipage/media.html | Docs page via summary, first 200k of 388,903 characters. Read: loop end-of-resource steps (4.8.11.8), loop attribute, CORS attribute (4.8.11.2). | [T] | Chunk-limited. |
+| 4 | Fetch Living Standard | WHATWG | WHATWG | Last updated 19 Oct 2026 | https://fetch.spec.whatwg.org/ | Docs page via summary, first 200k of 490,651 characters. Scheme-fetch section (4.3) not reached. | [T] | The `file:` scheme rule is NOT verified. |
+| 5 | Autoplay guide for media and Web Audio APIs | MDN contributors (Mozilla) | MDN Web Docs | Last modified 10 Sep 2026 | https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay | Docs page via summary, full page | [T] | Describes the Firefox pref and getAutoplayPolicy. Silent on suspended/resume for Web Audio. |
+| 6 | Using the Web Audio API | MDN contributors | MDN Web Docs | Metadata: last modified 4 Sep 2026 | https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API | Docs page via summary; the returned content was a media-element example, so page identity is uncertain | [T] | Not relied on for any claim. |
+| 7 | Autoplay policy changes for Web Audio and media (Chrome) | Google Chrome team | developer.chrome.com | Page metadata "Last updated 2017-09-13", content refers to Chrome 71 (2018) | https://developer.chrome.com/blog/autoplay | Docs/blog page via summary | [T] | Date conflict; treat as older guidance, check current Chrome docs. |
+| 8 | AudioBufferSourceNode | MDN contributors | MDN Web Docs | Last modified 28 Sep 2026 | https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode | Docs page via summary | [T] | No node-count or memory limit stated. |
+| 9 | AudioParam | MDN contributors | MDN Web Docs | Last modified 30 Jul 2023 | https://developer.mozilla.org/en-US/docs/Web/API/AudioParam | Docs page via summary | [T] | No zero/sign rule for exponential ramps (spec does; see 1). |
+| 10 | Web Audio API best practices | MDN contributors | MDN Web Docs | Last modified 27 Aug 2026 | https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices | Docs page via summary | [T] | Silent on clicks, node counts, CPU, sample rate, memory. |
+| 11 | Advanced techniques: creating and sequencing audio | MDN contributors | MDN Web Docs | Last modified 27 Oct 2026 | https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Advanced_techniques | Docs page via summary | [T], [P] (example code) | Lookahead scheduler example; credits Chris Wilson's article (not opened). |
+| 12 | AudioContext | MDN contributors | MDN Web Docs | Last modified 16 May 2026 | https://developer.mozilla.org/en-US/docs/Web/API/AudioContext | Docs page via summary | [T] | State values and statechange not listed; baseLatency/outputLatency described without example numbers. |
+| 13 | AudioBuffer | MDN contributors | MDN Web Docs | Last modified 24 Jul 2024 | https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer | Docs page via summary | [T] | No memory figures. |
+| 14 | OfflineAudioContext | MDN contributors | MDN Web Docs | Last modified 4 Aug 2024 | https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext | Docs page via summary | [T] | Constructor parameter order inferred only from an example. |
+| 15 | AudioWorkletNode | MDN contributors | MDN Web Docs | Last modified 30 Nov 2025 | https://developer.mozilla.org/en-US/docs/Web/API/AudioWorkletNode | Docs page via summary | [T] | No 128-frame block size; no performance guidance. |
+| 16 | MediaElementAudioSourceNode | MDN contributors | MDN Web Docs | Last modified 24 Jul 2024 | https://developer.mozilla.org/en-US/docs/Web/API/MediaElementAudioSourceNode | Docs page via summary | [T] | Silent on one-node-per-element rule and CORS output. |
+| 17 | Media container and codec support (Formats/Containers) | MDN contributors | MDN Web Docs | Last modified 1 Oct 2026 | https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Containers | Docs page via summary; per-browser table columns misaligned in extraction | [T] | Silent on gapless playback and on file:// fetches. |
+| 18 | Page Visibility API | MDN contributors | MDN Web Docs | Last modified 30 Dec 2025 | https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API | Docs page via summary | [T] | States timers throttled in background; tabs playing audio not throttled. |
+| 19 | Intensive throttling of timers (Chrome 88) | Google Chrome team | developer.chrome.com | Last updated 18 Jan 2021 | https://developer.chrome.com/blog/timer-throttling-in-chrome-88 | Docs/blog page via summary | [T] | Chrome-only; Firefox and Safari rules not covered. |
+| 20 | Bug 237878: AudioContext is suspended on iOS when page is backgrounded | WebKit contributors (reporter Youenn Fablet) | WebKit Bugzilla | Resolved FIXED 2022-03-17 | https://bugs.webkit.org/show_bug.cgi?id=237878 | Bug tracker page read directly; comments visible | [T] (bug record, not official policy) | No maintainer policy statement. Later comments report persistence on iOS 16.x (anecdotal). |
+| 21 | Web Audio API support (caniuse) | caniuse | caniuse.com | Usage stats Sep 2026; no data-as-of date shown | https://caniuse.com/audio-api | Compatibility reference, summary | compatibility table | Unprefixed Web Audio only. Nothing on AudioWorklet or getAutoplayPolicy. |
+| 22 | MP3 audio support (caniuse) | caniuse | caniuse.com | Usage stats Sep 2026 | https://caniuse.com/mp3 | Compatibility reference, summary | compatibility table | Footnote: support refers to use in the audio element. |
+| 23 | GitHub Pages limits | GitHub | GitHub Docs | Date not visible | https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits | Docs page via summary | [T] | No MIME, caching, or per-file limit given. |
+| 24 | WebKit blog index | WebKit | webkit.org | Undated listing | https://webkit.org/blog/ | Listing only | none used | No audio or autoplay post found. |
+
+## Claim-to-source map (finding → source rows)
+
+F1 states, suspended/interrupted: 1 · F2 Chrome/Edge autoplay and resume: 7, 5 · F3 Firefox block-webaudio pref, getAutoplayPolicy: 5 · F4 start(when), loop, loopStart, loopEnd, one-shot nodes: 1, 8 · F5 gapless/codec gap: 3, 1, 17 · F6 codec support: 17, 22 · F7 AudioBuffer format, snippet size, decodeAudioData: 13, 1 · F8 memory arithmetic: 13 + arithmetic [T] · F9 automation methods, exponential zero rule: 1, 9, 11 · F10 lookahead scheduling and timer throttling: 11, 18, 19 · F11 hidden-tab audio and iOS backgrounding: 18, 19, 20 · F12 audio session draft: 2 · F13 media element source path: 16, 3, 1 · F14 OfflineAudioContext, render quantum: 14, 1 · F15 AudioWorklet: 15 · F16 support tables: 21 · F17 GitHub Pages limits: 23 · F18 suspended context and fades: 1
+
+## Gaps (from worker)
+
+- Not reached in the spec: AudioWorklet detail, createMediaElementSource rules, DynamicsCompressorNode, the cause of "interrupted", full OfflineAudioContext section.
+- Fetch spec `file:` scheme rule not located in the first 200k characters.
+- No official source found on: equal-power crossfade, mute semantics, headroom/limiting guidance, node-count limits, memory budgets, MP3 gapless behavior, AudioWorklet 128-frame block size.
+- No WebKit-owned policy page on AudioContext interruption or the audio session. WebKit bug 231105 (macOS) seen only as a search-result title.
+- Chris Wilson's "A Tale of Two Clocks" (cited by source 11) not opened.
+- No source opened covers Firefox or Safari background-timer behavior.

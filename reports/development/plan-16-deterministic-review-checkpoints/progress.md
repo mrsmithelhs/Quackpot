@@ -2,7 +2,7 @@
 
 ## Overall summary
 
-Produced a report-only architecture proposal for valid engine-generated seeded checkpoints, a compact sidecar manifest/review brief, six candidate checkpoints, strict staleness rules, and an isolated future load workflow. Recommendation is to replay legal actions through the current engine/controller boundary, retain the complete schema-3 envelope, validate and hydrate it through existing production contracts, and use automation-side storage seeding in a fresh private browser context after a separate owner architecture gate.
+Produced a report-only architecture proposal for valid engine-generated seeded checkpoints, a compact sidecar manifest/review brief, six candidate checkpoints, strict staleness rules, and an isolated future load workflow. Recommendation is to replay legal actions through the current engine/controller boundary, retain the complete schema-3 envelope, validate and hydrate it through existing production contracts, and use automation-side storage seeding in a fresh private browser context after a separate owner architecture gate. Root reviewed the proposal for owner review and requested three prose clarifications: isolated context does not require a new server when an existing stable server serves verified source; exact-byte SHA-256 is distinct from semantic regeneration comparison excluding `savedAt`; and any thin controller adapter needs an explicit production-source-to-recipe mapping with no fabricated cue evidence, plus proof of mounted UI continuation.
 
 ## Files changed
 
@@ -22,7 +22,7 @@ Produced a report-only architecture proposal for valid engine-generated seeded c
 ## Validation checks performed
 
 - Source inspection confirmed current schema version 3; accepted legacy versions/migration; whole-state envelope serialization; root/draw/race/event PRNG snapshots; append-only event chain and separate terminal completeness; persisted step/modal restoration; pending reveal coherence; race attempt/resolution/digest and rest evidence checks; storage preservation mode; UI race playback callbacks; and event-logged Receipt boundary.
-- This is prose/source investigation only. No code behavior was executed or validated beyond the guarded packet-status CLI. No tests, build, server, browser, storage seeding, memory sweep, or fixture generation was run.
+- This is prose/source investigation only. No code behavior was executed or validated beyond the guarded packet-status CLI. No tests, build, server, browser, storage seeding, memory sweep, or fixture generation was run. This follow-up made only the root-requested prose clarifications; the executable-proof gate remains closed pending owner approval and bounded follow-on scope. During this follow-up, Git status also showed an untracked Plan 27 report folder alongside the previously noted Plan 33 folder; both were left untouched.
 - Advisor consultation not warranted for this docs-only architecture proposal; no reviewer/subagent fan-out ran.
 
 ## Problems and how resolved
@@ -40,3 +40,5 @@ Produced a report-only architecture proposal for valid engine-generated seeded c
 ## Ready for orchestrator review
 
 Yes — architecture recommendation only; owner approval is still required before generator/loader implementation, fixture generation, browser work, or reviewer fan-out.
+
+

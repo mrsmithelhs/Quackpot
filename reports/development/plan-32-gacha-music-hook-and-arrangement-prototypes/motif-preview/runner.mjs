@@ -391,7 +391,7 @@ async function main() {
   if (!existsSync(CHROME)) throw new Error(`Chrome executable missing: ${CHROME}`);
   const historyPath = path.resolve(ROOT, HISTORY);
   mkdirSync(historyPath, { recursive: true });
-  const reportRoot = path.resolve(ROOT, BASE);
+  const reportRoot = path.resolve(ROOT, MODE === "extensions" ? `${EXT_BASE}/composition-preview` : BASE);
   const historyRelative = path.relative(reportRoot, realpathSync(historyPath));
   if (historyRelative === ".." || historyRelative.startsWith(`..${path.sep}`) || path.isAbsolute(historyRelative)) {
     throw new Error("Plan 32 history folder resolves outside its report-local source directory.");

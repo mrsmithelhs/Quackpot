@@ -217,11 +217,33 @@ function parseChoices(o) {
   return { ok: true, errors: [], state: st, report: rep };
 }
 // Earlier saved format (pools as an object keyed by purpose) -> canonical, so older browser saves still load.
+// Returns { value, errors }. The WHOLE earlier structure is checked before converting, so nothing malformed is silently dropped
+// (a dropped role/set/shortlist entry would otherwise be overwritten on the next edit). Any error sends the saved bytes to the
+// preserve-and-block recovery path. Notes/trims/IDs/trim ranges are then validated by parseChoices on the converted object.
+var LEGACY_TOP = ['schema', 'schemaVersion', 'catalogRevision', 'pools', 'shortlist', 'rejected', 'notes', 'trims', 'savedAt'];
 function migrateStored(o) {
-  if (!isPlain(o) || o.schema !== SCHEMA || !isPlain(o.pools)) return o;
+  if (!isPlain(o) || o.schema !== SCHEMA || !isPlain(o.pools)) return { value: o, errors: [] }; // canonical or foreign: parseChoices decides
+  var errs = [], q = function (s) { return JSON.stringify(String(s).slice(0, 40)); };
+  function bad(m) { if (errs.length < 12) errs.push('Earlier saved format: ' + m); }
+  var rk = reservedKeyPath(o, '', 0); if (rk) bad('contains the reserved key ' + q(rk) + '.');
+  Object.keys(o).forEach(function (k) { if (LEGACY_TOP.indexOf(k) < 0) bad('unrecognized top-level field ' + q(k) + '.'); });
   var pools = [];
-  Object.keys(o.pools).forEach(function (r) { var p = o.pools[r]; if (isPlain(p) && isPlain(p.sets)) Object.keys(p.sets).forEach(function (n) { pools.push({ role: r, pool: n, active: p.active === n, fileIds: p.sets[n] }); }); });
-  return { schema: SCHEMA, schemaVersion: o.schemaVersion, catalogRevision: o.catalogRevision, pools: pools, shortlistedIds: isPlain(o.shortlist) ? Object.keys(o.shortlist) : undefined, rejectedIds: isPlain(o.rejected) ? Object.keys(o.rejected) : undefined, notes: o.notes, ownerTrimDb: o.trims };
+  Object.keys(o.pools).forEach(function (r) {
+    var p = o.pools[r];
+    if (!isPlain(p)) { bad('pools[' + q(r) + '] is not an object.'); return; }
+    Object.keys(p).forEach(function (k) { if (k !== 'active' && k !== 'sets') bad('pools[' + q(r) + '] has unrecognized field ' + q(k) + '.'); });
+    if (!isPlain(p.sets)) { bad('pools[' + q(r) + '].sets is not an object.'); return; }
+    var names = Object.keys(p.sets);
+    if (typeof p.active !== 'string' || names.indexOf(p.active) < 0) bad('pools[' + q(r) + '].active does not name one of its pools.');
+    names.forEach(function (n) { if (!Array.isArray(p.sets[n])) bad('pools[' + q(r) + '].sets[' + q(n) + '] is not an array.'); else pools.push({ role: r, pool: n, active: p.active === n, fileIds: p.sets[n] }); });
+  });
+  ['shortlist', 'rejected'].forEach(function (k) {
+    if (o[k] === undefined) return;
+    if (!isPlain(o[k])) { bad(k + ' is not an object.'); return; }
+    Object.keys(o[k]).forEach(function (id) { if (o[k][id] !== true) bad(k + '[' + q(id) + '] is not true.'); });
+  });
+  if (errs.length) return { value: o, errors: errs };
+  return { value: { schema: SCHEMA, schemaVersion: o.schemaVersion, catalogRevision: o.catalogRevision, pools: pools, shortlistedIds: o.shortlist === undefined ? undefined : Object.keys(o.shortlist), rejectedIds: o.rejected === undefined ? undefined : Object.keys(o.rejected), notes: o.notes, ownerTrimDb: o.trims }, errors: [] };
 }
 function serializeState(st) {
   var order = groups.map(function (g) { return g.id; });
@@ -251,7 +273,7 @@ function load() {
   if (raw === null) return;
   rawSaved = raw;
   var res;
-  try { res = parseChoices(migrateStored(JSON.parse(raw))); } catch (e) { res = { ok: false, errors: ['Saved data is not valid JSON (' + e.name + ').'] }; }
+  try { var mig = migrateStored(JSON.parse(raw)); res = mig.errors.length ? { ok: false, errors: mig.errors } : parseChoices(mig.value); } catch (e) { res = { ok: false, errors: ['Saved data is not valid JSON (' + e.name + ').'] }; }
   if (res.ok) { state = res.state; if (state.catalogRevision !== CAT.catalogRevision) staleFrom = state.catalogRevision; }
   else { writesBlocked = true; recoveryReason = res.errors.join(' '); }
 }

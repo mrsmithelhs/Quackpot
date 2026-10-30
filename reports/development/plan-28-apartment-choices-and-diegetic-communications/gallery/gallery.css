@@ -35,7 +35,8 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
 .scene { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .85rem;
   border: 1px solid rgba(40, 34, 28, .55); background: #d5d0c6; box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .22); }
 .scene > svg { display: block; width: 100%; height: 100%; }
-.objects { position: absolute; inset: 0; pointer-events: none; }
+/* clipped to the room so halos at the scene edge never widen the page (they extend 10% past their object) */
+.objects { position: absolute; inset: 0; overflow: hidden; border-radius: .85rem; pointer-events: none; }
 /* posed duck and its perch (report-local, drawn from the kit's own duck artwork) */
 .duck-layer { position: absolute; inset: 0; overflow: hidden; border-radius: .85rem; pointer-events: none; }
 .perch, .duck-pose { position: absolute; }
@@ -69,6 +70,9 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
 /* non-diegetic day control below the room */
 .day-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; width: min(100%, 960px); margin-top: .7rem; }
 .day-bar .when { font-weight: 700; color: #4b5563; }
+.day-status { padding: .2rem .6rem; border-radius: 999px; font-weight: 700; color: var(--slate-ink); background: var(--slate); }
+.day-next { width: auto; color: var(--slate-ink); background: var(--slate); border-color: var(--slate); }
+.ui-button.ends-run { border-color: #e57373; }
 
 /* ---------- layer 2: held inspection (foregrounded on purpose) ---------- */
 .held { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; gap: 1.2rem;
@@ -169,7 +173,9 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
   .phone-held { width: 100%; height: min(34rem, calc(100vh - 6rem)); margin: 0 auto; }
   /* the collapsed decision bar docks at the bottom of the held view on phones */
   .decide, .decide-slot { position: sticky; flex: 0 0 auto; bottom: 0; width: 100%; align-self: stretch; }
-  .popover { left: 4% !important; right: 4% !important; width: auto; top: auto !important; bottom: 3% !important; }
+  /* narrow: the confirm becomes a sheet directly under the room, so the object it acts on stays visible */
+  .popover-layer { position: static; }
+  .popover { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: 100%; margin-top: .6rem; }
   .popover::before { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .guidance-tutorial .obj:not(.done)::before { animation: none; opacity: .95; } }

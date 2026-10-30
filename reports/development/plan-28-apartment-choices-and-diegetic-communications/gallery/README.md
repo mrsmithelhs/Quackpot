@@ -178,3 +178,32 @@ tests for `headingToward` or `leanToward`.
   by the plate.
 - **Checked:** both poses, by looking at the room scaled up on the page, at 1280×720.
 
+## Session 4: the selected mix through both rent branches (2026-10-30, lead, owner's Vite dev server)
+
+**New**
+- `mix-model.mjs`: pure routing (`placeFor`, `rentState`, `optionalOpen`, `OFFER_PLACE`) and decision view-models
+  (`shortfallDecision`, `ladderDecision`).
+- `MIX-paid` and `MIX-unpaid` moments, which replace the earlier chain.
+- A recorded "turn it down" in both the panel and the confirm.
+- The card-advance place.
+- The paid flow's optional couch step.
+
+**Tests (lead):** `gallery.test.mjs`, 7 of 7 through the Plan 25 launcher. Exit 0, 0.55 s, peak 2.9 MB sampled,
+`StopReason` null, stderr empty.
+
+**Browser**
+
+| Check | Method | Result |
+|---|---|---|
+| Unpaid, every offer turned down | Script | "Try to pay" recorded `expense_due` only; cash stayed $14.01. The offers appeared in order: phone, then couch, then TV, then card. The first three turn-downs said "(rent still $0.99 short)", and only the card's turn-down said the run ends. The run ended in `terminal`, then the Receipt stand-in. No page errors. |
+| Unpaid, accepting partway | Script | "Not now" on the phone recorded nothing. Turning down the shift, then selling the couch, with a same-instant double click, gave one `escalation_result` and one `expense_paid`, leaving $9.01. Day 3 started with $19.01. |
+| Paid flow | Script | Notice, then "Later" to the phone, then "Later" to the couch. The sale left $10.00, and Day 3 had $20.00 with breakfast pending. |
+| Unpaid start | Keyboard, at 1280 with `?motion-off` | A double Enter on "Try to pay" gave one `expense_due`, with focus on the result heading. Putting the notice down moved focus to the phone in the new place. Enter, then Esc, recorded nothing and returned focus to the phone. |
+| Layout at 390×844 | Measurement | The sale confirm covered the room. Fixed: below 760 px it is a sheet under the room. A 1 px overflow came from a halo pseudo-element past the room edge; fixed by clipping `.objects` to the room. Afterwards there was no horizontal scroll in T4-couch, MIX-unpaid, MIX-paid, T1-rent, T2-shift and T4-breakfast. Desktop confirms still sit beside their object. |
+| Compositions | Viewed | The duck faces the TV from the floor by the plant. The card app sits beside the game panel, with the red-bordered final decline. |
+
+**Limits**
+- No storage snapshots on this origin, because the dev server shares the real game's origin. The no-storage claim is
+  source-only.
+- Real reduced motion is unverified.
+

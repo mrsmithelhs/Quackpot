@@ -1,15 +1,182 @@
 # Plan 28: production integration proposal (Direction A)
 
 - **Status:** proposal only. No `src/` file has been edited. Production edits are outside the Plan 28 packet.
-- **Basis:**
-  - the report-local prototype in `comparison/`;
-  - the owner decisions D1–D10 (`owner-direction-2026-10-30.md`);
-  - a static reading of the current source at HEAD `928ea02`.
+- **Part A** (2026-10-30) fits the **selected interaction model**: the mix (owner D20), plus the duck decisions D14, D18
+  and D21.
+- **Part B** is the earlier floating-card proposal, kept as history. Root's revision 05 did not select that card
+  treatment. Part A says which Part B sections still apply.
+- Nothing here is evidence of runtime behavior in the real app.
 
-Line citations come from that reading. A Haiku explorer produced the source map, and the lead spot-checked the key
-lines. Nothing in this file is evidence of runtime behavior in the real app.
+# Part A: the selected mix
 
-## 0. The one decision requested from root
+## A0. The one decision requested from root
+
+Assign or decline **one cohesive implementation packet** for the selected mix:
+- the modules in A2;
+- the `main.js` rewiring in A3;
+- the state-derived routing in A4.
+
+It needs no engine rule change and no new event type.
+
+It needs **one small Plan 25 apartment-kit change**: let a scene omit or pose its duck (A2.3), so production doesn't
+remove the kit's duck in the page the way the prototype does.
+
+The ordering and exposure changes in A9 need the owner's confirmation and root's agreement within that one decision.
+They are not separate gates.
+
+## A1. The selected flow: what is where, and where you commit
+
+| Beat | In the room (layer 1) | Held or confirm (layer 2) | Commitment, in the game's voice (layer 3) | Engine call |
+|---|---|---|---|---|
+| Rent, enough cash | Notice taped to the fridge, kitchen wide; the duck on a wall shelf faces it | The letter, held and readable; the institution prints no controls | Collapsed **Decide** panel: "Pay $15.00", cash $15.00 → $0.00 | `billExpense('rent', 15)` |
+| Rent, short | Same | Same letter | Decide: "You are $0.99 short. Nothing will be taken." then **Try to pay $15.00**, then "Rent unpaid · you need $0.99 more" | the same `billExpense('rent', 15)`; the engine records only `expense_due` |
+| Offer: extra shift (also optional after paying with exactly $15) | Phone on the desk shows Marisol; the duck faces right, chest on a paperback, gazing up at it | Phone held: her text thread | The game panel beside the phone, because a text can't state the health cost: accept with its exact effect, **turn it down** (recorded; says rent stays short), or **Not now** (nothing recorded) | `acceptEscalation` / `declineEscalation`, or `chooseZeroCashOption('extra_shift')` |
+| Offer: sell the couch / the TV | Living room; the object carries a sale tag; the duck faces it | (none) | Confirm attached to the object, or a sheet under the room on narrow screens: accept, keep (recorded), or Not now | ladder calls, or `chooseZeroCashOption('sell_couch')` |
+| Offer: card cash advance (last) | Phone on the desk with the card app | Phone held: card app (available amount, what's owed now) | The game panel. Only this decline says "this run ends. Your Receipt is next.", and that label comes from the engine's own decline preview. | ladder calls; the final decline leads to `running_on_empty` |
+| Go to work | Day bar (non-diegetic): "Later that afternoon" and "Go to work" | (none) | The day bar button | `proceedToDay2Evening` order: zero-cash `continue` only while that choice is open, then the wage, then the next day |
+| Breakfast (D9) | Kitchen medium, Day 3; empty plate on the counter; the duck looks at it | (none) | Confirm at the plate: "Buy breakfast for $5.00" (the bakery downstairs, D15), with cash before and after | `billExpense('food', 5)` |
+
+Rules that hold everywhere:
+- Every amount comes from an engine clone of the action about to run.
+- Every commitment is guarded against double activation, and `billExpense` is also idempotent per bill.
+- "Put it down", "Not now", Esc and clicking the dimmed room never record anything.
+
+The ladder previews are those of `comparison/life-model.mjs`.
+
+## A2. Modules and ownership
+
+### A2.1 New focused modules under `src/ui/life/`
+
+| Module | Contents | Ported from (report) |
+|---|---|---|
+| `life-routing.mjs` | Pure: `placeFor(engine, requested)`, `rentState`, `optionalOpen`, `OFFER_PLACE` | `gallery/mix-model.mjs` |
+| `life-decisions.mjs` | Pure decision view-models: pay, shortfall, ladder (accept / turn down / Not now), optional shift and couch, breakfast; copy | `gallery/mix-model.mjs`, `gallery/copy.mjs`, `comparison/views.mjs` |
+| `life-preview.mjs` | Clone-based effect previews; cost to be measured (see B3) | `comparison/life-model.mjs` |
+| `life-objects.js` | Layer 1: world objects as positioned buttons with an accessible name, halo, chip (guidance level, D14), and done state that stays focusable | `gallery/gallery.js` renderRoom |
+| `life-held.js` | Layer 2: held letter, phone and notepad views. A modal dialog with the page made inert behind it, focus on its heading, Esc or backdrop to put it down, focus returned to the object, and a pickup animation with a reduced-motion fallback. | `gallery/gallery.js` openHeld/closeHeld |
+| `life-decide.js` | Layer 3: the collapsed Decide panel (D13); the anchored confirm, which becomes a sheet under the room below 760 px; guarded commits; result then done | `gallery/gallery.js` decisionPanel, openPopover |
+| `duck-pose.mjs` | Gaze helpers (`headingToward`, `leanToward`) and the tilt rule (wedge required, at least 12°, at most 25°), with perches and wedges | `gallery/duck-layer.mjs`, `gallery/perches.mjs` |
+| `life.css` | Styles for the three layers, scoped to `.life-*` | `gallery/gallery.css` (player rules only) |
+
+### A2.2 Edited files
+
+**`src/main.js`**
+- Replace the phone rent screen (`:405-421`) and the zero-cash and escalation modal branches (`:527-593`) with a
+  single `mountLife(engine, place)`.
+- Move the three automatic food charges (`:342`, `:651`, `:661`) to the breakfast confirm (D9).
+- Replace the paid-zero "continue" with the day bar's "Go to work".
+
+**`src/ui/modals.js`**
+- Retire `renderZeroCashPrompt` and `renderEscalationModal`.
+- Starter, retention and corrupt-save modals are unchanged.
+
+**`src/core/game-engine.mjs`:** no change.
+
+### A2.3 Plan 25 apartment kit (one small change, to be scoped through root)
+
+The prototype removes the kit's duck from the rendered SVG in the page and draws a posed duck in its place using the
+kit's own `renderDuck` artwork. Production should not rely on page surgery. Proposal:
+- add `renderScene({ duck: false })`, or a `duckPose` option, that omits the built-in duck and its shadows;
+- correct the stale "not imported by the game" comments (B10).
+
+Final art, as an art request separate from code:
+- final-quality versions of the sketch props (taped notice, sale tag, plate, bakery bag, envelope) and perches (wall
+  shelf, paperback; the book stack, crate and ledge are drafted but unused);
+- optionally, a front door for notices slipped under it.
+
+## A3. Engine mapping
+
+B3 still applies, with these changes:
+- "Try to pay $15.00" is the same `billExpense('rent', 15)` as Pay. It is shown only when cash is short, and it says
+  beforehand that nothing will be taken.
+- Ladder: accept is `acceptEscalation`; turning it down is `declineEscalation`.
+- The day bar's "Go to work" runs the `proceedToDay2Evening` order. It calls the zero-cash `continue` only while that
+  choice is open: after an extra shift or a sale the engine has already closed it, and calling it would throw. This was
+  found as a real prototype bug.
+
+## A4. Reload and context routing
+
+Where the player is, is derived from engine state by `placeFor`:
+- **terminal:** the Receipt;
+- **rent owed:** the place of the current offer (`getCurrentEscalationStep`);
+- **rent unpaid:** the fridge notice;
+- **Day 3:** breakfast;
+- **otherwise:** the place the player last chose.
+
+Notes:
+- **Not saved.** The player's chosen place is UI state and is never saved. After a reload, mandatory beats come back
+  from state, and optional beats stay reachable through the day bar. No schema change.
+- **Breakfast unchanged from B4.** The new morning step strings and the reload rule for breakfast still apply.
+- **Uninstall and Settings.** In the room, the HUD stays reachable, matching B4.3's recommendation. While
+  something is held, the page behind the dialog, including the HUD, is inert: put it down first (Esc). The latent
+  Uninstall-from-retention defect in B4.3 still stands.
+
+## A5. Focus and accessibility
+
+- **World objects:** every object is a `<button>` with an accessible name, so it can be reached by Tab. The chip is
+  decorative (`aria-hidden`), and the name carries the meaning. Done objects use `aria-disabled` and stay focusable.
+- **Held objects:** picking something up moves focus to the held object's heading. Decide is a disclosure button
+  (`aria-expanded`). Putting it down returns focus to the object. If the place changed, for example after the
+  shortfall result, focus goes to the new place's object.
+- **Confirms:** the anchored confirm is a non-modal dialog with focus on its heading. Esc returns focus to the object.
+- **Verified in the gallery:** these behaviors, plus double Enter and same-instant double clicks producing one event,
+  all checked by keyboard at 1280×720. At 390×844 there's no horizontal scroll in six moments, held views stack, and the
+  confirm becomes a sheet under the room.
+- **Not verified:** real OS reduced motion. `?motion-off` was checked; it is not the same thing.
+
+## A6. Event and display boundaries
+
+B6 still applies: no new event types, and no display logging of life surfaces in the first integration (D10).
+
+## A7. Migration and evidence
+
+B7 still applies:
+- no schema change;
+- old saves route through `placeFor`;
+- Plan 35 fixtures stay historically valid, and their current attestations need compatible offline revalidation, not
+  recapture.
+
+## A8. Validation plan
+
+- **Unit tests.** Port `gallery/gallery.test.mjs` (7 tests: routing for both rent fixtures, the shortfall attempt,
+  ladder places and the honest decline labels, accept effects equal to previews, gaze and the tilt rule, inert
+  scoped art, a letter with no controls). Also port the still-relevant `comparison/plan28.test.mjs` cases (fixture
+  pins, furnishings, breakfast tap, framing).
+- **Existing suites.** Run the engine, storage and Receipt tests that cover these calls, chosen by grep.
+- **Browser, in the real app.** The gallery's checks, plus reload at each place, Settings over a held object,
+  Uninstall Stay and Leave from each place, the Receipt after both branches, and real reduced motion if a harness can
+  emulate it.
+
+## A9. Ordering and exposure changes needing owner confirmation and root agreement
+
+1. **Breakfast becomes a tap** (D9), already recorded. The food charges move from the evening transitions to the
+   morning confirm.
+2. **Paying with exactly $15.**
+   - **Before:** the two optional choices (extra shift, sell the couch) sat as buttons on the paid-zero card.
+   - **Now:** they are objects in other places: the phone's message, the couch's sale tag. The day bar offers "Later
+     that afternoon", and "Go to work" ends the choice.
+   - A player can now go to work without seeing them. That fits D4 and D5 (optional lanes, relaxing guidance), but it
+     changes how often the choices are seen. The duck's gaze and the halo still point to them.
+3. **Rent short.** The four offers are no longer one card. Each appears where it lives, one at a time, with the scene
+   cutting to the next after a turn-down. The order and effects are unchanged.
+4. **New non-diegetic control:** the day bar.
+
+## A10. Risks
+
+- **Discoverability of optional beats** (A9.2), especially early in a run.
+- **More taps per beat:** picking up, then Decide, then confirm.
+- **Kit change needed:** A2.3, Plan 25.
+- **Art adoption:** the sketch props are not final art.
+- **Scene cuts on the ladder** may feel abrupt without a transition. A short crossfade is easy, and it already has a
+  reduced-motion fallback in the held-object code.
+- **Inherited from Part B:** preview cost, and the Uninstall-from-retention defect.
+
+# Part B: earlier proposal (floating-card model), kept as history
+
+Root's revision 05 did not select the card treatment in B1–B2 and B5. Sections B3, B4, B6, B7 and B9 still apply where
+Part A says so.
+
+## B0. The one decision requested from root
 
 Assign or decline a **single cohesive implementation packet**. It would cover:
 - the modules in §2;
@@ -23,7 +190,7 @@ lifecycle checks even though amounts and engine action methods are retained.
 Root also needs to decide on the HUD-during-card question (§4.3). Root may split the packet differently, but slicing it
 into preliminary gates is not needed.
 
-## 1. Current flow and selected flow
+## B1. Current flow and selected flow
 
 | Moment | Current production | Selected (Direction A) |
 |---|---|---|
@@ -37,7 +204,7 @@ into preliminary gates is not needed.
 Unchanged: amounts, health costs, debt, ladder order, endings and the Receipt. Breakfast has no skip control; skipping
 a meal is a Plan 37 rule. The duck stays still within a scene and appears in each scene.
 
-## 2. Modules and ownership
+## B2. Modules and ownership
 
 These are focused modules, kept out of `main.js` and the global `style.css`. Each is a port of a tested prototype
 module.
@@ -71,7 +238,7 @@ Overlapping ownership that root should settle in the packet:
 - **Plan 35:** fixtures and attestations; see §7.
 - **Plans 37, 29 and 36:** see §9.
 
-## 3. Mapping controls to engine actions
+## B3. Mapping controls to engine actions
 
 Every call already exists. Only the breakfast call moves.
 
@@ -96,7 +263,7 @@ calibration could make them reachable, so the routing should exist anyway.
 render, and only on rent surfaces. The implementation packet should measure this cost. If it is too slow, the
 fallback is a pure engine method `previewEscalation(step)`. That would be a new read-only method, not a rule change.
 
-## 4. Save, reload and context routing
+## B4. Save, reload and context routing
 
 ### 4.1 Steps
 
@@ -150,7 +317,7 @@ Consequences:
   should make repeated Uninstall requests idempotent without replacing the original context; keep immediate Leave
   and at-most-once retention reward. Do not solve this by blocking Uninstall on ordinary bill surfaces.
 
-## 5. Focus and accessibility
+## B5. Focus and accessibility
 
 - **Focus:**
   - After each player action, focus moves to the new card's `<h2 tabindex="-1">`. This is verified in the prototype
@@ -167,7 +334,7 @@ Consequences:
 - **Motion:** use the production `stage-transition.js` reduced-motion path. Real OS reduced motion is still
   unverified, because the prototype's harness could not emulate it.
 
-## 6. Event and display boundaries
+## B6. Event and display boundaries
 
 - **No new event types.** The first integration records outcomes only, through existing events: `expense_due`,
   `expense_paid`, `escalation_offered`, `escalation_result`, `action`, `income` and `terminal`. That is what the
@@ -184,7 +351,7 @@ Consequences:
   events. For example, `d1_food` would come before the gacha's events instead of after Proceed. Historical logs are
   unaffected.
 
-## 7. Migration and evidence
+## B7. Migration and evidence
 
 - **Saves.** No new envelope field is proposed, but that does not establish migration-free behavior. The rent fixtures
   have breakfast settled; other old saves do not. The valid historical Plan16 pending-reveal checkpoint is Day1,
@@ -207,7 +374,7 @@ Consequences:
   - Do not regenerate all fixtures by default.
   - Do not relabel old displayed evidence as newly witnessed.
 
-## 8. Validation plan (proportionate)
+## B8. Validation plan (proportionate)
 
 1. **Unit tests.**
    - Port `plan28.test.mjs` (13 tests: H1 routing, H2 furnishings, semantic copy and outcomes, breakfast tap, framing)
@@ -224,7 +391,7 @@ Consequences:
    - Receipt contents after both rent branches;
    - real reduced motion, if a harness can emulate it, with the limit stated otherwise.
 
-## 9. Seams left open (no stubs)
+## B9. Seams left open (no stubs)
 
 - **Plan 37 (time and optional lanes):**
   - The breakfast note already supports several controls, so a skip choice is a data change.
@@ -234,7 +401,7 @@ Consequences:
   for when calibration makes it reachable.
 - **Plan 36 (late-game distortions):** copy is data in `life-views.mjs`.
 
-## 10. Risks
+## B10. Risks
 
 - **Day 1 opening order.** A kitchen breakfast before the phone opens changes tutorial pacing (owner D4: guide without
   overwhelming). Consider a one-line hint on Day 1 only.

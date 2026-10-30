@@ -1,5 +1,97 @@
 # Plan 28: final delivery
 
+**Apartment choices and diegetic communications.** Revised delivery after root's composition revision 05, dated
+2026-10-30. Delivered by the Claude lead under clearance 04 (Branch C, no advisor).
+
+It is returned to root for **one** decision: whether to assign a cohesive implementation packet for the selected mix.
+That decision includes one small Plan 25 kit change and the ordering and exposure changes the owner needs to confirm
+(`integration-proposal.md` Part A, A0 and A9).
+
+The earlier delivery, which used the floating-card treatment, follows below as history. Revision 05 did not select
+that treatment.
+
+## Selected experience
+
+The owner's decisions are in `owner-direction-2026-10-30.md` §6–8 (D11–D21). The interaction language has three layers:
+1. **In the room:** objects in their places. The attention signal is a halo, a marker chip and the duck's gaze. It
+   fades with guidance but never disappears, because the duck is the character's conscience.
+2. **Held:** the player picks up a letter or the phone and reads it freely.
+3. **Decide:** the game's own panel, which starts collapsed, or an honest app button, or a confirm attached to the
+   object. It is the only place anything is committed, and it states the exact consequence.
+
+**The mix (D20):**
+- **T1** for paper: the rent notice on the fridge.
+- **T2** for phone-native beats: Marisol's shift and the card advance.
+- **T4** for quick object actions: selling the couch or TV, and breakfast from the bakery downstairs.
+
+Top-down desk interactions are reserved for future moments.
+
+**Duck:**
+- It is posed from the kit's own artwork: facing left or right, top-down at any heading, or on perches (D18).
+- It tilts only when propped on a believable object, by at least 12° (D21).
+- It turns to face you once the moment's responsibilities are done.
+
+## Before and after
+
+| Beat | Before (production today) | After (selected) |
+|---|---|---|
+| Rent due | A phone screen with a Pay button | A notice taped to the fridge, picked up and read, then Decide and "Pay $15.00" |
+| Rent short | An escalation modal | The panel says "$0.99 short; nothing will be taken" and offers "Try to pay". Each offer then appears where it lives: Marisol's text, the couch or TV sale tag, the card app. Each can be accepted, turned down (recorded) or left for now (nothing recorded). Only the final turn-down says the run ends. |
+| Paid with exactly $15 | A zero-cash modal with two option buttons | The paid notice is stamped. The optional shift and couch sale wait in their places, and the day bar offers "Later that afternoon" and "Go to work". |
+| Breakfast | Charged silently at the evening transitions | A plate on the counter, then "Buy breakfast for $5.00" from the bakery downstairs |
+
+## Prototype
+
+- **Where:** `gallery/`, opened through your dev server (D17):
+  `http://localhost:5173/Quackpot/reports/development/plan-28-apartment-choices-and-diegetic-communications/gallery/index.html?m=MIX-unpaid`
+  Use `?m=MIX-paid` for the other branch. The T1–T4 moments remain as reference.
+- **Stand-ins (disclosed):** Save, Settings, Uninstall, the Receipt, races and the gacha.
+- **History:** `comparison/` holds the earlier floating-card prototype.
+
+## Evidence
+
+Each item is attributed to whoever produced it.
+
+**Tests (lead)**
+- `gallery/gallery.test.mjs`: 7 of 7 passed through the Plan 25 bounded launcher. Exit 0, 0.55 s, `StopReason` null.
+- `comparison/plan28.test.mjs` is unchanged since its 13/13 run.
+
+**Browser (lead, on the owner's dev server)**
+
+All four gallery sessions are recorded in `gallery/README.md`. What they showed:
+- **Flows:**
+  - both mix branches end to end;
+  - the full unpaid decline path, ending in `terminal`;
+  - accepting partway, where a double click charged once;
+  - "Not now" and Esc recording nothing;
+  - the keyboard walk with focus following into each new place.
+- **Layout:** no horizontal scroll at 390 px in six moments, after two layout fixes. The narrow confirm became a sheet
+  under the room, and halos are clipped to the room.
+
+**Owner-reported bugs:** the T3 notepad couldn't be put down, and "Go to work" after the extra shift did nothing. Both
+are fixed and verified.
+
+## Limits
+
+- **Storage:** no snapshots on the dev origin, because it is the real game's origin and its storage is never read.
+  The gallery uses no storage APIs (source evidence only).
+- **Reduced motion:** real OS reduced motion is unverified.
+- **Evidence form:** screenshots were viewed, not saved. Pose review used an in-page zoom for inspection.
+- **Duck placement:** the duck is drawn by removing the kit's duck in the page. Production needs the A2.3 kit option.
+- **Art:** the sketch props and perches are not final art.
+
+## Remaining risks
+
+- Optional beats are less exposed (A9.2).
+- More taps per beat.
+- Scene cuts on the ladder.
+- The preview cost and the Uninstall-from-retention defect carried over from before.
+
+---
+
+# Earlier delivery (floating-card treatment, not selected by revision 05), kept as history
+
+
 **Apartment choices and diegetic communications.** Date: 2026-10-30. Delivered by the Claude lead under clearance 04
 (Branch C, no advisor).
 

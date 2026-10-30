@@ -9,6 +9,8 @@ import { loadRentFixture } from '../comparison/fixtures.mjs';
 import { furnishingsFrom } from '../comparison/life-model.mjs';
 import * as prop from './props.mjs';
 import { duckLayerHtml, headingToward, leanToward, removeKitDuck } from './duck-layer.mjs';
+import { ladderDecision, optionalOpen, placeFor, rentState, shortfallDecision } from './mix-model.mjs';
+import { outcomeView } from '../comparison/views.mjs';
 import { chips, decide, marisolThread, money, noticeLetter, plannerPage, portalPage, results, worldLabels } from './copy.mjs';
 
 const RENT = GAME_CONSTANTS.RENT_DAY2;
@@ -33,6 +35,8 @@ const ACTIONS = {
   takeShift: (e) => e.chooseZeroCashOption('extra_shift'),
   sellCouch: (e) => e.chooseZeroCashOption('sell_couch'),
   breakfast: (e) => e.billExpense('food', FOOD),
+  ladderAccept: (e) => e.acceptEscalation(),
+  ladderDecline: (e) => e.declineEscalation(),
   // main.js:658-665 order without the food charge, which waits for the breakfast choice (owner D9)
   // proceedToDay2Evening: the zero-cash 'continue' applies only while that choice is still open; after an extra shift or
   // a sale the engine has already closed it, and calling it would throw (cash is no longer $0).
@@ -161,8 +165,56 @@ const MOMENTS = {
       ? { id: 'bag', svg: prop.bakeryBag({ idPrefix: uid('bg') }), x: 26, y: 50, w: 7, label: 'Bakery bag', done: true }
       : { id: 'plate', svg: prop.emptyPlate({ idPrefix: uid('pl') }), x: 21, y: 66, w: 14, label: worldLabels.plate, chip: chips.plate,
         activate: (el) => openPopover(el, breakfastSpec(), 'right') }] },
-  'MIX-day': { treatment: 'MIX', label: 'Recommended mix: an afternoon and a morning', setup: [], when: 'Day 2 · afternoon', chain: ['T1-rent', 'T2-shift', 'T4-breakfast'] },
+  'MIX-paid': { treatment: 'MIX', label: 'Selected mix: rent paid with exactly $15.00', setup: [], mix: 'paid', fixture: 'rent-paid-zero' },
+  'MIX-unpaid': { treatment: 'MIX', label: 'Selected mix: $14.01, rent short', setup: [], mix: 'unpaid', fixture: 'rent-unpaid' },
 };
+
+// ---------- selected flow (owner D20): places derived from engine state by mix-model.placeFor ----------
+
+const TV_SPOT = { x: 1, y: 21, w: 26, h: 30 };
+const COUCH_SPOT = { x: 65, y: 33, w: 34, h: 46 };
+const PLACES = {
+  'kitchen-notice': { when: 'Day 2 · afternoon', scene: () => ({ area: 'kitchen', framing: 'wide', light: 'neutral', duckView: 'side' }),
+    objects: (e) => [mixNoticeObj(e)] },
+  'desk-phone': { when: 'Day 2 · late afternoon',
+    scene: (e) => ({ area: 'desk-side', light: 'warm', duckView: 'side', ...(facts(e).shiftTaken
+      ? { phone: { status: '6:42 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['thank you!!'], note: '' } }
+      : shiftOffered(e) ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
+    objects: (e) => (shiftOffered(e) || facts(e).shiftTaken ? [{ id: 'phone', hotspot: true, x: 63, y: 17, w: 17.5, h: 58, label: worldLabels.phone, chip: chips.phone,
+      done: !shiftOffered(e), activate: (el) => (ladderStep(e) === 'extra_shift' ? openLadderPhone(el, 'shift') : openShiftPhone(el)) }] : []) },
+  'desk-card': { when: 'Day 2 · evening',
+    scene: () => ({ area: 'desk-side', light: 'warm', duckView: 'side', phone: { status: '6:55 PM', brand: 'HARBOR CARD', heading: ['Cash', 'advance'], body: ['Available now'], note: '' } }),
+    objects: (e) => [{ id: 'phone', hotspot: true, x: 63, y: 17, w: 17.5, h: 58, label: 'Phone: card offer', chip: 'Card offer',
+      done: ladderStep(e) !== 'credit_card', activate: (el) => openLadderPhone(el, 'card') }] },
+  living: { when: 'Day 2 · late afternoon',
+    scene: (e) => ({ area: 'living', framing: 'wide', light: 'neutral', duckView: 'side', furnishings: furnishingsFrom(e.state.assetsSold) }),
+    objects: (e) => {
+      const step = ladderStep(e);
+      const out = [];
+      if (step === 'sell_couch' || (!step && optionalOpen(e) && !facts(e).couchSold)) {
+        out.push({ id: 'couch', hotspot: true, ...COUCH_SPOT, label: worldLabels.couch, chip: chips.couch, tag: prop.saleTag({ idPrefix: uid('tg') }),
+          activate: (el) => openPopover(el, step ? ladderSpec() : couchSpec(), 'left') });
+      }
+      if (step === 'sell_tv') {
+        out.push({ id: 'tv', hotspot: true, ...TV_SPOT, label: 'The TV', chip: 'TV', tag: prop.saleTag({ idPrefix: uid('tg') }),
+          activate: (el) => openPopover(el, ladderSpec(), 'right') });
+      }
+      return out;
+    } },
+  'kitchen-breakfast': { when: 'Day 3 · morning', scene: () => ({ area: 'kitchen', framing: 'medium', light: 'window', duckView: 'side' }),
+    objects: (e) => MOMENTS['T4-breakfast'].objects(e) },
+  receipt: { when: 'Day 2 · evening', scene: () => ({ area: 'desk-side', light: 'window', duckView: 'side' }), objects: () => [] },
+};
+for (const [id, pl] of Object.entries(PLACES)) pl.id = `P:${id}`;
+
+const ladderStep = (e) => (rentState(e).owing ? e.getCurrentEscalationStep() : null);
+const shiftOffered = (e) => ladderStep(e) === 'extra_shift' || (!ladderStep(e) && optionalOpen(e) && !facts(e).shiftTaken);
+
+function mixNoticeObj(e) {
+  const r = rentState(e);
+  return { id: 'notice', svg: prop.tapedNotice({ idPrefix: uid('nt'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
+    label: worldLabels.rentNotice, chip: chips.rentNotice, done: r.paid || r.owing, activate: (el) => openNotice(el) };
+}
 
 /** Duck pose per moment: (engine, kit box) -> pose for duckLayerHtml. Targets are the moment's important object. */
 const DUCKS = {
@@ -178,6 +230,14 @@ const DUCKS = {
   'T4-couch': (e, kit) => sideGaze({ x: 21, y: 63.5 }, { x: 80, y: 55 }, { facing: 'right', size: kit.w * 1.05 }),
   // kitchen counter: looking down and left at the plate
   'T4-breakfast': (e, kit) => sideGaze(kit, { x: 28, y: 70 }, { facing: 'left', size: kit.w }),
+  'P:kitchen-notice': () => sideGaze(shelfSeat, NOTICE_AT, { size: 4, perch: SHELF_BY_FRIDGE }),
+  'P:desk-phone': (e, kit) => sideGaze(kit, { x: 71, y: 38 }, { facing: 'right', size: kit.w, wedge: 'paperback' }),
+  'P:desk-card': (e, kit) => sideGaze(kit, { x: 71, y: 38 }, { facing: 'right', size: kit.w, wedge: 'paperback' }),
+  // living room: toward whichever possession is on offer (the TV from the floor by the plant, the couch from the console)
+  'P:living': (e, kit) => (ladderStep(e) === 'sell_tv' ? sideGaze(kit, { x: 14, y: 36 }, { facing: 'left', size: kit.w })
+    : sideGaze({ x: 21, y: 63.5 }, { x: 80, y: 55 }, { facing: 'right', size: kit.w * 1.05 })),
+  'P:kitchen-breakfast': (e, kit) => sideGaze(kit, { x: 28, y: 70 }, { facing: 'left', size: kit.w }),
+  'P:receipt': (e, kit) => ({ view: 'front', size: kit.w, x: kit.x, y: kit.y }),
 };
 
 function noticeObj(e, mode) {
@@ -191,7 +251,7 @@ function noticeObj(e, mode) {
 
 for (const [id, m] of Object.entries(MOMENTS)) m.id = id;
 
-const ui = { engine: null, base: 0, moment: null, step: 0, busy: false, generation: 0, returnFocus: null };
+const ui = { engine: null, base: 0, moment: null, step: 0, place: null, busy: false, generation: 0, returnFocus: null };
 const TREATMENT_LABELS = { T1: 'T1 · Held paper + decision panel', T2: 'T2 · Paper and phone', T3: 'T3 · Notes to self', T4: 'T4 · Confirm at the object', MIX: 'Mix · recommended combination' };
 
 async function startMoment(id) {
@@ -204,7 +264,7 @@ async function startMoment(id) {
   $('#scene').innerHTML = '';
   $('#objects').innerHTML = '';
   $('#day-bar').innerHTML = '<span class="when">Loading…</span>';
-  const loaded = await loadRentFixture('rent-paid-zero', readRepoFile);
+  const loaded = await loadRentFixture(m.fixture ?? 'rent-paid-zero', readRepoFile);
   if (generation !== ui.generation) return;
   if (!loaded.ok) {
     $('#day-bar').innerHTML = '<strong>Stopped: the Plan 35 fixture failed its pinned checks. No synthetic state is used.</strong>';
@@ -213,14 +273,16 @@ async function startMoment(id) {
   }
   ui.engine = loaded.engine;
   $('#fixture-line').textContent = `${loaded.checkpointId}: ${loaded.checks.length} pinned checks pass (lightweight loader; Plan 35's checkpoint-proof is the freshness check).`;
-  const first = m.chain ? MOMENTS[m.chain[0]] : m;
-  for (const a of first.setup) ACTIONS[a](ui.engine); // scripted setup, listed in the reviewer panel
+  for (const a of m.setup) ACTIONS[a](ui.engine); // scripted setup, listed in the reviewer panel
   ui.base = ui.engine.log.length;
-  renderAnswers(m.treatment, first.setup);
+  if (m.mix) ui.place = placeFor(ui.engine);
+  renderAnswers(m.treatment, m.setup);
   renderRoom();
 }
 
-const current = () => { const m = MOMENTS[ui.moment]; return m.chain ? MOMENTS[m.chain[ui.step]] : m; };
+const current = () => { const m = MOMENTS[ui.moment]; return m.mix ? PLACES[ui.place] : m; };
+/** After any decision in the selected flow, the place follows engine state (mandatory beats) or stays where it was. */
+function settle() { if (MOMENTS[ui.moment]?.mix) ui.place = placeFor(ui.engine, ui.place); }
 
 function renderRoom() {
   const m = current();
@@ -233,7 +295,7 @@ function renderRoom() {
   let pose = poseFor ? poseFor(e, kit) : null;
   // Conscience at ease: once every responsibility here is done, the duck turns to face you where it sits.
   if (pose && objects.length && objects.every((o) => o.done)) pose = { ...pose, view: pose.view === 'top' ? 'top' : 'front', lean: 0, wedge: undefined, facing: 'left' };
-  if (pose && !objects.length && facts(e).couchSold) pose = { ...pose, view: 'front', lean: 0, wedge: undefined };
+  if (pose && !objects.length && m.id !== 'P:receipt') pose = { ...pose, view: pose.view === 'top' ? 'top' : 'front', lean: 0, wedge: undefined, facing: 'left' };
   $('#duck-layer').innerHTML = pose ? duckLayerHtml(pose, uid('dk')) : '';
   $('#objects').innerHTML = '';
   for (const o of objects) {
@@ -259,22 +321,27 @@ function renderDayBar() {
   const m = current();
   const bar = $('#day-bar');
   bar.innerHTML = `<span class="when">${esc(m.when)}</span>`;
-  if (!top.chain) return;
+  if (!top.mix) return;
   const e = ui.engine;
-  const nexts = [
-    facts(e).rentPaid ? { label: 'Later that afternoon', go: () => { ui.step = 1; renderRoom(); } } : null,
-    { label: facts(e).shiftTaken ? 'Go to work (extra shift, then home)' : 'Go to work (your usual shift)', go: () => { ACTIONS.evening(e); ui.step = 2; renderRoom(); } },
-    null,
-  ];
-  const n = nexts[ui.step];
-  if (!n) return;
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'ui-button day-next';
-  btn.textContent = `${n.label} →`;
-  btn.style.cssText = 'width:auto;color:var(--slate-ink);background:var(--slate);border-color:var(--slate)';
-  btn.addEventListener('click', () => { n.go(); $('#objects .obj:not(.done)')?.focus(); });
-  bar.append(btn);
+  const r = rentState(e);
+  const status = (text) => bar.insertAdjacentHTML('beforeend', `<span class="day-status">${esc(text)}</span>`);
+  const control = (label, go) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ui-button day-next';
+    btn.textContent = `${label} →`;
+    btn.addEventListener('click', () => { go(); renderRoom(); ($('#objects .obj:not(.done)') ?? $('#day-bar button'))?.focus(); });
+    bar.append(btn);
+  };
+  if (ui.place === 'receipt') return status('This run has ended. The Receipt would open next; it is outside this prototype.');
+  if (r.owing) return status(`Rent unpaid · ${money(r.short)} short`);
+  if (e.state.day >= 3) return status(facts(e).breakfastPaid ? 'Next: race 2 on the phone (outside this prototype)' : 'Breakfast first');
+  if (!r.paid) return;
+  // Optional beats stay optional: later moments are offered, never forced; going to work is always available.
+  const order = ['kitchen-notice', 'desk-phone', 'living'];
+  const next = order[order.indexOf(ui.place) + 1];
+  if (next && optionalOpen(e)) control('Later that afternoon', () => { ui.place = next; });
+  control(facts(e).shiftTaken ? 'Go to work (extra shift, then home)' : 'Go to work (your usual shift)', () => { ACTIONS.evening(e); ui.place = placeFor(e, ui.place); });
 }
 
 // ---------- layer 2: held ----------
@@ -347,7 +414,7 @@ const letterHtml = (l, { stamped = false, flyer = false } = {}) => `
 // ---------- layer 3: the game's decision panel ----------
 
 /** Collapsed by default (owner D13). The only commitment is its confirm button. */
-function decisionPanel(spec, { onConfirm, onBack, expanded = false }) {
+function decisionPanel(spec, { onConfirm, onBack, onDecline, expanded = false }) {
   const panel = document.createElement('section');
   panel.className = 'decide';
   const bodyId = uid('db');
@@ -358,6 +425,7 @@ function decisionPanel(spec, { onConfirm, onBack, expanded = false }) {
       ${spec.lines.map((l) => `<p class="fact">${esc(l)}</p>`).join('')}
       <div class="decide-actions">
         ${spec.confirm ? `<button type="button" class="ui-button" data-act="confirm">${esc(spec.confirm)}</button>` : ''}
+        ${spec.decline ? `<button type="button" class="ui-button secondary${spec.decline.endsRun ? ' ends-run' : ''}" data-act="decline">${esc(spec.decline.label)}</button>` : ''}
         <button type="button" class="ui-button secondary" data-act="back">${esc(spec.back)}</button>
       </div>
     </div>`;
@@ -373,6 +441,7 @@ function decisionPanel(spec, { onConfirm, onBack, expanded = false }) {
     const act = ev.target.closest('[data-act]')?.dataset.act;
     if (act === 'back') onBack();
     if (act === 'confirm') guarded(panel, onConfirm);
+    if (act === 'decline' && onDecline) guarded(panel, onDecline);
   });
   return panel;
 }
@@ -385,7 +454,7 @@ function guarded(scope, fn) {
   try { fn(); } finally { ui.busy = false; }
 }
 
-function showResult(panel, res, { done = 'Put it down', onDone = () => closeHeld() } = {}) {
+function showResult(panel, res, { done = 'Put it down', onDone = () => { settle(); closeHeld(); } } = {}) {
   panel.innerHTML = `<div class="decide-body result-body"><h3 tabindex="-1">${esc(res.heading)}</h3>${res.lines.map((l) => `<p class="fact">${esc(l)}</p>`).join('')}
     <div class="decide-actions"><button type="button" class="ui-button" data-act="done">${esc(done)}</button></div></div>`;
   panel.classList.add('result');
@@ -405,6 +474,20 @@ const couchSpec = () => { const p = preview(ui.engine, 'sellCouch'); return { ac
 const breakfastSpec = () => { const p = preview(ui.engine, 'breakfast'); return { action: 'breakfast', ...decide.getBreakfast({ amount: FOOD, cashBefore: p.before.cash, cashAfter: p.after.cash }),
   result: () => results.breakfastBought({ amount: FOOD, cashAfter: ui.engine.state.cash }) }; };
 
+function beforeOf(e) {
+  return { cash: e.state.cash, health: e.state.health, debt: e.state.debt, assetsSold: [...e.state.assetsSold], events: e.log.length };
+}
+/** The current escalation offer as accept / turn down / not now, with results read from the events actually appended. */
+function ladderSpec() {
+  const d = ladderDecision(ui.engine);
+  const before = beforeOf(ui.engine);
+  return { ...d, action: 'ladderAccept', declineAction: 'ladderDecline',
+    result: () => { const v = outcomeView(ui.engine, { choice: d.step, before }); return { heading: v.card.heading, lines: v.card.lines }; },
+    declineResult: () => (ui.engine.isTerminal()
+      ? { heading: 'This run has ended', lines: [`Rent stays ${money(RENT)} unpaid. The Receipt would open next; it is outside this prototype.`] }
+      : { heading: 'Turned down', lines: [`Rent is still ${money(rentState(ui.engine).short)} short. Your next option is waiting.`] }) };
+}
+
 function commit(spec) {
   const before = ui.engine.log.length;
   ACTIONS[spec.action](ui.engine);
@@ -414,6 +497,7 @@ function commit(spec) {
 // ---------- T1: held letter + panel ----------
 
 function openNotice(el) {
+  if (rentState(ui.engine).cash < RENT) return openShortNotice(el);
   const spec = rentSpec();
   const panel = decisionPanel(spec, { onBack: () => closeHeld(), onConfirm: () => {
     commit(spec);
@@ -421,6 +505,42 @@ function openNotice(el) {
     showResult(panel, spec.result());
   } });
   openHeld(el, letterHtml(noticeLetter({ amount: RENT, unit: '4B' })), { label: 'Rent notice, held', decision: panel });
+}
+
+/** Cash is short: the game's panel says so before the press; the same billExpense call records the bill as due. */
+function openShortNotice(el) {
+  const spec = shortfallDecision(ui.engine);
+  const panel = decisionPanel(spec, { onBack: () => closeHeld(), onConfirm: () => {
+    commit({ action: 'payRent' });
+    const r = rentState(ui.engine);
+    showResult(panel, { heading: `Rent unpaid · you need ${money(r.short)} more`, lines: ['Nothing has been taken.', 'Your first option to cover it is next.'] });
+  } });
+  openHeld(el, letterHtml(noticeLetter({ amount: RENT, unit: '4B' })), { label: 'Rent notice, held', decision: panel });
+}
+
+/** An escalation offer on the held phone: the text or card app shows it; the game's panel holds the decision. */
+function openLadderPhone(el, kind) {
+  const spec = ladderSpec();
+  const body = kind === 'shift'
+    ? marisolThread({ pay: spec.preview.accept.effect.cash }).map((t) => `<p class="bubble${t.from === 'You' ? ' you' : ''}">${esc(t.text)}</p>`).join('')
+    : `<div class="row"><span>Cash advance available</span><strong>${esc(money(spec.preview.accept.effect.cash))}</strong></div>
+       <div class="row"><span>Owed on the card now</span><strong>${esc(money(ui.engine.state.debt))}</strong></div>
+       <p class="note">An advance adds to what you owe on the card.</p>`;
+  const panel = decisionPanel(spec, {
+    onBack: () => closeHeld(),
+    onConfirm: () => {
+      commit(spec);
+      if (kind === 'shift') $('#held .phone-body').insertAdjacentHTML('beforeend', '<p class="bubble you">I can cover it.</p><p class="bubble">thank you!!</p>');
+      showResult(panel, spec.result());
+    },
+    onDecline: () => {
+      commit({ action: spec.declineAction });
+      showResult(panel, spec.declineResult(), { done: 'Put the phone down' });
+    },
+  });
+  openHeld(el, phoneHtml(kind === 'shift'
+    ? { status: '6:40 PM', app: 'Marisol · Harbor Street Diner', body }
+    : { status: '6:55 PM', app: 'Harbor Card · Cash advance', body }), { label: kind === 'shift' ? 'Phone, held: messages from Marisol' : 'Phone, held: card app', decision: panel });
 }
 
 function openFlyer(el) {
@@ -533,6 +653,7 @@ function openPopover(el, spec, side) {
   pop.setAttribute('aria-labelledby', 'pop-h');
   pop.innerHTML = `<h3 id="pop-h" tabindex="-1">${esc(spec.heading)}</h3>${spec.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
     <div class="decide-actions"><button type="button" class="ui-button" data-act="confirm">${esc(spec.confirm)}</button>
+    ${spec.decline ? `<button type="button" class="ui-button secondary${spec.decline.endsRun ? ' ends-run' : ''}" data-act="decline">${esc(spec.decline.label)}</button>` : ''}
     <button type="button" class="ui-button secondary" data-act="back">${esc(spec.back)}</button></div>`;
   const top = Math.max(0, r.top - room.top - 8);
   if (side === 'right') pop.style.left = `${r.right - room.left + 14}px`;
@@ -554,7 +675,16 @@ function openPopover(el, spec, side) {
       renderReviewer();
       $('#hud-cash').textContent = `Cash ${money(ui.engine.state.cash)} · Health ${ui.engine.state.health}`;
     });
-    if (act === 'done') { closePopover(false); renderRoom(); ($('#objects .obj') ?? $('#day-bar button'))?.focus(); }
+    if (act === 'decline') guarded(pop, () => {
+      commit({ action: spec.declineAction });
+      const res = spec.declineResult();
+      pop.innerHTML = `<h3 id="pop-h" tabindex="-1">${esc(res.heading)}</h3>${res.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
+        <div class="decide-actions"><button type="button" class="ui-button" data-act="done">OK</button></div>`;
+      $('h3', pop).focus();
+      $('#status').textContent = res.heading;
+      renderReviewer();
+    });
+    if (act === 'done') { closePopover(false); settle(); renderRoom(); ($('#objects .obj:not(.done)') ?? $('#objects .obj') ?? $('#day-bar button'))?.focus(); }
   });
   $('h3', pop).focus();
 }

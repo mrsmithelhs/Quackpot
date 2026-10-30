@@ -39,6 +39,8 @@ Return source/provenance and proposed listening matrix, practical looping/crossf
 
 ## Workflow and validation
 
+**Owner follow-up, 2026-10-30:** New scoped Web Audio/reference-authoring experiments are authorized separately in Plan39, ready for Gemini Argon with Flash workers. That packet may compose C continuations/arrangements and an audition/WAV-export laboratory in its own report folder. It preserves this packet's inputs and rejected versions, does not restart the stopped Codex work here, and does not authorize production audio or external service generation.
+
 **Owner intake and research direction, 2026-10-30:** Twelve Gemini web-app Create
 music MP3 references are now in the ignored generated-references folder, six with
 the attached short C WAV and six baselines. Owner likes the musical results but

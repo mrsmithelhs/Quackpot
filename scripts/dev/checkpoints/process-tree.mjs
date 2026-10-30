@@ -5,16 +5,15 @@ import { ROOT } from './provenance.mjs';
 const fail = (message) => { throw new Error(message); };
 const SCRIPT = path.join(ROOT, 'scripts/dev/checkpoints/process-tree.ps1');
 
-function inspect(args, timeoutMs = 2500, { diagnostic = false } = {}) {
+function inspect(args, timeoutMs = 2500) {
   return new Promise((resolve, reject) => {
     const child = spawn('powershell.exe', ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', SCRIPT, ...args],
       { cwd: ROOT, windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
     let stdout = '';
     let stderr = '';
     let overflow = false;
-    const maxStdoutBytes = diagnostic ? 2 * 1024 : 256 * 1024;
     const append = (current, chunk) => {
-      if (Buffer.byteLength(current) + chunk.length > maxStdoutBytes) { overflow = true; return current; }
+      if (current.length + chunk.length > 256 * 1024) { overflow = true; return current; }
       return current + chunk.toString('utf8');
     };
     child.stdout.on('data', (chunk) => { stdout = append(stdout, chunk); });
@@ -26,14 +25,6 @@ function inspect(args, timeoutMs = 2500, { diagnostic = false } = {}) {
       if (code !== 0 || overflow) return reject(new Error(`Owned process-tree inspection failed (${code}): ${stderr.slice(0, 1024)}`));
       try {
         const parsed = JSON.parse(stdout.trim() || '[]');
-        if (diagnostic) {
-          if (parsed?.kind !== 'owned-identity-diagnostic/1'
-              || !Array.isArray(parsed.receivedOwnedJson)
-              || !Array.isArray(parsed.currentRowsForSuppliedPids)
-              || !Array.isArray(parsed.comparisons)) fail('Malformed owned identity diagnostic output.');
-          resolve(parsed);
-          return;
-        }
         const rows = Array.isArray(parsed) ? parsed : [parsed];
         if (rows.some((row) => !Number.isSafeInteger(row.pid) || !Number.isSafeInteger(row.ppid) || typeof row.created !== 'string' || !row.created)) fail('Malformed process-tree inspection output.');
         resolve(rows);
@@ -53,15 +44,6 @@ export function inspectOwnedIdentities(rows, timeoutMs = 2500) {
   }
   if (!rows.length) return Promise.resolve([]);
   return inspect(['-OwnedJson', JSON.stringify(rows.map(({ pid, created }) => ({ pid, created })))], timeoutMs);
-}
-
-export function diagnoseOwnedIdentities(rows, timeoutMs = 2500) {
-  if (!Array.isArray(rows) || rows.length < 1 || rows.length > 4
-      || rows.some((row) => !Number.isSafeInteger(row.pid) || typeof row.created !== 'string' || !row.created)) {
-    return Promise.reject(new Error('Invalid or oversized diagnostic owned identity list.'));
-  }
-  return inspect(['-OwnedJson', JSON.stringify(rows.map(({ pid, created }) => ({ pid, created }))), '-DiagnosticOwned'],
-    timeoutMs, { diagnostic: true });
 }
 
 export function startOwnedProcessMonitor(rootPid, { intervalMs = 750, maxDurationMs = 76000, isAlive = () => true } = {}) {

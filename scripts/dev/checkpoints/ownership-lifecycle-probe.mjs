@@ -5,7 +5,7 @@ import { access } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { diagnoseOwnedIdentities, inspectOwnedIdentities, startOwnedProcessMonitor } from './process-tree.mjs';
+import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 import { ROOT } from './provenance.mjs';
 
 const MAX_CASE_MS = 13000;
@@ -16,19 +16,18 @@ const MAX_OUTPUT_BYTES = 8 * 1024;
 const MAX_PARENT_RECORD_BYTES = 1024;
 const startedAt = Date.now();
 const outcomes = [];
-let identityComparatorValidated = false;
 const fail = (message) => { throw new Error(message); };
 const remainingTotalMs = () => Math.max(0, MAX_TOTAL_MS - (Date.now() - startedAt));
 const activeDeadline = (caseStarted) => Math.min(caseStarted + MAX_CASE_MS, startedAt + ACTIVE_BUDGET_MS);
 const identityKey = (row) => `${row.pid}:${row.created}`;
 
-function trackSpawn(command, args, { captureStdout = false, caseStartedMono } = {}) {
+function trackSpawn(command, args, { captureReadyRelease = false, caseStartedMono = performance.now() } = {}) {
   const record = { child: spawn(command, args, { cwd: ROOT, windowsHide: true,
-    stdio: captureStdout ? ['ignore', 'pipe', 'ignore'] : 'ignore' }),
+    stdio: captureReadyRelease ? ['pipe', 'pipe', 'ignore'] : 'ignore' }),
     pid: null, exit: null, close: null, exitElapsedMs: null, closeElapsedMs: null,
     error: null, stdout: '', stdoutOverflow: false };
   record.pid = record.child.pid ?? null;
-  if (captureStdout) record.child.stdout.on('data', (chunk) => {
+  if (captureReadyRelease) record.child.stdout.on('data', (chunk) => {
     if (Buffer.byteLength(record.stdout) + chunk.length > MAX_PARENT_RECORD_BYTES) record.stdoutOverflow = true;
     else record.stdout += chunk.toString('utf8');
   });
@@ -42,6 +41,32 @@ function trackSpawn(command, args, { captureStdout = false, caseStartedMono } = 
     record.closeElapsedMs = performance.now() - caseStartedMono;
   });
   return record;
+}
+
+async function waitForReadyRecord(record, deadline) {
+  while (Date.now() < deadline && Date.now() - startedAt < MAX_TOTAL_MS) {
+    if (record.error) throw new Error(`Owned child failed to spawn: ${record.error.code ?? record.error.message}`);
+    if (record.stdoutOverflow || Buffer.byteLength(record.stdout) > MAX_PARENT_RECORD_BYTES)
+      fail('Controlled root exceeded the bounded ready record.');
+    if (record.stdout) {
+      let parsed = null;
+      try { parsed = JSON.parse(record.stdout.trim()); }
+      catch { /* the single bounded JSON record may still be arriving */ }
+      if (parsed !== null) {
+        if (parsed?.ready !== true || Object.keys(parsed).some((key) => !['ready', 'pid'].includes(key)))
+          fail('Controlled root emitted an unexpected ready record.');
+        return parsed;
+      }
+    }
+    if (record.close) throw new Error('Controlled root closed before its ready record was received.');
+    await delay(25);
+  }
+  throw new Error('Controlled root did not emit its ready record before the scenario deadline.');
+}
+
+function releaseRoot(record) {
+  if (!record.child.stdin?.writable) fail('Controlled root release pipe is not writable.');
+  record.child.stdin.end('release\n');
 }
 
 async function waitForEvent(record, eventName, deadline) {
@@ -76,87 +101,107 @@ async function queryIdentities(tracked, expectedIdentity, trace, caseStartedMono
   }
 }
 
-async function waitForIdentitiesGone(tracked, deadline, expectedLiveIdentity, trace, caseStartedMono) {
-  if (!identityComparatorValidated) fail('Refusing to treat empty identity results as cleanup evidence before a known-live round-trip.');
-  let sawExpectedLive = expectedLiveIdentity === null || identityComparatorValidated;
-  let live = [];
+async function waitForIdentitiesGone(tracked, deadline, trace, caseStartedMono, initialLive = null) {
+  let currentLive = initialLive ?? await queryIdentities(tracked, null, trace, caseStartedMono);
   while (Date.now() < deadline && Date.now() - startedAt < MAX_TOTAL_MS) {
-    live = await queryIdentities(tracked, expectedLiveIdentity, trace, caseStartedMono);
-    if (expectedLiveIdentity && live.some((row) => identityKey(row) === identityKey(expectedLiveIdentity))) sawExpectedLive = true;
-    const expectedWasObserved = expectedLiveIdentity === null || sawExpectedLive;
-    if (expectedWasObserved && live.length === 0) return { observedExpectedLive: expectedLiveIdentity ? sawExpectedLive : null, remaining: [] };
+    if (currentLive.length === 0) return { remaining: [] };
+    currentLive = await queryIdentities(tracked, null, trace, caseStartedMono);
     await delay(125);
   }
-  throw new Error(`Retained owned identities did not settle before the scenario deadline (live=${live.length}, expectedObserved=${sawExpectedLive}).`);
+  if (currentLive.length === 0) return { remaining: [] };
+  throw new Error(`Retained owned identities did not settle before the scenario deadline (live=${currentLive.length}).`);
 }
 
-async function runMonitoredCase(name, code, { expectedLiveDescendant = false } = {}) {
+async function runMonitoredCase(name, code, { expectDescendant = false } = {}) {
   const caseStarted = Date.now();
   const caseStartedMono = performance.now();
   const identityQueries = [];
   const deadline = Math.min(activeDeadline(caseStarted), Date.now() + remainingTotalMs());
-  const record = trackSpawn(process.execPath, ['-e', code], { captureStdout: expectedLiveDescendant, caseStartedMono });
+  const record = trackSpawn(process.execPath, ['-e', code], { captureReadyRelease: true, caseStartedMono });
   if (!record.pid) fail(`${name}: owned child PID was not registered at spawn.`);
   const monitor = startOwnedProcessMonitor(record.pid, { intervalMs: 150, maxDurationMs: MAX_CASE_MS, isAlive: () => record.child.exitCode === null });
   let tracked = [];
   let stopped = false;
   let monitorStopStartElapsedMs = null;
   let monitorStopEndElapsedMs = null;
-  let expectedDescendant = null;
-  let identityDiagnostic = null;
+  let identityComparatorValidated = false;
+  let preReleaseRows = [];
+  let intendedDescendant = null;
+  let readyRecord = null;
+  let descendantStates = [];
+  let descendantObservation = null;
   try {
     await monitor.ready;
+    readyRecord = await waitForReadyRecord(record, deadline);
+    preReleaseRows = await snapshotOwnedTree(record.pid, 2000);
+    const rootIdentity = preReleaseRows.find((row) => row.pid === record.pid && row.root === true);
+    if (!rootIdentity) fail(`${name}: live root snapshot did not return the controlled root identity.`);
+    const liveRootRoundTrip = await queryIdentities([rootIdentity], rootIdentity, identityQueries, caseStartedMono);
+    if (!liveRootRoundTrip.some((row) => identityKey(row) === identityKey(rootIdentity)))
+      fail(`${name}: known-live root PID plus creation-time identity did not round-trip.`);
+    identityComparatorValidated = true;
+
+    if (expectDescendant) {
+      if (!Number.isSafeInteger(readyRecord.pid) || readyRecord.pid <= 0)
+        fail(`${name}: controlled root did not announce a valid child PID.`);
+      intendedDescendant = preReleaseRows.find((row) => row.pid === readyRecord.pid && row.ppid === record.pid && row.root !== true) ?? null;
+      if (!intendedDescendant) fail(`${name}: announced child was not present in the live pre-release process-tree snapshot.`);
+    } else if (Object.hasOwn(readyRecord, 'pid')) {
+      fail(`${name}: normal-exit controlled root unexpectedly announced a child.`);
+    }
+
+    releaseRoot(record);
     await waitForEvent(record, 'exit', deadline);
     monitorStopStartElapsedMs = performance.now() - caseStartedMono;
     tracked = await monitor.stop();
     monitorStopEndElapsedMs = performance.now() - caseStartedMono;
     stopped = true;
-    const root = tracked.find((row) => row.pid === record.pid && row.root === true);
-    if (!root) fail(`${name}: retained process tree did not contain the observed owned root identity.`);
-    if (expectedLiveDescendant) {
-      if (record.stdoutOverflow || Buffer.byteLength(record.stdout) > MAX_PARENT_RECORD_BYTES)
-        fail(`${name}: controlled parent exceeded the bounded child-identity record.`);
-      const lines = record.stdout.trim().split(/\r?\n/);
-      if (lines.length !== 1) fail(`${name}: controlled parent did not emit exactly one child-identity record.`);
-      let emitted;
-      try { emitted = JSON.parse(lines[0]); } catch { fail(`${name}: controlled parent emitted malformed child-identity JSON.`); }
-      if (!Number.isSafeInteger(emitted?.pid) || emitted.pid <= 0) fail(`${name}: emitted child PID was invalid.`);
-      expectedDescendant = tracked.find((row) => row.pid === emitted.pid && row.ppid === record.pid && row.root !== true) ?? null;
-      if (!expectedDescendant) fail(`${name}: intended child PID ${emitted.pid} had no retained PID plus creation identity.`);
-      const liveRoundTrip = await queryIdentities([expectedDescendant], expectedDescendant, identityQueries, caseStartedMono);
-      if (!liveRoundTrip.some((row) => identityKey(row) === identityKey(expectedDescendant))) {
-        identityDiagnostic = await diagnoseOwnedIdentities([expectedDescendant], 2000);
-        fail(`${name}: known-live identity round-trip did not return the intended child PID plus creation time.`);
-      }
-      identityComparatorValidated = true;
+    const identities = new Map([...preReleaseRows, ...tracked].map((row) => [identityKey(row), row]));
+    tracked = [...identities.values()];
+    if (!tracked.some((row) => row.pid === record.pid && row.root === true))
+      fail(`${name}: recorded identities did not retain the controlled root identity.`);
+    if (intendedDescendant && !tracked.some((row) => identityKey(row) === identityKey(intendedDescendant)))
+      fail(`${name}: intended child identity was not retained for post-exit inspection.`);
+
+    const firstPostExitLive = await queryIdentities(tracked, null, identityQueries, caseStartedMono);
+    const liveKeys = new Set(firstPostExitLive.map(identityKey));
+    const retainedChildren = tracked.filter((row) => row.root !== true);
+    descendantStates = retainedChildren.map(({ pid, created }) => ({ pid, created,
+      firstPostExitStatus: liveKeys.has(`${pid}:${created}`) ? 'live' : 'absent' }));
+    if (expectDescendant) {
+      const observedSurvivor = descendantStates.some((row) => row.firstPostExitStatus === 'live');
+      descendantObservation = observedSurvivor ? 'surviving-descendant-observed' : 'no-survivor-observed-in-this-environment';
     }
-    const cleared = await waitForIdentitiesGone(tracked, deadline, expectedDescendant, identityQueries, caseStartedMono);
+
+    const cleared = await waitForIdentitiesGone(tracked, deadline, identityQueries, caseStartedMono, firstPostExitLive);
     const rootClose = await waitForEvent(record, 'close', deadline);
-    outcomes.push({ name, result: 'pass', rootPid: record.pid, rootExit: record.exit, rootClose,
+    outcomes.push({ name, result: 'pass', rootPid: record.pid, readyRecord, rootExit: record.exit, rootClose,
       rootExitElapsedMs: record.exitElapsedMs, rootCloseElapsedMs: record.closeElapsedMs,
-      monitorStopStartElapsedMs, monitorStopEndElapsedMs, intendedIdentity: expectedDescendant,
-      identityComparatorValidated, identityQueries, trackedIdentityCount: tracked.length,
-      observedDescendantLiveAfterParentExit: expectedDescendant ? cleared.observedExpectedLive : null, elapsedMs: Date.now() - caseStarted });
+      monitorStopStartElapsedMs, monitorStopEndElapsedMs, rootIdentityRoundTrip: true,
+      intendedIdentity: intendedDescendant, descendantObservation, descendantStates,
+      identityQueries, trackedIdentityCount: tracked.length, allRecordedIdentitiesAbsent: cleared.remaining.length === 0,
+      samplingLimit: 'Identity status is a point-in-time query after root exit; no survivor observed does not establish that the child never survived.',
+      elapsedMs: Date.now() - caseStarted });
   } catch (error) {
     if (record.child.exitCode === null && record.pid) { try { record.child.kill(); } catch {} }
     if (!stopped) {
       try { tracked = await monitor.stop(); stopped = true; }
       catch { /* the uncertainty is retained in the reported failure below */ }
     }
+    tracked = [...new Map([...preReleaseRows, ...tracked].map((row) => [identityKey(row), row])).values()];
     let cleanupConfirmed = false;
-    if (tracked.length) {
-      if (identityComparatorValidated) {
-        try {
-          await waitForIdentitiesGone(tracked, Math.min(Date.now() + 8000, startedAt + MAX_TOTAL_MS), null, identityQueries, caseStartedMono);
-          cleanupConfirmed = true;
-        } catch { /* report cleanup as unproven */ }
-      }
+    if (tracked.length && identityComparatorValidated) {
+      try {
+        await waitForIdentitiesGone(tracked, Math.min(Date.now() + 8000, startedAt + MAX_TOTAL_MS), identityQueries, caseStartedMono);
+        cleanupConfirmed = true;
+      } catch { /* report cleanup as unproven */ }
     }
     const errorText = error.stack || error.message;
-    outcomes.push({ name, result: 'failed-or-uncertain', rootPid: record.pid,
+    outcomes.push({ name, result: 'failed-or-uncertain', rootPid: record.pid, readyRecord,
       rootExit: record.exit, rootExitElapsedMs: record.exitElapsedMs, rootCloseElapsedMs: record.closeElapsedMs,
-      monitorStopStartElapsedMs, monitorStopEndElapsedMs, intendedIdentity: expectedLiveDescendant ? expectedDescendant ?? null : null,
-      identityDiagnostic, identityComparatorValidated, identityQueries, trackedIdentityCount: tracked.length, cleanupConfirmed,
+      monitorStopStartElapsedMs, monitorStopEndElapsedMs, rootIdentityRoundTrip: identityComparatorValidated,
+      intendedIdentity: intendedDescendant, descendantObservation, descendantStates,
+      identityQueries, trackedIdentityCount: tracked.length, cleanupConfirmed,
       error: errorText.slice(0, 2000), elapsedMs: Date.now() - caseStarted });
     throw new Error(`${name} failed; cleanupConfirmed=${cleanupConfirmed}: ${error.message}`);
   }
@@ -201,13 +246,14 @@ async function inspectionFailureCase() {
 async function main() {
   if (process.platform !== 'win32') fail('This bounded ownership probe requires the reviewed Windows process-tree inspector.');
   await runMonitoredCase('parent-early-exit',
-    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 8500)'], { windowsHide: true, stdio: 'ignore' }); if (!child.pid) process.exit(3); process.stdout.write(JSON.stringify({ pid: child.pid })); setTimeout(() => process.exit(0), 2500);",
-    { expectedLiveDescendant: true });
-  await runMonitoredCase('normal-exit', 'setTimeout(() => process.exit(0), 2500)');
+    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 8500)'], { windowsHide: true, stdio: 'ignore' }); if (!child.pid) process.exit(3); process.stdout.write(JSON.stringify({ ready: true, pid: child.pid })); process.stdin.once('data', () => process.exit(0)); setTimeout(() => process.exit(0), 8000);",
+    { expectDescendant: true });
+  await runMonitoredCase('normal-exit',
+    "process.stdout.write(JSON.stringify({ ready: true })); process.stdin.once('data', () => process.exit(0)); setTimeout(() => process.exit(0), 8000);");
   await startupFailureCase();
   await inspectionFailureCase();
   const result = { probe: 'plan35-owned-process-lifecycle/1',
-    coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
+    coverageLimit: 'Exercises exact-identity helpers with controlled ready/release roots. Parent-exit classifications are point-in-time samples; no survivor observed does not establish that a child never survived. Does not exercise CDP/launcher shutdown, forced termination, or a mid-run CIM outage.',
     startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, limits: { caseMs: MAX_CASE_MS,
       activeBudgetMs: ACTIVE_BUDGET_MS, totalMs: MAX_TOTAL_MS, cleanupReserveMs: CLEANUP_RESERVE_MS,
@@ -219,7 +265,7 @@ async function main() {
 
 main().catch((error) => {
   const result = { probe: 'plan35-owned-process-lifecycle/1',
-    coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
+    coverageLimit: 'Exercises exact-identity helpers with controlled ready/release roots. Parent-exit classifications are point-in-time samples; no survivor observed does not establish that a child never survived. Does not exercise CDP/launcher shutdown, forced termination, or a mid-run CIM outage.',
     startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, status: 'failed-or-uncertain',
     limits: { caseMs: MAX_CASE_MS, activeBudgetMs: ACTIVE_BUDGET_MS, totalMs: MAX_TOTAL_MS,

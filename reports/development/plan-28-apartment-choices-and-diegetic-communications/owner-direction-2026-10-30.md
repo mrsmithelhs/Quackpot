@@ -105,3 +105,20 @@ packet text asks for two compared directions.
 | D8 | **Morning framing: wide on Day 1, then medium.** The owner accepted the lead's recommendation. Root did not choose it. | `morningFramingFor(day)` in `life-model.mjs`. The reviewer panel can still force medium or wide for comparison. |
 | D9 | **Tap to pay breakfast.** The owner chose this over the recommended display-only ledger. Breakfast becomes a morning action at the kitchen: nothing is charged before the tap, and the same $5 `billExpense('food')` runs on the tap. | The prototype demonstrates this live on Day 3. Day 1 and Day 2 come from the Plan 35 fixtures, which were captured under the current automatic charge, so they stay past-tense projections. There is no skip control; skipping a meal is Plan 37's rule. In production this moves the charge out of `main.js:342/651/661` (`integration-proposal.md` §1, §3). |
 | D10 | **The Receipt does not log life surfaces as displayed in the first integration** (recommended option). The Receipt keeps recording actual outcomes. | Reuse of `cue_shown` without a technique is noted only as a possible later step (`integration-proposal.md` §6). |
+
+## 6. Composition revision decisions (owner, direct conversation, after root revision 05)
+
+Context: root's `reports/orchestration/plan-28-owner-composition-revision-05.md` did not select the floating-card and
+embedded-form treatment. The owner and the lead then agreed a three-layer interaction language:
+- **in the room:** objects in their places, with an attention signal;
+- **held:** inspecting, with no commitment;
+- **decide:** the game's own voice, never printed on the object.
+
+| # | Decision | Effect |
+|---|---|---|
+| D11 | **Build all four treatments for comparison in a gallery.** T1: held paper plus a decision rail. T2: paper leading to the phone. T3: notes to self. T4: a confirmation anchored to the object. The lead's hypothesis to test is the mix: T1 for paper, T2 for phone-native moments, T4 for quick object actions, all sharing one decision-panel style. | `gallery/` (report-local). The prior `comparison/` prototype is kept as history. |
+| D12 | **The phone may carry life beats beyond Quackpot**, surfacing only what the metagame or story needs when the phone is the right vehicle. It is **never** interrupted by notifications or popups while Quackpot is open. No OS or launcher is to be built. | Life content appears on the phone only in apartment context (lifted from the desk), never over the gacha. |
+| D13 | **The decision panel starts collapsed,** with a visible "Decide" control. It is never locked behind scrolling to the end. | This applies to every treatment's decision layer. |
+| D14 | **Attention signal: a halo, a marker chip and the duck's gaze, together.** The signal may fade as guidance relaxes, but **never completely**. The duck stands for the character's conscience or subconscious and keeps pointing to important life responsibilities. | The gallery shows the strength levels. The duck's gaze is made by choosing its view and placing the object on the side it faces, because the kit has no gaze option. |
+| D15 | **Breakfast vehicles: the bakery downstairs, and groceries bought at a separate time** (for example on the way home). | The gallery may present the bakery as the place breakfast comes from, at the existing $5 food charge. Buying groceries at another time, and any stock or price difference, are **new rules**, recorded for Plan 37 (time) and Plan 29 (numbers) and not built here. |
+| D16 | **The owner accepts deliberate scope expansion of the metagame through this plan's conversation.** | Expansions are still recorded as proposals for their owning plans; no rule is adopted silently. |

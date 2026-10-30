@@ -1,0 +1,166 @@
+/* Plan 28 interaction gallery (report-local). Three layers: objects in the room, held inspection, and the game's own
+   decision UI. Paper and phone are things; the decision panel and anchored confirm are plainly interface. */
+:root {
+  --ink: #1f2328;
+  --page: #ece7de;
+  --paper: #fffdf6;
+  --note: #fffbe8;
+  --rule: #c9d6e8;
+  --stamp: #2f6b4f;
+  --halo: #ffd36a;
+  --slate: #24313a;
+  --slate-ink: #f3efe6;
+  --slate-line: #3c4d58;
+  --accent: #f0b429;
+  --focus: #1d4ed8;
+  --reviewer-bg: #1e2430;
+  --reviewer-ink: #d6dde8;
+  --hand: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+  --type: "Courier New", Courier, monospace;
+  --ui: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--page); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.report-banner { display: flex; flex-wrap: wrap; gap: .25rem 1rem; padding: .5rem 1rem; font-size: .85rem; background: #3b3f47; color: #f2f2f2; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: 1rem; padding: 1rem; align-items: start; }
+.player-area, .reviewer { min-width: 0; }
+.hud-standin { display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: center; padding: .45rem .8rem; margin-bottom: .6rem;
+  border: 1px dashed #8a8f99; border-radius: .5rem; font-size: .8rem; color: #4b5563; background: #f6f3ee; }
+.hud-standin-label { font-style: italic; }
+.hud-cash { margin-left: auto; font-weight: 700; color: var(--ink); }
+
+/* ---------- layer 1: the room ---------- */
+.room { position: relative; width: min(100%, 960px); }
+.scene { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .85rem;
+  border: 1px solid rgba(40, 34, 28, .55); background: #d5d0c6; box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .22); }
+.scene > svg { display: block; width: 100%; height: 100%; }
+.objects { position: absolute; inset: 0; pointer-events: none; }
+.obj { position: absolute; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: .5rem; }
+.obj svg { display: block; width: 100%; height: auto; }
+.obj.hotspot { background: transparent; }
+.obj:focus { outline: none; }
+.obj:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.obj.done { cursor: default; }
+/* halo: tutorial pulses, relaxed is faint and still; never removed (owner D14) */
+.obj::before { content: ""; position: absolute; inset: -10%; border-radius: 1rem; pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(255, 211, 106, .9), 0 0 1.2rem .3rem rgba(255, 211, 106, .55); opacity: .9; }
+.guidance-tutorial .obj:not(.done)::before { animation: halo-pulse 1.6s ease-in-out infinite; }
+.guidance-relaxed .obj:not(.done)::before { box-shadow: 0 0 0 2px rgba(255, 211, 106, .55), 0 0 .8rem .1rem rgba(255, 211, 106, .3); opacity: .7; }
+.obj.done::before { opacity: 0; }
+@keyframes halo-pulse { 0%, 100% { opacity: .35; transform: scale(.98); } 50% { opacity: 1; transform: scale(1.03); } }
+.chip { position: absolute; left: 50%; bottom: calc(100% + .35rem); transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+  padding: .15rem .55rem; border-radius: 999px; font: 700 .75rem/1.4 var(--ui); color: var(--slate-ink); background: var(--slate);
+  box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .25); }
+.chip.below { bottom: auto; top: calc(100% + .35rem); }
+.chip::before { content: "●"; margin-right: .35rem; color: var(--accent); }
+.guidance-relaxed .obj:not(:hover):not(:focus-visible) .chip { opacity: 0; }
+.obj.done .chip { opacity: 0; }
+
+/* non-diegetic day control below the room */
+.day-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; width: min(100%, 960px); margin-top: .7rem; }
+.day-bar .when { font-weight: 700; color: #4b5563; }
+
+/* ---------- layer 2: held inspection (foregrounded on purpose) ---------- */
+.held { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 1rem; background: rgba(20, 18, 15, .55); backdrop-filter: blur(3px); }
+.held[hidden] { display: none; }
+.held-object { position: relative; flex: 0 1 auto; min-width: 0; max-height: calc(100vh - 2rem); outline: none; }
+.held-object:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
+.letter { width: 30rem; max-width: 100%; max-height: calc(100vh - 2rem); overflow-y: auto; padding: 1.4rem 1.6rem 1.8rem; background: var(--paper);
+  font-family: var(--type); line-height: 1.45; border-top: 8px solid #555b66; box-shadow: 0 1.2rem 2.5rem rgba(0, 0, 0, .45); transform: rotate(-.8deg); }
+.letter .sender { margin: 0 0 .9rem; font: 700 .8rem/1.3 var(--ui); letter-spacing: .08em; text-transform: uppercase; color: #4b5563; }
+.letter h2 { margin: 0 0 .8rem; font-size: 1.15rem; }
+.letter footer { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid #d8d2c4; font-size: .8rem; color: #6b7280; }
+.letter.flyer { border-top-color: #b7791f; background: #fff8e8; }
+.stamped { position: relative; }
+.stamped::after { content: "PAID"; position: absolute; top: 40%; left: 50%; padding: .1rem .8rem; transform: translate(-50%, -50%) rotate(-12deg);
+  font: 900 2.4rem/1.1 var(--ui); letter-spacing: .1em; color: var(--stamp); border: 5px solid var(--stamp); border-radius: .4rem; opacity: .85; pointer-events: none; }
+
+.phone-held { width: 20rem; max-width: 100%; height: min(38rem, calc(100vh - 2rem)); padding: .8rem .65rem; border-radius: 2.4rem; background: #15191f;
+  box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .55), inset 0 0 0 2px #2b313b; display: flex; }
+.phone-screen { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-radius: 1.8rem; background: #f7f6f2; }
+.phone-status { display: flex; justify-content: space-between; padding: .55rem 1.1rem .3rem; font: 600 .75rem var(--ui); color: #4b5563; }
+.phone-app-bar { padding: .5rem 1rem .6rem; font: 700 1rem var(--ui); border-bottom: 1px solid #e3e0d8; }
+.phone-body { flex: 1; overflow-y: auto; padding: .8rem 1rem 1rem; font: .95rem/1.4 var(--ui); }
+.phone-body .row { display: flex; justify-content: space-between; padding: .45rem 0; border-bottom: 1px solid #ebe8e0; }
+.phone-body .note { color: #6b7280; font-size: .85rem; }
+.bubble { max-width: 85%; margin: .35rem 0; padding: .5rem .75rem; border-radius: 1rem 1rem 1rem .3rem; background: #e8e6df; }
+.bubble.you { margin-left: auto; border-radius: 1rem 1rem .3rem 1rem; background: #cfe3d6; }
+.phone-actions { display: grid; gap: .5rem; padding: .7rem 1rem 1rem; border-top: 1px solid #e3e0d8; }
+.app-button { min-height: 2.75rem; border: 0; border-radius: .8rem; font: 700 .95rem var(--ui); background: #1f6f5c; color: #fff; cursor: pointer; }
+.app-button.secondary { background: #e7e4dc; color: var(--ink); }
+
+.planner { width: 26rem; max-width: 100%; max-height: calc(100vh - 2rem); overflow-y: auto; padding: 1.2rem 1.4rem 1.6rem 3rem; font-family: var(--hand);
+  background: var(--note) repeating-linear-gradient(transparent 0 1.9rem, var(--rule) 1.9rem 1.96rem);
+  border-left: 2px solid #e8a1a1; box-shadow: 0 1.2rem 2.5rem rgba(0, 0, 0, .45); transform: rotate(1deg); }
+.planner h2 { margin: 0 0 .6rem; font: 700 1.4rem/1.9rem var(--hand); }
+.planner ul { list-style: none; margin: 0; padding: 0; }
+.planner li { margin: 0; line-height: 1.96rem; }
+.planner .item { display: flex; gap: .55rem; align-items: baseline; width: 100%; padding: 0; border: 0; background: none; text-align: left;
+  font: 1.15rem/1.96rem var(--hand); color: var(--ink); cursor: pointer; }
+.planner .item .box { display: inline-block; width: 1.1rem; height: 1.1rem; border: 2px solid var(--ink); border-radius: .2rem; transform: translateY(.15rem) rotate(-3deg); }
+.planner .item[aria-disabled="true"] { color: #8a8f99; cursor: default; }
+.planner .item.ticked .text { text-decoration: line-through; text-decoration-thickness: 2px; }
+.planner .item.ticked .box::after { content: "✓"; display: block; margin: -.45rem 0 0 .05rem; font-size: 1.3rem; color: var(--stamp); }
+.planner .later { display: block; font-size: .85rem; color: #8a8f99; }
+
+/* ---------- layer 3: the game's decision UI (not a physical object) ---------- */
+.decide { flex: 0 0 auto; width: 20rem; max-width: 100%; align-self: center; border-radius: 1rem; color: var(--slate-ink); background: var(--slate);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .4); font-family: var(--ui); }
+.decide-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .6rem; min-height: 3rem; padding: .7rem 1rem;
+  border: 0; border-radius: 1rem; font: 700 1rem var(--ui); color: var(--slate-ink); background: transparent; cursor: pointer; }
+.decide-toggle::after { content: "▾"; color: var(--accent); }
+.decide-toggle[aria-expanded="true"]::after { content: "▴"; }
+.decide-body { padding: 0 1rem 1rem; }
+.decide-body[hidden] { display: none; }
+.decide h3 { margin: .2rem 0 .5rem; font-size: 1.05rem; }
+.decide p { margin: .3rem 0; line-height: 1.4; }
+.decide .fact { font-variant-numeric: tabular-nums; }
+.decide-actions { display: grid; gap: .5rem; margin-top: .9rem; }
+.ui-button { min-height: 2.75rem; padding: .5rem .9rem; border: 2px solid var(--slate-ink); border-radius: .7rem; font: 700 .95rem var(--ui);
+  color: var(--slate); background: var(--slate-ink); cursor: pointer; text-align: left; }
+.ui-button.secondary { color: var(--slate-ink); background: transparent; border-color: var(--slate-line); }
+.ui-button:disabled, .app-button:disabled { opacity: .55; cursor: default; }
+.ui-button:focus-visible, .app-button:focus-visible, .decide-toggle:focus-visible, .planner .item:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.result { border-left: 4px solid var(--accent); padding-left: .7rem; }
+
+.decide-slot { flex: 0 0 20rem; display: grid; gap: .6rem; align-self: center; }
+.decide-slot .decide { width: 100%; }
+/* anchored confirm (T4): attached to the object it acts on */
+.popover-layer { position: absolute; inset: 0; pointer-events: none; }
+.popover { position: absolute; width: min(18rem, 90%); pointer-events: auto; padding: .9rem 1rem 1rem; border-radius: .9rem; color: var(--slate-ink); background: var(--slate);
+  box-shadow: 0 .8rem 1.6rem rgba(0, 0, 0, .4); }
+.popover::before { content: ""; position: absolute; width: .9rem; height: .9rem; background: var(--slate); transform: rotate(45deg); }
+.popover.arrow-left::before { left: -.4rem; top: 1.2rem; }
+.popover.arrow-right::before { right: -.4rem; top: 1.2rem; }
+.popover h3 { margin: 0 0 .4rem; font-size: 1rem; }
+.popover p { margin: .25rem 0; font-size: .92rem; line-height: 1.35; }
+
+/* ---------- reviewer ---------- */
+.reviewer { padding: .9rem 1rem; border-radius: .6rem; font: .78rem/1.4 ui-monospace, Consolas, monospace; color: var(--reviewer-ink); background: var(--reviewer-bg); }
+.reviewer h2 { margin: 0 0 .6rem; font-size: .95rem; }
+.reviewer h2 small { font-weight: 400; color: var(--accent); }
+.reviewer h3 { margin: 1rem 0 .3rem; font-size: .8rem; color: var(--accent); }
+.reviewer label { display: grid; gap: .2rem; min-width: 0; margin-bottom: .6rem; }
+.reviewer select, .reviewer button { width: 100%; max-width: 100%; font: inherit; padding: .3rem; }
+.reviewer pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.reviewer ol { margin: 0; padding-left: 1.4rem; }
+.reviewer li, .reviewer dd { overflow-wrap: anywhere; }
+.reviewer .note { margin: 0 0 .3rem; color: #9aa5b5; }
+.answers dt { margin-top: .4rem; color: var(--accent); }
+.answers dd { margin: 0; }
+
+@media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .layout { padding: .5rem; }
+  .held { flex-direction: column; justify-content: flex-start; align-items: stretch; overflow-y: auto; padding: .6rem; gap: .6rem; }
+  .letter, .planner { width: 100%; max-height: none; overflow: visible; transform: none; }
+  .phone-held { width: 100%; height: min(34rem, calc(100vh - 6rem)); margin: 0 auto; }
+  /* the collapsed decision bar docks at the bottom of the held view on phones */
+  .decide, .decide-slot { position: sticky; flex: 0 0 auto; bottom: 0; width: 100%; align-self: stretch; }
+  .popover { left: 4% !important; right: 4% !important; width: auto; top: auto !important; bottom: 3% !important; }
+  .popover::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .guidance-tutorial .obj:not(.done)::before { animation: none; opacity: .95; } }
+.motion-off .guidance-tutorial .obj:not(.done)::before, .motion-off .obj::before { animation: none; }

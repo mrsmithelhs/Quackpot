@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan 28 contact sheet</title>
+<style>
+  body { margin: 0; padding: 8px; font: 12px system-ui, sans-serif; background: #ddd; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  figure { margin: 0; position: relative; background: #fff; }
+  figcaption { padding: 2px 4px; font-weight: 700; }
+  .shot { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+  .shot svg { display: block; width: 100%; height: 100%; }
+  .lines { position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(to right, rgba(255,0,0,.45) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,0,0,.45) 1px, transparent 1px);
+    background-size: 10% 10%; }
+</style>
+</head>
+<body>
+<!-- Report-local layout aid: renders kit scenes with a 10% grid to place gallery props. Not evidence of anything. -->
+<div class="grid" id="grid"></div>
+<script type="module">
+  import { renderScene } from '../../../../../src/assets/apartment/index.mjs';
+  const shots = [
+    ['kitchen', 'wide', 'side'], ['kitchen', 'wide', 'front'], ['kitchen', 'medium', 'side'], ['kitchen', 'medium', 'front'],
+    ['living', 'wide', 'side'], ['living', 'medium', 'side'], ['bedroom', 'wide', 'side'], ['desk-side', null, 'side'],
+    ['desk-side', null, 'front'], ['desk-top', null, 'top'],
+  ];
+  let n = 0;
+  document.getElementById('grid').innerHTML = shots.map(([area, framing, duckView]) => {
+    const o = { area, idPrefix: `cs${++n}`, duckView, light: 'neutral' };
+    if (framing) o.framing = framing;
+    const { svg, meta } = renderScene(o);
+    return `<figure><figcaption>${meta.shotKey} · duck ${meta.duckView}</figcaption><div class="shot">${svg}<div class="lines"></div></div></figure>`;
+  }).join('');
+</script>
+</body>
+</html>

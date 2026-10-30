@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan 28 · Interaction gallery</title>
+<link rel="stylesheet" href="../../../../src/ui/stage-transition.css">
+<link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+<header class="report-banner">
+  <strong>Plan 28 · Interaction gallery</strong>
+  <span>Report-local comparison of four interaction treatments. Not the game, not production, not saved anywhere.</span>
+</header>
+
+<div class="layout">
+  <section class="player-area" aria-label="Player view">
+    <div class="hud-standin" aria-label="HUD stand-in">
+      <span class="hud-standin-label">HUD stand-in (production HUD unchanged; not functional here):</span>
+      <span>Save</span><span>Settings</span><span>Uninstall</span>
+      <span class="hud-cash" id="hud-cash"></span>
+    </div>
+    <main id="room" class="room">
+      <div id="scene" class="scene"></div>
+      <div id="objects" class="objects"></div>
+      <div id="popover-layer" class="popover-layer"></div>
+      <div id="held" class="held" hidden></div>
+    </main>
+    <div id="day-bar" class="day-bar"></div>
+    <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
+  </section>
+
+  <aside class="reviewer" aria-label="Reviewer controls (not student UI)">
+    <h2>Reviewer controls <small>not student UI</small></h2>
+    <label>Treatment
+      <select id="treatment"></select>
+    </label>
+    <label>Moment
+      <select id="moment"></select>
+    </label>
+    <label>Guidance
+      <select id="guidance">
+        <option value="tutorial">early run: halo pulses, chip always shown</option>
+        <option value="relaxed">later run: faint halo, chip on hover/focus</option>
+      </select>
+    </label>
+    <button id="reset" type="button">Reset moment</button>
+    <h3>What this treatment answers</h3>
+    <dl id="answers" class="answers"></dl>
+    <h3>Engine (in memory, Plan 35 rent-paid-zero fixture)</h3>
+    <p id="fixture-line" class="note"></p>
+    <pre id="snapshot"></pre>
+    <h3>Events appended in this moment (actual)</h3>
+    <ol id="events"></ol>
+  </aside>
+</div>
+<script type="module" src="gallery.js"></script>
+</body>
+</html>

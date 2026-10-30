@@ -44,3 +44,17 @@ The Codex surface exposes a callable subagent mechanism, so this thread is advis
 Root should review commits `d4031d7` and `25fad99` and the corrected proposal, then approve, revise, or reject the exact command batches in `proposal.md`. Do not execute the proposed Node or browser commands before that clearance. Any current source mismatch should stop starter-derived capture; a seed search requires a separate bounded engine-only proposal.
 
 Ready for orchestrator review: yes, for authored source/files and proposed command batches only. Pilot execution and owner acceptance remain pending.
+
+## Root static review repairs — awaiting revised clearance
+
+QP Orch's Terra-medium static source review identified six bounded fixes. I applied these source-only repairs after that review:
+
+- Imported the bounded result-log reader used by offline proof output.
+- Required the complete source closure, production fingerprint, capture recipe file/hash, and current loader hash for every `current-loadable` entry. Added negative controls for absent identity fields as well as stale hashes.
+- Rechecked the independently pinned Plan 16 archive during every Plan 35 fixture load, including pilot loading.
+- Compared the ordinary restored envelope with the exact expected state, RNG streams, and event-log prefix before a pilot action. Rent restores permit no suffix. Finale restores allow only the two mounted race-two exposure event types and require their offered identities to match visible cards.
+- Expanded the finale boundary to require exactly the completed R01 attempt/resolution and completed-race record, race number 2, and no R02 commit. The pilot records every displayed owned card's rest reason and effective rating, requires a natural tired-versus-never-raced contrast, and selects one such card without submitting.
+- Changed the proof's served-source response reads to stream under per-entry, aggregate, and body-deadline bounds.
+- Added a bounded Windows process-tree inspection helper. Chrome ownership is registered immediately after spawn, and profile deletion waits for confirmed child/descendant exit. The phase supervisor inspects descendants even if the parent already exited. Failed inspection or residual descendants are reported as uncertainty/nonzero cleanup, not success.
+
+No Node, syntax, test, browser, server, or runtime validation was performed after these repairs, per root's hold. No fixtures were generated; catalog entries remain `not-captured`. The previous source-review commits precede these repairs; this progress report is intended as the final commit in the revised source handoff. Root must review the revised source and clear an exact validation batch before any execution.

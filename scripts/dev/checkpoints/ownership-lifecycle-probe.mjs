@@ -50,7 +50,8 @@ async function waitForIdentitiesGone(tracked, deadline, expectedLiveIdentity = n
   while (Date.now() < deadline && Date.now() - startedAt < MAX_TOTAL_MS) {
     live = await inspectOwnedIdentities(tracked, 2000);
     if (expectedLiveIdentity && live.some((row) => identityKey(row) === identityKey(expectedLiveIdentity))) sawExpectedLive = true;
-    if (sawExpectedLive && live.length === 0) return { observedExpectedLive: sawExpectedLive, remaining: [] };
+    const expectedWasObserved = expectedLiveIdentity === null || sawExpectedLive;
+    if (expectedWasObserved && live.length === 0) return { observedExpectedLive: expectedLiveIdentity ? sawExpectedLive : null, remaining: [] };
     await delay(125);
   }
   throw new Error(`Retained owned identities did not settle before the scenario deadline (live=${live.length}, expectedObserved=${sawExpectedLive}).`);
@@ -147,7 +148,7 @@ async function main() {
   if (process.platform !== 'win32') fail('This bounded ownership probe requires the reviewed Windows process-tree inspector.');
   await runMonitoredCase('normal-exit', 'setTimeout(() => process.exit(0), 2500)');
   await runMonitoredCase('parent-early-exit',
-    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 8500)'], { windowsHide: true, stdio: 'ignore' }); if (!child.pid) process.exit(3); process.stdout.write(JSON.stringify({ pid: child.pid }) + '\\n'); setTimeout(() => process.exit(0), 1000);",
+    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 8500)'], { windowsHide: true, stdio: 'ignore' }); if (!child.pid) process.exit(3); process.stdout.write(JSON.stringify({ pid: child.pid })); setTimeout(() => process.exit(0), 2500);",
     { expectedLiveDescendant: true });
   await startupFailureCase();
   await inspectionFailureCase();

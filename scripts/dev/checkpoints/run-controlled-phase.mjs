@@ -4,7 +4,7 @@ import { createConnection, createServer } from 'node:net';
 import { appendFile, readFile, realpath, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { CATALOG_PATH, PLAN35, ROOT, catalogEntry, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
+import { CATALOG_PATH, PLAN35, ROOT, catalogEntry, readBounded, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
 import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
 const HOST = '127.0.0.1';
@@ -55,7 +55,7 @@ async function verifyCaptureProofRecord(summary, expectedId, phase) {
   if (record?.file !== expectedFile || !Number.isSafeInteger(record.bytes) || record.bytes < 2 || record.bytes > 1024 * 1024
       || typeof record.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(record.sha256))
     fail('Capture proof omitted the pinned full-evidence record reference.');
-  const bytes = await readFile(resolveRepoPath(expectedFile));
+  const bytes = await readBounded(expectedFile, 1024 * 1024);
   if (bytes.length > 1024 * 1024) fail('Full pilot evidence log exceeds its 1 MiB read cap.');
   const lines = bytes.toString('utf8').split(/(?<=\n)/);
   const matched = lines.find((line) => Buffer.byteLength(line) === record.bytes && sha256(Buffer.from(line)) === record.sha256);

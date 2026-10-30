@@ -39,11 +39,12 @@ Argon and Gemini Flash reviews may first propose broader story developments and
 interaction types beyond the current roadmap, then develop Plan 36 ideas in that
 context. Ordinary engaged play now targets at least roughly 30 minutes without a
 selected upper duration ceiling; duration remains unvalidated and never enforced.
-Each reviewer may use up to four low-tier tasks (Haiku for Claude, Flash for Gemini),
-at most two concurrently, with no recursive fan-out. All reviewer/subagent output
+Under the owner's later delegation amendment on the same date, each lead chooses
+the number, concurrency and sequencing of low-tier tasks (Haiku for Claude, Flash
+for Gemini), without a numerical call cap or recursive fan-out. All reviewer/subagent output
 stays in that harness's own working directory OUTSIDE the repository. The owner
 will copy reports back for discussion; no cross-provider repository writes,
-implementation or adoption is authorized. This explicit budget applies only to
+implementation or adoption is authorized. This explicit authorization applies only to
 these external reviews, not a blanket budget for the later assigned investigator.
 Use reports/orchestration/plan-36-external-creative-review-handoff.md. Preserve
 independent reports and provenance; recommendations are inputs for owner triage.

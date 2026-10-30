@@ -341,3 +341,11 @@ must stay in each harness's external working directory for owner-mediated intake
 Ideas may challenge the roadmap but are not adopted mechanics or new production
 authority. Immediate exit, truthful evidence and separation of fictional character
 activity from actual player choices remain binding. No push or deployment.
+
+**Later task authorization, same date:** Owner assigns Plan28 to Claude with Haiku
+delegation at the lead's discretion, without a fixed call-count or concurrency cap.
+The Plan36 external review handoff is amended likewise, retaining Haiku for Claude
+and Flash for Gemini. These task-specific permissions supersede the fixed counts
+above; lead integration, disjoint draft ownership, execution gates and production
+boundaries remain. General provider-routing preferences are private orchestration
+memory and are not recorded here.

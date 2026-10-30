@@ -40,8 +40,7 @@ async function readRepoFile(path) {
 
 // ---------- scenario setup ----------
 
-async function startScenario(name) {
-  const generation = ++ui.generation;
+async function startScenario(name, generation) {
   transition.cancel();
   ui.busy = true;
   ui.token += 1; // the previous card's controls are now stale
@@ -78,7 +77,9 @@ async function startScenario(name) {
 
 /** Every scenario start goes through here so a failed load always shows a blocked card. */
 function runScenario(name) {
-  startScenario(name).catch((err) => {
+  const generation = ++ui.generation;
+  startScenario(name, generation).catch((err) => {
+    if (generation !== ui.generation) return; // an older load failed after a newer scenario started; ignore it
     ui.busy = false;
     $('#card').className = 'card blocked';
     $('#card').innerHTML = `<h2 id="card-heading" tabindex="-1">Prototype could not start</h2><p>${esc(err.message)}</p>`;

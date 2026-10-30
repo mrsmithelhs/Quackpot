@@ -32,7 +32,8 @@ export function ledgerView(entries, day) {
   if (f.wage) lines.push(`Last night's wage: +${money(f.wage.amount)}.`);
   if (f.food) lines.push(`Breakfast: ${money(f.food.amount)}, paid this morning.`);
   if (f.foodUnpaid) lines.push('Breakfast is not paid yet.');
-  if (f.food) lines.push(`Cash on hand: ${money(f.food.cashAfter)}.`);
+  // Historic: the balance recorded when breakfast was paid, not necessarily today's cash.
+  if (f.food) lines.push(`Balance after breakfast: ${money(f.food.cashAfter)}.`);
   return {
     moment: 'ledger',
     provenance: 'log-projection',

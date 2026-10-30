@@ -1,6 +1,8 @@
-// Plan 28 report-local prototype: load a Plan 35 rent fixture in memory against Plan 35's current validation pins.
-// Canonical input = fixture-validation-index.json (exact bytes + SHA-256 + recorded valid result) and the catalog
-// boundary. Capture origin is not re-derived here. A mismatch stops with expected/actual; there is no synthetic fallback.
+// Plan 28 report-local prototype: lightweight in-memory loader for the Plan 35 rent fixtures.
+// Checks exact save bytes/SHA-256 against fixture-validation-index.json, the recorded valid result, event count,
+// chain head, catalog status/boundary and ordinary validateSave. It does NOT recompute current source closure or
+// validation-loader identity or resolve the full attestation record: that freshness check is Plan 35's
+// `checkpoint-proof.mjs fixture <id>`, run separately first. A mismatch stops with expected/actual; no synthetic fallback.
 // No storage APIs are touched: bytes come from the caller's reader (same-origin fetch in the page, fs in Node tests).
 
 import { GameEngine } from '../../../../src/core/game-engine.mjs';

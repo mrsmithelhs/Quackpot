@@ -158,7 +158,8 @@ test('ledger: past-tense facts from the log, Continue only, and no mutation', as
   assert.deepEqual(v.controls.map((c) => c.id), ['continue']);
   assert.ok(v.card.lines.includes("Last night's wage: +$10.00."));
   assert.ok(v.card.lines.includes('Breakfast: $5.00, paid this morning.'));
-  assert.ok(v.card.lines.includes(`Cash on hand: $${v.facts.food.cashAfter.toFixed(2)}.`));
+  assert.ok(v.card.lines.includes(`Balance after breakfast: $${v.facts.food.cashAfter.toFixed(2)}.`));
+  assert.ok(!v.card.lines.some((l) => l.startsWith('Cash on hand')), 'historic balance is not labelled current');
   assert.equal(e.log.length, n);
   assert.equal(JSON.stringify(e.state), stateBefore);
 });
@@ -251,5 +252,5 @@ test('evening after paid-zero continue (main.js:658-665 order) yields a Day 3 le
   const v = ledgerView(e.log.entries, 3);
   assert.ok(v.card.lines.includes("Last night's wage: +$10.00."));
   assert.ok(v.card.lines.includes('Breakfast: $5.00, paid this morning.'));
-  assert.ok(v.card.lines.includes('Cash on hand: $5.00.'));
+  assert.ok(v.card.lines.includes('Balance after breakfast: $5.00.'));
 });

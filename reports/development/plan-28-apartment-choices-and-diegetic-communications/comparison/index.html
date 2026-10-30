@@ -46,6 +46,7 @@
       <button id="reset" type="button">Reset scenario</button>
       <dl id="provenance" class="facts"></dl>
       <h3>Fixture checks</h3>
+      <p class="note">Lightweight page loader: exact save bytes and SHA-256 against Plan 35's validation index, the recorded result, event count, chain head, catalog boundary and ordinary <code>validateSave</code>. It does <strong>not</strong> recompute current source closure or validation-loader identity, or resolve the full attestation record. That freshness check is Plan 35's <code>checkpoint-proof.mjs fixture</code>, run separately before this page is used.</p>
       <table id="checks"><thead><tr><th>Check</th><th>Expected</th><th>Actual</th></tr></thead><tbody></tbody></table>
       <h3>Engine state (in memory)</h3>
       <pre id="snapshot"></pre>

@@ -138,3 +138,10 @@ embedded-form treatment. The owner and the lead then agreed a three-layer intera
 |---|---|---|
 | D20 | **The recommended mix is selected:** T1 (held paper plus the game's decision panel) for paper, T2 (the phone) for phone-native beats, and T4 (a confirm at the object) for quick object actions. **Top-down desk interactions are reserved as an option** for future moments where turning the duck to any heading suits the choice. They weren't the best fit for this set of choices. | The mix is carried forward as the selected treatment. T3 and the desk-top moments stay in the gallery as reference, not as part of the selected flow. |
 | D21 | **The duck tilts up or down only when a believable object sits under one end of its body** (a book, or something else that makes sense in that scene). If nothing fits, the duck doesn't tilt, and that's fine. Tiny tilts aren't needed. | `duck-layer.mjs` draws a tilt only with a named wedge object under the raised end, and only for tilts of at least 12°. Otherwise the duck sits level. |
+
+## 9. Exposure confirmation (owner, direct conversation, 2026-10-30)
+
+| # | Decision | Effect |
+|---|---|---|
+| D22 | **Confirmed as intended:** after rent is paid with exactly $15, the optional extra shift and couch sale are no longer buttons on the paid notice. They wait in their own places (the phone message, the couch sale tag), and a player can go to work without seeing them. The duck's gaze and the halo still point to them. | Settles `integration-proposal.md` A9.2. A9.1 is D9. A9.3 and A9.4 (one offer per place, and the day bar) are part of the mix the owner selected in D20. |
+

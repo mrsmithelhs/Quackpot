@@ -157,6 +157,7 @@ B7 still applies:
      that afternoon", and "Go to work" ends the choice.
    - A player can now go to work without seeing them. That fits D4 and D5 (optional lanes, relaxing guidance), but it
      changes how often the choices are seen. The duck's gaze and the halo still point to them.
+   - **The owner confirmed this as intended (D22).**
 3. **Rent short.** The four offers are no longer one card. Each appears where it lives, one at a time, with the scene
    cutting to the next after a turn-down. The order and effects are unchanged.
 4. **New non-diegetic control:** the day bar.

@@ -1,11 +1,9 @@
 ---
 id: plan-35
 title: Checkpoint catalog and targeted review pilot
-status: draft
+status: in-progress
 depends_on: [plan-16]
 gate: "Owner approves the first catalog and assignment; root approves mechanism and bounded validation before execution; owner accepts pilot before workflow adoption."
-superseded_by: null
-resolution: null
 summary: >-
   Extend the two-checkpoint proof with three reachable review starts and portable briefs, then pilot focused browser checks before adopting a general workflow.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-35
 - Packet title: Checkpoint catalog and targeted review pilot
 - Status: (see frontmatter)
-- Owner/model: unassigned single implementer; root coordinates
+- Owner/model: Codex implementer, assigned2026-10-29; root coordinates
 - Date: 2026-10-29
 - Packet type: development tooling / bounded pilot
 - Mutation level: scripts and synthetic local artifacts; no production changes
@@ -24,6 +22,8 @@ summary: >-
 - Expected artifacts: reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/ proposal, catalog, review briefs, pilot evidence and progress; focused scripts/dev/checkpoints/ helpers only after root scope approval
 
 ## Goal and why
+
+**Owner assignment2026-10-29:** Set in-progress and start in Codex using reports/orchestration/plan-35-codex-starting-handoff.md. Three-fixture first catalog approved for assignment; mechanism and exact executable scope still go to root before generation/implementation. Workflow adoption remains owner-gated after pilot.
 
 Make short, area-specific game reviews practical without repeating the full opening. Plan16 proves two checkpoint classes and isolated continuation, but its report harness is not a maintained catalog: pending freshness belongs to an older recipe, captured starter uses pinned provenance, and browser/Node ownership needs care. Reuse the evidence and extract only the minimum development tooling required for a small pilot. Do not reopen Plan16's accepted limits or equate a seed with identical presentation history.
 

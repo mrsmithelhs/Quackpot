@@ -111,15 +111,21 @@ No command below has been run for Plan 35. Run commands serially, only after roo
 
 Each launcher phase must reserve cleanup time inside its own deadline and finish under the outer 90-second guard; if a route cannot fit, split route preparation and exact capture into separately reviewed phases. The maximum per-phase duration, memory caps, port, Chrome context lifecycle, and any standard permission review need root clearance after the source audit. No npm, build, full suite, watch server, install, packet render, direct Node, or browser command is authorized by this proposal.
 
-## Ownership lifecycle probe (source authored, execution not cleared)
+## Ownership lifecycle probe (source authored; revised identity proof awaits root review)
 
-After root source review and separate exact command clearance, the proposed single invocation is:
+Root authorized source authoring only after reviewing the first bounded probe result. The existing result remains unchanged: normal exit passed; the parent-early-exit case was inconclusive; startup-failure and inspection-failure cases did not run. No execution retry is authorized by this source revision.
+
+The proposed invocation after root review and separate exact command clearance remains:
 
 ```powershell
-.eportsdevelopmentplan-25-desk-phone-art-integrationounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
 ```
 
-The local-only probe uses four serial cases with exact spawned Node children: normal exit, parent early exit while one child remains alive, spawn startup failure for one nonexistent executable, and invalid-root inspection failure. It uses the reviewed `startOwnedProcessMonitor` / retained-identity helpers; it does not start Vite, Chrome, a server, or make network requests. Each case has a 7-second deadline; the 38-second total leaves 10 seconds for cleanup/output; output is capped at 8 KiB. The unchanged wrapper keeps its 1 GiB Node heap, 2 GiB sampled owned-tree, and 90-second outer bounds. On an error it signals only the direct child handle created by the probe, checks every retained PID plus creation identity, and reports uncertain cleanup if that cannot be established. This probe source has not been syntax-checked or run. Root review of source and a separate exact command clearance are required before execution.
+The local-only probe covers the monitoring and retained-identity helpers with naturally exiting Node children; it does not exercise launcher/CDP shutdown, forced termination, or a mid-run CIM outage. In the parent-early-exit case, the controlled parent writes exactly one JSON record containing its intended child PID to a piped stdout capped at 1 KiB. After the parent exits, the probe matches that exact PID and parent PID against the retained PID plus creation-time identity; it no longer chooses an arbitrary first descendant. If no exact retained identity was captured while live, the case fails. The normal-exit result now reports `observedDescendantLiveAfterParentExit: null` because that assertion does not apply.
+
+Each case has a 13-second deadline. Active scenarios are capped at 40 seconds total, with a separate 10-second cleanup reserve and 8 KiB final output cap (50 seconds maximum probe duration). The unchanged Plan 25 wrapper retains its 1 GiB Node heap, 2 GiB sampled owned-tree, and 90-second outer limits. The four serial cases remain normal exit, parent early exit with a deliberately longer-lived child, startup failure for one guarded nonexistent executable path, and invalid-root inspection failure. On error, cleanup signals only the direct `ChildProcess` handle created by the probe, checks all retained identities, and reports uncertainty if absence cannot be established. PowerShell process-tree inspector subprocesses are started by the probe harness, outside the controlled root tree, and are not treated as the intended child. No browser, server, Vite, network, capture, or checkpoint fixture is involved.
+
+The revised source and timing require root review. No syntax check or semantic execution is authorized until root gives separate exact command clearance.
 
 ## Review disposition requested
 

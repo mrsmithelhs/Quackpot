@@ -7,19 +7,28 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { inspectOwnedIdentities, startOwnedProcessMonitor } from './process-tree.mjs';
 import { ROOT } from './provenance.mjs';
 
-const MAX_CASE_MS = 7000;
-const MAX_TOTAL_MS = 38000;
+const MAX_CASE_MS = 13000;
+const ACTIVE_BUDGET_MS = 40000;
+const CLEANUP_RESERVE_MS = 10000;
+const MAX_TOTAL_MS = ACTIVE_BUDGET_MS + CLEANUP_RESERVE_MS;
 const MAX_OUTPUT_BYTES = 8 * 1024;
+const MAX_PARENT_RECORD_BYTES = 1024;
 const startedAt = Date.now();
 const outcomes = [];
 const fail = (message) => { throw new Error(message); };
 const remainingTotalMs = () => Math.max(0, MAX_TOTAL_MS - (Date.now() - startedAt));
+const activeDeadline = (caseStarted) => Math.min(caseStarted + MAX_CASE_MS, startedAt + ACTIVE_BUDGET_MS);
 const identityKey = (row) => `${row.pid}:${row.created}`;
 
-function trackSpawn(command, args) {
-  const record = { child: spawn(command, args, { cwd: ROOT, windowsHide: true, stdio: 'ignore' }),
-    pid: null, exit: null, close: null, error: null };
+function trackSpawn(command, args, { captureStdout = false } = {}) {
+  const record = { child: spawn(command, args, { cwd: ROOT, windowsHide: true,
+    stdio: captureStdout ? ['ignore', 'pipe', 'ignore'] : 'ignore' }),
+    pid: null, exit: null, close: null, error: null, stdout: '', stdoutOverflow: false };
   record.pid = record.child.pid ?? null;
+  if (captureStdout) record.child.stdout.on('data', (chunk) => {
+    if (Buffer.byteLength(record.stdout) + chunk.length > MAX_PARENT_RECORD_BYTES) record.stdoutOverflow = true;
+    else record.stdout += chunk.toString('utf8');
+  });
   record.child.once('error', (error) => { record.error = error; });
   record.child.once('exit', (code, signal) => { record.exit = { code, signal }; });
   record.child.once('close', (code, signal) => { record.close = { code, signal }; });
@@ -36,7 +45,7 @@ async function waitForClose(record, deadline) {
 }
 
 async function waitForIdentitiesGone(tracked, deadline, expectedLiveIdentity = null) {
-  let sawExpectedLive = expectedLiveIdentity === null;
+  let sawExpectedLive = false;
   let live = [];
   while (Date.now() < deadline && Date.now() - startedAt < MAX_TOTAL_MS) {
     live = await inspectOwnedIdentities(tracked, 2000);
@@ -49,8 +58,8 @@ async function waitForIdentitiesGone(tracked, deadline, expectedLiveIdentity = n
 
 async function runMonitoredCase(name, code, { expectedLiveDescendant = false } = {}) {
   const caseStarted = Date.now();
-  const deadline = Math.min(caseStarted + MAX_CASE_MS, Date.now() + remainingTotalMs());
-  const record = trackSpawn(process.execPath, ['-e', code]);
+  const deadline = Math.min(activeDeadline(caseStarted), Date.now() + remainingTotalMs());
+  const record = trackSpawn(process.execPath, ['-e', code], { captureStdout: expectedLiveDescendant });
   if (!record.pid) fail(`${name}: owned child PID was not registered at spawn.`);
   const monitor = startOwnedProcessMonitor(record.pid, { intervalMs: 150, maxDurationMs: MAX_CASE_MS, isAlive: () => record.child.exitCode === null });
   let tracked = [];
@@ -64,12 +73,19 @@ async function runMonitoredCase(name, code, { expectedLiveDescendant = false } =
     if (!root) fail(`${name}: retained process tree did not contain the observed owned root identity.`);
     let expectedDescendant = null;
     if (expectedLiveDescendant) {
-      expectedDescendant = tracked.find((row) => row.ppid === record.pid && row.pid !== record.pid) ?? null;
-      if (!expectedDescendant) fail(`${name}: no independently retained direct child identity was observed.`);
+      if (record.stdoutOverflow || Buffer.byteLength(record.stdout) > MAX_PARENT_RECORD_BYTES)
+        fail(`${name}: controlled parent exceeded the bounded child-identity record.`);
+      const lines = record.stdout.trim().split(/\r?\n/);
+      if (lines.length !== 1) fail(`${name}: controlled parent did not emit exactly one child-identity record.`);
+      let emitted;
+      try { emitted = JSON.parse(lines[0]); } catch { fail(`${name}: controlled parent emitted malformed child-identity JSON.`); }
+      if (!Number.isSafeInteger(emitted?.pid) || emitted.pid <= 0) fail(`${name}: emitted child PID was invalid.`);
+      expectedDescendant = tracked.find((row) => row.pid === emitted.pid && row.ppid === record.pid && row.root !== true) ?? null;
+      if (!expectedDescendant) fail(`${name}: intended child PID ${emitted.pid} had no retained PID plus creation identity.`);
     }
     const cleared = await waitForIdentitiesGone(tracked, deadline, expectedDescendant);
     outcomes.push({ name, result: 'pass', rootPid: record.pid, rootExit: rootClose, trackedIdentityCount: tracked.length,
-      observedDescendantLiveAfterParentExit: cleared.observedExpectedLive, elapsedMs: Date.now() - caseStarted });
+      observedDescendantLiveAfterParentExit: expectedDescendant ? cleared.observedExpectedLive : null, elapsedMs: Date.now() - caseStarted });
   } catch (error) {
     if (record.child.exitCode === null && record.pid) { try { record.child.kill(); } catch {} }
     if (!stopped) {
@@ -93,7 +109,7 @@ async function runMonitoredCase(name, code, { expectedLiveDescendant = false } =
 
 async function startupFailureCase() {
   const caseStarted = Date.now();
-  const deadline = Math.min(caseStarted + MAX_CASE_MS, Date.now() + remainingTotalMs());
+  const deadline = Math.min(activeDeadline(caseStarted), Date.now() + remainingTotalMs());
   const missingExecutable = path.join(ROOT, 'scripts/dev/checkpoints/__qp35_missing_owned_executable__.exe');
   try {
     await access(missingExecutable);
@@ -131,7 +147,7 @@ async function main() {
   if (process.platform !== 'win32') fail('This bounded ownership probe requires the reviewed Windows process-tree inspector.');
   await runMonitoredCase('normal-exit', 'setTimeout(() => process.exit(0), 2500)');
   await runMonitoredCase('parent-early-exit',
-    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 4500)'], { windowsHide: true, stdio: 'ignore' }); setTimeout(() => process.exit(0), 2500);",
+    "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 8500)'], { windowsHide: true, stdio: 'ignore' }); if (!child.pid) process.exit(3); process.stdout.write(JSON.stringify({ pid: child.pid }) + '\\n'); setTimeout(() => process.exit(0), 1000);",
     { expectedLiveDescendant: true });
   await startupFailureCase();
   await inspectionFailureCase();
@@ -139,7 +155,8 @@ async function main() {
     coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
     startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, limits: { caseMs: MAX_CASE_MS,
-      totalMs: MAX_TOTAL_MS, cleanupReserveMs: MAX_TOTAL_MS - MAX_CASE_MS * 4, maxOutputBytes: MAX_OUTPUT_BYTES }, outcomes };
+      activeBudgetMs: ACTIVE_BUDGET_MS, totalMs: MAX_TOTAL_MS, cleanupReserveMs: CLEANUP_RESERVE_MS,
+      parentIdentityRecordBytes: MAX_PARENT_RECORD_BYTES, maxOutputBytes: MAX_OUTPUT_BYTES }, outcomes };
   const line = `${JSON.stringify(result)}\n`;
   if (Buffer.byteLength(line) > MAX_OUTPUT_BYTES) fail('Ownership probe output exceeds its 8 KiB cap.');
   process.stdout.write(line);
@@ -150,6 +167,8 @@ main().catch((error) => {
     coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
     startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, status: 'failed-or-uncertain',
+    limits: { caseMs: MAX_CASE_MS, activeBudgetMs: ACTIVE_BUDGET_MS, totalMs: MAX_TOTAL_MS,
+      cleanupReserveMs: CLEANUP_RESERVE_MS, parentIdentityRecordBytes: MAX_PARENT_RECORD_BYTES, maxOutputBytes: MAX_OUTPUT_BYTES },
     error: (error.stack || error.message).slice(0, 3000), outcomes };
   const line = `${JSON.stringify(result)}\n`;
   if (Buffer.byteLength(line) <= MAX_OUTPUT_BYTES) process.stdout.write(line);

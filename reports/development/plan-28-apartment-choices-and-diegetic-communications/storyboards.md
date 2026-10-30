@@ -41,8 +41,8 @@ via `run('enter')`).
 **Morning ledger, Day 2 (kitchen).** *"Coffee again."* — "Last night's wage +$10.00. Breakfast $5.00 paid. Cash on hand
 $15.00." → **Continue** (to the rent bill; no phone turn).
 
-**Rent due (cut to desk-top, window light: notepad, sticky note, coins; duck top view).** Landlord's typed bill on the
-notepad: "Unit 4B · Rent $15.00 · Due today". Below: "Cash on hand $15.00." → **Pay rent ($15.00)**.
+**Rent due (cut to desk-top, window light: notepad, sticky note, coins; duck top view).** A typed bill from Harbor Court Property
+Office lies on the notepad: "Unit 4B · Rent $15.00 · Due today". Below: "Cash on hand $15.00." → **Pay rent ($15.00)**.
 
 **Paid-zero (same desk-top, light shifts to warm).** The bill now carries a plain PAID stamp. Shared paid-zero summary
 and three choices. Hover/focus on "extra night shift" changes nothing visually; choosing it cuts to desk-side where the
@@ -84,7 +84,11 @@ removed: "Tomás collected the couch. +$10.00."
 time in their own thread: Marisol (shift), Tomás (couch), Priya, 2B (TV $15.00), Pinecrest Bank (card advance, shown
 only as the current offer). Rent pays itself in Ruth's thread when cash ≥ $15.00.
 
-## Landlord voice options (owner choice, either direction)
+## Landlord voice options
+
+**The owner chose the formal property office on 2026-10-30.** Direction A's rent bill uses the Harbor Court Property
+Office wording below. Ruth is not used for rent. A named building owner remains available only as a future optional
+character.
 
 - **Friendly building owner (Ruth, 1st floor):** "Hi, dear. Rent's $15.00 today. Tap below when you're ready."
 - **Formal management (Harbor Court Property Office):** "Rent for Unit 4B is due today: $15.00. Payment below."

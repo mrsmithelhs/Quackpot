@@ -13,6 +13,7 @@ own.**
 | D2 | **Duck placement.** The duck stays still within any one composition, but it can appear in several scenes. The character tends to carry it around, especially in later stages that use one-sided duck dialogue trees. | Proposal §2.7 is revised. The kit already has duck anchors on the coffee table, the kitchen bar, the desk and a bedroom shelf. |
 | D3 | **Styled HTML paper is acceptable.** | Q2 is resolved. No SVG paper props are needed. |
 | D4 | **Guidance relaxes over the run.** Tutorial "training wheels" come off over time. As they do, more of the character's time becomes the player's choice, so the life-management sim visibly conflicts with the gacha's invitation to engage and progress. | This is a design direction for later stages. It needs a time model and rules that do not exist yet. See §2. |
+| D6 | **The rent comes from the property office** (Harbor Court Property Office), chosen after the explanation in §3. Named people are kept for optional lanes and messages. | Storyboards use the institutional bill for rent. The rent-sender toggle in §4 is dropped. |
 | D5 | **Optional lanes are wanted.** Examples: skipping a meal "because the player wasn't looking", skipping a work shift, and possibly being fired as an alternate ending. Each lane is an on-ramp or off-ramp, never a requirement. | These are new rules. See §2 for candidates and the routing question. |
 
 ## 2. Optional lanes: candidates and what each would need
@@ -90,7 +91,7 @@ With A selected, building a full executable B mainly re-litigates a settled choi
 - Build **A only**, executable, for the required moments: breakfast, paid-zero, unpaid ladder and return from gacha.
 - Use **two duck-placement treatments** as the remaining comparison: the duck stays at the desk, or the duck travels
   with the character, per D2.
-- Include **two rent senders** (§3) as a copy toggle.
+- ~~Include two rent senders as a copy toggle.~~ This is no longer needed, because the owner chose the property office (D6).
 
 Nothing else in proposal §6 changes: files, imports, in-memory fixtures, H1–H3, and one shared browser turn. The
 relaxed later-day hub stays a text storyboard until its rules are routed. This needs root's agreement because the

@@ -178,8 +178,8 @@ on the rendered copy (reads `copy.mjs`, writes notes only). No Haiku browser use
 
 ## 8. Owner / root questions
 
-- Q1 Direction: **resolved, A** (owner, 2026-10-30). Landlord voice still open — explained in the owner-direction
-  file §3 (who the rent comes from: an institution or a person).
+- Q1 Direction: **resolved, A** (owner, 2026-10-30). Rent sender: **resolved, the property office** (owner,
+  2026-10-30). See the owner-direction file, D6 and §3.
 - Q2 CSS-styled paper: **resolved, acceptable** (owner, 2026-10-30).
 - Q3 Morning ledger as display-only (proposed) vs making breakfast a click that triggers the charge (moves a mutation).
 - Q4 Should life displays ever be recorded as `cue_shown`? Out of scope here (schema change); noted for Plan 27/29.

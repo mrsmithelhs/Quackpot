@@ -116,7 +116,9 @@ export async function verifyPlan16SourceClosure(catalog, { requireCurrent = true
   }
   const expectedFingerprint = sha256(JSON.stringify({ files, recipeFingerprint: reference.captureRecipeSha256 }));
   if (expectedFingerprint !== reference.captureSourceFingerprint) fail('Plan 16 source-file map does not reproduce the immutable capture fingerprint.');
-  const currentFingerprint = sha256(JSON.stringify({ files: current, recipeFingerprint: reference.captureRecipeSha256 }));
+  const fingerprintCurrentFiles = {};
+  for (const relative of Object.keys(files)) fingerprintCurrentFiles[relative] = current[relative];
+  const currentFingerprint = sha256(JSON.stringify({ files: fingerprintCurrentFiles, recipeFingerprint: reference.captureRecipeSha256 }));
   if (requireCurrent && !matches) fail('Current production source closure differs from the immutable Plan 16 starter capture; do not derive Plan 35 fixtures from it.');
   return { matches, expectedFingerprint: reference.captureSourceFingerprint, captureSourceRevision: manifestEntry.captureProvenance.sourceRevision,
     currentFiles: current, currentFingerprint };

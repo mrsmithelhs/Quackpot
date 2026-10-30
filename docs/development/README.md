@@ -36,7 +36,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-25` | Desk and phone artwork production integration | complete | Integrate one selected extracted apartment desk composition with the persistent portrait phone and static physical companion while preserving real controls and Shell A. |
 | `plan-26` | Living-room daylight and still weather study | complete | Compare stronger living-room daylight and still overcast, rain and storm art in an isolated experiment while preserving the extracted apartment kit unchanged. |
 | `plan-27` | Receipt reflection and evidence hierarchy | in-progress | Design a reflection-first Receipt with expandable evidence while preserving the append-only log and three-register honesty. |
-| `plan-28` | Apartment choices and diegetic communications | delivered | Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons. |
+| `plan-28` | Apartment choices and diegetic communications | in-progress | Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons. |
 | `plan-29` | Life economy scale and session pacing | draft | Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time. |
 | `plan-30` | TV music source and apartment acoustics | draft | Investigate a diegetic animated TV music source, track cycling, room acoustics and silence after sale. |
 | `plan-31` | Influencer apartment transformation study | draft | Compare apartment transformations and displaced possessions for a possible future influencer ending. |

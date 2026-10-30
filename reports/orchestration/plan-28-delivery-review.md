@@ -4,6 +4,12 @@ Date:2026-10-30. Delivery source commits2e2b055/9b239d9/75e5881.
 Disposition: prototype technically ready for owner experience review; no production
 implementation authority or closure implied. Opus Branch C/no advisor remains honored.
 
+**Subsequent owner disposition, same date:** Current paper styling is generally
+liked, but floating composition and embedded-form/letter metaphors are not accepted.
+Technical evidence below stands for that prototype; it does not approve the
+experience. Plan28 returns to in-progress for alternatives under revision05 and
+the existing expansive lead clearance. No current production integration approval.
+
 ## Verification and limits
 
 Root read the delivery, exact owner record D8–D10, comparison changes, browser

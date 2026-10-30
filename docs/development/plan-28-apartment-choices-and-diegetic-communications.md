@@ -1,7 +1,7 @@
 ---
 id: plan-28
 title: Apartment choices and diegetic communications
-status: delivered
+status: in-progress
 
 depends_on: [plan-25]
 gate: "Owner assigned Claude investigation on 2026-10-30. Expanded delivery clearance04 authorizes in-scope prototype edits and bounded validation; owner resolves experience choices directly. Production remains separately scoped."
@@ -22,6 +22,14 @@ summary: >-
 - Approval gate: owner selection before production implementation
 
 ## Goal, scope and delivery
+
+**Owner review revision,2026-10-30:** The initial paper cards are not accepted for
+production composition/interaction. They look detached from the room and mix a
+physical letter with software-form controls. Direction A's apartment-life objective
+remains selected; the lead should compare alternative world-object/inspection/
+decision sequences, work directly with the owner, and refine through delivery under
+clearance04. Follow reports/orchestration/plan-28-owner-composition-revision-05.md.
+No routine execution reapproval is required within that scope; production stays gated.
 
 Owner identifies Morning Breakfast Expense and Rent Paid/zero-wallet actions as metagame intrusions into gacha. Existing apartment art supports alternate scene/framing/furniture states, but does not itself implement life-event navigation.
 

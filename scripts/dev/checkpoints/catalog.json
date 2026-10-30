@@ -1,0 +1,73 @@
+{
+  "catalogVersion": 1,
+  "purpose": "Small development-only catalog for targeted Quackpot review starts.",
+  "limits": {
+    "newFixturesMaximum": 3,
+    "newFixtureBytesMaximum": 1048576,
+    "newFixturesAggregateBytesMaximum": 2097152,
+    "archiveFileBytesMaximum": 1048576,
+    "archiveAggregateBytesMaximum": 2097152
+  },
+  "references": {
+    "qp16.pending-reveal.v1": {
+      "status": "historical-reference",
+      "class": "generated-reproducible-historical",
+      "fixture": "reports/development/plan-16-deterministic-review-checkpoints/pending-reveal.save.json",
+      "bytes": 7134,
+      "sha256": "4d550bdead725ab0fadad735c77705c1535828da4e3bd8f746ef71d8254ef98d",
+      "originalRecipeSha256": "cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185",
+      "historicalRecipe": "reports/development/plan-16-deterministic-review-checkpoints/checkpoint-proof.mjs",
+      "limit": "Historical generation was proven under its recorded recipe; the current Plan 16 loader intentionally rejects stale generated use. This catalog does not revalidate or relabel it."
+    },
+    "qp16.starter-offer.v1": {
+      "status": "historical-reference-current-source-match-required",
+      "class": "captured-replayable-historical",
+      "fixture": "reports/development/plan-16-deterministic-review-checkpoints/starter-offer.save.json",
+      "bytes": 169427,
+      "sha256": "e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9",
+      "captureRecipeSha256": "cb318662122d8e18289c3d30d668971e949809aca8678cf77d4e5ae996ab4185",
+      "captureSourceFingerprint": "2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d",
+      "historicalLoaderSha256": "004ea7783a308c1baa8ec008c2d6013d549aff77fde31b70bd27f30d5be44556",
+      "manifest": "reports/development/plan-16-deterministic-review-checkpoints/checkpoint-manifest.json",
+      "archiveDirectory": "reports/development/plan-16-deterministic-review-checkpoints/history/2026-10-29-first-starter-capture",
+      "archiveIndexSha256": "4b25c518f66ef322a3b163d275e9b3eb0bffa4b5d9664b3c7e36105268b36b2d",
+      "limit": "One immutable mounted capture. Capture origin, current source closure, current loader identity, and current mounted behavior remain separate. Earlier branch browser records used the pre-archive-pin loader."
+    }
+  },
+  "checkpoints": {
+    "plan35.rent-paid-zero.v1": {
+      "status": "not-captured",
+      "class": "captured-replayable",
+      "fixture": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-paid-zero.save.json",
+      "captureParent": "qp16.starter-offer.v1",
+      "captureAction": "Mounted starter decline from the exact Plan 16 starter capture, then capture the ordinary day-two rent view before Pay.",
+      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 15 },
+      "prePay": "expense_due and activeBill are not expected until the real Pay action invokes billExpense('rent', 15.00).",
+      "pilotBrief": "paid-vs-unpaid-rent.md"
+    },
+    "plan35.rent-unpaid-escalation.v1": {
+      "status": "not-captured",
+      "class": "captured-replayable",
+      "fixture": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-unpaid-escalation.save.json",
+      "captureParent": "qp16.starter-offer.v1",
+      "captureAction": "Mounted starter purchase from the exact Plan 16 starter capture, then capture the ordinary day-two rent view before Pay.",
+      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 14.01 },
+      "prePay": "expense_due and activeBill are not expected until the real Pay action invokes billExpense('rent', 15.00).",
+      "pilotBrief": "paid-vs-unpaid-rent.md"
+    },
+    "plan35.finale-race-entry.v1": {
+      "status": "not-captured",
+      "class": "captured-replayable",
+      "fixture": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/finale-race-entry.save.json",
+      "captureParent": "plan35.rent-paid-zero.v1",
+      "captureAction": "Mounted Pay then the actual zero-cash Continue action; capture the ordinary day-three race-entry form before submit.",
+      "boundary": { "step": "d3_midday_race", "activeModal": null, "phase": "playing", "raceNumber": 2, "raceCommitted": false },
+      "selectionEvidence": "Duck/stance selection is rendered UI state until form submission. No race_choice event or engine state write is expected at this boundary.",
+      "pilotBrief": "finale-rest-selection.md"
+    }
+  },
+  "freshness": {
+    "policy": "Every new fixture records exact capture bytes, parent fixture identity, action route, original capture recipe/source identity, current loader identity, and full Plan16 production source closure. A mismatch blocks loading; no automatic rebinding.",
+    "onlySavedAtNormalization": "No generated-reproduction claims are made for Plan35 captured checkpoints. If added later, only top-level savedAt may be excluded from strict semantic equality."
+  }
+}

@@ -5,7 +5,7 @@ import { access } from 'node:fs/promises';
 import { performance } from 'node:perf_hooks';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { inspectOwnedIdentities, startOwnedProcessMonitor } from './process-tree.mjs';
+import { diagnoseOwnedIdentities, inspectOwnedIdentities, startOwnedProcessMonitor } from './process-tree.mjs';
 import { ROOT } from './provenance.mjs';
 
 const MAX_CASE_MS = 13000;
@@ -103,6 +103,7 @@ async function runMonitoredCase(name, code, { expectedLiveDescendant = false } =
   let monitorStopStartElapsedMs = null;
   let monitorStopEndElapsedMs = null;
   let expectedDescendant = null;
+  let identityDiagnostic = null;
   try {
     await monitor.ready;
     await waitForEvent(record, 'exit', deadline);
@@ -123,8 +124,10 @@ async function runMonitoredCase(name, code, { expectedLiveDescendant = false } =
       expectedDescendant = tracked.find((row) => row.pid === emitted.pid && row.ppid === record.pid && row.root !== true) ?? null;
       if (!expectedDescendant) fail(`${name}: intended child PID ${emitted.pid} had no retained PID plus creation identity.`);
       const liveRoundTrip = await queryIdentities([expectedDescendant], expectedDescendant, identityQueries, caseStartedMono);
-      if (!liveRoundTrip.some((row) => identityKey(row) === identityKey(expectedDescendant)))
+      if (!liveRoundTrip.some((row) => identityKey(row) === identityKey(expectedDescendant))) {
+        identityDiagnostic = await diagnoseOwnedIdentities([expectedDescendant], 2000);
         fail(`${name}: known-live identity round-trip did not return the intended child PID plus creation time.`);
+      }
       identityComparatorValidated = true;
     }
     const cleared = await waitForIdentitiesGone(tracked, deadline, expectedDescendant, identityQueries, caseStartedMono);
@@ -153,7 +156,7 @@ async function runMonitoredCase(name, code, { expectedLiveDescendant = false } =
     outcomes.push({ name, result: 'failed-or-uncertain', rootPid: record.pid,
       rootExit: record.exit, rootExitElapsedMs: record.exitElapsedMs, rootCloseElapsedMs: record.closeElapsedMs,
       monitorStopStartElapsedMs, monitorStopEndElapsedMs, intendedIdentity: expectedLiveDescendant ? expectedDescendant ?? null : null,
-      identityComparatorValidated, identityQueries, trackedIdentityCount: tracked.length, cleanupConfirmed,
+      identityDiagnostic, identityComparatorValidated, identityQueries, trackedIdentityCount: tracked.length, cleanupConfirmed,
       error: errorText.slice(0, 2000), elapsedMs: Date.now() - caseStarted });
     throw new Error(`${name} failed; cleanupConfirmed=${cleanupConfirmed}: ${error.message}`);
   }

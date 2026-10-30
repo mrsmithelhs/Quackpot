@@ -129,7 +129,21 @@ The second cleared semantic attempt still did not establish the parent-early-exi
 
 The diagnostic revision records monotonic elapsed times for root `exit`, stream `close`, monitor stop begin/end, and each exact-identity query begin/end. It begins post-parent observation on the `exit` event, keeps `close` as a separate later assertion, and does not wait for pipe close before checking the already received bounded PID record. Before any empty identity result can count as cleanup, the intended PID plus creation-time identity must first make a known-live round-trip through `inspectOwnedIdentities` / `-OwnedJson`; an unvalidated empty result cannot prove absence. The probe is ordered so this validation happens before the normal-exit case. No process lifetime is extended. The failure remains unresolved, including whether OS job/handle semantics prevent the intended child from surviving the controlled parent in this setup.
 
-This diagnostic-only source change requires root review and separate exact command clearance before any execution. No retry, syntax check, browser, server, Vite, capture, or fixture action is authorized by this revision.
+Inspection of the current helper shows the normal PowerShell path parses `-OwnedJson` with `ConvertFrom-Json`, then filters current CIM rows using PowerShell `-eq` on both PID and the `[string]` `CreationDate`. The JavaScript helper treats a valid JSON `[]` as a successful empty result, so the current path cannot tell whether the PID was absent or present with a creation-string mismatch. This identifies the observability gap, not which cause occurred in the last run.
+
+The proposed, optional `-DiagnosticOwned` path accepts only the already supplied one-to-four owned PID/creation pairs. It reports the parsed supplied values and runtime types, current process rows filtered to those PIDs only, and separate PID-equal / creation-equal results and types. It returns a diagnostic envelope capped at 2 KiB by the JavaScript caller. The probe invokes it once only when the existing known-live identity round-trip returns empty. The result is report-only: the normal API and exact timestamp equality remain unchanged, and no diagnostic row authorizes ownership, cleanup, or process termination. No unrelated process inventory, command lines, or environment values are emitted.
+
+For root review only, the proposed bounded checks remain serial and use the unchanged Plan 25 wrapper:
+
+```powershell
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
+```
+
+```powershell
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
+```
+
+The semantic command would use the existing parent/child case and its deadlines/lifetimes. It is not cleared to run yet; root review and separate exact command clearance are required. No syntax check, semantic run, browser, server, Vite, capture, or fixture action is authorized by this proposal.
 
 ## Review disposition requested
 

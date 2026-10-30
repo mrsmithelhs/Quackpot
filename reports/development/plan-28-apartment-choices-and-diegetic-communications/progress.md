@@ -109,6 +109,26 @@ this session started. It was left alone and not committed.
 - The extra return and enter transition around the Day 1 morning ledger adds two short animations. Its feel is
   unmeasured.
 
+## Owner direction folded in (2026-10-30, direct conversation)
+
+Recorded in `owner-direction-2026-10-30.md`, and `proposal.md` §0, §2.7, §5 and §8 were updated:
+
+- Direction A is selected.
+- The duck may travel between scenes but stays still within each composition.
+- Styled HTML paper is acceptable.
+- Guidance should relax over the run.
+- Optional lanes are wanted, such as missed meals, skipped shifts and possibly being fired.
+
+The lanes are new rules. They are listed with scope flags and a routing question; none are implemented or authorized
+by this record.
+
+I explained the "landlord voice" question to the owner. My recommendation is an institutional rent bill, with named
+people kept for optional lanes. The owner has not chosen yet.
+
+**For root:** the owner's choice changes what the next build should compare. I propose an A-only build that compares
+duck placement and rent sender instead of A versus B (owner-direction §4). This needs root's agreement because the
+packet text asks for two directions.
+
 ## Ready for orchestrator review
 
 Yes, for the Stage 1 proposal. No prototype exists yet.

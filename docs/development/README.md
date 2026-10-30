@@ -43,7 +43,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-32` | Gacha music hook and arrangement prototypes | in-progress | Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis. |
 | `plan-33` | Recognizable music emotional transformation research | complete | Research and propose ways to retain musical identity while shifting gacha music toward tension. |
 | `plan-34` | Weather runtime extraction without mounting | complete | Extract accepted weather still/motion and bright lightning into tested unmounted source modules, preserving the art kit and current game behavior. |
-| `plan-35` | Checkpoint catalog and targeted review pilot | delivered | Extend the two-checkpoint proof with three reachable review starts and portable briefs, then pilot focused browser checks before adopting a general workflow. |
+| `plan-35` | Checkpoint catalog and targeted review pilot | complete | Extend the two-checkpoint proof with three reachable review starts and portable briefs, then pilot focused browser checks before adopting a general workflow. |
 | `plan-36` | Late-game disorientation and unreliable narration investigation | ready | Investigate late-game transition disturbances, gacha imagery spilling into apartment life, and unreliable character narration. Return bounded alternatives, grounded counterpoints, truthful Receipt mappings and owner decisions before prototypes or integration. |
 <!-- plan-index:end -->
 

@@ -313,3 +313,31 @@ Owner requests richer consistent gacha presentation (existing Plan11), reflectio
 Owner selects Plan26 bright report-gallery lightning: near-white scene peak40ms, scene fade300ms, window fade800ms; includes lamp washout and external lighting of still duck. Earlier restrained-only bounds superseded for that study only. Root verifies exception cleanup0f8ef5f; implementer73/73 bounded test evidence550dcb7. StageC accepted as investigation; bounded StageD live/lifecycle/performance evidence authorized via plan-26-stage-d-sonnet-handoff.md. Actual live speed, hidden/OS preferences, red analysis and representative devices remain evidence gaps; StageE runtime promotion separately gated.
 
 Owner proposes TV as a visible apartment soundtrack source, track cycling and room-dependent acoustics, with apartment music ceasing when TV sold (draft Plan30); influencer equipment/apartment transformation and displaced possessions (draft Plan31); original recognizable gacha hooks/arrangements (draft Plan32), paired with research on recognizable emotional transformations and context crossfades (draft Plan33). These record investigation directions, not production adoption, music selection, automatic room creation, prices, or reopening the deferred streamer branch. Audio remains local/provenance-checked with player controls; expression of story mood is not evidence of actual player psychology. No assigned status or subagent/generation budget follows from drafts.
+
+### DECISION-033 — Checkpoint pilot acceptance and expanded creative investigation
+
+**Date:** 2026-10-30
+
+Owner accepts Plan35 for closure following root/Terra artifact review and three
+successful targeted pilots. Retain the three captured starts and optional,
+orchestrator-supervised checkpoint/brief workflow with provenance, freshness,
+isolated storage and bounded execution. This is not mandatory global workflow,
+general checkpoint coverage, accessibility/device validation or a replacement for
+appropriate full-start checks. Historical failed/uncertain evidence remains intact.
+
+Owner authorizes broader story developments and new interaction proposals beyond
+the existing roadmap, with an ordinary engaged-play target of at least roughly
+30 minutes and no selected upper duration ceiling. This supersedes the prior
+25-minute target. No enforced duration, delayed Uninstall or post-Receipt retention;
+saves support longer experiences. Around15minutes remains a rapid low-reading
+reference, not a minimum or guarantee for every expanded route. Design, agent guide
+and orchestrator prompt updated together; actual pacing remains to be validated.
+
+Four independent external reviews (Claude Opus/Sonnet and Gemini Argon/Flash) may
+explore broader development and then Plan36 disorientation. The common handoff
+permits at most four low-tier tasks per review, two concurrent, Haiku for Claude
+and Flash for Gemini, no recursive fan-out. Repository access is read-only; output
+must stay in each harness's external working directory for owner-mediated intake.
+Ideas may challenge the roadmap but are not adopted mechanics or new production
+authority. Immediate exit, truthful evidence and separation of fictional character
+activity from actual player choices remain binding. No push or deployment.

@@ -1,7 +1,8 @@
 ---
 id: plan-35
 title: Checkpoint catalog and targeted review pilot
-status: delivered
+status: complete
+resolution: "Owner accepted the three-checkpoint catalog and two-brief targeted-review pilot on 2026-10-30 after root/Terra artifact review. Retain optional supervised reuse with immutable capture origins, explicit current validation, isolated storage and bounded execution. Three continuation pilots passed; broader workflow adoption and device/accessibility/full-run coverage are not implied."
 depends_on: [plan-16]
 gate: "Owner approves the first catalog and assignment; root approves mechanism and bounded validation before execution; owner accepts pilot before workflow adoption."
 summary: >-

@@ -82,7 +82,7 @@ async function captureCatalogEntry(id, fixtureRaw, envelope, parent, source, act
     sourceFiles, sourceClosureSha256, servedSourceMapSha256, actions, observations,
     prehistory: 'All events before this checkpoint were synthetic or earlier mounted setup, as specified by captureParent; they are not attributed to the pilot reviewer.',
   };
-  entry.status = 'current-loadable';
+  entry.status = 'capture-pending-cleanup';
   entry.bytes = bytes.length;
   entry.sha256 = sha256(bytes);
   entry.provenance = capture;
@@ -91,6 +91,18 @@ async function captureCatalogEntry(id, fixtureRaw, envelope, parent, source, act
   await writeFile(temporaryCatalogPath, `${JSON.stringify(catalog, null, 2)}\n`, { flag: 'wx' });
   await rename(temporaryCatalogPath, catalogPath);
   return { id, fixture: relative, bytes: bytes.length, sha256: entry.sha256, provenance: capture, totalBytes };
+}
+
+async function markCaptureLoadable(id, expectedHash) {
+  const catalog = await readCatalog();
+  const entry = catalogEntry(catalog, id);
+  if (entry.status !== 'capture-pending-cleanup' || entry.sha256 !== expectedHash) fail('Captured candidate changed before cleanup was confirmed.');
+  entry.status = 'current-loadable';
+  const catalogPath = resolveRepoPath(CATALOG_PATH);
+  const temporaryCatalogPath = `${catalogPath}.${process.pid}.tmp`;
+  await writeFile(temporaryCatalogPath, `${JSON.stringify(catalog, null, 2)}\n`, { flag: 'wx' });
+  await rename(temporaryCatalogPath, catalogPath);
+  return { id, status: entry.status, sha256: entry.sha256 };
 }
 
 async function readPilotFixture(catalog, id) {
@@ -183,7 +195,8 @@ async function capturePhase(phase) {
         beforeHash: before.hash, afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt });
   } finally { cleanup = await closeIsolatedChrome(browser); }
   if (cleanup?.residual || cleanup?.uncertainty) fail(`Chrome cleanup is not confirmed: ${JSON.stringify(cleanup)}`);
-  const result = { phase, capture: captureResult, cleanup };
+  const loadable = await markCaptureLoadable(targetId, captureResult.sha256);
+  const result = { phase, capture: captureResult, loadable, cleanup };
   await appendBoundedResult(result);
   process.stdout.write(`${JSON.stringify(result)}\n`);
 }

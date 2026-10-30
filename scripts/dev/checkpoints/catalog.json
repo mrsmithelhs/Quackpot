@@ -62,7 +62,7 @@
       "captureParent": "plan35.rent-paid-zero.v1",
       "captureAction": "Mounted Pay then the actual zero-cash Continue action; capture the ordinary day-three race-entry form before submit.",
       "boundary": { "step": "d3_midday_race", "activeModal": null, "phase": "playing", "raceNumber": 2, "raceCommitted": false },
-      "selectionEvidence": "Duck/stance selection is rendered UI state until form submission. No race_choice event or engine state write is expected at this boundary.",
+      "selectionEvidence": "Duck selection is rendered UI state until form submission. The mounted view may append a genuine race_choice_offered exposure; no action/race_choice commit or engine state write is expected at this boundary.",
       "pilotBrief": "finale-rest-selection.md"
     }
   },

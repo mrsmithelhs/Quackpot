@@ -18,7 +18,7 @@ New tooling and catalog files, all subject to root approval:
 - `scripts/dev/checkpoints/checkpoint-proof.mjs` — offline verification CLI for historical references and captured Plan 35 fixtures; bounded to one checkpoint/phase per invocation.
 - `scripts/dev/checkpoints/cdp.mjs` — shared minimal Chrome DevTools client, isolated profile/context, pointer hit-testing, and owned cleanup helpers used by the browser phase.
 - `scripts/dev/checkpoints/browser-phase.mjs` — one mounted phase implementation with explicit `capture` versus `pilot` modes, ordinary localStorage restore, hit-tested pointer actions, before/after envelope observation, and storage-context isolation.
-- `scripts/dev/checkpoints/run-controlled-phase.mjs` — one-phase owned Vite/browser supervisor adapted from Plan 16's lifecycle pattern, calling the shared phase module; strict port, finite served-file hashes, fresh temporary profile/context, bounded output/deadlines, source-before/after identity, owned-child cleanup, explicit residual/uncertainty evidence. It must fail if the port is occupied and never kill unrelated processes.
+- `scripts/dev/checkpoints/run-controlled-phase.mjs` — one-phase owned Vite/browser supervisor adapted from Plan 16's lifecycle pattern, calling the shared phase module; strict port, finite served-file hashes, fresh temporary profile/context, bounded output/deadlines, source-before/after identity, owned-child cleanup, explicit residual/uncertainty evidence. It must fail if the port is occupied and never kill unrelated processes. A newly written fixture stays `capture-pending-cleanup` until the owned browser cleanup is confirmed; only then can catalog status become `current-loadable`.
 - `reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-paid-zero.save.json` — captured pre-pay rent-due envelope; tracked only if privacy/size review passes.
 - `reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-unpaid-escalation.save.json` — captured pre-pay rent-due envelope; same tracking gate.
 - `reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/finale-race-entry.save.json` — captured day-three race-entry envelope; same tracking gate.
@@ -80,7 +80,13 @@ No command below has been run for Plan 35. Run commands serially, only after roo
 # process-tree bounds. Capture and pilot are distinct phases.
 
 # Root review of new offline preflight code; run only after this source review.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/provenance.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/envelope.mjs')
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/checkpoint-proof.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/cdp.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/browser-phase.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/run-controlled-phase.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','loader-identity')
 
 # Verify each existing/reference fixture separately, with size checked first.
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','reference','qp16.starter-offer.v1')

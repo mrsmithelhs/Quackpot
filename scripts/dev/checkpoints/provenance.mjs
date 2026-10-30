@@ -131,8 +131,18 @@ export async function currentLoaderSha256() {
   return sha256(JSON.stringify(files));
 }
 
+export function assertCurrentIdentity(entry, current) {
+  const provenance = entry.provenance;
+  if (!provenance) fail('Captured checkpoint provenance is missing.');
+  if (JSON.stringify(provenance.sourceFiles) !== JSON.stringify(current.sourceFiles)) fail('Captured checkpoint is stale for production source closure.');
+  if (provenance.sourceClosureSha256 !== sha256(JSON.stringify(current.sourceFiles))) fail('Captured checkpoint source closure fingerprint is stale.');
+  if (provenance.productionSourceFingerprint !== current.productionSourceFingerprint) fail('Captured checkpoint production source fingerprint is stale.');
+  if (provenance.captureRecipe?.sha256 !== current.captureRecipeSha256) fail('Captured checkpoint capture recipe identity is stale.');
+  if (provenance.loaderSha256 !== current.loaderSha256) fail('Captured checkpoint loader identity is stale.');
+}
+
 export async function validateFreshness(entry) {
-  if (entry.status === 'not-captured') fail(`Checkpoint is not captured: ${entry.fixture}`);
+  if (entry.status !== 'current-loadable') fail(`Checkpoint is not current-loadable: ${entry.fixture} (${entry.status})`);
   if (entry.provenance?.sourceClosureSha256) {
     const catalog = await readCatalog();
     assertCaptureParent(catalog, entry);
@@ -147,10 +157,37 @@ export async function validateFreshness(entry) {
       const bytes = await readBounded(relative, 3 * 1024 * 1024);
       if (sha256(bytes) !== expected) fail(`Captured checkpoint is stale for production source: ${relative}`);
     }
-    const actualClosure = sha256(JSON.stringify(closure));
-    if (actualClosure !== entry.provenance.sourceClosureSha256) fail('Captured checkpoint source closure fingerprint is internally inconsistent.');
+    const recipePath = entry.provenance.captureRecipe?.file;
+    if (!recipePath) fail('Captured checkpoint capture recipe identity is absent.');
+    const recipeBytes = await readBounded(recipePath, 256 * 1024);
+    const recipeSha256 = sha256(recipeBytes);
+    const loaderSha256 = await currentLoaderSha256();
+    const current = { sourceFiles: pinnedClosure.currentFiles, productionSourceFingerprint: pinnedClosure.expectedFingerprint,
+      captureRecipeSha256: recipeSha256, loaderSha256 };
+    assertCurrentIdentity(entry, current);
+    return { loaderSha256, sourceClosureSha256: entry.provenance.sourceClosureSha256,
+      captureRecipeSha256: recipeSha256 };
   }
   const loaderHash = await currentLoaderSha256();
   if (entry.provenance?.loaderSha256 && entry.provenance.loaderSha256 !== loaderHash) fail('Captured checkpoint is stale for current loader identity.');
   return { loaderSha256: loaderHash, sourceClosureSha256: entry.provenance?.sourceClosureSha256 ?? null };
+}
+
+export function assertFreshnessNegativeControls(entry, current) {
+  const cases = [
+    ['source closure', (copy) => { copy.provenance.sourceFiles[Object.keys(copy.provenance.sourceFiles)[0]] = '0'.repeat(64); }],
+    ['capture recipe', (copy) => { copy.provenance.captureRecipe.sha256 = '0'.repeat(64); }],
+    ['loader', (copy) => { copy.provenance.loaderSha256 = '0'.repeat(64); }],
+  ];
+  const rejected = {};
+  for (const [label, mutate] of cases) {
+    const copy = structuredClone(entry);
+    mutate(copy);
+    let failedClosed = false;
+    try { assertCurrentIdentity(copy, current); }
+    catch { failedClosed = true; }
+    if (!failedClosed) fail(`Freshness negative control accepted a stale ${label} identity.`);
+    rejected[`${label.replaceAll(' ', '')}StaleRejected`] = true;
+  }
+  return rejected;
 }

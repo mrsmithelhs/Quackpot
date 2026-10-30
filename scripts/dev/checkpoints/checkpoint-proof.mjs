@@ -2,7 +2,7 @@ import { appendFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { assertCatalogBoundary, assertNegativeControls, validateAndHydrate } from './envelope.mjs';
 import {
-  MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, catalogEntry, currentLoaderSha256,
+  MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, assertFreshnessNegativeControls, catalogEntry, currentLoaderSha256,
   assertCaptureParent, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256, verifyPinnedPlan16Archive,
   verifyPlan16SourceClosure, validateFreshness,
 } from './provenance.mjs';
@@ -56,11 +56,17 @@ async function fixture(id) {
   assertCaptureParent(catalog, entry);
   await verifyPinnedPlan16Archive(catalog);
   const freshness = await validateFreshness(entry);
+  const negativeFreshness = assertFreshnessNegativeControls(entry, {
+    sourceFiles: entry.provenance.sourceFiles,
+    productionSourceFingerprint: entry.provenance.productionSourceFingerprint,
+    captureRecipeSha256: freshness.captureRecipeSha256,
+    loaderSha256: freshness.loaderSha256,
+  });
   const fixture = await readFixtureBeforeParse(entry);
   const envelope = JSON.parse(fixture.raw);
   const validation = validateAndHydrate(envelope, id);
   assertCatalogBoundary(id, entry, envelope);
-  const negativeControls = assertNegativeControls(envelope);
+  const negativeControls = { ...assertNegativeControls(envelope), ...negativeFreshness };
   const record = { phase: 'fixture-preflight', id, class: entry.class, status: entry.status,
     bytes: fixture.bytes.length, sha256: fixture.hash, freshness, validation, negativeControls };
   await appendResult(record);

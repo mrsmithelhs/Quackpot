@@ -368,11 +368,29 @@ would not have helped.
 - **Deliverables:** `integration-proposal.md` and `final-report.md`.
 - **Process note.** One `node --test` run went through the launcher. No unguarded Node was run.
 
+## Stage 5: composition revision, interaction gallery (2026-10-30)
+
+- **Root revision 05.** The floating-card and embedded-form treatment is **not selected**. `comparison/` is kept as
+  history, and the integration proposal is on hold until the owner selects a treatment.
+- **Ideation and owner decisions.**
+  - I proposed a three-layer language: in the room, held, and decide.
+  - The owner chose all four treatments for a gallery, the phone for life beats (never interrupting Quackpot), the
+    collapsed decision panel, the halo plus chip plus duck gaze (fading but never gone, with the duck as the
+    character's conscience), the bakery downstairs for breakfast (separate grocery buying is a Plan 37/29 proposal),
+    and explicit acceptance of scope expansion.
+  - Recorded as D11–D16 in `owner-direction-2026-10-30.md` §6.
+- **Built:** `gallery/`, with nine moments across T1–T4 plus a recommended mix. Each moment runs the real engine from
+  the Plan 35 fixture, with amounts from engine clones.
+- **Haiku use:** two parallel drafts (copy and props), reviewed and integrated by the lead. Two copy corrections are
+  listed in `gallery/README.md`.
+- **Layout aid:** `drafts/contact-sheet/`, a scene grid used to place props and check the duck's gaze. The side-view
+  duck faces left everywhere, which led to the art request in `gallery/README.md`.
+- **Evidence:** a gallery browser session (PID 26188, cleaned up) found and fixed four defects. Its limits are listed
+  in `gallery/README.md`.
+- **Tests:** none added yet. Gallery tests wait for the owner's selection.
+
 ## Ready for orchestrator review
 
-**Yes: the final delivery is in `final-report.md`.** It is returned for **one** root decision: whether to assign a
-cohesive production implementation packet (`integration-proposal.md` §0). That packet includes the HUD-during-card
-question (§4.3).
-
-Owner experience choices still open: none for the first integration. Skipping a meal and the other optional lanes wait
-for Plan 37.
+**Not yet.** Waiting on the owner's selection from the gallery. After that, the selected treatment gets refined
+through the remaining branches (including the unpaid ladder), tests, a browser gate, and a revised integration
+proposal.

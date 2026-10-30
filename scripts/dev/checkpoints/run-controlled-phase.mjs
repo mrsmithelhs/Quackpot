@@ -172,7 +172,8 @@ function ownedSpawn(record, command, args, env = process.env) {
   child.once('error', (error) => { record.error = error; });
   child.once('exit', (code, signal) => { record.exit = { code, signal, at: new Date().toISOString() }; });
   child.once('close', (code, signal) => { record.close = { code, signal, at: new Date().toISOString() }; });
-  if (process.platform === 'win32') record.monitor = startOwnedProcessMonitor(child.pid, { isAlive: () => child.exitCode === null });
+  if (process.platform === 'win32') record.monitor = startOwnedProcessMonitor(child.pid,
+    { isAlive: () => record.exit === null && child.exitCode === null && child.signalCode === null });
   return record;
 }
 
@@ -276,6 +277,13 @@ async function stopOwned(record) {
 async function stopOwnedOnce(record) {
   if (!record.child) return { residual: false, uncertainty: true, exit: record.exit, reason: 'owned process handle missing' };
   const parentExitedOnEntry = record.exit !== null;
+  let inspectionFailureStage = null;
+  let inspectionFailureMessage = null;
+  const rememberInspectionFailure = (stage, message) => {
+    if (inspectionFailureStage !== null) return;
+    inspectionFailureStage = stage;
+    inspectionFailureMessage = String(message ?? 'Unspecified process-tree inspection failure').slice(0, 1000);
+  };
   const provedBrowserCleanup = () => {
     if (record.summaryValidated !== true) return false;
     const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
@@ -302,20 +310,39 @@ async function stopOwnedOnce(record) {
   };
   let tracked = [];
   let inspectionFailed = process.platform !== 'win32';
+  if (inspectionFailed) rememberInspectionFailure('unsupported-platform', `Process-tree cleanup is unsupported on ${process.platform}.`);
   let rootObserved = false;
   if (process.platform === 'win32') {
     try {
       tracked = record.monitor ? await record.monitor.stop() : await snapshotOwnedTree(record.child.pid);
       rootObserved = tracked.some((row) => row.root === true);
-      if (!rootObserved) inspectionFailed = true;
+      if (!rootObserved) {
+        inspectionFailed = true;
+        rememberInspectionFailure('root-never-observed', 'No retained process-tree sample included the owned root identity.');
+      }
+    } catch (error) {
+      const retained = Array.isArray(error?.ownedIdentities) ? error.ownedIdentities : [];
+      const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
+      tracked.push(...retained.filter((row) => !known.has(`${row.pid}:${row.created}`)));
+      rootObserved = tracked.some((row) => row.root === true);
+      inspectionFailed = true;
+      rememberInspectionFailure(error?.inspectionFailureStage ?? 'monitor-stop',
+        error?.inspectionFailureMessage ?? error?.message ?? error);
     }
-    catch { inspectionFailed = true; }
   }
   if (record.exit === null && process.platform === 'win32' && rootObserved) {
     const rootIdentity = tracked.find((row) => row.root === true);
     try {
-      if (!rootIdentity || !(await inspectOwnedIdentities([rootIdentity])).length) { rootObserved = false; inspectionFailed = true; }
-    } catch { rootObserved = false; inspectionFailed = true; }
+      if (!rootIdentity || !(await inspectOwnedIdentities([rootIdentity])).length) {
+        rootObserved = false;
+        inspectionFailed = true;
+        rememberInspectionFailure('live-root-identity-check', 'The recorded root PID plus creation time was not independently confirmed while live.');
+      }
+    } catch (error) {
+      rootObserved = false;
+      inspectionFailed = true;
+      rememberInspectionFailure('live-root-identity-check', error?.message ?? error);
+    }
   }
   if (record.exit === null && process.platform === 'win32' && rootObserved) {
     try { execFileSync('taskkill.exe', ['/PID', String(record.child.pid), '/T', '/F'], { cwd: ROOT, stdio: 'ignore', timeout: 2500 }); }
@@ -335,17 +362,23 @@ async function stopOwnedOnce(record) {
         if (remaining.length === 0 && remainingTree.length === 0 && record.close !== null) break;
         await delay(100);
       } while (Date.now() < until);
-    } catch { inspectionFailed = true; }
+    } catch (error) {
+      inspectionFailed = true;
+      rememberInspectionFailure('post-stop-tree-check', error?.message ?? error);
+    }
   }
   const capturePhase = /^capture-/.test(evidence.phase ?? '');
   const helperConfirmed = record === proofChild && record.exit?.code === 0
     && (capturePhase ? provedBrowserCleanup() : provedPilotCleanup());
   const retainedClear = remaining.length === 0 && remainingTree.length === 0;
-  const parentUnobserved = parentExitedOnEntry && !helperConfirmed;
   const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0;
+  const terminationConfirmed = rootObserved && record.close !== null && !residual && retainedClear;
+  const parentUnobserved = parentExitedOnEntry && !terminationConfirmed;
   return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved
       || (record === proofChild && helperConfirmed && !retainedClear),
-    exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining, remainingTree };
+    exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining, remainingTree,
+    inspectionFailed, rootObserved, parentExitedOnEntry, helperConfirmed, terminationConfirmed,
+    inspectionFailureStage, inspectionFailureMessage };
 }
 
 async function appendEvidence() {

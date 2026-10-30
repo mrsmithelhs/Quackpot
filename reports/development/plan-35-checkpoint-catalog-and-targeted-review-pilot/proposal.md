@@ -134,3 +134,33 @@ No syntax check, loader/reference check, runtime phase, server, browser, capture
 ```
 
 Do not proceed to either other capture or either pilot until root reviews this batch's evidence and separately clears the next phase. No production/status/workflow change is part of this repair.
+
+## Amendment — paid-pilot supervisor cleanup repair proposal; no execution
+
+The single owner-resumed `pilot-paid-rent` produced valid gameplay and confirmed Chrome cleanup, but the supervisor recorded cleanup uncertainty. Preserve that record as partial/uncertain evidence; it is not rebound or rewritten. Read-only diagnosis found two separate supervisor predicates: the server was marked `parentUnobserved` because it exited before `stopOwned` and the current helper predicate only applies to the proof child; the proof child was marked uncertain through `inspectionFailed`, but the previous result discarded whether monitor stop threw or had no root sample. The `SIGTERM` value itself is not the uncertainty rule.
+
+The proposed bounded source repair is limited to `scripts/dev/checkpoints/process-tree.mjs` and `scripts/dev/checkpoints/run-controlled-phase.mjs`:
+
+- Treat a child as still alive only while `exitCode`, `signalCode`, and the recorded exit event are all unset, so a signaled exit does not look live during the monitor's post-exit sampling race.
+- If monitor shutdown reports an inspection failure, attach its already-recorded exact PID-plus-creation-time identities and the first failure stage/message to the error; the supervisor merges those identities, independently checks them, and keeps the inspection failure sticky.
+- Record `inspectionFailed`, `rootObserved`, `parentExitedOnEntry`, `helperConfirmed`, `terminationConfirmed`, and the exact first `inspectionFailureStage` / `inspectionFailureMessage` in each cleanup result.
+- Distinguish a root that was never observed from one observed earlier and later absent. A prior root identity plus recorded close and independently absent retained identities confirms termination even if the expected supervisor stop delivered a signal. Missing ownership evidence or an actual inspection error remains uncertain. A validated browser summary cannot clear an unrelated inspection error.
+
+This changes the full pilot tool-closure identity only. The current validation-loader identity and all immutable capture origins/fixtures remain untouched. No syntax check, semantic check, or process/browser command has been run on this proposal.
+
+### Exact proposed next batch — root review and separate execution clearance required
+
+Before any rerun, resolve the active pilot-log capacity and record-pin retention plan. The active log is 813,315 bytes with 235,261 bytes remaining; the preserved paid record is 161,700 bytes, so one similar rerun would leave about 73 KiB. That does not provide room for both remaining pilot records. The validation index currently pins records to the active log, and no automatic log rotation or archive resolver is in scope. Preserve those pins and do not rotate the log until root approves an exact archive/index-resolution strategy or narrows the remaining pilot scope.
+
+After source review and separate root command clearance, the bounded proposal is two serial syntax checks followed by at most one paid-rent cleanup rerun. Every command uses the unchanged Plan 25 runner; the paid phase also requires standard `require_escalated`, fresh process/port preflight, cleanup reserve, and sufficient active-log headroom. Do not execute the paid rerun while the pin/capacity issue above remains unresolved.
+
+```powershell
+# Syntax checks, serially.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/process-tree.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/run-controlled-phase.mjs')
+
+# One paid-rent cleanup rerun only, after root review, an evidence-retention decision, and exact execution clearance.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','pilot-paid-rent')
+```
+
+The acceptance evidence for a later rerun is the same recorded single Pay action/outcome, exact restore comparison, unchanged isolated sentinel, current capture/validation/pilot identities, valid compact/full record pin, recorded cleanup diagnostic fields, exact owned identities, and confirmed whole-phase cleanup. No retry or next pilot is implied by this proposal.

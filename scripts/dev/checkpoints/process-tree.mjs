@@ -54,22 +54,29 @@ export function startOwnedProcessMonitor(rootPid, { intervalMs = 750, maxDuratio
   let active = null;
   let failure = null;
   let firstSample = true;
+  const rememberFailure = (stage, error) => {
+    if (!failure) failure = { stage, error };
+  };
   const sample = async () => {
     if (stopped) return;
     active = snapshotOwnedTree(rootPid, 2000);
     try {
       const rows = await active;
-      if (!rows.some((row) => row.root === true) && isAlive()) failure ??= new Error('Owned process root disappeared during live monitoring.');
+      if (!rows.some((row) => row.root === true) && isAlive()) {
+        rememberFailure('live-root-unobserved', new Error('Owned process root disappeared during live monitoring.'));
+      }
       for (const row of rows) identities.set(`${row.pid}:${row.created}`, row);
-    } catch (error) { failure ??= error; }
+    } catch (error) { rememberFailure('tree-snapshot', error); }
     finally { active = null; }
     const initialFailure = firstSample && failure;
     firstSample = false;
     if (!stopped) {
-      if (Date.now() - started >= maxDurationMs) failure ??= new Error('Owned process monitor reached its hard deadline.');
+      if (Date.now() - started >= maxDurationMs) {
+        rememberFailure('monitor-deadline', new Error('Owned process monitor reached its hard deadline.'));
+      }
       else timer = setTimeout(sample, intervalMs);
     }
-    if (initialFailure) throw initialFailure;
+    if (initialFailure) throw initialFailure.error;
   };
   const ready = sample();
   return {
@@ -78,7 +85,13 @@ export function startOwnedProcessMonitor(rootPid, { intervalMs = 750, maxDuratio
       stopped = true;
       clearTimeout(timer);
       if (active) await active.catch(() => {});
-      if (failure) throw failure;
+      if (failure) {
+        const stoppedError = new Error(`Owned process monitor failed during ${failure.stage}: ${failure.error.message}`, { cause: failure.error });
+        stoppedError.ownedIdentities = [...identities.values()];
+        stoppedError.inspectionFailureStage = failure.stage;
+        stoppedError.inspectionFailureMessage = failure.error.message;
+        throw stoppedError;
+      }
       return [...identities.values()];
     },
   };

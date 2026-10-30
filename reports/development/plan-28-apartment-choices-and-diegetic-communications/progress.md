@@ -436,5 +436,5 @@ would not have helped.
 
 **Yes:** the revised delivery is in `final-report.md`. It is returned for one root decision: whether to assign a
 cohesive implementation packet for the selected mix, including the A2.3 Plan 25 kit change and the A9 ordering and
-exposure changes. The owner has confirmed the experience choices D11–D21. A9.2 (less exposure for optional beats) is
-flagged for the owner's explicit confirmation.
+exposure changes. The owner has confirmed the experience choices D11–D22, including A9.2 (D22: less exposure for optional beats is
+intended). No owner experience choice remains open for the first integration.

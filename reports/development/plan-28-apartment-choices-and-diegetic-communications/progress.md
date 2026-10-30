@@ -293,8 +293,58 @@ call was made.
 **Haiku use (Stage 2b):** none. These corrections were two small, precisely specified edits, and delegating them
 would not have helped.
 
+## Stage 3: root test evidence and the single browser gate (2026-10-30)
+
+**Root's runs (not the Claude lead's).** Clearance `reports/orchestration/plan-28-tests-and-browser-clearance-03.md`:
+- Root substituted a read-only canonical fixture preflight, `reports/orchestration/plan-28-fixture-readonly-check.mjs`.
+  It calls the existing Plan 35 checks and has no append.
+- Root ran it and `plan28.test.mjs` serially through the Plan 25 launcher:
+  - fixture preflight: exit 0;
+  - tests: **12/12 passed**, exit 0;
+  - in both runs `StopReason` was null and stderr was empty.
+- The Plan 35 log is unchanged: 806,905 bytes, `610a080c…`. Nothing was rotated or appended.
+- Details are in `validation-plan.md` §1. The Stage 2b note that `plan28.test.mjs` had "still never run" is now out of
+  date.
+
+**Browser gate (run by the Claude lead, once).** The full record is in `browser-gate.md`.
+- **Server.** `serve-bounded.py` ran as PID 22224 on 127.0.0.1:5228 from 13:38:42 to 13:44:33. It served 100 GETs:
+  90 returned 200, and 10 returned 404 for `robots.txt` or `favicon.ico`.
+- **Cleanup.**
+  - I stopped the owned PID myself.
+  - The wrapper's immediate port check printed a stale "still listening".
+  - An independent re-check found no listener in `netstat`, a refused probe, and no Python process.
+  - No other process was touched.
+- **Storage.** The before and after snapshots on the disposable origin were identical, and all empty.
+- **Player-facing checks.** All passed at 1280×720 and 390×844:
+  - fixture panel;
+  - the paid-zero and unpaid branches;
+  - the real couch disappearance;
+  - the final-decline disclosure and the Receipt stand-in;
+  - focus on the card heading;
+  - one event per double activation, by keys and in the same tick;
+  - switching scenario during the transition;
+  - the `?fail-load` stale-failure race;
+  - return from the gacha appending nothing;
+  - `?motion-off`.
+- **Findings, none repaired.**
+  - B1: the reviewer `<select>` overflows the page horizontally at both widths. A one-line CSS fix is proposed.
+  - B2: at 1280×720 the card scrolls internally. This is an observation.
+  - B3: the reviewer panel goes stale in the injected-failure state. This is an observation.
+- **Unverified.** Real OS reduced motion is unverified, because the harness can't emulate it. Screenshots were
+  viewed, not saved.
+- **Morning framing.** I recommend medium by default, with wide once as the Day 1 establishing shot. At 390 px the
+  wide frame shrinks the duck to about 10 px.
+
+**Haiku use (Stage 3):** none. The gate was a single serial browser session that only the lead could drive.
+
 ## Ready for orchestrator review
 
-Yes. The corrections are committed. The cleared batch stopped at preflight for log capacity and needs a root decision
-on options (a)–(d). The revised finite server and browser proposal is ready for clearance. No test, server or browser
-evidence exists yet.
+Yes:
+- Root's tests passed.
+- The single cleared browser gate is complete, and every player-facing check passed.
+- The owned server is confirmed closed.
+
+Still open:
+- **Root:** whether to clear the B1 one-line CSS fix (reviewer panel only).
+- **Owner:** the morning framing. The options are medium throughout, wide on Day 1 only then medium (recommended),
+  or wide throughout.

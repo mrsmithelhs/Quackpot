@@ -337,14 +337,42 @@ would not have helped.
 
 **Haiku use (Stage 3):** none. The gate was a single serial browser session that only the lead could drive.
 
+## Stage 4: expanded delivery under clearance 04 (2026-10-30)
+
+- **Root's work.** Root integrated the Luna-assisted B1–B3 repairs (`928ea02`, `prototype.css` and `prototype.js`) and
+  reran the tests: 12/12. I inspected the diff, confirmed it in the browser, and refined it.
+- **Owner decisions, asked directly:**
+  - D8: wide on Day 1, then medium.
+  - D9: tap to pay breakfast. This was the owner's choice, not my recommendation.
+  - D10: no display logging of life surfaces in the first integration.
+  - All three are recorded in `owner-direction-2026-10-30.md` §5.
+- **Prototype changes:**
+  - `breakfastView` and `BREAKFAST_AMOUNT` added to `views.mjs`.
+  - `morningFramingFor` added, and a `breakfast` moment added to `sceneFor` (`life-model.mjs`).
+  - `prototype.js`: `evening()` now waits for the tap; there is a `breakfast:pay` handler that routes food results it
+    can't handle to a disclosed stand-in; framing follows the owner rule.
+  - `index.html`: framing control.
+  - `prototype.css`: event-list wrap and a wider desktop card.
+- **Tests.** The evening test was replaced by a stricter tap-to-pay test: no food events before the tap, one control, a
+  duplicate tap does not charge twice, then the ledger. A framing test was added. 13/13 passed through the launcher;
+  I ran it.
+- **Browser session 2:** see `browser-gate.md` session 2.
+  - B1–B3 were confirmed.
+  - B1's real remaining cause was the event-list text. A wrong `contain: paint` attempt was reverted.
+  - D8 and D9 were verified.
+  - Cleanup: PID 45384 stopped, the probe was refused, and the leftover PID 0 entry is explained.
+- **Haiku use.** One read-only explorer mapped the production touchpoints (`billExpense` sites, modal dispatch, reload,
+  HUD and Uninstall, the apartment kit, display events, styles). I spot-checked its key citations before using them.
+  Its report fed `integration-proposal.md`, and it also turned up a latent Uninstall-from-retention defect (from source
+  reading only).
+- **Deliverables:** `integration-proposal.md` and `final-report.md`.
+- **Process note.** One `node --test` run went through the launcher. No unguarded Node was run.
+
 ## Ready for orchestrator review
 
-Yes:
-- Root's tests passed.
-- The single cleared browser gate is complete, and every player-facing check passed.
-- The owned server is confirmed closed.
+**Yes: the final delivery is in `final-report.md`.** It is returned for **one** root decision: whether to assign a
+cohesive production implementation packet (`integration-proposal.md` §0). That packet includes the HUD-during-card
+question (§4.3).
 
-Still open:
-- **Root:** whether to clear the B1 one-line CSS fix (reviewer panel only).
-- **Owner:** the morning framing. The options are medium throughout, wide on Day 1 only then medium (recommended),
-  or wide throughout.
+Owner experience choices still open: none for the first integration. Skipping a meal and the other optional lanes wait
+for Plan 37.

@@ -1,7 +1,8 @@
 ---
 id: plan-28
 title: Apartment choices and diegetic communications
-status: in-progress
+status: complete
+resolution: "Owner accepted the selected T1/T2/T4 apartment interaction mix and D1–D22 on 2026-10-30; root reviewed the delivery and independently passed 7 gallery tests. Investigation closed; production integration assigned separately to Plan 38."
 
 depends_on: [plan-25]
 gate: "Owner assigned Claude investigation on 2026-10-30. Expanded delivery clearance04 authorizes in-scope prototype edits and bounded validation; owner resolves experience choices directly. Production remains separately scoped."

@@ -1,11 +1,9 @@
 ---
 id: plan-38
 title: Apartment life production integration
-status: draft
+status: in-progress
 depends_on: [plan-28]
-gate: "Draft production scope from the selected Plan 28 mix; owner assignment and Plan 28 closure before execution. Integrated experience returns for owner review."
-superseded_by: null
-resolution: null
+gate: "Owner assigned 2026-10-30 to the existing Opus thread; proceed through bounded implementation and validation to delivery. Integrated experience returns for owner review."
 summary: >-
   Bring the selected room-object, held-message and explicit-decision flow into production, with still companion poses, tap-to-buy breakfast and preserved save/exit/economy boundaries.
 ---
@@ -16,11 +14,11 @@ summary: >-
 - Packet id: plan-38
 - Packet title: Apartment life production integration
 - Status: (see frontmatter)
-- Owner/model: unassigned; single integration writer
+- Owner/model: existing Plan 28 Opus lead; Haiku coding workers, optional Sonnet integration delegate
 - Date: 2026-10-30
 - Packet type: feature / integration
 - Mutation level: source and user-facing local build
-- Approval gate: owner assignment before execution; final integrated owner review
+- Approval gate: assignment approved; final integrated owner review
 - Expected artifacts: focused production life modules, default-preserving kit omission option, regression evidence and progress report
 
 ## Goal and why this packet exists
@@ -65,7 +63,13 @@ On assignment, check packet readiness through the existing bounded launcher and 
 
 All Node work uses the unchanged Plan 25 bounded launcher, serial runs, 1 GiB heap, 2 GiB sampled owned-tree memory and 90-second ceiling. Preflight running processes; never kill unrelated Node/Codex processes. Reuse the verified owner dev server; do not stop an owner-started server. Avoid watchers, install churn and concurrent test suites.
 
-If assigned to the existing Opus lead, retain owner-directed Branch C with no advisor; Haiku bounded tasks remain lead-directed with one integration writer. A Codex assignment may use one read-only Terra-medium pre-delivery review for this substantial integration, not a repeated review quota. Record actual consultation posture.
+**Owner execution amendment, 2026-10-30:** The existing Opus lead should prioritize coding in several bounded Haiku tasks, rather than doing the bulk of routine implementation itself. It may delegate implementation coordination to one Sonnet subagent, which may spawn its own Haiku helpers if the harness actually supports that capability. Nested delegation is optional, not an assumed capability or reason to spend time troubleshooting the harness. Direct Opus-to-Haiku delegation is the fallback. No numerical Haiku cap; size tasks by actual separability and avoid duplicated repository surveys or repeated full-context briefs.
+
+Keep one integration writer responsible for shared main.js/controller/lifecycle wiring. Independent workers own explicit disjoint files or return patches from isolated workspaces; never have multiple workers modify the same files or operate the shared git index concurrently. If isolation is unavailable, serialize coding writes while overlapping read-only work. Leaf workers do not fan out; only the expressly authorized Sonnet coordinator may do so. This owner amendment permits that bounded hierarchy for this packet without changing general repository delegation rules.
+
+Suggested division: kit omission and tests; pure life-routing/decision models and tests; focused life views/scoped styles; targeted retention/compatibility regression work after interfaces are agreed. Separate the view files from shared integration hotspots. Lead chooses exact boundaries after a short inspection; do not turn the suggestions into compulsory staffing. Workers run no concurrent Node suites or competing browser sessions. One coordinator batches targeted validation through the bounded launcher.
+
+Opus does a short, substantive integration review of the final diff and evidence, concentrating on breakfast/old saves, exactly-once effects, Uninstall and selected-experience fidelity; it need not reimplement or reread every worker step. Retain owner-directed Branch C with no advisor. Record actual model/delegation use and uncertainties. No Terra or other advisory call is authorized for this Opus assignment.
 
 ## Validation Checklist
 

@@ -95,9 +95,9 @@ async function revalidate(id) {
     validationLoaderSha256: current.validationLoaderSha256,
     result: { valid: true, boundaryMatched: true, envelopeValid: validation.validation.valid,
       errors: validation.validation.errors, eventCount: validation.eventCount, chainHead: validation.chainHead, negativeControls },
-    recordPin: { file: `${PLAN35}/pilot-results.jsonl`, bytes: 2, sha256: 'a'.repeat(64) },
   };
-  const attestationNegativeControls = assertValidationAttestationNegativeControls(entry, id, attestationBase, current);
+  const attestationNegativeControls = assertValidationAttestationNegativeControls(entry, id, attestationBase, current,
+    { requireRecordPin: false });
   const finalNegativeControls = { ...negativeControls, ...attestationNegativeControls };
   const record = { phase: 'fixture-revalidation', id,
     fixture: attestationBase.fixture, captureOrigin: attestationBase.captureOrigin,
@@ -105,11 +105,23 @@ async function revalidate(id) {
     sourceClosureSha256: current.sourceClosureSha256,
     validationLoaderSha256: current.validationLoaderSha256,
     result: { valid: true, boundaryMatched: true, negativeControls: finalNegativeControls, validation } };
+  // Confirm the final positive attestation shape before appending a successful result record.
+  const stagedAttestation = { ...attestationBase,
+    result: { ...attestationBase.result, negativeControls: finalNegativeControls } };
+  assertValidationAttestation(entry, id, stagedAttestation, current, { requireRecordPin: false });
+  const stagedNegativeControls = assertValidationAttestationNegativeControls(entry, id, stagedAttestation, current,
+    { requireRecordPin: false });
+  if (JSON.stringify(stagedNegativeControls) !== JSON.stringify(attestationNegativeControls)) {
+    fail('Validation-attestation negative controls changed while building the result record.');
+  }
+  assertValidationResultMatches(stagedAttestation, record);
   const recordPin = await appendResult(record);
   const attestation = { ...attestationBase,
     result: { ...attestationBase.result, negativeControls: finalNegativeControls }, recordPin };
-  assertValidationAttestationNegativeControls(entry, id, attestation, current);
+  // Verify the pinned record and full attestation before publishing the index entry.
   const storedRecord = await readPinnedPilotEvidenceRecord(recordPin);
+  assertValidationAttestation(entry, id, attestation, current);
+  assertValidationAttestationNegativeControls(entry, id, attestation, current);
   assertValidationResultMatches(attestation, storedRecord);
   await writeFixtureValidationAttestation(id, attestation);
   await validateFreshness(entry, id);

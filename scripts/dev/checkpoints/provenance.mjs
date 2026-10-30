@@ -233,7 +233,7 @@ export function assertCurrentIdentity(entry, current) {
   if (provenance.productionSourceFingerprint !== current.productionSourceFingerprint) fail('Captured checkpoint production source fingerprint is stale.');
 }
 
-export function assertValidationAttestation(entry, id, attestation, current) {
+export function assertValidationAttestation(entry, id, attestation, current, { requireRecordPin = true } = {}) {
   const provenance = entry.provenance;
   const pin = attestation?.recordPin;
   const origin = attestation?.captureOrigin;
@@ -252,14 +252,19 @@ export function assertValidationAttestation(entry, id, attestation, current) {
       || attestation.result?.envelopeValid !== true || !Array.isArray(attestation.result?.errors)
       || attestation.result.errors.length !== 0 || !Number.isSafeInteger(attestation.result?.eventCount)
       || attestation.result.eventCount < 0 || typeof attestation.result?.chainHead !== 'string'
-      || (attestation.result.chainHead !== 'genesis' && !/^[a-f0-9]{64}$/.test(attestation.result.chainHead))
+      || (attestation.result.eventCount === 0
+        ? attestation.result.chainHead !== 'genesis'
+        : !/^[a-f0-9]{8}$/.test(attestation.result.chainHead))
       || !attestation.result?.negativeControls || !Object.keys(attestation.result.negativeControls).length
       || Object.values(attestation.result.negativeControls).some((value) => value !== true)
-      || pin?.file !== `${PLAN35}/pilot-results.jsonl` || !Number.isSafeInteger(pin.bytes) || pin.bytes < 2 || pin.bytes > MAX_PILOT_LOG_BYTES
-      || !/^[a-f0-9]{64}$/.test(pin.sha256 ?? '')) fail(`Missing, stale, or malformed current-validation attestation for ${id}.`);
+      || (requireRecordPin && (pin?.file !== `${PLAN35}/pilot-results.jsonl` || !Number.isSafeInteger(pin.bytes)
+        || pin.bytes < 2 || pin.bytes > MAX_PILOT_LOG_BYTES || !/^[a-f0-9]{64}$/.test(pin.sha256 ?? '')))) {
+    fail(`Missing, stale, or malformed current-validation attestation for ${id}.`);
+  }
 }
 
-export function assertValidationAttestationNegativeControls(entry, id, attestation, current) {
+export function assertValidationAttestationNegativeControls(entry, id, attestation, current, { requireRecordPin = true } = {}) {
+  assertValidationAttestation(entry, id, attestation, current, { requireRecordPin });
   const cases = [
     ['attestation missing', (copy) => { copy.attestation = null; }],
     ['fixture hash changed', (copy) => { copy.attestation.fixture.sha256 = '0'.repeat(64); }],
@@ -272,7 +277,10 @@ export function assertValidationAttestationNegativeControls(entry, id, attestati
     ['result invalidated', (copy) => { copy.attestation.result.valid = false; }],
     ['envelope result invalidated', (copy) => { copy.attestation.result.envelopeValid = false; }],
     ['validation result field missing', (copy) => { delete copy.attestation.result.eventCount; }],
+    ['malformed chain head', (copy) => { copy.attestation.result.chainHead = 'not-a-chain-head'; }],
+    ['validation chain head missing', (copy) => { delete copy.attestation.result.chainHead; }],
   ];
+  if (requireRecordPin) cases.push(['record pin missing', (copy) => { delete copy.attestation.recordPin; }]);
   const rejected = {};
   for (const [label, mutate] of cases) {
     const copy = { attestation: structuredClone(attestation) };

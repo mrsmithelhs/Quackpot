@@ -111,6 +111,16 @@ No command below has been run for Plan 35. Run commands serially, only after roo
 
 Each launcher phase must reserve cleanup time inside its own deadline and finish under the outer 90-second guard; if a route cannot fit, split route preparation and exact capture into separately reviewed phases. The maximum per-phase duration, memory caps, port, Chrome context lifecycle, and any standard permission review need root clearance after the source audit. No npm, build, full suite, watch server, install, packet render, direct Node, or browser command is authorized by this proposal.
 
+## Ownership lifecycle probe (source authored, execution not cleared)
+
+After root source review and separate exact command clearance, the proposed single invocation is:
+
+```powershell
+.eportsdevelopmentplan-25-desk-phone-art-integrationounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
+```
+
+The local-only probe uses four serial cases with exact spawned Node children: normal exit, parent early exit while one child remains alive, spawn startup failure for one nonexistent executable, and invalid-root inspection failure. It uses the reviewed `startOwnedProcessMonitor` / retained-identity helpers; it does not start Vite, Chrome, a server, or make network requests. Each case has a 7-second deadline; the 38-second total leaves 10 seconds for cleanup/output; output is capped at 8 KiB. The unchanged wrapper keeps its 1 GiB Node heap, 2 GiB sampled owned-tree, and 90-second outer bounds. On an error it signals only the direct child handle created by the probe, checks every retained PID plus creation identity, and reports uncertain cleanup if that cannot be established. This probe source has not been syntax-checked or run. Root review of source and a separate exact command clearance are required before execution.
+
 ## Review disposition requested
 
 Root has approved the three captured/replayable starts, folder ownership, and finale-rest pilot. Remaining clearance is for authored tooling/files and exact later commands. Existing Plan 16 entries are historical references; current usability must be computed from exact current source closure and catalog status. Preserve the current Plan 32 untracked audio preview tree untouched.

@@ -125,7 +125,8 @@ export async function currentLoaderSha256() {
   const files = {};
   for (const relative of ['scripts/dev/checkpoints/provenance.mjs', 'scripts/dev/checkpoints/envelope.mjs',
     'scripts/dev/checkpoints/checkpoint-proof.mjs', 'scripts/dev/checkpoints/cdp.mjs',
-    'scripts/dev/checkpoints/browser-phase.mjs', 'scripts/dev/checkpoints/run-controlled-phase.mjs']) {
+    'scripts/dev/checkpoints/browser-phase.mjs', 'scripts/dev/checkpoints/run-controlled-phase.mjs',
+    'scripts/dev/checkpoints/process-tree.mjs', 'scripts/dev/checkpoints/process-tree.ps1']) {
     files[relative] = sha256(await readBounded(relative, 256 * 1024));
   }
   return sha256(JSON.stringify(files));
@@ -134,6 +135,18 @@ export async function currentLoaderSha256() {
 export function assertCurrentIdentity(entry, current) {
   const provenance = entry.provenance;
   if (!provenance) fail('Captured checkpoint provenance is missing.');
+  if (!provenance.sourceFiles || typeof provenance.sourceFiles !== 'object' || Array.isArray(provenance.sourceFiles)
+      || !Object.keys(provenance.sourceFiles).length) fail('Captured checkpoint source file closure is missing.');
+  if (!/^[a-f0-9]{64}$/.test(provenance.sourceClosureSha256 ?? '')
+      || !/^[a-f0-9]{64}$/.test(provenance.productionSourceFingerprint ?? '')
+      || !/^[a-f0-9]{64}$/.test(provenance.captureRecipe?.sha256 ?? '')
+      || typeof provenance.captureRecipe?.file !== 'string' || !provenance.captureRecipe.file
+      || !/^[a-f0-9]{64}$/.test(provenance.loaderSha256 ?? '')) fail('Captured checkpoint identity fields are incomplete or malformed.');
+  if (!current.sourceFiles || typeof current.sourceFiles !== 'object' || Array.isArray(current.sourceFiles)
+      || !Object.keys(current.sourceFiles).length
+      || !/^[a-f0-9]{64}$/.test(current.productionSourceFingerprint ?? '')
+      || !/^[a-f0-9]{64}$/.test(current.captureRecipeSha256 ?? '')
+      || !/^[a-f0-9]{64}$/.test(current.loaderSha256 ?? '')) fail('Current checkpoint identity fields are incomplete or malformed.');
   if (JSON.stringify(provenance.sourceFiles) !== JSON.stringify(current.sourceFiles)) fail('Captured checkpoint is stale for production source closure.');
   if (provenance.sourceClosureSha256 !== sha256(JSON.stringify(current.sourceFiles))) fail('Captured checkpoint source closure fingerprint is stale.');
   if (provenance.productionSourceFingerprint !== current.productionSourceFingerprint) fail('Captured checkpoint production source fingerprint is stale.');
@@ -143,7 +156,12 @@ export function assertCurrentIdentity(entry, current) {
 
 export async function validateFreshness(entry) {
   if (entry.status !== 'current-loadable') fail(`Checkpoint is not current-loadable: ${entry.fixture} (${entry.status})`);
-  if (entry.provenance?.sourceClosureSha256) {
+  if (!entry.provenance?.sourceClosureSha256 || !entry.provenance?.sourceFiles
+      || !entry.provenance?.productionSourceFingerprint || !entry.provenance?.captureRecipe?.file
+      || !entry.provenance?.captureRecipe?.sha256 || !entry.provenance?.loaderSha256) {
+    fail('Current-loadable checkpoint is missing required source, recipe, loader, or closure identity.');
+  }
+  {
     const catalog = await readCatalog();
     assertCaptureParent(catalog, entry);
     const pinnedClosure = await verifyPlan16SourceClosure(catalog, { requireCurrent: true });
@@ -178,6 +196,13 @@ export function assertFreshnessNegativeControls(entry, current) {
     ['source closure', (copy) => { copy.provenance.sourceFiles[Object.keys(copy.provenance.sourceFiles)[0]] = '0'.repeat(64); }],
     ['capture recipe', (copy) => { copy.provenance.captureRecipe.sha256 = '0'.repeat(64); }],
     ['loader', (copy) => { copy.provenance.loaderSha256 = '0'.repeat(64); }],
+    ['source map missing', (copy) => { delete copy.provenance.sourceFiles; }],
+    ['source closure hash missing', (copy) => { delete copy.provenance.sourceClosureSha256; }],
+    ['source fingerprint missing', (copy) => { delete copy.provenance.productionSourceFingerprint; }],
+    ['recipe missing', (copy) => { delete copy.provenance.captureRecipe; }],
+    ['recipe file missing', (copy) => { delete copy.provenance.captureRecipe.file; }],
+    ['recipe hash missing', (copy) => { delete copy.provenance.captureRecipe.sha256; }],
+    ['loader missing', (copy) => { delete copy.provenance.loaderSha256; }],
   ];
   const rejected = {};
   for (const [label, mutate] of cases) {
@@ -187,7 +212,7 @@ export function assertFreshnessNegativeControls(entry, current) {
     try { assertCurrentIdentity(copy, current); }
     catch { failedClosed = true; }
     if (!failedClosed) fail(`Freshness negative control accepted a stale ${label} identity.`);
-    rejected[`${label.replaceAll(' ', '')}StaleRejected`] = true;
+    rejected[`${label.replaceAll(/[^a-zA-Z0-9]/g, '')}Rejected`] = true;
   }
   return rejected;
 }

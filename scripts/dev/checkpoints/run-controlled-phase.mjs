@@ -5,6 +5,7 @@ import { appendFile, readFile, realpath, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { PLAN35, ROOT, sha256 } from './provenance.mjs';
+import { snapshotOwnedTree } from './process-tree.mjs';
 
 const HOST = '127.0.0.1';
 const PORT = 5181;
@@ -122,7 +123,7 @@ async function servedHashes() {
 async function sourceIdentity() {
   const tracked = execFileSync('git', ['ls-files', '--', ...trackedSourceRoots], { cwd: ROOT, encoding: 'utf8', timeout: 5000 })
     .trim().split(/\r?\n/).filter(Boolean).sort();
-  const toolSources = tracked.filter((file) => file.startsWith('scripts/dev/checkpoints/') && file.endsWith('.mjs'));
+  const toolSources = tracked.filter((file) => file.startsWith('scripts/dev/checkpoints/') && (file.endsWith('.mjs') || file.endsWith('.ps1')));
   const required = ['index.html', 'vite.config.mjs', 'package.json', 'package-lock.json', ...tracked.filter((file) => file.startsWith('src/')),
     ...toolSources];
   const missing = required.filter((file) => !tracked.includes(file));
@@ -134,20 +135,34 @@ async function sourceIdentity() {
   return { revision, files, fingerprint: sha256(JSON.stringify({ revision, files })) };
 }
 
-function stopOwned(record) {
-  if (!record.child || record.exit) return Promise.resolve({ residual: false, uncertainty: false, exit: record.exit });
-  return new Promise((resolve) => {
-    const done = () => resolve({ residual: record.exit === null, uncertainty: !record.close, exit: record.exit, close: record.close });
-    if (record.close) return done();
-    if (process.platform === 'win32') {
-      let killer;
-      try { killer = spawn('taskkill.exe', ['/PID', String(record.child.pid), '/T', '/F'], { cwd: ROOT, windowsHide: true, stdio: 'ignore' }); }
-      catch { try { record.child.kill(); } catch {} }
-      killer?.once('error', () => { try { record.child.kill(); } catch {} });
-    } else { try { record.child.kill('SIGTERM'); } catch {} }
-    const timer = setTimeout(() => done(), 2500);
-    record.child.once('close', () => { clearTimeout(timer); done(); });
-  });
+async function stopOwned(record) {
+  if (!record.child) return { residual: false, uncertainty: true, exit: record.exit, reason: 'owned process handle missing' };
+  let tracked = [];
+  let inspectionFailed = false;
+  if (process.platform === 'win32') {
+    try { tracked = await snapshotOwnedTree(record.child.pid); }
+    catch { inspectionFailed = true; }
+  }
+  if (record.exit === null && process.platform === 'win32') {
+    try { execFileSync('taskkill.exe', ['/PID', String(record.child.pid), '/T', '/F'], { cwd: ROOT, stdio: 'ignore', timeout: 2500 }); }
+    catch { /* exit and fresh tree inspection below are authoritative */ }
+  } else if (record.exit === null) { try { record.child.kill('SIGTERM'); } catch {} }
+  if (record.close === null) await Promise.race([new Promise((resolve) => record.child.once('close', resolve)), delay(2500)]);
+  let remaining = [];
+  if (process.platform === 'win32') {
+    try {
+      const until = Date.now() + 1800;
+      do {
+        remaining = await snapshotOwnedTree(record.child.pid);
+        const liveTracked = remaining.some((row) => tracked.some((old) => old.pid === row.pid && old.created === row.created));
+        if (!liveTracked && remaining.length === 0 && record.close !== null) break;
+        await delay(100);
+      } while (Date.now() < until);
+    } catch { inspectionFailed = true; }
+  }
+  const residual = record.exit === null || remaining.length > 0;
+  return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0,
+    exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining };
 }
 
 async function appendEvidence() {

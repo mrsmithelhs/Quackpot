@@ -42,6 +42,12 @@ export function assertCatalogBoundary(id, entry, envelope) {
   }
   if (id === 'plan35.finale-race-entry.v1') {
     if (state.step !== 'd3_midday_race' || state.activeModal !== null) fail(`${id} is not the ordinary finale race-entry boundary.`);
-    if (envelope.eventLog.some((event) => event.type === 'action' && event.payload?.kind === 'race_choice' && event.payload?.raceId === 'R02')) fail(`${id} already contains a second-race choice/commit.`);
+    if (boundary.raceNumber !== 2) fail(`${id} must pin the genuine second race number.`);
+    if (!Array.isArray(state.completedRaces) || state.completedRaces.length !== 1 || state.completedRaces[0] !== 1) fail(`${id} must contain exactly the completed first race.`);
+    if (!state.raceAttempts || Object.keys(state.raceAttempts).join(',') !== '1'
+        || state.raceAttempts[1]?.raceId !== 'R01' || state.raceAttempts[1]?.status !== 'finished') fail(`${id} must contain only a genuine finished first-race attempt.`);
+    if (!state.raceResolutions || Object.keys(state.raceResolutions).join(',') !== 'R01') fail(`${id} must contain only the first-race resolution.`);
+    if (envelope.eventLog.some((event) => event.payload?.raceId === 'R02'
+        || event.payload?.raceNumber === 2 && event.type === 'action' && event.payload?.kind === 'race_choice')) fail(`${id} already contains a second-race choice/commit.`);
   }
 }

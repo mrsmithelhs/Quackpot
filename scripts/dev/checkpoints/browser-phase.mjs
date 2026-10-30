@@ -21,6 +21,36 @@ async function pageSave(cdp, page, label) {
   return { raw, envelope, hash: sha256(raw) };
 }
 
+async function assertRestoredPrefix(cdp, page, expected, id) {
+  const observed = await pageSave(cdp, page, `restored ${id}`);
+  if (JSON.stringify(observed.envelope.state) !== JSON.stringify(expected.state)
+      || JSON.stringify(observed.envelope.prngStreams) !== JSON.stringify(expected.prngStreams)) {
+    fail(`${id} changed state or RNG during ordinary application restore.`);
+  }
+  if (observed.envelope.eventLog.length < expected.eventLog.length
+      || JSON.stringify(observed.envelope.eventLog.slice(0, expected.eventLog.length)) !== JSON.stringify(expected.eventLog)) {
+    fail(`${id} changed or truncated its exact expected event-log prefix during restore.`);
+  }
+  const suffix = observed.envelope.eventLog.slice(expected.eventLog.length);
+  if (id !== 'plan35.finale-race-entry.v1' && suffix.length) fail(`${id} appended events during restore.`);
+  const display = await evaluate(cdp, page.sessionId, `(() => ({
+    raceNumber: document.querySelector('#main-content')?.innerText.includes('Championship Race') ? 2 : null,
+    candidates: [...document.querySelectorAll('.race-candidate-card')].map(c => ({id:c.dataset.candidateId, text:c.innerText})),
+    text: document.querySelector('#main-content')?.innerText ?? ''
+  }))()`);
+  for (const event of suffix) {
+    const payload = event.payload ?? {};
+    if (id !== 'plan35.finale-race-entry.v1' || !['race_choice_offered', 'race_trial_offer_shown'].includes(event.type)
+        || payload.raceNumber !== 2) fail(`Unexpected event-log suffix during ${id} restore: ${event.type}.`);
+    if (event.type === 'race_choice_offered') {
+      const visibleIds = new Set(display.candidates.map((candidate) => candidate.id));
+      if (!Array.isArray(payload.duckIds) || payload.duckIds.some((duckId) => !visibleIds.has(duckId))) fail('Finale race-choice exposure suffix does not match mounted owned cards.');
+    }
+  }
+  return { ...observed, restoreComparison: { exactState: true, exactPrngStreams: true,
+    exactEventLogPrefix: true, allowedExposureSuffix: suffix } };
+}
+
 async function createIsolatedPage(browser, fixtureRaw = null) {
   return createPage(browser.cdp, BASE_URL, { fixtureRaw });
 }
@@ -109,6 +139,7 @@ async function readPilotFixture(catalog, id) {
   const entry = catalogEntry(catalog, id);
   if (entry.status === 'not-captured') fail(`Capture phase has not created ${id}.`);
   assertCaptureParent(catalog, entry);
+  await verifyPinnedPlan16Archive(catalog);
   await assertFixtureAggregate(catalog);
   const freshness = await validateFreshness(entry);
   const fixture = await readFixtureBeforeParse(entry);
@@ -215,7 +246,8 @@ async function pilotPhase(phase) {
     const page = await createIsolatedPage(browser, start.fixture.raw);
     await assertAppReady(browser.cdp, page, start.envelope);
     await mounted(browser.cdp, page.sessionId, id.includes('rent-') ? '#btn-pay-rent' : '[data-race-form]', 'pilot start boundary');
-    const before = await pageSave(browser.cdp, page, 'pilot before action');
+    const restored = await assertRestoredPrefix(browser.cdp, page, start.envelope, id);
+    const before = restored;
     const loadToActionStartedAt = Date.now();
 
     const sentinelPage = await createPage(browser.cdp, BASE_URL);
@@ -251,11 +283,16 @@ async function pilotPhase(phase) {
     } else {
       const selected = await evaluate(browser.cdp, page.sessionId, `(() => {
         const cards=[...document.querySelectorAll('.race-candidate-card')];
-        const target=cards.find(card=>!card.querySelector('input[name="duckId"]')?.checked);
-        return target ? {id:target.dataset.candidateId, text:target.innerText} : null;
+        const roster=cards.map(card=>({id:card.dataset.candidateId,name:card.querySelector('.race-candidate-name')?.innerText??'',
+          effective:card.querySelector('.race-candidate-effective')?.innerText??'',reason:card.querySelector('.race-candidate-reason')?.innerText??'',
+          checked:Boolean(card.querySelector('input[name="duckId"]')?.checked),text:card.innerText}));
+        const tired=roster.find(card=>card.reason.startsWith('Needs rest'));
+        const never=roster.find(card=>card.reason==='Rested. No prior finished race.');
+        const target=roster.find(card=>!card.checked&&(card.reason.startsWith('Needs rest')||card.reason==='Rested. No prior finished race.'));
+        return {raceNumber:document.querySelector('#main-content')?.innerText.includes('Championship Race')?2:null,roster,tired,never,target};
       })()`);
-      if (!selected) fail('No unselected owned racer card is available for the one-action selection pilot.');
-      const selector = `.race-candidate-card[data-candidate-id="${selected.id}"]`;
+      if (!selected?.target || selected.raceNumber !== 2 || !selected.tired || !selected.never) fail('Finale pilot lacks mounted race two or the natural tired-vs-never-raced roster contrast.');
+      const selector = `.race-candidate-card[data-candidate-id="${selected.target.id}"]`;
       const pointer = await clickPointer(browser.cdp, page.sessionId, selector);
       const displayed = await evaluate(browser.cdp, page.sessionId, `(() => { const c=document.querySelector(${JSON.stringify(selector)}); return c ? {checked:Boolean(c.querySelector('input[name="duckId"]')?.checked), selected:c.classList.contains('selected'), text:c.innerText} : null; })()`);
       const after = await pageSave(browser.cdp, page, 'finale selection pilot after action');
@@ -265,7 +302,8 @@ async function pilotPhase(phase) {
       if (!displayed?.checked || !displayed.selected || raceChoice.length) fail('Finale selection was not displayed honestly or unexpectedly committed a race choice.');
       if (JSON.stringify(before.envelope.state) !== JSON.stringify(after.envelope.state)
           || JSON.stringify(before.envelope.prngStreams) !== JSON.stringify(after.envelope.prngStreams)) fail('Pre-submit race selection changed engine state or RNG.');
-      observation = { action: 'select one unselected owned racer card; do not submit', pointer, selected, displayed,
+      observation = { action: 'select one naturally tired or never-raced owned racer card; do not submit', pointer, raceNumber: selected.raceNumber,
+        actualRoster: selected.roster, restContrast: { tired: selected.tired, neverRaced: selected.never }, selected: selected.target, displayed,
         beforeHash: before.hash, afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt,
         eventLogDelta: after.envelope.eventLog.slice(before.envelope.eventLog.length), engineStateUnchanged: true, rngUnchanged: true };
     }
@@ -301,13 +339,40 @@ async function main() {
   if (url.protocol !== 'http:' || url.hostname !== '127.0.0.1' || url.username || url.password || !url.pathname.endsWith('/')) fail('Only the approved loopback Vite base URL is permitted.');
   const expected = JSON.parse(process.env.QP35_EXPECTED_SERVED ?? 'null');
   if (!expected || typeof expected !== 'object' || Array.isArray(expected) || Object.keys(expected).length !== 31) fail('Controlled launcher did not provide the finite 31-entry served-source identity map.');
+  if (Object.values(expected).some((record) => !Number.isSafeInteger(record?.bytes) || record.bytes < 0 || record.bytes > 3 * 1024 * 1024)
+      || Object.values(expected).reduce((sum, record) => sum + record.bytes, 0) > 24 * 1024 * 1024) fail('Served-source identity map exceeds its per-entry or aggregate byte cap.');
   for (const [file, record] of Object.entries(expected)) {
     const route = new URL(file, BASE_URL);
     if (route.origin !== url.origin || !route.pathname.startsWith(url.pathname)) fail(`Served-source identity escaped the approved loopback base: ${file}`);
     const response = await fetch(route, { redirect: 'manual', signal: AbortSignal.timeout(3500) });
     if (response.status !== 200 || response.url !== route.href) { await response.body?.cancel(); fail(`Served-source identity response failed for ${file}: HTTP ${response.status}`); }
-    const bytes = Buffer.from(await response.arrayBuffer());
-    if (bytes.length > 3 * 1024 * 1024 || bytes.length !== record.bytes || sha256(bytes) !== record.sha256) fail(`Served-source identity changed between launcher and proof: ${file}`);
+    const reader = response.body?.getReader();
+    if (!reader) fail(`Served-source identity has no bounded body stream: ${file}`);
+    const chunks = [];
+    let size = 0;
+    const bodyDeadline = Date.now() + 3500;
+    while (true) {
+      const remainingMs = bodyDeadline - Date.now();
+      if (remainingMs <= 0) { await reader.cancel(); fail(`Served-source identity body deadline exceeded: ${file}`); }
+      let readTimer;
+      let chunk;
+      try {
+        chunk = await Promise.race([reader.read(), new Promise((_, reject) => {
+          readTimer = setTimeout(() => reject(new Error(`Served-source identity body deadline exceeded: ${file}`)), remainingMs);
+        })]);
+      } catch (error) { await reader.cancel(); throw error; }
+      finally { clearTimeout(readTimer); }
+      const { done, value } = chunk;
+      if (done) break;
+      size += value.byteLength;
+      if (size > 3 * 1024 * 1024 || size > record.bytes || size > 24 * 1024 * 1024) {
+        await reader.cancel();
+        fail(`Served-source identity exceeded its entry or aggregate cap: ${file}`);
+      }
+      chunks.push(value);
+    }
+    const bytes = Buffer.concat(chunks, size);
+    if (bytes.length !== record.bytes || sha256(bytes) !== record.sha256) fail(`Served-source identity changed between launcher and proof: ${file}`);
   }
   servedSourceMapSha256 = sha256(JSON.stringify(expected));
   if (phase?.startsWith('capture-')) return capturePhase(phase);

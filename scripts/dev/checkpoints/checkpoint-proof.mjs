@@ -3,7 +3,7 @@ import path from 'node:path';
 import { assertCatalogBoundary, assertNegativeControls, validateAndHydrate } from './envelope.mjs';
 import {
   MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, assertFreshnessNegativeControls, catalogEntry, currentLoaderSha256,
-  assertCaptureParent, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256, verifyPinnedPlan16Archive,
+  assertCaptureParent, readBounded, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256, verifyPinnedPlan16Archive,
   verifyPlan16SourceClosure, validateFreshness,
 } from './provenance.mjs';
 

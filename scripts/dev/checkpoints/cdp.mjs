@@ -3,9 +3,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
+import { snapshotOwnedTree } from './process-tree.mjs';
 
 const fail = (message) => { throw new Error(message); };
 const CHROME = process.env.QP35_CHROME ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
+const ownedBrowsers = new Set();
 
 export class CDP {
   constructor(url) {
@@ -55,6 +57,7 @@ export async function launchIsolatedChrome() {
     '--window-size=1365,900', '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank'],
   { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
   const owned = { profile, child, cdp: null, stderr: () => stderr, closed: false };
+  ownedBrowsers.add(owned);
   let stderr = '';
   child.stderr.on('data', (chunk) => { if (stderr.length < 8192) stderr += chunk.toString().slice(0, 8192 - stderr.length); });
   let startError = null;
@@ -81,24 +84,40 @@ export async function launchIsolatedChrome() {
 export async function closeIsolatedChrome(browser) {
   if (!browser || browser.closed) return { residual: false, uncertainty: false };
   browser.closed = true;
-  let browserCloseConfirmed = false;
   if (browser.cdp) {
-    try { await browser.cdp.send('Browser.close'); browserCloseConfirmed = true; } catch { /* Browser.close normally closes the transport. */ }
+    try { await browser.cdp.send('Browser.close'); } catch { /* Browser.close normally closes the transport. */ }
     browser.cdp.close();
   }
   if (browser.child.exitCode === null) await Promise.race([new Promise((resolve) => browser.child.once('exit', resolve)), delay(1200)]);
-  let treeTerminationConfirmed = browser.child.exitCode !== null && browserCloseConfirmed;
-  if (!treeTerminationConfirmed && browser.child.pid) {
+  let treeTerminationConfirmed = false;
+  let tracked = [];
+  if (browser.child.pid) {
     try {
-      execFileSync('taskkill.exe', ['/PID', String(browser.child.pid), '/T', '/F'], { stdio: 'ignore', timeout: 2500 });
-      treeTerminationConfirmed = true;
+      tracked = await snapshotOwnedTree(browser.child.pid);
     } catch { /* cleanup status below records uncertainty */ }
+    if (browser.child.exitCode === null) {
+      try { execFileSync('taskkill.exe', ['/PID', String(browser.child.pid), '/T', '/F'], { stdio: 'ignore', timeout: 2500 }); }
+      catch { /* verification below decides whether termination is confirmed */ }
+    }
     if (browser.child.exitCode === null) await Promise.race([new Promise((resolve) => browser.child.once('exit', resolve)), delay(500)]);
   }
-  const residual = browser.child.exitCode === null;
+  let remaining = [];
+  try {
+    const until = Date.now() + 2000;
+    do {
+      remaining = browser.child.pid ? await snapshotOwnedTree(browser.child.pid) : [];
+      const liveTracked = remaining.some((row) => tracked.some((old) => old.pid === row.pid && old.created === row.created));
+      if (!liveTracked && remaining.length === 0 && browser.child.exitCode !== null) { treeTerminationConfirmed = true; break; }
+      await delay(100);
+    } while (Date.now() < until);
+  } catch { /* unavailable ownership inspection remains uncertainty */ }
+  const residual = browser.child.exitCode === null || remaining.length > 0;
   let profileRemoved = false;
-  try { await rm(browser.profile, { recursive: true, force: true, maxRetries: 2, retryDelay: 100 }); profileRemoved = true; }
-  catch { /* caller records cleanup failure */ }
+  if (treeTerminationConfirmed && !residual) {
+    try { await rm(browser.profile, { recursive: true, force: true, maxRetries: 2, retryDelay: 100 }); profileRemoved = true; }
+    catch { /* caller records cleanup failure */ }
+  }
+  ownedBrowsers.delete(browser);
   return { residual, uncertainty: !treeTerminationConfirmed || !profileRemoved, childExitCode: browser.child.exitCode,
     treeTerminationConfirmed, profileRemoved, chromeStderr: browser.stderr() };
 }

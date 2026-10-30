@@ -1,7 +1,9 @@
 # Plan 28: validation for the Direction A prototype
 
-Status at `10a9e90`: the cleared batch **stopped at preflight** because the evidence log lacks capacity (section 1). No
-Node, test, server or browser process has run for this prototype.
+Status (2026-10-30):
+- Root ran the read-only canonical fixture preflight and `plan28.test.mjs`. Both passed (section 1).
+- The Claude lead then ran the single cleared browser gate under sections 2–3. The record is in `browser-gate.md`.
+- Every player-facing check passed. One reviewer-panel overflow (B1) was recorded without a repair.
 
 ## Prototype files
 
@@ -14,7 +16,7 @@ All files are under `comparison/`:
 | `life-model.mjs` | Pure code. It holds the source-grounded `ROUTES` table and `lifeLocation`, `furnishingsFrom` and `sceneFor` (the travelling-duck baseline, plus one open framing toggle). It also holds `ledgerFacts` (a projection of the log) and the clone-based engine previews `previewZeroCash` and `previewLadder`. |
 | `views.mjs` | The selected copy (Harbor Court Property Office; Marisol at Harbor Street Diner) and view-models. Every amount on a control comes from the `escalation_result` event the engine appends on a clone. No amount is a constant. |
 | `fixtures.mjs` | Loads the Plan 35 rent fixtures in memory. The checks are against the pins in `fixture-validation-index.json`: bytes, SHA-256, recorded `valid`, event count and chain head. They also run `validateSave` and check the catalog boundary. On any mismatch it stops and shows expected and actual values. There is no synthetic fallback. |
-| `serve-bounded.py` | Finite, loopback-only static server for the browser gate. It serves the repo root and stops itself after at most 900 s (section 2). It has not been run. |
+| `serve-bounded.py` | Finite, loopback-only static server for the browser gate. It serves the repo root and stops itself after at most 900 s (section 2). It was used once, for the browser gate: PID 22224, about 6 minutes, stopped and confirmed closed. |
 | `plan28.test.mjs` | `node:test` checks. Fixture pins, plus a negative control with one tampered byte. H1: routing for both the table and the states reached by real actions, including Uninstall Stay and Leave over the ladder. H2: all four furnishing combinations, checked against the rendered SVG markers and the real `assetsSold` after actual sales. Semantic cases: the ledger has no mutation; Pay does not show as paid; paid-zero choices disclose their actual effects and never end the run; each unpaid decline's "ends the run" flag matches the real outcome; each accept discloses its actual effect and whether rent was paid; the evening order produces the Day 3 ledger. |
 
 Read-only imports:
@@ -26,61 +28,42 @@ Read-only imports:
 
 Nothing in `src/` imports the report. No storage, IndexedDB or service-worker APIs are used. All reads are same-origin `fetch`es of the three Plan 35 JSON files.
 
-## 1. Cleared serial batch (root source review 02): **stopped at preflight, nothing run**
+## 1. Tests and canonical fixture preflight: **run by root, passed**
 
-Root cleared three commands, to be run serially through the unchanged Plan 25 launcher:
-- `checkpoint-proof.mjs fixture` for `plan35.rent-paid-zero.v1`
-- `checkpoint-proof.mjs fixture` for `plan35.rent-unpaid-escalation.v1`
-- `plan28.test.mjs`
+The evidence below is root's, recorded in `reports/orchestration/plan-28-tests-and-browser-clearance-03.md`. The Claude
+lead did not run these commands.
 
-The preflight was taken on 2026-10-30 at source revision `10a9e90`.
+**Why root changed the method.** My Stage 2b preflight stopped the cleared batch before running anything. The reason
+was log capacity: each `checkpoint-proof.mjs fixture` append embeds the full save state, about 177 KB, and the Plan 35
+log had 241,671 bytes free under its 1 MiB guard. Root then substituted a read-only canonical preflight:
+- `reports/orchestration/plan-28-fixture-readonly-check.mjs` is root-owned.
+- It calls the same Plan 35 freshness, origin/attestation, save-hydration, boundary and negative-control functions.
+- It does not call `appendResult` and has no write APIs.
 
-**Processes.**
-- Nine `node.exe` processes were running. All were Codex runtime processes (`codex-primary-runtime` and `cua_node`
-  `server.mjs`). None was a Quackpot validation run.
-- The largest was 101 MB private, and the total was about 306 MB. Both are under the 1 GiB and 2 GiB stop
-  thresholds.
-- No `python.exe` was running.
+Root ran two commands serially through the unchanged Plan 25 bounded launcher, with these caps: 1 GiB Node heap, 2 GiB
+sampled owned-tree private memory, and 90 s per command.
 
-**Evidence log** (`reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl`):
-- Size: 806,905 bytes, with 241,671 bytes free under the 1 MiB guard.
-- SHA-256: `610a080c…cdd5`.
-- 6 rows.
-- This matches the size root recorded at delivery.
+1. `node reports/orchestration/plan-28-fixture-readonly-check.mjs`
+   - Both rent fixtures passed: source, validator, capture origin, current attestation, and the negative controls.
+   - Exit 0 in 1.04 s. Peak sampled memory was 79,597,568 bytes.
+   - `StopReason` was null, `CleanupNotes` was empty, and stderr was empty.
+   - The validator hash remained `2e11f603…c0fa1a`.
+2. `node --test --test-concurrency=1 …/comparison/plan28.test.mjs`
+   - **12/12 passed**, with 0 failures, cancellations or skips.
+   - Exit 0 in 1.57 s. Peak sampled memory was 150,523,904 bytes.
+   - `StopReason` was null, `CleanupNotes` was empty, and stderr was empty.
 
-**Why it stops.** The log does not have room for both canonical checks:
-- `fixture()` appends a `fixture-preflight` record. That record includes `validateAndHydrate(...)`, which returns the
-  full `envelope.state` (`scripts/dev/checkpoints/envelope.mjs:17`), plus `freshness` and the negative controls.
-- In the existing log the same `state` field is 176,841 bytes (row 0, `result.validation.state`). The current
-  fixtures' `state` serialises to 176,901 bytes.
-- Each fixture append is therefore at least about 178 KB, and plausibly 180–195 KB.
-- The first append would fit. The second would fail the 1 MiB check (`checkpoint-proof.mjs:20`) before it writes.
+What these runs leave unchanged:
+- The Plan 35 log is still 806,905 bytes, SHA-256 `610a080c…cdd5`. Nothing was appended and nothing was rotated.
+- No fixture, catalog, validation index or evidence record changed.
+- Root saw no Node process after the run.
 
-Root's clearance says to stop when capacity is inadequate rather than rotate attestation-pinned logs. So **no command
-in the batch was run**, and `plan28.test.mjs` was not run on its own either. The batch is ordered, and the canonical
-checks are meant to come first.
+These are model and markup checks. They do not prove rendered interaction or production integration. Root says no
+rerun is needed unless the source changes or the browser turns up a finding that needs one.
 
-**Options for root.** Each is outside my write scope or authority:
-- (a) Authorise a Plan 35-owned archive or rotation of `pilot-results.jsonl`, under whatever rule keeps its existing
-  pins verifiable.
-- (b) Authorise a Plan 35 change so that `fixture` preflight records the state hash instead of the full state.
-- (c) Clear `plan28.test.mjs` alone, with the canonical freshness check deferred and that limit stated.
-- (d) Clear only the first canonical check, plus `plan28.test.mjs` for the paid-zero cases. This is the least useful
-  option.
+The original three-command batch, including the log-appending `fixture` mode, is superseded and was not run.
 
-The commands below are unchanged and ready once root decides:
-
-```powershell
-$L = './reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1'
-& $L -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-paid-zero.v1')
-& $L -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-unpaid-escalation.v1')
-& $L -Executable node.exe -ArgumentVector @('--test','--test-concurrency=1','reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/plan28.test.mjs')
-```
-
-Stop on the first non-zero `ExitCode` or any non-null `StopReason`. Keep the launcher JSON as evidence. The
-launcher's caps are 2 GiB sampled owned-tree memory and a 90 s wall per command.
-
-## 2. Revised server proposal (browser execution remains gated)
+## 2. Server (Option B was used for the cleared gate)
 
 **Option A: reuse a root-approved existing server.**
 - First identify its owner, its PID, and the exact URL. A base of `/Quackpot/` gives
@@ -115,9 +98,12 @@ try {
 
 - This runs as one background command for the duration of the browser turn, which is 15 minutes at most.
 - The page is `http://127.0.0.1:5228/reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/index.html`.
+- **What the gate run taught us.** On this machine `Get-NetTCPConnection` was unreliable. During the run it did not
+  see the live listener, and right after the stop it still reported one. `netstat -ano` and an HTTP probe were
+  reliable. Use them for the after-stop check (see `browser-gate.md`).
 - The server's access log and the cleanup line are kept as evidence.
 
-## 3. Revised browser checklist (one browser turn, root-coordinated)
+## 3. Browser checklist (executed once; results in `browser-gate.md`)
 
 **Context.**
 - Use one new tab in the Claude in-app browser. It is separate from the owner's Chrome.

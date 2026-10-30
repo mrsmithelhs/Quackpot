@@ -146,3 +146,53 @@ shot on the first morning (Day 1). That gives the place to orient in before the 
 - **Storage contents.** The checks show that no database was created; they do not inspect any database's contents.
 - **Retained images.** Screenshots were viewed during the gate; none were saved.
 - **The earlier page.** The page the app opened on its own in Stage 2 is still not evidence.
+
+## Session 2: clearance 04 recheck (2026-10-30, 14:18:30–14:23:58)
+
+- **Source:** working tree after root's `928ea02` (Luna-assisted B1–B3), plus the lead's D8 and D9 changes and two CSS
+  refinements (below). The record was committed with them.
+- **Tests:** `plan28.test.mjs` run by the lead through the Plan 25 launcher. 13/13 passed, exit 0, 1.16 s, peak
+  127,823,872 bytes, `StopReason` null, stderr empty. This adds two tests, for the breakfast tap and for framing; the
+  old evening test was replaced by a stricter tap-to-pay version.
+- **Server:**
+  - `serve-bounded.py` ran as PID 45384 on 127.0.0.1:5228 and served 68 GETs. The only 404s were `robots.txt` and
+    `favicon.ico`.
+  - The lead stopped it with `Stop-Process` at 14:23:58: `exited=True`. A probe to 127.0.0.1:5228 was refused, and no
+    Python process remained.
+- **Cleanup note.** After the stop, `netstat` kept showing `127.0.0.1:5228 LISTENING` owned by **PID 0**, which is no
+  process, while connections were refused.
+  - This explains the "still listening" warnings in both sessions' wrappers. It is a leftover entry in the socket
+    table, not a live service. Nothing was killed to clear it.
+  - If a later session's preflight sees it, check the owning PID and use a probe. If the entry is still there, use
+    another unused port rather than touch anything.
+- **Storage:** the before and after snapshots on the disposable origin were identical and empty.
+
+**What changed in the source during this session (owned files only):**
+- **`.reviewer li, .reviewer pre { overflow-wrap: anywhere; }`**
+  - This is the real cause of the page scrolling sideways. The event list's unbroken JSON text overflowed its box. Text
+    overflow does not widen an element's bounding rectangle, so session 1 wrongly blamed only the `<select>`.
+  - Root's B1 fix covered the select, the table cells and the facts, but not the event list.
+  - Before this fix, at 1280×720 the page widened to 1661 px (paid-zero) or 1421 px (unpaid). After it, the page stayed
+    at 1265 px.
+- **One failed attempt, reverted.** I first suspected the desk scene's rotated shadow groups and added
+  `contain: paint` to `.scene`. The overflow persisted at 1421–1661 px, so I removed that change.
+- **Desktop card width** raised from `min(38%, 22rem)` to `min(44%, 25rem)` (329 to 381 px), so less paper text scrolls
+  behind root's B2 action bar.
+
+| Check | Result | Method |
+|---|---|---|
+| B1: no horizontal page scroll | **PASS** after the fix above. 1280: 1265 = 1265. At 390 on ledger, paid-zero, breakfast and card-offer: width 390 = 390. | Script measurement |
+| B2: actions outside the text scroll | **PASS.** The controls stay inside the card bounds, on paid-zero, unpaid and card-offer. The text still scrolls a little at 1280×720: paid-zero 261 of 231 px, card-offer 342 of 265 px. That is acceptable, and the actions never scroll away. | Script measurement |
+| B3: failure clears old information | **PASS.** With `?fail-load=unpaid`: the scene is empty, the facts are empty, there are 0 events, the snapshot reads "(no engine)", and the checks show "Scenario load" failing. Recovering to paid-zero restores everything. In the race (unpaid, then paid-zero 100 ms later) the paid-zero ledger stays. | DOM `change` events |
+| D9: breakfast tap | **PASS.** After Continue to evening: "Breakfast: $5.00, not paid yet. Cash on hand: $10.00." with one control. Enter pressed twice on Pay for breakfast gave exactly 1 food `expense_due` and 1 `expense_paid`. Then "Balance after breakfast: $5.00." with focus on the heading. | Keys (Tab, Enter) |
+| D8: framing | **PASS.** Day 1 scenario renders `kitchen-wide`. Day 2 and Day 3 render `kitchen-medium` under the owner rule. | Script, reading the reviewer facts |
+| 390×844 | **PASS.** The card sits below the scene everywhere; buttons are 44–83 px tall. | Script measurement |
+
+**Not rerun this session:** the full keyboard walks of the paid-zero choices, the four declines, the sale, and the
+Receipt stand-in. Their source was unchanged apart from layout, and session 1's evidence stands.
+
+**Limits:**
+- The pane stopped drawing partway through: screenshots and key input timed out. Bringing the tab to the front
+  restored key input, and the remaining checks were script-driven, as labelled above. No screenshots from this session
+  were viewed after that point, and none were saved.
+- Real OS reduced motion is still unverified.

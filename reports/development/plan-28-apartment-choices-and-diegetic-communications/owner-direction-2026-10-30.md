@@ -97,3 +97,11 @@ With A selected, building a full executable B mainly re-litigates a settled choi
 Nothing else in proposal §6 changes: files, imports, in-memory fixtures, H1–H3, and one shared browser turn. The
 relaxed later-day hub stays a text storyboard until its rules are routed. This needs root's agreement because the
 packet text asks for two compared directions.
+
+## 5. Decisions recorded under clearance 04 (owner, asked directly, 2026-10-30)
+
+| # | Decision | Effect |
+|---|---|---|
+| D8 | **Morning framing: wide on Day 1, then medium.** The owner accepted the lead's recommendation. Root did not choose it. | `morningFramingFor(day)` in `life-model.mjs`. The reviewer panel can still force medium or wide for comparison. |
+| D9 | **Tap to pay breakfast.** The owner chose this over the recommended display-only ledger. Breakfast becomes a morning action at the kitchen: nothing is charged before the tap, and the same $5 `billExpense('food')` runs on the tap. | The prototype demonstrates this live on Day 3. Day 1 and Day 2 come from the Plan 35 fixtures, which were captured under the current automatic charge, so they stay past-tense projections. There is no skip control; skipping a meal is Plan 37's rule. In production this moves the charge out of `main.js:342/651/661` (`integration-proposal.md` §1, §3). |
+| D10 | **The Receipt does not log life surfaces as displayed in the first integration** (recommended option). The Receipt keeps recording actual outcomes. | Reuse of `cue_shown` without a technique is noted only as a possible later step (`integration-proposal.md` §6). |

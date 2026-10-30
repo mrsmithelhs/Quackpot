@@ -4,6 +4,10 @@ Status (2026-10-30):
 - Root ran the read-only canonical fixture preflight and `plan28.test.mjs`. Both passed (section 1).
 - The Claude lead then ran the single cleared browser gate under sections 2–3. The record is in `browser-gate.md`.
 - Every player-facing check passed. One reviewer-panel overflow (B1) was recorded without a repair.
+- Under clearance 04, root integrated the B1–B3 repairs. The lead then added owner decisions D8 and D9 (framing and the
+  breakfast tap) and fixed the remaining cause of B1 (the event-list text).
+- `plan28.test.mjs` now has 13 tests, all passing. It was run by the lead through the launcher.
+- Session 2 of `browser-gate.md` records the recheck.
 
 ## Prototype files
 

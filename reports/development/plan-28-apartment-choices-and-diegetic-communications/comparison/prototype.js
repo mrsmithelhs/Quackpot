@@ -17,6 +17,9 @@ const transition = createStageTransition($('#stage'));
 // prefers-reduced-motion emulation.
 const MOTION_OFF = new URLSearchParams(location.search).has('motion-off');
 const turnPhone = (direction) => (MOTION_OFF ? Promise.resolve(true) : transition.run(direction));
+// Reviewer fault injection: ?fail-load=<scenario> makes that scenario's load reject after 400 ms, so the browser gate
+// can check that an older failed load never replaces a newer scenario (and that a lone failure shows a blocked card).
+const FAIL_LOAD = new URLSearchParams(location.search).get('fail-load');
 let sceneSeq = 0;
 
 const ui = {
@@ -50,6 +53,10 @@ async function startScenario(name, generation) {
   ui.focusOnRender = false;
   $('#card').className = 'card';
   $('#card').innerHTML = '<h2 id="card-heading" tabindex="-1">Loading scenario…</h2>';
+  if (FAIL_LOAD === name) {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    throw new Error(`Injected load failure for "${name}" (reviewer ?fail-load)`);
+  }
   const fixtureKey = name === 'unpaid' ? 'rent-unpaid' : 'rent-paid-zero';
   const loaded = await loadRentFixture(fixtureKey, readRepoFile);
   if (generation !== ui.generation) return; // a newer scenario started while loading

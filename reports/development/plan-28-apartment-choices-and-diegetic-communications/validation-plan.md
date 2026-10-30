@@ -1,6 +1,7 @@
-# Plan 28: proposed validation for the Direction A prototype (needs root clearance)
+# Plan 28: validation for the Direction A prototype
 
-Nothing in this file has been run. The prototype and the tests were written and then reviewed statically only.
+Status at `10a9e90`: the cleared batch **stopped at preflight** because the evidence log lacks capacity (section 1). No
+Node, test, server or browser process has run for this prototype.
 
 ## Prototype files
 
@@ -13,6 +14,7 @@ All files are under `comparison/`:
 | `life-model.mjs` | Pure code. It holds the source-grounded `ROUTES` table and `lifeLocation`, `furnishingsFrom` and `sceneFor` (the travelling-duck baseline, plus one open framing toggle). It also holds `ledgerFacts` (a projection of the log) and the clone-based engine previews `previewZeroCash` and `previewLadder`. |
 | `views.mjs` | The selected copy (Harbor Court Property Office; Marisol at Harbor Street Diner) and view-models. Every amount on a control comes from the `escalation_result` event the engine appends on a clone. No amount is a constant. |
 | `fixtures.mjs` | Loads the Plan 35 rent fixtures in memory. The checks are against the pins in `fixture-validation-index.json`: bytes, SHA-256, recorded `valid`, event count and chain head. They also run `validateSave` and check the catalog boundary. On any mismatch it stops and shows expected and actual values. There is no synthetic fallback. |
+| `serve-bounded.py` | Finite, loopback-only static server for the browser gate. It serves the repo root and stops itself after at most 900 s (section 2). It has not been run. |
 | `plan28.test.mjs` | `node:test` checks. Fixture pins, plus a negative control with one tampered byte. H1: routing for both the table and the states reached by real actions, including Uninstall Stay and Leave over the ladder. H2: all four furnishing combinations, checked against the rendered SVG markers and the real `assetsSold` after actual sales. Semantic cases: the ledger has no mutation; Pay does not show as paid; paid-zero choices disclose their actual effects and never end the run; each unpaid decline's "ends the run" flag matches the real outcome; each accept discloses its actual effect and whether rent was paid; the evening order produces the Day 3 ledger. |
 
 Read-only imports:
@@ -24,72 +26,158 @@ Read-only imports:
 
 Nothing in `src/` imports the report. No storage, IndexedDB or service-worker APIs are used. All reads are same-origin `fetch`es of the three Plan 35 JSON files.
 
-## 1. Preflight (PowerShell, read-only)
+## 1. Cleared serial batch (root source review 02): **stopped at preflight, nothing run**
+
+Root cleared three commands, to be run serially through the unchanged Plan 25 launcher:
+- `checkpoint-proof.mjs fixture` for `plan35.rent-paid-zero.v1`
+- `checkpoint-proof.mjs fixture` for `plan35.rent-unpaid-escalation.v1`
+- `plan28.test.mjs`
+
+The preflight was taken on 2026-10-30 at source revision `10a9e90`.
+
+**Processes.**
+- Nine `node.exe` processes were running. All were Codex runtime processes (`codex-primary-runtime` and `cua_node`
+  `server.mjs`). None was a Quackpot validation run.
+- The largest was 101 MB private, and the total was about 306 MB. Both are under the 1 GiB and 2 GiB stop
+  thresholds.
+- No `python.exe` was running.
+
+**Evidence log** (`reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl`):
+- Size: 806,905 bytes, with 241,671 bytes free under the 1 MiB guard.
+- SHA-256: `610a080c…cdd5`.
+- 6 rows.
+- This matches the size root recorded at delivery.
+
+**Why it stops.** The log does not have room for both canonical checks:
+- `fixture()` appends a `fixture-preflight` record. That record includes `validateAndHydrate(...)`, which returns the
+  full `envelope.state` (`scripts/dev/checkpoints/envelope.mjs:17`), plus `freshness` and the negative controls.
+- In the existing log the same `state` field is 176,841 bytes (row 0, `result.validation.state`). The current
+  fixtures' `state` serialises to 176,901 bytes.
+- Each fixture append is therefore at least about 178 KB, and plausibly 180–195 KB.
+- The first append would fit. The second would fail the 1 MiB check (`checkpoint-proof.mjs:20`) before it writes.
+
+Root's clearance says to stop when capacity is inadequate rather than rotate attestation-pinned logs. So **no command
+in the batch was run**, and `plan28.test.mjs` was not run on its own either. The batch is ordered, and the canonical
+checks are meant to come first.
+
+**Options for root.** Each is outside my write scope or authority:
+- (a) Authorise a Plan 35-owned archive or rotation of `pilot-results.jsonl`, under whatever rule keeps its existing
+  pins verifiable.
+- (b) Authorise a Plan 35 change so that `fixture` preflight records the state hash instead of the full state.
+- (c) Clear `plan28.test.mjs` alone, with the canonical freshness check deferred and that limit stated.
+- (d) Clear only the first canonical check, plus `plan28.test.mjs` for the paid-zero cases. This is the least useful
+  option.
+
+The commands below are unchanged and ready once root decides:
 
 ```powershell
-Get-Process node, python -ErrorAction SilentlyContinue |
-  Select-Object Id, ProcessName, @{n='PrivMB';e={[int]($_.PrivateMemorySize64/1MB)}}, StartTime
-Get-NetTCPConnection -State Listen -LocalPort 4173,5181,5228 -ErrorAction SilentlyContinue
+$L = './reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1'
+& $L -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-paid-zero.v1')
+& $L -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-unpaid-escalation.v1')
+& $L -Executable node.exe -ArgumentVector @('--test','--test-concurrency=1','reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/plan28.test.mjs')
 ```
 
-## 2. Serial bounded test batch (one Node process)
+Stop on the first non-zero `ExitCode` or any non-null `StopReason`. Keep the launcher JSON as evidence. The
+launcher's caps are 2 GiB sampled owned-tree memory and a 90 s wall per command.
+
+## 2. Revised server proposal (browser execution remains gated)
+
+**Option A: reuse a root-approved existing server.**
+- First identify its owner, its PID, and the exact URL. A base of `/Quackpot/` gives
+  `<origin>/Quackpot/reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/index.html`.
+- I do not start, stop or change a server I don't own.
+
+**Option B: a finite server I own.**
+- `comparison/serve-bounded.py` binds to 127.0.0.1 only and serves the repository root. It uses Python, not Node.
+- It exits by itself at its deadline, clamped to at most 900 s, even if its parent dies.
+- Run it with `python -I` so nothing from the served tree is imported.
+- It overrides the MIME types for `.js`, `.mjs`, `.json` and `.css`. Otherwise Windows registry mappings can break
+  module loading.
+
+The PowerShell wrapper registers the owned PID and always cleans up in `finally`:
 
 ```powershell
-& './reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1' `
-  -Executable node.exe `
-  -ArgumentVector @('--test','--test-concurrency=1','reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/plan28.test.mjs')
+$port = 5228
+if (Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue) { throw "port $port busy" }
+$srv = Start-Process -FilePath python -PassThru -WindowStyle Hidden `
+  -ArgumentList '-I','reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/serve-bounded.py',"$port",'900' `
+  -RedirectStandardOutput "$env:TEMP\p28-serve.out" -RedirectStandardError "$env:TEMP\p28-serve.err"
+"owned pid $($srv.Id)"
+$deadline = (Get-Date).AddSeconds(905)
+try {
+  while (-not $srv.HasExited -and (Get-Date) -lt $deadline) { Start-Sleep -Seconds 2 }
+} finally {
+  if (-not $srv.HasExited) { Stop-Process -Id $srv.Id -Force }
+  $srv.WaitForExit(5000) | Out-Null
+  if (Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue) { "WARNING: port $port still listening" } else { "port $port closed" }
+}
 ```
 
-Budget:
-- The launcher's own caps apply: 2 GiB owned-tree private memory and a 90 s wall.
-- Expected use is under 10 s and well under 300 MB. Each test loads two to six 170 KB fixtures and clones the engine.
-- Stop on the first non-zero exit or launcher stop reason, and report the output.
+- This runs as one background command for the duration of the browser turn, which is 15 minutes at most.
+- The page is `http://127.0.0.1:5228/reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/index.html`.
+- The server's access log and the cleanup line are kept as evidence.
 
-## 3. Browser gate (one isolated tab, root-coordinated)
+## 3. Revised browser checklist (one browser turn, root-coordinated)
 
-Pick a server, in this order of preference:
-1. **A root-approved existing Vite dev server.** Open
-   `<origin>/Quackpot/reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/index.html`.
-2. **Otherwise, a bounded static server.** This uses Python, not Node, and is loopback only. It runs for the gate only
-   (at most 30 minutes) and is stopped explicitly afterwards:
+**Context.**
+- Use one new tab in the Claude in-app browser. It is separate from the owner's Chrome.
+- Use the origin `http://127.0.0.1:5228`, which nothing else uses. The real game's origin and storage are never
+  opened or inspected.
+- Close the tab and reset the viewport at the end.
 
-```powershell
-$srv = Start-Process -FilePath python -ArgumentList '-m','http.server','5228','--bind','127.0.0.1','--directory','C:/AI/Quackpot' -PassThru -WindowStyle Hidden
-# page: http://127.0.0.1:5228/reports/development/plan-28-apartment-choices-and-diegetic-communications/comparison/index.html
-# ...browser checks...
-Stop-Process -Id $srv.Id
-```
+**Storage evidence.** This is separate from the no-API claim, which rests on source inspection:
+`grep` finds no `localStorage`, `sessionStorage`, `indexedDB` or `serviceWorker` in `comparison/`.
+1. Before the prototype loads, navigate the tab to `http://127.0.0.1:5228/robots.txt` on the same origin; a 404 is
+   fine. Then snapshot:
+   - every `localStorage` and `sessionStorage` key with the SHA-256 of its value;
+   - `indexedDB.databases()` names and versions. This is the list only, not the contents;
+   - `caches.keys()`;
+   - `navigator.serviceWorker.getRegistrations()` count.
+2. Repeat the snapshot at the end, after navigating back to `robots.txt`.
+3. The two snapshots must be identical. If the database list is identical, that shows no database was created; it
+   does not verify any database's contents.
 
-The page has no bare module specifiers, so a plain static server is enough. Vite is not required. The server must
-serve the **repository root**, because the page imports `src/` and reads Plan 35 files from there. Serving only
-`comparison/`, or opening the page via `file://`, fails at load. In that case the page shows a blocked card.
+**Checks.** Run each at 1280×720, then again at 390×844.
+1. **Fixture panel.** Every row passes for both rent scenarios. The panel note states that this lightweight loader is
+   not Plan 35's full freshness loader.
+2. **Paid-zero, keyboard only.**
+   - Walk ledger → bill → Pay. The bill must not say paid before Pay. Then reach paid-zero, which shows Rent paid in
+     full, PAID and $0.00 with no failure wording.
+   - Take each of the three choices on a fresh reset:
+     - Continue leads to the Day 3 ledger, which shows "Balance after breakfast: $5.00".
+     - The extra shift leads to the desk-side message.
+     - Selling the couch leads to the living room with the couch visibly gone.
+   - After each render, focus must be on the card heading.
+3. **Insufficient cash, keyboard only.**
+   - The heading reads "Rent unpaid · you need $0.99 more" with "Nothing has been taken".
+   - Decline through all four offers. Only the credit-card decline carries the ending label, and it leads to the
+     Receipt stand-in.
+   - Reset, decline once, and accept the couch. The living room shows it removed, and the outcome reads "Rent paid in
+     full: $15.00."
+4. **Double activation, checked per clicked action.**
+   - Pressing Enter twice quickly on Pay must append exactly one `expense_due`.
+   - Pressing Enter twice quickly on Accept must append exactly one `escalation_result`.
+   - Count both from the reviewer event list.
+5. **Scenario switching.**
+   - Change the scenario while the phone transition is animating. The final card must belong to the newest scenario.
+   - With `?fail-load=unpaid`: select "unpaid" alone, and a blocked card must appear. Select "unpaid" and then
+     quickly "paid-zero", and the paid-zero ledger must remain, not the injected error. Record the console output.
+6. **Scene changes.**
+   - Check the morning framing in both medium and wide.
+   - Return from the gacha: Open Quackpot → stand-in → Return. The event list must show nothing new.
+7. **Motion.**
+   - Run once with `?motion-off`. This checks that meaning survives without animation, but it is **not** evidence of
+     real OS reduced motion.
+   - The in-app browser can emulate the colour scheme only, so prefers-reduced-motion stays **unverified** unless
+     root names a harness that can emulate it.
+8. **Narrow layout.** At 390 px the card sits below the scene, nothing scrolls horizontally, and controls are at least
+   44 px tall.
 
-Checks, run at 1280×720 and then at 390×844:
-1. **Storage baseline.**
-   - Before loading, record `Object.keys(localStorage)` and `await indexedDB.databases()` for the origin.
-   - Repeat at the end. Both must be unchanged.
-2. **Fixture panel.** Every check row passes for both rent scenarios.
-3. **Paid-zero, keyboard only** (Tab, Enter or Space):
-   - Walk ledger → bill → Pay → paid-zero.
-   - Reset and take each of the three choices once: Continue reaches the Day 3 ledger, the extra shift shows the desk-side message, and the couch sale shows the living room with the couch removed.
-   - Focus lands on each new card heading.
-   - The engine-event panel matches the expected event types.
-4. **Unpaid, keyboard only.**
-   - Decline through all four offers. Only the last decline is labelled as ending the run, and it does end it (Receipt stand-in).
-   - Reset, decline once, and accept the couch. The living room shows the couch removed, and the outcome says rent was paid.
-5. **Duplicate activation.** Press Enter twice quickly on Pay and on Accept. Exactly one `expense_due` and one `escalation_result` must be appended per action.
-6. **Morning framing toggle.** Compare the medium and wide kitchen views. This is the open question for the owner.
-7. **Return-from-gacha.** Open Quackpot → stand-in → Return. The scene goes back to the desk-side view, and the event panel shows nothing new.
-8. **Motion.**
-   - Repeat step 3 once with `?motion-off`, to confirm the meaning is intact without animation.
-   - If the browser can emulate `prefers-reduced-motion`, also run once with it to exercise the production static overlay. The Claude in-app browser offers colour-scheme emulation only, so if that is the browser used, record this as not tested.
-9. **Narrow layout.** At 390 px the card sits below the scene with no horizontal page scroll, and the controls are at least 44 px tall.
-
-Recording:
-- Observations go to `browser-gate.md`, with pass or fail for each check and anything surprising.
-- Screenshots from the in-app browser are viewed, not saved. If root wants saved images, it should name a capture method.
-
-Close the tab, reset the viewport, and stop the server.
+**Recording.**
+- Write `browser-gate.md` with pass or fail for each check, and state what each observation shows.
+- In-app screenshots are viewed, not saved, so the record must not claim saved screenshot artifacts.
+- No screenshot tooling is installed.
+- Saving, Settings, Uninstall and the Receipt are stand-ins; nothing here is production lifecycle evidence.
 
 ## What these checks do not show
 

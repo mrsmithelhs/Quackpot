@@ -122,3 +122,20 @@ No ownership probe has been run. To establish whether the existing read-only CIM
 ```
 
 This is read-only and starts no Node, Vite, or Chrome process. It asks the existing helper to identify only the current bounded PowerShell root and its descendants, verifies that exactly one row marks the root PID, and emits that finite tree snapshot. The unchanged Plan 25 wrapper supplies the 90-second / 2 GiB sampled-tree bound. A pass establishes the CIM permission path and one snapshot only; it does not establish sustained descendant monitoring or cleanup behavior. Root clearance is required before running it. No browser, server, process-tree, fixture, capture, or pilot execution is currently authorized.
+
+## Read-only ownership probe attempt
+
+Root cleared the exact one-shot command above. A refreshed `Get-Process -Name node` preflight at 2026-10-29 23:02:31 America/New_York observed 0 Node processes and 0 private bytes, below the wrapper limits.
+
+The bounded wrapper invocation exited 1 after 0.5394269 seconds and sampled 1,249,280 private bytes. `StopReason` was null, cleanup notes were empty, and stdout was empty. The child PowerShell stderr says it could not load `scripts/dev/checkpoints/process-tree.ps1` because running scripts are disabled on this system; the probe's subsequent `Owned root identity not found.` assertion is consequential output from that load failure. **CIM was not reached**, so this is neither a CIM access denial nor evidence for or against CIM availability. I did not retry with elevation because root authorized that retry only when the ordinary attempt reports a CIM access denial. No policy or security setting was changed and no process was launched, killed, or inspected by the helper.
+
+## Finite ownership lifecycle-probe proposal
+
+Before mounting captures, propose a separate root-reviewed `scripts/dev/checkpoints/ownership-lifecycle-probe.mjs` with four serial, isolated scenarios using only controlled local Node children and the existing process-tree monitor. No Vite, Chrome, server, network, Quackpot application, or checkpoint fixture would be involved. Each scenario would have a 5-second internal deadline and the unchanged Plan 25 outer 90-second / 2 GiB sampled-tree / 1 GiB Node-heap limits.
+
+1. **Normal exit:** spawn one owned child, monitor its PID plus creation identity while alive, let it exit naturally, and require the retained identity to be absent before reporting clean shutdown.
+2. **Parent early exit:** spawn an owned short-lived descendant, let the parent exit first, and require the independently retained descendant identity to remain visible until that child exits; never infer clean cleanup from an empty parent traversal.
+3. **Startup failure:** attempt one deliberately nonexistent executable and require an explicit spawn-error result, no invented PID ownership, and fail-closed cleanup status.
+4. **Inspection failure:** supply an invalid root PID to the monitor and require sticky inspection uncertainty, no tree-kill attempt, and a nonzero result.
+
+The probe would emit one bounded JSON result record, would not kill unrelated processes, and would stop on its first unmet assertion or deadline. This proposal is not implemented or authorized to run. A workable read-only way to invoke/inspect `process-tree.ps1` under the current PowerShell execution policy is a prerequisite for root review of the probe source and any lifecycle run. No browser, server, capture, fixture, or pilot action is authorized by this proposal.

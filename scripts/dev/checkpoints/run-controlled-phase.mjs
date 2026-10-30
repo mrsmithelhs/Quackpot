@@ -270,7 +270,7 @@ async function stopOwnedOnce(record) {
     && (capturePhase ? provedBrowserCleanup() : provedPilotCleanup());
   const retainedClear = remaining.length === 0 && remainingTree.length === 0;
   const parentUnobserved = parentExitedOnEntry && !helperConfirmed;
-  const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved;
+  const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0;
   return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved
       || (record === proofChild && helperConfirmed && !retainedClear),
     exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining, remainingTree };

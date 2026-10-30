@@ -70,7 +70,7 @@ From `finale-race-entry`, record actual roster/rest/effective-rating/offered cho
 
 The brief makes one reviewer action after restore; route-preparation actions are documented and excluded from pilot interaction counts. No Stay/repeat-Uninstall or exit/Receipt branch is included in this pilot.
 
-## Next proposed syntax, offline, and single-capture batch (root clearance required)
+## First proposed syntax, offline, and single-capture batch (attempted; superseded below)
 
 The lifecycle helper's bounded checks have passed and are recorded in `progress.md`. No checkpoint fixture has been captured. The next proposal is one serial batch for only `capture-rent-paid-zero`; it awaits root source review and separate clearance. Take one fresh `Get-Process -Name node` preflight before the batch. Every Node command remains under the unchanged Plan 25 wrapper (1 GiB Node heap, 2 GiB sampled owned-tree stop, 90-second outer limit).
 
@@ -109,3 +109,28 @@ The first proposed capture is only `capture-rent-paid-zero`: load the pinned Pla
 ## Review disposition requested
 
 Root has approved the three captured/replayable starts, folder ownership, and finale-rest pilot. Remaining clearance is for authored tooling/files and exact later commands. Existing Plan 16 entries are historical references; current usability must be computed from exact current source closure and catalog status. Preserve the current Plan 32 untracked audio preview tree untouched.
+
+## Amendment — failed first capture, compact proof repair, and exact next batch
+
+The prior block records the first authorized attempt and is no longer the proposed next batch. Its one mounted `capture-rent-paid-zero` phase reached the requested mounted rent screen and wrote a 170,013-byte candidate, but the supervisor rejected the oversized proof stdout at 12,288 bytes before promotion. Root clarified that the supervisor's earlier `residual=true` label arose from inability to parse/confirm the proof and did not demonstrate a browser survivor. The exact failed candidate, catalog snapshot, provenance and logs are preserved at `attempts/attempt-01/`; the live catalog entry is `not-captured`. The old candidate is not current-loadable and must never be relabelled under the changed recipe.
+
+Source repair in commit `65dd2e5` (with one follow-up residual/unknown classification correction to be committed before progress) has the browser phase append the full evidence record to the bounded report log and emit a compact JSON summary capped at 4 KiB. The summary contains phase; candidate and capture IDs/hashes/status; sentinel before/after hashes and preserved flag; Chrome residual/uncertainty, exit, tree-termination and profile-removal fields; and the exact full-log record path/byte count/SHA-256. The supervisor pins and verifies that full record and cross-checks it against the summary before setting `summaryValidated`. The full record retains source-map/provenance/event detail on disk. Cleanup reporting treats an exited proof process without a valid cleanup summary as **unknown/uncertain**, not as a confirmed residual process; only a live process or an observed surviving descendant is reported as residual. The capture helper's cleanup result is the same summary checked by the supervisor.
+
+### Exact proposed next batch — root review and separate clearance required
+
+No syntax check, loader/reference check, runtime phase, server, browser, capture, or pilot has run against the repair. First review the source diff and confirm the exact commands below. If cleared, take fresh preflight samples for `Get-Process -Name node` and whether port 5181 has a listener; stop before the batch if either is occupied. Run each command serially through the unchanged Plan 25 bounded runner:
+
+```powershell
+# Syntax checks for both changed capture-path files.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/browser-phase.mjs')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/run-controlled-phase.mjs')
+
+# Offline loader identity and exact Plan 16 starter reference.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','loader-identity')
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','reference','qp16.starter-offer.v1')
+
+# At most this one new-recipe mounted capture in the batch.
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','capture-rent-paid-zero')
+```
+
+Do not proceed to either other capture or either pilot until root reviews this batch's evidence and separately clears the next phase. No production/status/workflow change is part of this repair.

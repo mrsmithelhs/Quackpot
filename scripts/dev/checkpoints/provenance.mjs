@@ -273,20 +273,22 @@ export function assertValidationAttestationNegativeControls(entry, id, attestati
     ['origin manifest changed', (copy) => { copy.attestation.captureOrigin.manifestSha256 = '0'.repeat(64); }],
     ['source closure changed', (copy) => { copy.attestation.sourceClosureSha256 = '0'.repeat(64); }],
     ['validation loader changed', (copy) => { copy.attestation.validationLoaderSha256 = '0'.repeat(64); }],
-    ['record pin malformed', (copy) => { copy.attestation.recordPin.sha256 = 'not-a-sha256'; }],
     ['result invalidated', (copy) => { copy.attestation.result.valid = false; }],
     ['envelope result invalidated', (copy) => { copy.attestation.result.envelopeValid = false; }],
     ['validation result field missing', (copy) => { delete copy.attestation.result.eventCount; }],
     ['malformed chain head', (copy) => { copy.attestation.result.chainHead = 'not-a-chain-head'; }],
     ['validation chain head missing', (copy) => { delete copy.attestation.result.chainHead; }],
   ];
-  if (requireRecordPin) cases.push(['record pin missing', (copy) => { delete copy.attestation.recordPin; }]);
+  if (requireRecordPin) {
+    cases.push(['record pin malformed', (copy) => { copy.attestation.recordPin.sha256 = 'not-a-sha256'; }]);
+    cases.push(['record pin missing', (copy) => { delete copy.attestation.recordPin; }]);
+  }
   const rejected = {};
   for (const [label, mutate] of cases) {
     const copy = { attestation: structuredClone(attestation) };
     mutate(copy);
     let failedClosed = false;
-    try { assertValidationAttestation(entry, id, copy.attestation, current); }
+    try { assertValidationAttestation(entry, id, copy.attestation, current, { requireRecordPin }); }
     catch { failedClosed = true; }
     if (!failedClosed) fail(`Validation-attestation negative control accepted ${label}.`);
     rejected[`${label.replaceAll(/[^a-zA-Z0-9]/g, '')}Rejected`] = true;

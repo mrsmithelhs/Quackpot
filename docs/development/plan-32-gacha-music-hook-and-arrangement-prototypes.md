@@ -23,6 +23,8 @@ summary: >-
 
 ## Goal, scope and delivery
 
+**Owner feedback 2026-10-29:** S1/S2/S3 extensions are not selected. Owner proposes Gemini-generated instrumental references followed by an offline transcription/reconstruction experiment; root assessment is reports/orchestration/plan-32-generated-reference-pipeline-assessment.md. Short C remains selected. Existing implementer is stopped pending bounded next scope; no ML tool installation, model download, inference or production adoption is implied.
+
 **Owner listening decision 2026-10-29:** C, Lucky Ripple, selected from the three short previews. Explore longer melodic structures, accompaniment-led house progressions and occasional motif echoes instead of continuous full-hook repetition. See reports/orchestration/plan-32-motif-c-selection-and-extension-direction.md. Next bounded listening/render proposal precedes executable jobs; no soundtrack or runtime adoption implied.
 
 **Owner assignment 2026-10-29:** In-progress in Codex after accepted Plan 33 research. Use reports/orchestration/plan-32-codex-starting-handoff.md. First return motif/rendering/listening proposal; no audio rendering until owner motif/listening gate and root resource clearance. Later approved first pass targets five renderings: Base, Foil, Uneasy, Dire-Clean and Dire-Filtered. No automatic provider augmentation or subagent budget.

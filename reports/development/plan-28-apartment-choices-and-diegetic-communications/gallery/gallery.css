@@ -36,6 +36,12 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
   border: 1px solid rgba(40, 34, 28, .55); background: #d5d0c6; box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .22); }
 .scene > svg { display: block; width: 100%; height: 100%; }
 .objects { position: absolute; inset: 0; pointer-events: none; }
+/* posed duck and its perch (report-local, drawn from the kit's own duck artwork) */
+.duck-layer { position: absolute; inset: 0; overflow: hidden; border-radius: .85rem; pointer-events: none; }
+.perch, .duck-pose { position: absolute; }
+.perch svg, .duck-body svg { display: block; width: 100%; height: auto; }
+.duck-contact { position: absolute; left: 22%; right: 22%; bottom: 3%; height: 7%; border-radius: 50%; background: rgba(0, 0, 0, .22); filter: blur(2px); }
+.duck-top .duck-body { filter: drop-shadow(.4rem .6rem .35rem rgba(0, 0, 0, .3)); }
 .obj { position: absolute; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: .5rem; }
 .obj svg { display: block; width: 100%; height: auto; }
 .obj.hotspot { background: transparent; }
@@ -127,6 +133,7 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
 
 .decide-slot { flex: 0 0 20rem; display: grid; gap: .6rem; align-self: center; }
 .decide-slot .decide { width: 100%; }
+.decide-slot .putdown { width: auto; justify-self: start; color: var(--slate-ink); background: var(--slate); border-color: var(--slate); }
 /* anchored confirm (T4): attached to the object it acts on */
 .popover-layer { position: absolute; inset: 0; pointer-events: none; }
 .popover { position: absolute; width: min(18rem, 90%); pointer-events: auto; padding: .9rem 1rem 1rem; border-radius: .9rem; color: var(--slate-ink); background: var(--slate);

@@ -8,6 +8,7 @@ import { GAME_CONSTANTS } from '../../../../src/core/game-engine.mjs';
 import { loadRentFixture } from '../comparison/fixtures.mjs';
 import { furnishingsFrom } from '../comparison/life-model.mjs';
 import * as prop from './props.mjs';
+import { duckLayerHtml, headingToward, leanToward, removeKitDuck } from './duck-layer.mjs';
 import { chips, decide, marisolThread, money, noticeLetter, plannerPage, portalPage, results, worldLabels } from './copy.mjs';
 
 const RENT = GAME_CONSTANTS.RENT_DAY2;
@@ -33,7 +34,13 @@ const ACTIONS = {
   sellCouch: (e) => e.chooseZeroCashOption('sell_couch'),
   breakfast: (e) => e.billExpense('food', FOOD),
   // main.js:658-665 order without the food charge, which waits for the breakfast choice (owner D9)
-  evening: (e) => { e.chooseZeroCashOption('continue'); e.creditWage(); e.advanceDay(3, 'day 3 morning'); },
+  // proceedToDay2Evening: the zero-cash 'continue' applies only while that choice is still open; after an extra shift or
+  // a sale the engine has already closed it, and calling it would throw (cash is no longer $0).
+  evening: (e) => {
+    if (e.state.activeModal === 'zerocash') e.chooseZeroCashOption('continue');
+    e.creditWage();
+    e.advanceDay(3, 'day 3 morning');
+  },
 };
 /** What an action would do, from a throwaway clone; the shown amounts cannot drift from the commit. */
 function preview(engine, action) {
@@ -103,7 +110,18 @@ const ANSWERS = {
   },
 };
 
-const NOTICE = { x: 3.6, y: 25, w: 9.5 }; // fridge door, kitchen-wide (duck side faces left, toward it)
+const NOTICE = { x: 3.6, y: 25, w: 9.5 };
+const NOTICE_AT = { x: 8.4, y: 33 }; // centre of the fridge notice
+
+/**
+ * The duck as conscience (owner D14): it looks at the moment's important responsibility and, once that is done,
+ * turns to face you. `kit` is where the kit had drawn its own duck (base point and width, % of the room).
+ */
+const sideGaze = (base, target, { facing, size, perch } = {}) => ({ view: 'side', facing: facing ?? (target.x < base.x ? 'left' : 'right'),
+  lean: leanToward(base, target), size, x: base.x, y: base.y, perch });
+const topGaze = (centre, target, size) => ({ view: 'top', turn: headingToward(centre, target), size, x: centre.x, y: centre.y });
+const SHELF_BY_FRIDGE = { name: 'wallShelf', width: 120, x: 18, y: 40, w: 8 };
+const shelfSeat = { x: 22, y: 43.3 }; // seat of SHELF_BY_FRIDGE (computed from the perch geometry) // fridge door, kitchen-wide (duck side faces left, toward it)
 
 const MOMENTS = {
   'T1-rent': { treatment: 'T1', label: 'Rent: notice on the fridge', setup: [], when: 'Day 2 · afternoon',
@@ -116,7 +134,7 @@ const MOMENTS = {
   'T2-rent': { treatment: 'T2', label: 'Rent: envelope, pay on the phone', setup: [], when: 'Day 2 · afternoon',
     scene: () => ({ area: 'desk-top', light: 'window', phone: { status: '3:10 PM', brand: 'MAIL', heading: ['Harbor', 'Court'], body: ['Rent due today'], note: '' } }),
     objects: (e) => [
-      { id: 'envelope', svg: prop.envelope({ idPrefix: uid('en'), state: facts(e).rentPaid ? 'open' : 'closed' }), x: 13, y: 6, w: 15,
+      { id: 'envelope', svg: prop.envelope({ idPrefix: uid('en'), state: facts(e).rentPaid ? 'open' : 'closed' }), x: 38, y: 8, w: 15,
         label: worldLabels.envelope, chip: chips.envelope, chipBelow: true, done: facts(e).rentPaid, activate: (el) => openEnvelope(el) },
     ] },
   'T2-shift': { treatment: 'T2', label: 'Work: message on the phone', setup: ['payRent'], when: 'Day 2 · late afternoon',
@@ -145,6 +163,22 @@ const MOMENTS = {
   'MIX-day': { treatment: 'MIX', label: 'Recommended mix: an afternoon and a morning', setup: [], when: 'Day 2 · afternoon', chain: ['T1-rent', 'T2-shift', 'T4-breakfast'] },
 };
 
+/** Duck pose per moment: (engine, kit box) -> pose for duckLayerHtml. Targets are the moment's important object. */
+const DUCKS = {
+  'T1-rent': () => sideGaze(shelfSeat, NOTICE_AT, { size: 4, perch: SHELF_BY_FRIDGE }),
+  'T4-rent': () => sideGaze(shelfSeat, NOTICE_AT, { size: 4, perch: SHELF_BY_FRIDGE }),
+  'T1-breakfast': () => sideGaze(shelfSeat, NOTICE_AT, { size: 4, perch: SHELF_BY_FRIDGE }),
+  // overhead: turned on the desk toward the envelope / the notepad
+  'T2-rent': () => topGaze({ x: 49, y: 61 }, { x: 45.5, y: 19 }, 17),
+  'T3-list': () => topGaze({ x: 49, y: 61 }, { x: 22, y: 58 }, 17),
+  // desk side: facing right toward the phone, leaning back so its gaze rises to the screen over the mug
+  'T2-shift': (e, kit) => sideGaze(kit, { x: 71, y: 38 }, { facing: 'right', size: kit.w }),
+  // living room: on the TV console, facing right toward the couch
+  'T4-couch': (e, kit) => sideGaze({ x: 21, y: 63.5 }, { x: 80, y: 55 }, { facing: 'right', size: kit.w * 1.05 }),
+  // kitchen counter: looking down and left at the plate
+  'T4-breakfast': (e, kit) => sideGaze(kit, { x: 28, y: 70 }, { facing: 'left', size: kit.w }),
+};
+
 function noticeObj(e, mode) {
   const paid = facts(e).rentPaid;
   return { id: 'notice', svg: prop.tapedNotice({ idPrefix: uid('nt'), state: paid ? 'paid' : 'unread' }), ...NOTICE,
@@ -153,6 +187,8 @@ function noticeObj(e, mode) {
 }
 
 // ---------- state ----------
+
+for (const [id, m] of Object.entries(MOMENTS)) m.id = id;
 
 const ui = { engine: null, base: 0, moment: null, step: 0, busy: false, generation: 0, returnFocus: null };
 const TREATMENT_LABELS = { T1: 'T1 · Held paper + decision panel', T2: 'T2 · Paper and phone', T3: 'T3 · Notes to self', T4: 'T4 · Confirm at the object', MIX: 'Mix · recommended combination' };
@@ -190,8 +226,16 @@ function renderRoom() {
   const e = ui.engine;
   const { svg } = renderScene({ idPrefix: uid('gs'), ...m.scene(e) });
   $('#scene').innerHTML = svg;
+  const kit = removeKitDuck($('#scene'));
+  const objects = m.objects(e);
+  const poseFor = DUCKS[m.id];
+  let pose = poseFor ? poseFor(e, kit) : null;
+  // Conscience at ease: once every responsibility here is done, the duck turns to face you where it sits.
+  if (pose && objects.length && objects.every((o) => o.done)) pose = { ...pose, view: pose.view === 'top' ? 'top' : 'front', lean: 0, facing: 'left' };
+  if (pose && !objects.length && facts(e).couchSold) pose = { ...pose, view: 'front', lean: 0 };
+  $('#duck-layer').innerHTML = pose ? duckLayerHtml(pose, uid('dk')) : '';
   $('#objects').innerHTML = '';
-  for (const o of m.objects(e)) {
+  for (const o of objects) {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = `obj${o.hotspot ? ' hotspot' : ''}${o.done ? ' done' : ''}`;
@@ -264,7 +308,8 @@ function openHeld(fromEl, objectHtml, { label, decision }) {
   held.append(obj);
   if (decision) held.append(decision);
   $('.layout').inert = true;
-  document.body.append(held); // keep the dialog outside the inert layout
+  document.body.append(held);
+  held.onclick = (ev) => { if (ev.target === held && !ui.busy) closeHeld(); }; // clicking the dimmed room puts it down // keep the dialog outside the inert layout
   flip(fromEl, obj.firstElementChild);
   (obj.querySelector('h2') ?? obj.firstElementChild)?.setAttribute('tabindex', '-1');
   (obj.querySelector('h2') ?? obj.firstElementChild)?.focus();
@@ -449,9 +494,11 @@ function openPlanner(el) {
       <span class="box" aria-hidden="true"></span><span class="text">${esc(it.text)}</span>${later ? '<span class="later">(after rent)</span>' : ''}${ticked ? '<span class="visually-hidden"> (done)</span>' : ''}</button></li>`;
   }).join('');
   const html = `<article class="planner"><h2>${esc(page.heading)}</h2><ul>${items()}</ul></article>`;
+  const slot = document.createElement('div');
+  slot.className = 'decide-slot';
   const panelSlot = document.createElement('div');
-  panelSlot.className = 'decide-slot';
-  const obj = openHeld(el, html, { label: 'Your notepad, held', decision: panelSlot });
+  slot.append(panelSlot);
+  const obj = openHeld(el, html, { label: 'Your notepad, held', decision: slot });
   const choose = (id) => {
     const spec = id === 'rent' ? rentSpec() : shiftSpec();
     const panel = decisionPanel(spec, { expanded: true, onBack: () => { panelSlot.innerHTML = ''; $(`[data-item="${id}"]`, obj)?.focus(); }, onConfirm: () => {
@@ -467,8 +514,9 @@ function openPlanner(el) {
     const b = ev.target.closest('[data-item]');
     if (b && b.getAttribute('aria-disabled') !== 'true') choose(b.dataset.item);
   });
-  panelSlot.insertAdjacentHTML('beforeend', '<button type="button" class="ui-button secondary" data-act="putdown" style="width:auto;color:var(--slate);border-color:var(--slate)">Put it down</button>');
-  $('[data-act="putdown"]', panelSlot).addEventListener('click', () => closeHeld());
+  // Always present, whatever the decision area shows.
+  slot.insertAdjacentHTML('beforeend', '<button type="button" class="ui-button secondary putdown" data-act="putdown">Put it down</button>');
+  $('[data-act="putdown"]', slot).addEventListener('click', () => closeHeld());
 }
 
 // ---------- T4: anchored confirm ----------

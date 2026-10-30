@@ -121,3 +121,42 @@ wait until a treatment is selected, so effort goes into the chosen design.
 - **Final props:** final-quality versions of the taped notice, envelope, plate, bakery bag and sale tag, plus a front
   door with an under-door slip, if the owner wants notices delivered there.
 - **Held phone:** the frame should match the kit's phone drawing more closely.
+
+## Session 2: owner bug reports and duck poses (2026-10-30, lead, on the owner's Vite dev server, D17)
+
+**Fixes**
+- **T3 notepad.** Choosing an item replaced the slot that held "Put it down". The button now sits outside the decision
+  area and is always present. Verified: it's there after rent and after the shift, it closes the notepad, and focus
+  returns to "Your notepad (done)".
+- **Any held view.** Clicking the dimmed room now puts the object down. Verified: closing appended no events.
+- **Mix, go to work after the extra shift.**
+  - The gallery's evening step always called the zero-cash `continue`. After an extra shift, the engine has already
+    closed that choice with cash at $10, so the call threw and the error was swallowed.
+  - It now calls `continue` only while the zero-cash choice is open.
+  - Verified: rent, then the shift, then "Go to work (extra shift, then home)" reaches Day 3 morning with $20.00 and
+    health 85. The last events are the shift result and then `income` (wage). Breakfast is not charged until its tap.
+  - No page errors.
+
+**Duck poses (D18)**
+- `duck-layer.mjs` removes the kit's duck in the page and draws a posed one from the kit's own artwork:
+  - side view facing left or right;
+  - side view leaning, so its gaze tilts toward the target;
+  - top-down at the heading toward the target;
+  - front view once the moment's responsibilities are done (the conscience at ease).
+- `perches.mjs` is a Haiku draft, reviewed visually: a wall shelf, a book stack, a crate and a window ledge.
+
+| Moment | Where the duck is | What it looks at |
+|---|---|---|
+| T1 and T4 rent, T1 breakfast | On a small wall shelf beside the fridge, smaller (farther away) | The notice |
+| T2 rent | Top-down on the desk, turned | The envelope. The envelope moved to clear desk space so it no longer overlaps the kit's tape roll. |
+| T3 | Top-down | The notepad |
+| T2 shift | At the kit's spot, facing right, leaning back | The phone, past the mug |
+| T4 couch | On the TV console, facing right | The couch |
+| T4 breakfast | At the kit's spot | Down toward the plate |
+
+**Checks**
+- I looked at each pose by scaling the room up on the page for inspection; nothing was saved.
+- At 390×844 there's no horizontal scroll, and the duck scales with the room.
+
+**Not yet covered:** the crate, book stack and ledge perches aren't placed in any moment yet, and there are no unit
+tests for `headingToward` or `leanToward`.

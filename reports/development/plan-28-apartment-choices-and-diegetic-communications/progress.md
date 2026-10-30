@@ -122,11 +122,12 @@ Recorded in `owner-direction-2026-10-30.md`, and `proposal.md` §0, §2.7, §5 a
 The lanes are new rules. They are listed with scope flags and a routing question; none are implemented or authorized
 by this record.
 
-I explained the "landlord voice" question to the owner. My recommendation is an institutional rent bill, with named
-people kept for optional lanes. The owner has not chosen yet.
+I explained the "landlord voice" question to the owner. My recommendation was an institutional rent bill, with named
+people kept for optional lanes. **The owner chose the property office** (D6). The proposed A-only build therefore
+compares duck placement only.
 
 **For root:** the owner's choice changes what the next build should compare. I propose an A-only build that compares
-duck placement and rent sender instead of A versus B (owner-direction §4). This needs root's agreement because the
+duck placement instead of A versus B (owner-direction §4). This needs root's agreement because the
 packet text asks for two directions.
 
 ## Ready for orchestrator review

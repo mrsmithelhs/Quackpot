@@ -144,6 +144,7 @@ async function stopOwned(record) {
 
 async function stopOwnedOnce(record) {
   if (!record.child) return { residual: false, uncertainty: true, exit: record.exit, reason: 'owned process handle missing' };
+  const parentExitedOnEntry = record.exit !== null;
   const provedBrowserCleanup = () => {
     const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
     if (!line) return false;
@@ -178,11 +179,11 @@ async function stopOwnedOnce(record) {
   let remainingTree = [];
   if (process.platform === 'win32') {
     try {
-      remainingTree = await snapshotOwnedTree(record.child.pid);
-      const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
-      tracked.push(...remainingTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
       const until = Date.now() + 1800;
       do {
+        remainingTree = await snapshotOwnedTree(record.child.pid);
+        const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
+        tracked.push(...remainingTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
         remaining = await inspectOwnedIdentities(tracked);
         if (remaining.length === 0 && remainingTree.length === 0 && record.close !== null) break;
         await delay(100);
@@ -191,7 +192,7 @@ async function stopOwnedOnce(record) {
   }
   const helperConfirmed = record === proofChild && record.exit?.code === 0 && provedBrowserCleanup();
   const retainedClear = remaining.length === 0 && remainingTree.length === 0;
-  const parentUnobserved = record.exit !== null && !helperConfirmed;
+  const parentUnobserved = parentExitedOnEntry && !helperConfirmed;
   const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved;
   return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved
       || (record === proofChild && helperConfirmed && !retainedClear),

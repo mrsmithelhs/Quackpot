@@ -108,17 +108,18 @@ export async function verifyPlan16SourceClosure(catalog, { requireCurrent = true
   const current = {};
   let matches = true;
   for (const [relative, expected] of Object.entries(files).sort(([a], [b]) => a.localeCompare(b))) {
-    if (!relative.startsWith('src/') && !['index.html', 'package.json', 'package-lock.json'].includes(relative)) fail(`Unexpected source-closure path: ${relative}`);
+    if (!relative.startsWith('src/') && !['index.html', 'vite.config.mjs', 'package.json', 'package-lock.json'].includes(relative)) fail(`Unexpected source-closure path: ${relative}`);
     const bytes = await readBounded(relative, 3 * 1024 * 1024);
     const actual = sha256(bytes);
     current[relative] = actual;
     if (actual !== expected) matches = false;
   }
-  const sourceFingerprint = sha256(JSON.stringify({ files, recipeFingerprint: reference.captureRecipeSha256 }));
-  if (sourceFingerprint !== reference.captureSourceFingerprint) fail('Plan 16 source-file map does not reproduce the immutable capture fingerprint.');
+  const expectedFingerprint = sha256(JSON.stringify({ files, recipeFingerprint: reference.captureRecipeSha256 }));
+  if (expectedFingerprint !== reference.captureSourceFingerprint) fail('Plan 16 source-file map does not reproduce the immutable capture fingerprint.');
+  const currentFingerprint = sha256(JSON.stringify({ files: current, recipeFingerprint: reference.captureRecipeSha256 }));
   if (requireCurrent && !matches) fail('Current production source closure differs from the immutable Plan 16 starter capture; do not derive Plan 35 fixtures from it.');
   return { matches, expectedFingerprint: reference.captureSourceFingerprint, captureSourceRevision: manifestEntry.captureProvenance.sourceRevision,
-    currentFiles: current, currentFingerprint: sourceFingerprint };
+    currentFiles: current, currentFingerprint };
 }
 
 export async function currentLoaderSha256() {

@@ -41,7 +41,9 @@ function validateExposureSuffix(suffix, display, id, expected) {
       if (payload.candidates.length !== visibleIds.size || offeredIds.size !== visibleIds.size
           || [...visibleIds].some((duckId) => !offeredIds.has(duckId))) fail('Finale exposure omitted, duplicated, or added a mounted fully visible owned card.');
       if (payload.trialState?.available !== Boolean(display.state?.raceTrialAvailable)
-          || payload.trialState?.selected !== false || !Number.isFinite(payload.trialState?.multiplier)
+          || payload.trialAvailable !== Boolean(display.state?.raceTrialAvailable)
+          || payload.trialState?.selected !== Boolean(display.trialSelected && display.state?.raceTrialAvailable)
+          || !Number.isFinite(payload.trialState?.multiplier)
           || !Number.isFinite(payload.fieldBaseSpeed)) fail('Finale race exposure controls do not match mounted selection/trial state.');
       for (const candidate of payload.candidates) {
         const mounted = display.candidates.find((item) => item.id === candidate.duckId);
@@ -51,14 +53,14 @@ function validateExposureSuffix(suffix, display, id, expected) {
             || !Number.isFinite(candidate.authoredRating) || !Number.isFinite(candidate.restFactor)
             || !Number.isFinite(candidate.effectiveWithTrialInput)
             || Math.abs(candidate.effectiveBaseInput - candidate.authoredRating * candidate.restFactor) > 1e-12
-            || Math.abs(candidate.effectiveWithTrialInput - candidate.effectiveBaseInput * payload.trialState?.multiplier) > 1e-12
+            || Math.abs(candidate.effectiveWithTrialInput - candidate.effectiveBaseInput * (payload.trialState.selected ? payload.trialState.multiplier : 1)) > 1e-12
             || (candidate.restFactor < 1 && !mounted.reason.startsWith(`Needs rest · ${Math.round((1 - candidate.restFactor) * 100)}% lower`))
             || (candidate.restFactor === 1 && !mounted.reason.startsWith('Rested.'))) fail(`Finale exposure values do not match mounted card ${candidate.duckId}.`);
       }
-      if (payload.duckId !== null && !visibleIds.has(payload.duckId)) fail('Finale exposure selected duck is absent from mounted cards.');
       const checked = display.candidates.find((candidate) => candidate.checked)?.id ?? null;
       const expectedSelected = checked ?? payload.candidates[0]?.duckId ?? null;
       if (payload.selectedDuckId !== expectedSelected) fail('Finale race exposure selected identity differs from the mounted checked card or first offered card.');
+      if (payload.foregroundedDuckId !== payload.candidates[0]?.duckId) fail('Finale race exposure foreground identity differs from the first offered card.');
     } else if (!display.trialText || payload.costDown !== 3 || payload.availableDown !== display.state?.down
         || payload.alreadyPurchased !== Boolean(display.state?.raceTrialAvailable)) {
       fail('Finale trial exposure suffix does not match the mounted offer and restored save.');
@@ -98,6 +100,7 @@ async function assertRestoredPrefix(cdp, page, expected, id) {
       name:c.querySelector('.race-candidate-name')?.innerText??'', effective:c.querySelector('.race-candidate-effective')?.innerText??'',
       reason:c.querySelector('.race-candidate-reason')?.innerText??''})),
     trialText: document.querySelector('[data-race-trial]')?.innerText ?? '',
+    trialSelected: Boolean(document.querySelector('[data-race-trial] input[name="useTrial"]:checked')),
     state: JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.state ?? null
   }))()`);
   validateExposureSuffix(suffix, display, id, expected);
@@ -365,6 +368,7 @@ async function pilotPhase(phase) {
         }).map(c=>({id:c.dataset.candidateId,checked:Boolean(c.querySelector('input[name="duckId"]')?.checked),
           effective:c.querySelector('.race-candidate-effective')?.innerText??'',reason:c.querySelector('.race-candidate-reason')?.innerText??''})),
         trialText: document.querySelector('[data-race-trial]')?.innerText??'',
+        trialSelected: Boolean(document.querySelector('[data-race-trial] input[name="useTrial"]:checked')),
         state: JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.state??null
       }))()`);
       validateExposureSuffix(selectionDelta, mountedAfterSelection, id, before.envelope);

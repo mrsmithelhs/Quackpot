@@ -8,9 +8,10 @@ import './ui/duck-motion.css';
 import './ui/duck-dex.css';
 import './ui/race-view.css';
 import './ui/apartment-view.css';
+import './ui/life/life.css';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
-import { GameEngine } from './core/game-engine.mjs';
+import { GameEngine, GAME_CONSTANTS } from './core/game-engine.mjs';
 import {
   saveGame,
   loadGame,
@@ -28,11 +29,18 @@ import { renderDuckDexView } from './ui/duck-dex-view.mjs';
 import { renderRaceView } from './ui/race-view.js';
 import {
   renderStarterOffer,
-  renderZeroCashPrompt,
-  renderEscalationModal,
   renderRetentionModal,
   renderCorruptSaveModal,
 } from './ui/modals.js';
+import { renderLifeView } from './ui/life/life-view.js';
+import {
+  BREAKFAST_STEP_BY_DAY,
+  afterBreakfast,
+  breakfastBeforeMidday,
+  isKnownStep,
+  isLifeStep,
+  normalizeLoadedStep,
+} from './ui/life/life-routing.mjs';
 import { renderReceiptView } from './ui/receipt-view.js';
 import { renderSettingsModal } from './ui/settings-modal.js';
 import { createStageTransition } from './ui/stage-transition.js';
@@ -57,6 +65,9 @@ if (app) {
   let dexReturnStep = 'd1_morning_gacha';
   let duckMotionPaused = false;
   let animatePhoneGlow = true;
+  // Apartment life UI state (place chosen, object held, Decide expanded). Survives re-renders; never saved.
+  const lifeUi = { place: null, held: null, decideOpen: false };
+  let lifeViewHandle = null;
 
   function generateRandomSeed() {
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
@@ -143,8 +154,11 @@ if (app) {
           phoneOpen = true;
           activeModal = null;
         } else {
+          // A crash between a breakfast charge and its step update moves forward without charging again.
+          const loaded = normalizeLoadedStep(engine);
+          if (loaded.next) applyStepTransition(loaded.next);
           currentStep = engine.state.step || 'desk';
-          phoneOpen = currentStep !== 'desk';
+          phoneOpen = currentStep !== 'desk' && !isLifeStep(currentStep);
           activeModal = engine.state.activeModal || null;
         }
 
@@ -255,6 +269,8 @@ if (app) {
     gachaViewHandle = null;
     duckDexViewHandle?.destroy();
     duckDexViewHandle = null;
+    lifeViewHandle?.destroy?.();
+    lifeViewHandle = null;
     settingsCleanup?.();
     settingsCleanup = null;
     updateHud();
@@ -265,7 +281,19 @@ if (app) {
     if (!mainContainer || !modalContainer) return;
 
     // Render active view based on authoritative progression step
-    if (!phoneOpen) {
+    if (!engine.isTerminal() && isLifeStep(currentStep)) {
+      lifeViewHandle = renderLifeView(mainContainer, engine, lifeUi, lifeCallbacks(), {
+        active: !settingsOpen && !activeModalBlocksLife(),
+      });
+    } else if (!engine.isTerminal() && currentStep !== 'duck_dex' && !isKnownStep(currentStep)) {
+      // Non-destructive recovery: the save is kept exactly as it is and nothing is charged or replayed.
+      mainContainer.innerHTML = `
+        <div class="stage-transition-card">
+          <h2>We couldn't find your place</h2>
+          <p>This save stopped at a point this version doesn't recognize ("${String(currentStep).replace(/[^\w-]/g, '')}"). Your progress is kept unchanged and nothing has been charged. Settings, Save and Uninstall still work.</p>
+        </div>
+      `;
+    } else if (!phoneOpen) {
       deskViewHandle = renderDeskView(mainContainer, duckSvgUrl, ({ name, style, autosaveEnabled, returning }) => {
         if (returning) {
           phoneOpen = true;
@@ -281,14 +309,7 @@ if (app) {
           engine.autosaveEnabled = false;
         }
         engine.setupCompanion(name, style);
-        currentStep = 'd1_morning_gacha';
-        engine.state.step = currentStep;
-        phoneOpen = true;
-        maybeAutosave();
-        renderApp();
-        stageTransition?.run('enter').then((completed) => {
-          if (completed) focusCurrentStageIfNeeded();
-        });
+        enterLife(BREAKFAST_STEP_BY_DAY[1]);
       }, {
         returning: currentStep !== 'desk',
         companion: engine.state.physicalCompanion,
@@ -339,7 +360,11 @@ if (app) {
           gachaViewHandle?.update(engine);
         },
         onProceed: () => {
-          engine.billExpense('food', 5.00);
+          // Saves from before breakfast moved reach here with Day 1 breakfast unpaid: the kitchen comes first.
+          if (breakfastBeforeMidday(engine)) {
+            enterLife(BREAKFAST_STEP_BY_DAY[1]);
+            return;
+          }
           engine.advanceDay(1, 'day 1 midday');
           currentStep = 'd1_midday_race';
           engine.state.step = currentStep;
@@ -402,58 +427,6 @@ if (app) {
           <p>Reviewing special shop offers and preparing for the evening.</p>
         </div>
       `;
-    } else if (currentStep === 'd2_afternoon_rent' || currentStep === 'd2_afternoon_rent_resolved' || currentStep === 'd2_afternoon_zerocash' || currentStep === 'd2_afternoon_escalation') {
-      const isResolved = (currentStep === 'd2_afternoon_rent_resolved');
-      mainContainer.innerHTML = `
-        <div class="stage-transition-card">
-          <h2>Day 2: Rent Due Date</h2>
-          <p>
-            ${isResolved
-              ? 'Your rent bill has been fully settled for Day 2.'
-              : 'Your landlord arrives to collect this month\'s rent: <strong>$15.00</strong>.'}
-          </p>
-          <div class="rent-status-box">
-            <div>Current Cash on Hand: <strong>$${engine.state.cash.toFixed(2)}</strong></div>
-            <div>Rent Status: <strong>${isResolved ? 'PAID ✓' : '$15.00 Due'}</strong></div>
-          </div>
-          ${!isResolved ? `
-            <button id="btn-pay-rent" class="btn btn-primary btn-lg">
-              Pay Rent ($15.00)
-            </button>
-          ` : `
-            <button id="btn-rent-proceed" class="btn btn-primary btn-lg">
-              Proceed to Evening Wage ➔
-            </button>
-          `}
-        </div>
-      `;
-
-      const btnPayRent = mainContainer.querySelector('#btn-pay-rent');
-      if (btnPayRent) {
-        btnPayRent.addEventListener('click', () => {
-          const billResult = engine.billExpense('rent', 15.00);
-          currentStep = engine.state.step;
-          activeModal = engine.state.activeModal;
-          maybeAutosave();
-
-          if (billResult.paid) {
-            if (billResult.zeroCash) {
-              renderApp();
-            } else {
-              proceedToDay2Evening();
-            }
-          } else {
-            renderApp();
-          }
-        });
-      }
-
-      const btnProceed = mainContainer.querySelector('#btn-rent-proceed');
-      if (btnProceed) {
-        btnProceed.addEventListener('click', () => {
-          proceedToDay2Evening();
-        });
-      }
     } else if (currentStep === 'd3_midday_race' || currentStep === 'd3_midday_race_result') {
       raceViewHandle = renderRaceView(mainContainer, engine, 2, {
         onStartRace: ({ duckId, stance, useTrial, raceNumber }) => {
@@ -524,74 +497,6 @@ if (app) {
           proceedToDay1Evening();
         },
       });
-    } else if (activeModal === 'zerocash') {
-      renderZeroCashPrompt(modalContainer, engine, {
-        onContinue: () => {
-          engine.chooseZeroCashOption('continue');
-          activeModal = null;
-          currentStep = 'd2_afternoon_rent_resolved';
-          engine.state.step = currentStep;
-          engine.state.activeModal = null;
-          maybeAutosave();
-          proceedToDay2Evening();
-        },
-        onExtraShift: () => {
-          engine.chooseZeroCashOption('extra_shift');
-          activeModal = null;
-          currentStep = 'd2_afternoon_rent_resolved';
-          engine.state.step = currentStep;
-          engine.state.activeModal = null;
-          maybeAutosave();
-          proceedToDay2Evening();
-        },
-        onSellCouch: () => {
-          engine.chooseZeroCashOption('sell_couch');
-          activeModal = null;
-          currentStep = 'd2_afternoon_rent_resolved';
-          engine.state.step = currentStep;
-          engine.state.activeModal = null;
-          maybeAutosave();
-          proceedToDay2Evening();
-        },
-      });
-    } else if (activeModal === 'escalation') {
-      renderEscalationModal(modalContainer, engine, {
-        onAccept: () => {
-          const res = engine.acceptEscalation();
-          maybeAutosave();
-          if (res.resolved) {
-            activeModal = null;
-            currentStep = 'd2_afternoon_rent_resolved';
-            engine.state.step = currentStep;
-            engine.state.activeModal = null;
-            maybeAutosave();
-            proceedToDay2Evening();
-          } else if (res.route === 'running_on_empty') {
-            activeModal = null;
-            currentStep = 'receipt';
-            engine.state.step = currentStep;
-            engine.state.activeModal = null;
-            maybeAutosave();
-            renderApp();
-          } else {
-            renderApp();
-          }
-        },
-        onDecline: () => {
-          const res = engine.declineEscalation();
-          maybeAutosave();
-          if (res.route === 'running_on_empty') {
-            activeModal = null;
-            currentStep = 'receipt';
-            engine.state.step = currentStep;
-            engine.state.activeModal = null;
-            maybeAutosave();
-            renderApp();
-          } else {
-            renderApp();
-          }
-        },
-      });
     } else if (activeModal === 'retention') {
       renderRetentionModal(modalContainer, engine, {
         onStay: () => {
@@ -645,24 +550,97 @@ if (app) {
     target?.focus();
   }
 
-  function proceedToDay1Evening() {
-    engine.creditWage(); // Day 1 Wage (+10.00)
-    engine.advanceDay(2, 'day 2 morning');
-    engine.billExpense('food', 5.00); // Day 2 Morning Food ($5.00)
-    currentStep = 'd2_afternoon_rent';
-    engine.state.step = currentStep;
+  // Reset in place: the life view keeps a reference to this object (and leaves returnFocus on it for the next render).
+  function resetLifeUi() {
+    Object.assign(lifeUi, { place: null, held: null, decideOpen: false });
+  }
+
+  // Life steps are apartment surfaces: the phone is put away while they are shown.
+  function enterLife(step) {
+    currentStep = step;
+    engine.state.step = step;
+    activeModal = engine.state.activeModal || null;
+    phoneOpen = false;
+    resetLifeUi();
     maybeAutosave();
     renderApp();
   }
 
-  function proceedToDay2Evening() {
+  // Moves to the step breakfast leads to. Phone steps reopen from the apartment desk ("Open Quackpot").
+  function applyStepTransition(next) {
+    if (next.advance) engine.advanceDay(...next.advance);
+    currentStep = next.step;
+    engine.state.step = next.step;
+    activeModal = engine.state.activeModal || null;
+    phoneOpen = false;
+    resetLifeUi();
+  }
+
+  const activeModalBlocksLife = () => activeModal === 'retention' || activeModal === 'starter';
+
+  // Every life commitment names the log length it was decided against, so a double activation or a stale view
+  // cannot apply an effect twice or apply the next offer by mistake.
+  function lifeCallbacks() {
+    const commit = (fn) => (expectLog, ...args) => {
+      if (engine.isTerminal() || engine.log.length !== expectLog) return null;
+      const result = fn(...args);
+      currentStep = engine.state.step;
+      activeModal = engine.state.activeModal || null;
+      maybeAutosave();
+      updateHud();
+      return result;
+    };
+    return {
+      onPayRent: commit(() => engine.billExpense('rent', GAME_CONSTANTS.RENT_DAY2)),
+      onLadderAccept: commit(() => {
+        const next = engine.state.activeBill?.kind === 'food' ? afterBreakfast(engine) : null;
+        const result = engine.acceptEscalation();
+        if (result.resolved && next) applyStepTransition(next);
+        return result;
+      }),
+      onLadderDecline: commit(() => engine.declineEscalation()),
+      onOptional: commit((choice) => {
+        if (choice !== 'extra_shift' && choice !== 'sell_couch') throw new RangeError(`Unknown optional choice "${choice}"`);
+        return engine.chooseZeroCashOption(choice);
+      }),
+      onBreakfast: commit(() => {
+        const next = afterBreakfast(engine);
+        const result = engine.billExpense('food', GAME_CONSTANTS.FOOD_DAILY);
+        if (result.paid && !result.zeroCash) applyStepTransition(next);
+        return result;
+      }),
+      onContinue: commit(() => {
+        const next = afterBreakfast(engine);
+        const result = engine.chooseZeroCashOption('continue');
+        applyStepTransition(next);
+        return result;
+      }),
+      onGoToWork: commit(() => goToWork()),
+      onRefresh: () => {
+        currentStep = engine.isTerminal() ? 'receipt' : engine.state.step;
+        if (!isLifeStep(currentStep)) phoneOpen = engine.isTerminal();
+        renderApp();
+        if (!isLifeStep(currentStep)) requestAnimationFrame(() => document.querySelector('#btn-start-app')?.focus());
+      },
+    };
+  }
+
+  function proceedToDay1Evening() {
+    engine.creditWage(); // Day 1 Wage (+10.00)
+    engine.advanceDay(2, 'day 2 morning');
+    enterLife(BREAKFAST_STEP_BY_DAY[2]); // Breakfast is bought by the player's tap (Plan 38, D9)
+  }
+
+  // "Go to work": closes any open paid-zero opportunity, then the ordinary wage once, then Day 3 breakfast.
+  function goToWork() {
+    if (engine.state.activeModal === 'zerocash') engine.chooseZeroCashOption('continue');
     engine.creditWage(); // Day 2 Wage (+10.00)
     engine.advanceDay(3, 'day 3 morning');
-    engine.billExpense('food', 5.00); // Day 3 Morning Food ($5.00)
-    currentStep = 'd3_midday_race';
+    currentStep = BREAKFAST_STEP_BY_DAY[3];
     engine.state.step = currentStep;
-    maybeAutosave();
-    renderApp();
+    activeModal = null;
+    resetLifeUi();
+    return { step: currentStep };
   }
 
   // Launch app

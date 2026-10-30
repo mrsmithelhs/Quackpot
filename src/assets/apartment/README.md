@@ -16,7 +16,9 @@ desk/phone.mjs (-> core/svg), desk/side.mjs, desk/top.mjs (-> duck, lighting/def
 index.mjs            public API; validation, id scoping, light baking
 ```
 
-## Raw builder contracts (internal; used by `index.mjs`)
+## `renderScene({ ..., duck: false })` omits the duck and its own ground shadow (the rest of the scene is unchanged; the medium crop still centres on the duck's spot; `meta.duckView` is `null`, and the root label reads `The <scene>`). `duck` defaults to `true`.
+
+Raw builder contracts (internal; used by `index.mjs`)
 
 Raw builders return the **baseline markup** (fixed local ids, class-driven light hooks, the original root `<svg>` opening tag). They do not scope ids, validate options for the public API or bake lighting; `index.mjs` does that.
 

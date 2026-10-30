@@ -991,6 +991,8 @@ export class GameEngine {
     if (this.isTerminal()) {
       throw new Error('Cannot uninstall after run is terminal or Receipt presented');
     }
+    // Already asking: a repeated request keeps the original interrupted context and logs nothing (Plan 38).
+    if (this.state.activeModal === 'retention') return;
     this.state.interruptedContext = {
       step: this.state.step,
       activeModal: this.state.activeModal,

@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderDuck, renderScene, DUCK_VIEWS, AREAS, ROOM_AREAS, FRAMINGS, LIGHT_MODES, PHONE_LIMITS } from './index.mjs';
+import { duckInnerMarkup } from './duck/index.mjs';
 
 const KIT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const wellFormed = xml => { // minimal tag-stack parse check; proves nothing about SVG semantics
@@ -173,4 +174,61 @@ test('kit modules never import report files or use hidden state', () => {
     for (const m of src.matchAll(/^\s*(?:import|export)\b[^;]*?from\s+['"]([^'"]+)['"]/gm)) assert.ok(m[1].startsWith('./') || m[1].startsWith('../'), `${f}: non-relative import ${m[1]}`), assert.ok(!/reports/.test(m[1]), `${f}: imports reports`);
     assert.ok(!/\b(document|window|localStorage|setTimeout|setInterval|requestAnimationFrame|MutationObserver|fetch)\b\s*[.(]/.test(src.replace(/\/\/.*$/gm, '')), `${f}: touches browser/global APIs`);
   }
+});
+
+test('duck defaults to present: omitting it equals duck true for every area and framing', () => {
+  for (const area of AREAS) for (const framing of FRAMINGS) {
+    const def = renderScene({ area, idPrefix: 'dd', framing }), on = renderScene({ area, idPrefix: 'dd', framing, duck: true });
+    assert.equal(def.svg, on.svg, `${area}/${framing}`);
+    assert.deepEqual(def.meta, on.meta);
+    assert.equal(on.meta.duck, true);
+  }
+});
+
+test('duck false removes the duck and its own shadow only, and drops the duck from the label and meta', () => {
+  const gSoft = s => (s.match(/url\(#[^)]*g-soft\)/g) || []).length;
+  const count = (s, needle) => s.split(needle).length - 1;
+  for (const area of AREAS) {
+    const on = renderScene({ area, idPrefix: 'on', duckView: 'side' }), off = renderScene({ area, idPrefix: 'off', duck: false });
+    const named = renderScene({ area, idPrefix: 'nm', duck: false, decorative: false }).svg.match(/^<svg[^>]*>/)[0];   // root label only when not decorative
+    assert.ok(!named.includes('rubber duck') && named.includes(`aria-label="The ${{ living: 'living room', kitchen: 'kitchen', bedroom: 'bedroom with toy shelf', 'desk-side': 'desk, side view', 'desk-top': 'desk, top-down view' }[area]}"`), area);
+    assert.ok(!off.svg.includes('rubber duck'), area);
+    assert.equal(off.meta.duck, false); assert.equal(off.meta.duckView, null); assert.equal(off.meta.fallback, null);
+    assert.equal(off.meta.requestedDuckView, 'side');
+    if (area === 'desk-top') {
+      const marker = 'translate(470 330) rotate(-10)';   // overhead duck's transform: not in any other item
+      assert.ok(on.svg.includes(marker) && !off.svg.includes(marker), area);
+      assert.equal(count(on.svg, 'cast-amb') - count(off.svg, 'cast-amb'), 1, area);
+      assert.equal(count(on.svg, 'cast-lamp') - count(off.svg, 'cast-lamp'), 1, area);
+    } else {
+      const marker = duckInnerMarkup('side').match(/<path d="([^"]{20,})"/)[1];
+      assert.ok(on.svg.includes(marker) && !off.svg.includes(marker), area);
+      assert.ok(!off.svg.includes('bodyClip') && !off.svg.includes('headClip'), area);
+      assert.equal(gSoft(on.svg) - gSoft(off.svg), area.startsWith('desk') ? 0 : 1, area);
+    }
+    assert.ok(off.svg.length < on.svg.length, area);
+    assert.ok(wellFormed(off.svg), area);
+  }
+  const offRoom = renderScene({ area: 'living', idPrefix: 'o', duck: false, light: 'warm' }).svg;
+  assert.ok(offRoom.includes('.apt-o .lamp-on{opacity:1}') && offRoom.includes('rgb(255,190,98)'), 'lighting kept');
+});
+
+test('duck false ids: two duck-free scenes with distinct prefixes share no ids', () => {
+  for (const area of AREAS) {
+    const a = ids(renderScene({ area, idPrefix: 'x1', duck: false }).svg), b = ids(renderScene({ area, idPrefix: 'x2', duck: false }).svg);
+    assert.ok(a.length > 0, area);
+    assert.equal(a.filter(id => b.includes(id)).length, 0, area);
+  }
+});
+
+test('duck false keeps furnishings: removed couch and TV are still absent', () => {
+  const off = renderScene({ area: 'living', idPrefix: 'fd', duck: false, furnishings: { couch: 'removed', tv: 'removed' } });
+  assert.ok(!off.svg.includes('#6d6d64') && !off.svg.includes('#1f2c38'));
+  assert.deepEqual(off.meta.furnishings, { couch: 'removed', tv: 'removed' });
+  const kept = renderScene({ area: 'living', idPrefix: 'fd', duck: false });
+  assert.ok(kept.svg.includes('#6d6d64') && kept.svg.includes('#1f2c38'));
+});
+
+test('non-boolean duck is rejected', () => {
+  for (const bad of ['no', 0, 1, null]) assert.throws(() => scene({ duck: bad }), TypeError, String(bad));
 });

@@ -28,6 +28,7 @@
 | `src/ui/duck-rig-view.mjs`, `duck-motion-controller.mjs`, `duck-motion.css` | Accepted Plan20 revealed-card rendering, cosmetic keyed loops and per-instance pause/visibility/reduced-motion/cleanup |
 | `src/ui/duck-dex-view.mjs`, `acquisition-queue.mjs`, `duck-dex.css` | Accepted Plan21 collection/inspector and first-owned reveal presentation; engine owns discovery evidence and persistent seen state. Catalog growth and copy refinement remain separate follow-ups |
 | `src/ui/desk-phone.css`, `desk-view.js` | Persistent static portrait phone alongside physical companion; existing stage-transition helper remains a separate presentation lifecycle |
+| `src/ui/life/` (`life-routing.mjs`, `life-decisions.mjs`, `life-preview.mjs`, `life-copy.mjs`, `life-art.mjs`, `life-view.js`, `life.css`) | Plan38 apartment life surfaces (Plan28 selected mix): breakfast tap, rent notice, phone-native shift/card offers, object confirms, day bar and the still posed duck. Routing/decisions are pure and read engine state only; `main.js` owns every engine call. Paired `*.test.mjs` files |
 | `src/audio/synth.mjs` | Accepted standalone synthesis proof; production audio integration remains pending |
 
 Data flow: player action → controller callback → engine mutation/outcome/event → rendered view. Saving serializes state, log and RNG into a validated envelope. Terminal Receipt uses the event projection, never inference from final state. The physical companion and digital roster remain separate.

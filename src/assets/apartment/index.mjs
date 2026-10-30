@@ -86,6 +86,7 @@ export function renderDuck(view, options = {}) {
  *   area       living | kitchen | bedroom | desk-side | desk-top (required)
  *   idPrefix   required, unique per scene in a document
  *   duckView   requested duck view (default 'side'); meta.duckView / meta.fallback say what is actually drawn
+ *   duck       true (default) | false: false omits the duck and its own ground shadow; the rest of the scene is unchanged
  *   framing    wide | medium (rooms only; reported in meta.ignored for desks)
  *   light      neutral | window | warm
  *   furnishings { couch, tv } each 'present' | 'removed' (living room only): render visibility, not game logic
@@ -97,7 +98,7 @@ export function renderDuck(view, options = {}) {
  */
 export function renderScene(options = {}) {
   const o = plainObject(options, 'options');
-  onlyKeys(o, ['area', 'idPrefix', 'duckView', 'framing', 'light', 'furnishings', 'phone', 'overlay', 'decorative', 'label'], 'options');
+  onlyKeys(o, ['area', 'idPrefix', 'duckView', 'duck', 'framing', 'light', 'furnishings', 'phone', 'overlay', 'decorative', 'label'], 'options');
   const prefix = assertIdPrefix(o.idPrefix);
   const area = enumOf(o.area, AREAS, 'area');
   const requestedDuckView = enumOf(o.duckView ?? 'side', DUCK_VIEW_KEYS, 'duckView');
@@ -105,6 +106,8 @@ export function renderScene(options = {}) {
   const light = enumOf(o.light ?? 'neutral', LIGHT_MODES, 'light');
   const overlay = enumOf(o.overlay ?? 'svg', OVERLAYS, 'overlay');
   if (o.decorative !== undefined && typeof o.decorative !== 'boolean') throw new TypeError('decorative must be a boolean');
+  if (o.duck !== undefined && typeof o.duck !== 'boolean') throw new TypeError('duck must be a boolean');
+  const duck = o.duck ?? true;
   const decorative = o.decorative ?? true;
   const label = checkLabel(o.label);
   const furnishings = resolveFurnishings(o.furnishings);
@@ -119,10 +122,10 @@ export function renderScene(options = {}) {
 
   let raw, hint, box = [0, 0, 960, 540];
   if (isDesk) {
-    raw = area === 'desk-side' ? buildSideDeskScene({ duckView, phone }) : buildTopDeskScene({ phone });
+    raw = area === 'desk-side' ? buildSideDeskScene({ duckView, phone, duck }) : buildTopDeskScene({ phone, duck });
     hint = { ...DESK_LIGHT_HINTS[area], rx: 58, ry: 58 };
   } else {
-    const r = buildRoomScene({ area, duckView, framing, furnishings });
+    const r = buildRoomScene({ area, duckView, framing, furnishings, duck });
     raw = r.svg;
     hint = { x: r.lamp.x, y: r.lamp.y, rx: parseFloat(r.lamp.rx ?? '58'), ry: parseFloat(r.lamp.ry ?? '58') };
     box = raw.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
@@ -130,14 +133,14 @@ export function renderScene(options = {}) {
 
   const cls = `apt-${prefix}`;
   let svg = setRootClass(raw, cls);
-  svg = setRootLabel(svg, decorative, label ?? `${DUCK_LABELS[duckView]} rubber duck in the ${SCENE_LABELS[area]}`);
+  svg = setRootLabel(svg, decorative, label ?? (duck ? `${DUCK_LABELS[duckView]} rubber duck in the ${SCENE_LABELS[area]}` : `The ${SCENE_LABELS[area]}`));
   svg = svg.replace(ROOT_OPEN, open => `${open}${sceneStyle(cls, light)}`);
   if (overlay === 'svg') svg = svg.replace(/<\/svg>$/, `${overlayMarkup(light, box, hint)}</svg>`);
   svg = scopeIds(svg, prefix);
 
   return {
     svg,
-    meta: { area, shotKey: isDesk ? area : `${area}-${framing}`, framing: isDesk ? null : framing, light, requestedDuckView, duckView, fallback, furnishings: area === 'living' ? furnishings : null, ignored },
+    meta: { area, shotKey: isDesk ? area : `${area}-${framing}`, framing: isDesk ? null : framing, light, requestedDuckView, duckView: duck ? duckView : null, fallback: duck ? fallback : null, furnishings: area === 'living' ? furnishings : null, ignored, duck },
     lighting: { mode: light, center: { x: hint.x, y: hint.y }, rx: hint.rx, ry: hint.ry }
   };
 }

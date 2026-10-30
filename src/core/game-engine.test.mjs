@@ -263,6 +263,40 @@ test('engine [Repair 01 Regression]: repeat retention does not re-credit gems an
   assert.ok(engine.log.entries.some((e) => e.type === 'action' && e.payload?.kind === 'stay_without_reward'));
 });
 
+test('engine [Plan 38]: Uninstall pressed again while asking keeps the interrupted context, rewards once, and Leave still works', () => {
+  const stayEngine = () => {
+    const engine = new GameEngine('seed-repeat-uninstall');
+    engine.start();
+    engine.setupCompanion();
+    engine.state.day = 2;
+    engine.state.cash = 14.01;
+    engine.billExpense('rent', 15);
+    return engine;
+  };
+  const engine = stayEngine();
+  assert.equal(engine.state.activeModal, 'escalation');
+  engine.clickUninstall();
+  const logLength = engine.log.length;
+  engine.clickUninstall();
+  assert.equal(engine.log.length, logLength, 'the repeated request records nothing');
+  assert.deepEqual(engine.state.interruptedContext, { step: 'd2_afternoon_escalation', activeModal: 'escalation' });
+  engine.stayUninstall();
+  assert.equal(engine.state.activeModal, 'escalation');
+  assert.equal(engine.state.step, 'd2_afternoon_escalation');
+  assert.equal(engine.state.gems, 80);
+  engine.clickUninstall();
+  engine.clickUninstall();
+  engine.stayUninstall();
+  assert.equal(engine.state.gems, 80, 'the reward is granted once');
+  assert.equal(engine.state.activeModal, 'escalation');
+
+  const leaving = stayEngine();
+  leaving.clickUninstall();
+  leaving.clickUninstall();
+  assert.equal(leaving.leaveUninstall(), 'uninstall');
+  assert.equal(leaving.state.terminalRoute, 'uninstall');
+});
+
 test('engine: revealDrawAtIndex reveals exact committed card by index', () => {
   const engine = new GameEngine('seed-reveal-idx');
   engine.start();

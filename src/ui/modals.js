@@ -1,5 +1,5 @@
 // src/ui/modals.js
-// Modal dialogs: Starter offer, Retention exit friction, Zero-cash solvency prompt, and Escalation ladder.
+// Modal dialogs: Starter offer, Retention exit friction and corrupt-save recovery. Bills and offers live in the apartment (src/ui/life/, Plan 38).
 
 export function renderStarterOffer(container, engine, callbacks = {}) {
   const { onBuy, onDecline } = callbacks;
@@ -39,115 +39,6 @@ export function renderStarterOffer(container, engine, callbacks = {}) {
   const btnDecline = container.querySelector('#btn-decline-starter');
 
   if (btnBuy && onBuy) btnBuy.addEventListener('click', onBuy);
-  if (btnDecline && onDecline) btnDecline.addEventListener('click', onDecline);
-}
-
-export function renderZeroCashPrompt(container, engine, callbacks = {}) {
-  const { onContinue, onExtraShift, onSellCouch } = callbacks;
-  const couchSold = engine.state.assetsSold?.includes('couch');
-
-  container.innerHTML = `
-    <div class="modal-backdrop">
-      <div class="modal-card modal-zerocash">
-        <div class="modal-badge-warning">WALLET NOTICE • $0.00 CASH</div>
-        <h2>Rent Paid, But Wallet is Empty!</h2>
-        <p class="modal-desc">
-          You successfully paid your $15.00 rent bill in full! However, you now have exactly
-          <strong>$0.00 cash on hand</strong> until your scheduled evening wage arrives (+$10.00).
-        </p>
-        <p class="modal-desc-sub">
-          The game suggests emergency cash options, but taking no extra action leaves your bills paid
-          and your run completely safe.
-        </p>
-
-        <div class="zerocash-options">
-          <button id="btn-zero-continue" class="btn btn-primary btn-lg">
-            ✅ Continue to Evening Wage (Take No Action)
-          </button>
-          <button id="btn-zero-shift" class="btn btn-secondary btn-md">
-            🌙 Work Extra Night Shift (+$10.00 Cash, -15 HP)
-          </button>
-          <button id="btn-zero-couch" class="btn btn-secondary btn-md" ${couchSold ? 'disabled' : ''}>
-            🛋️ ${couchSold ? 'Couch Already Sold' : 'Sell Apartment Couch (+$10.00 Cash)'}
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const btnContinue = container.querySelector('#btn-zero-continue');
-  const btnShift = container.querySelector('#btn-zero-shift');
-  const btnCouch = container.querySelector('#btn-zero-couch');
-
-  if (btnContinue && onContinue) btnContinue.addEventListener('click', onContinue);
-  if (btnShift && onExtraShift) btnShift.addEventListener('click', onExtraShift);
-  if (btnCouch && onSellCouch && !couchSold) btnCouch.addEventListener('click', onSellCouch);
-}
-
-export function renderEscalationModal(container, engine, callbacks = {}) {
-  const { onAccept, onDecline } = callbacks;
-  const bill = engine.state.activeBill || { kind: 'rent', amount: 15.00 };
-  const currentStep = engine.getCurrentEscalationStep();
-  const deficit = (bill.amount - engine.state.cash).toFixed(2);
-
-  let stepTitle = 'Emergency Cash Escalation';
-  let stepDesc = '';
-  let btnAcceptLabel = 'Accept Option';
-
-  if (currentStep === 'skip_lunch') {
-    stepTitle = 'Step 1: Skip Today\'s Food Bill';
-    stepDesc = `Waive your $${bill.amount.toFixed(2)} meal expense entirely. Saves cash, but costs 15 HP from hunger.`;
-    btnAcceptLabel = 'Skip Food Bill (-15 HP)';
-  } else if (currentStep === 'extra_shift') {
-    stepTitle = 'Step 2: Work Emergency Extra Shift';
-    stepDesc = `Work an exhausting night shift to earn immediate cash. Grants +$10.00 cash, but costs 15 HP in sleep loss.`;
-    btnAcceptLabel = 'Work Extra Shift (+$10 Cash, -15 HP)';
-  } else if (currentStep === 'sell_couch') {
-    stepTitle = 'Step 3A: Sell Apartment Couch';
-    stepDesc = `Pawn your living room couch to a neighborhood buyer. Grants +$10.00 cash. Your apartment is visibly emptier.`;
-    btnAcceptLabel = 'Sell Couch (+$10 Cash)';
-  } else if (currentStep === 'sell_tv') {
-    stepTitle = 'Step 3B: Sell Television';
-    stepDesc = `Sell your only television. Grants +$15.00 cash.`;
-    btnAcceptLabel = 'Sell TV (+$15 Cash)';
-  } else if (currentStep === 'credit_card') {
-    stepTitle = 'Step 4: High-Interest Credit Card Advance';
-    stepDesc = `Draw a cash advance from a high-interest credit card. Grants +$15.00 cash, adds +$15.00 debt.`;
-    btnAcceptLabel = 'Draw Credit (+$15 Cash, +$15 Debt)';
-  } else {
-    stepTitle = 'Escalation Exhausted';
-    stepDesc = 'You have no further eligible emergency financial steps.';
-    btnAcceptLabel = 'Default';
-  }
-
-  container.innerHTML = `
-    <div class="modal-backdrop">
-      <div class="modal-card modal-escalation">
-        <div class="modal-badge-danger">CRITICAL EXPENSE OVERDUE</div>
-        <h2>${stepTitle}</h2>
-        <div class="escalation-balance-alert">
-          <span>${bill.kind.toUpperCase()} Bill: <strong>$${bill.amount.toFixed(2)}</strong></span>
-          <span>Cash on hand: <strong>$${engine.state.cash.toFixed(2)}</strong></span>
-          <span class="deficit-tag">Short by: <strong>$${deficit}</strong></span>
-        </div>
-        <p class="modal-desc">${stepDesc}</p>
-
-        <div class="modal-footer-actions">
-          <button id="btn-accept-escalation" class="btn btn-danger btn-lg">
-            ${btnAcceptLabel}
-          </button>
-          <button id="btn-decline-escalation" class="btn btn-outline btn-md">
-            Decline / Consider Next Option
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const btnAccept = container.querySelector('#btn-accept-escalation');
-  const btnDecline = container.querySelector('#btn-decline-escalation');
-
-  if (btnAccept && onAccept) btnAccept.addEventListener('click', onAccept);
   if (btnDecline && onDecline) btnDecline.addEventListener('click', onDecline);
 }
 

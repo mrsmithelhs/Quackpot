@@ -1,0 +1,152 @@
+/* Apartment life view (Plan 38). Everything is scoped under .life-* classes.
+   Layer 1 the room and its objects, layer 2 the held letter or phone, layer 3 the game's own decision UI. */
+.life-view {
+  --life-ink: #1f2328;
+  --life-paper: #fffdf6;
+  --life-stamp: #2f6b4f;
+  --life-halo: #ffd36a;
+  --life-slate: #24313a;
+  --life-slate-ink: #f3efe6;
+  --life-slate-line: #3c4d58;
+  --life-accent: var(--accent, #f0b429);
+  --life-focus: #1d4ed8;
+  --life-type: "Courier New", Courier, monospace;
+  --life-ui: var(--font-family, system-ui, -apple-system, "Segoe UI", sans-serif);
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  font-family: var(--life-ui);
+}
+.life-view *, .life-view *::before, .life-view *::after { box-sizing: border-box; }
+.life-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.life-is-held { min-height: min(44rem, 100svh); }
+.life-empty { color: var(--text-muted, #94a3b8); }
+
+/* ---------- layer 1: the room ---------- */
+.life-room { position: relative; display: block; width: 100%; }
+.life-box { position: relative; width: 100%; }
+.life-scene { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .85rem;
+  border: 1px solid rgba(40, 34, 28, .55); background: #d5d0c6; box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .35); }
+.life-scene > svg { display: block; width: 100%; height: 100%; }
+/* clipped to the room so halos at the scene edge never widen the page (they extend 10% past their object) */
+.life-objects, .life-duck-layer { position: absolute; inset: 0; overflow: hidden; border-radius: .85rem; pointer-events: none; }
+
+/* posed duck and its perch: the kit's own duck artwork, posed by class (the duck never moves) */
+.life-perch, .life-duck-pose { position: absolute; }
+.life-duck-flip { position: relative; }
+.life-duck-wedge { position: absolute; display: block; }
+.life-duck-wedge svg { display: block; width: 100%; height: 100%; }
+.life-perch svg, .life-duck-body svg { display: block; width: 100%; height: auto; }
+.life-duck-contact { position: absolute; left: 22%; right: 22%; bottom: 3%; height: 7%; border-radius: 50%; background: rgba(0, 0, 0, .22); filter: blur(2px); }
+.life-duck-top .life-duck-body { filter: drop-shadow(.4rem .6rem .35rem rgba(0, 0, 0, .3)); }
+
+.life-obj { position: absolute; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: .5rem; font: inherit; }
+.life-obj svg { display: block; width: 100%; height: auto; }
+.life-obj.life-hotspot { background: transparent; }
+.life-obj:focus { outline: none; }
+.life-obj:focus-visible { outline: 3px solid var(--life-focus); outline-offset: 4px; box-shadow: 0 0 0 6px #fff; }
+.life-obj.life-done { cursor: default; }
+/* halo: pulses while something is waiting; never removed, only still under reduced motion */
+.life-obj::before { content: ""; position: absolute; inset: -10%; border-radius: 1rem; pointer-events: none;
+  box-shadow: 0 0 0 3px rgba(255, 211, 106, .9), 0 0 1.2rem .3rem rgba(255, 211, 106, .55); opacity: .9; }
+.life-obj:not(.life-done)::before { animation: life-halo-pulse 1.6s ease-in-out infinite; }
+.life-obj.life-done::before { opacity: 0; }
+@keyframes life-halo-pulse { 0%, 100% { opacity: .35; transform: scale(.98); } 50% { opacity: 1; transform: scale(1.03); } }
+.life-chip { position: absolute; left: 50%; bottom: calc(100% + .35rem); transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+  padding: .15rem .55rem; border-radius: 999px; font: 700 .75rem/1.4 var(--life-ui); color: var(--life-slate-ink); background: var(--life-slate);
+  box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .25); }
+.life-chip::before { content: "●"; margin-right: .35rem; color: var(--life-accent); }
+.life-obj.life-done .life-chip { opacity: 0; }
+.life-tag { position: absolute; left: 8%; top: 12%; width: 12%; pointer-events: none; }
+
+/* non-diegetic day bar below the room */
+.life-day-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; width: 100%; margin-top: .7rem; }
+.life-when { font-weight: 700; color: var(--text-muted, #94a3b8); }
+.life-day-status { padding: .2rem .6rem; border-radius: 999px; font-weight: 700; color: var(--life-slate-ink); background: var(--life-slate); }
+
+/* ---------- shared buttons ---------- */
+.life-btn { min-height: 2.75rem; padding: .5rem .9rem; border: 2px solid var(--life-slate-ink); border-radius: .7rem; font: 700 .95rem var(--life-ui);
+  color: var(--life-slate); background: var(--life-slate-ink); cursor: pointer; text-align: left; }
+.life-btn.life-secondary { color: var(--life-slate-ink); background: transparent; border-color: var(--life-slate-line); }
+.life-btn.life-ends-run { border-color: #e57373; }
+.life-btn:disabled { opacity: .55; cursor: default; }
+.life-day-next { width: auto; color: var(--life-slate-ink); background: var(--life-slate); border-color: var(--life-slate-line); }
+.life-btn:focus-visible, .life-decide-toggle:focus-visible { outline: 3px solid var(--life-accent); outline-offset: 3px; }
+
+/* ---------- layer 2: held (covers the room area only; the HUD outside stays reachable) ---------- */
+.life-held { position: absolute; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+  padding: 1rem; overflow-y: auto; border-radius: .85rem; background: rgba(20, 18, 15, .6); backdrop-filter: blur(3px); }
+.life-held[hidden] { display: none; }
+.life-held-object { position: relative; flex: 0 1 auto; min-width: 0; outline: none; }
+.life-letter { width: 30rem; max-width: 100%; padding: 1.4rem 1.6rem 1.8rem; background: var(--life-paper); color: var(--life-ink);
+  font-family: var(--life-type); line-height: 1.45; border-top: 8px solid #555b66; box-shadow: 0 1.2rem 2.5rem rgba(0, 0, 0, .45); transform: rotate(-.8deg); }
+.life-letter h2 { margin: 0 0 .8rem; font-size: 1.15rem; }
+.life-letter h2:focus { outline: none; }
+.life-letter h2:focus-visible { outline: 3px solid var(--life-focus); outline-offset: 4px; }
+.life-letter p { margin: .5rem 0; }
+.life-letter .life-sender { margin: 0 0 .9rem; font: 700 .8rem/1.3 var(--life-ui); letter-spacing: .08em; text-transform: uppercase; color: #4b5563; }
+.life-letter footer { margin-top: 1.2rem; padding-top: .6rem; border-top: 1px solid #d8d2c4; font-size: .8rem; color: #6b7280; }
+.life-stamped { position: relative; }
+.life-stamped::after { content: "PAID"; position: absolute; top: 40%; left: 50%; padding: .1rem .8rem; transform: translate(-50%, -50%) rotate(-12deg);
+  font: 900 2.4rem/1.1 var(--life-ui); letter-spacing: .1em; color: var(--life-stamp); border: 5px solid var(--life-stamp); border-radius: .4rem; opacity: .85; pointer-events: none; }
+
+.life-phone-held { width: 20rem; max-width: 100%; height: min(34rem, calc(100svh - 4rem)); padding: .8rem .65rem; border-radius: 2.4rem; background: #15191f;
+  box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .55), inset 0 0 0 2px #2b313b; display: flex; }
+.life-phone-screen { flex: 1; display: flex; flex-direction: column; overflow: hidden; border-radius: 1.8rem; background: #f7f6f2; color: var(--life-ink); }
+.life-phone-status { display: flex; justify-content: space-between; padding: .55rem 1.1rem .3rem; font: 600 .75rem var(--life-ui); color: #4b5563; }
+.life-phone-app-bar { margin: 0; padding: .5rem 1rem .6rem; font: 700 1rem var(--life-ui); border-bottom: 1px solid #e3e0d8; }
+.life-phone-app-bar:focus { outline: none; }
+.life-phone-app-bar:focus-visible { outline: 3px solid var(--life-focus); outline-offset: -3px; }
+.life-phone-body { flex: 1; overflow-y: auto; padding: .8rem 1rem 1rem; font: .95rem/1.4 var(--life-ui); }
+.life-row { display: flex; justify-content: space-between; gap: .6rem; padding: .45rem 0; border-bottom: 1px solid #ebe8e0; }
+.life-note { color: #6b7280; font-size: .85rem; }
+.life-bubble { max-width: 85%; margin: .35rem 0; padding: .5rem .75rem; border-radius: 1rem 1rem 1rem .3rem; background: #e8e6df; }
+.life-bubble.life-you { margin-left: auto; border-radius: 1rem 1rem .3rem 1rem; background: #cfe3d6; }
+
+/* ---------- layer 3: the game's decision UI (not a physical object) ---------- */
+.life-decide { flex: 0 0 auto; width: 20rem; max-width: 100%; align-self: center; border-radius: 1rem; color: var(--life-slate-ink); background: var(--life-slate);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, .4); }
+.life-decide-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: .6rem; min-height: 3rem; padding: .7rem 1rem;
+  border: 0; border-radius: 1rem; font: 700 1rem var(--life-ui); color: var(--life-slate-ink); background: transparent; cursor: pointer; text-align: left; }
+.life-decide-toggle::after { content: "▾"; color: var(--life-accent); }
+.life-decide-toggle[aria-expanded="true"]::after { content: "▴"; }
+.life-decide-body { padding: 0 1rem 1rem; }
+.life-decide-body[hidden] { display: none; }
+.life-decide h3, .life-popover h3 { margin: .2rem 0 .5rem; font-size: 1.05rem; }
+.life-decide h3:focus, .life-popover h3:focus { outline: none; }
+.life-decide h3:focus-visible, .life-popover h3:focus-visible { outline: 3px solid var(--life-accent); outline-offset: 3px; }
+.life-decide p, .life-popover p { margin: .3rem 0; line-height: 1.4; }
+.life-fact { font-variant-numeric: tabular-nums; }
+.life-decide-actions { display: grid; gap: .5rem; margin-top: .9rem; }
+.life-result { border-left: 4px solid var(--life-accent); }
+.life-result .life-decide-body { padding-top: .8rem; }
+
+/* anchored confirm: attached to the object it acts on */
+.life-popover-layer { position: absolute; inset: 0; pointer-events: none; }
+.life-popover { position: absolute; width: min(18rem, 90%); pointer-events: auto; padding: .9rem 1rem 1rem; border-radius: .9rem;
+  color: var(--life-slate-ink); background: var(--life-slate); box-shadow: 0 .8rem 1.6rem rgba(0, 0, 0, .4); }
+.life-popover::before { content: ""; position: absolute; width: .9rem; height: .9rem; background: var(--life-slate); transform: rotate(45deg); }
+.life-popover.life-arrow-left::before { left: -.4rem; top: 1.2rem; }
+.life-popover.life-arrow-right::before { right: -.4rem; top: 1.2rem; }
+.life-popover h3 { font-size: 1rem; }
+.life-popover p { font-size: .92rem; line-height: 1.35; }
+
+@media (max-width: 760px) {
+  .life-held { flex-direction: column; justify-content: flex-start; align-items: stretch; padding: .6rem; gap: .6rem; }
+  .life-held-object { display: flex; justify-content: center; }
+  .life-letter { width: 100%; transform: none; }
+  .life-phone-held { width: 100%; max-width: 20rem; height: min(30rem, calc(100svh - 8rem)); margin: 0 auto; }
+  /* the collapsed decision bar docks at the bottom of the held view on phones */
+  .life-decide { position: sticky; bottom: 0; width: 100%; align-self: stretch; }
+  /* narrow: the confirm becomes a sheet directly under the room, so the object it acts on stays visible */
+  .life-popover-layer { position: static; }
+  .life-popover { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: 100%; margin-top: .6rem; }
+  .life-popover::before { display: none; }
+  .life-day-bar { gap: .5rem; }
+  .life-day-next { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .life-obj:not(.life-done)::before { animation: none; opacity: .95; transform: none; }
+}

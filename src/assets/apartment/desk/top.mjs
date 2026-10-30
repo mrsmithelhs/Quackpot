@@ -4,7 +4,7 @@ import { sceneDefs } from '../lighting/defs.mjs';
 import { topDuckInner } from '../duck/overhead.mjs';
 import { phoneFace, DEFAULT_PHONE_TEXT } from './phone.mjs';
 
-  export function buildTopDeskScene({ phone = DEFAULT_PHONE_TEXT } = {}) {
+  export function buildTopDeskScene({ phone = DEFAULT_PHONE_TEXT, duck = true } = {}) {
     const pw = PHONE_MM.w * PX_MM, ph = PHONE_MM.h * PX_MM;
     const S = 0.8, duckT = `translate(470 330) rotate(-10) scale(${S}) translate(-178.5 -135)`;
     // Warm-lamp mode: shadows point directly away from the lamp (shorter the farther away); other
@@ -38,8 +38,8 @@ import { phoneFace, DEFAULT_PHONE_TEXT } from './phone.mjs';
       ${obj(612, 466, 0, coin('gold'), 2.5)}${obj(645, 480, 0, coin('silver'), 2.5)}${obj(584, 500, 0, coin('gold'), 2.5)}
       ${obj(790, 300, -6, `<g transform="translate(${-pw / 2} ${-ph / 2})">${phoneFace(pw, ph, phone)}</g>`, 7)}
 
-      ${(() => { const [ax, ay] = away(470, 330, 22); const shape = `<g transform="${duckT}"><ellipse cx="180" cy="135" rx="102" ry="71"/><circle cx="163" cy="135" r="68"/><ellipse cx="197" cy="77" rx="52" ry="15"/><ellipse cx="197" cy="193" rx="52" ry="15"/></g>`; return `<g class="cast cast-amb" filter="url(#f-blur)"><g transform="translate(18 22)">${shape}</g></g><g class="cast cast-lamp" filter="url(#f-blur)"><g transform="translate(${ax} ${ay})">${shape}</g></g>`; })()}
-      <g transform="${duckT}" role="img" aria-label="Overhead rubber duck on the desk">${topDuckInner()}</g>
+      ${!duck ? '' : (() => { const [ax, ay] = away(470, 330, 22); const shape = `<g transform="${duckT}"><ellipse cx="180" cy="135" rx="102" ry="71"/><circle cx="163" cy="135" r="68"/><ellipse cx="197" cy="77" rx="52" ry="15"/><ellipse cx="197" cy="193" rx="52" ry="15"/></g>`; return `<g class="cast cast-amb" filter="url(#f-blur)"><g transform="translate(18 22)">${shape}</g></g><g class="cast cast-lamp" filter="url(#f-blur)"><g transform="translate(${ax} ${ay})">${shape}</g></g>`; })()}
+      ${duck ? `<g transform="${duckT}" role="img" aria-label="Overhead rubber duck on the desk">${topDuckInner()}</g>` : ''}
 
       <g class="lamp-on lamp-pool" aria-hidden="true"><circle cx="185" cy="128" r="520" fill="url(#g-pool)"/><circle cx="185" cy="128" r="170" fill="url(#g-glow)" opacity=".7"/></g>
       <g id="lamp-top">

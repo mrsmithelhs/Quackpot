@@ -4,11 +4,12 @@ import { sceneDefs } from '../lighting/defs.mjs';
 import { DUCK_LABELS, duckInnerMarkup } from '../duck/index.mjs';
 import { phoneFace, DEFAULT_PHONE_TEXT } from './phone.mjs';
 
-  export function buildSideDeskScene({ duckView, phone = DEFAULT_PHONE_TEXT }) {
-    if (!['front', 'side', 'rear'].includes(duckView)) throw new RangeError(`duckView must be front, side or rear; got "${duckView}"`);
+  export function buildSideDeskScene({ duckView, phone = DEFAULT_PHONE_TEXT, duck = true }) {
+    if (duck && !['front', 'side', 'rear'].includes(duckView)) throw new RangeError(`duckView must be front, side or rear; got "${duckView}"`);
     const dx = 270 - DUCK_CX[duckView] * DUCK_SCALE, dy = 414 - 250 * DUCK_SCALE;
     const pw = PHONE_MM.w * PX_MM, ph = PHONE_MM.h * PX_MM, pcx = 690;
-    const duckInner = duckInnerMarkup(duckView);
+    // duck: false drops the duck drawing (it casts no separate shadow on this camera)
+    const duckInner = duck ? duckInnerMarkup(duckView) : null;
     return `<svg class="desk-scene" viewBox="0 0 960 540" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${sceneDefs}
       <rect x="-900" y="-600" width="2760" height="1100" fill="#d5d0c6"/>
       <rect x="-900" y="500" width="2760" height="300" fill="#a59582"/>
@@ -56,6 +57,6 @@ import { phoneFace, DEFAULT_PHONE_TEXT } from './phone.mjs';
         <path d="M545 284C592 280 594 374 545 378" fill="none" stroke="#b86b4b" stroke-width="14"/><path d="M545 284C592 280 594 374 545 378" fill="none" stroke="#7f4630" stroke-width="2" opacity=".6" transform="translate(6 0)"/>
         <ellipse cx="470" cy="254" rx="75" ry="7" fill="#5a3322" stroke="#7f4630" stroke-width="3"/></g>
 
-      <svg x="${dx}" y="${dy}" width="${360 * DUCK_SCALE}" height="${270 * DUCK_SCALE}" viewBox="0 0 360 270" overflow="visible" role="img" aria-label="${DUCK_LABELS[duckView]} rubber duck on the desk">${duckInner}</svg>
+      ${duck ? `<svg x="${dx}" y="${dy}" width="${360 * DUCK_SCALE}" height="${270 * DUCK_SCALE}" viewBox="0 0 360 270" overflow="visible" role="img" aria-label="${DUCK_LABELS[duckView]} rubber duck on the desk">${duckInner}</svg>` : ''}
     </svg>`;
   }

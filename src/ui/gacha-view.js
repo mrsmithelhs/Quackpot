@@ -60,7 +60,7 @@ function renderCompletion(engine) {
         ${engine.state.down > 0 ? `<p class="down-note">Duplicate ducks converted to <strong>${engine.state.down} Down</strong>.</p>` : ''}
       </div>
       <button id="btn-gacha-proceed" class="btn btn-primary btn-lg">
-        Next: Morning Breakfast Expense ($5.00) ➔
+        ${(engine.state.billsSettled ?? []).includes('d1_food') ? 'Next: Midday Race' : 'Next: Breakfast in the Kitchen'} ➔
       </button>
     </div>
   `;

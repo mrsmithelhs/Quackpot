@@ -1,0 +1,183 @@
+{
+  "protocol": "qp35.fixture-validation-index.v1",
+  "entries": {
+    "plan35.rent-paid-zero.v1": {
+      "protocol": "qp35.fixture-validation.v1",
+      "checkpointId": "plan35.rent-paid-zero.v1",
+      "fixture": {
+        "path": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-paid-zero.save.json",
+        "bytes": 170013,
+        "sha256": "aacd26f31f53f34096f88b7b98273c82114d6e20a1f40ab128eece9ac7d11f4d"
+      },
+      "captureOrigin": {
+        "captureRevision": "68c9328ed7749ea78f04a1287d5c212e53e66899",
+        "captureRecipeFile": "scripts/dev/checkpoints/browser-phase.mjs",
+        "captureRecipeSha256": "bfa0b6def9da1148a2736320ce95499d79c93d7d7463bc035a2ef7ef3388e85b",
+        "loaderSha256": "b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496",
+        "manifestSha256": "0b14119a97711bc68907a7816f1218fb41479a9ce95e56996caf5af89653c15e"
+      },
+      "productionSourceFingerprint": "2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d",
+      "sourceClosureSha256": "bc981347e5bea98c40632ef6a21b0ae93cc04e9960ac4c168e94111186d58833",
+      "validationLoaderSha256": "2e11f60360c6ca90c078776d5df77d2f96e0733e3129dd13593bf69d03c0fa1a",
+      "result": {
+        "valid": true,
+        "boundaryMatched": true,
+        "envelopeValid": true,
+        "errors": [],
+        "eventCount": 46,
+        "chainHead": "eb597f89",
+        "negativeControls": {
+          "unsupportedSchemaRejected": true,
+          "malformedRngRejected": true,
+          "changedLogChainRejected": true,
+          "sourceclosureRejected": true,
+          "capturerecipeRejected": true,
+          "loaderRejected": true,
+          "sourcemapmissingRejected": true,
+          "sourceclosurehashmissingRejected": true,
+          "sourcefingerprintmissingRejected": true,
+          "recipemissingRejected": true,
+          "recipefilemissingRejected": true,
+          "recipehashmissingRejected": true,
+          "loadermissingRejected": true,
+          "attestationmissingRejected": true,
+          "fixturehashchangedRejected": true,
+          "originrecipechangedRejected": true,
+          "originloaderchangedRejected": true,
+          "originmanifestchangedRejected": true,
+          "sourceclosurechangedRejected": true,
+          "validationloaderchangedRejected": true,
+          "resultinvalidatedRejected": true,
+          "enveloperesultinvalidatedRejected": true,
+          "validationresultfieldmissingRejected": true,
+          "malformedchainheadRejected": true,
+          "validationchainheadmissingRejected": true
+        }
+      },
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159045,
+        "sha256": "d3e86bb33d936bfa0f7c5c3a0eb840689977194afb7f2352d38b25a9a71516cd"
+      }
+    },
+    "plan35.rent-unpaid-escalation.v1": {
+      "protocol": "qp35.fixture-validation.v1",
+      "checkpointId": "plan35.rent-unpaid-escalation.v1",
+      "fixture": {
+        "path": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-unpaid-escalation.save.json",
+        "bytes": 170061,
+        "sha256": "eafd6c2f56137487eb253ae90dae20b643e98bc7f8035cd2c0efcba4a24c92bd"
+      },
+      "captureOrigin": {
+        "captureRevision": "5fbebbd2251227eda2193d00df70fd8f65855b2d",
+        "captureRecipeFile": "scripts/dev/checkpoints/browser-phase.mjs",
+        "captureRecipeSha256": "bfa0b6def9da1148a2736320ce95499d79c93d7d7463bc035a2ef7ef3388e85b",
+        "loaderSha256": "b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496",
+        "manifestSha256": "0b14119a97711bc68907a7816f1218fb41479a9ce95e56996caf5af89653c15e"
+      },
+      "productionSourceFingerprint": "2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d",
+      "sourceClosureSha256": "bc981347e5bea98c40632ef6a21b0ae93cc04e9960ac4c168e94111186d58833",
+      "validationLoaderSha256": "2e11f60360c6ca90c078776d5df77d2f96e0733e3129dd13593bf69d03c0fa1a",
+      "result": {
+        "valid": true,
+        "boundaryMatched": true,
+        "envelopeValid": true,
+        "errors": [],
+        "eventCount": 46,
+        "chainHead": "18fbcc52",
+        "negativeControls": {
+          "unsupportedSchemaRejected": true,
+          "malformedRngRejected": true,
+          "changedLogChainRejected": true,
+          "sourceclosureRejected": true,
+          "capturerecipeRejected": true,
+          "loaderRejected": true,
+          "sourcemapmissingRejected": true,
+          "sourceclosurehashmissingRejected": true,
+          "sourcefingerprintmissingRejected": true,
+          "recipemissingRejected": true,
+          "recipefilemissingRejected": true,
+          "recipehashmissingRejected": true,
+          "loadermissingRejected": true,
+          "attestationmissingRejected": true,
+          "fixturehashchangedRejected": true,
+          "originrecipechangedRejected": true,
+          "originloaderchangedRejected": true,
+          "originmanifestchangedRejected": true,
+          "sourceclosurechangedRejected": true,
+          "validationloaderchangedRejected": true,
+          "resultinvalidatedRejected": true,
+          "enveloperesultinvalidatedRejected": true,
+          "validationresultfieldmissingRejected": true,
+          "malformedchainheadRejected": true,
+          "validationchainheadmissingRejected": true
+        }
+      },
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159064,
+        "sha256": "baf77fedfd04dc7cbf47fb75e2e2325a9419b9b3b68a727999816428533bc44d"
+      }
+    },
+    "plan35.finale-race-entry.v1": {
+      "protocol": "qp35.fixture-validation.v1",
+      "checkpointId": "plan35.finale-race-entry.v1",
+      "fixture": {
+        "path": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/finale-race-entry.save.json",
+        "bytes": 172258,
+        "sha256": "b0ca5da18c3b4e90e9fea555576de7565c3027d9dfce01eb34331416ac11e1c5"
+      },
+      "captureOrigin": {
+        "captureRevision": "8190c482bc8715099643e4e95fd74d654228185e",
+        "captureRecipeFile": "scripts/dev/checkpoints/browser-phase.mjs",
+        "captureRecipeSha256": "bfa0b6def9da1148a2736320ce95499d79c93d7d7463bc035a2ef7ef3388e85b",
+        "loaderSha256": "b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496",
+        "manifestSha256": "0b14119a97711bc68907a7816f1218fb41479a9ce95e56996caf5af89653c15e"
+      },
+      "productionSourceFingerprint": "2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d",
+      "sourceClosureSha256": "bc981347e5bea98c40632ef6a21b0ae93cc04e9960ac4c168e94111186d58833",
+      "validationLoaderSha256": "2e11f60360c6ca90c078776d5df77d2f96e0733e3129dd13593bf69d03c0fa1a",
+      "result": {
+        "valid": true,
+        "boundaryMatched": true,
+        "envelopeValid": true,
+        "errors": [],
+        "eventCount": 54,
+        "chainHead": "1db9a3b5",
+        "negativeControls": {
+          "unsupportedSchemaRejected": true,
+          "malformedRngRejected": true,
+          "changedLogChainRejected": true,
+          "sourceclosureRejected": true,
+          "capturerecipeRejected": true,
+          "loaderRejected": true,
+          "sourcemapmissingRejected": true,
+          "sourceclosurehashmissingRejected": true,
+          "sourcefingerprintmissingRejected": true,
+          "recipemissingRejected": true,
+          "recipefilemissingRejected": true,
+          "recipehashmissingRejected": true,
+          "loadermissingRejected": true,
+          "attestationmissingRejected": true,
+          "fixturehashchangedRejected": true,
+          "originrecipechangedRejected": true,
+          "originloaderchangedRejected": true,
+          "originmanifestchangedRejected": true,
+          "sourceclosurechangedRejected": true,
+          "validationloaderchangedRejected": true,
+          "resultinvalidatedRejected": true,
+          "enveloperesultinvalidatedRejected": true,
+          "validationresultfieldmissingRejected": true,
+          "malformedchainheadRejected": true,
+          "validationchainheadmissingRejected": true
+        }
+      },
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159067,
+        "sha256": "2dab651bb8bc0c6f45dcc647ec28adece79f80b5ad54922737f8b077e51dbec6"
+      }
+    }
+  },
+  "updatedAt": "2026-10-30T04:29:33.912Z"
+}

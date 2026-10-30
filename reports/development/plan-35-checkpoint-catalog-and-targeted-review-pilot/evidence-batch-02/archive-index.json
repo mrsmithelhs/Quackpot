@@ -1,0 +1,72 @@
+{
+  "archiveVersion": 1,
+  "rotationTime": "2026-10-30T11:46:30.7554605Z",
+  "reason": "Root-authorized artifact-only rotation before current fixture revalidation and the separately gated paid-rent cleanup rerun.",
+  "mapping": {
+    "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl": {
+      "archivedPath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/evidence-batch-02/pilot-results.jsonl",
+      "bytes": 813315,
+      "sha256": "32c410d64d20dfb8af034a7f12703498dcbefcc0a795e6005f0c44f1fde2a718"
+    },
+    "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/fixture-validation-index.json": {
+      "archivedPath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/evidence-batch-02/fixture-validation-index.json",
+      "bytes": 8572,
+      "sha256": "dcd569ffa67dba05397f87ae28846bd7b5d7a851464c6d93bf87b33b228d6527"
+    }
+  },
+  "historicalFullEvidenceReferencePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+  "resolveHistoricalFullEvidenceRecordReferencesTo": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/evidence-batch-02/pilot-results.jsonl",
+  "recordCount": 6,
+  "recordPins": [
+    {
+      "bytes": 16344,
+      "sha256": "2df56bcc34b7693a7970728db2b49e49239a5e11a32de34895e39601014c097b"
+    },
+    {
+      "bytes": 158095,
+      "sha256": "c5331adaa0cf5a7975bac1dbeb7145409c601bc55659fd4f7c8d89a47680e813"
+    },
+    {
+      "bytes": 159045,
+      "sha256": "d3e86bb33d936bfa0f7c5c3a0eb840689977194afb7f2352d38b25a9a71516cd"
+    },
+    {
+      "bytes": 159064,
+      "sha256": "baf77fedfd04dc7cbf47fb75e2e2325a9419b9b3b68a727999816428533bc44d"
+    },
+    {
+      "bytes": 159067,
+      "sha256": "2dab651bb8bc0c6f45dcc647ec28adece79f80b5ad54922737f8b077e51dbec6"
+    },
+    {
+      "bytes": 161700,
+      "sha256": "c528539576fe4c602ee08b22677bdef80c3f7d442b84e145ee12f421bb8fbaa4"
+    }
+  ],
+  "validationAttestationPins": [
+    {
+      "checkpointId": "plan35.rent-paid-zero.v1",
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159045,
+        "sha256": "d3e86bb33d936bfa0f7c5c3a0eb840689977194afb7f2352d38b25a9a71516cd"
+      }
+    },
+    {
+      "checkpointId": "plan35.rent-unpaid-escalation.v1",
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159064,
+        "sha256": "baf77fedfd04dc7cbf47fb75e2e2325a9419b9b3b68a727999816428533bc44d"
+      }
+    },
+    {
+      "checkpointId": "plan35.finale-race-entry.v1",
+      "recordPin": {
+        "file": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+        "bytes": 159067,
+        "sha256": "2dab651bb8bc0c6f45dcc647ec28adece79f80b5ad54922737f8b077e51dbec6"
+      }
+    }
+  ]
+}

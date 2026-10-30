@@ -253,8 +253,48 @@ consultation.
 - The Stage 1 "fingerprint discrepancy" risk is superseded. Root's read-only SHA comparison found no differences, and
   the loader now uses Plan 35's explicit validation pins.
 
+## Stage 2b: source-review corrections and the cleared batch (2026-10-30)
+
+Authority: root `reports/orchestration/plan-28-source-review-02.md` (`84d0148`). Branch C still applies, so no advisor
+call was made.
+
+**Corrections** (commit `10a9e90`):
+1. `runScenario` now captures the scenario generation at launch. Its catch ignores a rejection from an older load, so
+   a stale load can no longer set `busy` or replace a newer card.
+2. The ledger now reads "Balance after breakfast: $X". This is the historic `cashAfter` value, no longer labelled as
+   current "Cash on hand". The test expectations were updated and now assert that no ledger line starts with "Cash on
+   hand". Fixtures were not changed.
+3. Following the review's boundary note, `fixtures.mjs` and the reviewer panel now say this is a lightweight loader.
+   It does not recompute source closure or validation-loader identity, and it is not Plan 35's freshness loader.
+
+**Cleared batch: stopped at preflight. No Node command was run.**
+- The processes were fine: all were Codex runtime, with a maximum of 101 MB and a total of about 306 MB.
+- The Plan 35 evidence log has only 241,671 of its 1 MiB free.
+- Each `checkpoint-proof.mjs fixture` append embeds the full save `state`, which is about 177 KB (measured from the
+  identical existing field). So the second canonical check would hit the 1 MiB guard.
+- Root said to stop rather than rotate the pinned log, so I stopped. Details and options (a)–(d) for root are in
+  `validation-plan.md` §1.
+- `plan28.test.mjs` therefore has **still never run**.
+
+**Revised server/browser proposal** (`validation-plan.md` §2–3; browser execution is still gated):
+- **Server.** Either reuse a verified root-approved server, or run `comparison/serve-bounded.py`. That script is
+  finite and serves the repo root on 127.0.0.1 only. It exits by itself at a deadline of at most 900 s and overrides
+  the module MIME types. A PowerShell wrapper registers the owned PID and stops it in `finally`.
+- **Storage evidence.** Snapshot key/value hashes for localStorage and sessionStorage, the IndexedDB database list
+  (the list only, not contents), the cache keys, and the service-worker registration count. Take one snapshot on the
+  unique origin before load and one after, in a new in-app tab. The game's storage is never inspected.
+- **Double activation.** Check one append of the specific event per clicked action: `expense_due` for Pay and
+  `escalation_result` for Accept.
+- **Scenario switching.** Switch during the transition. Also use the new reviewer-only `?fail-load=<scenario>` fault
+  injection to exercise the stale-failure path.
+- **Reduced motion.** `?motion-off` is not equivalent evidence. Real OS reduced motion remains unverified unless root
+  names a harness that can emulate it.
+
+**Haiku use (Stage 2b):** none. These corrections were two small, precisely specified edits, and delegating them
+would not have helped.
+
 ## Ready for orchestrator review
 
-Yes. The Direction A prototype source and the exact commands for one serial bounded test batch and one browser gate
-are in `validation-plan.md`. I have stopped for root clearance of those runs. After the gate, the owner reviews the
-prototype and the morning-framing question. Production porting is not requested.
+Yes. The corrections are committed. The cleared batch stopped at preflight for log capacity and needs a root decision
+on options (a)–(d). The revised finite server and browser proposal is ready for clearance. No test, server or browser
+evidence exists yet.

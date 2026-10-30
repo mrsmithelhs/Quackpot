@@ -416,7 +416,25 @@ would not have helped.
   - Run a browser gate on the dev server.
   - Revise the integration proposal to fit the mix.
 
+## Stage 6: the selected mix delivered (2026-10-30)
+
+- **Prototype:**
+  - `gallery/mix-model.mjs`: pure routing and decisions.
+  - Both rent branches in the mix, with a recorded turn-down, honest final-decline labels from the engine preview, and
+    the card-advance place.
+  - Paid flow: the optional couch step.
+- **Fixes during the stage:** a narrow confirm sheet and halos clipped to the room.
+- **Tests:** `gallery/gallery.test.mjs`, 7 of 7, run by the lead through the launcher.
+- **Browser evidence:** `gallery/README.md` session 4. Storage snapshots were skipped on the dev origin, by rule.
+- **Delivery documents:**
+  - `integration-proposal.md` Part A: modules, engine mapping, state-derived routing, focus, validation, ordering and
+    exposure changes (A9), and one small Plan 25 kit change (A2.3). Part B is kept as history.
+  - `final-report.md`: the revised delivery, with the earlier one kept as history.
+- **Haiku use this stage:** none. The work was integration and verification of the lead's own model.
+
 ## Ready for orchestrator review
 
-**Not yet.** The owner has selected the mix (D20). Next: refine it through the remaining branches (including the
-unpaid ladder), then tests, a browser gate, and a revised integration proposal.
+**Yes:** the revised delivery is in `final-report.md`. It is returned for one root decision: whether to assign a
+cohesive implementation packet for the selected mix, including the A2.3 Plan 25 kit change and the A9 ordering and
+exposure changes. The owner has confirmed the experience choices D11–D21. A9.2 (less exposure for optional beats) is
+flagged for the owner's explicit confirmation.

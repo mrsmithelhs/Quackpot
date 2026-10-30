@@ -5,7 +5,7 @@ import { appendFile, readFile, realpath, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { PLAN35, ROOT, sha256 } from './provenance.mjs';
-import { snapshotOwnedTree } from './process-tree.mjs';
+import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
 const HOST = '127.0.0.1';
 const PORT = 5181;
@@ -21,8 +21,8 @@ const MAX_SERVED_BYTES = 24 * 1024 * 1024;
 const startedAt = Date.now();
 const resultsPath = path.join(ROOT, PLAN35, 'controlled-pilot-results.jsonl');
 const trackedSourceRoots = ['src', 'index.html', 'vite.config.mjs', 'package.json', 'package-lock.json', 'scripts/dev/checkpoints'];
-const serverChild = { child: null, command: null, args: null, cwd: ROOT, error: null, exit: null, close: null, stdout: '', stderr: '' };
-const proofChild = { child: null, command: null, args: null, cwd: ROOT, error: null, exit: null, close: null, stdout: '', stderr: '' };
+const serverChild = { child: null, command: null, args: null, cwd: ROOT, error: null, exit: null, close: null, stdout: '', stderr: '', monitor: null };
+const proofChild = { child: null, command: null, args: null, cwd: ROOT, error: null, exit: null, close: null, stdout: '', stderr: '', monitor: null };
 let workDeadline = false;
 let totalDeadline = false;
 let cleanupStarted = false;
@@ -41,6 +41,7 @@ function ownedSpawn(record, command, args, env = process.env) {
   child.once('error', (error) => { record.error = error; });
   child.once('exit', (code, signal) => { record.exit = { code, signal, at: new Date().toISOString() }; });
   child.once('close', (code, signal) => { record.close = { code, signal, at: new Date().toISOString() }; });
+  if (process.platform === 'win32') record.monitor = startOwnedProcessMonitor(child.pid, { isAlive: () => child.exitCode === null });
   return record;
 }
 
@@ -136,33 +137,65 @@ async function sourceIdentity() {
 }
 
 async function stopOwned(record) {
+  if (record.stopPromise) return record.stopPromise;
+  record.stopPromise = stopOwnedOnce(record);
+  return record.stopPromise;
+}
+
+async function stopOwnedOnce(record) {
   if (!record.child) return { residual: false, uncertainty: true, exit: record.exit, reason: 'owned process handle missing' };
+  const provedBrowserCleanup = () => {
+    const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
+    if (!line) return false;
+    try {
+      const parsed = JSON.parse(line);
+      return parsed.cleanup?.treeTerminationConfirmed === true && parsed.cleanup?.residual === false && parsed.cleanup?.uncertainty === false;
+    } catch { return false; }
+  };
   let tracked = [];
-  let inspectionFailed = false;
+  let inspectionFailed = process.platform !== 'win32';
+  let rootObserved = false;
   if (process.platform === 'win32') {
-    try { tracked = await snapshotOwnedTree(record.child.pid); }
+    try {
+      tracked = record.monitor ? await record.monitor.stop() : await snapshotOwnedTree(record.child.pid);
+      rootObserved = tracked.some((row) => row.root === true);
+      if (!rootObserved) inspectionFailed = true;
+    }
     catch { inspectionFailed = true; }
   }
-  if (record.exit === null && process.platform === 'win32') {
+  if (record.exit === null && process.platform === 'win32' && rootObserved) {
+    const rootIdentity = tracked.find((row) => row.root === true);
+    try {
+      if (!rootIdentity || !(await inspectOwnedIdentities([rootIdentity])).length) { rootObserved = false; inspectionFailed = true; }
+    } catch { rootObserved = false; inspectionFailed = true; }
+  }
+  if (record.exit === null && process.platform === 'win32' && rootObserved) {
     try { execFileSync('taskkill.exe', ['/PID', String(record.child.pid), '/T', '/F'], { cwd: ROOT, stdio: 'ignore', timeout: 2500 }); }
     catch { /* exit and fresh tree inspection below are authoritative */ }
   } else if (record.exit === null) { try { record.child.kill('SIGTERM'); } catch {} }
   if (record.close === null) await Promise.race([new Promise((resolve) => record.child.once('close', resolve)), delay(2500)]);
   let remaining = [];
+  let remainingTree = [];
   if (process.platform === 'win32') {
     try {
+      remainingTree = await snapshotOwnedTree(record.child.pid);
+      const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
+      tracked.push(...remainingTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
       const until = Date.now() + 1800;
       do {
-        remaining = await snapshotOwnedTree(record.child.pid);
-        const liveTracked = remaining.some((row) => tracked.some((old) => old.pid === row.pid && old.created === row.created));
-        if (!liveTracked && remaining.length === 0 && record.close !== null) break;
+        remaining = await inspectOwnedIdentities(tracked);
+        if (remaining.length === 0 && remainingTree.length === 0 && record.close !== null) break;
         await delay(100);
       } while (Date.now() < until);
     } catch { inspectionFailed = true; }
   }
-  const residual = record.exit === null || remaining.length > 0;
-  return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0,
-    exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining };
+  const helperConfirmed = record === proofChild && record.exit?.code === 0 && provedBrowserCleanup();
+  const retainedClear = remaining.length === 0 && remainingTree.length === 0;
+  const parentUnobserved = record.exit !== null && !helperConfirmed;
+  const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved;
+  return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved
+      || (record === proofChild && helperConfirmed && !retainedClear),
+    exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining, remainingTree };
 }
 
 async function appendEvidence() {
@@ -189,6 +222,7 @@ async function main() {
   await readFile(vitePath);
   ownedSpawn(serverChild, process.execPath, ['--max-old-space-size=512', vitePath, '--host', HOST, '--port', String(PORT), '--strictPort', '--base', '/Quackpot/'],
     { ...process.env, VITE_BASE: '/Quackpot/' });
+  await serverChild.monitor?.ready;
   evidence.server = { pid: serverChild.child.pid, command: serverChild.command, args: serverChild.args, baseURL: BASE_URL };
   await waitReady();
   evidence.served = await servedHashes();
@@ -196,6 +230,7 @@ async function main() {
   const expected = JSON.stringify(evidence.served.hashes);
   ownedSpawn(proofChild, process.execPath, ['--max-old-space-size=512', 'scripts/dev/checkpoints/browser-phase.mjs', phase],
     { ...process.env, QP35_BASE_URL: BASE_URL, QP35_EXPECTED_SERVED: expected });
+  await proofChild.monitor?.ready;
   const proofExit = await waitForChild(proofChild, startedAt + MAX_WORK_MS, 'Browser phase');
   evidence.proof = { pid: proofChild.child.pid, exit: proofExit, stdout: proofChild.stdout, stderr: proofChild.stderr };
   if (proofExit.code !== 0) fail(`Browser phase exited ${proofExit.code}: ${proofChild.stderr}`);

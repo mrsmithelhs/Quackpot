@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
-import { snapshotOwnedTree } from './process-tree.mjs';
+import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
 const fail = (message) => { throw new Error(message); };
 const CHROME = process.env.QP35_CHROME ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
@@ -56,16 +56,18 @@ export async function launchIsolatedChrome() {
   const child = spawn(CHROME, ['--headless=new', '--no-first-run', '--disable-gpu', '--no-default-browser-check',
     '--window-size=1365,900', '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank'],
   { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
-  const owned = { profile, child, cdp: null, stderr: () => stderr, closed: false };
-  ownedBrowsers.add(owned);
   let stderr = '';
+  const owned = { profile, child, cdp: null, stderr: () => stderr, closed: false, monitor: null };
+  ownedBrowsers.add(owned);
   child.stderr.on('data', (chunk) => { if (stderr.length < 8192) stderr += chunk.toString().slice(0, 8192 - stderr.length); });
   let startError = null;
   child.once('error', (error) => { startError = error; });
+  owned.monitor = startOwnedProcessMonitor(child.pid, { isAlive: () => child.exitCode === null });
   const portFile = path.join(profile, 'DevToolsActivePort');
   const until = Date.now() + 10000;
   let portInfo = null;
   try {
+    await owned.monitor.ready;
     while (Date.now() < until) {
       if (startError || child.exitCode !== null) fail(`Chrome exited during startup (${startError?.message ?? child.exitCode}): ${stderr}`);
       try { portInfo = (await readFile(portFile, 'utf8')).trim().split(/\r?\n/); break; }
@@ -81,21 +83,37 @@ export async function launchIsolatedChrome() {
   }
 }
 
-export async function closeIsolatedChrome(browser) {
-  if (!browser || browser.closed) return { residual: false, uncertainty: false };
+export function closeIsolatedChrome(browser) {
+  if (!browser) return Promise.resolve({ residual: false, uncertainty: true, reason: 'owned Chrome record missing' });
+  if (browser.cleanupPromise) return browser.cleanupPromise;
+  browser.cleanupPromise = closeIsolatedChromeOnce(browser);
+  return browser.cleanupPromise;
+}
+
+async function closeIsolatedChromeOnce(browser) {
+  if (browser.closed) return browser.cleanupResult ?? { residual: true, uncertainty: true, reason: 'Chrome cleanup already started without a result' };
   browser.closed = true;
-  if (browser.cdp) {
+  let tracked = [];
+  let initialInspectionFailed = browser.child.exitCode !== null;
+  try {
+    tracked = browser.monitor ? await browser.monitor.stop() : await snapshotOwnedTree(browser.child.pid);
+    if (!tracked.some((row) => row.root === true)) initialInspectionFailed = true;
+  } catch { initialInspectionFailed = true; }
+  if (browser.cdp && !initialInspectionFailed) {
     try { await browser.cdp.send('Browser.close'); } catch { /* Browser.close normally closes the transport. */ }
-    browser.cdp.close();
   }
+  browser.cdp?.close();
   if (browser.child.exitCode === null) await Promise.race([new Promise((resolve) => browser.child.once('exit', resolve)), delay(1200)]);
   let treeTerminationConfirmed = false;
-  let tracked = [];
+  let inspectionFailed = initialInspectionFailed;
   if (browser.child.pid) {
-    try {
-      tracked = await snapshotOwnedTree(browser.child.pid);
-    } catch { /* cleanup status below records uncertainty */ }
-    if (browser.child.exitCode === null) {
+    if (browser.child.exitCode === null && !initialInspectionFailed) {
+      const rootIdentity = tracked.find((row) => row.root === true);
+      try {
+        if (!rootIdentity || !(await inspectOwnedIdentities([rootIdentity])).length) inspectionFailed = true;
+      } catch { inspectionFailed = true; }
+    }
+    if (browser.child.exitCode === null && !inspectionFailed) {
       try { execFileSync('taskkill.exe', ['/PID', String(browser.child.pid), '/T', '/F'], { stdio: 'ignore', timeout: 2500 }); }
       catch { /* verification below decides whether termination is confirmed */ }
     }
@@ -103,14 +121,16 @@ export async function closeIsolatedChrome(browser) {
   }
   let remaining = [];
   try {
+    const finalTree = browser.child.pid ? await snapshotOwnedTree(browser.child.pid) : [];
+    const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
+    tracked.push(...finalTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
     const until = Date.now() + 2000;
     do {
-      remaining = browser.child.pid ? await snapshotOwnedTree(browser.child.pid) : [];
-      const liveTracked = remaining.some((row) => tracked.some((old) => old.pid === row.pid && old.created === row.created));
-      if (!liveTracked && remaining.length === 0 && browser.child.exitCode !== null) { treeTerminationConfirmed = true; break; }
+      remaining = await inspectOwnedIdentities(tracked);
+      if (!inspectionFailed && remaining.length === 0 && browser.child.exitCode !== null) { treeTerminationConfirmed = true; break; }
       await delay(100);
     } while (Date.now() < until);
-  } catch { /* unavailable ownership inspection remains uncertainty */ }
+  } catch { inspectionFailed = true; }
   const residual = browser.child.exitCode === null || remaining.length > 0;
   let profileRemoved = false;
   if (treeTerminationConfirmed && !residual) {
@@ -118,8 +138,10 @@ export async function closeIsolatedChrome(browser) {
     catch { /* caller records cleanup failure */ }
   }
   ownedBrowsers.delete(browser);
-  return { residual, uncertainty: !treeTerminationConfirmed || !profileRemoved, childExitCode: browser.child.exitCode,
-    treeTerminationConfirmed, profileRemoved, chromeStderr: browser.stderr() };
+  const cleanupResult = { residual, uncertainty: inspectionFailed || !treeTerminationConfirmed || !profileRemoved, childExitCode: browser.child.exitCode,
+    treeTerminationConfirmed, profileRemoved, trackedDescendants: tracked, remainingDescendants: remaining, chromeStderr: browser.stderr() };
+  browser.cleanupResult = cleanupResult;
+  return cleanupResult;
 }
 
 export async function createPage(cdp, url, { viewport = { width: 1365, height: 900 }, fixtureRaw = null } = {}) {

@@ -14,6 +14,59 @@ const RESULT_PATH = path.join(ROOT, PLAN35, 'pilot-results.jsonl');
 let servedSourceMapSha256 = null;
 const fail = (message) => { throw new Error(message); };
 
+function validateExposureSuffix(suffix, display, id, expected) {
+  const knownDuckIds = new Set(['duck-0', 'duck-1', 'duck-2', 'duck-3', 'duck-4', 'duck-5']);
+  const lastUnknownResult = expected.eventLog.filter((event) => event.type === 'race_result')
+    .filter((event) => !knownDuckIds.has(event.payload?.duckId)).at(-1);
+  let sawRaceExposure = false;
+  for (const event of suffix) {
+    const payload = event.payload ?? {};
+    if (id !== 'plan35.finale-race-entry.v1' || !['race_rest_policy_activated', 'race_choice_offered', 'race_trial_offer_shown'].includes(event.type)
+        || display.raceNumber !== 2 || (event.type !== 'race_rest_policy_activated' && payload.raceNumber !== 2)) fail(`Unexpected event-log suffix during ${id} restore: ${event.type}.`);
+    if (event.type === 'race_rest_policy_activated') {
+      const expectedBaseline = lastUnknownResult?.seq ?? -1;
+      if (sawRaceExposure || payload.policyVersion !== 'quackpot.race-rest/1'
+          || payload.historyBaselineSeq !== expectedBaseline || Boolean(payload.historyLimited) !== Boolean(lastUnknownResult)
+          || JSON.stringify(payload.rule) !== JSON.stringify({ interveningCompletedRaces: [0, 1, '2+'], restFactors: [0.5, 0.75, 1] })) {
+        fail('Finale rest-policy activation suffix does not match the real mounted race exposure path.');
+      }
+    } else if (event.type === 'race_choice_offered') {
+      sawRaceExposure = true;
+      const visibleIds = new Set(display.candidates.map((candidate) => candidate.id));
+      if (!Array.isArray(payload.candidates) || !payload.candidates.length
+          || payload.candidates.some((candidate) => !candidate.rendered || !visibleIds.has(candidate.duckId))) {
+        fail('Finale race-choice exposure suffix does not match mounted owned cards.');
+      }
+      const offeredIds = new Set(payload.candidates.map((candidate) => candidate.duckId));
+      if (payload.candidates.length !== visibleIds.size || offeredIds.size !== visibleIds.size
+          || [...visibleIds].some((duckId) => !offeredIds.has(duckId))) fail('Finale exposure omitted, duplicated, or added a mounted fully visible owned card.');
+      if (payload.trialState?.available !== Boolean(display.state?.raceTrialAvailable)
+          || payload.trialState?.selected !== false || !Number.isFinite(payload.trialState?.multiplier)
+          || !Number.isFinite(payload.fieldBaseSpeed)) fail('Finale race exposure controls do not match mounted selection/trial state.');
+      for (const candidate of payload.candidates) {
+        const mounted = display.candidates.find((item) => item.id === candidate.duckId);
+        const match = mounted?.effective.match(/Race rating\s+([0-9.]+)/);
+        const displayedRating = match ? Number(match[1]) : NaN;
+        if (!Number.isFinite(displayedRating) || Math.abs(displayedRating - candidate.effectiveBaseInput) > 1e-12
+            || !Number.isFinite(candidate.authoredRating) || !Number.isFinite(candidate.restFactor)
+            || !Number.isFinite(candidate.effectiveWithTrialInput)
+            || Math.abs(candidate.effectiveBaseInput - candidate.authoredRating * candidate.restFactor) > 1e-12
+            || Math.abs(candidate.effectiveWithTrialInput - candidate.effectiveBaseInput * payload.trialState?.multiplier) > 1e-12
+            || (candidate.restFactor < 1 && !mounted.reason.startsWith(`Needs rest · ${Math.round((1 - candidate.restFactor) * 100)}% lower`))
+            || (candidate.restFactor === 1 && !mounted.reason.startsWith('Rested.'))) fail(`Finale exposure values do not match mounted card ${candidate.duckId}.`);
+      }
+      if (payload.duckId !== null && !visibleIds.has(payload.duckId)) fail('Finale exposure selected duck is absent from mounted cards.');
+      const checked = display.candidates.find((candidate) => candidate.checked)?.id ?? null;
+      const expectedSelected = checked ?? payload.candidates[0]?.duckId ?? null;
+      if (payload.selectedDuckId !== expectedSelected) fail('Finale race exposure selected identity differs from the mounted checked card or first offered card.');
+    } else if (!display.trialText || payload.costDown !== 3 || payload.availableDown !== display.state?.down
+        || payload.alreadyPurchased !== Boolean(display.state?.raceTrialAvailable)) {
+      fail('Finale trial exposure suffix does not match the mounted offer and restored save.');
+    }
+  }
+  return true;
+}
+
 async function pageSave(cdp, page, label) {
   const raw = await evaluate(cdp, page.sessionId, `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`);
   if (!raw) fail(`${label}: ordinary application save key was empty.`);
@@ -35,18 +88,19 @@ async function assertRestoredPrefix(cdp, page, expected, id) {
   if (id !== 'plan35.finale-race-entry.v1' && suffix.length) fail(`${id} appended events during restore.`);
   const display = await evaluate(cdp, page.sessionId, `(() => ({
     raceNumber: document.querySelector('#main-content')?.innerText.includes('Championship Race') ? 2 : null,
-    candidates: [...document.querySelectorAll('.race-candidate-card')].map(c => ({id:c.dataset.candidateId, text:c.innerText})),
-    text: document.querySelector('#main-content')?.innerText ?? ''
+    candidates: [...document.querySelectorAll('.race-candidate-card')].filter(c => {
+      if(document.visibilityState==='hidden') return false;
+      for(let a=c;a instanceof Element;a=a.parentElement){const s=getComputedStyle(a);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return false;}
+      const r=c.getBoundingClientRect(),h=document.querySelector('#hud-container'),hr=h?.getBoundingClientRect(),hs=h?getComputedStyle(h):null;
+      const covered=hr&&hs?.position==='sticky'&&hr.top<=0&&hr.bottom>0&&r.top<hr.bottom&&r.right>hr.left&&r.left<hr.right;
+      return !covered&&r.width>0&&r.height>0&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight;
+    }).map(c => ({id:c.dataset.candidateId,checked:Boolean(c.querySelector('input[name="duckId"]')?.checked),
+      name:c.querySelector('.race-candidate-name')?.innerText??'', effective:c.querySelector('.race-candidate-effective')?.innerText??'',
+      reason:c.querySelector('.race-candidate-reason')?.innerText??''})),
+    trialText: document.querySelector('[data-race-trial]')?.innerText ?? '',
+    state: JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.state ?? null
   }))()`);
-  for (const event of suffix) {
-    const payload = event.payload ?? {};
-    if (id !== 'plan35.finale-race-entry.v1' || !['race_choice_offered', 'race_trial_offer_shown'].includes(event.type)
-        || payload.raceNumber !== 2) fail(`Unexpected event-log suffix during ${id} restore: ${event.type}.`);
-    if (event.type === 'race_choice_offered') {
-      const visibleIds = new Set(display.candidates.map((candidate) => candidate.id));
-      if (!Array.isArray(payload.duckIds) || payload.duckIds.some((duckId) => !visibleIds.has(duckId))) fail('Finale race-choice exposure suffix does not match mounted owned cards.');
-    }
-  }
+  validateExposureSuffix(suffix, display, id, expected);
   return { ...observed, restoreComparison: { exactState: true, exactPrngStreams: true,
     exactEventLogPrefix: true, allowedExposureSuffix: suffix } };
 }
@@ -187,7 +241,7 @@ async function capturePhase(phase) {
     const page = await createIsolatedPage(browser, startRaw);
     await assertAppReady(browser.cdp, page, JSON.parse(startRaw));
     await mounted(browser.cdp, page.sessionId, pageSelector, 'mounted capture parent action');
-    const before = await pageSave(browser.cdp, page, 'capture before action');
+    const before = await assertRestoredPrefix(browser.cdp, page, JSON.parse(startRaw), parent.id);
     const loadToActionStartedAt = Date.now();
     let pointer = await clickPointer(browser.cdp, page.sessionId, pageSelector);
     if (phase === 'capture-finale-race-entry') {
@@ -223,7 +277,8 @@ async function capturePhase(phase) {
       [{ action: routeAction, pointer }], { visibleText: (await evaluate(browser.cdp, page.sessionId, `document.querySelector('#main-content')?.innerText ?? ''`)).slice(0, 1200),
         state: { step: after.envelope.state.step, activeModal: after.envelope.state.activeModal, cash: after.envelope.state.cash },
         eventLogHead: after.envelope.eventLog.at(-1)?.chain ?? 'genesis', eventDelta: capturedDelta.map((event) => ({ type: event.type, payload: event.payload })),
-        beforeHash: before.hash, afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt });
+        parentFixtureSha256: sha256(startRaw), restoredSaveSha256: before.hash, restoreComparison: before.restoreComparison,
+        afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt });
   } finally { cleanup = await closeIsolatedChrome(browser); }
   if (cleanup?.residual || cleanup?.uncertainty) fail(`Chrome cleanup is not confirmed: ${JSON.stringify(cleanup)}`);
   const loadable = await markCaptureLoadable(targetId, captureResult.sha256);
@@ -297,20 +352,36 @@ async function pilotPhase(phase) {
       const displayed = await evaluate(browser.cdp, page.sessionId, `(() => { const c=document.querySelector(${JSON.stringify(selector)}); return c ? {checked:Boolean(c.querySelector('input[name="duckId"]')?.checked), selected:c.classList.contains('selected'), text:c.innerText} : null; })()`);
       const after = await pageSave(browser.cdp, page, 'finale selection pilot after action');
       validateAndHydrate(after.envelope, id);
-      const raceChoice = after.envelope.eventLog.slice(before.envelope.eventLog.length)
-        .filter((event) => event.type === 'action' && event.payload?.kind === 'race_choice' && event.payload?.raceId === 'R02');
+      const selectionDelta = after.envelope.eventLog.slice(before.envelope.eventLog.length);
+      const raceChoice = selectionDelta.filter((event) => event.type === 'action' && event.payload?.kind === 'race_choice' && event.payload?.raceId === 'R02');
+      const mountedAfterSelection = await evaluate(browser.cdp, page.sessionId, `(() => ({
+        raceNumber: document.querySelector('#main-content')?.innerText.includes('Championship Race') ? 2 : null,
+        candidates: [...document.querySelectorAll('.race-candidate-card')].filter(c => {
+          if(document.visibilityState==='hidden') return false;
+          for(let a=c;a instanceof Element;a=a.parentElement){const s=getComputedStyle(a);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return false;}
+          const r=c.getBoundingClientRect(),h=document.querySelector('#hud-container'),hr=h?.getBoundingClientRect(),hs=h?getComputedStyle(h):null;
+          const covered=hr&&hs?.position==='sticky'&&hr.top<=0&&hr.bottom>0&&r.top<hr.bottom&&r.right>hr.left&&r.left<hr.right;
+          return !covered&&r.width>0&&r.height>0&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight;
+        }).map(c=>({id:c.dataset.candidateId,checked:Boolean(c.querySelector('input[name="duckId"]')?.checked),
+          effective:c.querySelector('.race-candidate-effective')?.innerText??'',reason:c.querySelector('.race-candidate-reason')?.innerText??''})),
+        trialText: document.querySelector('[data-race-trial]')?.innerText??'',
+        state: JSON.parse(localStorage.getItem(${JSON.stringify(STORAGE_KEY)}))?.state??null
+      }))()`);
+      validateExposureSuffix(selectionDelta, mountedAfterSelection, id, before.envelope);
       if (!displayed?.checked || !displayed.selected || raceChoice.length) fail('Finale selection was not displayed honestly or unexpectedly committed a race choice.');
       if (JSON.stringify(before.envelope.state) !== JSON.stringify(after.envelope.state)
           || JSON.stringify(before.envelope.prngStreams) !== JSON.stringify(after.envelope.prngStreams)) fail('Pre-submit race selection changed engine state or RNG.');
       observation = { action: 'select one naturally tired or never-raced owned racer card; do not submit', pointer, raceNumber: selected.raceNumber,
         actualRoster: selected.roster, restContrast: { tired: selected.tired, neverRaced: selected.never }, selected: selected.target, displayed,
+        selectionExposureDeltaValidated: true,
         beforeHash: before.hash, afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt,
         eventLogDelta: after.envelope.eventLog.slice(before.envelope.eventLog.length), engineStateUnchanged: true, rngUnchanged: true };
     }
 
     const sentinelAfter = await evaluate(browser.cdp, sentinelPage.sessionId, `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`);
     if (sentinelAfter !== sentinelRaw) fail('Independent isolated ordinary-save sentinel changed during checkpoint review.');
-    result = { phase, checkpointId: id, fixtureSha256: start.fixture.hash, sourceClosureSha256: start.entry.provenance.sourceClosureSha256,
+    result = { phase, checkpointId: id, fixtureSha256: start.fixture.hash, restoredSaveSha256: before.hash,
+      restoreComparison: before.restoreComparison, sourceClosureSha256: start.entry.provenance.sourceClosureSha256,
       servedSourceMapSha256,
       loaderSha256: start.freshness.loaderSha256, briefSha256: sha256(briefBytes), viewport: { width: 1365, height: 900 }, observation,
       sentinelPreserved: true };

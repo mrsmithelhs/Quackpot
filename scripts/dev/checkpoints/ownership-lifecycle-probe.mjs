@@ -1,6 +1,7 @@
 // Finite, local-only inspection of Plan 35 owned-process lifecycle helpers.
 // Run only after root source review and explicit command clearance.
 import { spawn } from 'node:child_process';
+import { access } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { inspectOwnedIdentities, startOwnedProcessMonitor } from './process-tree.mjs';
@@ -94,6 +95,12 @@ async function startupFailureCase() {
   const caseStarted = Date.now();
   const deadline = Math.min(caseStarted + MAX_CASE_MS, Date.now() + remainingTotalMs());
   const missingExecutable = path.join(ROOT, 'scripts/dev/checkpoints/__qp35_missing_owned_executable__.exe');
+  try {
+    await access(missingExecutable);
+    fail('startup-failure probe path exists; refusing to launch an unexpected executable.');
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
   const record = trackSpawn(missingExecutable, []);
   while (Date.now() < deadline && !record.error && !record.close) await delay(25);
   if (!record.error || record.pid !== null) {
@@ -116,19 +123,21 @@ async function inspectionFailureCase() {
   catch (error) { stickyError = error; }
   if (!initialError?.message.includes('Invalid owned process root PID')
       || !stickyError?.message.includes('Invalid owned process root PID')) fail('inspection-failure: invalid root did not fail and remain sticky.');
-  outcomes.push({ name: 'inspection-failure', result: 'pass', initialRejected: true, uncertaintySticky: true,
+  outcomes.push({ name: 'inspection-failure', case: 'invalid-root-input-only', result: 'pass', initialRejected: true, uncertaintySticky: true,
     processKillAttempted: false, elapsedMs: Date.now() - caseStarted });
 }
 
 async function main() {
   if (process.platform !== 'win32') fail('This bounded ownership probe requires the reviewed Windows process-tree inspector.');
-  await runMonitoredCase('normal-exit', 'setTimeout(() => process.exit(0), 700)');
+  await runMonitoredCase('normal-exit', 'setTimeout(() => process.exit(0), 2500)');
   await runMonitoredCase('parent-early-exit',
     "const { spawn } = require('node:child_process'); const child = spawn(process.execPath, ['-e', 'setTimeout(() => process.exit(0), 4500)'], { windowsHide: true, stdio: 'ignore' }); setTimeout(() => process.exit(0), 2500);",
     { expectedLiveDescendant: true });
   await startupFailureCase();
   await inspectionFailureCase();
-  const result = { probe: 'plan35-owned-process-lifecycle/1', startedAt: new Date(startedAt).toISOString(),
+  const result = { probe: 'plan35-owned-process-lifecycle/1',
+    coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
+    startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, limits: { caseMs: MAX_CASE_MS,
       totalMs: MAX_TOTAL_MS, cleanupReserveMs: MAX_TOTAL_MS - MAX_CASE_MS * 4, maxOutputBytes: MAX_OUTPUT_BYTES }, outcomes };
   const line = `${JSON.stringify(result)}\n`;
@@ -137,7 +146,9 @@ async function main() {
 }
 
 main().catch((error) => {
-  const result = { probe: 'plan35-owned-process-lifecycle/1', startedAt: new Date(startedAt).toISOString(),
+  const result = { probe: 'plan35-owned-process-lifecycle/1',
+    coverageLimit: 'Exercises monitoring/identity helpers with naturally exiting children only; does not exercise cdp/launcher shutdown, forced termination, or mid-run CIM outage.',
+    startedAt: new Date(startedAt).toISOString(),
     finishedAt: new Date().toISOString(), elapsedMs: Date.now() - startedAt, status: 'failed-or-uncertain',
     error: (error.stack || error.message).slice(0, 3000), outcomes };
   const line = `${JSON.stringify(result)}\n`;

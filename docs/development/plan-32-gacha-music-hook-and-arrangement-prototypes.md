@@ -39,4 +39,18 @@ Return source/provenance and proposed listening matrix, practical looping/crossf
 
 ## Workflow and validation
 
+**Owner intake and research direction, 2026-10-30:** Twelve Gemini web-app Create
+music MP3 references are now in the ignored generated-references folder, six with
+the attached short C WAV and six baselines. Owner likes the musical results but
+reports weak motif fidelity; only04-The_Penny_Prize_Dispenser-with-c.mp3 seemed close.
+This is listening feedback, not proof of the model's conditioning mechanism. Owner
+wants better-grounded reference/prompt research before another generation round,
+including future Suno comparison. Root's first evidence pass is
+reference-conditioning-study/research-01.md in this packet's report folder. Verify
+the exact input mode before optimizing prompts; preserve old experiments and the
+chosen C source. No new renders/generations/installs/transcription or production
+adoption follows automatically. Old arrangement work remains stopped; this is not
+approval to rerun rejected extended melodies. Return a small capability-tested
+experiment brief with version/date/settings, fidelity rubric and actual quota needs.
+
 Read AGENTS.md, docs/decision-log.md, docs/development/README.md and docs/repo-structure.md. Run node scripts/dev/plan-status.js check plan-32 before starting; stop if nonzero. Draft is not assignment authority. Exact source/file/reviewer/browser/tool budget proposed before experiments; no blanket fanout. Resource guard/serial bounded processes required under current root instructions, no watchers/large unattended sweeps. Verify against actual artifacts, distinguish measured from proposed; no runtime report imports, external runtime calls or private/student data. Exact local asset licenses and factual Credits mandatory; selection and integration separate. Commit explicit owned reports/progress last, no packetstatus/rootrecord edits/push/deploy. Include source/assumptions, tested and untested coverage, findings, consultation posture and owner decisions still needed.

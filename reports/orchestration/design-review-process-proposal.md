@@ -4,6 +4,12 @@ Date: 2026-10-30. Request: retain a fast owner-facing design interview while red
 poorly contextualized choices and late orchestration confusion. This report proposes
 a replacement; it does not adopt a new recording-authority policy automatically.
 
+**Owner pilot approval, same date:** The owner approves the staged interview pilot
+and will run it with Gemini Flash. Use
+reports/orchestration/design-review-gemini-flash-pilot-handoff.md and the staged
+prompt candidate. The current default prompt is not replaced yet; compare the first
+coherent stage and orchestration checkpoint before selecting general rollout.
+
 ## What the existing prompt does well
 
 It separates review from implementation, supports concrete requests without forcing

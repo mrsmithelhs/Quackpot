@@ -370,3 +370,21 @@ selection of thresholds or new endings. No such rules are implemented by Plan28.
 Actual player commitments, automatic character consequences and displayed evidence
 remain distinguishable; no inferred motive is a Receipt fact. Immediate exit and
 save/reload/idempotency constraints remain binding. No push or deployment.
+
+### DECISION-035 — Staged interview pilot and melody-reference investigation
+
+**Date:** 2026-10-30
+
+Owner approves a first staged design-review pilot with Gemini Flash, using the
+proposed replacement prompt and a coherent Plan37 topic. Default prompt rollout
+remains separate from pilot acceptance. Preserve owner selections separately from
+agent implications, and use a compact checkpoint before dependent propagation.
+
+Owner supplies twelve Gemini-generated music references and reports enjoyable music
+but weak chosen-C fidelity, with04-The_Penny_Prize_Dispenser-with-c.mp3 the only close
+candidate. Exact interface is Gemini web app Create music; the WAV was attached to
+each with-C request. Owner requests current, evidence-grounded reference/prompt
+research before more generations, including eventual Suno trials. Reference intake
+and root research are not new audio selection or production adoption. Original C and
+rejected extension histories stay intact; no account/tool/model installation or
+generation quota is authorized by the research direction alone.

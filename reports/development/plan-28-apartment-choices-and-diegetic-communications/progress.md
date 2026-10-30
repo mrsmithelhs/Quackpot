@@ -389,6 +389,21 @@ would not have helped.
   in `gallery/README.md`.
 - **Tests:** none added yet. Gallery tests wait for the owner's selection.
 
+## Stage 5b: gallery feedback, duck poses (2026-10-30)
+
+- **Owner feedback:**
+  - Two bugs: the T3 notepad couldn't be put down, and the mix's go-to-work after the shift did nothing. Both fixed and
+    verified.
+  - D17: use the owner's Vite dev server on 5173.
+  - D18: duck pose and perch expansion authorised, with Haiku help.
+  - D19: the owner likes the recommended mix.
+- **Built:**
+  - `gallery/duck-layer.mjs` (by the lead): kit duck removed in the page only; posed duck drawn from the kit's
+    `renderDuck`; gaze helpers.
+  - `gallery/perches.mjs`: Haiku draft, reviewed visually.
+  - No apartment-kit file was changed. Adopting poses or perches into the kit is a Plan 25 matter for root.
+- **Evidence:** `gallery/README.md` session 2.
+
 ## Ready for orchestrator review
 
 **Not yet.** Waiting on the owner's selection from the gallery. After that, the selected treatment gets refined

@@ -39,6 +39,9 @@ body { margin: 0; font-family: var(--ui); color: var(--ink); background: var(--p
 /* posed duck and its perch (report-local, drawn from the kit's own duck artwork) */
 .duck-layer { position: absolute; inset: 0; overflow: hidden; border-radius: .85rem; pointer-events: none; }
 .perch, .duck-pose { position: absolute; }
+.duck-flip { position: relative; }
+.duck-wedge { position: absolute; display: block; }
+.duck-wedge svg { display: block; width: 100%; height: 100%; }
 .perch svg, .duck-body svg { display: block; width: 100%; height: auto; }
 .duck-contact { position: absolute; left: 22%; right: 22%; bottom: 3%; height: 7%; border-radius: 50%; background: rgba(0, 0, 0, .22); filter: blur(2px); }
 .duck-top .duck-body { filter: drop-shadow(.4rem .6rem .35rem rgba(0, 0, 0, .3)); }

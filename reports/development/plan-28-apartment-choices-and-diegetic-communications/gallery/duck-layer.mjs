@@ -45,20 +45,28 @@ export function headingToward(from, to) {
 
 /**
  * Lean (CSS degrees) for a side-view duck so its gaze tilts toward `to`: positive looks up.
- * Clamped to a believable tilt for a duck resting against something.
+ * Clamped to a believable tilt for a duck propped on something; `gain` 1 aims straight at the target.
  */
-export function leanToward(from, to, max = 22) {
+export function leanToward(from, to, max = 22, gain = 0.6) {
   const dx = Math.abs(to.x - from.x) * ROOM_ASPECT;
   const dy = from.y - to.y;
   const deg = (Math.atan2(dy, dx) * 180) / Math.PI;
-  return Math.max(-max, Math.min(max, Math.round(deg * 0.6)));
+  return Math.max(-max, Math.min(max, Math.round(deg * gain)));
 }
+
+// Owner D21: a tilt needs a believable object under the raised end, and tiny tilts are not worth drawing.
+export const MIN_TILT = 12;
+// Side duck (native, facing left) in its 360x270 box: chest and tail contact points on its base line.
+const CHEST = [0.3, 250 / 270];
+const TAIL = [0.78, 250 / 270];
 
 /**
  * HTML for one posed duck, positioned in the room by percentages.
  *   pose.view    'side' | 'front' | 'rear' | 'top'
  *   pose.facing  'left' | 'right' (side view; the kit's side duck faces left)
- *   pose.lean    degrees, side view: positive tips the beak up (resting back against something), negative down
+ *   pose.lean    degrees, side view: positive looks up (chest raised), negative looks down (tail raised).
+ *                Drawn only with pose.wedge and only if |lean| >= MIN_TILT; otherwise the duck sits level.
+ *   pose.wedge   name of the object under the raised end (perches.WEDGE_NAMES), e.g. 'paperback'
  *   pose.turn    degrees clockwise, top view: heading; the native overhead duck's beak points left
  *   pose.x/y     the duck's base point (top view: its centre), % of the room; ignored when `perch` is given
  *   pose.size    duck width as % of the room width (smaller = farther away)
@@ -79,13 +87,27 @@ export function duckLayerHtml(pose, idPrefix) {
     perchHtml = `<div class="perch" style="left:${px}%;top:${py}%;width:${w}%">${made.svg}</div>`;
   }
   const [bx, by] = BASE[view];
-  const mirror = view === 'side' && pose.facing === 'right' ? ' scaleX(-1)' : '';
-  const rot = view === 'top' ? pose.turn ?? 0 : pose.lean ?? 0;
-  // CSS applies right to left: rotate first (a left-facing duck tips its beak up with a clockwise turn), then mirror.
-  const transform = `${mirror} rotate(${rot}deg)`.trim();
   const duck = renderDuck(view, { idPrefix: `${idPrefix}-d`, decorative: true });
-  const shadow = view === 'top' ? '' : '<span class="duck-contact" aria-hidden="true"></span>';
+  let inner;
+  if (view === 'top') {
+    inner = `<div class="duck-body" style="transform-origin:50% 50%;transform:rotate(${pose.turn ?? 0}deg)">${duck}</div>`;
+  } else {
+    const tilt = view === 'side' && pose.wedge && Math.abs(pose.lean ?? 0) >= MIN_TILT ? pose.lean : 0;
+    let wedge = '';
+    let origin = `${bx * 100}% ${by * 100}%`;
+    if (tilt) {
+      // Looking up: pivot on the tail, the chest rests on the wedge. Looking down: pivot on the chest, tail on the wedge.
+      const [pivot, raised] = tilt > 0 ? [TAIL, CHEST] : [CHEST, TAIL];
+      origin = `${pivot[0] * 100}% ${pivot[1] * 100}%`;
+      const lift = Math.abs(pivot[0] - raised[0]) * 360 * Math.sin((Math.abs(tilt) * Math.PI) / 180); // box units
+      const bookW = 0.34;
+      wedge = `<span class="duck-wedge" style="left:${(raised[0] - bookW / 2) * 100}%;width:${bookW * 100}%;top:${((raised[1] * 270 - lift) / 270) * 100}%;height:${(lift / 270) * 100}%">${perches[pose.wedge]({ idPrefix: `${idPrefix}-w` })}</span>`;
+    }
+    const contact = '<span class="duck-contact" aria-hidden="true"></span>';
+    const body = `<div class="duck-body" style="transform-origin:${origin};transform:rotate(${tilt}deg)">${duck}</div>`;
+    // Mirror the whole group (contact shadow, wedge, duck) so the wedge stays under the correct end.
+    inner = `<div class="duck-flip"${view === 'side' && pose.facing === 'right' ? ' style="transform:scaleX(-1)"' : ''}>${contact}${wedge}${body}</div>`;
+  }
   return `${perchHtml}<div class="duck-pose duck-${view}" aria-hidden="true"
-      style="left:${x}%;top:${y}%;width:${pose.size}%;transform:translate(${-bx * 100}%, ${-by * 100}%)">
-      ${shadow}<div class="duck-body" style="transform-origin:${bx * 100}% ${by * 100}%;transform:${transform}">${duck}</div></div>`;
+      style="left:${x}%;top:${y}%;width:${pose.size}%;transform:translate(${-bx * 100}%, ${-by * 100}%)">${inner}</div>`;
 }

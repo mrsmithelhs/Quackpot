@@ -117,8 +117,9 @@ const NOTICE_AT = { x: 8.4, y: 33 }; // centre of the fridge notice
  * The duck as conscience (owner D14): it looks at the moment's important responsibility and, once that is done,
  * turns to face you. `kit` is where the kit had drawn its own duck (base point and width, % of the room).
  */
-const sideGaze = (base, target, { facing, size, perch } = {}) => ({ view: 'side', facing: facing ?? (target.x < base.x ? 'left' : 'right'),
-  lean: leanToward(base, target), size, x: base.x, y: base.y, perch });
+// A tilt is drawn only with a wedge object under the raised end (owner D21); without one the duck sits level.
+const sideGaze = (base, target, { facing, size, perch, wedge } = {}) => ({ view: 'side', facing: facing ?? (target.x < base.x ? 'left' : 'right'),
+  lean: wedge ? leanToward(base, target, 25, 1) : 0, wedge, size, x: base.x, y: base.y, perch });
 const topGaze = (centre, target, size) => ({ view: 'top', turn: headingToward(centre, target), size, x: centre.x, y: centre.y });
 const SHELF_BY_FRIDGE = { name: 'wallShelf', width: 120, x: 18, y: 40, w: 8 };
 const shelfSeat = { x: 22, y: 43.3 }; // seat of SHELF_BY_FRIDGE (computed from the perch geometry) // fridge door, kitchen-wide (duck side faces left, toward it)
@@ -171,8 +172,8 @@ const DUCKS = {
   // overhead: turned on the desk toward the envelope / the notepad
   'T2-rent': () => topGaze({ x: 49, y: 61 }, { x: 45.5, y: 19 }, 17),
   'T3-list': () => topGaze({ x: 49, y: 61 }, { x: 22, y: 58 }, 17),
-  // desk side: facing right toward the phone, leaning back so its gaze rises to the screen over the mug
-  'T2-shift': (e, kit) => sideGaze(kit, { x: 71, y: 38 }, { facing: 'right', size: kit.w }),
+  // desk side: facing right toward the phone, chest resting on a paperback so its gaze rises to the screen over the mug
+  'T2-shift': (e, kit) => sideGaze(kit, { x: 71, y: 38 }, { facing: 'right', size: kit.w, wedge: 'paperback' }),
   // living room: on the TV console, facing right toward the couch
   'T4-couch': (e, kit) => sideGaze({ x: 21, y: 63.5 }, { x: 80, y: 55 }, { facing: 'right', size: kit.w * 1.05 }),
   // kitchen counter: looking down and left at the plate
@@ -231,8 +232,8 @@ function renderRoom() {
   const poseFor = DUCKS[m.id];
   let pose = poseFor ? poseFor(e, kit) : null;
   // Conscience at ease: once every responsibility here is done, the duck turns to face you where it sits.
-  if (pose && objects.length && objects.every((o) => o.done)) pose = { ...pose, view: pose.view === 'top' ? 'top' : 'front', lean: 0, facing: 'left' };
-  if (pose && !objects.length && facts(e).couchSold) pose = { ...pose, view: 'front', lean: 0 };
+  if (pose && objects.length && objects.every((o) => o.done)) pose = { ...pose, view: pose.view === 'top' ? 'top' : 'front', lean: 0, wedge: undefined, facing: 'left' };
+  if (pose && !objects.length && facts(e).couchSold) pose = { ...pose, view: 'front', lean: 0, wedge: undefined };
   $('#duck-layer').innerHTML = pose ? duckLayerHtml(pose, uid('dk')) : '';
   $('#objects').innerHTML = '';
   for (const o of objects) {

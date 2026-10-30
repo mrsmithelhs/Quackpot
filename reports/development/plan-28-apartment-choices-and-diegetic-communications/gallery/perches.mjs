@@ -24,6 +24,7 @@ const shadow = (p, cx, cy, rx, ry) =>
   `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="rgba(0,0,0,.18)" filter="url(#${p}-blur)"/>`;
 
 export const PERCH_NAMES = Object.freeze(['wallShelf', 'bookStack', 'crate', 'windowLedge']);
+export const WEDGE_NAMES = Object.freeze(['paperback']);
 
 export function wallShelf({ idPrefix, width = 160 } = {}) {
   checkId(idPrefix);
@@ -84,4 +85,16 @@ export function windowLedge({ idPrefix, width = 220 } = {}) {
     `<rect x="4" y="16" width="${W - 8}" height="12" rx="2" fill="#cfc6b4" stroke="${OUT}" stroke-width="2"/>` +
     `<rect x="4" y="10" width="${W - 8}" height="6" rx="2" fill="#e9e2d3" stroke="${OUT}" stroke-width="2"/>`;
   return { svg: wrap(W, 40, p, body), seat: { x: W / 2, y: 13 } };
+}
+
+/**
+ * A closed paperback lying flat, seen from the front: the believable object under one end of a tilted duck (owner D21).
+ * Added by the lead. Drawn to stretch (preserveAspectRatio none) so its thickness can match the lift it supports.
+ */
+export function paperback({ idPrefix } = {}) {
+  checkId(idPrefix);
+  const body = `<rect x="2" y="2" width="96" height="12" rx="2" fill="#5b7fa6" stroke="${OUT}" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`
+    + `<rect x="8" y="4.5" width="84" height="7" rx="1" fill="#f3ead6" stroke="#cbbf9f" stroke-width="1" vector-effect="non-scaling-stroke"/>`
+    + `<rect x="2" y="2" width="96" height="2.5" fill="#6f8fb3"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 16" preserveAspectRatio="none" aria-hidden="true" focusable="false">${body}</svg>`;
 }

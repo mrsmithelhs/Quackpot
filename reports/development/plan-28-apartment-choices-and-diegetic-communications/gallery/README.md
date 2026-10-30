@@ -160,3 +160,21 @@ wait until a treatment is selected, so effort goes into the chosen design.
 
 **Not yet covered:** the crate, book stack and ledge perches aren't placed in any moment yet, and there are no unit
 tests for `headingToward` or `leanToward`.
+
+## Session 3: selection and the tilt rule (2026-10-30, lead, owner's Vite dev server)
+
+- **Owner selection (D20):** the recommended mix. Top-down desk moments (T3, T2 rent) stay as a reserved option for
+  future moments where turning the duck to any heading suits the choice.
+- **Tilt rule (D21), enforced in `duck-layer.mjs`.**
+  - A side-view duck tilts only when `pose.wedge` names an object under its raised end, and only by at least
+    `MIN_TILT` (12°). Otherwise it sits level.
+  - Looking up pivots on the tail, with the chest on the wedge. Looking down pivots on the chest, with the tail on the
+    wedge.
+  - The wedge's thickness is computed from the tilt, so the raised end rests on it.
+  - With a wedge, the duck aims straight at its target, capped at 25°.
+- **New wedge.** `paperback` in `perches.mjs`, added by the lead.
+- **Where tilts happen now.** Only on the desk-side phone moment: the duck faces right with its chest on a paperback,
+  tilted 25° toward Marisol's message. Every other moment is level: the fridge shelf, the TV console, and the counter
+  by the plate.
+- **Checked:** both poses, by looking at the room scaled up on the page, at 1280×720.
+

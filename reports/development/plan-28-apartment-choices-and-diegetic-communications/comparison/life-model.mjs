@@ -61,9 +61,19 @@ const BLANK_PHONE = Object.freeze({ status: '', brand: '', heading: [], body: []
  * Travelling-companion baseline (owner D2): the duck sits where the character is, still within each composition.
  * The only open framing question compared is the morning ledger (`medium` close on the bar vs `wide` kitchen).
  */
+/**
+ * Owner decision (2026-10-30): the whole kitchen once as the Day 1 establishing shot, then the close counter view so
+ * the duck stays readable at phone width. 'medium' or 'wide' force one framing for reviewer comparison.
+ */
+export function morningFramingFor(day, override = 'owner') {
+  if (override === 'medium' || override === 'wide') return override;
+  return day === 1 ? 'wide' : 'medium';
+}
+
 export function sceneFor(moment, { idPrefix, assetsSold = [], morningFraming = 'medium', phone = null, offerStep = null } = {}) {
   const base = { idPrefix, decorative: true };
   switch (moment) {
+    case 'breakfast':
     case 'ledger':
       return { ...base, area: 'kitchen', framing: morningFraming, light: 'window', duckView: 'front' };
     case 'rent-due':

@@ -8,6 +8,7 @@ import { effectFromEvents, ledgerFacts, previewLadder, previewZeroCash } from '.
 export const RENT_SENDER = 'Harbor Court Property Office';
 export const SHIFT_SENDER = 'Marisol · Harbor Street Diner';
 export const RENT_AMOUNT = GAME_CONSTANTS.RENT_DAY2;
+export const BREAKFAST_AMOUNT = GAME_CONSTANTS.FOOD_DAILY;
 
 export const money = (n) => `$${Math.abs(n).toFixed(2)}`;
 const signedMoney = (n) => `${n < 0 ? '−' : '+'}${money(n)}`;
@@ -39,6 +40,24 @@ export function ledgerView(entries, day) {
     provenance: 'log-projection',
     card: { kind: 'note', heading: `Day ${day} morning`, aside: MORNING_LINES[day] ?? '', lines },
     controls: [{ id: 'continue', label: 'Continue', primary: true }],
+    facts: f,
+  };
+}
+
+/**
+ * Owner decision (2026-10-30): breakfast is a tap at the kitchen. Nothing is charged before the tap, and there is no
+ * skip control: skipping a meal is a Plan 37 rule. After the tap the morning ledger reports the recorded payment.
+ */
+export function breakfastView(engine, day) {
+  const f = ledgerFacts(engine.log.entries, day);
+  const lines = [];
+  if (f.wage) lines.push(`Last night's wage: +${money(f.wage.amount)}.`);
+  lines.push(`Breakfast: ${money(BREAKFAST_AMOUNT)}, not paid yet.`, `Cash on hand: ${money(engine.state.cash)}.`);
+  return {
+    moment: 'breakfast',
+    provenance: 'live-engine',
+    card: { kind: 'note', heading: `Day ${day} morning`, aside: MORNING_LINES[day] ?? '', lines },
+    controls: [{ id: 'breakfast:pay', label: `Pay for breakfast (${money(BREAKFAST_AMOUNT)})`, primary: true }],
     facts: f,
   };
 }
@@ -163,6 +182,7 @@ export function standinView(kind) {
     'race-2': ['Next on the phone: race 2', 'The gacha and races are outside this prototype.'],
     receipt: ['This run has ended', 'The Receipt would open next. It is outside this prototype.'],
     quackpot: ['Quackpot (landscape phone)', 'Stand-in only. The phone turns back to portrait when you return.'],
+    'food-ladder': ['Breakfast needs the existing food path', 'Cash ran short of breakfast, or breakfast left exactly $0.00. The production food handling applies; it is outside this prototype.'],
   }[kind];
   return {
     moment: 'standin', provenance: 'display-only',

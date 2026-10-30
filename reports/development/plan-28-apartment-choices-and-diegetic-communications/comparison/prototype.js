@@ -4,8 +4,8 @@
 import { renderScene } from '../../../../src/assets/apartment/index.mjs';
 import { createStageTransition } from '../../../../src/ui/stage-transition.js';
 import { loadRentFixture } from './fixtures.mjs';
-import { lifeLocation, sceneFor, snapshotOf } from './life-model.mjs';
-import { RENT_AMOUNT, ledgerView, outcomeView, paidZeroView, rentDueView, rentUnpaidView, returnView, standinView } from './views.mjs';
+import { lifeLocation, morningFramingFor, sceneFor, snapshotOf } from './life-model.mjs';
+import { BREAKFAST_AMOUNT, RENT_AMOUNT, breakfastView, ledgerView, outcomeView, paidZeroView, rentDueView, rentUnpaidView, returnView, standinView } from './views.mjs';
 
 const REPO_ROOT = new URL('../../../../', import.meta.url);
 const $ = (s) => document.querySelector(s);
@@ -126,7 +126,7 @@ function show(view, extra = {}, { rerender = false } = {}) {
   const options = sceneFor(moment, {
     idPrefix: `p28-s${++sceneSeq}`,
     assetsSold: engine?.state.assetsSold ?? [],
-    morningFraming: $('#morning-framing').value,
+    morningFraming: morningFramingFor(view.facts?.day, $('#morning-framing').value),
     phone: phoneFor(view),
     offerStep: view.offerStep ?? null,
   });
@@ -220,6 +220,13 @@ async function act(id, generation) {
     if (result.paid && !result.zeroCash) return show(outcomeView(engine, { choice: 'pay', before }));
     return showEngineMoment();
   }
+  if (id === 'breakfast:pay') {
+    // The same food charge main.js makes inside proceedToDay2Evening, moved to the player's tap (owner decision).
+    const result = engine.billExpense('food', BREAKFAST_AMOUNT);
+    if (!result.paid || result.zeroCash) return show(standinView('food-ladder'));
+    engine.state.step = 'd3_midday_race';
+    return show(ledgerView(engine.log.entries, ui.view.facts.day), { next: 'race-2' });
+  }
   if (id === 'zero:continue') {
     engine.chooseZeroCashOption('continue');
     return evening();
@@ -257,14 +264,15 @@ async function act(id, generation) {
   throw new Error(`Unhandled control ${id}`);
 }
 
-/** main.js:658-665 proceedToDay2Evening, in the same order; then the Day 3 morning ledger from the new events. */
+/**
+ * main.js:658-665 proceedToDay2Evening in the same order, except the food charge: by owner decision it waits for the
+ * breakfast tap on the Day 3 morning note.
+ */
 function evening() {
   const engine = ui.engine;
   engine.creditWage();
   engine.advanceDay(3, 'day 3 morning');
-  engine.billExpense('food', 5.00);
-  engine.state.step = 'd3_midday_race';
-  return show(ledgerView(engine.log.entries, 3), { next: 'race-2' });
+  return show(breakfastView(engine, 3));
 }
 
 // ---------- reviewer panel ----------
@@ -291,7 +299,7 @@ function renderReviewer() {
 $('#scenario').addEventListener('change', (e) => runScenario(e.target.value));
 $('#reset').addEventListener('click', () => runScenario($('#scenario').value));
 $('#morning-framing').addEventListener('change', () => {
-  if (ui.view?.moment === 'ledger' && !ui.busy) { ui.focusOnRender = false; show(ui.view, {}, { rerender: true }); }
+  if ((ui.view?.moment === 'ledger' || ui.view?.moment === 'breakfast') && !ui.busy) { ui.focusOnRender = false; show(ui.view, {}, { rerender: true }); }
 });
 
 runScenario('paid-zero');

@@ -1,5 +1,5 @@
 // Plan 28 report-local checks (H1 routing, H2 furnishings, semantic outcome cases).
-// Run only through the Plan 25 bounded launcher once root clears it. Uses real Plan 35 fixtures in memory and the
+// Run only through the Plan 25 bounded launcher (standing authority: clearance 04). Uses real Plan 35 fixtures in memory and the
 // real engine; never touches storage. A pure routing test does not demonstrate production reload, focus or
 // transition integration: those are browser-gate and later production-packet questions.
 
@@ -10,8 +10,8 @@ import { fileURLToPath } from 'node:url';
 
 import { renderScene } from '../../../../src/assets/apartment/index.mjs';
 import { RENT_FIXTURES, loadRentFixture } from './fixtures.mjs';
-import { ROUTES, effectFromEvents, furnishingsFrom, lifeLocation, sceneFor } from './life-model.mjs';
-import { effectText, ledgerView, outcomeView, paidZeroView, rentDueView, rentUnpaidView } from './views.mjs';
+import { ROUTES, effectFromEvents, furnishingsFrom, lifeLocation, morningFramingFor, sceneFor } from './life-model.mjs';
+import { breakfastView, effectText, ledgerView, outcomeView, paidZeroView, rentDueView, rentUnpaidView } from './views.mjs';
 
 const REPO_ROOT = fileURLToPath(new URL('../../../../', import.meta.url));
 const readRepoFile = async (p) => new Uint8Array(await readFile(REPO_ROOT + p));
@@ -242,15 +242,40 @@ test('unpaid: every accept discloses its actual effect and the outcome distingui
   }
 });
 
-test('evening after paid-zero continue (main.js:658-665 order) yields a Day 3 ledger from new events', async () => {
+test('evening after paid-zero continue: nothing is charged for breakfast until the tap, then one charge and a Day 3 ledger', async () => {
   const e = await load('rent-paid-zero');
   e.billExpense('rent', 15.00);
   e.chooseZeroCashOption('continue');
-  e.creditWage();
+  e.creditWage(); // main.js:658-665 order, with the food charge moved to the tap (owner decision 2026-10-30)
   e.advanceDay(3, 'day 3 morning');
-  e.billExpense('food', 5.00);
+  const isFood = (x) => x.payload?.kind === 'food' && x.payload?.billId === 'd3_food';
+  assert.equal(e.log.entries.filter(isFood).length, 0, 'no breakfast event before the tap');
+  const pre = breakfastView(e, 3);
+  assert.deepEqual(pre.controls.map((c) => c.id), ['breakfast:pay'], 'one control and no skip: skipping is Plan 37');
+  assert.ok(pre.card.lines.includes("Last night's wage: +$10.00."));
+  assert.ok(pre.card.lines.includes('Breakfast: $5.00, not paid yet.'));
+  assert.ok(pre.card.lines.includes(`Cash on hand: $${e.state.cash.toFixed(2)}.`));
+  assert.ok(!pre.card.lines.some((l) => /paid this morning|Balance after/.test(l)), 'not described as paid before the tap');
+
+  const n = e.log.length;
+  const first = e.billExpense('food', 5.00);
+  const second = e.billExpense('food', 5.00); // a duplicate tap must not charge twice
+  assert.ok(first.paid && !first.zeroCash);
+  assert.equal(second.alreadySettled, true);
+  assert.deepEqual(appendedSince(e, n).map((x) => x.type), ['expense_due', 'expense_paid']);
   const v = ledgerView(e.log.entries, 3);
-  assert.ok(v.card.lines.includes("Last night's wage: +$10.00."));
   assert.ok(v.card.lines.includes('Breakfast: $5.00, paid this morning.'));
   assert.ok(v.card.lines.includes('Balance after breakfast: $5.00.'));
+});
+
+test('morning framing: owner choice is wide on Day 1 and medium after; reviewer overrides force one framing', () => {
+  assert.equal(morningFramingFor(1), 'wide');
+  assert.equal(morningFramingFor(2), 'medium');
+  assert.equal(morningFramingFor(3, 'owner'), 'medium');
+  assert.equal(morningFramingFor(1, 'medium'), 'medium');
+  assert.equal(morningFramingFor(3, 'wide'), 'wide');
+  for (const moment of ['ledger', 'breakfast']) {
+    assert.equal(sceneFor(moment, { idPrefix: 'p28-f', morningFraming: morningFramingFor(1) }).framing, 'wide');
+    assert.equal(sceneFor(moment, { idPrefix: 'p28-f', morningFraming: morningFramingFor(2) }).framing, 'medium');
+  }
 });

@@ -1,0 +1,95 @@
+/* Plan 28 report-local prototype. Player view first; reviewer panel visually distinct. */
+:root {
+  --ink: #1f2328;
+  --page: #ece7de;
+  --paper: #fffdf6;
+  --note: #fff3a8;
+  --rule: #c9d6e8;
+  --stamp: #2f6b4f;
+  --reviewer-bg: #1e2430;
+  --reviewer-ink: #d6dde8;
+  --focus: #1d4ed8;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--page); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.report-banner { display: flex; flex-wrap: wrap; gap: .25rem 1rem; padding: .5rem 1rem; font-size: .85rem; background: #3b3f47; color: #f2f2f2; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: 1rem; padding: 1rem; align-items: start; }
+
+.hud-standin { display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: center; padding: .45rem .8rem; margin-bottom: .6rem;
+  border: 1px dashed #8a8f99; border-radius: .5rem; font-size: .8rem; color: #4b5563; background: #f6f3ee; }
+.hud-standin-label { font-style: italic; }
+
+.stage { position: relative; width: min(100%, 960px); }
+.scene { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: .85rem;
+  border: 1px solid rgba(40, 34, 28, .55); background: #d5d0c6; box-shadow: 0 .8rem 2rem rgba(0, 0, 0, .22); }
+.scene > svg { display: block; width: 100%; height: 100%; }
+
+/* Communication card: anchored over the scene's right side on wide screens, below it on narrow screens. */
+.card { position: absolute; right: 3%; bottom: 5%; width: min(38%, 22rem); max-height: 90%; overflow: auto;
+  padding: 1rem 1.1rem; border-radius: .3rem; background: var(--paper); box-shadow: 0 .5rem 1.4rem rgba(0, 0, 0, .3); }
+.card h2 { margin: 0 0 .4rem; font-size: 1.1rem; line-height: 1.2; }
+.card h2:focus { outline: none; }
+.card h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.card p { margin: .3rem 0; line-height: 1.35; }
+.card .sender { margin: 0 0 .35rem; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: #5b616b; }
+.card .aside { font-style: italic; color: #4b4f56; }
+.card .controls { display: grid; gap: .5rem; margin-top: .8rem; }
+.card button { min-height: 2.75rem; padding: .5rem .75rem; border: 2px solid #374151; border-radius: .4rem; background: #fff;
+  color: var(--ink); font: inherit; font-weight: 650; text-align: left; cursor: pointer; }
+.card button.primary { background: #374151; color: #fff; }
+.card button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.card button:disabled { opacity: .55; cursor: progress; }
+.card button.ends-run { border-color: #7c2d12; }
+
+.card--note { background: var(--note); background-image: repeating-linear-gradient(transparent 0 1.6rem, var(--rule) 1.6rem 1.66rem);
+  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive; transform: rotate(-1deg); }
+.card--note button { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.card--bill { font-family: "Courier New", Courier, monospace; border-top: 6px solid #6b7280; }
+.card--bill button { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.card--listing { background: #f3e2bf; border: 1px solid #b08d57; transform: rotate(1deg); }
+.card--statement { background: #eef2f7; border-left: 6px solid #64748b; }
+.card--message { background: #111b2c; color: #f8fafc; border-radius: 1rem; }
+.card--message .sender { color: #9fb3c8; }
+.card--message .bubble { display: inline-block; padding: .5rem .7rem; border-radius: .9rem .9rem .9rem .2rem; background: #2b3e57; }
+.card--message button { background: #f8fafc; }
+.card--standin { background: #f6f3ee; border: 2px dashed #8a8f99; }
+
+.stamp { display: inline-block; margin: .1rem 0 .4rem; padding: .1rem .6rem; border: 3px solid var(--stamp); border-radius: .3rem;
+  color: var(--stamp); font-weight: 900; letter-spacing: .2em; transform: rotate(-4deg); }
+
+.offer { margin-top: .8rem; padding-top: .7rem; border-top: 1px dashed #9ca3af; }
+.offer .offer-kind { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; color: #5b616b; }
+
+/* Reviewer panel: clearly not part of the game. */
+.reviewer { padding: .9rem; border-radius: .6rem; background: var(--reviewer-bg); color: var(--reviewer-ink);
+  font: .8rem/1.4 ui-monospace, "Cascadia Mono", Consolas, monospace; }
+.reviewer h2 { margin: 0 0 .6rem; font-size: .95rem; }
+.reviewer h2 small { font-weight: 400; color: #f0b429; }
+.reviewer h3 { margin: 1rem 0 .3rem; font-size: .8rem; color: #f0b429; }
+.reviewer label { display: grid; gap: .2rem; margin-bottom: .6rem; }
+.reviewer select, .reviewer button { font: inherit; padding: .3rem; }
+.reviewer table { width: 100%; border-collapse: collapse; }
+.reviewer td, .reviewer th { padding: .15rem .25rem; border-bottom: 1px solid #39414f; text-align: left; vertical-align: top; word-break: break-all; }
+.reviewer .fail { color: #ff8a8a; font-weight: 700; }
+.reviewer pre { white-space: pre-wrap; margin: 0; }
+.reviewer ol { margin: 0; padding-left: 1.4rem; }
+.reviewer .note { color: #9aa5b5; margin: 0 0 .3rem; }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; margin: .6rem 0 0; }
+.facts dt { color: #9aa5b5; }
+.facts dd { margin: 0; }
+
+.blocked { padding: 1rem; border: 3px solid #b91c1c; background: #fff1f1; border-radius: .5rem; }
+
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .layout { padding: .5rem; }
+  .card { position: static; width: auto; max-height: none; margin-top: .6rem; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+}

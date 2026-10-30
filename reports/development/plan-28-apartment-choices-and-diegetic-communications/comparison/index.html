@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 28 · Direction A prototype</title>
+  <!-- Read-only reuse of the production transition presentation; nothing in src/ imports this report. -->
+  <link rel="stylesheet" href="../../../../src/ui/stage-transition.css">
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body>
+  <header class="report-banner">
+    <strong>Plan 28 · Direction A prototype</strong>
+    <span>Report-local review page. Not the game, not production, not saved anywhere.</span>
+  </header>
+
+  <div class="layout">
+    <section class="player-area" aria-label="Player view (prototype)">
+      <div class="hud-standin" aria-label="Production HUD stand-in">
+        <span class="hud-standin-label">HUD stand-in (production HUD unchanged; not functional here):</span>
+        <span>Save</span><span>Settings</span><span>Uninstall</span>
+      </div>
+      <main id="stage" class="stage">
+        <div id="scene" class="scene"></div>
+        <article id="card" class="card" aria-labelledby="card-heading"></article>
+      </main>
+      <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
+    </section>
+
+    <aside class="reviewer" aria-label="Reviewer controls (not student UI)">
+      <h2>Reviewer controls <small>not student UI</small></h2>
+      <label>Scenario
+        <select id="scenario">
+          <option value="paid-zero">Day 2 rent · paid with exactly $15.00 (Plan 35 fixture, live engine)</option>
+          <option value="unpaid">Day 2 rent · $14.01, unpaid ladder (Plan 35 fixture, live engine)</option>
+          <option value="ledger-d1">Day 1 morning ledger (projection from fixture log)</option>
+          <option value="return-d2">Return from gacha, Day 2 (display-only)</option>
+        </select>
+      </label>
+      <label>Morning framing (open question)
+        <select id="morning-framing">
+          <option value="medium">medium: close on the kitchen bar</option>
+          <option value="wide">wide: whole kitchen</option>
+        </select>
+      </label>
+      <button id="reset" type="button">Reset scenario</button>
+      <dl id="provenance" class="facts"></dl>
+      <h3>Fixture checks</h3>
+      <table id="checks"><thead><tr><th>Check</th><th>Expected</th><th>Actual</th></tr></thead><tbody></tbody></table>
+      <h3>Engine state (in memory)</h3>
+      <pre id="snapshot"></pre>
+      <h3>Engine events appended (actual)</h3>
+      <ol id="events"></ol>
+      <h3>Proposed display cues (not recorded)</h3>
+      <p class="note">What a production build might record when a life surface is visible. Projection only; nothing here is an observed display.</p>
+      <ol id="cues"></ol>
+    </aside>
+  </div>
+
+  <script type="module" src="prototype.js"></script>
+</body>
+</html>

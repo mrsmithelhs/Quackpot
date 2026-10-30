@@ -187,7 +187,7 @@ async function readPilotFixture(catalog, id) {
   assertCaptureParent(catalog, entry);
   await verifyPinnedPlan16Archive(catalog);
   await assertFixtureAggregate(catalog);
-  const freshness = await validateFreshness(entry);
+  const freshness = await validateFreshness(entry, id);
   const fixture = await readFixtureBeforeParse(entry);
   const envelope = JSON.parse(fixture.raw);
   validateAndHydrate(envelope, id);
@@ -317,9 +317,12 @@ async function pilotPhase(phase) {
   const brief = phase === 'pilot-finale-rest-selection' ? 'finale-rest-selection.md' : 'paid-vs-unpaid-rent.md';
   const start = await readPilotFixture(catalog, id);
   const briefBytes = await readBounded(`${PLAN35}/review-briefs/${brief}`, 32 * 1024);
+  const pilotRecipeSha256 = sha256(await readBounded('scripts/dev/checkpoints/browser-phase.mjs', 256 * 1024));
+  const pilotToolClosureSha256 = await currentLoaderSha256();
   const browser = await launchIsolatedChrome();
   let cleanup = null;
   let result = null;
+  let sentinel = null;
   try {
     const page = await createIsolatedPage(browser, start.fixture.raw);
     await assertAppReady(browser.cdp, page, start.envelope);
@@ -331,6 +334,7 @@ async function pilotPhase(phase) {
     const sentinelPage = await createPage(browser.cdp, BASE_URL);
     await assertAppReady(browser.cdp, sentinelPage);
     const sentinelRaw = await setSentinel(browser.cdp, sentinelPage, start.fixture.raw);
+    const sentinelBeforeSha256 = sha256(sentinelRaw);
 
     let observation;
     if (id === 'plan35.rent-paid-zero.v1' || id === 'plan35.rent-unpaid-escalation.v1') {
@@ -404,22 +408,44 @@ async function pilotPhase(phase) {
 
     const sentinelAfter = await evaluate(browser.cdp, sentinelPage.sessionId, `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`);
     if (sentinelAfter !== sentinelRaw) fail('Independent isolated ordinary-save sentinel changed during checkpoint review.');
+    sentinel = { isolatedContext: true, beforeSha256: sentinelBeforeSha256,
+      afterSha256: sha256(sentinelAfter), preserved: true };
     result = { phase, checkpointId: id, fixtureSha256: start.fixture.hash, restoredSaveSha256: before.hash,
       restoreComparison: before.restoreComparison, sourceClosureSha256: start.entry.provenance.sourceClosureSha256,
       servedSourceMapSha256,
-      loaderSha256: start.freshness.loaderSha256, briefSha256: sha256(briefBytes), viewport: { width: 1365, height: 900 }, observation,
-      sentinelPreserved: true };
+      captureOrigin: { captureRevision: start.entry.provenance.captureRevision,
+        captureRecipeSha256: start.entry.provenance.captureRecipe.sha256, captureLoaderSha256: start.entry.provenance.loaderSha256,
+        manifestSha256: start.freshness.captureOrigin.manifestSha256 },
+      validationLoaderSha256: start.freshness.validationLoaderSha256,
+      pilotRecipeSha256, pilotToolClosureSha256,
+      briefSha256: sha256(briefBytes), viewport: { width: 1365, height: 900 }, observation, sentinel, sentinelPreserved: true };
   } finally { cleanup = await closeIsolatedChrome(browser); }
   if (cleanup?.residual || cleanup?.uncertainty) fail(`Chrome cleanup is not confirmed: ${JSON.stringify(cleanup)}`);
   result.cleanup = cleanup;
-  await appendBoundedResult(result);
-  process.stdout.write(`${JSON.stringify(result)}\n`);
+  const fullEvidenceRecord = await appendBoundedResult(result);
+  const summary = {
+    protocol: 'qp35.pilot-supervisor-proof.v1', phase, checkpointId: id,
+    fixtureSha256: start.fixture.hash, restoredSaveSha256: result.restoredSaveSha256,
+    captureOrigin: result.captureOrigin,
+    validationLoaderSha256: result.validationLoaderSha256,
+    pilotRecipeSha256, pilotToolClosureSha256,
+    restoreComparison: result.restoreComparison,
+    sentinel: { isolatedContext: sentinel.isolatedContext, beforeSha256: sentinel.beforeSha256,
+      afterSha256: sentinel.afterSha256, preserved: sentinel.preserved },
+    chromeCleanup: { residual: cleanup.residual, uncertainty: cleanup.uncertainty,
+      childExitCode: cleanup.childExitCode, treeTerminationConfirmed: cleanup.treeTerminationConfirmed,
+      profileRemoved: cleanup.profileRemoved },
+    fullEvidenceRecord,
+  };
+  const summaryLine = `${JSON.stringify(summary)}\n`;
+  if (Buffer.byteLength(summaryLine) > 4096) fail('Compact pilot supervisor proof exceeds the 4 KiB transport cap.');
+  process.stdout.write(summaryLine);
 }
 
 async function appendBoundedResult(record) {
   const info = await stat(RESULT_PATH).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error));
   const line = `${JSON.stringify({ at: new Date().toISOString(), ...record })}\n`;
-  if (info && info.size + Buffer.byteLength(line) > 1024 * 1024) fail('Plan 35 pilot results would exceed 1 MiB.');
+  if (Buffer.byteLength(line) > 1024 * 1024 || (info && info.size + Buffer.byteLength(line) > 1024 * 1024)) fail('Plan 35 pilot results would exceed 1 MiB.');
   if (info) {
     const prior = await readFile(RESULT_PATH, 'utf8');
     for (const row of prior.split(/\r?\n/).filter(Boolean)) JSON.parse(row);

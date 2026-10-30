@@ -4,7 +4,8 @@ import { createConnection, createServer } from 'node:net';
 import { appendFile, readFile, realpath, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { CATALOG_PATH, PLAN35, ROOT, catalogEntry, readBounded, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
+import { CATALOG_PATH, CAPTURE_ORIGIN_MANIFEST_SHA256, PLAN35, ROOT, catalogEntry, readBounded, readCatalog,
+  currentLoaderSha256, currentValidationLoaderSha256, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
 import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
 const HOST = '127.0.0.1';
@@ -38,6 +39,12 @@ function expectedCaptureId(phase) {
   return phase === 'capture-rent-paid-zero' ? 'plan35.rent-paid-zero.v1'
     : phase === 'capture-rent-unpaid-escalation' ? 'plan35.rent-unpaid-escalation.v1'
       : phase === 'capture-finale-race-entry' ? 'plan35.finale-race-entry.v1' : null;
+}
+
+function expectedPilotId(phase) {
+  return phase === 'pilot-paid-rent' ? 'plan35.rent-paid-zero.v1'
+    : phase === 'pilot-unpaid-rent' ? 'plan35.rent-unpaid-escalation.v1'
+      : phase === 'pilot-finale-rest-selection' ? 'plan35.finale-race-entry.v1' : null;
 }
 
 function parseCompleteProofResult(stdout) {
@@ -75,6 +82,68 @@ async function verifyCaptureProofRecord(summary, expectedId, phase) {
       || full.cleanup?.profileRemoved !== summary.chromeCleanup.profileRemoved)
     fail('Pinned full-evidence record disagrees with the compact capture proof.');
   return { file: expectedFile, bytes: record.bytes, sha256: record.sha256 };
+}
+
+async function verifyPilotProofRecord(summary, phase) {
+  const expectedId = expectedPilotId(phase);
+  const pin = summary.fullEvidenceRecord;
+  const expectedFile = 'reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl';
+  if (summary.protocol !== 'qp35.pilot-supervisor-proof.v1' || summary.phase !== phase || !expectedId
+      || summary.checkpointId !== expectedId || pin?.file !== expectedFile
+      || !Number.isSafeInteger(pin.bytes) || pin.bytes < 2 || pin.bytes > 1024 * 1024
+      || typeof pin.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(pin.sha256))
+    fail('Pilot proof omitted the compact identity or pinned full-evidence record.');
+  const catalog = await readCatalog();
+  const entry = catalogEntry(catalog, expectedId);
+  if (entry.status !== 'current-loadable' || summary.fixtureSha256 !== entry.sha256)
+    fail('Pilot summary fixture identity is not the exact current-loadable catalog fixture.');
+  const currentPilotRecipeSha256 = sha256(await readBounded('scripts/dev/checkpoints/browser-phase.mjs', 256 * 1024));
+  const currentPilotToolClosureSha256 = await currentLoaderSha256();
+  const currentValidationSha256 = await currentValidationLoaderSha256();
+  if (summary.pilotRecipeSha256 !== currentPilotRecipeSha256
+      || summary.pilotToolClosureSha256 !== currentPilotToolClosureSha256
+      || summary.validationLoaderSha256 !== currentValidationSha256) fail('Pilot summary is stale for current pilot or validation tool identity.');
+  const bytes = await readBounded(expectedFile, 1024 * 1024);
+  const line = bytes.toString('utf8').split(/(?<=\n)/).find((row) => Buffer.byteLength(row) === pin.bytes && sha256(Buffer.from(row)) === pin.sha256);
+  if (!line) fail('Pinned full pilot result record is missing or changed.');
+  const full = JSON.parse(line);
+  const sentinel = full.sentinel;
+  const cleanup = full.cleanup;
+  const expectedOrigin = entry.provenance;
+  if (full.phase !== phase || full.checkpointId !== expectedId || full.fixtureSha256 !== summary.fixtureSha256
+      || full.restoredSaveSha256 !== summary.restoredSaveSha256
+      || summary.captureOrigin?.captureRevision !== expectedOrigin.captureRevision
+      || summary.captureOrigin?.captureRecipeSha256 !== expectedOrigin.captureRecipe.sha256
+      || summary.captureOrigin?.captureLoaderSha256 !== expectedOrigin.loaderSha256
+      || summary.captureOrigin?.manifestSha256 !== CAPTURE_ORIGIN_MANIFEST_SHA256
+      || full.captureOrigin?.captureRevision !== expectedOrigin.captureRevision
+      || full.captureOrigin?.captureRecipeSha256 !== expectedOrigin.captureRecipe.sha256
+      || full.captureOrigin?.captureLoaderSha256 !== expectedOrigin.loaderSha256
+      || full.captureOrigin?.manifestSha256 !== CAPTURE_ORIGIN_MANIFEST_SHA256
+      || full.sourceClosureSha256 !== expectedOrigin.sourceClosureSha256
+      || !/^[a-f0-9]{64}$/.test(full.validationLoaderSha256 ?? '')
+      || full.validationLoaderSha256 !== summary.validationLoaderSha256
+      || !/^[a-f0-9]{64}$/.test(full.pilotRecipeSha256 ?? '')
+      || full.pilotRecipeSha256 !== summary.pilotRecipeSha256
+      || !/^[a-f0-9]{64}$/.test(full.pilotToolClosureSha256 ?? '')
+      || full.pilotToolClosureSha256 !== summary.pilotToolClosureSha256
+      || full.restoreComparison?.exactState !== true || full.restoreComparison?.exactPrngStreams !== true
+      || full.restoreComparison?.exactEventLogPrefix !== true
+      || summary.restoreComparison?.exactState !== true || summary.restoreComparison?.exactPrngStreams !== true
+      || summary.restoreComparison?.exactEventLogPrefix !== true
+      || full.sentinelPreserved !== true || sentinel?.isolatedContext !== true || sentinel?.preserved !== true
+      || sentinel?.beforeSha256 !== summary.sentinel?.beforeSha256
+      || sentinel?.afterSha256 !== summary.sentinel?.afterSha256
+      || sentinel?.beforeSha256 !== sentinel?.afterSha256 || summary.sentinel?.preserved !== true
+      || cleanup?.residual !== summary.chromeCleanup?.residual
+      || cleanup?.uncertainty !== summary.chromeCleanup?.uncertainty
+      || cleanup?.childExitCode !== summary.chromeCleanup?.childExitCode
+      || cleanup?.treeTerminationConfirmed !== summary.chromeCleanup?.treeTerminationConfirmed
+      || cleanup?.profileRemoved !== summary.chromeCleanup?.profileRemoved
+      || cleanup?.residual !== false || cleanup?.uncertainty !== false
+      || cleanup?.childExitCode !== 0 || cleanup?.treeTerminationConfirmed !== true || cleanup?.profileRemoved !== true)
+    fail('Pinned pilot evidence record disagrees with compact identity, restore, sentinel, or cleanup proof.');
+  return { file: expectedFile, bytes: pin.bytes, sha256: pin.sha256 };
 }
 
 async function promoteCaptureAfterSupervisorSuccess({ id, expectedHash }) {
@@ -220,12 +289,15 @@ async function stopOwnedOnce(record) {
     } catch { return false; }
   };
   const provedPilotCleanup = () => {
+    if (record.summaryValidated !== true) return false;
     const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
     if (!line) return false;
     try {
       const parsed = JSON.parse(line);
-      return parsed.cleanup?.treeTerminationConfirmed === true && parsed.cleanup?.residual === false
-        && parsed.cleanup?.uncertainty === false && parsed.cleanup?.childExitCode === 0 && parsed.cleanup?.profileRemoved === true;
+      return parsed.protocol === 'qp35.pilot-supervisor-proof.v1'
+        && parsed.chromeCleanup?.treeTerminationConfirmed === true && parsed.chromeCleanup?.residual === false
+        && parsed.chromeCleanup?.uncertainty === false && parsed.chromeCleanup?.childExitCode === 0
+        && parsed.chromeCleanup?.profileRemoved === true;
     } catch { return false; }
   };
   let tracked = [];
@@ -333,6 +405,11 @@ async function main() {
     proofChild.summaryValidated = true;
     evidence.proof.result = proofResult;
     capturePromotionRequest = { id: expectedId, expectedHash };
+  } else {
+    const proofResult = parseCompleteProofResult(proofChild.stdout);
+    evidence.proof.fullEvidenceRecord = await verifyPilotProofRecord(proofResult, phase);
+    proofChild.summaryValidated = true;
+    evidence.proof.result = proofResult;
   }
   evidence.sourceAfter = await sourceIdentity();
   if (evidence.sourceBefore.fingerprint !== evidence.sourceAfter.fingerprint) fail('Tracked source identity changed during browser phase.');
@@ -348,18 +425,27 @@ async function cleanup() {
   const proof = await stopOwned(proofChild, 'proof');
   const server = await stopOwned(serverChild, 'Vite');
   evidence.cleanup = { proof, server, residual: proof.residual || server.residual, uncertainty: proof.uncertainty || server.uncertainty };
+  try {
+    evidence.sourceAfterCleanup = await sourceIdentity();
+    evidence.sourceIdentityStableThroughCleanup = evidence.sourceBefore?.fingerprint === evidence.sourceAfter?.fingerprint
+      && evidence.sourceBefore?.fingerprint === evidence.sourceAfterCleanup.fingerprint;
+    if (!evidence.sourceIdentityStableThroughCleanup) process.exitCode = 1;
+  } catch (error) {
+    evidence.sourceIdentityStableThroughCleanup = false;
+    evidence.sourceAfterCleanupError = (error.stack || error.message).slice(0, 1200);
+    process.exitCode = 1;
+  }
   if (capturePromotionRequest) {
     if (!phaseSucceeded || totalDeadline || evidence.cleanup.residual || evidence.cleanup.uncertainty
         || proof.exit?.code !== 0 || !proof.close || !server.close
-        || evidence.sourceBefore?.fingerprint !== evidence.sourceAfter?.fingerprint) {
+        || evidence.sourceBefore?.fingerprint !== evidence.sourceAfter?.fingerprint
+        || evidence.sourceBefore?.fingerprint !== evidence.sourceAfterCleanup?.fingerprint) {
       evidence.capturePromotion = { ...capturePromotionRequest, status: 'capture-pending-cleanup', promoted: false,
         reason: 'Supervisor phase/source/owned-tree cleanup conditions were not all satisfied.' };
       process.exitCode = 1;
     } else {
       try {
-        evidence.sourceAfterCleanup = await sourceIdentity();
-        if (evidence.sourceAfterCleanup.fingerprint !== evidence.sourceBefore.fingerprint)
-          fail('Tracked source identity changed before capture promotion.');
+        if (!evidence.sourceIdentityStableThroughCleanup) fail('Tracked source identity changed before capture promotion.');
         if (totalDeadline || Date.now() >= startedAt + MAX_TOTAL_MS)
           fail('Supervisor total cleanup deadline reached before capture promotion.');
         evidence.capturePromotion = { ...(await promoteCaptureAfterSupervisorSuccess(capturePromotionRequest)), promoted: true };

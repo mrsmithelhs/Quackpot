@@ -1,0 +1,85 @@
+{
+  "protocol": "qp35.capture-origin.v1",
+  "loaderSha256": "b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496",
+  "captureRecipe": {
+    "path": "scripts/dev/checkpoints/browser-phase.mjs",
+    "sha256": "bfa0b6def9da1148a2736320ce95499d79c93d7d7463bc035a2ef7ef3388e85b"
+  },
+  "capturedAtRevisions": [
+    {
+      "checkpointId": "plan35.rent-paid-zero.v1",
+      "revision": "68c9328ed7749ea78f04a1287d5c212e53e66899"
+    },
+    {
+      "checkpointId": "plan35.rent-unpaid-escalation.v1",
+      "revision": "5fbebbd2251227eda2193d00df70fd8f65855b2d"
+    },
+    {
+      "checkpointId": "plan35.finale-race-entry.v1",
+      "revision": "8190c482bc8715099643e4e95fd74d654228185e"
+    }
+  ],
+  "files": [
+    {
+      "path": "scripts/dev/checkpoints/provenance.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/provenance.mjs",
+      "gitBlobOid": "5f0a9d88ad29dc3baab98fe7689326c1b57b7653",
+      "bytes": 14193,
+      "sha256": "5320f8875ec082510c6bb3493d789d8da0eda94b71d0fed6f0510d3521ec1fc8"
+    },
+    {
+      "path": "scripts/dev/checkpoints/envelope.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/envelope.mjs",
+      "gitBlobOid": "97f8c71ebc2bfb207c263ba781ab592769d628ab",
+      "bytes": 3727,
+      "sha256": "dbb27c1c439073a10108f3bf4372c51c4f5dbd0799c3c5fb6d70a29dfd8e0458"
+    },
+    {
+      "path": "scripts/dev/checkpoints/checkpoint-proof.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/checkpoint-proof.mjs",
+      "gitBlobOid": "d27dc7bd606be0c0bf0d74308c7a9601be5ebafd",
+      "bytes": 5415,
+      "sha256": "bd5f8ede8beb2936bb8bf72c1529c2bdebf5d2794a50e3a10631183b21c5de9c"
+    },
+    {
+      "path": "scripts/dev/checkpoints/cdp.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/cdp.mjs",
+      "gitBlobOid": "c53837bec3d90ef94f36aed9e51d2bfd626b6e07",
+      "bytes": 10971,
+      "sha256": "60add6c175970b44a6531ea1d4e623244a5ed5f7d373cf0cf30b9b303c7803db"
+    },
+    {
+      "path": "scripts/dev/checkpoints/browser-phase.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/browser-phase.mjs",
+      "gitBlobOid": "a46529d526e25093f327aa1a6dd8be539b25907f",
+      "bytes": 34571,
+      "sha256": "bfa0b6def9da1148a2736320ce95499d79c93d7d7463bc035a2ef7ef3388e85b"
+    },
+    {
+      "path": "scripts/dev/checkpoints/run-controlled-phase.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/run-controlled-phase.mjs",
+      "gitBlobOid": "ead10c006b7e35fa7a0a70f19c00b946c0e8f4f5",
+      "bytes": 23012,
+      "sha256": "7c899ef7b3bc53495048d4676c785f0542041a37c32afdd7f87cce6fba87cea1"
+    },
+    {
+      "path": "scripts/dev/checkpoints/process-tree.mjs",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/process-tree.mjs",
+      "gitBlobOid": "b015c4aa1aad28646e78f43ce1e9c917a34e1e10",
+      "bytes": 3811,
+      "sha256": "95f18e943386005ce32727b96ec7ea4ff932b667aed1938344917b7961ebfcbb"
+    },
+    {
+      "path": "scripts/dev/checkpoints/process-tree.ps1",
+      "archivePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/files/scripts/dev/checkpoints/process-tree.ps1",
+      "gitBlobOid": "07d9f8dca3f53eb888550bce70ac5d8bfd15fee8",
+      "bytes": 1288,
+      "sha256": "08f6a5d14bf17893fa743eb94e10e1aa6203ad5b045ef4455ed7073c4a73bd75"
+    }
+  ],
+  "limits": {
+    "fileBytesMaximum": 262144,
+    "aggregateBytesMaximum": 2097152,
+    "archiveBytes": 96988
+  }
+}

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,11 +7,31 @@ export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 export const CATALOG_PATH = 'scripts/dev/checkpoints/catalog.json';
 export const PLAN16 = 'reports/development/plan-16-deterministic-review-checkpoints';
 export const PLAN35 = 'reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot';
+export const CAPTURE_ORIGIN_MANIFEST_PATH = `${PLAN35}/capture-origins/plan35-loader-b259ee172bd54741443352031068584924b5c494444f497b212795b41d0ed496/origin-manifest.json`;
+export const CAPTURE_ORIGIN_MANIFEST_SHA256 = '0b14119a97711bc68907a7816f1218fb41479a9ce95e56996caf5af89653c15e';
+export const FIXTURE_VALIDATION_INDEX_PATH = `${PLAN35}/fixture-validation-index.json`;
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const MAX_FIXTURE_BYTES = 1024 * 1024;
 export const MAX_FIXTURE_TOTAL_BYTES = 2 * 1024 * 1024;
 export const MAX_ARCHIVE_FILE_BYTES = 1024 * 1024;
 export const MAX_ARCHIVE_TOTAL_BYTES = 2 * 1024 * 1024;
+const MAX_CAPTURE_ORIGIN_FILE_BYTES = 256 * 1024;
+const MAX_CAPTURE_ORIGIN_MANIFEST_BYTES = 16 * 1024;
+const MAX_FIXTURE_VALIDATION_INDEX_BYTES = 64 * 1024;
+const MAX_PILOT_LOG_BYTES = 1024 * 1024;
+const CAPTURE_ORIGIN_LOADER_FILES = [
+  'scripts/dev/checkpoints/provenance.mjs', 'scripts/dev/checkpoints/envelope.mjs',
+  'scripts/dev/checkpoints/checkpoint-proof.mjs', 'scripts/dev/checkpoints/cdp.mjs',
+  'scripts/dev/checkpoints/browser-phase.mjs', 'scripts/dev/checkpoints/run-controlled-phase.mjs',
+  'scripts/dev/checkpoints/process-tree.mjs', 'scripts/dev/checkpoints/process-tree.ps1',
+];
+const VALIDATION_LOADER_FILES = [
+  'scripts/dev/checkpoints/provenance.mjs', 'scripts/dev/checkpoints/envelope.mjs',
+  'scripts/dev/checkpoints/checkpoint-proof.mjs',
+];
+const PLAN35_CHECKPOINT_IDS = [
+  'plan35.rent-paid-zero.v1', 'plan35.rent-unpaid-escalation.v1', 'plan35.finale-race-entry.v1',
+];
 
 export const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const fail = (message) => { throw new Error(message); };
@@ -135,6 +155,60 @@ export async function currentLoaderSha256() {
   return sha256(JSON.stringify(files));
 }
 
+export async function currentValidationLoaderSha256() {
+  const files = {};
+  for (const relative of VALIDATION_LOADER_FILES) files[relative] = sha256(await readBounded(relative, 256 * 1024));
+  return sha256(JSON.stringify(files));
+}
+
+export async function verifyCaptureOrigin(id, entry) {
+  const manifestBytes = await readBounded(CAPTURE_ORIGIN_MANIFEST_PATH, MAX_CAPTURE_ORIGIN_MANIFEST_BYTES);
+  const manifestSha256 = sha256(manifestBytes);
+  if (manifestSha256 !== CAPTURE_ORIGIN_MANIFEST_SHA256) fail('Capture-origin manifest differs from the independently pinned SHA-256.');
+  let manifest;
+  try { manifest = JSON.parse(manifestBytes.toString('utf8')); }
+  catch (error) { fail(`Invalid capture-origin manifest JSON: ${error.message}`); }
+  if (manifest.protocol !== 'qp35.capture-origin.v1' || manifest.loaderSha256 !== entry.provenance?.loaderSha256
+      || manifest.captureRecipe?.path !== entry.provenance?.captureRecipe?.file
+      || manifest.captureRecipe?.sha256 !== entry.provenance?.captureRecipe?.sha256
+      || !Array.isArray(manifest.capturedAtRevisions) || manifest.capturedAtRevisions.length !== PLAN35_CHECKPOINT_IDS.length
+      || !Array.isArray(manifest.files) || manifest.files.length !== CAPTURE_ORIGIN_LOADER_FILES.length) {
+    fail('Captured checkpoint origin does not match the pinned origin manifest.');
+  }
+  const supportedRevision = manifest.capturedAtRevisions.find((row) => row.checkpointId === id);
+  if (!PLAN35_CHECKPOINT_IDS.includes(id) || supportedRevision?.revision !== entry.provenance?.captureRevision) {
+    fail('Capture-origin revision is not in the independently pinned supported origin set.');
+  }
+  if (manifest.limits?.fileBytesMaximum !== MAX_CAPTURE_ORIGIN_FILE_BYTES
+      || manifest.limits?.aggregateBytesMaximum !== MAX_ARCHIVE_TOTAL_BYTES
+      || !Number.isSafeInteger(manifest.limits?.archiveBytes) || manifest.limits.archiveBytes < 1
+      || manifest.limits.archiveBytes > MAX_ARCHIVE_TOTAL_BYTES) fail('Capture-origin manifest has invalid size limits.');
+  let declaredBytes = 0;
+  for (let index = 0; index < CAPTURE_ORIGIN_LOADER_FILES.length; index += 1) {
+    const item = manifest.files[index];
+    if (item?.path !== CAPTURE_ORIGIN_LOADER_FILES[index]
+        || item.archivePath !== `${path.posix.dirname(CAPTURE_ORIGIN_MANIFEST_PATH)}/files/${item.path}`
+        || !Number.isSafeInteger(item.bytes) || item.bytes < 1 || item.bytes > MAX_CAPTURE_ORIGIN_FILE_BYTES
+        || !/^[a-f0-9]{40}$/.test(item.gitBlobOid ?? '') || !/^[a-f0-9]{64}$/.test(item.sha256 ?? '')) {
+      fail(`Invalid bounded capture-origin file record at index ${index}.`);
+    }
+    declaredBytes += item.bytes;
+    if (declaredBytes > MAX_ARCHIVE_TOTAL_BYTES) fail('Capture-origin files exceed the 2 MiB aggregate cap.');
+  }
+  if (declaredBytes !== manifest.limits.archiveBytes) fail('Capture-origin declared aggregate byte count is inconsistent.');
+  const loaderFiles = {};
+  for (const item of manifest.files) {
+    const bytes = await readBounded(item.archivePath, MAX_CAPTURE_ORIGIN_FILE_BYTES);
+    if (bytes.length !== item.bytes || sha256(bytes) !== item.sha256) fail(`Archived capture-origin source mismatch: ${item.path}`);
+    loaderFiles[item.path] = item.sha256;
+  }
+  if (sha256(JSON.stringify(loaderFiles)) !== manifest.loaderSha256) fail('Archived capture-origin loader aggregate hash mismatch.');
+  if (loaderFiles[manifest.captureRecipe.path] !== manifest.captureRecipe.sha256) fail('Archived capture recipe hash mismatch.');
+  return { manifestPath: CAPTURE_ORIGIN_MANIFEST_PATH, manifestSha256, captureRevision: supportedRevision.revision,
+    captureRecipeFile: manifest.captureRecipe.path, captureRecipeSha256: manifest.captureRecipe.sha256,
+    loaderSha256: manifest.loaderSha256 };
+}
+
 export function assertCurrentIdentity(entry, current) {
   const provenance = entry.provenance;
   if (!provenance) fail('Captured checkpoint provenance is missing.');
@@ -148,50 +222,175 @@ export function assertCurrentIdentity(entry, current) {
   if (!current.sourceFiles || typeof current.sourceFiles !== 'object' || Array.isArray(current.sourceFiles)
       || !Object.keys(current.sourceFiles).length
       || !/^[a-f0-9]{64}$/.test(current.productionSourceFingerprint ?? '')
-      || !/^[a-f0-9]{64}$/.test(current.captureRecipeSha256 ?? '')
-      || !/^[a-f0-9]{64}$/.test(current.loaderSha256 ?? '')) fail('Current checkpoint identity fields are incomplete or malformed.');
+      || !/^[a-f0-9]{64}$/.test(current.validationLoaderSha256 ?? '')
+      || current.captureOrigin?.captureRevision !== provenance.captureRevision
+      || current.captureOrigin?.captureRecipeFile !== provenance.captureRecipe.file
+      || current.captureOrigin?.captureRecipeSha256 !== provenance.captureRecipe.sha256
+      || current.captureOrigin?.loaderSha256 !== provenance.loaderSha256
+      || current.captureOrigin?.manifestSha256 !== CAPTURE_ORIGIN_MANIFEST_SHA256) fail('Current checkpoint identity fields are incomplete or unsupported.');
   if (JSON.stringify(provenance.sourceFiles) !== JSON.stringify(current.sourceFiles)) fail('Captured checkpoint is stale for production source closure.');
   if (provenance.sourceClosureSha256 !== sha256(JSON.stringify(current.sourceFiles))) fail('Captured checkpoint source closure fingerprint is stale.');
   if (provenance.productionSourceFingerprint !== current.productionSourceFingerprint) fail('Captured checkpoint production source fingerprint is stale.');
-  if (provenance.captureRecipe?.sha256 !== current.captureRecipeSha256) fail('Captured checkpoint capture recipe identity is stale.');
-  if (provenance.loaderSha256 !== current.loaderSha256) fail('Captured checkpoint loader identity is stale.');
 }
 
-export async function validateFreshness(entry) {
+export function assertValidationAttestation(entry, id, attestation, current) {
+  const provenance = entry.provenance;
+  const pin = attestation?.recordPin;
+  const origin = attestation?.captureOrigin;
+  if (attestation?.protocol !== 'qp35.fixture-validation.v1' || attestation.checkpointId !== id
+      || attestation.fixture?.path !== entry.fixture || attestation.fixture?.bytes !== entry.bytes
+      || attestation.fixture?.sha256 !== entry.sha256
+      || origin?.captureRevision !== provenance?.captureRevision
+      || origin?.captureRecipeFile !== provenance?.captureRecipe?.file
+      || origin?.captureRecipeSha256 !== provenance?.captureRecipe?.sha256
+      || origin?.loaderSha256 !== provenance?.loaderSha256
+      || origin?.manifestSha256 !== current.captureOrigin?.manifestSha256
+      || attestation.productionSourceFingerprint !== current.productionSourceFingerprint
+      || attestation.sourceClosureSha256 !== current.sourceClosureSha256
+      || attestation.validationLoaderSha256 !== current.validationLoaderSha256
+      || attestation.result?.valid !== true || attestation.result?.boundaryMatched !== true
+      || attestation.result?.envelopeValid !== true || !Array.isArray(attestation.result?.errors)
+      || attestation.result.errors.length !== 0 || !Number.isSafeInteger(attestation.result?.eventCount)
+      || attestation.result.eventCount < 0 || typeof attestation.result?.chainHead !== 'string'
+      || (attestation.result.chainHead !== 'genesis' && !/^[a-f0-9]{64}$/.test(attestation.result.chainHead))
+      || !attestation.result?.negativeControls || !Object.keys(attestation.result.negativeControls).length
+      || Object.values(attestation.result.negativeControls).some((value) => value !== true)
+      || pin?.file !== `${PLAN35}/pilot-results.jsonl` || !Number.isSafeInteger(pin.bytes) || pin.bytes < 2 || pin.bytes > MAX_PILOT_LOG_BYTES
+      || !/^[a-f0-9]{64}$/.test(pin.sha256 ?? '')) fail(`Missing, stale, or malformed current-validation attestation for ${id}.`);
+}
+
+export function assertValidationAttestationNegativeControls(entry, id, attestation, current) {
+  const cases = [
+    ['attestation missing', (copy) => { copy.attestation = null; }],
+    ['fixture hash changed', (copy) => { copy.attestation.fixture.sha256 = '0'.repeat(64); }],
+    ['origin recipe changed', (copy) => { copy.attestation.captureOrigin.captureRecipeSha256 = '0'.repeat(64); }],
+    ['origin loader changed', (copy) => { copy.attestation.captureOrigin.loaderSha256 = '0'.repeat(64); }],
+    ['origin manifest changed', (copy) => { copy.attestation.captureOrigin.manifestSha256 = '0'.repeat(64); }],
+    ['source closure changed', (copy) => { copy.attestation.sourceClosureSha256 = '0'.repeat(64); }],
+    ['validation loader changed', (copy) => { copy.attestation.validationLoaderSha256 = '0'.repeat(64); }],
+    ['record pin malformed', (copy) => { copy.attestation.recordPin.sha256 = 'not-a-sha256'; }],
+    ['result invalidated', (copy) => { copy.attestation.result.valid = false; }],
+    ['envelope result invalidated', (copy) => { copy.attestation.result.envelopeValid = false; }],
+    ['validation result field missing', (copy) => { delete copy.attestation.result.eventCount; }],
+  ];
+  const rejected = {};
+  for (const [label, mutate] of cases) {
+    const copy = { attestation: structuredClone(attestation) };
+    mutate(copy);
+    let failedClosed = false;
+    try { assertValidationAttestation(entry, id, copy.attestation, current); }
+    catch { failedClosed = true; }
+    if (!failedClosed) fail(`Validation-attestation negative control accepted ${label}.`);
+    rejected[`${label.replaceAll(/[^a-zA-Z0-9]/g, '')}Rejected`] = true;
+  }
+  return rejected;
+}
+
+export async function readPinnedPilotEvidenceRecord(pin) {
+  if (pin?.file !== `${PLAN35}/pilot-results.jsonl` || !Number.isSafeInteger(pin.bytes)
+      || pin.bytes < 2 || pin.bytes > MAX_PILOT_LOG_BYTES || !/^[a-f0-9]{64}$/.test(pin.sha256 ?? '')) {
+    fail('Invalid pilot evidence record pin.');
+  }
+  const bytes = await readBounded(pin.file, MAX_PILOT_LOG_BYTES);
+  const line = bytes.toString('utf8').split(/(?<=\n)/).find((row) => Buffer.byteLength(row) === pin.bytes && sha256(Buffer.from(row)) === pin.sha256);
+  if (!line) fail('Pinned pilot evidence record is missing or changed.');
+  try { return JSON.parse(line); }
+  catch (error) { fail(`Pinned pilot evidence record is invalid JSON: ${error.message}`); }
+}
+
+export async function readFixtureValidationIndex({ allowMissing = false } = {}) {
+  const info = await stat(resolveRepoPath(FIXTURE_VALIDATION_INDEX_PATH)).catch((error) => error.code === 'ENOENT' ? null : Promise.reject(error));
+  if (!info) {
+    if (allowMissing) return { protocol: 'qp35.fixture-validation-index.v1', entries: {} };
+    fail('Current fixture-validation index is missing; run explicit offline revalidation.');
+  }
+  if (!info.isFile() || info.size > MAX_FIXTURE_VALIDATION_INDEX_BYTES) fail('Fixture-validation index exceeds its 64 KiB cap before reading.');
+  return readJsonBounded(FIXTURE_VALIDATION_INDEX_PATH, MAX_FIXTURE_VALIDATION_INDEX_BYTES);
+}
+
+export async function writeFixtureValidationIndex(index) {
+  if (index?.protocol !== 'qp35.fixture-validation-index.v1' || !index.entries || typeof index.entries !== 'object'
+      || Array.isArray(index.entries) || Object.keys(index.entries).some((id) => !PLAN35_CHECKPOINT_IDS.includes(id))) {
+    fail('Refusing to write malformed or unsupported fixture-validation index.');
+  }
+  const destination = resolveRepoPath(FIXTURE_VALIDATION_INDEX_PATH);
+  const temporary = `${destination}.${process.pid}.tmp`;
+  const json = `${JSON.stringify(index, null, 2)}\n`;
+  if (Buffer.byteLength(json) > MAX_FIXTURE_VALIDATION_INDEX_BYTES) fail('Fixture-validation index would exceed its 64 KiB cap.');
+  await writeFile(temporary, json, { flag: 'wx' });
+  await rename(temporary, destination);
+}
+
+export async function validateFixtureBase(entry, id) {
   if (entry.status !== 'current-loadable') fail(`Checkpoint is not current-loadable: ${entry.fixture} (${entry.status})`);
   if (!entry.provenance?.sourceClosureSha256 || !entry.provenance?.sourceFiles
       || !entry.provenance?.productionSourceFingerprint || !entry.provenance?.captureRecipe?.file
-      || !entry.provenance?.captureRecipe?.sha256 || !entry.provenance?.loaderSha256) {
-    fail('Current-loadable checkpoint is missing required source, recipe, loader, or closure identity.');
+      || !entry.provenance?.captureRecipe?.sha256 || !entry.provenance?.loaderSha256
+      || !entry.provenance?.captureRevision) {
+    fail('Current-loadable checkpoint is missing required source, capture-origin, or closure identity.');
   }
-  {
-    const catalog = await readCatalog();
-    assertCaptureParent(catalog, entry);
-    const pinnedClosure = await verifyPlan16SourceClosure(catalog, { requireCurrent: true });
-    const closure = entry.provenance.sourceFiles;
-    if (!closure || typeof closure !== 'object' || Array.isArray(closure)) fail('Captured checkpoint source file closure is absent.');
-    if (JSON.stringify(closure) !== JSON.stringify(pinnedClosure.currentFiles)
-        || entry.provenance.productionSourceFingerprint !== pinnedClosure.expectedFingerprint) {
-      fail('Captured checkpoint source identity does not match the independently pinned Plan 16 production closure.');
-    }
-    for (const [relative, expected] of Object.entries(closure)) {
-      const bytes = await readBounded(relative, 3 * 1024 * 1024);
-      if (sha256(bytes) !== expected) fail(`Captured checkpoint is stale for production source: ${relative}`);
-    }
-    const recipePath = entry.provenance.captureRecipe?.file;
-    if (!recipePath) fail('Captured checkpoint capture recipe identity is absent.');
-    const recipeBytes = await readBounded(recipePath, 256 * 1024);
-    const recipeSha256 = sha256(recipeBytes);
-    const loaderSha256 = await currentLoaderSha256();
-    const current = { sourceFiles: pinnedClosure.currentFiles, productionSourceFingerprint: pinnedClosure.expectedFingerprint,
-      captureRecipeSha256: recipeSha256, loaderSha256 };
-    assertCurrentIdentity(entry, current);
-    return { loaderSha256, sourceClosureSha256: entry.provenance.sourceClosureSha256,
-      captureRecipeSha256: recipeSha256 };
+  const catalog = await readCatalog();
+  assertCaptureParent(catalog, entry);
+  await verifyPinnedPlan16Archive(catalog);
+  const captureOrigin = await verifyCaptureOrigin(id, entry);
+  const pinnedClosure = await verifyPlan16SourceClosure(catalog, { requireCurrent: true });
+  const closure = entry.provenance.sourceFiles;
+  if (!closure || typeof closure !== 'object' || Array.isArray(closure)) fail('Captured checkpoint source file closure is absent.');
+  if (JSON.stringify(closure) !== JSON.stringify(pinnedClosure.currentFiles)
+      || entry.provenance.productionSourceFingerprint !== pinnedClosure.expectedFingerprint) {
+    fail('Captured checkpoint source identity does not match the independently pinned Plan 16 production closure.');
   }
-  const loaderHash = await currentLoaderSha256();
-  if (entry.provenance?.loaderSha256 && entry.provenance.loaderSha256 !== loaderHash) fail('Captured checkpoint is stale for current loader identity.');
-  return { loaderSha256: loaderHash, sourceClosureSha256: entry.provenance?.sourceClosureSha256 ?? null };
+  for (const [relative, expected] of Object.entries(closure)) {
+    const bytes = await readBounded(relative, 3 * 1024 * 1024);
+    if (sha256(bytes) !== expected) fail(`Captured checkpoint is stale for production source: ${relative}`);
+  }
+  const fixture = await readFixtureBeforeParse(entry);
+  const validationLoaderSha256 = await currentValidationLoaderSha256();
+  const current = { sourceFiles: pinnedClosure.currentFiles, productionSourceFingerprint: pinnedClosure.expectedFingerprint,
+    captureOrigin, validationLoaderSha256 };
+  assertCurrentIdentity(entry, current);
+  return { id, fixture, captureOrigin, validationLoaderSha256,
+    sourceFiles: pinnedClosure.currentFiles, sourceClosureSha256: entry.provenance.sourceClosureSha256,
+    productionSourceFingerprint: entry.provenance.productionSourceFingerprint };
+}
+
+export function assertValidationResultMatches(attestation, record) {
+  if (record?.phase !== 'fixture-revalidation' || record.id !== attestation.checkpointId
+      || record.fixture?.path !== attestation.fixture.path || record.fixture?.bytes !== attestation.fixture.bytes
+      || record.fixture?.sha256 !== attestation.fixture.sha256
+      || record.captureOrigin?.captureRevision !== attestation.captureOrigin.captureRevision
+      || record.captureOrigin?.captureRecipeFile !== attestation.captureOrigin.captureRecipeFile
+      || record.captureOrigin?.captureRecipeSha256 !== attestation.captureOrigin.captureRecipeSha256
+      || record.captureOrigin?.loaderSha256 !== attestation.captureOrigin.loaderSha256
+      || record.captureOrigin?.manifestSha256 !== attestation.captureOrigin.manifestSha256
+      || record.productionSourceFingerprint !== attestation.productionSourceFingerprint
+      || record.sourceClosureSha256 !== attestation.sourceClosureSha256
+      || record.validationLoaderSha256 !== attestation.validationLoaderSha256
+      || record.result?.valid !== attestation.result.valid
+      || record.result?.boundaryMatched !== attestation.result.boundaryMatched
+      || record.result?.validation?.validation?.valid !== attestation.result.envelopeValid
+      || JSON.stringify(record.result?.validation?.validation?.errors) !== JSON.stringify(attestation.result.errors)
+      || record.result?.validation?.eventCount !== attestation.result.eventCount
+      || record.result?.validation?.chainHead !== attestation.result.chainHead
+      || JSON.stringify(record.result?.negativeControls) !== JSON.stringify(attestation.result.negativeControls)) {
+    fail('Pinned fixture-revalidation record disagrees with its validation attestation.');
+  }
+}
+
+export async function validateFreshness(entry, id) {
+  const base = await validateFixtureBase(entry, id);
+  const index = await readFixtureValidationIndex();
+  if (index.protocol !== 'qp35.fixture-validation-index.v1' || !index.entries || typeof index.entries !== 'object'
+      || Array.isArray(index.entries)) fail('Fixture-validation index is malformed.');
+  const attestation = index.entries[id];
+  const current = { ...base, captureOrigin: base.captureOrigin, validationLoaderSha256: base.validationLoaderSha256 };
+  assertValidationAttestation(entry, id, attestation, current);
+  const record = await readPinnedPilotEvidenceRecord(attestation.recordPin);
+  assertValidationResultMatches(attestation, record);
+  return { id, sourceFiles: base.sourceFiles, sourceClosureSha256: base.sourceClosureSha256,
+    productionSourceFingerprint: base.productionSourceFingerprint, captureOrigin: base.captureOrigin,
+    validationLoaderSha256: base.validationLoaderSha256,
+    fixture: { bytes: base.fixture.bytes.length, sha256: base.fixture.hash }, validationAttestation: attestation };
 }
 
 export function assertFreshnessNegativeControls(entry, current) {
@@ -218,4 +417,16 @@ export function assertFreshnessNegativeControls(entry, current) {
     rejected[`${label.replaceAll(/[^a-zA-Z0-9]/g, '')}Rejected`] = true;
   }
   return rejected;
+}
+
+export async function writeFixtureValidationAttestation(id, attestation) {
+  if (!PLAN35_CHECKPOINT_IDS.includes(id)) fail(`Unsupported Plan 35 validation target: ${id}`);
+  const index = await readFixtureValidationIndex({ allowMissing: true });
+  if (index.protocol !== 'qp35.fixture-validation-index.v1' || !index.entries || typeof index.entries !== 'object'
+      || Array.isArray(index.entries) || Object.keys(index.entries).some((key) => !PLAN35_CHECKPOINT_IDS.includes(key))) {
+    fail('Existing fixture-validation index is malformed or contains unsupported checkpoints.');
+  }
+  index.entries[id] = attestation;
+  index.updatedAt = new Date().toISOString();
+  await writeFixtureValidationIndex(index);
 }

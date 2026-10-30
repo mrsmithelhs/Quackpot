@@ -285,8 +285,29 @@ async function capturePhase(phase) {
   } finally { cleanup = await closeIsolatedChrome(browser); }
   if (cleanup?.residual || cleanup?.uncertainty) fail(`Chrome cleanup is not confirmed: ${JSON.stringify(cleanup)}`);
   const result = { phase, capture: captureResult, candidate: { id: targetId, status: 'capture-pending-cleanup', sha256: captureResult.sha256 }, cleanup };
-  await appendBoundedResult(result);
-  process.stdout.write(`${JSON.stringify(result)}\n`);
+    const fullEvidenceRecord = await appendBoundedResult(result);
+    const summary = {
+      protocol: 'qp35.capture-supervisor-proof.v1',
+      phase,
+      candidate: { id: targetId, status: 'capture-pending-cleanup', sha256: captureResult.sha256 },
+      capture: { id: captureResult.id, sha256: captureResult.sha256 },
+      sentinel: {
+        beforeSha256: captureResult.provenance.observations.ordinarySaveSentinel.beforeSha256,
+        afterSha256: captureResult.provenance.observations.ordinarySaveSentinel.afterSha256,
+        preserved: captureResult.provenance.observations.ordinarySaveSentinel.unchanged === true,
+      },
+      chromeCleanup: {
+        residual: cleanup.residual,
+        uncertainty: cleanup.uncertainty,
+        childExitCode: cleanup.childExitCode,
+        treeTerminationConfirmed: cleanup.treeTerminationConfirmed,
+        profileRemoved: cleanup.profileRemoved,
+      },
+      fullEvidenceRecord,
+    };
+    const summaryLine = `${JSON.stringify(summary)}\n`;
+    if (Buffer.byteLength(summaryLine) > 4096) fail('Compact capture supervisor proof exceeds the 4 KiB transport cap.');
+    process.stdout.write(summaryLine);
 }
 
 async function pilotPhase(phase) {
@@ -404,6 +425,8 @@ async function appendBoundedResult(record) {
     for (const row of prior.split(/\r?\n/).filter(Boolean)) JSON.parse(row);
   }
   await appendFile(RESULT_PATH, line, 'utf8');
+  return { file: 'reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl',
+    bytes: Buffer.byteLength(line), sha256: sha256(Buffer.from(line)) };
 }
 
 async function main() {

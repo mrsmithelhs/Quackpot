@@ -41,11 +41,40 @@ function expectedCaptureId(phase) {
 }
 
 function parseCompleteProofResult(stdout) {
+  if (Buffer.byteLength(stdout) > 4 * 1024) fail('Compact browser-phase proof exceeds the 4 KiB transport cap.');
   const lines = stdout.split(/\r?\n/).filter(Boolean);
   if (lines.length !== 1) fail(`Expected exactly one complete browser-phase result record; received ${lines.length}.`);
   const result = JSON.parse(lines[0]);
   if (!result || typeof result !== 'object' || Array.isArray(result)) fail('Browser phase returned a non-object proof result.');
   return result;
+}
+
+async function verifyCaptureProofRecord(summary, expectedId, phase) {
+  const record = summary.fullEvidenceRecord;
+  const expectedFile = 'reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl';
+  if (record?.file !== expectedFile || !Number.isSafeInteger(record.bytes) || record.bytes < 2 || record.bytes > 1024 * 1024
+      || typeof record.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(record.sha256))
+    fail('Capture proof omitted the pinned full-evidence record reference.');
+  const bytes = await readFile(resolveRepoPath(expectedFile));
+  if (bytes.length > 1024 * 1024) fail('Full pilot evidence log exceeds its 1 MiB read cap.');
+  const lines = bytes.toString('utf8').split(/(?<=\n)/);
+  const matched = lines.find((line) => Buffer.byteLength(line) === record.bytes && sha256(Buffer.from(line)) === record.sha256);
+  if (!matched) fail('Pinned full-evidence record bytes/hash were not found in the pilot log.');
+  const full = JSON.parse(matched);
+  const fullSentinel = full.capture?.provenance?.observations?.ordinarySaveSentinel;
+  if (full.phase !== phase || full.capture?.id !== expectedId || full.capture?.sha256 !== summary.capture.sha256
+      || full.candidate?.id !== expectedId || full.candidate?.status !== 'capture-pending-cleanup'
+      || full.candidate?.sha256 !== summary.candidate.sha256
+      || fullSentinel?.isolatedContext !== true || fullSentinel?.unchanged !== true
+      || fullSentinel?.beforeSha256 !== summary.sentinel.beforeSha256
+      || fullSentinel?.afterSha256 !== summary.sentinel.afterSha256 || summary.sentinel.preserved !== true
+      || full.cleanup?.residual !== summary.chromeCleanup.residual
+      || full.cleanup?.uncertainty !== summary.chromeCleanup.uncertainty
+      || full.cleanup?.childExitCode !== summary.chromeCleanup.childExitCode
+      || full.cleanup?.treeTerminationConfirmed !== summary.chromeCleanup.treeTerminationConfirmed
+      || full.cleanup?.profileRemoved !== summary.chromeCleanup.profileRemoved)
+    fail('Pinned full-evidence record disagrees with the compact capture proof.');
+  return { file: expectedFile, bytes: record.bytes, sha256: record.sha256 };
 }
 
 async function promoteCaptureAfterSupervisorSuccess({ id, expectedHash }) {
@@ -179,11 +208,24 @@ async function stopOwnedOnce(record) {
   if (!record.child) return { residual: false, uncertainty: true, exit: record.exit, reason: 'owned process handle missing' };
   const parentExitedOnEntry = record.exit !== null;
   const provedBrowserCleanup = () => {
+    if (record.summaryValidated !== true) return false;
     const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
     if (!line) return false;
     try {
       const parsed = JSON.parse(line);
-      return parsed.cleanup?.treeTerminationConfirmed === true && parsed.cleanup?.residual === false && parsed.cleanup?.uncertainty === false;
+      return parsed.protocol === 'qp35.capture-supervisor-proof.v1'
+        && parsed.chromeCleanup?.treeTerminationConfirmed === true
+        && parsed.chromeCleanup?.residual === false && parsed.chromeCleanup?.uncertainty === false
+        && parsed.chromeCleanup?.childExitCode === 0 && parsed.chromeCleanup?.profileRemoved === true;
+    } catch { return false; }
+  };
+  const provedPilotCleanup = () => {
+    const line = record.stdout.split(/\r?\n/).filter(Boolean).at(-1);
+    if (!line) return false;
+    try {
+      const parsed = JSON.parse(line);
+      return parsed.cleanup?.treeTerminationConfirmed === true && parsed.cleanup?.residual === false
+        && parsed.cleanup?.uncertainty === false && parsed.cleanup?.childExitCode === 0 && parsed.cleanup?.profileRemoved === true;
     } catch { return false; }
   };
   let tracked = [];
@@ -223,7 +265,9 @@ async function stopOwnedOnce(record) {
       } while (Date.now() < until);
     } catch { inspectionFailed = true; }
   }
-  const helperConfirmed = record === proofChild && record.exit?.code === 0 && provedBrowserCleanup();
+  const capturePhase = /^capture-/.test(evidence.phase ?? '');
+  const helperConfirmed = record === proofChild && record.exit?.code === 0
+    && (capturePhase ? provedBrowserCleanup() : provedPilotCleanup());
   const retainedClear = remaining.length === 0 && remainingTree.length === 0;
   const parentUnobserved = parentExitedOnEntry && !helperConfirmed;
   const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved;
@@ -273,17 +317,20 @@ async function main() {
     const expectedId = expectedCaptureId(phase);
     const candidate = proofResult.candidate;
     const expectedHash = candidate?.sha256;
-    const sentinel = proofResult.capture?.provenance?.observations?.ordinarySaveSentinel;
+    const sentinel = proofResult.sentinel;
     if (proofResult.phase !== phase || !expectedId || candidate?.id !== expectedId
         || candidate?.status !== 'capture-pending-cleanup'
         || typeof expectedHash !== 'string' || !/^[a-f0-9]{64}$/.test(expectedHash)
+        || proofResult.protocol !== 'qp35.capture-supervisor-proof.v1'
         || proofResult.capture?.id !== expectedId || proofResult.capture?.sha256 !== expectedHash
-        || sentinel?.isolatedContext !== true || sentinel?.unchanged !== true
-        || typeof sentinel?.beforeSha256 !== 'string' || sentinel.beforeSha256 !== sentinel.afterSha256
-        || proofResult.cleanup?.residual !== false || proofResult.cleanup?.uncertainty !== false
-        || proofResult.cleanup?.treeTerminationConfirmed !== true || proofResult.cleanup?.profileRemoved !== true) {
-      fail('Browser phase did not return the complete expected pending candidate and confirmed Chrome cleanup result.');
+        || sentinel?.preserved !== true || typeof sentinel?.beforeSha256 !== 'string' || sentinel.beforeSha256 !== sentinel.afterSha256
+        || proofResult.chromeCleanup?.residual !== false || proofResult.chromeCleanup?.uncertainty !== false
+        || proofResult.chromeCleanup?.treeTerminationConfirmed !== true || proofResult.chromeCleanup?.profileRemoved !== true
+        || proofResult.chromeCleanup?.childExitCode !== 0) {
+      fail('Browser phase did not return the expected compact pending-candidate and confirmed Chrome cleanup proof.');
     }
+    evidence.proof.fullEvidenceRecord = await verifyCaptureProofRecord(proofResult, expectedId, phase);
+    proofChild.summaryValidated = true;
     evidence.proof.result = proofResult;
     capturePromotionRequest = { id: expectedId, expectedHash };
   }

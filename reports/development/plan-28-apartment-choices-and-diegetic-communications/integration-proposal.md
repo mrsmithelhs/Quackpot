@@ -16,8 +16,9 @@ Assign or decline a **single cohesive implementation packet**. It would cover:
 - the `main.js` rewiring in §3;
 - the routing in §4.
 
-It requires no engine rule change and no new event type. It includes one owner-approved timing change: breakfast is
-charged when the player taps, instead of automatically (§1).
+It reuses existing engine computations and event types. It includes an owner-approved controller timing/progression
+change: breakfast is charged when the player taps, instead of automatically (§1). That requires compatibility and
+lifecycle checks even though amounts and engine action methods are retained.
 
 Root also needs to decide on the HUD-during-card question (§4.3). Root may split the packet differently, but slicing it
 into preliminary gates is not needed.
@@ -111,7 +112,9 @@ fallback is a pure engine method `previewEscalation(step)`. That would be a new 
 At present, `main.js:140-148` restores `step` and `activeModal` independently, and nothing checks that they agree.
 - **Proposal:** the life surface derives its place from the full state through `lifeLocation(state)`. The H1 tests
   cover every persisted route in the source table, and states reached by real actions from both fixtures.
-- **An unknown combination** falls back to the current phone view rather than guessing.
+- **An unknown combination** needs an explicit, non-destructive recovery policy. Do not silently route a new morning
+  step into an unrelated phone view or replay already-committed pulls, payments or races. Cover named supported old
+  saves and interrupted states rather than relying on the validator accepting arbitrary step strings.
 
 Breakfast on reload:
 - If breakfast is unpaid (its bill ID is not in `billsSettled`), the note shows again.
@@ -131,19 +134,21 @@ What happens today:
 
 **Proposal: life cards are part of the page, not modal dialogs.** No backdrop, no `aria-modal` and no focus trap, so
 Save, Settings and Uninstall stay reachable on every life surface. This matches the selected experience, in which
-bills sit in the apartment rather than over it. **Root decision:** whether that HUD reachability is acceptable during
-rent.
+bills sit in the apartment rather than over it. **Root delivery disposition,2026-10-30:** approve this reachability
+for the future integration; it follows existing Save/Settings/Uninstall contracts and is not an unresolved owner
+product choice. Both pointer and keyboard access must work.
 
 Consequences:
 - **Settings** keeps its modal behavior. Closing it returns to a life surface that is re-derived from state.
 - **Uninstall** stores `interruptedContext = {step, activeModal}` (`game-engine.mjs:990-1007`). Stay restores it
   (`:1025-1048`), and the life surface re-derives from the restored state. The prototype's H1 test covers Stay and Leave
   over the ladder.
-- **Latent defect (source reading only, not reproduced).** Because the retention modal does not make the HUD inert,
+- **Existing defect (engine reproduction by root,2026-10-30; browser reachability still untested).** Because the retention modal does not make the HUD inert,
   pressing Uninstall again from the retention modal calls `clickUninstall` a second time. That overwrites
-  `interruptedContext.activeModal` with `'retention'`. The packet should guard `clickUninstall` while
-  `activeModal === 'retention'`, or make the HUD inert under that modal. This sits next to Plan 28 rather than inside
-  it.
+  `interruptedContext.activeModal` with `'retention'`. Root reproduced Pay on the unpaid fixture, Uninstall twice,
+  then Stay: activeModal incorrectly returns to retention instead of escalation. The future integration packet
+  should make repeated Uninstall requests idempotent without replacing the original context; keep immediate Leave
+  and at-most-once retention reward. Do not solve this by blocking Uninstall on ordinary bill surfaces.
 
 ## 5. Focus and accessibility
 
@@ -181,15 +186,22 @@ Consequences:
 
 ## 7. Migration and evidence
 
-- **Saves.** There is no schema change. Saves written by the current code already have breakfast settled for the day
-  they are on, so the new routing shows no tap for them, which is correct. Saves on rent steps route through
-  `lifeLocation`.
+- **Saves.** No new envelope field is proposed, but that does not establish migration-free behavior. The rent fixtures
+  have breakfast settled; other old saves do not. The valid historical Plan16 pending-reveal checkpoint is Day1,
+  `d1_morning_gacha`, with unsettled `d1_food` and ten pending reveals. Define compatibility for this and other
+  pre-breakfast/interrupted states, preserving their existing progress and revealing no already-committed result
+  twice. Settled bills must never be charged again. Saves on known rent steps route through `lifeLocation`.
 - **Hash chains.** Appending new events, or different event orders in new runs, does not rewrite valid historical
   entries. Old chains stay valid.
 - **Plan 35 fixtures.** The two rent fixtures stay historically valid saves. What changes is their **current
   attestation**: source changes to `main.js` and the engine closure make the recorded source/validator identity
   stale.
-  - Handle that with Plan 35's compatible offline revalidation. Do not recapture.
+  - Compatible revalidation is the desired reuse path, but the CURRENT Plan35 validator deliberately rejects
+    production-source drift against the captured source closure. Its existing revalidate command does not authorize
+    rebinding that origin to new production code. A reviewed compatibility extension or later bounded reuse task is
+    needed; do not expect a routine command to pass after main.js changes. Preserve old capture bytes/provenance,
+    and use fresh ordinary saves/full-start evidence for integration where appropriate rather than expanding this
+    packet into a checkpoint-tool rewrite. Do not recapture all fixtures by default.
   - **Recapture** is needed only to witness genuinely new behavior. A new fixture, such as "Day 2 morning, breakfast
     unpaid", would be a new capture, labelled as such.
   - Do not regenerate all fixtures by default.

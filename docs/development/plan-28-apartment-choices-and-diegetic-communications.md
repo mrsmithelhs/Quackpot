@@ -1,7 +1,7 @@
 ---
 id: plan-28
 title: Apartment choices and diegetic communications
-status: in-progress
+status: delivered
 
 depends_on: [plan-25]
 gate: "Owner assigned Claude investigation on 2026-10-30. Expanded delivery clearance04 authorizes in-scope prototype edits and bounded validation; owner resolves experience choices directly. Production remains separately scoped."

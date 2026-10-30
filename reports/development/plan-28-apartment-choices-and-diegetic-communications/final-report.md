@@ -59,9 +59,9 @@ Each item is attributed to whoever produced it.
 - **Lead:** `plan28.test.mjs`, 13/13, through the Plan 25 launcher. It now includes the breakfast-tap test and the
   framing test. Exit 0, 1.16 s, peak 128 MB.
 - **Lead, browser gate session 1** (`browser-gate.md`):
-  - Everything a student sees passed at 1280×720 and 390×844, driven by real keys: both rent branches, the real sale
-    disappearing, the final decline, heading focus, one event per double activation, stale and error scenario
-    switching, return from the gacha, and motion-off.
+  - The record covers the rent branches, real sale disappearance, final decline, focus, duplicate activation,
+    scenario/error switching, return and motion-off using a mix of real keys and DOM scripts. The per-case table
+    distinguishes which checks ran at each viewport; it is not full keyboard coverage of every case at both widths.
   - Findings B1–B3 were recorded.
 - **Lead, browser gate session 2:**
   - B1–B3 were confirmed fixed. B1's remaining cause was found and fixed: the event-list JSON text.
@@ -90,8 +90,9 @@ See `integration-proposal.md`. In summary:
 - **`main.js`:** the rent screen and the zero-cash/escalation modal branches are replaced by one life-surface mount,
   and the three automatic food charges move to the breakfast tap.
 - **No engine rule changes and no new event types.**
-- **Migration:** state-derived routing for reload and Uninstall. Plan 35 needs compatible re-attestation, not
-  recapture.
+- **Compatibility:** state-derived routing needs explicit handling of old pre-breakfast and interrupted saves.
+  Plan35's current tool rejects changed production-source closures; compatible reuse needs a reviewed policy,
+  not automatic re-attestation or wholesale recapture. Root corrected the integration proposal accordingly.
 - **Validation:** proportionate.
 
 ## Remaining risks

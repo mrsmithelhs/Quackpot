@@ -70,3 +70,21 @@ Cleanup now samples the owned process tree under a hard deadline while the proce
 No validation command has run. Root's latest authorization, after the repair commit, covers only seven serial syntax checks through the unchanged Plan 25 wrapper, after the required Node-memory/concurrent-activity preflight: `provenance.mjs`, `envelope.mjs`, `checkpoint-proof.mjs`, `process-tree.mjs`, `cdp.mjs`, `browser-phase.mjs`, and `run-controlled-phase.mjs`. No imports, semantic/offline checks, process probes, server, or browser/capture/pilot execution is authorized. After that bounded batch, the next semantic command batch must be sent to root for separate clearance.
 
 The required pre-syntax process/memory preflight was attempted after the repair commit using a read-only Windows CIM query. The environment returned “Access to a CIM resource was not available to the client” for both process and OS memory queries; the resulting empty list is not evidence that no Node or Quackpot processes are active. I stopped before the first syntax check, as root required on a failed preflight. No Node/syntax/module/test/browser/server command has been run after the repair commit. The authorized syntax batch remains pending a usable preflight method or renewed root direction.
+
+## Cleared syntax-only batch result
+
+Root then supplied `Get-Process -Name node -ErrorAction SilentlyContinue` as the accepted preflight. At 2026-10-29 22:55:24 America/New_York, it observed 0 Node processes, 0 aggregate private bytes, 0 maximum individual private bytes, below the 1 GiB per-process and 2 GiB aggregate thresholds. I ran the seven cleared syntax checks serially through the unchanged `bounded-node-run.ps1`; all returned exit code 0, with no stop reason, cleanup notes, stdout, or stderr. Each run was approximately 0.52–0.54 seconds and sampled 1,331,200–1,888,256 private bytes, well below the wrapper's 90-second / 2 GiB process-tree limits and Node's 1 GiB heap cap.
+
+| Exact checked path | Wrapper exit | Elapsed seconds | Peak sampled private bytes |
+|---|---:|---:|---:|
+| `scripts/dev/checkpoints/provenance.mjs` | 0 | 0.5214917 | 1,331,200 |
+| `scripts/dev/checkpoints/envelope.mjs` | 0 | 0.5220990 | 1,875,968 |
+| `scripts/dev/checkpoints/checkpoint-proof.mjs` | 0 | 0.5285669 | 1,789,952 |
+| `scripts/dev/checkpoints/process-tree.mjs` | 0 | 0.5360458 | 1,888,256 |
+| `scripts/dev/checkpoints/cdp.mjs` | 0 | 0.5263210 | 1,863,680 |
+| `scripts/dev/checkpoints/browser-phase.mjs` | 0 | 0.5345935 | 1,884,160 |
+| `scripts/dev/checkpoints/run-controlled-phase.mjs` | 0 | 0.5322080 | 1,761,280 |
+
+The source files checked are from source commit `63310e2` (`fix(plan35): align review evidence and cleanup ownership`). Their SHA-256 identities, in the table order above followed by the PowerShell process-tree helper, are: `3b47fd0b2c95bfad122d48808de3b879a2abca08c04ac9094d0b48e56998d97c`, `c7178e7001cebbe7f953d8a12d2fb34063d8d7122aa4bfa8ecd189c6ff19cfda`, `bd5f8ede8beb2936bb8bf72c1529c2bdebf5d2794a50e3a10631183b21c5de9c`, `95f18e943386005ce32727b96ec7ea4ff932b667aed1938344917b7961ebfcbb`, `60add6c175970b44a6531ea1d4e623244a5ed5f7d373cf0cf30b9b303c7803db`, `a3542db22125a8d6c716600dad2218f4eb785db63b1a93b4596d23296b4a15f3`, `e99fc47d1a80bd64474e68a7a49495736a99a2cee0b2ba0b84978ba256375444`, and `08f6a5d14bf17893fa743eb94e10e1aa6203ad5b045ef4455ed7073c4a73bd75`.
+
+These checks establish syntax only; they do not establish import resolution, runtime behavior, cleanup behavior, fixture validity, or browser behavior. The next proposed semantic batch for root clearance is three separate bounded offline invocations, in order: `checkpoint-proof.mjs loader-identity`, `checkpoint-proof.mjs reference qp16.starter-offer.v1`, and `checkpoint-proof.mjs reference qp16.pending-reveal.v1`. No part of that semantic batch, nor any process-tree probe, fixture, server, browser, capture, or pilot command, has been run or is yet authorized.

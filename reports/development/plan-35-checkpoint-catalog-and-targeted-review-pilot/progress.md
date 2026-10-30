@@ -98,3 +98,27 @@ Root cleared the three offline commands serially. A refreshed `Get-Process -Name
 - `checkpoint-proof.mjs reference qp16.pending-reveal.v1`: not run because the batch must stop on the first failure.
 
 No source files changed in this batch. A later root message identified additional static exposure-validator concerns and asked that source repair wait for consolidated review; that request is being followed. No process-tree probe, fixture validation, server, browser, capture, or pilot was run. The next action is root review/direction on the unexpected `vite.config.mjs` source-closure path and consolidated browser-validator findings before any source repair or rerun.
+
+## Latest root-authorized source repairs and rerun
+
+Root's consolidated review identified three additional repairs. Commit `5350b7d` corrects the exposure validator to follow the actual producer fields and semantics (`candidates[].duckId`, `selectedDuckId`, `foregroundedDuckId`, `trialAvailable`, and the multiplier only when the trial is selected). It also records whether the launcher root was already exited on cleanup entry and refreshes the remaining descendant tree during the bounded wait. Commit `b4120f0` adds the exact `vite.config.mjs` root path to the Plan 16 source allowlist while retaining pinned fingerprint checks and bounded reads, and computes the current fingerprint from current file hashes in manifest key order so a match yields equal expected/current fingerprints.
+
+After the `b4120f0` change, a refreshed `Get-Process -Name node` preflight at 2026-10-29 22:59:55 America/New_York found 0 Node processes and 0 private bytes, below the 1 GiB individual / 2 GiB aggregate thresholds. The changed-file syntax check for `provenance.mjs` passed through Plan 25 (exit 0; 0.5266089 seconds; peak sampled private bytes 1,851,392; no stop reason, cleanup notes, stdout, or stderr).
+
+The exact three-command offline batch then passed serially through Plan 25, with no wrapper stop reason, cleanup notes, or stderr:
+
+- Loader identity: exit 0; 0.5292225 seconds; peak 2,097,152 private bytes; loader SHA-256 `d031ba993b096b23221f8a0963ae4bb5b46bb33d449233c51aaa1265ebbea34c`.
+- Plan 16 starter reference: exit 0; 0.5229792 seconds; peak 1,880,064 private bytes. Classification remains `captured-replayable-historical`, output status `historical-reference-current-source-match`, save validation passed with no errors, exact fixture 169,427 bytes / `e6a4de779d350fb249b3a95071d81b42008495bc52cba40d487b2cd95b2508d9`, archive index `4b25c518f66ef322a3b163d275e9b3eb0bffa4b5d9664b3c7e36105268b36b2d`, and expected/current source fingerprints both equal `2c4244c466ae8c323b8f96a1c0db69989e171438b3710069fce8be976661715d`. The earlier failed invocation is retained as history; this successful rerun supplies the source-match result.
+- Plan 16 pending-reveal reference: exit 0; 0.5284876 seconds; peak 2,052,096 private bytes. Classification remains `generated-reproducible-historical`, output status `historical-reference`, save validation passed with no errors, exact fixture 7,134 bytes / `4d550bdead725ab0fadad735c77705c1535828da4e3bd8f746ef71d8254ef98d`. Its reuse limit remains historical generated evidence only; this run did not establish current generated reproducibility or rebind its recipe.
+
+The four successful offline reference rows were committed as evidence in `e7dd561`. The final progress report is committed after that evidence. Source commits for the latest repairs are `5350b7d` and `b4120f0`. No fixture was generated, no catalog status changed, and no source or historical evidence was rebound.
+
+## Proposed finite ownership-permission probe for root review
+
+No ownership probe has been run. To establish whether the existing read-only CIM path works before any mount, the proposed single command is:
+
+```powershell
+.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable powershell.exe -ArgumentVector @('-NoProfile','-NonInteractive','-Command', '$rows=@(& .\scripts\dev\checkpoints\process-tree.ps1 -RootPid $PID | ConvertFrom-Json); $root=@($rows | Where-Object { $_.root -eq $true -and $_.pid -eq $PID }); if ($root.Count -ne 1) { throw ''Owned root identity not found.'' }; $rows | ConvertTo-Json -Depth 3')
+```
+
+This is read-only and starts no Node, Vite, or Chrome process. It asks the existing helper to identify only the current bounded PowerShell root and its descendants, verifies that exactly one row marks the root PID, and emits that finite tree snapshot. The unchanged Plan 25 wrapper supplies the 90-second / 2 GiB sampled-tree bound. A pass establishes the CIM permission path and one snapshot only; it does not establish sustained descendant monitoring or cleanup behavior. Root clearance is required before running it. No browser, server, process-tree, fixture, capture, or pilot execution is currently authorized.

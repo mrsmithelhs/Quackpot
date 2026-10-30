@@ -275,6 +275,33 @@ test('normalizeLoadedStep: a crash after the charge moves forward with no second
   assert.equal(engine.log.entries.length, logBefore);
 });
 
+test('normalizeLoadedStep: settled zero-cash breakfast preserves its pending choice', () => {
+  const engine = freshEngine('routing-zero-cash-breakfast');
+  engine.state.cash = 5;
+  engine.state.step = 'd1_morning_breakfast';
+  engine.billExpense('food', 5);
+  assert.equal(engine.state.activeModal, 'zerocash');
+  assert.equal(engine.state.step, 'd1_morning_breakfast');
+  const before = structuredClone(engine.state);
+
+  assert.deepEqual(normalizeLoadedStep(engine), { step: 'd1_morning_breakfast', recovered: false, next: null });
+  assert.deepEqual(engine.state, before, 'reload normalization preserves the active zero-cash decision and context');
+});
+
+test('normalizeLoadedStep: settled breakfast preserves an active retention interruption', () => {
+  const engine = freshEngine('routing-retention-breakfast');
+  engine.state.cash = 15;
+  engine.state.step = 'd2_morning_breakfast';
+  engine.billExpense('food', 5);
+  engine.clickUninstall();
+  assert.equal(engine.state.activeModal, 'retention');
+  assert.deepEqual(engine.state.interruptedContext, { step: 'd2_morning_breakfast', activeModal: null });
+  const before = structuredClone(engine.state);
+
+  assert.deepEqual(normalizeLoadedStep(engine), { step: 'd2_morning_breakfast', recovered: false, next: null });
+  assert.deepEqual(engine.state, before, 'reload normalization leaves retention and its saved interruption intact');
+});
+
 test('normalizeLoadedStep: an unpaid breakfast needs no repair', () => {
   const engine = freshEngine('routing-unpaid-breakfast');
   engine.state.cash = 15;

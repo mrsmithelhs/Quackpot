@@ -8,6 +8,7 @@
 // when the decision was built (a null return means stale). No storage, no remote assets, no new engine events.
 
 import { renderScene } from '../../assets/apartment/index.mjs';
+import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
@@ -37,7 +38,7 @@ const TV_SPOT = { x: 1, y: 21, w: 26, h: 30 };
 
 const SCENES = {
   'kitchen-notice': () => ({ area: 'kitchen', framing: 'wide', light: 'neutral' }),
-  'kitchen-breakfast': () => ({ area: 'kitchen', framing: 'medium', light: 'window' }),
+  'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: breakfastFraming(e.state.day), light: 'window' }),
   'desk-phone': (e, offered) => ({ area: 'desk-side', light: 'warm',
     ...(offered ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
   'desk-card': () => ({ area: 'desk-side', light: 'warm',
@@ -78,7 +79,7 @@ function poseFor(place, engine, kit, offer) {
     case 'living': return offer === 'sell_tv'
       ? sideGaze(kit, { x: 14, y: 36 }, { facing: 'left', size: kit.w })
       : sideGaze({ x: 21, y: 63.5 }, { x: 80, y: 55 }, { facing: 'right', size: kit.w * 1.05 });
-    case 'kitchen-breakfast': return sideGaze(kit, { x: 28, y: 70 }, { facing: 'left', size: kit.w });
+    case 'kitchen-breakfast': return sideGaze(kit, breakfastObjectBox(engine.state.day, { x: 28, y: 70, w: 0 }), { facing: 'left', size: kit.w });
     default: return null;
   }
 }
@@ -139,8 +140,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     } else if (place === 'kitchen-breakfast') {
       const settled = breakfastState(engine).settled;
       out.push(settled
-        ? { id: 'bag', svg: bakeryBag({ idPrefix: uid('lfb') }), x: 26, y: 50, w: 7, label: 'Bakery bag', done: true }
-        : { id: 'plate', svg: emptyPlate({ idPrefix: uid('lfp') }), x: 21, y: 66, w: 14, label: worldLabels.plate, chip: chips.plate, done: false,
+        ? { id: 'bag', svg: bakeryBag({ idPrefix: uid('lfb') }), ...breakfastObjectBox(engine.state.day, { x: 26, y: 50, w: 7 }), label: 'Bakery bag', done: true }
+        : { id: 'plate', svg: emptyPlate({ idPrefix: uid('lfp') }), ...breakfastObjectBox(engine.state.day, { x: 21, y: 66, w: 14 }), label: worldLabels.plate, chip: chips.plate, done: false,
           hold: { mode: 'popover', side: 'right', kind: offer && offerDecision() ? 'ladder' : 'breakfast' } });
     }
     return out;
@@ -166,9 +167,16 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (kind === 'ladder') {
       const spec = ladderDecision(engine);
       const before = snapshot();
+      const foodBill = engine.state.activeBill?.kind === 'food';
       return { spec,
         accept: () => {
           if (callbacks.onLadderAccept(expectLog) === null) return null;
+          if (foodBill) return {
+            heading: engine.state.activeBill ? 'Breakfast still unresolved' : spec.step === 'skip_lunch' ? 'Going without breakfast' : 'Breakfast paid',
+            lines: [`Health ${before.health} → ${engine.state.health}.`, `Cash on hand: ${money(engine.state.cash)}.`,
+              engine.state.activeBill ? `Food bill still unpaid: ${money(engine.state.activeBill.amount)}.` : 'The food bill is resolved.'],
+            ends: engine.isTerminal(),
+          };
           const v = outcomeView(engine, { choice: spec.step, before });
           const lines = [...v.card.lines];
           const ends = engine.isTerminal();
@@ -177,7 +185,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         },
         decline: () => {
           if (callbacks.onLadderDecline(expectLog) === null) return null;
-          if (engine.isTerminal()) return endedResult();
+          if (engine.isTerminal()) return foodBill
+            ? { heading: 'This run has ended', lines: ['The food bill remains unpaid. Your Receipt is next.'], ends: true }
+            : endedResult();
+          if (foodBill) return { heading: 'Turned down', lines: ['Breakfast remains unresolved. Your next option is waiting.'] };
           return { heading: 'Turned down', lines: [`Rent is still ${money(rentState(engine).short)} short. Your next option is waiting.`] };
         } };
     }

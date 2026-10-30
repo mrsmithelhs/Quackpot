@@ -234,6 +234,7 @@ if (app) {
         if (engine.isTerminal()) return;
         engine.clickUninstall();
         activeModal = 'retention';
+        maybeAutosave(); // Keep the displayed retention prompt and original interrupted context across reload.
         renderApp();
       },
     });

@@ -32,6 +32,7 @@ export function shortfallDecision(engine) {
 }
 
 const OFFER_COPY = {
+  skip_lunch: { heading: 'Go without breakfast?', accept: 'Go without breakfast', keep: 'Find another way' },
   extra_shift: { heading: "Cover Marisol's late shift?", accept: 'Work the shift', keep: 'Turn it down' },
   sell_couch: { heading: 'Sell the couch?', accept: 'Sell the couch', keep: 'Keep the couch' },
   sell_tv: { heading: 'Sell the TV?', accept: 'Sell the TV', keep: 'Keep the TV' },
@@ -49,13 +50,30 @@ export function ladderDecision(engine) {
   if (!p.step) return null;
   const r = rentState(engine);
   const copy = OFFER_COPY[p.step];
-  const effect = effectText(p.accept.effect, { rentPaid: p.accept.rentPaid });
-  const lines = [`Rent is ${money(r.short)} short. Nothing has been taken.`, `If you accept: ${effect}.`];
+  const bill = engine.state.activeBill;
+  const foodBill = bill?.kind === 'food';
+  const effect = effectText(p.accept.effect, { rentPaid: !foodBill && p.accept.rentPaid });
+  const short = Math.max(0, round(bill.amount - engine.state.cash));
+  const foodAccept = p.step === 'skip_lunch'
+    ? `the ${money(bill.amount)} food bill is waived`
+    : p.accept.result.resolved
+      ? `then ${money(bill.amount)} food bill paid`
+      : `food bill remains ${money(Math.max(0, round(bill.amount - p.accept.after.cash)))} short`;
+  const lines = foodBill
+    ? [`Food bill is ${money(short)} short. Nothing has been taken.`, `If you accept: ${effect}; ${foodAccept}.`]
+    : [`Rent is ${money(r.short)} short. Nothing has been taken.`, `If you accept: ${effect}.`];
   if (p.step === 'credit_card') lines.splice(1, 0, `Available now: ${money(p.accept.effect.cash)}. It adds ${money(p.accept.effect.debt)} to what you owe (now ${money(engine.state.debt)}).`);
   const decline = p.decline.endsRun
-    ? { label: `${copy.keep}: rent stays ${money(RENT_AMOUNT)} unpaid and this run ends. Your Receipt is next.`, endsRun: true }
-    : { label: `${copy.keep} (rent still ${money(r.short)} short)`, endsRun: false };
-  return { step: p.step, heading: copy.heading, lines, confirm: `${copy.accept}: ${effect}`, decline, back: 'Not now', preview: p };
+    ? { label: foodBill
+      ? `${copy.keep}: the ${money(bill.amount)} food bill stays due (${money(short)} short) and this run ends. Your Receipt is next.`
+      : `${copy.keep}: rent stays ${money(RENT_AMOUNT)} unpaid and this run ends. Your Receipt is next.`, endsRun: true }
+    : { label: foodBill
+      ? `${copy.keep} (food bill still ${money(short)} short)`
+      : `${copy.keep} (rent still ${money(r.short)} short)`, endsRun: false };
+  const confirm = foodBill
+    ? `${copy.accept}: ${effect}; ${foodAccept}`
+    : `${copy.accept}: ${effect}`;
+  return { step: p.step, heading: copy.heading, lines, confirm, decline, back: 'Not now', preview: p };
 }
 
 /**

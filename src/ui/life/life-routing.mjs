@@ -109,7 +109,10 @@ export function normalizeLoadedStep(engine) {
   if (!isKnownStep(step)) return { step, recovered: true, next: null };
   if (isBreakfastStep(step)) {
     const b = breakfastState(engine);
-    if (b.settled && !engine.state.activeBill) return { step, recovered: false, next: afterBreakfast(engine) };
+    const interrupted = engine.state.activeModal === 'zerocash'
+      || engine.state.activeModal === 'retention'
+      || engine.state.interruptedContext;
+    if (b.settled && !engine.state.activeBill && !interrupted) return { step, recovered: false, next: afterBreakfast(engine) };
   }
   return { step, recovered: false, next: null };
 }

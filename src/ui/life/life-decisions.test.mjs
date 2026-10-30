@@ -74,6 +74,46 @@ test('rent short: every accept states its actual effect and that rent then gets 
   }
 });
 
+test('short food bill: skip-lunch copy matches the waived bill and health loss', () => {
+  const e = fresh();
+  e.state.cash = 3;
+  e.state.step = 'd1_morning_breakfast';
+  e.billExpense('food', 5);
+
+  const d = ladderDecision(e);
+  assert.doesNotThrow(() => ladderDecision(e));
+  assert.equal(d.step, 'skip_lunch');
+  assert.equal(d.heading, 'Go without breakfast?');
+  assert.ok(d.lines[0].includes('Food bill is $2.00 short'));
+  assert.match(d.lines[1], /15 health/);
+  assert.match(d.lines[1], /\$5\.00 food bill is waived/);
+  assert.match(d.confirm, /Go without breakfast:.*15 health.*\$5\.00 food bill is waived/);
+
+  const before = { events: e.log.length, debt: e.state.debt };
+  e.acceptEscalation();
+  const actual = effectFromEvents(e.log.entries, before.events, before.debt);
+  assert.deepEqual(d.preview.accept.effect, actual);
+  assert.equal(e.state.health, 85);
+  assert.equal(e.state.cash, 3);
+  assert.equal(e.state.activeBill, null);
+  assert.ok(e.log.entries.some((entry) => entry.type === 'escalation_result' && entry.payload.effects.billWaived === 5));
+});
+
+test('declining skip lunch says the actual food shortfall remains due', () => {
+  const e = fresh();
+  e.state.cash = 3;
+  e.state.step = 'd1_morning_breakfast';
+  e.billExpense('food', 5);
+  const d = ladderDecision(e);
+
+  assert.equal(d.decline.endsRun, false);
+  assert.equal(d.decline.label, 'Find another way (food bill still $2.00 short)');
+  e.declineEscalation();
+  assert.equal(e.state.activeBill.kind, 'food');
+  assert.equal(e.state.activeBill.amount, 5);
+  assert.equal(e.state.cash, 3);
+});
+
 test('paid with exactly $15: the rent decision shows cash before and after, and the notice stays plain paper', () => {
   const e = fresh();
   e.state.day = 2;

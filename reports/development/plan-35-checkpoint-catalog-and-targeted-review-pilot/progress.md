@@ -184,4 +184,14 @@ Verbatim diagnostic outcome from the bounded wrapper's `StandardOutput`:
 
 This is narrow helper evidence that the independently queried identity was not returned after the controlled parent exit; it does not establish that the child was absent or cleaned up, and it is not a production process-leak claim. Root was sent the trace. Execution remains stopped pending root interpretation; no browser, Vite, server, capture, fixture, or checkpoint generation occurred.
 
+## Root-requested report-only identity diagnostic proposal
+
+Root authorized source authoring only for a one-shot diagnostic at the existing failed known-live round-trip; no lifetime increase or retry has been run. Static inspection of `scripts/dev/checkpoints/process-tree.ps1` shows the normal `-OwnedJson` path uses `ConvertFrom-Json`, then PowerShell `-eq` for both PID and string `CreationDate`, and serializes the matches with `ConvertTo-Json`. In `process-tree.mjs`, a valid parsed `[]` is accepted as a successful empty identity result. Therefore the prior empty response cannot distinguish a missing process from a PID match with creation-string mismatch. The files do not establish which occurred.
+
+The proposed optional `-DiagnosticOwned` path accepts only one-to-four supplied owned PID/creation pairs and returns the parsed values and types, current CIM rows for those PIDs only, and separate PID-equality and creation-equality booleans/types. Its JSON response is capped at 2 KiB in the JavaScript helper. The lifecycle probe calls it once only after the existing identity round-trip returns empty. This response is report-only: it does not affect normal identity matching, the existing timestamp comparison is not relaxed, and the diagnostic cannot grant ownership, confirm cleanup, or authorize a kill. The existing parent/child case, lifetimes, and deadlines are unchanged. Exact proposed syntax and semantic commands are in `proposal.md`; both await root review and separate execution clearance.
+
+The proposed source SHA-256 values are: `process-tree.ps1` `681AAC2D372756E158E22CEC0AF0CDF822A519D0609C14622D3472E52B138C9A`; `process-tree.mjs` `51E0CCB1274097AD8815AE1BCA225BCB8DE3C8701D4E1163295F81E1F5353049`; and `ownership-lifecycle-probe.mjs` `A25725FDB220E1E0253415C2E8FB10A6843F7F6F3DD97CA94EE2930C98CD46C6`. These authored changes have not been syntax-checked or executed. No new process, browser, server, Vite, capture, fixture, or checkpoint generation was run.
+
+The authored diagnostic source and proposal are commit `c3a809a`. The exact proposed bounded syntax and semantic commands are included in `proposal.md`; they remain unrun and await root review and separate command clearance.
+
 No lifecycle scenario, Node syntax check, server, browser, capture, or fixture command ran in this turn. No source rebind, production change, catalog status change, or process-policy modification was made. Progress is committed after the probe source and proposal update.

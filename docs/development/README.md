@@ -37,7 +37,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-26` | Living-room daylight and still weather study | complete | Compare stronger living-room daylight and still overcast, rain and storm art in an isolated experiment while preserving the extracted apartment kit unchanged. |
 | `plan-27` | Receipt reflection and evidence hierarchy | in-progress | Design a reflection-first Receipt with expandable evidence while preserving the append-only log and three-register honesty. |
 | `plan-28` | Apartment choices and diegetic communications | in-progress | Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons. |
-| `plan-29` | Life economy scale and session pacing | draft | Investigate believable life expenses and accumulation of small gacha purchases under a roughly 25-minute engaged-run direction. |
+| `plan-29` | Life economy scale and session pacing | draft | Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time. |
 | `plan-30` | TV music source and apartment acoustics | draft | Investigate a diegetic animated TV music source, track cycling, room acoustics and silence after sale. |
 | `plan-31` | Influencer apartment transformation study | draft | Compare apartment transformations and displaced possessions for a possible future influencer ending. |
 | `plan-32` | Gacha music hook and arrangement prototypes | in-progress | Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis. |
@@ -45,6 +45,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-34` | Weather runtime extraction without mounting | complete | Extract accepted weather still/motion and bright lightning into tested unmounted source modules, preserving the art kit and current game behavior. |
 | `plan-35` | Checkpoint catalog and targeted review pilot | complete | Extend the two-checkpoint proof with three reachable review starts and portable briefs, then pilot focused browser checks before adopting a general workflow. |
 | `plan-36` | Late-game disorientation and unreliable narration investigation | ready | Investigate late-game transition disturbances, gacha imagery spilling into apartment life, and unreliable character narration. Return bounded alternatives, grounded counterpoints, truthful Receipt mappings and owner decisions before prototypes or integration. |
+| `plan-37` | Action-based time and optional life lanes specification | draft | Specify the owner-selected action-based time model and optional meal, work, leisure and recovery lanes. Separate opportunity costs and disclosed consequences from Plan29 numeric calibration before implementing new story rules. |
 <!-- plan-index:end -->
 
 ## Report Folders

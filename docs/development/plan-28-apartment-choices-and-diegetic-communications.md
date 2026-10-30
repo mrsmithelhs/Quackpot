@@ -39,6 +39,18 @@ The owner may authorize further scope through direct conversation; record those
 decisions and notify orchestration when packet boundaries or production contracts
 would change. This is task authority, not general implementation authority.
 
+**Owner selections and root prebuild review, 2026-10-30:** Direction A, styled HTML
+paper, a still companion carried between scenes, guidance that relaxes later, and
+Harbor Court Property Office as rent sender are selected. Preserve B as a report
+contrast; no executable B or mandatory desk-bound-duck comparison is required.
+Build the approved A comparison only after following
+reports/orchestration/plan-28-prebuild-review-01.md. Opus uses Branch C,
+orchestrator-gate-only, with no advisor call per explicit owner instruction; Haiku
+draft/research/implementation hypotheses remain authorized and lead-reviewed.
+The owner also approves an action-based time model. Its exact specification and
+optional-life consequences belong to draft Plan37, coordinated with Plan29;
+no new time-budget, wage, health, ending or autonomous action rules in this packet.
+
 Recommend a small communication grammar: rent as a bill, meals as a note/menu, extra shift as a work message, furniture sales as apartment-object actions. Compare two bounded compositions using accepted art and accessible real HTML text/actions. Demonstrate breakfast, paid-rent-with-zero-cash, unpaid rent and return from gacha. Establish which scene/location fits each, how player returns, mandatory vs optional interruptions, stale/duplicate-click behavior, save/reload/modal/focus/Uninstall access and reduced-motion parity.
 
 Keep information actionable and friendly: payment success differs from unpaid debt, zero cash is not automatic failure, and choices retain existing costs/health/results. Notes/bills need readable alternatives; don't hide decisions behind unmarked pixel hunts. Do not force a transition that changes or repeats a reward/expense or claims a cue was displayed before visible. Avoid implementing a multiroom navigation game merely to host a bill.

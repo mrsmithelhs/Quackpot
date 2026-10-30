@@ -122,6 +122,13 @@ node scripts/dev/plan-status.js set <id> <status> [--resolution "…"] [--supers
 
 ## 6. Key Reference Routing Table
 
+**Selected next direction (owner,2026-10-30):** Plan28 Direction A apartment
+communications and action-based fictional life time are selected. Plan28 owns a
+report-local presentation prototype only; draft Plan37 owns the exact time/action
+and optional-lane specification, coordinated with Plan29 numerical calibration.
+Reading/device/accessibility time does not consume life slots. No new slot costs,
+missed-meal/work rules or endings are implemented by that selection. See DECISION-034.
+
 When your task touches a component, read these first.
 
 **Orientation / project-wide** (read first on any task)

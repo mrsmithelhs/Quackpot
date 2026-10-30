@@ -8,7 +8,7 @@ gate: "Owner approves investigation scope before assignment, then selects recomm
 superseded_by: null
 resolution: null
 summary: >-
-  Investigate believable life expenses and accumulation of small gacha purchases under a roughly 25-minute engaged-run direction.
+  Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time.
 ---
 # Plan 29: Life economy scale and session pacing
 
@@ -25,7 +25,7 @@ summary: >-
 
 ## Goal, scope and delivery
 
-Owner notes $15 rent/$10 shift feel comically small and wants small discretionary gacha transactions to accumulate into consequential life-money pressure, rather than multiplying every dollar. Owner accepts a roughly25-minute or longer ordinary engaged experience; around15minutes is the rapid low-reading route, never a mandatory exit delay.
+Owner notes $15 rent/$10 shift feel comically small and wants small discretionary gacha transactions to accumulate into consequential life-money pressure, rather than multiplying every dollar. Owner accepts an ordinary engaged target of at least roughly30minutes without a selected upper ceiling; around15minutes remains a rapid low-reading reference, never a minimum or mandatory exit delay. The owner selects action-based time on2026-10-30. Draft Plan37 specifies slot/action/optional-lane semantics; this packet calibrates numerical consequences against that selected specification. Coordinate investigations without circular dependencies; neither packet silently adopts the other's unresolved parameters.
 
 Own NEW reports/development/plan-29-life-economy-scale-and-session-pacing/ only. Read current production economy/state/event/Receipt and accepted simulation assumptions. Production and sim shared modules read-only. Retain authored speed mapping, no per-variant balancing, pity/duplicate/Down terms and genuine finish rules. Do not silently alter fixed accepted exchange contracts. Report-only small experiments need explicit bounded process/time/memory/output approval before running; no broad unattended sweeps.
 

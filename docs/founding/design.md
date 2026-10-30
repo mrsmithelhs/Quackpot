@@ -88,6 +88,13 @@ Retain the owner-selected names for fictional entities: “Biblically Accurate D
 
 ## Time policy
 
+**Owner selection, 2026-10-30:** Fictional life scheduling will use action-based
+time. Exact slots, committed action costs, warnings and optional meal/work lanes
+remain specification inputs for Plan37 with Plan29 numerical calibration. Reading,
+device speed and accessibility/presentation duration do not consume life slots.
+This direction is not yet implemented. Historical live-window candidates below
+do not authorize real-time missed-life penalties; shop expiry details remain open.
+
 The clock is hybrid:
 
 - The shop has a live decision window using explicit game-time labels; its length is open.

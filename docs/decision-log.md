@@ -349,3 +349,24 @@ and Flash for Gemini. These task-specific permissions supersede the fixed counts
 above; lead integration, disjoint draft ownership, execution gates and production
 boundaries remain. General provider-routing preferences are private orchestration
 memory and are not recorded here.
+
+### DECISION-034 — Apartment presentation and action-based fictional time
+
+**Date:** 2026-10-30
+
+Owner selects Plan28 Direction A (things in their places), styled HTML paper,
+a physical companion that is still in each scene but may travel between scenes,
+guidance that relaxes over the run, and Harbor Court Property Office as rent sender.
+Root approves an A-only report prototype; B stays as documentary contrast. Exact
+report execution remains gated, production integration is separate. The Opus lead
+uses owner-selected Branch C/orchestrator-gate-only with no advisor call.
+
+Owner explicitly approves action-based fictional time. It does not advance through
+real elapsed reading, animation, accessibility or device time. Exact slot structure,
+committed action costs, warnings and optional-lane consequences remain to be specified
+in draft Plan37 and numerically calibrated with Plan29. Missed meals, skipped shifts,
+possible dismissal and other candidate lanes are desired exploration, not automatic
+selection of thresholds or new endings. No such rules are implemented by Plan28.
+Actual player commitments, automatic character consequences and displayed evidence
+remain distinguishable; no inferred motive is a Receipt fact. Immediate exit and
+save/reload/idempotency constraints remain binding. No push or deployment.

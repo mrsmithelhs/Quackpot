@@ -404,8 +404,19 @@ would not have helped.
   - No apartment-kit file was changed. Adopting poses or perches into the kit is a Plan 25 matter for root.
 - **Evidence:** `gallery/README.md` session 2.
 
+## Stage 5c: selection and tilt rule (2026-10-30)
+
+- **D20:** the mix is selected (T1, T2, T4). Top-down desk interactions are reserved for future moments.
+- **D21:** the duck tilts only on a believable wedge, and never by tiny amounts. This is enforced in the duck layer,
+  using a paperback wedge for the phone moment.
+- **Next:**
+  - Carry the selected mix through the remaining branches, especially the unpaid-rent ladder and the paid-zero
+    choices together, in the mix's language.
+  - Add tests for the new interaction model and for the gaze/tilt helpers.
+  - Run a browser gate on the dev server.
+  - Revise the integration proposal to fit the mix.
+
 ## Ready for orchestrator review
 
-**Not yet.** Waiting on the owner's selection from the gallery. After that, the selected treatment gets refined
-through the remaining branches (including the unpaid ladder), tests, a browser gate, and a revised integration
-proposal.
+**Not yet.** The owner has selected the mix (D20). Next: refine it through the remaining branches (including the
+unpaid ladder), then tests, a browser gate, and a revised integration proposal.

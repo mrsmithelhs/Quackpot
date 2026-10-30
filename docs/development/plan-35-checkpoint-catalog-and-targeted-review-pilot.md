@@ -1,7 +1,7 @@
 ---
 id: plan-35
 title: Checkpoint catalog and targeted review pilot
-status: in-progress
+status: delivered
 depends_on: [plan-16]
 gate: "Owner approves the first catalog and assignment; root approves mechanism and bounded validation before execution; owner accepts pilot before workflow adoption."
 summary: >-

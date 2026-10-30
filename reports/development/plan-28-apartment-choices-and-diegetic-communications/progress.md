@@ -130,6 +130,131 @@ compares duck placement only.
 duck placement instead of A versus B (owner-direction §4). This needs root's agreement because the
 packet text asks for two directions.
 
+## Stage 2: Direction A prototype authored (2026-10-30)
+
+Authority: root prebuild review `reports/orchestration/plan-28-prebuild-review-01.md` (`e7cf2a0`) and the amended
+packet. The owner approved continuing and recorded D7 (owner-direction file). **Authoring only.** The review cleared no
+Node or browser run, and none was made. The exception is one slip, recorded under Commands run below.
+
+### Files
+
+All files are under `comparison/`. Roles and read-only imports are listed in
+[validation-plan.md](validation-plan.md):
+- `index.html`, `prototype.css`, `prototype.js`
+- `life-model.mjs`, `views.mjs`, `fixtures.mjs`
+- `plan28.test.mjs`
+
+Also added: `validation-plan.md`, `drafts/static-review/notes.md` and `drafts/student-read/notes.md`.
+`owner-direction-2026-10-30.md` gains D7.
+
+### How each review requirement is met
+
+1. **Ownership and imports.**
+   - All writes are in this folder.
+   - The imports are read-only: `GameEngine`, `GAME_CONSTANTS`, `validateSave`, `renderScene`, and
+     `createStageTransition` with its CSS.
+   - Each scene gets a unique `p28-s<n>` idPrefix.
+   - I read the kit API in `index.mjs:18-143` and used no anchors it lacks. The travelling duck uses each area's
+     existing anchor.
+2. **Direction A with the selected communications.**
+   - Rent is a Harbor Court Property Office bill. The shift arrives as a desk-side message from Marisol. Sales use
+     living-room listings, and the card advance is a desk-top statement.
+   - The meal and wage ledger states past-tense facts projected from the log. Its only control is Continue.
+   - The engine call order matches `main.js`, including `proceedToDay2Evening` at 658-665.
+   - Reviewer controls sit in a separate dark panel labelled "not student UI".
+3. **Fixtures.**
+   - `fixtures.mjs` checks each fixture against the Plan 35 validation-index pins: bytes, SHA-256, recorded
+     `valid`, event count and chain head. It also checks the catalog status and boundary, and runs `validateSave`.
+   - It does not re-derive capture origin.
+   - On any mismatch it shows expected and actual values and stops. There is no synthetic fallback.
+   - Synthetic content is limited to the Day 1 ledger (a log projection) and the return composition, which is
+     labelled display-only.
+4. **No storage.**
+   - No storage, IndexedDB or service-worker API appears anywhere in `comparison/`. Only same-origin `fetch` reads
+     are used.
+   - The browser gate compares storage keys before and after.
+5. **H1 routing.**
+   - `ROUTES` is a table grounded in source, with line citations.
+   - It names one controller-only step (`duck_dex`) and one future row (food shortfall).
+   - The tests reach states only through real actions, including Uninstall Stay and Leave over the ladder. Engine
+     history is never edited.
+   - The test header says that this does not prove production reload, focus or transition integration.
+6. **H2 furnishings.**
+   - All four combinations are checked against rendered SVG markers: sofa `#6d6d64`, TV screen `#15191f` and ghost
+     `#c9c3b8`. Each marker occurs once in the kit (grep). The checks also use the real `assetsSold` after actual
+     couch and TV sales.
+   - Visual confirmation is part of browser-gate step 4.
+7. **The H3 regex gate is replaced by semantic cases.**
+   - The amount on every control comes from the `escalation_result` event a clone appends.
+   - The tests take the real action and compare the label with the actual effect.
+   - Pay is never shown as paid before the click.
+   - The run-ending decline flag must equal the real outcome, and exactly the last decline carries it.
+   - Paid-zero never ends the run.
+8. **Clicks and cues.**
+   - A token plus a generation-owned busy flag disables controls on first activation. The engine is unchanged.
+   - Actual engine events and the proposed display cues are listed separately, and the cues are labelled as
+     projections that were never recorded.
+9. **Lifecycle claims.**
+   - The HUD is a labelled stand-in, with "not functional here".
+   - The validation plan lists what is not shown: production HUD, save and reload, Shell A routing, screen readers
+     and devices.
+
+### Seams left for Plan 37 and Plan 29
+
+None of these is implemented:
+- `ledgerFacts`/`ledgerView` read past-tense facts from the log, so a future "meal missed while in Quackpot" event
+  would add a line without new UI.
+- `ROUTES` has explicit `future` rows.
+- `sceneFor` maps a moment to a place.
+- The card kinds already cover note, bill, message, listing and statement.
+
+### Haiku delegation (Stage 2)
+
+Two Haiku tasks ran concurrently, with disjoint output folders:
+1. **Static code review (source only).**
+   - It confirmed the imports, `renderScene` arguments and phone-text limits.
+   - It confirmed the engine signatures and the fixture pins. It traced the SHA-256 values, byte counts and chain
+     tails against the files.
+   - It found two real bugs in `prototype.js`: a stale async action could overwrite a newer scenario, and the old
+     card stayed clickable during load. It also found an unhandled scenario-load rejection, an unresolved accept
+     mapped to the wrong moment, an impure preview contrary to its comment, a wrong citation, duplicate cues, and
+     busy-flag ownership.
+   - **All were fixed except one.** For the impure preview I corrected the comment rather than the call, because
+     `previewLadder` deliberately calls the live `getCurrentEscalationStep()` exactly as `modals.js:90` does.
+2. **First-time student read of the copy.**
+   - **Adopted:** "then $15.00 rent paid" instead of "rent then paid"; "$15.00 more owed" instead of "+$15.00 debt";
+     "Rent unpaid · you need $0.99 more" and "Nothing has been taken"; "Skip this offer (rent still $0.99 short)";
+     "this run ends. Your Receipt is next."; "gone for good" on listings; an "optional" line on paid-zero; health
+     shown as before → after; and the rent status shown first in outcomes.
+   - **Not adopted:** explanations of later effects of health or debt. Those would assert future rules that belong to
+     Plan 29 or Plan 37.
+
+### Commands run (Stage 2)
+
+- Read-only `git`, `grep`, `sed` and Python JSON inspection only.
+- **Slip:** one command included a trivial `node -e "1"` outside the bounded launcher. It is not cleared by the review;
+  it evaluates a constant and exits. No other Node, npm, test or server process was started.
+- The desktop app auto-opened `comparison/index.html` in its Browser pane after the file was first written, probably
+  via `file://`, where ES modules cannot load. I did not drive, inspect or rely on that pane. It is not browser-gate
+  evidence.
+
+### Consultation posture (Stage 2)
+
+**Branch C: orchestrator-gate-only, no advisor call**, by explicit owner instruction (prebuild review). This is an owner
+routing exception, not a capability failure. The Haiku static review is a lead-reviewed draft aid, not an advisor
+consultation.
+
+### Not verified
+
+- Nothing has executed. The tests and the page are statically reviewed only.
+- No visual layout, focus behavior or furnishing visuals have been seen.
+- `validateSave` acceptance of the fixtures is expected from Plan 35's recorded `valid: true`, but it has not been
+  run here.
+- The Stage 1 "fingerprint discrepancy" risk is superseded. Root's read-only SHA comparison found no differences, and
+  the loader now uses Plan 35's explicit validation pins.
+
 ## Ready for orchestrator review
 
-Yes, for the Stage 1 proposal. No prototype exists yet.
+Yes. The Direction A prototype source and the exact commands for one serial bounded test batch and one browser gate
+are in `validation-plan.md`. I have stopped for root clearance of those runs. After the gate, the owner reviews the
+prototype and the morning-framing question. Production porting is not requested.

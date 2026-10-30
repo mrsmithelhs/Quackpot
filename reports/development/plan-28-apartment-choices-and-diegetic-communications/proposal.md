@@ -5,7 +5,25 @@ before building the comparison described in §6. Date 2026-10-30. Lead: Claude O
 
 Companion files: [current-mapping.md](current-mapping.md) (what exists, with line references) ·
 [storyboards.md](storyboards.md) (moment-by-moment copy for both directions) · `drafts/` (Haiku copy drafts, superseded
-by storyboards where they differ).
+by storyboards where they differ) · [owner-direction-2026-10-30.md](owner-direction-2026-10-30.md) (owner decisions
+and optional-lane ideas, with scope flags).
+
+## 0. Owner direction received 2026-10-30 (direct conversation with the lead)
+
+Recorded verbatim in substance in `owner-direction-2026-10-30.md`. Summary of what changes in this proposal:
+
+- **Direction A selected** as the presentation direction to develop. The owner accepts A's added cognitive load
+  because it introduces the metagame early as a necessary layer; early sequencing must still guide without
+  overwhelming. B remains in this file as the contrast that informed the choice.
+- **Duck rule revised (§2.7):** still within any one composition, but it may appear in several scenes, because the
+  character carries it around — more so in later stages with one-sided duck dialogue.
+- **Styled HTML paper is fine (Q2 resolved).**
+- **Guidance relaxes over time,** and the owner wants optional, non-required lanes (skipped meals, skipped shifts,
+  possibly being fired as an alternate ending). These are **new rules** outside Plan 28's report-only presentation
+  scope and Plan 29's economy ownership; the lead lists candidates and scope flags in the owner-direction file and
+  asks orchestration how to route them. Nothing here implements them.
+- **For orchestration:** with A selected, the "two directions" executable comparison may no longer be the most useful
+  next build. §6 is unchanged pending root's call; an alternative is in the owner-direction file (§4).
 
 ## 1. The problem in one paragraph
 
@@ -37,7 +55,11 @@ These rules hold in A and B, so the comparison isolates presentation language, n
    new rule and is rejected here.
 6. **Sales change the room.** After `sell_couch`/`sell_tv`, the living room renders with `furnishings: {couch|tv:
    'removed'}` derived from `state.assetsSold` (design.md:158 "The apartment empties as items are sold").
-7. **The duck stays still.** Only `duckView`, `framing` and `light` vary. It never speaks, reacts or comments.
+7. **The duck is still within each composition, but travels between them** (owner, 2026-10-30). The character
+   carries it: it may sit on the kitchen bar, the coffee table, the desk or a bedroom shelf, using the kit's existing
+   per-room duck anchors and `duckView`/`framing`/`light`. It never moves on screen, reacts or comments in live life
+   moments; later one-sided dialogue belongs to separately designed companion scenes. Where it sits should be
+   consistent within a day so its placement reads as the character's habit, not a hidden-object game.
 8. **Exit is never inside the fiction.** HUD Save / Settings / Uninstall stay exactly as now in every apartment surface.
 
 **Day routing under both directions** (same engine calls and order as today; only where they are shown changes):
@@ -101,9 +123,10 @@ Show both directions on the same three scenarios (paid-zero, unpaid ladder, D2 r
 3. **Phone meaning.** Is it valuable that the gacha and life share one device (B's quiet point), or should life be
    physically separate from the phone (A)?
 4. **Paper without drawn paper.** Is a CSS paper card acceptable, or does A need new SVG props (separate proposal)?
-5. **Voices.** Landlord tone: formal management vs friendly building owner (both drafted in storyboards).
+5. **Voices.** Who sends the rent: an impersonal management office or a named person (see owner-direction file §3).
 
-**Provisional lead lean: A**, because it is the only direction that uses the existing kitchen/living art and makes the
+**Owner selected A on 2026-10-30** (§0); questions 1–4 above are now settled or narrowed to duck placement and rent
+sender. The original lead lean, kept for the record: **A**, because it is the only direction that uses the existing kitchen/living art and makes the
 consequences of selling visible in the place itself, which is what design.md:158 asks for; B's people-voices are adopted
 for A's work message. This lean is to be confirmed or overturned by the rendered comparison, not by this text.
 
@@ -155,8 +178,9 @@ on the rendered copy (reads `copy.mjs`, writes notes only). No Haiku browser use
 
 ## 8. Owner / root questions
 
-- Q1 Direction (A or B) and landlord voice.
-- Q2 Is CSS-styled paper acceptable, or should A's paper become a separate SVG-prop proposal?
+- Q1 Direction: **resolved, A** (owner, 2026-10-30). Landlord voice still open — explained in the owner-direction
+  file §3 (who the rent comes from: an institution or a person).
+- Q2 CSS-styled paper: **resolved, acceptable** (owner, 2026-10-30).
 - Q3 Morning ledger as display-only (proposed) vs making breakfast a click that triggers the charge (moves a mutation).
 - Q4 Should life displays ever be recorded as `cue_shown`? Out of scope here (schema change); noted for Plan 27/29.
 - Q5 Late companion pawn (design.md:135) is unimplemented; A/B leave a seam (desk-side empty-desk framing) but do not design it.

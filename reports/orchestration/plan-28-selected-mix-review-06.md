@@ -1,0 +1,20 @@
+# Plan 28 selected-mix delivery review
+
+Date: 2026-10-30. Disposition: suitable investigation delivery and basis for one cohesive production packet. This is not production acceptance or authority to reopen the owner's choices.
+
+Reviewed final-report.md, the current Part A and incorporated lifecycle sections of integration-proposal.md, gallery/mix-model.mjs, gallery/gallery.test.mjs, the relevant gallery controller paths and browser evidence. Owner D20 selects the mix; D21 governs supported physical-duck tilt; D22 intentionally allows the paid-zero optional opportunities to be missed. No further experience selection is needed for this first integration.
+
+Independent verification: gallery/gallery.test.mjs passed 7/7 through the unchanged Plan 25 bounded launcher, exit 0, 0.526 seconds, no stop reason or cleanup notes. This covers real-engine rent fixtures, optional choice closure, shortfall effects, escalation ordering and honest terminal labels, accepted effect previews, duck tilt/gaze, scoped inert props and control-free institutional copy. It does not establish production reload, browser layout, assistive technology or OS reduced-motion behavior. Latest browser evidence is implementer evidence; root did not repeat it or touch owner browser storage. No advisor was called, following the owner's Opus Branch C instruction.
+
+Production qualifications:
+
+1. Port the selected interaction grammar, not the report's broad routing function verbatim. `placeFor` is intentionally limited to the rent/Day 3 study: its `day >= 3` branch is not a whole-game route. Production must preserve gacha, pending reveals, race, Receipt and every supported interrupted state.
+2. Breakfast-on-confirm is an approved timing/progression change, despite unchanged prices and engine action methods. Cover both old settled breakfasts and old pending-reveal states with unsettled food; never rewind a pull or silently double-charge. Do not use open-ended save step validation as migration evidence.
+3. Part A makes the entire background/HUD inert while holding an object. Production must retain an immediately available Uninstall action in that context, rather than requiring the player to discover Escape or put the object down first. Settings and Save must have an explicit, tested route as well. Implement an accessible modal/control hierarchy; do not merely remove focus containment. This implements existing lifecycle contracts, not another taste decision.
+4. Preserve the engine's single paid-zero opportunity: choosing a shift closes the couch alternative and vice versa. Looking, Not now and putting down record nothing; a recorded turn-down advances the existing ladder. Go to work closes any remaining optional choice and credits the ordinary wage once. D22 does not authorize multiple optional payouts or new slot rules.
+5. Add a default-preserving omission option to the apartment kit, removing the built-in duck and its associated shadows together. Compose the selected still duck separately. No production DOM/string surgery, no moving physical companion, no redesign of the kit or weather mounting.
+6. Carry forward the independently reproduced repeated-Uninstall/retention context defect and a focused idempotency repair. Preserve the original interrupted surface, one retention reward and immediate Leave.
+7. No life-surface display records in this integration (D10). Keep actual outcome events and Receipt honesty. Current Plan 35 attestations are pinned historical evidence; do not promise they automatically validate changed production source. Establish a bounded compatibility disposition before claiming current fixture reuse, without rewriting old saves or silently replacing attestations.
+8. Clone previews are an implementation option, not a requirement to clone large logs repeatedly. Measure representative cost and use a narrowly tested pure preview helper if needed. Sketch props may be ported as selected compositions; substantial art polish remains separate.
+
+Draft Plan 38 scopes these requirements. It remains draft pending assignment; Plan 28 remains in-progress pending owner closure. No push or deployment.

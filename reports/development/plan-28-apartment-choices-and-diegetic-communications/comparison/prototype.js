@@ -50,9 +50,15 @@ async function startScenario(name, generation) {
   ui.scenario = name;
   ui.cues = [];
   ui.view = null;
+  ui.engine = null;
+  ui.baseEvents = 0;
+  ui.sceneMeta = null;
   ui.focusOnRender = false;
+  $('#scene').innerHTML = '';
+  renderChecks({ checks: [] });
   $('#card').className = 'card';
   $('#card').innerHTML = '<h2 id="card-heading" tabindex="-1">Loading scenario…</h2>';
+  renderReviewer();
   if (FAIL_LOAD === name) {
     await new Promise((resolve) => setTimeout(resolve, 400));
     throw new Error(`Injected load failure for "${name}" (reviewer ?fail-load)`);
@@ -88,8 +94,17 @@ function runScenario(name) {
   startScenario(name, generation).catch((err) => {
     if (generation !== ui.generation) return; // an older load failed after a newer scenario started; ignore it
     ui.busy = false;
+    ui.engine = null;
+    ui.baseEvents = 0;
+    ui.view = null;
+    ui.sceneMeta = null;
+    ui.cues = [];
+    $('#scene').innerHTML = '';
     $('#card').className = 'card blocked';
     $('#card').innerHTML = `<h2 id="card-heading" tabindex="-1">Prototype could not start</h2><p>${esc(err.message)}</p>`;
+    renderChecks({ checks: [{ name: 'Scenario load', pass: false, expected: 'fixture loads and pinned checks pass', actual: err.message }] });
+    renderReviewer();
+    $('#status').textContent = `Prototype could not start: ${err.message}`;
   });
 }
 
@@ -142,11 +157,13 @@ function renderCard(view) {
     </section>` : '';
   const controls = view.controls.map((c) => `<button type="button" data-id="${esc(c.id)}" class="${c.primary ? 'primary' : ''}${c.endsRun ? ' ends-run' : ''}">${esc(c.label)}</button>`).join('');
   el.innerHTML = `
+    <div class="card-content">
     ${card.sender ? `<p class="sender">${esc(card.sender)}</p>` : ''}
     <h2 id="card-heading" tabindex="-1">${esc(card.heading)}</h2>
     ${card.stamp ? `<p class="stamp" aria-label="Stamped ${esc(card.stamp)}">${esc(card.stamp)}</p>` : ''}
     ${card.aside ? `<p class="aside">${esc(card.aside)}</p>` : ''}
     ${body}${offer}
+    </div>
     <div class="controls">${controls}</div>`;
 }
 

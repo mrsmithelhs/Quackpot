@@ -4,7 +4,7 @@ title: Apartment choices and diegetic communications
 status: in-progress
 
 depends_on: [plan-25]
-gate: "Owner assigned Claude investigation on 2026-10-30. Root approves mechanism and any executable comparison before building; owner selects experience/routing before production changes."
+gate: "Owner assigned Claude investigation on 2026-10-30. Expanded delivery clearance04 authorizes in-scope prototype edits and bounded validation; owner resolves experience choices directly. Production remains separately scoped."
 summary: >-
   Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons.
 ---
@@ -51,6 +51,15 @@ The owner also approves an action-based time model. Its exact specification and
 optional-life consequences belong to draft Plan37, coordinated with Plan29;
 no new time-budget, wage, health, ending or autonomous action rules in this packet.
 
+**Expanded delivery authority, same date:** Follow
+reports/orchestration/plan-28-expanded-delivery-clearance-04.md rather than earlier
+one-run gates. The lead may ask the owner directly, refine the report prototype,
+run proportionate bounded tests/browser checks, and deliver its integration proposal
+and final package without routine return trips. Escalate substantive scope, contracts
+or resource/ownership uncertainty, not ordinary defects. Production edits remain
+outside this packet until explicitly scoped; Plan28 is not an unfinished production
+integration task merely because its selected prototype still has stand-ins.
+
 Recommend a small communication grammar: rent as a bill, meals as a note/menu, extra shift as a work message, furniture sales as apartment-object actions. Compare two bounded compositions using accepted art and accessible real HTML text/actions. Demonstrate breakfast, paid-rent-with-zero-cash, unpaid rent and return from gacha. Establish which scene/location fits each, how player returns, mandatory vs optional interruptions, stale/duplicate-click behavior, save/reload/modal/focus/Uninstall access and reduced-motion parity.
 
 Keep information actionable and friendly: payment success differs from unpaid debt, zero cash is not automatic failure, and choices retain existing costs/health/results. Notes/bills need readable alternatives; don't hide decisions behind unmarked pixel hunts. Do not force a transition that changes or repeats a reward/expense or claims a cue was displayed before visible. Avoid implementing a multiroom navigation game merely to host a bill.
@@ -59,4 +68,4 @@ Return state-routing diagrams and report-local visual alternatives, exact existi
 
 ## Contracts and workflow
 
-Read AGENTS.md, docs/decision-log.md, docs/development/README.md and docs/repo-structure.md first. Run the plan-28 check through the existing bounded launcher before starting; nonzero means stop. Respect shared-tree ownership; no runtime report imports, external runtime requests or personal/student data. Haiku delegation is explicitly authorized above; no higher-tier advisor, new assets/audio adoption, package dependency or browser execution is implied. Propose exact report files, wiring, comparison method and validation before executable experiments; wait for root clearance. Current Node/resource restrictions remain applicable. Include a progress.md with evidence, uncertainty, consultation declaration and owner decisions still needed. Commit explicit owned paths, progress last; no packet status changes, push or deployment.
+Read AGENTS.md, docs/decision-log.md, docs/development/README.md and docs/repo-structure.md first. Run the plan-28 check through the existing bounded launcher before starting; nonzero means stop. Respect shared-tree ownership; no runtime report imports, external runtime requests or personal/student data. Haiku delegation and report-local executable work are authorized above and by clearance04; no higher-tier advisor, new assets/audio adoption or package dependency is implied. Current Node/resource restrictions remain applicable without per-run reapproval for in-scope work. Include a progress.md with evidence, uncertainty, consultation declaration and owner decisions still needed. Commit explicit owned paths, progress last; no packet status changes, push or deployment.

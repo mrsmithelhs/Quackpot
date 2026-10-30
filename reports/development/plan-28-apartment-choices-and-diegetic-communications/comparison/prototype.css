@@ -17,6 +17,7 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 .report-banner { display: flex; flex-wrap: wrap; gap: .25rem 1rem; padding: .5rem 1rem; font-size: .85rem; background: #3b3f47; color: #f2f2f2; }
 
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: 1rem; padding: 1rem; align-items: start; }
+.player-area, .reviewer { min-width: 0; }
 
 .hud-standin { display: flex; flex-wrap: wrap; gap: .4rem 1rem; align-items: center; padding: .45rem .8rem; margin-bottom: .6rem;
   border: 1px dashed #8a8f99; border-radius: .5rem; font-size: .8rem; color: #4b5563; background: #f6f3ee; }
@@ -28,15 +29,16 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 .scene > svg { display: block; width: 100%; height: 100%; }
 
 /* Communication card: anchored over the scene's right side on wide screens, below it on narrow screens. */
-.card { position: absolute; right: 3%; bottom: 5%; width: min(38%, 22rem); max-height: 90%; overflow: auto;
+.card { position: absolute; right: 3%; bottom: 5%; display: flex; flex-direction: column; width: min(38%, 22rem); max-height: 90%; overflow: hidden;
   padding: 1rem 1.1rem; border-radius: .3rem; background: var(--paper); box-shadow: 0 .5rem 1.4rem rgba(0, 0, 0, .3); }
+.card-content { min-height: 0; overflow-y: auto; }
 .card h2 { margin: 0 0 .4rem; font-size: 1.1rem; line-height: 1.2; }
 .card h2:focus { outline: none; }
 .card h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .card p { margin: .3rem 0; line-height: 1.35; }
 .card .sender { margin: 0 0 .35rem; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: #5b616b; }
 .card .aside { font-style: italic; color: #4b4f56; }
-.card .controls { display: grid; gap: .5rem; margin-top: .8rem; }
+.card .controls { display: grid; flex: 0 0 auto; gap: .5rem; margin-top: .8rem; }
 .card button { min-height: 2.75rem; padding: .5rem .75rem; border: 2px solid #374151; border-radius: .4rem; background: #fff;
   color: var(--ink); font: inherit; font-weight: 650; text-align: left; cursor: pointer; }
 .card button.primary { background: #374151; color: #fff; }
@@ -69,17 +71,18 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 .reviewer h2 { margin: 0 0 .6rem; font-size: .95rem; }
 .reviewer h2 small { font-weight: 400; color: #f0b429; }
 .reviewer h3 { margin: 1rem 0 .3rem; font-size: .8rem; color: #f0b429; }
-.reviewer label { display: grid; gap: .2rem; margin-bottom: .6rem; }
+.reviewer label { display: grid; gap: .2rem; min-width: 0; margin-bottom: .6rem; }
 .reviewer select, .reviewer button { font: inherit; padding: .3rem; }
-.reviewer table { width: 100%; border-collapse: collapse; }
-.reviewer td, .reviewer th { padding: .15rem .25rem; border-bottom: 1px solid #39414f; text-align: left; vertical-align: top; word-break: break-all; }
+.reviewer select { width: 100%; max-width: 100%; }
+.reviewer table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.reviewer td, .reviewer th { padding: .15rem .25rem; border-bottom: 1px solid #39414f; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
 .reviewer .fail { color: #ff8a8a; font-weight: 700; }
 .reviewer pre { white-space: pre-wrap; margin: 0; }
 .reviewer ol { margin: 0; padding-left: 1.4rem; }
 .reviewer .note { color: #9aa5b5; margin: 0 0 .3rem; }
-.facts { display: grid; grid-template-columns: auto 1fr; gap: .1rem .6rem; margin: .6rem 0 0; }
+.facts { display: grid; grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr); gap: .1rem .6rem; margin: .6rem 0 0; }
 .facts dt { color: #9aa5b5; }
-.facts dd { margin: 0; }
+.facts dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
 
 .blocked { padding: 1rem; border: 3px solid #b91c1c; background: #fff1f1; border-radius: .5rem; }
 
@@ -88,7 +91,8 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (max-width: 760px) {
   .layout { padding: .5rem; }
-  .card { position: static; width: auto; max-height: none; margin-top: .6rem; transform: none; }
+  .card { position: static; width: auto; max-height: none; margin-top: .6rem; overflow: visible; transform: none; }
+  .card-content { overflow: visible; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }

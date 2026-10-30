@@ -1,0 +1,59 @@
+{
+  "archiveVersion": 1,
+  "rotationTime": "2026-10-30T03:46:33.502Z",
+  "reason": "Root-authorized artifact-only rotation before the separately cleared finale capture; active per-log 1 MiB append cap had 10,851 bytes remaining.",
+  "mapping": {
+    "historicalRecordReferencePath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/pilot-results.jsonl",
+    "archivedPath": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/evidence-batch-01/pilot-results.jsonl",
+    "resolveHistoricalFullEvidenceRecordReferencesTo": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/evidence-batch-01/pilot-results.jsonl"
+  },
+  "bytes": 1037725,
+  "sha256": "e5c8df53996e4750bd4a26653d79e9a0db164e8a0766828ea44e2472ae7a943a",
+  "recordCount": 11,
+  "recordPins": [
+    {
+      "bytes": 168123,
+      "sha256": "3ccbafc630b411ec04855a7d307ed359655432d3a25959e32d1890ae8e3231e0"
+    },
+    {
+      "bytes": 3631,
+      "sha256": "7ad576c6568401cebf781419070d6a470b322d5629c9ab5f47ce1ad0017a5999"
+    },
+    {
+      "bytes": 168123,
+      "sha256": "f7f510c3b43c6f4f8557ce20a6a16da8eb6ee1b4094ad6877689b772f2958269"
+    },
+    {
+      "bytes": 3631,
+      "sha256": "78afe3b6828b6f1d58d9d4f02d562fe36d6657ebaadd91f1094f35c8c8ef65c0"
+    },
+    {
+      "bytes": 168123,
+      "sha256": "3dbf1df2cc3d6a2bf266629fbc334bcc18ffd822f40688be9fa5400b879e9723"
+    },
+    {
+      "bytes": 14146,
+      "sha256": "ff39e12ff892d30c7fd19865bd6d23712cd8fba91ed9396b5f702ad51c14e3c1"
+    },
+    {
+      "bytes": 168123,
+      "sha256": "db1adf37a96ab662ac6f7a94794a0b622a4787a5e8f01cdc7f528eb18d23aca9"
+    },
+    {
+      "bytes": 13786,
+      "sha256": "95568db782c45fd59c99d24a3ad7ec9c74d9c05f0a7763e1359b51b76896bf2b"
+    },
+    {
+      "bytes": 158076,
+      "sha256": "bd7a94d90f7fad86bbe6b5277ab3d075a4c52dbb0ce2e77d1c8755578e5fe43b"
+    },
+    {
+      "bytes": 13876,
+      "sha256": "609c92c47ae7242ee70b16988eab313a3e6c540bb0a6f410964113a7540204bb"
+    },
+    {
+      "bytes": 158087,
+      "sha256": "44b0818d5c93a827deb5d6e3525c4308035554146143df4247ff26cd922c7422"
+    }
+  ]
+}

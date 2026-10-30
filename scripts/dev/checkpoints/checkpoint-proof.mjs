@@ -2,7 +2,8 @@ import { appendFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { assertCatalogBoundary, assertNegativeControls, validateAndHydrate } from './envelope.mjs';
 import {
-  MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, assertFreshnessNegativeControls, assertValidationAttestationNegativeControls,
+  MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, assertFreshnessNegativeControls, assertValidationAttestation,
+  assertValidationAttestationNegativeControls,
   catalogEntry, currentLoaderSha256, currentValidationLoaderSha256,
   assertCaptureParent, assertValidationResultMatches, readBounded, readCatalog, readFixtureBeforeParse,
   readPinnedPilotEvidenceRecord, resolveRepoPath, sha256, verifyPinnedPlan16Archive,

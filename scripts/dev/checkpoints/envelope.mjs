@@ -33,11 +33,12 @@ export function assertNegativeControls(envelope) {
 export function assertCatalogBoundary(id, entry, envelope) {
   const state = envelope.state ?? {};
   const boundary = entry.boundary ?? {};
-  for (const key of ['step', 'activeModal', 'phase', 'cash']) {
+  for (const key of ['step', 'activeModal', 'phase', 'cash', 'activeBill']) {
     if (Object.hasOwn(boundary, key) && state[key] !== boundary[key]) fail(`${id} state boundary mismatch for ${key}: expected ${boundary[key]}, got ${state[key]}`);
   }
   if (id.startsWith('plan35.rent-')) {
     if (state.step !== 'd2_afternoon_rent' || state.activeModal !== null || state.phase !== 'playing') fail(`${id} is not the ordinary pre-Pay rent view.`);
+    if (state.activeBill !== null) fail(`${id} must have no active bill before Pay.`);
     if (envelope.eventLog.some((event) => event.type === 'expense_due' && event.payload?.kind === 'rent')) fail(`${id} unexpectedly contains a rent expense_due event before Pay.`);
   }
   if (id === 'plan35.finale-race-entry.v1') {

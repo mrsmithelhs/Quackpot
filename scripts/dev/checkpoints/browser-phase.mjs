@@ -140,6 +140,7 @@ async function setSentinel(cdp, page, raw) {
 async function captureCatalogEntry(id, fixtureRaw, envelope, parent, source, actions, observations) {
   const catalog = await readCatalog();
   const entry = catalogEntry(catalog, id);
+  assertCatalogBoundary(id, entry, envelope);
   const bytes = Buffer.from(fixtureRaw, 'utf8');
   if (bytes.length > MAX_FIXTURE_BYTES) fail(`Captured fixture exceeds the 1 MiB cap: ${bytes.length}`);
   const relative = entry.fixture;
@@ -178,18 +179,6 @@ async function captureCatalogEntry(id, fixtureRaw, envelope, parent, source, act
   await writeFile(temporaryCatalogPath, `${JSON.stringify(catalog, null, 2)}\n`, { flag: 'wx' });
   await rename(temporaryCatalogPath, catalogPath);
   return { id, fixture: relative, bytes: bytes.length, sha256: entry.sha256, provenance: capture, totalBytes };
-}
-
-async function markCaptureLoadable(id, expectedHash) {
-  const catalog = await readCatalog();
-  const entry = catalogEntry(catalog, id);
-  if (entry.status !== 'capture-pending-cleanup' || entry.sha256 !== expectedHash) fail('Captured candidate changed before cleanup was confirmed.');
-  entry.status = 'current-loadable';
-  const catalogPath = resolveRepoPath(CATALOG_PATH);
-  const temporaryCatalogPath = `${catalogPath}.${process.pid}.tmp`;
-  await writeFile(temporaryCatalogPath, `${JSON.stringify(catalog, null, 2)}\n`, { flag: 'wx' });
-  await rename(temporaryCatalogPath, catalogPath);
-  return { id, status: entry.status, sha256: entry.sha256 };
 }
 
 async function readPilotFixture(catalog, id) {
@@ -240,7 +229,14 @@ async function capturePhase(phase) {
   const browser = await launchIsolatedChrome();
   let cleanup = null;
   let captureResult = null;
+  let sentinelPage = null;
+  let sentinelRaw = null;
   try {
+    sentinelPage = await createPage(browser.cdp, BASE_URL);
+    await assertAppReady(browser.cdp, sentinelPage);
+    sentinelRaw = await setSentinel(browser.cdp, sentinelPage, startRaw);
+    const sentinelBeforeHash = sha256(sentinelRaw);
+
     const page = await createIsolatedPage(browser, startRaw);
     await assertAppReady(browser.cdp, page, JSON.parse(startRaw));
     await mounted(browser.cdp, page.sessionId, pageSelector, 'mounted capture parent action');
@@ -256,6 +252,7 @@ async function capturePhase(phase) {
     }
     const after = await pageSave(browser.cdp, page, 'capture after mounted route');
     validateAndHydrate(after.envelope, targetId);
+    assertCatalogBoundary(targetId, catalogEntry(catalog, targetId), after.envelope);
     const capturedDelta = after.envelope.eventLog.slice(before.envelope.eventLog.length);
     if (targetId.includes('rent-paid')) {
       if (after.envelope.state.step !== 'd2_afternoon_rent' || after.envelope.state.cash !== 15 || after.envelope.state.activeModal !== null) fail('Paid-rent capture did not reach the correct pre-Pay ordinary page.');
@@ -276,16 +273,18 @@ async function capturePhase(phase) {
       if (secondRace) fail('Finale capture must stop before second-race submit.');
     }
 
+    const sentinelAfter = await evaluate(browser.cdp, sentinelPage.sessionId, `localStorage.getItem(${JSON.stringify(STORAGE_KEY)})`);
+    if (sentinelAfter !== sentinelRaw) fail('Independent isolated ordinary-save sentinel changed during mounted capture.');
     captureResult = await captureCatalogEntry(targetId, after.raw, after.envelope, parent, source,
       [{ action: routeAction, pointer }], { visibleText: (await evaluate(browser.cdp, page.sessionId, `document.querySelector('#main-content')?.innerText ?? ''`)).slice(0, 1200),
         state: { step: after.envelope.state.step, activeModal: after.envelope.state.activeModal, cash: after.envelope.state.cash },
         eventLogHead: after.envelope.eventLog.at(-1)?.chain ?? 'genesis', eventDelta: capturedDelta.map((event) => ({ type: event.type, payload: event.payload })),
         parentFixtureSha256: sha256(startRaw), restoredSaveSha256: before.hash, restoreComparison: before.restoreComparison,
+        ordinarySaveSentinel: { isolatedContext: true, beforeSha256: sentinelBeforeHash, afterSha256: sha256(sentinelAfter), unchanged: true },
         afterHash: after.hash, loadToActionElapsedMs: Date.now() - loadToActionStartedAt });
   } finally { cleanup = await closeIsolatedChrome(browser); }
   if (cleanup?.residual || cleanup?.uncertainty) fail(`Chrome cleanup is not confirmed: ${JSON.stringify(cleanup)}`);
-  const loadable = await markCaptureLoadable(targetId, captureResult.sha256);
-  const result = { phase, capture: captureResult, loadable, cleanup };
+  const result = { phase, capture: captureResult, candidate: { id: targetId, status: 'capture-pending-cleanup', sha256: captureResult.sha256 }, cleanup };
   await appendBoundedResult(result);
   process.stdout.write(`${JSON.stringify(result)}\n`);
 }

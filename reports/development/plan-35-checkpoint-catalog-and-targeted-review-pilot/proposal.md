@@ -1,6 +1,6 @@
 # Plan 35 mechanism proposal — checkpoint catalog and targeted review pilot
 
-**Gate:** Root approved the three starts, ownership, and finale-rest pilot on 2026-10-29. Tooling is authored for root source review. No Node, fixture capture, Vite, or browser command is authorized until root clears the exact batches below.
+**Gate:** Root approved the three starts, ownership, and finale-rest pilot on 2026-10-29. Root has since cleared and received the bounded helper validation recorded in `progress.md`. Fixture capture remains separately gated; the single next capture command proposed below has not been cleared or run.
 
 ## Recommended mechanism
 
@@ -70,70 +70,42 @@ From `finale-race-entry`, record actual roster/rest/effective-rating/offered cho
 
 The brief makes one reviewer action after restore; route-preparation actions are documented and excluded from pilot interaction counts. No Stay/repeat-Uninstall or exit/Receipt branch is included in this pilot.
 
-## Proposed exact commands (root clearance required)
+## Next proposed syntax, offline, and single-capture batch (root clearance required)
 
-No command below has been run for Plan 35. Run commands serially, only after root approves each exact phase and the bounded runner design. First inspect processes/resource state once; do not kill unknown processes or repeat empty checks. Every Node phase uses the existing Plan 25 wrapper (1 GiB Node heap, 2 GiB sampled owned-tree private-byte stop, 90-second outer limit):
+The lifecycle helper's bounded checks have passed and are recorded in `progress.md`. No checkpoint fixture has been captured. The next proposal is one serial batch for only `capture-rent-paid-zero`; it awaits root source review and separate clearance. Take one fresh `Get-Process -Name node` preflight before the batch. Every Node command remains under the unchanged Plan 25 wrapper (1 GiB Node heap, 2 GiB sampled owned-tree stop, 90-second outer limit).
 
 ```powershell
-# All batches below remain unapproved. Keep every invocation serial and under
-# the existing Plan 25 wrapper's 90-second outer / 1 GiB Node / 2 GiB sampled
-# process-tree bounds. Capture and pilot are distinct phases.
-
-# Root review of new offline preflight code; run only after this source review.
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/provenance.mjs')
+# Syntax checks for the scoped capture repairs.
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/envelope.mjs')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/checkpoint-proof.mjs')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/cdp.mjs')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/process-tree.mjs')
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/browser-phase.mjs')
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/run-controlled-phase.mjs')
+
+# Offline loader/source and exact Plan 16 starter reference checks.
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','loader-identity')
-
-# Verify each existing/reference fixture separately, with size checked first.
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','reference','qp16.starter-offer.v1')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','reference','qp16.pending-reveal.v1')
 
-# Capture phases; one branch/route per fresh isolated context and invocation.
+# Sole next mounted capture proposed for separate root review.
 .\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','capture-rent-paid-zero')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','capture-rent-unpaid-escalation')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','capture-finale-race-entry')
-
-# Offline exact-byte/source/archive/save validation, one captured fixture per call.
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-paid-zero.v1')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.rent-unpaid-escalation.v1')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/checkpoint-proof.mjs','fixture','plan35.finale-race-entry.v1')
-
-# Focused pilot phases; each uses one fixture/context and one short observation.
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','pilot-paid-rent')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','pilot-unpaid-rent')
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/run-controlled-phase.mjs','pilot-finale-rest-selection')
 ```
 
-Each launcher phase must reserve cleanup time inside its own deadline and finish under the outer 90-second guard; if a route cannot fit, split route preparation and exact capture into separately reviewed phases. The maximum per-phase duration, memory caps, port, Chrome context lifecycle, and any standard permission review need root clearance after the source audit. No npm, build, full suite, watch server, install, packet render, direct Node, or browser command is authorized by this proposal.
+The capture route is the mounted starter decline to the ordinary `d2_afternoon_rent` screen at $15.00 before Pay. Before writing any candidate, capture runs `assertCatalogBoundary` against the exact catalog entry; both rent entries name `phase: playing` and `activeBill: null`, and the shared assertion also forbids a pre-Pay rent `expense_due`. The capture creates the pilot's second isolated context and writes its ordinary save sentinel before loading the fixture in the separate capture context, then verifies the sentinel's exact bytes remain unchanged.
 
-## Ownership lifecycle probe (revised source proposal; execution held)
+The candidate remains `capture-pending-cleanup` after the browser proof closes Chrome. Only the supervisor success path may promote it, after it verifies the complete successful proof record and sentinel evidence, unchanged source identity before/after the phase and after owned-process cleanup, proof/Vite full-tree cleanup, and the exact fixture hash/catalog status. It atomically promotes only that matching pending candidate. A failed route, source check, proof, Chrome cleanup, Vite cleanup, deadline, or hash/status check leaves the candidate pending.
 
-Root redirected this focused helper check away from proving orphan persistence. Prior evidence remains recorded as historical, unresolved attempts. The current proposal validates the exact PID-plus-creation comparator while a controlled root is known live, then reports what is sampled for retained child identities after the actual root exit. It does not assume the platform must preserve a child after parent exit.
+This is a proposed batch only; no syntax/offline/capture command listed here has run. The other two captures and both pilot briefs remain later, separately reviewed phases.
+## Ownership lifecycle probe (bounded helper run complete; capture remains gated)
+
+Root redirected this focused helper check away from proving orphan persistence. The root-reviewed helper command completed all four cases; exact results and source hashes are in `progress.md`. The probe validates the exact PID-plus-creation comparator while a controlled root is known live, then reports what is sampled for retained child identities after the actual root exit. It does not assume the platform must preserve a child after parent exit.
 
 Each controlled root uses one bounded JSON `ready` record over stdout and an explicit stdin `release` signal, with a fixed 8-second fallback exit. The parent-early-exit root spawns the existing 8.5-second naturally terminating child, emits its PID, and remains held until release or fallback. After `monitor.ready`, the probe takes a live tree snapshot and requires the root identity to round-trip through the normal `inspectOwnedIdentities` / `-OwnedJson` path before releasing the root. In the parent-exit case it records each exact retained child PID plus creation time as `live` or `absent` at the first post-exit query, classifying the sample as `surviving-descendant-observed` or `no-survivor-observed-in-this-environment`. The latter is not evidence that an orphan was cleaned up or even survived. If any retained identity is live at the first query, bounded independent queries continue until those exact identities are absent or the case deadline; no PID-only diagnostic grants ownership or cleanup.
 
 The four serial cases remain normal exit, parent-exit observation, guarded startup failure, and invalid-root inspection failure. Initial monitor/inspection failures remain sticky. No process is killed by PID; on a harness assertion failure, only the directly owned root `ChildProcess` handle may be signaled. Each case remains bounded at 13 seconds, active work at 40 seconds, with a 10-second cleanup reserve (50-second maximum); the wrapper remains capped at 1 GiB Node heap, 2 GiB sampled owned-tree, and 90 seconds outer. Ready output is capped at 1 KiB; final JSON at 8 KiB. This check does not establish browser/launcher shutdown or cleanup of a surviving orphan when no survivor is observed. No timers were extended, no detached flags or persistent watchers were added, and no server, Vite, browser, network, capture, or checkpoint fixture is involved.
 
-Proposed exact validation commands for root review, serially through the unchanged Plan 25 wrapper:
+The intended child was absent at the first post-root-exit query, so the result was `no-survivor-observed-in-this-environment`. Other retained descendant identities were also absent at that sample. This is not evidence that an orphan was cleaned up or that the intended child survived the parent. The CDP/launcher, forced-termination, and mid-run CIM outage limitations still apply.
 
-```powershell
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/process-tree.mjs')
-```
+## Next single mounted capture proposed for separate root review
 
-```powershell
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('--check','scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
-```
-
-```powershell
-.\reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('scripts/dev/checkpoints/ownership-lifecycle-probe.mjs')
-```
-
-These commands are proposals only. No syntax check or semantic execution is authorized until root reviews the source and separately clears the exact commands.
+The first proposed capture is only `capture-rent-paid-zero`: load the pinned Plan 16 starter in a fresh isolated context, use the real decline action, and capture at `d2_afternoon_rent` with $15.00 before pressing Pay. Exact route and evidence requirements remain in the route table above. Its single exact command appears in the command block above for root to review against the capture source. The other two capture routes and both pilot briefs remain later, separately reviewed phases; no additional mounted command is proposed in this handoff. This is not authorization to run the proposed command; no capture, fixture write, Vite server, or browser launch has occurred.
 ## Review disposition requested
 
 Root has approved the three captured/replayable starts, folder ownership, and finale-rest pilot. Remaining clearance is for authored tooling/files and exact later commands. Existing Plan 16 entries are historical references; current usability must be computed from exact current source closure and catalog status. Preserve the current Plan 32 untracked audio preview tree untouched.

@@ -1,10 +1,10 @@
 // One serialized Plan 35 capture or pilot phase; invoke only through Plan 25's guard.
 import { execFileSync, spawn } from 'node:child_process';
 import { createConnection, createServer } from 'node:net';
-import { appendFile, readFile, realpath, stat } from 'node:fs/promises';
+import { appendFile, readFile, realpath, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
-import { PLAN35, ROOT, sha256 } from './provenance.mjs';
+import { CATALOG_PATH, PLAN35, ROOT, catalogEntry, readCatalog, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
 import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
 const HOST = '127.0.0.1';
@@ -26,11 +26,44 @@ const proofChild = { child: null, command: null, args: null, cwd: ROOT, error: n
 let workDeadline = false;
 let totalDeadline = false;
 let cleanupStarted = false;
+let phaseSucceeded = false;
+let capturePromotionRequest = null;
 let evidence = { phase: process.argv[2] ?? null, startedAt: new Date(startedAt).toISOString(), baseURL: BASE_URL };
 
 function fail(message) { throw new Error(message); }
 function remainingWork() { return Math.max(0, Math.min(MAX_WORK_MS - (Date.now() - startedAt), MAX_TOTAL_MS - (Date.now() - startedAt))); }
 function appendOutput(record, key, chunk) { if (record[key].length < MAX_STDIO) record[key] += chunk.toString('utf8').slice(0, MAX_STDIO - record[key].length); }
+
+function expectedCaptureId(phase) {
+  return phase === 'capture-rent-paid-zero' ? 'plan35.rent-paid-zero.v1'
+    : phase === 'capture-rent-unpaid-escalation' ? 'plan35.rent-unpaid-escalation.v1'
+      : phase === 'capture-finale-race-entry' ? 'plan35.finale-race-entry.v1' : null;
+}
+
+function parseCompleteProofResult(stdout) {
+  const lines = stdout.split(/\r?\n/).filter(Boolean);
+  if (lines.length !== 1) fail(`Expected exactly one complete browser-phase result record; received ${lines.length}.`);
+  const result = JSON.parse(lines[0]);
+  if (!result || typeof result !== 'object' || Array.isArray(result)) fail('Browser phase returned a non-object proof result.');
+  return result;
+}
+
+async function promoteCaptureAfterSupervisorSuccess({ id, expectedHash }) {
+  if (totalDeadline || Date.now() >= startedAt + MAX_TOTAL_MS) fail('Supervisor total cleanup deadline reached before catalog promotion.');
+  const catalog = await readCatalog();
+  const entry = catalogEntry(catalog, id);
+  if (entry.status !== 'capture-pending-cleanup' || entry.sha256 !== expectedHash)
+    fail('Capture candidate catalog status/hash changed before supervisor promotion.');
+  const fixture = await readFixtureBeforeParse(entry);
+  if (fixture.hash !== expectedHash) fail('Captured fixture bytes/hash changed before supervisor promotion.');
+  if (totalDeadline || Date.now() >= startedAt + MAX_TOTAL_MS) fail('Supervisor total cleanup deadline reached before atomic catalog update.');
+  entry.status = 'current-loadable';
+  const catalogPath = resolveRepoPath(CATALOG_PATH);
+  const temporaryCatalogPath = `${catalogPath}.${process.pid}.tmp`;
+  await writeFile(temporaryCatalogPath, `${JSON.stringify(catalog, null, 2)}\n`, { flag: 'wx' });
+  await rename(temporaryCatalogPath, catalogPath);
+  return { id, status: entry.status, sha256: entry.sha256 };
+}
 
 function ownedSpawn(record, command, args, env = process.env) {
   record.command = command; record.args = args;
@@ -235,8 +268,28 @@ async function main() {
   const proofExit = await waitForChild(proofChild, startedAt + MAX_WORK_MS, 'Browser phase');
   evidence.proof = { pid: proofChild.child.pid, exit: proofExit, stdout: proofChild.stdout, stderr: proofChild.stderr };
   if (proofExit.code !== 0) fail(`Browser phase exited ${proofExit.code}: ${proofChild.stderr}`);
+  if (phase.startsWith('capture-')) {
+    const proofResult = parseCompleteProofResult(proofChild.stdout);
+    const expectedId = expectedCaptureId(phase);
+    const candidate = proofResult.candidate;
+    const expectedHash = candidate?.sha256;
+    const sentinel = proofResult.capture?.provenance?.observations?.ordinarySaveSentinel;
+    if (proofResult.phase !== phase || !expectedId || candidate?.id !== expectedId
+        || candidate?.status !== 'capture-pending-cleanup'
+        || typeof expectedHash !== 'string' || !/^[a-f0-9]{64}$/.test(expectedHash)
+        || proofResult.capture?.id !== expectedId || proofResult.capture?.sha256 !== expectedHash
+        || sentinel?.isolatedContext !== true || sentinel?.unchanged !== true
+        || typeof sentinel?.beforeSha256 !== 'string' || sentinel.beforeSha256 !== sentinel.afterSha256
+        || proofResult.cleanup?.residual !== false || proofResult.cleanup?.uncertainty !== false
+        || proofResult.cleanup?.treeTerminationConfirmed !== true || proofResult.cleanup?.profileRemoved !== true) {
+      fail('Browser phase did not return the complete expected pending candidate and confirmed Chrome cleanup result.');
+    }
+    evidence.proof.result = proofResult;
+    capturePromotionRequest = { id: expectedId, expectedHash };
+  }
   evidence.sourceAfter = await sourceIdentity();
   if (evidence.sourceBefore.fingerprint !== evidence.sourceAfter.fingerprint) fail('Tracked source identity changed during browser phase.');
+  phaseSucceeded = true;
 }
 
 const workTimer = setTimeout(() => { workDeadline = true; void stopOwned(serverChild, 'work deadline'); }, MAX_WORK_MS);
@@ -248,6 +301,29 @@ async function cleanup() {
   const proof = await stopOwned(proofChild, 'proof');
   const server = await stopOwned(serverChild, 'Vite');
   evidence.cleanup = { proof, server, residual: proof.residual || server.residual, uncertainty: proof.uncertainty || server.uncertainty };
+  if (capturePromotionRequest) {
+    if (!phaseSucceeded || totalDeadline || evidence.cleanup.residual || evidence.cleanup.uncertainty
+        || proof.exit?.code !== 0 || !proof.close || !server.close
+        || evidence.sourceBefore?.fingerprint !== evidence.sourceAfter?.fingerprint) {
+      evidence.capturePromotion = { ...capturePromotionRequest, status: 'capture-pending-cleanup', promoted: false,
+        reason: 'Supervisor phase/source/owned-tree cleanup conditions were not all satisfied.' };
+      process.exitCode = 1;
+    } else {
+      try {
+        evidence.sourceAfterCleanup = await sourceIdentity();
+        if (evidence.sourceAfterCleanup.fingerprint !== evidence.sourceBefore.fingerprint)
+          fail('Tracked source identity changed before capture promotion.');
+        if (totalDeadline || Date.now() >= startedAt + MAX_TOTAL_MS)
+          fail('Supervisor total cleanup deadline reached before capture promotion.');
+        evidence.capturePromotion = { ...(await promoteCaptureAfterSupervisorSuccess(capturePromotionRequest)), promoted: true };
+      } catch (error) {
+        evidence.capturePromotion = { ...capturePromotionRequest, status: 'capture-pending-cleanup', promoted: false,
+          reason: (error.stack || error.message).slice(0, 1200) };
+        process.stderr.write(`Capture remains pending cleanup: ${error.message}\n`);
+        process.exitCode = 1;
+      }
+    }
+  }
   try { await appendEvidence(); }
   catch (error) { process.stderr.write(`Could not append bounded evidence: ${error.message}\n`); process.exitCode = 1; }
   if (evidence.cleanup.residual || evidence.cleanup.uncertainty || totalDeadline) process.exitCode = 1;

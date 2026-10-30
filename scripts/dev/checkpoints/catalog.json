@@ -41,7 +41,7 @@
       "fixture": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-paid-zero.save.json",
       "captureParent": "qp16.starter-offer.v1",
       "captureAction": "Mounted starter decline from the exact Plan 16 starter capture, then capture the ordinary day-two rent view before Pay.",
-      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 15 },
+      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 15, "activeBill": null },
       "prePay": "expense_due and activeBill are not expected until the real Pay action invokes billExpense('rent', 15.00).",
       "pilotBrief": "paid-vs-unpaid-rent.md"
     },
@@ -51,7 +51,7 @@
       "fixture": "reports/development/plan-35-checkpoint-catalog-and-targeted-review-pilot/checkpoints/rent-unpaid-escalation.save.json",
       "captureParent": "qp16.starter-offer.v1",
       "captureAction": "Mounted starter purchase from the exact Plan 16 starter capture, then capture the ordinary day-two rent view before Pay.",
-      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 14.01 },
+      "boundary": { "step": "d2_afternoon_rent", "activeModal": null, "phase": "playing", "cash": 14.01, "activeBill": null },
       "prePay": "expense_due and activeBill are not expected until the real Pay action invokes billExpense('rent', 15.00).",
       "pilotBrief": "paid-vs-unpaid-rent.md"
     },

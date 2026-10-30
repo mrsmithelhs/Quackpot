@@ -1,11 +1,9 @@
 ---
 id: plan-39
 title: Melody reference and Web Audio laboratory
-status: ready
+status: in-progress
 depends_on: [plan-33]
 gate: "Owner authorizes Argon/Flash report-local composition, harness and export experiments on 2026-10-30. Ready for assignment; owner listening selects results, production adoption separate."
-superseded_by: null
-resolution: null
 summary: >-
   Build a local Web Audio audition and WAV-export laboratory for melody C continuations, light arrangements and reusable symbolic scores, informed by accepted music research and owner listening.
 ---

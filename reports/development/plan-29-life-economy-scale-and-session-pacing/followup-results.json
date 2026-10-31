@@ -1,0 +1,2852 @@
+{
+  "configs": [
+    {
+      "name": "control",
+      "initial": 1500,
+      "wage": 1000,
+      "meal": 250,
+      "rent": 1500
+    },
+    {
+      "name": "higher60",
+      "initial": 8000,
+      "wage": 6000,
+      "meal": 600,
+      "rent": 17000
+    },
+    {
+      "name": "higher90",
+      "initial": 10000,
+      "wage": 9000,
+      "meal": 800,
+      "rent": 23000
+    }
+  ],
+  "scenarios": [
+    {
+      "config": "control",
+      "strategy": "no_purchases",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 3000,
+        "afterBreakfast": 2750,
+        "liability": 1500,
+        "reserve": 1250,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 1250,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 2750,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 2000,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 2500,
+          "hp": 100,
+          "wages": 2000,
+          "meals": 1000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 3000,
+          "hp": 100,
+          "wages": 3000,
+          "meals": 1500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 2000,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 2000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 2500,
+          "hp": 100,
+          "wages": 5000,
+          "meals": 2500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 3000,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 2500,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "control",
+      "strategy": "repeat_small",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 1903,
+        "afterBreakfast": 1653,
+        "liability": 1500,
+        "reserve": 153,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 153,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 1653,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 1901,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 1902,
+          "hp": 100,
+          "wages": 2000,
+          "meals": 1000,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 1903,
+          "hp": 100,
+          "wages": 3000,
+          "meals": 1500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 903,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 2000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 1403,
+          "hp": 100,
+          "wages": 5000,
+          "meals": 2500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 1903,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 1403,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "control",
+      "strategy": "mixed",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 2901,
+        "afterBreakfast": 2651,
+        "liability": 1500,
+        "reserve": 1151,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 1151,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 2651,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 1901,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 2401,
+          "hp": 100,
+          "wages": 2000,
+          "meals": 1000,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 2901,
+          "hp": 100,
+          "wages": 3000,
+          "meals": 1500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 1901,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 2000,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 2401,
+          "hp": 100,
+          "wages": 5000,
+          "meals": 2500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 2901,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3000,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 2401,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 40
+        },
+        {
+          "day": 3,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 160
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 2,
+        "raceGems": 240,
+        "gemSpend": 320,
+        "remaining": 160,
+        "affordableSingles": 1,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 99
+    },
+    {
+      "config": "control",
+      "strategy": "missed_work",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 903,
+        "afterBreakfast": 653,
+        "liability": 1500,
+        "reserve": -847,
+        "shortfall": 847,
+        "payBranch": null,
+        "holdBranch": null,
+        "creditBranch": {
+          "cash": 0,
+          "paid": true,
+          "debt": 847,
+          "interest": "not modeled"
+        }
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 1901,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 902,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 1000,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 903,
+          "hp": 100,
+          "wages": 2000,
+          "meals": 1500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 1403,
+          "hp": 100,
+          "wages": 3000,
+          "meals": 2000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 1903,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 2500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 2403,
+          "hp": 100,
+          "wages": 5000,
+          "meals": 3000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 1903,
+          "hp": 100,
+          "wages": 5000,
+          "meals": 3500,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "control",
+      "strategy": "fatigue_recovery",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 4000,
+        "afterBreakfast": 3750,
+        "liability": 1500,
+        "reserve": 2250,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 2250,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 3750,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 2000,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 3000,
+          "hp": 80,
+          "wages": 2000,
+          "meals": 500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 4000,
+          "hp": 60,
+          "wages": 3000,
+          "meals": 500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 3000,
+          "hp": 60,
+          "wages": 4000,
+          "meals": 1000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 3500,
+          "hp": 70,
+          "wages": 5000,
+          "meals": 1500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 4000,
+          "hp": 80,
+          "wages": 6000,
+          "meals": 2000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 3500,
+          "hp": 90,
+          "wages": 6000,
+          "meals": 2500,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 1500,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "control",
+      "strategy": "sale_credit",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 4402,
+        "afterBreakfast": 4152,
+        "liability": 1500,
+        "reserve": 2652,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 2652,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 4152,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 1901,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 500,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 902,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 1000,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 4402,
+          "hp": 100,
+          "wages": 1000,
+          "meals": 1500,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 3402,
+          "hp": 100,
+          "wages": 2000,
+          "meals": 2000,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 1500,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 3902,
+          "hp": 100,
+          "wages": 3000,
+          "meals": 2500,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 1500,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 4402,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 3000,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 1500,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 3902,
+          "hp": 100,
+          "wages": 4000,
+          "meals": 3500,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 1500,
+          "strikes": 2,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 10
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 10,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 598
+    },
+    {
+      "config": "higher60",
+      "strategy": "no_purchases",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 22400,
+        "afterBreakfast": 21800,
+        "liability": 17000,
+        "reserve": 4800,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 4800,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 21800,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12800,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 17600,
+          "hp": 100,
+          "wages": 12000,
+          "meals": 2400,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 22400,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 10200,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 4800,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 15000,
+          "hp": 100,
+          "wages": 30000,
+          "meals": 6000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 19800,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 7200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 18600,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 8400,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "higher60",
+      "strategy": "repeat_small",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 21303,
+        "afterBreakfast": 20703,
+        "liability": 17000,
+        "reserve": 3703,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 3703,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 20703,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12701,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 17002,
+          "hp": 100,
+          "wages": 12000,
+          "meals": 2400,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 21303,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3600,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 9103,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 4800,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 13903,
+          "hp": 100,
+          "wages": 30000,
+          "meals": 6000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 18703,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 7200,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 17503,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 8400,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "higher60",
+      "strategy": "mixed",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 22301,
+        "afterBreakfast": 21701,
+        "liability": 17000,
+        "reserve": 4701,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 4701,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 21701,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12701,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 17501,
+          "hp": 100,
+          "wages": 12000,
+          "meals": 2400,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 22301,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 10101,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 4800,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 14901,
+          "hp": 100,
+          "wages": 30000,
+          "meals": 6000,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 19701,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 7200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 18501,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 8400,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 40
+        },
+        {
+          "day": 3,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 160
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 2,
+        "raceGems": 240,
+        "gemSpend": 320,
+        "remaining": 160,
+        "affordableSingles": 1,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 99
+    },
+    {
+      "config": "higher60",
+      "strategy": "missed_work",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 15303,
+        "afterBreakfast": 14703,
+        "liability": 17000,
+        "reserve": -2297,
+        "shortfall": 2297,
+        "payBranch": null,
+        "holdBranch": null,
+        "creditBranch": {
+          "cash": 0,
+          "paid": true,
+          "debt": 2297,
+          "interest": "not modeled"
+        }
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12701,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 11002,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 2400,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 15303,
+          "hp": 100,
+          "wages": 12000,
+          "meals": 3600,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 20103,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 4800,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 24903,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 6000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 29703,
+          "hp": 100,
+          "wages": 30000,
+          "meals": 7200,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 28503,
+          "hp": 100,
+          "wages": 30000,
+          "meals": 8400,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "higher60",
+      "strategy": "fatigue_recovery",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 24800,
+        "afterBreakfast": 24200,
+        "liability": 17000,
+        "reserve": 7200,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 7200,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 24200,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12800,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 18800,
+          "hp": 80,
+          "wages": 12000,
+          "meals": 1200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 24800,
+          "hp": 60,
+          "wages": 18000,
+          "meals": 1200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 12600,
+          "hp": 60,
+          "wages": 24000,
+          "meals": 2400,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 17400,
+          "hp": 70,
+          "wages": 30000,
+          "meals": 3600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 22200,
+          "hp": 80,
+          "wages": 36000,
+          "meals": 4800,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 21000,
+          "hp": 90,
+          "wages": 36000,
+          "meals": 6000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 17000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "higher60",
+      "strategy": "sale_credit",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 13802,
+        "afterBreakfast": 13202,
+        "liability": 17000,
+        "reserve": -3798,
+        "shortfall": 3798,
+        "payBranch": null,
+        "holdBranch": null,
+        "creditBranch": {
+          "cash": 0,
+          "paid": true,
+          "debt": 3798,
+          "interest": "not modeled"
+        }
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 12701,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 1200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 11002,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 2400,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 13802,
+          "hp": 100,
+          "wages": 6000,
+          "meals": 3600,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 18602,
+          "hp": 100,
+          "wages": 12000,
+          "meals": 4800,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 23402,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 6000,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 28202,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 7200,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 27002,
+          "hp": 100,
+          "wages": 24000,
+          "meals": 8400,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 10
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 10,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 598
+    },
+    {
+      "config": "higher90",
+      "strategy": "no_purchases",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 32200,
+        "afterBreakfast": 31400,
+        "liability": 23000,
+        "reserve": 8400,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 8400,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 31400,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17400,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 24800,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 32200,
+          "hp": 100,
+          "wages": 27000,
+          "meals": 4800,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 16600,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 6400,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 24000,
+          "hp": 100,
+          "wages": 45000,
+          "meals": 8000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 31400,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 9600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 29800,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 11200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "higher90",
+      "strategy": "repeat_small",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 31103,
+        "afterBreakfast": 30303,
+        "liability": 23000,
+        "reserve": 7303,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 7303,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 30303,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17301,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 24202,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3200,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 31103,
+          "hp": 100,
+          "wages": 27000,
+          "meals": 4800,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 15503,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 6400,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 22903,
+          "hp": 100,
+          "wages": 45000,
+          "meals": 8000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 30303,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 9600,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 28703,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 11200,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "higher90",
+      "strategy": "mixed",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 32101,
+        "afterBreakfast": 31301,
+        "liability": 23000,
+        "reserve": 8301,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 8301,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 31301,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17301,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 24701,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 3200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 32101,
+          "hp": 100,
+          "wages": 27000,
+          "meals": 4800,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 16501,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 6400,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 23901,
+          "hp": 100,
+          "wages": 45000,
+          "meals": 8000,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 31301,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 9600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 29701,
+          "hp": 100,
+          "wages": 54000,
+          "meals": 11200,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 40
+        },
+        {
+          "day": 3,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 160
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 2,
+        "raceGems": 240,
+        "gemSpend": 320,
+        "remaining": 160,
+        "affordableSingles": 1,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 99
+    },
+    {
+      "config": "higher90",
+      "strategy": "missed_work",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 22103,
+        "afterBreakfast": 21303,
+        "liability": 23000,
+        "reserve": -1697,
+        "shortfall": 1697,
+        "payBranch": null,
+        "holdBranch": null,
+        "creditBranch": {
+          "cash": 0,
+          "paid": true,
+          "debt": 1697,
+          "interest": "not modeled"
+        }
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17301,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 15202,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 3200,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 22103,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 4800,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 29503,
+          "hp": 100,
+          "wages": 27000,
+          "meals": 6400,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 36903,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 8000,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 44303,
+          "hp": 100,
+          "wages": 45000,
+          "meals": 9600,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 42703,
+          "hp": 100,
+          "wages": 45000,
+          "meals": 11200,
+          "purchases": 1097,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 340
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 340,
+        "affordableSingles": 2,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 1097
+    },
+    {
+      "config": "higher90",
+      "strategy": "fatigue_recovery",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 35400,
+        "afterBreakfast": 34600,
+        "liability": 23000,
+        "reserve": 11600,
+        "shortfall": 0,
+        "payBranch": {
+          "cash": 11600,
+          "paid": true,
+          "overdue": false
+        },
+        "holdBranch": {
+          "cash": 34600,
+          "paid": false,
+          "overdue": true,
+          "escalation": "immediate; treatment unspecified"
+        },
+        "creditBranch": null
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17400,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 26400,
+          "hp": 80,
+          "wages": 18000,
+          "meals": 1600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 35400,
+          "hp": 60,
+          "wages": 27000,
+          "meals": 1600,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 19800,
+          "hp": 60,
+          "wages": 36000,
+          "meals": 3200,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 27200,
+          "hp": 70,
+          "wages": 45000,
+          "meals": 4800,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 34600,
+          "hp": 80,
+          "wages": 54000,
+          "meals": 6400,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 33000,
+          "hp": 90,
+          "wages": 54000,
+          "meals": 8000,
+          "purchases": 0,
+          "sale": 0,
+          "paid": 23000,
+          "strikes": 0,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 0,
+        "raceGems": 0,
+        "gemSpend": 0,
+        "remaining": 0,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 0
+    },
+    {
+      "config": "higher90",
+      "strategy": "sale_credit",
+      "raceReward": 120,
+      "deadline": {
+        "arrivalCash": 17602,
+        "afterBreakfast": 16802,
+        "liability": 23000,
+        "reserve": -6198,
+        "shortfall": 6198,
+        "payBranch": null,
+        "holdBranch": null,
+        "creditBranch": {
+          "cash": 0,
+          "paid": true,
+          "debt": 6198,
+          "interest": "not modeled"
+        }
+      },
+      "days": [
+        {
+          "day": 1,
+          "cash": 17301,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 1600,
+          "purchases": 99,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 0,
+          "bedrests": 0
+        },
+        {
+          "day": 2,
+          "cash": 15202,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 3200,
+          "purchases": 598,
+          "sale": 0,
+          "paid": 0,
+          "strikes": 1,
+          "bedrests": 0
+        },
+        {
+          "day": 3,
+          "cash": 17602,
+          "hp": 100,
+          "wages": 9000,
+          "meals": 4800,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 4,
+          "cash": 25002,
+          "hp": 100,
+          "wages": 18000,
+          "meals": 6400,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 5,
+          "cash": 32402,
+          "hp": 100,
+          "wages": 27000,
+          "meals": 8000,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 6,
+          "cash": 39802,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 9600,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        },
+        {
+          "day": 7,
+          "cash": 38202,
+          "hp": 100,
+          "wages": 36000,
+          "meals": 11200,
+          "purchases": 598,
+          "sale": 4000,
+          "paid": 0,
+          "strikes": 2,
+          "bedrests": 0
+        }
+      ],
+      "gemLedger": [
+        {
+          "day": 1,
+          "action": "starter",
+          "cashCost": 99,
+          "gemsAdded": 240
+        },
+        {
+          "day": 1,
+          "action": "paid singles",
+          "pulls": 1,
+          "gemsSpent": 160,
+          "gemsRemaining": 80
+        },
+        {
+          "day": 1,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 200
+        },
+        {
+          "day": 2,
+          "action": "bundle",
+          "cashCost": 499,
+          "gemsAdded": 330
+        },
+        {
+          "day": 2,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 210
+        },
+        {
+          "day": 2,
+          "action": "illustrative race reward",
+          "gemsAdded": 120,
+          "gemsRemaining": 330
+        },
+        {
+          "day": 3,
+          "action": "paid singles",
+          "pulls": 2,
+          "gemsSpent": 320,
+          "gemsRemaining": 10
+        }
+      ],
+      "gemSummary": {
+        "grantPulls": 10,
+        "paidPulls": 5,
+        "raceGems": 240,
+        "gemSpend": 800,
+        "remaining": 10,
+        "affordableSingles": 0,
+        "affordableTenPulls": 0
+      },
+      "cashPurchases": 598
+    }
+  ],
+  "sensitivity": [
+    {
+      "config": "control",
+      "reserve": 1250,
+      "repeatPackCapacity": 2,
+      "oneMissReserve": 250,
+      "oneMissPackCapacity": 0
+    },
+    {
+      "config": "higher60",
+      "reserve": 4800,
+      "repeatPackCapacity": 9,
+      "oneMissReserve": -1200,
+      "oneMissPackCapacity": 0
+    },
+    {
+      "config": "higher90",
+      "reserve": 8400,
+      "repeatPackCapacity": 16,
+      "oneMissReserve": -600,
+      "oneMissPackCapacity": 0
+    }
+  ],
+  "gemSensitivity": [
+    {
+      "grantPulls": 10,
+      "paidPulls": 5,
+      "raceGems": 0,
+      "gemSpend": 800,
+      "remaining": 100,
+      "affordableSingles": 0,
+      "affordableTenPulls": 0
+    },
+    {
+      "grantPulls": 10,
+      "paidPulls": 5,
+      "raceGems": 240,
+      "gemSpend": 800,
+      "remaining": 340,
+      "affordableSingles": 2,
+      "affordableTenPulls": 0
+    },
+    {
+      "grantPulls": 10,
+      "paidPulls": 5,
+      "raceGems": 480,
+      "gemSpend": 800,
+      "remaining": 580,
+      "affordableSingles": 3,
+      "affordableTenPulls": 0
+    }
+  ],
+  "recovery": [
+    {
+      "config": "higher60",
+      "trace": [
+        {
+          "day": 1,
+          "cash": 5400,
+          "hp": 35,
+          "bedrests": 1
+        },
+        {
+          "day": 2,
+          "cash": 10200,
+          "hp": 45,
+          "bedrests": 1
+        },
+        {
+          "day": 3,
+          "cash": 15000,
+          "hp": 55,
+          "bedrests": 1
+        },
+        {
+          "day": 4,
+          "cash": 19800,
+          "hp": 65,
+          "bedrests": 1
+        }
+      ]
+    },
+    {
+      "config": "higher90",
+      "trace": [
+        {
+          "day": 1,
+          "cash": 8200,
+          "hp": 35,
+          "bedrests": 1
+        },
+        {
+          "day": 2,
+          "cash": 15600,
+          "hp": 45,
+          "bedrests": 1
+        },
+        {
+          "day": 3,
+          "cash": 23000,
+          "hp": 55,
+          "bedrests": 1
+        },
+        {
+          "day": 4,
+          "cash": 30400,
+          "hp": 65,
+          "bedrests": 1
+        }
+      ]
+    }
+  ],
+  "wageOnlyControlReserve": {
+    "wage10": 1250,
+    "wage60": 16250,
+    "wage90": 25250
+  },
+  "assertions": "passed"
+}

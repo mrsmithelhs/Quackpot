@@ -1,7 +1,8 @@
 ---
 id: plan-07
 title: Run-usage export and teacher analyzer investigation
-status: delivered
+status: complete
+resolution: "Owner-approved ZIP/JSON packaging, summary plus bounded timeline, per-run ID and privacy directions recorded; refined report and ZIP feasibility reviewed 2026-10-31. No final schema/library/budgets or executable result claimed. Investigation complete; synthetic ZIP/contract spike and production export/analyzer remain separate."
 depends_on: []
 gate: "Owner approves data fields, free-text handling, and analyzer scope before schema or UI implementation."
 summary: >-
@@ -44,6 +45,8 @@ The teacher wants run evidence and replay visibility, but the player's duck name
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (constraints #2/#3, Receipt, Technology, Classroom use), and owner triage T17 and post-review replay decision. Inspect the authorized BrowserBattlegorithms repository read-only as a **rough workflow model**; identify its actual export/import path and limitations before drawing comparisons. Do not copy real student files or names into this public repo.
 
 ## Investigation plan
+
+**Owner-approved wrap-up, 2026-10-31:** Two-way Codex oversight extends through completion, including post-delivery refinement. Owner approves ZIP as the intended packaging direction for investigation (versioned JSON inside, direct local ZIP import, optional JSON compatibility), compact summary plus bounded meaningful timeline, omission of names/free text/reflection by default, random per-run ID stable across re-exports but replaced on a new run, and comparison of submitted runs only. Omit seed initially; debugging/checkpoint reconstruction is separate. Initial analyzer stays browser-local/in-memory; teacher CSV can be a later bounded addition. Add packaging feasibility and these field directions to the report; no library install, executable compression benchmark, final schema or production implementation yet. Exact fields, limits and mappings need a follow-on contract/spike. Return the refined investigation for root closure; new implementation packets follow.
 
 **Readiness review, 2026-10-31:** Ready for a Codex-led, report-only first phase.
 Own only reports/development/plan-07-export-analyzer-investigation/. Locate the

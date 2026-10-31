@@ -432,3 +432,21 @@ Root reviews and prepares Plans06/07 as ready, disjoint Codex report-only candid
 Owner assigns QP Impl06 and QP Impl07 with Terra-class implementers and explicitly authorizes two-way communication/oversight through owner decisions or delivery. Root contacted both; each verified the original human authorization and sent a direct delivery milestone. Current model settings were left unchanged; root did not independently measure backend model identity.
 
 Both investigations had already completed by first root contact. Plan06 report/progress commits are d6b895f/d3ec447; Plan07 proposal/progress commits are8d6fd45/d6dc637. Packets are delivered, not accepted/complete; work holds at that boundary pending artifact review and owner choices. No production implementation or field/content adoption is authorized by receipt. Plan06 local chat is01a1920b-1bae-7da0-9fff-5719cefa973d; Plan07 is01a1920c-9a04-7573-8f84-d62ac06d0449; both host local. No push/deployment.
+
+### DECISION-041 — Extended oversight and selected odds/export directions
+
+**Date:** 2026-10-31
+
+Owner explicitly authorizes two-way communication with QP Impl06 and QP Impl07 through completion, including post-delivery report refinement, and approves root's recommendations. Plan06 direction is progressive/context-sensitive factual disclosure: no undefined pity-counter lesson in the free opening, no redundant explanations, later plain-language guarantee/progress information when relevant. Underlying rules still need selection/verification before promises; per-draw Receipt accuracy is unchanged.
+
+Plan07 direction is genuine ZIP containing versioned JSON with direct local import (and optional bare-JSON compatibility), compact summary plus bounded meaningful timeline, random per-run ID stable across re-exports and replaced on a new run, default omission of student/duck names, free text/reflection, persistent installation identity, seed and exact timestamps. Compare submitted runs only; identity, all attempts and causation are not established. Initial analyzer remains in-memory/local; teacher CSV can follow separately. Numeric import budgets, library and exact contract/mapping remain later spike/implementation choices. Compression packaging is not deployment or additional data-collection authority.
+
+Both report-only refinements returned and were reviewed by root: Plan06 4883ef9/7e04fbe; Plan07 0aad5dd/a5b9ac8. Investigations can close with their selected directions and explicit limits; UI/export/analyzer implementation stays in separate scopes. No premium advisor, browser or new executable experiment was needed for these document refinements. No push/deployment.
+
+### DECISION-042 — Ren character and social-life investigation
+
+**Date:** 2026-10-31
+
+Owner selects development of Ren, the friend suggested in Plan36's Opus review, as a separate Plan41 investigation covering characterization, visual concepts, interaction options and consequences. Appearance direction is ambiguously gendered/androgynous, mixed Black/Latino heritage with flexible complexion, possible tattoo and earrings; research and report-local image-generation inspiration are authorized on assignment. No visual feature must prove identity and no final design is selected yet.
+
+Social contact may restore fictional well-being HP. Frequent ignored/broken connections and some meaningful possession-sale contexts may endanger relationships. Exact gains, costs, classification, availability, relationship-state model and consequences remain owner-selected outputs, coordinated with Plans37/29/40. Do not infer student feelings, punish every refusal/sale, invent shared ownership, or make Ren an unlimited HP faucet. Preserve ordinary enjoyable reciprocal friendship and possible reconnection. No entire external-review arc, new ending or final game-asset adoption follows automatically. Plan41 is ready, not assigned; production remains separately gated.

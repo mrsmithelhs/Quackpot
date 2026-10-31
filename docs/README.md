@@ -30,6 +30,11 @@ as life receipts arranged like a Duck-Dex. Prioritize inexpensive, high-impact
 ideas when the ordinary day/session structure is ready. This is a future-design
 reference, not an integration plan or authority to implement the review proposals.
 
+[Plan 41: Ren friend and social life](development/plan-41-ren-friend-character-and-social-life-study.md)
+develops the owner-selected friend idea through character/reference research,
+visual concepts and social interaction/consequence proposals. It is ready for
+assignment, with production visuals and HP/relationship rules still gated.
+
 ## What belongs here
 
 - Decisions and their rationale.

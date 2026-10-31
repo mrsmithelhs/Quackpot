@@ -14,8 +14,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-03` | Core mechanism and truthful Receipt slice | complete | Build one playable core-loop path with a meaningful trade-off, local saving, Uninstall and its retention offer, and an event-log-derived honest Receipt. |
 | `plan-04` | SVG duck rig and synthesized sound spike | complete | Prove a small layered SVG duck rig and local parameter-synthesized sound without deciding broad art production or music provenance. |
 | `plan-05` | Fatigue and pre-race choice investigation | parked | Compare bounded ways fatigue could obscure the one pre-race choice while preserving agency, accessibility, and the reduced-motion information path. |
-| `plan-06` | Optional odds-detail investigation | delivered | Specify candidate information for an optional odds-detail button without hiding the Receipt's actual pity-adjusted pre-draw odds. |
-| `plan-07` | Run-usage export and teacher analyzer investigation | delivered | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
+| `plan-06` | Optional odds-detail investigation | complete | Specify candidate information for an optional odds-detail button without hiding the Receipt's actual pity-adjusted pre-draw odds. |
+| `plan-07` | Run-usage export and teacher analyzer investigation | complete | Inspect BrowserBattlegorithms as an authorized rough model and propose a minimal manual export schema plus local multi-file teacher analysis flow. |
 | `plan-08` | Duck visual-direction prototypes and owner gallery | complete | A separate Gemini thread generates five visual styles with three shape variants each and builds a local HTML gallery for owner comparison before SVG authoring. |
 | `plan-09` | Digital gacha duck motion comparison | complete | Compare short SVG motions on the accepted digital duck rig, with static and reduced-motion alternatives; the physical metagame duck remains inanimate. |
 | `plan-10` | Physical metagame duck views and cinematic staging | complete | Investigate static SVG views, lighting and apartment compositions that suggest character in the physical duck, including close-up and zoom quality checks. |
@@ -49,6 +49,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-38` | Apartment life production integration | in-progress | Bring the selected room-object, held-message and explicit-decision flow into production, with still companion poses, tap-to-buy breakfast and preserved save/exit/economy boundaries. |
 | `plan-39` | Melody reference and Web Audio laboratory | in-progress | Build a local Web Audio audition and WAV-export laboratory for melody C continuations, light arrangements and reusable symbolic scores, informed by accepted music research and owner listening. |
 | `plan-40` | Work and evening experience study | draft | Develop and visually compare how ordinary work, an extra shift and a first-evening activity appear in the apartment tutorial, coordinated with Plan37's authoritative day sequence. |
+| `plan-41` | Ren friend character and social life study | ready | Develop Ren as a friend with a life beyond the gacha, comparing visual concepts, interaction opportunities, well-being recovery and relationship consequences with the owner before integration. |
 <!-- plan-index:end -->
 
 ## Report Folders

@@ -1,7 +1,8 @@
 ---
 id: plan-06
 title: Optional odds-detail investigation
-status: delivered
+status: complete
+resolution: "Owner-approved progressive/context-sensitive disclosure recorded and refined report verified 2026-10-31. Opening avoids undefined counter vocabulary; technical facts and unresolved future rules preserved. Investigation complete; exact UI/copy and production evidence need a separate bounded integration."
 depends_on: []
 gate: "Owner approves the proposed optional detail and wording before implementation."
 summary: >-
@@ -44,6 +45,8 @@ The owner selected an optional button but did not choose its contents. Ambiguous
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Pity, Odds navigation, Receipt), and owner triage D3/T6/T7. Preserve O1's three registers and actual conditional pre-draw odds on every applicable Receipt entry.
 
 ## Investigation plan
+
+**Owner-approved wrap-up, 2026-10-31:** Two-way Codex oversight now extends through completion, including post-delivery report refinements. Owner selects progressive/context-sensitive disclosure and rejects undefined pity-counter copy in the promotion. Keep the technical non-advancing exception in the source map, not opening player instructions. Opening detail concerns actual opening draws; introduce future guarantee/progress only when relevant, with plain language and no redundant state narration. Current rules must support any displayed promise; thresholds/banner policy remain unselected. Refine the report to this direction, then return for root closure of the investigation; UI implementation remains a new bounded scope.
 
 **Readiness review, 2026-10-31:** Ready for a Codex-led, report-only investigation,
 not production. Own only reports/development/plan-06-odds-detail-investigation/;

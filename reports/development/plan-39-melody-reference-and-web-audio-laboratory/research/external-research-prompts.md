@@ -75,52 +75,73 @@ Please provide a rigorous, practical, and cited report addressing:
 
 ---
 
-## Prompt 2: Small Game-Synth Ensemble & Browser Web Audio Voicing
+## Prompt 2: Advanced Web Audio / HTML5 Game Music Synthesis, Procedural Room Air & Micro-Groove
 
 ### What Laboratory Parameter or Score Experiment Its Findings Would Change
-If external research returns findings from this prompt, they will directly adjust:
-1. **BiquadFilterNode Cutoffs and Q Values:** Refines the precise low-pass filter cutoff frequencies (e.g., 2,200 Hz vs. 1,800 Hz) and resonance slopes for chord pads and keyboard voices in the Web Audio graph to guarantee zero masking in the 2–5 kHz lead band.
-2. **Bass Synthesis Harmonic Content:** Modifies the oscillator configuration for the bass synth in `lab/patches.js` and `lab/synth-engine.js` (e.g., adding a specific gain ratio for a 2nd harmonic overtone at 146.8 Hz) to maximize audibility on low-end laptop and mobile phone speakers without muddying the mix.
-3. **Envelope Attack/Decay Curves:** Updates the linear/exponential time constants (`attackSeconds`, `decaySeconds`, `sustainRatio`, `releaseSeconds`) across the laboratory's instrument patches to prevent audible clicking at loop boundaries while maintaining snappy transients.
-4. **Layer Gain Staging & Dynamic Headroom:** Calibrates the digital mix bus gain multipliers to ensure consistent PCM RMS and sample-peak headroom (`< 0.90` linear sample peak, explicitly measured as PCM sample peak and RMS rather than unmeasured LUFS/true peak).
+We have **already implemented** our v1 baseline (`lab/patches.js` and `lab/synth-engine.js`) with a shared `AudioContext` / `OfflineAudioContext` scheduler (`48,000 Hz` stereo PCM16 WAV export), click-free linear/exponential micro-ramps, 3-band register separation (`D2–A2` bass with 2nd-harmonic overtone, `C3–G4` chords with `1.2–1.35 kHz` lowpass carving, `C5–D6` lead), and four first-order oscillator+biquad patches (`P0`–`P3`).
+
+Running this sharpened Prompt 2 will directly drive a **v2 synthesis upgrade** in `lab/patches.js` and `lab/synth-engine.js`:
+1. **2-Operator FM & Custom `PeriodicWave` Instrument Topology:** Replaces bare `triangle`/`sine`/`square` oscillators in `P1`–`P3` with genuine 2-op FM (`modulator -> modulationIndexGain -> carrier.frequency`), custom Fourier harmonic tables (`ctx.createPeriodicWave(real, imag)`), and `5–15 ms` filtered noise mallet/chiff attack transients so leads and chords sound like warm game instruments (marimba, kalimba, Rhodes/Wurlitzer, soft ocarina/whistle) rather than clinical test tones.
+2. **Delayed Vibrato & Pitch-Envelope Micro-Scoops:** Adds LFO vibrato that blooms only on sustained notes (`>= 1.0 beat`, such as Beat 6's 2-beat `D5`) while keeping fast 8th-note turns (`beats 0.0, 0.5, 3.0, 3.5`) pitch-tight.
+3. **Deterministic Procedural `ConvolverNode` Room Impulse ("Cozy Wooden Room Air"):** Adds a toggleable, seeded procedural stereo impulse response (`0.35–0.60 s` early reflections + damped tail) on an auxiliary send bus so browser auditions have warm spatial cohesion while keeping dry export stems available for external AI conditioning.
+4. **Sequencer Micro-Groove & Articulation Engine:** Adds optional micro-swing (`52–55%` eighth-note swing), note-gate articulation (`staccato` vs `tenuto` vs `legato`), velocity-to-filter/FM-index coupling, and a subtle brushed-noise/woodblock pulse layer.
 
 ---
 
 ### Copy-Pasteable Prompt Text (Prompt 2)
 
 ```markdown
-# Deep Research Brief: Small Game-Synth Ensemble Voicing, Spectral Carving, and Web Audio Synthesis Architecture
+# Deep Research Brief: Advanced Zero-Sample Web Audio Music Synthesis, Procedural Room Acoustics, and Sequencer Micro-Groove for HTML5 Video Games
 
-You are an expert audio programmer, acoustic engineer, and game sound designer specializing in pure Web Audio API synthesis for web applications.
+You are a principal Web Audio API DSP engineer, HTML5/JavaScript game synth architect, and video game sound designer.
 
-I need deep technical guidance on designing a lightweight, zero-dependency, procedural 3-to-4-voice synthesizer ensemble that runs cleanly in modern web browsers (Chrome, Safari, Firefox) via Web Audio API (`AudioContext` and `OfflineAudioContext`).
+### 1. What We Have Already Built and Solved (DO NOT Re-Explain These Basics)
+We have already built a working browser-based symbolic music laboratory (`AudioContext` + `OfflineAudioContext` rendering to 48,000 Hz, 16-bit stereo PCM WAV) for a cozy, playful beginning-of-game theme in D Major at 100 BPM:
+- **Already Solved (Skip in your response):**
+  - Basic `AudioContext` vs. `OfflineAudioContext` clock scheduling (`currentTime`, no `setTimeout` jitter).
+  - Basic anti-click envelope micro-ramps (`2–12 ms` attacks, `60–100 ms` releases).
+  - Basic 3-band register allocation (Bass `D2–A2` with 2nd-harmonic overtone for small laptop/phone speakers; Chords `C3–G4` low-passed around `1.2–1.35 kHz`; Lead `C5–D6` in `523–1175 Hz`).
+  - Basic 2-oscillator (`triangle`/`sine`/`square`) + single `BiquadFilterNode` subtractive patches.
+- **Strict Runtime Constraints:**
+  - Zero external audio files, zero sample downloads, and zero network requests.
+  - Must run identically in live `AudioContext` and `OfflineAudioContext` on `file://` and `http://` (which means **no external `AudioWorklet` script URLs** and **no deprecated `ScriptProcessorNode`**; all synthesis must use native Web Audio graph nodes, `PeriodicWave`, `AudioBuffer` procedural buffers, `ConvolverNode`, `WaveShaperNode`, `DelayNode`, `BiquadFilterNode`, `GainNode`, `OscillatorNode`, and `StereoPannerNode`).
+  - Remember the Web Audio specification constraint: inside a feedback loop, `DelayNode` enforces a minimum delay of 1 render quantum (`128 frames = 2.667 ms` at 48 kHz, capping simple feedback delay lines at `~375 Hz`).
 
-### 1. Application Context & Aesthetic Goals
-- Game Type: Cozy, lighthearted browser gacha game.
-- Function: Beginning-of-game background music. The player is reading text, reviewing duck stats, and interacting with UI.
-- Aesthetic Target: Inviting, warm, lightly bouncy, and playful (think cozy simulation / gentle arcade like Animal Crossing or classic Nintendo handheld titles).
-- Hard Constraints: Zero runtime sample libraries or soundfonts (must use native procedural Web Audio nodes: `OscillatorNode`, `GainNode`, `BiquadFilterNode`, `WaveShaperNode`, `StereoPannerNode`). Must render synchronously/offline to 48 kHz 16-bit stereo PCM WAV.
+### 2. The Core Problem We Need You to Solve
+First-order `OscillatorNode` (`triangle`/`sine`/`square`) + `BiquadFilterNode` patches still sound like clinical, bone-dry test oscillators after 15–20 seconds of listening. We need **concrete, production-grade procedural synthesis topologies, exact numerical parameter tables, and JavaScript node-graph recipes** drawn from the best open-source HTML5/JS synths (e.g., `webaudio-tinysynth`, `SoundBox`, `CPlayer`, `ZzFXM`, `WebAudioFont` procedural synthesis, demoscene/js13k engines) and classic/indie video game sound design (Yamaha OPL/OPN/OPM 2-op/4-op FM, Nintendo cozy shop/town themes).
 
-### 2. Acoustic & Hardware Challenges
-- Mobile & Laptop Speaker Playback: Target users play on laptops or phones whose built-in transducers exhibit severe acoustic roll-off below 150 Hz. Low bass fundamentals (e.g., D2 at 73.4 Hz) are completely lost if not reinforced by upper harmonics.
-- Timbral Fatigue: In looping browser games, harsh, unfiltered waveforms (raw sawtooth or square waves) cause rapid auditory fatigue.
-- Frequency Collisions & Phase Cancellation: Unison doubling and crowded midrange voicings cause severe masking, making the lead melody unintelligible.
+### 3. Required Deep Technical Inquiries
 
-### 3. Required Research Inquiries
-Please provide a comprehensive, highly technical engineering and acoustic brief covering:
-1. Register Allocation & Spectral Carving:
-   - Provide exact frequency and MIDI register boundaries for a 3-layer ensemble: (a) Lead Voice (C5-D6), (b) Accompaniment Chords/Keyboard (C3-G4), and (c) Bass (D2-D3).
-   - What exact filter cutoffs (`BiquadFilterNode.frequency`), filter types, and Q factors should be applied to the chord accompaniment to surgically carve out a pocket in the 2,000 Hz to 5,000 Hz range for the lead voice?
-2. Bass Synthesis for Small Transducers:
-   - How can a pure Web Audio synthesis graph generate rich, warm, audible 2nd and 3rd harmonics (110 Hz to 250 Hz) for a D2 (73.4 Hz) fundamental without requiring heavy CPU distortion? (Detail multi-oscillator summing vs. custom `PeriodicWave` vs. soft tanh `WaveShaperNode`).
-3. Glitch-Free Web Audio Scheduling & Envelopes:
-   - What are the exact audio-clock parameter automation practices (`setValueAtTime`, `exponentialRampToValueAtTime`, `setTargetAtTime`) required to guarantee click-free attacks, seamless note transitions, and click-free looping across measure boundaries?
-   - How should release tails and voice deallocation be managed in an `OfflineAudioContext` export pipeline to prevent memory leaks and buffer truncation?
-4. Concrete Web Audio Patch Recipes:
-   - Provide complete, copy-pasteable JavaScript configuration objects or node-graph wiring recipes for:
-     a) A warm, gentle lead synth (e.g., filtered triangle/soft square with subtle vibrato).
-     b) A playful, cozy chord pluck/electric piano (soft attack, gentle decay).
-     c) A rounded, audible bass synth with strong upper-harmonic presence.
+#### Inquiry A: Four Concrete Zero-Sample Web Audio Instrument Topologies (With Exact Numbers)
+Provide complete node-graph wiring diagrams and copy-pasteable JavaScript parameter recipes (frequencies, ratios, modulation indices in Hz, `Float32Array` Fourier coefficients, filter Qs, and envelope times) for four non-fatiguing, expressive instruments:
+1. **Cozy Wooden Marimba / Kalimba / Xylophone Lead (`C5–D6`, 523–1175 Hz):**
+   - How to combine a **2-operator FM transient** (what exact non-integer or integer `modulator:carrier` ratio—e.g., `1 : 2.76` or `1 : 4.0`—and what modulator decay time in `ms` creates the hollow woody/tine strike without metallic clang?) with a **short procedurally generated noise-burst mallet click** (`AudioBufferSourceNode` of `5–15 ms` bandpass-filtered noise) and a warm fundamental resonator.
+2. **Warm Electric Piano — Rhodes / Wurlitzer / Celesta Chords (`C3–G4`, 130–392 Hz):**
+   - Provide both (a) an exact **2-op FM topology** where velocity scales the modulator gain (`modulationIndex * f_carrier`) and decays faster than the carrier, and (b) an exact **`PeriodicWave` Fourier harmonic array** (`real` and `imag` coefficients for harmonics `1..12`) paired with soft `WaveShaperNode` warm saturation and stereo pan/autopan modulation.
+3. **Plucked Acoustic String / Harp / Ukulele Accompaniment (`C3–E5`):**
+   - Because `DelayNode` feedback loops in Web Audio cannot go below 128 samples (`2.67 ms` at 48 kHz = `375 Hz`), how should we synthesize a convincing plucked string across `130–660 Hz` in `OfflineAudioContext`? Compare:
+     - Pre-computing a short Karplus-Strong plucked buffer into an `AudioBuffer` per note/pitch in JS memory (< 0.5 ms CPU) and playing it via `AudioBufferSourceNode`, vs.
+     - A multi-stage `PeriodicWave` + dual-decay envelope + body-formant `BiquadFilterNode` bank (`peaking` filters at wood body resonances). Give exact code/coefficients for the best approach.
+4. **Soft Breath Ocarina / Woodwind / Whistle Lead (`C5–D6`):**
+   - Exact recipe for: (a) a `PeriodicWave` with predominantly odd harmonics + soft 2nd harmonic, (b) a `15–30 ms` breath/chiff bandpass noise envelope on note attack, (c) a **micro-pitch scoop** (`-15 cents -> 0 cents` over `25 ms`), and (d) **delayed LFO vibrato** (an LFO at `5.0–5.5 Hz`, `±8–12 cents`, whose depth `GainNode` stays near zero for the first `180 ms` so eighth notes stay crisp, then ramps in smoothly on sustained half notes).
+
+#### Inquiry B: Deterministic Procedural Room Impulse Response ("Cozy Room Air" via `ConvolverNode`)
+Dry oscillators wired straight to `ctx.destination` sound sterile in headphones.
+- Provide a complete, deterministic JavaScript function `createCozyRoomImpulse(ctx, { durationSeconds, preDelayMs, dampingHz, seed })` that fills a stereo `AudioBuffer` with:
+  1. Discrete early-reflection taps (`5–35 ms`) modeling a small warm room, and
+  2. A decorrelated L/R exponentially decaying tail low-pass damped below `2.5–3.5 kHz` so it adds warmth and depth without metallic ringing or smearing fast eighth notes.
+- Recommend exact dry/wet send gains for Lead (`10–18%`), Chords (`20–30%`), and Bass (`0–5%`) so total mix peak stays well below clipping and the required `tailSeconds` increase stays `<= 0.35 s`.
+
+#### Inquiry C: Symbolic Score Micro-Groove, Articulation & Humanization Rules
+When rendering a symbolic note table (`{ beat, midi, durationBeats, velocity }`) in a cozy video game theme (100 BPM, 4/4):
+1. **Micro-Timing & Swing:** What exact timing offsets (in milliseconds or beat fractions) make a 100 BPM game loop bounce naturally without sounding sloppy? (Compare subtle 8th-note swing `52–54%`, laying the lead melody `+8 to +14 ms` behind the grid ("in the pocket"), and chord-strumming micro-arpeggiation of `8–15 ms` per voice from low to high).
+2. **Note-Gate Articulation & Phrase Breathing:** How should authored `durationBeats` map to actual gate time (`releaseStart`) for staccato eighth-note turns (`0.5b`) vs. slurred stepwise lines vs. cadential half notes (`2.0b`) so phrases breathe like a real player?
+3. **Subtle Non-Intrusive Percussion / Pulse:** Provide a pure Web Audio recipe for an ultra-gentle, cozy rhythmic pulse (e.g., a soft brushed maraca/shaker or muted woodblock tick on beats 2 and 4 at `-24 to -28 dBFS`) that reinforces the 100 BPM groove during lead rests without sounding like a drum machine.
+
+#### Inquiry D: Synthesis Timbre Impact on External Neural Audio Conditioning (Suno `Cover`)
+When exporting our synthesized score as a WAV reference to upload into an external neural audio-to-audio model (specifically Suno `Cover` mode):
+- How do neural audio encoders (e.g., EnCodec/SoundStream/CQT pitch-tracking frontends) respond to different synthesized reference timbres?
+- Specifically: Does a piano/pluck envelope with sharp onset transients (`< 8 ms`), strong 2nd–5th harmonics, and exponential decay yield better melodic contour retention in Suno `Cover` than a sustained triangle/flute wave? Should the reference WAV uploaded to Suno be **100% dry** (no `ConvolverNode` room air, no vibrato, no chord strumming) even if the in-browser audition uses room air and micro-groove?
 ```
 
 ---

@@ -1,3 +1,18 @@
+# Current Plan 38 handoff — 2026-10-31
+
+New runs use the integrated policy-1 progression. The owner-selected working budget is **$80 starting cash, $60 per completed scheduled shift, $6 per meal, and $170 remaining rent**. Source/evidence commits: `c266a20`, `15a8c53`, `603610b`, `ed28b54`, and `9d3f9d2`; the integrated evidence record is `06cd95a`. The later “Codex integration delivery” section describes the actual route and review dispositions. QP Orch is reviewing the source and evidence; owner acceptance and packet closure are pending.
+
+The latest named bounded test set passed 118 tests and the Vite build passed. Isolated desktop ordinary-motion and narrow reduced-motion Day1–4 walks covered a mid-work reload, phone return, committed race reload, Day4 affordable rent withholding, and Receipt; an independent shortfall/recovery route and an engine-level Day4 collapse trace are recorded below. Narrow Tab/Enter covered the opening and shift agreement only. Exact-zero and deadline-collision cases have engine evidence, not browser evidence; physical-device, comprehensive keyboard/screen-reader, whole-run balance and 30-minute pacing remain unverified.
+
+**No review server is currently running.** The isolated test URL was `http://127.0.0.1:4187/Quackpot/`; it must not be treated as live. An optional owned, loopback-only, finite Python static preview of the existing `dist/` build can be launched from the repository root with the command below. It exits after 15 minutes, serves only the local build, and does not watch or rebuild files. The `/Quackpot/` prefix is mapped to `dist/` so the built asset paths resolve. This command has not been launched in this cleanup turn.
+
+```powershell
+python -c "import http.server,functools,threading; H=type('H',(http.server.SimpleHTTPRequestHandler,),{'translate_path':lambda s,p:http.server.SimpleHTTPRequestHandler.translate_path(s,p.removeprefix('/Quackpot'))}); S=http.server.ThreadingHTTPServer(('127.0.0.1',4187),functools.partial(H,directory='dist')); T=threading.Timer(900,S.shutdown); T.daemon=True; T.start(); S.serve_forever(); S.server_close()"
+```
+
+## Historical Plan 28/38 implementation record
+
+The following older Opus record, including its owner-review readiness, port 5173 and $15 Day2 scenarios, is retained as historical evidence and does **not** describe the current integrated route.
 # Plan 38 progress: apartment life production integration
 
 - **Lead:** the existing Plan 28 Opus thread. Branch C, no advisor. Date: 2026-10-30.

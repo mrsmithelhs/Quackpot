@@ -1,7 +1,7 @@
 ---
 id: plan-38
 title: Apartment life progression and production integration
-status: delivered
+status: in-progress
 depends_on: [plan-28, plan-29, plan-37]
 gate: "Owner reassigns amended scope to Codex2026-10-31. Root reviews exact progression/transaction/compatibility mechanism and initial parameter choices before new source writes; then bounded integration to owner review."
 summary: >-
@@ -16,6 +16,8 @@ Owner assigns Codex on2026-10-31 after closing Plans29/37. This amendment supers
 Owner selects $60 take-home per completed scheduled shift as working baseline. Other Plan29 example values ($80 start/$6 meals/$170 remaining rent), shift duration and health/credit numbers remain provisional. No new numerical selection is implied by reassigning this packet. Exact initial working parameters and which proposed lifecycle effects are active must appear in the mechanism checkpoint; do not silently ship the higher60 table, harden 70/30HP examples or multiply every price.
 
 **Mechanism cleared2026-10-31:** Follow reports/orchestration/plan-38-mechanism-clearance-01.md. Owner selects $80/$60/$6/$170 working budget and pull-action-plus-race baseline; this supersedes the unselected-candidate wording above. Scheduled work is Afternoon. Root conditions distinguish provisional test parameters, legacy version dispatch, log-bound config, deadline/recovery and transaction/terminal boundaries. Update mechanism record then proceed to scoped source/validation without another pre-build gate.
+
+**Owner review repair2026-10-31:** Integrated experience is not accepted. Proceed through `reports/orchestration/plan-38-owner-experience-repair-03.md` for kitchen continuity, launch preinstallation/direct-open, first-open sale gating, single phone hotspot, physical support/daylight, Morning departure and Day1 dinner return. Preserve saved review runs and actual card/race production views. Later Ren/Mom events and Plan40 gig catalog stay separate. This supersedes historical afternoon-only departure presentation without adding a second work commitment.
 
 ## Required inputs
 

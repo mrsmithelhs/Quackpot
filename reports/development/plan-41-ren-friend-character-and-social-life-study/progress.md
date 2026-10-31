@@ -97,3 +97,7 @@ Ready for orchestrator review: **yes** (owner review of the package, not of any 
 - Two drawings (slicker, bedhead) need a revision pass and one (cardigan) a small fix; no revision has been done.
 - Resources: ten model helpers (Haiku) plus headless Edge renders (a local browser; no network use by the pages); no Node, no installs, no git by helpers. Large files: the 11 Gemini PNGs total about 11 MB and are committed as report-local concept references; they are not game assets.
 - Still unselected by the owner: any final outfit or hair; whether to rerun the three missing hair grids after the quota reset or draw them directly.
+
+## Addendum 3: revision pass (2026-10-31)
+
+Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the originals; results, with my own judgement and the v1/v2 comparison sheet, are in section 7 of `07-gemini-round-01-review-and-selection.md`. Slicker v2 is a clear improvement; cardigan v2 is improved with small buttons; bedhead v2 is only a partial fix (spiky triangle tufts). Total Haiku drawing helpers so far: 13 (10 first pass, 3 revision). No additional Gemini generation was run; the three missing hair grids remain ungenerated. Nothing here is owner-approved.

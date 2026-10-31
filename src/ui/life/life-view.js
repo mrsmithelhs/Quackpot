@@ -139,8 +139,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       }
     } else if (place === 'kitchen-breakfast') {
       const settled = breakfastState(engine).settled;
-      const skipped = engine.log.entries.some((entry) => entry.type === 'action' && entry.payload?.kind === 'breakfast_skipped'
-        && entry.payload.billId === breakfastState(engine).billId);
+      const skipped = engine.state.life ? engine.state.life.meals[breakfastState(engine).billId] === 'skip'
+        : engine.log.entries.some((entry) => entry.type === 'action' && entry.payload?.kind === 'breakfast_skipped'
+          && entry.payload.billId === breakfastState(engine).billId);
       out.push(settled
         ? { id: 'bag', svg: skipped ? emptyPlate({ idPrefix: uid('lfb') }) : bakeryBag({ idPrefix: uid('lfb') }), ...breakfastObjectBox(engine.state.day, { x: 26, y: 50, w: 7 }), label: skipped ? 'Breakfast skipped' : 'Bakery bag', done: true }
         : { id: 'plate', svg: emptyPlate({ idPrefix: uid('lfp') }), ...breakfastObjectBox(engine.state.day, { x: 21, y: 66, w: 14 }), label: worldLabels.plate, chip: chips.plate, done: false,
@@ -217,7 +218,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const res = callbacks.onBreakfast(expectLog);
       if (res === null) return null;
       return res?.paid || breakfastState(engine).settled
-        ? results.breakfastBought({ amount: BREAKFAST_AMOUNT, cashAfter: engine.state.cash })
+        ? results.breakfastBought({ amount: engine.state.life?.config.mealCost ?? BREAKFAST_AMOUNT, cashAfter: engine.state.cash })
         : { heading: 'Nothing bought', lines: ['There is not enough cash for breakfast. Nothing was taken.', `Cash on hand: ${money(engine.state.cash)}.`] };
     } };
   }
@@ -452,6 +453,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       });
     }
     if (isBreakfastStep(step) && optionalOpen(e)) {
+      const expectLog = e.log.length;
+      control('Continue', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
+    }
+    if (step === 'life_breakfast' && breakfastState(e).settled) {
       const expectLog = e.log.length;
       control('Continue', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
     }

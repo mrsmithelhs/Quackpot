@@ -60,7 +60,7 @@ function shortRent(seed) {
 test('life steps, breakfast map and known steps line up', () => {
   assert.deepEqual(BREAKFAST_STEP_BY_DAY, { 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
   assert.deepEqual(LIFE_STEPS, [
-    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast',
+    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast',
     'd2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation',
   ]);
   for (const step of LIFE_STEPS) {
@@ -70,6 +70,7 @@ test('life steps, breakfast map and known steps line up', () => {
   assert.equal(isLifeStep('d1_morning_gacha'), false);
   assert.equal(isLifeStep('desk'), false);
   assert.equal(isBreakfastStep('d2_morning_breakfast'), true);
+  assert.equal(isBreakfastStep('life_breakfast'), true);
   assert.equal(isBreakfastStep('d2_afternoon_rent'), false);
   for (const step of ['desk', 'd1_morning_gacha', 'd1_midday_race_result', 'd3_midday_race', 'receipt']) {
     assert.equal(isKnownStep(step), true, step);
@@ -315,4 +316,14 @@ test('normalizeLoadedStep: an unknown step is reported and never rewritten', () 
   const before = structuredClone(engine.state);
   assert.deepEqual(normalizeLoadedStep(engine), { step: 'mystery', recovered: true, next: null });
   assert.deepEqual(engine.state, before);
+});
+
+test('new-policy breakfast uses the selected meal window and actual state', () => {
+  const e = new GameEngine('life-breakfast', { lifePolicy: true });
+  e.start(); e.setupCompanion(); e.state.step = 'life_breakfast';
+  assert.deepEqual(breakfastState(e), { day: 1, billId: 'd1-breakfast', settled: false, owing: false });
+  assert.equal(placeFor(e), 'kitchen-breakfast');
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+  assert.equal(breakfastState(e).settled, true);
+  assert.equal(e.state.health, 95);
 });

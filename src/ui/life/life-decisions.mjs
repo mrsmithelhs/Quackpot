@@ -121,6 +121,7 @@ export function optionalCouchDecision(engine) {
 export function breakfastDecision(engine) {
   const cashBefore = engine.state.cash;
   const loss = Math.min(5, Math.max(0, engine.state.health));
-  return { ...decide.getBreakfast({ amount: BREAKFAST_AMOUNT, cashBefore, cashAfter: round(cashBefore - BREAKFAST_AMOUNT) }),
+  const amount = engine.state.life?.config.mealCost ?? BREAKFAST_AMOUNT;
+  return { ...decide.getBreakfast({ amount, cashBefore, cashAfter: round(cashBefore - amount) }),
     back: 'Put it down', decline: { label: `Skip breakfast (−${loss} HP)`, endsRun: false } };
 }

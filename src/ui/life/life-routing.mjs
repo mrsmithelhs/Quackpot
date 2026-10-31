@@ -8,7 +8,7 @@ const round = (n) => Math.round(n * 100) / 100;
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
 export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation']);
-export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), ...RENT_STEPS]);
+export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', ...RENT_STEPS]);
 
 /** Every step string the controller can render. Anything else gets a non-destructive recovery screen. */
 export const KNOWN_STEPS = Object.freeze([
@@ -23,7 +23,7 @@ export const OFFER_PLACE = Object.freeze({
 export const PLACES = Object.freeze(['kitchen-notice', 'kitchen-breakfast', 'desk-phone', 'desk-card', 'living']);
 
 export const isLifeStep = (step) => LIFE_STEPS.includes(step);
-export const isBreakfastStep = (step) => step in BREAKFAST_DAY_BY_STEP;
+export const isBreakfastStep = (step) => step === 'life_breakfast' || step in BREAKFAST_DAY_BY_STEP;
 export const isKnownStep = (step) => KNOWN_STEPS.includes(step);
 
 const settled = (engine, billId) => (engine.state.billsSettled ?? []).includes(billId);
@@ -38,6 +38,10 @@ export function rentState(engine) {
 
 export function breakfastState(engine) {
   const day = BREAKFAST_DAY_BY_STEP[engine.state.step] ?? engine.state.day;
+  if (engine.state.life) {
+    const billId = `d${day}-breakfast`;
+    return { day, billId, settled: Boolean(engine.state.life.meals[billId]), owing: false };
+  }
   const billId = `d${day}_food`;
   return { day, billId, settled: settled(engine, billId), owing: engine.state.activeBill?.billId === billId };
 }

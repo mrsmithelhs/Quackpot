@@ -635,18 +635,32 @@ if (app) {
         return engine.chooseZeroCashOption(choice);
       }),
       onBreakfast: commit(() => {
+        if (engine.state.life) {
+          const result = engine.applyLifeIntent({ type: 'meal', choice: 'buy' });
+          return { paid: result.ok };
+        }
         const next = afterBreakfast(engine);
         const result = engine.billExpense('food', GAME_CONSTANTS.FOOD_DAILY);
         if (result.paid && !result.zeroCash) applyStepTransition(next);
         return result;
       }),
       onSkipBreakfast: commit(() => {
+        if (engine.state.life) {
+          const result = engine.applyLifeIntent({ type: 'meal', choice: 'skip' });
+          const healthEvent = result.events?.find((event) => event.type === 'life_health');
+          return { skipped: result.ok, healthLost: -(healthEvent?.payload.delta ?? 0) };
+        }
         const next = afterBreakfast(engine);
         const result = engine.skipBreakfast();
         if (result.skipped || result.alreadySettled) applyStepTransition(next);
         return result;
       }),
       onContinue: commit(() => {
+        if (engine.state.life) {
+          const result = engine.applyLifeIntent({ type: 'advance' });
+          if (result.ok) engine.state.step = 'life_home';
+          return result;
+        }
         const next = afterBreakfast(engine);
         const result = engine.chooseZeroCashOption('continue');
         applyStepTransition(next);

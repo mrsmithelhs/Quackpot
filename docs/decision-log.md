@@ -471,3 +471,12 @@ Owner favors Plan39 v3 M1–M6 as a varied reference repertoire for differing ga
 Owner requests apartment music research for lofi hiphop, jazz, country,90s alternative guitar rock, Hawaiian/ukulele-oriented music and EDM: selected ordinary loops at least2minutes and eventual approximately30second gacha-motif-inflected counterparts. Plan43 is ready and unassigned, with short pilot listening before long-track expansion and no production/trigger adoption.
 
 Owner assigns Plans29 and42 to Codex in parallel with disjoint report folders. Plan29 models selected life/time policies with explicit calibration assumptions; Plan42 proves a synthetic local ZIP/usage contract with exact dependency/mechanism clearance before executable artifact work. Neither assignment authorizes production changes, package installation in the game, student data, push or deployment.
+
+
+### DECISION-045 — Conscious withholding of affordable rent
+
+**Date:** 2026-10-31
+
+Owner reports selecting LEDGER14 in the Plan37 pilot: on Day4 morning, a player with enough cash for the unpaid remaining rent balance may choose Pay Rent or Hold Cash/Do Not Pay. Withholding keeps cash in hand, marks rent overdue and immediately triggers landlord escalation. Record the choice factually; do not infer a gacha motive. Paying remains conscious, and a resulting zero cash balance is not nonpayment. LEDGER09 still requires immediate insufficient-funds escalation at the deadline, not only on notice inspection. Exact health/deadline ordering and escalation treatment of solvent withholding remain specification outputs, not production implementation.
+
+Root's final-spec review is reports/orchestration/plan-37-final-spec-review-01.md. The fourteen owner choices are preserved; the consolidation still needs bounded provenance, lifecycle and trace corrections before acceptance/closure. Plan29 may continue with explicit assumptions; no numerical policy, event schema or production mutation is adopted.

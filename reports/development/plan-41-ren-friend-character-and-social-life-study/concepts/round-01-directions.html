@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan 41 — Ren concept round 1 (original SVG studies)</title>
+<style>
+  :root{--bg:#f6efe2;--ink:#2d2420;--card:#fffaf0;--line:#d9ccb4;--accent:#7a3b1d}
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.5 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+  main{max-width:1100px;margin:0 auto;padding:16px}
+  h1{font-size:1.5rem;margin:.2em 0}
+  h2{font-size:1.15rem;margin:1.6em 0 .4em;border-bottom:1px solid var(--line);padding-bottom:.2em}
+  .tag{display:inline-block;font-size:.8rem;font-weight:700;padding:.05em .5em;border:1px solid var(--accent);border-radius:4px;color:var(--accent);margin-right:.4em}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.6em .9em;margin:.8em 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px}
+  .card h3{margin:.1em 0 .3em;font-size:1rem}
+  .pair{display:flex;gap:8px;flex-wrap:wrap}
+  .pair figure{margin:0;flex:1 1 120px;text-align:center;font-size:.82rem}
+  figure svg.big{width:100%;max-width:240px;height:auto;background:#efe3cc;border-radius:6px}
+  .row{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .av{border-radius:50%;background:#efe3cc;overflow:hidden;display:inline-block;border:1px solid var(--line)}
+  .sil svg{filter:brightness(0)}
+  table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:.35em .55em;text-align:left;vertical-align:top}
+  .sw{display:inline-block;width:56px;height:36px;border-radius:5px;border:1px solid #0003;vertical-align:middle}
+  /* character colour hooks; CSS custom properties inherit into the <use> shadow trees */
+  .fig{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .fig.deep{--skin:#7a4a2e;--shade:#5f3519;--blush:#a85a3c;--hair:#241812}
+  .fig.neutral{--skin:#8f5e44;--shade:#744532;--blush:#b0694f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .lc{stroke:#2b1a14;stroke-opacity:.8;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}
+</style>
+</head>
+<body>
+<main>
+<h1>Ren — concept round 1: three art directions</h1>
+<p><span class="tag">PROPOSED</span><span class="tag">report-local</span><span class="tag">not production art</span> Original SVG studies drawn by the lead for this report. <strong>No generated raster images exist in this round</strong>: this session exposes no image-generation tool, so none was invoked or claimed. No source image is traced or copied (see <code>research/visual-reference-provenance.md</code>). Final game art would be authored later as SVG in a separate bounded task.</p>
+
+<div class="note"><strong>Owner-selected inputs used:</strong> Ren is a neighbor who is a maker/tinkerer (pencil, overalls, work jacket, tools); presence = phone avatar plus a half-body figure at the door; they/them.
+<strong>Owner direction (flexible) used:</strong> ambiguously gendered presentation, Black/Latino mixed heritage treated as characterization rather than proven by a face, possible tattoo and earrings.
+<strong>Proposed here:</strong> everything about how Ren is drawn. Heritage is expressed through a range of undertones and in the character brief (family, food, speech, craft), not through any single facial or skin signal. Each study shows two variants that differ in complexion/undertone, hair, dress and accessories; the shared sprout tattoo and gold earrings are held constant so only the drawing language is being compared.</div>
+
+<h2>1. The three directions, two variants each</h2>
+<div class="grid">
+
+  <section class="card">
+    <h3>A — Soft flat, kit-matched</h3>
+    <p style="margin:.2em 0 .6em;font-size:.88rem">Thick brown outline (3 px), rounded shapes, dot eyes. Same line language as the accepted apartment kit, so Ren would sit in a room without looking pasted in.</p>
+    <div class="pair">
+      <figure><svg class="big fig" viewBox="0 0 240 300" role="img" aria-label="Direction A, variant 1: mid golden-brown complexion, short curls, overalls, hoop and stud earrings, sprout tattoo on neck"><use href="#fig-A1"/></svg>A1 · mid-warm skin, short curls, overalls</figure>
+      <figure><svg class="big fig deep" viewBox="0 0 240 300" role="img" aria-label="Direction A, variant 2: deep warm-brown complexion, shoulder-length curls, open olive work jacket, ear cuff and studs"><use href="#fig-A2"/></svg>A2 · deep-warm skin, shoulder curls, work jacket</figure>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>B — Angular graphic</h3>
+    <p style="margin:.2em 0 .6em;font-size:.88rem">No outline; colour blocking and a single darker shadow shape. Hair, jaw and clothes are faceted. Strongest silhouette and smallest file, but furthest from the kit.</p>
+    <div class="pair">
+      <figure><svg class="big fig" viewBox="0 0 240 300" role="img" aria-label="Direction B, variant 1: angular figure, mid complexion, flat-top hair, overalls"><use href="#fig-B1"/></svg>B1 · mid-warm skin, flat-top, overalls</figure>
+      <figure><svg class="big fig deep" viewBox="0 0 240 300" role="img" aria-label="Direction B, variant 2: angular figure, deep complexion, long angular hair, work jacket"><use href="#fig-B2"/></svg>B2 · deep-warm skin, long hair, work jacket</figure>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>C — Storybook, finer line</h3>
+    <p style="margin:.2em 0 .6em;font-size:.88rem">Thin dark-brown line, two-tone shading, almond eyes, defined lips, longer neck. Most expressive and the most naturalistic, but heavier to draw and more likely to clash with the thick-line kit.</p>
+    <div class="pair">
+      <figure><svg class="big fig" viewBox="0 0 240 300" role="img" aria-label="Direction C, variant 1: storybook figure, mid complexion, short curls, cardigan"><use href="#fig-C1"/></svg>C1 · mid-warm skin, short curls, cardigan</figure>
+      <figure><svg class="big fig deep" viewBox="0 0 240 300" role="img" aria-label="Direction C, variant 2: storybook figure, deep complexion, shoulder curls, denim shirt and tape measure"><use href="#fig-C2"/></svg>C2 · deep-warm skin, shoulder curls, denim + tape measure</figure>
+    </div>
+  </section>
+</div>
+
+<h2>2. Game-scale checks (static)</h2>
+<div class="note">Phone avatar crop (circle) at 96 px and 48 px, then the one-flat-colour silhouette test (Coartist method, helper-reported). Viewed by the lead in a desktop-width and a narrow browser window; see <code>../progress.md</code> for what was actually looked at.</div>
+<div class="grid">
+  <section class="card"><h3>A — avatar and silhouette</h3>
+    <div class="row">
+      <span class="av" style="width:96px;height:96px"><svg class="fig" viewBox="46 30 148 148" width="96" height="96" aria-label="A1 avatar crop"><use href="#fig-A1"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig" viewBox="46 30 148 148" width="48" height="48" aria-label="A1 small avatar"><use href="#fig-A1"/></svg></span>
+      <span class="av" style="width:96px;height:96px"><svg class="fig deep" viewBox="46 30 148 148" width="96" height="96" aria-label="A2 avatar crop"><use href="#fig-A2"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig deep" viewBox="46 30 148 148" width="48" height="48" aria-label="A2 small avatar"><use href="#fig-A2"/></svg></span>
+      <span class="sil"><svg class="fig" viewBox="0 0 240 300" width="70" height="88" aria-label="A1 silhouette"><use href="#fig-A1"/></svg><svg class="fig deep" viewBox="0 0 240 300" width="70" height="88" aria-label="A2 silhouette"><use href="#fig-A2"/></svg></span>
+    </div></section>
+  <section class="card"><h3>B — avatar and silhouette</h3>
+    <div class="row">
+      <span class="av" style="width:96px;height:96px"><svg class="fig" viewBox="46 30 148 148" width="96" height="96" aria-label="B1 avatar crop"><use href="#fig-B1"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig" viewBox="46 30 148 148" width="48" height="48" aria-label="B1 small avatar"><use href="#fig-B1"/></svg></span>
+      <span class="av" style="width:96px;height:96px"><svg class="fig deep" viewBox="46 30 148 148" width="96" height="96" aria-label="B2 avatar crop"><use href="#fig-B2"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig deep" viewBox="46 30 148 148" width="48" height="48" aria-label="B2 small avatar"><use href="#fig-B2"/></svg></span>
+      <span class="sil"><svg class="fig" viewBox="0 0 240 300" width="70" height="88" aria-label="B1 silhouette"><use href="#fig-B1"/></svg><svg class="fig deep" viewBox="0 0 240 300" width="70" height="88" aria-label="B2 silhouette"><use href="#fig-B2"/></svg></span>
+    </div></section>
+  <section class="card"><h3>C — avatar and silhouette</h3>
+    <div class="row">
+      <span class="av" style="width:96px;height:96px"><svg class="fig" viewBox="46 30 148 148" width="96" height="96" aria-label="C1 avatar crop"><use href="#fig-C1"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig" viewBox="46 30 148 148" width="48" height="48" aria-label="C1 small avatar"><use href="#fig-C1"/></svg></span>
+      <span class="av" style="width:96px;height:96px"><svg class="fig deep" viewBox="46 30 148 148" width="96" height="96" aria-label="C2 avatar crop"><use href="#fig-C2"/></svg></span>
+      <span class="av" style="width:48px;height:48px"><svg class="fig deep" viewBox="46 30 148 148" width="48" height="48" aria-label="C2 small avatar"><use href="#fig-C2"/></svg></span>
+      <span class="sil"><svg class="fig" viewBox="0 0 240 300" width="70" height="88" aria-label="C1 silhouette"><use href="#fig-C1"/></svg><svg class="fig deep" viewBox="0 0 240 300" width="70" height="88" aria-label="C2 silhouette"><use href="#fig-C2"/></svg></span>
+    </div></section>
+</div>
+
+<h2>3. Complexion / undertone range (one direction-neutral strip)</h2>
+<p>Three warm-brown fills with hue-shifted (warmer, more saturated) shadow and blush, chosen to differ in depth and undertone. They are a <em>range to choose from</em>, not a claim about what any heritage looks like. Colours were picked by eye as warm browns; they were not checked against the Monk scale or any measured palette, and no contrast ratios were computed.</p>
+<div class="row">
+  <div><span class="sw" style="background:#a8703f"></span> <span class="sw" style="background:#8a5428"></span><br><small>Mid-warm (golden): skin / shade</small></div>
+  <div><span class="sw" style="background:#8f5e44"></span> <span class="sw" style="background:#744532"></span><br><small>Medium-deep neutral: skin / shade</small></div>
+  <div><span class="sw" style="background:#7a4a2e"></span> <span class="sw" style="background:#5f3519"></span><br><small>Deep-warm: skin / shade</small></div>
+  <div><span class="sw" style="background:#2a1d17"></span> <span class="sw" style="background:#241812"></span><br><small>Hair browns</small></div>
+</div>
+
+<h2>4. What differs</h2>
+<table>
+<thead><tr><th></th><th>A Soft flat</th><th>B Angular graphic</th><th>C Storybook</th></tr></thead>
+<tbody>
+<tr><th>Fit with existing apartment kit</th><td>Closest: same 2–3 px brown outline and rounded joins.</td><td>Furthest: no outline; would need the kit's rooms to tolerate a different grammar.</td><td>Middle: finer line than the kit.</td></tr>
+<tr><th>Readable at 48 px avatar</th><td>Good: bold line and dots.</td><td>Best silhouette, but small features are thin lines.</td><td>Weakest at 48 px: almond eyes and lips blur.</td></tr>
+<tr><th>Expression range (later)</th><td>Moderate: brows, mouth, blush are the levers.</td><td>Limited: eyes are bars, so expression relies on brows/mouth.</td><td>Richest.</td></tr>
+<tr><th>Androgyny handling</th><td>Round, friendly head; gender cues are mostly clothing and accessories.</td><td>Faceted jaw is the strongest cue and reads slightly harder; hair carries softness.</td><td>Naturalistic features make gender ambiguity depend on the nose, lip and jaw drawing; riskiest to hold neutral.</td></tr>
+<tr><th>Authoring cost for expressions and door scene</th><td>Low: swap the face group.</td><td>Low.</td><td>Higher: shading shapes must be re-fit per expression.</td></tr>
+</tbody></table>
+<p><span class="tag">PROPOSED</span> Lead's recommendation: <strong>A</strong> as the base, borrowing from C only the slightly longer neck and a small shadow shape under the jaw if a refinement round is wanted. B is the fallback if the owner prefers a bolder, more graphic look at avatar size. These are not selected; the owner chooses.</p>
+
+<h2>5. Reviewer questions</h2>
+<ul>
+<li>Which direction (A/B/C) should refinement continue from, or is a hybrid wanted?</li>
+<li>Which complexion reads as the intended Ren, or should the final show a different mid/deep blend? (Either variant could wear either outfit.)</li>
+<li>Which hair feels right: short tapered curls, shoulder-length curls, or something else (twists, locs, a puff, a headwrap)? Hair here is not meant to signal heritage.</li>
+<li>Keep both the tattoo (tiny sprout on the neck) and earrings? Keep the pencil-behind-ear and tool clues, or drop to keep Ren less "job-defined"?</li>
+</ul>
+
+<!-- Sprite: shared parts. Not display:none, so clipPaths resolve. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+
+<!-- ============ DIRECTION A: soft flat ============ -->
+<clipPath id="A-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+<g id="A-torso-ov">
+  <path class="l3" fill="#f1e3c8" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <g clip-path="url(#A-tclip)" stroke="#c76b3d" stroke-width="5" fill="none"><path d="M20 252 Q120 222 220 252"/><path d="M20 272 Q120 242 220 272"/><path d="M20 292 Q120 262 220 292"/></g>
+  <path class="l3" fill="#4f6d7a" d="M74 218 L94 211 L98 242 L82 244Z"/>
+  <path class="l3" fill="#4f6d7a" d="M146 211 L166 218 L158 244 L142 242Z"/>
+  <path class="l3" fill="#4f6d7a" d="M82 240 Q120 250 158 240 L162 300 L78 300Z"/>
+  <circle cx="88" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><circle cx="152" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  <rect x="104" y="268" width="32" height="22" rx="4" fill="#42606c" class="l2"/>
+  <path d="M126 268 L132 250" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M126 268 L132 250" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g id="A-torso-jk">
+  <path class="l3" fill="#e8d5b0" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <path class="l3" fill="#6b7b4a" d="M24 300 C24 238 62 210 98 208 L108 234 L100 300Z"/>
+  <path class="l3" fill="#6b7b4a" d="M216 300 C216 238 178 210 142 208 L132 234 L140 300Z"/>
+  <path class="l2" fill="#7d8d58" d="M98 208 L112 228 L100 236Z"/><path class="l2" fill="#7d8d58" d="M142 208 L128 228 L140 236Z"/>
+  <rect x="46" y="262" width="26" height="22" rx="3" fill="#5f6e41" class="l2"/>
+</g>
+<g id="A-neck">
+  <path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/>
+  <path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/>
+</g>
+<g id="A-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+<path id="A-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+<g id="A-face">
+  <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+  <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+  <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+  <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+  <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+  <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+</g>
+<g id="A-hs-shapes">
+  <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+  <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+</g>
+<g id="A-hl-back-shapes">
+  <circle cx="64" cy="104" r="17"/><circle cx="54" cy="130" r="17"/><circle cx="56" cy="156" r="17"/><circle cx="66" cy="180" r="17"/><circle cx="80" cy="196" r="15"/>
+  <circle cx="176" cy="104" r="17"/><circle cx="186" cy="130" r="17"/><circle cx="184" cy="156" r="17"/><circle cx="174" cy="180" r="17"/><circle cx="160" cy="196" r="15"/>
+  <path d="M64 100 L176 100 L170 190 L70 190Z"/>
+</g>
+<g id="A-hl-top-shapes">
+  <circle cx="76" cy="86" r="15"/><circle cx="88" cy="64" r="15"/><circle cx="108" cy="52" r="15"/><circle cx="130" cy="52" r="15"/>
+  <circle cx="150" cy="60" r="15"/><circle cx="164" cy="78" r="15"/><circle cx="168" cy="96" r="14"/><ellipse cx="122" cy="72" rx="46" ry="21"/>
+</g>
+<g id="A-hair-short"><use href="#A-hs-shapes" class="hair l3"/><use href="#A-hs-shapes" class="hair" stroke="none"/></g>
+<g id="A-hair-long-back"><use href="#A-hl-back-shapes" class="hair l3"/><use href="#A-hl-back-shapes" class="hair" stroke="none"/></g>
+<g id="A-hair-long-top"><use href="#A-hl-top-shapes" class="hair l3"/><use href="#A-hl-top-shapes" class="hair" stroke="none"/></g>
+<g id="A-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+<g id="A-acc-1">
+  <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+  <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  <path d="M168 118 L158 98" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M168 118 L158 98" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/>
+</g>
+<g id="A-acc-2">
+  <path d="M174 112 Q186 123 177 138" fill="none" stroke="#3a2c26" stroke-width="5.5" stroke-linecap="round"/><path d="M174 112 Q186 123 177 138" fill="none" stroke="#d9a441" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="67" cy="128" r="3.2" fill="#d9a441" stroke="#3a2c26" stroke-width="1.6"/><circle cx="67" cy="136" r="3.2" fill="#d9a441" stroke="#3a2c26" stroke-width="1.6"/>
+</g>
+<g id="fig-A1"><use href="#A-torso-ov"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#A-face"/><use href="#A-hair-short"/><use href="#A-tat"/><use href="#A-acc-1"/></g>
+<g id="fig-A2"><use href="#A-torso-jk"/><use href="#A-hair-long-back"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#A-face"/><use href="#A-hair-long-top"/><use href="#A-tat" transform="translate(240 0) scale(-1 1)"/><use href="#A-acc-2"/></g>
+
+<!-- ============ DIRECTION B: angular graphic ============ -->
+<g id="B-torso-ov">
+  <path fill="#f1e3c8" d="M16 300 L40 236 L94 208 L146 208 L200 236 L224 300Z"/>
+  <path fill="#c76b3d" d="M30 262 L212 262 L216 270 L26 270Z"/><path fill="#c76b3d" d="M24 282 L218 282 L221 290 L21 290Z"/>
+  <path fill="#3e6f7a" d="M72 222 L92 212 L100 244 L84 248Z"/><path fill="#3e6f7a" d="M148 212 L168 222 L156 248 L140 244Z"/>
+  <path fill="#3e6f7a" d="M84 244 L156 244 L162 300 L78 300Z"/><path fill="#2e5560" d="M120 244 L156 244 L162 300 L120 300Z"/>
+  <rect x="102" y="268" width="34" height="22" fill="#2e5560"/><path d="M126 268 L132 250" stroke="#e0b341" stroke-width="5" stroke-linecap="butt"/>
+  <rect x="85" y="246" width="7" height="7" fill="#d9a441"/><rect x="148" y="246" width="7" height="7" fill="#d9a441"/>
+</g>
+<g id="B-torso-jk">
+  <path fill="#e8d5b0" d="M16 300 L40 236 L94 208 L146 208 L200 236 L224 300Z"/>
+  <path fill="#6b7b4a" d="M16 300 L40 236 L94 208 L106 238 L98 300Z"/><path fill="#566339" d="M224 300 L200 236 L146 208 L134 238 L142 300Z"/>
+  <path fill="#7d8d58" d="M94 208 L112 232 L100 240Z"/><path fill="#6a7a49" d="M146 208 L128 232 L140 240Z"/>
+</g>
+<g id="B-neck"><path class="skin" d="M104 150 H136 V212 L120 226 L104 212Z"/><path class="shade" opacity=".7" d="M104 178 L136 178 L136 196 L120 206 L104 196Z"/></g>
+<g id="B-ears"><path class="skin" d="M72 112 L62 118 L62 134 L72 138Z"/><path class="shade" d="M168 112 L178 118 L178 134 L168 138Z"/></g>
+<g id="B-head"><path class="skin" d="M72 104 L82 64 L120 50 L158 64 L168 104 L164 146 L140 176 L100 176 L76 146Z"/><path class="shade" opacity=".45" d="M142 60 L158 64 L168 104 L164 146 L140 176 L130 176 L150 130Z"/></g>
+<g id="B-face">
+  <rect x="93" y="120" width="14" height="6" rx="3" fill="#2b1a14"/><rect x="133" y="120" width="14" height="6" rx="3" fill="#2b1a14"/>
+  <rect class="hair" x="90" y="106" width="20" height="4" rx="2" transform="rotate(-6 100 108)"/><rect class="hair" x="130" y="106" width="20" height="4" rx="2" transform="rotate(6 140 108)"/>
+  <path class="shade" d="M120 126 L113 144 L125 144Z"/>
+  <path d="M108 158 H130" stroke="#4a2a1c" stroke-width="3" stroke-linecap="round"/>
+  <path class="blush" opacity=".35" d="M82 142 L98 146 L92 154Z"/><path class="blush" opacity=".35" d="M158 142 L142 146 L148 154Z"/>
+</g>
+<g id="B-hair-short"><path class="hair" d="M76 100 L78 54 L96 38 L144 38 L162 54 L164 100 L156 88 L154 68 L86 68 L84 88Z"/><path class="hair" d="M96 38 L104 27 L112 38Z"/><path class="hair" d="M112 38 L122 25 L132 38Z"/><path class="hair" d="M132 38 L142 29 L146 38Z"/></g>
+<g id="B-hair-long"><path class="hair" d="M62 96 L72 54 L96 34 L144 34 L168 54 L178 96 L184 160 L172 206 L150 196 L158 112 L152 86 L120 70 L88 86 L82 112 L90 196 L68 206 L56 160Z"/><path fill="#fff" opacity=".07" d="M96 34 L144 34 L168 54 L120 62Z"/></g>
+<g id="B-tat" fill="#2f3a5c" fill-opacity=".85"><rect x="139" y="188" width="2.4" height="24"/><path d="M140 200 L151 193 L149 202Z"/><path d="M140 207 L130 200 L132 209Z"/></g>
+<g id="B-acc-1">
+  <rect x="55" y="130" width="12" height="14" fill="none" stroke="#d9a441" stroke-width="3"/>
+  <path d="M174 128 L182 128 L178 136Z" fill="#d9a441"/>
+  <path d="M168 120 L158 98" stroke="#e0b341" stroke-width="5" stroke-linecap="butt"/>
+</g>
+<g id="B-acc-2">
+  <path d="M168 110 L178 108 L182 120 L176 132 L168 128Z" fill="none" stroke="#d9a441" stroke-width="3"/>
+  <path d="M62 126 L68 126 L65 132Z" fill="#d9a441"/><path d="M62 136 L68 136 L65 142Z" fill="#d9a441"/>
+</g>
+<g id="fig-B1"><use href="#B-torso-ov"/><use href="#B-neck"/><use href="#B-ears"/><use href="#B-head"/><use href="#B-face"/><use href="#B-hair-short"/><use href="#B-tat"/><use href="#B-acc-1"/></g>
+<g id="fig-B2"><use href="#B-torso-jk"/><use href="#B-neck"/><use href="#B-ears"/><use href="#B-head"/><use href="#B-face"/><use href="#B-hair-long"/><use href="#B-tat" transform="translate(240 0) scale(-1 1)"/><use href="#B-acc-2"/></g>
+
+<!-- ============ DIRECTION C: storybook ============ -->
+<clipPath id="C-hclip"><path d="M76 112 C76 70 96 48 120 48 C144 48 164 70 164 112 C164 154 146 182 120 184 C94 182 76 154 76 112Z"/></clipPath>
+<g id="C-torso-cd">
+  <path class="lc" fill="#efe4cf" d="M18 300 C24 250 64 220 104 214 L136 214 C176 220 216 250 222 300Z"/>
+  <path class="lc" fill="#c8923a" d="M18 300 C24 252 62 222 100 214 L114 236 L108 300Z"/>
+  <path class="lc" fill="#c8923a" d="M222 300 C216 252 178 222 140 214 L126 236 L132 300Z"/>
+  <path fill="#000" opacity=".1" d="M222 300 C216 252 178 222 140 214 L126 236 L132 300Z"/>
+  <path class="lc" fill="#e6d6b8" d="M100 214 L120 238 L108 220Z"/><path class="lc" fill="#e6d6b8" d="M140 214 L120 238 L132 220Z"/>
+  <path d="M96 232 Q90 244 92 262" fill="none" stroke="#9a6a22" stroke-width="1.2" opacity=".7"/><path d="M144 232 Q150 244 148 262" fill="none" stroke="#9a6a22" stroke-width="1.2" opacity=".7"/>
+</g>
+<g id="C-torso-dn">
+  <path class="lc" fill="#5b7a95" d="M18 300 C24 250 64 220 104 214 L136 214 C176 220 216 250 222 300Z"/>
+  <path fill="#000" opacity=".1" d="M222 300 C216 250 176 220 140 214 L128 300Z"/>
+  <path class="lc" fill="#4c6a84" d="M104 214 L120 242 L112 216Z"/><path class="lc" fill="#4c6a84" d="M136 214 L120 242 L128 216Z"/>
+  <path d="M120 242 L120 300" stroke="#2f4256" stroke-width="1.5"/>
+  <path d="M52 232 Q78 250 100 296" fill="none" stroke="#2b1a14" stroke-opacity=".8" stroke-width="5" stroke-linecap="round"/><path d="M52 232 Q78 250 100 296" fill="none" stroke="#e2c04a" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="1 5.5"/>
+  <path d="M52 232 Q78 250 100 296" fill="none" stroke="#e2c04a" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+</g>
+<g id="C-neck"><path class="skin lc" d="M106 150 L106 222 Q120 234 134 222 L134 150Z"/><path class="shade" opacity=".6" d="M107 180 Q120 196 133 180 L133 198 Q120 210 107 198Z"/></g>
+<g id="C-ears"><ellipse class="skin lc" cx="76" cy="122" rx="7" ry="11"/><ellipse class="skin lc" cx="164" cy="122" rx="7" ry="11"/></g>
+<g id="C-head"><path class="skin lc" d="M76 112 C76 70 96 48 120 48 C144 48 164 70 164 112 C164 154 146 182 120 184 C94 182 76 154 76 112Z"/><g clip-path="url(#C-hclip)"><path class="shade" opacity=".38" d="M150 48 C176 84 168 150 128 188 L176 192 L176 40Z"/></g></g>
+<g id="C-face">
+  <ellipse class="blush" cx="92" cy="146" rx="10" ry="6" opacity=".3"/><ellipse class="blush" cx="148" cy="146" rx="10" ry="6" opacity=".3"/>
+  <path d="M90 122 Q100 113 111 122 Q100 127 90 122Z" fill="#f5ede0" class="lc"/><circle cx="101" cy="121" r="4.6" fill="#3a2418"/><circle cx="102.4" cy="119.6" r="1.3" fill="#fff"/>
+  <path d="M129 122 Q140 113 150 122 Q140 127 129 122Z" fill="#f5ede0" class="lc"/><circle cx="139" cy="121" r="4.6" fill="#3a2418"/><circle cx="140.4" cy="119.6" r="1.3" fill="#fff"/>
+  <path d="M89 121 Q100 111 112 121" fill="none" stroke="#2b1a14" stroke-width="2.4" stroke-linecap="round"/><path d="M128 121 Q140 111 151 121" fill="none" stroke="#2b1a14" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M88 107 Q100 101 112 106" fill="none" stroke="var(--hair)" stroke-width="4" stroke-linecap="round"/><path d="M128 106 Q140 101 152 107" fill="none" stroke="var(--hair)" stroke-width="4" stroke-linecap="round"/>
+  <path class="lc" fill="none" d="M120 126 Q114 142 118 145 Q122 147 127 145"/>
+  <path d="M106 160 Q113 155 120 158 Q127 155 134 160 Q120 170 106 160Z" fill="#9c4a38" class="lc"/>
+</g>
+<g id="C-hs-shapes">
+  <circle cx="82" cy="90" r="14"/><circle cx="90" cy="70" r="14"/><circle cx="104" cy="58" r="14"/><circle cx="121" cy="53" r="14"/><circle cx="138" cy="58" r="14"/>
+  <circle cx="152" cy="70" r="14"/><circle cx="160" cy="90" r="14"/><circle cx="76" cy="104" r="9"/><circle cx="164" cy="104" r="9"/><ellipse cx="121" cy="76" rx="40" ry="20"/>
+</g>
+<g id="C-hl-back-shapes">
+  <circle cx="70" cy="108" r="15"/><circle cx="60" cy="132" r="15"/><circle cx="60" cy="156" r="15"/><circle cx="68" cy="180" r="15"/><circle cx="82" cy="198" r="13"/>
+  <circle cx="170" cy="108" r="15"/><circle cx="180" cy="132" r="15"/><circle cx="180" cy="156" r="15"/><circle cx="172" cy="180" r="15"/><circle cx="158" cy="198" r="13"/>
+  <path d="M70 100 L170 100 L164 190 L76 190Z"/>
+</g>
+<g id="C-hl-top-shapes">
+  <circle cx="82" cy="90" r="14"/><circle cx="90" cy="70" r="14"/><circle cx="106" cy="57" r="14"/><circle cx="124" cy="53" r="14"/><circle cx="142" cy="60" r="14"/>
+  <circle cx="156" cy="74" r="14"/><circle cx="162" cy="94" r="12"/><ellipse cx="121" cy="76" rx="40" ry="19"/>
+</g>
+<g id="C-hair-short"><use href="#C-hs-shapes" class="hair lc"/><use href="#C-hs-shapes" class="hair" stroke="none"/>
+  <path d="M96 62 Q110 52 126 57 M132 60 Q146 58 154 70 M84 80 Q86 70 94 66" fill="none" stroke="#6a5040" stroke-width="2" stroke-linecap="round" opacity=".75"/></g>
+<g id="C-hair-long-back"><use href="#C-hl-back-shapes" class="hair lc"/><use href="#C-hl-back-shapes" class="hair" stroke="none"/></g>
+<g id="C-hair-long-top"><use href="#C-hl-top-shapes" class="hair lc"/><use href="#C-hl-top-shapes" class="hair" stroke="none"/>
+  <path d="M96 64 Q110 54 126 58 M134 62 Q148 62 156 76 M84 82 Q86 72 94 68" fill="none" stroke="#6a5040" stroke-width="2" stroke-linecap="round" opacity=".75"/></g>
+<g id="C-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="1.5" stroke-linecap="round"><path d="M137 192 Q142 202 138 214"/><path d="M141 200 Q148 198 150 192"/><path d="M140 206 Q133 205 131 199"/></g>
+<g id="C-acc-1">
+  <circle cx="75" cy="140" r="8" fill="none" stroke="#2b1a14" stroke-opacity=".8" stroke-width="3.6"/><circle cx="75" cy="140" r="8" fill="none" stroke="#d9a441" stroke-width="2.2"/>
+  <circle cx="165" cy="134" r="3.2" fill="#d9a441" class="lc"/>
+  <path d="M76 114 L62 94" stroke="#2b1a14" stroke-opacity=".8" stroke-width="6" stroke-linecap="round"/><path d="M76 114 L62 94" stroke="#e0b341" stroke-width="3.6" stroke-linecap="round"/>
+</g>
+<g id="C-acc-2">
+  <path d="M168 116 Q177 124 168 138" fill="none" stroke="#2b1a14" stroke-opacity=".8" stroke-width="4" stroke-linecap="round"/><path d="M168 116 Q177 124 168 138" fill="none" stroke="#d9a441" stroke-width="2.2" stroke-linecap="round"/>
+  <circle cx="74" cy="130" r="2.6" fill="#d9a441" class="lc"/><circle cx="74" cy="138" r="2.6" fill="#d9a441" class="lc"/>
+</g>
+<g id="fig-C1"><use href="#C-torso-cd"/><use href="#C-neck"/><use href="#C-ears"/><use href="#C-head"/><use href="#C-face"/><use href="#C-hair-short"/><use href="#C-tat"/><use href="#C-acc-1"/></g>
+<g id="fig-C2"><use href="#C-torso-dn"/><use href="#C-hair-long-back"/><use href="#C-neck"/><use href="#C-ears"/><use href="#C-head"/><use href="#C-face"/><use href="#C-hair-long-top"/><use href="#C-tat" transform="translate(240 0) scale(-1 1)"/><use href="#C-acc-2"/></g>
+
+</defs>
+</svg>
+</main>
+</body>
+</html>

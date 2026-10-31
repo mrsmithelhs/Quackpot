@@ -266,26 +266,32 @@ async function main() {
     throw new Error(`Live audition stop lifecycle failed: ${JSON.stringify(liveAuditionLifecycle)}`);
   }
 
-  // 4. Render & verify all 6 candidates via real browser OfflineAudioContext,
-  // and trigger UI bundle export + download for C0-repeat2x and C1-period-lock
-  const renderedCandidatesReport = await evaluate(pageCdp, `(async () => {
-    const eng = window.QUACKPOT_PLAN39_ENGINE;
-    const sc = window.QUACKPOT_PLAN39_SCORES;
-    const results = [];
-    for (const cand of sc.candidates) {
+  // 4. Render & verify all 7 candidates (with default settings + v2 acoustics/conditioning) via real browser OfflineAudioContext,
+  // and trigger UI bundle export + download for C0-repeat2x, C1-period-lock, and C4-sentence-drive
+  const renderedCandidatesReport = [];
+  for (const candId of uiSnapshot.candidateOptions) {
+    const item = await evaluate(pageCdp, `(async () => {
+      const eng = window.QUACKPOT_PLAN39_ENGINE;
+      const cand = eng.getCandidate(${JSON.stringify(candId)});
+      const useAcoustics = !cand.lockBareControl && cand.id !== "C0-repeat2x";
       const mixScore = eng.buildScheduledScore({
         candidateId: cand.id,
         harmonyId: cand.defaultHarmonyId,
         patchId: cand.defaultPatchId,
         tempoBpm: 100,
-        layerMode: "full"
+        layerMode: "full",
+        exportProfile: "game-audition",
+        roomAir: useAcoustics,
+        microGroove: useAcoustics,
+        shakerPulse: cand.id === "C3-accompaniment-groove"
       });
       const melodyScore = eng.buildScheduledScore({
         candidateId: cand.id,
         harmonyId: cand.defaultHarmonyId,
         patchId: cand.defaultPatchId,
         tempoBpm: 100,
-        layerMode: "melody-only"
+        layerMode: "melody-only",
+        exportProfile: "suno-conditioning"
       });
       const parity = eng.verifyLeadEventParity(mixScore, melodyScore);
       const mixRender = await eng.renderOfflineWav(mixScore);
@@ -293,12 +299,15 @@ async function main() {
       const melodyRender = await eng.renderOfflineWav(melodyScore);
       const melodyWavHeader = eng.parseWavHeader(melodyRender.wav.arrayBuffer);
 
-      results.push({
+      return {
         candidateId: cand.id,
         harmonyId: cand.defaultHarmonyId,
         patchId: cand.defaultPatchId,
         tempoBpm: 100,
         bars: cand.bars,
+        roomAir: mixScore.roomAir,
+        microGroove: mixScore.microGroove,
+        shakerPulse: mixScore.shakerPulse,
         durationSeconds: mixRender.durationSeconds,
         frameCount: mixRender.frameCount,
         wavByteLength: mixRender.wav.byteLength,
@@ -310,12 +319,42 @@ async function main() {
         melodyHeaderValid: melodyWavHeader.valid,
         mixMeasurements: mixRender.measured,
         melodyMeasurements: melodyRender.measured
-      });
-    }
-    return results;
-  })()`);
+      };
+    })()`);
+    renderedCandidatesReport.push(item);
+  }
 
-  // 5. Trigger actual UI export bundle & file downloads for C0-repeat2x and C1-period-lock
+  // Also verify all 8 patches (P0-P7) and seamlessLoopWrap on C4-sentence-drive
+  for (const patchId of uiSnapshot.patchOptions) {
+    try {
+      await evaluate(pageCdp, `(async () => {
+        const eng = window.QUACKPOT_PLAN39_ENGINE;
+        const pScore = eng.buildScheduledScore({
+          candidateId: "C4-sentence-drive",
+          harmonyId: "H4-deceptive-pivot",
+          patchId: ${JSON.stringify(patchId)},
+          tempoBpm: 100,
+          layerMode: "full",
+          exportProfile: "game-audition",
+          roomAir: false,
+          microGroove: true,
+          seamlessLoopWrap: ${JSON.stringify(patchId)} === "P4-cozy-marimba"
+        });
+        const pRender = await eng.renderOfflineWav(pScore);
+        if (pRender.measured.isClipped) {
+          throw new Error("Patch " + ${JSON.stringify(patchId)} + " clipped during OfflineAudioContext verification.");
+        }
+        if (${JSON.stringify(patchId)} === "P4-cozy-marimba" && pRender.frameCount !== 921600) {
+          throw new Error("Expected seamlessLoopWrap frameCount 921600, got " + pRender.frameCount);
+        }
+        return true;
+      })()`);
+    } catch (err) {
+      throw new Error(`Patch verification failed on ${patchId}: ${err.message}`);
+    }
+  }
+
+  // 5. Trigger actual UI export bundle & file downloads for C0-repeat2x, C1-period-lock, and C4-sentence-drive
   async function exportAndDownloadViaUI(candidateId) {
     await evaluate(pageCdp, `(() => {
       const sel = document.getElementById("candidate-select");
@@ -326,7 +365,7 @@ async function main() {
 
     await waitUntil(
       () => evaluate(pageCdp, `Boolean(document.querySelector('.export-bundle-card[data-bundle-candidate=${JSON.stringify(candidateId)}]')) && !document.getElementById("render-export-btn").disabled`),
-      10000,
+      20000,
       `Export bundle card for ${candidateId}`
     );
 
@@ -382,6 +421,7 @@ async function main() {
 
   const c0RepeatDownloads = await exportAndDownloadViaUI("C0-repeat2x");
   const c1PeriodDownloads = await exportAndDownloadViaUI("C1-period-lock");
+  const c4SentenceDownloads = await exportAndDownloadViaUI("C4-sentence-drive");
 
   const nonLocalRequests = networkRequests.filter(
     (u) => !u.startsWith("file:") && !u.startsWith("blob:") && !u.startsWith("data:")
@@ -406,7 +446,8 @@ async function main() {
     offlineRenderedCandidates: renderedCandidatesReport,
     verifiedBrowserDownloads: {
       "C0-repeat2x": c0RepeatDownloads,
-      "C1-period-lock": c1PeriodDownloads
+      "C1-period-lock": c1PeriodDownloads,
+      "C4-sentence-drive": c4SentenceDownloads
     },
     auditionHonestyNote: "Headless Chrome executed real Web Audio API OfflineAudioContext rendering, PCM sample measurement, and WAV/JSON file downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
   };

@@ -177,6 +177,49 @@
       ]
     },
     {
+      id: "C4-sentence-drive",
+      group: "c-continuation",
+      title: "C4 — Classical Sentence (2+2+4 E6 Apex & Deceptive Turnaround)",
+      shortLabel: "C4 Sentence Drive (19.32s)",
+      parentAnchor: "plan32-motif-c",
+      bars: 8,
+      beatsPerBar: 4,
+      defaultHarmonyId: "H4-deceptive-pivot",
+      defaultPatchId: "P4-cozy-marimba",
+      lockBareControl: false,
+      intent: "Caplin 2+2+4 classical sentence from the deep-research synthesis. Bars 1–2 state exact Motif C; Bars 3–4 repeat exact Motif C over deceptive/subdominant reharmonization (Bm7 -> F#m7 -> Gmaj7 -> Em7); Bar 5 sequences the opening triad up to a single E6 climax; Bar 6 fragments into A7; Bar 7 returns the hook tail over a deceptive Bm7 cadence; Bar 8 rests the lead while the counter-voice previews the hook an octave lower over an Em7 -> A7 turnaround.",
+      sections: [
+        { startBar: 1, endBar: 2, label: "Exact C Presentation 1 (Bars 1–2)", kind: "exact-anchor" },
+        { startBar: 3, endBar: 4, label: "Reharmonized C Presentation 2 (Bars 3–4)", kind: "exact-anchor-repeat" },
+        { startBar: 5, endBar: 6, label: "Sequence to E6 Apex & Fragmentation (Bars 5–6)", kind: "continuation" },
+        { startBar: 7, endBar: 8, label: "Deceptive Bm7 Tail & Bar 8 Turnaround (Bars 7–8)", kind: "cadence" }
+      ],
+      leadEvents: [
+        ...MOTIF_C_EVENTS.map((e) => ({ ...e })),
+        ...shiftEvents(MOTIF_C_EVENTS, 8.0, "exact-anchor-repeat", true),
+        // Bar 5: Sequence up to single E6 apex
+        { beat: 16.0, midi: 79, durationBeats: 0.5, velocity: 0.78, section: "sequence-apex", isExactAnchor: false }, // G5
+        { beat: 16.5, midi: 83, durationBeats: 0.5, velocity: 0.80, section: "sequence-apex", isExactAnchor: false }, // B5
+        { beat: 17.0, midi: 88, durationBeats: 1.0, velocity: 0.85, section: "sequence-apex", isExactAnchor: false }, // E6 climax
+        { beat: 18.0, midi: 86, durationBeats: 1.0, velocity: 0.80, section: "sequence-apex", isExactAnchor: false }, // D6
+        { beat: 19.0, midi: 83, durationBeats: 0.5, velocity: 0.76, section: "sequence-apex", isExactAnchor: false }, // B5
+        { beat: 19.5, midi: 79, durationBeats: 0.5, velocity: 0.74, section: "sequence-apex", isExactAnchor: false }, // G5
+        // Bar 6: Fragmentation into A7
+        { beat: 20.0, midi: 78, durationBeats: 0.5, velocity: 0.76, section: "fragmentation", isExactAnchor: false }, // F#5
+        { beat: 20.5, midi: 81, durationBeats: 0.5, velocity: 0.78, section: "fragmentation", isExactAnchor: false }, // A5
+        { beat: 21.0, midi: 86, durationBeats: 1.0, velocity: 0.80, section: "fragmentation", isExactAnchor: false }, // D6
+        { beat: 22.0, midi: 76, durationBeats: 0.5, velocity: 0.74, section: "fragmentation", isExactAnchor: false }, // E5
+        { beat: 22.5, midi: 79, durationBeats: 0.5, velocity: 0.76, section: "fragmentation", isExactAnchor: false }, // G5
+        { beat: 23.0, midi: 85, durationBeats: 1.0, velocity: 0.80, section: "fragmentation", isExactAnchor: false }, // C#6
+        // Bar 7: Hook tail returning over deceptive Bm7 cadence
+        { beat: 24.0, midi: 83, durationBeats: 1.0, velocity: 0.78, section: "deceptive-tail", isExactAnchor: false }, // B5
+        { beat: 25.0, midi: 81, durationBeats: 0.5, velocity: 0.76, section: "deceptive-tail", isExactAnchor: false }, // A5
+        { beat: 25.5, midi: 78, durationBeats: 0.5, velocity: 0.74, section: "deceptive-tail", isExactAnchor: false }, // F#5
+        { beat: 26.0, midi: 74, durationBeats: 2.0, velocity: 0.78, section: "deceptive-tail", isExactAnchor: false }  // D5
+        // Bar 8: Lead rests beats 28.0..32.0 while accompaniment previews hook
+      ]
+    },
+    {
       id: "N1-sunny-waddle",
       group: "optional-new-core",
       title: "Optional Foil N1 — Sunny Waddle (Separated Mid-Register Core)",
@@ -215,7 +258,7 @@
     }
   ];
 
-  // Three contrasting light accompaniment families + H0-dry
+  // Contrasting accompaniment families + H0-dry + H4-deceptive-pivot
   const HARMONIES = [
     {
       id: "H0-dry",
@@ -231,12 +274,13 @@
     {
       id: "H1-bright-resolved",
       name: "H1 — Bright Resolved Support",
-      description: "Clear diatonic D -> G -> Bm7 -> Em7 -> A7 -> D support in C3–G4 with a root-fifth bass line (D2–A2) and gentle rhythmic response in beats 6–7.5.",
+      description: "Clear diatonic D -> G -> Bm7 -> Em7 -> A7 -> D support with a root-fifth bass line, Em7 -> A7 bridge at beats 6–8, and contrary-motion turnaround in Bar 8.",
       bass8: [
         { beat: 0.0,  midi: 38, durationBeats: 2.0, velocity: 0.74 }, // D2
         { beat: 2.0,  midi: 45, durationBeats: 2.0, velocity: 0.65 }, // A2
         { beat: 4.0,  midi: 43, durationBeats: 2.0, velocity: 0.72 }, // G2
-        { beat: 6.0,  midi: 45, durationBeats: 2.0, velocity: 0.72 }, // A2
+        { beat: 6.0,  midi: 40, durationBeats: 1.0, velocity: 0.70 }, // E2 (Em7 bridge)
+        { beat: 7.0,  midi: 45, durationBeats: 1.0, velocity: 0.74 }, // A2 (A7 bridge)
         { beat: 8.0,  midi: 47, durationBeats: 2.0, velocity: 0.70 }, // B2
         { beat: 10.0, midi: 42, durationBeats: 2.0, velocity: 0.65 }, // F#2
         { beat: 12.0, midi: 40, durationBeats: 2.0, velocity: 0.70 }, // E2
@@ -247,76 +291,99 @@
         { beat: 22.0, midi: 42, durationBeats: 2.0, velocity: 0.68 }, // F#2
         { beat: 24.0, midi: 40, durationBeats: 2.0, velocity: 0.70 }, // E2
         { beat: 26.0, midi: 45, durationBeats: 2.0, velocity: 0.74 }, // A2
-        { beat: 28.0, midi: 38, durationBeats: 2.5, velocity: 0.78 }, // D2
-        { beat: 30.5, midi: 45, durationBeats: 1.5, velocity: 0.66 }  // A2 turnaround
+        { beat: 28.0, midi: 38, durationBeats: 2.0, velocity: 0.78 }, // D2
+        { beat: 30.0, midi: 40, durationBeats: 1.0, velocity: 0.70 }, // E2 turnaround
+        { beat: 31.0, midi: 45, durationBeats: 0.5, velocity: 0.74 }, // A2 turnaround
+        { beat: 31.5, midi: 49, durationBeats: 0.5, velocity: 0.72 }  // C#3 contrary step to D2
       ],
       chords8: [
-        { beat: 0.0,  midis: [50, 57, 62, 66], durationBeats: 3.5, velocity: 0.58 },
-        { beat: 4.0,  midis: [55, 59, 62],     durationBeats: 2.0, velocity: 0.58 },
-        { beat: 6.0,  midis: [57, 61, 64],     durationBeats: 0.5, velocity: 0.62 },
-        { beat: 6.5,  midis: [57, 61, 64],     durationBeats: 0.5, velocity: 0.62 },
-        { beat: 7.0,  midis: [50, 57, 62, 66], durationBeats: 1.0, velocity: 0.65 },
-        { beat: 8.0,  midis: [59, 62, 66, 69], durationBeats: 3.5, velocity: 0.56 },
-        { beat: 12.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.56 },
-        { beat: 14.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.62 },
-        { beat: 16.0, midis: [50, 57, 62, 66], durationBeats: 3.5, velocity: 0.58 },
-        { beat: 20.0, midis: [55, 59, 62],     durationBeats: 2.0, velocity: 0.58 },
-        { beat: 22.0, midis: [54, 57, 62],     durationBeats: 2.0, velocity: 0.56 },
-        { beat: 24.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.58 },
-        { beat: 26.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.64 },
-        { beat: 28.0, midis: [50, 57, 62, 66], durationBeats: 2.5, velocity: 0.64 },
-        { beat: 30.5, midis: [57, 61, 64],     durationBeats: 0.5, velocity: 0.58 },
-        { beat: 31.0, midis: [50, 57, 62, 66], durationBeats: 1.0, velocity: 0.62 }
+        { beat: 0.0,  midis: [50, 57, 62, 66], durationBeats: 3.5, velocity: 0.58 }, // D
+        { beat: 4.0,  midis: [55, 59, 62],     durationBeats: 2.0, velocity: 0.58 }, // G
+        { beat: 6.0,  midis: [52, 59, 62, 67], durationBeats: 1.0, velocity: 0.60 }, // Em7
+        { beat: 7.0,  midis: [57, 62, 64, 67], durationBeats: 0.5, velocity: 0.64 }, // A7sus4
+        { beat: 7.5,  midis: [57, 61, 64, 67], durationBeats: 0.5, velocity: 0.65 }, // A7
+        { beat: 8.0,  midis: [59, 62, 66, 69], durationBeats: 3.5, velocity: 0.56 }, // Bm7
+        { beat: 12.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.56 }, // Em7
+        { beat: 14.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.62 }, // A7
+        { beat: 16.0, midis: [50, 57, 62, 66], durationBeats: 3.5, velocity: 0.58 }, // D
+        { beat: 20.0, midis: [55, 59, 62],     durationBeats: 2.0, velocity: 0.58 }, // G
+        { beat: 22.0, midis: [54, 57, 62],     durationBeats: 2.0, velocity: 0.56 }, // D/F#
+        { beat: 24.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.58 }, // Em7
+        { beat: 26.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.64 }, // A7
+        { beat: 28.0, midis: [50, 57, 62, 66], durationBeats: 2.0, velocity: 0.64 }, // D tonic
+        { beat: 30.0, midis: [52, 59, 62, 67], durationBeats: 1.0, velocity: 0.60 }, // Em7 turnaround
+        { beat: 31.0, midis: [57, 61, 64, 67], durationBeats: 1.0, velocity: 0.65 }  // A7 turnaround
       ],
-      counter8: [],
+      counter8: [
+        { beat: 6.5,  midi: 64, durationBeats: 0.5, velocity: 0.50 }, // E4
+        { beat: 7.0,  midi: 66, durationBeats: 0.5, velocity: 0.52 }, // F#4
+        { beat: 7.5,  midi: 69, durationBeats: 0.5, velocity: 0.54 }  // A4
+      ],
       bass4: [
         { beat: 0.0,  midi: 38, durationBeats: 2.0, velocity: 0.74 }, // D2
         { beat: 2.0,  midi: 45, durationBeats: 2.0, velocity: 0.65 }, // A2
         { beat: 4.0,  midi: 43, durationBeats: 2.0, velocity: 0.72 }, // G2
-        { beat: 6.0,  midi: 38, durationBeats: 2.0, velocity: 0.72 }, // D2
+        { beat: 6.0,  midi: 40, durationBeats: 1.0, velocity: 0.70 }, // E2
+        { beat: 7.0,  midi: 45, durationBeats: 1.0, velocity: 0.74 }, // A2
         { beat: 8.0,  midi: 47, durationBeats: 2.0, velocity: 0.70 }, // B2
         { beat: 10.0, midi: 45, durationBeats: 2.0, velocity: 0.68 }, // A2
         { beat: 12.0, midi: 43, durationBeats: 1.0, velocity: 0.72 }, // G2
         { beat: 13.0, midi: 45, durationBeats: 1.0, velocity: 0.74 }, // A2
-        { beat: 14.0, midi: 38, durationBeats: 2.0, velocity: 0.78 }  // D2 resolved
+        { beat: 14.0, midi: 38, durationBeats: 1.0, velocity: 0.78 }, // D2
+        { beat: 15.0, midi: 45, durationBeats: 1.0, velocity: 0.74 }  // A2 turnaround
       ],
       chords4: [
         { beat: 0.0,  midis: [50, 57, 62, 66], durationBeats: 3.5, velocity: 0.58 },
         { beat: 4.0,  midis: [55, 59, 62],     durationBeats: 2.0, velocity: 0.58 },
-        { beat: 6.0,  midis: [50, 57, 62, 66], durationBeats: 1.8, velocity: 0.62 },
+        { beat: 6.0,  midis: [52, 59, 62, 67], durationBeats: 1.0, velocity: 0.60 },
+        { beat: 7.0,  midis: [57, 62, 64, 67], durationBeats: 0.5, velocity: 0.64 },
+        { beat: 7.5,  midis: [57, 61, 64, 67], durationBeats: 0.5, velocity: 0.65 },
         { beat: 8.0,  midis: [59, 62, 66],     durationBeats: 2.0, velocity: 0.56 },
         { beat: 10.0, midis: [57, 61, 64],     durationBeats: 2.0, velocity: 0.58 },
         { beat: 12.0, midis: [55, 59, 62],     durationBeats: 1.0, velocity: 0.58 },
         { beat: 13.0, midis: [57, 61, 64, 67], durationBeats: 1.0, velocity: 0.62 },
-        { beat: 14.0, midis: [50, 57, 62, 66], durationBeats: 2.0, velocity: 0.65 }
+        { beat: 14.0, midis: [50, 57, 62, 66], durationBeats: 1.0, velocity: 0.65 },
+        { beat: 15.0, midis: [57, 61, 64, 67], durationBeats: 1.0, velocity: 0.64 }
       ],
-      counter4: []
+      counter4: [
+        { beat: 6.5,  midi: 64, durationBeats: 0.5, velocity: 0.50 },
+        { beat: 7.0,  midi: 66, durationBeats: 0.5, velocity: 0.52 },
+        { beat: 7.5,  midi: 69, durationBeats: 0.5, velocity: 0.54 }
+      ]
     },
     {
       id: "H2-floating-color",
       name: "H2 — Gentle Floating / Added-Note Color",
-      description: "Cozy Dmaj9 -> Gmaj7 -> Bm7 -> A6/9 warm pads with delicate bell/harp drops in the breathing spaces (beats 2.5–3.5 and 6.5–7.5).",
+      description: "Cozy Dmaj9 -> Gmaj7 -> Bm7 -> A6/9 warm pads with delicate bell/harp drops in breathing spaces, Em9 -> A13sus4 bridges, and rising C#5 loop-lead.",
       bass8: [
-        { beat: 0.0,  midi: 38, durationBeats: 4.0, velocity: 0.68 },
-        { beat: 4.0,  midi: 43, durationBeats: 4.0, velocity: 0.66 },
-        { beat: 8.0,  midi: 47, durationBeats: 4.0, velocity: 0.64 },
-        { beat: 12.0, midi: 45, durationBeats: 4.0, velocity: 0.66 },
-        { beat: 16.0, midi: 38, durationBeats: 4.0, velocity: 0.68 },
-        { beat: 20.0, midi: 43, durationBeats: 4.0, velocity: 0.66 },
-        { beat: 24.0, midi: 47, durationBeats: 2.0, velocity: 0.64 },
-        { beat: 26.0, midi: 45, durationBeats: 2.0, velocity: 0.66 },
-        { beat: 28.0, midi: 38, durationBeats: 4.0, velocity: 0.70 }
+        { beat: 0.0,  midi: 38, durationBeats: 4.0, velocity: 0.68 }, // D2
+        { beat: 4.0,  midi: 43, durationBeats: 2.0, velocity: 0.66 }, // G2
+        { beat: 6.0,  midi: 40, durationBeats: 1.0, velocity: 0.66 }, // E2
+        { beat: 7.0,  midi: 45, durationBeats: 1.0, velocity: 0.68 }, // A2
+        { beat: 8.0,  midi: 47, durationBeats: 4.0, velocity: 0.64 }, // B2
+        { beat: 12.0, midi: 45, durationBeats: 4.0, velocity: 0.66 }, // A2
+        { beat: 16.0, midi: 38, durationBeats: 4.0, velocity: 0.68 }, // D2
+        { beat: 20.0, midi: 43, durationBeats: 4.0, velocity: 0.66 }, // G2
+        { beat: 24.0, midi: 47, durationBeats: 2.0, velocity: 0.64 }, // B2
+        { beat: 26.0, midi: 45, durationBeats: 2.0, velocity: 0.66 }, // A2
+        { beat: 28.0, midi: 38, durationBeats: 2.0, velocity: 0.70 }, // D2
+        { beat: 30.0, midi: 40, durationBeats: 1.0, velocity: 0.66 }, // E2
+        { beat: 31.0, midi: 45, durationBeats: 1.0, velocity: 0.68 }  // A2
       ],
       chords8: [
-        { beat: 0.0,  midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.50 },
-        { beat: 4.0,  midis: [55, 59, 62, 66],     durationBeats: 3.8, velocity: 0.50 },
-        { beat: 8.0,  midis: [59, 62, 66, 69],     durationBeats: 3.8, velocity: 0.48 },
-        { beat: 12.0, midis: [57, 61, 64, 66],     durationBeats: 3.8, velocity: 0.50 },
-        { beat: 16.0, midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.50 },
-        { beat: 20.0, midis: [55, 59, 62, 66],     durationBeats: 3.8, velocity: 0.50 },
-        { beat: 24.0, midis: [59, 62, 66, 69],     durationBeats: 1.8, velocity: 0.48 },
-        { beat: 26.0, midis: [57, 61, 64, 66],     durationBeats: 1.8, velocity: 0.50 },
-        { beat: 28.0, midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.54 }
+        { beat: 0.0,  midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.50 }, // Dmaj9
+        { beat: 4.0,  midis: [55, 59, 62, 66],     durationBeats: 1.9, velocity: 0.50 }, // Gmaj7
+        { beat: 6.0,  midis: [52, 59, 62, 66],     durationBeats: 0.95, velocity: 0.50 }, // Em9
+        { beat: 7.0,  midis: [57, 62, 64, 66],     durationBeats: 0.95, velocity: 0.52 }, // A13sus4
+        { beat: 8.0,  midis: [59, 62, 66, 69],     durationBeats: 3.8, velocity: 0.48 }, // Bm7
+        { beat: 12.0, midis: [57, 61, 64, 66],     durationBeats: 3.8, velocity: 0.50 }, // A6/9
+        { beat: 16.0, midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.50 }, // Dmaj9
+        { beat: 20.0, midis: [55, 59, 62, 66],     durationBeats: 3.8, velocity: 0.50 }, // Gmaj7
+        { beat: 24.0, midis: [59, 62, 66, 69],     durationBeats: 1.8, velocity: 0.48 }, // Bm7
+        { beat: 26.0, midis: [57, 61, 64, 66],     durationBeats: 1.8, velocity: 0.50 }, // A6/9
+        { beat: 28.0, midis: [50, 57, 61, 64, 66], durationBeats: 1.9, velocity: 0.54 }, // Dmaj9
+        { beat: 30.0, midis: [52, 59, 62, 66],     durationBeats: 0.95, velocity: 0.50 }, // Em9
+        { beat: 31.0, midis: [57, 61, 64, 66],     durationBeats: 0.95, velocity: 0.52 }  // A13sus4 -> A7
       ],
       counter8: [
         { beat: 6.5,  midi: 69, durationBeats: 0.5, velocity: 0.48 }, // A4
@@ -326,29 +393,35 @@
         { beat: 22.5, midi: 71, durationBeats: 0.5, velocity: 0.46 }, // B4
         { beat: 23.0, midi: 69, durationBeats: 1.0, velocity: 0.42 }, // A4
         { beat: 30.5, midi: 69, durationBeats: 0.5, velocity: 0.48 }, // A4
-        { beat: 31.0, midi: 74, durationBeats: 1.0, velocity: 0.44 }  // D5
+        { beat: 31.0, midi: 73, durationBeats: 1.0, velocity: 0.46 }  // C#5 (rises to lead back into Bar 1 D)
       ],
       bass4: [
         { beat: 0.0,  midi: 38, durationBeats: 4.0, velocity: 0.68 },
-        { beat: 4.0,  midi: 43, durationBeats: 4.0, velocity: 0.66 },
+        { beat: 4.0,  midi: 43, durationBeats: 2.0, velocity: 0.66 },
+        { beat: 6.0,  midi: 40, durationBeats: 1.0, velocity: 0.66 },
+        { beat: 7.0,  midi: 45, durationBeats: 1.0, velocity: 0.68 },
         { beat: 8.0,  midi: 47, durationBeats: 2.0, velocity: 0.64 },
         { beat: 10.0, midi: 45, durationBeats: 2.0, velocity: 0.66 },
         { beat: 12.0, midi: 43, durationBeats: 2.0, velocity: 0.66 },
-        { beat: 14.0, midi: 38, durationBeats: 2.0, velocity: 0.70 }
+        { beat: 14.0, midi: 38, durationBeats: 1.0, velocity: 0.70 },
+        { beat: 15.0, midi: 45, durationBeats: 1.0, velocity: 0.68 }
       ],
       chords4: [
         { beat: 0.0,  midis: [50, 57, 61, 64, 66], durationBeats: 3.8, velocity: 0.50 },
-        { beat: 4.0,  midis: [55, 59, 62, 66],     durationBeats: 3.8, velocity: 0.50 },
+        { beat: 4.0,  midis: [55, 59, 62, 66],     durationBeats: 1.9, velocity: 0.50 },
+        { beat: 6.0,  midis: [52, 59, 62, 66],     durationBeats: 0.95, velocity: 0.50 },
+        { beat: 7.0,  midis: [57, 62, 64, 66],     durationBeats: 0.95, velocity: 0.52 },
         { beat: 8.0,  midis: [59, 62, 66, 69],     durationBeats: 1.9, velocity: 0.48 },
         { beat: 10.0, midis: [57, 61, 64, 66],     durationBeats: 1.9, velocity: 0.50 },
         { beat: 12.0, midis: [55, 59, 62, 66],     durationBeats: 1.9, velocity: 0.50 },
-        { beat: 14.0, midis: [50, 57, 61, 64, 66], durationBeats: 2.0, velocity: 0.54 }
+        { beat: 14.0, midis: [50, 57, 61, 64, 66], durationBeats: 1.0, velocity: 0.54 },
+        { beat: 15.0, midis: [57, 61, 64, 66],     durationBeats: 1.0, velocity: 0.52 }
       ],
       counter4: [
         { beat: 6.5,  midi: 69, durationBeats: 0.5, velocity: 0.48 },
         { beat: 7.0,  midi: 74, durationBeats: 1.0, velocity: 0.44 },
         { beat: 14.5, midi: 69, durationBeats: 0.5, velocity: 0.48 },
-        { beat: 15.0, midi: 74, durationBeats: 1.0, velocity: 0.44 }
+        { beat: 15.0, midi: 73, durationBeats: 1.0, velocity: 0.44 }
       ]
     },
     {
@@ -434,6 +507,131 @@
         { beat: 7.5,  midi: 73, durationBeats: 0.5, velocity: 0.64 },
         { beat: 14.5, midi: 69, durationBeats: 0.5, velocity: 0.60 },
         { beat: 15.0, midi: 74, durationBeats: 0.8, velocity: 0.64 }
+      ]
+    },
+    {
+      id: "H4-deceptive-pivot",
+      name: "H4 — Deceptive Bm7 Bridge & Sentence Turnaround",
+      description: "Recontextualizes Beat 6's held D5 via a deceptive Bm7 drop and Em7 -> A7sus4 reactivation, reharmonizes Bars 3–4 (Bm7 -> F#m7 -> Gmaj7 -> Em7 -> A7sus4), and drives Bar 8 through an active Em7 -> A7 turnaround with an octave-lower motif preview.",
+      bass8: [
+        // Bar 1: D -> A/C# -> Bm7
+        { beat: 0.0,  midi: 38, durationBeats: 2.0, velocity: 0.76 }, // D2
+        { beat: 2.0,  midi: 49, durationBeats: 1.0, velocity: 0.70 }, // C#3
+        { beat: 3.0,  midi: 47, durationBeats: 1.0, velocity: 0.70 }, // B2
+        // Bar 2: Gmaj7 -> D/F# -> deceptive Bm7 -> A7sus4
+        { beat: 4.0,  midi: 43, durationBeats: 1.0, velocity: 0.72 }, // G2
+        { beat: 5.0,  midi: 42, durationBeats: 1.0, velocity: 0.70 }, // F#2
+        { beat: 6.0,  midi: 47, durationBeats: 1.0, velocity: 0.74 }, // B2 (deceptive drop under D5)
+        { beat: 7.0,  midi: 45, durationBeats: 0.5, velocity: 0.74 }, // A2
+        // Bar 3: Reharmonized Presentation Bm7 -> F#m7
+        { beat: 8.0,  midi: 47, durationBeats: 2.0, velocity: 0.72 }, // B2
+        { beat: 10.0, midi: 42, durationBeats: 2.0, velocity: 0.70 }, // F#2 (consonant 5th under C#6)
+        // Bar 4: Gmaj7 -> Em7 -> A7sus4
+        { beat: 12.0, midi: 43, durationBeats: 2.0, velocity: 0.72 }, // G2
+        { beat: 14.0, midi: 40, durationBeats: 1.0, velocity: 0.70 }, // E2
+        { beat: 15.0, midi: 45, durationBeats: 1.0, velocity: 0.74 }, // A2
+        // Bar 5: Em7 -> Em9 / G (under E6 apex)
+        { beat: 16.0, midi: 40, durationBeats: 2.0, velocity: 0.74 }, // E2
+        { beat: 18.0, midi: 43, durationBeats: 2.0, velocity: 0.72 }, // G2
+        // Bar 6: D/F# -> A7
+        { beat: 20.0, midi: 42, durationBeats: 2.0, velocity: 0.72 }, // F#2
+        { beat: 22.0, midi: 45, durationBeats: 2.0, velocity: 0.76 }, // A2
+        // Bar 7: Gmaj7 -> D/F# -> deceptive Bm7
+        { beat: 24.0, midi: 43, durationBeats: 1.0, velocity: 0.72 }, // G2
+        { beat: 25.0, midi: 42, durationBeats: 1.0, velocity: 0.70 }, // F#2
+        { beat: 26.0, midi: 47, durationBeats: 2.0, velocity: 0.76 }, // B2 (deceptive cadence)
+        // Bar 8: Em7 -> A7 active turnaround with chromatic contrary step
+        { beat: 28.0, midi: 40, durationBeats: 1.5, velocity: 0.72 }, // E2
+        { beat: 29.5, midi: 47, durationBeats: 0.5, velocity: 0.68 }, // B2
+        { beat: 30.0, midi: 45, durationBeats: 1.0, velocity: 0.74 }, // A2
+        { beat: 31.0, midi: 45, durationBeats: 0.5, velocity: 0.72 }, // A2
+        { beat: 31.5, midi: 49, durationBeats: 0.5, velocity: 0.74 }  // C#3
+      ],
+      chords8: [
+        // Bar 1: D -> A/C# -> Bm7
+        { beat: 0.0,  midis: [50, 57, 62, 66], durationBeats: 2.0, velocity: 0.58 }, // D
+        { beat: 2.0,  midis: [57, 61, 64],     durationBeats: 1.0, velocity: 0.56 }, // A/C#
+        { beat: 3.0,  midis: [59, 62, 66],     durationBeats: 1.0, velocity: 0.56 }, // Bm7
+        // Bar 2: Gmaj7 -> D/F# -> Bm7 -> A7sus4
+        { beat: 4.0,  midis: [55, 59, 62, 66], durationBeats: 1.0, velocity: 0.58 }, // Gmaj7
+        { beat: 5.0,  midis: [54, 57, 62],     durationBeats: 1.0, velocity: 0.56 }, // D/F#
+        { beat: 6.0,  midis: [59, 62, 66],     durationBeats: 1.0, velocity: 0.60 }, // Bm7 deceptive
+        { beat: 7.0,  midis: [57, 62, 64, 67], durationBeats: 1.0, velocity: 0.62 }, // A7sus4
+        // Bar 3: Bm7 -> F#m7
+        { beat: 8.0,  midis: [59, 62, 66, 69], durationBeats: 2.0, velocity: 0.58 }, // Bm7
+        { beat: 10.0, midis: [54, 57, 61, 64], durationBeats: 2.0, velocity: 0.56 }, // F#m7
+        // Bar 4: Gmaj7 -> Em7 -> A7sus4
+        { beat: 12.0, midis: [55, 59, 62, 66], durationBeats: 2.0, velocity: 0.58 }, // Gmaj7
+        { beat: 14.0, midis: [52, 59, 62, 67], durationBeats: 1.0, velocity: 0.58 }, // Em7
+        { beat: 15.0, midis: [57, 62, 64, 67], durationBeats: 1.0, velocity: 0.62 }, // A7sus4
+        // Bar 5: Em7 -> Em9
+        { beat: 16.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.60 }, // Em7
+        { beat: 18.0, midis: [55, 59, 62, 66], durationBeats: 2.0, velocity: 0.58 }, // Em9
+        // Bar 6: D/F# -> A7
+        { beat: 20.0, midis: [54, 57, 62, 66], durationBeats: 2.0, velocity: 0.60 }, // D/F#
+        { beat: 22.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.64 }, // A7
+        // Bar 7: Gmaj7 -> D/F# -> Bm7
+        { beat: 24.0, midis: [55, 59, 62, 66], durationBeats: 1.0, velocity: 0.58 }, // Gmaj7
+        { beat: 25.0, midis: [54, 57, 62],     durationBeats: 1.0, velocity: 0.56 }, // D/F#
+        { beat: 26.0, midis: [59, 62, 66, 69], durationBeats: 2.0, velocity: 0.62 }, // Bm7 deceptive
+        // Bar 8: Em7 -> A7 turnaround
+        { beat: 28.0, midis: [52, 59, 62, 67], durationBeats: 2.0, velocity: 0.60 }, // Em7
+        { beat: 30.0, midis: [57, 61, 64, 67], durationBeats: 2.0, velocity: 0.65 }  // A7
+      ],
+      counter8: [
+        // Bar 2 bridge (beats 6.0–8.0)
+        { beat: 6.0,  midi: 64, durationBeats: 0.5, velocity: 0.48 }, // E4
+        { beat: 6.5,  midi: 66, durationBeats: 0.5, velocity: 0.50 }, // F#4
+        { beat: 7.0,  midi: 67, durationBeats: 0.5, velocity: 0.52 }, // G4
+        { beat: 7.5,  midi: 69, durationBeats: 0.5, velocity: 0.54 }, // A4
+        // Bar 4 bridge (beats 14.0–16.0)
+        { beat: 14.0, midi: 67, durationBeats: 0.5, velocity: 0.48 }, // G4
+        { beat: 14.5, midi: 66, durationBeats: 0.5, velocity: 0.48 }, // F#4
+        { beat: 15.0, midi: 64, durationBeats: 1.0, velocity: 0.50 }, // E4
+        // Bar 8 turnaround motif preview (beats 28.0–32.0; octave-lower hook preview)
+        { beat: 28.0, midi: 66, durationBeats: 0.5, velocity: 0.54 }, // F#4
+        { beat: 28.5, midi: 69, durationBeats: 0.5, velocity: 0.56 }, // A4
+        { beat: 29.0, midi: 74, durationBeats: 1.0, velocity: 0.58 }, // D5
+        { beat: 30.0, midi: 73, durationBeats: 1.0, velocity: 0.56 }, // C#5
+        { beat: 31.0, midi: 69, durationBeats: 0.5, velocity: 0.54 }, // A4
+        { beat: 31.5, midi: 66, durationBeats: 0.5, velocity: 0.52 }  // F#4
+      ],
+      bass4: [
+        { beat: 0.0,  midi: 38, durationBeats: 2.0, velocity: 0.76 },
+        { beat: 2.0,  midi: 49, durationBeats: 1.0, velocity: 0.70 },
+        { beat: 3.0,  midi: 47, durationBeats: 1.0, velocity: 0.70 },
+        { beat: 4.0,  midi: 43, durationBeats: 1.0, velocity: 0.72 },
+        { beat: 5.0,  midi: 42, durationBeats: 1.0, velocity: 0.70 },
+        { beat: 6.0,  midi: 47, durationBeats: 1.0, velocity: 0.74 },
+        { beat: 7.0,  midi: 45, durationBeats: 1.0, velocity: 0.74 },
+        { beat: 8.0,  midi: 47, durationBeats: 2.0, velocity: 0.72 },
+        { beat: 10.0, midi: 42, durationBeats: 2.0, velocity: 0.70 },
+        { beat: 12.0, midi: 43, durationBeats: 2.0, velocity: 0.72 },
+        { beat: 14.0, midi: 40, durationBeats: 1.0, velocity: 0.70 },
+        { beat: 15.0, midi: 45, durationBeats: 1.0, velocity: 0.74 }
+      ],
+      chords4: [
+        { beat: 0.0,  midis: [50, 57, 62, 66], durationBeats: 2.0, velocity: 0.58 },
+        { beat: 2.0,  midis: [57, 61, 64],     durationBeats: 1.0, velocity: 0.56 },
+        { beat: 3.0,  midis: [59, 62, 66],     durationBeats: 1.0, velocity: 0.56 },
+        { beat: 4.0,  midis: [55, 59, 62, 66], durationBeats: 1.0, velocity: 0.58 },
+        { beat: 5.0,  midis: [54, 57, 62],     durationBeats: 1.0, velocity: 0.56 },
+        { beat: 6.0,  midis: [59, 62, 66],     durationBeats: 1.0, velocity: 0.60 },
+        { beat: 7.0,  midis: [57, 62, 64, 67], durationBeats: 1.0, velocity: 0.62 },
+        { beat: 8.0,  midis: [59, 62, 66, 69], durationBeats: 2.0, velocity: 0.58 },
+        { beat: 10.0, midis: [54, 57, 61, 64], durationBeats: 2.0, velocity: 0.56 },
+        { beat: 12.0, midis: [55, 59, 62, 66], durationBeats: 2.0, velocity: 0.58 },
+        { beat: 14.0, midis: [52, 59, 62, 67], durationBeats: 1.0, velocity: 0.58 },
+        { beat: 15.0, midis: [57, 62, 64, 67], durationBeats: 1.0, velocity: 0.62 }
+      ],
+      counter4: [
+        { beat: 6.0,  midi: 64, durationBeats: 0.5, velocity: 0.48 },
+        { beat: 6.5,  midi: 66, durationBeats: 0.5, velocity: 0.50 },
+        { beat: 7.0,  midi: 67, durationBeats: 0.5, velocity: 0.52 },
+        { beat: 7.5,  midi: 69, durationBeats: 0.5, velocity: 0.54 },
+        { beat: 14.0, midi: 67, durationBeats: 0.5, velocity: 0.48 },
+        { beat: 14.5, midi: 66, durationBeats: 0.5, velocity: 0.48 },
+        { beat: 15.0, midi: 64, durationBeats: 1.0, velocity: 0.50 }
       ]
     }
   ];

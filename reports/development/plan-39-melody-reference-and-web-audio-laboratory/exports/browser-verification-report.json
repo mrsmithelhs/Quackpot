@@ -1,6 +1,6 @@
 {
   "artifact": "quackpot-plan39-browser-verification-report",
-  "verifiedAt": "2026-10-31T00:00:33.164Z",
+  "verifiedAt": "2026-10-31T03:13:35.807Z",
   "browser": "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext)",
   "pageUrl": "file:///C:/AI/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/index.html",
   "nonLocalNetworkRequests": 0,
@@ -12,19 +12,25 @@
       "C1-period-lock",
       "C2-call-and-breath",
       "C3-accompaniment-groove",
+      "C4-sentence-drive",
       "N1-sunny-waddle"
     ],
     "harmonyOptions": [
       "H0-dry",
       "H1-bright-resolved",
       "H2-floating-color",
-      "H3-playful-hocketing"
+      "H3-playful-hocketing",
+      "H4-deceptive-pivot"
     ],
     "patchOptions": [
       "P0-plan32-triangle",
       "P1-pluck-bell",
       "P2-warm-keys",
-      "P3-toy-ensemble"
+      "P3-toy-ensemble",
+      "P4-cozy-marimba",
+      "P5-warm-rhodes",
+      "P6-acoustic-pluck",
+      "P7-breath-ocarina"
     ],
     "tempoOptions": [
       92,
@@ -38,7 +44,8 @@
       "C0-repeat2x",
       "C1-period-lock",
       "C2-call-and-breath",
-      "C3-accompaniment-groove"
+      "C3-accompaniment-groove",
+      "C4-sentence-drive"
     ],
     "optionalCards": [
       "N1-sunny-waddle"
@@ -47,7 +54,7 @@
   "combinationGuardVerification": {
     "blockedState": {
       "noticeVisible": true,
-      "noticeText": "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to C0-repeat2x or C1–C3 to audition harmonies.",
+      "noticeText": "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to C0-repeat2x or C1–C4 to audition harmonies.",
       "playDisabled": true,
       "exportDisabled": true
     },
@@ -70,6 +77,9 @@
       "patchId": "P0-plan32-triangle",
       "tempoBpm": 100,
       "bars": 2,
+      "roomAir": false,
+      "microGroove": false,
+      "shakerPulse": false,
       "durationSeconds": 4.92,
       "frameCount": 236160,
       "wavByteLength": 944684,
@@ -104,6 +114,9 @@
       "patchId": "P0-plan32-triangle",
       "tempoBpm": 100,
       "bars": 4,
+      "roomAir": false,
+      "microGroove": false,
+      "shakerPulse": false,
       "durationSeconds": 9.72,
       "frameCount": 466560,
       "wavByteLength": 1866284,
@@ -138,20 +151,23 @@
       "patchId": "P1-pluck-bell",
       "tempoBpm": 100,
       "bars": 8,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
       "durationSeconds": 19.32,
       "frameCount": 927360,
       "wavByteLength": 3709484,
       "leadEventCount": 39,
-      "chordEventCount": 58,
-      "bassEventCount": 16,
+      "chordEventCount": 64,
+      "bassEventCount": 19,
       "leadParityIdentical": true,
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.267404,
-        "rms": 0.040628,
-        "samplePeakDbfs": -11.5,
-        "rmsDbfs": -27.8,
+        "peak": 0.299413,
+        "rms": 0.04341,
+        "samplePeakDbfs": -10.5,
+        "rmsDbfs": -27.2,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
@@ -172,20 +188,23 @@
       "patchId": "P2-warm-keys",
       "tempoBpm": 100,
       "bars": 8,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
       "durationSeconds": 19.32,
       "frameCount": 927360,
       "wavByteLength": 3709484,
       "leadEventCount": 29,
-      "chordEventCount": 47,
-      "bassEventCount": 9,
+      "chordEventCount": 63,
+      "bassEventCount": 13,
       "leadParityIdentical": true,
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.298147,
-        "rms": 0.048652,
-        "samplePeakDbfs": -10.5,
-        "rmsDbfs": -26.3,
+        "peak": 0.324829,
+        "rms": 0.053019,
+        "samplePeakDbfs": -9.8,
+        "rmsDbfs": -25.5,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
@@ -206,6 +225,9 @@
       "patchId": "P3-toy-ensemble",
       "tempoBpm": 100,
       "bars": 8,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": true,
       "durationSeconds": 19.32,
       "frameCount": 927360,
       "wavByteLength": 3709484,
@@ -216,10 +238,10 @@
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.238655,
-        "rms": 0.033441,
-        "samplePeakDbfs": -12.4,
-        "rmsDbfs": -29.5,
+        "peak": 0.233972,
+        "rms": 0.036981,
+        "samplePeakDbfs": -12.6,
+        "rmsDbfs": -28.6,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
@@ -235,25 +257,65 @@
       }
     },
     {
+      "candidateId": "C4-sentence-drive",
+      "harmonyId": "H4-deceptive-pivot",
+      "patchId": "P4-cozy-marimba",
+      "tempoBpm": 100,
+      "bars": 8,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
+      "durationSeconds": 19.32,
+      "frameCount": 927360,
+      "wavByteLength": 3709484,
+      "leadEventCount": 36,
+      "chordEventCount": 92,
+      "bassEventCount": 24,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.268413,
+        "rms": 0.044268,
+        "samplePeakDbfs": -11.4,
+        "rmsDbfs": -27.1,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.150965,
+        "rms": 0.035442,
+        "samplePeakDbfs": -16.4,
+        "rmsDbfs": -29,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
       "candidateId": "N1-sunny-waddle",
       "harmonyId": "H1-bright-resolved",
       "patchId": "P1-pluck-bell",
       "tempoBpm": 100,
       "bars": 4,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
       "durationSeconds": 9.72,
       "frameCount": 466560,
       "wavByteLength": 1866284,
       "leadEventCount": 18,
-      "chordEventCount": 28,
-      "bassEventCount": 9,
+      "chordEventCount": 43,
+      "bassEventCount": 11,
       "leadParityIdentical": true,
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.291716,
-        "rms": 0.039019,
-        "samplePeakDbfs": -10.7,
-        "rmsDbfs": -28.2,
+        "peak": 0.296289,
+        "rms": 0.041483,
+        "samplePeakDbfs": -10.6,
+        "rmsDbfs": -27.6,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
@@ -306,9 +368,26 @@
         "persistedToExportsDir": true
       },
       {
+        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-suno-melody-octdown.wav",
+        "bytes": 1866284,
+        "sha256": "0afc18525e9b661017d7aafe4901a2826fcd8ec9e01250e10c520ddd58dc2117",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 1866240,
+          "frames": 466560,
+          "durationSeconds": 9.72
+        },
+        "persistedToExportsDir": false
+      },
+      {
         "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-manifest.json",
-        "bytes": 10315,
-        "sha256": "879fd41458d4b0de078d0c10d4f5167fe82d6236910a6445d73a92a98b6907e6",
+        "bytes": 10789,
+        "sha256": "241fd62b4c5a7f67a68851a8c23d8bf509f0eb28a845ef1f8d38fb5495f90870",
         "roundTripValid": true,
         "persistedToExportsDir": true
       }
@@ -317,7 +396,7 @@
       {
         "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-mix.wav",
         "bytes": 3709484,
-        "sha256": "bae8f2dcda069db4f99a491f374df7b4cbbcd6291e4d5c6326f7e2906e745730",
+        "sha256": "1046f39535ffc4a02eadd42a7f8039f94fe31a761d77ebc148a67f0eed85a033",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -334,7 +413,41 @@
       {
         "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-melody.wav",
         "bytes": 3709484,
-        "sha256": "eee621cf550fb84b32c682039cc4faa5d62942786751400c4ad2460335c5406f",
+        "sha256": "278072b02616405c48881cfaaf73f141150eebb73d9f8109376bfb7804aa5b74",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-suno-skeleton.wav",
+        "bytes": 3709484,
+        "sha256": "c8edecec9f4545f8643833bb1a01fce6420cd097e09fc36111c92b0694bf890e",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-suno-melody-octdown.wav",
+        "bytes": 3709484,
+        "sha256": "fa9f2991be5cb37fe8a202790ca5daf3c7a95a264b9c5626fd90195e1dec71ef",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -351,7 +464,7 @@
       {
         "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-backing.wav",
         "bytes": 3709484,
-        "sha256": "a1c49a2daabd5e09a99abb98c90082883f6705f8bb7a8ed53d0d31fc5a651ee3",
+        "sha256": "84f8fe29a75dd220bb5ca58420a22f56745c42d6c0c32f916461f1ab9155783c",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -367,8 +480,102 @@
       },
       {
         "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-manifest.json",
-        "bytes": 37898,
-        "sha256": "1cf8c6bbad625625b7decfa184082aa8a246af0ff7b0c05ab500ff3f06ff51ec",
+        "bytes": 41188,
+        "sha256": "31a8e6bcffb6d0301b7ac2cc1547a6e83bbe50c969a64f10b6c537e9aecad6fa",
+        "roundTripValid": true,
+        "persistedToExportsDir": true
+      }
+    ],
+    "C4-sentence-drive": [
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-mix.wav",
+        "bytes": 3709484,
+        "sha256": "3018d65f9679fd0bd2e9f79b95439591d29fec00a1973ffaafc71c5cdccef28e",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-melody.wav",
+        "bytes": 3709484,
+        "sha256": "f88cbf053d91b9030cc3e31cb2932e789843eed435a267a1eb4d4a7f4acf280c",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-suno-skeleton.wav",
+        "bytes": 3709484,
+        "sha256": "b2fcbefdb0d3ae76badb557fcba73c1f1b72040c2ded8c64fbd41cefff06d31d",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-suno-melody-octdown.wav",
+        "bytes": 3709484,
+        "sha256": "c44145b49b1bdd0633cb6dcf405377a7435a88be4f34ac3278670b36a6bb0d54",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-backing.wav",
+        "bytes": 3709484,
+        "sha256": "1035cfcf129f6481f26ee35a07776fc9f169e3d215c290d27d8a4c96480d07a7",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-manifest.json",
+        "bytes": 49959,
+        "sha256": "8157be98fc1b8753fde7b073b982bafe46cc5a6c063ff8c4a69c09eef8fb3f6c",
         "roundTripValid": true,
         "persistedToExportsDir": true
       }

@@ -3,7 +3,7 @@
   "schemaVersion": 1,
   "scoreSchemaVersion": 1,
   "patchSchemaVersion": 1,
-  "exportedAt": "2026-10-31T00:00:28.518Z",
+  "exportedAt": "2026-10-31T03:13:24.254Z",
   "provenance": {
     "motifCSourceFile": "reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/motifs.js",
     "motifCSourceSha256": "3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02",
@@ -27,7 +27,13 @@
       "chords": 0.85,
       "bass": 0.9
     },
-    "seed": "deterministic-v1"
+    "seed": "deterministic-v1",
+    "exportProfile": "game-audition",
+    "roomAir": false,
+    "microGroove": false,
+    "shakerPulse": false,
+    "seamlessLoopWrap": false,
+    "leadPitchMultiplier": 1
   },
   "patchSnapshot": {
     "id": "P0-plan32-triangle",
@@ -112,7 +118,16 @@
       "peakLinear": 0.15073,
       "rmsLinear": 0.025733
     },
-    "backingOnly": null
+    "backingOnly": null,
+    "conditioningSkeleton": null,
+    "melodyOctaveDown": {
+      "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-suno-melody-octdown.wav",
+      "bytes": 1866284,
+      "samplePeakDbfs": -16.3,
+      "rmsDbfs": -31.8,
+      "peakLinear": 0.152624,
+      "rmsLinear": 0.025744
+    }
   },
   "events": {
     "leadEvents": [

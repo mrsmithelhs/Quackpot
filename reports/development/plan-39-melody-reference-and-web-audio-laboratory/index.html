@@ -81,6 +81,9 @@
             Hear how C behaves inside an 8-bar period (<strong>C1</strong>), a conversational call with breathing space (<strong>C2</strong>), and a beginning-of-game accompaniment-led groove (<strong>C3</strong>).
           </p>
           <div class="step-actions">
+            <button type="button" class="btn btn-primary btn-sm" data-quick-candidate="C4-sentence-drive">
+              ★ Audition C4 Sentence (v2)
+            </button>
             <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C1-period-lock">
               Audition C1 Period
             </button>
@@ -103,6 +106,8 @@
             <button type="button" class="btn btn-outline btn-sm" data-quick-layer="full">Full Mix</button>
             <button type="button" class="btn btn-outline btn-sm" data-quick-layer="melody-only">Melody Solo</button>
             <button type="button" class="btn btn-outline btn-sm" data-quick-layer="backing-only">Backing Solo</button>
+            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="conditioning-skeleton">2-Voice Skeleton</button>
+            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="melody-octave-down">-1 Oct Lead (D4–D5)</button>
           </div>
         </li>
 
@@ -224,8 +229,41 @@
             <option value="full" selected>Full Mix (Lead + Chords + Bass)</option>
             <option value="melody-only">Melody Solo (Lead Only)</option>
             <option value="backing-only">Backing Solo (Chords + Bass Only)</option>
+            <option value="conditioning-skeleton">2-Voice Conditioning Skeleton (Lead + -4 dB Bass, No Chords)</option>
+            <option value="melody-octave-down">-1 Octave Conditioning Lead (D4–D5 Neural Sweet Spot)</option>
           </select>
         </div>
+
+        <div class="control-field">
+          <label for="export-profile-select" class="field-label">
+            Audition / Export Profile
+            <span class="field-hint">Game feel vs strict pitch conditioning</span>
+          </label>
+          <select id="export-profile-select" class="field-select">
+            <option value="game-audition" selected>Game Audition Master (Room Air + Pocket + Vibrato)</option>
+            <option value="suno-conditioning">Suno Conditioning Master (100% Dry Pitch-Lock)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- v2 Acoustics, Feel & Export Profile Controls -->
+      <div class="acoustics-feel-bar" aria-label="Acoustics, Feel &amp; Loop Settings">
+        <label class="toggle-control" for="room-air-toggle" title="Convolution reverb modeling intimate wooden room acoustics (0.36 s RT60)">
+          <input type="checkbox" id="room-air-toggle" checked>
+          <span class="toggle-label">Cozy Wood Room Air (0.36 s Stereo IR)</span>
+        </label>
+        <label class="toggle-control" for="micro-groove-toggle" title="Humanized 52.3% swing on offbeat 8ths, guitar strum spread, and articulated runs">
+          <input type="checkbox" id="micro-groove-toggle" checked>
+          <span class="toggle-label">Cozy Pocket (52.3% Swing + Strum + Articulation)</span>
+        </label>
+        <label class="toggle-control" for="shaker-pulse-toggle" title="Gentle brushed noise shaker pulse on beats 2 and 4">
+          <input type="checkbox" id="shaker-pulse-toggle">
+          <span class="toggle-label">Brushed Shaker Pulse (Beats 2 &amp; 4)</span>
+        </label>
+        <label class="toggle-control" for="seamless-loop-toggle" title="Overlap-add decay wrap ensuring a clickless seamless 19.20 s loop seam">
+          <input type="checkbox" id="seamless-loop-toggle">
+          <span class="toggle-label">Seamless Loop Wrap (19.20 s Exact Bar Seam)</span>
+        </label>
       </div>
     </section>
 
@@ -324,6 +362,37 @@
         <button type="button" id="render-export-btn" class="btn btn-primary btn-lg">
           Render &amp; Prepare Export Bundle
         </button>
+      </div>
+
+      <!-- Suno v6 Cover Conditioning Recipe Card -->
+      <div class="suno-recipe-card" role="region" aria-label="Suno v6 Cover Conditioning Recipe">
+        <div class="recipe-header">
+          <div class="recipe-badge">Suno v6 Cover Recipe</div>
+          <h3 class="recipe-title">Deep-Research Audio Conditioning Settings &amp; Stem Protocol</h3>
+        </div>
+        <div class="recipe-grid">
+          <div class="recipe-item">
+            <span class="recipe-label">Recommended Sliders</span>
+            <p class="recipe-text font-mono">
+              <strong>Audio Influence: 75%</strong> (70–80% sweet spot; <em>never &gt;85%</em> to avoid comb-filtering &amp; synth-timbre copying) · <strong>Style Influence: 40%</strong> · <strong>Weirdness: 15%</strong> · <strong>Variety: 0 (Off)</strong> · <strong>Max Mode: ON</strong>
+            </p>
+          </div>
+          <div class="recipe-item">
+            <span class="recipe-label">Recommended Stem Upload</span>
+            <p class="recipe-text">
+              Upload the <strong>2-Voice Conditioning Skeleton WAV</strong> (or <strong>-1 Octave Conditioning Lead WAV</strong> if high D6 sounds shrill) at <strong>9.72 s</strong> (<code>C0-repeat2x</code>) or <strong>19.20 s / 19.32 s</strong> (<code>C4</code> / <code>C1</code>).
+            </p>
+          </div>
+          <div class="recipe-item full-span">
+            <span class="recipe-label">Prompt Rule ("Describe the Band, Never the Hook")</span>
+            <p class="recipe-prompt font-mono">
+              cozy indie life-sim shop theme, warm acoustic marimba and celesta lead, soft Rhodes electric piano, plucked upright bass, dry intimate wooden room, 100 BPM, Key of D Major, instrumental only
+            </p>
+            <p class="recipe-exclude font-mono">
+              [Exclude: vocals, singing, humming, chip-tune, 8-bit, harsh distortion, heavy drums, stadium reverb]
+            </p>
+          </div>
+        </div>
       </div>
 
       <div id="export-list" class="export-list" role="list" aria-label="Rendered Reference Export Bundles">

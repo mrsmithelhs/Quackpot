@@ -106,7 +106,14 @@ test("C0-original and C0-repeat2x timing, repetition join, and duration bounds",
 });
 
 test("All C-derived candidates preserve exact Motif C anchor in Bars 1-2 and have finite non-overlapping lead voices", () => {
-  const cDerivedIds = ["C0-original", "C0-repeat2x", "C1-period-lock", "C2-call-and-breath", "C3-accompaniment-groove"];
+  const cDerivedIds = [
+    "C0-original",
+    "C0-repeat2x",
+    "C1-period-lock",
+    "C2-call-and-breath",
+    "C3-accompaniment-groove",
+    "C4-sentence-drive"
+  ];
   for (const id of cDerivedIds) {
     const cand = engine.getCandidate(id);
     assert.ok(cand, `Candidate ${id} exists`);
@@ -139,6 +146,64 @@ test("All C-derived candidates preserve exact Motif C anchor in Bars 1-2 and hav
       );
     }
   }
+});
+
+test("v2 C4-sentence-drive structure, H4-deceptive-pivot harmony, patches P4-P7, and Suno conditioning modes", () => {
+  assert.equal(scores.candidates.length, 7, "7 candidates total (C0, C0-repeat2x, C1-C4, N1)");
+  assert.equal(scores.harmonies.length, 5, "5 harmonies total (H0-H4)");
+  assert.equal(patches.patches.length, 8, "8 patches total (P0-P7)");
+
+  const c4Game = engine.buildScheduledScore({
+    candidateId: "C4-sentence-drive",
+    harmonyId: "H4-deceptive-pivot",
+    patchId: "P4-cozy-marimba",
+    tempoBpm: 100,
+    layerMode: "full",
+    exportProfile: "game-audition",
+    roomAir: true,
+    microGroove: true,
+    shakerPulse: true,
+    seamlessLoopWrap: true
+  });
+  assert.equal(c4Game.roomAir, true);
+  assert.equal(c4Game.microGroove, true);
+  assert.equal(c4Game.shakerPulse, true);
+  assert.equal(c4Game.seamlessLoopWrap, true);
+  assert.equal(c4Game.phraseSeconds, 19.2);
+
+  // Suno Conditioning profile forces 100% dry (roomAir=false, microGroove=false, shakerPulse=false)
+  const c4SunoSkeleton = engine.buildScheduledScore({
+    candidateId: "C4-sentence-drive",
+    harmonyId: "H4-deceptive-pivot",
+    patchId: "P6-acoustic-pluck",
+    tempoBpm: 100,
+    layerMode: "conditioning-skeleton",
+    exportProfile: "suno-conditioning",
+    roomAir: true,
+    microGroove: true,
+    shakerPulse: true
+  });
+  assert.equal(c4SunoSkeleton.exportProfile, "suno-conditioning");
+  assert.equal(c4SunoSkeleton.roomAir, false, "Suno conditioning forces roomAir false");
+  assert.equal(c4SunoSkeleton.microGroove, false, "Suno conditioning forces microGroove false");
+  assert.equal(c4SunoSkeleton.shakerPulse, false, "Suno conditioning forces shakerPulse false");
+  assert.equal(c4SunoSkeleton.chordEvents.length, 0, "2-Voice Skeleton strips middle-register chords");
+  assert.ok(c4SunoSkeleton.bassEvents.length > 0, "2-Voice Skeleton retains bass anchor");
+  assert.equal(c4SunoSkeleton.layerGains.bass, 0.567, "Bass scaled by 0.63 (-4 dB) in 2-Voice Skeleton");
+
+  // -1 Octave Conditioning Lead mode
+  const c4OctDown = engine.buildScheduledScore({
+    candidateId: "C4-sentence-drive",
+    harmonyId: "H4-deceptive-pivot",
+    patchId: "P7-breath-ocarina",
+    tempoBpm: 100,
+    layerMode: "melody-octave-down",
+    exportProfile: "suno-conditioning"
+  });
+  assert.equal(c4OctDown.leadPitchMultiplier, 0.5);
+  assert.equal(c4OctDown.chordEvents.length, 0);
+  assert.equal(c4OctDown.bassEvents.length, 0);
+  assert.equal(engine.verifyLeadEventParity(c4Game, c4OctDown).identical, true);
 });
 
 test("Lead event parity between Full Mix and Melody-Only across all candidates, harmonies, and patches", () => {

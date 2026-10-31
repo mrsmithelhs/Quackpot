@@ -26,6 +26,12 @@
   const patchSelect = document.getElementById("patch-select");
   const tempoSelect = document.getElementById("tempo-select");
   const layerModeSelect = document.getElementById("layer-mode-select");
+  const exportProfileSelect = document.getElementById("export-profile-select");
+  const roomAirToggle = document.getElementById("room-air-toggle");
+  const microGrooveToggle = document.getElementById("micro-groove-toggle");
+  const shakerPulseToggle = document.getElementById("shaker-pulse-toggle");
+  const seamlessLoopToggle = document.getElementById("seamless-loop-toggle");
+  const acousticsFeelBar = document.querySelector(".acoustics-feel-bar");
   const loopToggle = document.getElementById("loop-toggle");
   const masterVolume = document.getElementById("master-volume");
   const volumeReadout = document.getElementById("volume-readout");
@@ -124,7 +130,12 @@
       harmonyId: harmonySelect.value,
       patchId: patchSelect.value,
       tempoBpm: Number(tempoSelect.value),
-      layerMode: layerModeSelect.value
+      layerMode: layerModeSelect.value,
+      exportProfile: exportProfileSelect ? exportProfileSelect.value : "game-audition",
+      roomAir: roomAirToggle ? roomAirToggle.checked : false,
+      microGroove: microGrooveToggle ? microGrooveToggle.checked : false,
+      shakerPulse: shakerPulseToggle ? shakerPulseToggle.checked : false,
+      seamlessLoopWrap: seamlessLoopToggle ? seamlessLoopToggle.checked : false
     };
   }
 
@@ -325,6 +336,28 @@
     });
   }
 
+  function updateAcousticsControlsState() {
+    const isSuno = exportProfileSelect && exportProfileSelect.value === "suno-conditioning";
+    if (acousticsFeelBar) {
+      acousticsFeelBar.classList.toggle("bypassed", isSuno);
+    }
+    if (roomAirToggle) {
+      roomAirToggle.disabled = isSuno;
+      if (isSuno) roomAirToggle.title = "Bypassed: Suno Conditioning forces 100% dry pitch-lock (room air disabled)";
+      else roomAirToggle.title = "Convolution reverb modeling intimate wooden room acoustics (0.36 s RT60)";
+    }
+    if (microGrooveToggle) {
+      microGrooveToggle.disabled = isSuno;
+      if (isSuno) microGrooveToggle.title = "Bypassed: Suno Conditioning forces 100% dry pitch-lock (micro-groove disabled)";
+      else microGrooveToggle.title = "Humanized 52.3% swing on offbeat 8ths, guitar strum spread, and articulated runs";
+    }
+    if (shakerPulseToggle) {
+      shakerPulseToggle.disabled = isSuno;
+      if (isSuno) shakerPulseToggle.title = "Bypassed: Suno Conditioning forces 100% dry pitch-lock (shaker disabled)";
+      else shakerPulseToggle.title = "Gentle brushed noise shaker pulse on beats 2 and 4";
+    }
+  }
+
   function applyCandidateDefaults(candidateId) {
     const cand = engine.getCandidate(candidateId);
     if (!cand) return;
@@ -333,6 +366,22 @@
     patchSelect.value = cand.defaultPatchId;
     tempoSelect.value = "100";
     layerModeSelect.value = "full";
+
+    if (cand.id === "C0-original" || cand.id === "C0-repeat2x") {
+      if (exportProfileSelect) exportProfileSelect.value = "game-audition";
+      if (roomAirToggle) roomAirToggle.checked = false;
+      if (microGrooveToggle) microGrooveToggle.checked = false;
+      if (shakerPulseToggle) shakerPulseToggle.checked = false;
+      if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
+    } else {
+      if (exportProfileSelect) exportProfileSelect.value = "game-audition";
+      if (roomAirToggle) roomAirToggle.checked = true;
+      if (microGrooveToggle) microGrooveToggle.checked = true;
+      if (shakerPulseToggle) shakerPulseToggle.checked = (cand.id === "C3-accompaniment-groove");
+      if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
+    }
+    updateAcousticsControlsState();
+
     syncNotesFormForCandidate(cand.id);
     updateUIAndVisualizer();
   }
@@ -444,11 +493,39 @@
         backingHeader = engine.parseWavHeader(backingRender.wav.arrayBuffer);
       }
 
+      let skeletonRender = null;
+      let skeletonHeader = null;
+      if (cfg.harmonyId !== "H0-dry") {
+        const skeletonScore = engine.buildScheduledScore({
+          ...cfg,
+          layerMode: "conditioning-skeleton",
+          exportProfile: "suno-conditioning",
+          roomAir: false,
+          microGroove: false,
+          shakerPulse: false
+        });
+        skeletonRender = await engine.renderOfflineWav(skeletonScore);
+        skeletonHeader = engine.parseWavHeader(skeletonRender.wav.arrayBuffer);
+      }
+
+      const octDownScore = engine.buildScheduledScore({
+        ...cfg,
+        layerMode: "melody-octave-down",
+        exportProfile: "suno-conditioning",
+        roomAir: false,
+        microGroove: false,
+        shakerPulse: false
+      });
+      const octDownRender = await engine.renderOfflineWav(octDownScore);
+      const octDownHeader = engine.parseWavHeader(octDownRender.wav.arrayBuffer);
+
       exportSequence += 1;
       const baseSlug = `plan39-${cfg.candidateId.toLowerCase()}-${cfg.harmonyId.toLowerCase()}-${cfg.patchId.toLowerCase()}-${cfg.tempoBpm}bpm`;
       const mixFileName = `${baseSlug}-mix.wav`;
       const melodyFileName = `${baseSlug}-melody.wav`;
       const backingFileName = backingRender ? `${baseSlug}-backing.wav` : null;
+      const skeletonFileName = skeletonRender ? `${baseSlug}-suno-skeleton.wav` : null;
+      const octDownFileName = `${baseSlug}-suno-melody-octdown.wav`;
       const manifestFileName = `${baseSlug}-manifest.json`;
 
       const renderSummary = {
@@ -479,7 +556,23 @@
           bytes: backingRender.wav.byteLength,
           samplePeakDbfs: backingRender.measured.samplePeakDbfs,
           rmsDbfs: backingRender.measured.rmsDbfs
-        } : null
+        } : null,
+        conditioningSkeleton: skeletonRender ? {
+          fileName: skeletonFileName,
+          bytes: skeletonRender.wav.byteLength,
+          samplePeakDbfs: skeletonRender.measured.samplePeakDbfs,
+          rmsDbfs: skeletonRender.measured.rmsDbfs,
+          peakLinear: skeletonRender.measured.peak,
+          rmsLinear: skeletonRender.measured.rms
+        } : null,
+        melodyOctaveDown: {
+          fileName: octDownFileName,
+          bytes: octDownRender.wav.byteLength,
+          samplePeakDbfs: octDownRender.measured.samplePeakDbfs,
+          rmsDbfs: octDownRender.measured.rmsDbfs,
+          peakLinear: octDownRender.measured.peak,
+          rmsLinear: octDownRender.measured.rms
+        }
       };
 
       const manifest = engine.createExportManifest(mixScore, renderSummary, parity);
@@ -488,11 +581,15 @@
       const mixUrl = URL.createObjectURL(mixRender.wav.blob);
       const melodyUrl = URL.createObjectURL(melodyRender.wav.blob);
       const backingUrl = backingRender ? URL.createObjectURL(backingRender.wav.blob) : null;
+      const skeletonUrl = skeletonRender ? URL.createObjectURL(skeletonRender.wav.blob) : null;
+      const octDownUrl = URL.createObjectURL(octDownRender.wav.blob);
       const manifestUrl = URL.createObjectURL(manifestBlob);
 
       allocatedObjectUrls.add(mixUrl);
       allocatedObjectUrls.add(melodyUrl);
       if (backingUrl) allocatedObjectUrls.add(backingUrl);
+      if (skeletonUrl) allocatedObjectUrls.add(skeletonUrl);
+      allocatedObjectUrls.add(octDownUrl);
       allocatedObjectUrls.add(manifestUrl);
 
       const placeholder = exportList.querySelector(".export-empty-placeholder");
@@ -511,7 +608,7 @@
 
       const metricsRow = document.createElement("div");
       metricsRow.className = "bundle-metrics font-mono";
-      metricsRow.textContent = `${mixRender.durationSeconds.toFixed(2)} s (${mixHeader.frames} frames @ ${mixHeader.sampleRate} Hz) · Mix PCM peak ${engine.formatDbfs(mixRender.measured.peak)} / RMS ${engine.formatDbfs(mixRender.measured.rms)} · Melody PCM peak ${engine.formatDbfs(melodyRender.measured.peak)} / RMS ${engine.formatDbfs(melodyRender.measured.rms)} · PCM sample peak and RMS only; not LUFS or true peak`;
+      metricsRow.textContent = `${mixRender.durationSeconds.toFixed(2)} s (${mixHeader.frames} frames @ ${mixHeader.sampleRate} Hz) · Mix PCM peak ${engine.formatDbfs(mixRender.measured.peak)} / RMS ${engine.formatDbfs(mixRender.measured.rms)} · Melody PCM peak ${engine.formatDbfs(melodyRender.measured.peak)} / RMS ${engine.formatDbfs(melodyRender.measured.rms)}${skeletonRender ? ` · Skeleton peak ${engine.formatDbfs(skeletonRender.measured.peak)}` : ""} · -1 Oct Lead peak ${engine.formatDbfs(octDownRender.measured.peak)} · PCM sample peak and RMS only; not LUFS or true peak`;
 
       const linksRow = document.createElement("div");
       linksRow.className = "bundle-links";
@@ -529,7 +626,7 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "btn btn-outline btn-sm";
-        btn.textContent = `▶ Play Rendered ${label}`;
+        btn.textContent = `▶ Play ${label}`;
         btn.addEventListener("click", async () => {
           stopAllAudio();
           const audio = new Audio(url);
@@ -552,15 +649,28 @@
       function fileNameForLabel(label) {
         if (label === "Mix") return mixFileName;
         if (label === "Melody") return melodyFileName;
+        if (label === "2-Voice Skeleton") return skeletonFileName;
+        if (label === "-1 Oct Lead") return octDownFileName;
         return backingFileName || "";
       }
 
       linksRow.append(
         makeWavPlayButton(mixUrl, "Mix"),
-        makeWavPlayButton(melodyUrl, "Melody"),
+        makeWavPlayButton(melodyUrl, "Melody")
+      );
+      if (skeletonUrl && skeletonFileName) {
+        linksRow.append(makeWavPlayButton(skeletonUrl, "2-Voice Skeleton"));
+      }
+      linksRow.append(makeWavPlayButton(octDownUrl, "-1 Oct Lead"));
+
+      linksRow.append(
         makeDownloadLink(mixUrl, mixFileName, "Download Full Mix WAV"),
         makeDownloadLink(melodyUrl, melodyFileName, "Download Melody-Only WAV")
       );
+      if (skeletonUrl && skeletonFileName) {
+        linksRow.append(makeDownloadLink(skeletonUrl, skeletonFileName, "Download 2-Voice Skeleton WAV"));
+      }
+      linksRow.append(makeDownloadLink(octDownUrl, octDownFileName, "Download -1 Oct Lead WAV"));
 
       if (backingUrl && backingFileName && backingHeader) {
         linksRow.append(
@@ -598,6 +708,28 @@
     });
   });
 
+  if (exportProfileSelect) {
+    exportProfileSelect.addEventListener("change", () => {
+      stopAllAudio();
+      updateAcousticsControlsState();
+      updateUIAndVisualizer();
+      if (exportProfileSelect.value === "suno-conditioning") {
+        setStatus("Switched to Suno Conditioning Master (Room Air, Pocket, and Shaker bypassed for 100% dry pitch-lock).");
+      } else {
+        setStatus("Switched to Game Audition Master (Room Air, Pocket, and Vibrato enabled).");
+      }
+    });
+  }
+
+  [roomAirToggle, microGrooveToggle, shakerPulseToggle, seamlessLoopToggle].forEach((toggle) => {
+    if (toggle) {
+      toggle.addEventListener("change", () => {
+        stopAllAudio();
+        updateUIAndVisualizer();
+      });
+    }
+  });
+
   masterVolume.addEventListener("input", () => {
     volumeReadout.textContent = `${Math.round(Number(masterVolume.value) * 100)}%`;
   });
@@ -627,6 +759,12 @@
     patchSelect.value = "P0-plan32-triangle";
     tempoSelect.value = "100";
     layerModeSelect.value = "full";
+    if (exportProfileSelect) exportProfileSelect.value = "game-audition";
+    if (roomAirToggle) roomAirToggle.checked = false;
+    if (microGrooveToggle) microGrooveToggle.checked = false;
+    if (shakerPulseToggle) shakerPulseToggle.checked = false;
+    if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
+    updateAcousticsControlsState();
     syncNotesFormForCandidate("C0-original");
     updateUIAndVisualizer();
     void auditionConfig(currentConfig(), "A/B Historical Original C (4.92 s)");
@@ -638,6 +776,12 @@
     patchSelect.value = "P0-plan32-triangle";
     tempoSelect.value = "100";
     layerModeSelect.value = "full";
+    if (exportProfileSelect) exportProfileSelect.value = "game-audition";
+    if (roomAirToggle) roomAirToggle.checked = false;
+    if (microGrooveToggle) microGrooveToggle.checked = false;
+    if (shakerPulseToggle) shakerPulseToggle.checked = false;
+    if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
+    updateAcousticsControlsState();
     syncNotesFormForCandidate("C0-repeat2x");
     updateUIAndVisualizer();
     void auditionConfig(currentConfig(), "A/B 2× Repeated C Control (9.72 s)");
@@ -660,7 +804,9 @@
   document.querySelectorAll("[data-quick-layer]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const layer = btn.getAttribute("data-quick-layer");
-      if (candidateSelect.value === "C0-original" && layer === "backing-only") {
+      if (layer === "conditioning-skeleton" && (candidateSelect.value === "C0-original" || harmonySelect.value === "H0-dry")) {
+        applyCandidateDefaults("C4-sentence-drive");
+      } else if (candidateSelect.value === "C0-original" && layer === "backing-only") {
         applyCandidateDefaults("C3-accompaniment-groove");
       } else if (harmonySelect.value === "H0-dry" && layer === "backing-only") {
         harmonySelect.value = "H1-bright-resolved";
@@ -747,6 +893,12 @@
       patchSelect.value = s.patchId;
       tempoSelect.value = String(s.tempoBpm);
       layerModeSelect.value = s.layerMode;
+      if (s.exportProfile && exportProfileSelect) exportProfileSelect.value = s.exportProfile;
+      if (typeof s.roomAir === "boolean" && roomAirToggle) roomAirToggle.checked = s.roomAir;
+      if (typeof s.microGroove === "boolean" && microGrooveToggle) microGrooveToggle.checked = s.microGroove;
+      if (typeof s.shakerPulse === "boolean" && shakerPulseToggle) shakerPulseToggle.checked = s.shakerPulse;
+      if (typeof s.seamlessLoopWrap === "boolean" && seamlessLoopToggle) seamlessLoopToggle.checked = s.seamlessLoopWrap;
+      updateAcousticsControlsState();
       syncNotesFormForCandidate(s.candidateId);
       updateUIAndVisualizer();
       notesFeedback.textContent = `Restored configuration from ${file.name} (${s.candidateId}).`;

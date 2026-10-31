@@ -61,7 +61,7 @@ test('life steps, breakfast map and known steps line up', () => {
   assert.deepEqual(BREAKFAST_STEP_BY_DAY, { 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
   assert.deepEqual(LIFE_STEPS, [
     'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast',
-    'd2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation',
+    'd2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent',
   ]);
   for (const step of LIFE_STEPS) {
     assert.equal(isLifeStep(step), true, step);
@@ -326,4 +326,11 @@ test('new-policy breakfast uses the selected meal window and actual state', () =
   assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
   assert.equal(breakfastState(e).settled, true);
   assert.equal(e.state.health, 95);
+});
+
+test('new-policy rent notice reads the outstanding amount and affordability', () => {
+  const e = new GameEngine('life-rent', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.state.step = 'life_rent'; e.state.life.rent.status = 'due';
+  assert.deepEqual(rentState(e), { paid: false, owing: true, short: 90, cash: 80 });
+  assert.equal(placeFor(e), 'kitchen-notice');
 });

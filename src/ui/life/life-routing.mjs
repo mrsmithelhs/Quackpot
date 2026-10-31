@@ -7,7 +7,7 @@ const round = (n) => Math.round(n * 100) / 100;
 
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
-export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation']);
+export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent']);
 export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', ...RENT_STEPS]);
 
 /** Every step string the controller can render. Anything else gets a non-destructive recovery screen. */
@@ -30,6 +30,12 @@ const settled = (engine, billId) => (engine.state.billsSettled ?? []).includes(b
 
 export function rentState(engine) {
   const s = engine.state;
+  if (s.life) {
+    const amount = s.life.config.rentAmount;
+    const paid = s.life.rent.status === 'paid';
+    const owing = ['due', 'overdue'].includes(s.life.rent.status);
+    return { paid, owing, short: paid ? 0 : Math.max(0, round(amount - s.cash)), cash: s.cash };
+  }
   const amount = s.activeBill?.billId === 'd2_rent' ? s.activeBill.amount : 15;
   const paid = settled(engine, 'd2_rent');
   const owing = s.activeBill?.billId === 'd2_rent';

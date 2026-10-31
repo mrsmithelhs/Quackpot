@@ -622,7 +622,15 @@ if (app) {
       return result;
     };
     return {
-      onPayRent: commit(() => engine.billExpense('rent', GAME_CONSTANTS.RENT_DAY2)),
+      onPayRent: commit(() => engine.state.life
+        ? engine.applyLifeIntent({ type: 'rent', choice: 'pay' })
+        : engine.billExpense('rent', GAME_CONSTANTS.RENT_DAY2)),
+      onHoldRent: commit(() => engine.applyLifeIntent({ type: 'rent', choice: 'hold' })),
+      onRentContinue: commit(() => {
+        if (!engine.state.life || engine.state.life.rent.status === 'due') return null;
+        engine.state.step = engine.state.life.recovery ? 'life_recovery' : 'life_breakfast';
+        return { ok: true };
+      }),
       onLadderAccept: commit(() => {
         const next = engine.state.activeBill?.kind === 'food' ? afterBreakfast(engine) : null;
         const result = engine.acceptEscalation();

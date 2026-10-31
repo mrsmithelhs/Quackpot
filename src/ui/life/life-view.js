@@ -111,6 +111,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   const offerOf = () => { try { return currentOffer(engine); } catch { return null; } };
   const offerDecision = () => { try { return ladderDecision(engine); } catch { return null; } };
+  const rentAmount = () => engine.state.life?.config.rentAmount ?? RENT_AMOUNT;
 
   function objectsFor(place) {
     const r = rentState(engine);
@@ -119,7 +120,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (place === 'kitchen-notice') {
       out.push({ id: 'notice', svg: tapedNotice({ idPrefix: uid('lfn'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
         label: worldLabels.rentNotice, chip: chips.rentNotice, done: r.paid || r.owing,
-        hold: { mode: 'held', kind: r.cash < RENT_AMOUNT ? 'shortfall' : 'rent', variant: 'letter' } });
+        hold: { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
     } else if (place === 'desk-phone') {
       const kind = offer === 'extra_shift' ? 'ladder' : 'shift';
       const ok = kind === 'ladder' ? !!offerDecision() : !!optionalShiftDecision(engine);
@@ -158,6 +159,29 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   function decisionFor(kind) {
     const expectLog = engine.log.length;
     if (kind === 'rent' || kind === 'shortfall') {
+      if (engine.state.life) {
+        const amount = rentAmount();
+        const affordable = engine.state.cash >= amount;
+        const due = engine.state.life.rent.status === 'due';
+        const spec = affordable ? {
+          heading: `Remaining rent: ${money(amount)}`,
+          lines: [`Cash on hand: ${money(engine.state.cash)}. Paying leaves ${money(engine.state.cash - amount)}.`],
+          confirm: `Pay ${money(amount)}`, back: 'Put it down',
+          ...(due ? { decline: { label: 'Hold cash and leave rent unpaid', endsRun: false } } : {}),
+        } : { heading: 'Rent is overdue', lines: [`The balance is ${money(amount)}; you are ${money(amount - engine.state.cash)} short. No cash has been taken.`], confirm: 'Continue', back: 'Put it down' };
+        return { spec,
+          accept: () => {
+            if (!affordable) return { heading: 'Rent remains overdue', lines: ['You may pay when you have enough cash.'] };
+            const result = callbacks.onPayRent(expectLog);
+            if (!result?.ok) return null;
+            return { heading: 'Rent paid', lines: [`Paid ${money(amount)}. Cash on hand: ${money(engine.state.cash)}.`] };
+          },
+          ...(due && affordable ? { decline: () => {
+            const result = callbacks.onHoldRent(expectLog);
+            return result?.ok ? { heading: 'Rent overdue', lines: [`Your ${money(engine.state.cash)} remains on hand.`] } : null;
+          } } : {}),
+        };
+      }
       const spec = kind === 'rent' ? payRentDecision(engine) : shortfallDecision(engine);
       return { spec, accept: () => {
         if (callbacks.onPayRent(expectLog) === null) return null;
@@ -315,7 +339,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     </div></div>`;
 
   function heldObjectHtml(hold, dec, hid) {
-    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: RENT_AMOUNT, unit: '4B' }), hid);
+    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B' }), hid);
     if (hold.variant === 'card') {
       const c = cardApp({ available: dec.spec.preview.accept.effect.cash, owedNow: engine.state.debt });
       const body = `${c.rows.map(([k, v]) => `<div class="life-row"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('')}<p class="life-note">${esc(c.note)}</p>`;
@@ -430,7 +454,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const r = rentState(e);
     const when = place ? (isBreakfastStep(step) ? `Day ${e.state.day} · morning` : WHEN[place]) : `Day ${e.state.day}`;
     const status = r.owing ? `Rent unpaid · ${money(r.short)} short`
-      : RENT_STEPS.includes(step) ? (r.paid ? `Rent paid · Cash ${money(e.state.cash)}` : `Rent due · ${money(RENT_AMOUNT)} · Cash ${money(e.state.cash)}`)
+      : RENT_STEPS.includes(step) ? (r.paid ? `Rent paid · Cash ${money(e.state.cash)}` : `Rent due · ${money(rentAmount())} · Cash ${money(e.state.cash)}`)
         : `Cash ${money(e.state.cash)}`;
     bar.innerHTML = `<span class="life-when">${esc(when)}</span><span class="life-day-status">${esc(status)}</span>`;
     if (statusOnly) return;
@@ -460,7 +484,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const expectLog = e.log.length;
       control('Continue', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
     }
-    if (RENT_STEPS.includes(step) && r.paid) {
+    if (step === 'life_rent' && e.state.life.rent.status !== 'due') {
+      const expectLog = e.log.length;
+      control('Continue', () => { callbacks.onRentContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
+    } else if (RENT_STEPS.includes(step) && r.paid) {
       const expectLog = e.log.length;
       control('Go to work', () => { callbacks.onGoToWork(expectLog); ui.held = null; callbacks.onRefresh(); });
     }

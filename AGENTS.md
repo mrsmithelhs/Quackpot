@@ -9,7 +9,7 @@
 
 Quackpot is a public, static browser gacha game used in CourseVGD to help students critically examine microtransaction design by experiencing a fictional duck-collecting game and reviewing an end-of-run Receipt.
 
-**Current stage: development underway. Plans29 and37 are owner-accepted closed investigations; the completed-shift baseline is $60 take-home, other economy values remain provisional. Amended Plan38 is delivered for owner review after Codex life/session progression and apartment continuity/phone/departure repairs; experience not yet accepted. Plan42 repaired ZIP spike is delivered for owner acceptance; Plan39 music laboratory retains technical follow-ups; weather helpers remain unmounted. Plan27 hierarchy investigation is closed; draft44 scopes separate production Receipt integration. Plan40 is assigned Gemini Flash and Plan41 Sonnet; Plan43 music study remains unassigned; other statuses and reopening conditions live in docs/development/README.md. Ordinary engaged play targets roughly30minutes or more, without enforced duration. No push/deployment authorized.**
+**Current stage: development underway. Plans29 and37 are owner-accepted closed investigations; the completed-shift baseline is $60 take-home, other economy values remain provisional. Amended Plan38 is in-progress for the owner-selected launch-message/reply refinement after life/session and apartment repairs; experience not yet accepted. Plan42 repaired ZIP spike is delivered for owner acceptance; Plan39 music laboratory retains technical follow-ups; weather helpers remain unmounted. Plan27 hierarchy investigation is closed; draft44 scopes separate production Receipt integration. Plan40 is assigned Gemini Flash and Plan41 Sonnet; Plan43 music study remains unassigned; other statuses and reopening conditions live in docs/development/README.md. Ordinary engaged play targets roughly30minutes or more, without enforced duration. No push/deployment authorized.**
 
 ---
 
@@ -122,7 +122,7 @@ node scripts/dev/plan-status.js set <id> <status> [--resolution "…"] [--supers
 
 ## 6. Key Reference Routing Table
 
-**Selected life direction (reconciled2026-10-31):** Plan28 apartment treatment and Plan37 action-based policy investigation are accepted. Plan29 closes with the $60 take-home shift baseline; other figures remain provisional. Plan38 surfaces exist but broader progression requires an explicit bounded amendment. Read the Plan37 root closeout before treating proposed lifecycle defaults as executable rules. Reading/device/accessibility time consumes no life slots. See DECISION-034/046 and docs/README.md.
+**Selected life direction (reconciled2026-10-31):** Plan28 apartment treatment and Plan37 action-based policy investigation are accepted. Plan29 closes with the $60 take-home shift baseline; other figures remain provisional. Amended Plan38 integrates the selected progression and apartment surfaces; owner experience review and launch-message refinement remain open. Read the Plan37 root closeout before treating proposed lifecycle defaults as executable rules. Reading/device/accessibility time consumes no life slots. See DECISION-034/046 and docs/README.md.
 
 When your task touches a component, read these first.
 

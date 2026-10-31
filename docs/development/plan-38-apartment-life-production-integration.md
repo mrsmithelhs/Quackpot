@@ -1,7 +1,7 @@
 ---
 id: plan-38
 title: Apartment life progression and production integration
-status: delivered
+status: in-progress
 depends_on: [plan-28, plan-29, plan-37]
 gate: "Owner reassigns amended scope to Codex2026-10-31. Root reviews exact progression/transaction/compatibility mechanism and initial parameter choices before new source writes; then bounded integration to owner review."
 summary: >-
@@ -20,6 +20,8 @@ Owner selects $60 take-home per completed scheduled shift as working baseline. O
 **Owner review repair2026-10-31:** Integrated experience is not accepted. Proceed through `reports/orchestration/plan-38-owner-experience-repair-03.md` for kitchen continuity, launch preinstallation/direct-open, first-open sale gating, single phone hotspot, physical support/daylight, Morning departure and Day1 dinner return. Preserve saved review runs and actual card/race production views. Later Ren/Mom events and Plan40 gig catalog stay separate. This supersedes historical afternoon-only departure presentation without adding a second work commitment.
 
 ## Required inputs
+
+**Owner launch refinement2026-10-31:** `reports/orchestration/plan-38-launch-reply-repair-05.md` supersedes the preinstallation experience with an in-world LAUNCH reply and acknowledgment. Keep universal welcome entitlement, truthful evidence and old saves. This bounded repair is authorized through implementation/delivery; root and owner review remain. Other plans' production components stay intact.
 
 Read AGENTS.md; docs/README.md; canonical design, decisions and source map; reports/orchestration/plan-37-closeout-and-integration-boundaries.md; closed Plan37 ledger/consolidation qualified by that root note; Plan29 followup model/progress and root review; Plan28 final-report/owner-direction D1–D22/selected mix; existing Plan38 source/report and reports/orchestration/plan-38-owner-sequencing-review-02.md. Prioritize selected rules and root qualifications over historical draft defaults. Inspect current engine/storage/event/Receipt behavior rather than assume the report prototype is production.
 

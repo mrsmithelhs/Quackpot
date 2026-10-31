@@ -408,3 +408,11 @@ The owner-provided Plan37 pilot checkpoint and ledger record three selections: t
 Do not infer that breakfast consumes an entire phase, that Late Night automatically penalizes health/next morning, or that a ten-pull is ten life commitments. Exact phase capacity, session boundaries/re-entry/reload and consequences need concrete traces and clarification before dependent decisions. The pilot's uppercase logging pair is conceptual, not a new event/schema adoption or a claim old replay attestations certify changed behavior. Source disposition and short continuation relay: reports/orchestration/plan-37-pilot-checkpoint-01-review.md.
 
 The four Plan36 external reviews are received as creative inputs. No proposed cast, ending, day count, effect, setting, prototype or Receipt expansion is adopted by intake. Reviewer preferences against expressive return disturbances do not replace the owner's authorized exploration; immediate actual Uninstall/Leave and truthful evidence remain binding. Root comparison: reports/orchestration/plan-36-external-review-synthesis-01.md. No production authority or push/deployment follows from either design review.
+
+### DECISION-038 — Phase anchor plus routine maintenance
+
+**Date:** 2026-10-31
+
+Owner selects pilot Scenario B / LEDGER-04: routine maintenance such as eating coexists with a phase's primary work/gacha/leisure anchor; eating does not consume the phase's anchor. Keep free inspection and clear explicit breakfast-skip disclosure.
+
+Root records this decision while returning checkpoint02's example for correction. No $25 wage, $100 remaining rent, Day4 deadline, Day2 gacha unlock, new dinner costs, sleep recovery or Late Night penalty is adopted through the example. Those recommendations need provenance, consistent phase/cash/health traces and appropriate owner/calibration decisions. The pilot should continue in coherent batches without a root turn after every answer. Disposition and continuation relay: reports/orchestration/plan-37-pilot-checkpoint-02-review.md. No code, schema, prototype or deployment authority.

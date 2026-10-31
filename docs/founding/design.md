@@ -108,6 +108,8 @@ The clock is hybrid:
 
 ## Saving
 
+**Phase-capacity refinement (owner pilot, 2026-10-31):** Each named phase supports routine maintenance alongside one primary anchor activity. Eating does not consume or freeze out that anchor. This does not select additional daily meals or their costs, new wages/rent/deadlines, sleep recovery or Late Night penalties. The checkpoint's Day1–Day3 example is a proposal awaiting coherent traces, not an adopted tutorial schedule; see reports/orchestration/plan-37-pilot-checkpoint-02-review.md.
+
 Two modes, chosen by the player:
 
 - **Autosave**, selectable on the start menu.

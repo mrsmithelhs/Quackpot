@@ -424,3 +424,11 @@ Root records this decision while returning checkpoint02's example for correction
 Owner accepts root's proposed cleanup batch from reports/orchestration/draft-packet-inventory-review-01.md. Plan27 is delivered, not completed; Plan32 and31 are deliberately parked with reopening conditions; Plan05 is parked as a distinct deferred investigation, not superseded by duck rest. Plan37 is in-progress only for the already authorized design pilot/report-only specification, without new prototype, numeric or production authority. No packet is marked superseded.
 
 Root reviews and prepares Plans06/07 as ready, disjoint Codex report-only candidates: factual optional odds disclosure and export/analyzer field/workflow research. They are not assigned by readiness alone and do not authorize product/schema changes. Their eventual owner decisions and implementation remain gated. Plan39 remains active; foreign in-progress reports and music inputs are untouched. No push/deployment.
+
+### DECISION-040 — Parallel Codex investigation assignment and delivery receipt
+
+**Date:** 2026-10-31
+
+Owner assigns QP Impl06 and QP Impl07 with Terra-class implementers and explicitly authorizes two-way communication/oversight through owner decisions or delivery. Root contacted both; each verified the original human authorization and sent a direct delivery milestone. Current model settings were left unchanged; root did not independently measure backend model identity.
+
+Both investigations had already completed by first root contact. Plan06 report/progress commits are d6b895f/d3ec447; Plan07 proposal/progress commits are8d6fd45/d6dc637. Packets are delivered, not accepted/complete; work holds at that boundary pending artifact review and owner choices. No production implementation or field/content adoption is authorized by receipt. Plan06 local chat is01a1920b-1bae-7da0-9fff-5719cefa973d; Plan07 is01a1920c-9a04-7573-8f84-d62ac06d0449; both host local. No push/deployment.

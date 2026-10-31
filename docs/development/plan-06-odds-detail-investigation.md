@@ -1,7 +1,7 @@
 ---
 id: plan-06
 title: Optional odds-detail investigation
-status: ready
+status: delivered
 depends_on: []
 gate: "Owner approves the proposed optional detail and wording before implementation."
 summary: >-

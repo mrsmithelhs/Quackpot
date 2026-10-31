@@ -1,7 +1,7 @@
 ---
 id: plan-07
 title: Run-usage export and teacher analyzer investigation
-status: ready
+status: delivered
 depends_on: []
 gate: "Owner approves data fields, free-text handling, and analyzer scope before schema or UI implementation."
 summary: >-

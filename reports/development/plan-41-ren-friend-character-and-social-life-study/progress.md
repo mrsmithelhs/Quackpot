@@ -89,3 +89,11 @@ Ready for orchestrator review: **yes** (owner review of the package, not of any 
 - Added `prompts/gemini-outfit-and-hair-prompt.md` (paste-ready; up to 10 outfit grids and exactly 4 hair grids; outputs to `concepts/gemini-round-01/`; manifest and provenance required; stop-and-report on quota).
 - Added `concepts/reference/`: four reference PNGs exported from the lead's own SVG pages (`ren-ref-halfbody-mid-warm`, `ren-ref-complexions`, `ren-ref-expressions`, `ren-ref-door-scene`) plus their source HTML. Export used Edge headless screenshots (a local browser, no network, no Node job). I viewed the complexions and door-scene PNGs after export; I did not open the half-body and expressions PNGs individually.
 - No generated images exist yet. Nothing about the Gemini thread's output has been reviewed.
+
+## Addendum 2: Gemini round 01 returned; SVG drawing pass (2026-10-31)
+
+- Gemini thread returned 10 outfit grids and 1 hair grid (11 of 14); generation stopped on an HTTP 429 quota error. Provenance caveats and my viewing-based drift findings are in `07-gemini-round-01-review-and-selection.md`; the thread's "model" claim was `not exposed`, and its own drift notes overstated fidelity.
+- Per the owner's instruction I selected six outfits and (the four cells of the one hair sheet) for drawing, and fanned out **ten Haiku helpers** (one per drawing, concurrent, disjoint output folders, no helper wrote outside its folder as far as the file listing shows). All ten returned SVG, preview PNG and notes. I scanned the SVG sources for forbidden constructs and viewed all ten on a contact sheet; results and verdicts are in section 6 of file 07.
+- Two drawings (slicker, bedhead) need a revision pass and one (cardigan) a small fix; no revision has been done.
+- Resources: ten model helpers (Haiku) plus headless Edge renders (a local browser; no network use by the pages); no Node, no installs, no git by helpers. Large files: the 11 Gemini PNGs total about 11 MB and are committed as report-local concept references; they are not game assets.
+- Still unselected by the owner: any final outfit or hair; whether to rerun the three missing hair grids after the quota reset or draw them directly.

@@ -41,6 +41,7 @@ import {
   isKnownStep,
   isLifeStep,
   normalizeLoadedStep,
+  lifeSurface,
 } from './ui/life/life-routing.mjs';
 import { renderReceiptView } from './ui/receipt-view.js';
 import { renderSettingsModal } from './ui/settings-modal.js';
@@ -628,8 +629,26 @@ if (app) {
       onHoldRent: commit(() => engine.applyLifeIntent({ type: 'rent', choice: 'hold' })),
       onRentContinue: commit(() => {
         if (!engine.state.life || engine.state.life.rent.status === 'due') return null;
-        engine.state.step = engine.state.life.recovery ? 'life_recovery' : 'life_breakfast';
+        engine.applyLifeIntent({ type: 'rent_surface' });
+        engine.state.step = lifeSurface(engine);
         return { ok: true };
+      }),
+      onAgreeWork: commit(() => engine.applyLifeIntent({ type: 'agree_work', kind: 'scheduled' })),
+      onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
+      onOpenPhone: commit(() => {
+        if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
+        engine.state.step = engine.state.lifePhoneReturnStep || 'life_phone';
+        engine.state.lifePhoneReturnStep = null;
+        return { ok: true };
+      }),
+      onLifeAdvance: commit(() => {
+        const life = engine.state.life;
+        if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+          && !globalThis.confirm('Continuing will miss your scheduled shift. Continue?')) return null;
+        const result = engine.applyLifeIntent({ type: 'advance' });
+        if (result.ok) engine.state.step = lifeSurface(engine);
+        else globalThis.alert('Resolve the current meal or other commitment before continuing.');
+        return result;
       }),
       onLadderAccept: commit(() => {
         const next = engine.state.activeBill?.kind === 'food' ? afterBreakfast(engine) : null;
@@ -666,7 +685,7 @@ if (app) {
       onContinue: commit(() => {
         if (engine.state.life) {
           const result = engine.applyLifeIntent({ type: 'advance' });
-          if (result.ok) engine.state.step = 'life_home';
+          if (result.ok) engine.state.step = lifeSurface(engine);
           return result;
         }
         const next = afterBreakfast(engine);
@@ -677,7 +696,7 @@ if (app) {
       onGoToWork: commit(() => goToWork()),
       onRefresh: () => {
         currentStep = engine.isTerminal() ? 'receipt' : engine.state.step;
-        if (!isLifeStep(currentStep)) phoneOpen = engine.isTerminal();
+        if (!isLifeStep(currentStep)) phoneOpen = engine.isTerminal() || (engine.state.life && currentStep.startsWith('life_'));
         renderApp();
         if (!isLifeStep(currentStep)) requestAnimationFrame(() => document.querySelector('#btn-start-app')?.focus());
       },

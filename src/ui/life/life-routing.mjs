@@ -8,7 +8,7 @@ const round = (n) => Math.round(n * 100) / 100;
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
 export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent']);
-export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', ...RENT_STEPS]);
+export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', 'life_work', 'life_evening', ...RENT_STEPS]);
 
 /** Every step string the controller can render. Anything else gets a non-destructive recovery screen. */
 export const KNOWN_STEPS = Object.freeze([
@@ -45,7 +45,7 @@ export function rentState(engine) {
 export function breakfastState(engine) {
   const day = BREAKFAST_DAY_BY_STEP[engine.state.step] ?? engine.state.day;
   if (engine.state.life) {
-    const billId = `d${day}-breakfast`;
+    const billId = `d${day}-${engine.state.life.phase === 'evening' ? 'dinner' : 'breakfast'}`;
     return { day, billId, settled: Boolean(engine.state.life.meals[billId]), owing: false };
   }
   const billId = `d${day}_food`;
@@ -70,6 +70,9 @@ export function currentOffer(engine) {
 /** Places this step lets the player visit. Optional places appear only while the opportunity is open. */
 export function availablePlaces(engine) {
   const step = engine.state.step;
+  if (engine.state.life && step === 'life_work') return ['desk-phone', 'kitchen-notice', 'living'];
+  if (engine.state.life && step === 'life_evening') return ['desk-phone', 'kitchen-breakfast', 'kitchen-notice', 'living'];
+  if (engine.state.life && step === 'life_breakfast') return ['kitchen-breakfast', 'desk-phone', 'kitchen-notice', 'living'];
   const offer = currentOffer(engine);
   if (offer) return [OFFER_PLACE[offer] ?? 'kitchen-notice'];
   if (isBreakfastStep(step)) return ['kitchen-breakfast'];
@@ -83,6 +86,10 @@ export function availablePlaces(engine) {
  * Otherwise the player's requested place stands if this step offers it, so optional beats stay optional (D22).
  */
 export function placeFor(engine, requested = null) {
+  if (engine.state.life && ['life_breakfast', 'life_work', 'life_evening'].includes(engine.state.step)) {
+    const places = availablePlaces(engine);
+    return places.includes(requested) ? requested : engine.state.step === 'life_breakfast' ? 'kitchen-breakfast' : 'desk-phone';
+  }
   const offer = currentOffer(engine);
   if (offer) return OFFER_PLACE[offer] ?? 'kitchen-notice';
   const step = engine.state.step;
@@ -90,6 +97,17 @@ export function placeFor(engine, requested = null) {
   if (RENT_STEPS.includes(step) && !rentState(engine).paid) return 'kitchen-notice';
   const places = availablePlaces(engine);
   return places.includes(requested) ? requested : (places[0] ?? null);
+}
+
+/** Map a versioned phase to its apartment surface; obligations have priority. */
+export function lifeSurface(engine) {
+  const life = engine.state.life;
+  if (!life) return null;
+  if (life.rent.status === 'due' || (life.rent.status === 'overdue' && life.day === life.config.rentDueDay && life.phase === 'morning' && !life.rentSurfaced)) return 'life_rent';
+  if (life.recovery) return 'life_recovery';
+  if (life.phase === 'morning') return 'life_breakfast';
+  if (life.phase === 'afternoon') return 'life_work';
+  return 'life_evening';
 }
 
 /**

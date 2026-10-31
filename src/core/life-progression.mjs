@@ -5,7 +5,7 @@ export function initialLife() {
   return {
     policyVersion: LIFE_POLICY_VERSION, config: { ...LIFE_CONFIG }, day: 1, phase: 'morning',
     anchor: null, meals: {}, session: null, nextId: 1, work: null,
-    missedShifts: 0, employed: true, shiftDays: {}, rent: { id: 'rent-1', status: 'pending' },
+    missedShifts: 0, employed: true, shiftDays: {}, rent: { id: 'rent-1', status: 'pending' }, rentSurfaced: false,
     recovery: null, fatiguePending: false,
   };
 }
@@ -92,6 +92,9 @@ export function transitionLife(input, balances, intent) {
       } else return fail('invalid_choice');
       break;
     }
+    case 'rent_surface':
+      if (!['paid', 'overdue'].includes(life.rent.status)) return fail('rent_unresolved');
+      life.rentSurfaced = true; record('life_rent_surfaced', { billId: life.rent.id, status: life.rent.status }); break;
     case 'agree_work': {
       if (deadlineBlocks() || life.recovery || life.anchor || life.work || !life.employed) return fail('unavailable');
       if (intent.kind !== 'scheduled' && intent.kind !== 'overtime') return fail('invalid_kind');

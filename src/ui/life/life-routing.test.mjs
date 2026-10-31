@@ -6,6 +6,7 @@ import {
   isLifeStep, isBreakfastStep, isKnownStep,
   rentState, breakfastState, optionalOpen, currentOffer, availablePlaces,
   placeFor, afterBreakfast, breakfastBeforeMidday, normalizeLoadedStep,
+  lifeSurface,
 } from './life-routing.mjs';
 
 // Test-local stand-ins for the controller (main.js) wiring described in the Plan 38 brief.
@@ -60,7 +61,7 @@ function shortRent(seed) {
 test('life steps, breakfast map and known steps line up', () => {
   assert.deepEqual(BREAKFAST_STEP_BY_DAY, { 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
   assert.deepEqual(LIFE_STEPS, [
-    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast',
+    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast', 'life_work', 'life_evening',
     'd2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent',
   ]);
   for (const step of LIFE_STEPS) {
@@ -333,4 +334,25 @@ test('new-policy rent notice reads the outstanding amount and affordability', ()
   e.state.step = 'life_rent'; e.state.life.rent.status = 'due';
   assert.deepEqual(rentState(e), { paid: false, owing: true, short: 90, cash: 80 });
   assert.equal(placeFor(e), 'kitchen-notice');
+});
+
+test('new life route follows breakfast, separate shift and evening dinner with resume', () => {
+  const e = new GameEngine('life-day-one', { lifePolicy: true }); e.start(); e.setupCompanion();
+  assert.equal(lifeSurface(e), 'life_breakfast');
+  assert.deepEqual(availablePlaces(Object.assign(e, { state: { ...e.state, step: 'life_breakfast' } })), ['kitchen-breakfast', 'desk-phone', 'kitchen-notice', 'living']);
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'buy' }).ok, true);
+  assert.equal(e.applyLifeIntent({ type: 'advance' }).ok, true);
+  e.state.step = lifeSurface(e); assert.equal(e.state.step, 'life_work');
+  assert.equal(e.applyLifeIntent({ type: 'agree_work', kind: 'scheduled' }).ok, true);
+  const id = e.state.life.work.id; assert.equal(e.state.cash, 74);
+  const resumed = GameEngine.fromEnvelope(e.toEnvelope());
+  assert.equal(resumed.state.life.work.id, id);
+  assert.equal(resumed.applyLifeIntent({ type: 'complete_work', id }).ok, true);
+  assert.equal(resumed.state.cash, 134);
+  assert.equal(resumed.applyLifeIntent({ type: 'complete_work', id }).ok, false);
+  assert.equal(resumed.applyLifeIntent({ type: 'advance' }).ok, true);
+  resumed.state.step = lifeSurface(resumed); assert.equal(resumed.state.step, 'life_evening');
+  assert.equal(placeFor(resumed), 'desk-phone');
+  assert.equal(resumed.applyLifeIntent({ type: 'meal', choice: 'buy' }).ok, true);
+  assert.equal(resumed.state.cash, 128);
 });

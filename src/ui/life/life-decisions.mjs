@@ -122,6 +122,11 @@ export function breakfastDecision(engine) {
   const cashBefore = engine.state.cash;
   const loss = Math.min(5, Math.max(0, engine.state.health));
   const amount = engine.state.life?.config.mealCost ?? BREAKFAST_AMOUNT;
+  if (engine.state.life?.phase === 'evening') return {
+    heading: 'Dinner at home', lines: [`Dinner costs ${money(amount)}.`, `Cash on hand: ${money(cashBefore)} → ${money(round(cashBefore - amount))}.`],
+    confirm: `Buy dinner for ${money(amount)}`, back: 'Put it down',
+    decline: { label: `Skip dinner (−${loss} HP)`, endsRun: false },
+  };
   return { ...decide.getBreakfast({ amount, cashBefore, cashAfter: round(cashBefore - amount) }),
     back: 'Put it down', decline: { label: `Skip breakfast (−${loss} HP)`, endsRun: false } };
 }

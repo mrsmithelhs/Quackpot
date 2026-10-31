@@ -605,7 +605,7 @@ export function validateSave(envelope) {
  * Saves game envelope to storage.
  * If storage fails or preservation mode is active, safely retains existing stored snapshot and activates in-memory session.
  */
-export function saveGame(envelope, storage = globalThis.localStorage, allowOverwritePreserved = false) {
+export function saveGame(envelope, storage, allowOverwritePreserved = false) {
   let serialized;
   try {
     serialized = JSON.stringify(envelope);
@@ -627,6 +627,7 @@ export function saveGame(envelope, storage = globalThis.localStorage, allowOverw
   }
 
   try {
+    if (storage === undefined) storage = globalThis.localStorage;
     if (!storage) throw new Error('localStorage is not available');
     storage.setItem(STORAGE_KEY, serialized);
     inMemoryActive = false;
@@ -641,8 +642,9 @@ export function saveGame(envelope, storage = globalThis.localStorage, allowOverw
 /**
  * Backs up an existing corrupted or legacy save before overwriting.
  */
-export function backupCorruptSave(storage = globalThis.localStorage) {
+export function backupCorruptSave(storage) {
   try {
+    if (storage === undefined) storage = globalThis.localStorage;
     if (!storage) return false;
     const raw = storage.getItem(STORAGE_KEY);
     if (raw) {
@@ -659,12 +661,13 @@ export function backupCorruptSave(storage = globalThis.localStorage) {
  * Loads game envelope from storage (or active in-memory session).
  * Returns { envelope, valid, errors, isCorrupt }
  */
-export function loadGame(storage = globalThis.localStorage) {
+export function loadGame(storage) {
   let raw = null;
   if (inMemoryActive && inMemoryStore) {
     raw = inMemoryStore;
   } else {
     try {
+      if (storage === undefined) storage = globalThis.localStorage;
       if (storage) raw = storage.getItem(STORAGE_KEY);
     } catch (err) {
       return { envelope: null, valid: false, errors: [`Storage read failed: ${err.message}`], isCorrupt: true, readFailed: true };
@@ -721,8 +724,9 @@ function migrateLegacyEnvelope(envelope) {
 /**
  * Clears saved game from storage and in-memory store.
  */
-export function clearGame(storage = globalThis.localStorage) {
+export function clearGame(storage) {
   try {
+    if (storage === undefined) storage = globalThis.localStorage;
     if (storage) storage.removeItem(STORAGE_KEY);
   } catch {
     // Ignore storage deletion errors

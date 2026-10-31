@@ -61,7 +61,7 @@ function shortRent(seed) {
 test('life steps, breakfast map and known steps line up', () => {
   assert.deepEqual(BREAKFAST_STEP_BY_DAY, { 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
   assert.deepEqual(LIFE_STEPS, [
-    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast', 'life_work', 'life_evening',
+    'd1_morning_breakfast', 'd2_morning_breakfast', 'd3_morning_breakfast', 'life_breakfast', 'life_work', 'life_evening', 'life_recovery',
     'd2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent',
   ]);
   for (const step of LIFE_STEPS) {

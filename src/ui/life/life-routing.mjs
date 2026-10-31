@@ -8,12 +8,12 @@ const round = (n) => Math.round(n * 100) / 100;
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
 export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent']);
-export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', 'life_work', 'life_evening', ...RENT_STEPS]);
+export const LIFE_STEPS = Object.freeze([...Object.values(BREAKFAST_STEP_BY_DAY), 'life_breakfast', 'life_work', 'life_evening', 'life_recovery', ...RENT_STEPS]);
 
 /** Every step string the controller can render. Anything else gets a non-destructive recovery screen. */
 export const KNOWN_STEPS = Object.freeze([
   'desk', 'd1_morning_gacha', 'd1_midday_race', 'd1_midday_race_result', 'd1_afternoon_starter',
-  'd3_midday_race', 'd3_midday_race_result', 'receipt', ...LIFE_STEPS,
+  'd3_midday_race', 'd3_midday_race_result', 'life_phone', 'life_gacha', 'life_race', 'life_race_result', 'receipt', ...LIFE_STEPS,
 ]);
 
 /** Each escalation offer lives where it would in the apartment: a text on the phone, a sale at the object. */
@@ -70,6 +70,8 @@ export function currentOffer(engine) {
 /** Places this step lets the player visit. Optional places appear only while the opportunity is open. */
 export function availablePlaces(engine) {
   const step = engine.state.step;
+  if (engine.state.life && step === 'life_recovery') return ['bedroom', 'desk-phone', 'kitchen-notice', 'living'];
+  if (engine.state.life && step === 'life_rent') return ['kitchen-notice', 'desk-phone', 'living'];
   if (engine.state.life && step === 'life_work') return ['desk-phone', 'kitchen-notice', 'living'];
   if (engine.state.life && step === 'life_evening') return ['desk-phone', 'kitchen-breakfast', 'kitchen-notice', 'living'];
   if (engine.state.life && step === 'life_breakfast') return ['kitchen-breakfast', 'desk-phone', 'kitchen-notice', 'living'];
@@ -86,6 +88,14 @@ export function availablePlaces(engine) {
  * Otherwise the player's requested place stands if this step offers it, so optional beats stay optional (D22).
  */
 export function placeFor(engine, requested = null) {
+  if (engine.state.life && engine.state.step === 'life_recovery') {
+    const places = availablePlaces(engine);
+    return places.includes(requested) ? requested : 'bedroom';
+  }
+  if (engine.state.life && engine.state.step === 'life_rent') {
+    const places = availablePlaces(engine);
+    return places.includes(requested) ? requested : 'kitchen-notice';
+  }
   if (engine.state.life && ['life_breakfast', 'life_work', 'life_evening'].includes(engine.state.step)) {
     const places = availablePlaces(engine);
     return places.includes(requested) ? requested : engine.state.step === 'life_breakfast' ? 'kitchen-breakfast' : 'desk-phone';

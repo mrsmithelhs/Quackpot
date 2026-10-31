@@ -163,6 +163,7 @@ export class GameEngine {
       this.log.append(event.type, event.payload, eventClock);
     }
     this.state.life = result.life;
+    this.state.assetsSold = [...result.life.sold];
     this.state.cash = result.cash;
     this.state.health = result.health;
     this.state.day = result.life.day;
@@ -586,11 +587,13 @@ export class GameEngine {
   }
 
   recordRacePlaybackAction(raceNumber, action, details = {}) {
+    if (this.isTerminal()) return null;
     if (!['pause', 'resume', 'skip', 'replay', 'checkpoint', 'seek', 'pause-podium-motion', 'resume-podium-motion'].includes(action)) return null;
     return this.log.append('race_playback_action', { raceNumber, raceId: this.raceIdFor(raceNumber), action, ...details }, this.state.clock);
   }
 
   recordRaceCueDisplayed(raceNumber, cue) {
+    if (this.isTerminal()) return null;
     if (!cue || typeof cue.cueId !== 'string' || !cue.cueId) return null;
     return this.log.append('race_cue_displayed', {
       raceNumber,
@@ -788,6 +791,17 @@ export class GameEngine {
       ],
       pullCost: GAME_CONSTANTS.PULL_SINGLE_COST,
     }, this.state.clock);
+  }
+
+  /** Record the terms actually displayed by the new-policy phone menu. */
+  displayLifeGemShop() {
+    if (this.isTerminal() || !this.state.life) return null;
+    const cue = this.log.append('cue_shown', {
+      technique: 'currency_obfuscation', bundles: [{ gems: 330, price: 4.99 }],
+      pullCost: GAME_CONSTANTS.PULL_SINGLE_COST,
+    }, this.state.clock);
+    if (!this.state.tenPullCommitted) this.log.append('offer_shown', { technique: 'welcome_offer', kind: 'free_ten_pull', count: 10 }, this.state.clock);
+    return cue;
   }
 
   /** Credits daily wage at end of day */

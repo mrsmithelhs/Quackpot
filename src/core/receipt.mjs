@@ -238,6 +238,9 @@ export function projectReceipt(entries) {
     : 0;
 
   const accountingLines = [];
+  for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'free_ten_pull')) {
+    accountingLines.push(line('A free 10-pull welcome offer was shown.', event.seq));
+  }
   const paidCashBills = expenses.filter((e) => e.status === 'paid' || e.status === 'partially_waived');
   const waivedBills = expenses.filter((e) => e.status === 'waived' || e.status === 'partially_waived');
   const totalCashPaid = paidCashBills.reduce((s, e) => s + e.paidAmount, 0);
@@ -258,6 +261,10 @@ export function projectReceipt(entries) {
   }
   for (const event of ofType('life_rent_held')) accountingLines.push(line(`Chose to hold cash; rent remained unpaid with ${money(event.payload.cash)} on hand.`, event.seq));
   for (const event of ofType('life_rent_shortfall')) accountingLines.push(line(`Rent became due with a ${money(event.payload.shortfall)} shortfall.`, event.seq));
+  if (lifeStart) for (const event of ofType('income')) {
+    if (event.payload.kind === 'asset_sale') accountingLines.push(line(`Sold ${event.payload.asset} for ${money(event.payload.amount)}.`, event.seq));
+    if (['wage', 'overtime'].includes(event.payload.kind)) accountingLines.push(line(`Completed ${event.payload.kind === 'wage' ? 'a scheduled shift' : 'overtime'} and received ${money(event.payload.amount)}.`, event.seq));
+  }
   if (unpaidExpense) {
     accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.dueAmount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
   }
@@ -276,7 +283,7 @@ export function projectReceipt(entries) {
 
   // Purely event-derived financial, health, and inventory balances (P2 repair)
   const initialCash = lifeStart ? lifeStart.payload.lifeConfig.startCash : 15.00;
-  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage' || (lifeStart && e.payload.kind === 'overtime')).reduce((s, e) => s + e.payload.amount, 0);
+  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage' || (lifeStart && ['overtime', 'asset_sale'].includes(e.payload.kind))).reduce((s, e) => s + e.payload.amount, 0);
   const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
   const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
   const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);

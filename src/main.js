@@ -34,6 +34,7 @@ import {
   renderCorruptSaveModal,
 } from './ui/modals.js';
 import { renderLifeView } from './ui/life/life-view.js';
+import { renderLifePhoneView } from './ui/life/life-phone-view.js';
 import {
   BREAKFAST_STEP_BY_DAY,
   afterBreakfast,
@@ -162,7 +163,7 @@ if (app) {
           const loaded = engine.state.life ? { next: null } : normalizeLoadedStep(engine);
           if (loaded.next) applyStepTransition(loaded.next);
           currentStep = engine.state.step || 'desk';
-          phoneOpen = engine.state.life ? currentStep.startsWith('life_') && currentStep !== 'life_home' : currentStep !== 'desk' && !isLifeStep(currentStep);
+          phoneOpen = engine.state.life ? currentStep.startsWith('life_') && !isLifeStep(currentStep) : currentStep !== 'desk' && !isLifeStep(currentStep);
           activeModal = engine.state.activeModal || null;
         }
 
@@ -191,8 +192,7 @@ if (app) {
 
   function startFreshRun(enableStorageSave = true) {
     const seed = generateRandomSeed();
-    // The new-policy controller remains staged until the integrated apartment review passes.
-    engine = new GameEngine(seed);
+    engine = new GameEngine(seed, { lifePolicy: true });
     engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode()) {
@@ -242,7 +242,7 @@ if (app) {
         if (engine.state.life) {
           if (engine.state.life.session) engine.applyLifeIntent({ type: 'phone_suspend' });
           engine.state.lifePhoneReturnStep = ['life_gacha', 'life_race', 'life_race_result'].includes(currentStep) ? currentStep : 'life_phone';
-          currentStep = 'life_home'; engine.state.step = currentStep; phoneOpen = false;
+          currentStep = lifeSurface(engine); engine.state.step = currentStep; phoneOpen = false;
           maybeAutosave(); renderApp(); return;
         }
         stageTransition?.run('return').then((completed) => {
@@ -271,9 +271,9 @@ if (app) {
         : false;
       if (confirmed) {
         setTemporaryPreservationMode(false);
-        res = saveGame(engine.toEnvelope(), globalThis.localStorage, true);
+        res = saveGame(engine.toEnvelope(), undefined, true);
       } else {
-        res = saveGame(engine.toEnvelope(), globalThis.localStorage, false);
+        res = saveGame(engine.toEnvelope(), undefined, false);
       }
     } else {
       res = saveGame(engine.toEnvelope());
@@ -309,8 +309,77 @@ if (app) {
       renderKitchenSetupView(mainContainer, ({ name, autosaveEnabled }) => {
         engine.autosaveEnabled = !isTemporaryPreservationMode() && autosaveEnabled;
         engine.setupCompanion(name, 'classic-yellow');
-        enterLife(engine.state.life ? 'life_home' : BREAKFAST_STEP_BY_DAY[1]);
+        enterLife(engine.state.life ? lifeSurface(engine) : BREAKFAST_STEP_BY_DAY[1]);
       });
+    } else if (!engine.isTerminal() && currentStep === 'life_phone' && engine.state.life && phoneOpen) {
+      renderLifePhoneView(mainContainer, engine, { action: (action) => {
+        const life = engine.state.life;
+        if (['welcome', 'single', 'ten'].includes(action) && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+          && !globalThis.confirm('This pull uses the afternoon anchor and misses your scheduled shift. Continue?')) return;
+        if (action === 'welcome') {
+          if (!engine.commitPromotionalTenPull()) { globalThis.alert('This pull is not available in the current phase.'); return; }
+          currentStep = 'life_gacha';
+        } else if (action === 'single' || action === 'ten') {
+          if (!engine.commitPaidPull(action === 'single' ? 1 : 10)) { globalThis.alert('You need enough Gems, an unused pull allowance, and all previous cards revealed.'); return; }
+          currentStep = 'life_gacha';
+        } else if (action === 'reveal') currentStep = 'life_gacha';
+        else if (action === 'bundle') {
+          if (!globalThis.confirm('Buy 330 Gems for $4.99?')) return;
+          if (!engine.buyLifeBundle(330)) { globalThis.alert('This purchase is not available.'); return; }
+        } else if (action === 'race') currentStep = 'life_race';
+        else if (action === 'extend') {
+          const warning = life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+            ? 'Extending leaves the afternoon and misses your scheduled shift.'
+            : life.phase === 'evening' ? 'Extending enters Late Night; a pull or race there causes up to 10 HP fatigue next morning.'
+              : 'Extending uses the next life phase.';
+          if (!globalThis.confirm(`${warning} Continue?`)) return;
+          const result = engine.applyLifeIntent({ type: 'extend_session', confirmed: true });
+          if (!result.ok) { globalThis.alert('Resolve the current meal or obligation before extending.'); return; }
+          if (engine.state.life.rent.status === 'due' || engine.state.life.recovery || !engine.state.life.rentSurfaced && engine.state.life.rent.status === 'overdue') {
+            currentStep = lifeSurface(engine); phoneOpen = false;
+          }
+        } else if (action === 'finish') {
+          if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+            && !globalThis.confirm('Finishing now misses your scheduled shift. Continue?')) return;
+          const result = engine.applyLifeIntent({ type: 'advance' });
+          if (!result.ok) { globalThis.alert('Resolve the current meal or obligation before advancing.'); return; }
+          currentStep = lifeSurface(engine); phoneOpen = false;
+        }
+        engine.state.step = currentStep; maybeAutosave(); renderApp();
+      } });
+      if (engine.displayLifeGemShop()) maybeAutosave();
+    } else if (!engine.isTerminal() && currentStep === 'life_gacha' && engine.state.life && phoneOpen) {
+      gachaViewHandle = renderGachaView(mainContainer, engine, {
+        onRevealCard: () => { engine.revealNextDraw(); maybeAutosave(); gachaViewHandle?.update(engine); },
+        onRevealCardAtIndex: (idx) => { engine.revealDrawAtIndex(idx); maybeAutosave(); gachaViewHandle?.update(engine); },
+        onRevealAll: () => { engine.revealAllPending(); maybeAutosave(); gachaViewHandle?.update(engine); },
+        onProceed: () => { currentStep = 'life_phone'; engine.state.step = currentStep; maybeAutosave(); renderApp(); },
+        onAcquisitionPersist: maybeAutosave, onAcquisitionComplete: maybeAutosave,
+        onDuplicateHelpShown: (seq) => { const event = engine.showDuplicateConversionHelp(seq); if (event) maybeAutosave(); return event; },
+        onDuplicateHelpDismiss: (seq) => { const event = engine.dismissDuplicateConversionHelp(seq); if (event) maybeAutosave(); return event; },
+        active: !settingsOpen && !activeModal, duckMotionPaused, duckMotionActive: !settingsOpen && !activeModal,
+        onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
+      });
+    } else if (!engine.isTerminal() && ['life_race', 'life_race_result'].includes(currentStep) && engine.state.life && phoneOpen) {
+      const existing = Object.keys(engine.state.raceAttempts).map(Number);
+      const raceNumber = currentStep === 'life_race_result' ? Math.max(...existing) : Math.max(0, ...existing) + 1;
+      raceViewHandle = renderRaceView(mainContainer, engine, raceNumber, {
+        onStartRace: ({ duckId, stance, useTrial }) => {
+          const life = engine.state.life;
+          if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+            && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
+          const attempt = engine.runRace(raceNumber, duckId, stance, { useTrial });
+          if (!attempt) { globalThis.alert('This phase has no race allowance remaining.'); return null; }
+          currentStep = 'life_race_result'; engine.state.step = currentStep; maybeAutosave(); updateHud();
+          return { attempt, resolution: engine.getRaceResolution(raceNumber) };
+        },
+        onChoiceShown: (info) => { if (engine.recordRaceChoicesShown(raceNumber, info)) maybeAutosave(); },
+        onTrialOfferShown: (info) => { if (engine.recordRaceTrialOfferShown(raceNumber, info.costDown, info.exposureId)) maybeAutosave(); },
+        onBuyTrial: () => { const result = engine.purchaseRaceTrial(); if (result) maybeAutosave(); return result; },
+        onAction: (action, details) => { engine.recordRacePlaybackAction(raceNumber, action, details); maybeAutosave(); },
+        onCueDisplayed: (cue) => { engine.recordRaceCueDisplayed(raceNumber, cue); maybeAutosave(); },
+        onProceed: () => { currentStep = 'life_phone'; engine.state.step = currentStep; maybeAutosave(); renderApp(); },
+      }, { active: !settingsOpen && !activeModal, initialSnapshot: racePlaybackSnapshot });
     } else if (!engine.isTerminal() && isLifeStep(currentStep)) {
       lifeViewHandle = renderLifeView(mainContainer, engine, lifeUi, lifeCallbacks(), {
         active: !settingsOpen && !activeModalBlocksLife(),
@@ -633,8 +702,16 @@ if (app) {
         engine.state.step = lifeSurface(engine);
         return { ok: true };
       }),
-      onAgreeWork: commit(() => engine.applyLifeIntent({ type: 'agree_work', kind: 'scheduled' })),
+      onAgreeWork: commit((kind) => engine.applyLifeIntent({ type: 'agree_work', kind })),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
+      onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
+      onSell: commit((asset) => engine.applyLifeIntent({ type: 'sell', asset })),
+      onRecover: commit(() => engine.applyLifeIntent({ type: 'recover' })),
+      onFinishRecovery: commit(() => {
+        const result = engine.applyLifeIntent({ type: 'finish_recovery' });
+        if (result.ok) engine.state.step = lifeSurface(engine);
+        return result;
+      }),
       onOpenPhone: commit(() => {
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
         engine.state.step = engine.state.lifePhoneReturnStep || 'life_phone';
@@ -649,6 +726,17 @@ if (app) {
         if (result.ok) engine.state.step = lifeSurface(engine);
         else globalThis.alert('Resolve the current meal or other commitment before continuing.');
         return result;
+      }),
+      onLateNight: commit(() => {
+        if (!globalThis.confirm('A pull or race in Late Night causes up to 10 HP fatigue next morning. Continue?')) return null;
+        const result = engine.applyLifeIntent({ type: 'late_night' });
+        if (result.ok) engine.state.step = lifeSurface(engine);
+        else globalThis.alert('Resolve the current meal or work before continuing.');
+        return result;
+      }),
+      onFinishLife: commit(() => {
+        if (!globalThis.confirm('Finish this run and view the Receipt?')) return null;
+        engine.finishRunComplete(); return { ok: true };
       }),
       onLadderAccept: commit(() => {
         const next = engine.state.activeBill?.kind === 'food' ? afterBreakfast(engine) : null;
@@ -695,6 +783,7 @@ if (app) {
       }),
       onGoToWork: commit(() => goToWork()),
       onRefresh: () => {
+        if (engine.state.life?.recovery && isLifeStep(engine.state.step) && !['life_rent', 'life_recovery'].includes(engine.state.step)) engine.state.step = lifeSurface(engine);
         currentStep = engine.isTerminal() ? 'receipt' : engine.state.step;
         if (!isLifeStep(currentStep)) phoneOpen = engine.isTerminal() || (engine.state.life && currentStep.startsWith('life_'));
         renderApp();

@@ -6,7 +6,7 @@ export function initialLife() {
     policyVersion: LIFE_POLICY_VERSION, config: { ...LIFE_CONFIG }, day: 1, phase: 'morning',
     anchor: null, meals: {}, session: null, nextId: 1, work: null,
     missedShifts: 0, employed: true, shiftDays: {}, rent: { id: 'rent-1', status: 'pending' }, rentSurfaced: false,
-    recovery: null, fatiguePending: false,
+    recovery: null, fatiguePending: false, sold: [],
   };
 }
 
@@ -117,6 +117,12 @@ export function transitionLife(input, balances, intent) {
     case 'leisure':
       if (deadlineBlocks() || life.recovery || life.anchor || life.phase !== 'evening') return fail('unavailable');
       life.anchor = `leisure-${life.nextId++}`; hp(config.leisureHealth, 'leisure'); break;
+    case 'sell': {
+      if (deadlineBlocks() || life.recovery || !['couch', 'tv'].includes(intent.asset) || life.sold.includes(intent.asset)) return fail('unavailable');
+      const amount = intent.asset === 'couch' ? 10 : 15;
+      life.sold.push(intent.asset); cash = money(cash + amount);
+      record('income', { kind: 'asset_sale', asset: intent.asset, amount, cashAfter: cash }); break;
+    }
     case 'phone_commit': {
       if (deadlineBlocks() || life.recovery || !['pull', 'race'].includes(intent.kind)) return fail('unavailable');
       if (life.day === 1 && life.phase !== 'evening' && life.phase !== 'lateNight') return fail('not_unlocked');
@@ -126,6 +132,7 @@ export function transitionLife(input, balances, intent) {
       }
       if (life.session[intent.kind]) return fail('extension_required');
       life.session[intent.kind] = true; life.session.suspended = false;
+      if (life.phase === 'lateNight') life.fatiguePending = true;
       record('life_session_commit', { id: life.session.id, kind: intent.kind });
       break;
     }
@@ -135,7 +142,7 @@ export function transitionLife(input, balances, intent) {
       if (!life.session) return fail('no_session'); life.session.suspended = false; break;
     case 'extend_session':
       if (!life.session || intent.confirmed !== true || deadlineBlocks() || life.recovery || life.work || mealPending()) return fail('extension_unavailable');
-      if (life.phase === 'evening') { arrive(life.day, 'lateNight'); life.fatiguePending = true; }
+      if (life.phase === 'evening') arrive(life.day, 'lateNight');
       else advance();
       record('life_session_extended', { day: life.day, phase: life.phase });
       break;
@@ -144,7 +151,7 @@ export function transitionLife(input, balances, intent) {
       advance(); break;
     case 'late_night':
       if (deadlineBlocks() || life.recovery || life.work || mealPending() || life.phase !== 'evening') return fail('unavailable');
-      arrive(life.day, 'lateNight'); life.fatiguePending = true; break;
+      arrive(life.day, 'lateNight'); break;
     case 'recover':
       if (!life.recovery || life.recovery.recovered) return fail('no_recovery');
       if (!life.anchor) shiftMiss();

@@ -12,8 +12,11 @@ export function validateLifeHistory(entries, state) {
   let life = initialLife();
   let cash = life.config.startCash;
   let health = life.config.startHealth;
+  let terminal = false;
   for (let i = 0; i < entries.length; i++) {
     const e = entries[i];
+    if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
+    if (e.type === 'terminal') terminal = true;
     if (e.type === 'life_intent') {
       const result = transitionLife(life, { cash, health }, e.payload.intent);
       if (!result.ok) { errors.push(`Invalid life intent at ${e.seq}: ${result.reason}`); break; }
@@ -24,6 +27,17 @@ export function validateLifeHistory(entries, state) {
       const end = entries[i + 1 + result.events.length];
       if (!end || end.type !== 'life_transition' || !same(end.payload, { intent: e.payload.intent, life: result.life, cash: result.cash, health: result.health })) {
         errors.push(`Life transition mismatch after ${e.seq}`); break;
+      }
+      if (e.payload.intent.type === 'phone_commit') {
+        const next = entries[i + 2 + result.events.length];
+        const expected = e.payload.intent.kind === 'race' ? ['action'] : ['purchase', 'draw_committed'];
+        if (!next || !expected.includes(next.type) || (e.payload.intent.kind === 'race' && next.payload.kind !== 'race_choice')) {
+          errors.push(`Phone commitment at ${e.seq} has no corresponding outcome commit`);
+        }
+        if (e.payload.intent.kind === 'pull' && next?.type === 'purchase'
+          && (!['single_pull', 'ten_pull'].includes(next.payload.kind) || entries[i + 3 + result.events.length]?.type !== 'draw_committed')) {
+          errors.push(`Pull commitment at ${e.seq} has no committed draw`);
+        }
       }
       life = result.life; cash = result.cash; health = result.health;
       i += result.events.length + 1;
@@ -41,6 +55,7 @@ export function validateLifeHistory(entries, state) {
     cash = Math.round(cash * 100) / 100;
   }
   if (!same(life, state.life)) errors.push('Life state does not match replay');
+  if (!same(life.sold, state.assetsSold)) errors.push('Sold furnishings do not match life history');
   if (cash !== state.cash || health !== state.health) errors.push('Life balances do not match replay');
   return errors;
 }

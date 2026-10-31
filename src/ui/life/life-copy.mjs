@@ -12,12 +12,12 @@ const healthChange = (before, after) =>
   `Health ${before} → ${after} (${after < before ? '−' : '+'}${Math.abs(before - after)})`;
 
 /** Calm institutional letter. Plain paper: no buttons, no links, no threats. */
-export function noticeLetter({ amount, unit }) {
+export function noticeLetter({ amount, unit, dueDay = null }) {
   return {
     sender: SENDER,
     heading: `Remaining rent balance · ${unitLabel(unit)}`,
     paragraphs: [
-      `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance due today is ${money(amount)}.`,
+      `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance ${dueDay ? `due on Day ${dueDay}` : 'due today'} is ${money(amount)}.`,
       "You can pay in person at the property office, or through the office's online payment page.",
       `Once the full ${money(amount)} is received, the rent for this unit will be recorded as paid.`,
       'If you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.',

@@ -7,14 +7,14 @@
 | `index.html`, `vite.config.mjs`, package/lock files | Root web entry and build configuration; preserve CommonJS behavior for existing Node `.js` tooling |
 | `src/` | Playable Plan 03 browser mechanism slice plus accepted standalone rig/audio proofs |
 | `src/core/` | Current game engine, canonical pure PRNG/log/Receipt modules, browser storage and digital rig composer |
-| `src/assets/svg/` | Authored SVG source; accepted Mode C rig. The game still imports its separate placeholder until scoped integration |
+| `src/assets/svg/` | Authored SVG source; accepted Mode C rig. Digital cards and races use the accepted rig through focused render/motion helpers; physical companion assets remain separate |
 | `sim/` | Separate headless model, strategies, experiments and tests; PRNG/log/Receipt entry files re-export canonical `src/core` modules |
 | `scripts/dev/` | Development, packet and smoke tooling |
 | ignored `dist/` | Static build artifact, outside documentation; publication workflow remains undecided |
 | `docs/` | Documentation and packets; never the Pages publish source |
 | `reports/` | Evidence and owner-review artifacts; generated concept images may live here and do not ship |
 
-## Current source map (verified 2026-10-25)
+## Current source map (initial map2026-10-25; selected status/pointer reconciliation2026-10-31)
 
 | Source | Responsibility |
 |---|---|
@@ -39,4 +39,4 @@ Data flow: player action → controller callback → engine mutation/outcome/eve
 
 Implement approved behavior through a bounded integration packet, using existing source roles and small feature helpers where justified. Read the selected-decision handoff first; inspect only relevant mockup portions when needed. Keep prototype controls, fake service labels and review commentary out of production. Do not add mock game rules, duplicate an engine/synth or import report assets without the relevant selection/provenance gate.
 
-`main.js` (~500 physical lines), global CSS (~1,300) and `game-engine.mjs` (~840) are current growth hotspots; UI view files are substantially smaller. These sizes are observations, not automatic refactor thresholds. Add focused ownership/lifecycle boundaries as features land; no framework migration or whole-tree rewrite is selected. Plan 19 is a draft integration scope, not existing implementation.
+Historical file-size observations are not current measurements or automatic refactor thresholds. Controller, engine and global styles remain coordination hotspots; use focused ownership/lifecycle boundaries rather than a framework migration or whole-tree rewrite. Plan19 shell integration is implemented and owner-closed. Plan38 surfaces exist, but the full selected life/session progression is pending a bounded amendment/mechanism review; current engine routing is not the complete future day model.

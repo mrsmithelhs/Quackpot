@@ -2,6 +2,22 @@
 
 This folder contains project documentation. See `repo-structure.md` for the accepted source, simulation, asset, evidence and build-output paths.
 
+## Current direction and document authority
+
+The canonical design is `founding/design.md`. It combines selected intent with explicitly labelled future work; it is not a claim every selected feature is implemented. `decision-log.md` preserves why choices changed. `open-questions.md` contains unresolved questions only. Packet frontmatter and the generated `development/README.md` own assignment/status; each packet owns its scope/gates. `repo-structure.md` maps existing code. Reports provide evidence and historical alternatives, not a competing current specification.
+
+| Area | Selected/current direction | Next boundary |
+|---|---|---|
+| Life and pacing | Action-based Morning/Afternoon/Evening, optional LateNight, maintenance meals alongside anchors; roughly30-plus-minute engaged design target | Plans37/29 closed investigations; Plan38 needs a bounded progression amendment before new rules |
+| Economy | $60 take-home completed-shift baseline; small gacha purchases should accumulate into reserve pressure | Other prices/health/credit/session allowances provisional; recalibrate from integrated-route evidence |
+| Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
+| Apartment | Accepted art/desk/phone; Plan38 life surfaces exist | Work/evening experience Plan40; coherent phase/obligation integration before later disruption |
+| Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 spike under review; production Receipt/exporter/analyzer integration separate |
+| Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 technical repairs, Plan43 style study; weather not mounted |
+| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plans41/36 studies and owner selection; not automatic feature adoption |
+
+Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.
+
 ## Index
 
 | Folder / File | Purpose |

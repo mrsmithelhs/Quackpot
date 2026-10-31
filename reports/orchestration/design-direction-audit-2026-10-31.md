@@ -1,0 +1,25 @@
+# Current direction audit and next work
+
+Owner request2026-10-31. Root inspected canonical design, questions, doc hub, packet board, source map and active/proposed life, Receipt and experience packets. One read-only default-role Terra-medium audit requested; identity not independently verified. This is document reconciliation, not a new complete source/visual audit.
+
+## Finding
+
+Decision capture has been active and useful: dated decisions, root dispositions, owner interviews and acceptance records preserve choices and reasons. Reconciliation has been uneven. Append-only historical acceptance paragraphs plus later refinements accumulated competing present-tense claims. The detailed stage line duplicated board status. `open-questions.md` still said audio was unselected, Duck-Dex absent and rest unimplemented; source map called Plan19 draft and retained old file counts as current; the founding tail called Plan22 unimplemented despite later acceptance elsewhere. These could misdirect a new agent and are corrected in this pass.
+
+Do not create another competing specification. Canonical design owns selected intent, decision log owns chronology, open questions own unresolved items, packets own bounded authority and generated index owns work status, source map owns implemented responsibility, and reports own evidence/alternatives. The doc hub now gives this reading order and compact current-direction map. AGENTS/orchestrator now require affected-document reconciliation before handoff/closure; stage text points to the board instead of listing every completed packet. No staged design-review prompt is adopted locally; Bootstrap intake is separate.
+
+## Closures
+
+Plan29 closes with owner-selected $60 completed-shift take-home baseline, not automatic adoption of $80 start/$6 meals/$170 rent or four-hour duration. Preserve comparison evidence and unresolved costs/health/credit/calendar/session parameters. Next simulation trigger is materially changed rules, integrated spend/opportunity/recovery traces or measured pacing, not every UI change.
+
+Plan37 closes as the policy/design investigation with reports/orchestration/plan-37-closeout-and-integration-boundaries.md qualifying remaining proposed lifecycle semantics. No further interview handoff is needed for closure. Exact once-only transactions, ordering and source integration still require a bounded proposal. Closing policy work must not expand Plan38's old source-write authority by implication.
+
+## Recommended sequence
+
+1. **Clear the existing technical handbacks:** review final Plan42 repair and prepare its bounded owner acceptance; finish or explicitly route remaining Plan39 render/provenance repairs before reusing its engine for long music. Review Plan27's delivered selected-layout investigation as a separate closure/integration handoff. No new broad research packet is needed for these.
+2. **Prioritize the ordinary day:** draft/adopt a bounded Plan38 continuation amendment, with a mechanism checkpoint before source mutation. First one authoritative phase/action/obligation model and explicit commit/resume schema; then engine/save/log integration; then apartment/controller/HUD routing. Required traces: Day1 introduction/work/evening, Day2 re-entry and extension, separate shift/wage/rent, Day4 payment/withholding/shortfall including bedrest, early Uninstall and reload. Keep the current apartment art; do not disguise missing transitions with text or add independent clocks.
+3. **Parallel experience work:** Plan40 is the best next human-experience investigation, owner conversation then report-local work/evening visuals; Claude fits the owner's preference. It can run beside the Plan38 mechanism proposal with disjoint reports. Plan41 Ren is useful but not a prerequisite; choose it instead if the owner wants social development now. Do not start both merely because they are ready.
+4. **Then ship reflection and sound:** prepare a separate bounded production Receipt packet using Plan27 LayoutA and actual engine-generated traces, with expandable detailed evidence. It need not wait for the whole late-game story. Plan42 can support later exporter/analyzer adapters after acceptance. Plan18 sound preparation/credits/integration and Plan30 TV/acoustics can use already selected assets; music styles43 can research independently but cannot scale unresolved renderer behavior.
+5. **Later atmosphere/breadth:** Plans11/15 gacha visual/pull studies,41 social expansion,36 disruptions and weather mounting can enrich a coherent loop. Preserve their priorities and owner ideas; do not turn every open possibility into simultaneous assigned work. Existing43 already covers the requested style/viability pivot research.
+
+The board is large because investigations, production integrations and future options are mixed, not because every draft is abandoned. Parked statuses and existing drafts are valid. Favor finishing high-impact handbacks and the day-model integration over creating another planning layer. No new packet assignment, implementation authority, browser/server run, capability adoption or push follows from this recommendation.

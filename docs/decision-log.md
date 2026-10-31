@@ -480,3 +480,14 @@ Owner assigns Plans29 and42 to Codex in parallel with disjoint report folders. P
 Owner reports selecting LEDGER14 in the Plan37 pilot: on Day4 morning, a player with enough cash for the unpaid remaining rent balance may choose Pay Rent or Hold Cash/Do Not Pay. Withholding keeps cash in hand, marks rent overdue and immediately triggers landlord escalation. Record the choice factually; do not infer a gacha motive. Paying remains conscious, and a resulting zero cash balance is not nonpayment. LEDGER09 still requires immediate insufficient-funds escalation at the deadline, not only on notice inspection. Exact health/deadline ordering and escalation treatment of solvent withholding remain specification outputs, not production implementation.
 
 Root's final-spec review is reports/orchestration/plan-37-final-spec-review-01.md. The fourteen owner choices are preserved; the consolidation still needs bounded provenance, lifecycle and trace corrections before acceptance/closure. Plan29 may continue with explicit assumptions; no numerical policy, event schema or production mutation is adopted.
+
+
+### DECISION-046 — Life-design investigation closeout and working wage
+
+**Date:** 2026-10-31
+
+Owner selects $60 take-home per completed scheduled shift as the working wage baseline and accepts Plan29 investigation closure without settling every price. Other higher60 configuration values and the four-hour representation remain provisional until selected. Continue development against explicit working assumptions and rerun calibration when integrated opportunities, spending/recovery data or material rule changes justify it. No production price mutation is authorized by investigation closure alone.
+
+Owner permits Plan37 closure at root judgment. Root accepts the policy/design investigation and fourteen owner selections with the qualifications in reports/orchestration/plan-37-closeout-and-integration-boundaries.md: temporary phone return is not session finish; bedrest cannot bypass due rent; remaining lifecycle defaults, calendar, effects and transaction schema are inputs to a bounded Plan38 amendment. This closes an interview/specification investigation, not a production-ready engine specification. No further design-agent handoff is required merely to close it.
+
+Root reconciled stale open-question/source-map summaries and added a compact document-authority/current-direction view to docs/README.md plus an orchestration reconciliation reminder. The Bootstrap pilot intake remains a proposal; no local default design-review prompt/capability adoption follows.

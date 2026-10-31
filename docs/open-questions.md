@@ -1,33 +1,32 @@
 # Open Questions
 
-This file lists questions that are **genuinely unresolved** - pending investigation, prototype, or owner decision. Resolved questions move to `docs/decision-log.md`.
+Current unresolved questions only, reconciled2026-10-31. Selected intent lives in `founding/design.md`; provenance in `decision-log.md`; work status in `development/README.md`; implemented responsibilities in `repo-structure.md`. Historical reports preserve earlier questions but do not reopen resolved choices.
 
-*(For the canonical list of founding design and simulation open questions — including final title, day count, storage engine, replay tracking, pity thresholds, near-miss candidates, fatigue-obscuring choices, odds-button detail, export fields, local teacher analyzer implementation, music provenance, and PNG delivery — see [`docs/founding/design.md` §Open questions](founding/design.md#open-questions). The physical metagame duck is outside the digital collection; see DECISION-003.)*
+## Life progression and economy
 
-## General / architecture
+- How should the selected meal/anchor/session model be implemented with one saved phase authority, pending actions, once-only outcomes and safe reload/Uninstall? Plan37 is closed as a design investigation; its root closeout qualifies proposed lifecycle defaults. Temporary phone return must be distinct from Finish Session, and collapse cannot bypass rent obligations. Plan38 needs a bounded amendment before new rule integration.
+- $60 take-home per completed scheduled shift is the owner-selected working baseline. Which start balance, meal prices, remaining rent, represented shift duration/calendar, recovery/fatigue and credit values should accompany it? Other Plan29 figures remain provisional. Recalibrate when integrated session opportunities and observed spending/recovery supply new evidence, not after every cosmetic edit.
+- What work/evening treatment should the owner select in Plan40, including normal work, extra work and leisure without unexplained instant pay/rent settlement?
+- What specific social/HP effects and opportunities should Ren/Call Mom/possession sales support? Plan41 owns proposals; no fixed relationship penalty or unlimited recovery loop is selected.
 
-1. Which visual directions should inform the production SVG (Plan 08), which digital gacha motions work after rig approval (Plan 09), and which coherent 2D views/lighting/apartment compositions suit physical-duck conversations at wide and close zoom (Plan 10)? No 3D source pipeline is selected.
-2. How should the headless model's existing physical `own-duck` race slot be reconciled before the playable slice? See `reports/orchestration/duck-representation-boundary.md`; it is not an adopted game rule.
+## Gacha and collection
 
-## Plan 12 follow-on rules (2026-10-25)
+- Which gacha visual compositions and broader identity catalog should follow the accepted layered-paper rig, animations, Duck-Dex and visual race/rest UI? Plans08/09/10/20/21/22 are accepted; those features are not missing foundations. Plan11 studies broader compositions/assets. No 3D physical-duck pipeline is selected.
+- How should closed Plan06's progressive contextual odds detail be integrated, preserving conditional Receipt odds and simple tutorial language? Exact banner carry/reset and whole-run tuning remain future evidence-based work.
+- Which pull anticipation/commercial urgency cues should Plan15 test, with what fictional game-time labels, dismissal/static paths and truthful event evidence? No new expiry, hidden behavior detection or Fast Pull price is selected.
+- What larger roster/set definitions and effects work without per-identity balancing or invented bonuses? Accepted 3Down one-race speed upgrade,6Down pull and soft two-race rest terms are not reopened.
+- What is the final fictional app title, if changed? Earlier name suggestions are not approval; fictional-entity constraints remain.
 
-- Plan 17's bounded trial rules/evidence are accepted (DECISION-013); do not reopen 3/6 prices, +5% one-race/non-stacking effect or normal duplicate/pity/reset rules. Remaining questions concern production consume/cancel/reload/log/Receipt behavior, larger rosters, future banner policy and whole-run economy effects beyond the tested cells.
-- Plan 15: Which commercial urgency cues, if any, should ship, with what game-clock/expiry rules and accessible dismissal? No countdown rule is selected.
-- Plan 14: How should the selected fictional-phone quarter-turn/full-stage transition adapt to narrow screens and reduced motion? No physical-device rotation or fixed aspect ratio is required.
-- Final fictional app title remains unselected. The interview's candidate list is not approval; exclude the existing real title Duck Dynasty under the fiction constraint.
+## Reflection and offline teaching tools
 
-## Audio-source policy (2026-10-25)
+- How should selected Plan27 LayoutA become a compact production Receipt with deeper optional evidence, preserving displayed/action/reflection separation and actual conditional odds?
+- After Plan42 acceptance, which production log adapters should populate the selected ZIP package, summary and bounded timeline, and how should the local teacher analyzer expose uncertainty/repeats? No default personal/free-text/reflection/seed/exact-time export, installation identity, automatic upload, identity proof or all-attempt tracking.
+- How should localStorage saves behave on shared/cleared lab machines? Current storage is implemented; no IndexedDB migration is selected.
 
-The source-policy question is resolved by DECISION-010: CC/CC0 local audio and factual Credits are permitted. Which specific recordings, roles, edits, levels and credits should be selected? Draft Plan 18 owns the bounded audition/provenance recommendation; no recording or production integration is selected yet. Model-generated music provenance remains open separately.
+## Audio, weather and later narrative
 
-## Process / workflow
-
-## Collection, race selection and duck rest (owner questions, 2026-10-26)
-
-- Owner Plan20 review asks about digital visual variety: production rig helper currently hardcodes classic-yellow/no hat/no accessory. Existing accepted rig offers3 palettes,2 non-default hats and2 non-default accessories, but no selected identity-to-look mapping. Propose consistent looks for six current identities using accepted components before authoring new parts; keep name/rarity/stat identity distinct from cosmetic look, no random rerender changes, no per-variant balancing. Plan20 flip/phase repair does not authorize expanding the art catalog. Broader visuals may follow Plan11 composition/asset gates; identity mapping is its own small selection.
-
-- Canonical design already promises a standing Duck-Dex shelf, owned identities and missing silhouettes. Current mechanism slice does not deliver a dedicated always-available collection inspection area. Plan20 integrates art/motion only; a bounded collection/inspection and entry-selection follow-on is needed. Owner wants voluntary collection access without requiring a story beat. Propose focused identity cards/details and return navigation, preserving fictional content and local-only state; no new set effects or duplicate mechanics by implication.
-- Current race UI has an owned-duck dropdown defaulting to fastest plus stance controls. Owner asks for a more visual race preparation screen with recommended candidates foregrounded. Recommendation meaning and reconciliation with canonical one pre-race choice need a proposal; do not add a second independent strategy menu or expose review-only math panels by accident.
-- Resolved direction: owner selects soft two-race rest penalties (zero intervening races50%, one25%, two or more none), with tired ducks still selectable. Draft Plan22 owns remaining commit/cancel/reload, trial/stance, duplicate identity and balance questions. Current production lastRacedId bookkeeping does not implement this rule; character sleep/fatigue remains separate. No paid recovery or forced pull.
-
-1. *(Add questions about the handoff workflow, release gates, or agent assignment.)*
+- How should Plan18's owner-selected sound pools be prepared/trimmed/levelled, attributed and integrated? Selection is complete; production preparation/integration is separate. More apartment looping music remains wanted.
+- Which Plan39 technical rendering/provenance repairs are required before scaling the owner-favored M1–M6 repertoire? Plan43 researches viable instruments/styles and permits owner-led genre pivots; no finished soundtrack is adopted.
+- How should Plan30's TV source, track changes, room acoustics and silence-after-sale work? Weather34 helpers remain deliberately unmounted pending a separate evidence/scene-selection gate.
+- Which inexpensive high-impact Plan36 disorientation ideas merit a prototype once ordinary life progression is coherent? Preserve irregular fictional disruptions, text/static equivalents and truthful outcomes; no late-game integration plan is yet selected.
+- Which assets show a measured benefit from PNG delivery? SVG source remains the default; concept references are not shipping assets.

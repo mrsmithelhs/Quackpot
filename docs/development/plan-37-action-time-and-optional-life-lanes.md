@@ -1,7 +1,8 @@
 ---
 id: plan-37
 title: Action-based time and optional life lanes specification
-status: in-progress
+status: complete
+resolution: "Owner permits root closure; accepted policy/design investigation and fourteen selections with root closeout qualifications. Free phone return is distinct from session finish; bedrest cannot bypass due rent. Remaining transaction/default ordering requires bounded integration proposal; no production-ready specification claim."
 depends_on: []
 gate: "Owner-authorized Gemini Flash design pilot/specification is underway; exact consequences still require owner selection. No executable experiments, production or schema mutation authorized."
 summary: >-

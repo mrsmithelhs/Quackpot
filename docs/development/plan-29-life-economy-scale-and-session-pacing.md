@@ -1,7 +1,8 @@
 ---
 id: plan-29
 title: Life economy scale and session pacing
-status: delivered
+status: complete
+resolution: "Owner accepts bounded calibration investigation and selects $60 completed-shift take-home baseline. Other prices, duration, health and calendar remain provisional; no production mutation. See root follow-up review and DECISION-046."
 
 depends_on: [plan-01, plan-17, plan-22, plan-23]
 gate: "Owner assigned Codex on2026-10-31; bounded calibration may proceed to delivery. Owner selects numerical policy before production changes."

@@ -106,9 +106,9 @@ The clock is hybrid:
 - Ordinary engaged play targets at least roughly 30 minutes; a rapid low-reading route may take around 15 minutes. Day count is not fixed, and a run may exceed 15 in-game days.
 - Simulation and classroom hardware observation should measure the experience without rushing consequential scenes.
 
-## Saving
-
 **Phase-capacity refinement (owner pilot, 2026-10-31):** Each named phase supports routine maintenance alongside one primary anchor activity. Eating does not consume or freeze out that anchor. This does not select additional daily meals or their costs, new wages/rent/deadlines, sleep recovery or Late Night penalties. The checkpoint's Day1–Day3 example is a proposal awaiting coherent traces, not an adopted tutorial schedule; see reports/orchestration/plan-37-pilot-checkpoint-02-review.md.
+
+## Saving
 
 Two modes, chosen by the player:
 

@@ -95,3 +95,30 @@ I compared slicker v2/v3 and bedhead v1/v2/v3 on `concepts/svg-round-01/compare-
 | `hair-bedhead-v3` | Better than v1 (ponytail) and v2 (spikes): no single lump, no triangles, a lifted right side of separate rounded clumps with a darker layer in the gaps. But the left side is a smooth, tidy slanted cap, so it reads as a stylish asymmetric curly cut more than sleep-messed hair, and the new pencil lies across the right temple with no hair at the ear to rest against. The helper rated its own helmet risk "low to moderate". | Still not convincing bedhead; hide or move the pencil in bedhead drawings |
 
 Suggested next attempt for bedhead (not done): keep the base cloud and hairline, flatten only the left edge slightly, add three or four rounded clumps sticking out at the top and right, hide the pencil, and avoid any straight hairline.
+
+## 9. Gemini hair grids returned; second hair drawing pass; bedhead dropped
+
+**Owner decision (2026-10-31): drop bedhead.** The three bedhead drawings (`hair-bedhead`, `-v2`, `-v3`) stay in the folder as concept history only; no further bedhead work is planned.
+
+**Gemini provenance (new images).** The Gemini thread completed `hair-02-work-messy`, `hair-03-wet-and-towel` and `hair-04-coverings` after the quota reset (its manifest records the first post-reset success at 2026-10-31T21:24:42Z and says 14 of 14 images exist; I confirmed the three new PNGs exist and viewed them). Tool `generate_image` via an `image-generator` subagent, model `not exposed`; I cannot verify what references were attached. The prompt predated my tattoo/pencil update, so these sheets still show the old **neck tattoo** and a pencil in the old position; the drawings below omit the neck tattoo and use the updated pencil. My viewing also shows the same drift as before: fuller, bigger hair than the base, a thinner outline, and (hair-02) hair tinted blue-black.
+
+**What I chose to draw (10 of the 12 new cells):** paint flecks, plaster dust, towel turban, damp hair with a towel on the neck, shower cap, wide headband, sleep bonnet, bandana, baseball cap, beanie. Not drawn: sawdust, and attic dust with cobweb (both are variants of the dust idea; reserves).
+
+**Drawing results** (ten Haiku helpers, one per drawing, disjoint folders; I viewed all ten rendered together on `concepts/svg-round-01/contact-sheet-hair.png`, scanned the sources for images/text/scripts/filters/gradients/external references, none found):
+
+| Drawing | My read | Verdict |
+|---|---|---|
+| `hair-paint-flecks` | Base curls with clipped yellow, blue and coral flecks; clean and clear. | Good |
+| `hair-plaster-dust` | White-grey dust patches and dots across the top of the curls; the big top patches look a little cloud-like and heavy. | Good enough; lighten patches if kept |
+| `hair-towel-turban` | Cream turban with fold lines and a tuck; reads as a towel wrap, slightly hood-like and wide; the one forehead curl looks like a mark. | Good enough |
+| `hair-towel-neck-damp` | Flatter damp curls with wet drops; terracotta towel around the neck with front tails; reads well but the tails cover the overall straps and buckles. | Good |
+| `hair-shower-cap` | Pale cap with elastic band and gather lines; reads clearly as a shower or bathing cap. | Good |
+| `hair-headband` | Terracotta band across damp curls; reads clearly; the forehead curls look like small dark tabs. | Good |
+| `hair-bonnet-night` | Teal gathered dome with a band; reads as a soft hat or beret more than a satin bonnet, and its band ends are a bit square. | Usable; weakest of the coverings |
+| `hair-bandana` | Terracotta kerchief tied at the left with tails and curls under the edge; reads as a bandana, crown a little helmet-like, tails thin; the kept pencil sits oddly on the right. | Good enough |
+| `hair-baseball-cap` | Plain navy cap, forward brim, curls at the sides; the clearest covering. | Good |
+| `hair-beanie` | Mustard knit beanie with cuff and ribs; clear, but the kept pencil overlaps the cuff edge. | Good; move or drop the pencil |
+
+**Cross-cutting issues:** the pencil was kept on bandana, beanie, paint, plaster and towel-damp and collides with the covering in the bandana and beanie; coverings otherwise needed the pencil deleted. Several helper notes admitted helmet-like crowns or small curl "tabs".
+
+**Selected candidates after both passes (lead's picks, not owner approval):** outfits: olive coveralls, cardigan v2, slicker v3 (hood up), navy pajama top, paint overalls, camp-collar shirt; hair/headgear: paint flecks, plaster dust, towel turban, damp hair with neck towel, shower cap, headband, baseball cap, beanie, bandana, windblown damp, sweaty pushed-back, post-nap puff; usable with caveats: sleep bonnet. Dropped by the owner: bedhead.

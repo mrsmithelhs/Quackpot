@@ -17,9 +17,11 @@
 ## Generation Summary
 
 - **Pass A (Outfits):** 10 images attempted, 10 generated successfully (40 outfit concepts).
-- **Pass B (Hair States & Coverings):** 2 images attempted, 1 generated successfully (`hair-01-messy.png`), 1 hit quota limit (`hair-02-work-messy.png`), remaining 2 skipped per rules of engagement.
-- **Total Images Generated:** 11 images (44 cells total).
-- **Quota / Rate Limit Encountered:** HTTP 429 `RESOURCE_EXHAUSTED` at 2026-10-31T15:58:19Z (`quotaResetTimeStamp: 2026-10-31T20:44:09Z`). Per Section 6 ("If image generation is unavailable, or the quota runs out, stop and report the actual limitation"), generation halted cleanly without placeholders, mockups, or unauthorized substitutions.
+- **Pass B (Hair States & Coverings):** 4 images attempted, 4 generated successfully (16 hair concepts).
+- **Total Images Generated:** 14 images (56 concept cells total).
+- **Quota & Schedule History:**
+  - Initial run paused at 2026-10-31T15:58:19Z due to HTTP 429 `RESOURCE_EXHAUSTED` on `hair-02-work-messy` (`quotaResetTimeStamp: 2026-10-31T20:44:09Z` / 4:44 PM EDT).
+  - Resumed after quota reset at 2026-10-31T21:24:08Z (5:24 PM EDT local). All remaining Pass B images generated cleanly without further errors.
 
 ---
 
@@ -205,7 +207,7 @@
 
 ---
 
-## Pass B: Hair States and Coverings (4 Ideas, 1 Generated, 3 Interrupted by Quota)
+## Pass B: Hair States and Coverings (4 Images, 16 Concepts)
 
 ### 11. `hair/hair-01-messy.png`
 - **Exact Prompt Sent:**
@@ -225,53 +227,70 @@
 
 ---
 
-### 12. `hair/hair-02-work-messy.png` (Attempted / Stopped by Quota)
+### 12. `hair/hair-02-work-messy.png`
 - **Exact Prompt Sent:**
   ```text
   A 2x2 grid character concept sheet showing four head-and-shoulders bust portraits of the same character, Ren, with four different work-messy hair variations. Minimalist flat 2D vector illustration, thick dark-brown outlines with rounded joins, flat solid color fills, zero gradients, zero shadows, no 3D, no textures. In each of the four quadrants, the framing is strictly a head-and-shoulders chest-up bust portrait with the head exactly centered and identical in size. Background of each quadrant is solid flat warm beige #EFE3CC, divided by thin dark brown lines. Absolutely no text, no words, no numbers, no labels anywhere in the image. Character lock: Ren is an androgynous adult with mid-warm golden-brown skin, a yellow pencil tucked behind their left ear, small gold hoop earring on right ear, small gold stud on left ear, small dark indigo sprout tattoo on the side of the neck, simple dot eyes with a tiny white catchlight dot, small blush ovals on cheeks, simple curved line nose, gentle warm smile. In all four quadrants, Ren wears identical clothing matching the reference: classic teal dungaree overalls with brass buttons over an off-white tee with horizontal terracotta stripes. Hair variations: Top-left cell: dark curls speckled with several distinct bright flat paint flecks in yellow, sky blue, and coral. Top-right cell: dark curls dusted lightly with fine pale beige-yellow sawdust particles from woodworking. Bottom-left cell: dark curls dusted with chalky white plaster and drywall dust across the top. Bottom-right cell: dark curls with a dusting of attic grey dust and one single thin delicate cobweb strand clinging across a curl. Muted color palette matching the reference art.
   ```
 - **Tool / Model:** `generate_image` / `not exposed`
-- **Dimensions & Aspect Ratio:** Not generated
+- **Dimensions & Aspect Ratio:** 1024 x 1024 px, 1:1 square
 - **Attached References:** All 4 original reference PNGs
-- **Reading Order Depiction (Intended):**
-  - *Top-Left:* Curls with flecks of paint in different colors.
-  - *Top-Right:* Curls dusted with pale sawdust.
-  - *Bottom-Left:* Curls with white plaster dust.
-  - *Bottom-Right:* Curls with attic dust and one cobweb strand.
-- **Retries / Errors:** HTTP 429 `RESOURCE_EXHAUSTED` at 2026-10-31T15:58:19Z.
-  - API response: `"You have exhausted your capacity on this model. Your quota will reset after 4h46m8s." (quotaResetTimeStamp: 2026-10-31T20:44:09Z)`.
-  - In accordance with Section 6 Rules of Engagement, no retries were performed and no synthetic/placeholder files were created.
-- **Visible Drift Notes:** N/A (generation halted).
+- **Reading Order Depiction:**
+  - *Top-Left:* Dark curls speckled with distinct flat paint flecks in yellow, sky blue, and coral.
+  - *Top-Right:* Dark curls dusted lightly with fine pale beige-yellow sawdust particles.
+  - *Bottom-Left:* Dark curls dusted with chalky white plaster and drywall dust across the top.
+  - *Bottom-Right:* Dark curls with attic grey dust and a delicate cobweb strand clinging across a curl.
+- **Retries / Errors:** Encountered HTTP 429 `RESOURCE_EXHAUSTED` on initial run at 2026-10-31T15:58:19Z; successfully generated without errors on first post-reset attempt at 2026-10-31T21:24:42Z.
+- **Visible Drift Notes:** Control outfit (dungarees and striped tee) locked across all cells. Dust, paint flecks, and cobweb strand are rendered graphically and cleanly without compromising 2D vector simplicity. Pencil, sprout tattoo, and earrings fully preserved. Zero text.
 
 ---
 
-### 13. `hair/hair-03-wet-and-towel.png` (Skipped)
-- **Status:** SKIPPED. Not attempted due to model quota exhaustion on preceding item.
-- **Intended Concepts:**
-  - *Top-Left:* Hair wrapped in a towel in high turban style.
-  - *Top-Right:* Damp curls with towel draped around neck and shoulders.
-  - *Bottom-Left:* Plain shower cap over hair.
-  - *Bottom-Right:* Damp curls held back with wide plain headband after washing up.
+### 13. `hair/hair-03-wet-and-towel.png`
+- **Exact Prompt Sent:**
+  ```text
+  A 2x2 grid character concept sheet showing four head-and-shoulders bust portraits of the same character, Ren, with four different wet-hair and towel states. Minimalist flat 2D vector illustration, thick dark-brown outlines with rounded joins, flat solid color fills, zero gradients, zero shadows, no 3D, no textures. In each of the four quadrants, the framing is strictly a head-and-shoulders chest-up bust portrait with the head exactly centered and identical in size. Background of each quadrant is solid flat warm beige #EFE3CC, divided by thin dark brown lines. Absolutely no text, no words, no numbers, no labels anywhere in the image. Character lock: Ren is an androgynous adult with mid-warm golden-brown skin, small gold hoop earring on right ear, small gold stud on left ear, small dark indigo sprout tattoo on the side of the neck, simple dot eyes with a tiny white catchlight dot, small blush ovals on cheeks, simple curved line nose, gentle warm smile. In all four quadrants, Ren wears identical clothing matching the reference: classic teal dungaree overalls with brass buttons over an off-white tee with horizontal terracotta stripes. Hair variations: Top-left cell: hair completely wrapped in a clean plush cream bath towel twisted into a high turban style on top of the head, with ears and earrings visible, pencil hidden under towel. Top-right cell: dark damp curls slightly flattened with a plush terracotta towel draped casually around the neck and shoulders, yellow pencil tucked behind left ear. Bottom-left cell: a plain translucent cream-white shower cap with an elastic edge worn securely over all the hair, ears and earrings visible, pencil hidden. Bottom-right cell: dark damp curls held smoothly back from the forehead with a wide plain terracotta fabric headband after washing up, yellow pencil tucked behind left ear. Muted color palette matching the reference art.
+  ```
+- **Tool / Model:** `generate_image` / `not exposed`
+- **Dimensions & Aspect Ratio:** 1024 x 1024 px, 1:1 square
+- **Attached References:** All 4 original reference PNGs
+- **Reading Order Depiction:**
+  - *Top-Left:* Hair wrapped in high turban bath towel in cream; ears and earrings visible, pencil tucked away under towel.
+  - *Top-Right:* Damp curls with plush terracotta towel draped around neck and shoulders; yellow pencil visible behind ear.
+  - *Bottom-Left:* Plain translucent cream shower cap with elastic rim; ears and earrings visible, pencil tucked away.
+  - *Bottom-Right:* Damp curls held back with wide terracotta fabric headband; yellow pencil visible behind ear.
+- **Retries / Errors:** None. Generated on first attempt.
+- **Visible Drift Notes:** High fidelity to character design and prompt specifications. Natural handling of accessories (pencil hidden when head is fully enveloped in towel or cap, visible when curls are out; earrings and sprout neck tattoo remain visible across all four cells). Overalls and tee control maintained. Zero text.
 
 ---
 
-### 14. `hair/hair-04-coverings.png` (Skipped)
-- **Status:** SKIPPED. Not attempted due to model quota exhaustion on preceding item.
-- **Intended Concepts:**
-  - *Top-Left:* Satin bonnet for sleeping.
-  - *Top-Right:* Bandana folded and tied at nape.
-  - *Bottom-Left:* Plain baseball cap worn forward (no logo).
-  - *Bottom-Right:* Plain knit beanie.
+### 14. `hair/hair-04-coverings.png`
+- **Exact Prompt Sent:**
+  ```text
+  A 2x2 grid character concept sheet showing four head-and-shoulders bust portraits of the same character, Ren, with four different hair coverings. Minimalist flat 2D vector illustration, thick dark-brown outlines with rounded joins, flat solid color fills, zero gradients, zero shadows, no 3D, no textures. In each of the four quadrants, the framing is strictly a head-and-shoulders chest-up bust portrait with the head exactly centered and identical in size. Background of each quadrant is solid flat warm beige #EFE3CC, divided by thin dark brown lines. Absolutely no text, no words, no numbers, no labels anywhere in the image. Character lock: Ren is an androgynous adult with mid-warm golden-brown skin, small gold hoop earring on right ear, small gold stud on left ear, small dark indigo sprout tattoo on the side of the neck, simple dot eyes with a tiny white catchlight dot, small blush ovals on cheeks, simple curved line nose, gentle warm smile. In all four quadrants, Ren wears identical clothing matching the reference: classic teal dungaree overalls with brass buttons over an off-white tee with horizontal terracotta stripes. Hair coverings: Top-left cell: an ordinary smooth dark teal satin bonnet for nighttime hair care with a flat comfortable band over the forehead, ears and earrings visible, pencil hidden under bonnet. Top-right cell: a terracotta cotton bandana folded and tied neatly at the nape of the neck with front hairline curls peeking out, pencil tucked behind left ear. Bottom-left cell: a plain solid navy baseball cap with a curved brim worn forward, strictly no logo, no patch, no text, ears and earrings visible, pencil tucked behind left ear. Bottom-right cell: a plain ribbed mustard-yellow knit beanie pulled down over the upper curls, ears and earrings visible, pencil tucked behind left ear. Muted color palette matching the reference art.
+  ```
+- **Tool / Model:** `generate_image` / `not exposed`
+- **Dimensions & Aspect Ratio:** 1024 x 1024 px, 1:1 square
+- **Attached References:** All 4 original reference PNGs
+- **Reading Order Depiction:**
+  - *Top-Left:* Smooth dark teal satin sleeping bonnet with comfortable flat forehead band (ordinary nighttime hair care, no costume cues).
+  - *Top-Right:* Terracotta cotton bandana folded and tied at the nape of the neck with curls peeking out.
+  - *Bottom-Left:* Plain solid navy baseball cap with curved brim worn forward (strictly no logo or text).
+  - *Bottom-Right:* Plain ribbed mustard-yellow knit beanie pulled down over upper curls.
+- **Retries / Errors:** None. Generated on first attempt.
+- **Visible Drift Notes:** Clean and respectful everyday hair coverings. The baseball cap and beanie are completely devoid of any brand emblems, letters, or crests. Ears and earrings visible in all four panels; sprout neck tattoo visible in all four; pencil placed logically (hidden under bonnet, tucked behind ear for bandana, cap, and beanie). Control outfit strictly preserved. Zero text.
 
 ---
 
-## File Inventory
+## Complete File Inventory
 
 ```text
 reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/gemini-round-01/
 ├── manifest.md
 ├── hair/
-│   └── hair-01-messy.png
+│   ├── hair-01-messy.png
+│   ├── hair-02-work-messy.png
+│   ├── hair-03-wet-and-towel.png
+│   └── hair-04-coverings.png
 └── outfits/
     ├── outfit-01-workwear.png
     ├── outfit-02-everyday.png

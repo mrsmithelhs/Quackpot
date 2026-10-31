@@ -122,3 +122,20 @@ Suggested next attempt for bedhead (not done): keep the base cloud and hairline,
 **Cross-cutting issues:** the pencil was kept on bandana, beanie, paint, plaster and towel-damp and collides with the covering in the bandana and beanie; coverings otherwise needed the pencil deleted. Several helper notes admitted helmet-like crowns or small curl "tabs".
 
 **Selected candidates after both passes (lead's picks, not owner approval):** outfits: olive coveralls, cardigan v2, slicker v3 (hood up), navy pajama top, paint overalls, camp-collar shirt; hair/headgear: paint flecks, plaster dust, towel turban, damp hair with neck towel, shower cap, headband, baseball cap, beanie, bandana, windblown damp, sweaty pushed-back, post-nap puff; usable with caveats: sleep bonnet. Dropped by the owner: bedhead.
+
+## 10. Round 4: bandana, bonnet and pencil placements (owner corrections, 2026-10-31)
+
+**Owner feedback:** the bandana read as a blob with an odd unattached bit on the left; try again on the bonnet; show pencil variations with the beanie (sticking out from behind the head on the right with the tip up and right, or tucked into the beanie); with overalls the pencil may sometimes ride in the bib pocket, eraser up, about half showing.
+
+**Drawn by the lead directly, no Haiku helper** (these were spatial fixes where the earlier helper drawings had failed). Comparison sheet: `concepts/svg-round-01/compare-round-4.png`. I viewed it and each new preview at desktop width; sources scanned for images, text, scripts, filters, gradients and external references (none found).
+
+| Drawing | Change | My read |
+|---|---|---|
+| `hair-bandana-v2` | Cloth over the crown with swept gather creases, a lighter folded hem, a round knot at the viewer's left above the ear, and two tails that start at the knot. Ear pencil removed. | Reads as a tied bandana. Tails are thin and a little stiff. |
+| `hair-bonnet-night-v2` | Lumpy puff behind the head and ears (ears and earrings stay in front), front panel with sheen and gather lines running into an elastic band. Ear pencil removed. | Reads as a puffy sleep bonnet rather than a beret; band is a plain strip with squared ends. |
+| `hair-beanie-pencil-behind` | Pencil is drawn behind the head and cuff; the upper part sticks out on the right, tip up and right. | Reads as a pencil kept behind the beanie; little of it shows. |
+| `hair-beanie-pencil-tucked` | Pencil lies on the crown with its tip end under the cuff, eraser up. | Reads clearly as tucked into the beanie. |
+| `overalls-pocket-pencil` | Baseline overalls, pencil in the bib pocket, eraser up, about half showing. | Reads; small at bust size. |
+| `paint-overalls-pocket-pencil` | Same on the paint overalls, clear of the splatter. | Reads; small at bust size. |
+
+**Open (ramifications for the owner):** the pencil is now an outfit/headgear detail, not a fixed accessory: it is on the ear in the base look, behind the beanie, in the bib pocket, or absent under the bonnet, hood and bandana. If the owner wants one rule (for example "ear by default, pocket with overalls, hidden under hats"), it should be recorded as an owner selection. Not checked: avatar scale, other complexions, the apartment scenes.

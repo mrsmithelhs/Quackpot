@@ -1,0 +1,29 @@
+# Plan 29 first-pass disposition and bounded calibration follow-up
+
+2026-10-31. Root read model.md, calibrate.mjs, results/report claims and owner LEDGER14 addendum. A read-only default-role Terra-medium consistency review was requested; observed model identity not independently verified. No new experiment was run by root.
+
+**Accept as preliminary evidence, not final economy recommendation or packet closure.** The report is candid about assumptions, deterministic finance, toy seed variation, independent arithmetic probes and favorable recovery. All three configurations retain the $10 wage despite the packet's express money-scale concern. None calibrates realistic-feeling higher wages or couples discretionary spending to actual Gem/pull use. Plan29 remains in-progress for the small follow-up below, not production implementation.
+
+## Owner direction versus hypotheses
+
+Owner again questions $10 for a completed shift and prefers a higher amount. No exact wage, duration, tax model, food/bill price or replacement configuration is selected. Treat wages as fictional take-home cash and explicitly identify the approximate shift duration used in presentation; do not make jurisdictional minimum-wage/tax claims. A full afternoon and a brief extra task need not pay the same. Keep current gacha bundle prices fixed unless merely listing a separately gated hypothesis, rather than multiplying every money value together.
+
+The design target is several individually plausible small purchases eroding a meaningful bill reserve, while a no-purchase route can support ordinary maintenance. Missed work should matter. Avoid making a single cheap purchase automatically ruin a stable route or forcing optimal play, skipped meals, sale or borrowing as the only sustainable route. Relative reserves and lost opportunities matter as much as displayed dollar denominations.
+
+## Cleared finite next pass
+
+Within the existing owned report folder, preserve initial evidence and write the configuration/assumption note before executing. At most three configurations, six named deterministic strategies and a seven-day horizon; no extra seeded fake probability runs. Retained experiment output across this packet stays under5MiB. Use only the unchanged bounded launcher, serial after preflight,1GiB heap/2GiB sampled owned tree/90s per job. Coordinate validation turn with root/Plan42. No new dependencies/browser or production/shared sim changes. Existing reviewer findings and root review suffice; no additional implementer advisor call is authorized for this follow-up.
+
+Use the old $10 setup as a clearly labelled historical control and two substantially higher take-home wage hypotheses. For concreteness, $60 and $90 are reasonable experimental anchors for a fictional multi-hour shift, not owner-selected or legally validated pay rates. Pick and explain coherent corresponding initial reserves, meal costs and remaining-rent balance. Show a wage-only sensitivity algebraically as well, so changing rent cannot conceal the direct wage effect. Do not silently preserve the old $15 bill against much larger wages and conclude the desired economy is already balanced.
+
+Report cash at deadline arrival and after any maintenance separately while Plan37 ordering is unresolved. State which amount was paid before the run and which is the remaining balance. Track the reserve formula explicitly: initial cash + completed wages + legitimate sale receipts - meals - other selected fixed obligations - discretionary purchases - unpaid remaining rent. Distinguish unpaid liability from cash in hand. Compare no purchases, repeated small purchases, mixed play/rest, missed work, fatigue/recovery and optional sale/credit routes. Include affordable Pay versus Hold Cash as distinct factual branches; do not invent the final landlord response. Interest/new bill cycles and employment/overtime availability must be declared assumptions or sensitivities, not assumed forever-free escape routes.
+
+Include a small coupled spend/use ledger with verified existing bundle/starter terms and single/ten-pull costs: cash purchases, Gems acquired/spent/remaining, granted pulls and affordable actions. Remove the arbitrary0/60/120 toy award from financial evidence. Label aggregate race-return assumptions; either reuse verified accepted pure logic without changing it or give a transparent low/base/high sensitivity. Do not rebuild the race simulator or claim stochastic self-funding/pity/duplicate balance from deterministic scenarios. Accepted Down/pity/duplicate terms remain untouched. Count baseline session allowance as a parameter, not a choice of the owner.
+
+Report how many repeated small purchases exhaust the reserve, how losing a shift changes that threshold, and whether low-health/no-cash routes still have a credible explicitly conditioned recovery path. A finite sensitivity does not prove whole-run solvency or absence of traps. Keep human pacing estimates distinct from measured time.
+
+Deliver a concise recommendation with comparative trace/table, which values remain owner choices and a bounded next production integration split. Source/evidence first, progress last; no status changes/push. Ordinary scoped adjustments and reruns proceed without a new approval per command.
+
+## Plan37 input status
+
+Latest corrected specification is a useful improvement but remains unaccepted as a complete lifecycle contract. It still advances collapse paths directly to Afternoon before the rent check, despite saying obligations remain active, and combines Put Phone Down with Finish Session despite free in-phase re-entry. Do not convert those contradictions into adopted model rules. Record the assumption used and, where it changes results, a bounded sensitivity. Calendar, specific gradient behavior, first active action and post-termination overtime cannot acquire selected status from section headings alone.

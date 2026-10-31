@@ -108,6 +108,7 @@ test('receipt matches overdue rent by ID across later meal and payment', async (
     step({ type: 'advance' }); step({ type: 'meal', choice: 'buy' }); step({ type: 'advance' });
   }
   step({ type: 'rent', choice: 'hold' });
+  step({ type: 'rent_surface' });
   step({ type: 'meal', choice: 'buy' });
   step({ type: 'rent', choice: 'pay' });
   const r = projectReceipt(e.log.entries);
@@ -140,6 +141,8 @@ test('new-policy pull and repeat race commitments survive save replay', () => {
 test('proactive sale persists once and receipt includes the actual proceeds', async () => {
   const { projectReceipt } = await import('./receipt.mjs');
   const e = new GameEngine('life-sale', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.applyLifeIntent({ type: 'meal', choice: 'skip' }); e.applyLifeIntent({ type: 'advance' }); e.applyLifeIntent({ type: 'advance' });
+  assert.equal(e.openLifeApp(), true);
   assert.equal(e.applyLifeIntent({ type: 'sell', asset: 'couch' }).ok, true);
   assert.deepEqual(e.state.assetsSold, ['couch']); assert.equal(e.state.cash, 90);
   assert.equal(e.applyLifeIntent({ type: 'sell', asset: 'couch' }).ok, false);
@@ -221,6 +224,7 @@ test('reachable Late Night collapse on Day 4 latches rent before recovery and su
   assert.equal(restored.applyLifeIntent({ type: 'recover' }).ok, true);
   assert.equal(restored.applyLifeIntent({ type: 'finish_recovery' }).ok, false);
   assert.equal(restored.applyLifeIntent({ type: 'rent', choice: 'hold' }).ok, true);
+  assert.equal(restored.applyLifeIntent({ type: 'rent_surface' }).ok, true);
   assert.equal(restored.applyLifeIntent({ type: 'finish_recovery' }).ok, true);
   assert.equal(restored.state.life.rent.status, 'overdue'); assert.equal(restored.state.health, 25);
   assert.deepEqual(validateSave(restored.toEnvelope()).errors, []);
@@ -302,4 +306,98 @@ test('overtime result uses actual signed HP effect, including clamp and recovery
     assert.equal(Boolean(s.life.recovery), before === 5);
     assert.equal(transitionLife(s.life, s, { type: 'complete_work', id }).ok, false);
   }
+});
+
+test('morning departure reserves one Afternoon shift and preserves once-only pay after reload', () => {
+  const e = new GameEngine('repair-depart', { lifePolicy: true }); e.start(); e.setupCompanion();
+  const before = e.toEnvelope();
+  assert.equal(e.applyLifeIntent({ type: 'depart_work' }).ok, false);
+  assert.deepEqual(validateSave(before).errors, []);
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+  const result = e.applyLifeIntent({ type: 'depart_work' }); assert.equal(result.ok, true);
+  assert.equal(e.state.life.phase, 'afternoon'); assert.equal(e.state.life.work.kind, 'scheduled');
+  assert.equal(e.state.life.anchor, e.state.life.work.id); assert.equal(e.state.cash, 80);
+  assert.equal(e.applyLifeIntent({ type: 'depart_work' }).ok, false);
+  const restored = GameEngine.fromEnvelope(e.toEnvelope());
+  const id = restored.state.life.work.id;
+  assert.equal(restored.applyLifeIntent({ type: 'complete_work', id }).ok, true);
+  assert.equal(restored.applyLifeIntent({ type: 'complete_work', id }).ok, false);
+  assert.equal(restored.state.cash, 140); assert.deepEqual(validateSave(restored.toEnvelope()).errors, []);
+});
+
+test('fictional installation is free; sale unlocks only after real entry', async () => {
+  const { hasEnteredQuackpot, hasInstalledQuackpot } = await import('./life-entry.mjs');
+  const e = new GameEngine('repair-entry', { lifePolicy: true }); e.start(); e.setupCompanion();
+  const before = { cash: e.state.cash, gems: e.state.gems, life: structuredClone(e.state.life), rng: e.rngDraw.serialize() };
+  assert.equal(e.applyLifeIntent({ type: 'sell', asset: 'couch' }).reason, 'app_not_opened');
+  assert.ok(e.showLifeInvitation()); assert.equal(e.installLifeApp(), true); assert.equal(e.installLifeApp(), true);
+  assert.equal(hasInstalledQuackpot(e.log.entries), true); assert.equal(hasEnteredQuackpot(e.log.entries), false);
+  assert.equal(e.openLifeApp(), false); assert.equal(e.applyLifeIntent({ type: 'sell', asset: 'couch' }).ok, false);
+  assert.deepEqual({ cash: e.state.cash, gems: e.state.gems, life: e.state.life, rng: e.rngDraw.serialize() }, before);
+  assert.equal(e.log.entries.filter(x => x.payload?.kind === 'fictional_install').length, 1);
+  e.applyLifeIntent({ type: 'meal', choice: 'buy' }); e.applyLifeIntent({ type: 'depart_work' });
+  e.applyLifeIntent({ type: 'complete_work', id: e.state.life.work.id }); e.applyLifeIntent({ type: 'advance' });
+  assert.equal(e.openLifeApp(), true); assert.equal(e.openLifeApp(), true);
+  assert.equal(e.log.entries.filter(x => x.payload?.kind === 'quackpot_opened').length, 1);
+  assert.equal(e.state.tenPullCommitted, false); assert.equal(e.applyLifeIntent({ type: 'sell', asset: 'couch' }).ok, true);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+});
+
+test('old policy-1 sale and old real hub exposure remain valid without a retroactive entry requirement', async () => {
+  const { hasEnteredQuackpot } = await import('./life-entry.mjs');
+  const e = new GameEngine('old-policy1-sale', { lifePolicy: true }); e.start(); e.setupCompanion();
+  const intent = { type: 'sell', asset: 'couch' };
+  const result = transitionLife(e.state.life, e.state, intent);
+  e.log.append('life_intent', { intent }, e.state.clock);
+  for (const event of result.events) e.log.append(event.type, event.payload, e.state.clock);
+  e.state.life = result.life; e.state.cash = result.cash; e.state.health = result.health; e.state.assetsSold = [...result.life.sold];
+  e.log.append('life_transition', { intent, life: structuredClone(result.life), cash: result.cash, health: result.health }, e.state.clock);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+  assert.equal(hasEnteredQuackpot(e.log.entries), false);
+  e.displayLifeGemShop(); assert.equal(hasEnteredQuackpot(e.log.entries), true);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+});
+
+test('morning departure requires explicit end of a suspended phone session', () => {
+  let s = start(); s.life.day = 2;
+  s = run(s, { type: 'meal', choice: 'skip' });
+  s = run(s, { type: 'phone_commit', kind: 'pull' }); s = run(s, { type: 'phone_suspend' });
+  assert.equal(transitionLife(s.life, s, { type: 'depart_work' }).reason, 'session_confirmation_required');
+  s = run(s, { type: 'depart_work', confirmedSessionEnd: true });
+  assert.equal(s.life.phase, 'afternoon'); assert.equal(s.life.session, null);
+  assert.equal(s.events.filter(e => e.type === 'life_session_finished').length, 1);
+  assert.equal(s.life.anchor, s.life.work.id);
+});
+
+test('new commitments wait until an automatic shortfall has been surfaced', () => {
+  const e = new GameEngine('shortfall-surface', { lifePolicy: true }); e.start(); e.setupCompanion();
+  for (let day = 1; day <= 3; day++) {
+    assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+    assert.equal(e.applyLifeIntent({ type: 'advance' }).ok, true);
+    assert.equal(e.applyLifeIntent({ type: 'advance' }).ok, true);
+    assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+    assert.equal(e.applyLifeIntent({ type: 'advance' }).ok, true);
+  }
+  assert.equal(e.state.life.rent.status, 'overdue');
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).reason, 'rent_notice_pending');
+  assert.equal(e.applyLifeIntent({ type: 'rent_surface' }).ok, true);
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+});
+
+test('policy-1 replay rejects duplicate or unordered install and first-entry facts', () => {
+  const e = new GameEngine('entry-tamper', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, e.state.clock);
+  assert.equal(validateSave(e.toEnvelope()).valid, false);
+  const f = new GameEngine('install-tamper', { lifePolicy: true }); f.start(); f.setupCompanion();
+  f.installLifeApp(); f.log.append('action', { kind: 'fictional_install', app: 'Quackpot' }, f.state.clock);
+  assert.equal(validateSave(f.toEnvelope()).valid, false);
+});
+
+test('first-day invitation can be inspected after missing the morning message', () => {
+  const e = new GameEngine('afternoon-invite', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.applyLifeIntent({ type: 'meal', choice: 'skip' }); e.applyLifeIntent({ type: 'depart_work' });
+  assert.ok(e.showLifeInvitation()); assert.equal(e.showLifeInvitation(), null);
+  assert.equal(e.log.entries.filter(x => x.payload?.kind === 'fictional_launch_invitation').length, 1);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
 });

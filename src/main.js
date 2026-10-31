@@ -162,6 +162,13 @@ if (app) {
           // A crash between a breakfast charge and its step update moves forward without charging again.
           const loaded = engine.state.life ? { next: null } : normalizeLoadedStep(engine);
           if (loaded.next) applyStepTransition(loaded.next);
+          if (engine.state.life) {
+            const priority = lifeSurface(engine);
+            if (['life_rent', 'life_recovery'].includes(priority) && engine.state.step !== priority) {
+              if (['life_phone', 'life_gacha', 'life_race', 'life_race_result'].includes(engine.state.step)) engine.state.lifePhoneReturnStep = engine.state.step;
+              engine.state.step = priority;
+            }
+          }
           currentStep = engine.state.step || 'desk';
           phoneOpen = engine.state.life ? currentStep.startsWith('life_') && !isLifeStep(currentStep) : currentStep !== 'desk' && !isLifeStep(currentStep);
           activeModal = engine.state.activeModal || null;
@@ -240,10 +247,14 @@ if (app) {
       },
       onReturnToApartment: () => {
         if (engine.state.life) {
-          if (engine.state.life.session) engine.applyLifeIntent({ type: 'phone_suspend' });
-          engine.state.lifePhoneReturnStep = ['life_gacha', 'life_race', 'life_race_result'].includes(currentStep) ? currentStep : 'life_phone';
-          currentStep = lifeSurface(engine); engine.state.step = currentStep; phoneOpen = false;
-          maybeAutosave(); renderApp(); return;
+          stageTransition?.run('return').then((completed) => {
+            if (!completed || engine.isTerminal() || settingsOpen) return;
+            if (engine.state.life.session) engine.applyLifeIntent({ type: 'phone_suspend' });
+            engine.state.lifePhoneReturnStep = ['life_gacha', 'life_race', 'life_race_result'].includes(currentStep) ? currentStep : 'life_phone';
+            currentStep = lifeSurface(engine); engine.state.step = currentStep; phoneOpen = false;
+            maybeAutosave(); renderApp();
+          });
+          return;
         }
         stageTransition?.run('return').then((completed) => {
           if (!completed || engine.isTerminal() || settingsOpen) return;
@@ -653,7 +664,7 @@ if (app) {
 
   // Reset in place: the life view keeps a reference to this object (and leaves returnFocus on it for the next render).
   function resetLifeUi() {
-    Object.assign(lifeUi, { place: null, held: null, decideOpen: false });
+    Object.assign(lifeUi, { place: null, held: null, decideOpen: false, noticeFocus: false, pendingNoticeFocus: false, fadeIn: false });
   }
 
   // Life steps are apartment surfaces: the phone is put away while they are shown.
@@ -700,30 +711,49 @@ if (app) {
         if (!engine.state.life || engine.state.life.rent.status === 'due') return null;
         engine.applyLifeIntent({ type: 'rent_surface' });
         engine.state.step = lifeSurface(engine);
+        resetLifeUi();
         return { ok: true };
       }),
       onAgreeWork: commit((kind) => engine.applyLifeIntent({ type: 'agree_work', kind })),
+      onDepartWork: commit(() => {
+        if (engine.state.life.session && !globalThis.confirm('Leaving for work ends this phone session. Continue?')) return null;
+        const result = engine.applyLifeIntent({ type: 'depart_work', confirmedSessionEnd: Boolean(engine.state.life.session) });
+        if (result.ok) { engine.state.step = lifeSurface(engine); resetLifeUi(); }
+        return result;
+      }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
       onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
       onSell: commit((asset) => engine.applyLifeIntent({ type: 'sell', asset })),
       onRecover: commit(() => engine.applyLifeIntent({ type: 'recover' })),
       onFinishRecovery: commit(() => {
         const result = engine.applyLifeIntent({ type: 'finish_recovery' });
-        if (result.ok) engine.state.step = lifeSurface(engine);
+        if (result.ok) { engine.state.step = lifeSurface(engine); resetLifeUi(); }
         return result;
       }),
       onOpenPhone: commit(() => {
+        if (engine.state.life.day === 1 && !['evening', 'lateNight'].includes(engine.state.life.phase)) return { ok: false };
+        if (!engine.installLifeApp()) return { ok: false };
+        if (!engine.openLifeApp()) return { ok: false };
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
         engine.state.step = engine.state.lifePhoneReturnStep || 'life_phone';
         engine.state.lifePhoneReturnStep = null;
         return { ok: true };
       }),
+      onInstallPhone: commit(() => ({ ok: engine.installLifeApp() })),
+      onInvitationShown: () => { if (engine.showLifeInvitation()) maybeAutosave(); },
+      onPhoneTransition: () => { stageTransition?.run('enter'); },
       onLifeAdvance: commit(() => {
         const life = engine.state.life;
         if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
           && !globalThis.confirm('Continuing will miss your scheduled shift. Continue?')) return null;
         const result = engine.applyLifeIntent({ type: 'advance' });
-        if (result.ok) engine.state.step = lifeSurface(engine);
+        if (result.ok) {
+          engine.state.step = lifeSurface(engine);
+          if (['life_rent', 'life_recovery'].includes(engine.state.step)) resetLifeUi();
+          if (life.day === 1 && life.phase === 'afternoon' && engine.state.life.phase === 'evening') {
+            resetLifeUi(); lifeUi.place = 'kitchen-breakfast';
+          }
+        }
         else globalThis.alert('Resolve the current meal or other commitment before continuing.');
         return result;
       }),
@@ -772,6 +802,7 @@ if (app) {
       }),
       onContinue: commit(() => {
         if (engine.state.life) {
+          if (engine.state.life.session && !globalThis.confirm('Continuing ends this phone session. Continue?')) return null;
           const result = engine.applyLifeIntent({ type: 'advance' });
           if (result.ok) engine.state.step = lifeSurface(engine);
           return result;
@@ -783,7 +814,9 @@ if (app) {
       }),
       onGoToWork: commit(() => goToWork()),
       onRefresh: () => {
-        if (engine.state.life?.recovery && isLifeStep(engine.state.step) && !['life_rent', 'life_recovery'].includes(engine.state.step)) engine.state.step = lifeSurface(engine);
+        if (engine.state.life?.recovery && isLifeStep(engine.state.step) && !['life_rent', 'life_recovery'].includes(engine.state.step)) {
+          engine.state.step = lifeSurface(engine); resetLifeUi();
+        }
         currentStep = engine.isTerminal() ? 'receipt' : engine.state.step;
         if (!isLifeStep(currentStep)) phoneOpen = engine.isTerminal() || (engine.state.life && currentStep.startsWith('life_'));
         renderApp();

@@ -238,6 +238,8 @@ export function projectReceipt(entries) {
     : 0;
 
   const accountingLines = [];
+  for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'fictional_launch_invitation')) accountingLines.push(line('A fictional invitation to the evening launch was shown.', event.seq));
+  for (const event of ofType('action').filter((e) => ['fictional_install', 'quackpot_opened'].includes(e.payload?.kind))) accountingLines.push(line(event.payload.kind === 'fictional_install' ? 'Chose to install the fictional app.' : 'Opened Quackpot.', event.seq));
   for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'free_ten_pull')) {
     accountingLines.push(line('A free 10-pull welcome offer was shown.', event.seq));
   }

@@ -5,7 +5,7 @@ export function renderLifePhoneView(container, engine, callbacks) {
   const pending = engine.state.pendingReveals.some(draw => !draw.revealed);
   container.innerHTML = `<section class="gacha-container" aria-labelledby="life-phone-title">
     <div class="gacha-banner-card"><div class="gacha-banner-header"><div class="banner-tag">Quackpot</div>
-      <h2 id="life-phone-title">Pond of Destiny</h2><p>In this phase: one pull action and one race. Opening or putting down your phone is free.</p>
+      <h2 id="life-phone-title">Pond of Destiny</h2><p>Your visit includes one pull and one race. You can put your phone down and return.</p>
       <p>Pull: ${session?.pull ? 'used' : 'available'} · Race: ${session?.race ? 'used' : 'available'}</p>
       ${life.phase === 'lateNight' ? `<p>A pull or race in Late Night causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.</p>` : ''}</div>
       <div class="gacha-claim-section">

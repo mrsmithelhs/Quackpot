@@ -70,11 +70,11 @@ export function currentOffer(engine) {
 /** Places this step lets the player visit. Optional places appear only while the opportunity is open. */
 export function availablePlaces(engine) {
   const step = engine.state.step;
-  if (engine.state.life && step === 'life_recovery') return ['bedroom', 'desk-phone', 'kitchen-notice', 'living'];
-  if (engine.state.life && step === 'life_rent') return ['kitchen-notice', 'desk-phone', 'living'];
-  if (engine.state.life && step === 'life_work') return ['desk-phone', 'kitchen-notice', 'living'];
-  if (engine.state.life && step === 'life_evening') return ['desk-phone', 'kitchen-breakfast', 'kitchen-notice', 'living'];
-  if (engine.state.life && step === 'life_breakfast') return ['kitchen-breakfast', 'desk-phone', 'kitchen-notice', 'living'];
+  if (engine.state.life && step === 'life_recovery') return ['bedroom', 'desk-phone', 'kitchen-breakfast', 'living'];
+  if (engine.state.life && step === 'life_rent') return ['kitchen-breakfast', 'desk-phone', 'living'];
+  if (engine.state.life && step === 'life_work') return ['desk-phone', 'kitchen-breakfast', 'living'];
+  if (engine.state.life && step === 'life_evening') return ['desk-phone', 'kitchen-breakfast', 'living'];
+  if (engine.state.life && step === 'life_breakfast') return ['kitchen-breakfast', 'desk-phone', 'living'];
   const offer = currentOffer(engine);
   if (offer) return [OFFER_PLACE[offer] ?? 'kitchen-notice'];
   if (isBreakfastStep(step)) return ['kitchen-breakfast'];
@@ -94,7 +94,7 @@ export function placeFor(engine, requested = null) {
   }
   if (engine.state.life && engine.state.step === 'life_rent') {
     const places = availablePlaces(engine);
-    return places.includes(requested) ? requested : 'kitchen-notice';
+    return places.includes(requested) ? requested : 'kitchen-breakfast';
   }
   if (engine.state.life && ['life_breakfast', 'life_work', 'life_evening'].includes(engine.state.step)) {
     const places = availablePlaces(engine);
@@ -113,7 +113,7 @@ export function placeFor(engine, requested = null) {
 export function lifeSurface(engine) {
   const life = engine.state.life;
   if (!life) return null;
-  if (life.rent.status === 'due' || (life.rent.status === 'overdue' && life.day === life.config.rentDueDay && life.phase === 'morning' && !life.rentSurfaced)) return 'life_rent';
+  if (life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced)) return 'life_rent';
   if (life.recovery) return 'life_recovery';
   if (life.phase === 'morning') return 'life_breakfast';
   if (life.phase === 'afternoon') return 'life_work';

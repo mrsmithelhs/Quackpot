@@ -53,6 +53,13 @@
   box-shadow: 0 0 0 3px rgba(255, 211, 106, .9), 0 0 1.2rem .3rem rgba(255, 211, 106, .55); opacity: .9; }
 .life-obj:not(.life-done)::before { animation: life-halo-pulse 1.6s ease-in-out infinite; }
 .life-obj.life-done::before { opacity: 0; }
+.life-obj.life-inactive { cursor: default; }
+.life-obj.life-inactive:not(.life-done)::before { animation: none; opacity: 0; }
+.life-obj.life-inactive .life-chip { opacity: .55; }
+.life-obj.life-notice-focus::before { animation: none; opacity: 1; }
+.life-focus-fade-out .life-stage { opacity: 0; transition: opacity 140ms ease-in; }
+.life-focus-fade-in .life-stage { animation: life-focus-in 180ms ease-out; }
+@keyframes life-focus-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes life-halo-pulse { 0%, 100% { opacity: .35; transform: scale(.98); } 50% { opacity: 1; transform: scale(1.03); } }
 .life-chip { position: absolute; left: 50%; bottom: calc(100% + .35rem); transform: translateX(-50%); white-space: nowrap; pointer-events: none;
   padding: .15rem .55rem; border-radius: 999px; font: 700 .75rem/1.4 var(--life-ui); color: var(--life-slate-ink); background: var(--life-slate);
@@ -63,6 +70,8 @@
 
 /* non-diegetic day bar below the room */
 .life-day-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; width: 100%; margin-top: .7rem; }
+.life-room-nav, .life-day-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.life-room-nav:not(:empty) + .life-day-actions:not(:empty) { border-left: 1px solid var(--life-slate-line); padding-left: 1rem; }
 .life-when { font-weight: 700; color: var(--text-muted, #94a3b8); }
 .life-day-status { padding: .2rem .6rem; border-radius: 999px; font-weight: 700; color: var(--life-slate-ink); background: var(--life-slate); }
 
@@ -145,8 +154,10 @@
   .life-popover { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: 100%; margin-top: .6rem; }
   .life-popover::before { display: none; }
   .life-day-bar { gap: .5rem; }
+  .life-room-nav:not(:empty) + .life-day-actions:not(:empty) { border-left: 0; border-top: 1px solid var(--life-slate-line); padding: .5rem 0 0; width: 100%; }
   .life-day-next { max-width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .life-focus-fade-out .life-stage, .life-focus-fade-in .life-stage { transition: none; animation: none; opacity: 1; }
   .life-obj:not(.life-done)::before { animation: none; opacity: .95; transform: none; }
 }

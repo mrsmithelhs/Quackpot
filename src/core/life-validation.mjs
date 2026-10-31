@@ -1,6 +1,7 @@
 // Replay life transitions independently from their persisted snapshots.
 import { initialLife, transitionLife } from './life-progression.mjs';
 import { isKnownLifeConfig, LIFE_POLICY_VERSION } from './life-config.mjs';
+import { hasEnteredQuackpot } from './life-entry.mjs';
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 export function validateLifeHistory(entries, state) {
@@ -15,8 +16,18 @@ export function validateLifeHistory(entries, state) {
   let terminal = false;
   let interruptedWork = null;
   let interruptedSession = null;
+  let installed = false;
+  let opened = false;
   for (let i = 0; i < entries.length; i++) {
     const e = entries[i];
+    if (e.type === 'action' && e.payload?.kind === 'fictional_install') {
+      if (installed || opened || e.payload.app !== 'Quackpot' || hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Invalid fictional installation at ${e.seq}`);
+      installed = true;
+    }
+    if (e.type === 'action' && e.payload?.kind === 'quackpot_opened') {
+      if (opened || !installed || e.payload.app !== 'Quackpot' || hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Invalid first app entry at ${e.seq}`);
+      opened = true;
+    }
     if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
     if ((interruptedWork || interruptedSession) && !terminal && !['work_interrupted', 'session_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
     if (e.type === 'work_interrupted') {
@@ -33,6 +44,7 @@ export function validateLifeHistory(entries, state) {
       terminal = true;
     }
     if (e.type === 'life_intent') {
+      if (e.payload.intent?.type === 'sell_after_open' && !hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Sale before first app entry at ${e.seq}`);
       const result = transitionLife(life, { cash, health }, e.payload.intent);
       if (!result.ok) { errors.push(`Invalid life intent at ${e.seq}: ${result.reason}`); break; }
       for (let j = 0; j < result.events.length; j++) {

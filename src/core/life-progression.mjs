@@ -104,6 +104,16 @@ export function transitionLife(input, balances, intent) {
       record('life_work_agreed', { ...life.work, day: life.day });
       break;
     }
+    case 'depart_work': {
+      if (life.phase !== 'morning' || mealPending() || deadlineBlocks() || life.recovery || life.work || !life.employed) return fail('unavailable');
+      if (life.session && intent.confirmedSessionEnd !== true) return fail('session_confirmation_required');
+      if (life.session) record('life_session_finished', { id: life.session.id, reason: 'depart_work' });
+      advance();
+      const id = `work-${life.nextId++}`;
+      life.anchor = id; life.work = { id, kind: 'scheduled', status: 'doing' };
+      record('life_work_agreed', { ...life.work, day: life.day });
+      break;
+    }
     case 'complete_work': {
       if (!life.work || life.work.id !== intent.id || life.work.status !== 'doing') return fail('work_not_pending');
       const work = life.work; work.status = 'completed';
@@ -117,7 +127,8 @@ export function transitionLife(input, balances, intent) {
     case 'leisure':
       if (deadlineBlocks() || life.recovery || life.anchor || life.phase !== 'evening') return fail('unavailable');
       life.anchor = `leisure-${life.nextId++}`; hp(config.leisureHealth, 'leisure'); break;
-    case 'sell': {
+    case 'sell':
+    case 'sell_after_open': {
       if (deadlineBlocks() || life.recovery || !['couch', 'tv'].includes(intent.asset) || life.sold.includes(intent.asset)) return fail('unavailable');
       const amount = intent.asset === 'couch' ? 10 : 15;
       life.sold.push(intent.asset); cash = money(cash + amount);

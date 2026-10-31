@@ -333,13 +333,13 @@ test('new-policy rent notice reads the outstanding amount and affordability', ()
   const e = new GameEngine('life-rent', { lifePolicy: true }); e.start(); e.setupCompanion();
   e.state.step = 'life_rent'; e.state.life.rent.status = 'due';
   assert.deepEqual(rentState(e), { paid: false, owing: true, short: 90, cash: 80 });
-  assert.equal(placeFor(e), 'kitchen-notice');
+  assert.equal(placeFor(e), 'kitchen-breakfast');
 });
 
 test('new life route follows breakfast, separate shift and evening dinner with resume', () => {
   const e = new GameEngine('life-day-one', { lifePolicy: true }); e.start(); e.setupCompanion();
   assert.equal(lifeSurface(e), 'life_breakfast');
-  assert.deepEqual(availablePlaces(Object.assign(e, { state: { ...e.state, step: 'life_breakfast' } })), ['kitchen-breakfast', 'desk-phone', 'kitchen-notice', 'living']);
+  assert.deepEqual(availablePlaces(Object.assign(e, { state: { ...e.state, step: 'life_breakfast' } })), ['kitchen-breakfast', 'desk-phone', 'living']);
   assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'buy' }).ok, true);
   assert.equal(e.applyLifeIntent({ type: 'advance' }).ok, true);
   e.state.step = lifeSurface(e); assert.equal(e.state.step, 'life_work');

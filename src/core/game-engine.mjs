@@ -14,6 +14,7 @@ import { projectReceipt } from './receipt.mjs';
 import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, deriveRaceRestBoundary, makeRaceRestEvidence, stableExposureSignature } from './race-rest.mjs';
 import { initialLife, transitionLife } from './life-progression.mjs';
+import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -154,6 +155,12 @@ export class GameEngine {
   /** Commit a life intent and its factual effects as one in-memory snapshot. */
   applyLifeIntent(intent) {
     if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
+    if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced
+      && !['rent', 'rent_surface', 'recover'].includes(intent?.type)) return { ok: false, reason: 'rent_notice_pending' };
+    if (intent?.type === 'sell' || intent?.type === 'sell_after_open') {
+      if (!hasEnteredQuackpot(this.log.entries)) return { ok: false, reason: 'app_not_opened' };
+      intent = { type: 'sell_after_open', asset: intent.asset };
+    }
     const result = transitionLife(this.state.life, this.state, intent);
     if (!result.ok) return result;
     this.log.append('life_intent', { intent: structuredClone(intent) }, this.state.clock);
@@ -170,6 +177,29 @@ export class GameEngine {
     this.state.clock = { day: result.life.day, label: `day ${result.life.day} ${result.life.phase}` };
     this.log.append('life_transition', { intent: structuredClone(intent), life: structuredClone(result.life), cash: result.cash, health: result.health }, this.state.clock);
     return result;
+  }
+
+  /** Fictional preparation and entry are free; older entry evidence remains authoritative. */
+  showLifeInvitation() {
+    if (this.isTerminal() || !this.state.life || this.state.life.day !== 1 || !['morning', 'afternoon'].includes(this.state.life.phase)) return null;
+    if (this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'fictional_launch_invitation')) return null;
+    return this.log.append('offer_shown', { kind: 'fictional_launch_invitation', technique: 'launch_invitation', launch: 'day_1_evening' }, this.state.clock);
+  }
+
+  installLifeApp() {
+    if (this.isTerminal() || !this.state.life) return false;
+    if (hasInstalledQuackpot(this.log.entries)) return true;
+    this.log.append('action', { kind: 'fictional_install', app: 'Quackpot' }, this.state.clock);
+    return true;
+  }
+
+  openLifeApp() {
+    if (this.isTerminal() || !this.state.life) return false;
+    const life = this.state.life;
+    if (life.day === 1 && !['evening', 'lateNight'].includes(life.phase)) return false;
+    if (!this.installLifeApp()) return false;
+    if (!hasEnteredQuackpot(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
+    return true;
   }
 
   /** Styles and names the physical companion */
@@ -278,7 +308,8 @@ export class GameEngine {
   }
 
   buyLifeBundle(gems) {
-    if (this.isTerminal() || !this.state.life || this.state.life.rent.status === 'due' || this.state.life.recovery) return false;
+    if (this.isTerminal() || !this.state.life || this.state.life.rent.status === 'due'
+      || (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced) || this.state.life.recovery) return false;
     const price = new Map([[60, 0.99], [330, 4.99], [1090, 14.99]]).get(gems);
     if (price === undefined || this.state.cash < price) return false;
     this.state.cash = Math.round((this.state.cash - price) * 100) / 100;

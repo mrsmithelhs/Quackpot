@@ -460,3 +460,14 @@ Owner-supplied pilot ledger05–13 records Day1 evening unlock; exclusive evenin
 The pilot interview wrap-up is received; Plan37 remains in-progress pending its promised consolidated transition table and symbolic traces. Root's disposition/continuation relay is reports/orchestration/plan-37-pilot-checkpoint-03-review.md. Self-reported pilot observations and owner satisfaction support using the staged method, not a universal validation or default-prompt rollout.
 
 Plan29 is prepared for bounded initial calibration in parallel with consolidation, with selected rules and explicit assumptions; no numeric policy is adopted. Draft Plan42 describes synthetic ZIP/usage-contract foundations that can precede final student experience, with exact dependency/mechanism clearance before executable artifact work and production integration separate. No assignment, package installation, source/schema mutation, student data access or deployment follows from preparing these next scopes.
+
+
+### DECISION-044 — Music reference repertoire and parallel investigation assignments
+
+**Date:** 2026-10-31
+
+Owner favors Plan39 v3 M1–M6 as a varied reference repertoire for differing gacha situations; not every candidate needs a Suno cover. This selects a musical direction, not production assets or complete renderer validation. Preserve original C and the variations. Further technical work uses Flash or Codex Terra rather than another Argon turn. Root review and immediate bounded resource repairs are recorded in reports/orchestration/plan-39-v3-review-01.md; Plan39 is delivered pending remaining technical work.
+
+Owner requests apartment music research for lofi hiphop, jazz, country,90s alternative guitar rock, Hawaiian/ukulele-oriented music and EDM: selected ordinary loops at least2minutes and eventual approximately30second gacha-motif-inflected counterparts. Plan43 is ready and unassigned, with short pilot listening before long-track expansion and no production/trigger adoption.
+
+Owner assigns Plans29 and42 to Codex in parallel with disjoint report folders. Plan29 models selected life/time policies with explicit calibration assumptions; Plan42 proves a synthetic local ZIP/usage contract with exact dependency/mechanism clearance before executable artifact work. Neither assignment authorizes production changes, package installation in the game, student data, push or deployment.

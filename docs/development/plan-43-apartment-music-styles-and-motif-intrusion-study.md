@@ -1,0 +1,63 @@
+---
+id: plan-43
+title: Apartment music styles and motif-intrusion study
+status: ready
+depends_on: []
+gate: "Owner requests research/composition follow-up2026-10-31. Ready for Flash or Codex Terra assignment; staged owner listening before long-track expansion and production adoption. Plan39 technical baseline must be reviewed before executable reuse."
+superseded_by: null
+resolution: null
+summary: >-
+  Research six apartment instrumental styles and prototype longer TV-music loops with shorter gacha-motif-inflected companions using editable scores and the Plan39 synthesis work.
+---
+# Plan43: Apartment music styles and motif-intrusion study
+
+## Packet Metadata
+
+- Packet id: plan-43
+- Packet title: Apartment music styles and motif-intrusion study
+- Status: (see frontmatter)
+- Owner/model: unassigned; Gemini Flash or Codex Terra, no Argon turn required
+- Date:2026-10-31
+- Packet type: research / composition / isolated audio prototype
+- Mutation level: new report-local research, scores, laboratory and bounded generated exports
+- Approval gate: staged listening and reviewed rendering baseline; later soundtrack/TV/audio wiring separate
+- Expected artifacts: style briefs/deep-research prompts, sourced synthesis, small pilot auditions, selected long/short loop pairs, provenance and progress
+
+## Goal and selected direction
+
+Owner likes Plan39 v3's improved M1–M6 repertoire for different gacha situations; not every motif needs a Suno cover. Reuse its symbolic composition and TinySynth-derived synthesis investigation to develop apartment instrumental music. Research requested styles: **lofi hiphop, jazz, country,90s alternative guitar rock, Hawaiian/ukulele-oriented music, and EDM**. The goal is stylistically convincing ordinary apartment selections of **at least2minutes**, paired eventually with **approximately30-second musical loops** in which one or more gacha motifs intrude. These are composition targets, not forced gameplay waits. No exact scene/track assignments or six-style full production set is selected.
+
+## Inputs and ownership
+
+Read AGENTS.md, design audio/Receipt/physical-duck rules, source map, Plan18 selected recordings/provenance, Plan30 TV/acoustics proposal, Plan32/33 research with evidence limits, Plan36's reviewed creative direction, Plan39 v3 source/report and root technical review. Read updated current39 code; do not assume its delivery claims prove complete loop/gain/export parity or full upstream-library integration. Preserve M1–M6, C0 and their histories; no Argon repair turn. Owner weekly usage favors Flash workers or Terra, with focused source/research/composition tasks and one integrator.
+
+Own only NEW reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/. Shared src, Plan39, existing research originals, actual soundtrack settings, runtime dependencies, seed streams and story triggers are read-only. Research can proceed in parallel with Plan39 repair; executable reuse requires a pinned, root-reviewed baseline and an exact extension/resource note. Later helper promotion is separate, not runtime imports of reports.
+
+## Research stage
+
+Start by synthesizing accepted Plan33 and the Plan39 deep-research inputs. Distinguish verified first-party evidence, composer craft and model hypotheses; do not copy unsupported recommendations about exact sliders or universal emotional effects. Generate modular deep-research prompts for each requested style plus shared loop/form/instrumentation and motif-integration questions, for owner-dispatched external research if useful. Avoid making all external reports a blocker: identify which concrete musical experiment each would inform. Research integration can be done by Flash/Terra; no premium model or mandatory call count.
+
+For each style identify a bounded stylistic brief: form/phrase and variation, harmony/voice leading, bass role, rhythm/groove/tempo range, instrumentation/register/articulation, dynamics/mix, looping strategy and fatigue avoidance. Provide primary composer/educator/technical sources and explicit uncertainty. Distinguish Hawaiian musical practices from generic bright ukulele-pop rather than equate an instrument with a culture. Name a coherent jazz/country/EDM substyle instead of treating each broad genre as one recipe. No named-artist imitation or copied tune.
+
+Evaluate actual synthesis capabilities. A GM guitar label is not a convincing guitar performance: articulation, strumming, voicing, bass/drums and production may be necessary. If the existing patches cannot support a style convincingly, compare a modest original synthesis extension or owner-operated generated reference; no silent large soundfont/sample download or unsupported promise. Raw pitch accuracy and peak measurements do not establish good music.
+
+## Staged composition and listening
+
+1. After the research briefs, recommend two contrasting pilot styles and explain feasibility; owner may choose others. Make short original texture/form auditions first (roughly20–40seconds), with direct layer/stem comparisons and editable source. Do not build six full2minute tracks before the first listening checkpoint.
+2. Owner selects promising palette/form treatments. Extend selected ordinary tracks to complete musical forms at least120seconds (cap180seconds in this study unless separately cleared). Use development/contrast/returns, not silence padding or a trivially copied4bar phrase for the entire duration. Repetition can serve groove; variation should support comfortable background listening, not constant melodic overload.
+3. For selected styles, propose approximately30second seamlessly looping counterparts with recognizable M1–M6 fragments, rhythmic contour, harmony or orchestration. Compare a subtle quote with stronger intrusion, not every style × every motif. Preserve an uninflected baseline. Transposition/re-harmonization is allowed when labelled; keep a dry canonical reference to judge recognition. A borrowed fragment must fit the apartment style rather than merely superimpose an unrelated recording.
+4. Owner listens and selects results. Keep all stylistic/recognition/mood judgments attributed to listeners; no physiological/addiction claims. Runtime occurrence, frequency and disorientation triggers belong later Plan36 work, not automatic detection of student behavior. Actual TV playback, internal musical echo and gacha soundtrack are distinct sources; selling TV must follow selected future source rules, not erase every sound by assumption.
+
+## Renderer and asset contract
+
+Retain editable event scores/chord/patch/arrangement data and versioned settings, shared live/offline rendering behavior, and isolated cosmetic seeds. No new draws/economy or runtime network. Before longer rendering, resolve inherited gain/tail/loop/import/provenance gaps rather than scaling a faulty short preview. Declare whether gain is listening-only or part of export and keep UI/settings truthful. Loop boundaries must be tested and heard across repeated joins; long-track duration alone is not a seamless-loop test. Preserve tails and proper musical wrap without accumulating levels. Never claim sample peak/RMS equals LUFS/true peak.
+
+Default48kHz stereo float buffers require about46MB for120seconds and69MB for180seconds before encoded WAV/graph/copies; plan actual peak memory and event/voice bounds explicitly. One offline render at a time, no six-track pre-render/cache, finite retained export history, cleanup/revocation and rapid-stop handling. A timeout does not prove OfflineAudioContext stopped: retain its concurrency lock until actual settlement and bound the graph before start. Do not generate many instruments in parallel. Export WAV, melody/stems as useful, reproducible settings and source provenance; no export of private input or automatic upload.
+
+Verify TinySynth-derived recipe origins and exact upstream revision/license/changes with full local notices before reuse. Do not claim the whole upstream library is present if only adapted recipes/custom scheduling are used. Source/library licensing and generated-audio provenance are separate records. No production asset or Credits adoption happens in this report packet.
+
+## Execution and delivery
+
+After assignment, research/drafts proceed within owned scope. Propose exact renderer extension and bounded memory/output/browser plan for root review before long renders or new dependencies. Within cleared stages, normal fixes and owner listening iterations do not need one-run reapproval. Node only through unchanged Plan25 bounded launcher after process preflight, serial1GiB heap/2GiB sampled owned-tree/90s jobs; no watchers/ML/packages/large downloads. Browser rendering requires its own finite graph/buffer bounds, not a false belief Node guard caps browser memory. Coordinate shared browser/server use; do not touch owner saves or stop services.
+
+If assigned Terra, one read-only Terra-medium pre-delivery implementation review may be used for substantive rendering changes; Flash lead may return to root technical review, no Argon/premium advisor. Report actual delegation and capability limits. Commit scoped source/evidence and progress last; no packet status or push. Delivery separates musical owner selections, technical checks, unverified hardware performance, outstanding source adoption and follow-on Plan30/36 integration. No finished soundtrack or gacha-theme intrusion is shipped by this study.

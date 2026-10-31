@@ -1137,15 +1137,28 @@
 
     offlineRenderBusy = true;
     let timer = null;
+    let renderingPending = false;
+    let timedOut = false;
     try {
       const startedAt = typeof performance !== "undefined" ? performance.now() : Date.now();
       const context = new OfflineAudioContext(2, frameCount, sampleRate);
       scheduleOnAudioContext(context, scheduledScore, patch, { baseTime: 0 });
 
-      const rendering = context.startRendering();
+      const rendering = Promise.resolve(context.startRendering());
+      renderingPending = true;
+      // A timeout cannot cancel OfflineAudioContext. Observe both outcomes and
+      // keep the lock until the underlying operation actually settles.
+      rendering.then(() => {
+        renderingPending = false;
+        if (timedOut) offlineRenderBusy = false;
+      }, () => {
+        renderingPending = false;
+        if (timedOut) offlineRenderBusy = false;
+      });
       const deadline = new Promise((_, reject) => {
         timer = setTimeout(() => {
-          reject(new Error("Offline render exceeded its 8-second timeout bound."));
+          timedOut = true;
+          reject(new Error("Offline render exceeded its 8-second timeout; rendering may still be in progress."));
         }, 8000);
       });
       let renderedBuffer = await Promise.race([rendering, deadline]);
@@ -1208,7 +1221,7 @@
       };
     } finally {
       if (timer) clearTimeout(timer);
-      offlineRenderBusy = false;
+      if (!renderingPending) offlineRenderBusy = false;
     }
   }
 

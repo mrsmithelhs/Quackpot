@@ -1,10 +1,10 @@
 ---
 id: plan-29
 title: Life economy scale and session pacing
-status: ready
+status: in-progress
 
 depends_on: [plan-01, plan-17, plan-22, plan-23]
-gate: "Owner approves investigation scope before assignment, then selects recommendation before production changes."
+gate: "Owner assigned Codex on2026-10-31; bounded calibration may proceed to delivery. Owner selects numerical policy before production changes."
 summary: >-
   Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time.
 ---
@@ -15,7 +15,7 @@ summary: >-
 - Packet id: plan-29
 - Packet title: Life economy scale and session pacing
 - Status: (see frontmatter)
-- Owner/model: unassigned investigation; orchestration coordinates
+- Owner/model: owner-assigned Codex implementer; orchestration coordinates
 - Date: 2026-10-28
 - Packet type: investigation / proposal
 - Mutation level: report-only

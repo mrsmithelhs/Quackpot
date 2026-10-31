@@ -280,3 +280,45 @@ test("WAV encoder/parser and manifest round-trip verification with GM program ID
   assert.equal(roundTrip.rebuilt.chordEvents.length, score.chordEvents.length);
   assert.equal(roundTrip.rebuilt.bassEvents.length, score.bassEvents.length);
 });
+
+
+test("offline render timeout retains the lock until a late rejection settles", async () => {
+  const originalContext = globalThis.OfflineAudioContext;
+  const originalSetTimeout = globalThis.setTimeout;
+  const originalClearTimeout = globalThis.clearTimeout;
+  let fireDeadline;
+  let rejectRender;
+  let starts = 0;
+  const gainNode = () => ({ gain: { setValueAtTime() {} }, connect() {} });
+  globalThis.OfflineAudioContext = class {
+    constructor() { this.destination = {}; }
+    createGain() { return gainNode(); }
+    startRendering() {
+      starts += 1;
+      return new Promise((_, reject) => { rejectRender = reject; });
+    }
+  };
+  globalThis.setTimeout = (callback) => { fireDeadline = callback; return 1; };
+  globalThis.clearTimeout = () => {};
+  const score = {
+    patchId: "P0-plan32-triangle", harmonyId: "H0-dry", durationSeconds: 1,
+    leadEvents: [], chordEvents: [], bassEvents: []
+  };
+  try {
+    const first = engine.renderOfflineWav(score);
+    fireDeadline();
+    await assert.rejects(first, /timeout; rendering may still be in progress/);
+    await assert.rejects(engine.renderOfflineWav(score), /currently in progress/);
+    assert.equal(starts, 1);
+    rejectRender(new Error("late render failure"));
+    await Promise.resolve();
+    const second = engine.renderOfflineWav(score);
+    assert.equal(starts, 2);
+    rejectRender(new Error("second render failure"));
+    await assert.rejects(second, /second render failure/);
+  } finally {
+    globalThis.OfflineAudioContext = originalContext;
+    globalThis.setTimeout = originalSetTimeout;
+    globalThis.clearTimeout = originalClearTimeout;
+  }
+});

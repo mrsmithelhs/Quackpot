@@ -90,6 +90,23 @@
   let exportInProgress = false;
   let exportSequence = 0;
   const allocatedObjectUrls = new Set();
+  const retainedExportBundles = [];
+  const MAX_RETAINED_EXPORT_BUNDLES = 5;
+
+  function releaseObjectUrl(url) {
+    if (!allocatedObjectUrls.delete(url)) return;
+    try { URL.revokeObjectURL(url); } catch (_) {}
+  }
+
+  function retainExportBundle(card, wavUrl, manifestUrl) {
+    retainedExportBundles.push({ card, wavUrl, manifestUrl });
+    while (retainedExportBundles.length > MAX_RETAINED_EXPORT_BUNDLES) {
+      const oldest = retainedExportBundles.shift();
+      oldest.card.remove();
+      releaseObjectUrl(oldest.wavUrl);
+      releaseObjectUrl(oldest.manifestUrl);
+    }
+  }
 
   function setStatus(message) {
     statusBanner.textContent = message;
@@ -611,6 +628,7 @@
       linksRow.append(playBtn, wavLink, manifestLink);
       bundleCard.append(headerRow, metricsRow, linksRow);
       exportList.prepend(bundleCard);
+      retainExportBundle(bundleCard, wavUrl, manifestUrl);
 
       setStatus(`Exported ${wavFileName} (${renderResult.durationSeconds.toFixed(2)} s, Peak ${engine.formatDbfs(renderResult.measured.peak)}). Download started automatically.`);
     } catch (error) {
@@ -813,6 +831,8 @@
     a.href = url;
     a.download = "plan39-owner-listening-notes.json";
     a.click();
+    // Defer revocation until the browser has begun the download.
+    setTimeout(() => releaseObjectUrl(url), 1000);
     notesFeedback.textContent = "Downloaded plan39-owner-listening-notes.json.";
   });
 
@@ -872,10 +892,8 @@
 
   window.addEventListener("pagehide", () => {
     stopAllAudio();
-    for (const url of allocatedObjectUrls) {
-      try { URL.revokeObjectURL(url); } catch (_) {}
-    }
-    allocatedObjectUrls.clear();
+    for (const url of allocatedObjectUrls) releaseObjectUrl(url);
+    retainedExportBundles.length = 0;
     if (audioCtx && typeof audioCtx.close === "function") {
       try { void audioCtx.close(); } catch (_) {}
     }

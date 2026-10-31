@@ -1,11 +1,9 @@
 ---
 id: plan-42
 title: Usage package contract and ZIP round-trip spike
-status: draft
+status: in-progress
 depends_on: [plan-07]
-gate: "Proposed next Codex foundation task after accepted Plan07. Owner assignment required; experimental contract, dependency and resource evidence return for review before student exporter or teacher analyzer integration."
-superseded_by: null
-resolution: null
+gate: "Owner assigned Codex on2026-10-31. Exact dependency/mechanism clearance precedes executable artifact work; contract/spike acceptance precedes production exporter/analyzer integration."
 summary: >-
   Prove a bounded local ZIP/JSON usage-package contract with synthetic runs and import diagnostics, while gameplay-event mappings remain versioned inputs rather than frozen production rules.
 ---
@@ -16,11 +14,11 @@ summary: >-
 - Packet id: plan-42
 - Packet title: Usage package contract and ZIP round-trip spike
 - Status: (see frontmatter)
-- Owner/model: unassigned; Codex technical implementer suggested
+- Owner/model: owner-assigned Codex technical implementer
 - Date: 2026-10-31
 - Packet type: contract / isolated executable spike
 - Mutation level: report-local source and synthetic evidence
-- Approval gate: owner assignment, then root/owner contract and spike acceptance before production adoption
+- Approval gate: assignment approved; mechanism/dependency clearance, then root/owner contract and spike acceptance before production adoption
 - Expected artifacts: versioned experimental contract, pure packaging/validation modules, synthetic fixtures/tests, small import diagnostic page, dependency/provenance note and progress
 
 ## Goal and dependency

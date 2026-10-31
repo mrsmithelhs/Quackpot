@@ -1,0 +1,1 @@
+let blocked=false;self.addEventListener('securitypolicyviolation',event=>{if(event.effectiveDirective==='connect-src'&&event.blockedURI.startsWith('http://127.0.0.1:9'))blocked=true});try {await fetch('http://127.0.0.1:9/plan42-csp-control')}catch {}setTimeout(()=>postMessage(blocked?'CSP connect-src violation observed':'CSP violation not observed'),300);

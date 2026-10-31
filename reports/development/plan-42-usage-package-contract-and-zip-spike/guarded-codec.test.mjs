@@ -6,11 +6,11 @@ function fake(mode) {
   return {api,get freed(){return freed},get calls(){return calls}};
 }
 for(const mode of ['process','flush']) {
-  const f=fake(mode);setWasmExports(f.api);const stream=new DecompressionStreamZlib('deflate-raw',{maxOutput:4});
+  const f=fake(mode);let produced=0;setWasmExports(f.api);const stream=new DecompressionStreamZlib('deflate-raw',{maxOutput:4,onProduced:n=>produced+=n});
   const read=(async()=>{const r=stream.readable.getReader(); try {while(!(await r.read()).done) assert.fail('oversized output reached reader')} catch(e){assert.match(String(e),/output limit/)} })();
   const writer=stream.writable.getWriter();
   if(mode==='process') await assert.rejects(writer.write(new Uint8Array([1])),/output limit/);
   else await assert.rejects(writer.close(),/output limit/);
-  await read;assert.ok(f.freed>=2,`${mode} disposes buffers`);assert.ok(f.calls>0);
+  await read;assert.equal(produced,5);assert.ok(f.freed>=2,`${mode} disposes buffers`);assert.ok(f.calls>0);
 }
 console.log('PASS fake process and flush reject before output; state disposed');

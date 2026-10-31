@@ -83,12 +83,14 @@ function _make(isCompress, type, options = {}) {
 	let producedTotal = 0;
 	const state = { out: 0, in: 0, inBufferSize: 0, streamHandle: 0, streamEnded: false };
 	function guardedOutput(heap, out, produced) {
-		if (!Number.isSafeInteger(produced) || produced < 0 || produced > outBufferSize ||
-			(!isCompress && produced > maxOutput - producedTotal)) {
+		if (!Number.isSafeInteger(produced) || produced < 0 || produced > outBufferSize) {
+			throw new Error("Plan42 invalid codec output");
+		}
+		if (!isCompress && options.onProduced) options.onProduced(produced);
+		if (!isCompress && produced > maxOutput - producedTotal) {
 			throw new Error("Plan42 decompressed output limit");
 		}
 		producedTotal += produced;
-		if (!isCompress && options.onProduced) options.onProduced(produced);
 		if (produced) enqueue(heap.slice(out, out + produced));
 	}
 	let readableController, writableController, resolveWrite, cancelReason;

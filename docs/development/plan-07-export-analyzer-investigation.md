@@ -1,11 +1,9 @@
 ---
 id: plan-07
 title: Run-usage export and teacher analyzer investigation
-status: draft
+status: ready
 depends_on: []
 gate: "Owner approves data fields, free-text handling, and analyzer scope before schema or UI implementation."
-superseded_by: null
-resolution: null
 summary: >-
   Inspect BrowserBattlegorithms as an authorized rough model and propose a
   minimal manual export schema plus local multi-file teacher analysis flow.
@@ -46,6 +44,28 @@ The teacher wants run evidence and replay visibility, but the player's duck name
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (constraints #2/#3, Receipt, Technology, Classroom use), and owner triage T17 and post-review replay decision. Inspect the authorized BrowserBattlegorithms repository read-only as a **rough workflow model**; identify its actual export/import path and limitations before drawing comparisons. Do not copy real student files or names into this public repo.
 
 ## Investigation plan
+
+**Readiness review, 2026-10-31:** Ready for a Codex-led, report-only first phase.
+Own only reports/development/plan-07-export-analyzer-investigation/. Locate the
+authorized BrowserBattlegorithms reference read-only; no matching top-level folder
+was found under C:/AI in root's initial check. Do not treat that limited search as
+proof it is unavailable: inspect likely existing project references, then report a
+precise access limit and continue Quackpot alternatives if needed. Do not access real
+student exports. Current engine/log/Receipt and closed checkpoint artifacts are
+read-only examples, not final data contracts or student records to copy.
+
+Deliver a teacher-question-to-field minimization table, summary versus detailed
+alternatives, duck-name/free-text policy, version/duplicate/malformed-import rules,
+synthetic labelled example files and a clear distinction between stable concepts
+and fields pending Plan37/Receipt integration. Final schema does not need to be
+frozen to investigate these questions. No exporter/dashboard implementation,
+browser, package installation or new executable validation. Work through ordinary
+research/document revisions to delivery without a second preproposal gate. Check
+readiness through the unchanged Plan25 bounded launcher after process preflight;
+no concurrent Node validation. No advisor needed for docs-only work; record that
+posture. Leave shared docs, src, other reports and statuses alone, commit owned
+outputs explicitly and progress last, never push. Root/owner approve fields and
+implementation separately.
 
 1. Run `check plan-07`; locate BrowserBattlegorithms through available local/connected repository access. If unavailable, report the exact access limit and continue with Quackpot-only schema alternatives; do not invent external behavior.
 2. Draft two minimization levels: a compact summary and a richer event-derived export. For each field, state purpose, source event, identifiability risk, and whether the teacher's intended question truly needs it. Explicitly compare omit/opt-in/include choices for the free-text duck name and run/replay identifiers.

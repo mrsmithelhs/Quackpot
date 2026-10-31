@@ -1,11 +1,9 @@
 ---
 id: plan-37
 title: Action-based time and optional life lanes specification
-status: draft
+status: in-progress
 depends_on: []
-gate: "Action-based time selected by owner on 2026-10-30; assignment and exact schedule/consequence specification require approval before executable experiments or production."
-superseded_by: null
-resolution: null
+gate: "Owner-authorized Gemini Flash design pilot/specification is underway; exact consequences still require owner selection. No executable experiments, production or schema mutation authorized."
 summary: >-
   Specify the owner-selected action-based time model and optional meal, work,
   leisure and recovery lanes. Separate opportunity costs and disclosed consequences
@@ -18,7 +16,7 @@ summary: >-
 - Packet id: plan-37
 - Packet title: Action-based time and optional life lanes specification
 - Status: (see frontmatter)
-- Owner/model: unassigned investigator
+- Owner/model: Gemini Flash design-review pilot; owner interview and orchestration checkpoints
 - Date: 2026-10-30
 - Packet type: investigation / rules specification
 - Mutation level: report-only initially
@@ -52,8 +50,10 @@ Owner now selects optional breakfast at 5 HP for skipping (immediate Plan38 amen
 
 Own only new reports/development/plan-37-action-time-and-optional-life-lanes/.
 No engine/UI/save schema edits, numeric retuning, art, audio, fixtures or status
-changes. No assignment, browser, Node experiments or subagent authority is granted
-by draft status. Propose method and exact experiment needs first.
+changes. Assignment is limited to the existing owner-authorized design pilot and
+report-only specification. Browser/executable experiments and production remain
+separately gated. Helper use follows the pilot handoff; status does not grant a
+new implementation or subagent budget.
 
 Compare two small concrete specifications for slot granularity, commitments and
 opportunity warnings. Define which actions advance time: opening/reading a page,

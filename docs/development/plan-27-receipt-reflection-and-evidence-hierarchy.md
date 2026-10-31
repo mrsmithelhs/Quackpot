@@ -1,7 +1,7 @@
 ---
 id: plan-27
 title: Receipt reflection and evidence hierarchy
-status: in-progress
+status: delivered
 
 depends_on: [plan-23]
 gate: "Owner approves investigation scope before assignment, then selects recommendation before production changes."

@@ -1,11 +1,11 @@
 ---
 id: plan-05
 title: Fatigue and pre-race choice investigation
-status: draft
+status: parked
 depends_on: []
 gate: "Owner chooses or rejects a fatigue proposal before it enters gameplay."
 superseded_by: null
-resolution: null
+resolution: "Owner-approved cleanup 2026-10-31: defer the distinct fatigue/choice-presentation investigation while core day/session structure is established. Not solved by digital-duck rest; reopen for an explicit owner-selected expressive-fatigue comparison."
 summary: >-
   Compare bounded ways fatigue could obscure the one pre-race choice while
   preserving agency, accessibility, and the reduced-motion information path.

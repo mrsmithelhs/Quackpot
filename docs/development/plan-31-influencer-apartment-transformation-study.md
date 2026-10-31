@@ -1,12 +1,12 @@
 ---
 id: plan-31
 title: Influencer apartment transformation study
-status: draft
+status: parked
 
 depends_on: [plan-24]
 gate: "Owner approves bounded investigation brief before assignment and selects results before production adoption."
 superseded_by: null
-resolution: null
+resolution: "Owner-approved cleanup 2026-10-31: influencer transformation deliberately deferred. Preserve proposed equipment and displaced-toy compositions; reopen when the owner selects that branch or a concrete storyboard study."
 summary: >-
   Compare apartment transformations and displaced possessions for a possible future influencer ending.
 ---

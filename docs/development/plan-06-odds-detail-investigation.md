@@ -1,11 +1,9 @@
 ---
 id: plan-06
 title: Optional odds-detail investigation
-status: draft
+status: ready
 depends_on: []
 gate: "Owner approves the proposed optional detail and wording before implementation."
-superseded_by: null
-resolution: null
 summary: >-
   Specify candidate information for an optional odds-detail button without
   hiding the Receipt's actual pity-adjusted pre-draw odds.
@@ -46,6 +44,21 @@ The owner selected an optional button but did not choose its contents. Ambiguous
 Read `AGENTS.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/founding/design.md` (Pity, Odds navigation, Receipt), and owner triage D3/T6/T7. Preserve O1's three registers and actual conditional pre-draw odds on every applicable Receipt entry.
 
 ## Investigation plan
+
+**Readiness review, 2026-10-31:** Ready for a Codex-led, report-only investigation,
+not production. Own only reports/development/plan-06-odds-detail-investigation/;
+shared source, fixtures, canonical decisions and Plan37/39 work are read-only.
+Proceed through source analysis, concise player-copy alternatives and ordinary
+document revisions to delivery without an extra preproposal return. Trace actual
+current odds/pity/banner code; do not promote unresolved policy to fact. Supply a
+source-to-copy table, examples of base/current/guaranteed odds, accessible disclosure
+behavior and exact owner choices. Necessary factual disclosure is distinct from a
+live manipulation-analysis helper. No browser, new executable harness, dependencies
+or source mutation; propose a bounded follow-up if needed. Packet check and any
+later authorized Node work use the unchanged Plan25 bounded launcher, serially,
+after process preflight; no watcher or concurrent validation. No implementer advisor
+is warranted for this docs-only delivery; state that posture. Root reviews final
+recommendations. Commit only owned report paths, progress last; never push or set status.
 
 **Owner interview integration, 2026-10-25:** DECISION-008 accepts visible odds and progressive, on-demand necessary context. Keep mathematical/manipulation-analysis helper panels out of live gacha; critical reflection belongs to the Receipt/debrief. Necessary conditional odds, prices and purchase terms remain accessible. This boundary narrows presentation, but does not select the optional button's exact contents or waive its owner gate.
 

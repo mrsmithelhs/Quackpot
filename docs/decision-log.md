@@ -416,3 +416,11 @@ The four Plan36 external reviews are received as creative inputs. No proposed ca
 Owner selects pilot Scenario B / LEDGER-04: routine maintenance such as eating coexists with a phase's primary work/gacha/leisure anchor; eating does not consume the phase's anchor. Keep free inspection and clear explicit breakfast-skip disclosure.
 
 Root records this decision while returning checkpoint02's example for correction. No $25 wage, $100 remaining rent, Day4 deadline, Day2 gacha unlock, new dinner costs, sleep recovery or Late Night penalty is adopted through the example. Those recommendations need provenance, consistent phase/cash/health traces and appropriate owner/calibration decisions. The pilot should continue in coherent batches without a root turn after every answer. Disposition and continuation relay: reports/orchestration/plan-37-pilot-checkpoint-02-review.md. No code, schema, prototype or deployment authority.
+
+### DECISION-039 — Owner-approved packet inventory cleanup
+
+**Date:** 2026-10-31
+
+Owner accepts root's proposed cleanup batch from reports/orchestration/draft-packet-inventory-review-01.md. Plan27 is delivered, not completed; Plan32 and31 are deliberately parked with reopening conditions; Plan05 is parked as a distinct deferred investigation, not superseded by duck rest. Plan37 is in-progress only for the already authorized design pilot/report-only specification, without new prototype, numeric or production authority. No packet is marked superseded.
+
+Root reviews and prepares Plans06/07 as ready, disjoint Codex report-only candidates: factual optional odds disclosure and export/analyzer field/workflow research. They are not assigned by readiness alone and do not authorize product/schema changes. Their eventual owner decisions and implementation remain gated. Plan39 remains active; foreign in-progress reports and music inputs are untouched. No push/deployment.

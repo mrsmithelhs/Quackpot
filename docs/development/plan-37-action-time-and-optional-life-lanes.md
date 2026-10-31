@@ -38,6 +38,8 @@ rules. Separate existing behavior from proposed rules and owner-selected directi
 
 ## Scope and outputs
 
+**Pilot checkpoint03, 2026-10-31:** Follow reports/orchestration/plan-37-pilot-checkpoint-03-review.md. Record LEDGER05–13 as owner-selected policies with threshold/effect examples provisional. Interview observations do not finish this packet: the promised action/transition table and symbolic traces are still required. Plan29 may begin bounded calibration in parallel using explicit assumptions; no circular completion dependency. No production, event-key or new ending/odd-jobs authority.
+
 **Pilot checkpoint02, 2026-10-31:** Owner selects Anchor + Routine Maintenance: meals coexist with the phase's primary anchor. Follow reports/orchestration/plan-37-pilot-checkpoint-02-review.md. Preserve that selection; the new example's wages/rent/due date, Day2 gacha unlock and dinner/sleep/LateNight effects are not adopted. Revise internally inconsistent traces and provenance before finalizing lane tables. No production or numeric assignment follows.
 
 **Pilot checkpoint01 reviewed, 2026-10-30:** Follow reports/orchestration/plan-37-pilot-checkpoint-01-review.md. Retain the recorded tiered session choice, three primary named phases plus optional Late Night, and neutral conflict-only warnings. Phase capacity (including whether meals consume a full phase), session/resume accounting and Late Night consequences are not fixed by those selections. Clarify material implications with concrete owner examples before propagating them. Conceptual shown/committed separation is approved; new event enums/schema or historical-fixture compatibility are not. This remains a design pilot, not production assignment.

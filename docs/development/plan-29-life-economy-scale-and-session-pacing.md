@@ -1,12 +1,10 @@
 ---
 id: plan-29
 title: Life economy scale and session pacing
-status: draft
+status: ready
 
 depends_on: [plan-01, plan-17, plan-22, plan-23]
 gate: "Owner approves investigation scope before assignment, then selects recommendation before production changes."
-superseded_by: null
-resolution: null
 summary: >-
   Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time.
 ---
@@ -24,6 +22,14 @@ summary: >-
 - Approval gate: owner selection before production implementation
 
 ## Goal, scope and delivery
+
+**Readiness refresh, 2026-10-31:** The reviewed Plan37 ledger now supplies sufficient policy direction for an initial Codex calibration investigation: three phases plus optional LateNight; one anchor plus maintenance; breakfast/dinner windows and5HP skips; ordinary/extra work and progressive attendance; Day4 remaining-rent deadline; restorative well-being; zeroHP bedrest; proactive sales. Read reports/orchestration/plan-37-pilot-checkpoint-03-review.md and the full ledger, not only the checkpoint summary. Exact degradation thresholds, recovery, session allowances and social effects remain parameters/proposals. Missing transition-order details must be explicit assumptions or compared variants, never silently adopted. Obtain the final Plan37 action table as it becomes available; do not wait for its whole packet to close before analysis.
+
+After assignment, first produce a small symbolic cash/HP/phase ledger and a model/configuration note. Then implement finite report-local calibration code if useful, not a rewrite of production or shared sim. Use at most three coherent configurations, six named strategies and32 named seeds per configuration in the initial pass; horizon includes the Day4 deadline, with an explicitly bounded extension only as needed. Keep current accepted race/draw/exchange rules intact; any abstracted outcome/income assumptions are labelled. This is a bounded first pass, not proof of full-run balance or30-minute pacing. Summarize sensitivity, not a giant raw log per run. Cap generated retained experiment output at5MiB and do not append to pinned Plan35 evidence. No new packages, race-animation browser loops or broad parameter sweep.
+
+This reviewed first-pass scope supersedes the older generic pre-experiment-return requirement below within these bounds. Write exact configurations/commands and assumptions before running; return to root only for a genuinely unresolved rule, larger execution scope or final delivery, not for every ordinary run.
+
+All executable checks/experiments use the unchanged Plan25 bounded launcher, serially, after process preflight:1GiB heap,2GiB sampled owned-tree memory,90s per job; stop at limit and report, never widen silently. Ordinary in-scope fixes/reruns may proceed to delivery without one-run approvals. No browser needed for numeric calibration; actual pacing/device observation is a separately described follow-up. One read-only Terra-medium pre-delivery review may check the model and strategy coverage if executable work is substantial; no mandatory preproposal/repeated repair advisor. Owner selects resulting numeric policy before shared-source implementation.
 
 Owner notes $15 rent/$10 shift feel comically small and wants small discretionary gacha transactions to accumulate into consequential life-money pressure, rather than multiplying every dollar. Owner accepts an ordinary engaged target of at least roughly30minutes without a selected upper ceiling; around15minutes remains a rapid low-reading reference, never a minimum or mandatory exit delay. The owner selects action-based time on2026-10-30. Draft Plan37 specifies slot/action/optional-lane semantics; this packet calibrates numerical consequences against that selected specification. Coordinate investigations without circular dependencies; neither packet silently adopts the other's unresolved parameters.
 

@@ -37,7 +37,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-26` | Living-room daylight and still weather study | complete | Compare stronger living-room daylight and still overcast, rain and storm art in an isolated experiment while preserving the extracted apartment kit unchanged. |
 | `plan-27` | Receipt reflection and evidence hierarchy | delivered | Design a reflection-first Receipt with expandable evidence while preserving the append-only log and three-register honesty. |
 | `plan-28` | Apartment choices and diegetic communications | complete | Compare apartment-based life choices and communications so metagame decisions no longer appear as gacha buttons. |
-| `plan-29` | Life economy scale and session pacing | draft | Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time. |
+| `plan-29` | Life economy scale and session pacing | ready | Investigate believable life expenses and accumulation of small gacha purchases under a 30-plus-minute engaged-run direction and selected action-based time. |
 | `plan-30` | TV music source and apartment acoustics | draft | Investigate a diegetic animated TV music source, track cycling, room acoustics and silence after sale. |
 | `plan-31` | Influencer apartment transformation study | parked | Compare apartment transformations and displaced possessions for a possible future influencer ending. |
 | `plan-32` | Gacha music hook and arrangement prototypes | parked | Propose recognizable looping gacha themes and small paired arrangements before selecting music or production synthesis. |
@@ -50,6 +50,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-39` | Melody reference and Web Audio laboratory | in-progress | Build a local Web Audio audition and WAV-export laboratory for melody C continuations, light arrangements and reusable symbolic scores, informed by accepted music research and owner listening. |
 | `plan-40` | Work and evening experience study | draft | Develop and visually compare how ordinary work, an extra shift and a first-evening activity appear in the apartment tutorial, coordinated with Plan37's authoritative day sequence. |
 | `plan-41` | Ren friend character and social life study | ready | Develop Ren as a friend with a life beyond the gacha, comparing visual concepts, interaction opportunities, well-being recovery and relationship consequences with the owner before integration. |
+| `plan-42` | Usage package contract and ZIP round-trip spike | draft | Prove a bounded local ZIP/JSON usage-package contract with synthetic runs and import diagnostics, while gameplay-event mappings remain versioned inputs rather than frozen production rules. |
 <!-- plan-index:end -->
 
 ## Report Folders

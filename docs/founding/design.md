@@ -108,6 +108,8 @@ The clock is hybrid:
 
 **Phase-capacity refinement (owner pilot, 2026-10-31):** Each named phase supports routine maintenance alongside one primary anchor activity. Eating does not consume or freeze out that anchor. This does not select additional daily meals or their costs, new wages/rent/deadlines, sleep recovery or Late Night penalties. The checkpoint's Day1–Day3 example is a proposal awaiting coherent traces, not an adopted tutorial schedule; see reports/orchestration/plan-37-pilot-checkpoint-02-review.md.
 
+**Subsequent owner pilot selections, 2026-10-31:** The ledger selects Day1 evening gacha introduction, exclusive evening leisure/gacha/extra-work anchors, breakfast and dinner maintenance with5HP explicit skips, progressive three-miss scheduled-work warnings/termination, Day4 morning insufficient-rent escalation, and one-phase bedrest at0HP. Restorative leisure supports HP as overall fictional well-being; LateNight gacha causes morning HP fatigue without removing the morning phase. Proactive possession sales are allowed with a social downside to develop in Plan41. Exact recovery, sub-critical degradation thresholds/behaviors, work/rent/bedrest ordering, interruption and unlock exceptions remain specification/calibration inputs; no new fired ending or odd-jobs system is selected. These later selections supersede the earlier unselected status of dinner/deadline/LateNight direction above, not its still-unselected numeric examples. See reports/orchestration/plan-37-pilot-checkpoint-03-review.md. These rules are not yet implemented merely because the interview is complete.
+
 ## Saving
 
 Two modes, chosen by the player:

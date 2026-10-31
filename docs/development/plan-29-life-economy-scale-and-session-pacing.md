@@ -1,7 +1,7 @@
 ---
 id: plan-29
 title: Life economy scale and session pacing
-status: in-progress
+status: delivered
 
 depends_on: [plan-01, plan-17, plan-22, plan-23]
 gate: "Owner assigned Codex on2026-10-31; bounded calibration may proceed to delivery. Owner selects numerical policy before production changes."

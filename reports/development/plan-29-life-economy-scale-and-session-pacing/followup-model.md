@@ -19,3 +19,8 @@ Reserve threshold is arithmetic sensitivity: with all seven meals affordable, no
 Write `followup.mjs` and `followup-results.json`, preserving first-pass files. Execute only after process preflight via unchanged `bounded-node-run.ps1 -Executable node.exe -ArgumentVector @('reports/development/plan-29-life-economy-scale-and-session-pacing/followup.mjs')`, serial, 1GiB heap, 2GiB sampled tree, 90 seconds, cumulative retained output <5 MiB. Assertions check cash/Gem conservation, expense bounds, grant, threshold and separate pay/hold and shortfall/credit cases. Paper/synthetic calculations do not validate runtime save/reload, source integration, real pacing or actual gamer behavior.
 
 Before the follow-up rerun, add an artificial low-HP recovery probe for each higher-wage budget: start at $0/5 HP, no unpaid bill in this isolated probe, active employment, free leisure each evening, no new obligations, morning skip then one-phase bedrest to 25; work that afternoon at the full illustrative wage, pay meals when affordable. Run four days, report cash/HP, and do not generalize this optimistic sequence to a player facing rent, job loss, or work-phase collapse.
+
+
+## Root scope clarification — 2026-10-31
+
+The implementation uses simplified collapse/recovery arithmetic, not a complete one-phase bedrest state machine. It can continue meal/anchor logic after collapse; no main Day4-collapse case or assertion verifies deadline ordering through bedrest. The standalone recovery probe has no rent obligation. Do not use these results to validate phase forfeiture, maintenance eligibility after collapse, or production transition semantics. This narrows the prose above without changing or rerunning retained results.

@@ -1,0 +1,84 @@
+# Plan 41 — Ren friend character and social life study: progress
+
+Date: 2026-10-31 (system clock). Lead/integrator: Claude Sonnet 5.5 in Claude Code. Packet readiness: `node scripts/dev/plan-status.js check 41` returned `RUNNABLE: plan-41 is ready to implement` (exit 0) before any edits. I did not edit packet status, resolution, the generated packet table, or any file outside `reports/development/plan-41-ren-friend-character-and-social-life-study/`.
+
+## Overall summary
+
+I ran the packet's workflow with the owner: a short conversation (two rounds, eight selections), research by two Haiku helpers, three SVG concept rounds, an interaction menu, a consequence model with symbolic traces, a possession-sale study, a synthetic storyboard, and an integration boundary proposal. **This is a coherent owner-review package, not a final design and not an adoption of any rule.** Owner selections and lead proposals are separated in `01-owner-selections-and-proposals.md`; every other document restates its own labels.
+
+**Owner selected (this thread):** Ren is a neighbor down the hall (S1); a tinkerer/maker (S2); present through phone plus door/hallway (S3); they/them (S4); art direction A soft flat (S5); short tapered curls (S6, complexion range remains a lead proposal); a visit is a bounded restore with Ren having their own load (S7); relationship tracked by small qualitative flags with no number (S8; names and thresholds are proposals).
+
+## Files (all new, in the owned folder)
+
+| File | Purpose |
+|---|---|
+| `01-owner-selections-and-proposals.md` | Selections S1–S8 vs. proposed/open items; coordination boundaries |
+| `02-character-brief.md` | Who Ren is, voice, wants, boundaries, heritage-as-characterization; labelled |
+| `03-interaction-menu.md` | Six interactions (quiet text, door chat, shared activity, ask-Ren, invitation replies, repair), each with eligibility, class, commitment, display, effect, limits, save/reload, Uninstall/static, Receipt mapping |
+| `04-consequence-model-and-traces.md` | Flag model, exploit check, Traces A–F, save/reload requirements |
+| `05-possession-sale-examples.md` | Couch/game-night consequential example; ordinary TV example; optional gifted-shelf example |
+| `06-integration-boundaries-proposal.md` | Asset/module/state/event needs, dependencies, risks, next decisions |
+| `research/visual-reference-provenance.md` | Sources, licenses as reported, how each informs the design |
+| `research/friendship-mechanics-provenance.md` | Sources and patterns for friendship, declining, decay, well-being |
+| `concepts/round-01-directions.html` | Three original SVG directions × two variants, avatar and silhouette checks |
+| `concepts/round-02-refinement.html` | Direction A refined: complexion range, five expressions, door/hallway scene, phone avatar mock |
+| `concepts/round-03-storyboard.html` | Synthetic storyboard: six scenarios with a separate reviewer control panel and static transcript |
+
+## Delegation and tools actually used
+
+- **Haiku researcher helpers (read-only web), two:** one for visual/character-design references, one for friendship/availability/decay mechanics. Disjoint outputs; neither wrote files. The lead wrote both provenance sheets from the helpers' hand-backs and **did not re-fetch their pages**. Helper-reported "fetched" vs. "snippet" status is preserved; many mechanics sources are fan wikis, blogs or forum posts, and some pages were unreachable. No model identity or artist attribution claims were accepted without evidence, and none were relied on.
+- **Image generation: not used.** This session exposes no image-generation tool (a ToolSearch for image-generation tools found none, and the repo's `.claude/agents` definitions contain no image-generation agent; I did not complete a skill search, so a skill-based route is unchecked. Earlier packets used a Gemini image subagent that is not part of this harness), so I produced **original SVG studies by hand** instead and did not claim generated images. No raster concept files, prompts, model metadata or generation provenance exist for this packet.
+- **SVG authoring:** done by the lead (Sonnet, per `AGENTS.md` routing); no Haiku drawing helpers were used.
+- **Single writer:** only the lead wrote files. No git-index writes happened concurrently.
+
+## Commands run and results
+
+- `node scripts/dev/plan-status.js check 41` → `RUNNABLE`, exit 0.
+- Read-only file/search commands; `git status`, `date`.
+- The Plan 25 bounded Node launcher was **not needed**: no Node or build job was run. The only scripting was `sed` to splice the shared SVG sprite into the storyboard page.
+- Browser: the built-in browser pane opened the three HTML files as static `file://` snapshots. No dev server was started or stopped; no network was used by the pages.
+
+## What was actually viewed (validation)
+
+- **Round 1** viewed at about 448 px width: all three direction cards (six figures) rendered; direction A's avatar crops (96/48 px) and silhouette test viewed; B and C avatar/silhouette rows were **not** individually inspected.
+- **Round 2** viewed at about 616 px width: expressions row (five faces at bust scale, 64/40 px avatars partially seen), door scene and the close crop. The complexion row, phone mock and the final text sections were checked only through the DOM/text, not by screenshot.
+- **Round 3 storyboard:** viewed at about 616 px and at 1200 px width (no horizontal overflow: scroll width 1185 at 1200 px). A script stepped all six scenarios and their transcripts (counts matched steps); synthetic keyboard events confirmed Left/Right stepping; no console errors. The page reads `localStorage` and the game nowhere; in the preview it was blocked (storage count read as "blocked"), which does not matter because it never uses it.
+- **Not done:** no real keyboard (hardware) pass, no screen-reader pass, no real contrast-ratio computation (colors were chosen by eye), no check against actual apartment-kit renders, no reduced-motion test (the pages have no animation or audio).
+
+## Problems and limits observed
+
+- Built-in browser screenshots timed out until the pane was fronted; thereafter some screenshots lagged behind scripted state changes. I reported only what a settled screenshot showed.
+- The door scene always draws Ren's default face; the storyboard step "grin" therefore shows the default face in door scenes (cosmetic limit of the concept).
+- The "not tonight (kind)" face reads somewhat sad at larger sizes; an owner call whether that is acceptable or should be softened.
+- Direction B's long-hair variant reads more feminine than the intended ambiguity; that is why it was not recommended.
+- Tattoo ink is low-contrast on the deepest fill; acknowledged in the page.
+
+## Unsolved owner choices (also listed in each file)
+
+1. Approve/amend interaction menu: Evening-only first wave; ask-Ren feature; dinner-on-visit-night behavior; Ren's give-back as story only (03).
+2. Approve/amend consequence rules: strained/drifting reducing Ren's initiative; counted events; exemptions for "tell Ren I can't" and forced bedrest; flag names and whether the Receipt shows them by name (04). **These alter future invitation eligibility, so they need explicit adoption.**
+3. Complexion/blend, tattoo placement, pencil/overalls, expression set (round 2).
+4. Possession-sale principle and Example 1 as the single consequential case; whether to include the gifted-shelf case (05).
+5. How much heritage detail, if any, is written (02).
+
+## Dependencies and coordination
+
+Plan 37 (accepted; phase/anchor labels used as-is; no private clock), Plan 29 (all numbers symbolic, plus a Ren-dominance strategy check recommended), Plan 40 (Call Mom stays its candidate; no copy coordination done), Plan 36 (no restyled-offer messages), Plan 27 (Receipt rows needed). None were edited.
+
+## Consultation posture
+
+**Branch B — advisor consultation not warranted.** This thread matches the `claude-code` entry in `advisor-capable-providers.json` (the Agent tool takes a model override), but the deliverable is report-local research, documents and a non-persistent synthetic HTML demo with no production behavioral surface; the packet states no premium advisor is required for research/concept-only delivery. This is a declaration, not a skipped step. No higher-tier reviewer ran, so nothing in this package has had an independent review beyond owner review.
+
+## Working-tree notes
+
+- Untracked, not mine, left alone: `reports/development/plan-32-gacha-music-hook-and-arrangement-prototypes/motif-preview/previews/`.
+- A staged, modified `reports/development/plan-27-receipt-reflection-and-evidence-hierarchy/progress.md` was present in the index and is not mine; I commit only my explicit paths so that change is not included.
+- No push.
+
+## Remaining risks and follow-ups
+
+- Nothing here has had an independent review; the rules are proposals, the art is concept.
+- The consequence model's numbers (`B`, `U`, `g_R`, `h`) are placeholders until Plan 29/owner select values; the HP-exploit check depends on `h` relative to meal and Call Mom effects.
+- A later bounded SVG packet and a Plan 38 amendment would be needed before any in-game Ren.
+
+Ready for orchestrator review: **yes** (owner review of the package, not of any production change).

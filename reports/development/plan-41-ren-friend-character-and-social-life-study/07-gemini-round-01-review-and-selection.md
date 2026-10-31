@@ -72,3 +72,15 @@ Setup: each helper started from `concepts/svg-round-01/_template/ren-base-templa
 Housekeeping: the lead replaced the stale "Ren base template" `aria-label` in the SVGs the helpers had not renamed. Each folder also holds the helper's own `notes.md` and last preview PNG.
 
 **Suggested next step (not done):** one revision round for `slicker-yellow` (a visible hood shape with folds) and `hair-bedhead` (flatter, messier shapes so it does not read as a ponytail), plus the button fix on the cardigan. The remaining hair ideas (paint/dust, towels, bonnet/bandana/cap/beanie) are still ungenerated and undrawn.
+
+## 7. Revision pass (three Haiku helpers; v1 files kept, v2 files added)
+
+Slicker, bedhead and cardigan were each revised by a fresh Haiku helper against specific problems named in section 6. Each wrote `*-v2.svg`, a preview PNG and `notes-v2.md` beside the v1 files (v1 untouched). I compared v1 and v2 on `concepts/svg-round-01/compare-v1-v2.png` (rendered from the SVG files at roughly 400 px per figure), scanned the v2 sources for forbidden constructs (none) and set the stale `aria-label` on each. Not checked: avatar scale, other complexions, the apartment kit.
+
+| Drawing | v2 versus v1, my read | Verdict |
+|---|---|---|
+| `slicker-yellow-v2` | Clear improvement. A dark-lined hood now sits behind the head, drawstrings hang down the chest, and the body has sloped shoulders with seams. It reads as a hooded slicker. The helper said it "partly" read as a hood; I think it reads more clearly than that at this size, but the outer hood arc still hugs the shoulders and could read as a cowl when small. | Good enough to keep |
+| `cardigan-terracotta-v2` | Buttons now have rims and thread holes, the front bands are wider, and ribbed sleeve hems appear. At this size the buttons are small and the two thread-hole dots can look like tiny faces (the helper noted the same). The buttonhole slits on the right band are barely visible. | Improved; optional small tweak (larger buttons, one center hole style) |
+| `hair-bedhead-v2` | It no longer reads as a ponytail and the crown is lower. But the tufts are sharp triangles, which reads as spikes or cat-ear shapes rather than curly sleep-flattened hair, and the right-side clumps still hint at a side puff. The helper said the same about the puff. | Partial; a further pass should use rounded curl tufts instead of triangles |
+
+Candidates summary after the revision pass: good as drawn: olive coveralls, paint overalls, camp shirt, navy pajama top, windblown damp hair, sweaty pushed-back hair, post-nap puff; improved and usable: slicker v2, cardigan v2; still weak: bedhead v2.

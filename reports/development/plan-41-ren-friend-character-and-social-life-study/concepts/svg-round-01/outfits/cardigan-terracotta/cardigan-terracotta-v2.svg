@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="720" height="900" role="img" aria-label="Ren concept drawing: cardigan-terracotta-v2">
+<style>
+  svg{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+  <clipPath id="base-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+  <g id="base-neck"><path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+  <g id="base-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+  <path id="base-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+  <g id="base-face">
+    <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+    <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+    <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+    <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+    <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+    <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+  </g>
+  <g id="base-hs-shapes">
+    <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+    <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+  </g>
+  <g id="base-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+  <g id="base-acc">
+    <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+    <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  </g>
+  <g id="base-pencil"><path d="M168 118 L158 98" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M168 118 L158 98" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/></g>
+</defs>
+<rect width="240" height="300" fill="#efe3cc"/>
+
+<!-- ===== LAYER TORSO (behind the neck). OUTFIT TASKS: replace this group. Baseline: striped tee + teal overalls. ===== -->
+<g id="LAYER-torso">
+  <path class="l3" fill="#c76b3d" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <g id="cardigan-terracotta-v2-cuffs" clip-path="url(#base-tclip)">
+    <path fill="#a9552c" d="M0 280 H60.9 L62 300 H0Z"/>
+    <path fill="#a9552c" d="M240 280 H179.1 L178 300 H240Z"/>
+    <path class="l2" fill="none" d="M0 280 H62 M0 285 H62 M0 290 H62 M0 295 H62"/>
+    <path class="l2" fill="none" d="M240 280 H178 M240 285 H178 M240 290 H178 M240 295 H178"/>
+  </g>
+  <path class="l3" fill="none" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <path class="l2" fill="none" d="M68 220 Q58 262 62 300"/><path class="l2" fill="none" d="M172 220 Q182 262 178 300"/>
+  <path fill="#f1e3c8" d="M100 210 L140 210 L148 300 L92 300Z"/>
+  <path class="l2" fill="#a9552c" d="M90 212 L100 210 L92 300 L80 300Z"/>
+  <path class="l2" fill="#a9552c" d="M150 212 L140 210 L148 300 L160 300Z"/>
+  <path class="l2" fill="none" d="M93.3 211.3 L84 300 M96.7 210.7 L88 300"/>
+  <path class="l2" fill="none" d="M146.7 211.3 L156 300 M143.3 210.7 L152 300"/>
+  <g id="cardigan-terracotta-v2-buttons">
+    <circle cx="92.5" cy="236" r="3.5" fill="#f1e3c8" class="l2"/><circle cx="91.3" cy="236" r="0.9" fill="#3a2c26"/><circle cx="93.7" cy="236" r="0.9" fill="#3a2c26"/>
+    <circle cx="90" cy="260" r="3.5" fill="#f1e3c8" class="l2"/><circle cx="88.8" cy="260" r="0.9" fill="#3a2c26"/><circle cx="91.2" cy="260" r="0.9" fill="#3a2c26"/>
+    <circle cx="87.5" cy="284" r="3.5" fill="#f1e3c8" class="l2"/><circle cx="86.3" cy="284" r="0.9" fill="#3a2c26"/><circle cx="88.7" cy="284" r="0.9" fill="#3a2c26"/>
+  </g>
+  <path id="cardigan-terracotta-v2-buttonholes" class="l2" fill="none" d="M145 236 H150 M147.5 260 H152.5 M150 284 H155"/>
+</g>
+
+<use href="#base-neck"/>
+
+<!-- ===== LAYER COLLAR (in front of the neck, behind the head and chin). OUTFIT TASKS: collars, scarf, turtleneck. Empty by default. ===== -->
+<g id="LAYER-collar">
+  <path class="l3" fill="#f1e3c8" d="M96 214 Q120 226 144 214 L146 222 Q120 236 94 222Z"/>
+  <path class="l2" fill="none" d="M102 220 Q120 230 138 220"/>
+</g>
+
+<use href="#base-ears"/>
+<use href="#base-head"/>
+<use href="#base-face"/>
+
+<!-- ===== LAYER HAIR. HAIR TASKS: replace this line/group. Baseline: short tapered curls (cloud of circles). ===== -->
+<g id="LAYER-hair">
+  <use href="#base-hs-shapes" class="hair l3"/><use href="#base-hs-shapes" class="hair" stroke="none"/>
+</g>
+
+<!-- Tattoo (delete this line if a garment covers the neck sprout), earrings, pencil (delete or move it if a hair covering would hide it) -->
+<use href="#base-tat"/>
+<use href="#base-acc"/>
+<use href="#base-pencil"/>
+</svg>

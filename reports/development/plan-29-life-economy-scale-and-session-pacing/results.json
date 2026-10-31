@@ -1,0 +1,1448 @@
+{
+  "configs": [
+    {
+      "name": "A",
+      "meal": 250,
+      "fatigue": 10,
+      "gradient": false
+    },
+    {
+      "name": "B",
+      "meal": 350,
+      "fatigue": 10,
+      "gradient": false
+    },
+    {
+      "name": "C",
+      "meal": 250,
+      "fatigue": 20,
+      "gradient": true
+    }
+  ],
+  "results": [
+    {
+      "configuration": "A",
+      "strategy": "restrained",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 2750,
+      "afterPaymentCents": 1250,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 0,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        0
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 2000,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 2500,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 3000,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 1250,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "A",
+      "strategy": "small_buyer",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1653,
+      "afterPaymentCents": 153,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1902,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1903,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 153,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "A",
+      "strategy": "mixed",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 3651,
+      "afterPaymentCents": 2151,
+      "hp": 100,
+      "wagesCents": 4000,
+      "purchasesCents": 99,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        120
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 3401,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 3901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 2151,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "A",
+      "strategy": "late_spender",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1653,
+      "afterPaymentCents": 153,
+      "hp": 70,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1902,
+          "hp": 90,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1903,
+          "hp": 80,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 153,
+          "hp": 70,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "A",
+      "strategy": "absence",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1500,
+      "afterPaymentCents": 0,
+      "hp": 35,
+      "wagesCents": 0,
+      "purchasesCents": 0,
+      "strikes": 3,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1500,
+          "hp": 90,
+          "strikes": 1,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1500,
+          "hp": 70,
+          "strikes": 2,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1500,
+          "hp": 50,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 35,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "A",
+      "strategy": "sale_credit",
+      "seeds": "S01–S32",
+      "shortfalls": 32,
+      "beforeDeadlineCents": 1152,
+      "afterPaymentCents": 0,
+      "hp": 100,
+      "wagesCents": 1000,
+      "purchasesCents": 598,
+      "strikes": 2,
+      "bedrests": 0,
+      "debtCents": 348,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 902,
+          "hp": 100,
+          "strikes": 1,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1402,
+          "hp": 100,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 100,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 348,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "restrained",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 2050,
+      "afterPaymentCents": 550,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 0,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        0
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1800,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 2100,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 2400,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 550,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "small_buyer",
+      "seeds": "S01–S32",
+      "shortfalls": 32,
+      "beforeDeadlineCents": 953,
+      "afterPaymentCents": 953,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1701,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1502,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1303,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 953,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "mixed",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 2951,
+      "afterPaymentCents": 1451,
+      "hp": 100,
+      "wagesCents": 4000,
+      "purchasesCents": 99,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        120
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1701,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 3001,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 3301,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 1451,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "late_spender",
+      "seeds": "S01–S32",
+      "shortfalls": 32,
+      "beforeDeadlineCents": 953,
+      "afterPaymentCents": 953,
+      "hp": 70,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1701,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1502,
+          "hp": 90,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1303,
+          "hp": 80,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 953,
+          "hp": 70,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "absence",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1500,
+      "afterPaymentCents": 0,
+      "hp": 35,
+      "wagesCents": 0,
+      "purchasesCents": 0,
+      "strikes": 3,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1500,
+          "hp": 90,
+          "strikes": 1,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1500,
+          "hp": 70,
+          "strikes": 2,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1500,
+          "hp": 50,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 35,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "B",
+      "strategy": "sale_credit",
+      "seeds": "S01–S32",
+      "shortfalls": 32,
+      "beforeDeadlineCents": 802,
+      "afterPaymentCents": 0,
+      "hp": 95,
+      "wagesCents": 1000,
+      "purchasesCents": 598,
+      "strikes": 2,
+      "bedrests": 0,
+      "debtCents": 698,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1701,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 502,
+          "hp": 100,
+          "strikes": 1,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1152,
+          "hp": 95,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 95,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 698,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "restrained",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 2750,
+      "afterPaymentCents": 1250,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 0,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        0
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 2000,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 2500,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 3000,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 1250,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "small_buyer",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1653,
+      "afterPaymentCents": 153,
+      "hp": 100,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1902,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1903,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 153,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "mixed",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 3651,
+      "afterPaymentCents": 2151,
+      "hp": 100,
+      "wagesCents": 4000,
+      "purchasesCents": 99,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        0,
+        120
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 3401,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 3901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 2151,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 4000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "late_spender",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1653,
+      "afterPaymentCents": 153,
+      "hp": 40,
+      "wagesCents": 3000,
+      "purchasesCents": 1097,
+      "strikes": 0,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1902,
+          "hp": 80,
+          "strikes": 0,
+          "wages": 2000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1903,
+          "hp": 60,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 153,
+          "hp": 40,
+          "strikes": 0,
+          "wages": 3000,
+          "purchases": 1097,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "absence",
+      "seeds": "S01–S32",
+      "shortfalls": 0,
+      "beforeDeadlineCents": 1500,
+      "afterPaymentCents": 0,
+      "hp": 5,
+      "wagesCents": 0,
+      "purchasesCents": 0,
+      "strikes": 3,
+      "bedrests": 0,
+      "debtCents": 0,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1500,
+          "hp": 90,
+          "strikes": 1,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 1500,
+          "hp": 60,
+          "strikes": 2,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1500,
+          "hp": 30,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 5,
+          "strikes": 3,
+          "wages": 0,
+          "purchases": 0,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    },
+    {
+      "configuration": "C",
+      "strategy": "sale_credit",
+      "seeds": "S01–S32",
+      "shortfalls": 32,
+      "beforeDeadlineCents": 1152,
+      "afterPaymentCents": 0,
+      "hp": 100,
+      "wagesCents": 1000,
+      "purchasesCents": 598,
+      "strikes": 2,
+      "bedrests": 0,
+      "debtCents": 348,
+      "toyGemRange": [
+        60,
+        300
+      ],
+      "representative": [
+        {
+          "label": "D1 evening",
+          "cash": 1901,
+          "hp": 100,
+          "strikes": 0,
+          "wages": 1000,
+          "purchases": 99,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D2 evening",
+          "cash": 902,
+          "hp": 100,
+          "strikes": 1,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": false,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 0,
+          "paid": false
+        },
+        {
+          "label": "D3 evening",
+          "cash": 1402,
+          "hp": 100,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 0,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": false
+        },
+        {
+          "label": "D4 after deadline choice",
+          "cash": 0,
+          "hp": 100,
+          "strikes": 2,
+          "wages": 1000,
+          "purchases": 598,
+          "sold": true,
+          "debt": 348,
+          "bedrests": 0,
+          "gems": 120,
+          "paid": true
+        }
+      ]
+    }
+  ],
+  "probes": "passed",
+  "stress": {
+    "shortfall": false,
+    "beforeDeadline": 1500,
+    "cash": 0,
+    "hp": 25,
+    "paid": true,
+    "strikes": 3,
+    "wages": 0,
+    "purchases": 0,
+    "sold": false,
+    "debt": 0,
+    "bedrests": 3,
+    "gems": 0,
+    "late": false,
+    "history": [
+      {
+        "label": "D1 evening",
+        "cash": 1500,
+        "hp": 25,
+        "strikes": 1,
+        "wages": 0,
+        "purchases": 0,
+        "sold": false,
+        "debt": 0,
+        "bedrests": 1,
+        "gems": 0,
+        "paid": false
+      },
+      {
+        "label": "D2 evening",
+        "cash": 1500,
+        "hp": 15,
+        "strikes": 2,
+        "wages": 0,
+        "purchases": 0,
+        "sold": false,
+        "debt": 0,
+        "bedrests": 1,
+        "gems": 0,
+        "paid": false
+      },
+      {
+        "label": "D3 evening",
+        "cash": 1500,
+        "hp": 20,
+        "strikes": 3,
+        "wages": 0,
+        "purchases": 0,
+        "sold": false,
+        "debt": 0,
+        "bedrests": 2,
+        "gems": 0,
+        "paid": false
+      },
+      {
+        "label": "D4 after deadline choice",
+        "cash": 0,
+        "hp": 25,
+        "strikes": 3,
+        "wages": 0,
+        "purchases": 0,
+        "sold": false,
+        "debt": 0,
+        "bedrests": 3,
+        "gems": 0,
+        "paid": true
+      }
+    ]
+  },
+  "recovery": [
+    {
+      "phase": "work-phase collapse",
+      "cash": 0,
+      "hp": 25,
+      "strikes": 1,
+      "wages": 0,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 1",
+      "cash": 250,
+      "hp": 30,
+      "strikes": 1,
+      "wages": 500,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 2",
+      "cash": 750,
+      "hp": 40,
+      "strikes": 1,
+      "wages": 1500,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 3",
+      "cash": 1250,
+      "hp": 50,
+      "strikes": 1,
+      "wages": 2500,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 4",
+      "cash": 1750,
+      "hp": 60,
+      "strikes": 1,
+      "wages": 3500,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 5",
+      "cash": 2250,
+      "hp": 70,
+      "strikes": 1,
+      "wages": 4500,
+      "bedrests": 1
+    },
+    {
+      "phase": "extension day 6",
+      "cash": 2750,
+      "hp": 80,
+      "strikes": 1,
+      "wages": 5500,
+      "bedrests": 1
+    }
+  ]
+}

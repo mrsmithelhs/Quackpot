@@ -149,6 +149,14 @@ Uninstall stays available. After it is chosen, a retention modal offers 80 gems 
 
 ## Event deck
 
+**Future narrative reference:** [Plan 36](../development/plan-36-late-game-disorientation-investigation.md)
+and its [external-review synthesis](../../reports/orchestration/plan-36-external-review-synthesis-01.md)
+preserve late-game disorientation, cognitive spillover and humorous unreliable-narration
+possibilities. Owner direction favors small, irregular expectation disruptions
+that can grow more frequent without a fixed pattern, with accessible text/static
+and reduced-motion alternatives. These are deferred candidates, not integrated
+mechanics; actual exit and Receipt honesty remain binding.
+
 A seeded deck gives runs distinct moments while allowing reproduction. Each adopted event needs a trigger and eligibility rule, a one-time flag where appropriate, a bounded effect, a Receipt category if it uses a named technique (or “neutral delight” otherwise), and a neutral fallback when none is eligible.
 
 No event discovery is required to pay expenses, finish, or reach the Receipt. The owner selected five variety ingredients. Four are event-deck content:

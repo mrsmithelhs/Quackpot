@@ -34,6 +34,18 @@ that suggest absorbed attention, lost time, habit and rationalization without
 diagnosing the human player or compromising reliable controls and factual evidence.
 These are new candidates, not adopted story events or implemented mechanics.
 
+**Owner refinement, 2026-10-30:** Retain erratic return and apparent snapback as
+creative candidates despite reviewer objections. Disruptions should be small and
+irregular, potentially increasing in frequency as the story develops without a
+fixed schedule or predictable sequence. Text alone may convey a disrupted
+expectation; provide accessible text/static and reduced-motion alternatives.
+Actual Uninstall/Leave remains immediate and factual evidence stays reliable.
+Exact eligibility, seeded selection, frequency bounds and interruption behavior
+remain investigation inputs, not selected constants. Preserve humorous candidates,
+including the organization of life receipts as collectible cards. When ready,
+prioritize low-cost, high-impact additions; defer broader possibilities without
+discarding them. No late-game integration assignment follows from this direction.
+
 **Owner expansion, 2026-10-30:** Independent Claude Opus, Claude Sonnet, Gemini
 Argon and Gemini Flash reviews may first propose broader story developments and
 interaction types beyond the current roadmap, then develop Plan 36 ideas in that

@@ -39,6 +39,25 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S11 | Bedhead | **Dropped.** | 2026-10-31 | Three attempts remain in the folder as history only. |
 | S12 | Pencil placements | **Keep all as options in the Ren drawing kit:** on the ear (base), behind the head with the tip up and right (beanie), tucked under the beanie cuff, in the overalls bib pocket (eraser up, about half showing). | 2026-10-31 | Which placement goes with which look is a PROPOSED rule, not selected. See `09-ren-drawing-kit-index.md`. |
 
+### Social-design review (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S13 | Does a drifting or strained friendship make Ren less likely to invite the player (an eligibility change)? | **Yes** | Adopted as direction. Exact reduction is not set; Plan 37 and Plan 29 still own timing and numbers. |
+| S14 | Do a broken commitment and an expired unanswered invitation count as events toward the flags? | **Yes** | Counts are illustrative in file 04 (`B`=2, `U`=3); real thresholds remain OPEN. |
+| S15 | Keep the flag names connected, drifting, strained, reconnecting, and the floor at strained? | **Yes** | Names and floor adopted. The exemption for "Tell Ren I can't" and forced bedrest in file 04 was part of that proposal; owner said yes to the three items asked, not separately to the exemption wording. |
+| S16 | Interaction menu (quiet text, door chat, shared activity, ask-Ren, invitation replies, repair) and an Evening-only first wave | **Yes** | Read as approving file 03 as written, including the Evening-only first wave. |
+| S17 | Character brief: voice, boundaries, how much heritage detail shows | **All good as written** | File 02 adopted as written. |
+
+### Possession-sale review (file 05; owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S18 | Principle: a sale has a social effect only when a prior scene established a concrete shared context | **Yes** | Sales are neutral by default. |
+| S19 | Example 1 (couch and game night) as the single consequential case | **Keep** | Cost stays concrete and recoverable: floor-seating scene variant plus a confirm request; flags change only if the plan is then broken. |
+| S20 | Example 3 (gifted item such as the shelf) reaction | **Yes** | Ramification: needs a prior gift scene (e.g. the I3 shelf-carry visit) and the reaction is chosen from facts about the sale, never a guess about motive; no flag change. |
+| S21 | Neutral optional "tv's gone" flavor line | **Yes** | Flavor only: no flag, HP or counted-event change. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

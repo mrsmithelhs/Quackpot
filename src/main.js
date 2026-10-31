@@ -737,15 +737,15 @@ if (app) {
       }),
       onOpenPhone: commit(() => {
         if (engine.state.life.day === 1 && !['evening', 'lateNight'].includes(engine.state.life.phase)) return { ok: false };
-        if (!engine.installLifeApp()) return { ok: false };
         if (!engine.openLifeApp()) return { ok: false };
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
         engine.state.step = (engine.state.life.session && engine.state.lifePhoneReturnStep) || 'life_phone';
         engine.state.lifePhoneReturnStep = null;
         return { ok: true };
       }),
-      onInstallPhone: commit(() => ({ ok: engine.installLifeApp() })),
+      onReplyLaunch: commit(() => ({ ok: engine.replyLifeInvitation() })),
       onInvitationShown: () => { if (engine.showLifeInvitation()) maybeAutosave(); },
+      onLaunchAcknowledgmentShown: () => { if (engine.showLifeAcknowledgment()) maybeAutosave(); },
       onPhoneTransition: () => { stageTransition?.run('enter'); },
       onLifeAdvance: commit(() => {
         const life = engine.state.life;

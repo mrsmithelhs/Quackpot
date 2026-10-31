@@ -186,8 +186,21 @@ export class GameEngine {
   /** Fictional preparation and entry are free; older entry evidence remains authoritative. */
   showLifeInvitation() {
     if (this.isTerminal() || !this.state.life || this.state.life.day !== 1 || !['morning', 'afternoon'].includes(this.state.life.phase)) return null;
-    if (this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'fictional_launch_invitation')) return null;
-    return this.log.append('offer_shown', { kind: 'fictional_launch_invitation', technique: 'launch_invitation', launch: 'day_1_evening' }, this.state.clock);
+    if (this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation')) return null;
+    return this.log.append('offer_shown', { kind: 'launch_reply_invitation', technique: 'launch_invitation', launch: 'day_1_evening' }, this.state.clock);
+  }
+
+  replyLifeInvitation() {
+    if (this.isTerminal() || !this.state.life || !this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation')) return false;
+    if (this.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply')) return true;
+    this.log.append('action', { kind: 'launch_reply', text: 'LAUNCH' }, this.state.clock);
+    return true;
+  }
+
+  showLifeAcknowledgment() {
+    if (this.isTerminal() || !this.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply')) return null;
+    if (this.log.entries.some(e => e.type === 'cue_shown' && e.payload?.kind === 'launch_reply_acknowledgment')) return null;
+    return this.log.append('cue_shown', { kind: 'launch_reply_acknowledgment' }, this.state.clock);
   }
 
   installLifeApp() {
@@ -201,7 +214,6 @@ export class GameEngine {
     if (this.isTerminal() || !this.state.life) return false;
     const life = this.state.life;
     if (life.day === 1 && !['evening', 'lateNight'].includes(life.phase)) return false;
-    if (!this.installLifeApp()) return false;
     if (!hasEnteredQuackpot(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
     return true;
   }

@@ -239,6 +239,9 @@ export function projectReceipt(entries) {
 
   const accountingLines = [];
   for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'fictional_launch_invitation')) accountingLines.push(line('A fictional invitation to the evening launch was shown.', event.seq));
+  for (const event of entries.filter((e) => (e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation') || (e.type === 'action' && e.payload?.kind === 'launch_reply') || (e.type === 'cue_shown' && e.payload?.kind === 'launch_reply_acknowledgment'))) {
+    accountingLines.push(line(event.payload.kind === 'launch_reply_invitation' ? 'A launch message invited a LAUNCH reply for ten free draws.' : event.payload.kind === 'launch_reply' ? 'Replied LAUNCH.' : 'A launch reply acknowledgment was shown.', event.seq));
+  }
   for (const event of ofType('action').filter((e) => ['fictional_install', 'quackpot_opened'].includes(e.payload?.kind))) accountingLines.push(line(event.payload.kind === 'fictional_install' ? 'Chose to install the fictional app.' : 'Opened Quackpot.', event.seq));
   for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'free_ten_pull')) {
     accountingLines.push(line('A free 10-pull welcome offer was shown.', event.seq));

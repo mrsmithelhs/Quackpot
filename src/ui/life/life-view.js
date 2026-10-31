@@ -10,7 +10,7 @@
 import { renderScene } from '../../assets/apartment/index.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
-import { hasEnteredQuackpot, hasInstalledQuackpot } from '../../core/life-entry.mjs';
+import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
 } from './life-routing.mjs';
@@ -144,7 +144,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         const kind = work ? 'life-work' : unlocked ? 'life-phone' : 'life-invite';
         out.push({ id: 'phone', hotspot: true, ...PHONE_SPOT,
           label: work ? 'Phone: work messages' : worldLabels.phone,
-          chip: work ? 'Work' : unlocked ? (hasInstalledQuackpot(engine.log.entries) ? 'Open Quackpot' : 'Install & open') : 'Launch invitation',
+          chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
           done: false, hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         return out;
       }
@@ -247,11 +247,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       } };
     }
     if (kind === 'life-invite') {
-      const installed = hasInstalledQuackpot(engine.log.entries);
-      return { spec: { heading: 'Quackpot launches tonight', lines: [installed ? 'The fictional app is ready for tonight.' : 'Install the fictional app now so it is ready for tonight. This does not download anything or use a life phase.'], confirm: installed ? 'Close' : 'Install now', back: 'Put it down' },
+      const replied = engine.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply');
+      return { spec: { heading: 'Quackpot launches tonight', lines: ['Reply LAUNCH to get 10 free ducks when the pond opens.'], confirm: replied ? 'Close' : 'Reply “LAUNCH”', back: 'Put it down' },
         accept: () => {
-          if (!installed && !callbacks.onInstallPhone(expectLog)?.ok) return null;
-          return { heading: installed ? 'Ready for tonight' : 'Installed for tonight', lines: ['Quackpot opens this evening.'] };
+          if (!replied && !callbacks.onReplyLaunch(expectLog)?.ok) return null;
+          return { heading: 'Message sent', lines: ['You replied LAUNCH. Quackpot opens tonight.'] };
         } };
     }
     if (kind === 'rent' || kind === 'shortfall') {
@@ -384,6 +384,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     } else {
       scope.innerHTML = `<div class="life-decide-body life-result-body">${html}</div>`;
       scope.classList.add('life-result');
+      if (current.hold.variant === 'life-invite') {
+        const body = $('.life-phone-body', heldEl);
+        if (body && !body.querySelector('.life-you')) body.insertAdjacentHTML('beforeend', '<p class="life-bubble life-you">LAUNCH</p><p class="life-bubble">You’re on the list! Come back tonight for your free 10-pull.</p>');
+        if (active) callbacks.onLaunchAcknowledgmentShown();
+      }
       if (rentState(engine).paid) $('.life-letter', heldEl)?.classList.add('life-stamped');
       if (current.hold.variant === 'shift' && !res.ends && /thank/i.test(res.heading)) {
         $('.life-phone-body', heldEl)?.insertAdjacentHTML('beforeend', '<p class="life-bubble life-you">I can cover it.</p><p class="life-bubble">thank you!!</p>');
@@ -450,7 +455,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const life = engine.state.life;
       const body = hold.variant === 'life-work'
         ? `<p class="life-bubble">${life.work ? 'Your shift is underway.' : life.phase === 'evening' ? `An evening shift pays ${esc(money(life.config.overtimeWage))} on completion.` : `Your scheduled afternoon shift pays ${esc(money(life.config.scheduledWage))} when completed.`}</p>`
-        : `<p class="life-bubble">${hold.variant === 'life-invite' ? 'Quackpot launches tonight! Get ready for the fictional launch.' : 'Quackpot is ready when you are.'}</p>`;
+        : hold.variant === 'life-invite' ? `<p class="life-bubble">Quackpot launches tonight! Reply LAUNCH to get 10 free ducks when the pond opens.</p>${engine.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply') ? '<p class="life-bubble life-you">LAUNCH</p><p class="life-bubble">You’re on the list! Come back tonight for your free 10-pull.</p>' : ''}` : '<p class="life-bubble">Quackpot is ready when you are.</p>';
       return phoneHtml({ status: life.phase, app: hold.variant === 'life-work' ? 'Harbor Street Diner' : 'Messages', body }, hid);
     }
     if (hold.variant === 'card') {
@@ -491,6 +496,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     heldEl.setAttribute('aria-modal', 'false');
     heldEl.setAttribute('aria-labelledby', hid);
     heldEl.removeAttribute('aria-label');
+    if (active && hold.variant === 'life-invite') {
+      callbacks.onInvitationShown();
+      if (engine.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply')) callbacks.onLaunchAcknowledgmentShown();
+      current.dec = decisionFor(hold.kind);
+    }
     root.classList.add('life-is-held');
     $('.life-stage').inert = true;
     const heading = $(`#${hid}`, heldEl);
@@ -717,7 +727,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function activate(o) {
     if (o.id === 'notice') { ui.noticeFocus = false; o.el?.classList.remove('life-notice-focus'); }
-    if (o.hold.variant === 'life-invite') callbacks.onInvitationShown();
     if (o.hold.mode === 'direct-phone') {
       const result = callbacks.onOpenPhone(engine.log.length);
       if (result?.ok) { callbacks.onRefresh(); callbacks.onPhoneTransition(); }

@@ -18,6 +18,7 @@ export function validateLifeHistory(entries, state) {
   let interruptedSession = null;
   let installed = false;
   let opened = false;
+  let invitation = false, replied = false, acknowledged = false;
   for (let i = 0; i < entries.length; i++) {
     const e = entries[i];
     if (e.type === 'action' && e.payload?.kind === 'fictional_install') {
@@ -25,8 +26,20 @@ export function validateLifeHistory(entries, state) {
       installed = true;
     }
     if (e.type === 'action' && e.payload?.kind === 'quackpot_opened') {
-      if (opened || !installed || e.payload.app !== 'Quackpot' || hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Invalid first app entry at ${e.seq}`);
+      if (opened || e.payload.app !== 'Quackpot' || (life.day === 1 && !['evening', 'lateNight'].includes(life.phase)) || hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Invalid first app entry at ${e.seq}`);
       opened = true;
+    }
+    if (e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation') {
+      if (invitation || life.day !== 1 || !['morning', 'afternoon'].includes(life.phase) || e.payload.technique !== 'launch_invitation' || e.payload.launch !== 'day_1_evening') errors.push(`Invalid launch invitation at ${e.seq}`);
+      invitation = true;
+    }
+    if (e.type === 'action' && e.payload?.kind === 'launch_reply') {
+      if (!invitation || replied || e.payload.text !== 'LAUNCH') errors.push(`Invalid launch reply at ${e.seq}`);
+      replied = true;
+    }
+    if (e.type === 'cue_shown' && e.payload?.kind === 'launch_reply_acknowledgment') {
+      if (!replied || acknowledged) errors.push(`Invalid launch acknowledgment at ${e.seq}`);
+      acknowledged = true;
     }
     if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
     if ((interruptedWork || interruptedSession) && !terminal && !['work_interrupted', 'session_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);

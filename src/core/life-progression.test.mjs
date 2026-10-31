@@ -398,7 +398,7 @@ test('first-day invitation can be inspected after missing the morning message', 
   const e = new GameEngine('afternoon-invite', { lifePolicy: true }); e.start(); e.setupCompanion();
   e.applyLifeIntent({ type: 'meal', choice: 'skip' }); e.applyLifeIntent({ type: 'depart_work' });
   assert.ok(e.showLifeInvitation()); assert.equal(e.showLifeInvitation(), null);
-  assert.equal(e.log.entries.filter(x => x.payload?.kind === 'fictional_launch_invitation').length, 1);
+  assert.equal(e.log.entries.filter(x => x.payload?.kind === 'launch_reply_invitation').length, 1);
   assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
 });
 
@@ -414,4 +414,29 @@ test('phase changes discard suspended phone navigation only on success', () => {
   assert.equal(e.state.lifePhoneReturnStep, 'life_race_result');
   assert.equal(e.applyLifeIntent({ type: 'depart_work', confirmedSessionEnd: true }).ok, true);
   assert.equal(e.state.lifePhoneReturnStep, null);
+});
+
+
+test('launch reply evidence is ordered, free, and independent of the welcome pull', () => {
+  for (const reply of [false, true]) {
+    const e = new GameEngine(`launch-${reply}`, { lifePolicy: true }); e.start(); e.setupCompanion();
+    const before = { cash: e.state.cash, gems: e.state.gems, life: structuredClone(e.state.life), rng: e.rngDraw.serialize() };
+    assert.equal(e.replyLifeInvitation(), false); assert.ok(e.showLifeInvitation());
+    if (reply) { assert.equal(e.replyLifeInvitation(), true); assert.equal(e.replyLifeInvitation(), true); assert.ok(e.showLifeAcknowledgment()); assert.equal(e.showLifeAcknowledgment(), null); }
+    assert.deepEqual({ cash: e.state.cash, gems: e.state.gems, life: e.state.life, rng: e.rngDraw.serialize() }, before);
+    assert.equal(e.state.tenPullCommitted, false);
+    e.applyLifeIntent({ type: 'meal', choice: 'skip' }); e.applyLifeIntent({ type: 'advance' }); e.applyLifeIntent({ type: 'advance' });
+    assert.equal(e.openLifeApp(), true); assert.equal(e.log.entries.some(x => x.payload?.kind === 'fictional_install'), false);
+    assert.equal(e.commitPromotionalTenPull().length, 10); assert.equal(e.commitPromotionalTenPull().length, 10);
+    assert.equal(e.log.entries.filter(x => x.type === 'draw_committed').length, 10);
+    assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+  }
+});
+
+test('launch reply and acknowledgment must follow their actual evidence', () => {
+  for (const event of [{ type: 'action', payload: { kind: 'launch_reply', text: 'LAUNCH' } }, { type: 'cue_shown', payload: { kind: 'launch_reply_acknowledgment' } }]) {
+    const e = new GameEngine('launch-invalid', { lifePolicy: true }); e.start(); e.setupCompanion();
+    e.log.append(event.type, event.payload, e.state.clock);
+    assert.equal(validateSave(e.toEnvelope()).valid, false);
+  }
 });

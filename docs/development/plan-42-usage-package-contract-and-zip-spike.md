@@ -1,7 +1,7 @@
 ---
 id: plan-42
 title: Usage package contract and ZIP round-trip spike
-status: in-progress
+status: delivered
 depends_on: [plan-07]
 gate: "Owner assigned Codex on2026-10-31. Exact dependency/mechanism clearance precedes executable artifact work; contract/spike acceptance precedes production exporter/analyzer integration."
 summary: >-

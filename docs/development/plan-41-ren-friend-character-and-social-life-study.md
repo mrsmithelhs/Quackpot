@@ -1,11 +1,9 @@
 ---
 id: plan-41
 title: Ren friend character and social life study
-status: ready
+status: in-progress
 depends_on: []
 gate: "Owner opens Ren development on 2026-10-31, with reference research and report-local generated concepts authorized on assignment. Owner selects characterization, visuals and consequential rules before production."
-superseded_by: null
-resolution: null
 summary: >-
   Develop Ren as a friend with a life beyond the gacha, comparing visual concepts, interaction opportunities, well-being recovery and relationship consequences with the owner before integration.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-41
 - Packet title: Ren friend character and social life study
 - Status: (see frontmatter)
-- Owner/model: unassigned; Claude/Sonnet suggested for character, narrative and SVG development
+- Owner/model: owner-dispatched Sonnet2026-10-31 for character, narrative and visual development
 - Date: 2026-10-31
 - Packet type: investigation / character design / visual concept study
 - Mutation level: report-local research, concepts and optional isolated storyboard

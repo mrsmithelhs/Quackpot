@@ -491,3 +491,12 @@ Owner selects $60 take-home per completed scheduled shift as the working wage ba
 Owner permits Plan37 closure at root judgment. Root accepts the policy/design investigation and fourteen owner selections with the qualifications in reports/orchestration/plan-37-closeout-and-integration-boundaries.md: temporary phone return is not session finish; bedrest cannot bypass due rent; remaining lifecycle defaults, calendar, effects and transaction schema are inputs to a bounded Plan38 amendment. This closes an interview/specification investigation, not a production-ready engine specification. No further design-agent handoff is required merely to close it.
 
 Root reconciled stale open-question/source-map summaries and added a compact document-authority/current-direction view to docs/README.md plus an orchestration reconciliation reminder. The Bootstrap pilot intake remains a proposal; no local default design-review prompt/capability adoption follows.
+
+
+### DECISION-047 — Progression integration assignment and parallel experience studies
+
+**Date:** 2026-10-31
+
+Owner assigns amended Plan38 to Codex and Plan40 to Gemini Flash, and reports Plan41 dispatched to Sonnet. Plan38 now explicitly covers selected life progression/transactions beyond its older presentation-only scope, with a root mechanism/config/compatibility checkpoint before source writes. Plan40 has cross-harness latitude for direct owner questions, treatment selection and report-local prototype iteration through coherent delivery, returning for material cross-packet/rule/ownership implications or final review. The three scopes remain distinct; no automatic production adoption of Plan40/41 proposals.
+
+Owner renews two-way supervision of QP Impl42 and QP Impl27 through completion. Root review accepts Plan27 as the selected-layout investigation with explicit source-link/chronology qualifications; draftPlan44 scopes future production Receipt and remains unassigned. Plan42 final repairs pass independent source review and12 focused serial test files and are delivered for owner acceptance as a synthetic report-local spike, not a production exporter/analyzer. No push/deployment.

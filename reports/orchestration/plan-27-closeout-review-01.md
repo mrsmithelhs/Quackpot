@@ -1,0 +1,9 @@
+# Plan27 closeout and next implementation boundary
+
+2026-10-31. Owner selected LayoutA and now authorizes supervision through completion. Root read delivered proposal/source mapping and a read-only Terra-medium review (requested, observed identity unverified). Accept/close as report-local hierarchy investigation, preserving comparison A/B and owner choice. No rendered accessibility, keyboard/print or production evidence is claimed from this closure.
+
+The new integration-proposal.md in the existing report folder, commit980533f, is useful input for draft Plan44, not source-write authority. Root qualifications: raceEvidence arrays are event-type grouped, not proven chronology; stable sequence merge/sort is required. Nearest-preceding purchase association is heuristic; prove actual event paths or retain separate transaction records rather than invent exact links. Duplicate reveal may itself be actual display evidence; preserve that exception. Include race_trial_offer_shown in source mapping. These are source-description corrections, not reasons to implement a product before closing the investigation.
+
+Plan44 explicitly carries these qualifications and exact source ownership/trace gates. Plan38 may need minimal core Receipt projection changes: coordinate shared-file turns before mutation. No new source, test, browser, schema, export or storage authority follows from closing Plan27. The owner's selected LayoutA remains the intended production hierarchy; that integration remains unassigned.
+
+Root reconnected with QP Impl27. Its outbound message was rejected by automatic approval review for absence of direct human authorization evidence in that recipient context. Root retrieved the committed proposal directly; no workaround sent a rejected outbound reply. No new owner relay was needed to obtain the artifact. Direct human authorization in QP Orch remains recorded for supervision.

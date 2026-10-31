@@ -1,89 +1,58 @@
 ---
 id: plan-38
-title: Apartment life production integration
+title: Apartment life progression and production integration
 status: in-progress
-depends_on: [plan-28]
-gate: "Owner assigned 2026-10-30 to the existing Opus thread; proceed through bounded implementation and validation to delivery. Integrated experience returns for owner review."
+depends_on: [plan-28, plan-29, plan-37]
+gate: "Owner reassigns amended scope to Codex2026-10-31. Root reviews exact progression/transaction/compatibility mechanism and initial parameter choices before new source writes; then bounded integration to owner review."
 summary: >-
-  Bring the selected room-object, held-message and explicit-decision flow into production, with still companion poses, tap-to-buy breakfast and preserved save/exit/economy boundaries.
+  Integrate one authoritative action-based life progression model with existing apartment surfaces, distinct work/pay/rent commitments, session re-entry, truthful events and safe saved transitions.
 ---
-# Plan 38: Apartment life production integration
+# Plan38: Apartment life progression and production integration
 
-## Packet Metadata
+## Assignment and scope supersession
 
-- Packet id: plan-38
-- Packet title: Apartment life production integration
-- Status: (see frontmatter)
-- Owner/model: existing Plan 28 Opus lead; Haiku coding workers, optional Sonnet integration delegate
-- Date: 2026-10-30
-- Packet type: feature / integration
-- Mutation level: source and user-facing local build
-- Approval gate: assignment approved; final integrated owner review
-- Expected artifacts: focused production life modules, default-preserving kit omission option, regression evidence and progress report
+Owner assigns Codex on2026-10-31 after closing Plans29/37. This amendment supersedes the older presentation-only non-goals, $5/no-skip wording and Opus/Haiku-specific execution contract for NEW work. Preserve existing Plan28/38 presentation and historical commits/reports; do not restart the art or discard accepted fixes. Existing kitchen opening, explicit breakfast skip, still companion, supported apartment objects and phone transition remain the starting point. The integrated daily experience is not yet accepted.
 
-## Goal and why this packet exists
+Owner selects $60 take-home per completed scheduled shift as working baseline. Other Plan29 example values ($80 start/$6 meals/$170 remaining rent), shift duration and health/credit numbers remain provisional. No new numerical selection is implied by reassigning this packet. Exact initial working parameters and which proposed lifecycle effects are active must appear in the mechanism checkpoint; do not silently ship the higher60 table, harden 70/30HP examples or multiply every price.
 
-Replace metagame choices currently presented inside the gacha or in floating form-like cards with the owner-selected Plan 28 mix. Objects belong in the apartment; inspecting is free; committing happens through a clear game decision or appropriate phone-app action. Deliver one coherent integrated flow rather than separately shipping incompatible presentation and routing layers.
+## Required inputs
+
+Read AGENTS.md; docs/README.md; canonical design, decisions and source map; reports/orchestration/plan-37-closeout-and-integration-boundaries.md; closed Plan37 ledger/consolidation qualified by that root note; Plan29 followup model/progress and root review; Plan28 final-report/owner-direction D1–D22/selected mix; existing Plan38 source/report and reports/orchestration/plan-38-owner-sequencing-review-02.md. Prioritize selected rules and root qualifications over historical draft defaults. Inspect current engine/storage/event/Receipt behavior rather than assume the report prototype is production.
+
+## First checkpoint — mechanism before new source writes
+
+Own a concise proposal in reports/development/plan-38-apartment-life-production-integration/. Map exact changed files, current state fields and legacy routes, proposed authoritative phase/action/obligation state, commit boundaries, events, configuration, version/migration, failure recovery and validation. Root may approve routine technical defaults that preserve selected policy; genuinely new consequential experience/rule choices go to owner with context. Do not reopen settled policies.
+
+Propose small pure transition/resolution helpers under src/core/ rather than adding another independent controller clock. Engine owns cash/HP/RNG/events; views dispatch intents and render authoritative state. UI, HUD, phone messages and day bar derive phase from one source. A declarative action table is appropriate if it clarifies eligibility, maintenance/anchor, displayed terms, commitment, outcome, next phase and resume; no framework rewrite.
+
+Provide finite paper traces Day1–4 plus one employment/recovery continuation before implementation: setup/breakfast; work agreement, completion and once-only wage; evening phone unlock/leisure; Day2 return and extension; dinner/LateNight; early rent, affordable pay/withhold, shortfall, exact-zero cash; collapse at deadline; pending race/pull, mid-work reload and Uninstall. Identify unresolved ordering rather than claiming paper traces prove runtime idempotence.
+
+## Selected behavior and integration constraints
+
+- Three primary phases Morning/Afternoon/Evening and optional LateNight. One anchor plus routine maintenance. Breakfast/dinner each allow disclosed $0/5HP skip, clamped to actual health. Reading, navigation, settings, motion and device time consume no life slots. No mandatory waits.
+- Kitchen setup first; Day1 evening gacha introduction selected. State the missed-first-shift unlock exception as a proposed default until root/owner disposition. Preserve one-time welcome entitlement, discovery and committed outcomes; later sessions must not replay the free10-pull.
+- Ordinary work and evening overtime are distinct from LateNight gacha. Show agreement/doing/completion/pay as understandable steps, with no rendering-triggered credit. Never auto-pay rent as an unexplained consequence of taking a shift. Three missed scheduled shifts progress warnings/termination of scheduled work, not a new ending or invented odd jobs. Calendar and post-termination overtime remain explicit choices, not hardcoded implications.
+- Gacha commits a phase on first active commitment. State baseline allowance as a parameter and warn before extension consumes the next phase/obligation. Temporary Put Phone Down preserves the active session and free in-phase re-entry. Explicit Finish Session/advance is separate. Do not charge for browser/room re-entry or consume an already-used anchor twice. Define partially used baseline and pending outcome boundaries.
+- Rent is an unpaid remainder, not full monthly rent or a fabricated prior in-run payment. Latch due obligation on Day4 arrival independently of notice inspection; health/recovery cannot jump past, erase or silently settle it. Affordable unpaid rent offers genuine Pay or Hold Cash; withholding retains funds and immediately escalates. Insufficient funds triggers selected escalation. Payment leaving exactly zero is valid. State which actions remain available during escalation and distinguish solvent refusal from shortfall.
+- Positive one-phase recovery at zeroHP; actual HP clamped and effects logged truthfully. Preserve obligations and once-only outcomes through interruption. Gradient concept is selected but exact thresholds/wage effects/recovery values are not. Model support may be parameterized; active effects require declared checkpoint disposition. Proactive sales persist room changes; social-rule values belong Plan41, not guessed penalties here.
+- Keep immediate visible Uninstall/Leave, retention semantics and terminal Receipt on every route. A committed draw/race stays committed; presentation may resume/static/stop without new rewards. Do not fabricate voluntary actions for automatic consequences or infer player motives.
+
+## Ownership after root mechanism clearance
+
+Bounded source changes: focused new/updated core life-progression/config helpers; src/core/game-engine.mjs; narrowly necessary storage validation/version support; truthful event/Receipt projection adapters; src/main.js and existing src/ui/life/, HUD/desk/context helpers, feature CSS; related focused tests and owned report. Exact files must be listed at checkpoint. Avoid broad style.css growth and monolithic engine/controller rewrites.
+
+Plan40 owns only its report-local experience prototypes. Plan41 owns Ren reports/concepts. Plan27 owns Receipt investigation/proposal, Plan42 owns ZIP spike. They must not write this source concurrently. Existing current Receipt remains truthful; new reflection-layout work is separate and must not conflict with this packet's minimum life-event projection. No runtime imports of reports. Reuse existing art; use honest modest placeholder work/evening presentation until Plan40 choices are adopted, clearly mark any unresolved owner visual gate.
+
+Legacy save handling must preserve originals/non-destructive recovery. Never rewrite log history or reseed a restored run to force a new schedule. Distinguish new-run versioned policy from old-save continuation; propose migration/legacy branch explicitly before mutation. Preserve captured Plan35 fixtures/attestations as historical evidence; new-source proof uses appropriately labelled fresh traces or a separately cleared revalidation, not silent pin rewrites.
 
 ## Non-goals
 
-**Owner review amendment, 2026-10-30:** Integrated experience is not accepted. Repair the misleading phone-to-breakfast opening by starting setup in the kitchen. Breakfast must be genuinely optional: explicit skip costs 5 HP (clamped to actual remaining health), spends no cash, advances and is saved/recorded honestly; putting an object down remains free. This supersedes the prior no-skip limit below. Present $15 as the remaining rent balance, without fabricating a prior in-run payment. Broader work/evening/session sequencing remains a blocking experience gap for closure and routes to Plan37 plus the draft Plan40 work/evening study. The current day bar and automatic shift-to-rent settlement are not accepted merely because they match the prototype; do not relabel away the missing action structure.
+No new drawings/roster/per-identity balance, race retuning, soundtrack/TV audio/weather mounting, disorientation, relationship model, influencer/new endings, production ZIP exporter/analyzer, dependencies, telemetry, real money, automatic submission, deployment or push. No blanket authority to implement every provisional Plan37 example or Plan40/41 recommendation.
 
-No new time-slot rules, skipped meals/shifts, firing, food inventory, economy calibration, endings, weather mounting, soundtrack, late-game disorientation or general apartment exploration. Plans 37, 29 and other packets retain those scopes. No new event types or life-surface display logging. No push/deployment.
+## Execution, review and delivery
 
-## Authority and contracts
+Before work, run packet check through unchanged Plan25 bounded launcher after process/ownership preflight. Before source writes, send the single mechanism checkpoint to QP Orch. Once cleared, implement and fix ordinary issues through delivery without per-command approvals. One implementation writer at a time; read-only helpers may run in parallel. No automatic worker fanout. One read-only Terra-medium pre-delivery review is authorized for the full behavioral change, not pre-proposal/repeated repairs. Record requested/observed capability limits and findings dispositions.
 
-Read AGENTS.md, docs/decision-log.md, docs/development/README.md, docs/repo-structure.md, docs/founding/design.md, the implementer starting prompt, and:
+All Node runs use unchanged reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1, serial --test-concurrency=1 for multiple named tests, 1GiB heap/2GiB sampled owned tree/90s. No watchers, installs, process kills or broad test discovery. Root coordinates execution/browser turns; don't stop owner servers. Propose bounded owned loopback server only if reuse is unavailable. Browser uses isolated test state; no owner save mutation. Meaningful engine/storage/Receipt and integration checks plus build, followed by named desktop/narrow keyboard/static/reduced-motion scenarios. Test selected state transitions and real effects, not only duplicate functions/prose claims. Add generated reachable review checkpoints only within approved fixture ownership.
 
-- reports/orchestration/plan-28-selected-mix-review-06.md (integration qualifications take precedence over inherited proposal shortcuts).
-- reports/development/plan-28-apartment-choices-and-diegetic-communications/final-report.md.
-- That folder's owner-direction-2026-10-30.md (D1–D22), integration-proposal.md Part A and incorporated lifecycle sections, and gallery/ source/evidence. Preserve alternative treatments as history.
-- Existing Plan 35 fixture/capture contracts and root Plan 28 retention diagnostic before modifying compatibility or exit behavior.
-
-Preserve Receipt honesty, existing numerical rules, actual expense/action logging, resolve-once effects, immediate exit, accessible equivalents and static physical companion. Owner D22 intentionally makes paid-zero optional opportunities missable; do not re-ask this or introduce forced tours. Reading and presentation motion do not consume fictional time.
-
-## Scope and ownership
-
-New focused src/ui/life/ modules and scoped CSS; bounded rewiring in src/main.js and retirement of replaced life modal renderers in src/ui/modals.js. Reuse the accepted desk-phone/context lifecycle. Own only necessary related tests and report folder reports/development/plan-38-apartment-life-production-integration/.
-
-Authorize one small src/assets/apartment/ API extension: omit the built-in companion and its shadows, default preserving existing output; use existing renderDuck for separate still poses/perches. Port only needed selected props from reports into source; no report runtime dependencies. Update source map for implemented modules. Engine mutation is limited to a focused repeated-Uninstall idempotency fix and, if measurement justifies it, a read-only preview helper with equivalence tests. No mechanical retuning.
-
-Storage validation or checkpoint tooling changes require an exact compatibility proposal if needed; do not silently expand either subsystem. Other active work must have disjoint ownership; coordinate before touching shared files.
-
-## Implementation requirements
-
-1. Use T1 paper rent notice, T2 phone-native shift/advance, and T4 object confirmation for sales and bakery breakfast. Keep the institutional letter free of software controls. Decide starts collapsed; no reading/scroll prerequisite. Preserve selected halo/chip/gaze guidance and physically supported tilt. Narrow screens receive a readable confirmation sheet.
-2. Preserve ladder order, effects and honest final-decline warning. Inspect/Not now/Escape change no game state or log. Paid-zero alternatives remain mutually exclusive under existing engine rules; Go to work closes the opportunity and grants the regular wage exactly once.
-3. Move breakfast charging to explicit confirmation on supported mornings. Preserve $5 and existing outcome rules. No skipping breakfast introduced here. Handle already-settled, unsettled, crash-between-charge-and-route and historical pending-reveal cases without rewinds or double charges. Route from explicit production state, not gallery day>=3 shortcuts; unknown states get non-destructive recovery.
-4. Keep Save, Settings and immediate Uninstall available in ordinary and held/confirm contexts through an explicit accessible hierarchy. Restore focus and interrupted context correctly. Repeated Uninstall must not overwrite the original context, repeat rewards or block Leave. Rendering, reload and dismissal never commit an expense or choice.
-5. Keep production report-independent. Scope SVG ids, remove associated duck shadows on omission, preserve output by default and existing phone behavior. No physical-duck motion. Measure preview computation against representative large logs before choosing repeated clone-based rendering.
-6. Existing captured saves/attestations remain preserved historical artifacts. Document compatibility against changed source explicitly; use a bounded approved revalidation extension or dedicated fresh-run/old-save regression evidence, never claim a historical fingerprint attests the new build. Do not recapture or regenerate fixtures gratuitously.
-
-## Work plan and execution latitude
-
-On assignment, check packet readiness through the existing bounded launcher and inspect current ownership/processes. Record a concise implementation map, then proceed through scoped edits, ordinary fixes, proportionate tests and browser iterations to delivery without per-run orchestration gates. Ask the owner directly about genuinely new experience choices; return to orchestration only for substantive contract/ownership/scope changes or final review. Do not reopen D1–D22.
-
-All Node work uses the unchanged Plan 25 bounded launcher, serial runs, 1 GiB heap, 2 GiB sampled owned-tree memory and 90-second ceiling. Preflight running processes; never kill unrelated Node/Codex processes. Reuse the verified owner dev server; do not stop an owner-started server. Avoid watchers, install churn and concurrent test suites.
-
-**Owner execution amendment, 2026-10-30:** The existing Opus lead should prioritize coding in several bounded Haiku tasks, rather than doing the bulk of routine implementation itself. It may delegate implementation coordination to one Sonnet subagent, which may spawn its own Haiku helpers if the harness actually supports that capability. Nested delegation is optional, not an assumed capability or reason to spend time troubleshooting the harness. Direct Opus-to-Haiku delegation is the fallback. No numerical Haiku cap; size tasks by actual separability and avoid duplicated repository surveys or repeated full-context briefs.
-
-Keep one integration writer responsible for shared main.js/controller/lifecycle wiring. Independent workers own explicit disjoint files or return patches from isolated workspaces; never have multiple workers modify the same files or operate the shared git index concurrently. If isolation is unavailable, serialize coding writes while overlapping read-only work. Leaf workers do not fan out; only the expressly authorized Sonnet coordinator may do so. This owner amendment permits that bounded hierarchy for this packet without changing general repository delegation rules.
-
-Suggested division: kit omission and tests; pure life-routing/decision models and tests; focused life views/scoped styles; targeted retention/compatibility regression work after interfaces are agreed. Separate the view files from shared integration hotspots. Lead chooses exact boundaries after a short inspection; do not turn the suggestions into compulsory staffing. Workers run no concurrent Node suites or competing browser sessions. One coordinator batches targeted validation through the bounded launcher.
-
-Opus does a short, substantive integration review of the final diff and evidence, concentrating on breakfast/old saves, exactly-once effects, Uninstall and selected-experience fidelity; it need not reimplement or reread every worker step. Retain owner-directed Branch C with no advisor. Record actual model/delegation use and uncertainties. No Terra or other advisory call is authorized for this Opus assignment.
-
-## Validation Checklist
-
-- [ ] Targeted route/effect tests cover rent paid/zero/unpaid, every offer, mutually exclusive paid-zero outcomes and exactly-once ordinary wage.
-- [ ] Inspect/Not now/put-down produce no events; costs and terminal labels match actual engine results.
-- [ ] Breakfast and old saves cover the named compatibility cases, including pending reveals; reload cannot repeat payments or rewards.
-- [ ] Retention regression covers repeated Uninstall, Stay restoration, once-only reward and Leave from each new surface.
-- [ ] Kit default output is unchanged; omission removes duck/shadows; two instances have scoped ids and selected furniture disappears after actual sales.
-- [ ] Focused real-app browser checks cover desktop/narrow, keyboard, held/confirm layers, Settings/Save/Uninstall and static/reduced-motion handling. Separate emulated, actual OS and unverified evidence.
-- [ ] Relevant engine/storage/Receipt and build checks pass under bounded execution; no report imports or runtime remote assets introduced.
-- [ ] Progress states actual evidence, limits, remaining owner review, consultation and file ownership; commit scoped files explicitly and progress last.
-
-## Stop conditions and delivery
-
-Stop for new game rules, unavoidable schema/source-closure redesign, unresolved overlapping writes or resource-limit failure. Routine repairs and tests remain authorized after assignment. Implementers never set packet completion status. Deliver integrated local review URL, named scenarios, before/after flow and evidence in reports/development/plan-38-apartment-life-production-integration/progress.md; do not push.
+Deliver versioned mechanism/config decision record, before/after Day1–4 trace, migration/resume/zero-cash/terminal evidence, exact review URL/scenarios and limitations. Tell root milestones/blockers/delivery when owner authorizes the Codex chat; don't stop at ordinary milestones. Commit explicit owned paths, progress last. Never set packet status or push. Root reviews technical delivery; owner reviews the integrated experience. New consequential unresolved rules/ownership/resource gaps remain stop conditions, not repeated routine approval requests.

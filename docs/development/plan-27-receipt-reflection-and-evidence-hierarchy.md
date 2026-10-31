@@ -1,7 +1,8 @@
 ---
 id: plan-27
 title: Receipt reflection and evidence hierarchy
-status: delivered
+status: complete
+resolution: "Owner selected Layout A; root accepts bounded hierarchy investigation and preserved alternatives with source-description qualifications in plan-27-closeout-review-01.md. No rendered accessibility or production implementation claim. Draft Plan44 separately scopes integration."
 
 depends_on: [plan-23]
 gate: "Owner approves investigation scope before assignment, then selects recommendation before production changes."

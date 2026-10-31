@@ -110,3 +110,12 @@ Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the 
 - What I viewed: the contact sheet after the pencil/tattoo change; the apartment scenes page after each run (final state at desktop width); the round 3 comparison sheet. Not checked: avatar scale, other complexions, hardware keyboard or screen reader (no interactive page in this round).
 - Still open: bedhead is not convincing; the three ungenerated Gemini hair grids; any owner selection of outfits or hair. The old `ren-ref-*.png` references show the removed neck tattoo; the Gemini prompt now points to the updated template PNG.
 - Public-repo hygiene: reference and concept images contain no real people or private data.
+
+## Addendum 5: remaining Gemini hair grids and second hair pass (2026-10-31)
+
+- Owner dropped bedhead. The Gemini thread then finished the three missing hair grids (14 of 14 images; model `not exposed`; references attached unverifiable). Review, provenance caveats and drawing verdicts are in section 9 of `07-gemini-round-01-review-and-selection.md`.
+- Delegation: ten more Haiku drawing helpers (hair and headgear), each in its own folder under `concepts/svg-round-01/hair/`, guided by new shared brief `concepts/svg-round-01/BRIEF-HEADGEAR.md`. Total Haiku drawing helpers so far: 25 (10 first pass, 3 revision, 2 hood/bedhead, 10 hair). Plus two Haiku researchers earlier (visual references, friendship mechanics) and one for bedhead references: 28 Haiku helpers overall.
+- Viewed: the ten new drawings together on `contact-sheet-hair.png` (desktop width). Sources scanned for forbidden constructs (none). Not checked: avatar scale, other complexions, apartment placement of the headgear drawings.
+- No executable work this round beyond headless Edge renders; no Node jobs.
+- Open: owner selection of final outfits/hair; whether to fix the sleep bonnet and the pencil collisions; whether the sawdust and attic-dust ideas are wanted; a 'Ren in the apartment' refresh with the newer drawings has not been done.
+- Public-repo note: Gemini PNG concept sheets (now about 14 MB total) are committed as report-local concept references, not game assets.

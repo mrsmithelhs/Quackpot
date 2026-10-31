@@ -1,7 +1,7 @@
 ---
 id: plan-38
 title: Apartment life progression and production integration
-status: in-progress
+status: delivered
 depends_on: [plan-28, plan-29, plan-37]
 gate: "Owner reassigns amended scope to Codex2026-10-31. Root reviews exact progression/transaction/compatibility mechanism and initial parameter choices before new source writes; then bounded integration to owner review."
 summary: >-

@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="720" height="900" role="img" aria-label="Ren concept drawing: hair-windblown-damp">
+<style>
+  svg{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+  <clipPath id="base-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+  <g id="base-neck"><path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+  <g id="base-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+  <path id="base-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+  <g id="base-face">
+    <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+    <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+    <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+    <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+    <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+    <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+  </g>
+  <g id="base-hs-shapes">
+    <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+    <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+  </g>
+  <g id="base-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+  <g id="base-acc">
+    <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+    <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  </g>
+  <g id="base-pencil"><path d="M168 118 L158 98" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M168 118 L158 98" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/></g>
+</defs>
+<rect width="240" height="300" fill="#efe3cc"/>
+
+<!-- ===== LAYER TORSO (behind the neck). OUTFIT TASKS: replace this group. Baseline: striped tee + teal overalls. ===== -->
+<g id="LAYER-torso">
+  <path class="l3" fill="#f1e3c8" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <g clip-path="url(#base-tclip)" stroke="#c76b3d" stroke-width="5" fill="none"><path d="M20 252 Q120 222 220 252"/><path d="M20 272 Q120 242 220 272"/><path d="M20 292 Q120 262 220 292"/></g>
+  <path class="l3" fill="#4f6d7a" d="M74 218 L94 211 L98 242 L82 244Z"/>
+  <path class="l3" fill="#4f6d7a" d="M146 211 L166 218 L158 244 L142 242Z"/>
+  <path class="l3" fill="#4f6d7a" d="M82 240 Q120 250 158 240 L162 300 L78 300Z"/>
+  <circle cx="88" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><circle cx="152" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  <rect x="104" y="268" width="32" height="22" rx="4" fill="#42606c" class="l2"/>
+</g>
+
+<use href="#base-neck"/>
+
+<!-- ===== LAYER COLLAR (in front of the neck, behind the head and chin). OUTFIT TASKS: collars, scarf, turtleneck. Empty by default. ===== -->
+<g id="LAYER-collar"></g>
+
+<use href="#base-ears"/>
+<use href="#base-head"/>
+<use href="#base-face"/>
+
+<!-- ===== LAYER HAIR. HAIR TASKS: replace this line/group. Baseline: short tapered curls (cloud of circles). ===== -->
+<g id="LAYER-hair">
+  <g id="hair-windblown-damp-strands" fill="none" stroke="#3a2c26" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M168 56 Q186 36 204 40 Q216 46 210 56 Q204 60 204 52"/>
+    <path d="M186 96 Q208 96 220 84 Q226 76 218 72 Q212 72 214 78"/>
+    <path d="M194 104 Q206 118 198 128 Q192 132 190 126"/>
+  </g>
+  <g fill="none" style="stroke:var(--hair)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M168 56 Q186 36 204 40 Q216 46 210 56 Q204 60 204 52"/>
+    <path d="M186 96 Q208 96 220 84 Q226 76 218 72 Q212 72 214 78"/>
+    <path d="M194 104 Q206 118 198 128 Q192 132 190 126"/>
+  </g>
+  <g id="hair-windblown-damp-mass" class="hair l3">
+    <circle cx="104" cy="56" r="14"/><circle cx="120" cy="50" r="16"/><circle cx="140" cy="46" r="16"/><circle cx="158" cy="50" r="16"/>
+    <circle cx="174" cy="60" r="15"/><circle cx="186" cy="76" r="15"/><circle cx="196" cy="94" r="13"/><circle cx="200" cy="112" r="9"/>
+    <circle cx="126" cy="70" r="16"/><circle cx="150" cy="72" r="14"/><circle cx="110" cy="74" r="14"/>
+    <circle cx="84" cy="82" r="11"/><circle cx="92" cy="64" r="13"/>
+  </g>
+  <g class="hair" stroke="none">
+    <circle cx="104" cy="56" r="14"/><circle cx="120" cy="50" r="16"/><circle cx="140" cy="46" r="16"/><circle cx="158" cy="50" r="16"/>
+    <circle cx="174" cy="60" r="15"/><circle cx="186" cy="76" r="15"/><circle cx="196" cy="94" r="13"/><circle cx="200" cy="112" r="9"/>
+    <circle cx="126" cy="70" r="16"/><circle cx="150" cy="72" r="14"/><circle cx="110" cy="74" r="14"/>
+    <circle cx="84" cy="82" r="11"/><circle cx="92" cy="64" r="13"/>
+  </g>
+  <g fill="none" stroke="#4a382e" stroke-width="2" stroke-linecap="round">
+    <path d="M112 62 Q122 58 132 62"/><path d="M158 66 Q168 70 176 66"/><path d="M178 92 Q186 90 190 94"/><path d="M84 80 Q92 76 98 82"/>
+  </g>
+  <path fill="#4a382e" d="M116 50 Q120 40 132 40 Q124 44 121 53Z"/>
+  <path fill="#4a382e" d="M172 60 Q180 54 186 58 Q178 60 174 68Z"/>
+</g>
+
+<!-- Tattoo (delete this line if a garment covers the neck sprout), earrings, pencil (delete or move it if a hair covering would hide it) -->
+<use href="#base-tat"/>
+<use href="#base-acc"/>
+<use href="#base-pencil"/>
+</svg>

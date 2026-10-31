@@ -1,0 +1,14 @@
+# Plan 38 owner repair 03 — root review
+
+2026-10-31. Reviewed source/evidence commit `f7eb74c` and progress `6107f00` against `plan-38-owner-experience-repair-03.md`. Packet remains in progress and owner acceptance remains open.
+
+Root inspected changed engine, entry-history, progression, validation, controller and life-view/routing source. Root viewed the committed kitchen-after and afternoon-desk desktop screenshots, living-before desktop screenshot and morning-desk narrow screenshot. They show one kitchen with the notice, daytime desk lighting, a single contextual phone target and supported companion poses. The living companion is on the couch arm rather than the owner's suggested table; this remains an owner composition judgment. Root did not independently replay browser motion or inspect every screenshot.
+
+Root ran the existing bounded launcher with exactly `src/core/life-progression.test.mjs` and `src/ui/life/life-routing.test.mjs`, serially. All 50 tests passed, exit 0, 1.03 seconds, peak sampled private memory 87,838,720 bytes, no stop reason or cleanup note. The visible process preflight returned no Node/Python rows; this is not proof of complete machine-wide visibility. HTTP GET of the existing loopback preview returned 200. No server was started, stopped or replaced by this review.
+
+The read-only review used the existing Terra-medium review agent under the repository's requested routing; model identity is not independently observable. No reviewer tests or browser actions were run. Two findings were confirmed in controller/source and sent directly to the authorized QP Impl 38 chat for one bounded repair:
+
+1. **Stale return navigation after session end.** Putting down a race/gacha view saves `lifePhoneReturnStep`; departure/advance paths can end its session without clearing that return. Later entry can show the old result instead of the new phase's hub. Clear stale return navigation at successful session-ending transitions, retaining same-session resume and access to committed unrevealed cards. Verify departure/advance/reload/re-entry.
+2. **Display evidence on obscured rerenders.** The life-phone render calls `displayLifeGemShop()` on modal-only rerenders. Settings or Uninstall can therefore add bundle/welcome impressions while obscuring the hub. Gate recording on actual presented/active exposure, distinguish genuine re-entry from modal rerender, and verify restored-modal load and Uninstall/Stay. Preserve historical log records.
+
+The implementer has the source/build/browser turn for this repair, with no new advisor budget. Existing root preview server and owner storage remain untouched. The physical-device, comprehensive accessibility, whole-run balance and engaged-play duration limitations remain open. This review does not close Plan 38 or authorize deployment.

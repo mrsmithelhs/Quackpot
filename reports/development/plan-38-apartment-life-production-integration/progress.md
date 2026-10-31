@@ -132,3 +132,13 @@ Taken on `[::1]:5173` in the built-in browser. Desktop pane is about 470–1024 
 - Fixtures, catalogs, attestations and packet status.
 
 Nothing was pushed or deployed. Packet status was not set.
+
+## Codex implementation work in progress — 2026-10-31
+
+**Not ready for orchestrator or owner review.** Intermediate commits `c266a20`, `15a8c53`, and `603610b` stage a new-policy transition/configuration and replay foundation, plus partial adaptations of the existing kitchen and rent-notice views. New runs still use the legacy policy: the new progression is not activated. The staged breakfast and rent surfaces are not yet connected into a complete controller route. The briefly drafted generic action panel was removed because it replaced accepted apartment object/held/decision interactions.
+
+The foundation has opt-in schema-4 life intents, work acceptance/completion, meal and health effects, session allowance, rent outcomes, pending recovery, paid pulls, repeat race IDs, replay validation and log-derived Receipt changes. It is not a verified complete implementation: commits/outcomes still need integrated lifecycle and adversarial review; in particular, free room/phone/Dex navigation, phase-specific warnings, debt/escalation/sales, presentation and saved phone/race re-entry require end-to-end integration. The staged view adapters are incomplete, and a UI path must be built around the accepted objects and held-message grammar. Do not enable the new policy on this evidence.
+
+Bounded test evidence: the named engine, storage, Receipt, life routing/decision and progression set passed 101 tests before the latest adapter work; subsequently the focused progression/routing/decision set passed 39 tests and the routing set passed 19 after the rent adapter. A local Vite build passed before the latest view edits. An earlier failed test was corrected and rerun. None of these runs is a Day1–4 browser walkthrough, accessibility check, integrated owner review, or proof of old-save behavior across all supported cases. No browser run or review URL was established. One Terra-medium pre-delivery review is authorized but has not run; this is incomplete work, with orchestrator-gate-only posture until the actual behavioral implementation is ready for its requested review.
+
+The unchanged Plan25 launcher was used for the recorded Node tests/build. One initial preflight status check was run directly before the launcher requirement was read; it was repeated through the launcher and returned RUNNABLE. CIM process enumeration was unavailable; Get-Process preflight found no Node/Chrome/Edge processes. The Plan32 preview directory and Plan41 concept directory are unrelated and untouched. Packet status, push, and deployment were not changed.

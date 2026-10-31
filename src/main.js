@@ -84,6 +84,8 @@ if (app) {
       storageWarningText = 'Temporary Session: An existing save is preserved. Storage saving is paused to protect it.';
     } else if (res && res.inMemory) {
       storageWarningText = 'Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload.';
+    } else if (res && !res.success) {
+      storageWarningText = `Storage Warning: This run could not be saved (${res.error || 'unknown error'}). The previous snapshot was not replaced.`;
     } else if (res && res.success && !getInMemoryStatus() && !isTemporaryPreservationMode()) {
       storageWarningText = null;
     }
@@ -156,10 +158,10 @@ if (app) {
           activeModal = null;
         } else {
           // A crash between a breakfast charge and its step update moves forward without charging again.
-          const loaded = normalizeLoadedStep(engine);
+          const loaded = engine.state.life ? { next: null } : normalizeLoadedStep(engine);
           if (loaded.next) applyStepTransition(loaded.next);
           currentStep = engine.state.step || 'desk';
-          phoneOpen = currentStep !== 'desk' && !isLifeStep(currentStep);
+          phoneOpen = engine.state.life ? currentStep.startsWith('life_') && currentStep !== 'life_home' : currentStep !== 'desk' && !isLifeStep(currentStep);
           activeModal = engine.state.activeModal || null;
         }
 
@@ -167,6 +169,18 @@ if (app) {
         return;
       } catch (err) {
         console.warn('[Quackpot] Failed to hydrate from saved envelope:', err);
+        renderCorruptSaveModal(document.querySelector('#modal-container'), [`Saved run could not be restored: ${err.message}`], {
+          onFresh: () => { clearGame(); setTemporaryPreservationMode(false); startFreshRun(true); },
+          onKeepBackup: () => {
+            const backupOk = backupCorruptSave();
+            setTemporaryPreservationMode(true);
+            storageWarningText = backupOk
+              ? 'The existing save and a backup are preserved. This session is temporary.'
+              : 'The existing save is preserved, but a backup could not be written. This session is temporary.';
+            startFreshRun(false);
+          },
+        });
+        return;
       }
     }
 
@@ -176,6 +190,7 @@ if (app) {
 
   function startFreshRun(enableStorageSave = true) {
     const seed = generateRandomSeed();
+    // The new-policy controller remains staged until the integrated apartment review passes.
     engine = new GameEngine(seed);
     engine.start();
 
@@ -223,6 +238,12 @@ if (app) {
         renderApp();
       },
       onReturnToApartment: () => {
+        if (engine.state.life) {
+          if (engine.state.life.session) engine.applyLifeIntent({ type: 'phone_suspend' });
+          engine.state.lifePhoneReturnStep = ['life_gacha', 'life_race', 'life_race_result'].includes(currentStep) ? currentStep : 'life_phone';
+          currentStep = 'life_home'; engine.state.step = currentStep; phoneOpen = false;
+          maybeAutosave(); renderApp(); return;
+        }
         stageTransition?.run('return').then((completed) => {
           if (!completed || engine.isTerminal() || settingsOpen) return;
           phoneOpen = false;
@@ -287,7 +308,7 @@ if (app) {
       renderKitchenSetupView(mainContainer, ({ name, autosaveEnabled }) => {
         engine.autosaveEnabled = !isTemporaryPreservationMode() && autosaveEnabled;
         engine.setupCompanion(name, 'classic-yellow');
-        enterLife(BREAKFAST_STEP_BY_DAY[1]);
+        enterLife(engine.state.life ? 'life_home' : BREAKFAST_STEP_BY_DAY[1]);
       });
     } else if (!engine.isTerminal() && isLifeStep(currentStep)) {
       lifeViewHandle = renderLifeView(mainContainer, engine, lifeUi, lifeCallbacks(), {

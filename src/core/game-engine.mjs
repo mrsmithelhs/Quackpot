@@ -13,6 +13,7 @@ import { EventLog, verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, deriveRaceRestBoundary, makeRaceRestEvidence, stableExposureSignature } from './race-rest.mjs';
+import { initialLife, transitionLife } from './life-progression.mjs';
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -83,7 +84,7 @@ export function calculatePreDrawOdds(pityCount, softPityStart = 35, hardPity = 5
 }
 
 export class GameEngine {
-  constructor(seed = String(Date.now())) {
+  constructor(seed = String(Date.now()), { lifePolicy = false } = {}) {
     this.seed = String(seed);
     this.log = new EventLog();
 
@@ -129,6 +130,11 @@ export class GameEngine {
       activeBill: null,   // pending unpaid bill during escalation
       escalationStepIndex: 0,
     };
+    if (lifePolicy) {
+      this.state.life = initialLife();
+      this.state.cash = this.state.life.config.startCash;
+      this.state.health = this.state.life.config.startHealth;
+    }
   }
 
   isTerminal() {
@@ -139,8 +145,30 @@ export class GameEngine {
   start() {
     if (this.isTerminal()) throw new Error('Cannot start run: game is in terminal phase');
     if (this.log.entries.some((e) => e.type === 'run_started')) return;
-    this.log.append('run_started', { seed: this.seed }, this.state.clock);
+    this.log.append('run_started', { seed: this.seed, ...(this.state.life ? {
+      lifePolicyVersion: this.state.life.policyVersion, lifeConfig: structuredClone(this.state.life.config),
+    } : {}) }, this.state.clock);
     this.state.step = 'desk';
+  }
+
+  /** Commit a life intent and its factual effects as one in-memory snapshot. */
+  applyLifeIntent(intent) {
+    if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
+    const result = transitionLife(this.state.life, this.state, intent);
+    if (!result.ok) return result;
+    this.log.append('life_intent', { intent: structuredClone(intent) }, this.state.clock);
+    let eventClock = this.state.clock;
+    for (const event of result.events) {
+      if (event.type === 'life_phase_arrived') eventClock = { day: event.payload.day, label: `day ${event.payload.day} ${event.payload.phase}` };
+      this.log.append(event.type, event.payload, eventClock);
+    }
+    this.state.life = result.life;
+    this.state.cash = result.cash;
+    this.state.health = result.health;
+    this.state.day = result.life.day;
+    this.state.clock = { day: result.life.day, label: `day ${result.life.day} ${result.life.phase}` };
+    this.log.append('life_transition', { intent: structuredClone(intent), life: structuredClone(result.life), cash: result.cash, health: result.health }, this.state.clock);
+    return result;
   }
 
   /** Styles and names the physical companion */
@@ -149,7 +177,7 @@ export class GameEngine {
     this.state.physicalCompanion = { name, style, pawned: false };
     this.log.append('companion_styled', { name, style }, this.state.clock);
     this.state.phase = 'playing';
-    this.state.step = 'd1_morning_gacha';
+    this.state.step = this.state.life ? 'life_home' : 'd1_morning_gacha';
   }
 
   /**
@@ -161,6 +189,7 @@ export class GameEngine {
     if (this.state.tenPullCommitted) {
       return this.state.pendingReveals;
     }
+    if (this.state.life && !this.applyLifeIntent({ type: 'phone_commit', kind: 'pull' }).ok) return null;
 
     const draws = [];
     const bannerPool = BANNER_1_ROSTER;
@@ -213,6 +242,48 @@ export class GameEngine {
     this.state.pendingReveals = draws;
     this.state.tenPullCommitted = true;
     return draws;
+  }
+
+  /** A normal pull commits its cost and all outcomes before any reveal. */
+  commitPaidPull(count) {
+    if (this.isTerminal() || !this.state.life || ![1, 10].includes(count)) return null;
+    const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
+    if (this.state.gems < cost || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
+    const reservation = this.applyLifeIntent({ type: 'phone_commit', kind: 'pull' });
+    if (!reservation.ok) return null;
+    this.state.gems -= cost;
+    this.log.append('purchase', { kind: count === 1 ? 'single_pull' : 'ten_pull', cost, price: 0, gemsAfter: this.state.gems }, this.state.clock);
+    const draws = [];
+    const owned = new Set(this.state.owned);
+    for (let i = 0; i < count; i++) {
+      const odds = calculatePreDrawOdds(this.state.pityCount);
+      const roll = this.rngDraw.next();
+      const rarity = roll < odds.legendary ? 'legendary' : roll < odds.legendary + odds.rare ? 'rare' : 'common';
+      const pool = BANNER_1_ROSTER.filter(duck => duck.tier === rarity);
+      const chosen = pool[this.rngDraw.int(pool.length)];
+      const duplicate = owned.has(chosen.id);
+      const downGained = duplicate ? GAME_CONSTANTS.DOWN_PER_DUPLICATE[rarity] : 0;
+      const pityBefore = this.state.pityCount;
+      if (duplicate) this.state.down += downGained;
+      else { owned.add(chosen.id); this.state.owned.push(chosen.id); }
+      this.state.pityCount = rarity === 'legendary' ? 0 : pityBefore + 1;
+      const payload = { drawIndex: i + 1, of: count, pityBefore, drawNumberInWindow: pityBefore + 1,
+        odds, rarity, identity: chosen.id, duplicate, downGained, advancesPity: true };
+      const entry = this.log.append('draw_committed', payload, this.state.clock);
+      draws.push({ ...payload, commitSeq: entry.seq, revealed: false });
+    }
+    this.state.pendingReveals = draws;
+    return draws;
+  }
+
+  buyLifeBundle(gems) {
+    if (this.isTerminal() || !this.state.life || this.state.life.rent.status === 'due' || this.state.life.recovery) return false;
+    const price = new Map([[60, 0.99], [330, 4.99], [1090, 14.99]]).get(gems);
+    if (price === undefined || this.state.cash < price) return false;
+    this.state.cash = Math.round((this.state.cash - price) * 100) / 100;
+    this.state.gems += gems;
+    this.log.append('purchase', { kind: 'bundle', bundleGems: gems, price, gemsAfter: this.state.gems, cashAfter: this.state.cash, banner: 0 }, this.state.clock);
+    return true;
   }
 
   /**
@@ -419,8 +490,8 @@ export class GameEngine {
   }
 
   raceIdFor(raceNumber) {
-    if (raceNumber !== 1 && raceNumber !== 2) throw new RangeError(`Unsupported race number: ${raceNumber}`);
-    return `R0${raceNumber}`;
+    if (!Number.isSafeInteger(raceNumber) || raceNumber < 1 || (!this.state.life && raceNumber > 2)) throw new RangeError(`Unsupported race number: ${raceNumber}`);
+    return `R${String(raceNumber).padStart(2, '0')}`;
   }
 
   getRaceAttempt(raceNumber) {
@@ -561,6 +632,7 @@ export class GameEngine {
     if (!duckDef || !this.state.owned.includes(duckId)) throw new RangeError('Selected racer must be an owned roster duck');
     if (typeof useTrial !== 'boolean') throw new TypeError('useTrial must be boolean');
     if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
+    if (this.state.life && !transitionLife(this.state.life, this.state, { type: 'phone_commit', kind: 'race' }).ok) return null;
 
     this.activateRaceRestPolicy();
     const fieldBaseSpeed = raceNumber === 1 ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
@@ -586,10 +658,11 @@ export class GameEngine {
     // Compute and serialize before any wallet, trial, progression, or log mutation.
     const resolution = this.resolveRaceCandidate(resolverInput);
     const saved = serializeRaceResolution(resolution);
+    if (this.state.life && !this.applyLifeIntent({ type: 'phone_commit', kind: 'race' }).ok) throw new Error('Race reservation changed during resolution');
     const player = resolution.finish.find((entrant) => entrant.id === 'P') ?? null;
     const rival = raceNumber === 2 ? resolution.finish.find((entrant) => entrant.id === 'A') : null;
     const isFinished = resolution.status === 'finished' && resolution.finish.length === 6 && player?.place;
-    const nextStep = raceNumber === 1 ? 'd1_midday_race_result' : 'd3_midday_race_result';
+    const nextStep = this.state.life ? 'life_race_result' : raceNumber === 1 ? 'd1_midday_race_result' : 'd3_midday_race_result';
 
     this.log.append('action', { kind: 'race_choice', stance, duckId, raceId, trialCommitted, restEvidence: { ...restEvidence, trialCommitted, trialMultiplier: GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER } }, this.state.clock);
     this.state.raceResolutions[raceId] = saved.encoded;
@@ -1117,7 +1190,7 @@ export class GameEngine {
   /** Serializes complete game snapshot into storage envelope */
   toEnvelope() {
     return {
-      schemaVersion: 3,
+      schemaVersion: this.state.life ? 4 : 3,
       raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,
@@ -1202,10 +1275,10 @@ export class GameEngine {
     for (const resolution of Object.values(engine.state.raceResolutions)) deepFreeze(resolution);
 
     // Step coherence against completed races
-    if (engine.state.completedRaces.includes(1) && (engine.state.step === 'desk' || engine.state.step === 'd1_morning_gacha' || engine.state.step === 'd1_midday_race')) {
+    if (!engine.state.life && engine.state.completedRaces.includes(1) && (engine.state.step === 'desk' || engine.state.step === 'd1_morning_gacha' || engine.state.step === 'd1_midday_race')) {
       engine.state.step = 'd1_midday_race_result';
     }
-    if (engine.state.completedRaces.includes(2) && engine.state.step === 'd3_midday_race') {
+    if (!engine.state.life && engine.state.completedRaces.includes(2) && engine.state.step === 'd3_midday_race') {
       engine.state.step = 'd3_midday_race_result';
     }
 

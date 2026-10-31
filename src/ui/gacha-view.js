@@ -55,12 +55,12 @@ function renderCompletion(engine) {
   return `
     <div class="gacha-complete-section" data-gacha-complete>
       <div class="gacha-summary">
-        <h3>Opening Team Assembled!</h3>
+        <h3>${engine.state.life ? 'Pull complete' : 'Opening Team Assembled!'}</h3>
         <p>You have ${engine.state.owned.length} unique ducks in your digital stable.</p>
         ${engine.state.down > 0 ? `<p class="down-note">Duplicate ducks converted to <strong>${engine.state.down} Down</strong>.</p>` : ''}
       </div>
       <button id="btn-gacha-proceed" class="btn btn-primary btn-lg">
-        ${(engine.state.billsSettled ?? []).includes('d1_food') ? 'Next: Midday Race' : 'Next: Breakfast in the Kitchen'} ➔
+        ${engine.state.life ? 'Return to Quackpot' : (engine.state.billsSettled ?? []).includes('d1_food') ? 'Next: Midday Race' : 'Next: Breakfast in the Kitchen'} ➔
       </button>
     </div>
   `;
@@ -150,9 +150,9 @@ export function renderGachaView(container, engine, callbacks = {}) {
     <div class="gacha-container">
       <div class="gacha-banner-card">
         <div class="gacha-banner-header">
-          <div class="banner-tag">Promotional Welcome Event</div>
+          <div class="banner-tag">${engine.state.life && engine.state.tenPullCommitted ? 'Pond of Destiny' : 'Promotional Welcome Event'}</div>
           <h2>Pond of Destiny</h2>
-          <p class="banner-sub">Free 10-Pull • Guaranteed to Start Your Digital Duck Racing Team</p>
+          <p class="banner-sub">${engine.state.life && engine.state.tenPullCommitted ? 'Your committed pull' : 'Free 10-Pull • Guaranteed to Start Your Digital Duck Racing Team'}</p>
           <div class="odds-pill-bar">
             <span class="odds-tag odds-common">Common: 80%</span>
             <span class="odds-tag odds-rare">Rare: 18%</span>
@@ -173,7 +173,7 @@ export function renderGachaView(container, engine, callbacks = {}) {
           <div class="gacha-theater">
             <div class="gacha-theater-header">
               <span class="gacha-theater-status" data-gacha-theater-status>
-                ${allRevealed ? '✓ All 10 ducks revealed!' : `Cards waiting: ${unrevealedCount} unrevealed`}
+                ${allRevealed ? `✓ All ${pending.length} ducks revealed!` : `Cards waiting: ${unrevealedCount} unrevealed`}
               </span>
               <div class="gacha-theater-actions">
                 ${!allRevealed ? `
@@ -466,7 +466,7 @@ export function renderGachaView(container, engine, callbacks = {}) {
     }
 
     theaterStatus.textContent = nextAllRevealed
-      ? '✓ All 10 ducks revealed!'
+      ? `✓ All ${pending.length} ducks revealed!`
       : `Cards waiting: ${nextUnrevealedCount} unrevealed`;
 
     if (nextAllRevealed) {

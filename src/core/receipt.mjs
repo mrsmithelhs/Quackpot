@@ -161,6 +161,7 @@ export function projectReceipt(entries) {
 
   // Event-derived accounting / terminal outcome section
   const expenseDues = ofType('expense_due');
+  const lifeStart = ofType('run_started')[0]?.payload?.lifePolicyVersion === 1 ? ofType('run_started')[0] : null;
   const expensePaids = ofType('expense_paid');
   const escalationResults = ofType('escalation_result');
   const interestEntries = ofType('interest_charged');
@@ -170,7 +171,9 @@ export function projectReceipt(entries) {
   for (let i = 0; i < expenseDues.length; i++) {
     const due = expenseDues[i];
     const nextDueSeq = expenseDues[i + 1]?.seq ?? Infinity;
-    const paid = expensePaids.find((p) => p.seq > due.seq && p.seq < nextDueSeq && p.payload.kind === due.payload.kind);
+    const paid = expensePaids.find((p) => p.seq > due.seq && (lifeStart
+      ? p.payload.billId === due.payload.billId
+      : p.seq < nextDueSeq && p.payload.kind === due.payload.kind));
     // Find all escalations for this expense window
     const relevantEscalations = escalationResults.filter((e) => e.seq > due.seq && e.seq < (paid?.seq ?? nextDueSeq));
     const waivedAmount = relevantEscalations.reduce((sum, e) => sum + (e.payload.effects?.billWaived ?? 0), 0);
@@ -250,6 +253,11 @@ export function projectReceipt(entries) {
   for (const event of skippedBreakfasts) {
     accountingLines.push(line(`Breakfast skipped on day ${event.payload.day}: $0 spent; health decreased by ${event.payload.healthLost} to ${event.payload.healthAfter}.`, event.seq));
   }
+  for (const event of ofType('life_health')) {
+    accountingLines.push(line(`${event.payload.reason}: health changed by ${event.payload.delta} to ${event.payload.after}.`, event.seq));
+  }
+  for (const event of ofType('life_rent_held')) accountingLines.push(line(`Chose to hold cash; rent remained unpaid with ${money(event.payload.cash)} on hand.`, event.seq));
+  for (const event of ofType('life_rent_shortfall')) accountingLines.push(line(`Rent became due with a ${money(event.payload.shortfall)} shortfall.`, event.seq));
   if (unpaidExpense) {
     accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.dueAmount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
   }
@@ -267,8 +275,8 @@ export function projectReceipt(entries) {
   }
 
   // Purely event-derived financial, health, and inventory balances (P2 repair)
-  const initialCash = 15.00;
-  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage').reduce((s, e) => s + e.payload.amount, 0);
+  const initialCash = lifeStart ? lifeStart.payload.lifeConfig.startCash : 15.00;
+  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage' || (lifeStart && e.payload.kind === 'overtime')).reduce((s, e) => s + e.payload.amount, 0);
   const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
   const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
   const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);
@@ -276,7 +284,7 @@ export function projectReceipt(entries) {
 
   const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0)
     + skippedBreakfasts.reduce((s, e) => s + (e.payload.healthLost ?? 0), 0);
-  const derivedFinalHealth = Math.max(0, 100 - healthLostSum);
+  const derivedFinalHealth = Math.max(0, (lifeStart ? lifeStart.payload.lifeConfig.startHealth : 100) - healthLostSum + ofType('life_health').reduce((sum, e) => sum + e.payload.delta, 0));
 
   const uniqueOwnedDucks = new Set(drawsCommitted.filter((d) => !d.payload.duplicate).map((d) => d.payload.identity));
   const derivedOwnedDucksCount = uniqueOwnedDucks.size;

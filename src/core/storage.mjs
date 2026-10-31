@@ -5,10 +5,11 @@ import { verifyChain } from './event-log.mjs';
 import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, isKnownRaceDuckId, makeRaceRestEvidence } from './race-rest.mjs';
 import { BANNER_1_ROSTER } from './game-engine.mjs';
+import { validateLifeHistory } from './life-validation.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
-export const CURRENT_SCHEMA_VERSION = 3;
+export const CURRENT_SCHEMA_VERSION = 4;
 
 function hasRaceRestPolicyFacts(envelope, entries = envelope?.eventLog) {
   const state = envelope?.state ?? {};
@@ -64,16 +65,16 @@ export function validateSave(envelope) {
       return { valid: false, errors: ['Save payload is not an object'] };
     }
 
-    if (![1, 2, CURRENT_SCHEMA_VERSION].includes(envelope.schemaVersion)) {
-      errors.push(`Incompatible schema version: expected 1, 2, or ${CURRENT_SCHEMA_VERSION}, got ${envelope.schemaVersion}`);
+    if (![1, 2, 3, 4].includes(envelope.schemaVersion)) {
+      errors.push(`Incompatible schema version: ${envelope.schemaVersion}`);
     }
-    if (envelope.schemaVersion === CURRENT_SCHEMA_VERSION && envelope.raceRestEvidenceVersion !== 1) {
+    if (envelope.schemaVersion >= 3 && envelope.raceRestEvidenceVersion !== 1) {
       errors.push('Current save schema requires raceRestEvidenceVersion 1');
     }
-    if (envelope.schemaVersion < CURRENT_SCHEMA_VERSION && hasRaceRestPolicyFacts(envelope)) {
+    if (envelope.schemaVersion < 3 && hasRaceRestPolicyFacts(envelope)) {
       errors.push('Race rest policy evidence requires schema 3; older schema labels cannot bypass rest validation');
     }
-    if (envelope.schemaVersion < CURRENT_SCHEMA_VERSION && envelope.raceRestEvidenceVersion !== undefined) {
+    if (envelope.schemaVersion < 3 && envelope.raceRestEvidenceVersion !== undefined) {
       errors.push('Race rest evidence version marker cannot appear on an older schema label');
     }
 
@@ -246,7 +247,9 @@ export function validateSave(envelope) {
           errors.push('Race rest policy evidence exists without its append-only activation boundary');
         }
         // Reconcile state against event log
-        let calcCash = 15.00;
+        if (envelope.schemaVersion === 4) errors.push(...validateLifeHistory(entries, state));
+        else if (state.life || entries.some(e => e.type === 'life_intent')) errors.push('Life policy requires schema 4');
+        let calcCash = envelope.schemaVersion === 4 ? 80 : 15.00;
         let calcGems = 0;
         let calcHealth = 100;
         let calcDebt = 0;
@@ -257,6 +260,7 @@ export function validateSave(envelope) {
 
         for (const e of entries) {
           if (e.type === 'income' && e.payload?.amount) calcCash += e.payload.amount;
+          if (e.type === 'life_health') calcHealth += e.payload.delta;
           if (e.type === 'expense_paid' && e.payload?.amount) calcCash -= e.payload.amount;
           if (e.type === 'expense_paid' && e.payload?.kind === 'food' && e.payload?.billId) {
             if (resolvedBreakfastBills.has(e.payload.billId)) {
@@ -331,10 +335,16 @@ export function validateSave(envelope) {
         }
 
         // Exact pendingReveals validation (Repair 02, P1: reject missing, duplicate, or mismatched pending queue)
-        const commitEvents = entries.filter((e) => e.type === 'draw_committed');
+        const allCommitEvents = entries.filter((e) => e.type === 'draw_committed');
         const revealedSeqs = new Set(
           entries.filter((e) => e.type === 'reveal_shown').map((e) => e.payload?.commitSeq)
         );
+        const lastBatchSize = allCommitEvents.at(-1)?.payload?.of ?? 0;
+        const commitEvents = envelope.schemaVersion === 4 && Number.isInteger(lastBatchSize) && lastBatchSize > 0
+          ? allCommitEvents.slice(-lastBatchSize) : allCommitEvents;
+        if (envelope.schemaVersion === 4 && allCommitEvents.slice(0, allCommitEvents.length - commitEvents.length).some(e => !revealedSeqs.has(e.seq))) {
+          errors.push('An earlier draw batch contains unrevealed outcomes');
+        }
 
         if (commitEvents.length === 0) {
           if (Array.isArray(state.pendingReveals) && state.pendingReveals.length > 0) {
@@ -596,7 +606,13 @@ export function validateSave(envelope) {
  * If storage fails or preservation mode is active, safely retains existing stored snapshot and activates in-memory session.
  */
 export function saveGame(envelope, storage = globalThis.localStorage, allowOverwritePreserved = false) {
-  const serialized = JSON.stringify(envelope);
+  let serialized;
+  try {
+    serialized = JSON.stringify(envelope);
+    if (typeof serialized !== 'string') throw new Error('Save could not be serialized');
+  } catch (err) {
+    return { success: false, inMemory: false, error: `serialization failed: ${err.message}` };
+  }
 
   // If temporary preservation mode is active, protect the primary snapshot from being overwritten
   if (temporaryPreservationActive && !allowOverwritePreserved) {
@@ -650,8 +666,8 @@ export function loadGame(storage = globalThis.localStorage) {
   } else {
     try {
       if (storage) raw = storage.getItem(STORAGE_KEY);
-    } catch {
-      raw = null;
+    } catch (err) {
+      return { envelope: null, valid: false, errors: [`Storage read failed: ${err.message}`], isCorrupt: true, readFailed: true };
     }
   }
 
@@ -691,7 +707,7 @@ function migrateLegacyEnvelope(envelope) {
   }
   return {
     ...envelope,
-    schemaVersion: CURRENT_SCHEMA_VERSION,
+    schemaVersion: 3,
     raceRestEvidenceVersion: 1,
     state: {
       ...state,

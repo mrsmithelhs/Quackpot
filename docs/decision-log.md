@@ -500,3 +500,12 @@ Root reconciled stale open-question/source-map summaries and added a compact doc
 Owner assigns amended Plan38 to Codex and Plan40 to Gemini Flash, and reports Plan41 dispatched to Sonnet. Plan38 now explicitly covers selected life progression/transactions beyond its older presentation-only scope, with a root mechanism/config/compatibility checkpoint before source writes. Plan40 has cross-harness latitude for direct owner questions, treatment selection and report-local prototype iteration through coherent delivery, returning for material cross-packet/rule/ownership implications or final review. The three scopes remain distinct; no automatic production adoption of Plan40/41 proposals.
 
 Owner renews two-way supervision of QP Impl42 and QP Impl27 through completion. Root review accepts Plan27 as the selected-layout investigation with explicit source-link/chronology qualifications; draftPlan44 scopes future production Receipt and remains unassigned. Plan42 final repairs pass independent source review and12 focused serial test files and are delivered for owner acceptance as a synthetic report-local spike, not a production exporter/analyzer. No push/deployment.
+
+
+### DECISION-048 — Initial playable life budget and baseline session allowance
+
+**Date:** 2026-10-31
+
+Owner explicitly selects the Plan29 working budget for Plan38: $80 starting cash, $60 take-home completed scheduled shift, $6 per purchased meal and $170 remaining rent. This is a provisional playable baseline, not a final economy table. Owner also selects one pull action (single or ten-pull) plus one race within a phase's baseline gacha allowance; welcome ten-pull uses the pull-action allowance, browsing/re-entry remains free, additional play requires disclosed extension. No forced use of both activities.
+
+Root corrects the mechanism's Morning-work proposal to the selected Afternoon schedule and clears scoped implementation through reports/orchestration/plan-38-mechanism-clearance-01.md. That note distinguishes owner choices from provisional recovery/leisure/fatigue/overtime defaults for review, legacy save/config provenance conditions and exact deadline/bedrest/terminal transaction boundaries. New source is authorized within amended packet; final technical and owner experience review remain.

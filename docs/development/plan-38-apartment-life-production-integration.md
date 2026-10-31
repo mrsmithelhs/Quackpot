@@ -15,6 +15,8 @@ Owner assigns Codex on2026-10-31 after closing Plans29/37. This amendment supers
 
 Owner selects $60 take-home per completed scheduled shift as working baseline. Other Plan29 example values ($80 start/$6 meals/$170 remaining rent), shift duration and health/credit numbers remain provisional. No new numerical selection is implied by reassigning this packet. Exact initial working parameters and which proposed lifecycle effects are active must appear in the mechanism checkpoint; do not silently ship the higher60 table, harden 70/30HP examples or multiply every price.
 
+**Mechanism cleared2026-10-31:** Follow reports/orchestration/plan-38-mechanism-clearance-01.md. Owner selects $80/$60/$6/$170 working budget and pull-action-plus-race baseline; this supersedes the unselected-candidate wording above. Scheduled work is Afternoon. Root conditions distinguish provisional test parameters, legacy version dispatch, log-bound config, deadline/recovery and transaction/terminal boundaries. Update mechanism record then proceed to scoped source/validation without another pre-build gate.
+
 ## Required inputs
 
 Read AGENTS.md; docs/README.md; canonical design, decisions and source map; reports/orchestration/plan-37-closeout-and-integration-boundaries.md; closed Plan37 ledger/consolidation qualified by that root note; Plan29 followup model/progress and root review; Plan28 final-report/owner-direction D1–D22/selected mix; existing Plan38 source/report and reports/orchestration/plan-38-owner-sequencing-review-02.md. Prioritize selected rules and root qualifications over historical draft defaults. Inspect current engine/storage/event/Receipt behavior rather than assume the report prototype is production.

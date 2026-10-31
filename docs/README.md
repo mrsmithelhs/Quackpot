@@ -8,8 +8,8 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 
 | Area | Selected/current direction | Next boundary |
 |---|---|---|
-| Life and pacing | Action-based Morning/Afternoon/Evening, optional LateNight, maintenance meals alongside anchors; roughly30-plus-minute engaged design target | Plans37/29 closed investigations; Plan38 amended for Codex progression; root mechanism clearance before source writes |
-| Economy | $60 take-home completed-shift baseline; small gacha purchases should accumulate into reserve pressure | Other prices/health/credit/session allowances provisional; recalibrate from integrated-route evidence |
+| Life and pacing | Action-based Morning/Afternoon/Evening, optional LateNight, maintenance meals alongside anchors; roughly30-plus-minute engaged design target | Plans37/29 closed investigations; Plan38 amended and mechanism-cleared for Codex progression; technical/owner delivery review remains |
+| Economy | $80 start/$60 shift/$6 meal/$170 remaining-rent working budget; pull-action-plus-race baseline; small purchases erode reserves | Working prices tunable; health/credit/calendar and later session policy remain provisional; recalibrate from integrated-route evidence |
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
 | Apartment | Accepted art/desk/phone; Plan38 life surfaces exist | Work/evening experience Plan40 assigned Gemini Flash; coherent phase/obligation integration before later disruption |
 | Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, draft44 Receipt integration unassigned; exporter/analyzer separate |

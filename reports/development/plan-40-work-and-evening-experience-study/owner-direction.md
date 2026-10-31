@@ -1,55 +1,64 @@
 # Plan 40 · Owner Direction and Treatment Selection
 
 **Date**: 2026-10-31  
-**Authority**: Owner in direct consultation  
+**Authority**: Owner consultation & Root Checkpoint 01  
 **Lead Implementer**: Gemini Flash (Plan 40)  
 
 ---
 
-## 1. Selected Experience Treatment & Visual Scope
+## 1. Selected Experience Treatment & Visual Boundaries
 
-- **Treatment Selection**: The owner selected **Treatment 3 (Atmospheric Micro-Fiction / Lived Pacing & Commute Vignette)**.
+- **Treatment Selection**: **Treatment 3 (Atmospheric Micro-Fiction & Commute Vignette)**.
 - **Visuals Scope Boundary**:
-  - *In-Scope for Plan 40*: Report-local visual storyboarding using existing apartment SVGs, ambient visual backdrops (silhouetted warehouse trusses, transit window frames, weather streaks, lighting overlays) played behind text notifications, and responsive layout testing.
-  - *Future Asset Gate*: Commissioning or drawing a full production SVG or raster artwork library for external workplaces and city streets is out of scope for Plan 40 and requires a future bounded art authoring brief and owner selection.
+  - *In-Scope for Plan 40*: Report-local visual storyboarding using existing apartment SVGs, ambient visual backdrops (silhouetted warehouse trusses, transit window frames, rain streaks, golden sunset foliage) played behind text notifications, and responsive layout testing.
+  - *Future Asset Gate*: Commissioning or drawing full production SVG/raster artwork for external workplaces and city streets is outside Plan 40 and requires a future bounded art brief and owner selection.
 - **Sound Design Requirement**:
-  - The owner noted a future need for environmental sound design across work and commute phases, aligning audio cues (fluorescent ballast buzz, rain on transit glass, upbeat radio pop, birds in the park) with the experiential quality of each beat (coordinated with Plan 39 Web Audio laboratory and Plan 18 Creative Commons audio).
+  - Environmental audio in work and commute environments aligning with the tone of each beat (coordinated with Plan 39 Web Audio laboratory and Plan 18 Creative Commons audio).
 
 ---
 
-## 2. Narrative Beat Granularity, Likert Rating & Compact Hex Schema
+## 2. Narrative Beat Scale, Author Tone & Compact Hex Schema
 
-- **5-Point Likert Scale**:
-  - Each narrative beat is categorized with a 1–5 perception score:
-    - **1 = Very Depleting / Negative**: Heavy physical strain, hostile supervision, severe weather/slush, intense transit delay.
-    - **2 = Mildly Depleting / Dull**: Monotony, sore heels, cold drizzle, cramped standing room, digital isolation.
-    - **3 = Neutral / Uneventful**: Steady routine flow, neutral weather, clock ticking predictably.
-    - **4 = Pleasant / Uplifting**: Classic pop on warehouse radio, shared lemon pastry, slanted golden sunlight through park trees.
-    - **5 = Very Uplifting / Energizing**: Autonomy, problem mastery, supervisor praise, helping an elderly neighbor on subway stairs.
+- **Author-Assigned Experiential Tone (1–5)**:
+  - Vignettes are coded by author-assigned tone (1=Very Depleting, 2=Mildly Depleting, 3=Neutral/Routine, 4=Pleasant/Uplifting, 5=Very Energizing), representing the intended tone of the fiction rather than measured player mood.
 - **3-Digit Hex Identifier**:
   - Every beat receives a unique 3-digit hexadecimal code (`0x000` to `0xFFF`, e.g. `#011`, `#014`, `#0C4`, `#F05`), allowing up to 4,096 distinct beats.
 - **Compact Run-Usage Storage**:
-  - Stored in student run files as compact tuples `[hexId, rating]` (e.g. `[["012", 2], ["014", 4], ["0C4", 4]]`) with an overall daily average score, maximizing space efficiency for offline file export.
+  - Logged in run files as compact tuples `[hexId, rating]` (e.g. `[["012", 2], ["014", 4], ["0C4", 4]]`).
+  - Pre-choice exposure scores are calculated strictly from work and commute beats experienced *before* the evening room choice; post-choice extra shift outcomes are never folded backward into the predictor.
 - **Catalog Scaling Targets**:
-  - Architecture structured for:
-    - **100+ Ordinary Work Beats** (spanning strain, routine, social connection, mastery, praise).
-    - **100+ Commute Beats** (spanning commute-in and commute-home, weather, transit, acts of kindness).
-    - **30+ Extra Shifts**, each containing at least **5 distinct narrative beats** (rated 1–5).
-  - Current storyboard seeds a working sample of 5 work beats, 5 commute beats, and 5 extra shift types with 5 rated beats each (25 extra-shift beats).
+  - Structured for 100+ work beats, 100+ commute beats (including commute-in and commute-home), and 30+ extra shifts with 5 standalone alternative vignettes each.
 
 ---
 
-## 3. Extra Shift Availability (1–2 Daily Offers Weighted Toward Gigs)
+## 3. Work Timing & Payroll Realism
 
-- **Presentation Model**:
-  - Rather than displaying an exhaustive static board of all shifts, players receive **1–2 randomized options per day** on their phone or evening notice.
-  - **Weighted Toward Frequent Gig Work**: Food delivery gigs (*QuickDrop*) and grocery dispatch gigs (*Harbor Fresh*) appear most frequently, while diner covers, warehouse overtimes, and courier rushes appear as occasional opportunities.
-- **Decoupled from Rent**:
-  - Shift cash (+take-home pay) is credited directly to the player's wallet; accepting a shift **never** auto-pays or alters the pending rent balance on the fridge.
+- **Afternoon Shift Anchor**:
+  - Ordinary work runs as a single committed afternoon life anchor (`d1_afternoon`).
+  - Commute-in and commute-home are experienced as narrative subscenes within this single committed anchor, avoiding extra phase costs or artificial clock drift.
+- **Financial Baseline & Payslip Honesty**:
+  - $60.00 cash take-home is the owner-selected completed-shift baseline.
+  - The $88 gross and $28 deduction on the payslip are purely fictional flavor text, with direct $60 cash disbursed to wallet.
 
 ---
 
-## 4. Evening Activity: Call Mom
+## 4. Daily Extra Gigs & Shifts Policy
 
-- **Selected Effect**: **Minor Restorative** (+5 HP).
-- **Role**: Neutral, warm, grounding check-in about dinner, health, and daily life. Strictly **not** "Borrow from Mom" (the deferred financial escalation ladder).
+- **Availability & Stability**:
+  - Evening presents **1–2 randomized extra shift options**, weighted toward frequent gig work (QuickDrop food delivery, Harbor Fresh grocery delivery).
+  - Offers persist stably across viewing and reloads for that day.
+- **Exclusivity**:
+  - Accepting an extra shift is an exclusive evening commitment that transitions the day to night/rest, preventing infinite same-night grinding.
+- **Decoupled from Rent & Payout Honesty**:
+  - Earning shift cash **never** automatically pays or alters the pending rent notice on the fridge.
+  - Stated payouts strictly match credited cash with zero unbudgeted contradictory tips.
+- **Job-Loss Fallback**:
+  - Gig delivery apps remain available on the phone even if regular warehouse shifts are missed or terminated.
+
+---
+
+## 5. Evening Activities
+
+- **Call Mom**: Minor restorative (+5 HP), authentic non-transactional family check-in (strictly distinct from deferred "Borrow from Mom").
+- **Sit with Duck**: +2 HP quiet companionship at the desk.
+- **Open Quackpot**: Factually framed as opening the gacha app, without pre-classifying it as failure or moral failing in the student UI.

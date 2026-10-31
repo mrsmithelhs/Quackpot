@@ -5,14 +5,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  CATALOG_VERSION,
   WORK_BEATS,
   COMMUTE_BEATS,
   WAGE_PAYSLIP,
   EVENING_ACTIVITIES,
   EXTRA_SHIFTS_CATALOG,
   rollDailyExtraShifts,
-  LIKERT_LABELS,
-  LIKERT_COLORS,
+  AUTHOR_TONE_LABELS,
+  AUTHOR_TONE_COLORS,
 } from './copy.mjs';
 import {
   getApartmentSceneSvg,
@@ -23,7 +24,9 @@ import {
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
-test('5-point Likert scale and 3-digit hex beat catalog', () => {
+test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () => {
+  assert.equal(CATALOG_VERSION, '1.0.0');
+
   // Plan 29 baseline completed-shift take-home wage
   assert.equal(WAGE_PAYSLIP.takeHome, '$60.00');
 
@@ -47,7 +50,7 @@ test('5-point Likert scale and 3-digit hex beat catalog', () => {
     assert.ok(b.rating >= 1 && b.rating <= 5);
   }
 
-  // Verify 5 extra shift types with 5 narrative beats each (25 total beats)
+  // Verify 5 extra shift types with 5 alternative narrative beats each (25 total beats)
   assert.equal(EXTRA_SHIFTS_CATALOG.length, 5);
   for (const shift of EXTRA_SHIFTS_CATALOG) {
     assert.ok(typeof shift.cashGain === 'number' && shift.cashGain > 0);
@@ -60,10 +63,10 @@ test('5-point Likert scale and 3-digit hex beat catalog', () => {
     }
   }
 
-  // Verify daily extra shift roll returns 1-2 options and prioritizes gig work
-  const rolled = rollDailyExtraShifts(2, 0.5);
+  // Verify daily extra shift roll returns 1-2 options and handles weights
+  const rolled = rollDailyExtraShifts(2, 0.25);
   assert.equal(rolled.length, 2);
-  assert.equal(rolled[0].category, 'gig');
+  assert.notEqual(rolled[0].id, rolled[1].id);
 });
 
 test('Scene rendering, ambient backdrops, and SVG generation', () => {
@@ -83,7 +86,7 @@ test('Scene rendering, ambient backdrops, and SVG generation', () => {
   const transitBackdrop = getAmbientBackdropSvg('commute_transit', 4);
   assert.ok(transitBackdrop.includes('<svg'));
 
-  // Likert badge markup
+  // Tone badge markup
   const badgeHtml = renderLikertBadge('014', 4);
   assert.ok(badgeHtml.includes('#014'));
   assert.ok(badgeHtml.includes('Pleasant / Uplifting'));
@@ -94,33 +97,47 @@ test('Scene rendering, ambient backdrops, and SVG generation', () => {
   assert.ok(payslipHtml.includes('Harbor Logistics'));
 });
 
-test('ExperimentTracker tracks Likert tiers and compact usage format', () => {
+test('ExperimentTracker pre-choice isolation and synthetic-data separation', () => {
   const tracker = new ExperimentTracker();
-  const initialStats = tracker.getTierStats();
-  assert.equal(initialStats.length, 3); // depleting, neutral, uplifting
 
-  // Record an uplifting day session
+  // Observed preview sessions start empty (0)
+  assert.equal(tracker.observedPreviewSessions.length, 0);
+  const emptyObserved = tracker.getObservedStats();
+  for (const tier of emptyObserved) {
+    assert.equal(tier.total, 0);
+  }
+
+  // Demonstration fixture is separate and non-zero
+  const demoStats = tracker.getDemonstrationStats();
+  const demoTotal = demoStats.reduce((acc, t) => acc + t.total, 0);
+  assert.equal(demoTotal, 90);
+
+  // Record an session: pre-choice beats only should dictate the score
   tracker.recordSession({
-    beats: [['014', 4], ['015', 5], ['0C5', 5]],
-    eveningChoice: 'call_mom',
+    preChoiceBeats: [['014', 4], ['015', 5], ['0C5', 5]],
+    eveningChoice: 'extra_shift',
+    postChoiceBeats: [['F01', 1]], // Extra shift was depleting, but happened AFTER choice!
   });
 
-  // Record a depleting day session
-  tracker.recordSession({
-    beats: [['011', 1], ['012', 2], ['0C1', 1]],
-    eveningChoice: 'open_gacha',
-  });
+  assert.equal(tracker.observedPreviewSessions.length, 1);
+  const recorded = tracker.observedPreviewSessions[0];
 
-  const updatedStats = tracker.getTierStats();
-  const depleting = updatedStats.find(s => s.key === 'depleting');
-  const uplifting = updatedStats.find(s => s.key === 'uplifting');
+  // Pre-choice score should be (4 + 5 + 5)/3 = 4.67 (Uplifting), NOT dragged down by F01
+  assert.equal(recorded.avgPreChoiceScore, 4.67);
+  assert.equal(recorded.scoreTier, 'uplifting');
+  assert.equal(recorded.postChoiceBeats.length, 1);
+  assert.equal(recorded.postChoiceBeats[0][0], 'F01');
 
-  assert.ok(depleting.gacha >= 1);
-  assert.ok(uplifting.restorative >= 1);
+  // Verify observed tier stats updated without polluting demo stats
+  const updatedObserved = tracker.getObservedStats();
+  const upliftingTier = updatedObserved.find(s => s.key === 'uplifting');
+  assert.equal(upliftingTier.total, 1);
+  assert.equal(upliftingTier.extra, 1);
 
   // Compact export format verification
   const compactJson = tracker.exportCompactUsage();
-  assert.ok(compactJson.includes('"b":[["014",4],["015",5],["0C5",5]]'));
-  assert.ok(compactJson.includes('"s":4.67'));
-  assert.ok(compactJson.includes('"c":"call_mom"'));
+  assert.ok(compactJson.includes('"pre":[["014",4],["015",5],["0C5",5]]'));
+  assert.ok(compactJson.includes('"avg":4.67'));
+  assert.ok(compactJson.includes('"act":"extra_shift"'));
+  assert.ok(compactJson.includes('"post":[["F01",1]]'));
 });

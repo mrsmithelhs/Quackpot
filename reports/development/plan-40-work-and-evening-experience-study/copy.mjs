@@ -1,19 +1,24 @@
 // reports/development/plan-40-work-and-evening-experience-study/copy.mjs
-// Pacing, narrative beats, and 5-point Likert scale data for Plan 40.
+// Pacing, narrative beats, and author-assigned tone data for Plan 40.
 // Architecture designed to scale to 100+ work beats, 100+ commute beats, and 30+ extra shifts.
-// Compact 3-digit hex IDs and 1-5 integer ratings for efficient usage export.
+// Compact 3-digit hex IDs and 1-5 integer author ratings for efficient usage export.
+
+export const CATALOG_VERSION = '1.0.0';
 
 export const money = (n) => `${n < 0 ? '−' : ''}$${Math.abs(n).toFixed(2)}`;
 
 /**
- * 5-Point Likert Rating Scale for Work & Commute Beats:
+ * 5-Point Author-Assigned Experiential Tone Coding (Designer Classification):
  * 1 = Very Depleting / Negative (heavy strain, hostility, severe delay/weather)
  * 2 = Mildly Depleting / Dull (monotony, fatigue, gray drizzle, boredom)
- * 3 = Neutral / Uneventful (steady routine, neutral weather, clock moves)
+ * 3 = Neutral / Routine (steady routine, neutral weather, clock moves)
  * 4 = Pleasant / Uplifting (good music, friendly exchange, pleasant weather)
  * 5 = Very Uplifting / Energizing (autonomy, mastery, praise, helping someone)
+ *
+ * NOTE: These are author-coded category ratings assigned to the written vignettes,
+ * NOT measured player mood or student survey responses.
  */
-export const LIKERT_LABELS = {
+export const AUTHOR_TONE_LABELS = {
   1: 'Very Depleting (1/5)',
   2: 'Mildly Depleting (2/5)',
   3: 'Neutral / Routine (3/5)',
@@ -21,13 +26,17 @@ export const LIKERT_LABELS = {
   5: 'Very Energizing (5/5)',
 };
 
-export const LIKERT_COLORS = {
+export const AUTHOR_TONE_COLORS = {
   1: '#e76f51', // rose / alert
   2: '#f4a261', // orange / dull
   3: '#a3a9be', // muted gray / neutral
   4: '#8ab17d', // soft green / pleasant
   5: '#2a9d8f', // vibrant teal / energizing
 };
+
+// Aliases for compatibility
+export const LIKERT_LABELS = AUTHOR_TONE_LABELS;
+export const LIKERT_COLORS = AUTHOR_TONE_COLORS;
 
 // ==========================================
 // 1. ORDINARY WORK BEATS (Sample of 5 out of 100+ target)
@@ -135,16 +144,17 @@ export const COMMUTE_BEATS = [
 export const WAGE_PAYSLIP = {
   employer: 'Harbor Logistics Distribution Inc.',
   shiftDate: 'Day 1 · Regular Shift',
-  hours: '8.0 hrs · General Fulfillment',
-  gross: '$88.00',
-  deductions: '−$28.00 (Taxes & Social Ins.)',
+  hours: 'Afternoon Shift Anchor',
+  gross: '$88.00 (Fictional gross stub)',
+  deductions: '−$28.00 (Fictional deductions)',
   takeHome: '$60.00',
-  disbursement: 'Direct Deposit / Daily Cash Advance available.',
+  disbursement: 'Direct cash take-home disbursed.',
   summaryNote: 'Take-home wages credited: +$60.00 cash.',
 };
 
 // ==========================================
 // 4. EVENING LIFE ACTIVITIES
+// Factual, neutral framing without moralizing or prescribing student motives.
 // ==========================================
 export const EVENING_ACTIVITIES = {
   callMom: {
@@ -168,7 +178,7 @@ export const EVENING_ACTIVITIES = {
     id: 'sit_duck',
     title: 'Sit with Duck',
     actionLabel: 'Sit quietly with Duck (Desk)',
-    badge: 'Companion · +2 HP',
+    badge: 'Quiet Moment · +2 HP',
     description: 'Take a quiet breath at the desk and sit with your physical rubber duck companion.',
     dialogue: [
       { speaker: 'Desk', text: 'You pull up your desk chair and look at the little yellow duck under the warm lamp pool.' },
@@ -182,20 +192,22 @@ export const EVENING_ACTIVITIES = {
     id: 'open_gacha',
     title: 'Open Quackpot',
     actionLabel: 'Open Quackpot (Phone App)',
-    badge: 'Temptation · Spend Cash',
-    description: 'Unlock your phone. The colorful Quackpot icon pulses with an active notification badge.',
+    badge: 'Gacha App · Quackpot',
+    description: 'Unlock your phone and open the Quackpot gacha game app.',
     dialogue: [
-      { speaker: 'Phone Notification', text: 'QUACKPOT! · "Special Evening Rush! First 10-Pull 30% off! Limited-edition Mallard Commander banner active!"' },
-      { speaker: 'Wallet Reminder', text: 'You have fresh cash in your pocket ($60.00 from your shift). The shiny gacha ducks look so lively compared to this empty room.' },
+      { speaker: 'Phone App', text: 'QUACKPOT! · "Special Evening Banner Active! Limited-edition Mallard Commander banner now live!"' },
+      { speaker: 'Wallet Note', text: 'You have fresh cash in your pocket ($60.00 from your shift). The game shop displays single-pull and multi-pull options.' },
     ],
-    reflection: 'Your thumb hovers over the button. The dopamine pull is immediate and magnetic.',
+    reflection: 'The game launcher opens to the banner screen.',
     healthEffect: 0,
   },
 };
 
 // ==========================================
 // 5. EXTRA SHIFT CATALOG (Sample of 5 out of 30+ target)
-// Weighted toward gig work (food/grocery delivery), each having 5 distinct narrative beats rated 1-5.
+// Weighted toward gig work (food/grocery delivery).
+// Each shift has 5 alternative standalone narrative beats (rated 1-5).
+// The payout is strictly flat and matches the quoted cash reward.
 // ==========================================
 export const EXTRA_SHIFTS_CATALOG = [
   {
@@ -203,17 +215,17 @@ export const EXTRA_SHIFTS_CATALOG = [
     title: 'QuickDrop Food Delivery',
     workplace: 'City Center Courier Gig',
     category: 'gig', // frequent gig work
-    weight: 40, // high frequency
-    hours: '6:30 PM – 9:30 PM (3.0 hrs)',
+    weight: 40,
+    hours: '3.0 hrs · Evening Courier',
     cashGain: 35.00,
     healthCost: 8,
-    prompt: 'App notification: "Surge dinner orders in Harbor Core: 6 hot meals ready for pickup. Estimated earnings: $35.00 cash."',
+    prompt: 'App notification: "Surge dinner orders in Harbor Core: 6 hot meals ready for pickup. Flat payout: $35.00 cash."',
     beats: [
-      { hexId: 'F01', rating: 1, text: 'A soup container leaks inside your thermal bag. The customer yells at you on their porch and slams the door.' },
+      { hexId: 'F01', rating: 1, text: 'A soup container leaks inside your thermal bag. The customer yells on the porch and slams the door.' },
       { hexId: 'F02', rating: 2, text: 'Waiting twenty minutes at a noisy burger takeout counter while delivery drivers crowd the doorway.' },
       { hexId: 'F03', rating: 3, text: 'Straightforward drop-off at an apartment lobby package table. Buzz in, snap confirmation photo, buzz out.' },
       { hexId: 'F04', rating: 4, text: 'The aroma of fresh garlic pizza fills your ride through cool evening streets with green traffic lights.' },
-      { hexId: 'F05', rating: 5, text: 'An exhausted nurse on night shift receives hot noodles with profound gratitude and leaves an extra $5 bill in your hand.' },
+      { hexId: 'F05', rating: 5, text: 'An exhausted nurse on night shift receives hot noodles with profound relief: "You have no idea how much this helps tonight, thank you."' },
     ],
   },
   {
@@ -221,11 +233,11 @@ export const EXTRA_SHIFTS_CATALOG = [
     title: 'Harbor Fresh Grocery Dispatch',
     workplace: 'Express Supermarket Dispatch',
     category: 'gig', // frequent gig work
-    weight: 35, // high frequency
-    hours: '7:00 PM – 10:30 PM (3.5 hrs)',
+    weight: 35,
+    hours: '3.5 hrs · Evening Dispatch',
     cashGain: 42.00,
     healthCost: 10,
-    prompt: 'Dispatch text: "Express batches available: pick and deliver two grocery crates in the Waterfront district. Pays $42.00."',
+    prompt: 'Dispatch text: "Express batches available: pick and deliver two grocery crates in Waterfront district. Flat payout: $42.00."',
     beats: [
       { hexId: 'E01', rating: 1, text: 'Hauling three heavy cases of mineral water up four flights of crumbling walk-up stairs with dead hallway lights.' },
       { hexId: 'E02', rating: 2, text: 'Wandering crowded supermarket aisles trying to find a discontinued brand of organic gluten-free oats.' },
@@ -240,10 +252,10 @@ export const EXTRA_SHIFTS_CATALOG = [
     workplace: 'Harbor Street Diner',
     category: 'service', // occasional
     weight: 15,
-    hours: '6:30 PM – 11:30 PM (5.0 hrs)',
+    hours: '5.0 hrs · Kitchen Closing',
     cashGain: 45.00,
     healthCost: 15,
-    prompt: 'Marisol texts: "Hey, any chance you could cover my closing shift tonight? Dishwasher walked out and we are slammed. Pays $45 cash on the spot."',
+    prompt: 'Marisol texts: "Hey, any chance you could cover my closing shift tonight? Dishwasher walked out. Flat $45 cash on the spot."',
     beats: [
       { hexId: 'D01', rating: 1, text: 'Steamy dish pit overflowing with burnt cheese skillets, clattering pots, and greasy dishwater splashing your chest.' },
       { hexId: 'D02', rating: 2, text: 'Mopping sticky floor tile under flickering neon tube behind the counter at 11:15 PM.' },
@@ -258,10 +270,10 @@ export const EXTRA_SHIFTS_CATALOG = [
     workplace: 'Harbor Logistics Bay 3',
     category: 'industrial', // occasional
     weight: 10,
-    hours: '8:00 PM – 1:00 AM (5.0 hrs)',
+    hours: '5.0 hrs · Loading Dock',
     cashGain: 55.00,
     healthCost: 15,
-    prompt: 'Logistics automated blast: "URGENT OVERTIME: Heavy freight container unload. Cash-equivalent disbursement $55 upon shift completion."',
+    prompt: 'Logistics automated blast: "URGENT OVERTIME: Heavy freight container unload. Flat $55 cash disbursement upon completion."',
     beats: [
       { hexId: 'A01', rating: 1, text: 'A pallet of steel hardware tilts and spills. Freezing harbor drafts rush through the open bay door.' },
       { hexId: 'A02', rating: 2, text: 'Repetitive barcode scanning of 140 identical cartons under blinding industrial halide lamps.' },
@@ -276,10 +288,10 @@ export const EXTRA_SHIFTS_CATALOG = [
     workplace: 'QuickDrop Bike Express',
     category: 'courier', // occasional
     weight: 10,
-    hours: '6:00 PM – 9:30 PM (3.5 hrs)',
+    hours: '3.5 hrs · Rush Courier',
     cashGain: 40.00,
     healthCost: 10,
-    prompt: 'Dispatch alert: "Rush envelope dispatch: Legal documents across town. Fast bicycle delivery guaranteed $40 net."',
+    prompt: 'Dispatch alert: "Rush envelope dispatch: Legal documents across town. Flat $40 net guaranteed."',
     beats: [
       { hexId: 'B01', rating: 1, text: 'A parked delivery van door swings open, forcing you into a deep puddle. Road grit coats your pants.' },
       { hexId: 'B02', rating: 2, text: 'Long, grinding uphill climb against harbor headwinds. Your chain slips once on the grade.' },
@@ -291,24 +303,31 @@ export const EXTRA_SHIFTS_CATALOG = [
 ];
 
 /**
- * Draws 1–2 extra shift options for the evening, weighted toward frequent gig work.
+ * Draws 1–2 extra shift options for the evening, weighted by category.
  * Deterministic with seed or pseudo-random for interactive preview.
  */
-export function rollDailyExtraShifts(count = 2, seed = Math.random()) {
+export function rollDailyExtraShifts(count = 2, seed = 0.5) {
   const pool = [...EXTRA_SHIFTS_CATALOG];
-  const gigs = pool.filter((s) => s.category === 'gig');
-  const others = pool.filter((s) => s.category !== 'gig');
+  const totalWeight = pool.reduce((acc, s) => acc + s.weight, 0);
+
+  const drawOne = (sVal, excludeId = null) => {
+    const candidates = excludeId ? pool.filter(s => s.id !== excludeId) : pool;
+    const subTotal = candidates.reduce((acc, s) => acc + s.weight, 0);
+    let target = (sVal % 1) * subTotal;
+    for (const item of candidates) {
+      if (target < item.weight) return item;
+      target -= item.weight;
+    }
+    return candidates[candidates.length - 1];
+  };
 
   const selected = [];
-  // First pick: frequent gig work (food or grocery)
-  const gigIndex = Math.floor(seed * gigs.length) % gigs.length;
-  selected.push(gigs[gigIndex]);
+  const first = drawOne(seed);
+  selected.push(first);
 
   if (count > 1) {
-    // Second pick: drawn from the remaining pool (either the other gig or occasional shift)
-    const remaining = pool.filter((s) => s.id !== selected[0].id);
-    const secondIndex = Math.floor((seed * 7 + 3) * remaining.length) % remaining.length;
-    selected.push(remaining[secondIndex]);
+    const second = drawOne(seed * 3.1415 + 0.2718, first.id);
+    selected.push(second);
   }
 
   return selected;

@@ -57,25 +57,25 @@
           <option value="payslip">6. Wage Payslip (+$60 Take-Home Cash)</option>
           <option value="evening">7. Evening Apartment (Desk & Anchors)</option>
           <option value="call_mom">8. Call Mom (+5 HP Restorative Check-in)</option>
-          <option value="sit_duck">9. Sit with Duck (+2 HP Companionship)</option>
-          <option value="open_gacha">10. Open Quackpot (Gacha Temptation)</option>
+          <option value="sit_duck">9. Sit with Duck (+2 HP Quiet Moment)</option>
+          <option value="open_gacha">10. Open Quackpot (Gacha App)</option>
           <option value="extra_shifts">11. Extra Gigs/Shifts (1–2 Daily Offers)</option>
           <option value="night_return">12. Late Night Return & Sleep</option>
         </select>
       </div>
 
       <div class="control-group">
-        <label for="reviewer-work-beat1">Work Beat 1 (1–5 Likert Scale)</label>
+        <label for="reviewer-work-beat1">Work Beat 1 (Author Tone 1–5)</label>
         <select id="reviewer-work-beat1" class="control-select"></select>
       </div>
 
       <div class="control-group">
-        <label for="reviewer-work-beat2">Work Beat 2 (1–5 Likert Scale)</label>
+        <label for="reviewer-work-beat2">Work Beat 2 (Author Tone 1–5)</label>
         <select id="reviewer-work-beat2" class="control-select"></select>
       </div>
 
       <div class="control-group">
-        <label for="reviewer-commute-home">Commute Home Beat (1–5 Likert Scale)</label>
+        <label for="reviewer-commute-home">Commute Home Beat (Author Tone 1–5)</label>
         <select id="reviewer-commute-home" class="control-select"></select>
       </div>
 
@@ -86,11 +86,17 @@
         <button type="button" class="control-btn" id="btn-reset-scenario">Reset Scenario</button>
       </div>
 
-      <!-- Owner Hypothesis & Live Experiment Tracker -->
+      <!-- Author Tone & Usage Tracker -->
       <div class="control-group" style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">
-        <label>Likert Tier Behavior & Compact Usage Tracker</label>
-        <p style="font-size:0.78rem;color:var(--text-muted);margin:0 0 8px 0;">
-          Compact 3-digit hex IDs + 1-5 integer ratings logged to run usage file. Correlated against evening restorative vs gacha choices:
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label>Pre-Choice Tone & Choice Tracking</label>
+          <button type="button" class="control-btn" id="btn-toggle-datamode" style="padding:3px 8px;font-size:0.75rem;">Switch to Demonstration Fixture</button>
+        </div>
+        <p id="data-mode-label" style="font-size:0.76rem;color:var(--accent-gold);margin:4px 0 6px 0;font-weight:600;">
+          Mode: Observed Preview Sessions (0 recorded in this session)
+        </p>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 8px 0;">
+          Pre-choice exposure scores are calculated strictly from work & commute beats experienced before the evening room.
         </p>
         <table class="stats-table">
           <thead>

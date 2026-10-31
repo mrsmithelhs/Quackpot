@@ -131,7 +131,7 @@ async function runBrowserCheck() {
     ws = new WebSocket(target.webSocketDebuggerUrl);
     await new Promise((resolve, reject) => {
       ws.onopen = resolve;
-      ws.onerror = (e) => reject(new Error('WebSocket connection error'));
+      ws.onerror = () => reject(new Error('WebSocket connection error'));
     });
 
     let msgId = 1;
@@ -274,11 +274,23 @@ async function runBrowserCheck() {
     await evaluate('document.querySelector("#toggle-motion").click()');
     results.stepsPassed.push('Step 10: Narrow mobile viewport (390px) and reduced motion toggles verified');
 
-    // Step 11: Cohort Likert Tier Tracker verification
-    const cohortRows = await evaluate('document.querySelectorAll("#cohort-stats-body tr").length');
-    console.log('Cohort Likert tier table rows:', cohortRows);
-    if (cohortRows !== 3) throw new Error(`Expected 3 Likert tier rows (depleting, neutral, uplifting), got ${cohortRows}`);
-    results.stepsPassed.push('Step 11: 3-tier Likert experiment tracker and compact usage logging verified');
+    // Step 11: Synthetic-Data Separation & Demonstration Toggle
+    const observedModeText = await evaluate('document.querySelector("#data-mode-label").textContent');
+    console.log('Observed data mode text:', observedModeText);
+    if (!observedModeText.includes('Observed Preview Sessions (2 recorded')) {
+      throw new Error(`Expected 2 recorded sessions in observed mode, got ${observedModeText}`);
+    }
+
+    // Toggle to demonstration fixture
+    await evaluate('document.querySelector("#btn-toggle-datamode").click()');
+    await delay(150);
+    const demoModeText = await evaluate('document.querySelector("#data-mode-label").textContent');
+    const demoRows = await evaluate('document.querySelectorAll("#cohort-stats-body tr").length');
+    console.log('Demo mode text:', demoModeText, 'Rows:', demoRows);
+    if (!demoModeText.includes('Demonstration Fixture') || demoRows !== 3) {
+      throw new Error(`Demonstration fixture toggle mismatch: text="${demoModeText}", rows=${demoRows}`);
+    }
+    results.stepsPassed.push('Step 11: Synthetic demonstration fixture strictly separated from observed sessions');
 
     console.log('=== All 11 Browser Verification Steps Passed! ===');
     fs.writeFileSync(

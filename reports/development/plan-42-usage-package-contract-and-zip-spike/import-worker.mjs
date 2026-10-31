@@ -1,0 +1,2 @@
+import {initCodec,decodeZip} from './archive.mjs';
+onmessage=async ({data})=>{let expanded=0;try{const bytes=await data.file.arrayBuffer();const r=await fetch('./inspection-2.18/package/lib/core/streams/zlib-wasm/zlib-streams.wasm');if(!r.ok)throw Error('local codec unavailable');await initCodec(await r.arrayBuffer());const result=await decodeZip(new Uint8Array(bytes),{limit:data.limit,onExpanded:n=>{expanded+=n}});postMessage({ok:true,result,expanded})}catch(error){postMessage({ok:false,error:String(error.message||error),expanded})}};

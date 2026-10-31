@@ -51,6 +51,8 @@ independent reports and provenance; recommendations are inputs for owner triage.
 
 ## Authority and required reading
 
+**External intake reviewed, 2026-10-30:** Four owner-copied full reviews, summaries and manifests are in external-reviews/ under this packet's report folder. Root's initial comparison is reports/orchestration/plan-36-external-review-synthesis-01.md. Treat it as an owner-triage recommendation, not adoption or prototype authority. Preserve differentiated ideas and originals, adapt obsolete timing/source claims to current Plan37/38, and do not turn the reviewers' blanket rejection of transition disturbances into a new constraint. Owner has not selected cast, endings, day count, effects controls, prototype shortlist or Receipt additions from these reviews.
+
 Read AGENTS.md, docs/founding/design.md, docs/decision-log.md,
 docs/development/README.md, docs/repo-structure.md, and the relevant accepted
 Plan 14/19/25 transition/desk reports. Read draft Plans 05, 15, 27, 28, 29, 30,

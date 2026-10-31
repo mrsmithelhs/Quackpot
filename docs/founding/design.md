@@ -95,6 +95,8 @@ device speed and accessibility/presentation duration do not consume life slots.
 This direction is not yet implemented. Historical live-window candidates below
 do not authorize real-time missed-life penalties; shop expiry details remain open.
 
+**First design-pilot checkpoint, 2026-10-30:** The owner selects tiered gacha sessions (initial bounded active play, then an explicit trade-off before consuming another life phase), three primary named phases Morning/Afternoon/Evening with optional Late Night, and neutral explicit warnings when a commitment directly sacrifices an obligation. This selects the framework, not the capacity of a phase, number/unit of pulls or races, meal/work coexistence, session re-entry accounting or any automatic Late Night penalty. Those implications remain Plan37 inputs for concrete day traces and owner clarification. Costs and terms stay visible even when routine actions avoid an extra confirmation dialog. See reports/orchestration/plan-37-pilot-checkpoint-01-review.md.
+
 The clock is hybrid:
 
 - The shop has a live decision window using explicit game-time labels; its length is open.

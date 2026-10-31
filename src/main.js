@@ -519,6 +519,7 @@ if (app) {
           engine.leaveUninstall();
           activeModal = null;
           currentStep = 'receipt';
+          phoneOpen = true; // Apartment-origin Leave must render the Receipt immediately, not the desk invitation.
           engine.state.step = currentStep;
           engine.state.activeModal = null;
           maybeAutosave();

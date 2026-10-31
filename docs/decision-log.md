@@ -398,3 +398,13 @@ Owner rejects Plan38's integrated day sequencing as incoherent. Fresh setup begi
 The current $15 rent demand is the unpaid remainder after most rent was paid before the represented run. No prior transaction is invented in this run's log; Plan29 must use the framing when calibrating.
 
 Plan38 is not accepted. Automatic wages/day jumps, night-shift execution coupled to automatic rent payment, absent Day2 gacha access and the external Go to work modality require a coherent sequence specification. Plan37 owns authoritative action/time/day rules; its current pilot remains the owner interview. Draft Plan40 owns conversation-first work/evening visual ideas. Call Mom is a preferred neutral activity candidate, not adoption of deferred borrowing. Tests of the mechanism slice do not establish an acceptable whole-game sequence. No push/deployment.
+
+### DECISION-037 — First staged time-design checkpoint
+
+**Date:** 2026-10-30
+
+The owner-provided Plan37 pilot checkpoint and ledger record three selections: tiered gacha sessions, Morning/Afternoon/Evening phases plus optional Late Night, and neutral explicit warnings for commitments that directly sacrifice an obligation. Root records those selected directions and permits continued staged interview, preserving the owner's positive feedback on context/consequence presentation.
+
+Do not infer that breakfast consumes an entire phase, that Late Night automatically penalizes health/next morning, or that a ten-pull is ten life commitments. Exact phase capacity, session boundaries/re-entry/reload and consequences need concrete traces and clarification before dependent decisions. The pilot's uppercase logging pair is conceptual, not a new event/schema adoption or a claim old replay attestations certify changed behavior. Source disposition and short continuation relay: reports/orchestration/plan-37-pilot-checkpoint-01-review.md.
+
+The four Plan36 external reviews are received as creative inputs. No proposed cast, ending, day count, effect, setting, prototype or Receipt expansion is adopted by intake. Reviewer preferences against expressive return disturbances do not replace the owner's authorized exploration; immediate actual Uninstall/Leave and truthful evidence remain binding. Root comparison: reports/orchestration/plan-36-external-review-synthesis-01.md. No production authority or push/deployment follows from either design review.

@@ -163,6 +163,10 @@ export class GameEngine {
     }
     const result = transitionLife(this.state.life, this.state, intent);
     if (!result.ok) return result;
+    // Phone navigation belongs to the phase/session that produced it, not the next visit.
+    if (result.life.day !== this.state.life.day || result.life.phase !== this.state.life.phase) {
+      this.state.lifePhoneReturnStep = null;
+    }
     this.log.append('life_intent', { intent: structuredClone(intent) }, this.state.clock);
     let eventClock = this.state.clock;
     for (const event of result.events) {

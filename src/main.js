@@ -58,6 +58,7 @@ if (app) {
   let storageWarningText = null;
   let phoneOpen = false;
   let settingsOpen = false;
+  let lifeHubExposureRecorded = false;
   let settingsCleanup = null;
   let settingsTriggerId = 'btn-open-settings';
   let stageTransition = null;
@@ -295,6 +296,8 @@ if (app) {
   }
 
   function renderApp() {
+    const showingLifeHub = Boolean(engine?.state.life && !engine.isTerminal() && currentStep === 'life_phone' && phoneOpen);
+    if (!showingLifeHub) lifeHubExposureRecorded = false;
     const racePlaybackSnapshot = raceViewHandle?.snapshot?.() ?? null;
     raceViewHandle?.destroy?.();
     raceViewHandle = null;
@@ -358,7 +361,9 @@ if (app) {
         }
         engine.state.step = currentStep; maybeAutosave(); renderApp();
       } });
-      if (engine.displayLifeGemShop()) maybeAutosave();
+      if (!settingsOpen && !activeModal && !lifeHubExposureRecorded) {
+        if (engine.displayLifeGemShop()) { lifeHubExposureRecorded = true; maybeAutosave(); }
+      }
     } else if (!engine.isTerminal() && currentStep === 'life_gacha' && engine.state.life && phoneOpen) {
       gachaViewHandle = renderGachaView(mainContainer, engine, {
         onRevealCard: () => { engine.revealNextDraw(); maybeAutosave(); gachaViewHandle?.update(engine); },
@@ -735,7 +740,7 @@ if (app) {
         if (!engine.installLifeApp()) return { ok: false };
         if (!engine.openLifeApp()) return { ok: false };
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
-        engine.state.step = engine.state.lifePhoneReturnStep || 'life_phone';
+        engine.state.step = (engine.state.life.session && engine.state.lifePhoneReturnStep) || 'life_phone';
         engine.state.lifePhoneReturnStep = null;
         return { ok: true };
       }),

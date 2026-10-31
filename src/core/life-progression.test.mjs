@@ -401,3 +401,17 @@ test('first-day invitation can be inspected after missing the morning message', 
   assert.equal(e.log.entries.filter(x => x.payload?.kind === 'fictional_launch_invitation').length, 1);
   assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
 });
+
+test('phase changes discard suspended phone navigation only on success', () => {
+  const e = new GameEngine('return-step', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.state.life.day = 2;
+  assert.equal(e.applyLifeIntent({ type: 'meal', choice: 'skip' }).ok, true);
+  e.state.lifePhoneReturnStep = 'life_race_result';
+  assert.equal(e.applyLifeIntent({ type: 'phone_commit', kind: 'pull' }).ok, true);
+  assert.equal(e.applyLifeIntent({ type: 'phone_suspend' }).ok, true);
+  assert.equal(e.state.lifePhoneReturnStep, 'life_race_result');
+  assert.equal(e.applyLifeIntent({ type: 'depart_work' }).ok, false);
+  assert.equal(e.state.lifePhoneReturnStep, 'life_race_result');
+  assert.equal(e.applyLifeIntent({ type: 'depart_work', confirmedSessionEnd: true }).ok, true);
+  assert.equal(e.state.lifePhoneReturnStep, null);
+});

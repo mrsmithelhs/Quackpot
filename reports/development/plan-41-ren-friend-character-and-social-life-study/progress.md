@@ -101,3 +101,12 @@ Ready for orchestrator review: **yes** (owner review of the package, not of any 
 ## Addendum 3: revision pass (2026-10-31)
 
 Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the originals; results, with my own judgement and the v1/v2 comparison sheet, are in section 7 of `07-gemini-round-01-review-and-selection.md`. Slicker v2 is a clear improvement; cardigan v2 is improved with small buttons; bedhead v2 is only a partial fix (spiky triangle tufts). Total Haiku drawing helpers so far: 13 (10 first pass, 3 revision). No additional Gemini generation was run; the three missing hair grids remain ungenerated. Nothing here is owner-approved.
+
+## Addendum 4: owner corrections, hood-up slicker, bedhead v3, apartment scenes (2026-10-31)
+
+- Owner feedback: the neck "tattoo" read as a mistake; the pencil read as jewelry; the hood should be up; bedhead was unclear; Ren should be composed into the apartment. Done as recorded in `08-ren-in-apartment-camera-notes.md` and section 8 of file 07.
+- Delegation this round: one Haiku researcher (bedhead references; text only, no images viewed) and two Haiku drawers (slicker v3, bedhead v3). Total Haiku drawing helpers so far: 15 (10 first pass, 3 revision, 2 this round). The lead replaced the pencil and removed the neck tattoo in all 14 existing SVGs by text replacement, added arm tattoos to two outfits by hand, and wrote and ran the apartment composition script.
+- Executable work: `concepts/apartment-scenes/compose-ren-apartment.mjs` ran serially through the unchanged Plan 25 bounded launcher (exit 0, about 0.6 s, under 10 MB sampled memory, no stop reason; run several times while placement was fixed). Edge headless was used for renders. Many other `node` processes exist on this machine and none were touched.
+- What I viewed: the contact sheet after the pencil/tattoo change; the apartment scenes page after each run (final state at desktop width); the round 3 comparison sheet. Not checked: avatar scale, other complexions, hardware keyboard or screen reader (no interactive page in this round).
+- Still open: bedhead is not convincing; the three ungenerated Gemini hair grids; any owner selection of outfits or hair. The old `ren-ref-*.png` references show the removed neck tattoo; the Gemini prompt now points to the updated template PNG.
+- Public-repo hygiene: reference and concept images contain no real people or private data.

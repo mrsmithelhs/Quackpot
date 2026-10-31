@@ -1,16 +1,16 @@
 {
   "stepsPassed": [
     "Step 1: Page loaded and titled correctly",
-    "Step 2: Departure view loaded with baseline HUD stats ($15.00, 80 HP)",
-    "Step 3: Advanced to Work Beat 1 (10:15 AM · The Line Moves)",
-    "Step 4: Advanced through Work Beat 2 and clocked out",
-    "Step 5: Wage payslip accurately verified at $60.00 completed-shift take-home",
-    "Step 6: Wages collected into wallet ($75.00) and entered Evening Apartment",
-    "Step 7: Call Mom check-in completed, restoring +5 HP (80 -> 85 HP)",
-    "Step 8: Marisol extra shift completed: +$45.00 cash ($120.00) and -15 HP (70 HP) verified",
-    "Step 9: Narrow mobile viewport (390px) verified and captured",
-    "Step 10: Reduced motion toggle verified",
-    "Step 11: Owner research experiment tracker verified with 4 conditions and live choices"
+    "Step 2: Departure view verified ($15.00, 80 HP)",
+    "Step 3: Commute In verified (Commute In · Morning Sidewalk Routine, #0C3)",
+    "Step 4: Work Beat 1 verified with 3-digit hex ID (#012)",
+    "Step 5: Work Beat 2 completed and clocked out",
+    "Step 6: Wage payslip accurately verified at $60.00 completed-shift take-home",
+    "Step 7: Wages collected ($75.00) and entered Evening Apartment",
+    "Step 8: Call Mom check-in completed, restoring +5 HP (80 -> 85 HP)",
+    "Step 9: Daily extra shift completed: Cash=$110.00, HP=77 HP",
+    "Step 10: Narrow mobile viewport (390px) and reduced motion toggles verified",
+    "Step 11: 3-tier Likert experiment tracker and compact usage logging verified"
   ],
   "screenshotsSaved": [
     "storyboard-evening-desktop.png",

@@ -3,16 +3,19 @@
 // Standalone pure client ES module; zero runtime server dependency, zero saved storage mutation.
 
 import {
-  WORK_VIGNETTES,
-  COMMUTE_VIGNETTES,
+  WORK_BEATS,
+  COMMUTE_BEATS,
   WAGE_PAYSLIP,
   EVENING_ACTIVITIES,
-  EXTRA_SHIFTS,
+  EXTRA_SHIFTS_CATALOG,
+  rollDailyExtraShifts,
   money,
 } from './copy.mjs';
 import {
   getApartmentSceneSvg,
+  getAmbientBackdropSvg,
   renderPaySlipHtml,
+  renderLikertBadge,
   VIGNETTE_ICONS,
   esc,
 } from './scenes.mjs';
@@ -23,15 +26,22 @@ export class StoryboardController {
     this.root = rootEl;
     this.tracker = new ExperimentTracker();
 
-    // Synthetic session state (never touches localStorage)
+    // Daily active extra shifts (1-2 options rolled for the evening)
+    this.dailyExtraShifts = rollDailyExtraShifts(2, 0.42);
+
+    // Active session state (synthetic, never touches localStorage)
     this.state = {
       cash: 15.00,
       health: 80,
-      moment: 'departure', // departure | work_1 | work_2 | commute_1 | commute_2 | payslip | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return
-      workCondition: 'grind', // grind | engaging
-      commuteCondition: 'exhausting', // exhausting | pleasant
+      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | evening | call_mom | sit_duck | open_gacha | extra_shifts | extra_beat | night_return
+      workBeat1Index: 1, // default #012 (Rating 2)
+      workBeat2Index: 3, // default #014 (Rating 4)
+      commuteInIndex: 2, // default #0C3 (Rating 3)
+      commuteHomeIndex: 3, // default #0C4 (Rating 4)
+      activeSessionBeats: [], // array of [hexId, rating]
       dialogueStep: 0,
       activeExtraShift: null,
+      activeExtraBeat: null,
       isNarrow: false,
       isReducedMotion: false,
       events: [],
@@ -53,27 +63,59 @@ export class StoryboardController {
 
       // Reviewer controls
       selectMoment: this.root.querySelector('#reviewer-moment'),
-      selectWork: this.root.querySelector('#reviewer-work-cond'),
-      selectCommute: this.root.querySelector('#reviewer-commute-cond'),
+      selectWork1: this.root.querySelector('#reviewer-work-beat1'),
+      selectWork2: this.root.querySelector('#reviewer-work-beat2'),
+      selectCommuteHome: this.root.querySelector('#reviewer-commute-home'),
+      btnRerollShifts: this.root.querySelector('#btn-reroll-shifts'),
       btnNarrow: this.root.querySelector('#toggle-narrow'),
       btnMotion: this.root.querySelector('#toggle-motion'),
       btnReset: this.root.querySelector('#btn-reset-scenario'),
       tableCohortStats: this.root.querySelector('#cohort-stats-body'),
     };
 
-    // Reviewer events
+    // Populate beat selects
+    this.dom.selectWork1.innerHTML = WORK_BEATS.map((b, i) => `
+      <option value="${i}">Beat #${b.hexId} · Rating ${b.rating}/5 (${esc(b.dimension)})</option>
+    `).join('');
+
+    this.dom.selectWork2.innerHTML = WORK_BEATS.map((b, i) => `
+      <option value="${i}">Beat #${b.hexId} · Rating ${b.rating}/5 (${esc(b.dimension)})</option>
+    `).join('');
+
+    this.dom.selectCommuteHome.innerHTML = COMMUTE_BEATS.filter(b => b.phase === 'home').map((b, i) => {
+      const globalIdx = COMMUTE_BEATS.indexOf(b);
+      return `<option value="${globalIdx}">Beat #${b.hexId} · Rating ${b.rating}/5 (${esc(b.dimension)})</option>`;
+    }).join('');
+
+    // Set initial reviewer select values
+    this.dom.selectWork1.value = this.state.workBeat1Index;
+    this.dom.selectWork2.value = this.state.workBeat2Index;
+    this.dom.selectCommuteHome.value = this.state.commuteHomeIndex;
+
+    // Reviewer event listeners
     this.dom.selectMoment.addEventListener('change', (e) => {
       this.jumpToMoment(e.target.value);
     });
 
-    this.dom.selectWork.addEventListener('change', (e) => {
-      this.state.workCondition = e.target.value;
+    this.dom.selectWork1.addEventListener('change', (e) => {
+      this.state.workBeat1Index = parseInt(e.target.value, 10);
       this.render();
     });
 
-    this.dom.selectCommute.addEventListener('change', (e) => {
-      this.state.commuteCondition = e.target.value;
+    this.dom.selectWork2.addEventListener('change', (e) => {
+      this.state.workBeat2Index = parseInt(e.target.value, 10);
       this.render();
+    });
+
+    this.dom.selectCommuteHome.addEventListener('change', (e) => {
+      this.state.commuteHomeIndex = parseInt(e.target.value, 10);
+      this.render();
+    });
+
+    this.dom.btnRerollShifts.addEventListener('click', () => {
+      this.dailyExtraShifts = rollDailyExtraShifts(2, Math.random());
+      this.logEvent('Rerolled 1–2 daily extra shift options');
+      if (this.state.moment === 'extra_shifts') this.render();
     });
 
     this.dom.btnNarrow.addEventListener('click', () => {
@@ -92,7 +134,7 @@ export class StoryboardController {
       this.resetScenario();
     });
 
-    // Keyboard support: Space/Enter on focused buttons, Escape closes dialogs
+    // Keyboard support: Escape returns to evening room
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (['call_mom', 'sit_duck', 'open_gacha', 'extra_shifts'].includes(this.state.moment)) {
@@ -106,8 +148,10 @@ export class StoryboardController {
     this.state.cash = 15.00;
     this.state.health = 80;
     this.state.moment = 'departure';
+    this.state.activeSessionBeats = [];
     this.state.dialogueStep = 0;
     this.state.activeExtraShift = null;
+    this.state.activeExtraBeat = null;
     this.state.events = [];
     this.render();
   }
@@ -133,21 +177,19 @@ export class StoryboardController {
     this.dom.hudHp.textContent = `${this.state.health} HP`;
 
     let phaseLabel = 'Morning';
-    if (this.state.moment.startsWith('work')) phaseLabel = 'Day Shift';
-    else if (this.state.moment.startsWith('commute')) phaseLabel = 'Late Afternoon';
+    if (this.state.moment === 'commute_in') phaseLabel = 'Commute In';
+    else if (this.state.moment.startsWith('work')) phaseLabel = 'Day Shift';
+    else if (this.state.moment.startsWith('commute')) phaseLabel = 'Commute Home';
     else if (this.state.moment === 'payslip') phaseLabel = 'Shift Paid';
     else if (this.state.moment === 'evening' || ['call_mom', 'sit_duck', 'open_gacha'].includes(this.state.moment)) phaseLabel = 'Evening';
     else if (this.state.moment === 'night_return' || this.state.activeExtraShift) phaseLabel = 'Night';
 
     this.dom.hudPhase.textContent = phaseLabel;
     this.dom.selectMoment.value = this.state.moment;
-    this.dom.selectWork.value = this.state.workCondition;
-    this.dom.selectCommute.value = this.state.commuteCondition;
   }
 
   renderReviewerControls() {
-    // Render live experiment cohorts table
-    const stats = this.tracker.getConditionStats();
+    const stats = this.tracker.getTierStats();
     this.dom.tableCohortStats.innerHTML = stats.map((row) => `
       <tr>
         <td><strong>${esc(row.label)}</strong></td>
@@ -160,7 +202,7 @@ export class StoryboardController {
           <div>${row.pctGacha}% (${row.gacha})</div>
           <div class="bar-fill gacha-fill" style="width: ${row.pctGacha}%"></div>
         </td>
-        <td>${row.pctExtra}% (${row.extraShift})</td>
+        <td>${row.pctExtra}% (${row.extra})</td>
       </tr>
     `).join('');
   }
@@ -183,36 +225,75 @@ export class StoryboardController {
             </div>
             <div class="vignette-body">
               <p>Your work badge and keys lie on the kitchen counter beside your travel mug.</p>
-              <p class="vignette-detail">The morning bus leaves in ten minutes. You have eight hours scheduled at the harbor distribution center.</p>
+              <p class="vignette-detail">The morning bus leaves in ten minutes. You have eight hours scheduled at Harbor Logistics Distribution.</p>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-start-work">Grab Keys & Leave for Shift</button>
+              <button type="button" class="btn btn-secondary" id="btn-commute-in">Step Out & Commute In</button>
+              <button type="button" class="btn btn-primary" id="btn-direct-work">Arrive at Shift Floor</button>
             </div>
           </div>
         </div>
       `;
-      this.dom.overlayLayer.querySelector('#btn-start-work').addEventListener('click', () => {
-        this.logEvent('Left apartment for day shift');
+      this.dom.overlayLayer.querySelector('#btn-commute-in').addEventListener('click', () => {
+        this.jumpToMoment('commute_in');
+      });
+      this.dom.overlayLayer.querySelector('#btn-direct-work').addEventListener('click', () => {
         this.jumpToMoment('work_1');
       });
       return;
     }
 
-    // 2. Work Beat 1
-    if (m === 'work_1') {
-      const v = WORK_VIGNETTES[this.state.workCondition];
-      const beat = v.beats[0];
-      const icon = this.state.workCondition === 'grind' ? VIGNETTE_ICONS.warehouse : VIGNETTE_ICONS.breakroom_pastry;
+    // 2. Commute In (Morning)
+    if (m === 'commute_in') {
+      const beat = COMMUTE_BEATS[this.state.commuteInIndex] || COMMUTE_BEATS[2];
+      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
+      this.dom.overlayLayer.innerHTML = `
+        <div class="vignette-overlay">
+          <div class="vignette-card" role="region" aria-label="Commute In Beat">
+            <div class="vignette-header">
+              <div class="vignette-icon-wrap">${beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun}</div>
+              <div class="vignette-titles">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3>${esc(beat.heading)}</h3>
+                  ${renderLikertBadge(beat.hexId, beat.rating)}
+                </div>
+                <span>Morning Transit · Route 14</span>
+              </div>
+            </div>
+            <div class="vignette-body">
+              <p>${esc(beat.text)}</p>
+              <p class="vignette-detail">${esc(beat.detail)}</p>
+            </div>
+            <div class="vignette-actions">
+              <button type="button" class="btn btn-primary" id="btn-enter-work">Enter Logistics Plant</button>
+            </div>
+          </div>
+        </div>
+      `;
+      this.dom.overlayLayer.querySelector('#btn-enter-work').addEventListener('click', () => {
+        this.state.activeSessionBeats.push([beat.hexId, beat.rating]);
+        this.jumpToMoment('work_1');
+      });
+      return;
+    }
 
-      this.dom.sceneLayer.innerHTML = `<div class="work-backdrop" style="background:#1b1916;width:100%;height:100%;"></div>`;
+    // 3. Work Beat 1
+    if (m === 'work_1') {
+      const beat = WORK_BEATS[this.state.workBeat1Index] || WORK_BEATS[0];
+      const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
+
+      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
           <div class="vignette-card" role="region" aria-label="Work Beat 1">
             <div class="vignette-header">
               <div class="vignette-icon-wrap">${icon}</div>
               <div class="vignette-titles">
-                <h3>${esc(beat.heading)}</h3>
-                <span>${esc(v.title)} (${esc(v.label)})</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3>${esc(beat.heading)}</h3>
+                  ${renderLikertBadge(beat.hexId, beat.rating)}
+                </div>
+                <span>Harbor Logistics · Morning Shift Block (Beat 1/2)</span>
               </div>
             </div>
             <div class="vignette-body">
@@ -220,32 +301,35 @@ export class StoryboardController {
               <p class="vignette-detail">${esc(beat.detail)}</p>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-work-next">Continue Shift</button>
+              <button type="button" class="btn btn-primary" id="btn-work-next">Midday Lunch Break → Afternoon</button>
             </div>
           </div>
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-work-next').addEventListener('click', () => {
+        this.state.activeSessionBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('work_2');
       });
       return;
     }
 
-    // 3. Work Beat 2
+    // 4. Work Beat 2
     if (m === 'work_2') {
-      const v = WORK_VIGNETTES[this.state.workCondition];
-      const beat = v.beats[1];
-      const icon = this.state.workCondition === 'grind' ? VIGNETTE_ICONS.warehouse : VIGNETTE_ICONS.breakroom_pastry;
+      const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[3];
+      const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
-      this.dom.sceneLayer.innerHTML = `<div class="work-backdrop" style="background:#1b1916;width:100%;height:100%;"></div>`;
+      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
           <div class="vignette-card" role="region" aria-label="Work Beat 2">
             <div class="vignette-header">
               <div class="vignette-icon-wrap">${icon}</div>
               <div class="vignette-titles">
-                <h3>${esc(beat.heading)}</h3>
-                <span>${esc(v.title)}</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3>${esc(beat.heading)}</h3>
+                  ${renderLikertBadge(beat.hexId, beat.rating)}
+                </div>
+                <span>Harbor Logistics · Afternoon Closing Block (Beat 2/2)</span>
               </div>
             </div>
             <div class="vignette-body">
@@ -253,33 +337,35 @@ export class StoryboardController {
               <p class="vignette-detail">${esc(beat.detail)}</p>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-clock-out">Clock Out & Head to Bus</button>
+              <button type="button" class="btn btn-primary" id="btn-clock-out">Clock Out (5:00 PM) & Head Home</button>
             </div>
           </div>
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-clock-out').addEventListener('click', () => {
-        this.logEvent('Completed 8.0 hr shift at Harbor Logistics');
-        this.jumpToMoment('commute_1');
+        this.state.activeSessionBeats.push([beat.hexId, beat.rating]);
+        this.jumpToMoment('commute_home');
       });
       return;
     }
 
-    // 4. Commute Beat 1
-    if (m === 'commute_1') {
-      const c = COMMUTE_VIGNETTES[this.state.commuteCondition];
-      const beat = c.beats[0];
-      const icon = this.state.commuteCondition === 'exhausting' ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
+    // 5. Commute Home
+    if (m === 'commute_home') {
+      const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[3];
+      const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
 
-      this.dom.sceneLayer.innerHTML = `<div class="commute-backdrop" style="background:#151c22;width:100%;height:100%;"></div>`;
+      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Commute Beat 1">
+          <div class="vignette-card" role="region" aria-label="Commute Home Beat">
             <div class="vignette-header">
               <div class="vignette-icon-wrap">${icon}</div>
               <div class="vignette-titles">
-                <h3>${esc(beat.heading)}</h3>
-                <span>${esc(c.title)} (${esc(c.label)})</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3>${esc(beat.heading)}</h3>
+                  ${renderLikertBadge(beat.hexId, beat.rating)}
+                </div>
+                <span>Late Afternoon Commute Home</span>
               </div>
             </div>
             <div class="vignette-body">
@@ -287,46 +373,13 @@ export class StoryboardController {
               <p class="vignette-detail">${esc(beat.detail)}</p>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-commute-next">Walk the Last Stretch</button>
-            </div>
-          </div>
-        </div>
-      `;
-      this.dom.overlayLayer.querySelector('#btn-commute-next').addEventListener('click', () => {
-        this.jumpToMoment('commute_2');
-      });
-      return;
-    }
-
-    // 5. Commute Beat 2
-    if (m === 'commute_2') {
-      const c = COMMUTE_VIGNETTES[this.state.commuteCondition];
-      const beat = c.beats[1];
-      const icon = this.state.commuteCondition === 'exhausting' ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
-
-      this.dom.sceneLayer.innerHTML = `<div class="commute-backdrop" style="background:#151c22;width:100%;height:100%;"></div>`;
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Commute Beat 2">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${icon}</div>
-              <div class="vignette-titles">
-                <h3>${esc(beat.heading)}</h3>
-                <span>${esc(c.title)}</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>${esc(beat.text)}</p>
-              <p class="vignette-detail">${esc(beat.detail)}</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-arrive-home">Reach Apartment Door</button>
+              <button type="button" class="btn btn-primary" id="btn-arrive-home">Arrive at Apartment Door</button>
             </div>
           </div>
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-arrive-home').addEventListener('click', () => {
-        this.logEvent('Arrived at apartment door');
+        this.state.activeSessionBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('payslip');
       });
       return;
@@ -376,13 +429,12 @@ export class StoryboardController {
 
           <!-- Extra Shifts Anchor -->
           <div class="anchor-zone" style="top: 82%; left: 40%;" tabindex="0" id="anchor-extra" role="button" aria-label="Review Extra Shifts">
-            <span class="anchor-chip">💼 Extra Shift Board</span>
-            <span class="anchor-badge">Cover Marisol / Warehouse</span>
+            <span class="anchor-chip">💼 Tonight's Gigs & Shifts (${this.dailyExtraShifts.length})</span>
+            <span class="anchor-badge">Flat Cash vs Strain</span>
           </div>
         </div>
       `;
 
-      // Attach handlers to anchors
       const bindAnchor = (id, target) => {
         const el = this.dom.overlayLayer.querySelector(id);
         const act = () => this.jumpToMoment(target);
@@ -401,7 +453,6 @@ export class StoryboardController {
     if (m === 'call_mom') {
       const act = EVENING_ACTIVITIES.callMom;
       const d = act.dialogue;
-      const current = d[this.state.dialogueStep];
       const isFinal = this.state.dialogueStep >= d.length - 1;
 
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'mom' });
@@ -436,9 +487,8 @@ export class StoryboardController {
         this.dom.overlayLayer.querySelector('#btn-finish-call').addEventListener('click', () => {
           this.state.health = Math.min(100, this.state.health + 5);
           this.logEvent('Called Mom: warm catch-up restored +5 HP');
-          this.tracker.recordChoice({
-            workCondition: this.state.workCondition,
-            commuteCondition: this.state.commuteCondition,
+          this.tracker.recordSession({
+            beats: [...this.state.activeSessionBeats],
             eveningChoice: 'call_mom',
           });
           this.jumpToMoment('evening');
@@ -487,9 +537,8 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-finish-duck').addEventListener('click', () => {
         this.state.health = Math.min(100, this.state.health + 2);
         this.logEvent('Sat quietly with duck companion: restored +2 HP');
-        this.tracker.recordChoice({
-          workCondition: this.state.workCondition,
-          commuteCondition: this.state.commuteCondition,
+        this.tracker.recordSession({
+          beats: [...this.state.activeSessionBeats],
           eveningChoice: 'sit_duck',
         });
         this.jumpToMoment('evening');
@@ -531,9 +580,8 @@ export class StoryboardController {
 
       this.dom.overlayLayer.querySelector('#btn-enter-gacha').addEventListener('click', () => {
         this.logEvent('Opened Quackpot app (simulated gacha session)');
-        this.tracker.recordChoice({
-          workCondition: this.state.workCondition,
-          commuteCondition: this.state.commuteCondition,
+        this.tracker.recordSession({
+          beats: [...this.state.activeSessionBeats],
           eveningChoice: 'open_gacha',
         });
         alert('Gacha app launch simulated: in production, this mounts gacha-view with current wallet ($' + this.state.cash.toFixed(2) + ').');
@@ -546,7 +594,7 @@ export class StoryboardController {
       return;
     }
 
-    // 11. Extra Shifts Board
+    // 11. Extra Shifts Board (1–2 daily options rolled)
     if (m === 'extra_shifts') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'living', light: 'warm', duck: true, idPrefix: 'extra' });
       this.dom.overlayLayer.innerHTML = `
@@ -554,12 +602,12 @@ export class StoryboardController {
           <div class="vignette-card" style="max-width:620px;" role="dialog" aria-label="Extra Shift Offers">
             <div class="vignette-header">
               <div class="vignette-titles">
-                <h3>Evening Extra Shifts Available</h3>
-                <span>Earn immediate cash at the cost of evening rest & health</span>
+                <h3>Tonight's Available Extra Gigs & Shifts</h3>
+                <span>1–2 daily opportunities on your phone · Flat cash vs physical strain</span>
               </div>
             </div>
             <div class="extra-shifts-grid">
-              ${EXTRA_SHIFTS.map((shift) => `
+              ${this.dailyExtraShifts.map((shift) => `
                 <div class="shift-card" tabindex="0" role="button" data-shift-id="${esc(shift.id)}" aria-label="${esc(shift.title)}">
                   <div class="shift-header">
                     <span class="shift-title">${esc(shift.title)}</span>
@@ -584,14 +632,20 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelectorAll('.shift-card').forEach((card) => {
         const choose = () => {
           const shiftId = card.getAttribute('data-shift-id');
-          const shift = EXTRA_SHIFTS.find((s) => s.id === shiftId);
+          const shift = EXTRA_SHIFTS_CATALOG.find((s) => s.id === shiftId);
           this.state.activeExtraShift = shift;
+
+          // Pick a random beat from the shift's 5 rated beats
+          const beatIndex = Math.floor(Math.random() * shift.beats.length);
+          this.state.activeExtraBeat = shift.beats[beatIndex];
+
           this.state.cash += shift.cashGain;
           this.state.health = Math.max(1, this.state.health - shift.healthCost);
+          this.state.activeSessionBeats.push([this.state.activeExtraBeat.hexId, this.state.activeExtraBeat.rating]);
+
           this.logEvent(`Worked extra shift: ${shift.title} (+${money(shift.cashGain)}, −${shift.healthCost} HP)`);
-          this.tracker.recordChoice({
-            workCondition: this.state.workCondition,
-            commuteCondition: this.state.commuteCondition,
+          this.tracker.recordSession({
+            beats: [...this.state.activeSessionBeats],
             eveningChoice: 'extra_shift',
           });
           this.jumpToMoment('night_return');
@@ -609,19 +663,23 @@ export class StoryboardController {
     // 12. Night Return after Extra Shift
     if (m === 'night_return') {
       const shift = this.state.activeExtraShift;
+      const beat = this.state.activeExtraBeat;
+
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'night' });
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
           <div class="vignette-card" role="region" aria-label="Late Night Return">
             <div class="vignette-header">
               <div class="vignette-titles">
-                <h3>11:45 PM · Returning to a Dark Apartment</h3>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <h3>11:45 PM · Returning to a Dark Apartment</h3>
+                  ${beat ? renderLikertBadge(beat.hexId, beat.rating) : ''}
+                </div>
                 <span>${esc(shift ? shift.title : 'Night Shift')} Completed</span>
               </div>
             </div>
             <div class="vignette-body">
-              <p>${esc(shift ? shift.vignette : 'Exhaustion sets into your limbs.')}</p>
-              <p class="vignette-detail">${esc(shift ? shift.payNote : '')}</p>
+              <p>${esc(beat ? beat.text : 'Exhaustion sets into your limbs.')}</p>
               <div style="background:#13151d;padding:12px;border-radius:6px;margin-top:10px;">
                 <div style="color:#52b788;font-weight:bold;">Cash on hand: ${money(this.state.cash)}</div>
                 <div style="color:#f28482;font-weight:bold;">Health: ${this.state.health} HP (Fatigued)</div>

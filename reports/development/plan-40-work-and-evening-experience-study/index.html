@@ -10,7 +10,7 @@
   <header class="storyboard-banner">
     <div>
       <strong>Plan 40 · Work & Evening Experience Study</strong>
-      <span> · Treatment 3: Atmospheric Micro-Fiction & Commute Vignette</span>
+      <span> · 5-Point Likert Scale & Pacing Variety</span>
     </div>
     <div>Report-Local Storyboard · Not Production</div>
   </header>
@@ -50,37 +50,37 @@
         <label for="reviewer-moment">Jump to Experience Moment</label>
         <select id="reviewer-moment" class="control-select">
           <option value="departure">1. Morning Departure (Leaving Flat)</option>
-          <option value="work_1">2. Work Shift · Beat 1 (Morning Flow)</option>
-          <option value="work_2">3. Work Shift · Beat 2 (Afternoon Clock-Out)</option>
-          <option value="commute_1">4. Commute · Beat 1 (Bus / Transit)</option>
-          <option value="commute_2">5. Commute · Beat 2 (Neighborhood Walk)</option>
+          <option value="commute_in">2. Commute In (Morning Transit)</option>
+          <option value="work_1">3. Work Shift · Beat 1 (Morning Block)</option>
+          <option value="work_2">4. Work Shift · Beat 2 (Afternoon Clock-Out)</option>
+          <option value="commute_home">5. Commute Home (Transit & Walk)</option>
           <option value="payslip">6. Wage Payslip (+$60 Take-Home Cash)</option>
           <option value="evening">7. Evening Apartment (Desk & Anchors)</option>
           <option value="call_mom">8. Call Mom (+5 HP Restorative Check-in)</option>
           <option value="sit_duck">9. Sit with Duck (+2 HP Companionship)</option>
           <option value="open_gacha">10. Open Quackpot (Gacha Temptation)</option>
-          <option value="extra_shifts">11. Extra Shifts Board (Marisol/Warehouse/Courier)</option>
+          <option value="extra_shifts">11. Extra Gigs/Shifts (1–2 Daily Offers)</option>
           <option value="night_return">12. Late Night Return & Sleep</option>
         </select>
       </div>
 
       <div class="control-group">
-        <label for="reviewer-work-cond">Work Condition</label>
-        <select id="reviewer-work-cond" class="control-select">
-          <option value="grind">Mundane / Grinding Work (Hum, Concrete, Sore)</option>
-          <option value="engaging">Engaging / Pleasant Work (Banter, Competence)</option>
-        </select>
+        <label for="reviewer-work-beat1">Work Beat 1 (1–5 Likert Scale)</label>
+        <select id="reviewer-work-beat1" class="control-select"></select>
       </div>
 
       <div class="control-group">
-        <label for="reviewer-commute-cond">Commute Condition</label>
-        <select id="reviewer-commute-cond" class="control-select">
-          <option value="exhausting">Exhausting Commute (Cold Rain, Wet Bus, Feeds)</option>
-          <option value="pleasant">Pleasant Commute (Sunlight, Trees, Mellow Music)</option>
-        </select>
+        <label for="reviewer-work-beat2">Work Beat 2 (1–5 Likert Scale)</label>
+        <select id="reviewer-work-beat2" class="control-select"></select>
+      </div>
+
+      <div class="control-group">
+        <label for="reviewer-commute-home">Commute Home Beat (1–5 Likert Scale)</label>
+        <select id="reviewer-commute-home" class="control-select"></select>
       </div>
 
       <div class="toggles-row">
+        <button type="button" class="control-btn" id="btn-reroll-shifts">🎲 Reroll 1–2 Extra Shifts</button>
         <button type="button" class="control-btn" id="toggle-narrow">View: Desktop 16:9</button>
         <button type="button" class="control-btn" id="toggle-motion">Motion: Standard</button>
         <button type="button" class="control-btn" id="btn-reset-scenario">Reset Scenario</button>
@@ -88,14 +88,14 @@
 
       <!-- Owner Hypothesis & Live Experiment Tracker -->
       <div class="control-group" style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">
-        <label>Owner Research Hypothesis & Cohort Data</label>
+        <label>Likert Tier Behavior & Compact Usage Tracker</label>
         <p style="font-size:0.78rem;color:var(--text-muted);margin:0 0 8px 0;">
-          Does positive work/commute pacing shift players toward restorative choices (Call Mom / Sit with Duck) over gacha indulgence?
+          Compact 3-digit hex IDs + 1-5 integer ratings logged to run usage file. Correlated against evening restorative vs gacha choices:
         </p>
         <table class="stats-table">
           <thead>
             <tr>
-              <th>Condition</th>
+              <th>Likert Tier</th>
               <th>Runs</th>
               <th>Restorative</th>
               <th>Gacha</th>

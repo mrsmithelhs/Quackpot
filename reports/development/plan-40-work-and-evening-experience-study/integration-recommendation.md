@@ -6,14 +6,15 @@
 
 ---
 
-## 1. Engine Action & Event Contracts
+## 1. Action & Event Contracts for Progression Engine
 
-To support the validated work, commute, and evening experience without creating an ad-hoc secondary schedule, the progression resolver should incorporate the following discrete action primitives:
+To support the validated work, commute, and evening experience, the progression resolver in Plan 38 should incorporate the following discrete action primitives:
 
 ### 1. `action: 'work_completed'`
-- **Authoritative Phase Transition**: `d1_morning` → `d1_afternoon` (or `d1_commute`).
+- **Parameters**: `shiftDate`, `hours: 8.0`, `beats: Array<[hexId, rating]>`.
+- **Authoritative Phase Transition**: `d1_morning` → `d1_afternoon` → `d1_commute`.
 - **Engine Effects**:
-  - `cash += 60.00` (Take-home shift wage).
+  - `cash += 60.00` (Take-home shift wage baseline).
   - `health` remains baseline or absorbs minor shift fatigue.
 - **Append-Only Log Entry**:
   ```json
@@ -25,15 +26,31 @@ To support the validated work, commute, and evening experience without creating 
     "gross": 88.00,
     "deductions": 28.00,
     "takeHome": 60.00,
+    "beats": [["012", 2], ["014", 4]],
+    "avgRating": 3.0,
     "cashAfter": 75.00
   }
   ```
 
-### 2. `action: 'evening_activity'`
+### 2. `action: 'commute_completed'`
+- **Parameters**: `phase: 'in' | 'home'`, `beat: [hexId, rating]`.
+- **Authoritative Phase Transition**: Enters `d1_evening`.
+- **Append-Only Log Entry**:
+  ```json
+  {
+    "type": "action",
+    "kind": "commute_completed",
+    "phase": "home",
+    "beat": ["0C4", 4],
+    "day": 1
+  }
+  ```
+
+### 3. `action: 'evening_activity'`
 - **Variants**:
   - `kind: 'call_mom'`: Restores **+5 HP** (capped at 100).
   - `kind: 'sit_duck'`: Restores **+2 HP** (capped at 100).
-  - `kind: 'open_gacha'`: Leaves health unchanged; opens the phone gacha session hub.
+  - `kind: 'open_gacha'`: Leaves health unchanged; opens phone gacha session hub.
 - **Append-Only Log Entry**:
   ```json
   {
@@ -45,40 +62,50 @@ To support the validated work, commute, and evening experience without creating 
   }
   ```
 
-### 3. `action: 'extra_shift'`
-- **Parameters**: `shiftId` (`'diner_marisol'`, `'warehouse_night'`, `'courier_rush'`).
+### 4. `action: 'extra_shift'`
+- **Parameters**: `shiftId` (`'gig_food'`, `'gig_grocery'`, `'diner_cover'`, etc.), `beat: [hexId, rating]`.
 - **Engine Effects**:
-  - `cash += shift.cashGain` (+$40 to +$55).
-  - `health -= shift.healthCost` (−10 to −15 HP).
-  - Authoritative Phase advances to `night`.
+  - `cash += shift.cashGain` (+$35.00 to +$55.00).
+  - `health -= shift.healthCost` (−8 to −15 HP).
+  - Phase advances to `night`.
   - **Decoupled Rent Invariant**: Does **not** pay rent or alter the due rent obligation.
 - **Append-Only Log Entry**:
   ```json
   {
     "type": "action",
     "kind": "extra_shift_worked",
-    "shiftId": "diner_marisol",
-    "cashGain": 45.00,
-    "healthCost": 15,
-    "cashAfter": 120.00,
-    "healthAfter": 70
+    "shiftId": "gig_food",
+    "cashGain": 35.00,
+    "healthCost": 8,
+    "beat": ["F04", 4],
+    "cashAfter": 110.00,
+    "healthAfter": 77
   }
   ```
 
 ---
 
-## 2. Production UI & View Mapping
+## 2. Compact Run-Usage Export Schema (CourseVGD Analysis)
 
-1. **Vignette Layer in `src/ui/life/`**:
-   - `life-view.js` should render the atmospheric overlay when the controller phase is `work` or `commute`, utilizing the accepted text format from `copy.mjs` and clean SVG icons.
-   - Pacing is player-paced (Next/Continue buttons with keyboard Tab/Enter/Space support), avoiding any forced countdowns.
-2. **Evening Apartment Anchors**:
-   - In `d1_evening`, `apartment-view.mjs` or `desk-view.js` should mount the three interactive anchors:
-     - Phone: Call Mom / Quackpot.
-     - Desk: Sit with Duck.
-     - Work Notepad: Extra shift offers.
-3. **Receipt Evidence & Reflection (Plan 27 / Plan 44)**:
-   - Tracking the juxtaposition on the final Receipt:
-     - Total hours of physical labor worked ($60 earned).
-     - Net amount spent on digital duck gacha within hours of receiving wages.
-     - Educational reflection: demonstrating how gacha spending mirrors compensatory exhaustion.
+In student run-usage ZIP exports, each day records a compact summary to minimize file size:
+```json
+{
+  "day": 1,
+  "beats": [["012", 2], ["014", 4], ["0C4", 4]],
+  "avgWorkScore": 3.0,
+  "commuteScore": 4.0,
+  "dailyLikert": 3.33,
+  "eveningChoice": "call_mom",
+  "wageEarned": 60.00,
+  "gachaSpent": 0.00
+}
+```
+
+---
+
+## 3. Production UI & Audio Coordination
+
+1. **Ambient Backdrops in `src/ui/life/`**:
+   - `life-view.js` should render the ambient visual layer (warehouse trusses, transit window sill, weather) behind the narrative cards during work and commute phases.
+2. **Audio Needs (Plan 39 / Plan 18 Coordination)**:
+   - Work and commute environments require environmental sound effects (warehouse ambient hum, radio pop, rain on transit glass, park birds) corresponding to the Likert rating of the active beat.

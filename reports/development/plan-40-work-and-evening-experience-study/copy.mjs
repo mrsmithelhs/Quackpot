@@ -1,79 +1,137 @@
 // reports/development/plan-40-work-and-evening-experience-study/copy.mjs
-// Text vignettes and dialogue for Treatment 3 (Atmospheric Micro-Fiction & Commute Vignette).
-// Formatted with neutral, literary clarity; no forced software buttons or reflex minigames.
+// Pacing, narrative beats, and 5-point Likert scale data for Plan 40.
+// Architecture designed to scale to 100+ work beats, 100+ commute beats, and 30+ extra shifts.
+// Compact 3-digit hex IDs and 1-5 integer ratings for efficient usage export.
 
 export const money = (n) => `${n < 0 ? '−' : ''}$${Math.abs(n).toFixed(2)}`;
 
-export const WORK_VIGNETTES = {
-  grind: {
-    label: 'Mundane / Grinding Workday',
-    title: 'Harbor Logistics · Shift Floor',
-    beats: [
-      {
-        heading: '10:15 AM · The Line Moves',
-        text: 'Fluorescent tubes hum overhead. You stand at packing station four, slicing tape and checking manifests as gray plastic totes slide past on the rollers.',
-        detail: 'Sore heels against the concrete. The clock above the safety board seems stuck.',
-      },
-      {
-        heading: '2:40 PM · Pallet Wrap & Repetition',
-        text: 'A misrouted shipment of ceramic cookware holds up the conveyor. The supervisor taps his clipboard without looking up. Your lower back is stiff.',
-        detail: 'In your pocket, your phone vibrates twice. For a second, you wonder if your starter duck in Quackpot finished its race.',
-      },
-    ],
-  },
-  engaging: {
-    label: 'Engaging / Pleasant Workday',
-    title: 'Harbor Logistics · Station Team',
-    beats: [
-      {
-        heading: '10:30 AM · Shared Rhythm',
-        text: 'Radio station 94.7 plays classic pop over the warehouse speakers. Dan from station three shares half a lemon pastry and tells a funny story about his stubborn terrier.',
-        detail: 'The packing orders flow smoothly. The team beats the morning quota by twenty minutes.',
-      },
-      {
-        heading: '2:15 PM · A Competent Afternoon',
-        text: 'You catch a barcode mismatch before a pallet gets loaded on the interstate truck. The lead supervisor thanks you with a genuine nod.',
-        detail: 'Your hands are busy and time moves quickly. You feel pleasantly capable and part of a crew.',
-      },
-    ],
-  },
+/**
+ * 5-Point Likert Rating Scale for Work & Commute Beats:
+ * 1 = Very Depleting / Negative (heavy strain, hostility, severe delay/weather)
+ * 2 = Mildly Depleting / Dull (monotony, fatigue, gray drizzle, boredom)
+ * 3 = Neutral / Uneventful (steady routine, neutral weather, clock moves)
+ * 4 = Pleasant / Uplifting (good music, friendly exchange, pleasant weather)
+ * 5 = Very Uplifting / Energizing (autonomy, mastery, praise, helping someone)
+ */
+export const LIKERT_LABELS = {
+  1: 'Very Depleting (1/5)',
+  2: 'Mildly Depleting (2/5)',
+  3: 'Neutral / Routine (3/5)',
+  4: 'Pleasant / Uplifting (4/5)',
+  5: 'Very Energizing (5/5)',
 };
 
-export const COMMUTE_VIGNETTES = {
-  exhausting: {
-    label: 'Dull / Exhausting Commute',
-    title: 'The Route 14 Bus',
-    beats: [
-      {
-        heading: '5:15 PM · Standing Room Only',
-        text: 'A cold autumn drizzle coats the bus windows in gray streaks. You grip a greasy overhead handrail, wedged between wet umbrellas and silent passengers.',
-        detail: 'Everyone around you is staring down at glowing screens—scrolling short-form video feeds, playing neon puzzle games, or buying digital coins.',
-      },
-      {
-        heading: '5:45 PM · Walking the Last Blocks',
-        text: 'Puddles splash against your worn sneakers. The wind off the harbor cuts through your jacket collar as diesel exhaust lingers in the alleyway.',
-        detail: 'Your shoulders are tight with exhaustion. All you want is a distraction.',
-      },
-    ],
-  },
-  pleasant: {
-    label: 'Pleasant / Uplifting Commute',
-    title: 'Walking Home Through Harbor Park',
-    beats: [
-      {
-        heading: '5:10 PM · Late Sunlight',
-        text: 'The afternoon clouds break, letting slanted golden sunlight wash over the brick rowhouses. You decide to take the scenic path through the neighborhood park.',
-        detail: 'A cool breeze rustles the orange maple leaves. Sparrows bicker cheerfully around a stone fountain.',
-      },
-      {
-        heading: '5:35 PM · Music & Fresh Air',
-        text: 'You slip on your headphones, listening to a favorite mellow acoustic track. A dog walker smiles as a golden retriever trots past with a stick.',
-        detail: 'Your head clears. The physical fatigue feels honest and earned, rather than oppressive.',
-      },
-    ],
-  },
+export const LIKERT_COLORS = {
+  1: '#e76f51', // rose / alert
+  2: '#f4a261', // orange / dull
+  3: '#a3a9be', // muted gray / neutral
+  4: '#8ab17d', // soft green / pleasant
+  5: '#2a9d8f', // vibrant teal / energizing
 };
 
+// ==========================================
+// 1. ORDINARY WORK BEATS (Sample of 5 out of 100+ target)
+// Covers dimensions: autonomy, mastery, praise, social connection, repetition, strain.
+// ==========================================
+export const WORK_BEATS = [
+  {
+    hexId: '011',
+    rating: 1,
+    dimension: 'strain / micromanagement',
+    heading: 'Conveyor Jam & Clipboard Watch',
+    text: 'A misrouted pallet of ceramic mugs jams the transfer arm. The line supervisor hovers over your shoulder, checking his stopwatch without uttering a word. Your lumbar spine throbs.',
+    detail: 'Fluorescent tubes flicker violently. Time seems frozen in place.',
+  },
+  {
+    hexId: '012',
+    rating: 2,
+    dimension: 'monotony / repetition',
+    heading: 'Packing Tape & Sore Heels',
+    text: 'Slice tape, fold flaps, slap shipping label, slide tote. You repeat the exact sequence 180 times in two hours. Your heels burn against the sealed concrete.',
+    detail: 'In your pocket, your phone buzzes twice. You wonder if your gacha duck finished its afternoon race.',
+  },
+  {
+    hexId: '013',
+    rating: 3,
+    dimension: 'steady routine',
+    heading: 'Steady Midday Flow',
+    text: 'Standard cardboard cartons slide down the rollers at a predictable cadence. No backlogs, no equipment alarms. You find an even, automatic rhythm.',
+    detail: 'The break clock ticks down steadily. You finish the third pallet exactly on schedule.',
+  },
+  {
+    hexId: '014',
+    rating: 4,
+    dimension: 'social connection / music',
+    heading: 'Radio Pop & Shared Pastry',
+    text: 'Station 94.7 plays classic pop over the warehouse PA. Dan from station three shares half a warm lemon pastry and cracks a dry joke about the company safety mascot.',
+    detail: 'The crew hums along with the chorus. The afternoon flies by noticeably faster.',
+  },
+  {
+    hexId: '015',
+    rating: 5,
+    dimension: 'mastery / autonomy / praise',
+    heading: 'Sharp Catch & Supervisor Praise',
+    text: 'You catch a barcode mismatch before a high-value freight skid is loaded onto the outbound truck. The plant manager personally walks over, thanks you, and gives a genuine fist bump.',
+    detail: 'You solved the issue entirely on your own. You feel competent, sharp, and respected.',
+  },
+];
+
+// ==========================================
+// 2. COMMUTE BEATS (Sample of 5 out of 100+ target)
+// Covers dimensions: weather, socializing, helping someone, observation, sensory clearing.
+// Includes both "Commute In" and "Commute Home".
+// ==========================================
+export const COMMUTE_BEATS = [
+  {
+    hexId: '0C1',
+    rating: 1,
+    phase: 'in', // Commute In
+    dimension: 'harsh weather / transit delay',
+    heading: 'Commute In · Slush & Sleet at the Stop',
+    text: 'Freezing sleet cuts into your face while waiting twenty minutes for the delayed Route 14 bus. A passing delivery van splashes dirty curb water across your ankles.',
+    detail: 'Your damp socks stay cold all morning. Your teeth chatter as you board.',
+  },
+  {
+    hexId: '0C2',
+    rating: 2,
+    phase: 'home', // Commute Home
+    dimension: 'digital isolation / cramped transit',
+    heading: 'Commute Home · Packed Standing Room',
+    text: 'Crammed against the greasy center pole on the bus. Every passenger around you has their neck craned downward, silently tapping neon puzzle games or buying loot boxes.',
+    detail: 'The diesel air is stifling. You feel drained of emotional bandwidth.',
+  },
+  {
+    hexId: '0C3',
+    rating: 3,
+    phase: 'in', // Commute In
+    dimension: 'neutral routine / quiet sidewalk',
+    heading: 'Commute In · Morning Sidewalk Routine',
+    text: 'Walking past the gray brick apartment blocks under an overcast sky. Neutral morning traffic hums by. Pigeons peck at breadcrumbs on the phone booth roof.',
+    detail: 'Neither rushed nor delayed. An uneventful walk to the turnstile.',
+  },
+  {
+    hexId: '0C4',
+    rating: 4,
+    phase: 'home', // Commute Home
+    dimension: 'pleasant weather / mellow music',
+    heading: 'Commute Home · Golden Sunlight Through Trees',
+    text: 'Slanted autumn sunlight cuts through the maple trees in the park. You put your headphones on and play a mellow acoustic playlist that unclenches your jaw.',
+    detail: 'A dog trots past carrying an enormous stick, making three commuters smile.',
+  },
+  {
+    hexId: '0C5',
+    rating: 5,
+    phase: 'home', // Commute Home
+    dimension: 'helping someone / human connection',
+    heading: 'Commute Home · Helping on the Station Stairs',
+    text: 'At the subway exit, you help an elderly neighbor carry a heavy grocery cart up the flight of stairs. She smiles warmly, thanks you warmly, and hands you an apple.',
+    detail: 'That brief moment of human decency makes the entire day feel lighter.',
+  },
+];
+
+// ==========================================
+// 3. WAGE PAYSLIP (Plan 29 Baseline: $60 Take-Home)
+// ==========================================
 export const WAGE_PAYSLIP = {
   employer: 'Harbor Logistics Distribution Inc.',
   shiftDate: 'Day 1 · Regular Shift',
@@ -85,6 +143,9 @@ export const WAGE_PAYSLIP = {
   summaryNote: 'Take-home wages credited: +$60.00 cash.',
 };
 
+// ==========================================
+// 4. EVENING LIFE ACTIVITIES
+// ==========================================
 export const EVENING_ACTIVITIES = {
   callMom: {
     id: 'call_mom',
@@ -132,38 +193,123 @@ export const EVENING_ACTIVITIES = {
   },
 };
 
-export const EXTRA_SHIFTS = [
+// ==========================================
+// 5. EXTRA SHIFT CATALOG (Sample of 5 out of 30+ target)
+// Weighted toward gig work (food/grocery delivery), each having 5 distinct narrative beats rated 1-5.
+// ==========================================
+export const EXTRA_SHIFTS_CATALOG = [
   {
-    id: 'diner_marisol',
-    title: "Cover Marisol's Late Shift",
+    id: 'gig_food',
+    title: 'QuickDrop Food Delivery',
+    workplace: 'City Center Courier Gig',
+    category: 'gig', // frequent gig work
+    weight: 40, // high frequency
+    hours: '6:30 PM – 9:30 PM (3.0 hrs)',
+    cashGain: 35.00,
+    healthCost: 8,
+    prompt: 'App notification: "Surge dinner orders in Harbor Core: 6 hot meals ready for pickup. Estimated earnings: $35.00 cash."',
+    beats: [
+      { hexId: 'F01', rating: 1, text: 'A soup container leaks inside your thermal bag. The customer yells at you on their porch and slams the door.' },
+      { hexId: 'F02', rating: 2, text: 'Waiting twenty minutes at a noisy burger takeout counter while delivery drivers crowd the doorway.' },
+      { hexId: 'F03', rating: 3, text: 'Straightforward drop-off at an apartment lobby package table. Buzz in, snap confirmation photo, buzz out.' },
+      { hexId: 'F04', rating: 4, text: 'The aroma of fresh garlic pizza fills your ride through cool evening streets with green traffic lights.' },
+      { hexId: 'F05', rating: 5, text: 'An exhausted nurse on night shift receives hot noodles with profound gratitude and leaves an extra $5 bill in your hand.' },
+    ],
+  },
+  {
+    id: 'gig_grocery',
+    title: 'Harbor Fresh Grocery Dispatch',
+    workplace: 'Express Supermarket Dispatch',
+    category: 'gig', // frequent gig work
+    weight: 35, // high frequency
+    hours: '7:00 PM – 10:30 PM (3.5 hrs)',
+    cashGain: 42.00,
+    healthCost: 10,
+    prompt: 'Dispatch text: "Express batches available: pick and deliver two grocery crates in the Waterfront district. Pays $42.00."',
+    beats: [
+      { hexId: 'E01', rating: 1, text: 'Hauling three heavy cases of mineral water up four flights of crumbling walk-up stairs with dead hallway lights.' },
+      { hexId: 'E02', rating: 2, text: 'Wandering crowded supermarket aisles trying to find a discontinued brand of organic gluten-free oats.' },
+      { hexId: 'E03', rating: 3, text: 'Scanning standard produce, bagging canned beans and bread neatly, and scanning the receipt QR code.' },
+      { hexId: 'E04', rating: 4, text: 'The grocery store is nearly empty and serene. You find every single item on the shelf in record time.' },
+      { hexId: 'E05', rating: 5, text: 'A busy young father greets you at the door with immense relief: "You literally saved our family dinner tonight, thank you!"' },
+    ],
+  },
+  {
+    id: 'diner_cover',
+    title: "Cover Marisol's Late Diner Shift",
     workplace: 'Harbor Street Diner',
+    category: 'service', // occasional
+    weight: 15,
     hours: '6:30 PM – 11:30 PM (5.0 hrs)',
     cashGain: 45.00,
     healthCost: 15,
     prompt: 'Marisol texts: "Hey, any chance you could cover my closing shift tonight? Dishwasher walked out and we are slammed. Pays $45 cash on the spot."',
-    vignette: 'Five hours in a steamy, greasy dish pit. Washing heavy cast-iron skillets and busing spilled milkshakes. Your wrists throb as you sweep the tile at midnight.',
-    payNote: '+$45.00 cash handed to you in an envelope by the diner manager. −15 HP fatigue.',
+    beats: [
+      { hexId: 'D01', rating: 1, text: 'Steamy dish pit overflowing with burnt cheese skillets, clattering pots, and greasy dishwater splashing your chest.' },
+      { hexId: 'D02', rating: 2, text: 'Mopping sticky floor tile under flickering neon tube behind the counter at 11:15 PM.' },
+      { hexId: 'D03', rating: 3, text: 'Wiping down laminated breakfast menus and filling salt shakers in relative quiet.' },
+      { hexId: 'D04', rating: 4, text: 'The short-order cook slides a fresh toasted sourdough grilled cheese onto your tray during break.' },
+      { hexId: 'D05', rating: 5, text: 'A kind elderly patron leaves a note thanking the night crew for keeping the lights on in the neighborhood.' },
+    ],
   },
   {
     id: 'warehouse_night',
-    title: 'Night Warehouse Restock',
+    title: 'Night Logistics Freight Unload',
     workplace: 'Harbor Logistics Bay 3',
+    category: 'industrial', // occasional
+    weight: 10,
     hours: '8:00 PM – 1:00 AM (5.0 hrs)',
     cashGain: 55.00,
     healthCost: 15,
-    prompt: 'Logistics automated blast: "URGENT OVERTIME: Heavy inbound container unload. Cash-equivalent disbursement $55 upon shift completion."',
-    vignette: 'Heavy cartons of winter coats and power tools. Cold wind blows into the open loading dock. Your lower back is on fire by 1:00 AM.',
-    payNote: '+$55.00 direct disbursement credited. −15 HP heavy physical strain.',
+    prompt: 'Logistics automated blast: "URGENT OVERTIME: Heavy freight container unload. Cash-equivalent disbursement $55 upon shift completion."',
+    beats: [
+      { hexId: 'A01', rating: 1, text: 'A pallet of steel hardware tilts and spills. Freezing harbor drafts rush through the open bay door.' },
+      { hexId: 'A02', rating: 2, text: 'Repetitive barcode scanning of 140 identical cartons under blinding industrial halide lamps.' },
+      { hexId: 'A03', rating: 3, text: 'Steady forklift rumble, routine pallet stacking on shelf tier two. Predictable labor.' },
+      { hexId: 'A04', rating: 4, text: 'Coordinated teamwork with the pallet jack operator; the team clears the container 30 minutes ahead of schedule.' },
+      { hexId: 'A05', rating: 5, text: 'The warehouse lead hands out hot thermoses of black coffee and praises the crew for extraordinary speed.' },
+    ],
   },
   {
-    id: 'courier_rush',
-    title: 'Evening Courier Run',
+    id: 'bike_courier',
+    title: 'Express Document Bike Courier',
     workplace: 'QuickDrop Bike Express',
+    category: 'courier', // occasional
+    weight: 10,
     hours: '6:00 PM – 9:30 PM (3.5 hrs)',
     cashGain: 40.00,
     healthCost: 10,
-    prompt: 'App notification: "Surge demand in Harbor Core: 8 hot dinner orders waiting for bike pickup. Guaranteed $40 net earnings."',
-    vignette: 'Pedaling hard through rainy evening traffic. Dodging open car doors and splashing through deep gutters. Your jeans are soaked, but you finish the route.',
-    payNote: '+$40.00 app payout deposited. −10 HP cold & physical exertion.',
+    prompt: 'Dispatch alert: "Rush envelope dispatch: Legal documents across town. Fast bicycle delivery guaranteed $40 net."',
+    beats: [
+      { hexId: 'B01', rating: 1, text: 'A parked delivery van door swings open, forcing you into a deep puddle. Road grit coats your pants.' },
+      { hexId: 'B02', rating: 2, text: 'Long, grinding uphill climb against harbor headwinds. Your chain slips once on the grade.' },
+      { hexId: 'B03', rating: 3, text: 'Waiting at a red traffic light, checking the delivery address on your handlebar phone mount.' },
+      { hexId: 'B04', rating: 4, text: 'Cruising down Harbor Boulevard with a tailwind and sunset glow washing over the skyline.' },
+      { hexId: 'B05', rating: 5, text: 'Delivering the envelope three minutes before the deadline; the relieved attorney thanks you profusely.' },
+    ],
   },
 ];
+
+/**
+ * Draws 1–2 extra shift options for the evening, weighted toward frequent gig work.
+ * Deterministic with seed or pseudo-random for interactive preview.
+ */
+export function rollDailyExtraShifts(count = 2, seed = Math.random()) {
+  const pool = [...EXTRA_SHIFTS_CATALOG];
+  const gigs = pool.filter((s) => s.category === 'gig');
+  const others = pool.filter((s) => s.category !== 'gig');
+
+  const selected = [];
+  // First pick: frequent gig work (food or grocery)
+  const gigIndex = Math.floor(seed * gigs.length) % gigs.length;
+  selected.push(gigs[gigIndex]);
+
+  if (count > 1) {
+    // Second pick: drawn from the remaining pool (either the other gig or occasional shift)
+    const remaining = pool.filter((s) => s.id !== selected[0].id);
+    const secondIndex = Math.floor((seed * 7 + 3) * remaining.length) % remaining.length;
+    selected.push(remaining[secondIndex]);
+  }
+
+  return selected;
+}

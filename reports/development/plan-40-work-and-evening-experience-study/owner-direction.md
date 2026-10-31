@@ -6,31 +6,50 @@
 
 ---
 
-## 1. Selected Experience Treatment
+## 1. Selected Experience Treatment & Visual Scope
 
-The owner selected **Treatment 3 (Atmospheric Micro-Fiction / Lived Pacing & Commute Vignette)**:
-- **Core Feel**: The daily transition between apartment and labor is experienced through sensory, atmospheric micro-fiction rather than software forms or reflex minigames.
-- **Future Art Expansion**: Preserves the explicit option to later draw up dedicated visual scenes representing work and commute (e.g. bus window, breakroom, street trees).
-- **Work & Commute Quality Experiment**: The owner introduced a key behavioral research dimension to track in the prototype and future game analytics:
-  - *Hypothesis*: On days where work is presented as more positive/social (engaging coworker interaction, interesting task, pleasant customer) and/or the commute home is more enjoyable (sunlight, walking past trees/buildings, birds singing, music playing), do players choose healthier, restorative evening actions (Calling Mom, resting, sitting with duck) instead of compensatory gacha indulgence?
-  - *Storyboard Requirement*: Include interactive toggle/condition controls in the reviewer panel to preview both "Grinding/Exhausting" and "Pleasant/Uplifting" shifts and commutes, and record how evening choices branch.
+- **Treatment Selection**: The owner selected **Treatment 3 (Atmospheric Micro-Fiction / Lived Pacing & Commute Vignette)**.
+- **Visuals Scope Boundary**:
+  - *In-Scope for Plan 40*: Report-local visual storyboarding using existing apartment SVGs, ambient visual backdrops (silhouetted warehouse trusses, transit window frames, weather streaks, lighting overlays) played behind text notifications, and responsive layout testing.
+  - *Future Asset Gate*: Commissioning or drawing a full production SVG or raster artwork library for external workplaces and city streets is out of scope for Plan 40 and requires a future bounded art authoring brief and owner selection.
+- **Sound Design Requirement**:
+  - The owner noted a future need for environmental sound design across work and commute phases, aligning audio cues (fluorescent ballast buzz, rain on transit glass, upbeat radio pop, birds in the park) with the experiential quality of each beat (coordinated with Plan 39 Web Audio laboratory and Plan 18 Creative Commons audio).
 
 ---
 
-## 2. Evening Activity: Call Mom
+## 2. Narrative Beat Granularity, Likert Rating & Compact Hex Schema
+
+- **5-Point Likert Scale**:
+  - Each narrative beat is categorized with a 1–5 perception score:
+    - **1 = Very Depleting / Negative**: Heavy physical strain, hostile supervision, severe weather/slush, intense transit delay.
+    - **2 = Mildly Depleting / Dull**: Monotony, sore heels, cold drizzle, cramped standing room, digital isolation.
+    - **3 = Neutral / Uneventful**: Steady routine flow, neutral weather, clock ticking predictably.
+    - **4 = Pleasant / Uplifting**: Classic pop on warehouse radio, shared lemon pastry, slanted golden sunlight through park trees.
+    - **5 = Very Uplifting / Energizing**: Autonomy, problem mastery, supervisor praise, helping an elderly neighbor on subway stairs.
+- **3-Digit Hex Identifier**:
+  - Every beat receives a unique 3-digit hexadecimal code (`0x000` to `0xFFF`, e.g. `#011`, `#014`, `#0C4`, `#F05`), allowing up to 4,096 distinct beats.
+- **Compact Run-Usage Storage**:
+  - Stored in student run files as compact tuples `[hexId, rating]` (e.g. `[["012", 2], ["014", 4], ["0C4", 4]]`) with an overall daily average score, maximizing space efficiency for offline file export.
+- **Catalog Scaling Targets**:
+  - Architecture structured for:
+    - **100+ Ordinary Work Beats** (spanning strain, routine, social connection, mastery, praise).
+    - **100+ Commute Beats** (spanning commute-in and commute-home, weather, transit, acts of kindness).
+    - **30+ Extra Shifts**, each containing at least **5 distinct narrative beats** (rated 1–5).
+  - Current storyboard seeds a working sample of 5 work beats, 5 commute beats, and 5 extra shift types with 5 rated beats each (25 extra-shift beats).
+
+---
+
+## 3. Extra Shift Availability (1–2 Daily Offers Weighted Toward Gigs)
+
+- **Presentation Model**:
+  - Rather than displaying an exhaustive static board of all shifts, players receive **1–2 randomized options per day** on their phone or evening notice.
+  - **Weighted Toward Frequent Gig Work**: Food delivery gigs (*QuickDrop*) and grocery dispatch gigs (*Harbor Fresh*) appear most frequently, while diner covers, warehouse overtimes, and courier rushes appear as occasional opportunities.
+- **Decoupled from Rent**:
+  - Shift cash (+take-home pay) is credited directly to the player's wallet; accepting a shift **never** auto-pays or alters the pending rent balance on the fridge.
+
+---
+
+## 4. Evening Activity: Call Mom
 
 - **Selected Effect**: **Minor Restorative** (+5 HP).
-- **Tone & Role**: Neutral, warm, grounding check-in about dinner, health, and daily life. Strictly **not** "Borrow from Mom" (the deferred financial escalation ladder). It serves as an authentic human anchor counteracting digital isolation and gacha dopamine.
-- **Companion / Rest Alternative**: The desk also supports sitting quietly with the physical rubber duck companion or taking an early rest, alongside the phone's pull toward Quackpot.
-
----
-
-## 3. Extra Shift Representation
-
-- **Selected Model**: **Flat reward built-in** with distinct shift types.
-- **Shift Variants**:
-  1. *Diner Closing Cover (Marisol)*: Harbor Street Diner, busing tables and kitchen wipe-down. Earns +$45.00 cash, costs −15 HP.
-  2. *Warehouse Night Restock*: Sorting freight boxes. Earns +$55.00 cash, costs −15 HP.
-  3. *Late Courier Delivery*: Urgent bike drop-offs in the chill. Earns +$40.00 cash, costs −10 HP.
-- **Explicit Agreement**: Clearly presents the net cash gained and the health/fatigue cost before acceptance.
-- **Separation from Obligations**: Taking an extra shift grants cash directly to the player; it **never** silently pays rent or utilities in the background. Paying rent remains an explicit player choice at the rent notice/portal.
+- **Role**: Neutral, warm, grounding check-in about dinner, health, and daily life. Strictly **not** "Borrow from Mom" (the deferred financial escalation ladder).

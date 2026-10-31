@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>Quackpot — Plan 39 Melody Reference &amp; Web Audio Laboratory</title>
+  <link rel="stylesheet" href="./laboratory.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main audition controls</a>
+
+  <header class="lab-header" role="banner">
+    <div class="header-container">
+      <div class="header-titles">
+        <div class="header-badges">
+          <span class="badge badge-meta">Quackpot · Plan 39</span>
+          <span class="badge badge-meta">D Major · 100 BPM Canonical</span>
+          <span class="badge badge-meta">48 kHz PCM16 Stereo</span>
+          <span class="badge badge-status">Zero Network / Local Static</span>
+        </div>
+        <h1 class="header-title">Melody Reference &amp; Web Audio Laboratory</h1>
+        <p class="header-subtitle">
+          Audition Motif C ("Lucky Ripple") controls, 8-bar C-derived continuations, and light synthesized arrangements using a shared Web Audio graph for live playback and offline WAV/JSON reference export.
+        </p>
+      </div>
+
+      <div class="header-telemetry" aria-label="Playback Telemetry">
+        <div class="telemetry-item">
+          <span class="telemetry-label">Transport</span>
+          <span id="telemetry-state" class="telemetry-value">IDLE</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">Position / Total</span>
+          <span id="telemetry-time" class="telemetry-value font-mono">0.00 s / 9.72 s</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">Active Selection</span>
+          <span id="telemetry-candidate" class="telemetry-value font-mono">C0-repeat2x</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+      Laboratory ready. No audio starts until you press a play button. Choose a candidate or use the 4-step listening route below.
+    </div>
+  </header>
+
+  <main id="main-content" class="lab-main" tabindex="-1">
+
+    <!-- 1. Owner Quick-Start Listening Route -->
+    <section class="quick-start-panel" aria-labelledby="quick-start-heading">
+      <div class="panel-header">
+        <h2 id="quick-start-heading" class="panel-title">
+          <span class="step-num" aria-hidden="true">★</span> Owner Quick-Start Listening Route (4 Steps)
+        </h2>
+        <span class="panel-tag">Direct A/B &amp; Export Workflow</span>
+      </div>
+
+      <ol class="route-steps-grid">
+        <li class="route-step-card">
+          <div class="step-badge">Step 1 · Length Control</div>
+          <h3 class="step-title">Original C (4.92 s) vs 2× Repeat (9.72 s)</h3>
+          <p class="step-desc">
+            Suno rejects <strong>Original C (4.92 s)</strong> as under 6.0 s. Compare it directly against <strong>C0-repeat2x (9.72 s)</strong>, which repeats C twice seamlessly at 100 BPM with zero pitch or tempo change.
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="qs-orig-btn">
+              Play Original C (4.92 s)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" id="qs-repeat-btn">
+              Play 2× Repeat C (9.72 s)
+            </button>
+          </div>
+        </li>
+
+        <li class="route-step-card">
+          <div class="step-badge">Step 2 · Phrase &amp; Scene Forms</div>
+          <h3 class="step-title">Audition 3 C-Derived 8-Bar Forms</h3>
+          <p class="step-desc">
+            Hear how C behaves inside an 8-bar period (<strong>C1</strong>), a conversational call with breathing space (<strong>C2</strong>), and a beginning-of-game accompaniment-led groove (<strong>C3</strong>).
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C1-period-lock">
+              Audition C1 Period
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C2-call-and-breath">
+              Audition C2 Breath
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C3-accompaniment-groove">
+              Audition C3 Groove
+            </button>
+          </div>
+        </li>
+
+        <li class="route-step-card">
+          <div class="step-badge">Step 3 · Layer Isolation</div>
+          <h3 class="step-title">Switch Full Mix, Melody Solo &amp; Backing Solo</h3>
+          <p class="step-desc">
+            Verify that the lead tune stays clear above the chords and bass, or solo the accompaniment bed to hear how it carries the room during lead rests.
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="full">Full Mix</button>
+            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="melody-only">Melody Solo</button>
+            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="backing-only">Backing Solo</button>
+          </div>
+        </li>
+
+        <li class="route-step-card">
+          <div class="step-badge">Step 4 · Reference Export</div>
+          <h3 class="step-title">Export Verified WAVs &amp; Score JSON</h3>
+          <p class="step-desc">
+            Render the active selection through <code>OfflineAudioContext</code> to download <strong>Full Mix WAV</strong>, <strong>Melody-Only WAV</strong> (identical lead events), and <strong>Provenance JSON</strong>.
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-primary btn-sm" id="qs-export-btn">
+              Render Export Bundle Now
+            </button>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 2. Interactive Transport & Sound Configuration -->
+    <section class="transport-section" aria-labelledby="transport-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="transport-heading" class="panel-title">Audition Transport &amp; Arrangement Controls</h2>
+          <p class="panel-desc">
+            Synthesized patches use pure Web Audio oscillators and filters as lightweight composition proofs (not sampled acoustic instruments).
+          </p>
+        </div>
+        <div class="transport-indicators">
+          <span id="playing-indicator" class="pulse-indicator idle" aria-hidden="true"></span>
+          <span id="playback-status-text" class="status-pill">Stopped</span>
+        </div>
+      </div>
+
+      <!-- Combination Guard / Warning Banner -->
+      <div id="combination-notice" class="guard-notice hidden" role="alert" aria-live="polite">
+        <div class="notice-content">
+          <strong id="combination-notice-title" class="notice-title">Configuration Guard</strong>
+          <p id="combination-notice-msg" class="notice-text"></p>
+        </div>
+        <button type="button" id="combination-fix-btn" class="btn btn-secondary btn-sm">Switch to C0-repeat2x + H1</button>
+      </div>
+
+      <div class="transport-bar">
+        <div class="transport-playback-buttons">
+          <button type="button" id="play-selected-btn" class="btn btn-play">
+            ▶ Play Selected
+          </button>
+          <button type="button" id="stop-btn" class="btn btn-stop" disabled>
+            ⏹ Stop Audio
+          </button>
+          <div class="transport-divider" aria-hidden="true"></div>
+          <button type="button" id="ab-original-btn" class="btn btn-ab">
+            A/B: Original C (4.92 s)
+          </button>
+          <button type="button" id="ab-repeat2x-btn" class="btn btn-ab">
+            A/B: 2× Repeat C (9.72 s)
+          </button>
+        </div>
+
+        <div class="transport-aux-controls">
+          <label class="toggle-control" for="loop-toggle">
+            <input type="checkbox" id="loop-toggle">
+            <span class="toggle-label">Loop Audition</span>
+          </label>
+
+          <div class="volume-control">
+            <label for="master-volume" class="volume-label">Master Gain</label>
+            <input type="range" id="master-volume" min="0.1" max="1.0" step="0.05" value="0.85">
+            <span id="volume-readout" class="volume-readout font-mono">85%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-matrix-grid">
+        <div class="control-field">
+          <label for="candidate-select" class="field-label">
+            Candidate Score / Form
+            <span class="field-hint">Controls, C continuations &amp; separated foil</span>
+          </label>
+          <select id="candidate-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="harmony-select" class="field-label">
+            Harmony / Accompaniment Family
+            <span class="field-hint">D major voicings &amp; bass line</span>
+          </label>
+          <select id="harmony-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="patch-select" class="field-label">
+            Synthesizer Patch Family
+            <span class="field-hint">Procedural oscillator + filter palette</span>
+          </label>
+          <select id="patch-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="tempo-select" class="field-label">
+            Tempo (BPM)
+            <span class="field-hint">100 BPM is canonical Motif C</span>
+          </label>
+          <select id="tempo-select" class="field-select">
+            <option value="92">92 BPM (Relaxed)</option>
+            <option value="96">96 BPM (Easy Stroll)</option>
+            <option value="100" selected>100 BPM (Canonical Motif C)</option>
+            <option value="104">104 BPM (Bright Step)</option>
+            <option value="108">108 BPM (Brisk Bounce)</option>
+          </select>
+        </div>
+
+        <div class="control-field">
+          <label for="layer-mode-select" class="field-label">
+            Layer Audition Mode
+            <span class="field-hint">Full Mix vs solo stems</span>
+          </label>
+          <select id="layer-mode-select" class="field-select">
+            <option value="full" selected>Full Mix (Lead + Chords + Bass)</option>
+            <option value="melody-only">Melody Solo (Lead Only)</option>
+            <option value="backing-only">Backing Solo (Chords + Bass Only)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Phrase & Track Visualizer -->
+    <section class="visualizer-section" aria-labelledby="visualizer-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="visualizer-heading" class="panel-title">Phrase Section Map &amp; Track Timeline</h2>
+          <p id="visualizer-summary" class="panel-desc">
+            Inspect where the exact 10-event Motif C anchor sounds versus answer phrases, accompaniment-led bars, and bass support.
+          </p>
+        </div>
+        <div class="legend-row" aria-label="Track Legend">
+          <span class="legend-item"><span class="legend-chip chip-anchor"></span> Exact Motif C Anchor</span>
+          <span class="legend-item"><span class="legend-chip chip-continuation"></span> Continuation / Foil Note</span>
+          <span class="legend-item"><span class="legend-chip chip-chords"></span> Chords &amp; Hocket (C3–C5)</span>
+          <span class="legend-item"><span class="legend-chip chip-bass"></span> Bass Line (D2–A2)</span>
+        </div>
+      </div>
+
+      <div id="section-ribbon" class="section-ribbon" aria-label="Phrase Section Map"></div>
+
+      <div class="timeline-container">
+        <div id="timeline-ruler" class="timeline-ruler" aria-hidden="true"></div>
+
+        <div id="phrase-visualizer" class="tracks-wrapper" role="region" aria-label="Score Note Timeline">
+          <div id="visualizer-playhead" class="timeline-playhead" style="left: 0%;" aria-hidden="true"></div>
+
+          <div class="timeline-track">
+            <div class="track-label">
+              <span class="track-name">Lead (C5–D6)</span>
+              <span id="track-lead-status" class="track-badge">10 events</span>
+            </div>
+            <div id="track-lead-notes" class="track-lane"></div>
+          </div>
+
+          <div class="timeline-track">
+            <div class="track-label">
+              <span class="track-name">Chords / Counter</span>
+              <span id="track-chords-status" class="track-badge">0 events</span>
+            </div>
+            <div id="track-chords-notes" class="track-lane"></div>
+          </div>
+
+          <div class="timeline-track">
+            <div class="track-label">
+              <span class="track-name">Bass (D2–A2)</span>
+              <span id="track-bass-status" class="track-badge">0 events</span>
+            </div>
+            <div id="track-bass-notes" class="track-lane"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Candidate Cards Grid -->
+    <section class="candidates-section" aria-labelledby="candidates-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="candidates-heading" class="panel-title">Motif C Controls &amp; Continuation Candidates</h2>
+          <p class="panel-desc">
+            Every C-based candidate preserves the exact 10-event Motif C anchor (pitches, onset beats, and durations) in Bars 1–2.
+          </p>
+        </div>
+      </div>
+
+      <div id="primary-candidates-grid" class="candidate-cards-grid" role="list"></div>
+
+      <div class="separated-section" aria-labelledby="separated-heading">
+        <div class="separated-banner">
+          <span class="separated-badge">Separated Optional Comparison</span>
+          <div>
+            <h3 id="separated-heading" class="separated-title">
+              Optional Separated New-Core Comparison — Does Not Replace Motif C
+            </h3>
+            <p class="separated-desc">
+              Provided strictly as an isolated comparison foil to test whether a narrower mid-register sixth (D5–B5, avoiding high D6) conditions external generators differently.
+            </p>
+          </div>
+        </div>
+        <div id="optional-candidates-grid" class="candidate-cards-grid single-card-grid" role="list"></div>
+      </div>
+    </section>
+
+    <!-- 5. Offline WAV & JSON Export Panel -->
+    <section id="export-panel" class="export-panel" aria-labelledby="export-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="export-heading" class="panel-title">Offline Reference WAV &amp; Reproducible JSON Exporter</h2>
+          <p class="panel-desc">
+            Renders the active configuration via <code>OfflineAudioContext</code> (48,000 Hz, stereo, 16-bit PCM WAV).
+            Produces <strong>Full Mix WAV</strong>, <strong>Melody-Only WAV</strong> (verified identical lead events), optional <strong>Backing-Only WAV</strong>, and <strong>Score/Settings/Provenance JSON</strong>.
+            Displayed peak and RMS values are PCM sample peak and RMS only — never LUFS or true peak.
+          </p>
+        </div>
+        <button type="button" id="render-export-btn" class="btn btn-primary btn-lg">
+          Render &amp; Prepare Export Bundle
+        </button>
+      </div>
+
+      <div id="export-list" class="export-list" role="list" aria-label="Rendered Reference Export Bundles">
+        <div class="export-empty-placeholder">
+          No export bundles rendered yet in this session. Select any candidate/arrangement and click <strong>"Render &amp; Prepare Export Bundle"</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Owner Listening Notes & Reproducible JSON Import/Export -->
+    <section class="notes-section" aria-labelledby="notes-heading">
+      <div class="panel-header">
+        <div>
+          <h2 id="notes-heading" class="panel-title">Owner Listening Notes &amp; Manifest Round-Trip</h2>
+          <p class="panel-desc">
+            Save listening notes in namespaced laboratory storage (<code>quackpot.plan39.lab.notes.v1</code>, strictly isolated from game saves) or import a previously exported <code>-manifest.json</code> file to restore its exact score and synthesis settings.
+          </p>
+        </div>
+        <div class="notes-actions">
+          <button type="button" id="export-notes-btn" class="btn btn-secondary btn-sm">Download All Notes JSON</button>
+          <label for="import-json-input" class="btn btn-outline btn-sm import-label">
+            Import Manifest / Notes JSON
+            <input type="file" id="import-json-input" accept=".json,application/json" class="sr-only">
+          </label>
+        </div>
+      </div>
+
+      <div class="notes-form-grid">
+        <div class="control-field">
+          <label for="notes-verdict-select" class="field-label">Owner Listening Verdict for Active Candidate</label>
+          <select id="notes-verdict-select" class="field-select">
+            <option value="unrated">Unrated — Listening in progress</option>
+            <option value="favorite-reference">★ Favorite Reference for External Upload / Conditioning</option>
+            <option value="good-beginning-mood">Good Beginning-of-Game Mood &amp; Breathing Room</option>
+            <option value="prefer-bare-control">Prefer Bare / Repeated C Control Over Continuation</option>
+            <option value="needs-adjustment">Needs Phrase or Voicing Adjustment</option>
+          </select>
+        </div>
+
+        <div class="control-field">
+          <label for="owner-notes-input" class="field-label">Listening Notes (Hook Clarity, Groove, Timbre, External Conditioning Result)</label>
+          <textarea id="owner-notes-input" class="field-textarea" rows="3" placeholder="Record what you heard (e.g., whether the Bar 4 half-cadence or Bar 3–6 groove feels natural, or how Suno Cover responded to this WAV)..."></textarea>
+        </div>
+      </div>
+
+      <div class="notes-footer-row">
+        <button type="button" id="save-notes-btn" class="btn btn-primary btn-sm">Save Note for Active Candidate</button>
+        <span id="notes-feedback" class="notes-feedback font-mono" role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="lab-footer" role="contentinfo">
+    <div class="footer-container">
+      <p class="footer-text">
+        <strong>Quackpot Plan 39</strong> · Melody Reference &amp; Web Audio Laboratory · Report-Local Prototype (`reports/development/plan-39-melody-reference-and-web-audio-laboratory/`)
+      </p>
+      <p class="footer-subtext">
+        Original Motif C (`motifs.js` SHA-256 `3b47ecdb...0af59e02`) and prior Plan 32/33 artifacts are preserved read-only. No external requests, accounts, or runtime game mutations.
+      </p>
+    </div>
+  </footer>
+
+  <script src="./lab/scores.js"></script>
+  <script src="./lab/patches.js"></script>
+  <script src="./lab/synth-engine.js"></script>
+  <script src="./lab/laboratory.js"></script>
+</body>
+</html>

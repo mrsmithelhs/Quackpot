@@ -1,0 +1,378 @@
+{
+  "artifact": "quackpot-plan39-browser-verification-report",
+  "verifiedAt": "2026-10-31T00:00:33.164Z",
+  "browser": "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext)",
+  "pageUrl": "file:///C:/AI/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/index.html",
+  "nonLocalNetworkRequests": 0,
+  "pageRuntimeErrors": 0,
+  "uiSnapshot": {
+    "candidateOptions": [
+      "C0-original",
+      "C0-repeat2x",
+      "C1-period-lock",
+      "C2-call-and-breath",
+      "C3-accompaniment-groove",
+      "N1-sunny-waddle"
+    ],
+    "harmonyOptions": [
+      "H0-dry",
+      "H1-bright-resolved",
+      "H2-floating-color",
+      "H3-playful-hocketing"
+    ],
+    "patchOptions": [
+      "P0-plan32-triangle",
+      "P1-pluck-bell",
+      "P2-warm-keys",
+      "P3-toy-ensemble"
+    ],
+    "tempoOptions": [
+      92,
+      96,
+      100,
+      104,
+      108
+    ],
+    "primaryCards": [
+      "C0-original",
+      "C0-repeat2x",
+      "C1-period-lock",
+      "C2-call-and-breath",
+      "C3-accompaniment-groove"
+    ],
+    "optionalCards": [
+      "N1-sunny-waddle"
+    ]
+  },
+  "combinationGuardVerification": {
+    "blockedState": {
+      "noticeVisible": true,
+      "noticeText": "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to C0-repeat2x or C1–C3 to audition harmonies.",
+      "playDisabled": true,
+      "exportDisabled": true
+    },
+    "recoveredState": {
+      "candidate": "C0-repeat2x",
+      "harmony": "H1-bright-resolved",
+      "playDisabled": false
+    }
+  },
+  "liveAuditionLifecycle": {
+    "stateDuringOrig": "PLAYING",
+    "stateDuringRepeat": "PLAYING",
+    "stateAfterStop": "IDLE",
+    "stopDisabledAfterStop": true
+  },
+  "offlineRenderedCandidates": [
+    {
+      "candidateId": "C0-original",
+      "harmonyId": "H0-dry",
+      "patchId": "P0-plan32-triangle",
+      "tempoBpm": 100,
+      "bars": 2,
+      "durationSeconds": 4.92,
+      "frameCount": 236160,
+      "wavByteLength": 944684,
+      "leadEventCount": 10,
+      "chordEventCount": 0,
+      "bassEventCount": 0,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.150014,
+        "rms": 0.025575,
+        "samplePeakDbfs": -16.5,
+        "rmsDbfs": -31.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.150014,
+        "rms": 0.025575,
+        "samplePeakDbfs": -16.5,
+        "rmsDbfs": -31.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "C0-repeat2x",
+      "harmonyId": "H0-dry",
+      "patchId": "P0-plan32-triangle",
+      "tempoBpm": 100,
+      "bars": 4,
+      "durationSeconds": 9.72,
+      "frameCount": 466560,
+      "wavByteLength": 1866284,
+      "leadEventCount": 20,
+      "chordEventCount": 0,
+      "bassEventCount": 0,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.15073,
+        "rms": 0.025733,
+        "samplePeakDbfs": -16.4,
+        "rmsDbfs": -31.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.15073,
+        "rms": 0.025733,
+        "samplePeakDbfs": -16.4,
+        "rmsDbfs": -31.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "C1-period-lock",
+      "harmonyId": "H1-bright-resolved",
+      "patchId": "P1-pluck-bell",
+      "tempoBpm": 100,
+      "bars": 8,
+      "durationSeconds": 19.32,
+      "frameCount": 927360,
+      "wavByteLength": 3709484,
+      "leadEventCount": 39,
+      "chordEventCount": 58,
+      "bassEventCount": 16,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.267404,
+        "rms": 0.040628,
+        "samplePeakDbfs": -11.5,
+        "rmsDbfs": -27.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.161059,
+        "rms": 0.034038,
+        "samplePeakDbfs": -15.9,
+        "rmsDbfs": -29.4,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "C2-call-and-breath",
+      "harmonyId": "H2-floating-color",
+      "patchId": "P2-warm-keys",
+      "tempoBpm": 100,
+      "bars": 8,
+      "durationSeconds": 19.32,
+      "frameCount": 927360,
+      "wavByteLength": 3709484,
+      "leadEventCount": 29,
+      "chordEventCount": 47,
+      "bassEventCount": 9,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.298147,
+        "rms": 0.048652,
+        "samplePeakDbfs": -10.5,
+        "rmsDbfs": -26.3,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.212997,
+        "rms": 0.039719,
+        "samplePeakDbfs": -13.4,
+        "rmsDbfs": -28,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "C3-accompaniment-groove",
+      "harmonyId": "H3-playful-hocketing",
+      "patchId": "P3-toy-ensemble",
+      "tempoBpm": 100,
+      "bars": 8,
+      "durationSeconds": 19.32,
+      "frameCount": 927360,
+      "wavByteLength": 3709484,
+      "leadEventCount": 24,
+      "chordEventCount": 63,
+      "bassEventCount": 16,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.238655,
+        "rms": 0.033441,
+        "samplePeakDbfs": -12.4,
+        "rmsDbfs": -29.5,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.158671,
+        "rms": 0.031127,
+        "samplePeakDbfs": -16,
+        "rmsDbfs": -30.1,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "N1-sunny-waddle",
+      "harmonyId": "H1-bright-resolved",
+      "patchId": "P1-pluck-bell",
+      "tempoBpm": 100,
+      "bars": 4,
+      "durationSeconds": 9.72,
+      "frameCount": 466560,
+      "wavByteLength": 1866284,
+      "leadEventCount": 18,
+      "chordEventCount": 28,
+      "bassEventCount": 9,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.291716,
+        "rms": 0.039019,
+        "samplePeakDbfs": -10.7,
+        "rmsDbfs": -28.2,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.156964,
+        "rms": 0.031832,
+        "samplePeakDbfs": -16.1,
+        "rmsDbfs": -29.9,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    }
+  ],
+  "verifiedBrowserDownloads": {
+    "C0-repeat2x": [
+      {
+        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-mix.wav",
+        "bytes": 1866284,
+        "sha256": "5eafdd4eccc6ae442cc8039a49aab4600215ca9cb007eb5a78dde7f3ce891fdf",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 1866240,
+          "frames": 466560,
+          "durationSeconds": 9.72
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-melody.wav",
+        "bytes": 1866284,
+        "sha256": "5eafdd4eccc6ae442cc8039a49aab4600215ca9cb007eb5a78dde7f3ce891fdf",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 1866240,
+          "frames": 466560,
+          "durationSeconds": 9.72
+        },
+        "persistedToExportsDir": true
+      },
+      {
+        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-manifest.json",
+        "bytes": 10315,
+        "sha256": "879fd41458d4b0de078d0c10d4f5167fe82d6236910a6445d73a92a98b6907e6",
+        "roundTripValid": true,
+        "persistedToExportsDir": true
+      }
+    ],
+    "C1-period-lock": [
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-mix.wav",
+        "bytes": 3709484,
+        "sha256": "bae8f2dcda069db4f99a491f374df7b4cbbcd6291e4d5c6326f7e2906e745730",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-melody.wav",
+        "bytes": 3709484,
+        "sha256": "eee621cf550fb84b32c682039cc4faa5d62942786751400c4ad2460335c5406f",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-backing.wav",
+        "bytes": 3709484,
+        "sha256": "a1c49a2daabd5e09a99abb98c90082883f6705f8bb7a8ed53d0d31fc5a651ee3",
+        "wavHeader": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3709440,
+          "frames": 927360,
+          "durationSeconds": 19.32
+        },
+        "persistedToExportsDir": false
+      },
+      {
+        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-manifest.json",
+        "bytes": 37898,
+        "sha256": "1cf8c6bbad625625b7decfa184082aa8a246af0ff7b0c05ab500ff3f06ff51ec",
+        "roundTripValid": true,
+        "persistedToExportsDir": true
+      }
+    ]
+  },
+  "auditionHonestyNote": "Headless Chrome executed real Web Audio API OfflineAudioContext rendering, PCM sample measurement, and WAV/JSON file downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
+}

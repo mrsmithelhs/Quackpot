@@ -1,0 +1,20 @@
+{
+  "stepsPassed": [
+    "Step 1: Page loaded and titled correctly",
+    "Step 2: Departure view loaded with baseline HUD stats ($15.00, 80 HP)",
+    "Step 3: Advanced to Work Beat 1 (10:15 AM · The Line Moves)",
+    "Step 4: Advanced through Work Beat 2 and clocked out",
+    "Step 5: Wage payslip accurately verified at $60.00 completed-shift take-home",
+    "Step 6: Wages collected into wallet ($75.00) and entered Evening Apartment",
+    "Step 7: Call Mom check-in completed, restoring +5 HP (80 -> 85 HP)",
+    "Step 8: Marisol extra shift completed: +$45.00 cash ($120.00) and -15 HP (70 HP) verified",
+    "Step 9: Narrow mobile viewport (390px) verified and captured",
+    "Step 10: Reduced motion toggle verified",
+    "Step 11: Owner research experiment tracker verified with 4 conditions and live choices"
+  ],
+  "screenshotsSaved": [
+    "storyboard-evening-desktop.png",
+    "storyboard-narrow-mobile.png"
+  ],
+  "timings": {}
+}

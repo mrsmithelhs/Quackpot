@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan 40 · Work and Evening Experience Storyboard</title>
+  <link rel="stylesheet" href="storyboard.css">
+</head>
+<body>
+  <header class="storyboard-banner">
+    <div>
+      <strong>Plan 40 · Work & Evening Experience Study</strong>
+      <span> · Treatment 3: Atmospheric Micro-Fiction & Commute Vignette</span>
+    </div>
+    <div>Report-Local Storyboard · Not Production</div>
+  </header>
+
+  <div class="layout-container">
+    <!-- Student Player Area -->
+    <section class="player-area" aria-label="Student Player View">
+      <div id="stage-wrapper" class="stage-wrapper">
+        <!-- HUD Stand-in -->
+        <div class="hud-standin" aria-label="HUD Header">
+          <span id="hud-phase" class="hud-phase-badge">Morning</span>
+          <div class="hud-stats">
+            <span class="hud-stat">
+              <span>Cash:</span>
+              <span id="hud-cash" class="hud-stat-val stat-cash">$15.00</span>
+            </span>
+            <span class="hud-stat">
+              <span>Health:</span>
+              <span id="hud-hp" class="hud-stat-val stat-hp">80 HP</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Viewport Stage -->
+        <main id="stage-viewport" class="stage-viewport" aria-label="Stage Scene">
+          <div id="scene-layer" class="scene-container"></div>
+          <div id="overlay-layer"></div>
+        </main>
+      </div>
+    </section>
+
+    <!-- Reviewer & Experiment Controls Panel -->
+    <aside class="reviewer-panel" aria-label="Reviewer Controls">
+      <h2>Reviewer Controls <small>Not Student UI</small></h2>
+
+      <div class="control-group">
+        <label for="reviewer-moment">Jump to Experience Moment</label>
+        <select id="reviewer-moment" class="control-select">
+          <option value="departure">1. Morning Departure (Leaving Flat)</option>
+          <option value="work_1">2. Work Shift · Beat 1 (Morning Flow)</option>
+          <option value="work_2">3. Work Shift · Beat 2 (Afternoon Clock-Out)</option>
+          <option value="commute_1">4. Commute · Beat 1 (Bus / Transit)</option>
+          <option value="commute_2">5. Commute · Beat 2 (Neighborhood Walk)</option>
+          <option value="payslip">6. Wage Payslip (+$60 Take-Home Cash)</option>
+          <option value="evening">7. Evening Apartment (Desk & Anchors)</option>
+          <option value="call_mom">8. Call Mom (+5 HP Restorative Check-in)</option>
+          <option value="sit_duck">9. Sit with Duck (+2 HP Companionship)</option>
+          <option value="open_gacha">10. Open Quackpot (Gacha Temptation)</option>
+          <option value="extra_shifts">11. Extra Shifts Board (Marisol/Warehouse/Courier)</option>
+          <option value="night_return">12. Late Night Return & Sleep</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="reviewer-work-cond">Work Condition</label>
+        <select id="reviewer-work-cond" class="control-select">
+          <option value="grind">Mundane / Grinding Work (Hum, Concrete, Sore)</option>
+          <option value="engaging">Engaging / Pleasant Work (Banter, Competence)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="reviewer-commute-cond">Commute Condition</label>
+        <select id="reviewer-commute-cond" class="control-select">
+          <option value="exhausting">Exhausting Commute (Cold Rain, Wet Bus, Feeds)</option>
+          <option value="pleasant">Pleasant Commute (Sunlight, Trees, Mellow Music)</option>
+        </select>
+      </div>
+
+      <div class="toggles-row">
+        <button type="button" class="control-btn" id="toggle-narrow">View: Desktop 16:9</button>
+        <button type="button" class="control-btn" id="toggle-motion">Motion: Standard</button>
+        <button type="button" class="control-btn" id="btn-reset-scenario">Reset Scenario</button>
+      </div>
+
+      <!-- Owner Hypothesis & Live Experiment Tracker -->
+      <div class="control-group" style="margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;">
+        <label>Owner Research Hypothesis & Cohort Data</label>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin:0 0 8px 0;">
+          Does positive work/commute pacing shift players toward restorative choices (Call Mom / Sit with Duck) over gacha indulgence?
+        </p>
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Condition</th>
+              <th>Runs</th>
+              <th>Restorative</th>
+              <th>Gacha</th>
+              <th>Extra</th>
+            </tr>
+          </thead>
+          <tbody id="cohort-stats-body"></tbody>
+        </table>
+      </div>
+
+      <div class="control-group" style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;">
+        <strong>Keyboard Navigation:</strong> Use <kbd>Tab</kbd> to focus interactive anchors, <kbd>Enter</kbd> / <kbd>Space</kbd> to activate, and <kbd>Escape</kbd> to return from dialogues.
+      </div>
+    </aside>
+  </div>
+
+  <script type="module">
+    import { StoryboardController } from './storyboard.mjs';
+    window.storyboard = new StoryboardController(document.body);
+  </script>
+</body>
+</html>

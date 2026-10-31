@@ -261,6 +261,9 @@ export function projectReceipt(entries) {
   }
   for (const event of ofType('life_rent_held')) accountingLines.push(line(`Chose to hold cash; rent remained unpaid with ${money(event.payload.cash)} on hand.`, event.seq));
   for (const event of ofType('life_rent_shortfall')) accountingLines.push(line(`Rent became due with a ${money(event.payload.shortfall)} shortfall.`, event.seq));
+  for (const event of ofType('life_work_agreed')) accountingLines.push(line(`Agreed to ${event.payload.kind === 'overtime' ? 'an overtime shift' : 'a scheduled shift'} on day ${event.payload.day}.`, event.seq));
+  for (const event of ofType('work_interrupted')) accountingLines.push(line(`The agreed ${event.payload.kind === 'overtime' ? 'overtime' : 'scheduled'} shift was unfinished when the run ended; no completion was recorded.`, event.seq));
+  for (const event of ofType('session_interrupted')) accountingLines.push(line(`An ${event.payload.suspended ? 'on-hold' : 'active'} phone session remained when the run ended.`, event.seq));
   if (lifeStart) for (const event of ofType('income')) {
     if (event.payload.kind === 'asset_sale') accountingLines.push(line(`Sold ${event.payload.asset} for ${money(event.payload.amount)}.`, event.seq));
     if (['wage', 'overtime'].includes(event.payload.kind)) accountingLines.push(line(`Completed ${event.payload.kind === 'wage' ? 'a scheduled shift' : 'overtime'} and received ${money(event.payload.amount)}.`, event.seq));

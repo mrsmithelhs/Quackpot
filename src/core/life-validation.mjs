@@ -13,10 +13,25 @@ export function validateLifeHistory(entries, state) {
   let cash = life.config.startCash;
   let health = life.config.startHealth;
   let terminal = false;
+  let interruptedWork = null;
+  let interruptedSession = null;
   for (let i = 0; i < entries.length; i++) {
     const e = entries[i];
     if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
-    if (e.type === 'terminal') terminal = true;
+    if ((interruptedWork || interruptedSession) && !terminal && !['work_interrupted', 'session_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
+    if (e.type === 'work_interrupted') {
+      if (interruptedWork || !life.work || !same(e.payload, { id: life.work.id, kind: life.work.kind, day: life.day })) errors.push(`Invalid work interruption at ${e.seq}`);
+      interruptedWork = e.payload.id;
+    }
+    if (e.type === 'session_interrupted') {
+      if (interruptedSession || !life.session || !same(e.payload, { id: life.session.id, suspended: life.session.suspended, pull: life.session.pull, race: life.session.race })) errors.push(`Invalid session interruption at ${e.seq}`);
+      interruptedSession = e.payload.id;
+    }
+    if (e.type === 'terminal') {
+      if (life.work && interruptedWork !== life.work.id) errors.push('Terminal is missing pending work interruption');
+      if (life.session && interruptedSession !== life.session.id) errors.push('Terminal is missing active session interruption');
+      terminal = true;
+    }
     if (e.type === 'life_intent') {
       const result = transitionLife(life, { cash, health }, e.payload.intent);
       if (!result.ok) { errors.push(`Invalid life intent at ${e.seq}: ${result.reason}`); break; }
@@ -54,6 +69,7 @@ export function validateLifeHistory(entries, state) {
     }
     cash = Math.round(cash * 100) / 100;
   }
+  if ((interruptedWork || interruptedSession) && !terminal) errors.push('Interruption evidence requires a terminal event');
   if (!same(life, state.life)) errors.push('Life state does not match replay');
   if (!same(life.sold, state.assetsSold)) errors.push('Sold furnishings do not match life history');
   if (cash !== state.cash || health !== state.health) errors.push('Life balances do not match replay');

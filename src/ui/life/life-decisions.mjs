@@ -8,6 +8,16 @@ import { BREAKFAST_AMOUNT, RENT_AMOUNT, effectText, money, previewLadder, previe
 
 const round = (n) => Math.round(n * 100) / 100;
 
+/** Use the committed effect, including clamping, rather than reconstructing it from the offer. */
+export function workCompletionLines(result, state, pay, overtime) {
+  const lines = [`Pay received: ${money(pay)}. Cash on hand: ${money(state.cash)}.`];
+  if (overtime) {
+    const effect = result.events?.find(event => event.type === 'life_health' && event.payload.reason === 'overtime');
+    if (effect) lines.push(`Health changed by ${effect.payload.delta} HP (${effect.payload.before} → ${effect.payload.after}).`);
+  }
+  return lines;
+}
+
 /** The rent bill before Pay, when cash covers it. Cash after is the engine's own subtraction. */
 export function payRentDecision(engine) {
   const cashBefore = engine.state.cash;

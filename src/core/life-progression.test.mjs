@@ -259,3 +259,47 @@ test('phone offer evidence records only the bundle and welcome terms actually sh
   assert.ok(projectReceipt(e.log.entries).accounting.lines.some(x => x.text.includes('free 10-pull')));
   assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
 });
+
+test('unfinished agreed work is recorded once before each terminal route without wage or invented miss', async () => {
+  const { projectReceipt } = await import('./receipt.mjs');
+  for (const route of ['uninstall', 'finish']) {
+    const e = new GameEngine(`pending-${route}`, { lifePolicy: true }); e.start(); e.setupCompanion();
+    e.applyLifeIntent({ type: 'meal', choice: 'buy' }); e.applyLifeIntent({ type: 'advance' });
+    e.applyLifeIntent({ type: 'agree_work', kind: 'scheduled' });
+    if (route === 'uninstall') { e.clickUninstall(); e.clickUninstall(); e.leaveUninstall(); }
+    else { e.finishRunComplete(); e.finishRunComplete(); }
+    assert.equal(e.state.cash, 74); assert.equal(e.state.life.missedShifts, 0);
+    assert.equal(e.log.entries.filter(x => x.type === 'work_interrupted').length, 1);
+    assert.equal(e.log.entries.filter(x => x.type === 'income').length, 0);
+    const terminal = e.log.entries.findIndex(x => x.type === 'terminal');
+    assert.equal(e.log.entries[terminal - 1].type, 'work_interrupted');
+    assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+    const restored = GameEngine.fromEnvelope(e.toEnvelope()); restored.recordReceiptPresented();
+    const lines = projectReceipt(restored.log.entries).accounting.lines.map(x => x.text).join(' ');
+    assert.match(lines, /Agreed to a scheduled shift/); assert.match(lines, /shift was unfinished/);
+    assert.deepEqual(validateSave(restored.toEnvelope()).errors, []);
+  }
+});
+
+test('active session interruption is factual and emitted once before terminal', () => {
+  const e = new GameEngine('session-exit', { lifePolicy: true }); e.start(); e.setupCompanion();
+  e.applyLifeIntent({ type: 'meal', choice: 'buy' }); e.applyLifeIntent({ type: 'advance' }); e.applyLifeIntent({ type: 'advance' });
+  e.commitPromotionalTenPull(); e.applyLifeIntent({ type: 'phone_suspend' }); e.finishRunComplete(); e.finishRunComplete();
+  const record = e.log.entries.filter(x => x.type === 'session_interrupted');
+  assert.equal(record.length, 1); assert.equal(record[0].payload.suspended, true); assert.equal(record[0].payload.pull, true);
+  assert.deepEqual(validateSave(e.toEnvelope()).errors, []);
+});
+
+test('overtime result uses actual signed HP effect, including clamp and recovery', async () => {
+  const { workCompletionLines } = await import('../ui/life/life-decisions.mjs');
+  for (const [before, expected] of [[100, -15], [5, -5]]) {
+    let s = start(); s.life.phase = 'evening'; s.health = before;
+    s = run(s, { type: 'agree_work', kind: 'overtime' }); const id = s.life.work.id;
+    s = run(s, { type: 'complete_work', id });
+    const text = workCompletionLines(s, s, 60, true).join(' ');
+    assert.match(text, new RegExp(`changed by ${expected} HP`));
+    assert.equal(s.health, Math.max(0, before - 15));
+    assert.equal(Boolean(s.life.recovery), before === 5);
+    assert.equal(transitionLife(s.life, s, { type: 'complete_work', id }).ok, false);
+  }
+});

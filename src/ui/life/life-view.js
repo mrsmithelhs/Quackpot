@@ -14,7 +14,7 @@ import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
 } from './life-routing.mjs';
 import {
-  breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision,
+  breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines,
 } from './life-decisions.mjs';
 import { BREAKFAST_AMOUNT, RENT_AMOUNT, furnishingsFrom, outcomeView } from './life-preview.mjs';
 import { cardApp, chips, marisolThread, money, noticeLetter, results, worldLabels } from './life-copy.mjs';
@@ -223,7 +223,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       return { spec, accept: () => {
         const result = doing ? callbacks.onCompleteWork(expectLog, life.work.id) : callbacks.onAgreeWork(expectLog, overtime ? 'overtime' : 'scheduled');
         if (!result?.ok) return null;
-        return doing ? { heading: 'Shift complete', lines: [`Pay received: ${money(pay)}. Cash on hand: ${money(engine.state.cash)}. Health: ${engine.state.health} HP.`] }
+        return doing ? { heading: 'Shift complete', lines: workCompletionLines(result, engine.state, pay, overtime) }
           : { heading: 'Shift agreed', lines: ['Your shift is ready. Return to the message to complete it and receive pay.'] };
       } };
     }

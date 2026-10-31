@@ -1122,6 +1122,7 @@ export class GameEngine {
   leaveUninstall() {
     if (this.isTerminal()) throw new Error('Cannot leave uninstall: game is already in terminal phase');
     this.log.append('action', { kind: 'leave_immediately' }, this.state.clock);
+    this.recordPendingLifeInterruption();
     this.state.phase = 'terminal';
     this.state.terminalRoute = 'uninstall';
     this.state.step = 'receipt';
@@ -1162,12 +1163,23 @@ export class GameEngine {
   /** Completes run normally at end of Day 3 */
   finishRunComplete() {
     if (this.isTerminal()) return this.state.terminalRoute;
+    this.recordPendingLifeInterruption();
     this.state.phase = 'terminal';
     this.state.terminalRoute = 'run_complete';
     this.state.step = 'receipt';
     this.state.activeModal = null;
     this.log.append('terminal', { route: 'run_complete' }, this.state.clock);
     return 'run_complete';
+  }
+
+  /** Record unfinished commitments before terminal, without settling them or inventing consequences. */
+  recordPendingLifeInterruption() {
+    if (this.isTerminal() || !this.state.life) return;
+    const { work, session } = this.state.life;
+    if (work?.status === 'doing' && !this.log.entries.some(e => e.type === 'work_interrupted' && e.payload.id === work.id))
+      this.log.append('work_interrupted', { id: work.id, kind: work.kind, day: this.state.life.day }, this.state.clock);
+    if (session && !this.log.entries.some(e => e.type === 'session_interrupted' && e.payload.id === session.id))
+      this.log.append('session_interrupted', { id: session.id, suspended: session.suspended, pull: session.pull, race: session.race }, this.state.clock);
   }
 
   /**

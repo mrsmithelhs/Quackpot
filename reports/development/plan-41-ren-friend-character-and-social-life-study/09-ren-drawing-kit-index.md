@@ -1,0 +1,44 @@
+# Ren drawing kit: parts index (PROPOSED organisation; concept art, not production assets)
+
+Date: 2026-10-31. Everything below is report-local concept art under `concepts/svg-round-01/`. Labels: **OWNER-KEPT** (owner said keep) versus **LEAD-PICK** (my suggestion) versus **UNREVIEWED** (no owner feedback recorded). Nothing is production art; the game version would be redrawn or ported under a later plan.
+
+## Base
+- `_template/ren-base-template.svg`: bust, short tapered curls, striped tee, teal overalls, gold hoop and stud, pencil on the right ear. Settled style (owner-selected art direction A).
+- Layers a combination swaps: torso/outfit, collar, hair/headgear, pencil. Head, face, ears, neck and earrings never change.
+
+## Pencil placement options (OWNER-KEPT, 2026-10-31)
+| Option | File | Goes with | Notes |
+|---|---|---|---|
+| On the ear, tip forward | base template | bare hair, paint flecks, dust, damp or sweaty hair, uncovered looks | The default. |
+| Behind the head, tip up and right | `hair/hair-beanie/hair-beanie-pencil-behind.svg` | beanie (likely other close caps) | Only part shows. |
+| Tucked under the cuff, eraser up | `hair/hair-beanie/hair-beanie-pencil-tucked.svg` | beanie | Clearest hat variant. |
+| In the bib pocket, eraser up, half showing | `outfits/overalls-pocket-pencil/overalls-pocket-pencil.svg`, `paint-overalls-pocket-pencil.svg` | overalls (plain, paint) | Ear pencil is removed in these. |
+| None | bonnet, bandana, slicker hood-up | looks where the covering hides the ear | |
+
+**PROPOSED pairing rule (not selected):** one pencil at a time; it sits on the ear by default, moves to the pocket when the look is overalls, and moves behind or into the beanie when a beanie is worn; hidden when a covering hides the ear. Consequence: an artist or engine would need one pencil slot per look, not one fixed accessory.
+
+## Outfits
+| Part | File | Status |
+|---|---|---|
+| Olive coveralls (arm tattoo) | `outfits/coveralls-olive/` | LEAD-PICK |
+| Terracotta cardigan v2 | `outfits/cardigan-terracotta/cardigan-terracotta-v2.svg` | LEAD-PICK |
+| Yellow slicker, hood up (v3) | `outfits/slicker-yellow/slicker-yellow-v3.svg` | direction OWNER-SELECTED (S10); drawing UNREVIEWED as final |
+| Navy pajama top | `outfits/pajama-navy/` | LEAD-PICK |
+| Paint overalls | `outfits/paint-overalls/` | LEAD-PICK |
+| Camp-collar shirt (arm tattoo) | `outfits/camp-shirt-geometric/` | LEAD-PICK |
+| Overalls with pocket pencil (plain, paint) | `outfits/overalls-pocket-pencil/` | OWNER-KEPT (S12) |
+
+## Hair and headgear
+| Part | File | Status |
+|---|---|---|
+| Paint flecks, plaster dust | `hair/hair-paint-flecks/`, `hair/hair-plaster-dust/` | LEAD-PICK (plaster is heavy) |
+| Towel turban, damp hair with neck towel | `hair/hair-towel-turban/`, `hair/hair-towel-neck-damp/` | LEAD-PICK |
+| Shower cap, headband | `hair/hair-shower-cap/`, `hair/hair-headband/` | LEAD-PICK |
+| Baseball cap, beanie | `hair/hair-baseball-cap/`, `hair/hair-beanie/` | LEAD-PICK |
+| Bandana v2, sleep bonnet v2 | `hair/hair-bandana/hair-bandana-v2.svg`, `hair/hair-bonnet-night/hair-bonnet-night-v2.svg` | redrawn this round; UNREVIEWED as final |
+| Windblown damp, sweaty pushed-back, post-nap puff | `hair/hair-windblown-damp/` etc. | LEAD-PICK |
+| Bedhead | `hair/hair-bedhead/` | OWNER-DROPPED (S11) |
+| Sawdust, attic dust with cobweb | not drawn | reserves |
+
+## Not yet true of any part
+Checked at avatar size; checked in other complexions (three proposed, none selected); placed into the apartment scenes (those use older drawings).

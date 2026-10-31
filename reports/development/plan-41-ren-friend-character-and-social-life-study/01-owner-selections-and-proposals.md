@@ -30,6 +30,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S7 | Shape of the HP rule (symbolic) | **Visit = bounded restore, Ren has their own load/availability** (an accepted contact restores +h once; Ren then has limited capacity shown in-world). Amounts remain Plan 29's. | 2026-10-31 | Alternatives not selected: quiet-vs-shared effect sizes; only shared activities restore. |
 | S8 | Relationship tracking | **Small qualitative flags, no number.** The names (connected, drifting, strained, reconnecting) and thresholds are the lead's proposal, not selected. | 2026-10-31 | Alternatives not selected: opportunity-only; hybrid log plus one flag. Any rule that changes future invitation eligibility must be surfaced before adoption (packet). |
 
+### Visual-round direction (owner feedback during the drawing rounds)
+
+| ID | Direction | Selection | Date | Note |
+|---|---|---|---|---|
+| S9 | Tattoo placement | **Small sprout tattoo only on a bare upper arm or shoulder, when a garment leaves one exposed; never on the neck.** | 2026-10-31 | Owner correction: the neck tattoo read as a mistake. Tattoo design itself not yet reviewed. |
+| S10 | Slicker | **Hood up, over the head, partly covering the hair.** | 2026-10-31 | Slicker v3 follows this; owner has not yet said v3 is final. |
+| S11 | Bedhead | **Dropped.** | 2026-10-31 | Three attempts remain in the folder as history only. |
+| S12 | Pencil placements | **Keep all as options in the Ren drawing kit:** on the ear (base), behind the head with the tip up and right (beanie), tucked under the beanie cuff, in the overalls bib pocket (eraser up, about half showing). | 2026-10-31 | Which placement goes with which look is a PROPOSED rule, not selected. See `09-ren-drawing-kit-index.md`. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

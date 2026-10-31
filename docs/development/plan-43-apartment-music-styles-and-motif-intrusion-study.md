@@ -41,6 +41,20 @@ For each style identify a bounded stylistic brief: form/phrase and variation, ha
 
 Evaluate actual synthesis capabilities. A GM guitar label is not a convincing guitar performance: articulation, strumming, voicing, bass/drums and production may be necessary. If the existing patches cannot support a style convincingly, compare a modest original synthesis extension or owner-operated generated reference; no silent large soundfont/sample download or unsupported promise. Raw pitch accuracy and peak measurements do not establish good music.
 
+### Instrument viability and TinySynth extension research
+
+Owner clarification,2026-10-31: the six requested genres are an exploratory menu, not a requirement to force an unsuitable synthesizer to imitate every instrument. Explicitly investigate how TinySynth authors and users have extended instrument patches and performance behavior. Search upstream source/docs, instrument definitions, author examples, issues/discussions and demonstrable forks or projects. Trace concrete examples to exact source/revision and license; distinguish an actual TinySynth extension from a generic Web Audio technique or a model's proposed recipe. A demo or plausible parameter table is a lead, not proof of convincing results in our renderer.
+
+For guitar in particular, separate timbre from playing behavior: pluck/decay and resonances; note-dependent envelopes; strummed chord voicings and timing; damping/palm muting; slides/bends/vibrato; repeated-note variation; and electric-guitar distortion/filter/amp treatment where relevant. Investigate physical-model approaches such as plucked-string synthesis as alternatives, without assuming TinySynth supports them directly or that they are automatically cheap. Compare necessary scheduling/effect changes against the current custom renderer rather than treating a GM program number as an implemented performance technique. Test short single-note, chord/strum and musical-phrase examples before a full composition; include dry versus mixed audition where useful.
+
+Deliver an instrument/style feasibility matrix: existing recipe and arrangement sufficient; modest bounded extension plausible; uncertain and needs a listening probe; or unsuitable for this study. Record expressive/articulation limits, source evidence, expected CPU/voice/memory burden and implementation cost. No endless patch invention to rescue a genre: recommend a small evidence-backed probe, and pivot when the result or effort does not justify continuation. Keep failed probes as useful evidence.
+
+### Owner-led genre pivots
+
+The implementer may work directly with the owner to narrow, substitute or change substyles/instrument palettes within this apartment-music investigation. Explain what was tried, let the owner hear a short comparison, and offer a more viable musical alternative. Owner-approved pivots do not need a separate orchestration turn or packet amendment for every genre change; record the exact choice and rationale in a report-local decision ledger and summarize it at delivery. A potentially viable direction need not sound like a realistic acoustic ensemble if the owner likes a coherent stylized result.
+
+Retain contrasting ordinary apartment selections, longer-form listening goals and later motif-intrusion compatibility. No obligation to deliver all six initial genres. Broader engine/dependency/resource changes, licensed sample acquisition, production wiring or changed game/story rules retain their existing root/owner gates. Owner listening determines musical suitability; the implementer must not promote its own feasibility judgment into an owner selection.
+
 ## Staged composition and listening
 
 1. After the research briefs, recommend two contrasting pilot styles and explain feasibility; owner may choose others. Make short original texture/form auditions first (roughly20–40seconds), with direct layer/stem comparisons and editable source. Do not build six full2minute tracks before the first listening checkpoint.

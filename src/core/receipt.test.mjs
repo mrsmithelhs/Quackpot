@@ -3,6 +3,18 @@ import assert from 'node:assert/strict';
 import { EventLog } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 
+test('Receipt records skipped breakfast as $0 spent with only the actual health effect', () => {
+  const log = new EventLog();
+  log.append('run_started', { seed: 'receipt-breakfast' }, { day: 1, label: 'day 1 morning' });
+  log.append('action', {
+    kind: 'breakfast_skipped', day: 1, billId: 'd1_food', healthLost: 5, healthAfter: 95,
+  }, { day: 1, label: 'day 1 morning' });
+  const report = projectReceipt(log.entries);
+  assert.ok(report.accounting.lines.some((item) => item.text === 'Breakfast skipped on day 1: $0 spent; health decreased by 5 to 95.'));
+  assert.equal(report.summary.finalHealth, 95);
+  assert.equal(report.summary.finalCash, 15);
+});
+
 test('Plan 23 Receipt separates race material shown, player actions, and committed crossing facts', () => {
   const log = new EventLog();
   const clock = { day: 1, label: 'day 1 midday' };

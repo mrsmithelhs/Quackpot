@@ -48,6 +48,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-37` | Action-based time and optional life lanes specification | draft | Specify the owner-selected action-based time model and optional meal, work, leisure and recovery lanes. Separate opportunity costs and disclosed consequences from Plan29 numeric calibration before implementing new story rules. |
 | `plan-38` | Apartment life production integration | in-progress | Bring the selected room-object, held-message and explicit-decision flow into production, with still companion poses, tap-to-buy breakfast and preserved save/exit/economy boundaries. |
 | `plan-39` | Melody reference and Web Audio laboratory | in-progress | Build a local Web Audio audition and WAV-export laboratory for melody C continuations, light arrangements and reusable symbolic scores, informed by accepted music research and owner listening. |
+| `plan-40` | Work and evening experience study | draft | Develop and visually compare how ordinary work, an extra shift and a first-evening activity appear in the apartment tutorial, coordinated with Plan37's authoritative day sequence. |
 <!-- plan-index:end -->
 
 ## Report Folders

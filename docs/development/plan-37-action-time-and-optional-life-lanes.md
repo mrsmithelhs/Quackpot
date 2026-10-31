@@ -40,6 +40,12 @@ rules. Separate existing behavior from proposed rules and owner-selected directi
 
 ## Scope and outputs
 
+**Owner production feedback, 2026-10-30:** Prioritize a coherent Day1–Day3 action/sequence specification before broader optional-lane design. Current production still skips from a pull/race/starter choice through an automatic wage to the next morning, has no Day2 gacha session, instantly works a night shift and settles rent, and labels time independently across HUD, phone and day bar. These are gaps, not an accepted full day model. See reports/orchestration/plan-38-owner-sequencing-review-02.md. Coordinate with the running design-review pilot; preserve its work and owner answers rather than starting a duplicate interview.
+
+First checkpoint: map tutorial days with explicit ordinary work, proposed evening activity, gacha session opportunities and obligations. Distinguish agreeing to a shift, doing it, receiving pay and choosing to pay the outstanding rent balance; owner rejects collapsing them into one unexplained click. Specify a single authoritative fictional phase and its saved transitions, not separately authored clock strings. A reusable gacha session/hub must support Day2 access without replaying the welcome ten-pull or silently charging time for Duck-Dex inspection. Contrast explicit action completion with presentation-only scene changes. Propose a small declarative action/transition table (eligibility, location, phase, disclosed effect, commitment, outcome, next state, resume behavior) and trace it before any controller rewrite. No particular slot count or framework is selected.
+
+Owner now selects optional breakfast at 5 HP for skipping (immediate Plan38 amendment); use it as a fixed input here. Neutral Call Mom is a preferred first-evening candidate, distinct from deferred Borrow from Mom; its effects and exact placement still need a proposal. Plan40 studies work/evening presentation through conversation and owner-selected visual examples; it does not own time rules. Day-count and ordinary vs extra work ordering must be understandable without hidden automatic transitions. Deliver concrete next implementation ownership, not only abstract time philosophy.
+
 Own only new reports/development/plan-37-action-time-and-optional-life-lanes/.
 No engine/UI/save schema edits, numeric retuning, art, audio, fixtures or status
 changes. No assignment, browser, Node experiments or subagent authority is granted

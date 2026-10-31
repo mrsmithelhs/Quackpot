@@ -4,11 +4,12 @@ import { createAmbientGlowController } from './ambient-glow-controller.mjs';
 // Production apartment desk: static scene art with real HTML controls and invitation copy.
 export function renderDeskView(container, _duckSvgUrl, onStartApp, options = {}) {
   const returning = Boolean(options.returning);
+  const invitation = options.invitation === true;
   const companion = options.companion || {};
-  const presentation = buildApartmentDesk({ returning, companion });
+  const presentation = buildApartmentDesk({ returning: returning && !invitation, companion });
   const companionName = escapeHtml(presentation.companionName);
   const { heading, message, action } = presentation.phone;
-  const phoneLabel = returning ? 'Open Quackpot' : 'Open Quackpot and claim the 10-pull invitation';
+  const phoneLabel = returning && !invitation ? 'Open Quackpot' : 'Open Quackpot and claim the 10-pull invitation';
 
   container.innerHTML = `
     <div class="desk-container apartment-desk-container">

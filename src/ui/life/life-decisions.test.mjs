@@ -158,7 +158,8 @@ test('breakfast decision: bakery heading, exact confirm and cash before → afte
   assert.match(d.heading, /bakery downstairs/);
   assert.equal(d.confirm, 'Buy breakfast for $5.00');
   assert.ok(d.lines.includes('Cash on hand: $15.00 → $10.00.'));
-  assert.equal(d.back, 'Not now');
+  assert.equal(d.back, 'Put it down');
+  assert.equal(d.decline.label, 'Skip breakfast (−5 HP)');
 });
 
 test('building any decision appends no log entries and leaves engine.state unchanged', () => {

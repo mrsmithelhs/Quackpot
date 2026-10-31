@@ -6,6 +6,36 @@ import { projectReceipt } from './receipt.mjs';
 import { validateSave } from './storage.mjs';
 import { resolveSeededRace } from './race-resolver.mjs';
 
+test('skipBreakfast records an idempotent unpaid meal resolution and capped actual health loss', () => {
+  const engine = new GameEngine('skip-breakfast');
+  engine.state.step = 'd1_morning_breakfast';
+  engine.state.health = 3;
+  const result = engine.skipBreakfast();
+  assert.deepEqual(result, { skipped: true, alreadySettled: false, healthLost: 3, healthAfter: 0 });
+  assert.equal(engine.state.cash, 15);
+  assert.deepEqual(engine.state.billsSettled, ['d1_food']);
+  assert.equal(engine.log.entries.filter((e) => e.type === 'expense_due').length, 0);
+  const action = engine.log.entries.find((e) => e.type === 'action' && e.payload.kind === 'breakfast_skipped');
+  assert.deepEqual(action.payload, { kind: 'breakfast_skipped', day: 1, billId: 'd1_food', healthLost: 3, healthAfter: 0 });
+  assert.deepEqual(engine.skipBreakfast(), { skipped: false, alreadySettled: true });
+  assert.equal(engine.state.health, 0);
+  const loaded = GameEngine.fromEnvelope(engine.toEnvelope());
+  assert.ok(loaded.state.billsSettled.includes('d1_food'));
+});
+
+test('skipBreakfast refuses wrong step or an active modal and does not skip a paid meal', () => {
+  const engine = new GameEngine('skip-breakfast-guards');
+  assert.equal(engine.skipBreakfast().reason, 'wrong_step');
+  engine.state.step = 'd1_morning_breakfast';
+  engine.state.activeModal = 'other';
+  assert.equal(engine.skipBreakfast().reason, 'pending_modal');
+  engine.state.activeModal = null;
+  engine.billExpense('food', 5);
+  assert.equal(engine.skipBreakfast().alreadySettled, true);
+  assert.equal(engine.state.health, 100);
+  assert.equal(engine.state.cash, 10);
+});
+
 test('engine: preDrawOdds matches linear formula at draw 35 (0.08125) and draw 50 (1.0)', () => {
   const o1 = calculatePreDrawOdds(0);
   assert.equal(o1.legendary, 0.02);

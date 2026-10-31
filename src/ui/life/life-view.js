@@ -139,8 +139,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       }
     } else if (place === 'kitchen-breakfast') {
       const settled = breakfastState(engine).settled;
+      const skipped = engine.log.entries.some((entry) => entry.type === 'action' && entry.payload?.kind === 'breakfast_skipped'
+        && entry.payload.billId === breakfastState(engine).billId);
       out.push(settled
-        ? { id: 'bag', svg: bakeryBag({ idPrefix: uid('lfb') }), ...breakfastObjectBox(engine.state.day, { x: 26, y: 50, w: 7 }), label: 'Bakery bag', done: true }
+        ? { id: 'bag', svg: skipped ? emptyPlate({ idPrefix: uid('lfb') }) : bakeryBag({ idPrefix: uid('lfb') }), ...breakfastObjectBox(engine.state.day, { x: 26, y: 50, w: 7 }), label: skipped ? 'Breakfast skipped' : 'Bakery bag', done: true }
         : { id: 'plate', svg: emptyPlate({ idPrefix: uid('lfp') }), ...breakfastObjectBox(engine.state.day, { x: 21, y: 66, w: 14 }), label: worldLabels.plate, chip: chips.plate, done: false,
           hold: { mode: 'popover', side: 'right', kind: offer && offerDecision() ? 'ladder' : 'breakfast' } });
     }
@@ -207,7 +209,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       } };
     }
     const spec = breakfastDecision(engine);
-    return { spec, accept: () => {
+    return { spec, decline: () => {
+      const result = callbacks.onSkipBreakfast(expectLog);
+      if (result === null || (!result.skipped && !result.alreadySettled)) return null;
+      return { heading: 'Breakfast skipped', lines: [`No cash spent. Health −${result.healthLost ?? 0} HP.`, `Cash on hand: ${money(engine.state.cash)}.`] };
+    }, accept: () => {
       const res = callbacks.onBreakfast(expectLog);
       if (res === null) return null;
       return res?.paid || breakfastState(engine).settled

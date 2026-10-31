@@ -73,6 +73,26 @@ function makeValidEnvelope() {
   };
 }
 
+test('breakfast skip health is reconstructed from the action and forged loss is rejected', () => {
+  const engine = new GameEngine('storage-breakfast-skip');
+  engine.start();
+  engine.state.step = 'd1_morning_breakfast';
+  engine.skipBreakfast();
+  const envelope = engine.toEnvelope();
+  assert.equal(validateSave(envelope).valid, true);
+  const forged = structuredClone(envelope);
+  const rebuilt = new EventLog();
+  for (const entry of forged.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === 'action' && payload.kind === 'breakfast_skipped') payload.healthLost = 4;
+    rebuilt.append(entry.type, payload, entry.clock);
+  }
+  forged.eventLog = rebuilt.entries;
+  const result = validateSave(forged);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((error) => error.includes('Breakfast skip action')));
+});
+
 function makeEnvelopeWithPulls() {
   const rng = createRng('test-pull-seed');
   const rngDraw = rng.fork('draw');

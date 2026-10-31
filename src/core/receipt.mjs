@@ -246,6 +246,10 @@ export function projectReceipt(entries) {
   if (waivedBills.length) {
     accountingLines.push(line(`${waivedBills.length} food expense(s) waived via skipped lunch (${money(totalWaived)} total).`, waivedBills[0].seq));
   }
+  const skippedBreakfasts = ofType('action').filter((e) => e.payload?.kind === 'breakfast_skipped');
+  for (const event of skippedBreakfasts) {
+    accountingLines.push(line(`Breakfast skipped on day ${event.payload.day}: $0 spent; health decreased by ${event.payload.healthLost} to ${event.payload.healthAfter}.`, event.seq));
+  }
   if (unpaidExpense) {
     accountingLines.push(line(`Unpaid expense recorded (${unpaidExpense.clock.label}): ${money(unpaidExpense.dueAmount)} for ${unpaidExpense.kind} was due with ${money(unpaidExpense.cashBefore)} cash on hand.`, unpaidExpense.seq));
   }
@@ -270,7 +274,8 @@ export function projectReceipt(entries) {
   const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);
   const derivedFinalCash = Math.max(0, Math.round((initialCash + wagesSum + escalationCashSum - expensesPaidSum - purchasesPaidSum) * 100) / 100);
 
-  const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0);
+  const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0)
+    + skippedBreakfasts.reduce((s, e) => s + (e.payload.healthLost ?? 0), 0);
   const derivedFinalHealth = Math.max(0, 100 - healthLostSum);
 
   const uniqueOwnedDucks = new Set(drawsCommitted.filter((d) => !d.payload.duplicate).map((d) => d.payload.identity));

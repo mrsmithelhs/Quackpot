@@ -44,6 +44,7 @@ export const GAME_CONSTANTS = {
   START_HEALTH: 100,
   WAGE_DAILY: 10.00,
   FOOD_DAILY: 5.00,
+  BREAKFAST_SKIP_HEALTH_COST: 5,
   RENT_DAY2: 15.00,
   STARTER_PRICE: 0.99,
   STARTER_GEMS: 240,
@@ -790,6 +791,28 @@ export class GameEngine {
     return { paid: false, needsEscalation: true };
   }
 
+  /** Resolve today's breakfast without payment, recording only the actual health lost. */
+  skipBreakfast() {
+    const day = this.state.day;
+    const billId = `d${day}_food`;
+    if (this.state.billsSettled?.includes(billId)) {
+      return { skipped: false, alreadySettled: true };
+    }
+    if (this.isTerminal()) return { skipped: false, reason: 'terminal' };
+    if (![1, 2, 3].includes(day) || this.state.step !== `d${day}_morning_breakfast`)
+      return { skipped: false, reason: 'wrong_step' };
+    if (this.state.activeBill || this.state.activeModal) return { skipped: false, reason: 'pending_modal' };
+    if (!this.state.billsSettled) this.state.billsSettled = [];
+
+    const healthLost = Math.min(GAME_CONSTANTS.BREAKFAST_SKIP_HEALTH_COST, Math.max(0, this.state.health));
+    this.state.health -= healthLost;
+    this.state.billsSettled.push(billId);
+    this.log.append('action', {
+      kind: 'breakfast_skipped', day, billId, healthLost, healthAfter: this.state.health,
+    }, this.state.clock);
+    return { skipped: true, alreadySettled: false, healthLost, healthAfter: this.state.health };
+  }
+
   /**
    * Solvent zero-cash recovery options (Repair 01, P1).
    * Handles choices made at $0.00 cash after bills are paid in full.
@@ -1167,6 +1190,9 @@ export class GameEngine {
         if (!engine.state.billsSettled.includes(e.payload.billId)) {
           engine.state.billsSettled.push(e.payload.billId);
         }
+      }
+      if (e.type === 'action' && e.payload?.kind === 'breakfast_skipped' && e.payload.billId) {
+        if (!engine.state.billsSettled.includes(e.payload.billId)) engine.state.billsSettled.push(e.payload.billId);
       }
     }
 

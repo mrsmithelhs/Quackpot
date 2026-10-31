@@ -388,3 +388,13 @@ research before more generations, including eventual Suno trials. Reference inta
 and root research are not new audio selection or production adoption. Original C and
 rejected extension histories stay intact; no account/tool/model installation or
 generation quota is authorized by the research direction alone.
+
+### DECISION-036 — Kitchen opening, optional breakfast and remaining rent balance
+
+**Date:** 2026-10-30
+
+Owner rejects Plan38's integrated day sequencing as incoherent. Fresh setup begins in the kitchen; the phone invitation must lead to Quackpot rather than breakfast. Breakfast is an actual choice on each supported morning: an explicitly disclosed skip costs 5 HP (clamped to remaining health), spends no cash and progresses. Merely putting down an object remains free. This supersedes Plan28 D9's mandatory-breakfast first-integration restriction; it does not authorize wider missed-meal/shift rules. Persist and reflect actual skipped-meal effects without fabricating a paid expense.
+
+The current $15 rent demand is the unpaid remainder after most rent was paid before the represented run. No prior transaction is invented in this run's log; Plan29 must use the framing when calibrating.
+
+Plan38 is not accepted. Automatic wages/day jumps, night-shift execution coupled to automatic rent payment, absent Day2 gacha access and the external Go to work modality require a coherent sequence specification. Plan37 owns authoritative action/time/day rules; its current pilot remains the owner interview. Draft Plan40 owns conversation-first work/evening visual ideas. Call Mom is a preferred neutral activity candidate, not adoption of deferred borrowing. Tests of the mechanism slice do not establish an acceptable whole-game sequence. No push/deployment.

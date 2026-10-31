@@ -253,10 +253,17 @@ export function validateSave(envelope) {
         let calcDown = 0;
         const expectedOwned = [];
         let calcPity = 0;
+        const resolvedBreakfastBills = new Set();
 
         for (const e of entries) {
           if (e.type === 'income' && e.payload?.amount) calcCash += e.payload.amount;
           if (e.type === 'expense_paid' && e.payload?.amount) calcCash -= e.payload.amount;
+          if (e.type === 'expense_paid' && e.payload?.kind === 'food' && e.payload?.billId) {
+            if (resolvedBreakfastBills.has(e.payload.billId)) {
+              errors.push(`Breakfast bill ${e.payload.billId} was paid after a skip action`);
+            }
+            resolvedBreakfastBills.add(e.payload.billId);
+          }
           if (e.type === 'purchase') {
             if (e.payload?.price) calcCash -= e.payload.price;
             if (e.payload?.bundleGems) calcGems += e.payload.bundleGems;
@@ -268,6 +275,17 @@ export function validateSave(envelope) {
             if (e.payload?.effects?.cashGained) calcCash += e.payload.effects.cashGained;
             if (e.payload?.effects?.healthLost) calcHealth -= e.payload.effects.healthLost;
             if (e.payload?.effects?.debtAfter !== undefined) calcDebt = e.payload.effects.debtAfter;
+          }
+          if (e.type === 'action' && e.payload?.kind === 'breakfast_skipped') {
+            const p = e.payload;
+            const expectedLoss = Math.min(5, Math.max(0, calcHealth));
+            if (![1, 2, 3].includes(p.day) || p.billId !== `d${p.day}_food`
+              || resolvedBreakfastBills.has(p.billId)
+              || p.healthLost !== expectedLoss || p.healthAfter !== calcHealth - expectedLoss) {
+              errors.push(`Breakfast skip action at sequence ${e.seq} has invalid day, bill, or health evidence`);
+            }
+            calcHealth -= p.healthLost;
+            resolvedBreakfastBills.add(p.billId);
           }
           if (e.type === 'draw_committed') {
             if (!e.payload.duplicate) {

@@ -117,6 +117,8 @@ Saves are local to the browser (localStorage or IndexedDB; the choice is open) a
 
 Wages, food, rent, and increasingly costly options create the life metagame. Values and timing are simulation questions.
 
+**Owner production refinements, 2026-10-30:** Start the fresh-run setup in the kitchen; the phone invitation must actually lead to Quackpot. Breakfast may be skipped explicitly for 5 HP (no cash spent, actual loss clamped to remaining health); merely inspecting or putting down an object costs nothing. Record the skipped meal and its actual effect without inventing a payment. The current $15 rent demand represents the unpaid remainder after most rent was paid before the represented run, not the full rent. Exact work/evening/session sequencing remains Plan37 specification work: an extra-shift acceptance must not stand in for unrepresented work, wage receipt and automatic rent payment. The short production mechanism slice is not the accepted full daily schedule. Neutral calling Mom is a proposed evening activity, distinct from the deferred borrowing ladder.
+
 When cash reaches zero or a bill cannot be paid, offer an escalation choice rather than ending immediately. Define the trigger and ordering for “Running on Empty.” Every terminal route displays the Receipt.
 
 | Step | Option | Consequence |

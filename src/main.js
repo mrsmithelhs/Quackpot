@@ -9,6 +9,7 @@ import './ui/duck-dex.css';
 import './ui/race-view.css';
 import './ui/apartment-view.css';
 import './ui/life/life.css';
+import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS } from './core/game-engine.mjs';
@@ -282,7 +283,13 @@ if (app) {
     if (!mainContainer || !modalContainer) return;
 
     // Render active view based on authoritative progression step
-    if (!engine.isTerminal() && isLifeStep(currentStep)) {
+    if (!engine.isTerminal() && currentStep === 'desk') {
+      renderKitchenSetupView(mainContainer, ({ name, autosaveEnabled }) => {
+        engine.autosaveEnabled = !isTemporaryPreservationMode() && autosaveEnabled;
+        engine.setupCompanion(name, 'classic-yellow');
+        enterLife(BREAKFAST_STEP_BY_DAY[1]);
+      });
+    } else if (!engine.isTerminal() && isLifeStep(currentStep)) {
       lifeViewHandle = renderLifeView(mainContainer, engine, lifeUi, lifeCallbacks(), {
         active: !settingsOpen && !activeModalBlocksLife(),
       });
@@ -313,6 +320,7 @@ if (app) {
         enterLife(BREAKFAST_STEP_BY_DAY[1]);
       }, {
         returning: currentStep !== 'desk',
+        invitation: currentStep === 'd1_morning_gacha' && !engine.state.tenPullCommitted,
         companion: engine.state.physicalCompanion,
         animatePhoneGlow,
         phoneGlowActive: !settingsOpen && !activeModal && !engine.isTerminal(),
@@ -608,6 +616,12 @@ if (app) {
         const next = afterBreakfast(engine);
         const result = engine.billExpense('food', GAME_CONSTANTS.FOOD_DAILY);
         if (result.paid && !result.zeroCash) applyStepTransition(next);
+        return result;
+      }),
+      onSkipBreakfast: commit(() => {
+        const next = afterBreakfast(engine);
+        const result = engine.skipBreakfast();
+        if (result.skipped || result.alreadySettled) applyStepTransition(next);
         return result;
       }),
       onContinue: commit(() => {

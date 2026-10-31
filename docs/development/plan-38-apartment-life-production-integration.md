@@ -27,6 +27,8 @@ Replace metagame choices currently presented inside the gacha or in floating for
 
 ## Non-goals
 
+**Owner review amendment, 2026-10-30:** Integrated experience is not accepted. Repair the misleading phone-to-breakfast opening by starting setup in the kitchen. Breakfast must be genuinely optional: explicit skip costs 5 HP (clamped to actual remaining health), spends no cash, advances and is saved/recorded honestly; putting an object down remains free. This supersedes the prior no-skip limit below. Present $15 as the remaining rent balance, without fabricating a prior in-run payment. Broader work/evening/session sequencing remains a blocking experience gap for closure and routes to Plan37 plus the draft Plan40 work/evening study. The current day bar and automatic shift-to-rent settlement are not accepted merely because they match the prototype; do not relabel away the missing action structure.
+
 No new time-slot rules, skipped meals/shifts, firing, food inventory, economy calibration, endings, weather mounting, soundtrack, late-game disorientation or general apartment exploration. Plans 37, 29 and other packets retain those scopes. No new event types or life-surface display logging. No push/deployment.
 
 ## Authority and contracts

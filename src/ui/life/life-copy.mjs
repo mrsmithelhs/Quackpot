@@ -15,9 +15,9 @@ const healthChange = (before, after) =>
 export function noticeLetter({ amount, unit }) {
   return {
     sender: SENDER,
-    heading: `Rent due today · ${unitLabel(unit)}`,
+    heading: `Remaining rent balance · ${unitLabel(unit)}`,
     paragraphs: [
-      `Rent for ${unitLabel(unit)} is due today. The amount due is ${money(amount)}.`,
+      `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance due today is ${money(amount)}.`,
       "You can pay in person at the property office, or through the office's online payment page.",
       `Once the full ${money(amount)} is received, the rent for this unit will be recorded as paid.`,
       'If you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.',
@@ -51,9 +51,9 @@ export function marisolThread({ pay }) {
 export const decide = {
   payRent({ amount, cashBefore, cashAfter }) {
     return {
-      heading: `Pay rent, ${money(amount)}?`,
+      heading: `Pay the remaining rent balance, ${money(amount)}?`,
       lines: [
-        `Harbor Court Property Office, Unit 4B. Rent due today: ${money(amount)}.`,
+        `Harbor Court Property Office, Unit 4B. Remaining rent balance: ${money(amount)}.`,
         `Cash on hand: ${money(cashBefore)} → ${money(cashAfter)}.`,
         'Once paid, the rent is settled for today.',
       ],

@@ -82,3 +82,10 @@ Plan 37 (accepted; phase/anchor labels used as-is; no private clock), Plan 29 (a
 - A later bounded SVG packet and a Plan 38 amendment would be needed before any in-game Ren.
 
 Ready for orchestrator review: **yes** (owner review of the package, not of any production change).
+
+## Addendum: outfit/hair generation hand-off (2026-10-31, after delivery)
+
+- Owner direction: base art style is settled; outfit and hair-state/covering variations to be explored next with a separate Gemini Flash thread (each generated image a 2x2 grid), then Haiku SVG drawing passes after the lead selects candidates. Owner selections for those variations remain **OPEN** until the images are reviewed.
+- Added `prompts/gemini-outfit-and-hair-prompt.md` (paste-ready; up to 10 outfit grids and exactly 4 hair grids; outputs to `concepts/gemini-round-01/`; manifest and provenance required; stop-and-report on quota).
+- Added `concepts/reference/`: four reference PNGs exported from the lead's own SVG pages (`ren-ref-halfbody-mid-warm`, `ren-ref-complexions`, `ren-ref-expressions`, `ren-ref-door-scene`) plus their source HTML. Export used Edge headless screenshots (a local browser, no network, no Node job). I viewed the complexions and door-scene PNGs after export; I did not open the half-body and expressions PNGs individually.
+- No generated images exist yet. Nothing about the Gemini thread's output has been reviewed.

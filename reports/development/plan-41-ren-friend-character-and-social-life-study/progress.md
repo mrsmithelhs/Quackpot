@@ -126,3 +126,7 @@ Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the 
 - Delegation: none. The lead drew the six SVGs directly (a short report-local Python build script in the scratchpad, not committed). Haiku helper totals unchanged: 25 drawing helpers plus 3 researchers.
 - Viewed: `concepts/svg-round-01/compare-round-4.png` and the bonnet preview. Sources scanned for forbidden constructs (none). Not checked: avatar scale, other complexions, apartment placement.
 - Open: owner choice of one pencil rule; the weak spots left are thin bandana tails and the squared bonnet band ends. Nothing here is owner-approved.
+
+## Addendum 7: pencil options kept; drawing kit index (2026-10-31)
+
+- Owner kept all pencil placements as options (ledger S12). Added S9 to S12 to `01-owner-selections-and-proposals.md` (tattoo arm-only, hood up, bedhead dropped, pencil options) and created `09-ren-drawing-kit-index.md`, a parts index with owner-kept / lead-pick / unreviewed status and a PROPOSED pencil pairing rule. No new drawings; no executable work; no helpers.

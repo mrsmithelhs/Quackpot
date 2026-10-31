@@ -84,3 +84,14 @@ Slicker, bedhead and cardigan were each revised by a fresh Haiku helper against 
 | `hair-bedhead-v2` | It no longer reads as a ponytail and the crown is lower. But the tufts are sharp triangles, which reads as spikes or cat-ear shapes rather than curly sleep-flattened hair, and the right-side clumps still hint at a side puff. The helper said the same about the puff. | Partial; a further pass should use rounded curl tufts instead of triangles |
 
 Candidates summary after the revision pass: good as drawn: olive coveralls, paint overalls, camp shirt, navy pajama top, windblown damp hair, sweaty pushed-back hair, post-nap puff; improved and usable: slicker v2, cardigan v2; still weak: bedhead v2.
+
+## 8. Owner corrections and third pass (slicker hood up, bedhead v3)
+
+I compared slicker v2/v3 and bedhead v1/v2/v3 on `concepts/svg-round-01/compare-round-3.png` (rendered from the files).
+
+| Drawing | My read | Verdict |
+|---|---|---|
+| `slicker-yellow-v3` | Meets the owner's direction: the hood is up over the head, covers the upper halves of the ears and most of the hair, with forehead and temple curls peeking under the rim, and the hoop and drawstrings visible. The hood is long and straight-sided (like a parka veil) and the extra seam arcs make the top slightly helmet-like. | Good enough to keep; slimming the hood is optional |
+| `hair-bedhead-v3` | Better than v1 (ponytail) and v2 (spikes): no single lump, no triangles, a lifted right side of separate rounded clumps with a darker layer in the gaps. But the left side is a smooth, tidy slanted cap, so it reads as a stylish asymmetric curly cut more than sleep-messed hair, and the new pencil lies across the right temple with no hair at the ear to rest against. The helper rated its own helmet risk "low to moderate". | Still not convincing bedhead; hide or move the pencil in bedhead drawings |
+
+Suggested next attempt for bedhead (not done): keep the base cloud and hairline, flatten only the left edge slightly, add three or four rounded clumps sticking out at the top and right, hide the pencil, and avoid any straight hairline.

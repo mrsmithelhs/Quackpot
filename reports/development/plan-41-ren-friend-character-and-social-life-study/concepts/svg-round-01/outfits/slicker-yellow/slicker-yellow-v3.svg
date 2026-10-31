@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="720" height="900" role="img" aria-label="Ren concept drawing: slicker-yellow-v3">
+<style>
+  svg{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+  <clipPath id="base-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+  <g id="base-neck"><path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+  <g id="base-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+  <path id="base-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+  <g id="base-face">
+    <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+    <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+    <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+    <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+    <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+    <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+  </g>
+  <g id="base-hs-shapes">
+    <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+    <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+  </g>
+  <g id="base-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+  <g id="base-acc">
+    <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+    <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  </g>
+  <g id="base-pencil"><g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g></g>
+  <g id="slicker-yellow-v3-curls"><circle cx="100" cy="92" r="6"/><circle cx="112" cy="89" r="6"/><circle cx="126" cy="89" r="6"/><circle cx="139" cy="92" r="6"/><circle cx="85" cy="102" r="5"/><circle cx="155" cy="102" r="5"/></g>
+</defs>
+<rect width="240" height="300" fill="#efe3cc"/>
+
+<!-- ===== LAYER TORSO (behind the neck). OUTFIT TASKS: replace this group. slicker-yellow-v3: hood is up, so the hood-down shapes are removed. Slicker body, sleeves, raglan seams, placket and toggles kept from v2. Side collar pieces carry the outline from the hood hem down to the shoulders. ===== -->
+<g id="LAYER-torso">
+  <path id="slicker-yellow-v3-collar-l" class="l3" fill="#e3b83a" d="M56 116 C48 150 42 196 46 240 L100 220 L104 150 L78 124 Z"/>
+  <path id="slicker-yellow-v3-collar-r" class="l3" fill="#e3b83a" d="M184 116 C192 150 198 196 194 240 L140 220 L136 150 L162 124 Z"/>
+  <path id="slicker-yellow-v3-sleeve-l" class="l3" fill="#e3b83a" d="M98 212 L48 232 C36 242 30 266 28 300 L68 300 L68 262 Q84 236 98 212 Z"/>
+  <path id="slicker-yellow-v3-sleeve-r" class="l3" fill="#e3b83a" d="M142 212 L192 232 C204 242 210 266 212 300 L172 300 L172 262 Q156 236 142 212 Z"/>
+  <path id="slicker-yellow-v3-body" class="l3" fill="#e3b83a" d="M68 300 L68 262 Q84 236 98 212 Q120 222 142 212 Q156 236 172 262 L172 300 Z"/>
+  <path id="slicker-yellow-v3-placket" class="l2" fill="none" d="M106 216 L106 300 M134 216 L134 300 M120 220 L120 300"/>
+  <path id="slicker-yellow-v3-cords" class="l2" fill="none" d="M111 242 Q104 250 102 258 M129 242 Q136 250 138 258 M111 264 Q104 272 102 280 M129 264 Q136 272 138 280 M111 286 Q104 292 102 298 M129 286 Q136 292 138 298"/>
+  <rect id="slicker-yellow-v3-toggle-1" class="l2" fill="#6b4428" x="111" y="239" width="18" height="6" rx="3"/>
+  <rect id="slicker-yellow-v3-toggle-2" class="l2" fill="#6b4428" x="111" y="261" width="18" height="6" rx="3"/>
+  <rect id="slicker-yellow-v3-toggle-3" class="l2" fill="#6b4428" x="111" y="283" width="18" height="6" rx="3"/>
+</g>
+
+<use href="#base-neck"/>
+
+<!-- ===== LAYER COLLAR (in front of the neck, behind the head and chin). OUTFIT TASKS: collars, scarf, turtleneck. slicker-yellow-v3: gathered collar band at the neck base where the hood meets the jacket. ===== -->
+<g id="LAYER-collar">
+  <path id="slicker-yellow-v3-gathered-collar" class="l3" fill="#e3b83a" d="M97 186 Q120 192 143 186 C147 200 147 216 142 226 Q120 234 98 226 C93 216 93 200 97 186 Z"/>
+  <path id="slicker-yellow-v3-gathers" class="l2" fill="none" d="M106 206 Q120 212 134 206 M104 218 Q120 224 136 218"/>
+</g>
+
+<use href="#base-ears"/>
+<use href="#base-head"/>
+<use href="#base-face"/>
+
+<!-- ===== LAYER HAIR. HAIR TASKS: replace this line/group. slicker-yellow-v3: hood up over the head. Curls first (peeking under the top rim and at the temples), then the hood with its face opening, rolled-rim seam, lining band and drawstrings. ===== -->
+<g id="LAYER-hair">
+  <use href="#slicker-yellow-v3-curls" class="hair l3"/><use href="#slicker-yellow-v3-curls" class="hair" stroke="none"/>
+  <path id="slicker-yellow-v3-hood" class="l3" fill="#e3b83a" fill-rule="evenodd" d="M120 24 C158 24 188 56 188 108 C188 112 188 116 185 119 Q178 123 170 123 C168 154 150 180 120 196 C90 180 72 154 70 123 Q62 123 55 119 C52 116 52 112 52 108 C52 56 82 24 120 24 Z M120 84 C147 84 162 102 162 126 C162 152 146 168 120 168 C94 168 78 152 78 126 C78 102 93 84 120 84 Z"/>
+  <path id="slicker-yellow-v3-rim-seam" class="l2" fill="none" d="M68 122 C66 90 88 66 120 66 C152 66 174 90 172 122"/>
+  <path id="slicker-yellow-v3-lining" class="l2" fill="#b8891f" fill-rule="evenodd" d="M120 80 C146 80 165 102 165 126 C165 156 147 172 120 172 C93 172 75 156 75 126 C75 102 94 80 120 80 Z M120 84 C147 84 162 102 162 126 C162 152 146 168 120 168 C94 168 78 152 78 126 C78 102 93 84 120 84 Z"/>
+  <path id="slicker-yellow-v3-drawcord-l" class="l2" fill="none" d="M111 170 C109 180 106 190 106 202"/>
+  <path id="slicker-yellow-v3-drawcord-r" class="l2" fill="none" d="M129 170 C131 180 134 190 134 202"/>
+  <rect id="slicker-yellow-v3-tip-l" class="l2" fill="#6b4428" x="103" y="200" width="6" height="10" rx="2.5"/>
+  <rect id="slicker-yellow-v3-tip-r" class="l2" fill="#6b4428" x="131" y="200" width="6" height="10" rx="2.5"/>
+</g>
+
+<!-- Earrings (drawn last so the hoop sits on top of the hood). Pencil removed in v3: the hood covers the ear. -->
+<use href="#base-acc"/>
+</svg>

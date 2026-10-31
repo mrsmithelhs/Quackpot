@@ -3,7 +3,7 @@
 **How to use:** open a fresh Gemini Flash thread in this repository (`C:\AI\Quackpot`), attach the four reference PNGs listed in section 2, add your own clothing ideas where marked, and paste everything from the line `=== PROMPT START ===` to `=== PROMPT END ===`. The thread writes images and a manifest into the folder named in section 5; nothing else in the repo is touched. When it finishes, bring me the folder and I will select candidates and fan out the Haiku drawing passes.
 
 **Reference PNGs to attach** (already exported, original art, in `reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/reference/`):
-1. `ren-ref-halfbody-mid-warm.png`: the base bust (style, face, hair, proportions, framing to match)
+1. `concepts/svg-round-01/_template/ren-base-template.png` (updated 2026-10-31, **use this instead of ren-ref-halfbody-mid-warm.png**): the base bust with the new pencil and no neck tattoo (style, face, hair, proportions, framing to match). The older `ren-ref-*.png` files still show the neck tattoo and the old pencil, so do not attach them
 2. `ren-ref-complexions.png`: same drawing in three skin fills (use the left, mid-warm fill unless told otherwise)
 3. `ren-ref-expressions.png`: five faces, for how expressions are drawn
 4. `ren-ref-door-scene.png`: Ren in a hallway doorway, for line weight and palette in a scene
@@ -27,11 +27,11 @@ Study the reference PNGs and keep Ren recognizably the same person in every cell
 
 - **Art style:** flat vector illustration, a **thick dark-brown outline** (about 3 px at the reference scale) with rounded joins, flat color fills, simple soft shapes, **dot eyes with a tiny white highlight**, small blush ovals on the cheeks, simple brows, a small curved nose line, and a simple smile. No gradients, no photoreal shading, no painterly texture, no 3D.
 - **Face and skin:** same face shape, features and proportions, and the **mid-warm golden-brown skin** from the left figure of `ren-ref-complexions.png`.
-- **Accessories (unless an item physically covers them):** a gold hoop earring on one ear and a small gold stud on the other; a tiny dark-indigo **sprout tattoo** on the side of the neck (leave it visible when the neckline allows).
+- **Accessories (unless an item physically covers them):** a gold hoop earring on one ear and a small gold stud on the other. **Updated 2026-10-31:** there is **no neck tattoo**. Ren has a tiny dark-indigo sprout tattoo only on a **bare upper arm or shoulder**, drawn only when a garment leaves one exposed (short sleeves, tank top); with long sleeves, no tattoo.
 - **Framing:** the same **head-and-shoulders to chest "bust" framing** as `ren-ref-halfbody-mid-warm.png`, with the head the same size and in the same place in every cell. Each cell has a plain flat warm-beige background (`#EFE3CC`). Four cells separated by thin dark-brown lines. **No text, no captions, no labels, no numbers inside the image.**
 - **Palette harmony:** muted denim teal, cream, terracotta, olive, mustard, warm browns and gold feel right. Other muted colors are fine. Avoid neon.
 
-**Pass A (outfits):** keep Ren's **hair exactly as in the reference** (short tapered curls) and keep the **pencil behind the left ear**. Only the clothing changes.
+**Pass A (outfits):** keep Ren's **hair exactly as in the reference** (short tapered curls) and keep the **stubby pencil (pink eraser, silver band, yellow body, wood tip) resting on top of the right ear, tip pointing forward**. Only the clothing changes.
 **Pass B (hair):** keep Ren's **face, skin, accessories and clothing exactly as in the reference** (striped tee and teal overalls). Only the hair state, the hair covering, or things in the hair change. A covering may hide the pencil; keep the ears and earrings visible where the covering allows.
 
 ## 3. Do-not list
@@ -42,7 +42,7 @@ Study the reference PNGs and keep Ren recognizably the same person in every cell
 - No sexualized or revealing clothing. Ren is an adult, and the outfits are ordinary and tasteful.
 - Do not resolve Ren to a clearly male or female look. Keep the ambiguity the reference has.
 - Do not change the face, skin tone, art style, framing or head size from cell to cell.
-- Do not add a heavy tattoo or extra piercings. Ren has one small tattoo and two earrings.
+- Do not add a heavy tattoo or extra piercings. Ren has one small arm tattoo (only when an arm or shoulder is bare) and two earrings.
 
 ## 4. The ideas to draw
 

@@ -27,7 +27,7 @@
     <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
     <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
   </g>
-  <g id="base-pencil"><path d="M168 118 L158 98" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M168 118 L158 98" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/></g>
+  <g id="base-pencil"><g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g></g>
 </defs>
 <rect width="240" height="300" fill="#efe3cc"/>
 
@@ -39,6 +39,7 @@
   </defs>
   <path class="skin l3" d="M18 262L60 262L58 300L14 300Z"/>
   <path class="skin l3" d="M222 262L180 262L182 300L226 300Z"/>
+  <use href="#base-tat" transform="translate(204 283) scale(.7) translate(-142 -200)"/>
   <path fill="#f1e3c8" d="M100 206C84 210 64 212 50 222C38 230 28 236 24 246L18 262L52 262L52 300L188 300L188 262L222 262L216 246C212 236 202 230 190 222C176 212 156 210 140 206Z"/>
   <g clip-path="url(#camp-shirt-geometric-clip)" fill="#4f8a92">
     <use href="#camp-shirt-geometric-tile" x="0" y="192"/><use href="#camp-shirt-geometric-tile" x="48" y="192"/><use href="#camp-shirt-geometric-tile" x="96" y="192"/><use href="#camp-shirt-geometric-tile" x="144" y="192"/><use href="#camp-shirt-geometric-tile" x="192" y="192"/>
@@ -70,7 +71,6 @@
 </g>
 
 <!-- Tattoo (delete this line if a garment covers the neck sprout), earrings, pencil (delete or move it if a hair covering would hide it) -->
-<use href="#base-tat"/>
 <use href="#base-acc"/>
 <use href="#base-pencil"/>
 </svg>

@@ -119,3 +119,10 @@ Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the 
 - No executable work this round beyond headless Edge renders; no Node jobs.
 - Open: owner selection of final outfits/hair; whether to fix the sleep bonnet and the pencil collisions; whether the sawdust and attic-dust ideas are wanted; a 'Ren in the apartment' refresh with the newer drawings has not been done.
 - Public-repo note: Gemini PNG concept sheets (now about 14 MB total) are committed as report-local concept references, not game assets.
+
+## Addendum 6: bandana, bonnet and pencil placements (2026-10-31)
+
+- Owner feedback: bandana v1 read as a blob with an unattached bit; asked for a bonnet fix, two beanie pencil variants (behind the head tip up and right, tucked into the beanie) and an overalls pocket-pencil look. Details and verdicts in section 10 of `07-gemini-round-01-review-and-selection.md`.
+- Delegation: none. The lead drew the six SVGs directly (a short report-local Python build script in the scratchpad, not committed). Haiku helper totals unchanged: 25 drawing helpers plus 3 researchers.
+- Viewed: `concepts/svg-round-01/compare-round-4.png` and the bonnet preview. Sources scanned for forbidden constructs (none). Not checked: avatar scale, other complexions, apartment placement.
+- Open: owner choice of one pencil rule; the weak spots left are thin bandana tails and the squared bonnet band ends. Nothing here is owner-approved.

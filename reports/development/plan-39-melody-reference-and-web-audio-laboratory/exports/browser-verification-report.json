@@ -1,36 +1,116 @@
 {
   "artifact": "quackpot-plan39-browser-verification-report",
-  "verifiedAt": "2026-10-31T03:13:35.807Z",
-  "browser": "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext)",
+  "schemaVersion": 3,
+  "verifiedAt": "2026-10-31T12:24:22.075Z",
+  "browser": "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext + webaudio-tinysynth quality:1)",
   "pageUrl": "file:///C:/AI/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/index.html",
   "nonLocalNetworkRequests": 0,
   "pageRuntimeErrors": 0,
   "uiSnapshot": {
     "candidateOptions": [
       "C0-original",
-      "C0-repeat2x",
-      "C1-period-lock",
-      "C2-call-and-breath",
-      "C3-accompaniment-groove",
-      "C4-sentence-drive",
-      "N1-sunny-waddle"
+      "M1-skyward-vista",
+      "M2-supertonic-question",
+      "M3-horizon-drift",
+      "M4-celestial-wanderer",
+      "M5-minor-iv-yearning",
+      "M6-secondary-dominant-drive"
     ],
     "harmonyOptions": [
       "H0-dry",
-      "H1-bright-resolved",
-      "H2-floating-color",
-      "H3-playful-hocketing",
-      "H4-deceptive-pivot"
+      "H-A1-skyward",
+      "H-A2-supertonic",
+      "H-B1-horizon",
+      "H-B2-wanderer",
+      "H-C1-minor-iv",
+      "H-C2-sec-dom"
     ],
     "patchOptions": [
       "P0-plan32-triangle",
-      "P1-pluck-bell",
-      "P2-warm-keys",
-      "P3-toy-ensemble",
-      "P4-cozy-marimba",
-      "P5-warm-rhodes",
-      "P6-acoustic-pluck",
-      "P7-breath-ocarina"
+      "TS-marimba-epiano",
+      "TS-musicbox-harp",
+      "TS-vibraphone-guitar",
+      "TS-celesta-rhodes",
+      "TS-kalimba-guitar",
+      "TS-flute-harp",
+      "TS-ocarina-epiano"
+    ],
+    "leadGmOptions": [
+      "P0-plan32-triangle",
+      "GM-00-piano",
+      "GM-04-epiano1",
+      "GM-05-epiano2",
+      "GM-08-celesta",
+      "GM-10-music-box",
+      "GM-11-vibraphone",
+      "GM-12-marimba",
+      "GM-13-xylophone",
+      "GM-15-dulcimer",
+      "GM-24-nylon-guitar",
+      "GM-25-steel-guitar",
+      "GM-32-acoustic-bass",
+      "GM-33-finger-bass",
+      "GM-45-pizzicato",
+      "GM-46-harp",
+      "GM-73-flute",
+      "GM-75-pan-flute",
+      "GM-79-ocarina",
+      "GM-107-koto",
+      "GM-108-kalimba"
+    ],
+    "chordsGmOptions": [
+      "P0-plan32-triangle",
+      "GM-00-piano",
+      "GM-04-epiano1",
+      "GM-05-epiano2",
+      "GM-08-celesta",
+      "GM-10-music-box",
+      "GM-11-vibraphone",
+      "GM-12-marimba",
+      "GM-13-xylophone",
+      "GM-15-dulcimer",
+      "GM-24-nylon-guitar",
+      "GM-25-steel-guitar",
+      "GM-32-acoustic-bass",
+      "GM-33-finger-bass",
+      "GM-45-pizzicato",
+      "GM-46-harp",
+      "GM-73-flute",
+      "GM-75-pan-flute",
+      "GM-79-ocarina",
+      "GM-107-koto",
+      "GM-108-kalimba"
+    ],
+    "bassGmOptions": [
+      "P0-plan32-triangle",
+      "GM-00-piano",
+      "GM-04-epiano1",
+      "GM-05-epiano2",
+      "GM-08-celesta",
+      "GM-10-music-box",
+      "GM-11-vibraphone",
+      "GM-12-marimba",
+      "GM-13-xylophone",
+      "GM-15-dulcimer",
+      "GM-24-nylon-guitar",
+      "GM-25-steel-guitar",
+      "GM-32-acoustic-bass",
+      "GM-33-finger-bass",
+      "GM-45-pizzicato",
+      "GM-46-harp",
+      "GM-73-flute",
+      "GM-75-pan-flute",
+      "GM-79-ocarina",
+      "GM-107-koto",
+      "GM-108-kalimba"
+    ],
+    "layerModeOptions": [
+      "full",
+      "melody-chords",
+      "melody-only",
+      "backing-only",
+      "conditioning-skeleton",
+      "melody-octave-down"
     ],
     "tempoOptions": [
       92,
@@ -40,41 +120,45 @@
       108
     ],
     "primaryCards": [
-      "C0-original",
-      "C0-repeat2x",
-      "C1-period-lock",
-      "C2-call-and-breath",
-      "C3-accompaniment-groove",
-      "C4-sentence-drive"
+      "M1-skyward-vista",
+      "M2-supertonic-question",
+      "M3-horizon-drift",
+      "M4-celestial-wanderer",
+      "M5-minor-iv-yearning",
+      "M6-secondary-dominant-drive"
     ],
     "optionalCards": [
-      "N1-sunny-waddle"
+      "C0-original"
     ]
   },
   "combinationGuardVerification": {
     "blockedState": {
       "noticeVisible": true,
-      "noticeText": "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to C0-repeat2x or C1–C4 to audition harmonies.",
+      "noticeText": "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to M1–M6 to audition harmonies.",
       "playDisabled": true,
       "exportDisabled": true
     },
     "recoveredState": {
-      "candidate": "C0-repeat2x",
-      "harmony": "H1-bright-resolved",
+      "candidate": "M1-skyward-vista",
+      "harmony": "H-A1-skyward",
       "playDisabled": false
     }
   },
   "liveAuditionLifecycle": {
     "stateDuringOrig": "PLAYING",
-    "stateDuringRepeat": "PLAYING",
+    "stateDuringSkyward": "PLAYING",
     "stateAfterStop": "IDLE",
     "stopDisabledAfterStop": true
   },
   "offlineRenderedCandidates": [
     {
       "candidateId": "C0-original",
+      "group": "control",
       "harmonyId": "H0-dry",
       "patchId": "P0-plan32-triangle",
+      "leadProgramId": "P0-plan32-triangle",
+      "chordsProgramId": "P0-plan32-triangle",
+      "bassProgramId": "P0-plan32-triangle",
       "tempoBpm": 100,
       "bars": 2,
       "roomAir": false,
@@ -90,45 +174,8 @@
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.150014,
-        "rms": 0.025575,
-        "samplePeakDbfs": -16.5,
-        "rmsDbfs": -31.8,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      },
-      "melodyMeasurements": {
-        "peak": 0.150014,
-        "rms": 0.025575,
-        "samplePeakDbfs": -16.5,
-        "rmsDbfs": -31.8,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      }
-    },
-    {
-      "candidateId": "C0-repeat2x",
-      "harmonyId": "H0-dry",
-      "patchId": "P0-plan32-triangle",
-      "tempoBpm": 100,
-      "bars": 4,
-      "roomAir": false,
-      "microGroove": false,
-      "shakerPulse": false,
-      "durationSeconds": 9.72,
-      "frameCount": 466560,
-      "wavByteLength": 1866284,
-      "leadEventCount": 20,
-      "chordEventCount": 0,
-      "bassEventCount": 0,
-      "leadParityIdentical": true,
-      "mixHeaderValid": true,
-      "melodyHeaderValid": true,
-      "mixMeasurements": {
-        "peak": 0.15073,
-        "rms": 0.025733,
+        "peak": 0.150904,
+        "rms": 0.025686,
         "samplePeakDbfs": -16.4,
         "rmsDbfs": -31.8,
         "clippedSamples": 0,
@@ -136,8 +183,8 @@
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
       },
       "melodyMeasurements": {
-        "peak": 0.15073,
-        "rms": 0.025733,
+        "peak": 0.150904,
+        "rms": 0.025686,
         "samplePeakDbfs": -16.4,
         "rmsDbfs": -31.8,
         "clippedSamples": 0,
@@ -146,185 +193,246 @@
       }
     },
     {
-      "candidateId": "C1-period-lock",
-      "harmonyId": "H1-bright-resolved",
-      "patchId": "P1-pluck-bell",
-      "tempoBpm": 100,
-      "bars": 8,
-      "roomAir": true,
-      "microGroove": true,
-      "shakerPulse": false,
-      "durationSeconds": 19.32,
-      "frameCount": 927360,
-      "wavByteLength": 3709484,
-      "leadEventCount": 39,
-      "chordEventCount": 64,
-      "bassEventCount": 19,
-      "leadParityIdentical": true,
-      "mixHeaderValid": true,
-      "melodyHeaderValid": true,
-      "mixMeasurements": {
-        "peak": 0.299413,
-        "rms": 0.04341,
-        "samplePeakDbfs": -10.5,
-        "rmsDbfs": -27.2,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      },
-      "melodyMeasurements": {
-        "peak": 0.161059,
-        "rms": 0.034038,
-        "samplePeakDbfs": -15.9,
-        "rmsDbfs": -29.4,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      }
-    },
-    {
-      "candidateId": "C2-call-and-breath",
-      "harmonyId": "H2-floating-color",
-      "patchId": "P2-warm-keys",
-      "tempoBpm": 100,
-      "bars": 8,
-      "roomAir": true,
-      "microGroove": true,
-      "shakerPulse": false,
-      "durationSeconds": 19.32,
-      "frameCount": 927360,
-      "wavByteLength": 3709484,
-      "leadEventCount": 29,
-      "chordEventCount": 63,
-      "bassEventCount": 13,
-      "leadParityIdentical": true,
-      "mixHeaderValid": true,
-      "melodyHeaderValid": true,
-      "mixMeasurements": {
-        "peak": 0.324829,
-        "rms": 0.053019,
-        "samplePeakDbfs": -9.8,
-        "rmsDbfs": -25.5,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      },
-      "melodyMeasurements": {
-        "peak": 0.212997,
-        "rms": 0.039719,
-        "samplePeakDbfs": -13.4,
-        "rmsDbfs": -28,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      }
-    },
-    {
-      "candidateId": "C3-accompaniment-groove",
-      "harmonyId": "H3-playful-hocketing",
-      "patchId": "P3-toy-ensemble",
-      "tempoBpm": 100,
-      "bars": 8,
-      "roomAir": true,
-      "microGroove": true,
-      "shakerPulse": true,
-      "durationSeconds": 19.32,
-      "frameCount": 927360,
-      "wavByteLength": 3709484,
-      "leadEventCount": 24,
-      "chordEventCount": 63,
-      "bassEventCount": 16,
-      "leadParityIdentical": true,
-      "mixHeaderValid": true,
-      "melodyHeaderValid": true,
-      "mixMeasurements": {
-        "peak": 0.233972,
-        "rms": 0.036981,
-        "samplePeakDbfs": -12.6,
-        "rmsDbfs": -28.6,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      },
-      "melodyMeasurements": {
-        "peak": 0.158671,
-        "rms": 0.031127,
-        "samplePeakDbfs": -16,
-        "rmsDbfs": -30.1,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      }
-    },
-    {
-      "candidateId": "C4-sentence-drive",
-      "harmonyId": "H4-deceptive-pivot",
-      "patchId": "P4-cozy-marimba",
-      "tempoBpm": 100,
-      "bars": 8,
-      "roomAir": true,
-      "microGroove": true,
-      "shakerPulse": false,
-      "durationSeconds": 19.32,
-      "frameCount": 927360,
-      "wavByteLength": 3709484,
-      "leadEventCount": 36,
-      "chordEventCount": 92,
-      "bassEventCount": 24,
-      "leadParityIdentical": true,
-      "mixHeaderValid": true,
-      "melodyHeaderValid": true,
-      "mixMeasurements": {
-        "peak": 0.268413,
-        "rms": 0.044268,
-        "samplePeakDbfs": -11.4,
-        "rmsDbfs": -27.1,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      },
-      "melodyMeasurements": {
-        "peak": 0.150965,
-        "rms": 0.035442,
-        "samplePeakDbfs": -16.4,
-        "rmsDbfs": -29,
-        "clippedSamples": 0,
-        "isClipped": false,
-        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
-      }
-    },
-    {
-      "candidateId": "N1-sunny-waddle",
-      "harmonyId": "H1-bright-resolved",
-      "patchId": "P1-pluck-bell",
+      "candidateId": "M1-skyward-vista",
+      "group": "family-a-non-terminal",
+      "harmonyId": "H-A1-skyward",
+      "patchId": "TS-marimba-epiano",
+      "leadProgramId": "GM-12-marimba",
+      "chordsProgramId": "GM-04-epiano1",
+      "bassProgramId": "GM-32-acoustic-bass",
       "tempoBpm": 100,
       "bars": 4,
       "roomAir": true,
       "microGroove": true,
       "shakerPulse": false,
-      "durationSeconds": 9.72,
-      "frameCount": 466560,
-      "wavByteLength": 1866284,
-      "leadEventCount": 18,
-      "chordEventCount": 43,
+      "durationSeconds": 9.9,
+      "frameCount": 475200,
+      "wavByteLength": 1900844,
+      "leadEventCount": 19,
+      "chordEventCount": 32,
+      "bassEventCount": 8,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.335941,
+        "rms": 0.046614,
+        "samplePeakDbfs": -9.5,
+        "rmsDbfs": -26.6,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.091092,
+        "rms": 0.012876,
+        "samplePeakDbfs": -20.8,
+        "rmsDbfs": -37.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "M2-supertonic-question",
+      "group": "family-a-non-terminal",
+      "harmonyId": "H-A2-supertonic",
+      "patchId": "TS-vibraphone-guitar",
+      "leadProgramId": "GM-11-vibraphone",
+      "chordsProgramId": "GM-24-nylon-guitar",
+      "bassProgramId": "GM-33-finger-bass",
+      "tempoBpm": 100,
+      "bars": 4,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
+      "durationSeconds": 9.95,
+      "frameCount": 477600,
+      "wavByteLength": 1910444,
+      "leadEventCount": 21,
+      "chordEventCount": 35,
+      "bassEventCount": 8,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.259581,
+        "rms": 0.051485,
+        "samplePeakDbfs": -11.7,
+        "rmsDbfs": -25.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.083442,
+        "rms": 0.022058,
+        "samplePeakDbfs": -21.6,
+        "rmsDbfs": -33.1,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "M3-horizon-drift",
+      "group": "family-b-long-arc",
+      "harmonyId": "H-B1-horizon",
+      "patchId": "TS-flute-harp",
+      "leadProgramId": "GM-73-flute",
+      "chordsProgramId": "GM-46-harp",
+      "bassProgramId": "GM-32-acoustic-bass",
+      "tempoBpm": 100,
+      "bars": 6,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
+      "durationSeconds": 14.7,
+      "frameCount": 705600,
+      "wavByteLength": 2822444,
+      "leadEventCount": 28,
+      "chordEventCount": 51,
       "bassEventCount": 11,
       "leadParityIdentical": true,
       "mixHeaderValid": true,
       "melodyHeaderValid": true,
       "mixMeasurements": {
-        "peak": 0.296289,
-        "rms": 0.041483,
-        "samplePeakDbfs": -10.6,
-        "rmsDbfs": -27.6,
+        "peak": 0.353117,
+        "rms": 0.055671,
+        "samplePeakDbfs": -9,
+        "rmsDbfs": -25.1,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
       },
       "melodyMeasurements": {
-        "peak": 0.156964,
-        "rms": 0.031832,
-        "samplePeakDbfs": -16.1,
-        "rmsDbfs": -29.9,
+        "peak": 0.108919,
+        "rms": 0.036337,
+        "samplePeakDbfs": -19.3,
+        "rmsDbfs": -28.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "M4-celestial-wanderer",
+      "group": "family-b-long-arc",
+      "harmonyId": "H-B2-wanderer",
+      "patchId": "TS-celesta-rhodes",
+      "leadProgramId": "GM-08-celesta",
+      "chordsProgramId": "GM-05-epiano2",
+      "bassProgramId": "GM-32-acoustic-bass",
+      "tempoBpm": 100,
+      "bars": 8,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
+      "durationSeconds": 19.52,
+      "frameCount": 936960,
+      "wavByteLength": 3747884,
+      "leadEventCount": 39,
+      "chordEventCount": 69,
+      "bassEventCount": 15,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.361762,
+        "rms": 0.051122,
+        "samplePeakDbfs": -8.8,
+        "rmsDbfs": -25.8,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.062712,
+        "rms": 0.01227,
+        "samplePeakDbfs": -24.1,
+        "rmsDbfs": -38.2,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "M5-minor-iv-yearning",
+      "group": "family-c-unresolved-pivot",
+      "harmonyId": "H-C1-minor-iv",
+      "patchId": "TS-musicbox-harp",
+      "leadProgramId": "GM-10-music-box",
+      "chordsProgramId": "GM-46-harp",
+      "bassProgramId": "GM-45-pizzicato",
+      "tempoBpm": 100,
+      "bars": 4,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": false,
+      "durationSeconds": 9.95,
+      "frameCount": 477600,
+      "wavByteLength": 1910444,
+      "leadEventCount": 20,
+      "chordEventCount": 32,
+      "bassEventCount": 8,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.286777,
+        "rms": 0.037411,
+        "samplePeakDbfs": -10.8,
+        "rmsDbfs": -28.5,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.069584,
+        "rms": 0.015049,
+        "samplePeakDbfs": -23.1,
+        "rmsDbfs": -36.5,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      }
+    },
+    {
+      "candidateId": "M6-secondary-dominant-drive",
+      "group": "family-c-unresolved-pivot",
+      "harmonyId": "H-C2-sec-dom",
+      "patchId": "TS-kalimba-guitar",
+      "leadProgramId": "GM-108-kalimba",
+      "chordsProgramId": "GM-25-steel-guitar",
+      "bassProgramId": "GM-32-acoustic-bass",
+      "tempoBpm": 100,
+      "bars": 4,
+      "roomAir": true,
+      "microGroove": true,
+      "shakerPulse": true,
+      "durationSeconds": 9.92,
+      "frameCount": 476160,
+      "wavByteLength": 1904684,
+      "leadEventCount": 19,
+      "chordEventCount": 35,
+      "bassEventCount": 8,
+      "leadParityIdentical": true,
+      "mixHeaderValid": true,
+      "melodyHeaderValid": true,
+      "mixMeasurements": {
+        "peak": 0.317449,
+        "rms": 0.041937,
+        "samplePeakDbfs": -10,
+        "rmsDbfs": -27.5,
+        "clippedSamples": 0,
+        "isClipped": false,
+        "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+      },
+      "melodyMeasurements": {
+        "peak": 0.064871,
+        "rms": 0.013908,
+        "samplePeakDbfs": -23.8,
+        "rmsDbfs": -37.1,
         "clippedSamples": 0,
         "isClipped": false,
         "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
@@ -332,11 +440,11 @@
     }
   ],
   "verifiedBrowserDownloads": {
-    "C0-repeat2x": [
+    "M1-skyward-vista": [
       {
-        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-mix.wav",
-        "bytes": 1866284,
-        "sha256": "5eafdd4eccc6ae442cc8039a49aab4600215ca9cb007eb5a78dde7f3ce891fdf",
+        "fileName": "plan39-M1-skyward-vista-H-A1-skyward-marimba-full-100bpm.wav",
+        "bytes": 1900844,
+        "sha256": "f33738e9db140956bf0f666a3deb09180dcbd55df3ad1ba764e7f994308dd5ed",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -344,59 +452,24 @@
           "bitsPerSample": 16,
           "byteRate": 192000,
           "blockAlign": 4,
-          "dataBytes": 1866240,
-          "frames": 466560,
-          "durationSeconds": 9.72
-        },
-        "persistedToExportsDir": false
+          "dataBytes": 1900800,
+          "frames": 475200,
+          "durationSeconds": 9.9
+        }
       },
       {
-        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-melody.wav",
-        "bytes": 1866284,
-        "sha256": "5eafdd4eccc6ae442cc8039a49aab4600215ca9cb007eb5a78dde7f3ce891fdf",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 1866240,
-          "frames": 466560,
-          "durationSeconds": 9.72
-        },
-        "persistedToExportsDir": true
-      },
-      {
-        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-suno-melody-octdown.wav",
-        "bytes": 1866284,
-        "sha256": "0afc18525e9b661017d7aafe4901a2826fcd8ec9e01250e10c520ddd58dc2117",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 1866240,
-          "frames": 466560,
-          "durationSeconds": 9.72
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-manifest.json",
-        "bytes": 10789,
-        "sha256": "241fd62b4c5a7f67a68851a8c23d8bf509f0eb28a845ef1f8d38fb5495f90870",
+        "fileName": "plan39-M1-skyward-vista-H-A1-skyward-marimba-full-100bpm-manifest.json",
+        "bytes": 24010,
+        "sha256": "5c73281db6f885a859f365cbec0f1871fb3bfaa811f0b8408e49256cf7f39b5b",
         "roundTripValid": true,
         "persistedToExportsDir": true
       }
     ],
-    "C1-period-lock": [
+    "M3-horizon-drift": [
       {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-mix.wav",
-        "bytes": 3709484,
-        "sha256": "1046f39535ffc4a02eadd42a7f8039f94fe31a761d77ebc148a67f0eed85a033",
+        "fileName": "plan39-M3-horizon-drift-H-B1-horizon-flute-full-100bpm.wav",
+        "bytes": 2822444,
+        "sha256": "f9ef797cc34982ad52072ada7f6a6c832b168cd9123345b82be3f1f2cb67646a",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -404,93 +477,24 @@
           "bitsPerSample": 16,
           "byteRate": 192000,
           "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
+          "dataBytes": 2822400,
+          "frames": 705600,
+          "durationSeconds": 14.7
+        }
       },
       {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-melody.wav",
-        "bytes": 3709484,
-        "sha256": "278072b02616405c48881cfaaf73f141150eebb73d9f8109376bfb7804aa5b74",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-suno-skeleton.wav",
-        "bytes": 3709484,
-        "sha256": "c8edecec9f4545f8643833bb1a01fce6420cd097e09fc36111c92b0694bf890e",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-suno-melody-octdown.wav",
-        "bytes": 3709484,
-        "sha256": "fa9f2991be5cb37fe8a202790ca5daf3c7a95a264b9c5626fd90195e1dec71ef",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-backing.wav",
-        "bytes": 3709484,
-        "sha256": "84f8fe29a75dd220bb5ca58420a22f56745c42d6c0c32f916461f1ab9155783c",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c1-period-lock-h1-bright-resolved-p1-pluck-bell-100bpm-manifest.json",
-        "bytes": 41188,
-        "sha256": "31a8e6bcffb6d0301b7ac2cc1547a6e83bbe50c969a64f10b6c537e9aecad6fa",
+        "fileName": "plan39-M3-horizon-drift-H-B1-horizon-flute-full-100bpm-manifest.json",
+        "bytes": 33124,
+        "sha256": "98af61b6963e44e75874fa3c14d4475e0679251a8947a71e0ecc68dcc736d3a8",
         "roundTripValid": true,
         "persistedToExportsDir": true
       }
     ],
-    "C4-sentence-drive": [
+    "M5-minor-iv-yearning": [
       {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-mix.wav",
-        "bytes": 3709484,
-        "sha256": "3018d65f9679fd0bd2e9f79b95439591d29fec00a1973ffaafc71c5cdccef28e",
+        "fileName": "plan39-M5-minor-iv-yearning-H-C1-minor-iv-music-box-full-100bpm.wav",
+        "bytes": 1910444,
+        "sha256": "78ab3699c3d8de104ee74da54899afa92e37c958fa9736038ac9222130ce0ae9",
         "wavHeader": {
           "valid": true,
           "channels": 2,
@@ -498,88 +502,19 @@
           "bitsPerSample": 16,
           "byteRate": 192000,
           "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
+          "dataBytes": 1910400,
+          "frames": 477600,
+          "durationSeconds": 9.95
+        }
       },
       {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-melody.wav",
-        "bytes": 3709484,
-        "sha256": "f88cbf053d91b9030cc3e31cb2932e789843eed435a267a1eb4d4a7f4acf280c",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-suno-skeleton.wav",
-        "bytes": 3709484,
-        "sha256": "b2fcbefdb0d3ae76badb557fcba73c1f1b72040c2ded8c64fbd41cefff06d31d",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-suno-melody-octdown.wav",
-        "bytes": 3709484,
-        "sha256": "c44145b49b1bdd0633cb6dcf405377a7435a88be4f34ac3278670b36a6bb0d54",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-backing.wav",
-        "bytes": 3709484,
-        "sha256": "1035cfcf129f6481f26ee35a07776fc9f169e3d215c290d27d8a4c96480d07a7",
-        "wavHeader": {
-          "valid": true,
-          "channels": 2,
-          "sampleRate": 48000,
-          "bitsPerSample": 16,
-          "byteRate": 192000,
-          "blockAlign": 4,
-          "dataBytes": 3709440,
-          "frames": 927360,
-          "durationSeconds": 19.32
-        },
-        "persistedToExportsDir": false
-      },
-      {
-        "fileName": "plan39-c4-sentence-drive-h4-deceptive-pivot-p4-cozy-marimba-100bpm-manifest.json",
-        "bytes": 49959,
-        "sha256": "8157be98fc1b8753fde7b073b982bafe46cc5a6c063ff8c4a69c09eef8fb3f6c",
+        "fileName": "plan39-M5-minor-iv-yearning-H-C1-minor-iv-music-box-full-100bpm-manifest.json",
+        "bytes": 24004,
+        "sha256": "bdb91dac5ebae146235674dc53570aa8f9c565773c33ca74c105de5d1f53e017",
         "roundTripValid": true,
         "persistedToExportsDir": true
       }
     ]
   },
-  "auditionHonestyNote": "Headless Chrome executed real Web Audio API OfflineAudioContext rendering, PCM sample measurement, and WAV/JSON file downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
+  "auditionHonestyNote": "Headless Chrome executed real Web Audio API OfflineAudioContext rendering with webaudio-tinysynth (quality: 1) multi-operator patches, PCM sample measurement, and single-file WAV + JSON downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
 }

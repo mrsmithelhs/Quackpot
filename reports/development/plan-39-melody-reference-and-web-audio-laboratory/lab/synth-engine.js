@@ -1,23 +1,32 @@
-/* Shared Plan 39 Web Audio scheduling, OfflineAudioContext WAV export, PCM measurement,
- * and round-trip manifest validation engine.
- * Reads score authority from QUACKPOT_PLAN39_SCORES (scores.js) and patch authority
- * from QUACKPOT_PLAN39_PATCHES (patches.js).
+/* ============================================================================
+ * Quackpot Plan 39: Web Audio Laboratory Synthesis & WAV Export Engine
  *
- * Upgraded with v2 research-backed zero-sample Web Audio topologies:
- * - Synthesis modes: "marimba-fm", "rhodes-fm", "karplus-strong", "breath-ocarina"
- * - Deterministic Room Air Convolver IR (360 ms, RT60 = 0.35 s, 180 Hz highpass send)
- * - Micro-Groove pocket offsets (52.3% swing on offbeat 8ths, strum spread, articulated runs)
- * - Subtle brushed shaker pulse on beats 2 & 4
- * - Suno conditioning modes: "conditioning-skeleton" (-4 dB bass, no middle chords),
- *   "melody-octave-down" (D4–D5 neural sweet spot)
- * - Seamless loop wrap with overlap-add spillover and transparent safety limiter
+ * Attribution & License Notice:
+ * Procedural General MIDI (GM) operator scheduling engine adapted from `webaudio-tinysynth`:
+ *   Copyright (c) 2015-2024 Tatsuya Shinyagaito (g200kg)
+ *   Repository: https://github.com/g200kg/webaudio-tinysynth
+ *   License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+ *
+ * Implements:
+ * 1. webaudio-tinysynth (quality: 1) multi-operator FM/additive synthesis.
+ * 2. Per-track GM program resolution (lead, chords, bass) with preset/individual overrides.
+ * 3. 2-Bar, 4-Bar, 6-Bar, and 8-Bar candidate and harmony schedule handling.
+ * 4. Layer modes: "full", "melody-chords", "melody-only", "backing-only",
+ *    "conditioning-skeleton" (-4 dB bass, zero chords), and "melody-octave-down".
+ * 5. Deterministic Room Air Convolver IR (360 ms, RT60 = 0.35 s, 180 Hz highpass send).
+ * 6. Micro-Groove pocket offsets (52.3% swing on offbeat 8ths, pad strum spread, articulated runs).
+ * 7. Subtle brushed noise shaker pulse on beats 2 & 4.
+ * 8. OfflineAudioContext WAV export, PCM measurement, seamless loop wrap, and manifest validation.
+ * ============================================================================
  */
 (function initPlan39Engine(root) {
   "use strict";
 
   const EXPECTED_MOTIFS_SHA256 = "3b47ecdbda9de857bce9579ff946ff8c2bc3babfbee6614a984c85750af59e02";
+
   const VALID_LAYER_MODES = [
     "full",
+    "melody-chords",
     "melody-only",
     "backing-only",
     "conditioning-skeleton",
@@ -66,7 +75,18 @@
 
   function getPatch(patchId) {
     const { patches } = getAuthorities();
+    if (typeof patches.getPatch === "function") return patches.getPatch(patchId);
+    if (patches.patchesById && patches.patchesById[patchId]) return patches.patchesById[patchId];
     return patches.patches.find((p) => p.id === patchId) || null;
+  }
+
+  function getGmProgram(programId) {
+    if (!programId) return null;
+    const { patches } = getAuthorities();
+    if (typeof patches.getGmProgram === "function") return patches.getGmProgram(programId);
+    if (patches.gmProgramsById && patches.gmProgramsById[programId]) return patches.gmProgramsById[programId];
+    if (Array.isArray(patches.gmPrograms)) return patches.gmPrograms.find((p) => p.id === programId) || null;
+    return null;
   }
 
   // =========================================================================
@@ -123,13 +143,23 @@
     return curve;
   }
 
+  let w9999WaveCache = null;
+  function getW9999Wave(ctx) {
+    if (w9999WaveCache) return w9999WaveCache;
+    if (typeof ctx.createPeriodicWave !== "function") return null;
+    const real = new Float32Array([0, 0, 0, 0, 0]);
+    const imag = new Float32Array([0, 1, 0.5, 0.33, 0.25]);
+    w9999WaveCache = ctx.createPeriodicWave(real, imag);
+    return w9999WaveCache;
+  }
+
   const roomAirCache = new Map();
   function getRoomAirIR(ctx) {
     const sampleRate = ctx.sampleRate || 48000;
     if (roomAirCache.has(sampleRate)) {
       return roomAirCache.get(sampleRate);
     }
-    const duration = 0.24; // 240 ms compact cozy wooden room IR
+    const duration = 0.36; // 360 ms
     const totalFrames = Math.floor(duration * sampleRate);
     const irBuffer = typeof ctx.createBuffer === "function"
       ? ctx.createBuffer(2, totalFrames, sampleRate)
@@ -164,8 +194,8 @@
       }
     }
 
-    // Diffuse exponential decay tail (RT60 = 0.28 s) with 1-pole lowpass damping at 2900 Hz
-    const decayTau = 0.28 / 6.907755; // ln(1000)
+    // Diffuse exponential decay tail (RT60 = 0.35 s) with 1-pole lowpass damping at 2900 Hz
+    const decayTau = 0.35 / 6.907755; // ln(1000)
     const lpAlpha = Math.exp(-2 * Math.PI * 2900 / sampleRate);
     let lpL = 0;
     let lpR = 0;
@@ -198,69 +228,6 @@
     return irBuffer;
   }
 
-  const ksCache = new Map();
-  function getKarplusStrongBuffer(ctx, f0, durationSeconds, voiceSpec) {
-    const sampleRate = ctx.sampleRate || 48000;
-    const totalSamples = Math.max(1, Math.ceil(durationSeconds * sampleRate));
-    const cacheKey = `${sampleRate}:${Math.round(f0 * 100)}:${totalSamples}:${voiceSpec.ksDamping || 0.994}`;
-    if (ksCache.has(cacheKey)) {
-      return ksCache.get(cacheKey);
-    }
-
-    const periodSamples = sampleRate / f0;
-    const integerDelay = Math.max(4, Math.floor(periodSamples - 0.5));
-    const fractionalDelay = Math.max(0, Math.min(0.9999, (periodSamples - 0.5) - integerDelay));
-    // Jaffe-Smith allpass coefficient: C = (1 - d) / (1 + d)
-    const allpassC = (1 - fractionalDelay) / (1 + fractionalDelay);
-    const damping = voiceSpec.ksDamping || 0.994;
-    const brightness = voiceSpec.ksBrightness || 0.68;
-
-    const buffer = typeof ctx.createBuffer === "function"
-      ? ctx.createBuffer(1, totalSamples, sampleRate)
-      : {
-          numberOfChannels: 1,
-          length: totalSamples,
-          sampleRate,
-          _data: new Float32Array(totalSamples),
-          getChannelData() { return this._data; }
-        };
-    const channelData = buffer.getChannelData(0);
-
-    const rng = mulberry32(Math.round(f0 * 1000) ^ 0x4B5354);
-    const delayLine = new Float32Array(integerDelay);
-    let prevExcitation = 0;
-    for (let i = 0; i < integerDelay; i += 1) {
-      const rawNoise = rng() * 2 - 1;
-      prevExcitation = rawNoise * (1 - brightness) + prevExcitation * brightness;
-      delayLine[i] = prevExcitation;
-    }
-
-    let delayIdx = 0;
-    let prevLpSample = 0;
-    let allpassXPrev = 0;
-    let allpassYPrev = 0;
-
-    for (let n = 0; n < totalSamples; n += 1) {
-      const curSample = delayLine[delayIdx];
-      channelData[n] = curSample;
-
-      // Two-point averaging lowpass: (x[n] + x[n-1]) / 2
-      const lpSample = (curSample + prevLpSample) * 0.5;
-      prevLpSample = curSample;
-
-      // Jaffe-Smith allpass fractional delay filter
-      const allpassOut = allpassC * lpSample + allpassXPrev - allpassC * allpassYPrev;
-      allpassXPrev = lpSample;
-      allpassYPrev = allpassOut;
-
-      delayLine[delayIdx] = allpassOut * damping;
-      delayIdx = (delayIdx + 1) % integerDelay;
-    }
-
-    ksCache.set(cacheKey, buffer);
-    return buffer;
-  }
-
   // =========================================================================
   // Configuration Evaluation
   // =========================================================================
@@ -289,19 +256,13 @@
       if (harmony.id !== "H0-dry") {
         return {
           supported: false,
-          reason: "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to C0-repeat2x or C1–C4 to audition harmonies."
+          reason: "C0-original is locked to H0-dry (unaccompanied) as the untouched 4.92 s historical baseline. Switch to M1–M6 to audition harmonies."
         };
       }
-      if (layerMode === "backing-only") {
+      if (layerMode === "backing-only" || layerMode === "conditioning-skeleton") {
         return {
           supported: false,
-          reason: "C0-original has no backing tracks (dry historical control). Choose C0-repeat2x or C1–C4 with H1–H4 to audition Backing Solo."
-        };
-      }
-      if (layerMode === "conditioning-skeleton") {
-        return {
-          supported: false,
-          reason: "2-Voice Conditioning Skeleton requires a bass line (select H1–H4 with C0-repeat2x or C1–C4)."
+          reason: "C0-original has no backing tracks (dry historical control). Choose M1–M6 with H-A1–H-C2 to audition Backing Solo."
         };
       }
     }
@@ -310,13 +271,13 @@
       if (layerMode === "backing-only") {
         return {
           supported: false,
-          reason: "Backing Solo is unavailable when Harmony is set to H0-dry (Unaccompanied). Select H1, H2, or H3 to hear the accompaniment layer."
+          reason: "Backing Solo is unavailable when Harmony is set to H0-dry (Unaccompanied). Select H-A1–H-C2 to hear the accompaniment layer."
         };
       }
       if (layerMode === "conditioning-skeleton") {
         return {
           supported: false,
-          reason: "2-Voice Conditioning Skeleton requires a bass line (select H1–H4 with C0-repeat2x or C1–C4)."
+          reason: "2-Voice Conditioning Skeleton requires a bass line (select H-A1–H-C2 with M1–M6)."
         };
       }
     }
@@ -327,6 +288,9 @@
     }
     if (candidate.id === "C0-original" && patch.id !== "P0-plan32-triangle") {
       warnings.push(`Comparing C0-original with ${patch.id}; canonical Plan 32 reference uses P0-plan32-triangle.`);
+    }
+    if (layerMode === "melody-chords") {
+      warnings.push("Auditioning Melody + Chords (Bass muted to highlight chord voicings and pivot harmony).");
     }
     if (layerMode === "melody-octave-down") {
       warnings.push("Auditioning solo lead shifted -1 octave (D4–D5 neural sweet spot for Suno melody conditioning).");
@@ -351,8 +315,7 @@
 
   /**
    * Builds deterministic scheduled event lists for lead, chords, and bass.
-   * Guarantees that leadEvents in "full", "melody-only", "conditioning-skeleton",
-   * and "melody-octave-down" are 100% identical in MIDI metadata and timing.
+   * Guarantees that leadEvents across all modes are 100% identical in MIDI metadata and timing.
    */
   function buildScheduledScore(config = {}) {
     const { scores } = getAuthorities();
@@ -368,6 +331,18 @@
     const patch = getPatch(patchId);
     if (!patch) throw new Error(`Unknown patchId: ${patchId}`);
 
+    // Resolve per-track GM instruments (dropdown override -> patch default -> fallback)
+    const leadProgram = getGmProgram(config.leadProgramId) || patch.lead || getGmProgram("P0-plan32-triangle");
+    const chordsProgram = getGmProgram(config.chordsProgramId) || patch.chords || leadProgram;
+    const bassProgram = getGmProgram(config.bassProgramId) || patch.bass || leadProgram;
+
+    const leadProgramId = leadProgram.id || config.leadProgramId || patch.leadProgramId || "P0-plan32-triangle";
+    const leadProgramName = leadProgram.name || "Lead";
+    const chordsProgramId = chordsProgram.id || config.chordsProgramId || patch.chordsProgramId || leadProgramId;
+    const chordsProgramName = chordsProgram.name || "Chords";
+    const bassProgramId = bassProgram.id || config.bassProgramId || patch.bassProgramId || leadProgramId;
+    const bassProgramName = bassProgram.name || "Bass";
+
     const tempoBpm = Number(config.tempoBpm ?? scores.defaultTempoBpm);
     if (!Number.isFinite(tempoBpm) || tempoBpm < 80 || tempoBpm > 132) {
       throw new Error(`Invalid tempoBpm ${tempoBpm}; must be within [80, 132].`);
@@ -378,14 +353,27 @@
       throw new Error(`Invalid layerMode '${layerMode}'.`);
     }
 
-    const combination = evaluateCombination({ candidateId, harmonyId, patchId, tempoBpm, layerMode, exportProfile: config.exportProfile });
+    const combination = evaluateCombination({
+      candidateId,
+      harmonyId,
+      patchId,
+      tempoBpm,
+      layerMode,
+      exportProfile: config.exportProfile
+    });
     if (!combination.supported) {
       throw new Error(combination.reason);
     }
 
     // Conditioning & Export Profile Options
     const exportProfile = config.exportProfile === "suno-conditioning" ? "suno-conditioning" : "game-audition";
-    const useExactPlan32BarePath = Boolean(patch.isHistoricalPlan32 && harmony.id === "H0-dry");
+    const useExactPlan32BarePath = Boolean(
+      patch.isHistoricalPlan32 &&
+      leadProgram.id === "P0-plan32-triangle" &&
+      harmony.id === "H0-dry" &&
+      !config.roomAir &&
+      !config.microGroove
+    );
 
     let roomAir = Boolean(config.roomAir);
     if (exportProfile === "suno-conditioning" || useExactPlan32BarePath) {
@@ -412,17 +400,24 @@
     const secondsPerBeat = 60 / tempoBpm;
     const totalBeats = candidate.bars * candidate.beatsPerBar;
     const phraseSeconds = Number((totalBeats * secondsPerBeat).toFixed(6));
-    const tailSeconds = Number((patch.tailSeconds || 0.12).toFixed(6));
+
+    // Calculate tailSeconds: preserve exact 0.12s on C0-original control, else use max release tail
+    let tailSeconds;
+    if (candidate.id === "C0-original" && harmony.id === "H0-dry" && leadProgram.id === "P0-plan32-triangle") {
+      tailSeconds = 0.12;
+    } else {
+      tailSeconds = Number((Math.max(patch.tailSeconds || 0.12, leadProgram.releaseTailSeconds || 0.12)).toFixed(6));
+    }
     const durationSeconds = Number((phraseSeconds + tailSeconds).toFixed(6));
 
-    if (!Number.isFinite(durationSeconds) || durationSeconds <= 0 || durationSeconds > scores.maxDurationSeconds) {
-      throw new Error(`Invalid score duration (${durationSeconds}s); must be in (0, ${scores.maxDurationSeconds}].`);
+    if (!Number.isFinite(durationSeconds) || durationSeconds <= 0 || durationSeconds > (scores.maxDurationSeconds || 60)) {
+      throw new Error(`Invalid score duration (${durationSeconds}s); must be in (0, ${scores.maxDurationSeconds || 60}].`);
     }
 
     const rawGains = config.layerGains || {};
     let bassBaseGain = Number.isFinite(rawGains.bass) ? Math.max(0, Math.min(1.5, Number(rawGains.bass))) : 0.90;
     if (layerMode === "conditioning-skeleton") {
-      // Prompt 3: 2-Voice Conditioning Skeleton scales bass by 0.63 (-4 dB)
+      // 2-Voice Conditioning Skeleton: scale bass by 0.63 (-4 dB)
       bassBaseGain = Number((bassBaseGain * 0.63).toFixed(4));
     }
 
@@ -454,9 +449,9 @@
       });
     });
 
-    // 2. Canonical Chord & Counter Events (for 4-bar or 8-bar candidates)
-    const rawChordSource = candidate.bars === 4 ? (harmony.chords4 || []) : (harmony.chords8 || []);
-    const rawCounterSource = candidate.bars === 4 ? (harmony.counter4 || []) : (harmony.counter8 || []);
+    // 2. Canonical Chord & Counter Events (handles 2, 4, 6, and 8-bar candidates seamlessly)
+    const rawChordSource = candidate.bars <= 4 ? (harmony.chords4 || harmony.chords || []) : (harmony.chords8 || harmony.chords || []);
+    const rawCounterSource = candidate.bars <= 4 ? (harmony.counter4 || harmony.counter || []) : (harmony.counter8 || harmony.counter || []);
     const canonicalChordEvents = [];
 
     rawChordSource.forEach((chordBlock) => {
@@ -496,7 +491,7 @@
     });
 
     // 3. Canonical Bass Events
-    const rawBassSource = candidate.bars === 4 ? (harmony.bass4 || []) : (harmony.bass8 || []);
+    const rawBassSource = candidate.bars <= 4 ? (harmony.bass4 || harmony.bass || []) : (harmony.bass8 || harmony.bass || []);
     const canonicalBassEvents = rawBassSource
       .filter((b) => b.beat < totalBeats)
       .map((b, index) => {
@@ -523,6 +518,10 @@
       activeLead = canonicalLeadEvents;
       activeChords = canonicalChordEvents;
       activeBass = canonicalBassEvents;
+    } else if (layerMode === "melody-chords") {
+      activeLead = canonicalLeadEvents;
+      activeChords = canonicalChordEvents;
+      activeBass = [];
     } else if (layerMode === "melody-only" || layerMode === "melody-octave-down") {
       activeLead = canonicalLeadEvents;
       activeChords = [];
@@ -538,7 +537,7 @@
     }
 
     return Object.freeze({
-      schemaVersion: 1,
+      schemaVersion: 3,
       candidateId: candidate.id,
       candidateTitle: candidate.title,
       parentAnchor: candidate.parentAnchor,
@@ -546,6 +545,12 @@
       harmonyName: harmony.name,
       patchId: patch.id,
       patchName: patch.name,
+      leadProgramId,
+      leadProgramName,
+      chordsProgramId,
+      chordsProgramName,
+      bassProgramId,
+      bassProgramName,
       tempoBpm,
       bars: candidate.bars,
       beatsPerBar: candidate.beatsPerBar,
@@ -608,7 +613,7 @@
   }
 
   // =========================================================================
-  // Web Audio Graph Scheduling
+  // Web Audio Graph Scheduling (webaudio-tinysynth q:1 Operator Engine)
   // =========================================================================
 
   /**
@@ -657,77 +662,33 @@
       createdNodes.push(convolver, reverbHighpass, wetGain, reverbSendBus);
     }
 
+    // Dedicated track submix buses
+    const trackBuses = {
+      lead: ctx.createGain(),
+      chords: ctx.createGain(),
+      bass: ctx.createGain()
+    };
+    for (const role of ["lead", "chords", "bass"]) {
+      const bus = trackBuses[role];
+      bus.gain.setValueAtTime(1.0, baseTime);
+      bus.connect(masterGain);
+      if (reverbSendBus) bus.connect(reverbSendBus);
+      createdNodes.push(bus);
+    }
+
+    // Resolve active GM instrument programs per track
+    const leadProg = getGmProgram(scheduledScore.leadProgramId) || patch.lead || getGmProgram("P0-plan32-triangle");
+    const chordsProg = getGmProgram(scheduledScore.chordsProgramId) || patch.chords || leadProg;
+    const bassProg = getGmProgram(scheduledScore.bassProgramId) || patch.bass || leadProg;
+
     // Exact Plan 32 bare triangle path when P0-plan32-triangle is used dry without roomAir/microGroove
     const useExactPlan32BarePath = Boolean(
       patch.isHistoricalPlan32 &&
+      leadProg.id === "P0-plan32-triangle" &&
       scheduledScore.harmonyId === "H0-dry" &&
       !scheduledScore.roomAir &&
       !scheduledScore.microGroove
     );
-
-    // Shared track buses (eliminates hundreds of redundant per-note panners, waveshapers, and static filters)
-    function createTrackBus(voiceSpec, trackRole) {
-      if (useExactPlan32BarePath) return masterGain;
-      let busHead = masterGain;
-
-      if (typeof ctx.createStereoPanner === "function" && voiceSpec.pan) {
-        const panner = ctx.createStereoPanner();
-        panner.pan.setValueAtTime(voiceSpec.pan, baseTime);
-        panner.connect(masterGain);
-        if (reverbSendBus && trackRole !== "bass") panner.connect(reverbSendBus);
-        createdNodes.push(panner);
-        busHead = panner;
-      } else if (reverbSendBus && trackRole !== "bass") {
-        const sendSplitter = ctx.createGain();
-        sendSplitter.gain.setValueAtTime(1.0, baseTime);
-        sendSplitter.connect(masterGain);
-        sendSplitter.connect(reverbSendBus);
-        createdNodes.push(sendSplitter);
-        busHead = sendSplitter;
-      }
-
-      // Shared static lowpass filter for chords/bass or lead voices without per-note filter envelope
-      const hasPerNoteFilterEnv = Boolean(trackRole === "lead" && voiceSpec.filterPeakHz && voiceSpec.filterDecaySeconds);
-      if (voiceSpec.filterCutoffHz && !hasPerNoteFilterEnv && typeof ctx.createBiquadFilter === "function") {
-        const busFilter = ctx.createBiquadFilter();
-        busFilter.type = "lowpass";
-        busFilter.frequency.setValueAtTime(voiceSpec.filterCutoffHz, baseTime);
-        busFilter.Q.setValueAtTime(voiceSpec.filterQ || 0.7, baseTime);
-        busFilter.connect(busHead);
-        createdNodes.push(busFilter);
-        busHead = busFilter;
-      }
-
-      // Shared 220 Hz wooden body formant filter for Karplus-Strong acoustic pluck
-      if (voiceSpec.synthesisMode === "karplus-strong" && typeof ctx.createBiquadFilter === "function") {
-        const bodyFormant = ctx.createBiquadFilter();
-        bodyFormant.type = "peaking";
-        bodyFormant.frequency.setValueAtTime(220, baseTime);
-        bodyFormant.gain.setValueAtTime(3.0, baseTime);
-        bodyFormant.Q.setValueAtTime(1.2, baseTime);
-        bodyFormant.connect(busHead);
-        createdNodes.push(bodyFormant);
-        busHead = bodyFormant;
-      }
-
-      // Shared Tube WaveShaper on the track bus
-      if (voiceSpec.useTubeShaper && typeof ctx.createWaveShaper === "function") {
-        const shaper = ctx.createWaveShaper();
-        shaper.curve = getTubeCurve();
-        shaper.oversample = "none";
-        shaper.connect(busHead);
-        createdNodes.push(shaper);
-        busHead = shaper;
-      }
-
-      return busHead;
-    }
-
-    const trackBuses = {
-      lead: createTrackBus(patch.lead, "lead"),
-      chords: createTrackBus(patch.chords, "chords"),
-      bass: createTrackBus(patch.bass, "bass")
-    };
 
     function scheduleVoice(event, voiceSpec, busGainMultiplier, trackRole) {
       let startOffset = 0;
@@ -749,30 +710,35 @@
         noteLength = event.durationSeconds * 0.82; // articulate 8th note runs
       }
 
-      const releaseSeconds = voiceSpec.releaseSeconds || 0.09;
+      const releaseSeconds = voiceSpec.releaseSeconds || voiceSpec.releaseTailSeconds || 0.09;
       const releaseStart = start + noteLength;
       const end = releaseStart + releaseSeconds;
 
       const pitchMultiplier = (trackRole === "lead") ? (scheduledScore.leadPitchMultiplier || 1.0) : 1.0;
       const f0 = event.frequencyHz * pitchMultiplier;
 
-      const maxGain = voiceSpec.voicePeak * event.velocity * busGainMultiplier;
-      const sustainGain = Math.max(0.00001, maxGain * (voiceSpec.sustainRatio ?? 0.22));
+      const targetBus = trackBuses[trackRole] || masterGain;
 
+      // -----------------------------------------------------------------------
+      // 1. Exact Plan 32 Historical Bare Triangle Path
+      // -----------------------------------------------------------------------
       if (useExactPlan32BarePath) {
         const voice = ctx.createOscillator();
         const envelope = ctx.createGain();
-        voice.type = voiceSpec.waveform || "triangle";
+        voice.type = "triangle";
         voice.frequency.setValueAtTime(f0, start);
 
+        const maxGain = (voiceSpec.voiceGain || 0.24) * event.velocity * busGainMultiplier;
+        const sustainGain = Math.max(0.00001, maxGain * 0.22);
+
         envelope.gain.setValueAtTime(0.00001, start);
-        envelope.gain.linearRampToValueAtTime(maxGain, start + voiceSpec.attackSeconds);
-        envelope.gain.linearRampToValueAtTime(sustainGain, start + voiceSpec.attackSeconds + voiceSpec.decaySeconds);
+        envelope.gain.linearRampToValueAtTime(maxGain, start + 0.012);
+        envelope.gain.linearRampToValueAtTime(sustainGain, start + 0.012 + 0.075);
         envelope.gain.setValueAtTime(sustainGain, releaseStart);
         envelope.gain.linearRampToValueAtTime(0.00001, end);
 
         voice.connect(envelope);
-        envelope.connect(masterGain);
+        envelope.connect(targetBus);
         voice.start(start);
         voice.stop(end);
         createdOscillators.push(voice);
@@ -780,8 +746,101 @@
         return;
       }
 
-      // Standard / Research envelope connected to shared trackBus
+      // -----------------------------------------------------------------------
+      // 2. webaudio-tinysynth (quality: 1) Multi-Operator FM/Additive Engine
+      // -----------------------------------------------------------------------
+      if (Array.isArray(voiceSpec.operators) && voiceSpec.operators.length > 0) {
+        const voiceGain = (voiceSpec.voiceGain || 0.22) * event.velocity * busGainMultiplier;
+        const voiceOut = ctx.createGain();
+        voiceOut.gain.setValueAtTime(voiceGain, start);
+        voiceOut.connect(targetBus);
+        createdNodes.push(voiceOut);
+
+        const opRecords = [];
+
+        // Pass 1: create nodes and envelopes
+        for (let idx = 0; idx < voiceSpec.operators.length; idx += 1) {
+          const op = voiceSpec.operators[idx];
+          const keyScale = op.k ? Math.max(0.25, Math.min(4.0, Math.pow(2, ((event.midi - 60) / 12) * op.k))) : 1.0;
+          const opFreq = op.f ? op.f : (f0 * (op.t || 1));
+
+          const attackEnd = start + Math.max(0.001, op.a || 0.002);
+          const holdEnd = attackEnd + Math.max(0, op.h || 0);
+          const decayDur = Math.max(0.01, (op.d || 0.2) * keyScale);
+          const decayEnd = holdEnd + decayDur;
+          const opRelease = Math.max(0.02, op.r || 0.12);
+          const opStop = releaseStart + opRelease;
+
+          let srcNode = null;
+          if ((op.w === "n0" || op.w === "n1") && typeof ctx.createBufferSource === "function") {
+            srcNode = ctx.createBufferSource();
+            srcNode.buffer = getDeterministicNoiseBuffer(ctx, (opStop - start) + 0.05, 0x54534E30 ^ idx ^ event.midi);
+          } else {
+            srcNode = ctx.createOscillator();
+            if (op.w === "w9999" && typeof ctx.createPeriodicWave === "function") {
+              const pwave = getW9999Wave(ctx);
+              if (pwave) {
+                srcNode.setPeriodicWave(pwave);
+              } else {
+                srcNode.type = "sine";
+              }
+            } else {
+              srcNode.type = ["sine", "triangle", "sawtooth", "square"].includes(op.w) ? op.w : "sine";
+            }
+            srcNode.frequency.setValueAtTime(opFreq, start);
+          }
+
+          const opGain = ctx.createGain();
+          let opPeak = 0;
+          if (op.g === 0) {
+            opPeak = (op.v || 0.4) * (idx === 0 ? 1.0 : keyScale);
+          } else {
+            const targetOp = voiceSpec.operators[op.g - 1] || voiceSpec.operators[0];
+            const targetFreq = targetOp.f ? targetOp.f : (f0 * (targetOp.t || 1));
+            opPeak = targetFreq * (op.v || 1.0) * 0.45 * keyScale;
+          }
+
+          const sustainLevel = Math.max(0.00001, opPeak * (op.s ?? 0));
+
+          opGain.gain.setValueAtTime(0.00001, start);
+          opGain.gain.linearRampToValueAtTime(Math.max(0.00002, opPeak), attackEnd);
+          if (op.h > 0) {
+            opGain.gain.setValueAtTime(Math.max(0.00002, opPeak), holdEnd);
+          }
+          opGain.gain.linearRampToValueAtTime(sustainLevel, decayEnd);
+          if (releaseStart > decayEnd) {
+            opGain.gain.setValueAtTime(sustainLevel, releaseStart);
+          }
+          opGain.gain.linearRampToValueAtTime(0.00001, opStop);
+
+          srcNode.connect(opGain);
+          opRecords.push({ op, idx, srcNode, opGain, opStop });
+        }
+
+        // Pass 2: connect routing and schedule start/stop
+        for (let idx = 0; idx < opRecords.length; idx += 1) {
+          const { op, srcNode, opGain, opStop } = opRecords[idx];
+          if (op.g === 0) {
+            opGain.connect(voiceOut);
+          } else if (op.g >= 1 && opRecords[op.g - 1]?.srcNode?.frequency) {
+            opGain.connect(opRecords[op.g - 1].srcNode.frequency);
+          }
+          srcNode.start(start);
+          srcNode.stop(opStop + 0.005);
+          createdOscillators.push(srcNode);
+          createdNodes.push(srcNode, opGain);
+        }
+
+        return;
+      }
+
+      // -----------------------------------------------------------------------
+      // 3. Fallback Subtractive / Overtone Voice
+      // -----------------------------------------------------------------------
       const envelope = ctx.createGain();
+      const maxGain = (voiceSpec.voicePeak || 0.20) * event.velocity * busGainMultiplier;
+      const sustainGain = Math.max(0.00001, maxGain * (voiceSpec.sustainRatio ?? 0.22));
+
       envelope.gain.setValueAtTime(0.00001, start);
       envelope.gain.linearRampToValueAtTime(maxGain, start + (voiceSpec.attackSeconds || 0.008));
       envelope.gain.linearRampToValueAtTime(
@@ -790,229 +849,47 @@
       );
       envelope.gain.setValueAtTime(sustainGain, releaseStart);
       envelope.gain.linearRampToValueAtTime(0.00001, end);
-      envelope.connect(trackBuses[trackRole] || masterGain);
       createdNodes.push(envelope);
 
-      // Per-note dynamic lowpass filter only for lead voices with filterPeakHz sweep
+      let filterNode = null;
       let voiceTarget = envelope;
-      if (trackRole === "lead" && voiceSpec.filterCutoffHz && voiceSpec.filterPeakHz && voiceSpec.filterDecaySeconds && typeof ctx.createBiquadFilter === "function") {
-        const filterNode = ctx.createBiquadFilter();
+      if (voiceSpec.filterCutoffHz && typeof ctx.createBiquadFilter === "function") {
+        filterNode = ctx.createBiquadFilter();
         filterNode.type = "lowpass";
         filterNode.Q.setValueAtTime(voiceSpec.filterQ || 0.7, start);
-        filterNode.frequency.setValueAtTime(voiceSpec.filterPeakHz, start);
-        filterNode.frequency.exponentialRampToValueAtTime(
-          Math.max(80, voiceSpec.filterCutoffHz),
-          start + voiceSpec.filterDecaySeconds
-        );
+        if (voiceSpec.filterPeakHz && voiceSpec.filterDecaySeconds) {
+          filterNode.frequency.setValueAtTime(voiceSpec.filterPeakHz, start);
+          filterNode.frequency.exponentialRampToValueAtTime(
+            Math.max(80, voiceSpec.filterCutoffHz),
+            start + voiceSpec.filterDecaySeconds
+          );
+        } else {
+          filterNode.frequency.setValueAtTime(voiceSpec.filterCutoffHz, start);
+        }
         filterNode.connect(envelope);
         voiceTarget = filterNode;
         createdNodes.push(filterNode);
       }
 
-      // -----------------------------------------------------------------------
-      // Specific Synthesis Topologies
-      // -----------------------------------------------------------------------
-
-      if (voiceSpec.synthesisMode === "marimba-fm") {
-        // P4: Marimba FM Carrier + Modulator + Wood Mode + Mallet Click
-        const primary = ctx.createOscillator();
-        primary.type = "sine";
-        primary.frequency.setValueAtTime(f0, start);
-
-        // 1:4 second-octave FM modulator
-        const fmMod = ctx.createOscillator();
-        fmMod.type = "sine";
-        fmMod.frequency.setValueAtTime((voiceSpec.fmRatio || 4.0) * f0, start);
-        const fmGain = ctx.createGain();
-        const initialFmDepth = f0 * (voiceSpec.fmIndex || 1.1);
-        fmGain.gain.setValueAtTime(initialFmDepth, start);
-        fmGain.gain.exponentialRampToValueAtTime(0.01, start + (voiceSpec.fmDecaySeconds || 0.024));
-        fmMod.connect(fmGain);
-        fmGain.connect(primary.frequency);
-        fmMod.start(start);
-        fmMod.stop(start + (voiceSpec.fmDecaySeconds || 0.024) + 0.01);
-        createdOscillators.push(fmMod);
-        createdNodes.push(fmMod, fmGain);
-
-        // 3.92x warm wood mode
-        if (voiceSpec.woodModeRatio && voiceSpec.woodModeGain > 0) {
-          const woodOsc = ctx.createOscillator();
-          woodOsc.type = "sine";
-          woodOsc.frequency.setValueAtTime(voiceSpec.woodModeRatio * f0, start);
-          const woodGain = ctx.createGain();
-          woodGain.gain.setValueAtTime(voiceSpec.woodModeGain * maxGain, start);
-          woodGain.gain.exponentialRampToValueAtTime(0.00001, start + 0.045);
-          woodOsc.connect(woodGain);
-          woodGain.connect(voiceTarget);
-          woodOsc.start(start);
-          woodOsc.stop(start + 0.05);
-          createdOscillators.push(woodOsc);
-          createdNodes.push(woodOsc, woodGain);
-        }
-
-        // 8 ms bandpassed mallet click
-        if (typeof ctx.createBufferSource === "function") {
-          const malletBuf = getDeterministicNoiseBuffer(ctx, 0.010, 0x4D414C4C ^ Math.round(f0));
-          const malletSource = ctx.createBufferSource();
-          malletSource.buffer = malletBuf;
-          const malletFilter = ctx.createBiquadFilter();
-          malletFilter.type = "bandpass";
-          malletFilter.frequency.setValueAtTime(voiceSpec.malletBandpassHz || 2500, start);
-          malletFilter.Q.setValueAtTime(2.0, start);
-          const malletGain = ctx.createGain();
-          malletGain.gain.setValueAtTime((voiceSpec.malletGain || 0.14) * maxGain, start);
-          malletGain.gain.exponentialRampToValueAtTime(0.00001, start + 0.008);
-          malletSource.connect(malletFilter);
-          malletFilter.connect(malletGain);
-          malletGain.connect(voiceTarget);
-          malletSource.start(start);
-          malletSource.stop(start + 0.010);
-          createdOscillators.push(malletSource);
-          createdNodes.push(malletSource, malletFilter, malletGain);
-        }
-
-        primary.connect(voiceTarget);
-        primary.start(start);
-        primary.stop(end);
-        createdOscillators.push(primary);
-        createdNodes.push(primary);
-        return;
+      if (voiceSpec.useTubeShaper && typeof ctx.createWaveShaper === "function") {
+        const shaper = ctx.createWaveShaper();
+        shaper.curve = getTubeCurve();
+        shaper.oversample = "2x";
+        shaper.connect(voiceTarget);
+        voiceTarget = shaper;
+        createdNodes.push(shaper);
       }
 
-      if (voiceSpec.synthesisMode === "rhodes-fm") {
-        // P5: Rhodes EP (1:1 body FM + 14:1 metallic tine FM on lead)
-        const primary = ctx.createOscillator();
-        primary.type = "sine";
-        primary.frequency.setValueAtTime(f0, start);
-        if (voiceSpec.detuneCents && primary.detune) {
-          primary.detune.setValueAtTime(voiceSpec.detuneCents, start);
-        }
-
-        // 1:1 body FM modulator
-        const bodyMod = ctx.createOscillator();
-        bodyMod.type = "sine";
-        bodyMod.frequency.setValueAtTime(f0 * (voiceSpec.bodyFmRatio || 1.0), start);
-        const bodyGain = ctx.createGain();
-        const bodyDepth = f0 * (voiceSpec.bodyFmIndex || 0.65);
-        bodyGain.gain.setValueAtTime(bodyDepth, start);
-        bodyGain.gain.exponentialRampToValueAtTime(0.01, start + (voiceSpec.bodyFmDecaySeconds || 0.32));
-        bodyMod.connect(bodyGain);
-        bodyGain.connect(primary.frequency);
-        bodyMod.start(start);
-        bodyMod.stop(start + (voiceSpec.bodyFmDecaySeconds || 0.32) + 0.01);
-        createdOscillators.push(bodyMod);
-        createdNodes.push(bodyMod, bodyGain);
-
-        // 14:1 metallic tine FM modulator on lead voices
-        if (trackRole === "lead") {
-          const tineMod = ctx.createOscillator();
-          tineMod.type = "sine";
-          tineMod.frequency.setValueAtTime(f0 * (voiceSpec.tineFmRatio || 14.0), start);
-          const tineGain = ctx.createGain();
-          const tineAttenuation = Math.pow(0.5, Math.max(0, event.midi - 68) / 12);
-          const tineDepth = f0 * (voiceSpec.tineFmIndex || 0.35) * tineAttenuation;
-          tineGain.gain.setValueAtTime(Math.max(0.01, tineDepth), start);
-          tineGain.gain.exponentialRampToValueAtTime(0.01, start + (voiceSpec.tineFmDecaySeconds || 0.028));
-          tineMod.connect(tineGain);
-          tineGain.connect(primary.frequency);
-          tineMod.start(start);
-          tineMod.stop(start + (voiceSpec.tineFmDecaySeconds || 0.028) + 0.01);
-          createdOscillators.push(tineMod);
-          createdNodes.push(tineMod, tineGain);
-        }
-
-        primary.connect(voiceTarget);
-        primary.start(start);
-        primary.stop(end);
-        createdOscillators.push(primary);
-        createdNodes.push(primary);
-        return;
+      if (typeof ctx.createStereoPanner === "function" && voiceSpec.pan) {
+        const panner = ctx.createStereoPanner();
+        panner.pan.setValueAtTime(voiceSpec.pan, start);
+        envelope.connect(panner);
+        panner.connect(targetBus);
+        createdNodes.push(panner);
+      } else {
+        envelope.connect(targetBus);
       }
 
-      if (voiceSpec.synthesisMode === "karplus-strong" && typeof ctx.createBufferSource === "function") {
-        // P6: Pre-computed Karplus-Strong string waveguide routed through shared 220 Hz body formant bus
-        const ksBuf = getKarplusStrongBuffer(ctx, f0, noteLength + releaseSeconds, voiceSpec);
-        const ksSource = ctx.createBufferSource();
-        ksSource.buffer = ksBuf;
-        ksSource.connect(voiceTarget);
-        ksSource.start(start);
-        ksSource.stop(end);
-        createdOscillators.push(ksSource);
-        createdNodes.push(ksSource);
-        return;
-      }
-
-      if (voiceSpec.synthesisMode === "breath-ocarina") {
-        // P7: Sweet Breath Ocarina with Helmholtz PeriodicWave, pitch scoop, chiff, & vibrato
-        const primary = ctx.createOscillator();
-        if (typeof ctx.createPeriodicWave === "function" && Array.isArray(voiceSpec.periodicImag)) {
-          const imag = new Float32Array(voiceSpec.periodicImag);
-          const real = new Float32Array(imag.length);
-          const wave = ctx.createPeriodicWave(real, imag);
-          primary.setPeriodicWave(wave);
-        } else {
-          primary.type = voiceSpec.waveform || "sine";
-        }
-
-        // Pitch scoop (-15 cents for 25 ms) in game audition profile
-        if (scheduledScore.exportProfile !== "suno-conditioning") {
-          const scoopedF0 = f0 * Math.pow(2, (voiceSpec.scoopCents || -15) / 1200);
-          primary.frequency.setValueAtTime(scoopedF0, start);
-          primary.frequency.linearRampToValueAtTime(f0, start + (voiceSpec.scoopSeconds || 0.025));
-        } else {
-          primary.frequency.setValueAtTime(f0, start);
-        }
-
-        // 20 ms breath chiff noise burst
-        if (scheduledScore.exportProfile !== "suno-conditioning" && typeof ctx.createBufferSource === "function") {
-          const chiffBuf = getDeterministicNoiseBuffer(ctx, 0.025, 0x4F434152 ^ Math.round(f0));
-          const chiffSource = ctx.createBufferSource();
-          chiffSource.buffer = chiffBuf;
-          const chiffFilter = ctx.createBiquadFilter();
-          chiffFilter.type = "bandpass";
-          chiffFilter.frequency.setValueAtTime(Math.min(8000, 3 * f0), start);
-          chiffFilter.Q.setValueAtTime(3.0, start);
-          const chiffGain = ctx.createGain();
-          chiffGain.gain.setValueAtTime((voiceSpec.chiffGain || 0.09) * maxGain, start);
-          chiffGain.gain.exponentialRampToValueAtTime(0.00001, start + (voiceSpec.chiffDurationMs ? voiceSpec.chiffDurationMs / 1000 : 0.020));
-          chiffSource.connect(chiffFilter);
-          chiffFilter.connect(chiffGain);
-          chiffGain.connect(voiceTarget);
-          chiffSource.start(start);
-          chiffSource.stop(start + 0.025);
-          createdOscillators.push(chiffSource);
-          createdNodes.push(chiffSource, chiffFilter, chiffGain);
-        }
-
-        // Delayed 5.2 Hz vibrato on sustained notes (>= 0.45s)
-        if (scheduledScore.exportProfile !== "suno-conditioning" && noteLength >= 0.45) {
-          const lfo = ctx.createOscillator();
-          lfo.type = "sine";
-          lfo.frequency.setValueAtTime(voiceSpec.vibratoRateHz || 5.2, start);
-          const lfoGain = ctx.createGain();
-          const vibratoDepthHz = f0 * (Math.pow(2, (voiceSpec.vibratoDepthCents || 10) / 1200) - 1);
-          const vibratoDelay = voiceSpec.vibratoDelaySeconds || 0.25;
-          const vibratoRamp = voiceSpec.vibratoRampSeconds || 0.30;
-          lfoGain.gain.setValueAtTime(0.0001, start);
-          lfoGain.gain.setValueAtTime(0.0001, start + vibratoDelay);
-          lfoGain.gain.linearRampToValueAtTime(vibratoDepthHz, start + vibratoDelay + vibratoRamp);
-          lfo.connect(lfoGain);
-          lfoGain.connect(primary.frequency);
-          lfo.start(start);
-          lfo.stop(end);
-          createdOscillators.push(lfo);
-          createdNodes.push(lfo, lfoGain);
-        }
-
-        primary.connect(voiceTarget);
-        primary.start(start);
-        primary.stop(end);
-        createdOscillators.push(primary);
-        createdNodes.push(primary);
-        return;
-      }
-
-      // Default Subtractive / Overtone Voice
       const primary = ctx.createOscillator();
       primary.type = voiceSpec.waveform || "triangle";
       primary.frequency.setValueAtTime(f0, start);
@@ -1045,14 +922,14 @@
 
     // Schedule active layers
     for (const ev of scheduledScore.leadEvents) {
-      scheduleVoice(ev, patch.lead, scheduledScore.layerGains.lead, "lead");
+      scheduleVoice(ev, leadProg, scheduledScore.layerGains.lead, "lead");
     }
     for (const ev of scheduledScore.chordEvents) {
       const boost = ev.role === "counter" ? 1.15 : 1.0;
-      scheduleVoice(ev, patch.chords, scheduledScore.layerGains.chords * boost, "chords");
+      scheduleVoice(ev, chordsProg, scheduledScore.layerGains.chords * boost, "chords");
     }
     for (const ev of scheduledScore.bassEvents) {
-      scheduleVoice(ev, patch.bass, scheduledScore.layerGains.bass, "bass");
+      scheduleVoice(ev, bassProg, scheduledScore.layerGains.bass, "bass");
     }
 
     // Schedule brushed noise shaker pulse on beats 2 and 4 (beats 1, 3, 5, 7...)
@@ -1301,7 +1178,7 @@
         renderedBuffer = wrappedBuffer;
       }
 
-      // Transparent safety limiter: if peak exceeds 0.95, scale down to 0.92 to guarantee peak < 0.98 and zero clipping
+      // Transparent safety limiter: if peak exceeds 0.95, scale down to 0.92
       let measured = measurePcm(renderedBuffer);
       if (measured.peak > 0.95) {
         const safetyScale = 0.92 / measured.peak;
@@ -1336,6 +1213,20 @@
   }
 
   // =========================================================================
+  // Arrangement Filename Helper
+  // =========================================================================
+
+  function buildArrangementFilename(scheduledScore) {
+    if (!scheduledScore) return "quackpot-plan39-arrangement.wav";
+    const cand = scheduledScore.candidateId || "arrangement";
+    const harm = scheduledScore.harmonyId || "H0";
+    const lead = (scheduledScore.leadProgramId || scheduledScore.patchId || "lead").replace(/^GM-\d+-/, "");
+    const mode = scheduledScore.layerMode || "full";
+    const bpm = scheduledScore.tempoBpm || 100;
+    return `plan39-${cand}-${harm}-${lead}-${mode}-${bpm}bpm.wav`;
+  }
+
+  // =========================================================================
   // Manifest & Round-Trip Validation
   // =========================================================================
 
@@ -1344,7 +1235,7 @@
     const patch = getPatch(scheduledScore.patchId);
     return Object.freeze({
       artifact: "quackpot-plan39-melody-reference-export",
-      schemaVersion: 1,
+      schemaVersion: 3,
       scoreSchemaVersion: scores.schemaVersion,
       patchSchemaVersion: patches.schemaVersion,
       exportedAt: new Date().toISOString(),
@@ -1359,6 +1250,12 @@
         parentAnchor: scheduledScore.parentAnchor,
         harmonyId: scheduledScore.harmonyId,
         patchId: scheduledScore.patchId,
+        leadProgramId: scheduledScore.leadProgramId,
+        leadProgramName: scheduledScore.leadProgramName,
+        chordsProgramId: scheduledScore.chordsProgramId,
+        chordsProgramName: scheduledScore.chordsProgramName,
+        bassProgramId: scheduledScore.bassProgramId,
+        bassProgramName: scheduledScore.bassProgramName,
         tempoBpm: scheduledScore.tempoBpm,
         bars: scheduledScore.bars,
         beatsPerBar: scheduledScore.beatsPerBar,
@@ -1387,8 +1284,8 @@
     if (!manifest || typeof manifest !== "object") {
       return { valid: false, error: "Imported JSON is not an object." };
     }
-    if (manifest.artifact !== "quackpot-plan39-melody-reference-export" || manifest.schemaVersion !== 1) {
-      return { valid: false, error: "Unsupported manifest artifact or schemaVersion (expected schemaVersion: 1)." };
+    if (manifest.artifact !== "quackpot-plan39-melody-reference-export" || (manifest.schemaVersion !== 1 && manifest.schemaVersion !== 3)) {
+      return { valid: false, error: "Unsupported manifest artifact or schemaVersion (expected schemaVersion: 1 or 3)." };
     }
     if (manifest.provenance?.motifCSourceSha256 !== EXPECTED_MOTIFS_SHA256) {
       return { valid: false, error: "Manifest motifCSourceSha256 does not match the canonical Plan 32 motifs.js hash." };
@@ -1425,8 +1322,10 @@
     getCandidate,
     getHarmony,
     getPatch,
+    getGmProgram,
     evaluateCombination,
     buildScheduledScore,
+    buildArrangementFilename,
     verifyLeadEventParity,
     scheduleOnAudioContext,
     measurePcm,

@@ -1,4 +1,4 @@
-// Isolated headless Chrome verification of the Plan 39 Web Audio Laboratory.
+// Isolated headless Chrome verification of the Plan 39 v3 Web Audio Laboratory.
 // Run only via reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1.
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
@@ -65,7 +65,7 @@ function connectCdp(url, label) {
         const timer = setTimeout(() => {
           pending.delete(id);
           reject(new Error(`${label} ${method} timed out`));
-        }, 12000);
+        }, 15000);
         pending.set(id, { resolve, reject, timer, method });
         socket.send(JSON.stringify({ id, method, params }));
       });
@@ -186,11 +186,15 @@ async function main() {
     "Laboratory boot"
   );
 
-  // 1. Verify UI controls and candidate roster in DOM
+  // 1. Verify UI controls and v3 candidate/GM roster in DOM
   const uiSnapshot = await evaluate(pageCdp, `(() => ({
     candidateOptions: [...document.querySelectorAll("#candidate-select option")].map(o => o.value),
     harmonyOptions: [...document.querySelectorAll("#harmony-select option")].map(o => o.value),
     patchOptions: [...document.querySelectorAll("#patch-select option")].map(o => o.value),
+    leadGmOptions: [...document.querySelectorAll("#lead-gm-select option")].map(o => o.value),
+    chordsGmOptions: [...document.querySelectorAll("#chords-gm-select option")].map(o => o.value),
+    bassGmOptions: [...document.querySelectorAll("#bass-gm-select option")].map(o => o.value),
+    layerModeOptions: [...document.querySelectorAll("#layer-mode-select option")].map(o => o.value),
     tempoOptions: [...document.querySelectorAll("#tempo-select option")].map(o => Number(o.value)),
     primaryCards: [...document.querySelectorAll("#primary-candidates-grid .candidate-card")].map(c => c.dataset.candidateId),
     optionalCards: [...document.querySelectorAll("#optional-candidates-grid .candidate-card")].map(c => c.dataset.candidateId)
@@ -202,7 +206,7 @@ async function main() {
     const harm = document.getElementById("harmony-select");
     cand.value = "C0-original";
     cand.dispatchEvent(new Event("change", { bubbles: true }));
-    harm.value = "H1-bright-resolved";
+    harm.value = "H-A1-skyward";
     harm.dispatchEvent(new Event("change", { bubbles: true }));
     const blockedState = {
       noticeVisible: !document.getElementById("combination-notice").classList.contains("hidden"),
@@ -238,42 +242,41 @@ async function main() {
     await pageCdp.send("Input.dispatchMouseEvent", { type: "mouseReleased", x: pt.x, y: pt.y, button: "left", clickCount: 1 });
   }
 
-  // 3. Test live AudioContext scheduling, rapid switch, and Stop teardown using trusted user gestures
+  // 3. Test live AudioContext scheduling, rapid switch (Original C -> M1 Skyward Vista), and Stop teardown
   await trustedClick("#ab-original-btn");
   const stateDuringOrig = await waitUntil(
     () => evaluate(pageCdp, `document.getElementById("telemetry-state").textContent === "PLAYING" ? "PLAYING" : null`),
     2000,
     "Live audition PLAYING state (Original C)"
   );
-  await trustedClick("#ab-repeat2x-btn");
-  const stateDuringRepeat = await waitUntil(
-    () => evaluate(pageCdp, `document.getElementById("telemetry-state").textContent === "PLAYING" && document.getElementById("telemetry-candidate").textContent === "C0-repeat2x" ? "PLAYING" : null`),
+  await trustedClick("#ab-skyward-btn");
+  const stateDuringSkyward = await waitUntil(
+    () => evaluate(pageCdp, `document.getElementById("telemetry-state").textContent === "PLAYING" && document.getElementById("telemetry-candidate").textContent === "M1-skyward-vista" ? "PLAYING" : null`),
     2000,
-    "Live audition PLAYING state (2x Repeat)"
+    "Live audition PLAYING state (M1 Skyward Vista)"
   );
   await trustedClick("#stop-btn");
   const liveAuditionLifecycle = await evaluate(pageCdp, `({
     stateDuringOrig: ${JSON.stringify(stateDuringOrig)},
-    stateDuringRepeat: ${JSON.stringify(stateDuringRepeat)},
+    stateDuringSkyward: ${JSON.stringify(stateDuringSkyward)},
     stateAfterStop: document.getElementById("telemetry-state").textContent,
     stopDisabledAfterStop: document.getElementById("stop-btn").disabled
   })`);
 
   if (liveAuditionLifecycle.stateDuringOrig !== "PLAYING" ||
-      liveAuditionLifecycle.stateDuringRepeat !== "PLAYING" ||
+      liveAuditionLifecycle.stateDuringSkyward !== "PLAYING" ||
       liveAuditionLifecycle.stateAfterStop !== "IDLE" ||
       !liveAuditionLifecycle.stopDisabledAfterStop) {
     throw new Error(`Live audition stop lifecycle failed: ${JSON.stringify(liveAuditionLifecycle)}`);
   }
 
-  // 4. Render & verify all 7 candidates (with default settings + v2 acoustics/conditioning) via real browser OfflineAudioContext,
-  // and trigger UI bundle export + download for C0-repeat2x, C1-period-lock, and C4-sentence-drive
+  // 4. Render & verify all 7 candidates (C0-original + M1..M6) via real browser OfflineAudioContext
   const renderedCandidatesReport = [];
   for (const candId of uiSnapshot.candidateOptions) {
     const item = await evaluate(pageCdp, `(async () => {
       const eng = window.QUACKPOT_PLAN39_ENGINE;
       const cand = eng.getCandidate(${JSON.stringify(candId)});
-      const useAcoustics = !cand.lockBareControl && cand.id !== "C0-repeat2x";
+      const useAcoustics = !cand.lockBareControl;
       const mixScore = eng.buildScheduledScore({
         candidateId: cand.id,
         harmonyId: cand.defaultHarmonyId,
@@ -283,7 +286,7 @@ async function main() {
         exportProfile: "game-audition",
         roomAir: useAcoustics,
         microGroove: useAcoustics,
-        shakerPulse: cand.id === "C3-accompaniment-groove"
+        shakerPulse: cand.id === "M6-secondary-dominant-drive"
       });
       const melodyScore = eng.buildScheduledScore({
         candidateId: cand.id,
@@ -301,8 +304,12 @@ async function main() {
 
       return {
         candidateId: cand.id,
+        group: cand.group,
         harmonyId: cand.defaultHarmonyId,
         patchId: cand.defaultPatchId,
+        leadProgramId: mixScore.leadProgramId,
+        chordsProgramId: mixScore.chordsProgramId,
+        bassProgramId: mixScore.bassProgramId,
         tempoBpm: 100,
         bars: cand.bars,
         roomAir: mixScore.roomAir,
@@ -324,28 +331,28 @@ async function main() {
     renderedCandidatesReport.push(item);
   }
 
-  // Also verify all 8 patches (P0-P7) and seamlessLoopWrap on C4-sentence-drive
+  // 5. Verify all 8 TinySynth (quality: 1) ensemble presets on M1-skyward-vista
   for (const patchId of uiSnapshot.patchOptions) {
     try {
       await evaluate(pageCdp, `(async () => {
         const eng = window.QUACKPOT_PLAN39_ENGINE;
         const pScore = eng.buildScheduledScore({
-          candidateId: "C4-sentence-drive",
-          harmonyId: "H4-deceptive-pivot",
+          candidateId: "M1-skyward-vista",
+          harmonyId: "H-A1-skyward",
           patchId: ${JSON.stringify(patchId)},
           tempoBpm: 100,
           layerMode: "full",
           exportProfile: "game-audition",
           roomAir: false,
           microGroove: true,
-          seamlessLoopWrap: ${JSON.stringify(patchId)} === "P4-cozy-marimba"
+          seamlessLoopWrap: ${JSON.stringify(patchId)} === "TS-marimba-epiano"
         });
         const pRender = await eng.renderOfflineWav(pScore);
         if (pRender.measured.isClipped) {
           throw new Error("Patch " + ${JSON.stringify(patchId)} + " clipped during OfflineAudioContext verification.");
         }
-        if (${JSON.stringify(patchId)} === "P4-cozy-marimba" && pRender.frameCount !== 921600) {
-          throw new Error("Expected seamlessLoopWrap frameCount 921600, got " + pRender.frameCount);
+        if (${JSON.stringify(patchId)} === "TS-marimba-epiano" && pRender.frameCount !== 460800) {
+          throw new Error("Expected 4-bar seamlessLoopWrap frameCount 460800 (9.60s @ 48kHz), got " + pRender.frameCount);
         }
         return true;
       })()`);
@@ -354,8 +361,8 @@ async function main() {
     }
   }
 
-  // 5. Trigger actual UI export bundle & file downloads for C0-repeat2x, C1-period-lock, and C4-sentence-drive
-  async function exportAndDownloadViaUI(candidateId) {
+  // 6. Trigger single-file UI arrangement export & download for M1 (Family A), M3 (Family B), and M5 (Family C)
+  async function exportSingleArrangementViaUI(candidateId) {
     await evaluate(pageCdp, `(() => {
       const sel = document.getElementById("candidate-select");
       sel.value = ${JSON.stringify(candidateId)};
@@ -365,19 +372,22 @@ async function main() {
 
     await waitUntil(
       () => evaluate(pageCdp, `Boolean(document.querySelector('.export-bundle-card[data-bundle-candidate=${JSON.stringify(candidateId)}]')) && !document.getElementById("render-export-btn").disabled`),
-      20000,
-      `Export bundle card for ${candidateId}`
+      15000,
+      `Single-file export card for ${candidateId}`
     );
 
-    const downloadNames = await evaluate(pageCdp, `(() => {
+    // Clicking #render-export-btn automatically triggered the single .wav download;
+    // also click the manifest .json link on the card so we can verify round-trip settings restore
+    const downloadInfo = await evaluate(pageCdp, `(() => {
       const card = document.querySelector('.export-bundle-card[data-bundle-candidate=${JSON.stringify(candidateId)}]');
       const links = [...card.querySelectorAll("a[download]")];
-      links.forEach(a => a.click());
+      const jsonLink = links.find(a => (a.getAttribute("download") || "").endsWith(".json"));
+      if (jsonLink) jsonLink.click();
       return links.map(a => a.getAttribute("download"));
     })()`);
 
     const verifiedDownloads = [];
-    for (const fileName of downloadNames) {
+    for (const fileName of downloadInfo) {
       const filePath = path.join(downloadTmpDir, fileName);
       await waitUntil(
         () => existsSync(filePath) && !readdirSync(downloadTmpDir).some((n) => n.endsWith(".crdownload")) && statSync(filePath).size > 0,
@@ -390,22 +400,16 @@ async function main() {
       if (fileName.endsWith(".wav")) {
         const ab = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
         const hdr = engine.parseWavHeader(ab);
-        const persistWav = fileName === "plan39-c0-repeat2x-h0-dry-p0-plan32-triangle-100bpm-melody.wav";
-        if (persistWav) {
-          writeFileSync(path.join(EXPORTS_DIR, fileName), bytes);
-        }
         verifiedDownloads.push({
           fileName,
           bytes: bytes.length,
           sha256: fileHash,
-          wavHeader: hdr,
-          persistedToExportsDir: persistWav
+          wavHeader: hdr
         });
       } else if (fileName.endsWith(".json")) {
         const parsed = JSON.parse(bytes.toString("utf8"));
         const rt = engine.validateImportedManifest(parsed);
         if (!rt.valid) throw new Error(`Downloaded manifest failed round-trip: ${rt.error}`);
-        // Persist the compact manifest JSON into exports/
         writeFileSync(path.join(EXPORTS_DIR, fileName), bytes);
         verifiedDownloads.push({
           fileName,
@@ -419,9 +423,9 @@ async function main() {
     return verifiedDownloads;
   }
 
-  const c0RepeatDownloads = await exportAndDownloadViaUI("C0-repeat2x");
-  const c1PeriodDownloads = await exportAndDownloadViaUI("C1-period-lock");
-  const c4SentenceDownloads = await exportAndDownloadViaUI("C4-sentence-drive");
+  const m1Downloads = await exportSingleArrangementViaUI("M1-skyward-vista");
+  const m3Downloads = await exportSingleArrangementViaUI("M3-horizon-drift");
+  const m5Downloads = await exportSingleArrangementViaUI("M5-minor-iv-yearning");
 
   const nonLocalRequests = networkRequests.filter(
     (u) => !u.startsWith("file:") && !u.startsWith("blob:") && !u.startsWith("data:")
@@ -435,8 +439,9 @@ async function main() {
 
   const verificationReport = {
     artifact: "quackpot-plan39-browser-verification-report",
+    schemaVersion: 3,
     verifiedAt: new Date().toISOString(),
-    browser: "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext)",
+    browser: "Isolated headless Google Chrome (Web Audio API AudioContext + OfflineAudioContext + webaudio-tinysynth quality:1)",
     pageUrl,
     nonLocalNetworkRequests: nonLocalRequests.length,
     pageRuntimeErrors: pageErrors.length,
@@ -445,11 +450,11 @@ async function main() {
     liveAuditionLifecycle,
     offlineRenderedCandidates: renderedCandidatesReport,
     verifiedBrowserDownloads: {
-      "C0-repeat2x": c0RepeatDownloads,
-      "C1-period-lock": c1PeriodDownloads,
-      "C4-sentence-drive": c4SentenceDownloads
+      "M1-skyward-vista": m1Downloads,
+      "M3-horizon-drift": m3Downloads,
+      "M5-minor-iv-yearning": m5Downloads
     },
-    auditionHonestyNote: "Headless Chrome executed real Web Audio API OfflineAudioContext rendering, PCM sample measurement, and WAV/JSON file downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
+    auditionHonestyNote: "Headless Chrome executed real Web Audio API OfflineAudioContext rendering with webaudio-tinysynth (quality: 1) multi-operator patches, PCM sample measurement, and single-file WAV + JSON downloads, plus live AudioContext graph scheduling/teardown. Physical acoustic speaker audition and aesthetic selection remain the human owner's listening gate."
   };
 
   const reportPath = path.join(EXPORTS_DIR, "browser-verification-report.json");

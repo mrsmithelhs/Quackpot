@@ -154,6 +154,30 @@ body {
   border-color: var(--accent-success);
 }
 
+.badge-family-a {
+  color: var(--color-anchor);
+  background: var(--accent-warning-subtle);
+  border-color: var(--color-anchor);
+}
+
+.badge-family-b {
+  color: var(--color-continuation);
+  background: var(--accent-primary-subtle);
+  border-color: var(--color-continuation);
+}
+
+.badge-family-c {
+  color: var(--color-chords);
+  background: rgba(124, 58, 237, 0.12);
+  border-color: var(--color-chords);
+}
+
+.badge-control {
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border-color: var(--border-strong);
+}
+
 .header-title {
   font-size: 1.4rem;
   font-weight: 700;

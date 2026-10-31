@@ -24,6 +24,9 @@
   const candidateSelect = document.getElementById("candidate-select");
   const harmonySelect = document.getElementById("harmony-select");
   const patchSelect = document.getElementById("patch-select");
+  const leadGmSelect = document.getElementById("lead-gm-select");
+  const chordsGmSelect = document.getElementById("chords-gm-select");
+  const bassGmSelect = document.getElementById("bass-gm-select");
   const tempoSelect = document.getElementById("tempo-select");
   const layerModeSelect = document.getElementById("layer-mode-select");
   const exportProfileSelect = document.getElementById("export-profile-select");
@@ -44,6 +47,7 @@
   const playSelectedBtn = document.getElementById("play-selected-btn");
   const stopBtn = document.getElementById("stop-btn");
   const abOriginalBtn = document.getElementById("ab-original-btn");
+  const abSkywardBtn = document.getElementById("ab-skyward-btn");
   const abRepeat2xBtn = document.getElementById("ab-repeat2x-btn");
   const playingIndicator = document.getElementById("playing-indicator");
   const playbackStatusText = document.getElementById("playback-status-text");
@@ -129,6 +133,9 @@
       candidateId: candidateSelect.value,
       harmonyId: harmonySelect.value,
       patchId: patchSelect.value,
+      leadProgramId: leadGmSelect ? leadGmSelect.value : undefined,
+      chordsProgramId: chordsGmSelect ? chordsGmSelect.value : undefined,
+      bassProgramId: bassGmSelect ? bassGmSelect.value : undefined,
       tempoBpm: Number(tempoSelect.value),
       layerMode: layerModeSelect.value,
       exportProfile: exportProfileSelect ? exportProfileSelect.value : "game-audition",
@@ -176,7 +183,7 @@
       opt.textContent = `${cand.id} — ${cand.title}`;
       candidateSelect.append(opt);
     });
-    candidateSelect.value = "C0-repeat2x";
+    candidateSelect.value = "M1-skyward-vista";
 
     harmonySelect.replaceChildren();
     scores.harmonies.forEach((harm) => {
@@ -185,16 +192,35 @@
       opt.textContent = harm.name;
       harmonySelect.append(opt);
     });
-    harmonySelect.value = "H0-dry";
+    harmonySelect.value = "H-A1-skyward";
 
     patchSelect.replaceChildren();
-    patches.patches.forEach((p) => {
+    patches.ensemblePresets.forEach((p) => {
       const opt = document.createElement("option");
       opt.value = p.id;
       opt.textContent = p.name;
       patchSelect.append(opt);
     });
-    patchSelect.value = "P0-plan32-triangle";
+    patchSelect.value = "TS-marimba-epiano";
+
+    function populateGmSelect(selectEl) {
+      if (!selectEl) return;
+      selectEl.replaceChildren();
+      patches.gmPrograms.forEach((gm) => {
+        const opt = document.createElement("option");
+        opt.value = gm.id;
+        opt.textContent = gm.name;
+        selectEl.append(opt);
+      });
+    }
+
+    populateGmSelect(leadGmSelect);
+    populateGmSelect(chordsGmSelect);
+    populateGmSelect(bassGmSelect);
+
+    if (leadGmSelect) leadGmSelect.value = "GM-12-marimba";
+    if (chordsGmSelect) chordsGmSelect.value = "GM-04-epiano1";
+    if (bassGmSelect) bassGmSelect.value = "GM-32-acoustic-bass";
   }
 
   function renderCandidateCards() {
@@ -208,17 +234,24 @@
       card.dataset.candidateId = cand.id;
       card.setAttribute("role", "listitem");
 
-      const defaultDuration = ((cand.bars * cand.beatsPerBar * 60) / 100 + 0.12).toFixed(2);
-      const groupBadge = cand.group === "control"
-        ? "Control Benchmark"
-        : cand.group === "c-continuation"
-          ? "C-Derived 8-Bar Form"
-          : "Separated Optional Foil";
+      const defaultDuration = ((cand.bars * cand.beatsPerBar * 60) / 100 + 0.30).toFixed(2);
+      let groupBadge = "Historical Control";
+      let badgeClass = "badge-control";
+      if (cand.group === "family-a-non-terminal") {
+        groupBadge = "Family A · Non-Terminal Hook";
+        badgeClass = "badge-family-a";
+      } else if (cand.group === "family-b-long-arc") {
+        groupBadge = "Family B · Long-Arc (3×–4× Length)";
+        badgeClass = "badge-family-b";
+      } else if (cand.group === "family-c-unresolved-pivot") {
+        groupBadge = "Family C · Unresolved Pivot Chord";
+        badgeClass = "badge-family-c";
+      }
 
       card.innerHTML = `
         <div class="card-id-row">
           <span class="candidate-id font-mono">${cand.id}</span>
-          <span class="badge">${groupBadge}</span>
+          <span class="badge ${badgeClass}">${groupBadge}</span>
         </div>
         <h3 class="card-title">${cand.title}</h3>
         <div class="card-meta">
@@ -233,7 +266,7 @@
         </div>
       `;
 
-      if (cand.group === "optional-new-core") {
+      if (cand.group === "control") {
         optionalCandidatesGrid.append(card);
       } else {
         primaryCandidatesGrid.append(card);
@@ -367,6 +400,13 @@
     tempoSelect.value = "100";
     layerModeSelect.value = "full";
 
+    const preset = engine.getPatch(cand.defaultPatchId);
+    if (preset) {
+      if (leadGmSelect && preset.leadProgramId) leadGmSelect.value = preset.leadProgramId;
+      if (chordsGmSelect && preset.chordsProgramId) chordsGmSelect.value = preset.chordsProgramId;
+      if (bassGmSelect && preset.bassProgramId) bassGmSelect.value = preset.bassProgramId;
+    }
+
     if (cand.id === "C0-original" || cand.id === "C0-repeat2x") {
       if (exportProfileSelect) exportProfileSelect.value = "game-audition";
       if (roomAirToggle) roomAirToggle.checked = false;
@@ -377,7 +417,7 @@
       if (exportProfileSelect) exportProfileSelect.value = "game-audition";
       if (roomAirToggle) roomAirToggle.checked = true;
       if (microGrooveToggle) microGrooveToggle.checked = true;
-      if (shakerPulseToggle) shakerPulseToggle.checked = (cand.id === "C3-accompaniment-groove");
+      if (shakerPulseToggle) shakerPulseToggle.checked = false;
       if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
     }
     updateAcousticsControlsState();
@@ -457,141 +497,63 @@
     }
   }
 
-  async function renderAndPrepareExportBundle() {
+  async function exportCurrentArrangementWav() {
     if (exportInProgress) return;
     const cfg = currentConfig();
     const check = engine.evaluateCombination(cfg);
     if (!check.supported) {
-      setStatus(`Cannot render export bundle: ${check.reason}`);
+      setStatus(`Cannot export arrangement: ${check.reason}`);
       return;
     }
 
     stopAllAudio();
     exportInProgress = true;
     renderExportBtn.disabled = true;
-    setStatus(`Rendering OfflineAudioContext reference bundle for ${cfg.candidateId}...`);
+    setStatus(`Rendering OfflineAudioContext arrangement for ${cfg.candidateId}...`);
 
     try {
-      const mixScore = engine.buildScheduledScore({ ...cfg, layerMode: "full" });
+      const scheduled = engine.buildScheduledScore(cfg);
       const melodyScore = engine.buildScheduledScore({ ...cfg, layerMode: "melody-only" });
-      const parity = engine.verifyLeadEventParity(mixScore, melodyScore);
-      if (!parity.identical) {
-        throw new Error(`Lead event parity check failed: ${parity.reason}`);
-      }
+      const fullScore = engine.buildScheduledScore({ ...cfg, layerMode: "full" });
+      const parity = engine.verifyLeadEventParity(fullScore, melodyScore);
 
-      const mixRender = await engine.renderOfflineWav(mixScore);
-      const mixHeader = engine.parseWavHeader(mixRender.wav.arrayBuffer);
-
-      const melodyRender = await engine.renderOfflineWav(melodyScore);
-      const melodyHeader = engine.parseWavHeader(melodyRender.wav.arrayBuffer);
-
-      let backingRender = null;
-      let backingHeader = null;
-      if (cfg.harmonyId !== "H0-dry") {
-        const backingScore = engine.buildScheduledScore({ ...cfg, layerMode: "backing-only" });
-        backingRender = await engine.renderOfflineWav(backingScore);
-        backingHeader = engine.parseWavHeader(backingRender.wav.arrayBuffer);
-      }
-
-      let skeletonRender = null;
-      let skeletonHeader = null;
-      if (cfg.harmonyId !== "H0-dry") {
-        const skeletonScore = engine.buildScheduledScore({
-          ...cfg,
-          layerMode: "conditioning-skeleton",
-          exportProfile: "suno-conditioning",
-          roomAir: false,
-          microGroove: false,
-          shakerPulse: false
-        });
-        skeletonRender = await engine.renderOfflineWav(skeletonScore);
-        skeletonHeader = engine.parseWavHeader(skeletonRender.wav.arrayBuffer);
-      }
-
-      const octDownScore = engine.buildScheduledScore({
-        ...cfg,
-        layerMode: "melody-octave-down",
-        exportProfile: "suno-conditioning",
-        roomAir: false,
-        microGroove: false,
-        shakerPulse: false
-      });
-      const octDownRender = await engine.renderOfflineWav(octDownScore);
-      const octDownHeader = engine.parseWavHeader(octDownRender.wav.arrayBuffer);
-
-      exportSequence += 1;
-      const baseSlug = `plan39-${cfg.candidateId.toLowerCase()}-${cfg.harmonyId.toLowerCase()}-${cfg.patchId.toLowerCase()}-${cfg.tempoBpm}bpm`;
-      const mixFileName = `${baseSlug}-mix.wav`;
-      const melodyFileName = `${baseSlug}-melody.wav`;
-      const backingFileName = backingRender ? `${baseSlug}-backing.wav` : null;
-      const skeletonFileName = skeletonRender ? `${baseSlug}-suno-skeleton.wav` : null;
-      const octDownFileName = `${baseSlug}-suno-melody-octdown.wav`;
-      const manifestFileName = `${baseSlug}-manifest.json`;
+      const renderResult = await engine.renderOfflineWav(scheduled);
+      const header = engine.parseWavHeader(renderResult.wav.arrayBuffer);
+      const wavFileName = engine.buildArrangementFilename(scheduled);
+      const manifestFileName = wavFileName.replace(/\.wav$/i, "-manifest.json");
 
       const renderSummary = {
         format: "WAV PCM16 Stereo",
-        sampleRate: mixHeader.sampleRate,
-        channels: mixHeader.channels,
-        durationSeconds: mixRender.durationSeconds,
-        frameCount: mixRender.frameCount,
-        measurementBasis: mixRender.measured.measurementBasis,
-        mix: {
-          fileName: mixFileName,
-          bytes: mixRender.wav.byteLength,
-          samplePeakDbfs: mixRender.measured.samplePeakDbfs,
-          rmsDbfs: mixRender.measured.rmsDbfs,
-          peakLinear: mixRender.measured.peak,
-          rmsLinear: mixRender.measured.rms
-        },
-        melodyOnly: {
-          fileName: melodyFileName,
-          bytes: melodyRender.wav.byteLength,
-          samplePeakDbfs: melodyRender.measured.samplePeakDbfs,
-          rmsDbfs: melodyRender.measured.rmsDbfs,
-          peakLinear: melodyRender.measured.peak,
-          rmsLinear: melodyRender.measured.rms
-        },
-        backingOnly: backingRender ? {
-          fileName: backingFileName,
-          bytes: backingRender.wav.byteLength,
-          samplePeakDbfs: backingRender.measured.samplePeakDbfs,
-          rmsDbfs: backingRender.measured.rmsDbfs
-        } : null,
-        conditioningSkeleton: skeletonRender ? {
-          fileName: skeletonFileName,
-          bytes: skeletonRender.wav.byteLength,
-          samplePeakDbfs: skeletonRender.measured.samplePeakDbfs,
-          rmsDbfs: skeletonRender.measured.rmsDbfs,
-          peakLinear: skeletonRender.measured.peak,
-          rmsLinear: skeletonRender.measured.rms
-        } : null,
-        melodyOctaveDown: {
-          fileName: octDownFileName,
-          bytes: octDownRender.wav.byteLength,
-          samplePeakDbfs: octDownRender.measured.samplePeakDbfs,
-          rmsDbfs: octDownRender.measured.rmsDbfs,
-          peakLinear: octDownRender.measured.peak,
-          rmsLinear: octDownRender.measured.rms
+        sampleRate: header.sampleRate,
+        channels: header.channels,
+        durationSeconds: renderResult.durationSeconds,
+        frameCount: renderResult.frameCount,
+        measurementBasis: renderResult.measured.measurementBasis,
+        arrangement: {
+          fileName: wavFileName,
+          bytes: renderResult.wav.byteLength,
+          samplePeakDbfs: renderResult.measured.samplePeakDbfs,
+          rmsDbfs: renderResult.measured.rmsDbfs,
+          peakLinear: renderResult.measured.peak,
+          rmsLinear: renderResult.measured.rms
         }
       };
 
-      const manifest = engine.createExportManifest(mixScore, renderSummary, parity);
+      const manifest = engine.createExportManifest(scheduled, renderSummary, parity);
       const manifestBlob = new Blob([`${JSON.stringify(manifest, null, 2)}\n`], { type: "application/json" });
 
-      const mixUrl = URL.createObjectURL(mixRender.wav.blob);
-      const melodyUrl = URL.createObjectURL(melodyRender.wav.blob);
-      const backingUrl = backingRender ? URL.createObjectURL(backingRender.wav.blob) : null;
-      const skeletonUrl = skeletonRender ? URL.createObjectURL(skeletonRender.wav.blob) : null;
-      const octDownUrl = URL.createObjectURL(octDownRender.wav.blob);
+      const wavUrl = URL.createObjectURL(renderResult.wav.blob);
       const manifestUrl = URL.createObjectURL(manifestBlob);
-
-      allocatedObjectUrls.add(mixUrl);
-      allocatedObjectUrls.add(melodyUrl);
-      if (backingUrl) allocatedObjectUrls.add(backingUrl);
-      if (skeletonUrl) allocatedObjectUrls.add(skeletonUrl);
-      allocatedObjectUrls.add(octDownUrl);
+      allocatedObjectUrls.add(wavUrl);
       allocatedObjectUrls.add(manifestUrl);
 
+      // Immediately trigger single .wav download
+      const autoLink = document.createElement("a");
+      autoLink.href = wavUrl;
+      autoLink.download = wavFileName;
+      autoLink.click();
+
+      exportSequence += 1;
       const placeholder = exportList.querySelector(".export-empty-placeholder");
       if (placeholder) placeholder.remove();
 
@@ -602,98 +564,64 @@
       const headerRow = document.createElement("div");
       headerRow.className = "bundle-header";
       headerRow.innerHTML = `
-        <strong>#${exportSequence} · ${cfg.candidateId} (${cfg.harmonyId}, ${cfg.patchId}, ${cfg.tempoBpm} BPM)</strong>
-        <span class="badge badge-status">${parity.reason}</span>
+        <strong>#${exportSequence} · ${wavFileName}</strong>
+        <span class="badge badge-status">Lead: ${scheduled.leadProgramId} · Chords: ${scheduled.chordsProgramId} · Bass: ${scheduled.bassProgramId}</span>
       `;
 
       const metricsRow = document.createElement("div");
       metricsRow.className = "bundle-metrics font-mono";
-      metricsRow.textContent = `${mixRender.durationSeconds.toFixed(2)} s (${mixHeader.frames} frames @ ${mixHeader.sampleRate} Hz) · Mix PCM peak ${engine.formatDbfs(mixRender.measured.peak)} / RMS ${engine.formatDbfs(mixRender.measured.rms)} · Melody PCM peak ${engine.formatDbfs(melodyRender.measured.peak)} / RMS ${engine.formatDbfs(melodyRender.measured.rms)}${skeletonRender ? ` · Skeleton peak ${engine.formatDbfs(skeletonRender.measured.peak)}` : ""} · -1 Oct Lead peak ${engine.formatDbfs(octDownRender.measured.peak)} · PCM sample peak and RMS only; not LUFS or true peak`;
+      metricsRow.textContent = `${renderResult.durationSeconds.toFixed(2)} s (${header.frames} frames @ ${header.sampleRate} Hz) · PCM sample peak ${engine.formatDbfs(renderResult.measured.peak)} / RMS ${engine.formatDbfs(renderResult.measured.rms)} · PCM sample peak and RMS only; not LUFS or true peak`;
 
       const linksRow = document.createElement("div");
       linksRow.className = "bundle-links";
 
-      function makeDownloadLink(url, fileName, label) {
-        const a = document.createElement("a");
-        a.className = "btn btn-secondary btn-sm";
-        a.href = url;
-        a.download = fileName;
-        a.textContent = label;
-        return a;
-      }
-
-      function makeWavPlayButton(url, label) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "btn btn-outline btn-sm";
-        btn.textContent = `▶ Play ${label}`;
-        btn.addEventListener("click", async () => {
-          stopAllAudio();
-          const audio = new Audio(url);
-          activeHtmlAudio = audio;
-          stopBtn.disabled = false;
-          playingIndicator.classList.add("playing");
-          playbackStatusText.textContent = "Playing WAV";
-          telemetryState.textContent = "WAV-AUDIO";
-          audio.addEventListener("ended", () => {
-            if (activeHtmlAudio === audio) {
-              stopAllAudio(`Finished playing rendered ${label} WAV.`);
-            }
-          });
-          await audio.play();
-          setStatus(`Playing rendered ${label} WAV (${fileNameForLabel(label)}).`);
+      const playBtn = document.createElement("button");
+      playBtn.type = "button";
+      playBtn.className = "btn btn-outline btn-sm";
+      playBtn.textContent = "▶ Play Rendered .WAV";
+      playBtn.addEventListener("click", async () => {
+        stopAllAudio();
+        const audio = new Audio(wavUrl);
+        activeHtmlAudio = audio;
+        stopBtn.disabled = false;
+        playingIndicator.classList.add("playing");
+        playbackStatusText.textContent = "Playing WAV";
+        telemetryState.textContent = "WAV-AUDIO";
+        audio.addEventListener("ended", () => {
+          if (activeHtmlAudio === audio) {
+            stopAllAudio("Finished playing rendered WAV.");
+          }
         });
-        return btn;
-      }
+        await audio.play();
+        setStatus(`Playing rendered WAV (${wavFileName}).`);
+      });
 
-      function fileNameForLabel(label) {
-        if (label === "Mix") return mixFileName;
-        if (label === "Melody") return melodyFileName;
-        if (label === "2-Voice Skeleton") return skeletonFileName;
-        if (label === "-1 Oct Lead") return octDownFileName;
-        return backingFileName || "";
-      }
+      const wavLink = document.createElement("a");
+      wavLink.className = "btn btn-primary btn-sm";
+      wavLink.href = wavUrl;
+      wavLink.download = wavFileName;
+      wavLink.textContent = `⬇ Download .WAV (${wavFileName})`;
 
-      linksRow.append(
-        makeWavPlayButton(mixUrl, "Mix"),
-        makeWavPlayButton(melodyUrl, "Melody")
-      );
-      if (skeletonUrl && skeletonFileName) {
-        linksRow.append(makeWavPlayButton(skeletonUrl, "2-Voice Skeleton"));
-      }
-      linksRow.append(makeWavPlayButton(octDownUrl, "-1 Oct Lead"));
+      const manifestLink = document.createElement("a");
+      manifestLink.className = "btn btn-secondary btn-sm";
+      manifestLink.href = manifestUrl;
+      manifestLink.download = manifestFileName;
+      manifestLink.textContent = "Download Settings Manifest (.JSON)";
 
-      linksRow.append(
-        makeDownloadLink(mixUrl, mixFileName, "Download Full Mix WAV"),
-        makeDownloadLink(melodyUrl, melodyFileName, "Download Melody-Only WAV")
-      );
-      if (skeletonUrl && skeletonFileName) {
-        linksRow.append(makeDownloadLink(skeletonUrl, skeletonFileName, "Download 2-Voice Skeleton WAV"));
-      }
-      linksRow.append(makeDownloadLink(octDownUrl, octDownFileName, "Download -1 Oct Lead WAV"));
-
-      if (backingUrl && backingFileName && backingHeader) {
-        linksRow.append(
-          makeWavPlayButton(backingUrl, "Backing"),
-          makeDownloadLink(backingUrl, backingFileName, "Download Backing-Only WAV")
-        );
-      }
-
-      linksRow.append(makeDownloadLink(manifestUrl, manifestFileName, "Download Score/Provenance JSON"));
-
+      linksRow.append(playBtn, wavLink, manifestLink);
       bundleCard.append(headerRow, metricsRow, linksRow);
       exportList.prepend(bundleCard);
 
-      setStatus(
-        `Bundle #${exportSequence} rendered: ${mixRender.durationSeconds.toFixed(2)} s · Mix PCM sample peak ${engine.formatDbfs(mixRender.measured.peak)}, RMS ${engine.formatDbfs(mixRender.measured.rms)} · not LUFS or true peak.`
-      );
+      setStatus(`Exported ${wavFileName} (${renderResult.durationSeconds.toFixed(2)} s, Peak ${engine.formatDbfs(renderResult.measured.peak)}). Download started automatically.`);
     } catch (error) {
-      setStatus(`Export render failed: ${error.message}`);
+      setStatus(`Arrangement export failed: ${error.message}`);
     } finally {
       exportInProgress = false;
       renderExportBtn.disabled = false;
     }
   }
+
+  const renderAndPrepareExportBundle = exportCurrentArrangementWav;
 
   // Event Listeners
   candidateSelect.addEventListener("change", () => {
@@ -701,11 +629,31 @@
     applyCandidateDefaults(candidateSelect.value);
   });
 
-  [harmonySelect, patchSelect, tempoSelect, layerModeSelect].forEach((sel) => {
+  [harmonySelect, tempoSelect, layerModeSelect].forEach((sel) => {
     sel.addEventListener("change", () => {
       stopAllAudio();
       updateUIAndVisualizer();
     });
+  });
+
+  patchSelect.addEventListener("change", () => {
+    stopAllAudio();
+    const preset = engine.getPatch(patchSelect.value);
+    if (preset) {
+      if (leadGmSelect && preset.leadProgramId) leadGmSelect.value = preset.leadProgramId;
+      if (chordsGmSelect && preset.chordsProgramId) chordsGmSelect.value = preset.chordsProgramId;
+      if (bassGmSelect && preset.bassProgramId) bassGmSelect.value = preset.bassProgramId;
+    }
+    updateUIAndVisualizer();
+  });
+
+  [leadGmSelect, chordsGmSelect, bassGmSelect].forEach((sel) => {
+    if (sel) {
+      sel.addEventListener("change", () => {
+        stopAllAudio();
+        updateUIAndVisualizer();
+      });
+    }
   });
 
   if (exportProfileSelect) {
@@ -736,13 +684,8 @@
 
   combinationFixBtn.addEventListener("click", () => {
     stopAllAudio();
-    candidateSelect.value = "C0-repeat2x";
-    harmonySelect.value = "H1-bright-resolved";
-    patchSelect.value = "P1-pluck-bell";
-    layerModeSelect.value = "full";
-    syncNotesFormForCandidate("C0-repeat2x");
-    updateUIAndVisualizer();
-    setStatus("Switched to C0-repeat2x with H1-bright-resolved and P1-pluck-bell.");
+    applyCandidateDefaults("M1-skyward-vista");
+    setStatus("Switched to M1-skyward-vista with H-A1-skyward and TS-marimba-epiano.");
   });
 
   playSelectedBtn.addEventListener("click", () => {
@@ -757,6 +700,9 @@
     candidateSelect.value = "C0-original";
     harmonySelect.value = "H0-dry";
     patchSelect.value = "P0-plan32-triangle";
+    if (leadGmSelect) leadGmSelect.value = "P0-plan32-triangle";
+    if (chordsGmSelect) chordsGmSelect.value = "P0-plan32-triangle";
+    if (bassGmSelect) bassGmSelect.value = "P0-plan32-triangle";
     tempoSelect.value = "100";
     layerModeSelect.value = "full";
     if (exportProfileSelect) exportProfileSelect.value = "game-audition";
@@ -770,27 +716,31 @@
     void auditionConfig(currentConfig(), "A/B Historical Original C (4.92 s)");
   });
 
-  abRepeat2xBtn.addEventListener("click", () => {
-    candidateSelect.value = "C0-repeat2x";
-    harmonySelect.value = "H0-dry";
-    patchSelect.value = "P0-plan32-triangle";
-    tempoSelect.value = "100";
-    layerModeSelect.value = "full";
-    if (exportProfileSelect) exportProfileSelect.value = "game-audition";
-    if (roomAirToggle) roomAirToggle.checked = false;
-    if (microGrooveToggle) microGrooveToggle.checked = false;
-    if (shakerPulseToggle) shakerPulseToggle.checked = false;
-    if (seamlessLoopToggle) seamlessLoopToggle.checked = false;
-    updateAcousticsControlsState();
-    syncNotesFormForCandidate("C0-repeat2x");
-    updateUIAndVisualizer();
-    void auditionConfig(currentConfig(), "A/B 2× Repeated C Control (9.72 s)");
-  });
+  if (abSkywardBtn) {
+    abSkywardBtn.addEventListener("click", () => {
+      stopAllAudio();
+      applyCandidateDefaults("M1-skyward-vista");
+      void auditionConfig(currentConfig(), "A/B M1 Skyward Vista (9.9 s)");
+    });
+  }
+
+  if (abRepeat2xBtn) {
+    abRepeat2xBtn.addEventListener("click", () => {
+      stopAllAudio();
+      applyCandidateDefaults("M1-skyward-vista");
+      void auditionConfig(currentConfig(), "A/B M1 Skyward Vista (9.9 s)");
+    });
+  }
 
   qsOrigBtn.addEventListener("click", () => abOriginalBtn.click());
-  qsRepeatBtn.addEventListener("click", () => abRepeat2xBtn.click());
+  if (qsRepeatBtn) {
+    qsRepeatBtn.addEventListener("click", () => {
+      if (abSkywardBtn) abSkywardBtn.click();
+      else if (abRepeat2xBtn) abRepeat2xBtn.click();
+    });
+  }
   qsExportBtn.addEventListener("click", () => {
-    void renderAndPrepareExportBundle();
+    void exportCurrentArrangementWav();
   });
 
   document.querySelectorAll("[data-quick-candidate]").forEach((btn) => {
@@ -805,11 +755,11 @@
     btn.addEventListener("click", () => {
       const layer = btn.getAttribute("data-quick-layer");
       if (layer === "conditioning-skeleton" && (candidateSelect.value === "C0-original" || harmonySelect.value === "H0-dry")) {
-        applyCandidateDefaults("C4-sentence-drive");
+        applyCandidateDefaults("M1-skyward-vista");
       } else if (candidateSelect.value === "C0-original" && layer === "backing-only") {
-        applyCandidateDefaults("C3-accompaniment-groove");
+        applyCandidateDefaults("M1-skyward-vista");
       } else if (harmonySelect.value === "H0-dry" && layer === "backing-only") {
-        harmonySelect.value = "H1-bright-resolved";
+        harmonySelect.value = "H-A1-skyward";
       }
       layerModeSelect.value = layer;
       updateUIAndVisualizer();
@@ -893,6 +843,9 @@
       patchSelect.value = s.patchId;
       tempoSelect.value = String(s.tempoBpm);
       layerModeSelect.value = s.layerMode;
+      if (s.leadProgramId && leadGmSelect) leadGmSelect.value = s.leadProgramId;
+      if (s.chordsProgramId && chordsGmSelect) chordsGmSelect.value = s.chordsProgramId;
+      if (s.bassProgramId && bassGmSelect) bassGmSelect.value = s.bassProgramId;
       if (s.exportProfile && exportProfileSelect) exportProfileSelect.value = s.exportProfile;
       if (typeof s.roomAir === "boolean" && roomAirToggle) roomAirToggle.checked = s.roomAir;
       if (typeof s.microGroove === "boolean" && microGrooveToggle) microGrooveToggle.checked = s.microGroove;
@@ -931,5 +884,5 @@
   // Boot initialization
   populateSelects();
   renderCandidateCards();
-  applyCandidateDefaults("C0-repeat2x");
+  applyCandidateDefaults("M1-skyward-vista");
 })();

@@ -36,7 +36,7 @@
         </div>
         <div class="telemetry-item">
           <span class="telemetry-label">Active Selection</span>
-          <span id="telemetry-candidate" class="telemetry-value font-mono">C0-repeat2x</span>
+          <span id="telemetry-candidate" class="telemetry-value font-mono">M1-skyward-vista</span>
         </div>
       </div>
     </div>
@@ -59,67 +59,65 @@
 
       <ol class="route-steps-grid">
         <li class="route-step-card">
-          <div class="step-badge">Step 1 · Length Control</div>
-          <h3 class="step-title">Original C (4.92 s) vs 2× Repeat (9.72 s)</h3>
+          <div class="step-badge">Step 1 · Family A</div>
+          <h3 class="step-title">Non-Terminal Hook Modifications</h3>
           <p class="step-desc">
-            Suno rejects <strong>Original C (4.92 s)</strong> as under 6.0 s. Compare it directly against <strong>C0-repeat2x (9.72 s)</strong>, which repeats C twice seamlessly at 100 BPM with zero pitch or tempo change.
+            Rewrites Bar 2 of Motif C so it lands on an open suspension (E6 or E5) instead of terminal D5.
           </p>
           <div class="step-actions">
+            <button type="button" class="btn btn-primary btn-sm" data-quick-candidate="M1-skyward-vista">
+              ★ M1 Skyward Vista
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="M2-supertonic-question">
+              M2 Supertonic Question
+            </button>
+          </div>
+        </li>
+
+        <li class="route-step-card">
+          <div class="step-badge">Step 2 · Family B</div>
+          <h3 class="step-title">Long-Timescale Melodic Arcs (3×–4×)</h3>
+          <p class="step-desc">
+            Continuous 6-bar (14.7 s) and 8-bar (19.5 s) melodies where the opening ripple launches a multi-bar journey to a high F#6 climax.
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-primary btn-sm" data-quick-candidate="M3-horizon-drift">
+              ★ M3 Horizon Drift (3× / 6 Bars)
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="M4-celestial-wanderer">
+              M4 Celestial Wanderer (4× / 8 Bars)
+            </button>
+          </div>
+        </li>
+
+        <li class="route-step-card">
+          <div class="step-badge">Step 3 · Family C</div>
+          <h3 class="step-title">Unresolved Pivot Chords Under F#5 → D5</h3>
+          <p class="step-desc">
+            Keeps all 10 notes of original Motif C in Bars 1–2, but harmonizes F#5 → D5 with an unresolved pivot chord (Gm6/Bb or E9) that demands continuation into Bars 3–4.
+          </p>
+          <div class="step-actions">
+            <button type="button" class="btn btn-primary btn-sm" data-quick-candidate="M5-minor-iv-yearning">
+              ★ M5 Minor-iv Gm6/Bb Pivot
+            </button>
+            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="M6-secondary-dominant-drive">
+              M6 Secondary-Dom E9 Pivot
+            </button>
             <button type="button" class="btn btn-secondary btn-sm" id="qs-orig-btn">
-              Play Original C (4.92 s)
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" id="qs-repeat-btn">
-              Play 2× Repeat C (9.72 s)
+              Original C (4.92 s Control)
             </button>
           </div>
         </li>
 
         <li class="route-step-card">
-          <div class="step-badge">Step 2 · Phrase &amp; Scene Forms</div>
-          <h3 class="step-title">Audition 3 C-Derived 8-Bar Forms</h3>
+          <div class="step-badge">Step 4 · Single-File Export</div>
+          <h3 class="step-title">Single-File Arrangement WAV Export</h3>
           <p class="step-desc">
-            Hear how C behaves inside an 8-bar period (<strong>C1</strong>), a conversational call with breathing space (<strong>C2</strong>), and a beginning-of-game accompaniment-led groove (<strong>C3</strong>).
-          </p>
-          <div class="step-actions">
-            <button type="button" class="btn btn-primary btn-sm" data-quick-candidate="C4-sentence-drive">
-              ★ Audition C4 Sentence (v2)
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C1-period-lock">
-              Audition C1 Period
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C2-call-and-breath">
-              Audition C2 Breath
-            </button>
-            <button type="button" class="btn btn-secondary btn-sm" data-quick-candidate="C3-accompaniment-groove">
-              Audition C3 Groove
-            </button>
-          </div>
-        </li>
-
-        <li class="route-step-card">
-          <div class="step-badge">Step 3 · Layer Isolation</div>
-          <h3 class="step-title">Switch Full Mix, Melody Solo &amp; Backing Solo</h3>
-          <p class="step-desc">
-            Verify that the lead tune stays clear above the chords and bass, or solo the accompaniment bed to hear how it carries the room during lead rests.
-          </p>
-          <div class="step-actions">
-            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="full">Full Mix</button>
-            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="melody-only">Melody Solo</button>
-            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="backing-only">Backing Solo</button>
-            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="conditioning-skeleton">2-Voice Skeleton</button>
-            <button type="button" class="btn btn-outline btn-sm" data-quick-layer="melody-octave-down">-1 Oct Lead (D4–D5)</button>
-          </div>
-        </li>
-
-        <li class="route-step-card">
-          <div class="step-badge">Step 4 · Reference Export</div>
-          <h3 class="step-title">Export Verified WAVs &amp; Score JSON</h3>
-          <p class="step-desc">
-            Render the active selection through <code>OfflineAudioContext</code> to download <strong>Full Mix WAV</strong>, <strong>Melody-Only WAV</strong> (identical lead events), and <strong>Provenance JSON</strong>.
+            Exports the single .wav file of the exact arrangement you have configured to play (no multi-file bundle to sort through).
           </p>
           <div class="step-actions">
             <button type="button" class="btn btn-primary btn-sm" id="qs-export-btn">
-              Render Export Bundle Now
+              ⬇ Export Current Arrangement (.WAV)
             </button>
           </div>
         </li>
@@ -147,7 +145,7 @@
           <strong id="combination-notice-title" class="notice-title">Configuration Guard</strong>
           <p id="combination-notice-msg" class="notice-text"></p>
         </div>
-        <button type="button" id="combination-fix-btn" class="btn btn-secondary btn-sm">Switch to C0-repeat2x + H1</button>
+        <button type="button" id="combination-fix-btn" class="btn btn-secondary btn-sm">Switch to M1-skyward-vista</button>
       </div>
 
       <div class="transport-bar">
@@ -162,8 +160,8 @@
           <button type="button" id="ab-original-btn" class="btn btn-ab">
             A/B: Original C (4.92 s)
           </button>
-          <button type="button" id="ab-repeat2x-btn" class="btn btn-ab">
-            A/B: 2× Repeat C (9.72 s)
+          <button type="button" id="ab-skyward-btn" class="btn btn-ab">
+            A/B: M1 Skyward Vista
           </button>
         </div>
 
@@ -185,7 +183,7 @@
         <div class="control-field">
           <label for="candidate-select" class="field-label">
             Candidate Score / Form
-            <span class="field-hint">Controls, C continuations &amp; separated foil</span>
+            <span class="field-hint">M1–M6 expansion proposals &amp; C0 control</span>
           </label>
           <select id="candidate-select" class="field-select"></select>
         </div>
@@ -193,17 +191,41 @@
         <div class="control-field">
           <label for="harmony-select" class="field-label">
             Harmony / Accompaniment Family
-            <span class="field-hint">D major voicings &amp; bass line</span>
+            <span class="field-hint">D major voicings, modal pivots &amp; bass</span>
           </label>
           <select id="harmony-select" class="field-select"></select>
         </div>
 
         <div class="control-field">
           <label for="patch-select" class="field-label">
-            Synthesizer Patch Family
-            <span class="field-hint">Procedural oscillator + filter palette</span>
+            Ensemble Preset (TinySynth q:1 Pairing)
+            <span class="field-hint">Pre-matched lead, chords &amp; bass voices</span>
           </label>
           <select id="patch-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="lead-gm-select" class="field-label">
+            Lead GM Instrument (TinySynth q:1)
+            <span class="field-hint">Melody track voice</span>
+          </label>
+          <select id="lead-gm-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="chords-gm-select" class="field-label">
+            Chords GM Instrument (TinySynth q:1)
+            <span class="field-hint">Harmonic pad &amp; counter voice</span>
+          </label>
+          <select id="chords-gm-select" class="field-select"></select>
+        </div>
+
+        <div class="control-field">
+          <label for="bass-gm-select" class="field-label">
+            Bass GM Instrument (TinySynth q:1)
+            <span class="field-hint">Bassline foundation voice</span>
+          </label>
+          <select id="bass-gm-select" class="field-select"></select>
         </div>
 
         <div class="control-field">
@@ -223,14 +245,15 @@
         <div class="control-field">
           <label for="layer-mode-select" class="field-label">
             Layer Audition Mode
-            <span class="field-hint">Full Mix vs solo stems</span>
+            <span class="field-hint">Arrangement mix vs solo stems</span>
           </label>
           <select id="layer-mode-select" class="field-select">
-            <option value="full" selected>Full Mix (Lead + Chords + Bass)</option>
+            <option value="full" selected>Full Arrangement (Lead + Chords + Bass)</option>
+            <option value="melody-chords">Melody + Chords (No Bass — Pivot Chord Focus)</option>
             <option value="melody-only">Melody Solo (Lead Only)</option>
             <option value="backing-only">Backing Solo (Chords + Bass Only)</option>
-            <option value="conditioning-skeleton">2-Voice Conditioning Skeleton (Lead + -4 dB Bass, No Chords)</option>
-            <option value="melody-octave-down">-1 Octave Conditioning Lead (D4–D5 Neural Sweet Spot)</option>
+            <option value="conditioning-skeleton">2-Voice Conditioning Skeleton (Lead + -4 dB Bass)</option>
+            <option value="melody-octave-down">-1 Octave Conditioning Lead (D4–D5)</option>
           </select>
         </div>
 
@@ -323,9 +346,9 @@
     <section class="candidates-section" aria-labelledby="candidates-heading">
       <div class="panel-header">
         <div>
-          <h2 id="candidates-heading" class="panel-title">Motif C Controls &amp; Continuation Candidates</h2>
+          <h2 id="candidates-heading" class="panel-title">v3 Melodic Expansion Proposals (M1–M6)</h2>
           <p class="panel-desc">
-            Every C-based candidate preserves the exact 10-event Motif C anchor (pitches, onset beats, and durations) in Bars 1–2.
+            Explore 6 research-backed melodic extensions across Family A (non-terminal anchor modifications), Family B (long-timescale 3×–4× arcs), and Family C (unresolved pivot chords).
           </p>
         </div>
       </div>
@@ -334,13 +357,13 @@
 
       <div class="separated-section" aria-labelledby="separated-heading">
         <div class="separated-banner">
-          <span class="separated-badge">Separated Optional Comparison</span>
+          <span class="separated-badge">Historical Baseline</span>
           <div>
             <h3 id="separated-heading" class="separated-title">
-              Optional Separated New-Core Comparison — Does Not Replace Motif C
+              Historical Baseline Control (C0-original — 4.92 s Untouched Motif C)
             </h3>
             <p class="separated-desc">
-              Provided strictly as an isolated comparison foil to test whether a narrower mid-register sixth (D5–B5, avoiding high D6) conditions external generators differently.
+              The untouched 2-bar Plan 32 gacha baseline ending on terminal D5 (beat 6.0), preserved for direct A/B and calibration comparison.
             </p>
           </div>
         </div>
@@ -352,15 +375,13 @@
     <section id="export-panel" class="export-panel" aria-labelledby="export-heading">
       <div class="panel-header">
         <div>
-          <h2 id="export-heading" class="panel-title">Offline Reference WAV &amp; Reproducible JSON Exporter</h2>
+          <h2 id="export-heading" class="panel-title">Single-File Reference WAV &amp; Reproducible JSON Exporter</h2>
           <p class="panel-desc">
-            Renders the active configuration via <code>OfflineAudioContext</code> (48,000 Hz, stereo, 16-bit PCM WAV).
-            Produces <strong>Full Mix WAV</strong>, <strong>Melody-Only WAV</strong> (verified identical lead events), optional <strong>Backing-Only WAV</strong>, and <strong>Score/Settings/Provenance JSON</strong>.
-            Displayed peak and RMS values are PCM sample peak and RMS only — never LUFS or true peak.
+            Renders the exact active arrangement via <code>OfflineAudioContext</code> (48,000 Hz, stereo, 16-bit PCM WAV) and immediately downloads a single self-contained <code>.wav</code> file. Displayed peak and RMS values are PCM sample peak and RMS only — never LUFS or true peak.
           </p>
         </div>
         <button type="button" id="render-export-btn" class="btn btn-primary btn-lg">
-          Render &amp; Prepare Export Bundle
+          ⬇ Export Current Arrangement (.WAV)
         </button>
       </div>
 
@@ -380,7 +401,7 @@
           <div class="recipe-item">
             <span class="recipe-label">Recommended Stem Upload</span>
             <p class="recipe-text">
-              Upload the <strong>2-Voice Conditioning Skeleton WAV</strong> (or <strong>-1 Octave Conditioning Lead WAV</strong> if high D6 sounds shrill) at <strong>9.72 s</strong> (<code>C0-repeat2x</code>) or <strong>19.20 s / 19.32 s</strong> (<code>C4</code> / <code>C1</code>).
+              Upload the <strong>2-Voice Conditioning Skeleton WAV</strong> (or <strong>-1 Octave Conditioning Lead WAV</strong> if high D6 sounds shrill) at <strong>9.90 s</strong> (<code>M1</code>, <code>M2</code>, <code>M5</code>, <code>M6</code>) or <strong>14.70 s / 19.50 s</strong> (<code>M3</code> / <code>M4</code>).
             </p>
           </div>
           <div class="recipe-item full-span">
@@ -397,7 +418,7 @@
 
       <div id="export-list" class="export-list" role="list" aria-label="Rendered Reference Export Bundles">
         <div class="export-empty-placeholder">
-          No export bundles rendered yet in this session. Select any candidate/arrangement and click <strong>"Render &amp; Prepare Export Bundle"</strong>.
+          No arrangements exported yet in this session. Select any candidate/arrangement and click <strong>"Export Current Arrangement (.WAV)"</strong>.
         </div>
       </div>
     </section>

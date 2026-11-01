@@ -2,7 +2,9 @@
  * Quackpot Plan 39: Web Audio Laboratory Synthesizer Patches
  *
  * Attribution & License Notice:
- * Procedural General MIDI (GM) operator recipes adapted from `webaudio-tinysynth`:
+ * Custom procedural GM operator recipes reported as adapted from `webaudio-tinysynth`;
+ * the original upstream revision is unverified. See ../TINYSYNTH-NOTICE.md.
+ * Modified in this laboratory; this file is not the upstream library.
  *   Copyright (c) 2015-2024 Tatsuya Shinyagaito (g200kg)
  *   Repository: https://github.com/g200kg/webaudio-tinysynth
  *   License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)

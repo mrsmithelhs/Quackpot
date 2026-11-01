@@ -281,6 +281,41 @@ test("WAV encoder/parser and manifest round-trip verification with GM program ID
   assert.equal(roundTrip.rebuilt.bassEvents.length, score.bassEvents.length);
 });
 
+test("manifest rejects changed tracks, versions, programs and mix and preserves skeleton gains", () => {
+  const score = engine.buildScheduledScore({ candidateId: "M3-horizon-drift", harmonyId: "H-B1-horizon", patchId: "TS-flute-harp", tempoBpm: 104, layerMode: "conditioning-skeleton", layerGains: { lead: 0.7, chords: 0.8, bass: 0.6 }, roomAir: true });
+  const manifest = JSON.parse(JSON.stringify(engine.createExportManifest(score)));
+  const ok = engine.validateImportedManifest(manifest);
+  assert.equal(ok.valid, true);
+  assert.deepEqual(ok.rebuilt.layerGains, score.layerGains);
+  for (const mutate of [
+    m => { m.events.chordEvents[0].midi++; },
+    m => { m.events.bassEvents[0].velocity = 0; },
+    m => { m.events.leadEvents[0].startSeconds = 99; },
+    m => { m.patchSnapshot.masterGain = 0; },
+    m => { m.settings.leadProgramId = "unknown"; },
+    m => { m.settings.roomAir = "yes"; },
+    m => { m.settings.layerGains.bass = -1; },
+    m => { delete m.settings.candidateId; },
+    m => { delete m.settings.layerMode; },
+    m => { m.mixContract.peakSafetyScale = 0.5; },
+    m => { m.render = { safetyScale: 2 }; m.mixContract.peakSafetyScale = 2; },
+    m => { m.scoreSchemaVersion = 999; },
+    m => { m.schemaVersion = 3; }
+  ]) {
+    const copy = structuredClone(manifest); mutate(copy);
+    assert.equal(engine.validateImportedManifest(copy).valid, false);
+  }
+});
+
+test("tail bound includes non-lead program, groove and room; candidate defaults build", () => {
+  for (const c of scores.candidates) engine.buildScheduledScore({ candidateId: c.id, harmonyId: c.defaultHarmonyId, patchId: c.defaultPatchId, tempoBpm: 100 });
+  const config = { candidateId: "M3-horizon-drift", harmonyId: "H-B1-horizon", patchId: "TS-flute-harp", leadProgramId: "GM-12-marimba", chordsProgramId: "GM-46-harp", bassProgramId: "GM-32-acoustic-bass", tempoBpm: 100, layerMode: "full" };
+  const dry = engine.buildScheduledScore(config);
+  const wet = engine.buildScheduledScore({ ...config, roomAir: true, microGroove: true });
+  assert.ok(dry.tailSeconds >= engine.getGmProgram(config.chordsProgramId).releaseTailSeconds);
+  assert.ok(wet.tailSeconds >= dry.tailSeconds + 0.39);
+});
+
 
 test("offline render timeout retains the lock until a late rejection settles", async () => {
   const originalContext = globalThis.OfflineAudioContext;

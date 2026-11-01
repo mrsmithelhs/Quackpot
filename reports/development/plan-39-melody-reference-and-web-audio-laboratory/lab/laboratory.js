@@ -89,6 +89,7 @@
   let playbackToken = 0;
   let exportInProgress = false;
   let exportSequence = 0;
+  let restoredLayerGains = null;
   const allocatedObjectUrls = new Set();
   const retainedExportBundles = [];
   const MAX_RETAINED_EXPORT_BUNDLES = 5;
@@ -155,6 +156,7 @@
       bassProgramId: bassGmSelect ? bassGmSelect.value : undefined,
       tempoBpm: Number(tempoSelect.value),
       layerMode: layerModeSelect.value,
+      layerGains: restoredLayerGains || undefined,
       exportProfile: exportProfileSelect ? exportProfileSelect.value : "game-audition",
       roomAir: roomAirToggle ? roomAirToggle.checked : false,
       microGroove: microGrooveToggle ? microGrooveToggle.checked : false,
@@ -251,7 +253,8 @@
       card.dataset.candidateId = cand.id;
       card.setAttribute("role", "listitem");
 
-      const defaultDuration = ((cand.bars * cand.beatsPerBar * 60) / 100 + 0.30).toFixed(2);
+      const defaultScore = engine.buildScheduledScore({ candidateId: cand.id, harmonyId: cand.defaultHarmonyId, patchId: cand.defaultPatchId, tempoBpm: 100 });
+      const defaultDuration = defaultScore.durationSeconds.toFixed(2);
       let groupBadge = "Historical Control";
       let badgeClass = "badge-control";
       if (cand.group === "family-a-non-terminal") {
@@ -411,6 +414,7 @@
   function applyCandidateDefaults(candidateId) {
     const cand = engine.getCandidate(candidateId);
     if (!cand) return;
+    restoredLayerGains = null;
     candidateSelect.value = cand.id;
     harmonySelect.value = cand.defaultHarmonyId;
     patchSelect.value = cand.defaultPatchId;
@@ -476,10 +480,16 @@
       const userVol = Number(masterVolume.value) || 0.85;
       const startAt = ctx.currentTime + 0.025;
 
-      activeSynthHandle = engine.scheduleOnAudioContext(ctx, scheduled, patch, {
-        baseTime: startAt,
-        masterGain: patch.masterGain * userVol
-      });
+      const looping = loopToggle.checked;
+      const handles = [];
+      const scheduleCycle = (at) => {
+        handles.push({ end: at + scheduled.durationSeconds, handle: engine.scheduleOnAudioContext(ctx, scheduled, patch, {
+          baseTime: at, masterGain: patch.masterGain * userVol
+        }) });
+      };
+      scheduleCycle(startAt);
+      activeSynthHandle = { stopAll() { for (const item of handles.splice(0)) item.handle.stopAll(); } };
+      let nextCycle = startAt + scheduled.phraseSeconds;
 
       stopBtn.disabled = false;
       playingIndicator.classList.add("playing");
@@ -491,24 +501,28 @@
       playbackTimer = setInterval(() => {
         if (token !== playbackToken || !audioCtx) return;
         const elapsed = Math.max(0, audioCtx.currentTime - startAt);
-        const clamped = Math.min(scheduled.durationSeconds, elapsed);
-        telemetryTime.textContent = `${clamped.toFixed(2)} s / ${scheduled.durationSeconds.toFixed(2)} s`;
+        if (looping) {
+          while (handles.length && handles[0].end < ctx.currentTime) handles.shift().handle.stopAll();
+          if (nextCycle <= ctx.currentTime) {
+            stopAllAudio("Loop stopped: browser scheduling was delayed. Restart playback in an active tab.");
+            return;
+          }
+          if (nextCycle - ctx.currentTime < 1) {
+            scheduleCycle(nextCycle);
+            nextCycle += scheduled.phraseSeconds;
+          }
+        }
+        const clamped = looping ? elapsed % scheduled.phraseSeconds : Math.min(scheduled.durationSeconds, elapsed);
+        telemetryTime.textContent = `${clamped.toFixed(2)} s / ${(looping ? scheduled.phraseSeconds : scheduled.durationSeconds).toFixed(2)} s`;
         if (!reducedMotion) {
           const pct = Math.min(100, (clamped / scheduled.phraseSeconds) * 100);
           visualizerPlayhead.style.left = `${pct.toFixed(1)}%`;
         }
       }, 60);
 
-      const waitSec = loopToggle.checked ? scheduled.phraseSeconds : scheduled.durationSeconds;
-      const waitMs = Math.ceil((waitSec + 0.04) * 1000);
-      loopRestartTimer = setTimeout(() => {
-        if (token !== playbackToken) return;
-        if (loopToggle.checked) {
-          void auditionConfig(cfg, "Looping");
-        } else {
-          stopAllAudio(`Finished playing ${scheduled.candidateId} (${scheduled.durationSeconds.toFixed(2)} s).`);
-        }
-      }, waitMs);
+      if (!looping) loopRestartTimer = setTimeout(() => {
+        if (token === playbackToken) stopAllAudio(`Finished playing ${scheduled.candidateId} (${scheduled.durationSeconds.toFixed(2)} s).`);
+      }, Math.ceil((scheduled.durationSeconds + 0.04) * 1000));
     } catch (error) {
       stopAllAudio(`Audition error: ${error.message}`);
     }
@@ -544,6 +558,7 @@
         sampleRate: header.sampleRate,
         channels: header.channels,
         durationSeconds: renderResult.durationSeconds,
+        safetyScale: renderResult.safetyScale,
         frameCount: renderResult.frameCount,
         measurementBasis: renderResult.measured.measurementBasis,
         arrangement: {
@@ -858,6 +873,9 @@
         throw new Error(validation.error);
       }
       const s = validation.settings;
+      for (const [select, value] of [[candidateSelect, s.candidateId], [harmonySelect, s.harmonyId], [patchSelect, s.patchId], [tempoSelect, String(s.tempoBpm)], [layerModeSelect, s.layerMode], [leadGmSelect, s.leadProgramId], [chordsGmSelect, s.chordsProgramId], [bassGmSelect, s.bassProgramId], [exportProfileSelect, s.exportProfile]]) {
+        if (!select || !Array.from(select.options).some((option) => option.value === value)) throw new Error(`The current controls cannot restore ${value}.`);
+      }
       candidateSelect.value = s.candidateId;
       harmonySelect.value = s.harmonyId;
       patchSelect.value = s.patchId;
@@ -871,11 +889,12 @@
       if (typeof s.microGroove === "boolean" && microGrooveToggle) microGrooveToggle.checked = s.microGroove;
       if (typeof s.shakerPulse === "boolean" && shakerPulseToggle) shakerPulseToggle.checked = s.shakerPulse;
       if (typeof s.seamlessLoopWrap === "boolean" && seamlessLoopToggle) seamlessLoopToggle.checked = s.seamlessLoopWrap;
+      restoredLayerGains = { ...s.layerGains };
       updateAcousticsControlsState();
       syncNotesFormForCandidate(s.candidateId);
       updateUIAndVisualizer();
       notesFeedback.textContent = `Restored configuration from ${file.name} (${s.candidateId}).`;
-      setStatus(`Imported and verified manifest ${file.name}: ${s.candidateId} (${s.harmonyId}, ${s.patchId}, ${s.tempoBpm} BPM).`);
+      setStatus(`Imported ${file.name}: ${s.candidateId} (${s.harmonyId}, ${s.patchId}, ${s.tempoBpm} BPM); layer gains lead ${s.layerGains.lead}, chords ${s.layerGains.chords}, bass ${s.layerGains.bass}.`);
     } catch (error) {
       notesFeedback.textContent = `Import rejected: ${error.message}`;
       setStatus(`Import rejected: ${error.message}`);

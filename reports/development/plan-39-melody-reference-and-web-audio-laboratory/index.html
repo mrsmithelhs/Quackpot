@@ -284,9 +284,9 @@
           <input type="checkbox" id="shaker-pulse-toggle">
           <span class="toggle-label">Brushed Shaker Pulse (Beats 2 &amp; 4)</span>
         </label>
-        <label class="toggle-control" for="seamless-loop-toggle" title="Overlap-add decay wrap ensuring a clickless seamless 19.20 s loop seam">
+        <label class="toggle-control" for="seamless-loop-toggle" title="Wrap the release tail into the start of a score-length WAV loop; inspect joins by listening">
           <input type="checkbox" id="seamless-loop-toggle">
-          <span class="toggle-label">Seamless Loop Wrap (19.20 s Exact Bar Seam)</span>
+          <span class="toggle-label">Wrap release into phrase-length WAV loop</span>
         </label>
       </div>
     </section>
@@ -430,7 +430,7 @@
         <div>
           <h2 id="notes-heading" class="panel-title">Owner Listening Notes &amp; Manifest Round-Trip</h2>
           <p class="panel-desc">
-            Save listening notes in namespaced laboratory storage (<code>quackpot.plan39.lab.notes.v1</code>, strictly isolated from game saves) or import a previously exported <code>-manifest.json</code> file to restore its exact score and synthesis settings.
+            Save listening notes in namespaced laboratory storage (<code>quackpot.plan39.lab.notes.v1</code>, strictly isolated from game saves) or import a compatible v4 <code>-manifest.json</code> to restore its verified score and synthesis settings. Older manifests are preserved but cannot be restored here.
           </p>
         </div>
         <div class="notes-actions">

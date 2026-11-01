@@ -2,13 +2,15 @@
  * Quackpot Plan 39: Web Audio Laboratory Synthesis & WAV Export Engine
  *
  * Attribution & License Notice:
- * Procedural General MIDI (GM) operator scheduling engine adapted from `webaudio-tinysynth`:
+ * Custom operator scheduler reported as adapted from `webaudio-tinysynth`;
+ * original upstream revision unverified. See ../TINYSYNTH-NOTICE.md.
+ * Modified in this laboratory; this file is not the upstream library.
  *   Copyright (c) 2015-2024 Tatsuya Shinyagaito (g200kg)
  *   Repository: https://github.com/g200kg/webaudio-tinysynth
  *   License: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  *
  * Implements:
- * 1. webaudio-tinysynth (quality: 1) multi-operator FM/additive synthesis.
+ * 1. Custom multi-operator FM/additive synthesis using adapted recipes.
  * 2. Per-track GM program resolution (lead, chords, bass) with preset/individual overrides.
  * 3. 2-Bar, 4-Bar, 6-Bar, and 8-Bar candidate and harmony schedule handling.
  * 4. Layer modes: "full", "melody-chords", "melody-only", "backing-only",
@@ -126,6 +128,7 @@
       data[i] = rng() * 2 - 1;
     }
     noiseBufferCache.set(cacheKey, buffer);
+    if (noiseBufferCache.size > 32) noiseBufferCache.delete(noiseBufferCache.keys().next().value);
     return buffer;
   }
 
@@ -401,12 +404,22 @@
     const totalBeats = candidate.bars * candidate.beatsPerBar;
     const phraseSeconds = Number((totalBeats * secondsPerBeat).toFixed(6));
 
-    // Calculate tailSeconds: preserve exact 0.12s on C0-original control, else use max release tail
+    // Bound every selected voice, including operator stop padding, groove offset,
+    // and the finite room impulse response. The historical dry control is kept
+    // at its original length and is not a claim about other configurations.
     let tailSeconds;
-    if (candidate.id === "C0-original" && harmony.id === "H0-dry" && leadProgram.id === "P0-plan32-triangle") {
+    if (candidate.id === "C0-original" && useExactPlan32BarePath) {
       tailSeconds = 0.12;
     } else {
-      tailSeconds = Number((Math.max(patch.tailSeconds || 0.12, leadProgram.releaseTailSeconds || 0.12)).toFixed(6));
+      const releaseBound = (program) => Math.max(
+        program.releaseSeconds || program.releaseTailSeconds || 0.09,
+        ...(program.operators || []).map((op) => Math.max(0.02, op.r || 0.12) + 0.005)
+      );
+      const activePrograms = [];
+      if (layerMode !== "backing-only") activePrograms.push(leadProgram);
+      if (layerMode === "full" || layerMode === "melody-chords" || layerMode === "backing-only") activePrograms.push(chordsProgram);
+      if (layerMode === "full" || layerMode === "backing-only" || layerMode === "conditioning-skeleton") activePrograms.push(bassProgram);
+      tailSeconds = Number((Math.max(patch.tailSeconds || 0.12, ...activePrograms.map(releaseBound)) + (microGroove ? 0.031 : 0) + (roomAir ? 0.36 : 0)).toFixed(6));
     }
     const durationSeconds = Number((phraseSeconds + tailSeconds).toFixed(6));
 
@@ -415,7 +428,12 @@
     }
 
     const rawGains = config.layerGains || {};
-    let bassBaseGain = Number.isFinite(rawGains.bass) ? Math.max(0, Math.min(1.5, Number(rawGains.bass))) : 0.90;
+    const inputLayerGains = {
+      lead: Number.isFinite(rawGains.lead) ? Math.max(0, Math.min(1.5, rawGains.lead)) : 1,
+      chords: Number.isFinite(rawGains.chords) ? Math.max(0, Math.min(1.5, rawGains.chords)) : 0.85,
+      bass: Number.isFinite(rawGains.bass) ? Math.max(0, Math.min(1.5, rawGains.bass)) : 0.90
+    };
+    let bassBaseGain = inputLayerGains.bass;
     if (layerMode === "conditioning-skeleton") {
       // 2-Voice Conditioning Skeleton: scale bass by 0.63 (-4 dB)
       bassBaseGain = Number((bassBaseGain * 0.63).toFixed(4));
@@ -562,6 +580,7 @@
       sampleRate: patch.sampleRate || 48000,
       layerMode,
       layerGains: Object.freeze(layerGains),
+      inputLayerGains: Object.freeze(inputLayerGains),
       seed: config.seed ?? "deterministic-v1",
       sections: candidate.sections,
       exportProfile,
@@ -623,6 +642,8 @@
     if (!ctx) throw new Error("scheduleOnAudioContext requires an AudioContext or OfflineAudioContext.");
     const patch = patchOverride || getPatch(scheduledScore.patchId);
     if (!patch) throw new Error(`Patch not found: ${scheduledScore.patchId}`);
+    const totalEvents = scheduledScore.leadEvents.length + scheduledScore.chordEvents.length + scheduledScore.bassEvents.length;
+    if (totalEvents > 512) throw new Error("Score exceeds the 512-event audio graph bound.");
 
     const baseTime = typeof options.baseTime === "number" ? options.baseTime : ctx.currentTime;
     const masterGainValue = typeof options.masterGain === "number"
@@ -1184,8 +1205,8 @@
           for (let i = 0; i < phraseFrames; i += 1) {
             target[i] = orig[i];
           }
-          for (let i = 0; i < spilloverFrames && i < phraseFrames; i += 1) {
-            target[i] += orig[phraseFrames + i];
+          for (let i = 0; i < spilloverFrames; i += 1) {
+            target[i % phraseFrames] += orig[phraseFrames + i];
           }
         }
         renderedBuffer = wrappedBuffer;
@@ -1193,8 +1214,9 @@
 
       // Transparent safety limiter: if peak exceeds 0.95, scale down to 0.92
       let measured = measurePcm(renderedBuffer);
+      let safetyScale = 1;
       if (measured.peak > 0.95) {
-        const safetyScale = 0.92 / measured.peak;
+        safetyScale = 0.92 / measured.peak;
         for (let ch = 0; ch < renderedBuffer.numberOfChannels; ch += 1) {
           const data = renderedBuffer.getChannelData(ch);
           for (let i = 0; i < data.length; i += 1) {
@@ -1216,6 +1238,7 @@
         frameCount: renderedBuffer.length,
         sampleRate: renderedBuffer.sampleRate,
         channels: renderedBuffer.numberOfChannels,
+        safetyScale,
         durationSeconds: Number((renderedBuffer.length / renderedBuffer.sampleRate).toFixed(4)),
         elapsedMilliseconds: elapsedMs
       };
@@ -1248,7 +1271,7 @@
     const patch = getPatch(scheduledScore.patchId);
     return Object.freeze({
       artifact: "quackpot-plan39-melody-reference-export",
-      schemaVersion: 3,
+      schemaVersion: 4,
       scoreSchemaVersion: scores.schemaVersion,
       patchSchemaVersion: patches.schemaVersion,
       exportedAt: new Date().toISOString(),
@@ -1273,7 +1296,8 @@
         bars: scheduledScore.bars,
         beatsPerBar: scheduledScore.beatsPerBar,
         layerMode: scheduledScore.layerMode,
-        layerGains: { ...scheduledScore.layerGains },
+        layerGains: { ...scheduledScore.inputLayerGains },
+        effectiveLayerGains: { ...scheduledScore.layerGains },
         seed: scheduledScore.seed,
         exportProfile: scheduledScore.exportProfile,
         roomAir: scheduledScore.roomAir,
@@ -1282,6 +1306,7 @@
         seamlessLoopWrap: scheduledScore.seamlessLoopWrap,
         leadPitchMultiplier: scheduledScore.leadPitchMultiplier
       },
+      mixContract: { patchMasterGain: patch.masterGain, auditionSliderIncluded: false, peakSafetyScale: renderSummary?.safetyScale ?? null },
       patchSnapshot: patch,
       leadEventParity: leadParity || null,
       render: renderSummary || null,
@@ -1297,8 +1322,8 @@
     if (!manifest || typeof manifest !== "object") {
       return { valid: false, error: "Imported JSON is not an object." };
     }
-    if (manifest.artifact !== "quackpot-plan39-melody-reference-export" || (manifest.schemaVersion !== 1 && manifest.schemaVersion !== 3)) {
-      return { valid: false, error: "Unsupported manifest artifact or schemaVersion (expected schemaVersion: 1 or 3)." };
+    if (manifest.artifact !== "quackpot-plan39-melody-reference-export" || manifest.schemaVersion !== 4) {
+      return { valid: false, error: "Unsupported manifest artifact or schemaVersion (expected schemaVersion: 4). Historical exports remain available but cannot be restored by this version." };
     }
     if (manifest.provenance?.motifCSourceSha256 !== EXPECTED_MOTIFS_SHA256) {
       return { valid: false, error: "Manifest motifCSourceSha256 does not match the canonical Plan 32 motifs.js hash." };
@@ -1307,22 +1332,37 @@
     if (!settings || typeof settings !== "object") {
       return { valid: false, error: "Manifest is missing settings object." };
     }
+    for (const key of ["candidateId", "harmonyId", "patchId", "layerMode"]) {
+      if (typeof settings[key] !== "string" || !settings[key]) return { valid: false, error: `Missing ${key}.` };
+    }
+    const { scores, patches } = getAuthorities();
+    if (manifest.scoreSchemaVersion !== scores.schemaVersion || manifest.patchSchemaVersion !== patches.schemaVersion) return { valid: false, error: "Unsupported score or patch version." };
+    for (const key of ["leadProgramId", "chordsProgramId", "bassProgramId"]) {
+      if (typeof settings[key] !== "string" || !getGmProgram(settings[key])) return { valid: false, error: `Invalid ${key}.` };
+    }
+    for (const key of ["roomAir", "microGroove", "shakerPulse", "seamlessLoopWrap"]) {
+      if (typeof settings[key] !== "boolean") return { valid: false, error: `Invalid ${key}.` };
+    }
+    if (!["game-audition", "suno-conditioning"].includes(settings.exportProfile) || settings.seed !== "deterministic-v1" || typeof settings.tempoBpm !== "number") return { valid: false, error: "Invalid profile, seed, or tempo." };
+    if (!settings.layerGains || ["lead", "chords", "bass"].some((key) => !Number.isFinite(settings.layerGains[key]) || settings.layerGains[key] < 0 || settings.layerGains[key] > 1.5)) return { valid: false, error: "Invalid layer gains." };
     const combination = evaluateCombination(settings);
     if (!combination.supported) {
       return { valid: false, error: `Manifest settings unsupported: ${combination.reason}` };
     }
-    const rebuilt = buildScheduledScore(settings);
-    const importedLead = manifest.events?.leadEvents;
-    if (!Array.isArray(importedLead) || importedLead.length !== rebuilt.canonicalLeadEvents.length) {
-      return { valid: false, error: "Imported leadEvents count does not match rebuilt canonical score." };
+    let rebuilt;
+    try { rebuilt = buildScheduledScore(settings); } catch (error) { return { valid: false, error: error.message }; }
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    for (const key of ["candidateTitle", "parentAnchor", "leadProgramName", "chordsProgramName", "bassProgramName", "bars", "beatsPerBar", "roomAir", "microGroove", "shakerPulse", "seamlessLoopWrap", "leadPitchMultiplier"]) {
+      if (!same(settings[key], rebuilt[key])) return { valid: false, error: `Manifest ${key} differs from rebuilt score.` };
     }
-    for (let i = 0; i < importedLead.length; i += 1) {
-      const a = importedLead[i];
-      const b = rebuilt.canonicalLeadEvents[i];
-      if (a.beat !== b.beat || a.midi !== b.midi || a.durationBeats !== b.durationBeats || a.velocity !== b.velocity) {
-        return { valid: false, error: `Imported lead event ${i} differs from canonical score.` };
-      }
+    if (!same(settings.effectiveLayerGains, rebuilt.layerGains) || !same(manifest.patchSnapshot, getPatch(rebuilt.patchId))) return { valid: false, error: "Manifest mix or patch snapshot differs from the current authority." };
+    for (const [key, events] of [["chordEvents", rebuilt.canonicalChordEvents], ["bassEvents", rebuilt.canonicalBassEvents]]) {
+      if (!same(manifest.events?.[key], events)) return { valid: false, error: `Manifest ${key} differs from rebuilt score.` };
     }
+    if (!same(manifest.events?.leadEvents, rebuilt.canonicalLeadEvents)) return { valid: false, error: "Manifest lead events differ from rebuilt score." };
+    if (manifest.mixContract?.patchMasterGain !== getPatch(rebuilt.patchId).masterGain || manifest.mixContract?.auditionSliderIncluded !== false) return { valid: false, error: "Invalid mix contract." };
+    const scale = manifest.mixContract.peakSafetyScale;
+    if (scale !== (manifest.render?.safetyScale ?? null) || (scale !== null && (!Number.isFinite(scale) || scale <= 0 || scale > 1))) return { valid: false, error: "Invalid export safety scale." };
     return { valid: true, settings, rebuilt };
   }
 

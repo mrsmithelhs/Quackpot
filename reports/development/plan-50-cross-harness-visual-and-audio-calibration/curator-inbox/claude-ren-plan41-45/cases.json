@@ -1,0 +1,356 @@
+{
+  "curator": "Claude Sonnet 5.5 (this chat's lead)",
+  "created_utc_date": "2026-11-01",
+  "role": "curator, not reviewer",
+  "cases": [
+    {
+      "id": "RENDOOR-01",
+      "title": "Door scene: figure reads as floating behind a foreground table",
+      "context_before_feedback": "Brief: Ren (friend/neighbor character, flat soft-vector style) at the apartment door with a small box of spare light bulbs; selected presence channel was phone plus door/hallway; the packet said no new location art beyond a doorway view. The lead composed Ren in a hallway doorway seen from inside a warm interior, with a console table (key bowl, mug) in the foreground, a lamp and sofa arm at left, and the table top cropping Ren at the chest. The lead presented this as 'close framing ... the console crop acceptable, or full height' and recommended keeping the crop.",
+      "what_the_image_showed_before": "Lead's own description of the PNG (confidence medium; the lead viewed it in this chat): Ren centered in a doorway with a cooler hallway behind and a door across the hall; a wooden table with a mug and a small green pot spans the lower third, its top edge crossing Ren's torso and the lower part of the box; floor boards visible left and right below a wall line; faint indigo sprout marks on the neck and the forearm. The box and a bare forearm with a hand shape sit at the lower right of Ren, partly overlapped by the table.",
+      "missing_context": "It is not recorded whether the owner had looked at the round-2 door scene before this exchange (their earlier round-2 answers were typed through the question tool about hair, art direction and rules). No owner screenshot or annotation of the door scene exists.",
+      "artifacts": [
+        {
+          "role": "BEFORE: door scene as first shown (rendered export of the round-2 page's door composition; old neck tattoo, old pencil bar behind ear, console table across Ren's chest)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/reference/ren-ref-door-scene.png",
+          "commit": "99e3cc8",
+          "git_blob": "37bb8bd794578dd48813063d15df8267a482908c",
+          "sha256": "d275877dd43cd7f2839e7ffbee6be1a85b0639d874dd15bf45dfa0f814521f6f",
+          "bytes": 53519,
+          "kind": "original captured image (PNG export of an HTML/SVG page rendered by headless Edge)",
+          "note": "",
+          "copied_to": "images/c1-before-ren-ref-door-scene.png"
+        },
+        {
+          "role": "BEFORE: page source containing the door composition and its text (section 3 'Door / hallway composition')",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/round-02-refinement.html",
+          "commit": "a0bc2e2",
+          "git_blob": "56b256462d43b71c83054f2f3a48c54c996f4a10",
+          "sha256": "1c7197567b1921a49e70c05f3ca8ea1515287da19ea48530c75e04f1018ad0ec",
+          "bytes": 19887,
+          "kind": "HTML with inline SVG source",
+          "note": "Same door scene also appears in round-03-storyboard.html at this commit; the box-and-forearm group is the id R-box-arm.",
+          "copied_to": null
+        },
+        {
+          "role": "AFTER: reframed door scene, standalone SVG (wall and doorway fill the frame, no table or floor, no forearm tattoo)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "commit": "21b7366",
+          "git_blob": "dd6b79b6a9cd54fe6238368502e3e6bd149d9247",
+          "sha256": "518a918a993845f449c1694901838604bd011cd1b778a651eae645d3271faf82",
+          "bytes": 9912,
+          "kind": "SVG source (no PNG capture of this version was saved; it was viewed in the browser pane)",
+          "note": "",
+          "copied_to": "images/c1-after-door-scene-v2.svg"
+        },
+        {
+          "role": "AFTER: page that presented the reframed scene beside six faces",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/round-04-faces-and-door.html",
+          "commit": "21b7366",
+          "git_blob": "073d8f7e8f6112f970ad88e96f1651da7c1e1b75",
+          "sha256": "1c2e59b44fdc56dbb7501aead907a90321df2048a9f28f04a844ffb3b5dca51b",
+          "bytes": 16060,
+          "kind": "HTML with inline SVG source",
+          "note": "",
+          "copied_to": null
+        }
+      ],
+      "feedback": [
+        {
+          "label": "verbatim (the relevant clause is item 3; the lead had asked 'Keep the crop' versus 'Full height')",
+          "timestamp_utc": "2026-11-01T00:15:45.596Z",
+          "message_uuid": "53b06635-c562-49f4-9144-d7061926432f",
+          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "text": "1 add listening, 2 keep, 3 make upper half of door/wall take up the whole frame because the desk is very strange and Ren is floating (don't show door all the way to ground), 4 keep",
+          "note": "The owner chose neither offered option. The lead's earlier text called the object a 'console table'; the owner calls it 'the desk'."
+        }
+      ],
+      "what_changed_afterward": "Lead redrew the scene: wall and doorway fill a 960x540 frame, the door frame runs off the bottom edge, the console table, floor, couch arm and lamp were removed, a wall sconce and a framed picture were added, Ren scaled to fill the opening and is cropped by the frame edge, and the forearm tattoo was dropped (separately required by the owner's earlier arm-only tattoo statement). The box-and-forearm group (R-box-arm) was reused with only that tattoo stroke removed.",
+      "owner_response": {
+        "explicit": true,
+        "verbatim": "Round 04 door scene much improved, listening face good.",
+        "locator": {
+          "timestamp_utc": "2026-11-01T00:44:56.725Z",
+          "message_uuid": "6597aa0e-1233-42b5-a098-074d48bbf045"
+        },
+        "note": "Accepted as improved ('much improved'); not declared final art."
+      },
+      "classification": [
+        "experience/consistency issue (spatial reading: figure appears to float) requiring brief context",
+        "new requirement introduced in the answer (door and wall fill the frame; do not show the door to the ground)"
+      ],
+      "reviewer_could_know": "A reviewer could see that a foreground table crops the figure and that the figure's relation to a floor is ambiguous. A reviewer could not know that the owner wanted the wall and doorway to fill the frame, nor that the owner would reject the table crop that the lead had recommended.",
+      "hand_box_note": "No owner feedback in this chat addresses hand/box contact or arm anatomy. The box, forearm and hand shape exist in both the before and after versions (same R-box-arm group apart from the removed tattoo stroke), so any hand/box question for a reviewer is not answered by the owner's words. Treat that region as unlabeled by the owner.",
+      "known_limitations": [
+        "The before image is a PNG export made earlier in the session and not a capture of exactly what the owner viewed.",
+        "No PNG capture of the after version was saved; only SVG source and a browser-pane view.",
+        "The lead's text description of the before image is memory-based interpretation, not owner input.",
+        "Owner reference images and annotations: none exist for this case."
+      ]
+    },
+    {
+      "id": "RENFRAME-02",
+      "title": "Apartment scenes: body framing, seating and close versus wide",
+      "context_before_feedback": "Request: composed drawings of Ren in the player's apartment (chair, couch, standing elsewhere) and an answer whether the apartment kit's fixed one-point-perspective camera makes that easy without drawing more of Ren's body. The lead inserted a bust-only Ren into the kit's own camera at real depth so nearer furniture (redrawn sofa arms and cushions, the kitchen bar) hid the chest cut; a narrow sofa stood in for a chair because the kit has no armchair. Later the lead refreshed two scenes with newer outfits and, in the review step, asked the owner: framing 'Both, by moment (recommended)' / 'Close only' / 'Wide only'; chair 'Reuse the narrow sofa (recommended)' / 'Draw an armchair' / 'No seat'; poses; and whether to draw a floor game-night scene.",
+      "what_the_image_showed_before": "Lead's description (confidence medium-high; source is the lead's camera notes plus the viewed renders): in the wide couch and bar scenes Ren appears small in a full room, chest cut hidden behind furniture; in the two medium crops Ren fills more of the frame, again with the cut hidden by furniture; the narrow-sofa scene put Ren in a small sofa left of the main couch. In no scene did a visible bust cut-off line appear in open space.",
+      "missing_context": "What the owner actually looked at before answering is not recorded precisely: the lead opened a review page of the five refreshed scenes in the shared browser pane and described each. The owner never commented on individual scenes before stating the framing rule. Whether the owner had opened the earlier index.png is unknown.",
+      "artifacts": [
+        {
+          "role": "BEFORE (first composed set): five apartment scenes sheet with the original outfits, rendered by headless Edge",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/index.png",
+          "commit": "86c17e5",
+          "git_blob": "9dda10dbe2e0b0011daac7e66025749e615d7b0a",
+          "sha256": "52e204c2494948c25352d339268aef604b7ef8749c9def967cad3e743caae6d9",
+          "bytes": 363844,
+          "kind": "original captured image (PNG)",
+          "note": "",
+          "copied_to": "images/c2-before-original-five-scenes-index.png"
+        },
+        {
+          "role": "BEFORE: wide couch scene source (Ren seated on the couch; the lower body hidden by redrawn sofa arms and cushions)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-wide.svg",
+          "commit": "86c17e5",
+          "git_blob": "fc92958a35aedbfea0840b4a3981a4a49493e6e8",
+          "sha256": "7f18933942c87d14a542c3951e37b5a225d145a852788eb813390cbec4ec9fa1",
+          "bytes": 25877,
+          "kind": "SVG source generated by compose-ren-apartment.mjs",
+          "note": "",
+          "copied_to": null
+        },
+        {
+          "role": "BEFORE: loveseat scene as first drawn (olive coveralls, narrow sofa)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-loveseat-wide.svg",
+          "commit": "86c17e5",
+          "git_blob": "5dd486a559c8673ddbfe158b7124c0b654e857f8",
+          "sha256": "9ba6d9dcad554f47a4dfa6bf63c0422ee9b00dcefd64ceb388642d228fc835da",
+          "bytes": 25863,
+          "kind": "SVG source",
+          "note": "",
+          "copied_to": null
+        },
+        {
+          "role": "BEFORE (set the owner was shown when stating the rule): loveseat scene refreshed with the open puffer vest",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-loveseat-wide.svg",
+          "commit": "308422b",
+          "git_blob": "bbc753f8ef6bc968fb500c3185408b2717bf8d6f",
+          "sha256": "784b7bed664aab0292437935d78a8d6ec704c197cb3e0d5afd20586508c33991",
+          "bytes": 26646,
+          "kind": "SVG source",
+          "note": "",
+          "copied_to": null
+        },
+        {
+          "role": "captured screenshot of the browser pane showing scene 1 (wide couch) and the top of scene 2 as the lead saw them just before the framing feedback",
+          "repo_path": null,
+          "commit": null,
+          "git_blob": null,
+          "sha256": "50801b74b009c94e39b43ee79193c5fe4526be52c56ef05fc9695834bfba4060",
+          "bytes": 56119,
+          "kind": "original captured image (browser pane screenshot, JPEG, harness tool result)",
+          "copied_to": "images/pane-screenshot-apartment-scenes-before-framing-feedback.jpg",
+          "note": "Original tool-result blob mcp-Claude_Browser-blob-1793495075823-g9c277.jpg; the pane is the same one the owner could see, but what the owner actually looked at is not recorded."
+        },
+        {
+          "role": "AFTER (first version of the new scene, before the duck revision): floor game night, couch removed, Ren behind the coffee table",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night-preview.png",
+          "commit": "1e13f12",
+          "git_blob": "bd8bed1ac59892b9bce2f6bc6f7252a3bf77df52",
+          "sha256": "2720cfbd584c54b9bbb50d05ee8cf2ebf7abbd4ecf32092c61ac5610f8ae14d8",
+          "bytes": 185059,
+          "kind": "original captured image (PNG render)",
+          "note": "",
+          "copied_to": "images/c2-after-floor-scene-first-no-duck.png"
+        },
+        {
+          "role": "AFTER (revised version): duck on the blue magazine facing the board",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night-preview.png",
+          "commit": "fc1fc7a",
+          "git_blob": "17581fd545d80b365e3d06746e4c5f5566b6155a",
+          "sha256": "6891dfa366848ac8d9e65e48dc4599b4645814c942da9f5f113988afd70a0d7c",
+          "bytes": 190175,
+          "kind": "original captured image (PNG render)",
+          "note": "",
+          "copied_to": "images/c2-after-floor-scene-with-duck.png"
+        },
+        {
+          "role": "Source of the floor scene (final revision)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "commit": "fc1fc7a",
+          "git_blob": "1a9d6dc7d46f60221cfac6550e65fb2637d5c74e",
+          "sha256": "c1a90b5acb0814d3022831c162ee26003a1c4d4e7d568d297ea4059aae9dd23c",
+          "bytes": 28020,
+          "kind": "SVG source",
+          "note": "",
+          "copied_to": null
+        },
+        {
+          "role": "Lead's camera notes: how the kit camera hides the lower body, limits, and later decisions",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/08-ren-in-apartment-camera-notes.md",
+          "commit": "fc1fc7a",
+          "git_blob": "cc20639fa721b5a881319e69bd6ac74087e39892",
+          "sha256": "0dc23924805692e8ed5aa8e869cfff0788c32824fc116bff1fac292f29339715",
+          "bytes": 6575,
+          "kind": "Markdown report",
+          "note": "Written by the lead; the part before 'Owner decisions' predates the owner's framing rule.",
+          "copied_to": null
+        }
+      ],
+      "feedback": [
+        {
+          "label": "verbatim (last paragraph is the original request; the rest of that message concerns other drawings)",
+          "timestamp_utc": "2026-10-31T20:26:05.643Z",
+          "message_uuid": "afca101f-5b93-4f9a-9c7d-b4cfd21fd276",
+          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "text": "  Revise slicker (hood should go over head and partly obscure hair), and bedhead (really just not sure what that's about - maybe dispatch a Haiku search agent to find some representative images to look at before trying a rewrite).  Oh, also: does Ren have a tattoo on their neck?  I see the dark band, but what's the small blue detail?  It looks like a mistake, if it's supposed to represent a tattoo.  I think we only show a tattoo on Ren when there's an exposed upper arm or shoulder, which may happen sometimes but not always.  Is the detail above the ear supposed to be a pencil maybe?   Reads as some type of jewelry, but in a very awkward location.\n\nCould we have a few composed drawings that show Ren in the player's apartment: in a chair, on the couch, standing somewhere else?  Do the camera views in the apartment make that easy without having to draw more of Ren's body?",
+          "note": ""
+        },
+        {
+          "label": "verbatim, in answer to the lead's four questions",
+          "timestamp_utc": "2026-11-01T01:19:11.305Z",
+          "message_uuid": "2b781049-d2ef-4a50-9ec1-b24fecfd05cb",
+          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "text": "1 close only, at least close enough that bottom of available body is at bottom of visible scene (otherwise it looks awful, body cut off but scene not is always a non-starter unless lower body obscured by scene object), 2 couch in living room or behind desk (which would mean sitting on floor), 3 commission side and turned poses later, 4 draw it",
+          "note": ""
+        },
+        {
+          "label": "verbatim, after the lead drew the floor scene",
+          "timestamp_utc": "2026-11-01T01:26:06.913Z",
+          "message_uuid": "f2b7e2ec-c842-4043-8bab-de5fb74b1ea8",
+          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "text": "1 coffee table, 2 revise (add duck on blue book facing board)",
+          "note": ""
+        }
+      ],
+      "what_changed_afterward": "The lead recorded close framing as the chosen look with the stated rule, treated the narrow sofa as not wanted, and drew a new close scene: couch removed (the kit's 'removed' state), Ren behind the coffee table, a flat board game with pawns on the table top (added through the spec's onTable list because items at the table's depth were hidden by the slab), no duck. The owner then asked for the duck on the blue book facing the board, and the lead set the living-room anchor to the top of the magazine stack for that scene.",
+      "owner_response": {
+        "explicit": "partly",
+        "verbatim": "1 coffee table, 2 revise (add duck on blue book facing board)",
+        "locator": {
+          "timestamp_utc": "2026-11-01T01:26:06.913Z",
+          "message_uuid": "f2b7e2ec-c842-4043-8bab-de5fb74b1ea8"
+        },
+        "note": "Owner confirmed the seat (coffee table) and requested one change. After the duck revision the owner gave no comment on the scene and moved on to the next topic; acceptance is therefore inferred, not stated."
+      },
+      "classification": [
+        "new requirement introduced later (close framing; body must end at the scene bottom unless an object hides it)",
+        "aesthetic preference (close versus wide)",
+        "possible visible-defect principle stated generally (cut-off body in an uncut scene), applied to scenes that did not show it"
+      ],
+      "reviewer_could_know": "A reviewer could reasonably check whether any figure is cut off in open space and whether furniture hides the cut. A reviewer could not know the owner's preference for close-only framing, nor that a narrow sofa would be unwanted. The older wide scenes satisfy the owner's own conditional ('unless lower body obscured by scene object'), so the rule is a stated requirement, not a defect those scenes showed.",
+      "hand_box_note": "Not applicable; Ren is bust-only in all scenes and no hand/box contact occurs. The board game and duck contact the table top, which the lead, not the owner, checked.",
+      "known_limitations": [
+        "The scenes index.png is from the first generation; the refreshed set seen at the time of the rule has only SVG sources and one partial pane screenshot (scene 1 and the top of scene 2).",
+        "The first floor-scene render used a wrong crop that cut off Ren's head; that failed intermediate was never saved or shown.",
+        "The lead's own failed attempt (blanket prop, then removed) was not captured.",
+        "The owner may have meant 'desk' as something other than the coffee table; the lead asked and the owner answered 'coffee table'.",
+        "Rendering through headless Edge differs from any in-game camera; not checked in a game layout."
+      ]
+    },
+    {
+      "id": "RENACCEPT-03",
+      "title": "Accepted control (tool apron) beside an unexplained 'not yet' (puffer vest) in one message",
+      "context_before_feedback": "The owner asked for two more outfits from the earlier outfit sheets: a tool apron over a tee and a puffer vest (message 2026-11-01T00:50:20Z, 'tool apron over tee, puffer vest'). Two Haiku helpers drew them from the Gemini outfit sheet cells (apron: workwear sheet bottom-left; vest: weather sheet top-right) using a shared brief; the lead viewed both renders, judged the apron fine, found the vest's quilting read like scales with a tall boxy collar, and redrew it as v2 (straight seam lines, shorter collar) before showing the sheet. The Gemini cell shows an open puffy vest; the lead's v2 was a closed vest.",
+      "what_the_image_showed_before": "Lead's description of renders (confidence high; viewed): apron - grey-blue short-sleeve tee, brown apron with neck straps, one pocket with two tool handles, waist strap, bare upper arms with the arm tattoo on the viewer's right. Vest v2 - olive closed vest with three curved horizontal seam lines, gold zipper pull, short stand collar over cream sleeves; flat rather than puffy.",
+      "missing_context": "The owner gave no reason for 'does not yet'. Whether the owner saw v1 is unlikely (it was not on the sheet). The owner's reference expectation for a puffer vest is unknown.",
+      "artifacts": [
+        {
+          "role": "Tool apron as first delivered by a Haiku helper and unchanged afterward (SVG source)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/outfits/apron-tool/apron-tool.svg",
+          "commit": "dc51625",
+          "git_blob": "f4014ce9dbb15d57dc792d3114a9ec42e9418622",
+          "sha256": "0d7678af9dc2dc3825e923d53727c0ca407e06f01291128cb17e9115a95d0e03",
+          "bytes": 5537,
+          "kind": "SVG source (helper-authored, lead reviewed)",
+          "note": "",
+          "copied_to": null
+        },
+        {
+          "role": "Tool apron render",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/outfits/apron-tool/apron-tool-preview.png",
+          "commit": "dc51625",
+          "git_blob": "353e5a1ced4aefd958ab6e506e1393e9d05096dd",
+          "sha256": "51a24dc42d22c767165e61a0bc6dfc9c926e4deb628304273cd0556a07c69e9b",
+          "bytes": 62161,
+          "kind": "original captured image (PNG render by headless Edge)",
+          "note": "",
+          "copied_to": "images/c3-apron-tool-preview.png"
+        },
+        {
+          "role": "Puffer vest v2 render (the version on the sheet the owner saw; lead's quilting fix of the helper's v1)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/outfits/vest-puffer/vest-puffer-v2-preview.png",
+          "commit": "dc51625",
+          "git_blob": "ba4c6ee21413e9e3964a22752bf41b1fca7c22b8",
+          "sha256": "882b4d2d496f9295a4799115c50d9ea2a19d2a417387da5dec3af6fe282910a5",
+          "bytes": 59915,
+          "kind": "original captured image (PNG render)",
+          "note": "",
+          "copied_to": "images/c3-vest-v2-preview.png"
+        },
+        {
+          "role": "Puffer vest v1 source (helper) and v2 source (lead), for chronology",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/outfits/vest-puffer/vest-puffer-v2.svg",
+          "commit": "dc51625",
+          "git_blob": "a5f9e0711a6aa95b816254a71b56d6fff47ecbe2",
+          "sha256": "0f0df8ec2fa44db078bf6550fd4feb92e7a2be28ac0554a7968c9f351835202a",
+          "bytes": 5054,
+          "kind": "SVG source",
+          "note": "v1 file is vest-puffer.svg in the same folder and commit; v1 was not on the owner's sheet.",
+          "copied_to": null
+        },
+        {
+          "role": "Puffer vest v3 render (lead's redraw after the 'does not yet' comment)",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/outfits/vest-puffer/vest-puffer-v3-preview.png",
+          "commit": "800ec3b",
+          "git_blob": "e36797ed346071dc14dfd1a4fee60b806e113533",
+          "sha256": "632d7251cdf05fd80350f39b7602e6109573266e846e72997021611b29f3cba8",
+          "bytes": 63445,
+          "kind": "original captured image (PNG render)",
+          "note": "",
+          "copied_to": "images/c3-vest-v3-preview.png"
+        },
+        {
+          "role": "Outfits contact sheet as shown with vest v2",
+          "repo_path": "reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/svg-round-01/contact-sheet-outfits.html",
+          "commit": "dc51625",
+          "git_blob": "350cf6313a00d231b342576f5c829369320e6b71",
+          "sha256": "b27b1472179b749f30e77aac0ff0a927663fa6bbceb84466d7d2f108a138d32f",
+          "bytes": 87374,
+          "kind": "HTML with embedded SVGs (data URIs)",
+          "note": "",
+          "copied_to": null
+        }
+      ],
+      "feedback": [
+        {
+          "label": "verbatim; second line answers other questions and is unrelated",
+          "timestamp_utc": "2026-11-01T00:59:04.575Z",
+          "message_uuid": "0990e3cc-ff9f-48ae-ba3e-784f4c41ea76",
+          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "text": "Tool apron looks good, puffer vest does not yet.\n1 keep all, 2 yes, 3 as suggested, 4 yes",
+          "note": ""
+        }
+      ],
+      "what_changed_afterward": "Apron: nothing changed. Vest: the lead redrew it as v3 following the Gemini cell more closely (open vest, three overlapping rounded pillows per side with small highlights, two-flap stand collar over a cream tee) and said it was a best guess. The owner has not commented on v3 in this chat.",
+      "owner_response": {
+        "explicit": "apron yes; vest unknown after revision",
+        "verbatim": "Tool apron looks good, puffer vest does not yet.",
+        "locator": {
+          "timestamp_utc": "2026-11-01T00:59:04.575Z",
+          "message_uuid": "0990e3cc-ff9f-48ae-ba3e-784f4c41ea76"
+        },
+        "note": "Apron accepted (no changes requested). Vest rejected without reasons; v3 unreviewed."
+      },
+      "classification": [
+        "apron: accepted / aesthetic approval",
+        "vest: unexplained dissatisfaction; could be visible defect (flat, closed, not puffy), mismatch with reference cell, or aesthetic preference - not determinable"
+      ],
+      "reviewer_could_know": "A reviewer could compare the vest to the Gemini cell and notice it is closed and flat; a reviewer could not know which aspect the owner disliked. The apron has no known defect, which makes it a useful no-issue control, though 'looks good' is a single phrase.",
+      "hand_box_note": "Not applicable.",
+      "known_limitations": [
+        "Owner-visible captures were the browser-pane sheet; only renders of the same SVGs are saved.",
+        "The lead's own redraw (v2, v3) means the vest history mixes helper and lead work.",
+        "Control status rests on one sentence of approval."
+      ]
+    }
+  ]
+}

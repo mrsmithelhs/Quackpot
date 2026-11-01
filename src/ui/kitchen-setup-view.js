@@ -10,7 +10,7 @@ export function renderKitchenSetupView(container, onReady) {
       <div class="form-group"><label for="morning-duck-name">Name your rubber duck</label>
       <input id="morning-duck-name" class="form-input" value="Professor Quacks" maxlength="30"></div>
       <label><input id="morning-autosave" type="checkbox" checked> Enable automatic saving at safe junctures</label>
-      <button class="life-btn" type="submit">Start the morning</button>
+      <button class="btn btn-secondary btn-md" type="submit">Start the morning</button>
     </form>
   </section>`;
   container.querySelector('form').addEventListener('submit', (event) => {

@@ -1,7 +1,8 @@
 ---
 id: plan-38
 title: Apartment life progression and production integration
-status: delivered
+status: complete
+resolution: "Owner accepted the integrated life/session/apartment and launch-reply experience on 2026-10-31 after root technical review. Preserve other plans production systems; provisional presentation must not override later accepted choices. Whole-run balance, device/accessibility and pacing limits remain documented; no push or deployment."
 depends_on: [plan-28, plan-29, plan-37]
 gate: "Owner reassigns amended scope to Codex2026-10-31. Root reviews exact progression/transaction/compatibility mechanism and initial parameter choices before new source writes; then bounded integration to owner review."
 summary: >-

@@ -524,3 +524,9 @@ Owner requests coherent Plan38 apartment repair: breakfast and notice share one 
 **Date:** 2026-10-31
 
 Owner rejects immersion-breaking fictional-install/download reassurance and selects a message announcing tonight's Quackpot launch and inviting a reply of LAUNCH for ten free ducks. Reply shows a response; Put it down remains available. Everyone still receives the existing welcome ten-pull at launch, including nonresponders. No immediate reward, phase cost, actual download or network communication. Receipt distinguishes actual invitation display, reply and acknowledgment display and may invite reflection on anticipation without asserting an effect. Historical install evidence is preserved as historical, never relabeled as a reply. Root authorizes bounded Plan38 repair05 under existing supervision, preserving shared progression and other plans' integrated systems. Implementation and owner acceptance remain pending.
+
+### DECISION-051 — Plan38 owner acceptance and integration boundary
+
+**Date:** 2026-10-31
+
+Owner accepts Plan38 and requests closure after the launch-reply refinement. Preserve integrated production features contributed by other plans; report-only mocks must not become runtime dependencies or override real production choices. Provisional work/leisure presentation remains replaceable by separately accepted Plan40/41 experience. Existing central life progression, engine transactions, saved-history validation and separate UI routing remain integration contracts. Owner acceptance does not establish complete whole-run balance, device/accessibility or 30-minute pacing validation, and authorizes no push/deployment. Plan44 is root's recommended next Codex candidate, not assigned by this closure.

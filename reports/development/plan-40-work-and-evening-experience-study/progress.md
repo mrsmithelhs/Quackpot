@@ -3,7 +3,9 @@
 **Date**: 2026-10-31  
 **Scope**: Plan 40 Work and Evening Experience Study  
 **Lead Implementer**: Gemini Flash (Plan 40)  
-**Status**: Report-local delivery ready for owner review. Root repaired the remaining gig badge leak and duplicate work-slot tracking; 12 focused tests pass. See root review below for exact evidence limits.
+**Status**: Owner-accepted and closed2026-10-31. Root repaired the remaining gig badge leak and duplicate work-slot tracking; 12 focused tests pass. Production integration remains future work. See root review below for exact evidence limits.
+
+**Owner closeout:** `reports/orchestration/plan-40-owner-closeout-and-follow-on.md` reconciles selected presentation, remaining numerical proposals and the recommended split between ordinary work/leisure integration and daily-gig lifecycle/calibration. No production adoption or new packet assignment follows from investigation closure.
 
 **Root review, 2026-10-31:** `reports/orchestration/apartment-viewport-and-plan-40-simplification-review.md` records the Terra-medium review, two locally repaired findings and bounded validation. Earlier 10-test/browser results below describe Flash's pre-root-repair source. Root's two new regressions and current 12-test pass supersede the narrower badge and occurrence claims. No new browser walkthrough of the report was performed after those two fixes. Owner review and production integration remain outstanding.
 

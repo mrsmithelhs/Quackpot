@@ -6,6 +6,7 @@ dist/
 
 # Local cache
 .vite/
+__pycache__/
 
 # OS / Log artifacts
 .DS_Store

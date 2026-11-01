@@ -608,3 +608,11 @@ Owner observes Day1 post-CallMom app advertises a pull then rejects it. Root con
 Owner selects Call Mom on evenings Days1,6,11,...; the reminder stays visible but inactive on other days, and a missed offer waits for the next scheduled day. Furniture-sale and difficult-workday triggers are deferred. Root clears narrow call-only begin_activity47 v3; new choices use cadence, existing v1/v2 histories/pending calls retain prior semantics, quietv2 remains5HP. Existing dinner/anchor/obligation/terminal guards apply; missed offers add no penalty. Root selects supported fridge sticky as first diegetic presentation for owner inspection, replacing redundant footer CallMom; no broad narrative scheduler.
 
 Owner approves Sonnet keys visuals and reports production swap1c72d80/study80d7d50. Root verifies exact workKeysTray replacement plus target geometry33.5/70/12.5/9.5; no behavioral edits in that commit. Owner approval settles drawing; final interaction check must verify popover/focus and narrow label overlap without redrawing accepted art. Reported17/17 bounded art/decision checks are not a fullplaythrough. Plan47 remains inprogress for note/cadence and final integration review; no push/deployment.
+
+### DECISION-064 — Fixed rent sentence annotations and complete action-map study
+
+**Date:** 2026-11-01
+
+Owner requests no target chip for the inactive breakfast fridge reminder, and reports a scheduled Day1 Evening note unavailable. Plan47 must reproduce eligibility with resolved dinner buy/skip and used anchor, preserving current selected guards unless evidence/owner changes them. The printed rent sentence remains fixed: strike printed three, but place accumulated handwritten2/1/TODAY additions after the period ending days., avoiding reflow inside the printed phrase. Owner accepts note placement, not inactive eligible behavior.
+
+Owner requests a coherent plan for non-navigation apartment actions instead of ad hoc footer buttons. Root drafts49 as a report-local action/room/prop study after47, including sleep, continued phone play, existing bedroom/recovery art and elimination of redundant non-actions; no dispatch, production mutation or time-rule change follows from drafting. Operational global controls and room navigation remain separate. No push/deployment.

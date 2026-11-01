@@ -3,20 +3,31 @@ export function renderLifePhoneView(container, engine, callbacks) {
   const life = engine.state.life;
   const session = life.session;
   const pending = engine.state.pendingReveals.some(draw => !draw.revealed);
-  container.innerHTML = `<section class="gacha-container" aria-labelledby="life-phone-title">
+  container.innerHTML = `<section class="gacha-container life-phone-hub" aria-labelledby="life-phone-title">
     <div class="gacha-banner-card"><div class="gacha-banner-header"><div class="banner-tag">Quackpot</div>
-      <h2 id="life-phone-title">Pond of Destiny</h2><p>Your visit includes one pull and one race. You can put your phone down and return.</p>
-      <p>Pull: ${session?.pull ? 'used' : 'available'} · Race: ${session?.race ? 'used' : 'available'}</p>
+      <h2 id="life-phone-title">Pond of Destiny</h2><p class="banner-sub">Collect your flock. Take to the pond.</p>
+      <p class="life-phone-allowance">This session: <strong>Pull ${session?.pull ? 'complete' : 'ready'}</strong><span aria-hidden="true"> · </span><strong>Race ${session?.race ? 'complete' : 'ready'}</strong></p>
       ${life.phase === 'lateNight' ? `<p>A pull or race in Late Night causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.</p>` : ''}</div>
-      <div class="gacha-claim-section">
-        ${pending ? '<button class="btn btn-primary" data-life-phone="reveal">Return to committed cards</button>' : ''}
-        ${!engine.state.tenPullCommitted ? '<button class="btn btn-gold" data-life-phone="welcome">Claim free 10-pull</button>' : ''}
-        ${engine.state.tenPullCommitted && !pending ? '<button class="btn btn-primary" data-life-phone="single">Single pull · 160 Gems</button><button class="btn btn-primary" data-life-phone="ten">10-pull · 1600 Gems</button>' : ''}
-        <button class="btn btn-secondary" data-life-phone="bundle">Buy 330 Gems · $4.99</button>
-        ${engine.state.owned.length ? '<button class="btn btn-secondary" data-life-phone="race">Pond Race</button>' : ''}
-        ${session ? '<button class="btn btn-secondary" data-life-phone="extend">Extend session into another phase</button>' : ''}
-        <button class="btn btn-secondary" data-life-phone="finish">Finish Session and advance</button>
-      </div></div></section>`;
+      <div class="life-phone-activities">
+        <section class="life-phone-panel" aria-labelledby="phone-pulls-title">
+          <h3 id="phone-pulls-title">Grow your flock</h3>
+          <p>${pending ? 'Your ducks are waiting to be revealed.' : !engine.state.tenPullCommitted ? 'Meet your first racing team with ten free pulls.' : 'Find your next racer in the Pond of Destiny.'}</p>
+          <div class="life-phone-actions">
+            ${pending ? '<button class="btn btn-primary btn-lg" data-life-phone="reveal">Reveal your ducks</button>' : ''}
+            ${!engine.state.tenPullCommitted ? '<button class="btn btn-gold btn-lg" data-life-phone="welcome">Claim free 10-pull</button>' : ''}
+            ${engine.state.tenPullCommitted && !pending ? '<button class="btn btn-primary btn-md" data-life-phone="single">Single pull · 160 Gems</button><button class="btn btn-primary btn-md" data-life-phone="ten">10-pull · 1600 Gems</button>' : ''}
+          </div>
+        </section>
+        ${engine.state.owned.length ? '<section class="life-phone-panel" aria-labelledby="phone-race-title"><h3 id="phone-race-title">Make a splash</h3><p>Choose a duck from your flock and head to the starting line.</p><button class="btn btn-gold btn-lg" data-life-phone="race">Pond Race</button></section>' : ''}
+        <section class="life-phone-panel" aria-labelledby="phone-gems-title"><h3 id="phone-gems-title">Gem shop</h3><p>330 Gems</p><button class="btn btn-secondary btn-md" data-life-phone="bundle">Buy for $4.99</button></section>
+      </div>
+      <footer class="life-phone-session">
+        <p>One pull action and one race per session. You can return to the apartment and pick up where you left off.</p>
+        <div class="life-phone-actions">
+          ${session ? '<button class="btn btn-secondary btn-md" data-life-phone="extend">Extend into the next phase</button>' : ''}
+          <button class="btn btn-secondary btn-md" data-life-phone="finish">Finish session &amp; advance</button>
+        </div>
+      </footer></div></section>`;
   container.querySelectorAll('[data-life-phone]').forEach(button => button.addEventListener('click', () => callbacks.action(button.dataset.lifePhone)));
   return { destroy() {} };
 }

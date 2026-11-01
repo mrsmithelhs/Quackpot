@@ -1,3 +1,5 @@
+@import './life-phone.css';
+
 /* Apartment life view (Plan 38). Everything is scoped under .life-* classes.
    Layer 1 the room and its objects, layer 2 the held letter or phone, layer 3 the game's own decision UI. */
 .life-view {

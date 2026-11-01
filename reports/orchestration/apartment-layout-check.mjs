@@ -13,12 +13,22 @@ const fixture = `<!doctype html><meta charset="utf-8"><meta name="viewport" cont
 import {GameEngine} from '/src/core/game-engine.mjs';
 import {renderHud} from '/src/ui/hud.js';
 import {renderLifeView} from '/src/ui/life/life-view.js';
+import {renderLifePhoneView} from '/src/ui/life/life-phone-view.js';
 const e=new GameEngine('layout-only',{lifePolicy:true});e.start();e.setupCompanion();
 e.state.life.phase='evening';e.state.life.meals['d1-dinner']='buy';e.state.step='life_evening';
 e.state.clock.label='day 1 evening';
-renderHud(document.querySelector('#hud-container'),e,'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"/%3E');
+renderHud(document.querySelector('#hud-container'),e,'/src/assets/duck-placeholder.svg');
 renderLifeView(document.querySelector('main'),e,{place:'desk-phone'},{});
 window.layoutReady=true;
+window.hubActions=[];
+window.showHub=(mode)=>{
+ e.state.tenPullCommitted=mode!=='welcome';
+ e.state.pendingReveals=mode==='pending'?[{revealed:false}]:[];
+ e.state.owned=mode==='welcome'?[]:['bath_cadet'];
+ e.state.life.session=mode==='welcome'?null:{pull:true,race:false};
+ document.documentElement.style.fontSize='';
+ renderLifePhoneView(document.querySelector('main'),e,{action:a=>window.hubActions.push(a)});
+};
 </script>`;
 const server = http.createServer(async (req,res) => {
   try {
@@ -69,10 +79,27 @@ try {
   const zoom=await evaluate('({scrollWidth:document.documentElement.scrollWidth,width:innerWidth})');
   assert.ok(zoom.scrollWidth<=zoom.width,'enlarged text horizontal overflow');
   results.push({enlargedText:zoom});
+  for(const [width,height] of [[1536,730],[390,844]]){
+    await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+    for(const mode of ['welcome','pending','paid']){
+      await evaluate(`window.showHub('${mode}')`);
+      await evaluate('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+      const hub=await evaluate(`(()=>{const buttons=[...document.querySelectorAll('[data-life-phone]')];return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,mode:'${mode}',buttons:buttons.map(b=>({action:b.dataset.lifePhone,height:b.getBoundingClientRect().height})),shop:document.querySelector('[data-life-phone="bundle"]').textContent}})()`);
+      assert.ok(hub.scrollWidth<=width,'hub horizontal overflow');
+      assert.ok(hub.buttons.every(b=>b.height>=44),'hub undersized action');
+      const expected=mode==='welcome'?['welcome','bundle','finish']:mode==='pending'?['reveal','race','bundle','extend','finish']:['single','ten','race','bundle','extend','finish'];
+      assert.deepEqual(hub.buttons.map(b=>b.action),expected);
+      assert.ok(hub.shop.includes('$4.99'));
+      await evaluate('window.hubActions=[];document.querySelectorAll("[data-life-phone]").forEach(b=>b.click())');
+      assert.deepEqual(await evaluate('window.hubActions'),expected,'action dispatch changed');
+      results.push({hub});
+      if(mode==='paid'){const img=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});await writeFile(`reports/orchestration/session-hub-${width}.png`,Buffer.from(img.data,'base64'));}
+    }
+  }
 } finally {
   const cleanup=await closeIsolatedChrome(browser);
   await new Promise(resolve=>server.close(resolve));
   await writeFile('reports/orchestration/apartment-layout-results.json',JSON.stringify({results,cleanup},null,2));
-  console.log(JSON.stringify({results,cleanup}));
+  console.log(JSON.stringify({cases:results.length,cleanup:{residual:cleanup.residual,uncertainty:cleanup.uncertainty}}));
 }
 

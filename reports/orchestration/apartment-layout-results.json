@@ -355,6 +355,178 @@
         "scrollWidth": 375,
         "width": 390
       }
+    },
+    {
+      "hub": {
+        "width": 1536,
+        "scrollWidth": 1536,
+        "mode": "welcome",
+        "buttons": [
+          {
+            "action": "welcome",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
+    },
+    {
+      "hub": {
+        "width": 1536,
+        "scrollWidth": 1536,
+        "mode": "pending",
+        "buttons": [
+          {
+            "action": "reveal",
+            "height": 50.1875
+          },
+          {
+            "action": "race",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "extend",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
+    },
+    {
+      "hub": {
+        "width": 1536,
+        "scrollWidth": 1521,
+        "mode": "paid",
+        "buttons": [
+          {
+            "action": "single",
+            "height": 44
+          },
+          {
+            "action": "ten",
+            "height": 44
+          },
+          {
+            "action": "race",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "extend",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
+    },
+    {
+      "hub": {
+        "width": 390,
+        "scrollWidth": 375,
+        "mode": "welcome",
+        "buttons": [
+          {
+            "action": "welcome",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
+    },
+    {
+      "hub": {
+        "width": 390,
+        "scrollWidth": 375,
+        "mode": "pending",
+        "buttons": [
+          {
+            "action": "reveal",
+            "height": 50.1875
+          },
+          {
+            "action": "race",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "extend",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
+    },
+    {
+      "hub": {
+        "width": 390,
+        "scrollWidth": 375,
+        "mode": "paid",
+        "buttons": [
+          {
+            "action": "single",
+            "height": 44
+          },
+          {
+            "action": "ten",
+            "height": 44
+          },
+          {
+            "action": "race",
+            "height": 50.1875
+          },
+          {
+            "action": "bundle",
+            "height": 44
+          },
+          {
+            "action": "extend",
+            "height": 44
+          },
+          {
+            "action": "finish",
+            "height": 44
+          }
+        ],
+        "shop": "Buy for $4.99"
+      }
     }
   ],
   "cleanup": {
@@ -365,67 +537,73 @@
     "profileRemoved": true,
     "trackedDescendants": [
       {
-        "pid": 56772,
-        "ppid": 61152,
-        "created": "10/31/2026 23:32:54",
+        "pid": 55416,
+        "ppid": 37044,
+        "created": "10/31/2026 23:37:38",
         "root": true
       },
       {
-        "pid": 55400,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 50656,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:38",
         "root": false
       },
       {
-        "pid": 49904,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 64188,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 26400,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 55880,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 63948,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 60516,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 51376,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 59948,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 43284,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 53392,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 45652,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 33800,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 10940,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 49336,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       },
       {
-        "pid": 41780,
-        "ppid": 56772,
-        "created": "10/31/2026 23:32:54",
+        "pid": 50852,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
+        "root": false
+      },
+      {
+        "pid": 65476,
+        "ppid": 55416,
+        "created": "10/31/2026 23:37:39",
         "root": false
       }
     ],
     "remainingDescendants": [],
-    "chromeStderr": "[56772:60900:1031/233254.549:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[56772:60900:1031/233254.550:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:56647/devtools/browser/ea3193bd-2eb6-4c5a-bd3f-ed194550c74b\r\n"
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:56803/devtools/browser/aacf4f9b-1e4e-451f-bd30-5198c163377a\r\n[55416:50476:1031/233739.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[55416:50476:1031/233739.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n"
   }
 }

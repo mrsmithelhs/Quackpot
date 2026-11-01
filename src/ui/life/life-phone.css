@@ -1,0 +1,14 @@
+/* Session hub uses the same banner and button system as the reveal theater. */
+.life-phone-hub .life-phone-allowance { color: var(--text-muted); font-size: .9rem; }
+.life-phone-hub .life-phone-allowance strong { color: var(--text-main); }
+.life-phone-activities { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; }
+.life-phone-panel { display: flex; flex-direction: column; align-items: stretch; gap: 1rem; padding: 1.25rem; border: 1px solid var(--border-color); border-radius: .8rem; background: var(--panel-bg-elevated); min-width: 0; }
+.life-phone-panel h3 { color: var(--accent-light); font-size: 1.15rem; }
+.life-phone-panel p { color: var(--text-muted); line-height: 1.5; }
+.life-phone-panel > .btn, .life-phone-panel > .life-phone-actions { margin-top: auto; }
+.life-phone-actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: .75rem; }
+.life-phone-actions .btn { flex: 1 1 auto; }
+.life-phone-hub .btn { min-height: 2.75rem; white-space: normal; overflow-wrap: anywhere; }
+.life-phone-session { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); }
+.life-phone-session p { color: var(--text-muted); font-size: .9rem; line-height: 1.5; margin-bottom: 1rem; }
+@media (max-width: 600px) { .life-phone-hub .gacha-banner-card { padding: 1rem; } }

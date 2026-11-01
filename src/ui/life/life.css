@@ -188,3 +188,5 @@
 
 /* Keep the fridge note's label inside the narrow room and clear of the rent label. */
 .life-obj[data-obj='mom-note'] .life-chip { left: calc(100% + .35rem); bottom: 50%; transform: translateY(50%); }
+
+.life-mom-hint { position: absolute; left: calc(100% + .35rem); top: 50%; transform: translateY(-50%); width: max-content; color: #fff5dc; text-shadow: 0 1px 3px #1a1510, 0 0 4px #1a1510; font: 600 .75rem/1.2 var(--life-ui); pointer-events: none; }

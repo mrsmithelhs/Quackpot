@@ -100,3 +100,21 @@ test('finding evidence is presented by sequence instead of construction order', 
   const f = presentReceipt(projectReceipt(log.entries)).findings[0];
   assert.deepEqual(f.did.map(x => x.seq), [1, 2, 3]);
 });
+
+test('race and draw source evidence preserves distinctive fields and classifies automatic consumption', () => {
+  const log = new EventLog(), clock = { day: 1, label: 'fixture' };
+  log.append('draw_committed', { drawIndex: 1, of: 1, identity: 'duck', rarity: 'common', duplicate: false, pityBefore: 7, drawNumberInWindow: 8, advancesPity: true, odds: {common:.8,rare:.18,legendary:.02} }, clock);
+  log.append('race_playback_action', { raceNumber: 1, action: 'seek', eventId: 'event-42', cursorTick: 123 }, clock);
+  log.append('race_attempt_unresolved', { raceNumber: 2, unresolvedReason: 'fixture-reason', knownCrossings: [{id:'A',crossingTimeSeconds:12.5}] }, clock);
+  log.append('race_result', { raceNumber: 1, place: 2, payoutGems: 20, finishTimeSeconds: 19.5, lastFinishTimeSeconds: 22, finishOrder: [] }, clock);
+  log.append('action', { kind: 'race_trial_purchased', costDown: 3 }, clock);
+  log.append('action', { kind: 'race_trial_consumed', raceId: 'R01', multiplier: 1.05 }, clock);
+  const view = presentReceipt(projectReceipt(log.entries));
+  assert.deepEqual(view.drawSources.map(e => [e.seq,e.type]), [[0,'draw_committed']]);
+  assert.equal(view.drawSources[0].payload.pityBefore, 7); assert.equal(view.drawSources[0].payload.drawNumberInWindow, 8); assert.equal(view.drawSources[0].payload.advancesPity, true);
+  assert.deepEqual(view.raceSources.map(e => e.seq), [1,2,3,4,5]);
+  assert.equal(view.raceSources[0].payload.eventId, 'event-42'); assert.equal(view.raceSources[0].payload.cursorTick, 123);
+  assert.equal(view.raceSources[1].payload.unresolvedReason, 'fixture-reason'); assert.equal(view.raceSources[1].payload.knownCrossings[0].crossingTimeSeconds, 12.5);
+  assert.equal(view.raceSources[2].payload.finishTimeSeconds, 19.5); assert.equal(view.raceSources[2].payload.lastFinishTimeSeconds, 22);
+  assert.equal(view.race.find(e=>e.seq===4).register, 'You did'); assert.equal(view.race.find(e=>e.seq===5).register, 'Game recorded');
+});

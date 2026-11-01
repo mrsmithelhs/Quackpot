@@ -10,7 +10,7 @@ export function presentReceipt(receipt) {
     .sort((a, b) => bySeq({ seq: Math.min(...a.displayed.map(x => Number.isFinite(x.seq) ? x.seq : Infinity)) }, { seq: Math.min(...b.displayed.map(x => Number.isFinite(x.seq) ? x.seq : Infinity)) }) || a.index - b.index);
   const race = [
     ...receipt.raceEvidence.displayed.map(item => ({ ...item, register: 'We displayed' })),
-    ...receipt.raceEvidence.did.map(item => ({ ...item, register: ['race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(events.get(item.seq)?.type) ? 'Game recorded' : 'You did' })),
+    ...receipt.raceEvidence.did.map(item => ({ ...item, register: ['race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(events.get(item.seq)?.type) || events.get(item.seq)?.payload?.kind === 'race_trial_consumed' ? 'Game recorded' : 'You did' })),
   ].sort(bySeq);
   const count = (type, kind) => evidence.filter(e => e.type === type && (!kind || e.payload?.kind === kind)).length;
   const start = evidence.find(e => e.type === 'run_started');
@@ -22,6 +22,8 @@ export function presentReceipt(receipt) {
     && Object.values(receipt.summary).every(Number.isFinite);
   return {
     findings, race, evidence,
+    raceSources: evidence.filter(e => ['race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed'].includes(e.payload?.kind))).sort(bySeq),
+    drawSources: evidence.filter(e => ['draw_committed', 'reveal_shown'].includes(e.type)).sort(bySeq),
     raceCounts: [ ['Choice offers', count('race_choice_offered')], ['Choices', count('action', 'race_choice')], ['Finished results', count('race_result')], ['Unresolved attempts', count('race_attempt_unresolved')], ['Cues displayed', count('race_cue_displayed')], ['Playback actions', count('race_playback_action')] ],
     purchases: evidence.filter(e => e.type === 'purchase'),
     accounting: receipt.accounting.lines.filter(item => current || ['offer_shown', 'cue_shown', 'action', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted'].includes(events.get(item.seq)?.type)).sort(bySeq),

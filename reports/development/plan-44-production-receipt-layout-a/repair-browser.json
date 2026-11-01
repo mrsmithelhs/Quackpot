@@ -1,0 +1,129 @@
+{
+  "width": 1280,
+  "scrollWidth": 1265,
+  "title": "Your Receipt",
+  "keyboard": {
+    "tag": "SUMMARY",
+    "focusVisible": true,
+    "outline": "solid",
+    "open": true
+  },
+  "printBytes": 339238,
+  "narrow": {
+    "width": 390,
+    "scrollWidth": 390
+  },
+  "hostile": {
+    "executed": false,
+    "image": false,
+    "literal": true
+  },
+  "witness": {
+    "seed": "plan44-repair-witness",
+    "eventCount": 70,
+    "sourceRows": [
+      {
+        "seq": 20,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 21,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 22,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 23,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 24,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 25,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 26,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 27,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 28,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 29,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 30,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 31,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 32,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 33,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 34,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 35,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 36,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 37,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 38,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 39,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 46,
+        "type": "race_result"
+      },
+      {
+        "seq": 48,
+        "type": "race_playback_action"
+      },
+      {
+        "seq": 58,
+        "type": "draw_committed"
+      },
+      {
+        "seq": 59,
+        "type": "reveal_shown"
+      },
+      {
+        "seq": 64,
+        "type": "race_result"
+      }
+    ],
+    "seek": "harness-recorded, not observed playback",
+    "hostile": "separate engine-generated hostile display fixture, not observed playback"
+  }
+}

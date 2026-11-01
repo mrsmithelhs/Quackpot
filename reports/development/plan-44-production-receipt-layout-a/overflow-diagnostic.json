@@ -1,0 +1,153 @@
+{
+  "rows": [
+    {
+      "seq": 40,
+      "type": "race_rest_policy_activated",
+      "text": "[#40] race_rest_policy_activated: {\"policyVersion\":\"quackpot.race-rest/1\",\"historyBaselineSeq\":-1,\"historyLimited\":false,\"rule\":{\"interveningCompletedRaces\":[0,1,\"2+\"],\"restFactors\":[0.5,0.75,1]}}"
+    },
+    {
+      "seq": 41,
+      "type": "race_choice_offered",
+      "text": "[#41] race_choice_offered: {\"raceNumber\":1,\"exposureId\":\"race-choice-1-541e2582\",\"signature\":\"541e2582\",\"options\":{\"safe\":{\"label\":\"Steady pace\",\"detail\":\"More consistent pacing\"},\"sprint\":{\"label\":\"Variable pace\",\"detail\":\"Wider swings in pacing\"}},\"selectedDuckId\":\"duck-0\",\"foregroundedDuckId\":\"duck-0\",\"candidates\":[{\"duckId\":\"duck-0\",\"authoredRating\":10,\"restFactor\":1,\"historyLimited\":false,\"effectiveBaseInput\":10,\"effectiveWithTrialInput\":10,\"rendered\":true}],\"trialAvailable\":false,\"trialState\":{\"available\":false,\"selected\":false,\"multiplier\":1.05}}"
+    },
+    {
+      "seq": 45,
+      "type": "action",
+      "text": "[#45] action: {\"kind\":\"race_choice\",\"stance\":\"safe\",\"duckId\":\"duck-0\",\"raceId\":\"R01\",\"trialCommitted\":false,\"restEvidence\":{\"policyVersion\":\"quackpot.race-rest/1\",\"historyBaselineSeq\":-1,\"historyLimited\":false,\"completedOrdinal\":0,\"lastRaceSeq\":null,\"interveningRaceSeqs\":[],\"restFactor\":1,\"authoredRating\":10,\"effectiveBaseInput\":10,\"trialCommitted\":false,\"trialMultiplier\":1.05}}"
+    },
+    {
+      "seq": 46,
+      "type": "race_result",
+      "text": "[#46] race_result: {\"raceNumber\":1,\"raceId\":\"R01\",\"duckId\":\"duck-0\",\"status\":\"finished\",\"resolutionStatus\":\"finished\",\"place\":1,\"payoutGems\":50,\"rivalPlace\":null,\"winner\":\"P\",\"finishTimeSeconds\":21.5663,\"lastFinishTimeSeconds\":22.555198,\"resolutionDigest\":\"65a68051\",\"finishOrder\":[{\"id\":\"P\",\"place\":1,\"payout\":50},{\"id\":\"B\",\"place\":2,\"payout\":20},{\"id\":\"A\",\"place\":3,\"payout\":10},{\"id\":\"C\",\"place\":4,\"payout\":0},{\"id\":\"E\",\"place\":5,\"payout\":0},{\"id\":\"D\",\"place\":6,\"payout\":0}],\"trialConsumed\":false,\"restEvidence\":{\"policyVersion\":\"quackpot.race-rest/1\",\"historyBaselineSeq\":-1,\"historyLimited\":false,\"completedOrdinal\":0,\"lastRaceSeq\":null,\"interveningRaceSeqs\":[],\"restFactor\":1,\"authoredRating\":10,\"effectiveBaseInput\":10,\"trialCommitted\":false,\"trialMultiplier\":1.05},\"stance\":\"safe\",\"gemsAfter\":50}"
+    },
+    {
+      "seq": 48,
+      "type": "race_playback_action",
+      "text": "[#48] race_playback_action: {\"raceNumber\":1,\"raceId\":\"R01\",\"action\":\"seek\",\"eventId\":\"fixture-event-42\",\"cursorTick\":123}"
+    },
+    {
+      "seq": 63,
+      "type": "action",
+      "text": "[#63] action: {\"kind\":\"race_choice\",\"stance\":\"safe\",\"duckId\":\"duck-0\",\"raceId\":\"R02\",\"trialCommitted\":false,\"restEvidence\":{\"policyVersion\":\"quackpot.race-rest/1\",\"historyBaselineSeq\":-1,\"historyLimited\":false,\"completedOrdinal\":1,\"lastRaceSeq\":46,\"interveningRaceSeqs\":[],\"restFactor\":0.5,\"authoredRating\":10,\"effectiveBaseInput\":5,\"trialCommitted\":false,\"trialMultiplier\":1.05}}"
+    },
+    {
+      "seq": 64,
+      "type": "race_result",
+      "text": "[#64] race_result: {\"raceNumber\":2,\"raceId\":\"R02\",\"duckId\":\"duck-0\",\"status\":\"finished\",\"resolutionStatus\":\"finished\",\"place\":6,\"payoutGems\":0,\"rivalPlace\":2,\"winner\":\"B\",\"finishTimeSeconds\":21.492801,\"lastFinishTimeSeconds\":23.809662,\"resolutionDigest\":\"fbede7d6\",\"finishOrder\":[{\"id\":\"B\",\"place\":1,\"payout\":50},{\"id\":\"A\",\"place\":2,\"payout\":20},{\"id\":\"E\",\"place\":3,\"payout\":10},{\"id\":\"D\",\"place\":4,\"payout\":0},{\"id\":\"C\",\"place\":5,\"payout\":0},{\"id\":\"P\",\"place\":6,\"payout\":0}],\"trialConsumed\":false,\"restEvidence\":{\"policyVersion\":\"quackpot.race-rest/1\",\"historyBaselineSeq\":-1,\"historyLimited\":false,\"completedOrdinal\":1,\"lastRaceSeq\":46,\"interveningRaceSeqs\":[],\"restFactor\":0.5,\"authoredRating\":10,\"effectiveBaseInput\":5,\"trialCommitted\":false,\"trialMultiplier\":1.05},\"stance\":\"safe\",\"gemsAfter\":220}"
+    },
+    {
+      "seq": 20,
+      "type": "draw_committed",
+      "text": "[#20] draw_committed: {\"drawIndex\":1,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":false,\"downGained\":0,\"advancesPity\":false}"
+    },
+    {
+      "seq": 21,
+      "type": "draw_committed",
+      "text": "[#21] draw_committed: {\"drawIndex\":2,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":false,\"downGained\":0,\"advancesPity\":false}"
+    },
+    {
+      "seq": 22,
+      "type": "draw_committed",
+      "text": "[#22] draw_committed: {\"drawIndex\":3,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 23,
+      "type": "draw_committed",
+      "text": "[#23] draw_committed: {\"drawIndex\":4,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"rare\",\"identity\":\"duck-2\",\"duplicate\":false,\"downGained\":0,\"advancesPity\":false}"
+    },
+    {
+      "seq": 24,
+      "type": "draw_committed",
+      "text": "[#24] draw_committed: {\"drawIndex\":5,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 25,
+      "type": "draw_committed",
+      "text": "[#25] draw_committed: {\"drawIndex\":6,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 26,
+      "type": "draw_committed",
+      "text": "[#26] draw_committed: {\"drawIndex\":7,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 27,
+      "type": "draw_committed",
+      "text": "[#27] draw_committed: {\"drawIndex\":8,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":false,\"downGained\":0,\"advancesPity\":false}"
+    },
+    {
+      "seq": 28,
+      "type": "draw_committed",
+      "text": "[#28] draw_committed: {\"drawIndex\":9,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 29,
+      "type": "draw_committed",
+      "text": "[#29] draw_committed: {\"drawIndex\":10,\"of\":10,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":false}"
+    },
+    {
+      "seq": 30,
+      "type": "reveal_shown",
+      "text": "[#30] reveal_shown: {\"commitSeq\":20,\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":false,\"downGained\":0}"
+    },
+    {
+      "seq": 31,
+      "type": "reveal_shown",
+      "text": "[#31] reveal_shown: {\"commitSeq\":21,\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":false,\"downGained\":0}"
+    },
+    {
+      "seq": 32,
+      "type": "reveal_shown",
+      "text": "[#32] reveal_shown: {\"commitSeq\":22,\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 33,
+      "type": "reveal_shown",
+      "text": "[#33] reveal_shown: {\"commitSeq\":23,\"rarity\":\"rare\",\"identity\":\"duck-2\",\"duplicate\":false,\"downGained\":0}"
+    },
+    {
+      "seq": 34,
+      "type": "reveal_shown",
+      "text": "[#34] reveal_shown: {\"commitSeq\":24,\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 35,
+      "type": "reveal_shown",
+      "text": "[#35] reveal_shown: {\"commitSeq\":25,\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 36,
+      "type": "reveal_shown",
+      "text": "[#36] reveal_shown: {\"commitSeq\":26,\"rarity\":\"common\",\"identity\":\"duck-0\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 37,
+      "type": "reveal_shown",
+      "text": "[#37] reveal_shown: {\"commitSeq\":27,\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":false,\"downGained\":0}"
+    },
+    {
+      "seq": 38,
+      "type": "reveal_shown",
+      "text": "[#38] reveal_shown: {\"commitSeq\":28,\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 39,
+      "type": "reveal_shown",
+      "text": "[#39] reveal_shown: {\"commitSeq\":29,\"rarity\":\"common\",\"identity\":\"duck-1\",\"duplicate\":true,\"downGained\":1}"
+    },
+    {
+      "seq": 58,
+      "type": "draw_committed",
+      "text": "[#58] draw_committed: {\"drawIndex\":1,\"of\":1,\"pityBefore\":0,\"drawNumberInWindow\":1,\"odds\":{\"common\":0.8,\"rare\":0.18,\"legendary\":0.02},\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":true,\"downGained\":1,\"advancesPity\":true}"
+    },
+    {
+      "seq": 59,
+      "type": "reveal_shown",
+      "text": "[#59] reveal_shown: {\"commitSeq\":58,\"rarity\":\"common\",\"identity\":\"duck-3\",\"duplicate\":true,\"downGained\":1}"
+    }
+  ],
+  "width": 1280,
+  "scrollWidth": 1265,
+  "title": "Your Receipt",
+  "overflowElements": []
+}

@@ -68,6 +68,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S25 | HP exploit check (visit-every-available-Evening strategy in Plan 29) | **Advisory** | Recommended, not a blocking condition for requesting a build. Plan 29 still owns the numbers. |
 | S26 | Keep outdoor scenes, Ren's home, endings and a gift economy out of the first build | **Keep out** | The gift reaction in S20 stays a single reaction, not a gift system. |
 
+### Faces, door scene and phone avatar review (round 2 page; owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S27 | Expression set | **Keep the five and add "listening"** | Six faces: warm, laugh, tease, "not tonight", long day, listening. Small-size tease versus warm confusion is unresolved. |
+| S28 | Door scene mood (warm inside, cooler hallway) | **Keep** | |
+| S29 | Door scene framing | **Change: the upper half of the door and wall fills the whole frame; no console table or desk; do not show the door down to the floor** | Owner: the table was strange and Ren looked like they were floating. Ren is cropped by the frame edge, not by furniture. |
+| S30 | Message copy (bulb and shelf texts, three reply choices) | **Keep** | |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

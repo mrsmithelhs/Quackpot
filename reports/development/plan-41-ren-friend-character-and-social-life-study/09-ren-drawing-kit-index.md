@@ -40,5 +40,12 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 | Bedhead | `hair/hair-bedhead/` | OWNER-DROPPED (S11) |
 | Sawdust, attic dust with cobweb | not drawn | reserves |
 
+## Faces and door scene (round 4, 2026-10-31)
+| Part | File | Status |
+|---|---|---|
+| Six faces: warm, laugh, tease, "not tonight", long day, **listening** (new, 5-degree head tilt) | `concepts/round-04-faces-and-door.html` (inline SVG) | listening face OWNER-SELECTED (S27); drawings UNREVIEWED as final |
+| Door scene v2: wall and doorway fill the frame, no table or floor, Ren cropped at the chest holding a box of bulbs; no forearm tattoo | `concepts/door-scene-v2.svg` | direction OWNER-SELECTED (S28, S29); drawing UNREVIEWED as final |
+| Round 2 expressions and door scene (old neck tattoo, old pencil, console table) | `concepts/round-02-refinement.html` | superseded; kept as history |
+
 ## Not yet true of any part
 Checked at avatar size; checked in other complexions (three proposed, none selected); placed into the apartment scenes (those use older drawings).

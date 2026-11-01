@@ -177,6 +177,21 @@ export function transitionLife(input, balances, intent) {
       record('life_session_commit', { id: life.session.id, kind: intent.kind });
       break;
     }
+    case 'phone_commit_next': {
+      if (intent.version !== 1 || intent.confirmed !== true || !['pull', 'race'].includes(intent.kind)) return fail('invalid_next_commit');
+      const usedAllowance = Boolean(life.session && life.session[intent.kind]);
+      const usedEvening = !life.session && Boolean(life.anchor) && life.phase === 'evening';
+      if (!usedAllowance && !usedEvening) return fail('next_commit_unavailable');
+      if (deadlineBlocks() || life.recovery || life.work || mealPending()) return fail('obligation_pending');
+      if (life.phase === 'evening') arrive(life.day, 'lateNight'); else advance();
+      if (deadlineBlocks() || (life.rent.status === 'overdue' && !life.rentSurfaced) || life.recovery || mealPending()) return fail('destination_obligation_pending');
+      const id = `session-${life.nextId++}`;
+      life.session = { id, pull: false, race: false, suspended: false }; life.anchor = id;
+      life.session[intent.kind] = true;
+      if (life.phase === 'lateNight') life.fatiguePending = true;
+      record('life_session_commit', { id, kind: intent.kind });
+      break;
+    }
     case 'phone_suspend':
       if (!life.session) return fail('no_session'); life.session.suspended = true; break;
     case 'phone_resume':

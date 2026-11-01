@@ -1,3 +1,4 @@
+import { mountAppDexNav } from './app-dex-nav.mjs';
 // src/ui/gacha-view.js
 // Promotional 10-Pull theater with truthful commit-before-reveal card flipping.
 
@@ -204,6 +205,8 @@ export function renderGachaView(container, engine, callbacks = {}) {
       </div>
     </div>
   `;
+
+  mountAppDexNav(container.querySelector('.gacha-banner-header'), callbacks.onOpenDex);
 
   const showFastPullToast = (count) => {
     if (count <= 0) return;

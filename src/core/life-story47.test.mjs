@@ -217,3 +217,80 @@ test('new quiet activity reports zero gain at the health cap and cannot repeat',
   act(e,{type:'begin_activity47',version:2,choice:'sit_duck'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');act(e,{type:'complete_activity47',id});
   assert.equal(e.state.health,100);assert.equal(e.log.entries.findLast(x=>x.type==='life_health').payload.delta,0);e=saved(e);assert.equal(e.applyLifeIntent({type:'complete_activity47',id}).ok,false);
 });
+
+function usedEvening() {
+  const e=fresh();act(e,{type:'meal',choice:'buy'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  act(e,{type:'begin_activity47',version:2,choice:'call_mom'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');act(e,{type:'complete_activity47',id});act(e,{type:'dismiss_story47',id});return e;
+}
+function stateFingerprint(e) {const env=e.toEnvelope();return JSON.stringify({state:env.state,log:env.eventLog,streams:env.prngStreams});}
+
+test('browsing after used evening is free and confirmed welcome commits one Late Night pull', () => {
+  let e=usedEvening(); const before=structuredClone(e.state.life);assert.equal(e.openLifeApp(),true);assert.deepEqual(e.state.life,before);
+  assert.equal(e.needsNextLifePlay('pull'),true);const atPrompt=stateFingerprint(e);assert.equal(e.commitPromotionalTenPull(),null);assert.equal(stateFingerprint(e),atPrompt);
+  assert.equal(e.previewNextLifePlay('pull').ok,true);assert.equal(e.commitPromotionalTenPull({confirmNext:true}).length,10);
+  assert.equal(e.state.life.phase,'lateNight');assert.equal(e.state.life.fatiguePending,true);assert.equal(e.state.life.session.pull,true);
+  const committed=e.log.entries.filter(x=>x.type==='draw_committed').length;assert.equal(committed,10);assert.equal(validateSave(e.toEnvelope()).valid,true);
+  e=GameEngine.fromEnvelope(e.toEnvelope());assert.equal(e.commitPromotionalTenPull().length,10);assert.equal(e.log.entries.filter(x=>x.type==='draw_committed').length,10);
+});
+
+test('staged paid pull rejects insufficient funds without advancing or touching streams', () => {
+  const e=usedEvening();const before=stateFingerprint(e);assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.equal(stateFingerprint(e),before);
+  assert.equal(e.buyLifeBundle(330),true);assert.equal(e.commitPaidPull(1,{confirmNext:true}).length,1);assert.equal(e.state.life.phase,'lateNight');
+  assert.equal(e.state.gems,170);assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+test('staged race handles used allowance and discards failed resolver or serialization work', () => {
+  const e=fresh();act(e,{type:'meal',choice:'buy'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  assert.equal(e.commitPromotionalTenPull().length,10);e.revealAllPending();assert.ok(e.runRace(1,e.state.owned[0]));
+  const before=stateFingerprint(e);assert.equal(e.needsNextLifePlay('race'),true);
+  assert.throws(()=>e.runRace(2,'not-owned','safe',{confirmNext:true}));assert.equal(stateFingerprint(e),before);
+  e.resolveRaceCandidate=()=>{throw Error('synthetic resolver failure');};assert.throws(()=>e.runRace(2,e.state.owned[0],'safe',{confirmNext:true}));assert.equal(stateFingerprint(e),before);delete e.resolveRaceCandidate;
+  e.serializeRaceCandidate=()=>{throw Error('synthetic serialization failure');};assert.throws(()=>e.runRace(2,e.state.owned[0],'safe',{confirmNext:true}));assert.equal(stateFingerprint(e),before);delete e.serializeRaceCandidate;
+  assert.ok(e.runRace(2,e.state.owned[0],'safe',{confirmNext:true}));assert.equal(e.state.life.phase,'lateNight');assert.equal(e.state.life.session.race,true);assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+test('composed next-play intent rejects stale and unknown versions, and unused other allowance stays in phase', () => {
+  const e=fresh();act(e,{type:'meal',choice:'buy'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  assert.equal(e.commitPromotionalTenPull().length,10);e.revealAllPending();const before=e.log.head;
+  assert.equal(e.applyLifeIntent({type:'phone_commit_next',version:9,confirmed:true,kind:'race'}).ok,false);assert.equal(e.log.head,before);
+  assert.equal(e.needsNextLifePlay('race'),false);assert.ok(e.runRace(1,e.state.owned[0]));assert.equal(e.state.life.phase,'evening');assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+test('new staged draw failure and public orphan reservation leave all live state unchanged', () => {
+  const e=usedEvening();const before=stateFingerprint(e);
+  assert.equal(e.applyLifeIntent({type:'phone_commit_next',version:1,confirmed:true,kind:'pull'}).reason,'private_reservation');
+  e.sampleLifeDraw=()=>{throw Error('synthetic draw failure');};
+  assert.throws(()=>e.commitPromotionalTenPull({confirmNext:true}));assert.equal(stateFingerprint(e),before);delete e.sampleLifeDraw;
+});
+
+test('composed replay rejects incomplete promo batch and orphaned race choice', () => {
+  const e=usedEvening();assert.equal(e.commitPromotionalTenPull({confirmNext:true}).length,10);
+  const log=new EventLog();let removed=false;
+  for(const entry of e.log.entries){if(entry.type==='draw_committed'&&!removed){removed=true;continue;}log.append(entry.type,entry.payload,entry.clock);}
+  const altered={...e.toEnvelope(),eventLog:log.entries};
+  assert.ok(validateSave(altered).errors.some(x=>x.includes('Incomplete next-play draw batch')));
+  const r=fresh();act(r,{type:'meal',choice:'buy'});act(r,{type:'advance'});act(r,{type:'advance'});act(r,{type:'meal',choice:'buy'});
+  r.commitPromotionalTenPull();r.revealAllPending();r.runRace(1,r.state.owned[0]);r.runRace(2,r.state.owned[0],'safe',{confirmNext:true});
+  const orphan=new EventLog();for(const entry of r.log.entries){if(entry.type==='race_result'&&entry.payload.raceId===r.raceIdFor(2))continue;orphan.append(entry.type,entry.payload,entry.clock);}
+  assert.ok(validateSave({...r.toEnvelope(),eventLog:orphan.entries}).errors.some(x=>x.includes('Missing next-play race outcome')));
+});
+
+test('unconsumed same-phase race cannot be forced into a next phase', () => {
+  const e=fresh();act(e,{type:'meal',choice:'buy'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  e.commitPromotionalTenPull();e.revealAllPending();const before=stateFingerprint(e);
+  assert.equal(e.runRace(1,e.state.owned[0],'safe',{confirmNext:true}),null);assert.equal(stateFingerprint(e),before);
+});
+
+test('staged next-play preserves tutorial marker, seed and autosave preference', () => {
+  let e=tutorialCreate();tutorialAct(e,{type:'meal',choice:'skip'});tutorialFinish(e);tutorialAct(e,{type:'meal',choice:'buy'});
+  tutorialAct(e,{type:'begin_activity47',version:2,choice:'call_mom'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');tutorialAct(e,{type:'complete_activity47',id});tutorialAct(e,{type:'dismiss_story47',id});
+  e.autosaveEnabled=false;const seed=e.seed;assert.equal(e.commitPromotionalTenPull({confirmNext:true}).length,10);
+  assert.equal(e.seed,seed);assert.equal(e.tutorialShiftVersion,1);assert.equal(e.autosaveEnabled,false);assert.equal(validateSave(e.toEnvelope()).valid,true);
+  e=GameEngine.fromEnvelope(e.toEnvelope());assert.equal(e.tutorialShiftVersion,1);assert.equal(e.autosaveEnabled,false);
+});
+
+test('next play cannot skip a newly required morning meal after Late Night', () => {
+  const e=usedEvening();assert.equal(e.buyLifeBundle(330),true);assert.equal(e.commitPromotionalTenPull({confirmNext:true}).length,10);e.revealAllPending();
+  const before=stateFingerprint(e);assert.equal(e.previewNextLifePlay('pull').reason,'destination_obligation_pending');
+  assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.equal(stateFingerprint(e),before);assert.equal(e.state.life.phase,'lateNight');
+});

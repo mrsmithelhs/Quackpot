@@ -1,3 +1,5 @@
+import { mountAppDexNav } from '../app-dex-nav.mjs';
+
 // Quackpot session menu. This is inside the phone, not an apartment clock.
 export function renderLifePhoneView(container, engine, callbacks) {
   const life = engine.state.life;
@@ -23,11 +25,9 @@ export function renderLifePhoneView(container, engine, callbacks) {
       </div>
       <footer class="life-phone-session">
         <p>One pull action and one race per session. You can return to the apartment and pick up where you left off.</p>
-        <div class="life-phone-actions">
-          ${session ? '<button class="btn btn-secondary btn-md" data-life-phone="extend">Extend into the next phase</button>' : ''}
-          <button class="btn btn-secondary btn-md" data-life-phone="finish">Finish session &amp; advance</button>
-        </div>
+
       </footer></div></section>`;
+  mountAppDexNav(container.querySelector('.gacha-banner-header'), callbacks.onOpenDex);
   container.querySelectorAll('[data-life-phone]').forEach(button => button.addEventListener('click', () => callbacks.action(button.dataset.lifePhone)));
   return { destroy() {} };
 }

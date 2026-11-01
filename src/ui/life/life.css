@@ -174,3 +174,14 @@
 }
 
 .life-activity-note { align-self: center; font-size: .85rem; color: var(--life-slate-text, #dce4ee); }
+
+/* Handwritten updates sit over the original printed notice. */
+.life-rent-crossed, .life-rent-written { display: inline-block; color: #345779; font-family: "Segoe Print", "Comic Sans MS", cursive; font-weight: 700; transform: rotate(-4deg); }
+.life-rent-crossed { position: relative; }
+.life-rent-crossed::after { content: ''; position: absolute; left: -.1em; right: -.1em; top: 50%; border-top: 2px solid #345779; border-radius: 45%; transform: rotate(-7deg); pointer-events: none; }
+.life-rent-printed { color: inherit; font: inherit; transform: none; }
+.life-rent-written:last-child { transform: rotate(-3deg); }
+
+/* Collection navigation belongs inside the fictional app. */
+.app-dex-nav { margin: .65rem 0; position: relative; z-index: 1; }
+.app-dex-nav[hidden] { display: none; }

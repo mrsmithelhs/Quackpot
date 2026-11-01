@@ -1,3 +1,4 @@
+import { mountAppDexNav } from './app-dex-nav.mjs';
 import { BANNER_1_ROSTER, DUCK_COSMETICS, GAME_CONSTANTS } from '../core/game-engine.mjs';
 import { raceDuckYaw, raceHeadingError, sampleTrajectory } from '../core/race-resolver.mjs';
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
@@ -157,6 +158,7 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
       <div class="race-exit-actions"><button type="button" class="race-control-button" data-race-proceed disabled>Continue</button></div>
     </section>`;
 
+  const dexButton = mountAppDexNav(container.querySelector('.race-exit-actions'), callbacks.onOpenDex, { hidden: true });
   const viewRoot = container.querySelector('.race-playback');
   const runnerLayer = container.querySelector('[data-race-runners]');
   const podiumScope = container.querySelector('[data-race-podium-scope]');
@@ -315,6 +317,7 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
       pause.setAttribute('aria-pressed', String(state.settled ? state.podiumMotionPaused : state.userPaused));
       pause.disabled = state.reduced;
     }
+    if (dexButton) dexButton.hidden = !state.settled;
     const result = container.querySelector('[data-race-result-summary]');
     if (result) {
       result.hidden = !state.settled;
@@ -412,6 +415,8 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
     return { ...duck, originalIndex: index, restEvidence: evidence, restFactor: evidence.restFactor, effectiveBaseInput: duck.speed * evidence.restFactor };
   }).sort((a, b) => b.effectiveBaseInput - a.effectiveBaseInput || b.speed - a.speed || a.originalIndex - b.originalIndex || a.id.localeCompare(b.id));
   const defaultDuck = restCandidates[0];
+  const initialDuck = restCandidates.find(duck => duck.id === options.initialSelection?.duckId) ?? defaultDuck;
+  const initialStance = options.initialSelection?.stance === 'sprint' ? 'sprint' : 'safe';
 
   if (existingAttempt?.status === 'finished' && existingResolution) {
     const timelineState = restoreRaceTimelineState(existingResolution, {
@@ -428,6 +433,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
 
   if (existingAttempt?.status === 'unresolved') {
     container.innerHTML = `<section class="race-view race-unresolved"><p class="race-eyebrow">${isTutorial ? 'Tutorial event' : 'Championship finale'}</p><h2>Race attempt unresolved</h2><p>${esc(statusText(existingAttempt))}</p><p>The attempt is recorded once. The story may continue, but this is not a finished race and does not count toward future rest.</p><button type="button" data-race-proceed class="race-control-button">Continue</button></section>`;
+    mountAppDexNav(container.querySelector('.race-view'), callbacks.onOpenDex);
     const proceed = container.querySelector('[data-race-proceed]');
     const handler = () => onProceed?.();
     proceed?.addEventListener('click', handler);
@@ -437,6 +443,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   if (existingAttempt?.legacySummaryOnly) {
     const summary = engine.state.raceResults?.[raceNumber] ?? existingAttempt;
     container.innerHTML = `<section class="race-view race-legacy-summary"><p class="race-eyebrow">Saved race record</p><h2>Race result summary</h2><p>Your saved record shows place ${summary.place} and ${summary.payoutGems} Gems. This older save contains no race timeline, so its past presentation cannot be replayed.</p><button type="button" data-race-proceed class="race-control-button">Continue</button></section>`;
+    mountAppDexNav(container.querySelector('.race-view'), callbacks.onOpenDex);
     const proceed = container.querySelector('[data-race-proceed]');
     const handler = () => onProceed?.();
     proceed?.addEventListener('click', handler);
@@ -451,8 +458,8 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
         <fieldset class="race-candidate-list" ${ownedDucks.length ? '' : 'disabled'}>
           <legend>Choose an owned digital racer</legend>
           ${restCandidates.some((duck) => duck.restEvidence.historyLimited) ? '<p class="race-rest-note">Rest tracking starts after an older completed race whose duck identity was not recorded.</p>' : ''}
-          ${restCandidates.map((duck) => `<label class="race-candidate-card ${duck.id === defaultDuck?.id ? 'selected' : ''}" data-candidate-id="${esc(duck.id)}">
-            <input type="radio" name="duckId" value="${esc(duck.id)}" required ${duck.id === defaultDuck?.id ? 'checked' : ''}>
+          ${restCandidates.map((duck) => `<label class="race-candidate-card ${duck.id === initialDuck?.id ? 'selected' : ''}" data-candidate-id="${esc(duck.id)}">
+            <input type="radio" name="duckId" value="${esc(duck.id)}" required ${duck.id === initialDuck?.id ? 'checked' : ''}>
             <span class="race-candidate-art">${duckSvg(duck.id, `${duck.name}, ${duck.restFactor < 1 ? 'needs rest' : 'rested'}`, `qp-race-${raceNumber}-${duck.id}`)}</span>
             <span class="race-candidate-name">${esc(duck.name)}</span>
             <span class="race-candidate-meta">${duck.tier} · speed rating ${duck.speed}</span>
@@ -463,18 +470,19 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
           ${ownedDucks.length ? '' : '<p>No owned digital ducks are available to enter.</p>'}
         </fieldset>
         <fieldset class="race-stance-options"><legend>Choose a stance</legend>
-          <label><input type="radio" name="stance" value="safe" checked> Steady pace <span>More consistent pacing</span></label>
-          <label><input type="radio" name="stance" value="sprint"> Variable pace <span>Wider swings in pacing</span></label>
+          <label><input type="radio" name="stance" value="safe" ${initialStance === 'safe' ? 'checked' : ''}> Steady pace <span>More consistent pacing</span></label>
+          <label><input type="radio" name="stance" value="sprint" ${initialStance === 'sprint' ? 'checked' : ''}> Variable pace <span>Wider swings in pacing</span></label>
         </fieldset>
         <div class="race-trial-offer" data-race-trial>
           ${engine.state.raceTrialAvailable
-            ? '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased one-race speed upgrade: +5% base speed on this race.</label>'
+            ? `<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true" ${options.initialSelection?.useTrial ? 'checked' : ''}> Use purchased one-race speed upgrade: +5% base speed on this race.</label>`
             : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for a +5% one-race speed upgrade</button><p>Available Down: ${engine.state.down}</p>`}
         </div>
         <button type="submit" class="race-control-button race-start-button" ${ownedDucks.length ? '' : 'disabled'}>Start race</button>
       </form>
     </section>`;
 
+  mountAppDexNav(container.querySelector('.race-entry .race-view-header'), callbacks.onOpenDex);
   const form = container.querySelector('[data-race-form]');
   let entryActive = options.active !== false;
   const selectedDuck = () => form.querySelector('input[name="duckId"]:checked')?.value ?? null;

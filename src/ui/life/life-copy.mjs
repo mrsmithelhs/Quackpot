@@ -23,10 +23,18 @@ export function rentDueText(life) {
   return `due in ${words[days] ?? days} days`;
 }
 
+/** Successive handwritten changes to the original three-day notice. */
+export function rentNoticeCorrections(life) {
+  if (!life) return [];
+  const elapsed = Math.max(0, Math.min(3, life.day - (life.config.rentDueDay - 3)));
+  return ['2', '1', 'TODAY!'].slice(0, elapsed);
+}
+
 /** Calm institutional letter. Plain paper: no buttons, no links, no threats. */
-export function noticeLetter({ amount, unit, dueText = 'due today' }) {
+export function noticeLetter({ amount, unit, dueText = 'due today', corrections = [] }) {
   return {
     sender: SENDER,
+    corrections,
     heading: `Remaining rent balance · ${unitLabel(unit)}`,
     paragraphs: [
       `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance is ${money(amount)}; it is ${dueText}.`,

@@ -68,6 +68,8 @@ if (app) {
   let duckDexViewHandle = null;
   let raceViewHandle = null;
   let dexReturnStep = 'd1_morning_gacha';
+  let dexReturnRaceSelection = null;
+  let dexReturnRaceSnapshot = null;
   let duckMotionPaused = false;
   let animatePhoneGlow = true;
   // Apartment life UI state (place chosen, object held, Decide expanded). Survives re-renders; never saved.
@@ -225,6 +227,42 @@ if (app) {
     renderApp();
   }
 
+  function openDexFromApp() {
+    if (!engine || engine.isTerminal()) return;
+    stageTransition?.cancel();
+    const form = document.querySelector('[data-race-form]');
+    dexReturnRaceSelection = form ? {
+      duckId: form.querySelector('input[name="duckId"]:checked')?.value,
+      stance: form.querySelector('input[name="stance"]:checked')?.value,
+      useTrial: Boolean(form.querySelector('input[name="useTrial"]:checked')),
+    } : null;
+    dexReturnStep = currentStep;
+    dexReturnRaceSnapshot = currentStep === 'life_race_result' ? raceViewHandle?.snapshot?.() ?? null : null;
+    currentStep = 'duck_dex';
+    engine.recordDexViewed('app'); maybeAutosave(); renderApp();
+  }
+
+  function appNotice(message) {
+    const host = document.querySelector('#main-content .gacha-banner-header, #main-content .race-view-header');
+    if (!host) return;
+    let notice = host.querySelector('[data-app-notice]');
+    if (!notice) { notice = document.createElement('p'); notice.dataset.appNotice = ''; notice.setAttribute('role', 'status'); host.append(notice); }
+    notice.textContent = message;
+  }
+
+  function confirmNextPlay(kind) {
+    if (!engine.needsNextLifePlay(kind)) return { ok: true, confirmNext: false };
+    const preview = engine.previewNextLifePlay(kind);
+    if (!preview.ok) { appNotice('Return to the apartment, finish the current phase, and resolve any meal, rent, or recovery before continuing.'); return { ok: false }; }
+    const life = engine.state.life;
+    const warning = life.phase === 'evening'
+      ? `Starting this ${kind} moves into Late Night. A pull or race then causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.`
+      : life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+        ? 'Starting this play moves to the next phase and misses your scheduled shift.'
+        : 'Starting this play moves into the next life phase.';
+    return globalThis.confirm(`${warning} Continue?`) ? { ok: true, confirmNext: true } : { ok: false };
+  }
+
   function updateHud() {
     const hudContainer = document.querySelector('#hud-container');
     if (!hudContainer || !engine) return;
@@ -238,15 +276,6 @@ if (app) {
         renderApp();
       },
       showReturn: phoneOpen && !engine.isTerminal() && currentStep !== 'duck_dex',
-      showDex: phoneOpen && !engine.isTerminal() && currentStep !== 'duck_dex',
-      onOpenDex: () => {
-        stageTransition?.cancel();
-        dexReturnStep = currentStep;
-        currentStep = 'duck_dex';
-        engine.recordDexViewed('hud');
-        maybeAutosave();
-        renderApp();
-      },
       onReturnToApartment: () => {
         if (engine.state.life) {
           stageTransition?.run('return').then((completed) => {
@@ -299,7 +328,7 @@ if (app) {
   function renderApp() {
     const showingLifeHub = Boolean(engine?.state.life && !engine.isTerminal() && currentStep === 'life_phone' && phoneOpen);
     if (!showingLifeHub) lifeHubExposureRecorded = false;
-    const racePlaybackSnapshot = raceViewHandle?.snapshot?.() ?? null;
+    const racePlaybackSnapshot = raceViewHandle?.snapshot?.() ?? (currentStep === 'life_race_result' ? dexReturnRaceSnapshot : null);
     raceViewHandle?.destroy?.();
     raceViewHandle = null;
     deskViewHandle?.destroy?.();
@@ -327,39 +356,32 @@ if (app) {
         enterLife(engine.state.life ? lifeSurface(engine) : BREAKFAST_STEP_BY_DAY[1]);
       });
     } else if (!engine.isTerminal() && currentStep === 'life_phone' && engine.state.life && phoneOpen) {
-      renderLifePhoneView(mainContainer, engine, { action: (action) => {
+      renderLifePhoneView(mainContainer, engine, { onOpenDex: openDexFromApp, action: (action) => {
         const life = engine.state.life;
-        if (['welcome', 'single', 'ten'].includes(action) && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+        if (['welcome', 'single', 'ten'].includes(action) && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day] && !life.anchor && !engine.needsNextLifePlay('pull')
           && !globalThis.confirm('This pull uses the afternoon anchor and misses your scheduled shift. Continue?')) return;
         if (action === 'welcome') {
-          if (!engine.commitPromotionalTenPull()) { globalThis.alert('This pull is not available in the current phase.'); return; }
+          const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          let draws;
+          try { draws = engine.commitPromotionalTenPull({ confirmNext: decision.confirmNext }); }
+          catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
+          if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
         } else if (action === 'single' || action === 'ten') {
-          if (!engine.commitPaidPull(action === 'single' ? 1 : 10)) { globalThis.alert('You need enough Gems, an unused pull allowance, and all previous cards revealed.'); return; }
+          const count = action === 'single' ? 1 : 10;
+          const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
+          if (engine.state.gems < cost || engine.state.pendingReveals.some(draw => !draw.revealed)) { appNotice('You need enough Gems and all previous cards revealed before this pull.'); return; }
+          const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          let draws;
+          try { draws = engine.commitPaidPull(count, { confirmNext: decision.confirmNext }); }
+          catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
+          if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
         } else if (action === 'reveal') currentStep = 'life_gacha';
         else if (action === 'bundle') {
           if (!globalThis.confirm('Buy 330 Gems for $4.99?')) return;
           if (!engine.buyLifeBundle(330)) { globalThis.alert('This purchase is not available.'); return; }
         } else if (action === 'race') currentStep = 'life_race';
-        else if (action === 'extend') {
-          const warning = life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
-            ? 'Extending leaves the afternoon and misses your scheduled shift.'
-            : life.phase === 'evening' ? 'Extending enters Late Night; a pull or race there causes up to 10 HP fatigue next morning.'
-              : 'Extending uses the next life phase.';
-          if (!globalThis.confirm(`${warning} Continue?`)) return;
-          const result = engine.applyLifeIntent({ type: 'extend_session', confirmed: true });
-          if (!result.ok) { globalThis.alert('Resolve the current meal or obligation before extending.'); return; }
-          if (engine.state.life.rent.status === 'due' || engine.state.life.recovery || !engine.state.life.rentSurfaced && engine.state.life.rent.status === 'overdue') {
-            currentStep = lifeSurface(engine); phoneOpen = false;
-          }
-        } else if (action === 'finish') {
-          if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
-            && !globalThis.confirm('Finishing now misses your scheduled shift. Continue?')) return;
-          const result = engine.applyLifeIntent({ type: 'advance' });
-          if (!result.ok) { globalThis.alert('Resolve the current meal or obligation before advancing.'); return; }
-          currentStep = lifeSurface(engine); phoneOpen = false;
-        }
         engine.state.step = currentStep; maybeAutosave(); renderApp();
       } });
       if (!settingsOpen && !activeModal && !lifeHubExposureRecorded) {
@@ -367,6 +389,7 @@ if (app) {
       }
     } else if (!engine.isTerminal() && currentStep === 'life_gacha' && engine.state.life && phoneOpen) {
       gachaViewHandle = renderGachaView(mainContainer, engine, {
+        onOpenDex: openDexFromApp,
         onRevealCard: () => { engine.revealNextDraw(); maybeAutosave(); gachaViewHandle?.update(engine); },
         onRevealCardAtIndex: (idx) => { engine.revealDrawAtIndex(idx); maybeAutosave(); gachaViewHandle?.update(engine); },
         onRevealAll: () => { engine.revealAllPending(); maybeAutosave(); gachaViewHandle?.update(engine); },
@@ -381,12 +404,17 @@ if (app) {
       const existing = Object.keys(engine.state.raceAttempts).map(Number);
       const raceNumber = currentStep === 'life_race_result' ? Math.max(...existing) : Math.max(0, ...existing) + 1;
       raceViewHandle = renderRaceView(mainContainer, engine, raceNumber, {
+        onOpenDex: openDexFromApp,
         onStartRace: ({ duckId, stance, useTrial }) => {
           const life = engine.state.life;
-          if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
+          const next = engine.needsNextLifePlay('race');
+          if (!next && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
             && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
-          const attempt = engine.runRace(raceNumber, duckId, stance, { useTrial });
-          if (!attempt) { globalThis.alert('This phase has no race allowance remaining.'); return null; }
+          const decision = confirmNextPlay('race'); if (!decision.ok) return null;
+          let attempt;
+          try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, confirmNext: decision.confirmNext }); }
+          catch { appNotice(decision.confirmNext ? 'The race could not start. Your time and resources are unchanged; try again or return to the apartment.' : 'The race could not start. Return to the apartment or try again.'); return null; }
+          if (!attempt) { appNotice('Return to the apartment and resolve the current obligation before racing.'); return null; }
           currentStep = 'life_race_result'; engine.state.step = currentStep; maybeAutosave(); updateHud();
           return { attempt, resolution: engine.getRaceResolution(raceNumber) };
         },
@@ -396,7 +424,9 @@ if (app) {
         onAction: (action, details) => { engine.recordRacePlaybackAction(raceNumber, action, details); maybeAutosave(); },
         onCueDisplayed: (cue) => { engine.recordRaceCueDisplayed(raceNumber, cue); maybeAutosave(); },
         onProceed: () => { currentStep = 'life_phone'; engine.state.step = currentStep; maybeAutosave(); renderApp(); },
-      }, { active: !settingsOpen && !activeModal, initialSnapshot: racePlaybackSnapshot });
+      }, { active: !settingsOpen && !activeModal, initialSnapshot: racePlaybackSnapshot, initialSelection: dexReturnRaceSelection });
+      dexReturnRaceSelection = null;
+      dexReturnRaceSnapshot = null;
     } else if (!engine.isTerminal() && isLifeStep(currentStep)) {
       lifeViewHandle = renderLifeView(mainContainer, engine, lifeUi, lifeCallbacks(), {
         active: !settingsOpen && !activeModalBlocksLife(),
@@ -436,6 +466,7 @@ if (app) {
     } else if (currentStep === 'd1_morning_gacha') {
       const isGachaActive = !settingsOpen && !activeModal && !engine.isTerminal();
       gachaViewHandle = renderGachaView(mainContainer, engine, {
+        onOpenDex: openDexFromApp,
         active: isGachaActive,
         duckMotionPaused,
         duckMotionActive: isGachaActive,
@@ -494,10 +525,12 @@ if (app) {
         onReturn: () => {
           currentStep = dexReturnStep || 'd1_morning_gacha';
           renderApp();
+          document.querySelector('#main-content .app-dex-nav')?.focus({ preventScroll: true });
         },
       });
     } else if (currentStep === 'd1_midday_race' || currentStep === 'd1_midday_race_result') {
       raceViewHandle = renderRaceView(mainContainer, engine, 1, {
+        onOpenDex: openDexFromApp,
         onStartRace: ({ duckId, stance, useTrial, raceNumber }) => {
           const outcome = engine.runRace(raceNumber, duckId, stance, { useTrial });
           currentStep = 'd1_midday_race_result';
@@ -546,6 +579,7 @@ if (app) {
       `;
     } else if (currentStep === 'd3_midday_race' || currentStep === 'd3_midday_race_result') {
       raceViewHandle = renderRaceView(mainContainer, engine, 2, {
+        onOpenDex: openDexFromApp,
         onStartRace: ({ duckId, stance, useTrial, raceNumber }) => {
           const outcome = engine.runRace(raceNumber, duckId, stance, { useTrial });
           currentStep = 'd3_midday_race_result';
@@ -754,6 +788,8 @@ if (app) {
       }),
       onOpenPhone: commit(() => {
         if (engine.state.life.day === 1 && !['evening', 'lateNight'].includes(engine.state.life.phase)) return { ok: false };
+        const life = engine.state.life;
+        if (life.phase === 'evening' && life.anchor && !life.session && !globalThis.confirm('You already chose an evening activity. Opening and browsing Quackpot is free; starting a pull or race will ask before Late Night. Open it?')) return { ok: false };
         if (!engine.openLifeApp()) return { ok: false };
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
         engine.state.step = (engine.state.life.session && engine.state.lifePhoneReturnStep) || 'life_phone';

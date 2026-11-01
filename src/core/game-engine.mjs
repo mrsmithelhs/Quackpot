@@ -18,6 +18,8 @@ import { selectWorkStory } from './life-story-content.mjs';
 import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs';
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 
+const NEXT_RESERVATION = Symbol('private-next-reservation');
+
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
   Object.freeze(value);
@@ -157,7 +159,8 @@ export class GameEngine {
   }
 
   /** Commit a life intent and its factual effects as one in-memory snapshot. */
-  applyLifeIntent(intent) {
+  applyLifeIntent(intent, privateToken = null) {
+    if (intent?.type === 'phone_commit_next' && privateToken !== NEXT_RESERVATION) return { ok: false, reason: 'private_reservation' };
     if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
     if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced
       && !['rent', 'rent_surface', 'recover'].includes(intent?.type)) return { ok: false, reason: 'rent_notice_pending' };
@@ -190,6 +193,45 @@ export class GameEngine {
     this.state.day = result.life.day;
     this.state.clock = { day: result.life.day, label: `day ${result.life.day} ${result.life.phase}` };
     this.log.append('life_transition', { intent: structuredClone(intent), life: structuredClone(result.life), cash: result.cash, health: result.health }, this.state.clock);
+    return result;
+  }
+
+  /** Preview only: a next-phase commitment is never made by browsing. */
+  previewNextLifePlay(kind) {
+    if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
+    const intent = { type: 'phone_commit_next', version: 1, confirmed: true, kind };
+    const gate = tutorialShiftBlock(this.tutorialShiftVersion, this.state.life, intent);
+    if (gate) return { ok: false, reason: gate };
+    if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced) return { ok: false, reason: 'rent_notice_pending' };
+    return transitionLife(this.state.life, this.state, intent);
+  }
+
+  needsNextLifePlay(kind) {
+    const life = this.state.life;
+    return Boolean(life && ((life.session && life.session[kind]) || (!life.session && life.anchor && life.phase === 'evening')));
+  }
+
+  // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
+  #stageNextPlay(method, args) {
+    const draft = new GameEngine(this.seed);
+    draft.tutorialShiftVersion = this.tutorialShiftVersion;
+    draft.autosaveEnabled = this.autosaveEnabled;
+    draft.state = structuredClone(this.state);
+    draft.log = EventLog.hydrate(this.log.entries);
+    draft.rng = restoreRng(this.rng.serialize());
+    draft.rngDraw = restoreRng(this.rngDraw.serialize());
+    draft.rngRace = restoreRng(this.rngRace.serialize());
+    draft.rngEvent = restoreRng(this.rngEvent.serialize());
+    // Preserve focused deterministic failure-injection seams, with `this` bound to the draft.
+    for (const name of ['resolveRaceCandidate', 'serializeRaceCandidate', 'sampleLifeDraw']) {
+      if (Object.hasOwn(this, name)) draft[name] = this[name];
+    }
+    const result = method === 'runRace'
+      ? draft.runRace(args[0], args[1], args[2], { ...args[3], [NEXT_RESERVATION]: true })
+      : draft[method](...args, { [NEXT_RESERVATION]: true });
+    if (!result) return null;
+    this.state = draft.state; this.log = draft.log;
+    this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
     return result;
   }
 
@@ -260,16 +302,20 @@ export class GameEngine {
     this.state.step = this.state.life ? 'life_home' : 'd1_morning_gacha';
   }
 
+  sampleLifeDraw() { return this.rngDraw.next(); }
+
   /**
    * Commits the promotional free 10-pull.
    * Guarded against repeated execution.
    */
-  commitPromotionalTenPull() {
+  commitPromotionalTenPull(options = {}) {
     if (this.isTerminal()) throw new Error('Cannot pull: game is in terminal phase');
     if (this.state.tenPullCommitted) {
       return this.state.pendingReveals;
     }
-    if (this.state.life && !this.applyLifeIntent({ type: 'phone_commit', kind: 'pull' }).ok) return null;
+    if (options.confirmNext === true) return this.#stageNextPlay('commitPromotionalTenPull', []);
+    const reservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
+    if (this.state.life && !this.applyLifeIntent(reservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) return null;
 
     const draws = [];
     const bannerPool = BANNER_1_ROSTER;
@@ -277,7 +323,7 @@ export class GameEngine {
 
     for (let i = 0; i < 10; i++) {
       const odds = calculatePreDrawOdds(this.state.pityCount);
-      const r = this.rngDraw.next();
+      const r = this.sampleLifeDraw();
       let rarity = 'common';
       if (r < odds.legendary) {
         rarity = 'legendary';
@@ -325,11 +371,13 @@ export class GameEngine {
   }
 
   /** A normal pull commits its cost and all outcomes before any reveal. */
-  commitPaidPull(count) {
+  commitPaidPull(count, options = {}) {
     if (this.isTerminal() || !this.state.life || ![1, 10].includes(count)) return null;
     const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
     if (this.state.gems < cost || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
-    const reservation = this.applyLifeIntent({ type: 'phone_commit', kind: 'pull' });
+    if (options.confirmNext === true) return this.#stageNextPlay('commitPaidPull', [count]);
+    const reservationIntent = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
+    const reservation = this.applyLifeIntent(reservationIntent, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null);
     if (!reservation.ok) return null;
     this.state.gems -= cost;
     this.log.append('purchase', { kind: count === 1 ? 'single_pull' : 'ten_pull', cost, price: 0, gemsAfter: this.state.gems }, this.state.clock);
@@ -337,7 +385,7 @@ export class GameEngine {
     const owned = new Set(this.state.owned);
     for (let i = 0; i < count; i++) {
       const odds = calculatePreDrawOdds(this.state.pityCount);
-      const roll = this.rngDraw.next();
+      const roll = this.sampleLifeDraw();
       const rarity = roll < odds.legendary ? 'legendary' : roll < odds.legendary + odds.rare ? 'rare' : 'common';
       const pool = BANNER_1_ROSTER.filter(duck => duck.tier === rarity);
       const chosen = pool[this.rngDraw.int(pool.length)];
@@ -704,8 +752,12 @@ export class GameEngine {
     return resolveSeededRace(input);
   }
 
+  serializeRaceCandidate(resolution) { return serializeRaceResolution(resolution); }
+
   /** Resolve and commit one deterministic race attempt. Re-entry returns its stored attempt. */
-  runRace(raceNumber, duckId, stance = 'safe', { useTrial = false } = {}) {
+  runRace(raceNumber, duckId, stance = 'safe', options = {}) {
+    const { useTrial = false } = options;
+    if (options.confirmNext === true) return this.#stageNextPlay('runRace', [raceNumber, duckId, stance, { useTrial }]);
     if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
     const raceId = this.raceIdFor(raceNumber);
     const priorAttempt = this.getRaceAttempt(raceNumber);
@@ -715,7 +767,8 @@ export class GameEngine {
     if (!duckDef || !this.state.owned.includes(duckId)) throw new RangeError('Selected racer must be an owned roster duck');
     if (typeof useTrial !== 'boolean') throw new TypeError('useTrial must be boolean');
     if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
-    if (this.state.life && !transitionLife(this.state.life, this.state, { type: 'phone_commit', kind: 'race' }).ok) return null;
+    const raceReservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'race' } : { type: 'phone_commit', kind: 'race' };
+    if (this.state.life && !transitionLife(this.state.life, this.state, raceReservation).ok) return null;
 
     this.activateRaceRestPolicy();
     const fieldBaseSpeed = raceNumber === 1 ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
@@ -740,8 +793,8 @@ export class GameEngine {
 
     // Compute and serialize before any wallet, trial, progression, or log mutation.
     const resolution = this.resolveRaceCandidate(resolverInput);
-    const saved = serializeRaceResolution(resolution);
-    if (this.state.life && !this.applyLifeIntent({ type: 'phone_commit', kind: 'race' }).ok) throw new Error('Race reservation changed during resolution');
+    const saved = this.serializeRaceCandidate(resolution);
+    if (this.state.life && !this.applyLifeIntent(raceReservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) throw new Error('Race reservation changed during resolution');
     const player = resolution.finish.find((entrant) => entrant.id === 'P') ?? null;
     const rival = raceNumber === 2 ? resolution.finish.find((entrant) => entrant.id === 'A') : null;
     const isFinished = resolution.status === 'finished' && resolution.finish.length === 6 && player?.place;

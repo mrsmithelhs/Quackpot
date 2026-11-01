@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { GameEngine } from '../../core/game-engine.mjs';
-import { noticeLetter, rentDueText } from './life-copy.mjs';
+import { noticeLetter, rentDueText, rentNoticeCorrections } from './life-copy.mjs';
 import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision } from './life-decisions.mjs';
 import { effectFromEvents, previewZeroCash } from './life-preview.mjs';
 import { OFFER_PLACE, placeFor, rentState } from './life-routing.mjs';
@@ -199,4 +199,16 @@ test('rent wording uses the existing relative deadline consistently', () => {
   }
   life.rent.status='overdue';assert.equal(rentDueText(life),'overdue');
   life.rent.status='paid';assert.equal(rentDueText(life),'paid');
+});
+
+test('rent notice preserves its original print and accumulates daily handwritten corrections', () => {
+  const life={day:1,phase:'morning',rent:{status:'pending'},config:{rentDueDay:4}};
+  for (const [day, marks] of [[1,[]],[2,['2']],[3,['2','1']],[4,['2','1','TODAY!']],[5,['2','1','TODAY!']]]) {
+    life.day=day;
+    const corrections=rentNoticeCorrections(life);
+    assert.deepEqual(corrections,marks);
+    const letter=noticeLetter({amount:170,unit:'4B',dueText:'due in three days',corrections});
+    assert.match(letter.paragraphs[0],/due in three days/);
+    assert.deepEqual(letter.corrections,marks);
+  }
 });

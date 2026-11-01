@@ -1,4 +1,5 @@
 // Replay life transitions independently from their persisted snapshots.
+import { GAME_CONSTANTS } from './game-engine.mjs';
 import { initialLife, transitionLife } from './life-progression.mjs';
 import { isKnownLifeConfig, POLICY_1_VERSION } from './life-config.mjs';
 import { selectWorkStory } from './life-story-content.mjs';
@@ -96,7 +97,7 @@ export function validateLifeHistory(entries, state) {
       if (!end || end.type !== 'life_transition' || !same(end.payload, { intent: e.payload.intent, life: result.life, cash: result.cash, health: result.health })) {
         errors.push(`Life transition mismatch after ${e.seq}`); break;
       }
-      if (e.payload.intent.type === 'phone_commit') {
+      if (['phone_commit', 'phone_commit_next'].includes(e.payload.intent.type)) {
         const next = entries[i + 2 + result.events.length];
         const expected = e.payload.intent.kind === 'race' ? ['action'] : ['purchase', 'draw_committed'];
         if (!next || !expected.includes(next.type) || (e.payload.intent.kind === 'race' && next.payload.kind !== 'race_choice')) {
@@ -105,6 +106,22 @@ export function validateLifeHistory(entries, state) {
         if (e.payload.intent.kind === 'pull' && next?.type === 'purchase'
           && (!['single_pull', 'ten_pull'].includes(next.payload.kind) || entries[i + 3 + result.events.length]?.type !== 'draw_committed')) {
           errors.push(`Pull commitment at ${e.seq} has no committed draw`);
+        }
+      }
+      if (e.payload.intent.type === 'phone_commit_next') {
+        const at = i + 2 + result.events.length;
+        const next = entries[at];
+        if (e.payload.intent.kind === 'pull') {
+          const paid = next?.type === 'purchase';
+          const count = paid ? (next.payload?.kind === 'single_pull' ? 1 : next.payload?.kind === 'ten_pull' ? 10 : 0) : 10;
+          const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
+          if (paid && (!count || next.payload.cost !== cost || next.payload.price !== 0)) errors.push(`Invalid next-play purchase at ${e.seq}`);
+          const first = at + (paid ? 1 : 0);
+          const draws = entries.slice(first, first + count);
+          if (draws.length !== count || draws.some((draw, index) => draw.type !== 'draw_committed' || draw.payload?.drawIndex !== index + 1 || draw.payload?.of !== count || draw.payload?.advancesPity !== paid) || entries[first + count]?.type === 'draw_committed') errors.push(`Incomplete next-play draw batch at ${e.seq}`);
+        } else {
+          const outcome = entries[at + 1];
+          if (next?.type !== 'action' || next.payload?.kind !== 'race_choice' || !next.payload?.raceId || !['race_result', 'race_attempt_unresolved'].includes(outcome?.type) || outcome.payload?.raceId !== next.payload.raceId || outcome.payload?.duckId !== next.payload.duckId || !outcome.payload?.resolutionDigest || !state.raceResolutions?.[next.payload.raceId]) errors.push(`Missing next-play race outcome at ${e.seq}`);
         }
       }
       life = result.life; cash = result.cash; health = result.health;

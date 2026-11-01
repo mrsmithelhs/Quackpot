@@ -20,7 +20,7 @@ import {
   breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines,
 } from './life-decisions.mjs';
 import { BREAKFAST_AMOUNT, RENT_AMOUNT, furnishingsFrom, outcomeView } from './life-preview.mjs';
-import { cardApp, chips, marisolThread, money, noticeLetter, rentDueText, results, worldLabels } from './life-copy.mjs';
+import { cardApp, chips, marisolThread, money, noticeLetter, rentDueText, rentNoticeCorrections, results, worldLabels } from './life-copy.mjs';
 import {
   bakeryBag, duckPoseHtml, emptyPlate, headingToward, leanToward, saleTag, tapedNotice, workKeysTray,
 } from './life-art.mjs';
@@ -278,7 +278,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           confirm: `Pay ${money(amount)}`, back: 'Put it down',
           ...(due ? { decline: { label: 'Hold cash and leave rent unpaid', endsRun: false } } : {}),
         } : { heading: engine.state.life.rent.status === 'pending' ? 'Remaining rent balance' : due ? 'Rent due' : 'Rent is overdue',
-          lines: [`The balance is ${rentDueText(engine.state.life)}: ${money(amount)}. You are currently ${money(amount - engine.state.cash)} short.`], confirm: 'Continue', back: 'Put it down' };
+          lines: [`The balance is ${rentDueText(engine.state.life)}: ${money(amount)}. You are currently ${money(amount - engine.state.cash)} short.`], confirm: engine.state.life.rent.status === 'pending' ? null : 'Continue', back: 'Put it down' };
         return { spec,
           accept: () => {
             if (!affordable) return { heading: engine.state.life.rent.status === 'pending' ? 'Rent remains unpaid' : due ? 'Rent is due' : 'Rent remains overdue', lines: ['You may pay when you have enough cash.'] };
@@ -449,12 +449,23 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   // ----- layer 2: held -----
 
-  const letterHtml = (l, hid) => `<article class="life-letter">
+  const letterHtml = (l, hid) => {
+    const paragraph = (value, i) => {
+      if (i !== 0 || !l.corrections?.length) return esc(value);
+      const [before, after] = value.split('three');
+      if (after === undefined) return esc(value);
+      const pieces = ['three', ...l.corrections];
+      const readable = `Original three crossed out. Handwritten changes: ${l.corrections.join(', ')}.`;
+      const visible = pieces.map((part, index) => `<span class="${index === 0 ? 'life-rent-crossed life-rent-printed' : index < pieces.length - 1 ? 'life-rent-crossed' : 'life-rent-written'}">${esc(part)}</span>`).join(' ');
+      return `${esc(before)}<span class="life-visually-hidden">${esc(readable)}</span><span aria-hidden="true">${visible}</span>${esc(after)}`;
+    };
+    return `<article class="life-letter">
       <p class="life-sender">${esc(l.sender)}</p>
       <h2 id="${hid}">${esc(l.heading)}</h2>
-      ${l.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}
+      ${l.paragraphs.map((p, i) => `<p>${paragraph(p, i)}</p>`).join('')}
       <footer>${esc(l.footer)}</footer>
     </article>`;
+  };
 
   const phoneHtml = ({ status, app, body }, hid) => `<div class="life-phone-held"><div class="life-phone-screen">
       <div class="life-phone-status" aria-hidden="true"><span>${esc(status)}</span><span>● ● ●</span></div>
@@ -463,7 +474,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     </div></div>`;
 
   function heldObjectHtml(hold, dec, hid) {
-    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueText: rentDueText(engine.state.life) }), hid);
+    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueText: engine.state.life ? 'due in three days' : rentDueText(null), corrections: rentNoticeCorrections(engine.state.life) }), hid);
     if (hold.variant.startsWith('life-')) {
       const life = engine.state.life;
       const body = hold.variant === 'life-work'
@@ -648,7 +659,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           button.disabled = false;
         });
       }
-      control(step === 'life_work' ? 'Continue to evening' : e.state.life.phase === 'lateNight' ? 'Finish Late Night' : 'Finish evening', () => { callbacks.onLifeAdvance(expectLog); ui.held = null; callbacks.onRefresh(); });
+      control(step === 'life_work' ? 'Continue to evening' : e.state.life.phase === 'lateNight' ? 'Finish Late Night' : 'Turn in for the night', () => { callbacks.onLifeAdvance(expectLog); ui.held = null; callbacks.onRefresh(); });
       if (e.state.life.phase === 'evening') control('Stay up for Late Night', () => { callbacks.onLateNight(expectLog); ui.held = null; callbacks.onRefresh(); });
       if (e.state.life.day >= 4) control('Finish run', () => { callbacks.onFinishLife(expectLog); ui.held = null; callbacks.onRefresh(); });
     }

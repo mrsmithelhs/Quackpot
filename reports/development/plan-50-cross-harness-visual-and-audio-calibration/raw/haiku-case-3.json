@@ -1,0 +1,61 @@
+{
+  "case_id": "case-3",
+  "model_requested": "haiku",
+  "model_reported": "claude-haiku-5-5",
+  "tools": [
+    "Read"
+  ],
+  "mcp_count": 0,
+  "additional_directory_count": 0,
+  "permission_mode": "dontAsk",
+  "effective_effort": "unverified",
+  "read_input_matched_staged_image": true,
+  "read_result_is_error": null,
+  "read_result_image_count": 1,
+  "exit_code": 0,
+  "elapsed_seconds": 17.2756099,
+  "peak_sampled_private_bytes": 431562752,
+  "stdout_characters_drained": 188050,
+  "stdout_characters_retained": 188050,
+  "stdout_truncated": false,
+  "stderr_characters_drained": 0,
+  "stderr_characters_retained": 0,
+  "stderr_truncated": false,
+  "raw_receipt_sha256": "ef81edeb707f0efb795a98a61d63950fabe6cfd50d0d49651cc5fe0e83635a76",
+  "reported_list_cost_usd": 0.00171681,
+  "usage": {
+    "input_tokens": 4,
+    "cache_creation_input_tokens": 1852,
+    "cache_read_input_tokens": 7151,
+    "output_tokens": 2549,
+    "output_tokens_details": {
+      "thinking_tokens": 1240
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1852,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2439,
+        "cache_read_input_tokens": 3996,
+        "cache_creation_input_tokens": 1011,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1011
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "response": "I reviewed `image.png` with Read only. Coordinates are approximate, based on a 720×900 canvas.\n\n**1. Arms and shoulders are colored like the apron (observation)**\n- **Location:** Shoulder and arm regions, roughly x 70–250 and x 465–650, y 770–900.\n- **Visible:** Both upper-arm shapes are the same brown as the apron bib and straps. No skin-toned arm, hand, or sleeve edge is visible. The light-blue shirt shows only at the shoulders.\n- **Consequence:** A viewer may read these as apron panels rather than arms, so the figure's pose and tool-holding action are unclear.\n- **Confidence:** Medium-high that the color match is visible. Whether it's a misreading is a judgment call.\n- **Verification:** Check the source layers to see whether the arms are drawn in skin tone and hidden behind the apron. Then view the image at small avatar size to see whether the arms still read as arms.\n\n**2. Pencil crosses the hair and face boundary (observation)**\n- **Location:** Top-right of the head, roughly x 455–552, y 295–328.\n- **Visible:** The pencil's left end sits over the edge where the hair meets the forehead, so it is unclear whether it is in front of or behind the hair.\n- **Consequence:** The layering reads ambiguously. At small sizes the pencil may merge into the hair outline.\n- **Confidence:** Medium.\n- **Verification:** Check the layer order in the source file. Then render at 64–128 px and see whether the pencil and hair outline separate cleanly.\n\n**3. Faint navy mark on the right arm (observation)**\n- **Location:** Right arm, roughly x 575–625, y 815–870.\n- **Visible:** A thin, low-contrast navy line sits on the brown arm. It is hard to tell whether it is a tattoo, a stray stroke, or a shading artifact.\n- **Consequence:** At normal viewing size it may read as a smudge rather than an intended detail.\n- **Confidence:** Medium-low, because the mark is small and the image is low resolution.\n- **Verification:** Zoom to 200–300% on that region of the source file and check whether the stroke is an intended separate element.\n\n**4. Mismatched earrings (subjective preference)**\n- **Location:** Left ear, roughly x 170–238, y 380–448 (large gold hoop). Right ear, roughly x 500–526, y 383–410 (small stud).\n- **Visible:** The left earring is much larger than the right one.\n- **Consequence:** This is most likely a deliberate style choice. It becomes an issue only if the brief calls for matching accessories.\n- **Confidence:** High that the sizes differ. Whether that is a problem is subjective.\n- **Verification:** Confirm the intended design against the brief or character sheet.\n\n**5. Bottom crop cuts off the torso (subjective preference)**\n- **Location:** Bottom edge, y ≈ 900, across the apron and lower torso.\n- **Visible:** The apron bib, bottom bar, and torso are cut by the frame edge. Hands and lower apron are not shown.\n- **Consequence:** This is typical for an avatar bust crop. It only matters if the full apron or tool details are needed.\n- **Confidence:** High that the crop exists. Whether it is an issue is subjective.\n- **Verification:** Compare the crop against the target format, such as a profile picture or card, and confirm that no required content falls outside the frame.\n\nNo rendering, interaction, or accessibility behavior can be established from a static image, so I did not assess those."
+}

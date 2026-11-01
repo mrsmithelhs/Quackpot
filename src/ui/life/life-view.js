@@ -145,7 +145,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
           done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         if (keysAvailable(life)) {
-          out.push({ id: 'work-keys', svg: workKeysTray(), x: 33, y: 74, w: 10, h: 10,
+          out.push({ id: 'work-keys', svg: workKeysTray(), x: 33.5, y: 70, w: 12.5, h: 9.5,
             label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } });
         }
         if (life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {

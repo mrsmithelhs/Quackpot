@@ -1,0 +1,363 @@
+{
+  "source": "a9adec8 / progress2a8c279; Ren source and apartment inputs unchanged by root",
+  "observations": [
+    {
+      "name": "expressions",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 231.65625,
+        "bottom": 295.65625,
+        "width": 608.5,
+        "height": 64
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-expressions.png"
+    },
+    {
+      "name": "door",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 279.15625,
+        "bottom": 621.4375,
+        "width": 608.5,
+        "height": 342.28125
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-door.png"
+    },
+    {
+      "name": "couch",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 278.9375,
+        "bottom": 621.21875,
+        "width": 608.5,
+        "height": 342.28125
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-couch.png"
+    },
+    {
+      "name": "floor",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 278.71875,
+        "bottom": 621,
+        "width": 608.5,
+        "height": 342.28125
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-floor.png"
+    },
+    {
+      "name": "crop",
+      "width": 1280,
+      "scrollWidth": 1265,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 279.3125,
+        "bottom": 621.59375,
+        "width": 608.5,
+        "height": 342.28125
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-crop.png"
+    },
+    {
+      "name": "narrow-door",
+      "width": 390,
+      "scrollWidth": 375,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 325.28125,
+        "bottom": 518.21875,
+        "width": 343,
+        "height": 192.9375
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-narrow-door.png"
+    },
+    {
+      "name": "narrow-couch",
+      "width": 390,
+      "scrollWidth": 375,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 325.25,
+        "bottom": 518.1875,
+        "width": 343,
+        "height": 192.9375
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-narrow-couch.png"
+    },
+    {
+      "name": "narrow-crop",
+      "width": 390,
+      "scrollWidth": 375,
+      "svgCount": 21,
+      "images": [
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:52586/a3fd0e06-047e-4fef-b05e-9c9876ce15c9",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-floor-game-night.svg",
+          "loaded": true
+        }
+      ],
+      "target": {
+        "top": 326,
+        "bottom": 518.9375,
+        "width": 343,
+        "height": 192.9375
+      },
+      "file": "reports/development/plan-45-ren-svg-component-extraction/root-narrow-crop.png"
+    }
+  ],
+  "errors": [],
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 11864,
+        "ppid": 49480,
+        "created": "11/01/2026 10:05:56",
+        "root": true
+      },
+      {
+        "pid": 45640,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 46744,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 18924,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 31856,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 51388,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 52192,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 48084,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 41112,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:56",
+        "root": false
+      },
+      {
+        "pid": 56496,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:57",
+        "root": false
+      },
+      {
+        "pid": 61984,
+        "ppid": 11864,
+        "created": "11/01/2026 10:05:57",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[11864:59360:1101/100556.864:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[11864:59360:1101/100556.864:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:52587/devtools/browser/b7bc07eb-6125-4008-914c-8595515c8172\r\n"
+  }
+}

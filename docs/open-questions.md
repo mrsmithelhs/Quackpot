@@ -26,7 +26,7 @@ Current unresolved questions only, reconciled2026-10-31. Selected intent lives i
 ## Audio, weather and later narrative
 
 - How should Plan18's owner-selected sound pools be prepared/trimmed/levelled, attributed and integrated? Selection is complete; production preparation/integration is separate. More apartment looping music remains wanted.
-- Which Plan39 technical rendering/provenance repairs are required before scaling the owner-favored M1–M6 repertoire? Plan43 researches viable instruments/styles and permits owner-led genre pivots; no finished soundtrack is adopted.
+- Which bounded extensions to the accepted Plan39 custom renderer will support the apartment styles in Plan43? Original lead reports schema-inspired reconstructed recipes, not upstream TinySynth integration; compare actual instrument viability before longer tracks. Plan43 permits owner-led genre pivots; no finished soundtrack is adopted.
 - How should Plan30's TV source, track changes, room acoustics and silence-after-sale work? Weather34 helpers remain deliberately unmounted pending a separate evidence/scene-selection gate.
 - Which inexpensive high-impact Plan36 disorientation ideas merit a prototype once ordinary life progression is coherent? Preserve irregular fictional disruptions, text/static equivalents and truthful outcomes; no late-game integration plan is yet selected.
 - Which assets show a measured benefit from PNG delivery? SVG source remains the default; concept references are not shipping assets.

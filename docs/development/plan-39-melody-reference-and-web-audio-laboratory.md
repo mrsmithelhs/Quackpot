@@ -1,7 +1,8 @@
 ---
 id: plan-39
 title: Melody reference and Web Audio laboratory
-status: delivered
+status: complete
+resolution: "Owner auditioned revised playback and export successfully on 2026-10-31; root technical and bounded browser review accepted the report-local laboratory. Original lead clarifies schema-inspired reconstructed recipes/custom renderer, not upstream library integration. Preserve M1-M6/C0, local pin and documented limits; long-track extensions and production adoption remain separately gated. No push/deployment."
 depends_on: [plan-33]
 gate: "Owner authorizes Argon/Flash report-local composition, harness and export experiments on 2026-10-30. Ready for assignment; owner listening selects results, production adoption separate."
 summary: >-

@@ -13,7 +13,7 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
 | Apartment | Accepted art/desk/phone; Plan38 life surfaces exist | Work/evening experience Plan40 assigned Gemini Flash; coherent phase/obligation integration before later disruption |
 | Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, Plan44 Receipt integration delivered for owner review; exporter/analyzer separate |
-| Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 technical repairs; Plan43 report-local style study assigned Codex; weather not mounted |
+| Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 accepted local renderer; Plan43 assigned but held before dispatch, extensions gated; weather not mounted |
 | Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; draft45 existing SVG extraction and draft46 gated social integration; Plan36 possibilities preserved |
 
 Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.

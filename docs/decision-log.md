@@ -554,3 +554,11 @@ Root reconciles Plan41's direct owner selections S1–S58: neighbor/tinkerer, th
 **Date:** 2026-10-31
 
 Owner accepts Plan41 closure and requests two follow-on packets. Draft45 extracts existing selected SVG concepts/components and composition recipes into an unmounted fidelity-tested kit; Codex is recommended for this engineering work. It does not authorize new drawing simply because SVGs are involved. Missing or materially revised artwork gets a separate art brief, with Sonnet preferred for authoring. Draft46 proposes then integrates Ren social lifecycle into accepted phase/action/save/event architecture after exact owner/root mechanism clearance and accepted art mounting. Neither packet is assigned by drafting. Side/turned poses and unreviewed final variants retain their recorded gates; no full wardrobe shipping requirement, hidden relationship labels on Receipt, production music, push or deployment follows.
+
+### DECISION-056 — Plan39 laboratory accepted and production presentation repairs
+
+**Date:** 2026-10-31
+
+Owner tried revised Plan39 playback/export successfully and asks about closure; root accepts and closes the bounded laboratory after prior technical/browser review. Original Argon lead reports raw TinySynth runtime/tables were never retrieved and workers reconstructed recipes from documentation summaries with a custom renderer. Root records this as owner-relayed author testimony, consistent with the mechanical comparison, not an independent external transcript audit or legal determination. Preserve reference/license notices and local source pin; no claim of upstream fidelity or whole-library integration. Plan43 may use the accepted local baseline f91dc4b and29698a0 evidence, with its exact extension/resource/long-render gates unchanged; production soundtrack not adopted.
+
+Owner continues Plan40 issues directly with its implementer; root leaves their files untouched. Separately owner requests apartment cash duplication and phone artwork/target mismatch fixes. Root removes footer cash while preserving rent-specific status and top HUD, and derives artwork/target from one pure presentation context. Focused22checks and build pass; no time/economy/save/event change or new independent browser coverage. No push/deployment.

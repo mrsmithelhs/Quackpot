@@ -1,0 +1,9 @@
+# Owner-relayed original-author provenance clarification
+
+2026-10-31. Owner relays the original Argon lead's answer after it reports inspecting retained lead/worker transcripts. Root read that answer; root has not independently audited those external transcripts. This is attributed author testimony, not an independent full source/authorship audit.
+
+The lead reports no upstream TinySynth library/runtime or raw program tables were loaded, installed or downloaded during v3 authoring. Workers consulted web-search documentation summaries of the TinySynth operator schema and examples. After searches did not yield the raw table, a worker reconstructed the20 local instrument recipes from model knowledge and the music research. Another worker wrote the local Web Audio renderer, routing/envelopes/noise helpers, scheduler/effects/export. Therefore the earlier claim that recipes were extracted from upstream and the library integrated was inaccurate.
+
+The local implementation is best described as a **custom procedural synthesizer with worker-authored recipes inspired by TinySynth's documented operator format**. There was no actual upstream library dependency revision identified by that authoring process. Pin the exact local code for reproducibility; do not invent an upstream origin revision. The pinned upstream snapshot in tinysynth-component-comparison.md is a comparison reference only.
+
+The mechanical comparison's20 modified-relative-to-reference recipes and semantic differences are consistent with this account, but cannot independently prove historical derivation or a legal conclusion. Preserve the source reference, existing notices and comparison license; any production adoption must accurately describe what ships. No claim the local sounds inherit upstream fidelity, compatibility or quality. Owner reviewed revised audition/export successfully; no audio/code was changed by this clarification.

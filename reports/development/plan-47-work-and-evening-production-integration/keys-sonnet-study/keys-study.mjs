@@ -20,10 +20,10 @@ export function sonnetKeys() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 76" aria-hidden="true" focusable="false">
     <ellipse cx="56" cy="64" rx="50" ry="7" fill="rgba(0,0,0,.2)"/>
     <ellipse cx="66" cy="61" rx="38" ry="3.6" fill="rgba(0,0,0,.2)"/>
-    <g transform="rotate(6 70 36)" fill="none">
-      <ellipse cx="70" cy="36" rx="10" ry="15" stroke="#4d4a46" stroke-width="5"/>
-      <ellipse cx="70" cy="36" rx="10" ry="15" stroke="#cfd3d4" stroke-width="2.8"/>
-      <path d="M61.5 31 A10 15 0 0 1 66 22" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
+    <g transform="rotate(-8 78 49)" fill="none">
+      <ellipse cx="78" cy="49" rx="9.5" ry="10" stroke="#4d4a46" stroke-width="5"/>
+      <ellipse cx="78" cy="49" rx="9.5" ry="10" stroke="#cfd3d4" stroke-width="2.8"/>
+      <path d="M71.5 44 A9.5 10 0 0 1 77 39.2" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
     </g>
     ${key(66, 50, 172)}
     ${key(70, 53, 150)}

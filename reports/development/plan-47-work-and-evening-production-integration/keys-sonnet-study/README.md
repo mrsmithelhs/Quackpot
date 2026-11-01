@@ -11,6 +11,9 @@ Ring made smaller (rx 10, ry 15) and drawn behind the keys; it now passes throug
 ## Revision 2 (owner request)
 Ring smaller and behind everything; the blue fob is drawn last, in front of both key heads, so the head holes are hidden and the ring plausibly threads them without drawing the connection. Viewed as a static 5x pane capture and ~96/~48 px copies in that page; ring, brass keys and fob read at both small copies. Not yet judged in the real scene.
 
+## Revision 3 (owner request)
+Ring reduced to a small arc peeking above the fob's back edge, as in the owner's red-marked screenshot; the rest of the ring is hidden behind the fob and key heads. Viewed as a static 5x pane capture only; at ~96/~48 px copies the arc is a few pixels. Not yet judged in the real scene.
+
 ## Evidence so far (honest labels)
 - Viewed once: 5× static close-up in the app browser pane (file URL, no Node, no server). It reads as a keyring; the thickness copy makes teeth look chunky/double-outlined and may need thinning. 
 - NOT yet viewed: 96 px / 48 px display sizes, or any scene render. A second pane capture timed out, so no small-size claim is made.

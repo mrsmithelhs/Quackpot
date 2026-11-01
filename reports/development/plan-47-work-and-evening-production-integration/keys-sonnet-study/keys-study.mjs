@@ -17,7 +17,7 @@ const key = (x, y, rot) => `<g transform="translate(${x} ${y + 3}) scale(1 .62) 
     <path d="M13 0 H40" stroke="#f3e6ab" stroke-width="1.4" stroke-linecap="round"/></g>`;
 
 export function sonnetKeys() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 76" aria-hidden="true" focusable="false">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="4 32 100 42" aria-hidden="true" focusable="false">
     <ellipse cx="56" cy="64" rx="50" ry="7" fill="rgba(0,0,0,.2)"/>
     <ellipse cx="66" cy="61" rx="38" ry="3.6" fill="rgba(0,0,0,.2)"/>
     <g transform="rotate(-8 78 49)" fill="none">

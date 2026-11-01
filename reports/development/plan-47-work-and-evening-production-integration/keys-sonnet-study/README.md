@@ -14,6 +14,16 @@ Ring smaller and behind everything; the blue fob is drawn last, in front of both
 ## Revision 3 (owner request)
 Ring reduced to a small arc peeking above the fob's back edge, as in the owner's red-marked screenshot; the rest of the ring is hidden behind the fob and key heads. Viewed as a static 5x pane capture only; at ~96/~48 px copies the arc is a few pixels. Not yet judged in the real scene.
 
+## Scene test on localhost:5173 (2026-11-01, owner-opened dev server, app browser pane)
+Method: `scene.html`/`scene.mjs` (report-local, served by the dev server) mount the real HUD and life view with a synthetic engine and substitute the study SVG in-page (`?v=current|codex|same|proposed&box=left,top,width`). Synthetic component render, not a real play-through. Desktop magnified 3x with a CSS transform on the scene for inspection (the pane downsamples screenshots, so it is not pixel-exact).
+- viewBox tightened to `4 32 100 42` so the art fills its box (the old 120x76 box left ~25% empty, making the keys look smaller than the box).
+- Proposed visual box `left 33.5-34%, top 70%, width 12.5%` (~92x39 px desktop, ~46x19 px at 390 wide), vs the current 10%-wide tray (~74x42). Desktop: sits on the desk's front band with its contact shadow, clear of the duck, and its right end overlaps the mug base in front of it (natural; the gap between duck and mug is only ~64 px, so a larger prop would need to overlap). Ring arc, brass blades with teeth, and blue fob are all distinguishable at 3x.
+- Narrow (390 px, native pane pixels): the keys are about 46 px wide and read as a brass/blue cluster; the ring arc and teeth are not reliably distinguishable. The existing 'Work keys' chip label sits over the keys at this size (existing production behaviour, not changed here); the keys are legible only beside it.
+- Not checked: real hotspot/keyboard focus behaviour with the new box, other scene states, other viewports, hold popover placement.
+
+## Production change if accepted (not done)
+Replace `workKeysTray()` in `src/ui/life/life-art.mjs:54` with the `sonnetKeys()` markup (via `svgBox('4 32 100 42', ...)`), and change `x/y/w/h` at `src/ui/life/life-view.js:148` to about `33.5 / 70 / 12.5 / 9.5`. Placement is the only edit beyond the art; owner/root must accept first.
+
 ## Evidence so far (honest labels)
 - Viewed once: 5× static close-up in the app browser pane (file URL, no Node, no server). It reads as a keyring; the thickness copy makes teeth look chunky/double-outlined and may need thinning. 
 - NOT yet viewed: 96 px / 48 px display sizes, or any scene render. A second pane capture timed out, so no small-size claim is made.

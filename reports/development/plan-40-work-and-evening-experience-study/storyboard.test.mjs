@@ -24,6 +24,7 @@ import {
   VIGNETTE_ICONS,
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
+import { beatOccurrenceKey, resolveReviewerMoment } from './storyboard.mjs';
 
 test('Author-assigned tone scale, catalog versioning, and Global Hex ID Uniqueness', () => {
   assert.equal(CATALOG_VERSION, '1.1.0');
@@ -92,8 +93,8 @@ test('Author-assigned tone scale, catalog versioning, and Global Hex ID Uniquene
   assert.ok(KITCHEN_RETURN_SCENE.heading.includes('Kitchen'));
   assert.ok(KITCHEN_RETURN_SCENE.options.eat);
   assert.ok(KITCHEN_RETURN_SCENE.options.skip);
-  assert.ok(KITCHEN_RETURN_SCENE.options.eat.disclosedParams.includes('$0'));
-  assert.ok(KITCHEN_RETURN_SCENE.options.skip.disclosedParams.includes('$0'));
+  assert.ok(KITCHEN_RETURN_SCENE.options.eat.disclosedParams.includes('$6'));
+  assert.ok(KITCHEN_RETURN_SCENE.options.skip.disclosedParams.includes('5 HP'));
 
   // Evening activities candidate labels
   assert.ok(EVENING_ACTIVITIES.sitWithDuck.badge.includes('Proposal'));
@@ -190,10 +191,34 @@ test('ExperimentTracker pre-choice isolation, unscored handling, and synthetic s
 
   // Compact export format verification (Proposed Adapter for CATALOG_VERSION 1.1.0)
   const compactJson = tracker.exportCompactUsage();
-  assert.ok(compactJson.includes('"pre":[["014",4],["015",5],["0C5",5]]'));
-  assert.ok(compactJson.includes('"avg":4.67'));
-  assert.ok(compactJson.includes('"act":"extra_shift"'));
-  assert.ok(compactJson.includes('"post":[["F01",1]]'));
+  const exportEnvelope = JSON.parse(compactJson);
+  assert.deepEqual(Object.keys(exportEnvelope), ['catalogVersion', 'scenarios']);
+  assert.equal(exportEnvelope.catalogVersion, CATALOG_VERSION);
+  assert.equal(exportEnvelope.scenarios.length, 2);
+  assert.deepEqual(exportEnvelope.scenarios[1], {
+    pre: [['014', 4], ['015', 5], ['0C5', 5]],
+    avg: 4.67,
+    act: 'extra_shift',
+    post: [['F01', 1]],
+    dinner: null,
+  });
+});
+
+test('Displayed occurrence key deduplicates rerenders but preserves same beat in another slot', () => {
+  assert.equal(beatOccurrenceKey('work_1', '014'), beatOccurrenceKey('work_1', '014'));
+  assert.notEqual(beatOccurrenceKey('work_1', '014'), beatOccurrenceKey('work_2', '014'));
+});
+
+test('Reviewer navigation cannot reopen a completed choice or fabricate an extra-shift return', () => {
+  assert.equal(resolveReviewerMoment('evening', {
+    scenarioCommitted: true, eveningChoice: 'call_mom', activeExtraShift: null, activeExtraBeat: null,
+  }), 'evening_complete');
+  assert.equal(resolveReviewerMoment('night_return', {
+    scenarioCommitted: false, eveningChoice: null, activeExtraShift: null, activeExtraBeat: null,
+  }), 'evening');
+  assert.equal(resolveReviewerMoment('evening', {
+    scenarioCommitted: true, eveningChoice: 'extra_shift', activeExtraShift: { id: 'gig' }, activeExtraBeat: { hexId: 'F01' },
+  }), 'night_return');
 });
 
 test('Session lifecycle: single evening choice, dinner maintenance choice, and candidate figures', () => {

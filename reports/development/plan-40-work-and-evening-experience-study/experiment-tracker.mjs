@@ -2,6 +2,7 @@
 // Compact usage recording and pedagogical tracking for Plan 40.
 // Strictly separates actual preview observations from synthetic demonstration fixtures.
 // Uses pre-choice exposure strictly (does not fold post-choice outcomes into the predictor).
+import { CATALOG_VERSION } from './copy.mjs';
 
 export class ExperimentTracker {
   constructor() {
@@ -103,12 +104,16 @@ export class ExperimentTracker {
    * Minified JSON string suitable for offline saving without free-text timestamps or student IDs.
    */
   exportCompactUsage() {
-    return JSON.stringify(this.observedPreviewSessions.map((r) => ({
-      pre: r.preChoiceBeats,
-      avg: r.avgPreChoiceScore,
-      act: r.eveningChoice,
-      post: r.postChoiceBeats,
-    })));
+    return JSON.stringify({
+      catalogVersion: CATALOG_VERSION,
+      scenarios: this.observedPreviewSessions.map((r) => ({
+        pre: r.preChoiceBeats,
+        avg: r.avgPreChoiceScore,
+        act: r.eveningChoice,
+        post: r.postChoiceBeats,
+        dinner: r.dinnerChoice,
+      })),
+    });
   }
 
   /**

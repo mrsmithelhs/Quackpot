@@ -23,7 +23,7 @@ This ledger strictly separates verified owner choices from implementer interpret
 | **OWN-40-10** | 2026-10-31 | Gig App Persistence | Independent gig apps remain available even if regular scheduled warehouse employment is lost; gigs serve as an accessible emergency recovery lane. | Owner direction / Root Continuation 02 |
 | **OWN-40-11** | 2026-10-31 | Shift Vignette Sampling | The 5 beats defined per extra shift are **standalone alternative vignettes** sampled per shift exposure, not a 5-part serial sequence. | Owner direction / Root Continuation 02 |
 | **OWN-40-12** | 2026-10-31 | Single Evening Choice | Exactly **one evening anchor** is chosen per observed scenario; completing it concludes that evening. Alternative previews begin via an explicit fresh scenario / reset. | Root Continuation 03 |
-| **OWN-40-13** | 2026-10-31 | Dinner Maintenance Choice | Kitchen return represents dinner as an **explicit choice** (eat prepared leftovers vs skip dinner) with disclosed parameters ($0 cash), keeping meals routine maintenance without silently establishing free automatic dinner. | Root Continuation 03 |
+| **OWN-40-13** | 2026-10-31 | Dinner Choice Presentation | Kitchen return presents dinner as an explicit choice. This does not select free leftovers or establish the prototype's candidate costs as production policy. | Root Continuation 03 |
 | **OWN-40-14** | 2026-10-31 | Direct Take-Home Disbursal | Omit candidate gross ($88) and deduction ($28) presentation copy; preserve direct **$60.00 net take-home cash** without invented payroll arithmetic. | Root Continuation 03 |
 | **OWN-37-01** | 2026-10-31 | Shift Take-Home Baseline | Ordinary completed shift baseline take-home pay is **$60.00**. | Plan 37 Closeout / Plan 29 |
 | **OWN-38-01** | 2026-10-30 | Life/Phone Separation | Phone invitation means opening the gacha; life actions stay diegetic in the apartment. | Plan 38 Owner Review 02 |
@@ -54,6 +54,7 @@ This ledger strictly separates verified owner choices from implementer interpret
 | **PROP-40-03** | Tone Tier Cutoffs: Depleting (1.0–2.2), Neutral/Routine (2.3–3.5), Uplifting (3.6–5.0). | Implemented in Tracker | CourseVGD student usage file analysis |
 | **PROP-40-04** | Sit with Duck Restorative Effect: +2 HP quiet stillness (candidate figure). | Working Proposal in Storyboard | Future life activity adoption |
 | **PROP-40-05** | Extra Shift Flat Payouts: $35.00 to $55.00 flat cash rewards (candidate figures). | Working Proposal in Storyboard | Whole-run economy balancing |
+| **PROP-40-06** | Dinner study parameters: buying dinner costs $6 cash; skipping dinner costs 5 HP. These values are implemented in the prototype only and are not accepted production rules. | Working Proposal in Storyboard | Future life activity adoption |
 
 ---
 

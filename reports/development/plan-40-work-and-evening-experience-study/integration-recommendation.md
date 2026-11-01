@@ -78,20 +78,21 @@ These interfaces are proposed recommendations for future lifecycle integration, 
 
 ## 2. Compact Run-Usage Export Schema (Proposed Adapter)
 
-This is a **proposed export adapter** for `CATALOG_VERSION = '1.1.0'` (illustrative candidate schema for CourseVGD analysis, **NOT** an adopted Plan 42 ZIP schema; Plan 40 asserts no integration authority over Plan 42):
+This is a **proposed export adapter** for `CATALOG_VERSION = '1.1.0'` (illustrative candidate schema for CourseVGD analysis, **NOT** an adopted Plan 42 ZIP schema; Plan 40 asserts no integration authority over Plan 42). The prototype emits the versioned envelope shown here:
 ```json
 {
-  "day": 1,
-  "pre": [["012", 2], ["014", 4], ["0C4", 4]],
-  "avg": 3.33,
-  "act": "call_mom",
-  "post": [],
-  "dinner": "eat",
-  "wage": 60.00,
-  "gachaSpent": 0.00
+  "catalogVersion": "1.1.0",
+  "scenarios": [
+    {
+      "pre": [["012", 2], ["014", 4], ["0C4", 4]],
+      "avg": 3.33,
+      "act": "call_mom",
+      "post": [],
+      "dinner": "eat"
+    }
+  ]
 }
 ```
-*Note on Unscored Sessions*: When `pre` is empty (e.g. testing evening choices directly), `avg` is serialized as `null` (unscored) and excluded from tone tier denominators.
 *Note on Unscored Sessions*: When `pre` is empty (e.g. testing evening choices directly), `avg` is serialized as `null` (unscored) and excluded from tone tier denominators.
 
 ---

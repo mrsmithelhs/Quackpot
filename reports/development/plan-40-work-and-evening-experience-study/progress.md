@@ -1,3 +1,15 @@
+# Current Plan40 handback — root Repair04 verification
+
+2026-10-31. Root reviewed09ec288/9261be5 and used a bounded Luna-high single-writer repair of remaining report-only issues; root inspected changes and corrected two stale dinner-label assertions. No source game/economy/ZIP contract was changed by this study. The separate opening-button production styling fix is recorded in reports/orchestration/opening-button-style-repair.md.
+
+Root validation:6 focused tests passed through unchanged bounded launcher,0.53s,sampled1,875,968bytes; isolated temporary headless browser11-step walkthrough passed,5.67s,sampled415,047,680bytes,no stop or cleanup notes. The route shows synthetic15cash start,60wage,6dinner purchase→69cash, CallMom+5→85HP ending the Evening, then explicit reset and separate gig scenario. Programmatic focus and dispatched Enter/Space cover the tested handlers, not full Tab/accessibility or OS reduced-motion parity. No owner storage or existing server changed. New screenshot/JSON evidence reflects this final run. Earlier test attempts failed stale $0 meal-label assertions; root updated them to $6 and5HP, then reran successfully.
+
+Root repair includes versioned proposed export data, dinner working parameters consistent with selected policy, once-per-slot exposure records after DOM insertion, guarded completed-scenario navigation and invalid gig jumps. It preserves52 authored beats. No causal or student-outcome findings are established by this toy tracker. Catalog/copy and ambient style are ready for owner review; final production adoption requires a separate bounded packet.
+
+The previous implementer report below is retained as HISTORICAL evidence. Its broad verification wording is superseded by the current source/claims and the Root Repair04 section appended afterward.
+
+---
+
 # Plan 40: Work and Evening Experience Study — Progress Report
 
 **Date**: 2026-10-31  
@@ -118,3 +130,29 @@ These are left untouched and uncommitted.
 ## 8. Ready for Orchestrator Review
 
 **Yes**. All corrections requested in Checkpoint 01 have been applied and verified.
+
+---
+# Plan 40: Work and Evening Experience Study — Progress Report
+
+**Date**: 2026-10-31
+**Status**: In Progress · Root-requested Repair 04 delivered for bounded validation
+**Authority**: Report-only prototype work; no production integration or Plan 42 schema adoption
+
+## Repair 04 changes
+
+- Compact usage export now serializes `{ catalogVersion, scenarios }` using `CATALOG_VERSION` from `copy.mjs`. The example JSON and tests target this proposed Plan 40 adapter; it remains explicitly unadopted by Plan 42.
+- Dinner prototype now offers **Buy Dinner (−$6 cash)** or **Skip Dinner (−5 HP)**. The prototype applies the selected candidate parameter once, prevents purchase when the reviewer fixture lacks $6 and clamps skipped-dinner health at zero, and displays the resulting values. This is a study parameter, not an accepted production economy rule. The $15 starting cash is labeled as a synthetic reviewer fixture.
+- Pre-choice exposures are recorded after the beat UI is inserted. Dedupe keys include moment/slot and beat ID, so rerendering one slot is ignored while the same ID in separate slots remains two exposures.
+- Night Return records a gig session after its UI is inserted. A direct reviewer jump without active shift/beat returns to a safe room/summary and fabricates no gig session. A committed scenario cannot be reopened for another choice through reviewer navigation or repeated gig selection.
+- Added focused unit assertions for the versioned export envelope and occurrence-key behavior. Updated the bounded browser harness assertions for the candidate dinner cost and fresh-scenario gig cash; the harness has not been run for this repair.
+- Corrected the decision ledger, storyboard walkthrough, and integration example to distinguish the explicit dinner-choice presentation from the proposed costs. Removed the duplicate/stray JSON lines.
+
+## Validation status
+
+No tests, browser checks, build, or packet lint were run during this bounded repair. Root validation is pending. Prior browser results in earlier progress are historical evidence for the pre-Repair-04 source and must not be treated as validation of these changes.
+
+Accessibility claims are limited to the source's explicit Enter/Space key handlers on the evening anchors and shift cards; this is not full Tab-order or operating-system reduced-motion validation. Existing reduced-motion evidence is limited to the scoped CSS and reviewer toggle behavior already inspected; no new OS setting claim is made.
+
+## Scope and handoff
+
+Changes are limited to `copy.mjs`, `storyboard.mjs`, `experiment-tracker.mjs`, `storyboard.test.mjs`, `browser-check.mjs`, `index.html`, `ledger.md`, `storyboard.md`, and `integration-recommendation.md` in this report folder. Existing untracked files outside this packet are untouched. Return to the root orchestrator for finite validation and owner review; this report does not close Plan 40 or authorize push/deployment.

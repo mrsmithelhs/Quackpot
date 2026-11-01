@@ -23,6 +23,17 @@ import {
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
+export const beatOccurrenceKey = (moment, hexId) => `${moment}:${hexId}`;
+export function resolveReviewerMoment(moment, state) {
+  if (state.scenarioCommitted && !['evening_complete', 'night_return'].includes(moment)) {
+    moment = state.eveningChoice === 'extra_shift' ? 'night_return' : 'evening_complete';
+  }
+  if (moment === 'night_return' && (!state.activeExtraShift || !state.activeExtraBeat)) {
+    moment = state.scenarioCommitted ? 'evening_complete' : 'evening';
+  }
+  return moment;
+}
+
 export class StoryboardController {
   constructor(rootEl) {
     this.root = rootEl;
@@ -33,7 +44,7 @@ export class StoryboardController {
 
     // Active session state (stateless in-memory prototype)
     this.state = {
-      cash: 15.00,
+      cash: 15.00, // Synthetic reviewer fixture starting balance; not an adopted economy rule.
       health: 80,
       moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return | evening_complete
       workBeat1Index: 1, // default #012 (Rating 2)
@@ -41,7 +52,7 @@ export class StoryboardController {
       commuteInIndex: 2, // default #0C3 (Rating 3)
       commuteHomeIndex: 8, // default #0C4 (Rating 4)
       preChoiceBeats: [], // array of [hexId, rating] strictly before evening choice
-      displayedBeatsSet: new Set(), // tracks beats rendered on screen in current scenario to avoid duplicates
+      displayedBeatsSet: new Set(), // moment/slot + beat prevents rerender duplication without collapsing repeated occurrences
       dinnerChoice: null, // null | 'eat' | 'skip'
       eveningChoice: null, // null | 'call_mom' | 'sit_duck' | 'open_gacha' | 'extra_shift'
       scenarioCommitted: false, // true once an evening anchor is completed
@@ -60,8 +71,9 @@ export class StoryboardController {
 
   recordDisplayedBeat(beat) {
     if (!beat || !beat.hexId) return;
-    if (!this.state.displayedBeatsSet.has(beat.hexId)) {
-      this.state.displayedBeatsSet.add(beat.hexId);
+    const occurrenceKey = beatOccurrenceKey(this.state.moment, beat.hexId);
+    if (!this.state.displayedBeatsSet.has(occurrenceKey)) {
+      this.state.displayedBeatsSet.add(occurrenceKey);
       this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
     }
   }
@@ -183,6 +195,7 @@ export class StoryboardController {
   }
 
   jumpToMoment(moment) {
+    moment = resolveReviewerMoment(moment, this.state);
     this.state.moment = moment;
     this.state.dialogueStep = 0;
     this.render();
@@ -298,8 +311,6 @@ export class StoryboardController {
     // 2. Commute In (Morning/Afternoon transition)
     if (m === 'commute_in') {
       const beat = COMMUTE_BEATS[this.state.commuteInIndex] || COMMUTE_BEATS[2];
-      this.recordDisplayedBeat(beat);
-
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
@@ -327,14 +338,13 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-enter-work').addEventListener('click', () => {
         this.jumpToMoment('work_1');
       });
+      this.recordDisplayedBeat(beat);
       return;
     }
 
     // 3. Work Beat 1
     if (m === 'work_1') {
       const beat = WORK_BEATS[this.state.workBeat1Index] || WORK_BEATS[0];
-      this.recordDisplayedBeat(beat);
-
       const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
@@ -364,14 +374,13 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-work-next').addEventListener('click', () => {
         this.jumpToMoment('work_2');
       });
+      this.recordDisplayedBeat(beat);
       return;
     }
 
     // 4. Work Beat 2
     if (m === 'work_2') {
       const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[9];
-      this.recordDisplayedBeat(beat);
-
       const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
@@ -401,14 +410,13 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-clock-out').addEventListener('click', () => {
         this.jumpToMoment('commute_home');
       });
+      this.recordDisplayedBeat(beat);
       return;
     }
 
     // 5. Commute Home
     if (m === 'commute_home') {
       const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[8];
-      this.recordDisplayedBeat(beat);
-
       const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
@@ -438,6 +446,7 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-arrive-home').addEventListener('click', () => {
         this.jumpToMoment('payslip');
       });
+      this.recordDisplayedBeat(beat);
       return;
     }
 
@@ -486,7 +495,7 @@ export class StoryboardController {
                 <div style="background:#13151d;padding:12px;border-radius:6px;margin:12px 0;border:1px solid rgba(255,255,255,0.08);">
                   <div style="font-weight:600;color:var(--text-light);margin-bottom:8px;">${esc(KITCHEN_RETURN_SCENE.prompt)}</div>
                   <div style="display:flex;flex-direction:column;gap:8px;">
-                    <button type="button" class="btn btn-primary" id="btn-eat-dinner" style="text-align:left;padding:10px 14px;">
+                    <button type="button" class="btn btn-primary" id="btn-eat-dinner" ${this.state.cash < 6 ? 'disabled' : ''} style="text-align:left;padding:10px 14px;">
                       <div style="font-weight:bold;">${esc(KITCHEN_RETURN_SCENE.options.eat.label)}</div>
                       <div style="font-size:0.8rem;opacity:0.85;">${esc(KITCHEN_RETURN_SCENE.options.eat.desc)}</div>
                       <div style="font-size:0.75rem;color:#8ab17d;margin-top:2px;">Disclosed: ${esc(KITCHEN_RETURN_SCENE.options.eat.disclosedParams)}</div>
@@ -502,7 +511,8 @@ export class StoryboardController {
                 <div style="background:#13151d;padding:12px;border-radius:6px;margin:12px 0;border:1px solid rgba(255,255,255,0.08);">
                   <p style="margin:0 0 6px 0;color:var(--text-light);">${esc(chosenOpt.resultNarrative)}</p>
                   <div style="font-size:0.78rem;color:var(--text-muted);">
-                    Dinner Choice: <strong>${esc(chosenOpt.label)}</strong> · ${esc(chosenOpt.disclosedParams)}
+                    Dinner Choice: <strong>${esc(chosenOpt.label)}</strong> · ${esc(chosenOpt.disclosedParams)}<br>
+                    Cash: ${money(this.state.cash)} · Health: ${this.state.health} HP
                   </div>
                 </div>
               `}
@@ -520,13 +530,17 @@ export class StoryboardController {
 
       if (!hasChosenDinner) {
         this.dom.overlayLayer.querySelector('#btn-eat-dinner').addEventListener('click', () => {
+          if (this.state.dinnerChoice || this.state.cash < 6) return;
           this.state.dinnerChoice = 'eat';
-          this.logEvent('Dinner choice: Ate prepared leftovers ($0 maintenance meal)');
+          this.state.cash = Math.max(0, this.state.cash - 6);
+          this.logEvent('Dinner choice: Bought dinner (candidate −$6)');
           this.render();
         });
         this.dom.overlayLayer.querySelector('#btn-skip-dinner').addEventListener('click', () => {
+          if (this.state.dinnerChoice) return;
           this.state.dinnerChoice = 'skip';
-          this.logEvent('Dinner choice: Skipped dinner ($0, had cold tap water)');
+          this.state.health = Math.max(0, this.state.health - 5);
+          this.logEvent('Dinner choice: Skipped dinner (candidate −5 HP)');
           this.render();
         });
       } else {
@@ -772,6 +786,7 @@ export class StoryboardController {
 
       this.dom.overlayLayer.querySelectorAll('.shift-card').forEach((card) => {
         const choose = () => {
+          if (this.state.scenarioCommitted) return;
           const shiftId = card.getAttribute('data-shift-id');
           const shift = EXTRA_SHIFTS_CATALOG.find((s) => s.id === shiftId);
           this.state.activeExtraShift = shift;
@@ -802,17 +817,10 @@ export class StoryboardController {
       const shift = this.state.activeExtraShift;
       const beat = this.state.activeExtraBeat;
 
-      // Record session now that the post-choice beat is actually rendered/displayed on screen
-      if (!this.state.scenarioCommitted) {
-        this.state.scenarioCommitted = true;
-        this.state.eveningChoice = 'extra_shift';
-        this.tracker.recordSession({
-          preChoiceBeats: [...this.state.preChoiceBeats],
-          eveningChoice: 'extra_shift',
-          postChoiceBeats: beat ? [[beat.hexId, beat.rating]] : [],
-          dinnerChoice: this.state.dinnerChoice,
-        });
-        this.renderReviewerControls();
+      if (!shift || !beat) {
+        this.state.moment = this.state.scenarioCommitted ? 'evening_complete' : 'evening';
+        this.renderStage();
+        return;
       }
 
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'night' });
@@ -850,6 +858,18 @@ export class StoryboardController {
       };
       this.dom.overlayLayer.querySelector('#btn-sleep').addEventListener('click', conclude);
       this.dom.overlayLayer.querySelector('#btn-new-scenario-night').addEventListener('click', conclude);
+      // Record only after the post-choice beat and its night-return UI were inserted successfully.
+      if (!this.state.scenarioCommitted) {
+        this.state.scenarioCommitted = true;
+        this.state.eveningChoice = 'extra_shift';
+        this.tracker.recordSession({
+          preChoiceBeats: [...this.state.preChoiceBeats],
+          eveningChoice: 'extra_shift',
+          postChoiceBeats: [[beat.hexId, beat.rating]],
+          dinnerChoice: this.state.dinnerChoice,
+        });
+        this.renderReviewerControls();
+      }
       return;
     }
 

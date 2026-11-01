@@ -232,9 +232,15 @@ async function runBrowserCheck() {
       throw new Error('Expected explicit dinner choice buttons in Day 1 kitchen return');
     }
 
-    // Select "Eat Prepared Leftovers" ($0 maintenance meal)
+    // Select candidate dinner purchase (−$6 cash)
     await evaluate('document.querySelector("#btn-eat-dinner").click()');
     await delay(150);
+    const cashAfterDinner = await evaluate('document.querySelector("#hud-cash").textContent');
+    if (cashAfterDinner !== '$69.00') throw new Error(`Expected $69.00 after candidate dinner cost, got ${cashAfterDinner}`);
+    const dinnerDisclosure = await evaluate('document.querySelector("#overlay-layer").textContent');
+    if (!dinnerDisclosure.includes('−$6 cash') || !dinnerDisclosure.includes('$69.00')) {
+      throw new Error('Expected selected dinner choice and actual cash result to be disclosed');
+    }
 
     // Verify dinner choice resolution and click finish to enter Evening Room
     await evaluate('document.querySelector("#btn-finish-dinner").click()');
@@ -242,11 +248,11 @@ async function runBrowserCheck() {
 
     const eveningCash = await evaluate('document.querySelector("#hud-cash").textContent');
     console.log(`Evening HUD: Cash=${eveningCash}`);
-    if (eveningCash !== '$75.00') {
-      throw new Error(`Expected $75.00 after $60 wage collection, got ${eveningCash}`);
+    if (eveningCash !== '$69.00') {
+      throw new Error(`Expected $69.00 after $60 wage collection and $6 dinner purchase, got ${eveningCash}`);
     }
     await captureScreenshot('storyboard-evening-desktop.png');
-    results.stepsPassed.push('Step 7: Day 1 Kitchen Dinner explicit choice verified and entered Evening Apartment ($75.00)');
+    results.stepsPassed.push('Step 7: Candidate dinner cost and actual $69.00 cash disclosed before entering Evening Apartment');
 
     // Step 8: Call Mom (+5 HP) via Keyboard Accessibility (Repair 1 & Repair 5)
     // Focus #anchor-mom and trigger keyboard 'Enter'
@@ -304,6 +310,7 @@ async function runBrowserCheck() {
     const postBeatBadge = await evaluate('document.querySelector(".likert-badge .hex-id").textContent');
     const nightCash = await evaluate('document.querySelector("#hud-cash").textContent');
     const nightHp = await evaluate('document.querySelector("#hud-hp").textContent');
+    if (nightCash !== '$57.00') throw new Error(`Expected fresh-scenario $15 + $42 gig cash of $57.00, got ${nightCash}`);
     console.log(`Night Return HUD: Post-choice Beat=${postBeatBadge}, Cash=${nightCash}, HP=${nightHp}`);
     results.stepsPassed.push(`Step 9: Alternative scenario gig committed: Post-choice Beat=${postBeatBadge}, Cash=${nightCash}, HP=${nightHp} (Session 2 recorded)`);
 

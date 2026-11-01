@@ -1,7 +1,7 @@
 ---
 id: plan-40
 title: Work and evening experience study
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Owner assigns Gemini Flash2026-10-31. Direct owner conversation and report-local prototype iteration proceed to coherent delivery; production rules/adoption and material cross-packet implications remain gated."
 summary: >-

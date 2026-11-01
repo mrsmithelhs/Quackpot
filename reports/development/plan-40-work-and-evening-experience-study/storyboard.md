@@ -74,10 +74,10 @@ The interactive storyboard demonstrates an understandable, lived progression fro
 - **Visuals**: Apartment kitchen counter under warm interior lighting (`src/assets/apartment/index.mjs`).
 - **Narrative**: Setting keys and warehouse badge on the laminate counter.
 - **Maintenance Dinner Choice (Disclosed Parameters)**:
-  - Presents an explicit, disclosed meal choice:
-    - *Eat Prepared Leftovers*: Maintenance meal ($0 cash, routine sustenance).
-    - *Skip Dinner for Now*: Fatigue / low appetite ($0 cash, meal skipped).
-  - Keeps meals routine maintenance without silently assuming free dinner or consuming an extra anchor.
+  - Presents an explicit, disclosed prototype study choice:
+    - *Buy Dinner*: −$6 cash (candidate parameter).
+    - *Skip Dinner*: −5 HP (candidate parameter).
+  - Both values remain prototype proposals, not accepted production policy. The selected cost and resulting cash/health are shown.
 - **Player Action**: `[Head to Desk]`.
 
 ### Beat 7: Evening Apartment & Life Anchors
@@ -138,15 +138,15 @@ The interactive storyboard demonstrates an understandable, lived progression fro
 Proposed adapter for `CATALOG_VERSION = '1.1.0'` (candidate schema for future CourseVGD integration, not an adopted Plan 42 ZIP schema):
 ```json
 {
-  "day": 1,
-  "pre": [["012", 2], ["014", 4], ["0C4", 4]],
-  "avg": 3.33,
-  "act": "call_mom",
-  "post": []
-}
-```
-  "avg": 3.33,
-  "act": "call_mom",
-  "post": []
+  "catalogVersion": "1.1.0",
+  "scenarios": [
+    {
+      "pre": [["012", 2], ["014", 4], ["0C4", 4]],
+      "avg": 3.33,
+      "act": "call_mom",
+      "post": [],
+      "dinner": "eat"
+    }
+  ]
 }
 ```

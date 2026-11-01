@@ -14,9 +14,11 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 | Apartment | Accepted art/desk/phone and Plan38 life surfaces; Plan40 work/evening study owner-closed | Plan47 assigned Codex for work/leisure integration; draft48 later gig lifecycle/calibration. Plan45 assigned for unmounted Ren extraction; Plan46 social integration remains draft |
 | Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, Plan44 Receipt integration delivered for owner review; exporter/analyzer separate |
 | Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 accepted local renderer; Plan43 assigned but held before dispatch, extensions gated; weather not mounted |
-| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; draft45 existing SVG extraction and draft46 gated social integration; Plan36 possibilities preserved |
+| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; Plan45 unmounted SVG extraction active, Plan46 social integration draft; Plan36 possibilities preserved |
 
 Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.
+
+Independent modularity/integration reviews are archived under `reports/orchestration/modularity-review-2026-11-01/`; read root-synthesis.md for corrections, active45/47 supervision gates and proposed later tooling. Original reviewer recommendations are not automatic architecture or work-status changes.
 
 ## Index
 

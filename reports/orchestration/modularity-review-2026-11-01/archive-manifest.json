@@ -1,0 +1,67 @@
+[
+  {
+    "lead": "codex-astra",
+    "file": "report.md",
+    "sha256": "766bb807eec9fca354fafe79d53f144585ded6606cc348720a4d0b070a9dc3e3"
+  },
+  {
+    "lead": "codex-astra",
+    "file": "evidence.md",
+    "sha256": "5b7ce3e5fd6cbc3610c0cc545d118971811db71b2e950bd42bce3c80aa77fd97"
+  },
+  {
+    "lead": "codex-astra",
+    "file": "modularity-map.md",
+    "sha256": "671960da107f931198c9c69b35aac8509dc1e746bf80e5b6dc87b32ae650e52c"
+  },
+  {
+    "lead": "codex-astra",
+    "file": "review-plan.md",
+    "sha256": "c5d2bfa264bae0f5693c65fae178294cef89c93122b1f0552195dc3f0851b2e3"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "report.md",
+    "sha256": "da7145386ad22eb98e2cc0ecfd828b51a8087e9c34a0ab7bd2ec03f1ee1db72d"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "evidence.md",
+    "sha256": "bb4eb7b6d15585d466ae99c5e321c48836924dd676cd18f59f111b31f81d4af1"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "modularity-map.md",
+    "sha256": "d70291f140d3ca87c3b6dce823f21369e09da88c854c2bda8025a0f3d9b0ff54"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "review-plan.md",
+    "sha256": "a2c0b64a443996288d3f1b5ec77c6033a7d945571e8115ed63a1d0dbb6cc0729"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "checkpoint.md",
+    "sha256": "80355e300cf0de19d6831b8dc990cd0c933af2758f3f519afb1394dff80d81da"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "experiments/w1-results.md",
+    "sha256": "5970c3463cac6cd9010f07831bdd5cb06e0ad97d75eaf006c6020f407e261d6f"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "experiments/w1-rubric.md",
+    "sha256": "62101384f979b6e55e6a0c2fb7a2411344cbd10b9649c38c380557580da66559"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "experiments/README.md",
+    "sha256": "d077d4ed2e20b25f9f9b369fd893e91d5df5f8fe8a65b3cbc2c25894b4e0f8e0"
+  },
+  {
+    "lead": "claude-opus",
+    "file": "experiments/omitted-tests-run.txt",
+    "sha256": "4cd2cee7d683f7f8193197b588694c33a874c194711c1f0389dab842a4457680"
+  }
+]

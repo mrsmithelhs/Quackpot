@@ -172,8 +172,9 @@
           </label>
 
           <div class="volume-control">
-            <label for="master-volume" class="volume-label">Master Gain</label>
+            <label for="master-volume" class="volume-label">Audition volume only</label>
             <input type="range" id="master-volume" min="0.1" max="1.0" step="0.05" value="0.85">
+            <small>WAV export uses the selected patch's master gain and layer mix, independently of this slider. An export may be scaled down for peak headroom.</small>
             <span id="volume-readout" class="volume-readout font-mono">85%</span>
           </div>
         </div>

@@ -34,3 +34,7 @@ Final capture bundle index-3yhBOXTT.js SHA2561b822335dbe4a024a692bb1e4d046e073d0
 Technical visual repair review passes; implementer must finish scoped commits/progress before delivered status, and owner acceptance/closure remains separate. No push/deployment.
 
 Repair source/evidence committed cd15164; implementer progress last36a6494. Root verified these scoped commits and progress evidence exist, completed source/actual visual review above, and returns packet to delivered for owner review. No additional validation run was needed after unchanged committed source.
+
+### Keys artwork reopened after owner review
+
+Owner rejects the current side-view keys drawing and supplies low-angle photographic/drawn references. Root acknowledges placement review missed object legibility. Existing top-down keyring is in src/assets/apartment/desk/top.mjs:21,36: two brass keys, silver ring, blue fob. Plan47 reopens only for a bounded side-view interpretation preserving that identity, not work/commute/dinner or lifecycle redesign. Report-local candidate compared at actual desktop/narrow sizes must be viewed before production swap; original top-view kit stays unchanged. Reference photos are geometry guidance, not licensed production assets. No push/deployment.

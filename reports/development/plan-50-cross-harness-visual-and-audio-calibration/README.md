@@ -1,0 +1,3 @@
+# Calibration evidence boundary
+
+Plan50 is assigned for historical visual/UI calibration only; audio requires a later owner gate. Curator submissions contain owner-feedback answers: do not give curator-inbox or held-back contents to cold reviewer models. Each prior Claude chat owns only its named curator-inbox subfolder; preserve originals and exact feedback/provenance. No packet/status/production changes by curators. Empty staging folders are created locally for routing; tracked artifacts arrive when submitted. See packet and root handoffs. Owner acceptance of existing work remains independent.

@@ -67,3 +67,5 @@ visual concepts and social interaction/consequence proposals. It is owner-closed
 - Implementation code — that goes in `src/` (or equivalent).
 - Generated outputs — that goes in `data/generated/` or equivalent.
 - Implementer progress reports — those go in `reports/development/<packet>/`.
+
+Plan50 is assigned for report-only direct Haiku/Flash calibration on historical artwork and UI. Root reviews method/cases before the initial batch; owner reviews visual results before audio or standing adoption. PriorClaude curator prompts and Terra starting handoff are under reports/orchestration/plan-50-*.md. Existing production acceptance and model review gates are unchanged.

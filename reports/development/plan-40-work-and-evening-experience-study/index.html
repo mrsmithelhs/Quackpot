@@ -54,19 +54,18 @@
         <label for="reviewer-moment">Jump to Experience Moment</label>
         <select id="reviewer-moment" class="control-select">
           <option value="departure">1. Morning Departure (Leaving Flat)</option>
-          <option value="commute_in">2. Commute In (Morning Transit)</option>
-          <option value="work_1">3. Work Shift · Beat 1 (Morning Block)</option>
-          <option value="work_2">4. Work Shift · Beat 2 (Afternoon Clock-Out)</option>
-          <option value="commute_home">5. Commute Home (Transit & Walk)</option>
-          <option value="payslip">6. Wage Payslip (+$60 Take-Home Cash)</option>
-          <option value="kitchen_dinner">7. Day 1 Kitchen Dinner Return</option>
-          <option value="evening">8. Evening Apartment (Desk & Anchors)</option>
-          <option value="call_mom">9. Call Mom (+5 HP Restorative Check-in)</option>
-          <option value="sit_duck">10. Sit with Duck (+2 HP Working Proposal)</option>
-          <option value="open_gacha">11. Open Quackpot (Launcher Stand-in)</option>
-          <option value="extra_shifts">12. Extra Gigs/Shifts (Candidate Offers)</option>
-          <option value="night_return">13. Late Night Return & Sleep</option>
-          <option value="evening_complete">14. Evening Choice Completed (Summary)</option>
+          <option value="commute_in">2. Commute In (Morning Transit · Stage 1)</option>
+          <option value="work_shift">3. Work Shift (Two Notes Combined · Stage 2)</option>
+          <option value="commute_home">4. Commute Home (Transit & Walk)</option>
+          <option value="payslip">5. Wage Payslip (+$60 Take-Home Cash)</option>
+          <option value="kitchen_dinner">6. Day 1 Kitchen Dinner Return</option>
+          <option value="evening">7. Evening Apartment (Desk & Anchors)</option>
+          <option value="call_mom">8. Call Mom (+5 HP Restorative Check-in)</option>
+          <option value="sit_duck">9. Sit with Duck (+2 HP Working Proposal)</option>
+          <option value="open_gacha">10. Open Quackpot (Launcher Stand-in)</option>
+          <option value="extra_shifts">11. Extra Gigs/Shifts (Candidate Offers)</option>
+          <option value="night_return">12. Late Night Return & Sleep</option>
+          <option value="evening_complete">13. Evening Choice Completed (Summary)</option>
         </select>
       </div>
 
@@ -81,12 +80,14 @@
       </div>
 
       <div class="control-group">
-        <label for="reviewer-commute-home">Commute Home Beat (Author Tone 1–5)</label>
+        <label for="reviewer-commute-home">Commute Beat (Author Tone 1–5)</label>
         <select id="reviewer-commute-home" class="control-select"></select>
       </div>
 
       <div class="toggles-row">
         <button type="button" class="control-btn" id="btn-reroll-shifts">🎲 Reroll 1–2 Extra Shifts</button>
+        <button type="button" class="control-btn" id="toggle-commute">Commute: To Work (Stage 1)</button>
+        <button type="button" class="control-btn" id="toggle-badges">Tone Badges: Hidden (Production)</button>
         <button type="button" class="control-btn" id="toggle-narrow">View: Desktop 16:9</button>
         <button type="button" class="control-btn" id="toggle-motion">Motion: Standard</button>
         <button type="button" class="control-btn" id="btn-reset-scenario">Reset Scenario</button>

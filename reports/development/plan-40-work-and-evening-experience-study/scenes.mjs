@@ -156,6 +156,109 @@ export const VIGNETTE_ICONS = {
   `,
 };
 
+/** Render departure dialog overlay with single progression button */
+export function renderDepartureCardHtml() {
+  return `
+    <div class="vignette-overlay">
+      <div class="vignette-card" role="region" aria-label="Departure Dialog">
+        <div class="vignette-header">
+          <div class="vignette-icon-wrap">${VIGNETTE_ICONS.warehouse}</div>
+          <div class="vignette-titles">
+            <h3>Heading Out · Afternoon Shift Anchor</h3>
+            <span>Harbor Court · Kitchen & Hallway</span>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>Your work badge and keys lie on the kitchen counter beside your travel mug.</p>
+          <p class="vignette-detail">The bus leaves in ten minutes. You have an afternoon scheduled at Harbor Logistics Distribution.</p>
+        </div>
+        <div class="vignette-actions">
+          <button type="button" class="btn btn-primary" id="btn-start-work-sequence">Head Out to Work</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/** Render a single directional commute beat (either commute in to work, or commute home from work) */
+export function renderCommuteCardHtml(beat, { phase = 'in', showAuthorBadges = false } = {}) {
+  const isMorning = phase === 'in';
+  const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
+  const stageSubtitle = isMorning
+    ? 'Transit to Plant · Route 14 (Stage 1/2)'
+    : 'Late Afternoon Commute Home (Stage 2/2)';
+  const actionButtonId = isMorning ? 'btn-enter-work' : 'btn-arrive-home';
+  const actionButtonLabel = isMorning ? 'Arrive at Shift Floor' : 'Arrive at Apartment Door';
+
+  return `
+    <div class="vignette-overlay">
+      <div class="vignette-card" role="region" aria-label="${isMorning ? 'Commute In Beat' : 'Commute Home Beat'}">
+        <div class="vignette-header">
+          <div class="vignette-icon-wrap">${icon}</div>
+          <div class="vignette-titles">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <h3>${esc(beat.heading)}</h3>
+              ${showAuthorBadges ? renderLikertBadge(beat.hexId, beat.rating) : ''}
+            </div>
+            <span>${esc(stageSubtitle)}</span>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <p>${esc(beat.text)}</p>
+          <p class="vignette-detail">${esc(beat.detail)}</p>
+        </div>
+        <div class="vignette-actions">
+          <button type="button" class="btn btn-primary" id="${actionButtonId}">${esc(actionButtonLabel)}</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/** Render combined work shift dialog showing two narrative observations on a single card */
+export function renderWorkShiftCardHtml(beat1, beat2, { commuteDirection = 'in', showAuthorBadges = false } = {}) {
+  const avgRating = Math.round((beat1.rating + beat2.rating) / 2);
+  const icon = avgRating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
+  const actionLabel = commuteDirection === 'in'
+    ? 'Clock Out & Collect Wages'
+    : 'Clock Out & Head Home';
+
+  return `
+    <div class="vignette-overlay">
+      <div class="vignette-card" style="max-width:580px;" role="region" aria-label="Work Shift Summary">
+        <div class="vignette-header">
+          <div class="vignette-icon-wrap">${icon}</div>
+          <div class="vignette-titles">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <h3>Harbor Logistics · Afternoon Shift</h3>
+              ${showAuthorBadges ? `
+                <span style="display:inline-flex;gap:4px;">
+                  ${renderLikertBadge(beat1.hexId, beat1.rating)}
+                  ${renderLikertBadge(beat2.hexId, beat2.rating)}
+                </span>
+              ` : ''}
+            </div>
+            <span>Shift Floor · Two Observations from Today</span>
+          </div>
+        </div>
+        <div class="vignette-body">
+          <div class="work-note-item">
+            <p><strong>${esc(beat1.heading)}:</strong> ${esc(beat1.text)}</p>
+            <p class="vignette-detail">${esc(beat1.detail)}</p>
+          </div>
+          <div class="work-note-item" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);">
+            <p><strong>${esc(beat2.heading)}:</strong> ${esc(beat2.text)}</p>
+            <p class="vignette-detail">${esc(beat2.detail)}</p>
+          </div>
+        </div>
+        <div class="vignette-actions">
+          <button type="button" class="btn btn-primary" id="btn-clock-out">${esc(actionLabel)}</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 /** Render the Payslip / Wage Card overlay */
 export function renderPaySlipHtml(payslip = WAGE_PAYSLIP) {
   return `

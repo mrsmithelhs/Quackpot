@@ -77,3 +77,21 @@
   - Cross-reload persistence is a proposed integration contract for Plan 38, not verified by this stateless prototype.
 - **Proposed Export Adapter**:
   - Compact serialization schema is a proposed export adapter for `CATALOG_VERSION = '1.1.0'`, not an adopted Plan 42 ZIP schema.
+
+---
+
+## 6. Streamlined Work Sequence & Presentation Polish (User Direction 2026-10-31)
+
+- **Single Departure Button (`OWN-40-15`)**:
+  - Morning Departure presents a single action button (`[Head Out to Work]`), removing the confusing two-button departure choice (`Step Out & Commute In` vs `Arrive at Shift Floor`).
+- **Two-Stage Sequence Progression (`OWN-40-16`)**:
+  - Initiates a focused, streamlined two-stage sequence:
+    - Default progression: Stage 1 = Transit to Work (`commute_in`), Stage 2 = Afternoon Shift Floor (`work_shift`), leading directly to Wage Payslip (`payslip`, +$60.00 baseline).
+    - Alternative progression: Stage 1 = Afternoon Shift Floor (`work_shift`), Stage 2 = Transit Home (`commute_home`), leading directly to Wage Payslip (`payslip`).
+- **Combined Work Observations on One Card (`OWN-40-17`)**:
+  - Rather than fragmenting the shift across separate clicks or dialog cards, the two notes about the work day are presented together on one dialog stage as distinct paragraphs.
+- **Single Direction Commute (`OWN-40-18`)**:
+  - Commute is limited to one direction per work sequence (either transit in to work, or transit home from work), avoiding narrative drag.
+- **Production Clean Presentation (`OWN-40-19`)**:
+  - Author-assigned tone ratings and 3-digit hex IDs are internal usage export metadata, not player-facing UI elements. Production view renders clean, evocative fiction with badges hidden.
+  - Reviewer toggle (`[Tone Badges: Hidden (Production) / Visible (Debug)]`) provides developer inspectability without cluttering the student experience.

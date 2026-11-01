@@ -21,10 +21,18 @@ import {
   getAmbientBackdropSvg,
   renderPaySlipHtml,
   renderLikertBadge,
+  renderDepartureCardHtml,
+  renderCommuteCardHtml,
+  renderWorkShiftCardHtml,
   VIGNETTE_ICONS,
+  esc,
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
-import { beatOccurrenceKey, resolveReviewerMoment } from './storyboard.mjs';
+import {
+  beatOccurrenceKey,
+  resolveReviewerMoment,
+  getNextWorkSequenceMoment,
+} from './storyboard.mjs';
 
 test('Author-assigned tone scale, catalog versioning, and Global Hex ID Uniqueness', () => {
   assert.equal(CATALOG_VERSION, '1.1.0');
@@ -205,8 +213,8 @@ test('ExperimentTracker pre-choice isolation, unscored handling, and synthetic s
 });
 
 test('Displayed occurrence key deduplicates rerenders but preserves same beat in another slot', () => {
-  assert.equal(beatOccurrenceKey('work_1', '014'), beatOccurrenceKey('work_1', '014'));
-  assert.notEqual(beatOccurrenceKey('work_1', '014'), beatOccurrenceKey('work_2', '014'));
+  assert.equal(beatOccurrenceKey('work_shift', '014'), beatOccurrenceKey('work_shift', '014'));
+  assert.notEqual(beatOccurrenceKey('work_shift', '014'), beatOccurrenceKey('commute_in', '014'));
 });
 
 test('Reviewer navigation cannot reopen a completed choice or fabricate an extra-shift return', () => {
@@ -219,6 +227,73 @@ test('Reviewer navigation cannot reopen a completed choice or fabricate an extra
   assert.equal(resolveReviewerMoment('evening', {
     scenarioCommitted: true, eveningChoice: 'extra_shift', activeExtraShift: { id: 'gig' }, activeExtraBeat: { hexId: 'F01' },
   }), 'night_return');
+  assert.equal(resolveReviewerMoment('work_1', {}), 'work_shift');
+  assert.equal(resolveReviewerMoment('work_2', {}), 'work_shift');
+});
+
+test('Two-stage work sequence progression and single-direction commute', () => {
+  // Mode 1: Commute In (Morning transit to work -> Shift -> Wage Payslip)
+  assert.equal(getNextWorkSequenceMoment('departure', 'in'), 'commute_in');
+  assert.equal(getNextWorkSequenceMoment('commute_in', 'in'), 'work_shift');
+  assert.equal(getNextWorkSequenceMoment('work_shift', 'in'), 'payslip');
+  assert.equal(getNextWorkSequenceMoment('payslip', 'in'), 'kitchen_dinner');
+
+  // Mode 2: Commute Home (Shift -> Late afternoon commute home -> Wage Payslip)
+  assert.equal(getNextWorkSequenceMoment('departure', 'home'), 'work_shift');
+  assert.equal(getNextWorkSequenceMoment('work_shift', 'home'), 'commute_home');
+  assert.equal(getNextWorkSequenceMoment('commute_home', 'home'), 'payslip');
+  assert.equal(getNextWorkSequenceMoment('payslip', 'home'), 'kitchen_dinner');
+});
+
+test('Departure card renders single action button without duplicate transit choices', () => {
+  const html = renderDepartureCardHtml();
+  assert.ok(html.includes('id="btn-start-work-sequence"'));
+  assert.ok(html.includes('Head Out to Work'));
+  assert.equal(html.includes('id="btn-commute-in"'), false);
+  assert.equal(html.includes('Arrive at Shift Floor'), false);
+});
+
+test('Work shift renders two notes on a single card and hides debug badges in production view', () => {
+  const beat1 = WORK_BEATS[1]; // #016 (& Paper Cuts)
+  const beat2 = WORK_BEATS[9]; // #014
+
+  // Production view (default): showAuthorBadges = false
+  const cleanHtml = renderWorkShiftCardHtml(beat1, beat2, { commuteDirection: 'in', showAuthorBadges: false });
+  assert.ok(cleanHtml.includes(esc(beat1.heading)));
+  assert.ok(cleanHtml.includes(esc(beat1.text)));
+  assert.ok(cleanHtml.includes(esc(beat2.heading)));
+  assert.ok(cleanHtml.includes(esc(beat2.text)));
+  assert.ok(cleanHtml.includes('Clock Out &amp; Collect Wages'));
+  // Debug badges must be hidden
+  assert.equal(cleanHtml.includes('likert-badge'), false);
+  assert.equal(cleanHtml.includes('#016'), false);
+  assert.equal(cleanHtml.includes('#014'), false);
+
+  // Reviewer debug view: showAuthorBadges = true
+  const debugHtml = renderWorkShiftCardHtml(beat1, beat2, { commuteDirection: 'home', showAuthorBadges: true });
+  assert.ok(debugHtml.includes('Clock Out &amp; Head Home'));
+  assert.ok(debugHtml.includes('likert-badge'));
+  assert.ok(debugHtml.includes('#016'));
+  assert.ok(debugHtml.includes('#014'));
+});
+
+test('Commute card renders single directional transit and hides debug badges in production view', () => {
+  const beat = COMMUTE_BEATS[2]; // #0C3
+
+  // Commute In (clean production view)
+  const cleanInHtml = renderCommuteCardHtml(beat, { phase: 'in', showAuthorBadges: false });
+  assert.ok(cleanInHtml.includes('Stage 1/2'));
+  assert.ok(cleanInHtml.includes('id="btn-enter-work"'));
+  assert.ok(cleanInHtml.includes('Arrive at Shift Floor'));
+  assert.equal(cleanInHtml.includes('likert-badge'), false);
+
+  // Commute Home (debug view)
+  const debugHomeHtml = renderCommuteCardHtml(beat, { phase: 'home', showAuthorBadges: true });
+  assert.ok(debugHomeHtml.includes('Stage 2/2'));
+  assert.ok(debugHomeHtml.includes('id="btn-arrive-home"'));
+  assert.ok(debugHomeHtml.includes('Arrive at Apartment Door'));
+  assert.ok(debugHomeHtml.includes('likert-badge'));
+  assert.ok(debugHomeHtml.includes('#0C3'));
 });
 
 test('Session lifecycle: single evening choice, dinner maintenance choice, and candidate figures', () => {

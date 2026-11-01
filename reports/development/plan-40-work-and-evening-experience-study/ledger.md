@@ -25,6 +25,11 @@ This ledger strictly separates verified owner choices from implementer interpret
 | **OWN-40-12** | 2026-10-31 | Single Evening Choice | Exactly **one evening anchor** is chosen per observed scenario; completing it concludes that evening. Alternative previews begin via an explicit fresh scenario / reset. | Root Continuation 03 |
 | **OWN-40-13** | 2026-10-31 | Dinner Choice Presentation | Kitchen return presents dinner as an explicit choice. This does not select free leftovers or establish the prototype's candidate costs as production policy. | Root Continuation 03 |
 | **OWN-40-14** | 2026-10-31 | Direct Take-Home Disbursal | Omit candidate gross ($88) and deduction ($28) presentation copy; preserve direct **$60.00 net take-home cash** without invented payroll arithmetic. | Root Continuation 03 |
+| **OWN-40-15** | 2026-10-31 | Single Departure Button | Use one button (`[Head Out to Work]`) to start the work sequence, removing the confusing two-button departure choice. | User direction 2026-10-31 |
+| **OWN-40-16** | 2026-10-31 | Two-Stage Sequence Progression | Work shift and commute run as a focused two-stage sequence into payslip rather than a four-stage disjointed journey. | User direction 2026-10-31 |
+| **OWN-40-17** | 2026-10-31 | Combined Work Notes Dialog | Two notes about the work day are presented together on one dialog stage as a set of paragraphs. | User direction 2026-10-31 |
+| **OWN-40-18** | 2026-10-31 | Single Direction Commute | Commute is limited to one direction per work sequence (either to work or from work). | User direction 2026-10-31 |
+| **OWN-40-19** | 2026-10-31 | Production Clean Presentation | Hex IDs and Likert ratings are hidden from production narrative cards by default; toggle provided for reviewer inspection. | User direction 2026-10-31 |
 | **OWN-37-01** | 2026-10-31 | Shift Take-Home Baseline | Ordinary completed shift baseline take-home pay is **$60.00**. | Plan 37 Closeout / Plan 29 |
 | **OWN-38-01** | 2026-10-30 | Life/Phone Separation | Phone invitation means opening the gacha; life actions stay diegetic in the apartment. | Plan 38 Owner Review 02 |
 | **OWN-38-02** | 2026-10-30 | Rent vs Shift Decoupling | Extra shifts grant wages directly; they must never silently auto-pay rent. | Plan 38 Owner Review 02 |

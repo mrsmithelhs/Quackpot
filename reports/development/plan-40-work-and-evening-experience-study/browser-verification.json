@@ -1,14 +1,13 @@
 {
   "stepsPassed": [
     "Step 1: Page loaded and titled correctly",
-    "Step 2: Departure view verified ($15.00, 80 HP)",
-    "Step 3: Commute In verified (Commute In · Morning Sidewalk Routine, #0C3)",
-    "Step 4: Work Beat 1 verified with 3-digit hex ID (#016)",
-    "Step 5: Work Beat 2 completed and clocked out",
+    "Step 2: Departure view verified ($15.00, 80 HP) with single #btn-start-work-sequence button",
+    "Step 3: Commute In verified (Commute In · Morning Sidewalk Routine) with debug badges hidden by default",
+    "Step 4 & 5: Combined Work Shift verified with two notes, tone badge toggle, and direct clock-out to payslip",
     "Step 6: Wage payslip accurately verified at $60.00 completed-shift take-home",
     "Step 7: Candidate dinner cost and actual $69.00 cash disclosed before entering Evening Apartment",
     "Step 8: Call Mom completed via keyboard (80 -> 85 HP), finishing the evening scenario (Session 1 recorded)",
-    "Step 9: Alternative scenario gig committed: Post-choice Beat=#E05, Cash=$57.00, HP=70 HP (Session 2 recorded)",
+    "Step 9: Alternative scenario gig committed: Post-choice Beat=#E03, Cash=$57.00, HP=70 HP (Session 2 recorded)",
     "Step 10: Narrow mobile viewport (390px) and reduced motion toggles verified",
     "Step 11: Synthetic demonstration fixture strictly separated from observed sessions"
   ],

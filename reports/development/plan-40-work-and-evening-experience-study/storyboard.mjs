@@ -18,13 +18,39 @@ import {
   getAmbientBackdropSvg,
   renderPaySlipHtml,
   renderLikertBadge,
+  renderDepartureCardHtml,
+  renderCommuteCardHtml,
+  renderWorkShiftCardHtml,
   VIGNETTE_ICONS,
   esc,
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
 export const beatOccurrenceKey = (moment, hexId) => `${moment}:${hexId}`;
+
+export function getNextWorkSequenceMoment(currentMoment, commuteDirection = 'in') {
+  if (currentMoment === 'departure') {
+    return commuteDirection === 'in' ? 'commute_in' : 'work_shift';
+  }
+  if (currentMoment === 'commute_in') {
+    return 'work_shift';
+  }
+  if (currentMoment === 'work_shift') {
+    return commuteDirection === 'in' ? 'payslip' : 'commute_home';
+  }
+  if (currentMoment === 'commute_home') {
+    return 'payslip';
+  }
+  if (currentMoment === 'payslip') {
+    return 'kitchen_dinner';
+  }
+  return currentMoment;
+}
+
 export function resolveReviewerMoment(moment, state) {
+  if (moment === 'work_1' || moment === 'work_2') {
+    moment = 'work_shift';
+  }
   if (state.scenarioCommitted && !['evening_complete', 'night_return'].includes(moment)) {
     moment = state.eveningChoice === 'extra_shift' ? 'night_return' : 'evening_complete';
   }
@@ -46,7 +72,9 @@ export class StoryboardController {
     this.state = {
       cash: 15.00, // Synthetic reviewer fixture starting balance; not an adopted economy rule.
       health: 80,
-      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return | evening_complete
+      moment: 'departure', // departure | commute_in | work_shift | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return | evening_complete
+      commuteDirection: 'in', // 'in' (Commute to work -> Work shift) | 'home' (Work shift -> Commute home)
+      showAuthorBadges: false, // false (Production clean look) | true (Reviewer debug preview)
       workBeat1Index: 1, // default #012 (Rating 2)
       workBeat2Index: 9, // default #014 (Rating 4)
       commuteInIndex: 2, // default #0C3 (Rating 3)
@@ -94,6 +122,8 @@ export class StoryboardController {
       selectWork2: this.root.querySelector('#reviewer-work-beat2'),
       selectCommuteHome: this.root.querySelector('#reviewer-commute-home'),
       btnRerollShifts: this.root.querySelector('#btn-reroll-shifts'),
+      btnToggleCommute: this.root.querySelector('#toggle-commute'),
+      btnToggleBadges: this.root.querySelector('#toggle-badges'),
       btnToggleDataMode: this.root.querySelector('#btn-toggle-datamode'),
       dataModeLabel: this.root.querySelector('#data-mode-label'),
       btnNarrow: this.root.querySelector('#toggle-narrow'),
@@ -145,6 +175,22 @@ export class StoryboardController {
       this.logEvent('Rerolled stable 1–2 daily extra shift options');
       if (this.state.moment === 'extra_shifts') this.render();
     });
+
+    if (this.dom.btnToggleCommute) {
+      this.dom.btnToggleCommute.addEventListener('click', () => {
+        this.state.commuteDirection = this.state.commuteDirection === 'in' ? 'home' : 'in';
+        this.logEvent(`Commute direction set to: ${this.state.commuteDirection === 'in' ? 'To Work (Stage 1)' : 'From Work (Stage 2)'}`);
+        this.render();
+      });
+    }
+
+    if (this.dom.btnToggleBadges) {
+      this.dom.btnToggleBadges.addEventListener('click', () => {
+        this.state.showAuthorBadges = !this.state.showAuthorBadges;
+        this.logEvent(`Tone badges display: ${this.state.showAuthorBadges ? 'Visible (Debug)' : 'Hidden (Production)'}`);
+        this.render();
+      });
+    }
 
     this.dom.btnToggleDataMode.addEventListener('click', () => {
       this.state.showingDemonstrationData = !this.state.showingDemonstrationData;
@@ -244,6 +290,18 @@ export class StoryboardController {
       ? `Switch to Observed Sessions (${observedCount})`
       : 'Switch to Demonstration Fixture';
 
+    if (this.dom.btnToggleCommute) {
+      this.dom.btnToggleCommute.textContent = this.state.commuteDirection === 'in'
+        ? 'Commute: To Work (Stage 1)'
+        : 'Commute: From Work (Stage 2)';
+    }
+
+    if (this.dom.btnToggleBadges) {
+      this.dom.btnToggleBadges.textContent = this.state.showAuthorBadges
+        ? 'Tone Badges: Visible (Debug)'
+        : 'Tone Badges: Hidden (Production)';
+    }
+
     if (!isDemo && observedCount === 0) {
       this.dom.tableCohortStats.innerHTML = `
         <tr>
@@ -275,176 +333,61 @@ export class StoryboardController {
   renderStage() {
     const m = this.state.moment;
 
-    // 1. Departure (Morning)
+    // 1. Departure (Morning) - One button starts the short two-stage sequence
     if (m === 'departure') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'kitchen', light: 'neutral', duck: false, idPrefix: 'dep' });
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Departure Dialog">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${VIGNETTE_ICONS.warehouse}</div>
-              <div class="vignette-titles">
-                <h3>Heading Out · Afternoon Shift Anchor</h3>
-                <span>Harbor Court · Kitchen & Hallway</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>Your work badge and keys lie on the kitchen counter beside your travel mug.</p>
-              <p class="vignette-detail">The bus leaves in ten minutes. You have an afternoon scheduled at Harbor Logistics Distribution.</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-secondary" id="btn-commute-in">Step Out & Commute In</button>
-              <button type="button" class="btn btn-primary" id="btn-direct-work">Arrive at Shift Floor</button>
-            </div>
-          </div>
-        </div>
-      `;
-      this.dom.overlayLayer.querySelector('#btn-commute-in').addEventListener('click', () => {
-        this.jumpToMoment('commute_in');
-      });
-      this.dom.overlayLayer.querySelector('#btn-direct-work').addEventListener('click', () => {
-        this.jumpToMoment('work_1');
+      this.dom.overlayLayer.innerHTML = renderDepartureCardHtml();
+      this.dom.overlayLayer.querySelector('#btn-start-work-sequence').addEventListener('click', () => {
+        this.jumpToMoment(getNextWorkSequenceMoment('departure', this.state.commuteDirection));
       });
       return;
     }
 
-    // 2. Commute In (Morning/Afternoon transition)
+    // 2. Commute In (Morning transit to work · Stage 1 when commuteDirection === 'in')
     if (m === 'commute_in') {
       const beat = COMMUTE_BEATS[this.state.commuteInIndex] || COMMUTE_BEATS[2];
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Commute In Beat">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun}</div>
-              <div class="vignette-titles">
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <h3>${esc(beat.heading)}</h3>
-                  ${renderLikertBadge(beat.hexId, beat.rating)}
-                </div>
-                <span>Transit to Plant · Route 14</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>${esc(beat.text)}</p>
-              <p class="vignette-detail">${esc(beat.detail)}</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-enter-work">Enter Logistics Plant</button>
-            </div>
-          </div>
-        </div>
-      `;
+      this.dom.overlayLayer.innerHTML = renderCommuteCardHtml(beat, {
+        phase: 'in',
+        showAuthorBadges: this.state.showAuthorBadges,
+      });
       this.dom.overlayLayer.querySelector('#btn-enter-work').addEventListener('click', () => {
-        this.jumpToMoment('work_1');
+        this.jumpToMoment(getNextWorkSequenceMoment('commute_in', this.state.commuteDirection));
       });
       this.recordDisplayedBeat(beat);
       return;
     }
 
-    // 3. Work Beat 1
-    if (m === 'work_1') {
-      const beat = WORK_BEATS[this.state.workBeat1Index] || WORK_BEATS[0];
-      const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
+    // 3. Work Shift (Combined Two Notes on One Dialog Stage)
+    if (m === 'work_shift') {
+      const beat1 = WORK_BEATS[this.state.workBeat1Index] || WORK_BEATS[1];
+      const beat2 = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[9];
+      const avgRating = Math.round((beat1.rating + beat2.rating) / 2);
 
-      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Work Beat 1">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${icon}</div>
-              <div class="vignette-titles">
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <h3>${esc(beat.heading)}</h3>
-                  ${renderLikertBadge(beat.hexId, beat.rating)}
-                </div>
-                <span>Harbor Logistics · Shift Block (Beat 1/2)</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>${esc(beat.text)}</p>
-              <p class="vignette-detail">${esc(beat.detail)}</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-work-next">Break → Next Shift Block</button>
-            </div>
-          </div>
-        </div>
-      `;
-      this.dom.overlayLayer.querySelector('#btn-work-next').addEventListener('click', () => {
-        this.jumpToMoment('work_2');
+      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', avgRating);
+      this.dom.overlayLayer.innerHTML = renderWorkShiftCardHtml(beat1, beat2, {
+        commuteDirection: this.state.commuteDirection,
+        showAuthorBadges: this.state.showAuthorBadges,
       });
-      this.recordDisplayedBeat(beat);
-      return;
-    }
-
-    // 4. Work Beat 2
-    if (m === 'work_2') {
-      const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[9];
-      const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
-
-      this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Work Beat 2">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${icon}</div>
-              <div class="vignette-titles">
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <h3>${esc(beat.heading)}</h3>
-                  ${renderLikertBadge(beat.hexId, beat.rating)}
-                </div>
-                <span>Harbor Logistics · Shift Block (Beat 2/2)</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>${esc(beat.text)}</p>
-              <p class="vignette-detail">${esc(beat.detail)}</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-clock-out">Clock Out & Head Home</button>
-            </div>
-          </div>
-        </div>
-      `;
       this.dom.overlayLayer.querySelector('#btn-clock-out').addEventListener('click', () => {
-        this.jumpToMoment('commute_home');
+        this.jumpToMoment(getNextWorkSequenceMoment('work_shift', this.state.commuteDirection));
       });
-      this.recordDisplayedBeat(beat);
+      this.recordDisplayedBeat(beat1);
+      this.recordDisplayedBeat(beat2);
       return;
     }
 
-    // 5. Commute Home
+    // 4. Commute Home (Late afternoon transit from work · Stage 2 when commuteDirection === 'home')
     if (m === 'commute_home') {
       const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[8];
-      const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
-      this.dom.overlayLayer.innerHTML = `
-        <div class="vignette-overlay">
-          <div class="vignette-card" role="region" aria-label="Commute Home Beat">
-            <div class="vignette-header">
-              <div class="vignette-icon-wrap">${icon}</div>
-              <div class="vignette-titles">
-                <div style="display:flex;align-items:center;gap:8px;">
-                  <h3>${esc(beat.heading)}</h3>
-                  ${renderLikertBadge(beat.hexId, beat.rating)}
-                </div>
-                <span>Late Afternoon Commute Home</span>
-              </div>
-            </div>
-            <div class="vignette-body">
-              <p>${esc(beat.text)}</p>
-              <p class="vignette-detail">${esc(beat.detail)}</p>
-            </div>
-            <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-arrive-home">Arrive at Apartment Door</button>
-            </div>
-          </div>
-        </div>
-      `;
+      this.dom.overlayLayer.innerHTML = renderCommuteCardHtml(beat, {
+        phase: 'home',
+        showAuthorBadges: this.state.showAuthorBadges,
+      });
       this.dom.overlayLayer.querySelector('#btn-arrive-home').addEventListener('click', () => {
-        this.jumpToMoment('payslip');
+        this.jumpToMoment(getNextWorkSequenceMoment('commute_home', this.state.commuteDirection));
       });
       this.recordDisplayedBeat(beat);
       return;

@@ -177,41 +177,49 @@ async function runBrowserCheck() {
     if (!title.includes('Plan 40')) throw new Error(`Unexpected page title: ${title}`);
     results.stepsPassed.push('Step 1: Page loaded and titled correctly');
 
-    // Step 2: Departure View verification
+    // Step 2: Departure View verification with single button
     const initialCash = await evaluate('document.querySelector("#hud-cash").textContent');
     const initialHp = await evaluate('document.querySelector("#hud-hp").textContent');
     console.log(`Initial HUD: Cash=${initialCash}, HP=${initialHp}`);
     if (initialCash !== '$15.00' || initialHp !== '80 HP') {
       throw new Error(`Initial HUD stats mismatch: ${initialCash}, ${initialHp}`);
     }
-    results.stepsPassed.push('Step 2: Departure view verified ($15.00, 80 HP)');
+    const hasSingleDepartureBtn = await evaluate('Boolean(document.querySelector("#btn-start-work-sequence") && !document.querySelector("#btn-commute-in"))');
+    if (!hasSingleDepartureBtn) throw new Error('Expected single departure button #btn-start-work-sequence');
+    results.stepsPassed.push('Step 2: Departure view verified ($15.00, 80 HP) with single #btn-start-work-sequence button');
 
-    // Step 3: Advance to Commute In
-    await evaluate('document.querySelector("#btn-commute-in").click()');
+    // Step 3: Advance to Commute In (Stage 1 of Two-Stage Sequence)
+    await evaluate('document.querySelector("#btn-start-work-sequence").click()');
     await delay(150);
     const commuteInTitle = await evaluate('document.querySelector(".vignette-titles h3").textContent');
-    const commuteInBadge = await evaluate('document.querySelector(".likert-badge .hex-id").textContent');
-    console.log(`Commute In: ${commuteInTitle} (Hex: ${commuteInBadge})`);
-    results.stepsPassed.push(`Step 3: Commute In verified (${commuteInTitle}, ${commuteInBadge})`);
+    const hasBadgeProduction = await evaluate('Boolean(document.querySelector(".likert-badge"))');
+    console.log(`Commute In: ${commuteInTitle} (Badges present in production mode: ${hasBadgeProduction})`);
+    if (hasBadgeProduction) throw new Error('Expected Likert debug badges to be hidden in production view');
+    results.stepsPassed.push(`Step 3: Commute In verified (${commuteInTitle}) with debug badges hidden by default`);
 
-    // Step 4: Advance to Work Beat 1
+    // Step 4: Advance to Work Shift (Stage 2 of Two-Stage Sequence: Two observations on one card)
     await evaluate('document.querySelector("#btn-enter-work").click()');
     await delay(150);
-    const work1Badge = await evaluate('document.querySelector(".likert-badge .hex-id").textContent');
-    console.log(`Work Beat 1 Hex Badge: ${work1Badge}`);
-    results.stepsPassed.push(`Step 4: Work Beat 1 verified with 3-digit hex ID (${work1Badge})`);
+    const workNotesCount = await evaluate('document.querySelectorAll(".work-note-item").length');
+    console.log(`Work Shift Notes Count: ${workNotesCount}`);
+    if (workNotesCount !== 2) throw new Error(`Expected 2 work notes on one card, got ${workNotesCount}`);
+    const hasWorkBadgeProduction = await evaluate('Boolean(document.querySelector(".likert-badge"))');
+    if (hasWorkBadgeProduction) throw new Error('Expected Likert debug badges to be hidden in work shift production view');
 
-    // Step 5: Advance to Work Beat 2 & Clock Out
-    await evaluate('document.querySelector("#btn-work-next").click()');
-    await delay(150);
+    // Test reviewer toggle: badges appear when toggled to Debug mode
+    await evaluate('document.querySelector("#toggle-badges").click()');
+    await delay(100);
+    const hasWorkBadgeDebug = await evaluate('Boolean(document.querySelector(".likert-badge"))');
+    if (!hasWorkBadgeDebug) throw new Error('Expected Likert debug badges to appear when toggled to Debug mode');
+    await evaluate('document.querySelector("#toggle-badges").click()'); // toggle back to production clean mode
+    await delay(100);
+
+    // Step 5: Clock Out from Work Shift directly to Wage Payslip (since commute was Stage 1)
     await evaluate('document.querySelector("#btn-clock-out").click()');
     await delay(150);
-    results.stepsPassed.push('Step 5: Work Beat 2 completed and clocked out');
+    results.stepsPassed.push('Step 4 & 5: Combined Work Shift verified with two notes, tone badge toggle, and direct clock-out to payslip');
 
-    // Step 6: Commute Home to Wage Payslip
-    await evaluate('document.querySelector("#btn-arrive-home").click()');
-    await delay(200);
-
+    // Step 6: Wage Payslip Disbursal
     const payslipAmount = await evaluate('document.querySelector(".pay-amount").textContent');
     console.log('Wage Payslip Take-Home Amount:', payslipAmount);
     if (payslipAmount !== '$60.00') {

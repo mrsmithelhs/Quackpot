@@ -13,64 +13,58 @@
 The interactive storyboard demonstrates an understandable, lived progression from the morning departure through commute, workplace shifts, wage disbursal, Day 1 kitchen/dinner return, evening apartment decompression, and late-night rest.
 
 ```
-[Morning Departure]
+[Morning Departure] ──> Single button: [Head Out to Work]
+       │
+       ▼ (Two-Stage Focused Sequence)
+[Stage 1: Commute In]          <── Single directional transit beat (debug badge hidden by default)
        │
        ▼
-[Commute In]               <── Beat: 1–5 Author Tone Rating (e.g. #0C1 or #0C3)
+[Stage 2: Work Shift]          <── Two observations from today on one dialog card (debug badges hidden)
        │
        ▼
-[Work Shift (Beat 1 & 2)]  <── Beats: 1–5 Author Tone Rating (e.g. #012 + #014)
+[Wage Payslip Disbursal]       <── $60.00 Net Take-Home Cash (Credited directly to wallet)
        │
        ▼
-[Commute Home]             <── Beat: 1–5 Author Tone Rating (e.g. #0C4 or #0C5)
+[Day 1 Kitchen / Dinner]       <── Keys & badge on counter, dinner decompression choice
        │
        ▼
-[Wage Payslip Disbursal]   <── $60.00 Net Take-Home Cash
-       │
-       ▼
-[Day 1 Kitchen / Dinner]   <── Keys & badge on counter, warm tea, dinner decompression
-       │
-       ▼
-[Evening Apartment Stage]  <── Warm desk lamp, dusk window, duck companion
+[Evening Apartment Stage]      <── Warm desk lamp, dusk window, duck companion
    ├── 📞 Call Mom (+5 HP Restorative Check-in)
    ├── 🦆 Sit with Duck (+2 HP Stillness & Reflection)
    ├── 📱 Open Quackpot (Gacha App Launch)
    └── 💼 Tonight's Gigs & Shifts (1–2 Daily Offers Weighted Toward Delivery Gigs)
 ```
 
+*(Note: Reviewer can toggle commute direction between `To Work (Stage 1)` and `From Work (Stage 2)`, as well as toggle author debug tone badges between `Hidden (Production)` and `Visible (Debug)`.)*
+
 ### Beat 1: Departure (Afternoon Shift Anchor)
 - **Scene**: Apartment kitchen/hallway under neutral daylight.
-- **Narrative**: Your work badge and keys lie on the kitchen counter beside your travel mug.
-- **Player Action**: Either `[Step Out & Commute In]` or `[Arrive at Shift Floor]`.
-- **Purpose**: Establishes that stepping into work is an active life transition.
+- **Narrative**: Your work badge and keys lie on the kitchen counter beside your travel mug. The bus leaves in ten minutes.
+- **Player Action**: Single button `[Head Out to Work]`.
+- **Purpose**: Establishes a focused, clear starting point without presenting confusing duplicate transit buttons.
 
-### Beat 2: Commute In (Morning/Afternoon Transit)
+### Beat 2: Commute In (Transit to Plant · Route 14)
 - **Visuals**: Ambient transit window backdrop with weather effects (sleet/rain or morning sidewalk).
-- **Author Tone Rating (1–5)**: Categorized with a 3-digit hex ID (e.g. `#0C1` Rating 1 freezing sleet, or `#0C3` Rating 3 steady morning sidewalk).
-- **Player Action**: Board bus/walk to enter plant.
+- **Author Tone Rating (1–5)**: 3-digit hex ID and 1–5 tone rating are internal export metadata and **hidden in production view**. (Reviewer toggle displays badge `#0C3` Rating 3 steady morning sidewalk).
+- **Player Action**: `[Arrive at Shift Floor]`.
+- **Single-Direction Commute**: The commute is experienced in one direction per work sequence (morning transit in by default, or evening transit home via reviewer toggle), keeping pre-choice momentum crisp.
 
-### Beat 3: Ordinary Work Shift (Afternoon Anchor · 2 Beats)
-- **Visuals**: Ambient warehouse backdrop with structural trusses and skylights, plus notification cards.
-- **Granular Pacing & Variety**:
-  - The shift is split into two distinct blocks: **Shift Block 1** and **Shift Block 2**.
-  - Each beat carries a 3-digit hex ID and 1–5 author-assigned tone rating.
-  - Allows mixed combinations: a mediocre morning (`#012` Rating 2 sore heels) can combine with an uplifting afternoon (`#014` Rating 4 radio pop & shared pastry), yielding a balanced daily score.
-  - Covers dimensions: strain, monotony, routine, social connection, problem mastery, and supervisor praise.
-- **Player Action**: Advance through beats without forced countdown timers, then `[Clock Out & Head Home]`.
+### Beat 3: Ordinary Work Shift (Afternoon Anchor · Two Observations on One Card)
+- **Visuals**: Ambient warehouse backdrop with structural trusses and skylights, plus notification card.
+- **Integrated Pacing & Variety**:
+  - Rather than fragmenting the shift across separate clicks or dialog cards, the work shift displays **two observations from today together on one dialog card** as distinct narrative paragraphs.
+  - Mixes granular dimensions: e.g. equipment friction (`#016` Rating 1 defective carton lot) combined with radio pop & shared pastry (`#014` Rating 4), yielding an authentic, balanced daily shift experience.
+  - Hex IDs and Likert ratings are **hidden from player view** to maintain fictional immersion. Reviewer toggle enables debug inspection when needed.
+- **Player Action**: `[Clock Out & Collect Wages]`.
 
-### Beat 4: Commute Home (Late Afternoon)
-- **Visuals**: Ambient transit/sunset backdrop with golden tree silhouettes or rain on window glass.
-- **Author Tone Rating (1–5)**: e.g. `#0C2` Rating 2 packed bus with everyone scrolling loot boxes, `#0C4` Rating 4 golden sunlight through maple trees, or `#0C5` Rating 5 helping an elderly neighbor on the subway stairs.
-- **Player Action**: Walk through the neighborhood to reach the apartment door.
-
-### Beat 5: Shift Payslip & Wage Disbursal
+### Beat 4: Wage Payslip Disbursal
 - **Visuals**: Clean, tactile institutional pay receipt from *Harbor Logistics Distribution Inc.*
 - **Financial Baseline**:
   - Direct **$60.00 cash take-home** credited to wallet (Plan 29 completed-shift baseline).
   - Invented $88 gross / $28 deduction arithmetic is omitted per Root Continuation 03.
-- **Player Action**: `[Collect Wages (+$60.00) & Walk In]`. The wallet clearly updates from $15.00 to $75.00.
+- **Player Action**: `[Collect Wages (+$60.00) & Step into Kitchen]`. The wallet clearly updates from $15.00 to $75.00.
 
-### Beat 6: Day 1 Kitchen Dinner Return
+### Beat 5: Day 1 Kitchen Dinner Return
 - **Visuals**: Apartment kitchen counter under warm interior lighting (`src/assets/apartment/index.mjs`).
 - **Narrative**: Setting keys and warehouse badge on the laminate counter.
 - **Maintenance Dinner Choice (Disclosed Parameters)**:
@@ -80,7 +74,7 @@ The interactive storyboard demonstrates an understandable, lived progression fro
   - Both values remain prototype proposals, not accepted production policy. The selected cost and resulting cash/health are shown.
 - **Player Action**: `[Head to Desk]`.
 
-### Beat 7: Evening Apartment & Life Anchors
+### Beat 6: Evening Apartment & Life Anchors
 - **Visuals**: Accepted apartment desk view in warm evening lighting (amber desk lamp pool, physical rubber duck resting calmly).
 - **Single Exclusive Evening Choice**:
   - Selecting and completing an anchor concludes that evening's scenario; alternative previews require starting a fresh scenario.
@@ -89,7 +83,7 @@ The interactive storyboard demonstrates an understandable, lived progression fro
   3. **📱 Open Quackpot**: Factual launcher stand-in preview (no simulated gacha play claimed).
   4. **💼 Tonight's Gigs & Shifts**: Displays 1–2 rolled options for that evening, weighted toward frequent gig work.
 
-### Beat 8: Optional Extra Shifts (Candidate Gigs & Offers)
+### Beat 7: Optional Extra Shifts (Candidate Gigs & Offers)
 - **Daily Roll Mechanic**:
   - The phone displays 1 or 2 available offers with candidate rewards and fatigue costs:
     - *QuickDrop Food Delivery*: +$35.00 cash, −8 HP (frequent gig).

@@ -71,6 +71,8 @@ Be specific. Ambiguous scope is the leading cause of out-of-band decisions.
 
 ## Work plan
 
+For production integrations, follow `docs/workflows/production-integration-review.md`: compact selected/context/placeholder/deferred record, replacement seam/surfaces, compatibility and a few actual production observations. No whole-game replay or Opus W1 retrospective is required for every feature. Owner adopts this local practice2026-11-01; larger architecture/tooling changes retain their own scope/gates.
+
 Use a small numbered plan:
 
 1. Inspect the current state and confirm assumptions.

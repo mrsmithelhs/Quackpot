@@ -32,6 +32,8 @@ Root owns a significant part of the problem: source/test/report review sometimes
 
 ## Immediate active-plan pilot
 
+**Subsequent owner adoption2026-11-01:** Owner adopts Astra's recommendations and explicitly endorses root before/after visual inspection. The local operating practice is now docs/workflows/production-integration-review.md, linked by AGENTS, orchestrator prompt and packet guidance/template. The original reports remain unchanged; larger tooling/architecture projects are not automatically assigned. W1 is one-time evidence, not a recurring task. This supersedes the process-only pilot status below while retaining specific45/47 gates.
+
 1. In the proposal itself identify selected additions, preserved production context, placeholders/omissions and unresolved/deferred items. Include exact preview/source revision, surfaces added/edited/replaced/bypassed, and a handful of distinctive checks. Update affected rows and notify the writer when a meaningful amendment changes intent/surfaces/compatibility. No fresh owner confirmation for routine authorized edits.
 2. Clear exact compatibility and source ownership, including old state shape and event replay, not merely equal numeric values. Unsupported/unknown data must be preserved through actual restore/autosave behavior.
 3. Before recommending owner review, root inspects actual original/extracted visuals for45, and actual production touched/neighbor states plus interruption/return trace for47. Laptop/narrow evidence, source/state/route identity and honest limitations are required. A synthetic component witness can supplement but cannot establish production reachability.

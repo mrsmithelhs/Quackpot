@@ -26,6 +26,8 @@ When date-stamping anything durable — decision-log entries, packet dates, prog
 
 ## First Orientation Pass
 
+For production integration review, apply owner-adopted local `docs/workflows/production-integration-review.md`: carry selection/preservation/placeholder/deferred distinctions into the packet, inspect actual before/after touched and neighboring rendered states before owner-ready, and verify material interaction/reload/evidence boundaries separately. Test totals and synthetic layouts alone do not establish fidelity. Update meaningful amendments and coordinate semantic ownership. No routine W1 retrospective/helper wave is required.
+
 Before making recommendations, skim these files enough to understand the project shape:
 
 - `AGENTS.md` — agent guide: stage, area map, architecture constraints, key commands, routing table

@@ -67,6 +67,10 @@ Contracts this packet must preserve:
 
 ## Implementation Requirements
 
+### Integration record (production integration only; omit if inapplicable)
+
+Use one compact selected additions / preserved context / placeholders and omissions / deferred choices table here or in the proposal. Pin source/preview, replacement seam, surfaces added/edited/replaced/bypassed, compatibility and a few distinctive checks. Link actual route/capture evidence; follow `docs/workflows/production-integration-review.md`. Update meaningful amendments; no duplicate ledger or routine retrospective.
+
 ### Requirement 1 — *(short name)*
 
 Required behavior:
@@ -85,6 +89,7 @@ Constraints:
 - [ ] No unrelated files were changed.
 - [ ] All contracts in "Authority and contracts" are preserved.
 - [ ] Approval gate is honored (work stops at the gate and reports, does not proceed past it).
+- [ ] If production integration: root viewed source/state-bound before/after touched and neighboring renders, with material behavior/reload checks and explicit limits.
 
 ## Stop Conditions
 

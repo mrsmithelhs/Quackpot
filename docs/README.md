@@ -20,6 +20,8 @@ Do not copy a historical report's pending-stage statement over a later acceptanc
 
 Independent modularity/integration reviews are archived under `reports/orchestration/modularity-review-2026-11-01/`; read root-synthesis.md for corrections, active45/47 supervision gates and proposed later tooling. Original reviewer recommendations are not automatic architecture or work-status changes.
 
+Owner subsequently adopts Astra's bounded integration-review practice2026-11-01: `workflows/production-integration-review.md` is the local operating guide. It includes root-viewed before/after/neighbor evidence; W1 is not a recurring retrospective. Larger tooling/refactoring proposals retain packet gates.
+
 ## Index
 
 | Folder / File | Purpose |

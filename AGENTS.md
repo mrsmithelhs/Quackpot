@@ -147,6 +147,8 @@ When your task touches a component, read these first.
 
 **Decision reconciliation (orchestrator):** Before handing off or closing work that changes direction, reconcile the affected current design section, decision-log entry, open questions and packet scope/gates; update the source map only when implementation changed. State separately selected intent, implemented behavior and proposals. Correct stale summaries rather than adding another contradictory dated paragraph. Historical decisions/reports remain evidence; the packet index owns work status. Read `docs/README.md` for current direction and document roles. Hard-constraint changes still require design, this guide and the orchestrator prompt together. This reminder adds no new design-review prompt capability.
 
+**Production integrations (owner adoption2026-11-01):** Follow `docs/workflows/production-integration-review.md`: compact selected/context/placeholder/deferred record, pinned replacement seam and relevant neighbors; root views before/after actual production evidence before owner-ready, with targeted behavior/reload checks for what stills cannot show. Preserve historical replay and serialize shared semantic writes. Update meaningful amendments, not another parallel ledger. Opus W1 was one-time research, not a recurring retrospective/subagent requirement. This is local practice, not Bootstrap capability adoption.
+
 ## 7. Guardrails
 
 **These apply in every task. Do not override without explicit owner approval.**

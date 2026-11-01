@@ -4,6 +4,7 @@
 // fob is a thick slab. No raster was copied. Palette/outline match life-art.mjs (INK #3b3226, brass #d8c27a/#8a7634).
 const INK = '#3b3226', BRASS = '#d8c27a', BRASS_LINE = '#8a7634', BRASS_EDGE = '#a58f48', HOLE = '#4a3324';
 
+// Ring is drawn behind the keys and shows through the head holes (holes are open, not filled); key A's hole is covered by key B.
 // Key in its own flat plane, head at origin, blade along +x, teeth on the -y edge. The caller squashes the plane
 // (scale 1 .62) and rotates it; a thickness copy offset downward gives the shallow-perspective edge.
 const keyPlane = (fill, line, extra = '') => `<g fill="${fill}" stroke="${line}" stroke-width="2.2" stroke-linejoin="round">
@@ -11,7 +12,7 @@ const keyPlane = (fill, line, extra = '') => `<g fill="${fill}" stroke="${line}"
   <circle r="11.5"/>${extra}</g>`;
 const key = (x, y, rot) => `<g transform="translate(${x} ${y + 3}) scale(1 .62) rotate(${rot})">${keyPlane(BRASS_EDGE, '#6e5f2c')}</g>
   <g transform="translate(${x} ${y}) scale(1 .62) rotate(${rot})">${keyPlane(BRASS, BRASS_LINE)}
-    <circle r="3.8" fill="${HOLE}" stroke="${BRASS_LINE}" stroke-width="1.6"/>
+    <circle r="3.8" fill="none" stroke="${BRASS_LINE}" stroke-width="1.6"/>
     <path d="M-7 -4 A8.5 8.5 0 0 1 2 -8.2" fill="none" stroke="#f3e6ab" stroke-width="1.8" stroke-linecap="round"/>
     <path d="M13 0 H40" stroke="#f3e6ab" stroke-width="1.4" stroke-linecap="round"/></g>`;
 
@@ -24,14 +25,16 @@ export function sonnetKeys() {
     <path d="M84 49 L93 59 V64 L84 54Z" fill="#2f5a74" stroke="#1f3a4a" stroke-width="2" stroke-linejoin="round"/>
     <path d="M90 52 L108 49" stroke="#8fb3c4" stroke-width="1.6" stroke-linecap="round"/>
     <circle cx="88.5" cy="52" r="1.8" fill="#16293a"/>
-    <path d="M88 52 Q78 54 72 48" fill="none" stroke="#4d4a46" stroke-width="4.4" stroke-linecap="round"/>
-    <path d="M88 52 Q78 54 72 48" fill="none" stroke="#cfd3d4" stroke-width="2.4" stroke-linecap="round"/>
-    ${key(65, 49, 172)}
-    <g transform="rotate(8 70 28)" fill="none">
-      <ellipse cx="70" cy="28" rx="13" ry="19" stroke="#4d4a46" stroke-width="5.6"/>
-      <ellipse cx="70" cy="28" rx="13" ry="19" stroke="#cfd3d4" stroke-width="3.2"/>
-      <path d="M59 20 A13 19 0 0 1 66 10" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".85"/>
+    <path d="M88 52 Q80 56 74 53" fill="none" stroke="#4d4a46" stroke-width="4.4" stroke-linecap="round"/>
+    <path d="M88 52 Q80 56 74 53" fill="none" stroke="#cfd3d4" stroke-width="2.4" stroke-linecap="round"/>
+    <g transform="rotate(6 70 38)" fill="none">
+      <ellipse cx="70" cy="38" rx="10" ry="15" stroke="#4d4a46" stroke-width="5"/>
+      <ellipse cx="70" cy="38" rx="10" ry="15" stroke="#cfd3d4" stroke-width="2.8"/>
+      <path d="M61.5 33 A10 15 0 0 1 66 24" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
     </g>
-    ${key(73, 54, 150)}
+    ${key(66, 50, 172)}
+    ${key(70, 53, 150)}
+    <path d="M66.4 53.4 Q70 55 73.6 53.2" fill="none" stroke="#4d4a46" stroke-width="4.6"/>
+    <path d="M66.4 53.4 Q70 55 73.6 53.2" fill="none" stroke="#cfd3d4" stroke-width="2.4"/>
   </svg>`;
 }

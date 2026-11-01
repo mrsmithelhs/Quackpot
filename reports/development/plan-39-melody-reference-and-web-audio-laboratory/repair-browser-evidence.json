@@ -1,0 +1,228 @@
+{
+  "cases": [
+    {
+      "cfg": {
+        "candidateId": "C0-original",
+        "harmonyId": "H0-dry",
+        "patchId": "P0-plan32-triangle",
+        "tempoBpm": 100,
+        "layerMode": "full"
+      },
+      "events": 10,
+      "phrase": 4.8,
+      "duration": 4.92,
+      "one": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 944640,
+          "frames": 236160,
+          "durationSeconds": 4.92
+        },
+        "measured": {
+          "peak": 0.150904,
+          "rms": 0.025686,
+          "samplePeakDbfs": -16.4,
+          "rmsDbfs": -31.8,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "wrap": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 921600,
+          "frames": 230400,
+          "durationSeconds": 4.8
+        },
+        "measured": {
+          "peak": 0.15166,
+          "rms": 0.026005,
+          "samplePeakDbfs": -16.4,
+          "rmsDbfs": -31.7,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "restored": true
+    },
+    {
+      "cfg": {
+        "candidateId": "M3-horizon-drift",
+        "harmonyId": "H-B1-horizon",
+        "patchId": "TS-flute-harp",
+        "leadProgramId": "GM-12-marimba",
+        "chordsProgramId": "GM-46-harp",
+        "bassProgramId": "GM-32-acoustic-bass",
+        "tempoBpm": 104,
+        "layerMode": "full",
+        "roomAir": true,
+        "microGroove": true
+      },
+      "events": 90,
+      "phrase": 13.846154,
+      "duration": 14.587154,
+      "one": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 2800736,
+          "frames": 700184,
+          "durationSeconds": 14.5872
+        },
+        "measured": {
+          "peak": 0.342492,
+          "rms": 0.043461,
+          "samplePeakDbfs": -9.3,
+          "rmsDbfs": -27.2,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "wrap": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 2658460,
+          "frames": 664615,
+          "durationSeconds": 13.8461
+        },
+        "measured": {
+          "peak": 0.342492,
+          "rms": 0.044649,
+          "samplePeakDbfs": -9.3,
+          "rmsDbfs": -27,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "restored": true
+    },
+    {
+      "cfg": {
+        "candidateId": "M3-horizon-drift",
+        "harmonyId": "H-B1-horizon",
+        "patchId": "TS-flute-harp",
+        "tempoBpm": 92,
+        "layerMode": "conditioning-skeleton"
+      },
+      "events": 39,
+      "phrase": 15.652174,
+      "duration": 15.952174,
+      "one": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3062820,
+          "frames": 765705,
+          "durationSeconds": 15.9522
+        },
+        "measured": {
+          "peak": 0.188078,
+          "rms": 0.040886,
+          "samplePeakDbfs": -14.5,
+          "rmsDbfs": -27.8,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "wrap": {
+        "header": {
+          "valid": true,
+          "channels": 2,
+          "sampleRate": 48000,
+          "bitsPerSample": 16,
+          "byteRate": 192000,
+          "blockAlign": 4,
+          "dataBytes": 3005216,
+          "frames": 751304,
+          "durationSeconds": 15.6522
+        },
+        "measured": {
+          "peak": 0.188078,
+          "rms": 0.041294,
+          "samplePeakDbfs": -14.5,
+          "rmsDbfs": -27.7,
+          "clippedSamples": 0,
+          "isClipped": false,
+          "measurementBasis": "float32 OfflineAudioContext render samples before PCM16 quantization; PCM sample peak and RMS only; not LUFS or true peak"
+        },
+        "scale": 1
+      },
+      "restored": true
+    }
+  ],
+  "ui": {
+    "cards": 5,
+    "status": false
+  },
+  "loop": {
+    "starts": [
+      0.025,
+      0.325,
+      0.625,
+      1.2249999999999999,
+      1.825,
+      2.125,
+      2.425,
+      3.025,
+      3.3249999999999997,
+      3.625,
+      4.825,
+      5.125,
+      5.425,
+      6.025,
+      6.625,
+      6.925000000000001,
+      7.225,
+      7.825,
+      8.125,
+      8.425,
+      9.625,
+      9.925,
+      10.225,
+      10.825,
+      11.425,
+      11.725,
+      12.025,
+      12.625,
+      12.925,
+      13.225
+    ],
+    "countAfterStop": 30
+  },
+  "pageErrors": [],
+  "networkRequests": [],
+  "note": "Headless browser graph/render evidence only; no physical listening or live/WAV sample-identity claim."
+}

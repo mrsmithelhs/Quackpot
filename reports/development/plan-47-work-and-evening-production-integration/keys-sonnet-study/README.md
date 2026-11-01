@@ -8,6 +8,9 @@ Viewbox 120×76 (taller than the 120×58 tray). Silhouette first, from the owner
 ## Revision 1 (owner request)
 Ring made smaller (rx 10, ry 15) and drawn behind the keys; it now passes through key B's open head hole (a short front arc crosses the hole). Key A's hole is hidden under key B's head. Viewed in the app pane: at 5x the ring visibly threads the hole; at the ~96 px and ~48 px copies in the same static page it still reads as ring + brass keys + blue fob (pane capture, not the real scene).
 
+## Revision 2 (owner request)
+Ring smaller and behind everything; the blue fob is drawn last, in front of both key heads, so the head holes are hidden and the ring plausibly threads them without drawing the connection. Viewed as a static 5x pane capture and ~96/~48 px copies in that page; ring, brass keys and fob read at both small copies. Not yet judged in the real scene.
+
 ## Evidence so far (honest labels)
 - Viewed once: 5× static close-up in the app browser pane (file URL, no Node, no server). It reads as a keyring; the thickness copy makes teeth look chunky/double-outlined and may need thinning. 
 - NOT yet viewed: 96 px / 48 px display sizes, or any scene render. A second pane capture timed out, so no small-size claim is made.

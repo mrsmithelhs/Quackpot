@@ -20,11 +20,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -55,11 +55,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -90,11 +90,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -125,11 +125,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -160,11 +160,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -195,11 +195,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/b3061ac9-740e-485e-9744-3de233aeff10",
+          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:56330/7d9841d4-396d-4f8e-8be5-585c9d5ef548",
+          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
           "loaded": true
         }
       ],
@@ -221,73 +221,73 @@
     "profileRemoved": true,
     "trackedDescendants": [
       {
-        "pid": 63532,
-        "ppid": 40876,
-        "created": "11/01/2026 10:25:08",
+        "pid": 28460,
+        "ppid": 45268,
+        "created": "11/01/2026 10:34:01",
         "root": true
       },
       {
-        "pid": 63768,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 50408,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 59120,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 41448,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 37796,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 53544,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 40908,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 57404,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 48000,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 2416,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 45396,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 22076,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 56856,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 42300,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 10300,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 63948,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:01",
         "root": false
       },
       {
-        "pid": 57064,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:08",
+        "pid": 34756,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:02",
         "root": false
       },
       {
-        "pid": 38556,
-        "ppid": 63532,
-        "created": "11/01/2026 10:25:09",
+        "pid": 2964,
+        "ppid": 28460,
+        "created": "11/01/2026 10:34:02",
         "root": false
       }
     ],
     "remainingDescendants": [],
-    "chromeStderr": "[63532:25340:1101/102508.604:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[63532:25340:1101/102508.604:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:56331/devtools/browser/2f04a40d-029b-449a-aba5-3ed28683db23\r\n"
+    "chromeStderr": "[28460:41096:1101/103401.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[28460:41096:1101/103401.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:64623/devtools/browser/b8fe9392-8ccc-4d6f-8f57-740c08a7e44a\r\n"
   }
 }

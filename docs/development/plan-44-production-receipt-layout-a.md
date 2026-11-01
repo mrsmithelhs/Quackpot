@@ -1,11 +1,9 @@
 ---
 id: plan-44
 title: Production Receipt Layout A and evidence disclosures
-status: draft
+status: in-progress
 depends_on: [plan-27]
 gate: "Root drafts2026-10-31 from selected LayoutA and reviewed Plan27 proposal. Owner assignment and exact projection/ownership mechanism clearance required before production changes."
-superseded_by: null
-resolution: null
 summary: >-
   Integrate the selected three-register Receipt with compact event-grounded summaries and accessible detailed evidence, validated on real engine traces without inferring motives or rewriting the log.
 ---
@@ -13,7 +11,9 @@ summary: >-
 
 ## Metadata and goal
 
-Date2026-10-31. Owner/model: unassigned Codex implementation candidate. Type: feature/integration. Source mutation only after assignment/mechanism gate. Outputs: source-event/display mapping, focused Receipt adapter/view/styles, actual engine-trace and browser evidence, progress report. No assignment or executable authority follows from drafting.
+Date2026-10-31. Owner assigns a Codex implementer. Type: feature/integration. Source mutation follows the mechanism gate below. Outputs: source-event/display mapping, focused Receipt adapter/view/styles, actual engine-trace and browser evidence, progress report. Starting handoff: reports/orchestration/plan-44-codex-starting-handoff.md.
+
+Plan38 is owner-accepted and closed; preserve its life/launch facts. Plan43 runs in parallel solely in its new report folder. Plan44 owns the production Receipt scope after root mechanism clearance; coordinate browser/build turns and do not import report mockups. Owner authorizes one read-only default-role gpt-6.1-terra reviewer at explicit medium after implementation and before delivery, including disposition of findings. No automatic repeated repair-review allowance.
 
 Reduce the current Receipt's overwhelming default race/event detail while preserving meaningful cue/action/reflection context, conditional draw odds and access to every supporting record. Plan27 owner selected LayoutA, Three-register cards. Keep its comparison alternatives and reports; do not import them at runtime. This is production debrief presentation, not a teacher analyzer or raw export.
 

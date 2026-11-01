@@ -12,8 +12,8 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 | Economy | $80 start/$60 shift/$6 meal/$170 remaining-rent working budget; pull-action-plus-race baseline; small purchases erode reserves | Working prices tunable; health/credit/calendar and later session policy remain provisional; recalibrate from integrated-route evidence |
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
 | Apartment | Accepted art/desk/phone; Plan38 life surfaces exist | Work/evening experience Plan40 assigned Gemini Flash; coherent phase/obligation integration before later disruption |
-| Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, draft44 Receipt integration unassigned; exporter/analyzer separate |
-| Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 technical repairs, Plan43 style study; weather not mounted |
+| Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, Plan44 Receipt integration assigned Codex; exporter/analyzer separate |
+| Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 technical repairs; Plan43 report-local style study assigned Codex; weather not mounted |
 | Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 assigned Sonnet, Plan36 possibilities preserved; owner selection before integration; not automatic feature adoption |
 
 Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.

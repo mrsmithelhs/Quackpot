@@ -51,8 +51,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-40` | Work and evening experience study | in-progress | Develop and visually compare how ordinary work, an extra shift and a first-evening activity appear in the apartment tutorial, coordinated with Plan37's authoritative day sequence. |
 | `plan-41` | Ren friend character and social life study | in-progress | Develop Ren as a friend with a life beyond the gacha, comparing visual concepts, interaction opportunities, well-being recovery and relationship consequences with the owner before integration. |
 | `plan-42` | Usage package contract and ZIP round-trip spike | delivered | Prove a bounded local ZIP/JSON usage-package contract with synthetic runs and import diagnostics, while gameplay-event mappings remain versioned inputs rather than frozen production rules. |
-| `plan-43` | Apartment music styles and motif-intrusion study | ready | Research six apartment instrumental styles and prototype longer TV-music loops with shorter gacha-motif-inflected companions using editable scores and the Plan39 synthesis work. |
-| `plan-44` | Production Receipt Layout A and evidence disclosures | draft | Integrate the selected three-register Receipt with compact event-grounded summaries and accessible detailed evidence, validated on real engine traces without inferring motives or rewriting the log. |
+| `plan-43` | Apartment music styles and motif-intrusion study | in-progress | Research six apartment instrumental styles and prototype longer TV-music loops with shorter gacha-motif-inflected companions using editable scores and the Plan39 synthesis work. |
+| `plan-44` | Production Receipt Layout A and evidence disclosures | in-progress | Integrate the selected three-register Receipt with compact event-grounded summaries and accessible detailed evidence, validated on real engine traces without inferring motives or rewriting the log. |
 <!-- plan-index:end -->
 
 ## Report Folders

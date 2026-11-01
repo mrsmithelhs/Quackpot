@@ -530,3 +530,9 @@ Owner rejects immersion-breaking fictional-install/download reassurance and sele
 **Date:** 2026-10-31
 
 Owner accepts Plan38 and requests closure after the launch-reply refinement. Preserve integrated production features contributed by other plans; report-only mocks must not become runtime dependencies or override real production choices. Provisional work/leisure presentation remains replaceable by separately accepted Plan40/41 experience. Existing central life progression, engine transactions, saved-history validation and separate UI routing remain integration contracts. Owner acceptance does not establish complete whole-run balance, device/accessibility or 30-minute pacing validation, and authorizes no push/deployment. Plan44 is root's recommended next Codex candidate, not assigned by this closure.
+
+### DECISION-052 — Parallel Codex Receipt and apartment music assignments
+
+**Date:** 2026-10-31
+
+Owner assigns Plans44 and43 to separate Codex implementers. Plan44 integrates selected LayoutA after root projection/ownership mechanism clearance, with one Terra-medium pre-delivery review. Plan43 performs report-local style/instrument research and staged listening, with a pinned renderer/resource checkpoint before executable reuse/extensions or long renders, and one Terra-medium review for substantive rendering code. Source scopes are disjoint; shared browser/audio/build turns require coordination. Plan39 originals remain read-only; necessary renderer fixes may be made in Plan43's pinned attributed copy after clearance without claiming Plan39 closure. No production music, TV, social, export or deployment adoption follows from assignment.

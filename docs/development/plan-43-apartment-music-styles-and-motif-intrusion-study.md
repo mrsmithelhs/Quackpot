@@ -1,11 +1,9 @@
 ---
 id: plan-43
 title: Apartment music styles and motif-intrusion study
-status: ready
+status: in-progress
 depends_on: []
 gate: "Owner requests research/composition follow-up2026-10-31. Ready for Flash or Codex Terra assignment; staged owner listening before long-track expansion and production adoption. Plan39 technical baseline must be reviewed before executable reuse."
-superseded_by: null
-resolution: null
 summary: >-
   Research six apartment instrumental styles and prototype longer TV-music loops with shorter gacha-motif-inflected companions using editable scores and the Plan39 synthesis work.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-43
 - Packet title: Apartment music styles and motif-intrusion study
 - Status: (see frontmatter)
-- Owner/model: unassigned; Gemini Flash or Codex Terra, no Argon turn required
+- Owner/model: owner-assigned Codex implementer2026-10-31; no Argon turn required
 - Date:2026-10-31
 - Packet type: research / composition / isolated audio prototype
 - Mutation level: new report-local research, scores, laboratory and bounded generated exports
@@ -24,6 +22,8 @@ summary: >-
 - Expected artifacts: style briefs/deep-research prompts, sourced synthesis, small pilot auditions, selected long/short loop pairs, provenance and progress
 
 ## Goal and selected direction
+
+Starting handoff: reports/orchestration/plan-43-codex-starting-handoff.md. Plan44 concurrently owns production Receipt integration; this study owns only its new report folder. The Plan39 baseline review is reports/orchestration/plan-39-v3-review-01.md. Research and a bounded renderer audit can proceed immediately. Necessary baseline repairs may be proposed and made in a pinned, attributed report-local copy after root clearance; no authority to edit Plan39 or claim it closed. One read-only Terra-medium pre-delivery review is authorized for substantive renderer/export code. Owner listening/pivots remain required; do not substitute technical metrics for musical approval.
 
 Owner likes Plan39 v3's improved M1–M6 repertoire for different gacha situations; not every motif needs a Suno cover. Reuse its symbolic composition and TinySynth-derived synthesis investigation to develop apartment instrumental music. Research requested styles: **lofi hiphop, jazz, country,90s alternative guitar rock, Hawaiian/ukulele-oriented music, and EDM**. The goal is stylistically convincing ordinary apartment selections of **at least2minutes**, paired eventually with **approximately30-second musical loops** in which one or more gacha motifs intrude. These are composition targets, not forced gameplay waits. No exact scene/track assignments or six-style full production set is selected.
 

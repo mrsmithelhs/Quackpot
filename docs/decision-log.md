@@ -542,3 +542,9 @@ Owner assigns Plans44 and43 to separate Codex implementers. Plan44 integrates se
 **Date:** 2026-10-31
 
 Owner reopens Plan39 and assigns a new Codex implementer to finish the six reviewed renderer/export/provenance findings while preserving accepted M1–M6/C0 music. Root authorizes one Terra-medium pre-delivery review and scoped completion through delivery without repetitive proposal gates. This supersedes DECISION-052's optional Plan43 baseline-repair copy: Plan39 now owns in-place baseline repairs; Plan43 research can proceed independently, but executable reuse waits for a root-accepted pinned revision. No duplicate renderer repair writers, new musical expansion, production integration or push/deployment. Plan43 remains assigned in progress but owner reports it has not yet been dispatched.
+
+### DECISION-054 — Ren owner-selected investigation direction
+
+**Date:** 2026-10-31
+
+Root reconciles Plan41's direct owner selections S1–S58: neighbor/tinkerer, they/them; selected character/visual direction and complexion A; Evening visits and bounded once-per-opportunity recovery; hidden qualitative relationship states, reduced initiative, communicated-cancellation/forced-bedrest exemptions and repair plus honored-visit recovery. Working direction is B2 breaks, U3 consecutive unanswered expiries, last6 opportunities and visits at most every other Evening. Sales are neutral without prior shared context; couch game-night reconfirmation and limited gift/TV flavor are selected. No hidden flag/status word or flag-change line on player Receipt. Remaining exact opportunity/window/gap semantics and visit HP require a future bounded mechanism proposal on accepted Plan38 progression, not ad-hoc controller logic. Final art adoption, later poses and production integration are separate. Root delivery review does not itself close Plan41 or authorize new packets/production writes. Unreviewed latest vest/dust/floor concepts may be accepted or deferred separately.

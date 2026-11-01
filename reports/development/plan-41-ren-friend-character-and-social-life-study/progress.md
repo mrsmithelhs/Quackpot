@@ -1,5 +1,9 @@
 # Plan 41 — Ren friend character and social life study: progress
 
+## Current delivery summary (root-requested reconciliation, 2026-10-31)
+
+The S1–S58 ledger is authoritative and its numbered choices remain unchanged. Files 01, 03–06 and 09 now describe current owner-selected directions separately from unresolved mechanism details and unreviewed art. Plan29 and Plan37 remain closed investigations; Plan38 remains the accepted production base; any Ren lifecycle implementation needs a new bounded mechanism packet. Plan44 is the active production Receipt consumer. No render, test, build or new visual review was performed for this documentation reconciliation. Puffer vest v3, dust looks, and the floor game-night scene still await owner visual acceptance where noted.
+
 Date: 2026-10-31 (system clock). Lead/integrator: Claude Sonnet 5.5 in Claude Code. Packet readiness: `node scripts/dev/plan-status.js check 41` returned `RUNNABLE: plan-41 is ready to implement` (exit 0) before any edits. I did not edit packet status, resolution, the generated packet table, or any file outside `reports/development/plan-41-ren-friend-character-and-social-life-study/`.
 
 ## Overall summary
@@ -142,3 +146,9 @@ Three more Haiku helpers (slicker, bedhead, cardigan) wrote v2 files beside the 
 - **Viewed:** every contact sheet and page named above in the browser pane or as renders at desktop width, including the avatar-size sheet (96, 64 and 40 px face crops). **Not checked:** other complexions on the apartment scenes, hardware keyboard or screen-reader use of the storyboard (not an interactive game page), real avatar use in a game layout, the owner's reaction to the latest puffer vest (v3), sawdust, attic dust and floor scene.
 - **Still open (owner or later packets):** a bounded art packet (production SVGs, door and hallway view, shelf prop, side and turned poses); a bounded mechanism proposal (Plan 38 amendment with Plan 37 and Plan 29 values); the reviewer-requested check that Ren is not a dominant HP source (advisory); final selection of which outfits and hair looks ship (all current looks were kept, none declared final art).
 - **Public-repo note:** Gemini PNG concept sheets (about 14 MB) remain committed as report-local concept references, not game assets; no real people or private data in any image.
+
+## Addendum 9: root-requested status reconciliation (2026-10-31)
+
+- Reconciled current summaries in files 01, 03–06 and 09 to the unchanged S1–S58 owner-choice ledger; retained prior walkthrough/addenda as historical evidence.
+- Clarified that Plan29 and Plan37 are closed investigations, Plan38 is the accepted production base, Plan44 is the active Receipt consumer, and any Ren lifecycle implementation needs a new bounded mechanism proposal. S55–S58 remain selected working directions pending calibration; exact opportunity, expiry/reset/window, visit-gap and couch-reconfirmation mechanics remain unresolved implementation details.
+- Corrected selected apartment pose/framing, complexion, six-face scope, hidden-flag/Receipt boundary, and current visual acceptance limits. No new render, test, build or visual review was performed.

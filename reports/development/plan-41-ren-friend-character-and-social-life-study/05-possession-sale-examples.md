@@ -1,6 +1,6 @@
 # Possession-sale examples with and without a social consequence (draft 1)
 
-Everything here is **PROPOSED** unless marked. Owner direction in force: LEDGER-11 / DECISION-042 say a proactive sale should carry a social downside *only where a concrete shared context makes it meaningful*; do not automatically punish every sale, equate financial distress with being a bad friend, imply Ren owns the player's things, or invent shared history just to attach a penalty. Sale amounts, which items can be sold when, and the Receipt taxonomy are not decided here. Plan 37 requires material consequences to be disclosed **before** the commitment when action-time rules apply.
+The examples distinguish selected cases from illustrative implementation details. The owner-selected sale direction is that a social effect occurs only where a prior scene establishes a concrete shared context; do not automatically punish every sale, equate financial distress with being a bad friend, imply Ren owns the player's things, or invent shared history just to attach a penalty. Sale amounts, item availability and Receipt taxonomy remain outside this study. Plan37 requires material consequences to be disclosed **before** the commitment when action-time rules apply.
 
 ## Principle [PROPOSED]
 
@@ -13,15 +13,14 @@ A sale has a social effect only if **a prior, player-visible scene established t
 **The sale.** On Day 4 the player has Proactive Liquidation available [LEDGER-11] and picks **Sell the couch**.
 
 **Disclosure before the commit (neutral, not a lecture):**
-> "Selling the couch changes the seating plan for Ren's visit on Day 5 Evening. Ren can still come; the game night would be on the floor. [Sell] [Keep it] [Tell Ren first]"
+The selected direction includes a request to reconfirm Ren's plan after disclosure of the seating change (S19). This example does not specify the prompt's timing or branch behavior, and does not prescribe a forced choice.
 
 **What happens next, by player choice:**
-- **Sell, no message.** The sale completes; the apartment shows the couch removed. On Day 4 Evening Ren texts: "oh, the couch is gone? you ok? floor's fine, i'll bring the blanket." The Day 5 plan stays and the scene is the **floor version**. No flag change. No HP change. If the player honors the plan, the visit gives the normal `+h`.
-- **Sell, then tell Ren first.** Same result with a slightly different Ren line ("thanks for telling me, floor night it is"). No flag change.
+- The sale and seating change are disclosed; the selected request asks the player to reconfirm the existing plan. Exact UI timing and branches are implementation details for a later mechanism proposal. If the plan is honored, the visit uses the **floor version** and gives the normal `+h`; the sale itself changes no flag or HP.
 - **Keep it.** Nothing changes; the couch scene plays.
 - **Sell, then break the plan (no show, no "Tell Ren I can't").** One counted broken commitment, exactly as in Trace C. The sale is not the cause; the broken plan is.
 
-**Social downside, in plain words:** the hosting scene gets *rougher* (floor seating, Ren's reaction line), and Ren asks the player to confirm the plan again. This is the "additional downside beyond an empty room" LEDGER-11 asks for, kept to a concrete, recoverable cost. It does not depend on guessing why the player sold.
+**Social downside, in plain words:** the hosting scene gets *rougher* (floor seating and Ren's reaction line), and Ren asks the player to confirm the plan again. This is the "additional downside beyond an empty room" LEDGER-11 asks for, kept to a concrete, recoverable cost. It does not depend on guessing why the player sold.
 
 **What this does not do:**
 - It does not say Ren owns the couch or can veto the sale.
@@ -40,11 +39,11 @@ A sale has a social effect only if **a prior, player-visible scene established t
 
 **Why it matters:** the same action can be neutral or consequential depending only on whether a concrete shared context exists. That keeps sales from being automatically punished and keeps Ren from becoming a moral monitor of the player's finances.
 
-## Example 3 (optional) — Item that carries Ren's gift [OPEN]
+## Example 3 — Item that carries Ren's gift [OWNER-SELECTED]
 
 Ren builds a small shelf for the player after a shelf-carry visit (I3). Later the player sells it. Ren is not an owner; it was a **gift**. Ren's reaction can be nuanced: "money's money, i'm glad it went to rent" (if sold during the rent crunch) or a quiet "oh" (if sold sooner), chosen from **facts about the sale** (was it in the escalation ladder or proactive?) and never from a guess about motive. No flag change; at most a single story line. Only worth building if the owner wants gifts to carry emotional weight; otherwise skip.
 
-## Open choices (owner)
+## Historical owner questions (closed by ledger)
 
 1. Approve the principle: a social consequence only where a prior scene established a concrete shared context.
 2. Approve Example 1 as the single consequential case (hosting/seating), or choose a different shared context.
@@ -54,3 +53,5 @@ Ren builds a small shelf for the player after a shelf-carry visit (I3). Later th
 ## Status after owner review (2026-10-31)
 
 Owner approved the principle (a social effect only where a prior scene established a concrete shared context), Example 1 as the single consequential case, the gifted-item reaction (Example 3) and the neutral "tv's gone" line (ledger S18 to S21). The floor game-night scene for Example 1 is drawn: `concepts/apartment-scenes/scenes/ren-floor-game-night.svg` (S52 to S54).
+
+The couch-sale reconfirm request remains selected (S19). Its exact timing and branch behavior are future mechanism details; this report does not choose a forced choice or invent when confirmation occurs.

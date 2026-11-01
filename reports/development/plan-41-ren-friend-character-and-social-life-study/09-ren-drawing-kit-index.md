@@ -33,7 +33,7 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 ## Hair and headgear
 | Part | File | Status |
 |---|---|---|
-| Paint flecks, plaster dust | `hair/hair-paint-flecks/`, `hair/hair-plaster-dust/` | LEAD-PICK (plaster is heavy) |
+| Paint flecks, plaster dust | `hair/hair-paint-flecks/`, `hair/hair-plaster-dust/` | OWNER-KEPT (S42); scene-only (S44) |
 | Towel turban, damp hair with neck towel | `hair/hair-towel-turban/`, `hair/hair-towel-neck-damp/` | OWNER-KEPT (S42) |
 | Shower cap, headband | `hair/hair-shower-cap/`, `hair/hair-headband/` | OWNER-KEPT (S42) |
 | Baseball cap, beanie | `hair/hair-baseball-cap/`, `hair/hair-beanie/` | OWNER-KEPT (S42) |
@@ -49,8 +49,8 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 | Door scene v2: wall and doorway fill the frame, no table or floor, Ren cropped at the chest holding a box of bulbs; no forearm tattoo | `concepts/door-scene-v2.svg` | direction OWNER-SELECTED (S28, S29); drawing UNREVIEWED as final |
 | Round 2 expressions and door scene (old neck tattoo, old pencil, console table) | `concepts/round-02-refinement.html` | superseded; kept as history |
 
-## Not yet true of any part
-Checked at avatar size; checked in other complexions (three proposed, none selected); placed into the apartment scenes (those use older drawings).
+## Review and production boundary
+Complexion A (mid-warm) is selected (S46). Avatar checks were led at 40/64/96 px; this is concept evidence, not verification of an actual production avatar in the game. Other complexions are not needed for the selected direction. The apartment-scene studies use the selected complexion, while production use remains separate. Paint flecks and plaster dust were kept (S42); their visual acceptance remains open alongside sawdust, attic dust and the floor-scene review, as recorded in progress.md.
 
 **Outfit rotation (S38) and pocket pencil (S39):** outfits rotate cosmetically from a seeded fork with no new state; the pocket pencil appears on overalls looks sometimes, the ear is the default.
 

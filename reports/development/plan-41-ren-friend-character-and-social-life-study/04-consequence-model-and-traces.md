@@ -1,20 +1,20 @@
 # Ren — consequence model and symbolic traces (draft 1)
 
-Labels as in `03-interaction-menu.md`. **Owner-selected shape (S7, S8):** a visit is a bounded, once-per-opportunity restore and Ren has their own load/availability; relationship is tracked by **small qualitative flags with no number**. **Everything below that fills in thresholds, names of transitions and numbers of strikes is PROPOSED and unselected.** The rule that Ren's initiative changes with the flag state alters which invitations the player sees, so it is surfaced here for explicit owner approval before any adoption (packet requirement).
+Labels as in `03-interaction-menu.md`. **Owner-selected direction (S7, S8, S13–S15, S32–S34, S55–S58):** a visit is a bounded restore; Ren has their own load; qualitative relationship states affect Ren's initiative; the named states and strained floor stand; only broken commitments and expired unanswered invitations count; communicating "Tell Ren I can't" and forced bedrest do not count; recovery is one repair scene and one honored visit. Flags are never displayed by label or status word to the player or on the Receipt (S32). The thresholds below are selected working directions pending calibration, while exact opportunity mechanics remain unresolved implementation details.
 
-## 1. The model in one table [PROPOSED]
+## 1. The selected direction in one table
 
-| Flag (name is proposed) | What it means in the fiction | What Ren does | Entered by | Left by |
+| Internal flag (owner-selected name) | What it means in the fiction | What Ren does | Entered by | Left by |
 |---|---|---|---|---|
-| **connected** (default) | normal neighbors-who-are-friends | offers invitations at Ren's usual pace; replies warmly | starting state; completing a visit while drifting or reconnecting | a counted event (below) |
-| **drifting** | it has been a while and Ren has noticed | offers less often (every other usual opportunity); tone is lighter, e.g. "been a minute"; no guilt lines | `B` broken commitments (no-show without telling Ren) **or** `U` consecutive invitations that **expired unanswered** | one completed visit, or one accepted invitation honored |
+| **connected** (default) | normal neighbors-who-are-friends | offers invitations at Ren's usual pace; replies warmly | starting state; completing a visit while drifting or reconnecting | selected counted-event thresholds below |
+| **drifting** | it has been a while and Ren has noticed | offers less often; tone is lighter, e.g. "been a minute"; no guilt lines | `B = 2` broken commitments (no-show without telling Ren) **or** `U = 3` consecutive invitations that **expired unanswered**, within the last 6 opportunities | one completed visit, or one accepted invitation honored |
 | **strained** | Ren was let down more than once | stops initiating; leaves one plain door-open message; Ren still answers if the player writes first | a further broken commitment while drifting | the player takes the repair scene (I6) |
-| **reconnecting** | repaired, easing back | offers return gradually (every other opportunity, then normal) | completing the repair scene | after one more honored visit → connected |
+| **reconnecting** | repaired, easing back | offers return gradually; exact pacing is unresolved | completing the repair scene | after one more honored visit → connected |
 
 - **Floor:** the relationship never ends. The worst state is strained, and recovery is always one repair scene away. No ending, termination or hidden permanent loss is proposed.
-- **Counted events only:** (a) a *broken commitment* = accepted a specific Evening, then took a conflicting anchor or let the Evening pass **without** choosing "Tell Ren I can't"; (b) an invitation *expired unanswered* = never replied to by the time its named Evening passed (measured in game phases, **never real time**, and reading it does not count as a reply or a penalty).
-- **Not counted:** not reading, declining, one reschedule, "Tell Ren I can't", a single decline of any kind, or reading speed/accessibility.
-- **Symbolic parameters:** `B` (broken commitments to drift) ≈ "2" and `U` (expired unanswered to drift) ≈ "3" are *illustrative values only* [OPEN, Plan 29/owner]. Window = the last N Ren opportunities [OPEN].
+- **Counted events only:** (a) a *broken commitment* = accepted a specific Evening, then took a conflicting anchor or let the Evening pass **without** choosing "Tell Ren I can't"; (b) an invitation *expired unanswered* = never replied before expiry (measured in game phases, **never real time**, and reading it does not count as a reply or a penalty). The owner selected B=2, U=3 consecutive, and a last-six-opportunity memory window (S55–S57). Exact opportunity definition, expiry point, consecutive-run reset, and window aging are unresolved implementation details.
+- **Not counted merely on occurrence:** not reading (a later unanswered expiry is distinct), declining, one reschedule, "Tell Ren I can't", a single decline of any kind, or reading speed/accessibility.
+- **Selected working directions pending calibration:** `B=2`, `U=3` expired unanswered invitations in a row, last 6 Ren opportunities; visits at most every other Evening (S55–S58). These are selected directions, not open forks, but do not supply the missing opportunity/expiry algorithm.
 - **What the flag does to HP:** nothing directly. HP changes only when a visit is completed (`+h`). The flag changes how often the player sees invitations.
 
 ### Why this satisfies the constraints
@@ -32,7 +32,7 @@ An exploit would need to complete many accepted visits cheaply. These stops exis
 4. **Once per opportunity**: each invitation is one `+h`; accepting twice does not restore twice.
 5. **Meals remain separate**: skipping meals costs −5 HP each [PLAN37]; a visit does not replace dinner.
 6. **Opportunity cost**: each visit Evening is an Evening without Call Mom, gacha or overtime.
-Open risk: if `h` is tuned large relative to meal/skip costs, a visit-every-available-Evening loop becomes a dominant HP strategy. That is a **Plan 29 calibration question**, not a Plan 41 rule; listed in the integration proposal.
+Calibration risk to check if values are later tuned: if `h` is large relative to meal/skip costs, a visit-every-available-Evening strategy could become a dominant HP source. This check is advisory (S25); Plan29 is closed, and any needed calibration follow-up is separate.
 
 ## 3. Symbolic traces
 
@@ -75,7 +75,7 @@ Result: a visible, recoverable arc from a **pattern** of broken agreements, neve
 Day 4 Evening: accepted → player picks Gacha → conflict dialog → **"Tell Ren I can't"** → Ren: "np, thursday?" → Gacha session proceeds. Flag unchanged, no counted event, no HP change. Shows a boundary being communicated rather than a break.
 
 ### Trace E — Early Uninstall mid-arc
-Any step: Uninstall stays in the canopy; Ren's pending invitation is a factual item on the Receipt: *displayed* "Ren: shelf carry thurs?" / *you did* nothing recorded. No inference of motive; question: "What made you leave? What did the game show you right before?"
+Any step: Uninstall stays in the canopy; if included in the Receipt, record only factual displayed text, actions and consequences. Never show a relationship flag label/status word there (S32). No inference of motive; question: "What made you leave? What did the game show you right before?"
 
 ### Trace F — Zero cash and HP interplay (does not distort Ren)
 Day 5 morning: HP low from skipped meals; Evening: player accepts a visit; completes → `HP += h`. HP rises, but cash and meals are untouched. Ren is not a substitute for dinner; if HP is low enough that Plan 37's critical bedrest triggers (HP ≤ 0), the phase becomes bedrest and any accepted Ren Evening is a **forfeited anchor**, treated like an illness case: Ren is shown receiving the cancellation automatically, **not** recorded as a broken commitment (the player did not choose a conflicting action) [PROPOSED]. Ren's message is neutral ("rest up, rain check").
@@ -86,14 +86,10 @@ Day 5 morning: HP low from skipped meals; Evening: player accepts a visit; compl
 - Reload mid-scene resumes at the same line; scene variants selected cosmetically use a separate seeded fork, never the draw/race/event streams.
 - Expiration counts are computed from phase transitions, never from timers.
 
-## 5. Open choices (owner)
+## 5. Historical owner questions (closed by ledger)
 
-1. Approve that a *drifting/strained* flag reduces how often Ren initiates (an eligibility change), as proposed.
-2. Approve the counted events (broken commitment, expired unanswered) and the exemption for "Tell Ren I can't" and for forced bedrest.
-3. Are the flag names right, or should the tone be different ("busy", "distant")? Names are display copy only.
-4. Does the Receipt show the flag by name, or only the facts that led to it?
+S13–S15 and S32–S35 answer these questions: initiative direction, counted event types, named states/floor, exemptions, recovery, and no flag labels/status words for player or Receipt are selected. Those questions are retained above as historical context; they are not open.
 
 ## Status after owner review (2026-10-31)
 
-Adopted as owner direction (ledger S13 to S15, S32 to S35, S55 to S58): drifting or strained reduces Ren's initiative; broken commitments and expired unanswered invitations are the counted events; the flag names and the floor at strained stand; the "Tell Ren I can't" and forced-bedrest exemption stands; the flag is **never shown to the player** (Ren's pace and tone only); recovery is one repair scene plus one honored visit.
-Direction on the illustrative numbers: `B` = 2 broken commitments, `U` = 3 invitations expired unanswered in a row, a memory window of the last 6 Ren opportunities, and Ren visits at most every other Evening (`g_R`). These are owner direction only; Plan 29 owns calibration, and the visit-every-Evening exploit check stays advisory (S25). Nothing here is implemented.
+Owner-selected direction (ledger S13–S15, S32–S35, S55–S58): drifting or strained reduces Ren's initiative; broken commitments and expired unanswered invitations count; the flag names and strained floor stand; "Tell Ren I can't" and forced bedrest are exempt; the flag is **never shown to the player or Receipt**; recovery is one repair scene plus one honored visit. Selected working directions pending calibration: B=2, U=3 consecutive expiries, last 6 opportunities, and visits at most every other Evening. Plan29 and Plan37 are closed investigations; any needed calibration follow-up is separate and does not automatically reopen them. The visit-every-available-Evening exploit check remains advisory (S25). Nothing here is implemented.

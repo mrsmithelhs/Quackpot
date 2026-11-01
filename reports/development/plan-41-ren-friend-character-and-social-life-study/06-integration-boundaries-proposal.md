@@ -7,33 +7,34 @@
 | Delivered here (report-local) | Not delivered / separately gated |
 |---|---|
 | Character brief, voice, owner-vs-proposal ledger | Final model sheet or final art |
-| Direction A concept studies (round 1 and 2), five expressions, door/hallway composition, phone avatar mock | Production SVG assets (separate Sonnet SVG packet; `AGENTS.md` SVG routing) |
+| Direction A concept studies, six faces including listening, door/hallway composition, phone avatar mock | Production SVG assets (separate bounded art work) |
 | Interaction menu, consequence model, six symbolic traces, possession-sale examples | Any rule adoption, numeric tuning, new event/save fields, new endings |
 | A report-local storyboard with synthetic states | Anything that reads or writes game state |
 | Research provenance (visual + mechanics); report-local Gemini concept sheets and SVG concept drawings (outfits, hair, headgear, pencil placements, apartment compositions; provenance in `07-...` and `concepts/gemini-round-01/manifest.md`) | Any of that as final game art; production image generation |
 
 ## 2. Dependencies on other plans (not resolved here)
 
-- **Plan 37 / Plan 38 amendment:** phase, anchor, maintenance, "Tell/communicate" conflict confirmation, once-only transaction IDs, bedrest ordering and the Day 1 evening unlock. Ren's Evening anchor, gap counter and invitation expiry (by phase transition) must be modeled in the same resolver, not a private clock.
-- **Plan 29:** `h` (visit restore), `H_leisure` (Call Mom), `g_R` (Ren gap), `B`/`U` (strain thresholds), meal skip −5 (selected). A visit-every-available-Evening strategy must be added to Plan 29's strategy set to check that Ren is not a dominant HP source.
-- **Plan 40:** ordinary work/evening presentation. Plan 41's door scene and "Call Mom" are not coordinated copy; the first-evening candidate stays Plan 40/37's.
+- **Plan 37 (closed):** selected phase/action semantics. A future mechanism proposal must define Ren opportunity/expiry semantics, consecutive reset, last-six-window aging, visit gap, and the selected couch-sale reconfirm request's timing/branch; do not assume the algorithm from the example traces.
+- **Plan 29 (closed):** completed-shift baseline is $60 take-home; other economy values remain provisional. S55–S58 are selected working directions pending calibration. If calibration is needed, open a new bounded follow-up; do not claim Plan29 is reopened or that it owns pending execution.
+- **Plan 38 (closed, owner-accepted):** established production base. Ren lifecycle work requires a new bounded mechanism packet, not an automatic amendment.
+- **Plan 40:** assigned to Gemini Flash for ordinary work/evening presentation. Plan41's door scene and "Call Mom" are not coordinated copy.
 - **Plan 36:** perceptual spillover. Ren's messages are never restyled as offers or events in this study.
-- **Plan 27:** Receipt Layout A. Ren facts need rows in the displayed/you-did/consequence registers (see 03/04).
+- **Plan 44:** active production Receipt consumer. Plan27's selected hierarchy/layout is historical context. Never emit a relationship flag label/status word to player or Receipt; only factual displayed text, actions and consequences may be represented.
 
 ## 3. Exact needs a future integration packet would have to answer
 
 **Assets (SVG, authored in a later bounded task; the round 2 SVG is concept only):**
-- Ren bust (message avatar) with the five expression faces (`warm`, `laugh`, `tease`, `not-tonight`, `long-day`), one selected complexion.
+- Ren bust (message avatar) with six expression faces (`warm`, `laugh`, `tease`, `not-tonight`, `long-day`, `listening`) and selected mid-warm complexion A (S27, S46).
 - Ren half-body for the door view with forearm/tattoo placement, holding-box variant.
 - A door/hallway view in the apartment kit's language (no such view exists in `src/assets/apartment/`; the kit has `living`/`kitchen`/`bedroom`).
-- Optional: couch-removed floor-seating variant for Example 1 (the kit already has `couch: removed`).
+- The couch-removed floor-seating variant for Example 1 exists as a report-local study (S52–S54); production asset remains separate.
 
 **Modules/state (names are suggestions, not contracts):**
 - A tiny invitation/relationship ledger: `{invitationId, kind, phaseOffered, state, rescheduleCount}` plus `renGap` and `relationshipFlag`, saved with the existing envelope and versioned.
 - A pure resolver extension (not new `main.js` logic) that evaluates availability, expiry-by-phase and flag changes, with `h` applied by a once-only transaction.
 - A phone message view and a door view, reusing the Plan 28/38 message and conflict-confirmation grammar.
 
-**Events (for the Receipt, **proposed taxonomy only**):** `ren_invitation_shown`, `ren_invitation_reply`, `ren_visit_completed`, `ren_plan_cancelled_with_notice`, `ren_plan_broken`, `ren_flag_changed`. All three registers must stay separate (displayed / you did / automatic consequence). No event may infer feelings, loneliness, addiction, intent or influence.
+**Events (if separately adopted for integration; not a selected taxonomy):** candidate facts may cover an invitation shown/replied to, a visit completed, a plan cancelled with notice, or a plan broken. Do not create a Receipt event/field that exposes a relationship flag or status (S32). Keep displayed text, player actions and automatic consequences separate; infer no feelings, loneliness, addiction, intent or influence.
 
 **Save/reload:** exact once-only HP application; mid-scene resume; cosmetic scene variants from a separate seeded fork (never the draw/race/event streams); expiry computed from phase transitions only.
 
@@ -49,15 +50,12 @@
 
 ## 5. Suggested next owner decisions (in priority order)
 
-1. Approve or amend the interaction menu (03), especially Evening-only first wave and the optional ask-Ren feature (I4).
-2. Approve or amend the consequence model (04), including that *drifting/strained* reduces Ren's initiative.
-3. Choose complexion/blend. (Updated 2026-10-31: tattoo is arm-only, S9; pencil placements are all kept as options, S12.)
-4. Approve or change the possession-sale principle and Example 1 (05).
-5. If approved, request a bounded art packet and a bounded mechanism proposal (Plan 38 amendment) as separate steps.
+1. A future bounded mechanism proposal should resolve the implementation details listed above without reopening accepted Plan29/37 investigations by default.
+2. Production art is separate bounded work; selected complexion A and six-face scope stand, while puffer v3 and dust/floor visual acceptance remain open as recorded.
 
 ## 6. Owner answers recorded 2026-10-31 (see ledger S22 to S26)
 
-- First art packet scope is all three tiers: phone bust with five faces, half-body door view, and in-apartment Ren (needs a chair/armchair prop and refreshed scenes).
+- Selected art scope includes phone bust with six faces, half-body door view, and in-apartment close scenes. Ren sits on the couch or on the floor behind the coffee table; no chair/armchair (S49–S53). Side/turned poses are later work (S51).
 - Add a shelf prop and a gifted-shelf scene; add gift-reaction and sale-reaction events to the proposed (non-binding) event vocabulary.
-- The Plan 29 visit-every-Evening check is advisory, not blocking.
+- The visit-every-available-Evening exploit check is advisory (S25), not blocking.
 - Outdoor scenes, Ren's home, endings and a gift economy stay out of the first build.

@@ -1,7 +1,7 @@
 ---
 id: plan-41
 title: Ren friend character and social life study
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Owner opens Ren development on 2026-10-31, with reference research and report-local generated concepts authorized on assignment. Owner selects characterization, visuals and consequential rules before production."
 summary: >-

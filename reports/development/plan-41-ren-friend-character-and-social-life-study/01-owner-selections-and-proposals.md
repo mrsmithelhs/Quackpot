@@ -140,13 +140,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S57 | How long Ren remembers | **Window of the last 6 opportunities** | Older breaks and expiries stop counting; N=6 is the owner's direction. |
 | S58 | Ren visit frequency (`g_R`) | **At most every other Evening** | Direction for Plan 29; a visit-every-available-Evening strategy check stays advisory (S25). |
 
-## C. Still PROPOSED / OPEN
+## C. Current status after owner review
 
-Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.
+The numbered selections S1–S58 above are the authoritative owner-choice ledger and are preserved verbatim. The earlier blanket statement that every interaction, consequence and visual detail remains open is stale: the owner selected or kept the directions recorded in S13–S58. Remaining work is limited to explicitly unreviewed concept art and mechanism details needed for implementation; see the current status notes in the scoped reports and `progress.md`.
 
 ## D. Coordination boundaries (re-stated, not decided here)
 
 - Plan37 (accepted, closed) owns phase/action semantics: three named phases plus optional Late Night, one primary anchor per phase plus routine maintenance, mutually exclusive evening anchors, free phone/reading/inspection time. Plan41 uses these labels only; it invents no private clocks.
-- Plan29 (closed with $60/shift baseline) owns numeric calibration. Every HP/cash figure in Plan41 is symbolic (`+h`, `−h`) until selected.
-- Plan40 (unassigned) owns ordinary work/evening presentation. Plan41 does not duplicate its interview and treats Call Mom as a neutral evening option that exists separately from Ren.
+- Plan29 (closed with $60/shift baseline) owns numeric calibration. The S55–S58 values are selected working directions pending calibration; remaining numeric implementation choices are not a mandatory reopening of Plan29.
+- Plan40 is assigned to Gemini Flash and owns ordinary work/evening presentation. Plan41 does not duplicate its interview and treats Call Mom as a neutral evening option that exists separately from Ren.
+- Plan38 is closed and owner-accepted as the production base. Ren-specific lifecycle integration would require a new bounded mechanism packet; it is not an automatic Plan38 amendment.
+- Plan44 is the active production Receipt consumer; Plan27's Receipt layout is historical context. Relationship flags are never player- or Receipt-labeled (S32); Receipt records, if integrated, must stick to factual displayed text, actions and consequences.
 - Plan36 owns later perceptual spillover. Ren's messages are never restyled as offers in this study.

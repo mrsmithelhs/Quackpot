@@ -15,3 +15,9 @@ Flash remains held until executable/media/model/confinement independentlyverifie
 ## Capture-limit hold
 
 Lead identified original65536-character streamcapture truncates image-bearingJSON before result. Historicalcalls are held while report-local equivalent launcher is reviewed: finite2MiBcharacters perstream, explicitretained/drainedcounts/truncationfailure, allpriorresource/processlimits unchanged. SharedPlan25launcher remains frozen. Rootmust reviewdiff and syntheticcap/drain checks before resuming5casebatch. No inference spent on this issue.
+
+## Capture variant accepted; five Haiku calls released
+
+Root inspected report-local variant diff against frozen original6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85, finite syntheticchild source and capture-review.md results. Observedreported counts match constructed payload lengths:70031/70007 completewithtails+JSON,2100008stdoutdrained/2097152retainedexplicittruncation with9stderrcharacters, and childexit7distinct from capturefailure. Root did not independentlyrerun these threechecks. Variantpreserves resource/ownedprocesscleanup logic, propagates drainerrors via existingTask.WaitAll, and failsafter emittingboundedresultJSON on truncation. This meets this pilot's reviewedcompletecapture objective; no generalharnessguarantee.
+
+Historical fiveHaiku single-imagecalls may resume using tooling/bounded-media-review-run.ps1 only. SharedPlan25launcher remainsunchanged; report capunits accurately and retaincompletelocalreceipts/compact sanitizedderivatives. All prior fivecase/model/input/isolation/stop gates remain. Overflow/timeout/auth/toolscope drift stops remainingcalls, no implicitlargerlimits/retries. No extra models/conditions/audio. Lead commits testedtooling/evidence explicitly andprogresslast, then rootreviews historicalfindings before ownerhandback. Flashstillheld pendingauthorizedCLIpath and independentmedia/confinementcheck.

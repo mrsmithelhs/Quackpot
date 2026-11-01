@@ -1,0 +1,322 @@
+{
+  "schema": "plan50-curator-cases-v1",
+  "curator": "claude-keys-plan47",
+  "heldBack": true,
+  "date": "2026-11-01",
+  "artifacts": {
+    "images": [
+      {
+        "path": "images/owner-red-annotated-screenshot-of-v3.png",
+        "sha256": "37965764586177235aeef55193d837222915ddfc26e9c796348edde9ca2bbc98"
+      },
+      {
+        "path": "images/production-after-swap-scene.jpg",
+        "sha256": "3ecb0f321744adec5dcc9cd2805d633fc5b6362875a19f865516889b4f4517fe"
+      },
+      {
+        "path": "images/scene-desktop-16pct-3x-magnified.jpg",
+        "sha256": "0dd7ef2cb03373f69c8f0f8ee24c45fe2403ba616dc34c5072c6c56978434f53"
+      },
+      {
+        "path": "images/scene-desktop-proposed-12.5pct-3x-magnified.jpg",
+        "sha256": "dac774543b53e5b292fff7746fa5717064b759a92f7beb04cbe8062f2e50b91c"
+      },
+      {
+        "path": "images/scene-desktop-same-box-0.56x-downsampled.jpg",
+        "sha256": "6b517d17482f6daa8b1d56a41cde202f1f19f6c2052aa32bfee4eb9f20046e46"
+      },
+      {
+        "path": "images/scene-desktop-tightened-viewbox-3x-magnified.jpg",
+        "sha256": "fa52b145d7d48b0ea92c280cfe8ce125b24f08f5dac7285c1ac15d0e3b0a0574"
+      },
+      {
+        "path": "images/scene-narrow-390-native.jpg",
+        "sha256": "d990b56cf4a88289f02e33595ca9723b4cf30f009785a91534df3ebfdad56f5d"
+      },
+      {
+        "path": "images/v1-closeup-5x.jpg",
+        "sha256": "4235e1596957e3a640afe5196d220c153026f492981d9e18efe9ee9c5ddbf716"
+      },
+      {
+        "path": "images/v1b-uncommitted-ring-small-hole-closed-closeup.jpg",
+        "sha256": "962dbd1361507b0f48794682abd0491b48e68531e8c2e47ea8f35e0eb3c864d6"
+      },
+      {
+        "path": "images/v2-ring-through-hole-closeup.jpg",
+        "sha256": "ef634420953bce3afc8704b88d61875d71b54e309b7d9af461df63164bd75eae"
+      },
+      {
+        "path": "images/v3-fob-front-ring-behind-closeup.jpg",
+        "sha256": "7606120bff3d5cf125f3c0fca9b3efcf4ed83ea32bd2ed23242ecffe718110b8"
+      },
+      {
+        "path": "images/v4-small-ring-arc-closeup.jpg",
+        "sha256": "4c3e31c33b10500763000aafd42a586d9531e9afac13aa5f40438977eb230855"
+      },
+      {
+        "path": "images/v4a-uncommitted-ring-arc-large-closeup.jpg",
+        "sha256": "c8cf8c7a504fee93985ca61ec996f8887e03f3e94f6b7e9bd285c4a7db8a39e7"
+      }
+    ],
+    "svgSourceRenders": [
+      {
+        "path": "svg-source-renders/v1.svg",
+        "sha256": "705f09d9d1e12b32497d56e225fe1f150e98820e6b0834cd3119068625b16f6d"
+      },
+      {
+        "path": "svg-source-renders/v2.svg",
+        "sha256": "083044fc78cf86118075c099846fe351960c5eb2803446c2ca6e7712673fe466"
+      },
+      {
+        "path": "svg-source-renders/v3.svg",
+        "sha256": "d4e75e84d2d8cf926777ad9cc54c5fcbd6ed26210746ab81f27bcbf79ee3c5d3"
+      },
+      {
+        "path": "svg-source-renders/v4.svg",
+        "sha256": "2cffdb0d4f772ec45dd3e7442cf151a38e7b8abef3b90b5059a779c51c9cf3b1"
+      },
+      {
+        "path": "svg-source-renders/v5.svg",
+        "sha256": "0fe9188218326bfc4368a62dee2af8cf97baedc8fb816da1cae248d3779ad023"
+      }
+    ],
+    "sourceFile": "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-sonnet-study/keys-study.mjs",
+    "versions": [
+      {
+        "id": "codex-candidate",
+        "commit": "4006cf5",
+        "kind": "SVG source plus original repo PNGs (not copied)",
+        "paths": [
+          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate.mjs",
+          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-desktop.png",
+          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-narrow.png",
+          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-desktop.png",
+          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-narrow.png"
+        ]
+      },
+      {
+        "id": "v1",
+        "commit": "64f5f2c",
+        "blob": "f144e525761ca0a937e9ba1157c2821fa79cb852",
+        "images": [
+          "images/v1-closeup-5x.jpg"
+        ],
+        "svg": "svg-source-renders/v1.svg"
+      },
+      {
+        "id": "v1b",
+        "commit": null,
+        "note": "uncommitted intermediate, image only",
+        "images": [
+          "images/v1b-uncommitted-ring-small-hole-closed-closeup.jpg"
+        ]
+      },
+      {
+        "id": "v2",
+        "commit": "b594cca",
+        "blob": "05152e56f3e0c8c18a920dd3613936c0900e5d46",
+        "images": [
+          "images/v2-ring-through-hole-closeup.jpg"
+        ],
+        "svg": "svg-source-renders/v2.svg"
+      },
+      {
+        "id": "v3",
+        "commit": "6ecb4f2",
+        "blob": "56c4cc26985b6e85928540f0f0677e02f3820a3c",
+        "images": [
+          "images/v3-fob-front-ring-behind-closeup.jpg",
+          "images/owner-red-annotated-screenshot-of-v3.png"
+        ],
+        "svg": "svg-source-renders/v3.svg"
+      },
+      {
+        "id": "v4a",
+        "commit": null,
+        "note": "uncommitted intermediate, image only",
+        "images": [
+          "images/v4a-uncommitted-ring-arc-large-closeup.jpg"
+        ]
+      },
+      {
+        "id": "v4",
+        "commit": "7711ae6",
+        "blob": "a0a1adf208bab61fb97b2fae96d154bda778deab",
+        "images": [
+          "images/v4-small-ring-arc-closeup.jpg"
+        ],
+        "svg": "svg-source-renders/v4.svg"
+      },
+      {
+        "id": "v5-accepted",
+        "commit": "2b26222",
+        "blob": "19230c97aee21d636eb03ebb4dad0657fd5916b7",
+        "svg": "svg-source-renders/v5.svg"
+      },
+      {
+        "id": "production",
+        "commit": "1c72d80",
+        "blobs": {
+          "src/ui/life/life-art.mjs": "b3172d96b8ba1d0cc2fa81f9380d8cedda6190c8",
+          "src/ui/life/life-view.js": "f7077d81affe3d42266e32b1ac6253645af67911"
+        },
+        "images": [
+          "images/production-after-swap-scene.jpg"
+        ]
+      }
+    ]
+  },
+  "sharedContext": {
+    "summary": "Replace visually strange production work keys with a recognisable keyring on the desk; Codex candidate had identity but was tiny/hard to recognise at actual size (brief M0, relayed, not owner verbatim).",
+    "missingContext": [
+      "owner low-angle photos and perspective drawing in QP Orch not available",
+      "M1 reference images are third-party stock photos/pen sketch, not copied",
+      "unknown how owner viewed each version"
+    ]
+  },
+  "ownerMessages": [
+    {
+      "id": "M1",
+      "locator": "user message mid-turn after the handoff brief",
+      "verbatim": "Some additional reference images I got by searching, that may help: they didn't produce good Codex results but you are better at drawing.",
+      "kind": "reference supplied"
+    },
+    {
+      "id": "M2",
+      "after": "v1",
+      "verbatim": "Make the ring smaller and place it through the keyholes, or arrange the keys so the keyholes are hidden."
+    },
+    {
+      "id": "M3",
+      "after": "v2",
+      "verbatim": "Smaller is good, but the ring still reads wrong.  Place the box-shaped object in front of the holes in the keys and the ring behind all of them, so that it is plausible that the ring goes through the holes in the keys without having to figure out how to draw that."
+    },
+    {
+      "id": "M4",
+      "after": "v3",
+      "verbatim": "Improvement, still not there.  How about we move the ring to just a small portion visible, as in the attached (rough) red area of the screenshot?",
+      "attachment": "images/owner-red-annotated-screenshot-of-v3.png"
+    },
+    {
+      "id": "M5",
+      "after": "v4",
+      "verbatim": "Much better.  Test the scene composition using localhost:5173, that's open and no other agents are working."
+    },
+    {
+      "id": "M6",
+      "after": "v5-accepted (art and proposed placement, limits disclosed)",
+      "verbatim": "Accept for swap"
+    }
+  ],
+  "cases": [
+    {
+      "id": "KEYS-A",
+      "topic": "ring size and attachment",
+      "versions": [
+        "v1",
+        "v1b",
+        "v2",
+        "v3",
+        "v4a",
+        "v4"
+      ],
+      "feedback": [
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "classification": [
+        "aesthetic preference / visible defect (ring scale, doubtful hole connection)",
+        "new requirement introduced later (occlusion composition; small visible arc location)"
+      ],
+      "ownerOutcome": "accepted smaller ring; rejected v2 attachment; M4 requested small arc; M5 approved direction",
+      "reviewerCouldKnow": "oversized ring and doubtful hole connection are visible; preferred occlusion remedy and arc position are not derivable",
+      "limitations": [
+        "v1b and v4a image only",
+        "how owner viewed versions unknown"
+      ]
+    },
+    {
+      "id": "KEYS-B",
+      "topic": "scale and readability: close-up vs actual desktop/narrow",
+      "versions": [
+        "v4",
+        "v5-accepted",
+        "production"
+      ],
+      "closeUpEvidence": [
+        "images/v1-closeup-5x.jpg",
+        "images/v2-ring-through-hole-closeup.jpg",
+        "images/v3-fob-front-ring-behind-closeup.jpg",
+        "images/v4-small-ring-arc-closeup.jpg"
+      ],
+      "sceneEvidence": {
+        "desktop": [
+          "images/scene-desktop-same-box-0.56x-downsampled.jpg",
+          "images/scene-desktop-proposed-12.5pct-3x-magnified.jpg",
+          "images/scene-desktop-16pct-3x-magnified.jpg",
+          "images/scene-desktop-tightened-viewbox-3x-magnified.jpg",
+          "images/production-after-swap-scene.jpg"
+        ],
+        "narrow": [
+          "images/scene-narrow-390-native.jpg"
+        ]
+      },
+      "findings": {
+        "desktop": "about 92x39 px; readable at 3x magnification; downsampled captures",
+        "narrow": "about 46 px wide; ring arc and teeth not reliably distinguishable; Work keys chip overlaps; disclosed before acceptance"
+      },
+      "feedback": [],
+      "classification": [
+        "visible defect (legibility) per brief; no explicit owner feedback on scale/position"
+      ],
+      "ownerOutcome": "unknown on scale specifically; M6 accepted art and placement",
+      "notVerified": [
+        "real play-through",
+        "hold popover placement",
+        "other viewports",
+        "keyboard focus ring appearance",
+        "full-resolution captures"
+      ]
+    },
+    {
+      "id": "KEYS-C",
+      "topic": "key shape and perspective",
+      "versions": [
+        "v1",
+        "v5-accepted"
+      ],
+      "feedback": [],
+      "classification": [
+        "no owner feedback; ambiguous"
+      ],
+      "ownerOutcome": "unknown whether deliberately accepted",
+      "candidNotes": [
+        "keys are the top-down shape squashed (scale 1,.62) with a thickness copy, only partly meeting \"not merely squash\"",
+        "chunky/double-outlined teeth seen by the curator, unchanged"
+      ]
+    },
+    {
+      "id": "KEYS-D",
+      "topic": "final acceptance control",
+      "versions": [
+        "v5-accepted",
+        "production"
+      ],
+      "feedback": [
+        "M6"
+      ],
+      "classification": [
+        "explicit acceptance with disclosed limits"
+      ],
+      "verification": {
+        "tests": "life-art.test.mjs + life-decisions.test.mjs 17/17 via Plan 25 bounded runner",
+        "dev": "work-keys is a focusable BUTTON, aria-label \"Keys: leave for scheduled work\""
+      },
+      "limitations": [
+        "not a play-through"
+      ]
+    }
+  ]
+}

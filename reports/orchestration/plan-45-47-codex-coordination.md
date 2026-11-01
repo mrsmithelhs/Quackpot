@@ -1,0 +1,17 @@
+# Codex45/47 supervision
+
+Owner2026-11-01 explicitly authorizes bidirectional supervision through completion. Root QP Orch is01a16bb0-8611-7243-8c10-562b96083d60, local. QP Impl45 is01a19765-80cf-7cc1-9460-c2e2a5702416; QP Impl47 is01a19765-3416-7c43-af60-2e752d79133f. Initial proposals were waiting rather than delivered implementations; root introduced itself, conveyed authorization and requested proactive milestones/blockers/delivery.
+
+45 source/API39832c3 is cleared in plan-45-source-api-clearance-01.md: pure existing asset extraction, minimal pinned composition seam/fidelity/occlusion, candidate floor crop and no mounting.47 proposal2cbe3a8/amendment4c56b0f is cleared in plan-47-mechanism-clearance-01.md after fresh read-only Terra-medium gate review and bounded Astra consultation. Each retains one owner-authorized post-implementation Terra-medium review; root gate review is a separate orchestrator check, not the implementer's repeated reviewer budget.
+
+## Resource turns and evidence
+
+45 received first finite isolated source/gallery browser turn;47 continued code/read-only preparation.45 reported three attempts: first wrapper result/handle lost (unverified, no artifacts); retained sandboxed retry exit1/14.3s/67.5MB with CDP unavailable; elevated retained attempt exit1/11.1s/329MB with full-page screenshot timeout after CDP connection. These are implementer-reported numbers, not new root executions. Root instructed no blind retries, owned-pattern inspection and truthful pending-render status.45 reports an elevated read-only process query found zero Chrome qp45 profile matches, zero Node witness-path matches and no qp45 temp directories. Empty wrapper cleanup notes alone were not accepted as proof. No unknown process terminated.
+
+Root inspected witness source: full-page captures and8s CDP timeout were present.45 subsequently changed only capture strategy to viewport, but did not rerun. Root requested scoped delivery with visual fidelity explicitly unverified, no further premium review and harness ownership released for later small-capture root pass. A successful screenshot/source test must still be inspected before owner-ready art recommendation. Root did not infer a broken Chrome installation from these failures.
+
+45 released;47 now holds next serial finite validation/browser turn subject to fresh preflight. It prepared exact tracked baseline4c56b0f in ignored node_modules/.cache/plan47-baseline-4c56b0f using git archive, without worktree/index mutation/install or running builds before the turn. Root requires exact baseline/current identity and actual routes, retained process handles, no shared service or owner-profile change, bounded commands and concise failure/release reporting. No full unrelated suite or retry loop.45 may finish source/docs/commit work while47 validates, but no heavy/browser overlap. Root later renders45 only after47 releases or explicit further coordination.
+
+## Current acceptance boundary
+
+Both implementations remain in-progress, not owner-ready or accepted by these clearances.47 must prove immutable old state/config/history and explicit versioned new work/activity behavior, pending-activity guards/interruption, once-only effects and actual unknown-save preservation. Root will view production touched/neighbor evidence.45 must show actual rendered original/extracted fidelity and candidate crop before visual recommendation. Preserve original reports and all other writers' changes; stage explicit scopes, progress last; no push/deployment.

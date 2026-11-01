@@ -77,6 +77,16 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S29 | Door scene framing | **Change: the upper half of the door and wall fills the whole frame; no console table or desk; do not show the door down to the floor** | Owner: the table was strange and Ren looked like they were floating. Ren is cropped by the frame edge, not by furniture. |
 | S30 | Message copy (bulb and shelf texts, three reply choices) | **Keep** | |
 
+### Round 4 art and storyboard review (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S31 | Round 4 door scene and listening face | **Door scene "much improved"; listening face "good"** | Positive review of `concepts/round-04-faces-and-door.html`; still not declared final art. |
+| S32 | Does the player ever see the relationship flag? | **In-world only** | Flag shows only through Ren's pace and tone ("been a minute", "door's open when you're ready"); no label, Receipt line or status word. |
+| S33 | Exemption: "Tell Ren I can't" and forced bedrest never count as a break | **Yes** | Closes the open note on S15. |
+| S34 | Recovery cost after strain | **As written** | One repair scene (I6), then one honored visit at reduced pace, returns to connected. |
+| S35 | Receipt register wording (displayed / you did / automatic consequence) | **Keep** | Plan 27 still owns the Receipt layout. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

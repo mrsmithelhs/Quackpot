@@ -50,6 +50,13 @@ function bars(x, y, widths, h, gap) {
 
 // ---------- props ----------
 
+// A shallow supported tray on the desk edge; no animated or remote elements.
+export function workKeysTray() {
+  return svgBox('0 0 120 58', `<ellipse cx="60" cy="48" rx="55" ry="7" fill="${SHADOW}"/><path d="M8 28 Q8 22 15 22 H105 Q112 22 112 28 L106 45 Q104 49 98 49 H22 Q16 49 14 45Z" fill="#735039" stroke="${INK}" stroke-width="3"/><path d="M15 28 Q60 34 105 28 L101 39 Q60 44 19 39Z" fill="#b98a61" stroke="#8c6143" stroke-width="2"/><g fill="none" stroke="#d7dde0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="45" cy="31" r="7"/><path d="M51 34 L76 38 M70 37 L69 42 M76 38 L75 42"/></g>`);
+}
+
+
+
 export function tapedNotice({ idPrefix, state = 'unread' } = {}) {
   const id = checkId(idPrefix);
   checkState(state, ['unread', 'paid', 'read'], 'tapedNotice');

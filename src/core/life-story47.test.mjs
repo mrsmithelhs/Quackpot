@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { GameEngine } from './game-engine.mjs';
+import { EventLog } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { validateSave, loadGame, saveGame, backupCorruptSave, resetInMemoryStore, setTemporaryPreservationMode, STORAGE_KEY, BACKUP_KEY } from './storage.mjs';
 import { initialLife } from './life-progression.mjs';
@@ -133,4 +134,86 @@ test('Receipt distinguishes displayed commute from unseen shift and records inte
   const lines=projectReceipt(e.log.entries).accounting.lines.map(item=>item.text).join('\n');
   assert.match(lines,/Displayed a commute scene/); assert.match(lines,/shift was unfinished/);
   assert.doesNotMatch(lines,/two work observations/); assert.doesNotMatch(lines,/received \$60/);
+});
+
+const tutorialAct=(e,intent)=>{const r=e.applyLifeIntent(intent);assert.equal(r.ok,true,JSON.stringify(r));return r;};
+const tutorialCreate=(tutorialShift=true)=>{const e=new GameEngine('tutorial-repair',{lifePolicy:true,tutorialShift});e.start();e.setupCompanion();return e;};
+function tutorialReplaceStarted(envelope, update) {
+  const log=new EventLog();
+  for(const entry of envelope.eventLog) {const payload=structuredClone(entry.payload);if(entry.type==='run_started')update(payload);log.append(entry.type,payload,entry.clock);}
+  return {...envelope,eventLog:log.entries};
+}
+function tutorialFinish(e) {
+  assert.equal(e.beginStoryWork('depart').ok,true); const id=e.state.life.work.id;
+  assert.equal(e.state.cash,80); assert.equal(e.log.entries.filter(x=>x.type==='income').length,0);
+  e.showLifeStory47(id,'commute');tutorialAct(e,{type:'work_story_step',id});e.showLifeStory47(id,'work');tutorialAct(e,{type:'complete_work',id});
+  assert.equal(e.state.cash,140);assert.equal(e.applyLifeIntent({type:'complete_work',id}).ok,false);tutorialAct(e,{type:'dismiss_story47',id});tutorialAct(e,{type:'advance'});
+}
+
+test('marked first day prevents all alternate phase and game commitments; departure pays only at completion', () => {
+  let e=tutorialCreate(); assert.equal(e.log.entries[0].payload.tutorialShiftVersion,1);
+  tutorialAct(e,{type:'meal',choice:'skip'});assert.equal(e.state.health,95);
+  for(const intent of [{type:'advance'},{type:'extend_session',confirmed:true},{type:'phone_commit',kind:'pull'},{type:'late_night'},{type:'finish_recovery'}]) {
+    const before=e.log.head;assert.equal(e.applyLifeIntent(intent).reason,'tutorial_shift_required');assert.equal(e.log.head,before);
+  }
+  assert.ok(e.showLifeInvitation());assert.equal(e.replyLifeInvitation(),true);
+  assert.equal(validateSave(e.toEnvelope()).valid,true); e=GameEngine.fromEnvelope(e.toEnvelope());
+  assert.equal(e.tutorialShiftVersion,1);assert.equal(e.applyLifeIntent({type:'advance'}).reason,'tutorial_shift_required');
+  tutorialFinish(e); assert.equal(e.state.life.phase,'evening');assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+test('immediate uninstall remains available before tutorial completion', () => {
+  const e=tutorialCreate();e.clickUninstall();e.leaveUninstall();
+  assert.equal(e.isTerminal(),true);assert.equal(e.log.entries.filter(x=>x.type==='income').length,0);assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+test('marker-free historical run stays optional; supported marker survives; unknown markers reject', () => {
+  const old=tutorialCreate(false);tutorialAct(old,{type:'meal',choice:'skip'});const original=old.toEnvelope();const bytes=JSON.stringify(original.eventLog);
+  const restored=GameEngine.fromEnvelope(original);assert.equal(JSON.stringify(restored.log.entries),bytes);tutorialAct(restored,{type:'advance'});tutorialAct(restored,{type:'advance'});
+  assert.equal(restored.state.life.shiftDays[1],'missed');assert.equal(validateSave(restored.toEnvelope()).valid,true);
+  const newRun=tutorialCreate();assert.equal(validateSave(newRun.toEnvelope()).valid,true);
+  for(const bad of [null,0,2,'1']) assert.equal(validateSave(tutorialReplaceStarted(newRun.toEnvelope(),p=>{p.tutorialShiftVersion=bad;})).valid,false);
+  const nonlife=new GameEngine('nonlife');nonlife.start();assert.equal(validateSave(tutorialReplaceStarted(nonlife.toEnvelope(),p=>{p.tutorialShiftVersion=1;})).valid,false);
+});
+
+test('later shift remains optional through genuine play and records a missed shift', () => {
+  const e=tutorialCreate();tutorialAct(e,{type:'meal',choice:'skip'});tutorialFinish(e);tutorialAct(e,{type:'meal',choice:'buy'});
+  assert.ok(e.openLifeApp());assert.equal(e.commitPromotionalTenPull().length,10);e.revealAllPending();tutorialAct(e,{type:'advance'});
+  assert.equal(e.state.life.day,2);tutorialAct(e,{type:'meal',choice:'buy'});assert.ok(e.runRace(1,e.state.owned[0]));
+  tutorialAct(e,{type:'extend_session',confirmed:true});assert.equal(e.state.life.phase,'afternoon');
+  assert.equal(e.buyLifeBundle(330),true);assert.equal(e.commitPaidPull(1).length,1);e.revealAllPending();tutorialAct(e,{type:'advance'});
+  assert.equal(e.state.life.shiftDays[2],'missed');assert.ok(e.log.entries.some(x=>x.type==='life_shift_missed' && x.payload.day===2));
+  assert.equal(validateSave(e.toEnvelope()).valid,true);
+});
+
+
+test('activity v1 pending quiet retains +10; v2 quiet uses selected +5 and rejects unknown versions', () => {
+  for (const version of [1,2]) {
+    let e=fresh(); act(e,{type:'meal',choice:'skip'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'skip'});
+    assert.equal(e.state.health,90);
+    assert.equal(e.applyLifeIntent({type:'begin_activity47',version:3,choice:'sit_duck'}).ok,false);
+    act(e,{type:'begin_activity47',version,choice:'sit_duck'});const id=e.state.life.story47.id;
+    e.showLifeStory47(id,'scene');e=saved(e);act(e,{type:'complete_activity47',id});
+    assert.equal(e.state.health,version===1?100:95);assert.equal(e.log.entries.findLast(x=>x.type==='life_health').payload.delta,version===1?10:5);
+    e=saved(e);assert.equal(e.applyLifeIntent({type:'complete_activity47',id}).ok,false);act(e,{type:'dismiss_story47',id});saved(e);
+  }
+});
+
+test('new activity v2 caps quiet recovery and records actual gain', () => {
+  let e=fresh();act(e,{type:'meal',choice:'skip'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  act(e,{type:'begin_activity47',version:2,choice:'sit_duck'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');act(e,{type:'complete_activity47',id});
+  assert.equal(e.state.health,100);assert.equal(e.log.entries.findLast(x=>x.type==='life_health').payload.delta,5);e=saved(e);
+});
+
+test('validator rejects a formerly valid bypass when a new-run tutorial marker is present', () => {
+  const legacy=tutorialCreate(false);tutorialAct(legacy,{type:'meal',choice:'buy'});tutorialAct(legacy,{type:'advance'});
+  const forged=tutorialReplaceStarted(legacy.toEnvelope(),p=>{p.tutorialShiftVersion=1;});
+  const result=validateSave(forged);assert.equal(result.valid,false);
+  assert.ok(result.errors.some(message=>message.includes('tutorial_shift_required')));
+});
+
+test('new quiet activity reports zero gain at the health cap and cannot repeat', () => {
+  let e=fresh();act(e,{type:'meal',choice:'buy'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'buy'});
+  act(e,{type:'begin_activity47',version:2,choice:'sit_duck'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');act(e,{type:'complete_activity47',id});
+  assert.equal(e.state.health,100);assert.equal(e.log.entries.findLast(x=>x.type==='life_health').payload.delta,0);e=saved(e);assert.equal(e.applyLifeIntent({type:'complete_activity47',id}).ok,false);
 });

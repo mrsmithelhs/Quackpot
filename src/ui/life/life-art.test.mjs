@@ -30,7 +30,7 @@ test('sketch props and perches are standalone, scoped and inert', () => {
   const svgs = [
     art.tapedNotice({ idPrefix: 'ta', state: 'paid' }), art.emptyPlate({ idPrefix: 'tc' }),
     art.bakeryBag({ idPrefix: 'td' }), art.saleTag({ idPrefix: 'te' }), art.phoneGlow({ idPrefix: 'tf' }),
-    art.wallShelf({ idPrefix: 'tg' }).svg, art.paperback({ idPrefix: 'tk' }),
+    art.wallShelf({ idPrefix: 'tg' }).svg, art.paperback({ idPrefix: 'tk' }), art.workKeysTray(),
   ];
   for (const svg of svgs) {
     assert.match(svg, /^<svg[^>]*viewBox="/);
@@ -57,7 +57,7 @@ test('posed duck markup is classed life-, scoped by idPrefix, and rejects bad in
 test('no output contains script, external href or external url()', () => {
   const outputs = [
     art.tapedNotice({ idPrefix: 'ta', state: 'read' }), art.saleTag({ idPrefix: 'te' }), art.emptyPlate({ idPrefix: 'tc' }),
-    art.bakeryBag({ idPrefix: 'td' }), art.phoneGlow({ idPrefix: 'tf' }), art.wallShelf({ idPrefix: 'tg' }).svg, art.paperback({ idPrefix: 'tk' }),
+    art.bakeryBag({ idPrefix: 'td' }), art.phoneGlow({ idPrefix: 'tf' }), art.workKeysTray(), art.wallShelf({ idPrefix: 'tg' }).svg, art.paperback({ idPrefix: 'tk' }),
     duckPoseHtml({ view: 'side', facing: 'right', lean: -20, wedge: 'paperback', size: 10, x: 50, y: 70 }, 'tsa'),
     duckPoseHtml({ view: 'side', facing: 'left', lean: 20, wedge: 'paperback', size: 12, x: 40, y: 60, perch: { name: 'wallShelf', x: 30, y: 20, w: 30 } }, 'tsb'),
     duckPoseHtml({ view: 'front', size: 10, x: 50, y: 70 }, 'tsc'),

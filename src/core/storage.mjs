@@ -248,7 +248,7 @@ export function validateSave(envelope) {
         }
         // Reconcile state against event log
         if (envelope.schemaVersion === 4) errors.push(...validateLifeHistory(entries, state));
-        else if (state.life || entries.some(e => e.type === 'life_intent')) errors.push('Life policy requires schema 4');
+        else if (state.life || entries.some(e => e.type === 'life_intent' || (e.type === 'run_started' && Object.hasOwn(e.payload ?? {}, 'tutorialShiftVersion')))) errors.push('Life policy requires schema 4');
         let calcCash = envelope.schemaVersion === 4 ? 80 : 15.00;
         let calcGems = 0;
         let calcHealth = 100;

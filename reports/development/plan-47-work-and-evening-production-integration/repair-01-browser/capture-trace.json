@@ -1,0 +1,955 @@
+{
+  "source": "final build",
+  "mode": "capture",
+  "trace": [
+    {
+      "name": "kitchen-cue",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRent notice\nDay 1 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    },
+    {
+      "name": "rent-letter",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRent notice\nDay 1 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in three days.\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nDecide\n: Remaining rent balance",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    },
+    {
+      "name": "rent-decision",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRent notice\nDay 1 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in three days.\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nDecide\n: Remaining rent balance\nRemaining rent balance\n\nThe balance is due in three days: $170.00. You are currently $96.00 short.\n\nContinue\nPut it down",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    },
+    {
+      "name": "keys-desktop",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nDay 1 · morning\nThe kitchen →\nThe living room →",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    },
+    {
+      "name": "target-boxes",
+      "key": {
+        "left": 557.265625,
+        "right": 631.21875,
+        "top": 465.40625,
+        "bottom": 507
+      },
+      "phone": {
+        "left": 779.125,
+        "right": 908.53125,
+        "top": 228.28125,
+        "bottom": 469.546875
+      }
+    },
+    {
+      "name": "keys-narrow",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nDay 1 · morning\nThe kitchen →\nThe living room →",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    },
+    {
+      "name": "keys-focused",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nDay 1 · morning\nThe kitchen →\nThe living room →",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "morning",
+        "anchor": null,
+        "meals": {
+          "d1-breakfast": "buy"
+        },
+        "session": null,
+        "nextId": 1,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {},
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 74,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "b01bb407-9b864390",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            },
+            "tutorialShiftVersion": 1
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            }
+          }
+        },
+        {
+          "type": "expense_due",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashBefore": 80
+          }
+        },
+        {
+          "type": "expense_paid",
+          "payload": {
+            "kind": "breakfast",
+            "amount": 6,
+            "billId": "d1-breakfast",
+            "cashAfter": 74
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "buy"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 74,
+            "health": 100
+          }
+        }
+      ]
+    }
+  ],
+  "runtime": [
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793547774624.121,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:54645/Quackpot/assets/index-3yhBOXTT.js",
+              "lineNumber": 935,
+              "columnNumber": 7261
+            }
+          ]
+        }
+      },
+      "sessionId": "F6FD778724FEEF9580123A4F4A9544EA"
+    }
+  ]
+}

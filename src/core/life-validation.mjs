@@ -2,6 +2,7 @@
 import { initialLife, transitionLife } from './life-progression.mjs';
 import { isKnownLifeConfig, POLICY_1_VERSION } from './life-config.mjs';
 import { selectWorkStory } from './life-story-content.mjs';
+import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs';
 import { hasEnteredQuackpot } from './life-entry.mjs';
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
@@ -11,6 +12,9 @@ export function validateLifeHistory(entries, state) {
   if (!start || start.payload.lifePolicyVersion !== POLICY_1_VERSION || !isKnownLifeConfig(start.payload.lifeConfig)) {
     return ['Unknown or missing life policy configuration in run_started'];
   }
+  const hasTutorialMarker = Object.hasOwn(start.payload, 'tutorialShiftVersion');
+  const tutorialVersion = hasTutorialMarker ? start.payload.tutorialShiftVersion : null;
+  if (hasTutorialMarker && tutorialVersion !== TUTORIAL_SHIFT_VERSION) return ['Unknown tutorial shift version in run_started'];
   let life = initialLife();
   let cash = life.config.startCash;
   let health = life.config.startHealth;
@@ -80,6 +84,8 @@ export function validateLifeHistory(entries, state) {
       }
       const story = life.story47;
       if (story && ((e.payload.intent?.type === 'work_story_step' && story.stage === 'commute') || (e.payload.intent?.type === 'complete_work' && story.stage === 'work') || (e.payload.intent?.type === 'complete_activity47' && story.stage === 'scene')) && !shownStories.has(`${story.id}/${story.stage}`)) errors.push(`Story progressed before display at ${e.seq}`);
+      const tutorialBlock = tutorialShiftBlock(tutorialVersion, life, e.payload.intent);
+      if (tutorialBlock) { errors.push(`Invalid tutorial transition at ${e.seq}: ${tutorialBlock}`); break; }
       const result = transitionLife(life, { cash, health }, e.payload.intent);
       if (!result.ok) { errors.push(`Invalid life intent at ${e.seq}: ${result.reason}`); break; }
       for (let j = 0; j < result.events.length; j++) {

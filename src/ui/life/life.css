@@ -172,3 +172,5 @@
   .life-focus-fade-out .life-stage, .life-focus-fade-in .life-stage { transition: none; animation: none; opacity: 1; }
   .life-obj:not(.life-done)::before { animation: none; opacity: .95; transform: none; }
 }
+
+.life-activity-note { align-self: center; font-size: .85rem; color: var(--life-slate-text, #dce4ee); }

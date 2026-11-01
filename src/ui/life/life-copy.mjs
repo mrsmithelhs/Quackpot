@@ -11,13 +11,25 @@ const unitLabel = (unit) => (String(unit).startsWith('Unit') ? String(unit) : `U
 const healthChange = (before, after) =>
   `Health ${before} → ${after} (${after < before ? '−' : '+'}${Math.abs(before - after)})`;
 
+/** Relative to the existing game deadline; never prints the game's day counter. */
+export function rentDueText(life) {
+  if (!life) return 'due today';
+  if (life.rent.status === 'paid') return 'paid';
+  if (life.rent.status === 'overdue' || life.day > life.config.rentDueDay) return 'overdue';
+  const days = life.config.rentDueDay - life.day;
+  if (days <= 0) return 'due this morning';
+  if (days === 1) return 'due tomorrow morning';
+  const words = { 2: 'two', 3: 'three' };
+  return `due in ${words[days] ?? days} days`;
+}
+
 /** Calm institutional letter. Plain paper: no buttons, no links, no threats. */
-export function noticeLetter({ amount, unit, dueDay = null }) {
+export function noticeLetter({ amount, unit, dueText = 'due today' }) {
   return {
     sender: SENDER,
     heading: `Remaining rent balance · ${unitLabel(unit)}`,
     paragraphs: [
-      `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance ${dueDay ? `due on Day ${dueDay}` : 'due today'} is ${money(amount)}.`,
+      `Most of the rent for ${unitLabel(unit)} has already been paid. The remaining balance is ${money(amount)}; it is ${dueText}.`,
       "You can pay in person at the property office, or through the office's online payment page.",
       `Once the full ${money(amount)} is received, the rent for this unit will be recorded as paid.`,
       'If you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.',

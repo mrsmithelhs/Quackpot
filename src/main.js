@@ -201,7 +201,7 @@ if (app) {
 
   function startFreshRun(enableStorageSave = true) {
     const seed = generateRandomSeed();
-    engine = new GameEngine(seed, { lifePolicy: true });
+    engine = new GameEngine(seed, { lifePolicy: true, tutorialShift: true });
     engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode()) {
@@ -729,7 +729,7 @@ if (app) {
       }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
       onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
-      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: 1, choice })),
+      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: 2, choice })),
       onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
       onStoryAdvance: commit((story) => {
         let intent;

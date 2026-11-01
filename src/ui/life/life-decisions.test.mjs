@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { GameEngine } from '../../core/game-engine.mjs';
-import { noticeLetter } from './life-copy.mjs';
+import { noticeLetter, rentDueText } from './life-copy.mjs';
 import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision } from './life-decisions.mjs';
 import { effectFromEvents, previewZeroCash } from './life-preview.mjs';
 import { OFFER_PLACE, placeFor, rentState } from './life-routing.mjs';
@@ -188,4 +188,15 @@ test('previews are memoised while the log is unchanged, and recomputed after it 
   assert.equal(previewZeroCash(e, 'extra_shift'), first);
   e.log.append('action', { kind: 'noop' }, e.state.clock);
   assert.notEqual(previewZeroCash(e, 'extra_shift'), first);
+});
+
+test('rent wording uses the existing relative deadline consistently', () => {
+  const life={day:1,phase:'morning',rent:{status:'pending'},config:{rentDueDay:4}};
+  for (const [day, expected] of [[1,'due in three days'],[2,'due in two days'],[3,'due tomorrow morning'],[4,'due this morning']]) {
+    life.day=day; if(day===4)life.rent.status='due';
+    assert.equal(rentDueText(life),expected);
+    assert.ok(noticeLetter({amount:170,unit:'4B',dueText:rentDueText(life)}).paragraphs[0].includes(expected));
+  }
+  life.rent.status='overdue';assert.equal(rentDueText(life),'overdue');
+  life.rent.status='paid';assert.equal(rentDueText(life),'paid');
 });

@@ -15,6 +15,7 @@ import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } fro
 import { RACE_REST_POLICY_VERSION, deriveRaceRestBoundary, makeRaceRestEvidence, stableExposureSignature } from './race-rest.mjs';
 import { initialLife, transitionLife } from './life-progression.mjs';
 import { selectWorkStory } from './life-story-content.mjs';
+import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs';
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 
 function deepFreeze(value) {
@@ -86,7 +87,8 @@ export function calculatePreDrawOdds(pityCount, softPityStart = 35, hardPity = 5
 }
 
 export class GameEngine {
-  constructor(seed = String(Date.now()), { lifePolicy = false } = {}) {
+  constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false } = {}) {
+    this.tutorialShiftVersion = lifePolicy && tutorialShift ? TUTORIAL_SHIFT_VERSION : null;
     this.seed = String(seed);
     this.log = new EventLog();
 
@@ -149,6 +151,7 @@ export class GameEngine {
     if (this.log.entries.some((e) => e.type === 'run_started')) return;
     this.log.append('run_started', { seed: this.seed, ...(this.state.life ? {
       lifePolicyVersion: this.state.life.policyVersion, lifeConfig: structuredClone(this.state.life.config),
+      ...(this.tutorialShiftVersion ? { tutorialShiftVersion: this.tutorialShiftVersion } : {}),
     } : {}) }, this.state.clock);
     this.state.step = 'desk';
   }
@@ -166,6 +169,8 @@ export class GameEngine {
     const story = this.state.life.story47;
     if (story && ((intent?.type === 'work_story_step' && story.stage === 'commute') || (intent?.type === 'complete_work' && story.stage === 'work') || (intent?.type === 'complete_activity47' && story.stage === 'scene'))
       && !this.log.entries.some(e => e.type === 'story47_shown' && e.payload.id === story.id && e.payload.stage === story.stage)) return { ok: false, reason: 'story_not_shown' };
+    const tutorialBlock = tutorialShiftBlock(this.tutorialShiftVersion, this.state.life, intent);
+    if (tutorialBlock) return { ok: false, reason: tutorialBlock };
     const result = transitionLife(this.state.life, this.state, intent);
     if (!result.ok) return result;
     // Phone navigation belongs to the phase/session that produced it, not the next visit.
@@ -1321,6 +1326,7 @@ export class GameEngine {
     engine.rngEvent = restoreRng(envelope.prngStreams.event);
 
     engine.log = EventLog.hydrate(envelope.eventLog);
+    engine.tutorialShiftVersion = engine.log.entries.find(e => e.type === 'run_started')?.payload?.tutorialShiftVersion ?? null;
 
     // Reconstruct / validate authoritative progression from event log (Repair 02, P1)
     if (!engine.state.completedRaces) engine.state.completedRaces = [];

@@ -142,14 +142,14 @@ export function transitionLife(input, balances, intent) {
       if (life.story47?.kind !== 'work' || life.story47.id !== intent.id || life.story47.stage !== 'commute') return fail('invalid_story_stage');
       life.story47.stage = 'work'; break;
     case 'begin_activity47': {
-      if (deadlineBlocks() || life.recovery || mealPending() || life.anchor || life.work || life.phase !== 'evening' || !['call_mom', 'sit_duck'].includes(intent.choice) || intent.version !== 1) return fail('unavailable');
+      if (deadlineBlocks() || life.recovery || mealPending() || life.anchor || life.work || life.phase !== 'evening' || !['call_mom', 'sit_duck'].includes(intent.choice) || ![1, 2].includes(intent.version)) return fail('unavailable');
       const id = `activity-${life.nextId++}`;
-      life.anchor = id; life.story47 = { version: 1, kind: 'activity', id, choice: intent.choice, stage: 'scene' };
+      life.anchor = id; life.story47 = { version: intent.version, kind: 'activity', id, choice: intent.choice, stage: 'scene' };
       break;
     }
     case 'complete_activity47':
       if (life.story47?.kind !== 'activity' || life.story47.id !== intent.id || life.story47.stage !== 'scene') return fail('invalid_story_stage');
-      hp(life.story47.choice === 'call_mom' ? 5 : config.leisureHealth, life.story47.choice);
+      hp(life.story47.choice === 'call_mom' || life.story47.version === 2 ? 5 : config.leisureHealth, life.story47.choice);
       life.story47.stage = 'ack'; break;
     case 'dismiss_story47':
       if (life.story47?.id !== intent.id || !['payslip', 'ack'].includes(life.story47.stage)) return fail('invalid_story_stage');

@@ -20,9 +20,9 @@ import {
   breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines,
 } from './life-decisions.mjs';
 import { BREAKFAST_AMOUNT, RENT_AMOUNT, furnishingsFrom, outcomeView } from './life-preview.mjs';
-import { cardApp, chips, marisolThread, money, noticeLetter, results, worldLabels } from './life-copy.mjs';
+import { cardApp, chips, marisolThread, money, noticeLetter, rentDueText, results, worldLabels } from './life-copy.mjs';
 import {
-  bakeryBag, duckPoseHtml, emptyPlate, headingToward, leanToward, saleTag, tapedNotice,
+  bakeryBag, duckPoseHtml, emptyPlate, headingToward, leanToward, saleTag, tapedNotice, workKeysTray,
 } from './life-art.mjs';
 
 const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -121,6 +121,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   const offerOf = () => { try { return currentOffer(engine); } catch { return null; } };
   const offerDecision = () => { try { return ladderDecision(engine); } catch { return null; } };
   const rentAmount = () => engine.state.life?.config.rentAmount ?? RENT_AMOUNT;
+  const keysAvailable = (life) => Boolean(life && life.phase === 'morning' && life.employed && life.meals[`d${life.day}-breakfast`] && !life.work && !life.recovery && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced));
 
   function objectsFor(place) {
     const r = rentState(engine);
@@ -143,11 +144,15 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           label: work ? 'Phone: work messages' : worldLabels.phone,
           chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
           done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
+        if (keysAvailable(life)) {
+          out.push({ id: 'work-keys', svg: workKeysTray(), x: 33, y: 74, w: 10, h: 10,
+            label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } });
+        }
         if (life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
           const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
           const kit = kitBox(scene.svg);
           out.push({ id: 'quiet-duck', hotspot: true, x: Math.max(0, kit.x - kit.w / 2), y: Math.max(0, kit.y - kit.w * 1.5), w: kit.w, h: kit.w * 1.5,
-            label: 'Sit with your duck', chip: 'Quiet moment', hold: { mode: 'popover', side: 'left', kind: 'life-quiet' } });
+            label: 'Sit with your duck, up to 5 health', chip: 'Sit with Duck · +5 HP', hold: { mode: 'popover', side: 'left', kind: 'life-quiet' } });
         }
         return out;
       }
@@ -208,8 +213,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function decisionFor(kind) {
     const expectLog = engine.log.length;
+    if (kind === 'life-depart-keys') {
+      return { spec: { heading: 'Head to work?', lines: [`Your scheduled shift pays ${money(engine.state.life.config.scheduledWage)} after completion.`, 'Leaving now begins the shift.'], confirm: 'Take the keys and go', back: 'Not now' },
+        accept: () => { callbacks.onDepartWork(expectLog); return null; } };
+    }
     if (kind === 'life-quiet') {
-      return { spec: { heading: 'Sit with Duck?', lines: [`This evening activity restores up to ${engine.state.life.config.leisureHealth} HP after you finish.`], confirm: 'Sit with Duck', back: 'Not now' },
+      return { spec: { heading: 'Sit with Duck?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Sit with Duck', back: 'Not now' },
         accept: () => { callbacks.onBeginStoryActivity(expectLog, 'sit_duck'); return null; } };
     }
     if (kind === 'life-leisure') {
@@ -265,14 +274,14 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         const due = engine.state.life.rent.status === 'due';
         const spec = affordable ? {
           heading: `Remaining rent: ${money(amount)}`,
-          lines: [`Cash on hand: ${money(engine.state.cash)}. Paying leaves ${money(engine.state.cash - amount)}.`],
+          lines: [`The balance is ${rentDueText(engine.state.life)}.`, `Cash on hand: ${money(engine.state.cash)}. Paying leaves ${money(engine.state.cash - amount)}.`],
           confirm: `Pay ${money(amount)}`, back: 'Put it down',
           ...(due ? { decline: { label: 'Hold cash and leave rent unpaid', endsRun: false } } : {}),
-        } : { heading: engine.state.life.rent.status === 'pending' ? 'Remaining rent balance' : 'Rent is overdue',
-          lines: [`The balance ${engine.state.life.rent.status === 'pending' ? `is due on Day ${engine.state.life.config.rentDueDay}` : 'is overdue'}: ${money(amount)}. You are currently ${money(amount - engine.state.cash)} short. No cash has been taken.`], confirm: 'Continue', back: 'Put it down' };
+        } : { heading: engine.state.life.rent.status === 'pending' ? 'Remaining rent balance' : due ? 'Rent due' : 'Rent is overdue',
+          lines: [`The balance is ${rentDueText(engine.state.life)}: ${money(amount)}. You are currently ${money(amount - engine.state.cash)} short.`], confirm: 'Continue', back: 'Put it down' };
         return { spec,
           accept: () => {
-            if (!affordable) return { heading: engine.state.life.rent.status === 'pending' ? 'Rent remains unpaid' : 'Rent remains overdue', lines: ['You may pay when you have enough cash.'] };
+            if (!affordable) return { heading: engine.state.life.rent.status === 'pending' ? 'Rent remains unpaid' : due ? 'Rent is due' : 'Rent remains overdue', lines: ['You may pay when you have enough cash.'] };
             const result = callbacks.onPayRent(expectLog);
             if (!result?.ok) return null;
             return { heading: 'Rent paid', lines: [`Paid ${money(amount)}. Cash on hand: ${money(engine.state.cash)}.`] };
@@ -454,7 +463,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     </div></div>`;
 
   function heldObjectHtml(hold, dec, hid) {
-    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueDay: engine.state.life?.config.rentDueDay ?? null }), hid);
+    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueText: rentDueText(engine.state.life) }), hid);
     if (hold.variant.startsWith('life-')) {
       const life = engine.state.life;
       const body = hold.variant === 'life-work'
@@ -587,6 +596,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       : RENT_STEPS.includes(step) ? (r.paid ? 'Rent paid' : `Rent due · ${money(rentAmount())}`)
         : null;
     bar.innerHTML = `<span class="life-when">${esc(when)}</span>${status ? `<span class="life-day-status">${esc(status)}</span>` : ''}`;
+    if (place !== 'desk-phone' && keysAvailable(e.state.life)) { const cue = document.createElement('span'); cue.className = 'life-day-status'; cue.textContent = 'Your work keys are on the desk.'; bar.append(cue); }
     if (statusOnly) return;
     const rooms = document.createElement('div');
     rooms.className = 'life-room-nav';
@@ -601,6 +611,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       btn.textContent = `${label} →`;
       btn.addEventListener('click', () => { if (busy) return; btn.disabled = true; onClick(btn); });
       group.append(btn);
+      return btn;
     };
     for (const p of availablePlaces(e)) {
       if (p === place || !PLACE_LABEL[p]) continue;
@@ -615,8 +626,20 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (e.state.life && ['life_work', 'life_evening'].includes(step)) {
       const expectLog = e.log.length;
-      if (place === 'desk-phone' && e.state.life.phase === 'evening' && !e.state.life.anchor && !e.state.life.recovery && e.state.life.meals[`d${e.state.life.day}-dinner`]) {
-        control('Call Mom · up to +5 HP', () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); ui.held = null; callbacks.onRefresh(); });
+      if (e.state.life.phase === 'evening') {
+        const blocked = Boolean(e.state.life.anchor || e.state.life.recovery || !e.state.life.meals[`d${e.state.life.day}-dinner`]);
+        const reason = e.state.life.anchor ? 'Evening activity already chosen.' : e.state.life.recovery ? 'Resolve recovery first.' : 'Choose dinner first.';
+        const call = control('Call Mom · up to +5 HP', () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); ui.held = null; callbacks.onRefresh(); });
+        if (blocked) { call.disabled = true; call.title = reason; }
+        // At the desk the duck itself is the active target; elsewhere this navigates to it.
+        if (blocked || place !== 'desk-phone') {
+          const duck = control('Sit with Duck · up to +5 HP', () => {
+            ui.place = 'desk-phone'; ui.held = null; render();
+            if (active) $('.life-obj[data-obj="quiet-duck"]')?.focus();
+          });
+          if (blocked) { duck.disabled = true; duck.title = reason; }
+        }
+        if (blocked) { const message = document.createElement('span'); message.className = 'life-activity-note'; message.textContent = reason; actions.append(message); }
       }
       if (place === 'desk-phone' && e.state.life.phase === 'evening' && e.state.life.employed && (!e.state.life.anchor || e.state.life.work?.kind === 'overtime')) {
         control('Work messages', (button) => {
@@ -635,11 +658,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (step === 'life_breakfast' && breakfastState(e).settled) {
       const expectLog = e.log.length;
-      if (e.state.life.employed) {
-        control(`Go to work · ${money(e.state.life.config.scheduledWage)} on completion`, () => { callbacks.onDepartWork(expectLog); ui.held = null; callbacks.onRefresh(); });
-        control('Continue without departing', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
+      if (!e.state.life.employed || (e.state.life.day === 1 && !e.tutorialShiftVersion)) {
+        control('Continue to afternoon', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
       }
-      else control('Continue', () => { callbacks.onContinue(expectLog); ui.held = null; callbacks.onRefresh(); });
     }
     if (step === 'life_rent' && e.state.life.rent.status !== 'due') {
       const expectLog = e.log.length;

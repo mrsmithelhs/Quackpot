@@ -1,0 +1,215 @@
+{
+  "mode": "boundary",
+  "source": "working tree",
+  "route": "fresh production app → breakfast → scheduled work → evening → phone",
+  "trace": [
+    {
+      "name": "commute",
+      "text": "On the way to work\n\nFreezing sleet cuts into your face while waiting twenty minutes for the delayed Route 14 bus. A passing delivery van splashes dirty curb water across your ankles.\n\nYour damp socks stay cold all morning. Your teeth chatter as you board.\n\nArrive at work"
+    },
+    {
+      "name": "work",
+      "text": "Your shift\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nComplete shift"
+    },
+    {
+      "name": "work-reloaded",
+      "text": "Your shift\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nComplete shift"
+    },
+    {
+      "name": "work-settings",
+      "text": "Your shift\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nComplete shift"
+    },
+    {
+      "name": "work-stayed",
+      "text": "Your shift\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nComplete shift"
+    },
+    {
+      "name": "payslip",
+      "text": "Payslip\n\nScheduled shift complete.\n\nTake-home wages credited: $60.00.\n\nReturn home"
+    },
+    {
+      "name": "evening-kitchen",
+      "text": "Rent notice\nDinner\nDay 1 · evening\nThe desk →\nThe living room →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "evening-desk",
+      "text": "Evening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nQuiet moment\nDay 1 · evening\nThe kitchen →\nThe living room →\nCall Mom · up to +5 HP →\nWork messages →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "evening-narrow",
+      "text": "Evening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nQuiet moment\nDay 1 · evening\nThe kitchen →\nThe living room →\nCall Mom · up to +5 HP →\nWork messages →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "quiet-scene",
+      "text": "A quiet moment\n\nYou sit at the desk with your little rubber duck under the warm lamp.\n\nThe apartment is quiet for a moment. The duck sits beside your pens and papers.\n\nFinish your break"
+    },
+    {
+      "name": "quiet-result",
+      "text": "Break complete\n\nHealth: 100 HP.\n\nContinue"
+    },
+    {
+      "name": "phone",
+      "text": "QUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off.\n\nFinish session & advance"
+    },
+    {
+      "name": "unknown-save-notice",
+      "text": ""
+    },
+    {
+      "name": "unknown-save-preserved",
+      "primaryAndBackupUnchanged": true
+    }
+  ],
+  "runtimeEvents": [
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793545606463.499,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:51952/Quackpot/assets/index-B8Iyl_zM.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "D5F674EE0F46849405EA226474F80847"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Restored valid run from storage:"
+          },
+          {
+            "type": "object",
+            "className": "Object",
+            "description": "Object",
+            "objectId": "1118381238622109816.3.1",
+            "preview": {
+              "type": "object",
+              "description": "Object",
+              "overflow": true,
+              "properties": [
+                {
+                  "name": "day",
+                  "type": "number",
+                  "value": "1"
+                },
+                {
+                  "name": "clock",
+                  "type": "object",
+                  "value": "Object"
+                },
+                {
+                  "name": "phase",
+                  "type": "string",
+                  "value": "playing"
+                },
+                {
+                  "name": "step",
+                  "type": "string",
+                  "value": "life_work"
+                },
+                {
+                  "name": "activeModal",
+                  "type": "object",
+                  "value": "null",
+                  "subtype": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "executionContextId": 3,
+        "timestamp": 1793545607140.249,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "C",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:51952/Quackpot/assets/index-B8Iyl_zM.js",
+              "lineNumber": 925,
+              "columnNumber": 532
+            },
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:51952/Quackpot/assets/index-B8Iyl_zM.js",
+              "lineNumber": 935,
+              "columnNumber": 7195
+            }
+          ]
+        }
+      },
+      "sessionId": "D5F674EE0F46849405EA226474F80847"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 3,
+        "timestamp": 1793545607141.827,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:51952/Quackpot/assets/index-B8Iyl_zM.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "D5F674EE0F46849405EA226474F80847"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 4,
+        "timestamp": 1793545609886.992,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:51952/Quackpot/assets/index-B8Iyl_zM.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "D5F674EE0F46849405EA226474F80847"
+    }
+  ]
+}

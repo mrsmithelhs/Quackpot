@@ -1,13 +1,14 @@
 // Replay life transitions independently from their persisted snapshots.
 import { initialLife, transitionLife } from './life-progression.mjs';
-import { isKnownLifeConfig, LIFE_POLICY_VERSION } from './life-config.mjs';
+import { isKnownLifeConfig, POLICY_1_VERSION } from './life-config.mjs';
+import { selectWorkStory } from './life-story-content.mjs';
 import { hasEnteredQuackpot } from './life-entry.mjs';
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 export function validateLifeHistory(entries, state) {
   const errors = [];
   const start = entries.find(e => e.type === 'run_started');
-  if (!start || start.payload.lifePolicyVersion !== LIFE_POLICY_VERSION || !isKnownLifeConfig(start.payload.lifeConfig)) {
+  if (!start || start.payload.lifePolicyVersion !== POLICY_1_VERSION || !isKnownLifeConfig(start.payload.lifeConfig)) {
     return ['Unknown or missing life policy configuration in run_started'];
   }
   let life = initialLife();
@@ -16,6 +17,8 @@ export function validateLifeHistory(entries, state) {
   let terminal = false;
   let interruptedWork = null;
   let interruptedSession = null;
+  let interruptedActivity = null;
+  const shownStories = new Set();
   let installed = false;
   let opened = false;
   let invitation = false, replied = false, acknowledged = false;
@@ -42,7 +45,7 @@ export function validateLifeHistory(entries, state) {
       acknowledged = true;
     }
     if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
-    if ((interruptedWork || interruptedSession) && !terminal && !['work_interrupted', 'session_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
+    if ((interruptedWork || interruptedSession || interruptedActivity) && !terminal && !['work_interrupted', 'session_interrupted', 'activity47_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
     if (e.type === 'work_interrupted') {
       if (interruptedWork || !life.work || !same(e.payload, { id: life.work.id, kind: life.work.kind, day: life.day })) errors.push(`Invalid work interruption at ${e.seq}`);
       interruptedWork = e.payload.id;
@@ -51,13 +54,32 @@ export function validateLifeHistory(entries, state) {
       if (interruptedSession || !life.session || !same(e.payload, { id: life.session.id, suspended: life.session.suspended, pull: life.session.pull, race: life.session.race })) errors.push(`Invalid session interruption at ${e.seq}`);
       interruptedSession = e.payload.id;
     }
+    if (e.type === 'activity47_interrupted') {
+      const story = life.story47;
+      if (interruptedActivity || story?.kind !== 'activity' || story.stage !== 'scene' || !same(e.payload, { id: story.id, choice: story.choice, day: life.day })) errors.push(`Invalid activity interruption at ${e.seq}`);
+      interruptedActivity = e.payload.id;
+    }
+    if (e.type === 'story47_shown') {
+      const story = life.story47;
+      let beats = story?.kind === 'work' && story.stage === 'commute' ? [story.story.commute] : story?.kind === 'work' && story.stage === 'work' ? story.story.work : story?.kind === 'activity' && story.stage === 'scene' ? [story.choice] : null;
+      const key = `${e.payload.id}/${e.payload.stage}`;
+      if (!beats || shownStories.has(key) || !same(e.payload, { id: story.id, stage: story.stage, version: 1, beats })) errors.push(`Invalid story display at ${e.seq}`);
+      shownStories.add(key);
+    }
     if (e.type === 'terminal') {
+      if (life.story47?.kind === 'activity' && life.story47.stage === 'scene' && interruptedActivity !== life.story47.id) errors.push('Terminal is missing pending activity interruption');
       if (life.work && interruptedWork !== life.work.id) errors.push('Terminal is missing pending work interruption');
       if (life.session && interruptedSession !== life.session.id) errors.push('Terminal is missing active session interruption');
       terminal = true;
     }
     if (e.type === 'life_intent') {
       if (e.payload.intent?.type === 'sell_after_open' && !hasEnteredQuackpot(entries.slice(0, i))) errors.push(`Sale before first app entry at ${e.seq}`);
+      if (['depart_work_story47', 'agree_work_story47'].includes(e.payload.intent?.type)) {
+        const expected = selectWorkStory(start.payload.seed, `work-${life.nextId}`);
+        if (!same(e.payload.intent.story, expected)) errors.push(`Invalid story selection at ${e.seq}`);
+      }
+      const story = life.story47;
+      if (story && ((e.payload.intent?.type === 'work_story_step' && story.stage === 'commute') || (e.payload.intent?.type === 'complete_work' && story.stage === 'work') || (e.payload.intent?.type === 'complete_activity47' && story.stage === 'scene')) && !shownStories.has(`${story.id}/${story.stage}`)) errors.push(`Story progressed before display at ${e.seq}`);
       const result = transitionLife(life, { cash, health }, e.payload.intent);
       if (!result.ok) { errors.push(`Invalid life intent at ${e.seq}: ${result.reason}`); break; }
       for (let j = 0; j < result.events.length; j++) {
@@ -94,7 +116,7 @@ export function validateLifeHistory(entries, state) {
     }
     cash = Math.round(cash * 100) / 100;
   }
-  if ((interruptedWork || interruptedSession) && !terminal) errors.push('Interruption evidence requires a terminal event');
+  if ((interruptedWork || interruptedSession || interruptedActivity) && !terminal) errors.push('Interruption evidence requires a terminal event');
   if (!same(life, state.life)) errors.push('Life state does not match replay');
   if (!same(life.sold, state.assetsSold)) errors.push('Sold furnishings do not match life history');
   if (cash !== state.cash || health !== state.health) errors.push('Life balances do not match replay');

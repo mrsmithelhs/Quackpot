@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { renderScene } from '../../assets/apartment/index.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 
 test('a replied invitation is resolved only until the phone has a new purpose', () => {
@@ -35,4 +36,17 @@ test('morning invitation and unlocked app use the same contextual source as the 
   assert.deepEqual(lifePhoneScreen(life, true).body, ['Return to app']);
   life.day = 2; life.phase = 'morning';
   assert.equal(lifePhoneKind(life), 'app');
+});
+
+test('every life phase and real phone context fits the actual apartment art contract', () => {
+  const entries=[[],[{type:'action',payload:{kind:'launch_reply'}}]];
+  for (const phase of ['morning','afternoon','evening','lateNight']) {
+    for (const day of [1,2]) for (const work of [null,{id:'work-1',kind:'scheduled',status:'doing'}]) {
+      for (const rent of [{status:'pending'},{status:'due'},{status:'overdue'}]) for (const welcome of [false,true]) for (const history of entries) {
+        const life={day,phase,employed:true,anchor:work?.id ?? null,work,rent,rentSurfaced:false,recovery:null};
+        const phone=lifePhoneScreen(life,welcome,history);
+        assert.doesNotThrow(()=>renderScene({area:'desk-side',idPrefix:'phonecontract',duck:false,phone}), `${phase} day ${day} ${JSON.stringify(phone)}`);
+      }
+    }
+  }
 });

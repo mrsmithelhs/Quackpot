@@ -1,0 +1,223 @@
+{
+  "mode": "wage-final",
+  "source": "working tree",
+  "route": "fresh production app → breakfast → scheduled work → evening → phone",
+  "trace": [
+    {
+      "name": "commute",
+      "text": "On the way to work\n\nThe street corner coffee cart vendor remembers your face: \"Hey neighbor, fresh cinnamon twist just came out of the box, take one on the house today!\"\n\nThe warm pastry and genuine smile set an upbeat, grounded tone for the morning.\n\nArrive at work"
+    },
+    {
+      "name": "work",
+      "text": "Your shift\n\nThe breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels. You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift"
+    },
+    {
+      "name": "work-narrow",
+      "text": "Your shift\n\nThe breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels. You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift"
+    },
+    {
+      "name": "work-reloaded",
+      "text": "Your shift\n\nThe breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels. You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift"
+    },
+    {
+      "name": "work-settings",
+      "text": "Your shift\n\nThe breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels. You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift"
+    },
+    {
+      "name": "work-stayed",
+      "text": "Your shift\n\nThe breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels. You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift"
+    },
+    {
+      "name": "payslip",
+      "text": "PAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "payslip-narrow",
+      "text": "PAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "evening-kitchen",
+      "text": "Rent notice\nDinner\nDay 1 · evening\nThe desk →\nThe living room →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "evening-desk",
+      "text": "Evening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nQuiet moment\nDay 1 · evening\nThe kitchen →\nThe living room →\nCall Mom · up to +5 HP →\nWork messages →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "evening-narrow",
+      "text": "Evening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nQuiet moment\nDay 1 · evening\nThe kitchen →\nThe living room →\nCall Mom · up to +5 HP →\nWork messages →\nFinish evening →\nStay up for Late Night →"
+    },
+    {
+      "name": "quiet-scene",
+      "text": "A quiet moment\n\nYou sit at the desk with your little rubber duck under the warm lamp.\n\nThe apartment is quiet for a moment. The duck sits beside your pens and papers.\n\nFinish your break"
+    },
+    {
+      "name": "quiet-result",
+      "text": "Break complete\n\nHealth: 100 HP.\n\nContinue"
+    },
+    {
+      "name": "phone",
+      "text": "QUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off.\n\nFinish session & advance"
+    },
+    {
+      "name": "unknown-save-notice",
+      "text": ""
+    },
+    {
+      "name": "unknown-save-preserved",
+      "primaryAndBackupUnchanged": true
+    }
+  ],
+  "runtimeEvents": [
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793545891753.504,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:52131/Quackpot/assets/index-Cwgvfs0b.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "DAE4E0DE056531D2103F40E6DA711AE2"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Restored valid run from storage:"
+          },
+          {
+            "type": "object",
+            "className": "Object",
+            "description": "Object",
+            "objectId": "-1697509660976469360.3.1",
+            "preview": {
+              "type": "object",
+              "description": "Object",
+              "overflow": true,
+              "properties": [
+                {
+                  "name": "day",
+                  "type": "number",
+                  "value": "1"
+                },
+                {
+                  "name": "clock",
+                  "type": "object",
+                  "value": "Object"
+                },
+                {
+                  "name": "phase",
+                  "type": "string",
+                  "value": "playing"
+                },
+                {
+                  "name": "step",
+                  "type": "string",
+                  "value": "life_work"
+                },
+                {
+                  "name": "activeModal",
+                  "type": "object",
+                  "value": "null",
+                  "subtype": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "executionContextId": 3,
+        "timestamp": 1793545892519.674,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "C",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:52131/Quackpot/assets/index-Cwgvfs0b.js",
+              "lineNumber": 925,
+              "columnNumber": 532
+            },
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:52131/Quackpot/assets/index-Cwgvfs0b.js",
+              "lineNumber": 935,
+              "columnNumber": 7195
+            }
+          ]
+        }
+      },
+      "sessionId": "DAE4E0DE056531D2103F40E6DA711AE2"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 3,
+        "timestamp": 1793545892521.996,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:52131/Quackpot/assets/index-Cwgvfs0b.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "DAE4E0DE056531D2103F40E6DA711AE2"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 4,
+        "timestamp": 1793545895634.799,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "5",
+              "url": "http://127.0.0.1:52131/Quackpot/assets/index-Cwgvfs0b.js",
+              "lineNumber": 935,
+              "columnNumber": 7253
+            }
+          ]
+        }
+      },
+      "sessionId": "DAE4E0DE056531D2103F40E6DA711AE2"
+    }
+  ]
+}

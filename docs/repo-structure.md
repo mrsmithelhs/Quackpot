@@ -21,6 +21,7 @@
 | `src/main.js` | Browser boot/restore, view/navigation orchestration, event callbacks, autosave and storage warning presentation |
 | `src/core/game-engine.mjs` | Game state/rules, guarded one-time actions, deterministic outcome streams and event emission; no DOM rendering |
 | `src/core/life-config.mjs`, `life-progression.mjs`, `life-validation.mjs` | Plan38 new-policy configuration, pure phase/action/obligation transitions and replay validation. New runs use policy1/schema4; old schemas retain legacy continuation. Integrated delivery is owner-accepted2026-10-31; no claim of complete whole-run balance |
+| `src/core/life-story-content.mjs`, `src/ui/life/life-story-view.mjs`, `life-story-backdrop.mjs`, `life-story.css` | Plan47 work and evening catalog, deterministic selection and focused presentation; life transitions remain authoritative and displayed scenes are separately recorded. Integrated implementation is awaiting review. |
 | `src/core/prng.mjs`, `event-log.mjs`, `receipt.mjs` | Canonical deterministic RNG, append-only integrity/completeness and log-derived Receipt projection |
 | `src/ui/receipt-presentation.mjs`, `receipt-view.js`, `receipt-view.css` | Plan44 production LayoutA: pure evidence ordering/counts/unknown-data adapter, three-register reflection cards and expandable draw/race/life supporting records. Delivered for owner review; no inferred motives or rewritten log |
 | `src/core/storage.mjs` | Local save envelopes, validation, backup/corruption handling and temporary-memory fallback |

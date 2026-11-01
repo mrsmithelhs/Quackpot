@@ -7,6 +7,7 @@ import './ui/stage-transition.css';
 import './ui/duck-motion.css';
 import './ui/duck-dex.css';
 import './ui/race-view.css';
+import './ui/life/life-story.css';
 import './ui/apartment-view.css';
 import './ui/life/life.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
@@ -719,15 +720,31 @@ if (app) {
         resetLifeUi();
         return { ok: true };
       }),
-      onAgreeWork: commit((kind) => engine.applyLifeIntent({ type: 'agree_work', kind })),
+      onAgreeWork: commit((kind) => kind === 'scheduled' ? engine.beginStoryWork('agree') : engine.applyLifeIntent({ type: 'agree_work', kind })),
       onDepartWork: commit(() => {
         if (engine.state.life.session && !globalThis.confirm('Leaving for work ends this phone session. Continue?')) return null;
-        const result = engine.applyLifeIntent({ type: 'depart_work', confirmedSessionEnd: Boolean(engine.state.life.session) });
+        const result = engine.beginStoryWork('depart', Boolean(engine.state.life.session));
         if (result.ok) { engine.state.step = lifeSurface(engine); resetLifeUi(); }
         return result;
       }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
       onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
+      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: 1, choice })),
+      onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
+      onStoryAdvance: commit((story) => {
+        let intent;
+        if (story.kind === 'work' && story.stage === 'commute') intent = { type: 'work_story_step', id: story.id };
+        else if (story.kind === 'work' && story.stage === 'work') intent = { type: 'complete_work', id: story.id };
+        else if (story.kind === 'activity' && story.stage === 'scene') intent = { type: 'complete_activity47', id: story.id };
+        else intent = { type: 'dismiss_story47', id: story.id };
+        const result = engine.applyLifeIntent(intent);
+        if (result.ok && story.kind === 'work' && story.stage === 'payslip') {
+          const next = engine.applyLifeIntent({ type: 'advance' });
+          if (next.ok) { engine.state.step = lifeSurface(engine); resetLifeUi(); if (engine.state.life.day === 1) lifeUi.place = 'kitchen-breakfast'; }
+        }
+        return result;
+      }),
+
       onSell: commit((asset) => engine.applyLifeIntent({ type: 'sell', asset })),
       onRecover: commit(() => engine.applyLifeIntent({ type: 'recover' })),
       onFinishRecovery: commit(() => {

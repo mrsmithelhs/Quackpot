@@ -1,0 +1,13 @@
+.life-story47-stage { position: relative; isolation: isolate; min-height: min(34rem, 65vh); display: grid; place-items: center; padding: clamp(1rem, 3vw, 2rem); overflow: hidden; border-radius: .8rem; }
+.life-story47-backdrop { position: absolute; inset: 0; z-index: -1; background: #1c1b18; }
+.life-story47-backdrop svg { display: block; width: 100%; height: 100%; }
+.life-story47 { box-sizing: border-box; width: min(100%, 42rem); margin: 0; padding: clamp(1rem, 3vw, 2rem); border: 2px solid #554b43; border-radius: .8rem; background: #fff9ed; color: #28221e; line-height: 1.6; box-shadow: 0 .75rem 2rem #0008; }
+.life-story47 h2 { margin: 0 0 .75rem; }
+.life-story47 p { margin: 0 0 1rem; }
+.life-story47 .life-btn { margin-top: .75rem; }
+.life-story47-payslip { max-width: 31rem; font-family: 'Courier New', Courier, monospace; border-radius: .35rem; }
+.life-story47-seal { float: right; width: 3.5rem; height: 2.8rem; margin-left: .5rem; }
+.life-story47-seal svg { width: 100%; height: 100%; }
+.life-story47-payslip h2 { border-bottom: 2px dashed #b8a692; padding-bottom: .75rem; text-transform: uppercase; }
+.life-story47-payslip p:nth-of-type(3) { border-top: 1px solid #b8a692; padding-top: .75rem; color: #126b5d; font-weight: bold; }
+@media (max-width: 40rem) { .life-story47-stage { min-height: 26rem; padding: .75rem; } }

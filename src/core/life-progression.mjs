@@ -1,9 +1,10 @@
 // Pure policy transitions. Callers commit the returned state and effects together.
-import { LIFE_CONFIG, LIFE_POLICY_VERSION } from './life-config.mjs';
+import { POLICY_1_CONFIG, POLICY_1_VERSION } from './life-config.mjs';
+import { validWorkStory } from './life-story-content.mjs';
 
 export function initialLife() {
   return {
-    policyVersion: LIFE_POLICY_VERSION, config: { ...LIFE_CONFIG }, day: 1, phase: 'morning',
+    policyVersion: POLICY_1_VERSION, config: { ...POLICY_1_CONFIG }, day: 1, phase: 'morning',
     anchor: null, meals: {}, session: null, nextId: 1, work: null,
     missedShifts: 0, employed: true, shiftDays: {}, rent: { id: 'rent-1', status: 'pending' }, rentSurfaced: false,
     recovery: null, fatiguePending: false, sold: [],
@@ -62,6 +63,7 @@ export function transitionLife(input, balances, intent) {
     else arrive(life.day, phases[phases.indexOf(life.phase) + 1]);
   };
   if (!intent || typeof intent.type !== 'string') return fail('invalid_intent');
+  if (life.story47 && !['work_story_step', 'complete_work', 'complete_activity47', 'dismiss_story47'].includes(intent.type)) return fail('presentation_pending');
   switch (intent.type) {
     case 'meal': {
       if (deadlineBlocks() || life.recovery) return fail('obligation_pending');
@@ -95,15 +97,21 @@ export function transitionLife(input, balances, intent) {
     case 'rent_surface':
       if (!['paid', 'overdue'].includes(life.rent.status)) return fail('rent_unresolved');
       life.rentSurfaced = true; record('life_rent_surfaced', { billId: life.rent.id, status: life.rent.status }); break;
+    case 'agree_work_story47':
     case 'agree_work': {
       if (deadlineBlocks() || life.recovery || life.anchor || life.work || !life.employed) return fail('unavailable');
       if (intent.kind !== 'scheduled' && intent.kind !== 'overtime') return fail('invalid_kind');
       if ((intent.kind === 'scheduled' && life.phase !== 'afternoon') || (intent.kind === 'overtime' && life.phase !== 'evening')) return fail('wrong_phase');
       const id = `work-${life.nextId++}`;
       life.anchor = id; life.work = { id, kind: intent.kind, status: 'doing' };
+      if (intent.type === 'agree_work_story47') {
+        if (intent.kind !== 'scheduled' || !validWorkStory(intent.story)) return fail('invalid_story');
+        life.story47 = { version: 1, kind: 'work', id, stage: 'commute', story: clone(intent.story) };
+      }
       record('life_work_agreed', { ...life.work, day: life.day });
       break;
     }
+    case 'depart_work_story47':
     case 'depart_work': {
       if (life.phase !== 'morning' || mealPending() || deadlineBlocks() || life.recovery || life.work || !life.employed) return fail('unavailable');
       if (life.session && intent.confirmedSessionEnd !== true) return fail('session_confirmation_required');
@@ -111,19 +119,41 @@ export function transitionLife(input, balances, intent) {
       advance();
       const id = `work-${life.nextId++}`;
       life.anchor = id; life.work = { id, kind: 'scheduled', status: 'doing' };
+      if (intent.type === 'depart_work_story47') {
+        if (!validWorkStory(intent.story)) return fail('invalid_story');
+        life.story47 = { version: 1, kind: 'work', id, stage: 'commute', story: clone(intent.story) };
+      }
       record('life_work_agreed', { ...life.work, day: life.day });
       break;
     }
     case 'complete_work': {
       if (!life.work || life.work.id !== intent.id || life.work.status !== 'doing') return fail('work_not_pending');
+      if (life.story47 && (life.story47.kind !== 'work' || life.story47.id !== intent.id || life.story47.stage !== 'work')) return fail('story_not_ready');
       const work = life.work; work.status = 'completed';
       if (work.kind === 'scheduled') life.shiftDays[life.day] = 'completed';
       cash = money(cash + (work.kind === 'scheduled' ? config.scheduledWage : config.overtimeWage));
       record('income', { kind: work.kind === 'scheduled' ? 'wage' : 'overtime', amount: work.kind === 'scheduled' ? config.scheduledWage : config.overtimeWage, transactionId: work.id, cashAfter: cash });
       if (work.kind === 'overtime') hp(-config.overtimeHealth, 'overtime');
       life.work = null;
+      if (life.story47) life.story47.stage = 'payslip';
       break;
     }
+    case 'work_story_step':
+      if (life.story47?.kind !== 'work' || life.story47.id !== intent.id || life.story47.stage !== 'commute') return fail('invalid_story_stage');
+      life.story47.stage = 'work'; break;
+    case 'begin_activity47': {
+      if (deadlineBlocks() || life.recovery || mealPending() || life.anchor || life.work || life.phase !== 'evening' || !['call_mom', 'sit_duck'].includes(intent.choice) || intent.version !== 1) return fail('unavailable');
+      const id = `activity-${life.nextId++}`;
+      life.anchor = id; life.story47 = { version: 1, kind: 'activity', id, choice: intent.choice, stage: 'scene' };
+      break;
+    }
+    case 'complete_activity47':
+      if (life.story47?.kind !== 'activity' || life.story47.id !== intent.id || life.story47.stage !== 'scene') return fail('invalid_story_stage');
+      hp(life.story47.choice === 'call_mom' ? 5 : config.leisureHealth, life.story47.choice);
+      life.story47.stage = 'ack'; break;
+    case 'dismiss_story47':
+      if (life.story47?.id !== intent.id || !['payslip', 'ack'].includes(life.story47.stage)) return fail('invalid_story_stage');
+      delete life.story47; break;
     case 'leisure':
       if (deadlineBlocks() || life.recovery || life.anchor || life.phase !== 'evening') return fail('unavailable');
       life.anchor = `leisure-${life.nextId++}`; hp(config.leisureHealth, 'leisure'); break;

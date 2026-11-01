@@ -14,6 +14,7 @@ import { projectReceipt } from './receipt.mjs';
 import { resolveSeededRace, serializeRaceResolution, restoreRaceResolution } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, deriveRaceRestBoundary, makeRaceRestEvidence, stableExposureSignature } from './race-rest.mjs';
 import { initialLife, transitionLife } from './life-progression.mjs';
+import { selectWorkStory } from './life-story-content.mjs';
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 
 function deepFreeze(value) {
@@ -161,6 +162,10 @@ export class GameEngine {
       if (!hasEnteredQuackpot(this.log.entries)) return { ok: false, reason: 'app_not_opened' };
       intent = { type: 'sell_after_open', asset: intent.asset };
     }
+    if (['depart_work_story47', 'agree_work_story47'].includes(intent?.type) && JSON.stringify(intent.story) !== JSON.stringify(selectWorkStory(this.seed, `work-${this.state.life.nextId}`))) return { ok: false, reason: 'invalid_story_selection' };
+    const story = this.state.life.story47;
+    if (story && ((intent?.type === 'work_story_step' && story.stage === 'commute') || (intent?.type === 'complete_work' && story.stage === 'work') || (intent?.type === 'complete_activity47' && story.stage === 'scene'))
+      && !this.log.entries.some(e => e.type === 'story47_shown' && e.payload.id === story.id && e.payload.stage === story.stage)) return { ok: false, reason: 'story_not_shown' };
     const result = transitionLife(this.state.life, this.state, intent);
     if (!result.ok) return result;
     // Phone navigation belongs to the phase/session that produced it, not the next visit.
@@ -181,6 +186,29 @@ export class GameEngine {
     this.state.clock = { day: result.life.day, label: `day ${result.life.day} ${result.life.phase}` };
     this.log.append('life_transition', { intent: structuredClone(intent), life: structuredClone(result.life), cash: result.cash, health: result.health }, this.state.clock);
     return result;
+  }
+
+  /** Select independently of gameplay RNG, in the same transaction as the work commitment. */
+  beginStoryWork(kind, confirmedSessionEnd = false) {
+    if (!this.state.life) return { ok: false, reason: 'unavailable' };
+    const id = `work-${this.state.life.nextId}`;
+    const story = selectWorkStory(this.seed, id);
+    return this.applyLifeIntent(kind === 'depart'
+      ? { type: 'depart_work_story47', confirmedSessionEnd, story }
+      : { type: 'agree_work_story47', kind: 'scheduled', story });
+  }
+
+  /** Record a story only after its current stage is actually mounted. */
+  showLifeStory47(id, stage) {
+    const story = this.state.life?.story47;
+    if (this.isTerminal() || this.state.activeModal || !story || story.id !== id || story.stage !== stage) return null;
+    if (this.log.entries.some(e => e.type === 'story47_shown' && e.payload.id === id && e.payload.stage === stage)) return null;
+    const payload = { id, stage, version: 1 };
+    if (story.kind === 'work' && stage === 'commute') payload.beats = [story.story.commute];
+    else if (story.kind === 'work' && stage === 'work') payload.beats = [...story.story.work];
+    else if (story.kind === 'activity' && stage === 'scene') payload.beats = [story.choice];
+    else return null;
+    return this.log.append('story47_shown', payload, this.state.clock);
   }
 
   /** Fictional preparation and entry are free; older entry evidence remains authoritative. */
@@ -1222,7 +1250,9 @@ export class GameEngine {
   /** Record unfinished commitments before terminal, without settling them or inventing consequences. */
   recordPendingLifeInterruption() {
     if (this.isTerminal() || !this.state.life) return;
-    const { work, session } = this.state.life;
+    const { work, session, story47 } = this.state.life;
+    if (story47?.kind === 'activity' && story47.stage === 'scene' && !this.log.entries.some(e => e.type === 'activity47_interrupted' && e.payload.id === story47.id))
+      this.log.append('activity47_interrupted', { id: story47.id, choice: story47.choice, day: this.state.life.day }, this.state.clock);
     if (work?.status === 'doing' && !this.log.entries.some(e => e.type === 'work_interrupted' && e.payload.id === work.id))
       this.log.append('work_interrupted', { id: work.id, kind: work.kind, day: this.state.life.day }, this.state.clock);
     if (session && !this.log.entries.some(e => e.type === 'session_interrupted' && e.payload.id === session.id))

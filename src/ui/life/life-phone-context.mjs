@@ -12,7 +12,7 @@ export function lifePhoneResolved(life, entries = []) {
 }
 
 export function lifePhoneScreen(life, welcomeClaimed, entries = []) {
-  const status = life.phase === 'lateNight' ? 'Late' : life.phase[0].toUpperCase() + life.phase.slice(1);
+  const status = life.phase === 'lateNight' ? 'Late' : life.phase === 'afternoon' ? 'PM' : life.phase[0].toUpperCase() + life.phase.slice(1);
   const kind = lifePhoneKind(life);
   if (kind === 'work') return { status, brand: 'MESSAGES', heading: ['Work'], body: [life.work ? 'Shift underway' : 'Shift today'], note: '' };
   if (kind === 'invitation') return { status, brand: 'QUACKPOT', heading: ['Tonight!'], body: [lifePhoneResolved(life, entries) ? 'On the list!' : 'Reply LAUNCH'], note: '' };

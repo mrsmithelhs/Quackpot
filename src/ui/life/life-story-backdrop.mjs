@@ -1,0 +1,7 @@
+// Geometry adapted from Plan 40 scenes.mjs, owner-selected atmospheric study.
+// Decorative only: fixed palette does not encode or infer player mood.
+export function storyBackdrop(stage) {
+  if (stage === 'commute') return `<svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="960" height="540" fill="#1e1c18"/><rect x="0" y="0" width="120" height="540" fill="#1b2028"/><rect x="840" y="0" width="120" height="540" fill="#1b2028"/><rect x="120" y="440" width="720" height="100" fill="#222833"/><rect x="130" y="30" width="700" height="390" rx="6" fill="#2b261e" opacity=".6"/><circle cx="500" cy="180" r="140" fill="#f4a261" opacity=".15"/><path d="M220 420 Q350 280 480 320 T740 420Z" fill="#383024" opacity=".5"/><path d="M120 140H840" stroke="#d5b88a" stroke-width="8" opacity=".4"/></svg>`;
+  if (stage === 'work' || stage === 'payslip') return `<svg viewBox="0 0 960 540" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="960" height="540" fill="#1c1b18"/><g stroke="#4d463d" stroke-width="2" opacity=".35" fill="none"><path d="M0 60H960 M0 120H960 M0 60L120 120 240 60 360 120 480 60 600 120 720 60 840 120 960 60"/></g><rect x="360" y="20" width="240" height="35" rx="2" fill="#a89476" opacity=".18"/><path d="M80 60H110V540H80z M850 60H880V540H850z" fill="#4d463d" opacity=".4"/><rect x="200" y="320" width="560" height="220" fill="#0d0e12" opacity=".7"/><path d="M200 380H760 M200 440H760" stroke="#4d463d" stroke-width="3" opacity=".5"/></svg>`;
+  return '';
+}

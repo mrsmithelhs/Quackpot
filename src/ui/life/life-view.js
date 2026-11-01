@@ -8,6 +8,7 @@
 // when the decision was built (a null return means stale). No storage, no remote assets, no new engine events.
 
 import { renderScene } from '../../assets/apartment/index.mjs';
+import { renderStory47 } from './life-story-view.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
@@ -142,6 +143,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           label: work ? 'Phone: work messages' : worldLabels.phone,
           chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
           done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
+        if (life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
+          const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
+          const kit = kitBox(scene.svg);
+          out.push({ id: 'quiet-duck', hotspot: true, x: Math.max(0, kit.x - kit.w / 2), y: Math.max(0, kit.y - kit.w * 1.5), w: kit.w, h: kit.w * 1.5,
+            label: 'Sit with your duck', chip: 'Quiet moment', hold: { mode: 'popover', side: 'left', kind: 'life-quiet' } });
+        }
         return out;
       }
       const kind = offer === 'extra_shift' ? 'ladder' : 'shift';
@@ -161,9 +168,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           hold: { mode: 'popover', side: 'left', kind: 'life-sell-couch' } });
         if (canSell && !life.sold.includes('tv')) out.push({ id: 'tv-sale', hotspot: true, ...TV_SPOT, label: 'TV: consider selling', chip: 'TV',
           tag: saleTag({ idPrefix: uid('lft') }), done: false, hold: { mode: 'popover', side: 'right', kind: 'life-sell-tv' } });
-        if (life.phase === 'evening' && !life.anchor) out.push({ id: 'leisure', hotspot: true,
-          x: 82, y: 45, w: 15, h: 30, label: 'Take a break', chip: 'Relax', done: false,
-          hold: { mode: 'popover', side: 'left', kind: 'life-leisure' } });
         return out;
       }
       if (offer === 'sell_couch' || (!offer && optionalOpen(engine) && optionalCouchDecision(engine))) {
@@ -204,6 +208,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function decisionFor(kind) {
     const expectLog = engine.log.length;
+    if (kind === 'life-quiet') {
+      return { spec: { heading: 'Sit with Duck?', lines: [`This evening activity restores up to ${engine.state.life.config.leisureHealth} HP after you finish.`], confirm: 'Sit with Duck', back: 'Not now' },
+        accept: () => { callbacks.onBeginStoryActivity(expectLog, 'sit_duck'); return null; } };
+    }
     if (kind === 'life-leisure') {
       return { spec: { heading: 'Take a break?', lines: [`This is your evening activity and restores up to ${engine.state.life.config.leisureHealth} HP.`], confirm: 'Take a break', back: 'Not now' },
         accept: () => { const result = callbacks.onLeisure(expectLog); return result?.ok ? { heading: 'Break complete', lines: [`Health: ${engine.state.health} HP.`] } : null; } };
@@ -607,6 +615,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (e.state.life && ['life_work', 'life_evening'].includes(step)) {
       const expectLog = e.log.length;
+      if (place === 'desk-phone' && e.state.life.phase === 'evening' && !e.state.life.anchor && !e.state.life.recovery && e.state.life.meals[`d${e.state.life.day}-dinner`]) {
+        control('Call Mom · up to +5 HP', () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); ui.held = null; callbacks.onRefresh(); });
+      }
       if (place === 'desk-phone' && e.state.life.phase === 'evening' && e.state.life.employed && (!e.state.life.anchor || e.state.life.work?.kind === 'overtime')) {
         control('Work messages', (button) => {
           const phone = $('.life-obj[data-obj="phone"]');
@@ -653,6 +664,18 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const place = ui.place;
     const offer = offerOf();
     root.classList.remove('life-is-held');
+    if (engine.state.life?.story47) {
+      const story = engine.state.life.story47;
+      renderStory47(root, story, {
+        health: () => engine.state.health,
+        day: () => engine.state.life.day,
+        wage: (id) => engine.log.entries.find(e => e.type === 'income' && e.payload.kind === 'wage' && e.payload.transactionId === id)?.payload.amount,
+        shown: (current) => callbacks.onStoryShown(current),
+        advance: (current) => { callbacks.onStoryAdvance(engine.log.length, current); ui.held = null; callbacks.onRefresh(); },
+      }, active);
+      root.inert = !active;
+      return;
+    }
     if (!place || !SCENES[place]) {
       root.innerHTML = '<div class="life-stage"><p class="life-empty">Nothing to do here right now.</p><div class="life-day-bar"></div></div><p class="life-status life-visually-hidden" role="status" aria-live="polite"></p>';
       renderDayBar(null);

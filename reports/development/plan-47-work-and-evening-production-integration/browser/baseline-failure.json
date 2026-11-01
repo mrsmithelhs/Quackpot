@@ -1,0 +1,164 @@
+{
+  "mode": "baseline",
+  "source": "4c56b0f",
+  "phase": "work",
+  "error": "Error: Timed out: document.querySelector(\"[data-obj=phone]\"); page=Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP",
+  "diagnostic": {
+    "url": "http://127.0.0.1:59637/Quackpot/",
+    "readyState": "complete",
+    "bodyText": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP",
+    "mainHtml": "<main id=\"main-content\" class=\"main-content\"><div class=\"life-view\"></div></main>",
+    "dialogs": [],
+    "save": "{\"schemaVersion\":4,\"raceRestEvidenceVersion\":1,\"savedAt\":1793545001962,\"autosaveEnabled\":true,\"state\":{\"day\":1,\"clock\":{\"day\":1,\"label\":\"day 1 afternoon\"},\"phase\":\"playing\",\"step\":\"life_work\",\"activeModal\":null,\"interruptedContext\":null,\"cash\":74,\"gems\":0,\"health\":100,\"debt\":0,\"down\":0,\"pityCount\":0,\"physicalCompanion\":{\"name\":\"Professor Quacks\",\"style\":\"classic-yellow\",\"pawned\":false},\"owned\":[],\"seenDexEntries\":[],\"pendingReveals\":[],\"lastRacedId\":null,\"tenPullCommitted\":false,\"completedRaces\":[],\"raceResults\":{},\"raceAttempts\":{},\"raceResolutions\":{},\"raceTrialAvailable\":false,\"lastRaceResult\":null,\"billsSettled\":[],\"assetsSold\":[],\"starterOffered\":false,\"starterBought\":false,\"retentionOffered\":false,\"retentionUsed\":false,\"terminalRoute\":null,\"activeBill\":null,\"escalationStepIndex\":0,\"life\":{\"policyVersion\":1,\"config\":{\"startCash\":80,\"startHealth\":100,\"maxHealth\":100,\"mealCost\":6,\"mealSkipHealth\":5,\"scheduledWage\":60,\"rentAmount\":170,\"rentDueDay\":4,\"recoveryHealth\":25,\"lateFatigueHealth\":10,\"leisureHealth\":10,\"overtimeWage\":60,\"overtimeHealth\":15},\"day\":1,\"phase\":\"afternoon\",\"anchor\":\"work-1\",\"meals\":{\"d1-breakfast\":\"buy\"},\"session\":null,\"nextId\":2,\"work\":{\"id\":\"work-1\",\"kind\":\"scheduled\",\"status\":\"doing\"},\"missedShifts\":0,\"employed\":true,\"shiftDays\":{},\"rent\":{\"id\":\"rent-1\",\"status\":\"pending\"},\"rentSurfaced\":false,\"recovery\":null,\"fatiguePending\":false,\"sold\":[]},\"lifePhoneReturnStep\":null},\"prngStreams\":{\"root\":\"{\\\"v\\\":1,\\\"alg\\\":\\\"sfc32\\\",\\\"key\\\":\\\"c99bd796-d568f217\\\",\\\"s\\\":[982375442,1910544292,4019643855,2553624919]}\",\"draw\":\"{\\\"v\\\":1,\\\"alg\\\":\\\"sfc32\\\",\\\"key\\\":\\\"c99bd796-d568f217/draw\\\",\\\"s\\\":[1218845827,3682071031,1601137529,2237275421]}\",\"race\":\"{\\\"v\\\":1,\\\"alg\\\":\\\"sfc32\\\",\\\"key\\\":\\\"c99bd796-d568f217/race\\\",\\\"s\\\":[2189076737,1547915337,235991998,1804210602]}\",\"event\":\"{\\\"v\\\":1,\\\"alg\\\":\\\"sfc32\\\",\\\"key\\\":\\\"c99bd796-d568f217/event\\\",\\\"s\\\":[3276449417,1929856715,1125981980,3368801748]}\"},\"eventLog\":[{\"seq\":0,\"type\":\"run_started\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"seed\":\"c99bd796-d568f217\",\"lifePolicyVersion\":1,\"lifeConfig\":{\"startCash\":80,\"startHealth\":100,\"maxHealth\":100,\"mealCost\":6,\"mealSkipHealth\":5,\"scheduledWage\":60,\"rentAmount\":170,\"rentDueDay\":4,\"recoveryHealth\":25,\"lateFatigueHealth\":10,\"leisureHealth\":10,\"overtimeWage\":60,\"overtimeHealth\":15}},\"chain\":\"3372ef34\"},{\"seq\":1,\"type\":\"companion_styled\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"name\":\"Professor Quacks\",\"style\":\"classic-yellow\"},\"chain\":\"d44f077d\"},{\"seq\":2,\"type\":\"life_intent\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"intent\":{\"type\":\"meal\",\"choice\":\"buy\"}},\"chain\":\"1d94e214\"},{\"seq\":3,\"type\":\"expense_due\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"kind\":\"breakfast\",\"amount\":6,\"billId\":\"d1-breakfast\",\"cashBefore\":80},\"chain\":\"0ba2cdaf\"},{\"seq\":4,\"type\":\"expense_paid\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"kind\":\"breakfast\",\"amount\":6,\"billId\":\"d1-breakfast\",\"cashAfter\":74},\"chain\":\"6c41e1af\"},{\"seq\":5,\"type\":\"life_transition\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"intent\":{\"type\":\"meal\",\"choice\":\"buy\"},\"life\":{\"policyVersion\":1,\"config\":{\"startCash\":80,\"startHealth\":100,\"maxHealth\":100,\"mealCost\":6,\"mealSkipHealth\":5,\"scheduledWage\":60,\"rentAmount\":170,\"rentDueDay\":4,\"recoveryHealth\":25,\"lateFatigueHealth\":10,\"leisureHealth\":10,\"overtimeWage\":60,\"overtimeHealth\":15},\"day\":1,\"phase\":\"morning\",\"anchor\":null,\"meals\":{\"d1-breakfast\":\"buy\"},\"session\":null,\"nextId\":1,\"work\":null,\"missedShifts\":0,\"employed\":true,\"shiftDays\":{},\"rent\":{\"id\":\"rent-1\",\"status\":\"pending\"},\"rentSurfaced\":false,\"recovery\":null,\"fatiguePending\":false,\"sold\":[]},\"cash\":74,\"health\":100},\"chain\":\"69a32047\"},{\"seq\":6,\"type\":\"life_intent\",\"clock\":{\"day\":1,\"label\":\"day 1 morning\"},\"payload\":{\"intent\":{\"type\":\"depart_work\",\"confirmedSessionEnd\":false}},\"chain\":\"9483de99\"},{\"seq\":7,\"type\":\"life_phase_arrived\",\"clock\":{\"day\":1,\"label\":\"day 1 afternoon\"},\"payload\":{\"day\":1,\"phase\":\"afternoon\"},\"chain\":\"57f6accb\"},{\"seq\":8,\"type\":\"life_work_agreed\",\"clock\":{\"day\":1,\"label\":\"day 1 afternoon\"},\"payload\":{\"id\":\"work-1\",\"kind\":\"scheduled\",\"status\":\"doing\",\"day\":1},\"chain\":\"968c1e92\"},{\"seq\":9,\"type\":\"life_transition\",\"clock\":{\"day\":1,\"label\":\"day 1 afternoon\"},\"payload\":{\"intent\":{\"type\":\"depart_work\",\"confirmedSessionEnd\":false},\"life\":{\"policyVersion\":1,\"config\":{\"startCash\":80,\"startHealth\":100,\"maxHealth\":100,\"mealCost\":6,\"mealSkipHealth\":5,\"scheduledWage\":60,\"rentAmount\":170,\"rentDueDay\":4,\"recoveryHealth\":25,\"lateFatigueHealth\":10,\"leisureHealth\":10,\"overtimeWage\":60,\"overtimeHealth\":15},\"day\":1,\"phase\":\"afternoon\",\"anchor\":\"work-1\",\"meals\":{\"d1-breakfast\":\"buy\"},\"session\":null,\"nextId\":2,\"work\":{\"id\":\"work-1\",\"kind\":\"scheduled\",\"status\":\"doing\"},\"missedShifts\":0,\"employed\":true,\"shiftDays\":{},\"rent\":{\"id\":\"rent-1\",\"status\":\"pending\"},\"rentSurfaced\":false,\"recovery\":null,\"fatiguePending\":false,\"sold\":[]},\"cash\":74,\"health\":100},\"chain\":\"b67a771a\"}]}"
+  },
+  "runtimeEvents": [
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793545001527.578,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "4",
+              "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+              "lineNumber": 935,
+              "columnNumber": 6634
+            }
+          ]
+        }
+      },
+      "sessionId": "E15C5E5998042F2B9C57CA9B325A1E2F"
+    },
+    {
+      "method": "Runtime.exceptionThrown",
+      "params": {
+        "timestamp": 1793545001964.701,
+        "exceptionDetails": {
+          "exceptionId": 1,
+          "text": "Uncaught",
+          "lineNumber": 8,
+          "columnNumber": 546,
+          "scriptId": "4",
+          "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+          "stackTrace": {
+            "callFrames": [
+              {
+                "functionName": "a",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 8,
+                "columnNumber": 546
+              },
+              {
+                "functionName": "r",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 97,
+                "columnNumber": 1241
+              },
+              {
+                "functionName": "Ge",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 97,
+                "columnNumber": 1275
+              },
+              {
+                "functionName": "Ze",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 97,
+                "columnNumber": 2877
+              },
+              {
+                "functionName": "te",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 850,
+                "columnNumber": 5004
+              },
+              {
+                "functionName": "xo",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 862,
+                "columnNumber": 2389
+              },
+              {
+                "functionName": "D",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 925,
+                "columnNumber": 7012
+              },
+              {
+                "functionName": "onRefresh",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 935,
+                "columnNumber": 6238
+              },
+              {
+                "functionName": "",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 850,
+                "columnNumber": 4101
+              },
+              {
+                "functionName": "",
+                "scriptId": "4",
+                "url": "http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js",
+                "lineNumber": 850,
+                "columnNumber": 2874
+              },
+              {
+                "functionName": "",
+                "scriptId": "14",
+                "url": "",
+                "lineNumber": 0,
+                "columnNumber": 102
+              }
+            ]
+          },
+          "exception": {
+            "type": "object",
+            "subtype": "error",
+            "className": "RangeError",
+            "description": "RangeError: phone.status is longer than 8 characters\n    at a (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:9:547)\n    at r (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:1242)\n    at Ge (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:1276)\n    at Ze (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:2878)\n    at te (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:5005)\n    at xo (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:863:2390)\n    at D (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:926:7013)\n    at Object.onRefresh (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:936:6239)\n    at http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:4102\n    at HTMLButtonElement.<anonymous> (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:2875)",
+            "objectId": "620566643701011302.2.1",
+            "preview": {
+              "type": "object",
+              "subtype": "error",
+              "description": "RangeError: phone.status is longer than 8 characters\n    at a (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:9:547)\n    at r (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:1242)\n    at Ge (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:1276)\n    at Ze (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:98:2878)\n    at te (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:5005)\n    at xo (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:863:2390)\n    at D (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:926:7013)\n    at Object.onRefresh (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:936:6239)\n    at http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:4102\n    at HTMLButtonElement.<anonymous> (http://127.0.0.1:59637/Quackpot/assets/index-ZFKriHe3.js:851:2875)",
+              "overflow": false,
+              "properties": [
+                {
+                  "name": "stack",
+                  "type": "string",
+                  "value": "RangeError: phone.status is longer than 8 characte…59637/Quackpot/assets/index-ZFKriHe3.js:851:2875)"
+                },
+                {
+                  "name": "message",
+                  "type": "string",
+                  "value": "phone.status is longer than 8 characters"
+                }
+              ]
+            }
+          },
+          "executionContextId": 2
+        }
+      },
+      "sessionId": "E15C5E5998042F2B9C57CA9B325A1E2F"
+    }
+  ]
+}

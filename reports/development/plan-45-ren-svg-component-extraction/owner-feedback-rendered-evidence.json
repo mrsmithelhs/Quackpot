@@ -20,11 +20,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -55,11 +55,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -90,11 +90,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -125,11 +125,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -160,11 +160,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -195,11 +195,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/74d79342-38a3-4ea6-a70f-bb0f3409e044",
+          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:64622/7acca6e9-79a0-49c7-b7d5-639c3daf77cd",
+          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
           "loaded": true
         }
       ],
@@ -214,80 +214,129 @@
   ],
   "errors": [],
   "cleanup": {
-    "residual": false,
-    "uncertainty": false,
+    "residual": true,
+    "uncertainty": true,
     "childExitCode": 0,
-    "treeTerminationConfirmed": true,
-    "profileRemoved": true,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
     "trackedDescendants": [
       {
-        "pid": 28460,
-        "ppid": 45268,
-        "created": "11/01/2026 10:34:01",
+        "pid": 764,
+        "ppid": 54972,
+        "created": "11/01/2026 10:39:06",
         "root": true
       },
       {
-        "pid": 50408,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 38012,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:06",
         "root": false
       },
       {
-        "pid": 41448,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 41148,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:07",
         "root": false
       },
       {
-        "pid": 53544,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 5964,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:07",
         "root": false
       },
       {
-        "pid": 57404,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 12976,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:07",
         "root": false
       },
       {
-        "pid": 2416,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 29756,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:07",
         "root": false
       },
       {
-        "pid": 22076,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 53088,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:08",
         "root": false
       },
       {
-        "pid": 42300,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 4664,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:08",
         "root": false
       },
       {
-        "pid": 63948,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:01",
+        "pid": 57336,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:08",
         "root": false
       },
       {
-        "pid": 34756,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:02",
+        "pid": 24668,
+        "ppid": 41148,
+        "created": "10/31/2026 00:05:43",
         "root": false
       },
       {
-        "pid": 2964,
-        "ppid": 28460,
-        "created": "11/01/2026 10:34:02",
+        "pid": 28540,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      },
+      {
+        "pid": 24896,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      },
+      {
+        "pid": 10492,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      },
+      {
+        "pid": 37804,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:08",
+        "root": false
+      },
+      {
+        "pid": 46276,
+        "ppid": 764,
+        "created": "11/01/2026 10:39:08",
         "root": false
       }
     ],
-    "remainingDescendants": [],
-    "chromeStderr": "[28460:41096:1101/103401.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[28460:41096:1101/103401.791:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:64623/devtools/browser/b8fe9392-8ccc-4d6f-8f57-740c08a7e44a\r\n"
+    "remainingDescendants": [
+      {
+        "pid": 24668,
+        "ppid": 41148,
+        "created": "10/31/2026 00:05:43",
+        "root": false
+      },
+      {
+        "pid": 28540,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      },
+      {
+        "pid": 24896,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      },
+      {
+        "pid": 10492,
+        "ppid": 24668,
+        "created": "10/31/2026 00:05:44",
+        "root": false
+      }
+    ],
+    "chromeStderr": "[764:55064:1101/103907.151:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[764:55064:1101/103907.152:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:62407/devtools/browser/8ae01901-e882-43d3-8bc7-ef5411e59f8e\r\n"
   }
 }

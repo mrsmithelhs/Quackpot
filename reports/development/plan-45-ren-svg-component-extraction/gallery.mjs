@@ -9,7 +9,7 @@ put('door',door('gallery-door')); put('door-before',door('door-before'));
 function handVariant(prefix) {
  let svg=door(prefix); const c=`ren-${prefix}`;
  const old=`<path class="${c}-skin ${c}-l3" d="M216 300 L200 262 L178 268 L192 300Z"/>\n  <ellipse class="${c}-skin ${c}-l3" cx="186" cy="262" rx="13" ry="9" transform="rotate(-20 186 262)"/>\n  <path class="${c}-l2" fill="none" d="M176 258 Q182 262 190 258"/>`;
- const revised=`<path class="${c}-skin ${c}-l3" d="M216 300 L207 281 Q205 276 205 270 Q205 265 202 262 Q199 259 195 259 L190 259 Q187 259 187 262 Q187 264 190 265 L187 265 Q184 265 184 268 Q184 271 187 271 L189 271 Q186 271 186 274 Q186 277 190 277 L192 277 Q189 277 189 280 Q189 282 192 282 L195 281 Q198 282 199 285 L192 300Z"/><path class="${c}-l2" fill="none" d="M190 265 L198 264 M189 271 L198 270 M192 277 L200 275"/><path class="${c}-skin ${c}-l2" d="M199 280 Q195 280 192 278 L187 275 Q184 274 183 277 Q182 279 185 281 L191 285 Q195 287 200 285"/>`;
+ const revised=`<path class="${c}-skin ${c}-l3" d="M216 300 L207 281 Q205 276 205 270 Q205 265 204 263 Q208 257 205 254 Q202 252 199 259 Q197 258 195 259 L190 259 Q187 259 187 262 Q187 264 190 265 L187 265 Q184 265 184 268 Q184 271 187 271 L189 271 Q186 271 186 274 Q186 277 190 277 L192 277 Q189 277 189 280 Q189 282 192 282 L195 281 Q198 282 199 285 L192 300Z"/><path class="${c}-l2" fill="none" d="M190 265 L198 264 M189 271 L198 270 M192 277 L200 275"/>`;
 
  if(!svg.includes(old)) throw Error('Door hand source drift');
  return svg.replace(old,revised);

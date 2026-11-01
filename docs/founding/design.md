@@ -116,6 +116,8 @@ The clock is hybrid:
 
 **Evening recovery refinement (owner, 2026-11-01):** Sit with the physical duck and Call Mom each restore up to5HP, capped at maximum health, as alternative exclusive Evening anchors. The new sit-with-duck value awaits versioned Plan47 repair; existing historical10HP outcomes retain their replay semantics. Owner accepts revised work/commute presentation and dinner, but Plan47 remains open for keys/tutorial departure, discoverable leisure alternatives and ordinary relative rent-deadline wording. See DECISION-061.
 
+**Rent artifact refinement (owner, 2026-11-01):** The paper notice retains its original due-in-three-days printed text. The character accumulates handwritten countdown corrections: strike three/add2 on Day2, strike2/add1 on Day3, strike1/add TODAY! on Day4. Current relative deadline stays in the decision UI. An unaffordable pre-deadline notice offers only dismissal; actual deadline/escalation rules do not change. This treatment awaits Plan47 repair; see DECISION-062.
+
 ## Saving
 
 Two modes, chosen by the player:

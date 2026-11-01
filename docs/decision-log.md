@@ -592,3 +592,11 @@ Owner requests keys as the apartment work-departure affordance and removal of th
 **Date:** 2026-11-01
 
 Owner accepts revised work/commute presentation and reports dinner works. This is partial experience acceptance, not packet closure. Owner selects sitting with the physical duck to restore up to5HP, replacing the current10HP for newly versioned activity behavior; Call Mom remains up to5HP and both are exclusive Evening anchor alternatives. Preserve historical activity replay/config values rather than rewriting old outcomes. Owner cannot find Call Mom; Plan47 must verify the actual reachable evening and make the alternative discoverable before anchor commitment. Rent letter/decision should use ordinary due-date framing rather than Day4 and omit No cash has been taken. Relative due wording may derive from the existing deadline without changing it or introducing a real calendar. These repairs await implementation and review; no push/deployment.
+
+### DECISION-062 — Rent paper countdown and gacha/life boundary repair direction
+
+**Date:** 2026-11-01
+
+Owner accepts Call Mom presentation and improved rent notice appearance. Printed notice must remain the original due-in-three-days wording: on Day2 hand-strike three and add2; Day3 strike2/add1; Day4 strike1/add TODAY!, retaining prior marks and printed days grammar. Current relative deadline belongs in the decision panel. Before deadline, an unaffordable notice offers only Put it down; existing due-time escalation remains authoritative. Plan47 owns bounded paper/copy repair, not new deadline/economy rules.
+
+Owner observes Day1 post-CallMom app advertises a pull then rejects it. Root confirms openLifeApp permits browsing while phone_commit rejects an already-used anchor. Desired repair separates free browsing from warned further active play; exact atomic commitment/reload/extension seam requires a narrow proposal before semantic mutation. Owner requests Duck-Dex inside fictional app navigation rather than global HUD and removal of life-session advancement from fictional app controls. Root recommends compact hub Duck-Dex navigation and metagame-side phase advance; placement/commit details remain proposal work, not yet implemented/accepted. Keys art remains separately held for Sonnet. No push/deployment.

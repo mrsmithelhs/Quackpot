@@ -1,3 +1,56 @@
+# Current Plan 40 Handback — Streamlined Work & Presentation Polish
+
+**Date**: 2026-10-31  
+**Scope**: Plan 40 Work and Evening Experience Study  
+**Lead Implementer**: Gemini Flash (Plan 40)  
+**Status**: Implemented & Verified (Single departure button, two-stage sequence, combined work shift card, single directional commute, production badge suppression)
+
+---
+
+## 1. Latest Deliverables & User Direction Reconciliation
+
+In response to direct user feedback and screenshot review:
+1. **Single Button to Go to Work (`#btn-start-work-sequence` [Head Out to Work])**:
+   - Replaced the confusing two-button departure choice (`[Step Out & Commute In]` vs `[Arrive at Shift Floor]`) with a single, clear departure action button.
+2. **Two-Stage Work Sequence Progression**:
+   - Departure starts a focused two-stage sequence (`commute_in` -> `work_shift` -> `payslip`), transitioning into work and commute without fragmented intermediary steps.
+3. **Single Directional Commute per Sequence**:
+   - Commute is limited to one direction per work sequence. Default sequence features morning transit to work (Stage 1) followed by the work shift (Stage 2).
+   - Reviewer toggle allows testing the alternative flow (Stage 1 = Work Shift, Stage 2 = Commute Home).
+4. **Combined Work Shift Notes on One Dialog Card**:
+   - The two narrative observations about the work day are presented together on one dialog stage as distinct paragraphs within `.work-note-item`, rather than split across multiple separate dialogs.
+5. **Production View Clean of Technical Badges**:
+   - 3-digit hex IDs (`#016`) and Likert ratings (`2/5`) are internal usage export metadata and are hidden from player-facing cards by default.
+   - Added reviewer toggle `[Tone Badges: Hidden (Production) / Visible (Debug)]` enabling developer inspection without polluting the student fiction.
+
+---
+
+## 2. Validation Checks & Witness Evidence
+
+1. **Unit Tests (10/10 Passed via Bounded Launcher)**:
+   - Command: `pwsh -Command "& ./reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1 -Executable 'node' -ArgumentVector @('reports/development/plan-40-work-and-evening-experience-study/run-tests.mjs')"`
+   - Result: Exit 0. 10 suites passed in 0.56s (Peak Sampled Private Bytes: ~4.9 MB).
+   - Verifies: Global hex ID uniqueness across all 52 beats, single departure button, two-stage progression mapping, combined work card HTML, production badge hiding and debug toggle, and ExperimentTracker pre-choice isolation.
+2. **Headless Chrome Browser Check (11/11 Steps Verified)**:
+   - Command: `pwsh -Command "& ./reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1 -Executable 'node' -ArgumentVector @('reports/development/plan-40-work-and-evening-experience-study/browser-check.mjs')"`
+   - Result: Exit 0. 11/11 browser interaction steps passed in 5.26s (Peak Sampled Private Bytes: ~416 MB).
+   - Fresh screenshots saved: `storyboard-evening-desktop.png` and `storyboard-narrow-mobile.png`.
+   - Witness record: `browser-verification.json`.
+3. **Main Test Suite**:
+   - Command: `cmd.exe /d /s /c "npm test"`
+   - Result: Exit 0. 298 tests pass across 11 suites.
+4. **Packet Status Lint**:
+   - Command: `cmd.exe /d /s /c "node scripts/dev/plan-status.js lint"`
+   - Result: Exit 0 (`lint: OK (no violations)`).
+
+---
+
+# Historical Record: Previous Plan 40 Handbacks
+
+The sections below are retained as HISTORICAL evidence from prior iterations.
+
+---
+
 # Current Plan40 handback — root Repair04 verification
 
 2026-10-31. Root reviewed09ec288/9261be5 and used a bounded Luna-high single-writer repair of remaining report-only issues; root inspected changes and corrected two stale dinner-label assertions. No source game/economy/ZIP contract was changed by this study. The separate opening-button production styling fix is recorded in reports/orchestration/opening-button-style-repair.md.

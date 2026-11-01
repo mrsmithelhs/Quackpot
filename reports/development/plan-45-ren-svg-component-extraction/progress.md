@@ -1,0 +1,9 @@
+# Plan 45 progress — source/API gate
+
+2026-11-01. **Paused before extraction for the packet's root approval gate; not ready for delivery.** The proposed source inventory, SHA-256 pins, API, composition constraints, validation approach and gaps are in [source-api-checkpoint.md](source-api-checkpoint.md), local commit `39832c3`. No Ren source, runtime mounting, shared apartment code, packet status, or Plan 47 scope was changed.
+
+Packet check 45 returned RUNNABLE through the unchanged Plan 25 bounded launcher after a memory preflight (global physical memory available 8,132,153,344 bytes, 75% load; process list sandbox-limited). The launcher returned exit 0, no stop reason, 0.53 seconds and sampled peak 1,888,256 bytes. An initial direct Node check was run before the handoff's stricter launcher requirement was read; it also returned RUNNABLE. CIM preflight was denied; a Windows GlobalMemoryStatusEx query supplied the global memory values. No browser, gallery or fidelity tests have run.
+
+The proposal identifies a consequential constraint: the existing floor original is wide while close framing is selected; a derived close crop needs separate inspection. Existing apartment rendering does not expose insertion and its historical composition script temporarily mutates shared room specifications, so the proposed pure adapter requires fidelity verification. Unreviewed candidate artwork and missing shelf/poses remain explicitly identified.
+
+The owner authorized one read-only Terra-medium pre-delivery review; it has not run because there is no implementation to review yet. A callable subagent tool is present; the intended posture is instruction-read-only with post-review worktree verification, not structurally verified read-only. Review and dispositions remain required after implementation. Root approval of the source/API checkpoint is required before extraction. Owner visual acceptance remains separate.

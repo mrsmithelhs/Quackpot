@@ -11,6 +11,7 @@ import { renderScene } from '../../assets/apartment/index.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
+import { lifePhoneKind, lifePhoneScreen } from './life-phone-context.mjs';
 import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
 } from './life-routing.mjs';
@@ -41,11 +42,7 @@ const SCENES = {
   'kitchen-notice': () => ({ area: 'kitchen', framing: 'wide', light: 'neutral' }),
   'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: e.state.life ? 'wide' : breakfastFraming(e.state.day), light: e.state.life && ['evening', 'lateNight'].includes(e.state.life.phase) ? 'warm' : 'window' }),
   'desk-phone': (e, offered) => ({ area: 'desk-side', light: e.state.life && !['evening', 'lateNight'].includes(e.state.life.phase) ? 'window' : 'warm',
-    ...(e.state.life ? { phone: e.state.life.phase === 'morning' && e.state.life.day === 1
-      ? { status: 'Morning', brand: 'QUACKPOT', heading: ['Tonight!'], body: ['Launch invite'], note: '' }
-      : e.state.life.phase === 'afternoon'
-        ? { status: 'PM', brand: 'MESSAGES', heading: ['Work'], body: [e.state.life.employed ? 'Shift today' : 'No shifts'], note: '' }
-        : { status: e.state.life.phase === 'morning' ? 'Morning' : e.state.life.phase === 'lateNight' ? 'Late' : 'Evening', brand: 'QUACKPOT', heading: [e.state.tenPullCommitted ? 'Quackpot' : 'Invitation'], body: [e.state.tenPullCommitted ? 'Return to app' : 'Open the app'], note: '' } }
+    ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted) }
       : offered ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
   'desk-card': () => ({ area: 'desk-side', light: 'warm',
     phone: { status: '6:55 PM', brand: 'HARBOR CARD', heading: ['Cash', 'advance'], body: ['Available now'], note: '' } }),
@@ -138,9 +135,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     } else if (place === 'desk-phone') {
       if (engine.state.life) {
         const life = engine.state.life;
-        const unlocked = life.day > 1 || ['evening', 'lateNight'].includes(life.phase);
-        const rentBlocking = life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced);
-        const work = !life.recovery && !rentBlocking && (life.work || (life.phase === 'afternoon' && life.employed && !life.anchor));
+        const context = lifePhoneKind(life);
+        const work = context === 'work', unlocked = context === 'app';
         const kind = work ? 'life-work' : unlocked ? 'life-phone' : 'life-invite';
         out.push({ id: 'phone', hotspot: true, ...PHONE_SPOT,
           label: work ? 'Phone: work messages' : worldLabels.phone,
@@ -580,9 +576,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       : place ? (isBreakfastStep(step) ? `Day ${e.state.day} · morning` : WHEN[place]) : `Day ${e.state.day}`;
     const status = r.owing && e.state.life ? `Rent ${e.state.life.rent.status === 'overdue' ? 'overdue' : 'due'} · ${money(rentAmount())} unpaid`
       : r.owing ? `Rent unpaid · ${money(r.short)} short`
-      : RENT_STEPS.includes(step) ? (r.paid ? `Rent paid · Cash ${money(e.state.cash)}` : `Rent due · ${money(rentAmount())} · Cash ${money(e.state.cash)}`)
-        : `Cash ${money(e.state.cash)}`;
-    bar.innerHTML = `<span class="life-when">${esc(when)}</span><span class="life-day-status">${esc(status)}</span>`;
+      : RENT_STEPS.includes(step) ? (r.paid ? 'Rent paid' : `Rent due · ${money(rentAmount())}`)
+        : null;
+    bar.innerHTML = `<span class="life-when">${esc(when)}</span>${status ? `<span class="life-day-status">${esc(status)}</span>` : ''}`;
     if (statusOnly) return;
     const rooms = document.createElement('div');
     rooms.className = 'life-room-nav';

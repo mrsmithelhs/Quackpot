@@ -22,6 +22,7 @@
 | `src/core/game-engine.mjs` | Game state/rules, guarded one-time actions, deterministic outcome streams and event emission; no DOM rendering |
 | `src/core/life-config.mjs`, `life-progression.mjs`, `life-validation.mjs` | Plan38 new-policy configuration, pure phase/action/obligation transitions and replay validation. New runs use policy1/schema4; old schemas retain legacy continuation. Integrated delivery is owner-accepted2026-10-31; no claim of complete whole-run balance |
 | `src/core/prng.mjs`, `event-log.mjs`, `receipt.mjs` | Canonical deterministic RNG, append-only integrity/completeness and log-derived Receipt projection |
+| `src/ui/receipt-presentation.mjs`, `receipt-view.js`, `receipt-view.css` | Plan44 production LayoutA: pure evidence ordering/counts/unknown-data adapter, three-register reflection cards and expandable draw/race/life supporting records. Delivered for owner review; no inferred motives or rewritten log |
 | `src/core/storage.mjs` | Local save envelopes, validation, backup/corruption handling and temporary-memory fallback |
 | `src/ui/hud.js`, `desk-view.js`, `gacha-view.js`, `race-view.js`, `modals.js`, `receipt-view.js` | DOM views from engine state plus callbacks. Some import roster/constants; these are pragmatic renderers, not a formal independent view-model layer |
 | `src/style.css` | Existing global presentation rules; coordinate edits here rather than letting parallel packets overlap |

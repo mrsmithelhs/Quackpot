@@ -1,7 +1,7 @@
 ---
 id: plan-44
 title: Production Receipt Layout A and evidence disclosures
-status: in-progress
+status: delivered
 depends_on: [plan-27]
 gate: "Root drafts2026-10-31 from selected LayoutA and reviewed Plan27 proposal. Owner assignment and exact projection/ownership mechanism clearance required before production changes."
 summary: >-

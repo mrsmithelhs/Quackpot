@@ -1,7 +1,7 @@
 ---
 id: plan-39
 title: Melody reference and Web Audio laboratory
-status: delivered
+status: in-progress
 depends_on: [plan-33]
 gate: "Owner authorizes Argon/Flash report-local composition, harness and export experiments on 2026-10-30. Ready for assignment; owner listening selects results, production adoption separate."
 summary: >-
@@ -14,7 +14,7 @@ summary: >-
 - Packet id: plan-39
 - Packet title: Melody reference and Web Audio laboratory
 - Status: (see frontmatter)
-- Owner/model: Gemini Argon lead, Flash composition/research/coding workers; awaiting launch
+- Owner/model: original Gemini Argon/Flash composition; owner reassigns bounded technical completion to Codex2026-10-31
 - Date: 2026-10-30
 - Packet type: investigation / executable prototype
 - Mutation level: report-local source and generated-local exports
@@ -22,6 +22,8 @@ summary: >-
 - Expected artifacts: research synthesis, editable scores/patches, HTML audition/export tool, checks, selected-reference workflow and progress report
 
 ## Goal and why this packet exists
+
+**Codex technical completion2026-10-31:** Owner reopens Plan39 for in-place renderer/export/provenance repairs from reports/orchestration/plan-39-v3-review-01.md. Follow reports/orchestration/plan-39-codex-technical-completion-handoff.md. Preserve accepted M1–M6/C0 compositions and prior evidence; no new musical expansion or production integration. Plan43 may research but must defer executable renderer reuse until root accepts a pinned repaired baseline; do not duplicate these repairs there. One Terra-medium read-only pre-delivery reviewer is authorized. Ordinary scoped repairs proceed through delivery without repeated per-run approval; material sonic or resource/dependency changes require explanation and owner/root gate.
 
 The selected Lucky Ripple C reference lasts about 4.92 seconds including release, below the six-second minimum the owner encounters in Suno. Earlier long C extensions were rejected; Gemini's full tracks were musically appealing to the owner but usually did not retain C recognizably. Build a better composition and reference-authoring workflow: audition short continuations, accompaniment-led treatments, voicings and synthesized instrument choices, then explicitly export a chosen reference for the owner's external generation experiments. Reusable score/rendering architecture is useful future pipeline work, not production readiness.
 

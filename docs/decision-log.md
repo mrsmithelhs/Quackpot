@@ -536,3 +536,9 @@ Owner accepts Plan38 and requests closure after the launch-reply refinement. Pre
 **Date:** 2026-10-31
 
 Owner assigns Plans44 and43 to separate Codex implementers. Plan44 integrates selected LayoutA after root projection/ownership mechanism clearance, with one Terra-medium pre-delivery review. Plan43 performs report-local style/instrument research and staged listening, with a pinned renderer/resource checkpoint before executable reuse/extensions or long renders, and one Terra-medium review for substantive rendering code. Source scopes are disjoint; shared browser/audio/build turns require coordination. Plan39 originals remain read-only; necessary renderer fixes may be made in Plan43's pinned attributed copy after clearance without claiming Plan39 closure. No production music, TV, social, export or deployment adoption follows from assignment.
+
+### DECISION-053 — Plan39 in-place technical completion before Plan43 reuse
+
+**Date:** 2026-10-31
+
+Owner reopens Plan39 and assigns a new Codex implementer to finish the six reviewed renderer/export/provenance findings while preserving accepted M1–M6/C0 music. Root authorizes one Terra-medium pre-delivery review and scoped completion through delivery without repetitive proposal gates. This supersedes DECISION-052's optional Plan43 baseline-repair copy: Plan39 now owns in-place baseline repairs; Plan43 research can proceed independently, but executable reuse waits for a root-accepted pinned revision. No duplicate renderer repair writers, new musical expansion, production integration or push/deployment. Plan43 remains assigned in progress but owner reports it has not yet been dispatched.

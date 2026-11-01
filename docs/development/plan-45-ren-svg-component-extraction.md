@@ -1,7 +1,7 @@
 ---
 id: plan-45
 title: Ren SVG component extraction and fidelity gallery
-status: in-progress
+status: delivered
 depends_on: [plan-41]
 gate: "Owner assigns Codex2026-11-01. Root approves exact source/API map before extraction. One read-only Terra-medium pre-delivery reviewer authorized. Owner accepts fidelity/gallery before any production mounting; genuinely new drawing remains separately gated."
 summary: >-

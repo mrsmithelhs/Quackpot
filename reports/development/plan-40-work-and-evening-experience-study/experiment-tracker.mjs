@@ -25,12 +25,16 @@ export class ExperimentTracker {
     const isExtraShift = eveningChoice === 'extra_shift';
 
     // Calculate score STRICTLY from pre-choice exposure
-    const sumScores = preChoiceBeats.reduce((acc, [, score]) => acc + score, 0);
-    const avgPreChoiceScore = preChoiceBeats.length > 0 ? parseFloat((sumScores / preChoiceBeats.length).toFixed(2)) : 3.0;
+    let avgPreChoiceScore = null;
+    let scoreTier = 'unscored';
 
-    let scoreTier = 'neutral';
-    if (avgPreChoiceScore <= 2.2) scoreTier = 'depleting';
-    else if (avgPreChoiceScore >= 3.6) scoreTier = 'uplifting';
+    if (preChoiceBeats.length > 0) {
+      const sumScores = preChoiceBeats.reduce((acc, [, score]) => acc + score, 0);
+      avgPreChoiceScore = parseFloat((sumScores / preChoiceBeats.length).toFixed(2));
+      if (avgPreChoiceScore <= 2.2) scoreTier = 'depleting';
+      else if (avgPreChoiceScore >= 3.6) scoreTier = 'uplifting';
+      else scoreTier = 'neutral';
+    }
 
     const session = {
       id: `preview-session-${this.observedPreviewSessions.length + 1}`,

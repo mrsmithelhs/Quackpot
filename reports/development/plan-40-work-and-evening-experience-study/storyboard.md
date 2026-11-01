@@ -4,13 +4,13 @@
 **Study**: Plan 40 Work and Evening Experience Study  
 **Preview Entry Point**: [`index.html`](file:///c:/AI/Quackpot/reports/development/plan-40-work-and-evening-experience-study/index.html)  
 **Primary Treatment**: Treatment 3 (Atmospheric Micro-Fiction & Commute Vignette)  
-**Catalog Version**: `1.0.0`  
+**Catalog Version**: `1.1.0`  
 
 ---
 
 ## 1. Selected-Flow Tour: Beat by Beat
 
-The interactive storyboard demonstrates an understandable, lived progression from the morning departure through commute, workplace shifts, wage disbursal, evening apartment decompression, and late-night rest.
+The interactive storyboard demonstrates an understandable, lived progression from the morning departure through commute, workplace shifts, wage disbursal, Day 1 kitchen/dinner return, evening apartment decompression, and late-night rest.
 
 ```
 [Morning Departure]
@@ -26,6 +26,9 @@ The interactive storyboard demonstrates an understandable, lived progression fro
        │
        ▼
 [Wage Payslip Disbursal]   <── $60.00 Net Take-Home Cash
+       │
+       ▼
+[Day 1 Kitchen / Dinner]   <── Keys & badge on counter, warm tea, dinner decompression
        │
        ▼
 [Evening Apartment Stage]  <── Warm desk lamp, dusk window, duck companion
@@ -67,7 +70,13 @@ The interactive storyboard demonstrates an understandable, lived progression fro
   - Gross and deduction numbers are fictional presentation copy.
 - **Player Action**: `[Collect Wages (+$60.00) & Walk In]`. The wallet clearly updates from $15.00 to $75.00.
 
-### Beat 6: Evening Apartment & Life Anchors
+### Beat 6: Day 1 Kitchen Dinner Return
+- **Visuals**: Apartment kitchen counter under warm interior lighting (`src/assets/apartment/index.mjs`).
+- **Narrative**: Setting keys and warehouse badge on the laminate counter, sipping warm tea, and eating dinner.
+- **Coordination**: Aligns directly with closed Plan 38's Day 1 kitchen/dinner return baseline before transitioning to the evening desk.
+- **Player Action**: `[Finish Dinner & Head to Desk]`.
+
+### Beat 7: Evening Apartment & Life Anchors
 - **Visuals**: Accepted apartment desk view in warm evening lighting (amber desk lamp pool, physical rubber duck resting calmly).
 - **Interactive Diegetic Anchors (Factual & Neutral)**:
   1. **📞 Call Mom**: Warm phone conversation about dinner, health, and family news (+5 HP).
@@ -75,7 +84,7 @@ The interactive storyboard demonstrates an understandable, lived progression fro
   3. **📱 Open Quackpot**: Factual game launcher opening to the banner screen.
   4. **💼 Tonight's Gigs & Shifts**: Displays 1–2 rolled options for that evening, weighted toward frequent gig work.
 
-### Beat 7: Optional Extra Shifts (1–2 Daily Rolls Weighted Toward Gigs)
+### Beat 8: Optional Extra Shifts (1–2 Daily Rolls Weighted Toward Gigs)
 - **Daily Roll Mechanic**:
   - The phone displays 1 or 2 available offers:
     - *QuickDrop Food Delivery*: +$35.00 cash, −8 HP (frequent gig).
@@ -94,6 +103,7 @@ The interactive storyboard demonstrates an understandable, lived progression fro
 
 ### Pre-Choice Isolation:
 - Exposure scores are calculated strictly from the work and commute beats experienced *before* the evening choice is made. Post-choice outcomes (like working an extra shift) are stored separately and do not distort the prior condition score.
+- **Unscored / Unknown Handling**: If `preChoiceBeats` is empty (e.g. testing evening choices directly), the tracker marks the session as `unscored` (mean: `null`) and excludes it from the tone tier denominator, rather than artificially assuming a neutral score of 3.0.
 
 ### Data Separation in Reviewer UI:
 - **Observed Preview Sessions**: Tracks actual sessions run in the interactive preview (starts at 0).

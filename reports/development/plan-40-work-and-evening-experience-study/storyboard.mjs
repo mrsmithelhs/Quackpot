@@ -3,9 +3,11 @@
 // Standalone pure client ES module; zero runtime server dependency, zero saved storage mutation.
 
 import {
+  CATALOG_VERSION,
   WORK_BEATS,
   COMMUTE_BEATS,
   WAGE_PAYSLIP,
+  KITCHEN_RETURN_SCENE,
   EVENING_ACTIVITIES,
   EXTRA_SHIFTS_CATALOG,
   rollDailyExtraShifts,
@@ -33,11 +35,11 @@ export class StoryboardController {
     this.state = {
       cash: 15.00,
       health: 80,
-      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return
+      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return
       workBeat1Index: 1, // default #012 (Rating 2)
-      workBeat2Index: 3, // default #014 (Rating 4)
+      workBeat2Index: 9, // default #014 (Rating 4)
       commuteInIndex: 2, // default #0C3 (Rating 3)
-      commuteHomeIndex: 3, // default #0C4 (Rating 4)
+      commuteHomeIndex: 8, // default #0C4 (Rating 4)
       preChoiceBeats: [], // array of [hexId, rating] strictly before evening choice
       dialogueStep: 0,
       activeExtraShift: null,
@@ -188,6 +190,7 @@ export class StoryboardController {
     else if (this.state.moment.startsWith('work')) phaseLabel = 'Afternoon Shift';
     else if (this.state.moment.startsWith('commute')) phaseLabel = 'Commute Home';
     else if (this.state.moment === 'payslip') phaseLabel = 'Shift Paid';
+    else if (this.state.moment === 'kitchen_dinner') phaseLabel = 'Dinner / Return';
     else if (this.state.moment === 'evening' || ['call_mom', 'sit_duck', 'open_gacha'].includes(this.state.moment)) phaseLabel = 'Evening';
     else if (this.state.moment === 'night_return' || this.state.activeExtraShift) phaseLabel = 'Night';
 
@@ -239,7 +242,7 @@ export class StoryboardController {
   renderStage() {
     const m = this.state.moment;
 
-    // 1. Departure
+    // 1. Departure (Morning)
     if (m === 'departure') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'kitchen', light: 'neutral', duck: false, idPrefix: 'dep' });
       this.dom.overlayLayer.innerHTML = `
@@ -344,7 +347,7 @@ export class StoryboardController {
 
     // 4. Work Beat 2
     if (m === 'work_2') {
-      const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[3];
+      const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[9];
       const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
@@ -380,7 +383,7 @@ export class StoryboardController {
 
     // 5. Commute Home
     if (m === 'commute_home') {
-      const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[3];
+      const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[8];
       const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
@@ -421,19 +424,50 @@ export class StoryboardController {
         <div class="vignette-overlay">
           <div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
             ${renderPaySlipHtml()}
-            <button type="button" class="btn btn-primary" id="btn-collect-pay">Collect Wages (+$60.00) & Walk In</button>
+            <button type="button" class="btn btn-primary" id="btn-collect-pay">Collect Wages (+$60.00) & Step into Kitchen</button>
           </div>
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-collect-pay').addEventListener('click', () => {
         this.state.cash += 60.00;
         this.logEvent('Credited regular shift wage: +$60.00 cash');
+        this.jumpToMoment('kitchen_dinner');
+      });
+      return;
+    }
+
+    // 7. Day 1 Kitchen / Dinner Return (Plan 38 coordination)
+    if (m === 'kitchen_dinner') {
+      this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'kitchen', light: 'warm', duck: false, idPrefix: 'kit' });
+      this.dom.overlayLayer.innerHTML = `
+        <div class="vignette-overlay">
+          <div class="vignette-card" role="region" aria-label="Day 1 Kitchen Dinner Return">
+            <div class="vignette-header">
+              <div class="vignette-icon-wrap">${VIGNETTE_ICONS.breakroom_pastry}</div>
+              <div class="vignette-titles">
+                <h3>${esc(KITCHEN_RETURN_SCENE.heading)}</h3>
+                <span>Day 1 Return Home · Kitchen Counter</span>
+              </div>
+            </div>
+            <div class="vignette-body">
+              <p>${esc(KITCHEN_RETURN_SCENE.text)}</p>
+              <p>${esc(KITCHEN_RETURN_SCENE.dinnerNote)}</p>
+              <p class="vignette-detail">${esc(KITCHEN_RETURN_SCENE.detail)}</p>
+            </div>
+            <div class="vignette-actions">
+              <button type="button" class="btn btn-primary" id="btn-finish-dinner">${esc(KITCHEN_RETURN_SCENE.actionLabel)}</button>
+            </div>
+          </div>
+        </div>
+      `;
+      this.dom.overlayLayer.querySelector('#btn-finish-dinner').addEventListener('click', () => {
+        this.logEvent('Finished simple dinner at kitchen counter; stepped into living room desk');
         this.jumpToMoment('evening');
       });
       return;
     }
 
-    // 7. Evening Apartment Stage
+    // 8. Evening Apartment Stage (Desk & Anchors)
     if (m === 'evening') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'eve' });
       this.dom.overlayLayer.innerHTML = `
@@ -478,7 +512,7 @@ export class StoryboardController {
       return;
     }
 
-    // 8. Call Mom Flow
+    // 9. Call Mom Flow
     if (m === 'call_mom') {
       const act = EVENING_ACTIVITIES.callMom;
       const d = act.dialogue;
@@ -535,7 +569,7 @@ export class StoryboardController {
       return;
     }
 
-    // 9. Sit with Duck Flow
+    // 10. Sit with Duck Flow
     if (m === 'sit_duck') {
       const act = EVENING_ACTIVITIES.sitWithDuck;
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'duck' });
@@ -579,7 +613,7 @@ export class StoryboardController {
       return;
     }
 
-    // 10. Open Quackpot Flow
+    // 11. Open Quackpot Flow
     if (m === 'open_gacha') {
       const act = EVENING_ACTIVITIES.openGacha;
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'gacha' });
@@ -623,7 +657,7 @@ export class StoryboardController {
       return;
     }
 
-    // 11. Extra Shifts Board (1–2 daily options rolled)
+    // 12. Extra Shifts Board (1–2 daily options rolled)
     if (m === 'extra_shifts') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'living', light: 'warm', duck: true, idPrefix: 'extra' });
       this.dom.overlayLayer.innerHTML = `
@@ -689,7 +723,7 @@ export class StoryboardController {
       return;
     }
 
-    // 12. Night Return after Extra Shift
+    // 13. Night Return after Extra Shift
     if (m === 'night_return') {
       const shift = this.state.activeExtraShift;
       const beat = this.state.activeExtraBeat;

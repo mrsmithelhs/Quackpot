@@ -9,6 +9,7 @@ import {
   WORK_BEATS,
   COMMUTE_BEATS,
   WAGE_PAYSLIP,
+  KITCHEN_RETURN_SCENE,
   EVENING_ACTIVITIES,
   EXTRA_SHIFTS_CATALOG,
   rollDailyExtraShifts,
@@ -25,13 +26,13 @@ import {
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
 test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () => {
-  assert.equal(CATALOG_VERSION, '1.0.0');
+  assert.equal(CATALOG_VERSION, '1.1.0');
 
   // Plan 29 baseline completed-shift take-home wage
   assert.equal(WAGE_PAYSLIP.takeHome, '$60.00');
 
-  // Verify 5 sample work beats
-  assert.equal(WORK_BEATS.length, 5);
+  // Verify expanded work beats (15 beats)
+  assert.equal(WORK_BEATS.length, 15);
   for (const b of WORK_BEATS) {
     assert.match(b.hexId, /^[0-9A-F]{3}$/i);
     assert.ok(b.rating >= 1 && b.rating <= 5);
@@ -40,8 +41,8 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
     assert.ok(b.dimension.length > 0);
   }
 
-  // Verify 5 sample commute beats (commute in and commute home)
-  assert.equal(COMMUTE_BEATS.length, 5);
+  // Verify expanded commute beats (12 beats)
+  assert.equal(COMMUTE_BEATS.length, 12);
   const phases = new Set(COMMUTE_BEATS.map(b => b.phase));
   assert.ok(phases.has('in'));
   assert.ok(phases.has('home'));
@@ -62,6 +63,10 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
       assert.ok(beat.text.length > 0);
     }
   }
+
+  // Day 1 kitchen return scene coordination
+  assert.ok(KITCHEN_RETURN_SCENE.heading.includes('Kitchen'));
+  assert.ok(KITCHEN_RETURN_SCENE.text.includes('counter'));
 
   // Verify daily extra shift roll returns 1-2 options and handles weights
   const rolled = rollDailyExtraShifts(2, 0.25);
@@ -97,7 +102,7 @@ test('Scene rendering, ambient backdrops, and SVG generation', () => {
   assert.ok(payslipHtml.includes('Harbor Logistics'));
 });
 
-test('ExperimentTracker pre-choice isolation and synthetic-data separation', () => {
+test('ExperimentTracker pre-choice isolation, unscored handling, and synthetic separation', () => {
   const tracker = new ExperimentTracker();
 
   // Observed preview sessions start empty (0)
@@ -112,15 +117,29 @@ test('ExperimentTracker pre-choice isolation and synthetic-data separation', () 
   const demoTotal = demoStats.reduce((acc, t) => acc + t.total, 0);
   assert.equal(demoTotal, 90);
 
-  // Record an session: pre-choice beats only should dictate the score
+  // Test recording with EMPTY preChoiceBeats (direct jump): should be unscored
+  const unscoredSession = tracker.recordSession({
+    preChoiceBeats: [],
+    eveningChoice: 'call_mom',
+  });
+  assert.equal(unscoredSession.avgPreChoiceScore, null);
+  assert.equal(unscoredSession.scoreTier, 'unscored');
+
+  // Verify that an unscored session does NOT pollute depleting, neutral, or uplifting tiers
+  const statsAfterUnscored = tracker.getObservedStats();
+  for (const tier of statsAfterUnscored) {
+    assert.equal(tier.total, 0);
+  }
+
+  // Record an uplifting session: pre-choice beats only should dictate the score
   tracker.recordSession({
     preChoiceBeats: [['014', 4], ['015', 5], ['0C5', 5]],
     eveningChoice: 'extra_shift',
     postChoiceBeats: [['F01', 1]], // Extra shift was depleting, but happened AFTER choice!
   });
 
-  assert.equal(tracker.observedPreviewSessions.length, 1);
-  const recorded = tracker.observedPreviewSessions[0];
+  assert.equal(tracker.observedPreviewSessions.length, 2);
+  const recorded = tracker.observedPreviewSessions[1];
 
   // Pre-choice score should be (4 + 5 + 5)/3 = 4.67 (Uplifting), NOT dragged down by F01
   assert.equal(recorded.avgPreChoiceScore, 4.67);

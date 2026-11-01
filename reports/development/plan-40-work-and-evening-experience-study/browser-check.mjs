@@ -219,8 +219,15 @@ async function runBrowserCheck() {
     }
     results.stepsPassed.push('Step 6: Wage payslip accurately verified at $60.00 completed-shift take-home');
 
-    // Step 7: Collect wages and enter Evening Apartment
+    // Step 7: Collect wages and step into Kitchen Dinner Return
     await evaluate('document.querySelector("#btn-collect-pay").click()');
+    await delay(200);
+
+    const kitchenPhase = await evaluate('document.querySelector("#hud-phase").textContent');
+    console.log(`Kitchen Dinner Return: Phase=${kitchenPhase}`);
+
+    // Click finish dinner to enter Evening Room
+    await evaluate('document.querySelector("#btn-finish-dinner").click()');
     await delay(300);
 
     const eveningCash = await evaluate('document.querySelector("#hud-cash").textContent');
@@ -229,7 +236,7 @@ async function runBrowserCheck() {
       throw new Error(`Expected $75.00 after $60 wage collection, got ${eveningCash}`);
     }
     await captureScreenshot('storyboard-evening-desktop.png');
-    results.stepsPassed.push('Step 7: Wages collected ($75.00) and entered Evening Apartment');
+    results.stepsPassed.push('Step 7: Day 1 Kitchen Dinner return verified and entered Evening Apartment ($75.00)');
 
     // Step 8: Call Mom (+5 HP)
     await evaluate('document.querySelector("#anchor-mom").click()');

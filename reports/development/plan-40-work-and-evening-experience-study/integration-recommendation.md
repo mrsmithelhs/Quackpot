@@ -1,19 +1,20 @@
-# Plan 40 · Integration Recommendation for Plan 38 Codex Progression
+# Plan 40 · Integration Recommendation for Production Progression
 
 **Date**: 2026-10-31  
-**Target Consumer**: Plan 38 (Apartment Life Production Integration / Codex Progression Model)  
+**Target Consumer**: Closed Plan 38 Baseline Coordination, Plan 42 Student Run-Usage Export, and Future Production Lifecycle Integrations  
 **Lead Implementer**: Gemini Flash (Plan 40)  
 **Authority**: Investigation proposal & presentation handoff (NOT runtime production authority)  
 
 ---
 
-## 1. Action & Event Interface Proposals for Plan 38
+## 1. Action & Event Interface Proposals for Production Integration
 
-These interfaces are proposed recommendations for Codex's progression resolver in Plan 38, designed to represent work, commute, and evening beats cleanly without inventing a second schedule or separate timeclocks:
+These interfaces are proposed recommendations for future lifecycle integration, designed to represent work, commute, and evening beats cleanly in coordination with the closed Plan 38 production baseline:
 
 ### 1. `action: 'work_completed'` (Afternoon Shift Anchor)
-- **Anchor Context**: Ordinary work runs as a single committed afternoon life anchor (`d1_afternoon`).
-- **Commute Integration**: Commute-in and commute-home are experienced as narrative subscenes *within* this single work commitment, rather than charging separate life phases or adding new clocks to the HUD.
+- **Anchor Context & Baseline Coordination**:
+  - Aligns with closed Plan 38 baseline: player-visible departure in morning hallway, single committed afternoon work anchor (`d1_afternoon`), and return home with Day 1 kitchen/dinner focus.
+  - Commute-in and commute-home are experienced as narrative subscenes *within* this single work commitment, rather than charging separate life phases or adding new clocks to the HUD.
 - **Financial Baseline**:
   - Direct **$60.00 cash take-home** credited to wallet (Plan 29 completed-shift baseline).
   - The $88 gross and $28 deduction are fictional payslip presentation copy, not tax simulation or engine logic.
@@ -33,7 +34,7 @@ These interfaces are proposed recommendations for Codex's progression resolver i
 
 ### 2. `action: 'evening_activity'` (Evening Life Anchor)
 - **Variants**:
-  - `kind: 'call_mom'`: Restores **+5 HP** (capped at 100). Factual, grounding family check-in.
+  - `kind: 'call_mom'`: Restores **+5 HP** (capped at 100) in the refined activity model (distinct from Plan 38's provisional +10 HP until adopted). Factual, grounding family check-in.
   - `kind: 'sit_duck'`: Restores **+2 HP** (capped at 100). Quiet reflection with physical companion.
   - `kind: 'open_gacha'`: Leaves health unchanged; opens the phone gacha session hub.
 - **Proposed Append-Only Log Evidence**:
@@ -49,10 +50,10 @@ These interfaces are proposed recommendations for Codex's progression resolver i
 
 ### 3. `action: 'extra_shift'` (Optional Overtime / Gig Work)
 - **Exclusivity**: Taking an extra shift is an exclusive evening commitment that transitions the day to night/bedrest, preventing an infinite same-night grinding loop.
-- **Gig Availability Policy**:
+- **Gig Availability Policy & Regular Job Decoupling**:
   - 1–2 options rolled per day, weighted toward frequent gig work (food/grocery delivery).
   - Persists stably across room inspection and page reloads for that day.
-  - Acts as an accessible fallback even if the regular warehouse job is missed or forfeited.
+  - **Emergency Recovery Lane**: Independent gig apps remain accessible as an emergency fallback even if regular scheduled warehouse employment is lost or forfeited.
 - **Parameters**: `shiftId` (`'gig_food'`, `'gig_grocery'`, `'diner_cover'`, etc.), `beat: [hexId, rating]`.
 - **Decoupled Rent Invariant**: Earning shift cash **never** automatically pays or alters the pending rent balance on the fridge.
 - **Flat Reward Honesty**: Stated payout (e.g. $35.00) strictly matches the credited amount with zero contradictory unbudgeted tips.
@@ -72,7 +73,7 @@ These interfaces are proposed recommendations for Codex's progression resolver i
 
 ---
 
-## 2. Compact Run-Usage Export Schema (CourseVGD Analysis)
+## 2. Compact Run-Usage Export Schema (CourseVGD Analysis & Plan 42)
 
 In student run-usage ZIP exports, each day records a compact summary without free-text student identifiers or timestamps:
 ```json
@@ -86,6 +87,7 @@ In student run-usage ZIP exports, each day records a compact summary without fre
   "gachaSpent": 0.00
 }
 ```
+*Note on Unscored Sessions*: When `pre` is empty (e.g. testing evening choices directly), `avg` is serialized as `null` (unscored) and excluded from tone tier denominators.
 
 ---
 

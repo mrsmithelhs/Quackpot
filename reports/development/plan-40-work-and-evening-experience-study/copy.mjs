@@ -3,7 +3,7 @@
 // Architecture designed to scale to 100+ work beats, 100+ commute beats, and 30+ extra shifts.
 // Compact 3-digit hex IDs and 1-5 integer author ratings for efficient usage export.
 
-export const CATALOG_VERSION = '1.0.0';
+export const CATALOG_VERSION = '1.1.0';
 
 export const money = (n) => `${n < 0 ? '−' : ''}$${Math.abs(n).toFixed(2)}`;
 
@@ -13,7 +13,7 @@ export const money = (n) => `${n < 0 ? '−' : ''}$${Math.abs(n).toFixed(2)}`;
  * 2 = Mildly Depleting / Dull (monotony, fatigue, gray drizzle, boredom)
  * 3 = Neutral / Routine (steady routine, neutral weather, clock moves)
  * 4 = Pleasant / Uplifting (good music, friendly exchange, pleasant weather)
- * 5 = Very Uplifting / Energizing (autonomy, mastery, praise, helping someone)
+ * 5 = Very Energizing / Uplifting (autonomy, mastery, praise, helping someone)
  *
  * NOTE: These are author-coded category ratings assigned to the written vignettes,
  * NOT measured player mood or student survey responses.
@@ -34,15 +34,16 @@ export const AUTHOR_TONE_COLORS = {
   5: '#2a9d8f', // vibrant teal / energizing
 };
 
-// Aliases for compatibility
+// Aliases for backwards compatibility
 export const LIKERT_LABELS = AUTHOR_TONE_LABELS;
 export const LIKERT_COLORS = AUTHOR_TONE_COLORS;
 
 // ==========================================
-// 1. ORDINARY WORK BEATS (Sample of 5 out of 100+ target)
-// Covers dimensions: autonomy, mastery, praise, social connection, repetition, strain.
+// 1. ORDINARY WORK BEATS (Expanded Catalog: 15 beats)
+// Spanning autonomy, mastery, praise, social connection, repetition, strain, teamwork.
 // ==========================================
 export const WORK_BEATS = [
+  // Tone 1: Depleting / Strained
   {
     hexId: '011',
     rating: 1,
@@ -52,21 +53,75 @@ export const WORK_BEATS = [
     detail: 'Fluorescent tubes flicker violently. Time seems frozen in place.',
   },
   {
+    hexId: '016',
+    rating: 1,
+    dimension: 'equipment friction / strain',
+    heading: 'Defective Packing Lot & Paper Cuts',
+    text: 'A shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles.',
+    detail: 'Cardboard dust coats your mouth and throat. The bin backlog creeps upward.',
+  },
+  {
+    hexId: '017',
+    rating: 1,
+    dimension: 'hostile noise / supervision',
+    heading: 'Bay Shouting & Heavy Air',
+    text: 'Diesel exhaust wafts into Bay 2 as an idling flatbed rumbles outside. A senior dispatcher curses over the PA system about missed delivery windows.',
+    detail: 'A persistent headache pounds behind your temples.',
+  },
+
+  // Tone 2: Dull / Monotonous
+  {
     hexId: '012',
     rating: 2,
     dimension: 'monotony / repetition',
     heading: 'Packing Tape & Sore Heels',
     text: 'Slice tape, fold flaps, slap shipping label, slide tote. You repeat the exact sequence 180 times in two hours. Your heels burn against the sealed concrete.',
-    detail: 'In your pocket, your phone buzzes twice. You wonder if your gacha duck finished its afternoon race.',
+    detail: 'In your pocket, your phone buzzes twice. You wonder if your gacha duck finished its race.',
   },
+  {
+    hexId: '018',
+    rating: 2,
+    dimension: 'tedium / eye strain',
+    heading: 'Dusty Inventory Recount',
+    text: 'You climb a steel rolling ladder with a clipboard, verifying barcode serial numbers on top-shelf storage bins under dim yellow halide fixtures.',
+    detail: 'The numbers blur together. Two identical part numbers differ by a single trailing letter.',
+  },
+  {
+    hexId: '019',
+    rating: 2,
+    dimension: 'minor friction / stale lunch',
+    heading: 'Breakroom Hum & Jammed Vending',
+    text: 'The breakroom microwave hums with the scent of reheated soup. The vending machine swallows a crumpled dollar bill without dispensing pretzels.',
+    detail: 'You sit on a hard plastic chair, massaging your cramped calves until the buzzer rings.',
+  },
+
+  // Tone 3: Neutral / Steady Routine
   {
     hexId: '013',
     rating: 3,
     dimension: 'steady routine',
-    heading: 'Steady Midday Flow',
+    heading: 'Steady Midday Cadence',
     text: 'Standard cardboard cartons slide down the rollers at a predictable cadence. No backlogs, no equipment alarms. You find an even, automatic rhythm.',
     detail: 'The break clock ticks down steadily. You finish the third pallet exactly on schedule.',
   },
+  {
+    hexId: '01A',
+    rating: 3,
+    dimension: 'predictable labor',
+    heading: 'Forklift Rumble & Radio Static',
+    text: 'A forklift beeps in reverse across the main crossway. You verify shipping stickers against manifest sheets without hurry or pressure.',
+    detail: 'Just standard warehouse work. The afternoon hours advance predictably.',
+  },
+  {
+    hexId: '01B',
+    rating: 3,
+    dimension: 'mundane restocking',
+    heading: 'Bubble Wrap & Tape Rolls',
+    text: 'You retrieve a fresh pallet of packing supplies from the central cage and restock four neighboring stations with brown tape and packing slips.',
+    detail: 'A routine maintenance task that passes thirty minutes comfortably.',
+  },
+
+  // Tone 4: Pleasant / Camaraderie / Music
   {
     hexId: '014',
     rating: 4,
@@ -76,6 +131,24 @@ export const WORK_BEATS = [
     detail: 'The crew hums along with the chorus. The afternoon flies by noticeably faster.',
   },
   {
+    hexId: '01C',
+    rating: 4,
+    dimension: 'teamwork / relief',
+    heading: 'Recovered Shipping Invoice',
+    text: 'You help Priya from receiving track down a misfiled customs slip behind the printer tray, saving her an hour of tedious phone calls.',
+    detail: 'She grins and thanks you warmly, sliding over a cold bottle of ginger ale.',
+  },
+  {
+    hexId: '01D',
+    rating: 4,
+    dimension: 'competent flow',
+    heading: 'Smooth Outbound Clear',
+    text: 'Everything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure.',
+    detail: 'You take a leisurely stretch and lean against the clean workbench.',
+  },
+
+  // Tone 5: Very Energizing / Mastery / Praise
+  {
     hexId: '015',
     rating: 5,
     dimension: 'mastery / autonomy / praise',
@@ -83,58 +156,140 @@ export const WORK_BEATS = [
     text: 'You catch a barcode mismatch before a high-value freight skid is loaded onto the outbound truck. The plant manager personally walks over, thanks you, and gives a genuine fist bump.',
     detail: 'You solved the issue entirely on your own. You feel competent, sharp, and respected.',
   },
+  {
+    hexId: '01E',
+    rating: 5,
+    dimension: 'ingenuity / coworker cheer',
+    heading: 'Clever Fix on Sorter Jam',
+    text: 'When the primary sorting belt halts on a caught buckle, you spot the jammed pivot pin and free it with two quick taps of a spanner before maintenance even arrives.',
+    detail: 'The line roars back to life, and the neighboring crew gives you a round of applause.',
+  },
+  {
+    hexId: '01F',
+    rating: 5,
+    dimension: 'shared triumph / early bell',
+    heading: 'Record Volume & Early Wrap',
+    text: 'The warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed.',
+    detail: 'A palpable buzz of accomplishment fills the locker room as everyone packs their bags.',
+  },
 ];
 
 // ==========================================
-// 2. COMMUTE BEATS (Sample of 5 out of 100+ target)
-// Covers dimensions: weather, socializing, helping someone, observation, sensory clearing.
-// Includes both "Commute In" and "Commute Home".
+// 2. COMMUTE BEATS (Expanded Catalog: 12 beats)
+// Covering Commute In (morning/afternoon transition) and Commute Home.
+// Spanning weather, music, urban observation, helping someone, transit friction.
 // ==========================================
 export const COMMUTE_BEATS = [
+  // Commute In (Morning / Transition to Work)
   {
     hexId: '0C1',
     rating: 1,
-    phase: 'in', // Commute In
+    phase: 'in',
     dimension: 'harsh weather / transit delay',
     heading: 'Commute In · Slush & Sleet at the Stop',
     text: 'Freezing sleet cuts into your face while waiting twenty minutes for the delayed Route 14 bus. A passing delivery van splashes dirty curb water across your ankles.',
     detail: 'Your damp socks stay cold all morning. Your teeth chatter as you board.',
   },
   {
-    hexId: '0C2',
+    hexId: '0C6',
     rating: 2,
-    phase: 'home', // Commute Home
-    dimension: 'digital isolation / cramped transit',
-    heading: 'Commute Home · Packed Standing Room',
-    text: 'Crammed against the greasy center pole on the bus. Every passenger around you has their neck craned downward, silently tapping neon puzzle games or buying loot boxes.',
-    detail: 'The diesel air is stifling. You feel drained of emotional bandwidth.',
+    phase: 'in',
+    dimension: 'crowded discomfort',
+    heading: 'Commute In · Wet Coats & Sticky Floors',
+    text: 'The morning tram is jammed shoulder-to-shoulder with wet umbrellas and damp winter coats. The air is steamy with breath and damp wool.',
+    detail: 'You balance on one foot as the tram squeals around harbor rail curves.',
   },
   {
     hexId: '0C3',
     rating: 3,
-    phase: 'in', // Commute In
+    phase: 'in',
     dimension: 'neutral routine / quiet sidewalk',
     heading: 'Commute In · Morning Sidewalk Routine',
     text: 'Walking past the gray brick apartment blocks under an overcast sky. Neutral morning traffic hums by. Pigeons peck at breadcrumbs on the phone booth roof.',
     detail: 'Neither rushed nor delayed. An uneventful walk to the turnstile.',
   },
   {
+    hexId: '0C7',
+    rating: 4,
+    phase: 'in',
+    dimension: 'crisp air / morning podcast',
+    heading: 'Commute In · Crisp Air & Good Podcast',
+    text: 'A clean, invigorating autumn breeze sweeps off the bay. You listen to an engaging science podcast that makes the twenty-minute walk feel effortless.',
+    detail: 'You arrive at the warehouse gate feeling awake and mentally clear.',
+  },
+  {
+    hexId: '0C8',
+    rating: 5,
+    phase: 'in',
+    dimension: 'warm community connection',
+    heading: 'Commute In · Coffee Cart Kindness',
+    text: 'The street corner coffee cart vendor remembers your face: "Hey neighbor, fresh cinnamon twist just came out of the box, take one on the house today!"',
+    detail: 'The warm pastry and genuine smile set an upbeat, grounded tone for the morning.',
+  },
+
+  // Commute Home (Late Afternoon / Evening Transition)
+  {
+    hexId: '0C9',
+    rating: 1,
+    phase: 'home',
+    dimension: 'claustrophobic tunnel delay',
+    heading: 'Commute Home · Subway Signal Stalled',
+    text: 'The train grinds to a halt inside a dark tunnel between stations. Flickering cabin lights buzz as the conductor announces an indefinite signal hold.',
+    detail: 'Forty minutes trapped in stale, sweltering air. Your energy completely evaporates.',
+  },
+  {
+    hexId: '0C2',
+    rating: 2,
+    phase: 'home',
+    dimension: 'digital isolation / cramped transit',
+    heading: 'Commute Home · Packed Standing Room',
+    text: 'Crammed against the greasy center pole on the bus. Every passenger around you has their neck craned downward, silently tapping neon puzzle games or buying loot boxes.',
+    detail: 'The diesel air is stifling. You feel drained of emotional bandwidth.',
+  },
+  {
+    hexId: '0CA',
+    rating: 3,
+    phase: 'home',
+    dimension: 'neutral observation / dusk mist',
+    heading: 'Commute Home · Harbor Ferry Crossing',
+    text: 'Standing on the lower deck of the harbor transit ferry. Salt spray mists against the railings as twilight falls over the industrial container cranes.',
+    detail: 'A calm, neutral commute home as the ferry glides steadily into dock.',
+  },
+  {
     hexId: '0C4',
     rating: 4,
-    phase: 'home', // Commute Home
+    phase: 'home',
     dimension: 'pleasant weather / mellow music',
     heading: 'Commute Home · Golden Sunlight Through Trees',
     text: 'Slanted autumn sunlight cuts through the maple trees in the park. You put your headphones on and play a mellow acoustic playlist that unclenches your jaw.',
     detail: 'A dog trots past carrying an enormous stick, making three commuters smile.',
   },
   {
+    hexId: '0CB',
+    rating: 4,
+    phase: 'home',
+    dimension: 'sweet sidewalk observation',
+    heading: 'Commute Home · Sidewalk Greeting',
+    text: 'Walking past the neighborhood bakery, two golden retrievers on leashes enthusiastically greet each other, tangling their owners in joyful barking.',
+    detail: 'Laughter ripples through the commuters waiting at the pedestrian crossing.',
+  },
+  {
     hexId: '0C5',
     rating: 5,
-    phase: 'home', // Commute Home
+    phase: 'home',
     dimension: 'helping someone / human connection',
-    heading: 'Commute Home · Helping on the Station Stairs',
+    heading: 'Commute Home · Helping on Station Stairs',
     text: 'At the subway exit, you help an elderly neighbor carry a heavy grocery cart up the flight of stairs. She smiles warmly, thanks you warmly, and hands you an apple.',
     detail: 'That brief moment of human decency makes the entire day feel lighter.',
+  },
+  {
+    hexId: '0CC',
+    rating: 5,
+    phase: 'home',
+    dimension: 'communal music / shared warmth',
+    heading: 'Commute Home · Evening Bus Jazz',
+    text: 'The bus driver tunes the radio to a classic soul jazz station. An elderly passenger taps his cane to the rhythm, and half the bus begins softly humming along.',
+    detail: 'The commute feels like a warm, shared sanctuary rather than a chore.',
   },
 ];
 
@@ -153,7 +308,19 @@ export const WAGE_PAYSLIP = {
 };
 
 // ==========================================
-// 4. EVENING LIFE ACTIVITIES
+// 4. DAY 1 RETURN-HOME: KITCHEN / DINNER SCENE
+// Coordinates with closed Plan 38 baseline.
+// ==========================================
+export const KITCHEN_RETURN_SCENE = {
+  heading: '5:45 PM · Back in the Kitchen',
+  text: 'You push the apartment door shut and set your keys and work badge down on the kitchen counter.',
+  detail: 'Your shift wage ($60.00 cash) is in your pocket. The apartment is quiet and peaceful.',
+  dinnerNote: 'You pour a cold glass of tap water and fix yourself a simple dinner at the counter before heading to the desk.',
+  actionLabel: 'Finish Dinner & Head to Desk',
+};
+
+// ==========================================
+// 5. EVENING LIFE ACTIVITIES
 // Factual, neutral framing without moralizing or prescribing student motives.
 // ==========================================
 export const EVENING_ACTIVITIES = {
@@ -204,8 +371,8 @@ export const EVENING_ACTIVITIES = {
 };
 
 // ==========================================
-// 5. EXTRA SHIFT CATALOG (Sample of 5 out of 30+ target)
-// Weighted toward gig work (food/grocery delivery).
+// 6. EXTRA SHIFTS CATALOG (5 distinct shift types)
+// Weighted toward frequent gig work (food/grocery delivery).
 // Each shift has 5 alternative standalone narrative beats (rated 1-5).
 // The payout is strictly flat and matches the quoted cash reward.
 // ==========================================
@@ -308,7 +475,6 @@ export const EXTRA_SHIFTS_CATALOG = [
  */
 export function rollDailyExtraShifts(count = 2, seed = 0.5) {
   const pool = [...EXTRA_SHIFTS_CATALOG];
-  const totalWeight = pool.reduce((acc, s) => acc + s.weight, 0);
 
   const drawOne = (sVal, excludeId = null) => {
     const candidates = excludeId ? pool.filter(s => s.id !== excludeId) : pool;

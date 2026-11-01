@@ -26,7 +26,7 @@ import {
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
-export const beatOccurrenceKey = (moment, hexId) => `${moment}:${hexId}`;
+export const beatOccurrenceKey = (moment, hexId, slot = '') => `${moment}:${slot}:${hexId}`;
 
 export function getNextWorkSequenceMoment(currentMoment, commuteDirection = 'in') {
   if (currentMoment === 'departure') {
@@ -97,9 +97,9 @@ export class StoryboardController {
     this.render();
   }
 
-  recordDisplayedBeat(beat) {
+  recordDisplayedBeat(beat, slot = '') {
     if (!beat || !beat.hexId) return;
-    const occurrenceKey = beatOccurrenceKey(this.state.moment, beat.hexId);
+    const occurrenceKey = beatOccurrenceKey(this.state.moment, beat.hexId, slot);
     if (!this.state.displayedBeatsSet.has(occurrenceKey)) {
       this.state.displayedBeatsSet.add(occurrenceKey);
       this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
@@ -372,8 +372,8 @@ export class StoryboardController {
       this.dom.overlayLayer.querySelector('#btn-clock-out').addEventListener('click', () => {
         this.jumpToMoment(getNextWorkSequenceMoment('work_shift', this.state.commuteDirection));
       });
-      this.recordDisplayedBeat(beat1);
-      this.recordDisplayedBeat(beat2);
+      this.recordDisplayedBeat(beat1, 'first');
+      this.recordDisplayedBeat(beat2, 'second');
       return;
     }
 
@@ -774,7 +774,7 @@ export class StoryboardController {
               <div class="vignette-titles">
                 <div style="display:flex;align-items:center;gap:8px;">
                   <h3>11:45 PM · Returning to a Dark Apartment</h3>
-                  ${beat ? renderLikertBadge(beat.hexId, beat.rating) : ''}
+                  ${beat && this.state.showAuthorBadges ? renderLikertBadge(beat.hexId, beat.rating) : ''}
                 </div>
                 <span>${esc(shift ? shift.title : 'Night Shift')} Completed</span>
               </div>

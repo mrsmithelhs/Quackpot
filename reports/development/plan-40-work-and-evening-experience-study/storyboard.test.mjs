@@ -30,9 +30,28 @@ import {
 import { ExperimentTracker } from './experiment-tracker.mjs';
 import {
   beatOccurrenceKey,
+  StoryboardController,
   resolveReviewerMoment,
   getNextWorkSequenceMoment,
 } from './storyboard.mjs';
+
+test('Repeated work observations count by slot while rerendering counts neither twice', () => {
+  const context = { state: { moment: 'work_shift', displayedBeatsSet: new Set(), preChoiceBeats: [] } };
+  const record = (slot) => StoryboardController.prototype.recordDisplayedBeat.call(context, WORK_BEATS[0], slot);
+  record('first'); record('second'); record('first'); record('second');
+  assert.equal(context.state.preChoiceBeats.length, 2);
+});
+
+test('Gig return hides author badges until the reviewer enables them', () => {
+  const controller = Object.create(StoryboardController.prototype);
+  controller.state = { moment: 'night_return', scenarioCommitted: true, activeExtraShift: EXTRA_SHIFTS_CATALOG[0], activeExtraBeat: WORK_BEATS[0], cash: 60, health: 80, showAuthorBadges: false };
+  controller.dom = { sceneLayer: { innerHTML: '' }, overlayLayer: { innerHTML: '', querySelector: () => ({ addEventListener() {} }) } };
+  controller.renderStage();
+  assert.equal(controller.dom.overlayLayer.innerHTML.includes('likert-badge'), false);
+  controller.state.showAuthorBadges = true;
+  controller.renderStage();
+  assert.equal(controller.dom.overlayLayer.innerHTML.includes('likert-badge'), true);
+});
 
 test('Author-assigned tone scale, catalog versioning, and Global Hex ID Uniqueness', () => {
   assert.equal(CATALOG_VERSION, '1.1.0');

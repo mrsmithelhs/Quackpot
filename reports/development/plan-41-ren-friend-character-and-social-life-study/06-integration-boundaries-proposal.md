@@ -10,7 +10,7 @@
 | Direction A concept studies (round 1 and 2), five expressions, door/hallway composition, phone avatar mock | Production SVG assets (separate Sonnet SVG packet; `AGENTS.md` SVG routing) |
 | Interaction menu, consequence model, six symbolic traces, possession-sale examples | Any rule adoption, numeric tuning, new event/save fields, new endings |
 | A report-local storyboard with synthetic states | Anything that reads or writes game state |
-| Research provenance (visual + mechanics) | Image generation (no tool exposed this session; none claimed) |
+| Research provenance (visual + mechanics); report-local Gemini concept sheets and SVG concept drawings (outfits, hair, headgear, pencil placements, apartment compositions; provenance in `07-...` and `concepts/gemini-round-01/manifest.md`) | Any of that as final game art; production image generation |
 
 ## 2. Dependencies on other plans (not resolved here)
 
@@ -51,6 +51,13 @@
 
 1. Approve or amend the interaction menu (03), especially Evening-only first wave and the optional ask-Ren feature (I4).
 2. Approve or amend the consequence model (04), including that *drifting/strained* reduces Ren's initiative.
-3. Choose complexion/blend and keep/drop the tattoo and pencil (round 2).
+3. Choose complexion/blend. (Updated 2026-10-31: tattoo is arm-only, S9; pencil placements are all kept as options, S12.)
 4. Approve or change the possession-sale principle and Example 1 (05).
 5. If approved, request a bounded art packet and a bounded mechanism proposal (Plan 38 amendment) as separate steps.
+
+## 6. Owner answers recorded 2026-10-31 (see ledger S22 to S26)
+
+- First art packet scope is all three tiers: phone bust with five faces, half-body door view, and in-apartment Ren (needs a chair/armchair prop and refreshed scenes).
+- Add a shelf prop and a gifted-shelf scene; add gift-reaction and sale-reaction events to the proposed (non-binding) event vocabulary.
+- The Plan 29 visit-every-Evening check is advisory, not blocking.
+- Outdoor scenes, Ren's home, endings and a gift economy stay out of the first build.

@@ -58,6 +58,16 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S20 | Example 3 (gifted item such as the shelf) reaction | **Yes** | Ramification: needs a prior gift scene (e.g. the I3 shelf-carry visit) and the reaction is chosen from facts about the sale, never a guess about motive; no flag change. |
 | S21 | Neutral optional "tv's gone" flavor line | **Yes** | Flavor only: no flag, HP or counted-event change. |
 
+### Integration-boundaries review (file 06; owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S22 | First art packet scope | **A + B + C (all):** bust and five faces for the phone; half-body door view; Ren seated or behind furniture in the apartment during visits | Ramifications: the door/hallway view is new art (the kit has none); in-apartment Ren needs an armchair/chair prop, more than front-facing poses if Ren is to move, and a refresh of the composed scenes with the chosen outfits. |
+| S23 | Gifted shelf prop and "Ren's shelf" scene in the art list | **Yes** | Kit has only a bedroom toy shelf; a new or adapted prop is needed. |
+| S24 | Proposed event names as a non-binding starting vocabulary | **Yes** | Add a gift-reaction event and a sale-reaction event to the proposal. Still not a taxonomy decision. |
+| S25 | HP exploit check (visit-every-available-Evening strategy in Plan 29) | **Advisory** | Recommended, not a blocking condition for requesting a build. Plan 29 still owns the numbers. |
+| S26 | Keep outdoor scenes, Ren's home, endings and a gift economy out of the first build | **Keep out** | The gift reaction in S20 stays a single reaction, not a gift system. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

@@ -20,7 +20,7 @@ Create baseline.md plus cases.json and an images/ subfolder if exactexistingimag
 
 For each case provide:
 - Neutral case ID and a short task/context available BEFORE my feedback; distinguish missingcontext.
-- Chronology of exact artifactversions, absolute sourcepaths, commit/blobhash or filehash when available. Say whether it's an originalcapturedimage, SVGsource, or laterreconstruction. Preserve originals; don't silently annotate/resize them.
+- Chronology of exact artifactversions, repository-relative sourcepaths (omit machine roots and private transcript locations), commit/blobhash or filehash when available. Say whether it's an originalcapturedimage, SVGsource, or laterreconstruction. Preserve originals; don't silently annotate/resize them.
 - My actual feedback verbatim where available, with message/date locator; otherwise label paraphrase and confidence. Do not invent quotations or turn your own recommendation into my decision.
 - What changed afterward, and whether I explicitly accepted/rejected it or merely moved on. Unknown is a valid result.
 - Classify feedback: visibledefect, experience/consistencyissue requiringbriefcontext, aestheticpreference, or newrequirementintroducedlater. Explain what a reviewer could/couldn't reasonably know beforehand.
@@ -30,4 +30,4 @@ This is not an argument that the owner was right or that a model should agree. I
 
 Treat baseline.md and cases.json as HELD-BACK answer material. Never write reviewerprompts containing ownerverdicts into reviewer-inputs/. Do not launch Haiku/otherreviewers of these cases from this samecontext; the calibration lead will run coldreviewers separately.
 
-Record a short submission.md listing files, provenancegaps and approximatebytes; no student/privateaccountdata. Commit ONLY your assignedsubfolder by explicitpath if normalharnessgitpermissionsallow, serializing with otheragents; no gitadd-A/push. If blocked, leavefiles and report, never forcepermissions. End by giving QP Orch exactpaths and commithash if committed. Do not read othercuratorinboxes, baselineanswers or Plan50rawmodeloutputs.
+Record a short submission.md listing files, provenancegaps and approximatebytes; no student/privateaccountdata. Commit ONLY your assignedsubfolder by explicitpath if normalharnessgitpermissionsallow, serializing with otheragents; no gitadd-A/push. If blocked, leavefiles and report, never forcepermissions. End by giving QP Orch repository-relative paths and commithash if committed. Do not read othercuratorinboxes, baselineanswers or Plan50rawmodeloutputs.

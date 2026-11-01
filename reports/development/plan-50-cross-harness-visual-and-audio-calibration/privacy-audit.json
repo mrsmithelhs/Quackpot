@@ -1,0 +1,548 @@
+{
+  "schema": 1,
+  "date": "2026-11-01",
+  "scope": "Three Claude curator packages; current tracked files only, not history rewrite",
+  "records": [
+    {
+      "path": "curator-inbox/claude-art-plan10-24/baseline.md",
+      "received_sha256": "a9271e2ebb3ef883fe83171beb5d2d060b7c87243928a3ea160d6e155369fb9b",
+      "sanitized_sha256": "38238dfd32bd6b56acc4e7e00baf0d7717133ace743052f193ab10cc86180d87",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 25,
+        "private_transcript_paths": 1,
+        "session_identifiers": 0
+      },
+      "bytes": 30936
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/cases.json",
+      "received_sha256": "761418f4ef00a4c8af972ccb741e257a26e85f95f09770c68e1081656458d8d3",
+      "sanitized_sha256": "95751909da31a4e03c1a8ab19283e35aab656ad055b1bf40077dbd2843ad37a6",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 26,
+        "private_transcript_paths": 11,
+        "session_identifiers": 0
+      },
+      "bytes": 41921
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/assistant-statements-verbatim.md",
+      "received_sha256": "b0f5839ed03c8041df78eddd70be964b1871af1e22ab70bd16389f679749e42d",
+      "sanitized_sha256": "b0f5839ed03c8041df78eddd70be964b1871af1e22ab70bd16389f679749e42d",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 24484
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/diff-areas-and-topdown-75902da-to-5e24816.patch",
+      "received_sha256": "16659abc716aa546fd5316026304d5710bd64ccad8f18b9293d7c65ff7f4d1c7",
+      "sanitized_sha256": "16659abc716aa546fd5316026304d5710bd64ccad8f18b9293d7c65ff7f4d1c7",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 49570
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/diff-desk-views-4c471ac-to-75902da.patch",
+      "received_sha256": "a1fe5c19cf8774c1b2c4f9a28a0425856b05b272d87baf11819604f7d7c95c69",
+      "sanitized_sha256": "a1fe5c19cf8774c1b2c4f9a28a0425856b05b272d87baf11819604f7d7c95c69",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 31119
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/diff-lamp-pillow-mug-5e24816-to-7ad98f1.patch",
+      "received_sha256": "c5e210de4d0677c13b7ce020196538ebe753573921adb24a51928e795d83eb55",
+      "sanitized_sha256": "c5e210de4d0677c13b7ce020196538ebe753573921adb24a51928e795d83eb55",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 16197
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/diff-toy-shelf-7ad98f1-to-ce23e57.patch",
+      "received_sha256": "41f565febe6ac2a9adeb660bf926eb23e7fc47fd7e7a7ed4658f31c52a90d494",
+      "sanitized_sha256": "41f565febe6ac2a9adeb660bf926eb23e7fc47fd7e7a7ed4658f31c52a90d494",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 3488
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/fruit-bowl-versions.md",
+      "received_sha256": "01589ab9b44683d7939d23d448f6f5feae0f625493a2436448c55173786cf94a",
+      "sanitized_sha256": "01589ab9b44683d7939d23d448f6f5feae0f625493a2436448c55173786cf94a",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 3024
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/intermediate/preview.before-rooms.html",
+      "received_sha256": "f5b966724f8c376a256b7152821365574462cbee2e2496c581ba8628625fa66b",
+      "sanitized_sha256": "f5b966724f8c376a256b7152821365574462cbee2e2496c581ba8628625fa66b",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 34300
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/evidence/owner-messages-verbatim.md",
+      "received_sha256": "762c1b20bba63ae5bc6c425c57fd586802c270ffe00b893c0d6e54c93c560bd7",
+      "sanitized_sha256": "ed10f3d81cc10b8198463d3fc1bf254e7c37b32d1b5b00d76d7e5c8fffa9d022",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 2,
+        "private_transcript_paths": 1,
+        "session_identifiers": 0
+      },
+      "bytes": 7144
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/images/selected-contact-sheet-offline.png",
+      "received_sha256": "2fefba84d700df0229b5c6fc11f4047e6a4c0a70a8757a37015ca7130c571ef5",
+      "sanitized_sha256": "2fefba84d700df0229b5c6fc11f4047e6a4c0a70a8757a37015ca7130c571ef5",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 38319
+    },
+    {
+      "path": "curator-inbox/claude-art-plan10-24/submission.md",
+      "received_sha256": "fe3dc022540ceca6397138edb61c729c40c0619d22e750355748374c306a0251",
+      "sanitized_sha256": "e5ffe76bab96037365f468b11329757216fbcb2d878c1c18723c58a916054927",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 1,
+        "session_identifiers": 0
+      },
+      "bytes": 4896
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/baseline.md",
+      "received_sha256": "f9abecce1d2fef5054ad00c997483dc73811fb4d45e867cc8e09864ff084cb0a",
+      "sanitized_sha256": "f9abecce1d2fef5054ad00c997483dc73811fb4d45e867cc8e09864ff084cb0a",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 11161
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/cases.json",
+      "received_sha256": "f7d67c63408c31d7bcaec46e464d0952e72f430ca5f639f9c83d898265ab8e7d",
+      "sanitized_sha256": "55969ef07ee23b21095f8b1877f8e4c271e766822e7337ab9d4c5f9a3d7deb5a",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 6,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 11856
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/owner-red-annotated-screenshot-of-v3.png",
+      "received_sha256": "37965764586177235aeef55193d837222915ddfc26e9c796348edde9ca2bbc98",
+      "sanitized_sha256": "37965764586177235aeef55193d837222915ddfc26e9c796348edde9ca2bbc98",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 22998
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/production-after-swap-scene.jpg",
+      "received_sha256": "3ecb0f321744adec5dcc9cd2805d633fc5b6362875a19f865516889b4f4517fe",
+      "sanitized_sha256": "3ecb0f321744adec5dcc9cd2805d633fc5b6362875a19f865516889b4f4517fe",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 51065
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/scene-desktop-16pct-3x-magnified.jpg",
+      "received_sha256": "0dd7ef2cb03373f69c8f0f8ee24c45fe2403ba616dc34c5072c6c56978434f53",
+      "sanitized_sha256": "0dd7ef2cb03373f69c8f0f8ee24c45fe2403ba616dc34c5072c6c56978434f53",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 25752
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/scene-desktop-proposed-12.5pct-3x-magnified.jpg",
+      "received_sha256": "dac774543b53e5b292fff7746fa5717064b759a92f7beb04cbe8062f2e50b91c",
+      "sanitized_sha256": "dac774543b53e5b292fff7746fa5717064b759a92f7beb04cbe8062f2e50b91c",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 27784
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/scene-desktop-same-box-0.56x-downsampled.jpg",
+      "received_sha256": "6b517d17482f6daa8b1d56a41cde202f1f19f6c2052aa32bfee4eb9f20046e46",
+      "sanitized_sha256": "6b517d17482f6daa8b1d56a41cde202f1f19f6c2052aa32bfee4eb9f20046e46",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 22188
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/scene-desktop-tightened-viewbox-3x-magnified.jpg",
+      "received_sha256": "fa52b145d7d48b0ea92c280cfe8ce125b24f08f5dac7285c1ac15d0e3b0a0574",
+      "sanitized_sha256": "fa52b145d7d48b0ea92c280cfe8ce125b24f08f5dac7285c1ac15d0e3b0a0574",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 24960
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/scene-narrow-390-native.jpg",
+      "received_sha256": "d990b56cf4a88289f02e33595ca9723b4cf30f009785a91534df3ebfdad56f5d",
+      "sanitized_sha256": "d990b56cf4a88289f02e33595ca9723b4cf30f009785a91534df3ebfdad56f5d",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 27800
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v1-closeup-5x.jpg",
+      "received_sha256": "4235e1596957e3a640afe5196d220c153026f492981d9e18efe9ee9c5ddbf716",
+      "sanitized_sha256": "4235e1596957e3a640afe5196d220c153026f492981d9e18efe9ee9c5ddbf716",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 25000
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v1b-uncommitted-ring-small-hole-closed-closeup.jpg",
+      "received_sha256": "962dbd1361507b0f48794682abd0491b48e68531e8c2e47ea8f35e0eb3c864d6",
+      "sanitized_sha256": "962dbd1361507b0f48794682abd0491b48e68531e8c2e47ea8f35e0eb3c864d6",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 20098
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v2-ring-through-hole-closeup.jpg",
+      "received_sha256": "ef634420953bce3afc8704b88d61875d71b54e309b7d9af461df63164bd75eae",
+      "sanitized_sha256": "ef634420953bce3afc8704b88d61875d71b54e309b7d9af461df63164bd75eae",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 20583
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v3-fob-front-ring-behind-closeup.jpg",
+      "received_sha256": "7606120bff3d5cf125f3c0fca9b3efcf4ed83ea32bd2ed23242ecffe718110b8",
+      "sanitized_sha256": "7606120bff3d5cf125f3c0fca9b3efcf4ed83ea32bd2ed23242ecffe718110b8",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 19253
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v4-small-ring-arc-closeup.jpg",
+      "received_sha256": "4c3e31c33b10500763000aafd42a586d9531e9afac13aa5f40438977eb230855",
+      "sanitized_sha256": "4c3e31c33b10500763000aafd42a586d9531e9afac13aa5f40438977eb230855",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 17813
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/images/v4a-uncommitted-ring-arc-large-closeup.jpg",
+      "received_sha256": "c8cf8c7a504fee93985ca61ec996f8887e03f3e94f6b7e9bd285c4a7db8a39e7",
+      "sanitized_sha256": "c8cf8c7a504fee93985ca61ec996f8887e03f3e94f6b7e9bd285c4a7db8a39e7",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 18268
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/submission.md",
+      "received_sha256": "9838bba26fd1872180cd7ccdf85f3f1896b1a5477f2d0299d06de57decd19ef1",
+      "sanitized_sha256": "9838bba26fd1872180cd7ccdf85f3f1896b1a5477f2d0299d06de57decd19ef1",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 1275
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/svg-source-renders/v1.svg",
+      "received_sha256": "705f09d9d1e12b32497d56e225fe1f150e98820e6b0834cd3119068625b16f6d",
+      "sanitized_sha256": "705f09d9d1e12b32497d56e225fe1f150e98820e6b0834cd3119068625b16f6d",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 2832
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/svg-source-renders/v2.svg",
+      "received_sha256": "083044fc78cf86118075c099846fe351960c5eb2803446c2ca6e7712673fe466",
+      "sanitized_sha256": "083044fc78cf86118075c099846fe351960c5eb2803446c2ca6e7712673fe466",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 3010
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/svg-source-renders/v3.svg",
+      "received_sha256": "d4e75e84d2d8cf926777ad9cc54c5fcbd6ed26210746ab81f27bcbf79ee3c5d3",
+      "sanitized_sha256": "d4e75e84d2d8cf926777ad9cc54c5fcbd6ed26210746ab81f27bcbf79ee3c5d3",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 2569
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/svg-source-renders/v4.svg",
+      "received_sha256": "2cffdb0d4f772ec45dd3e7442cf151a38e7b8abef3b90b5059a779c51c9cf3b1",
+      "sanitized_sha256": "2cffdb0d4f772ec45dd3e7442cf151a38e7b8abef3b90b5059a779c51c9cf3b1",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 2575
+    },
+    {
+      "path": "curator-inbox/claude-keys-plan47/svg-source-renders/v5.svg",
+      "received_sha256": "0fe9188218326bfc4368a62dee2af8cf97baedc8fb816da1cae248d3779ad023",
+      "sanitized_sha256": "0fe9188218326bfc4368a62dee2af8cf97baedc8fb816da1cae248d3779ad023",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 2576
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/baseline.md",
+      "received_sha256": "971237526585494e9abc6ea2840d8d1d37ab9502618c83c4843037c4f450c1e7",
+      "sanitized_sha256": "13fbc6b0757a64f288ec00ddd331e6c3cb937cf92c53246537e2678b4f839799",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 1
+      },
+      "bytes": 8863
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/cases.json",
+      "received_sha256": "4435f1e8c5210f982c640f44032103616b59036927948e6e7a02b0e2198c0b76",
+      "sanitized_sha256": "29eb14de39787a2cdb5b9f3375b151a535024bb96aa50186f94f276eca9ff4fc",
+      "changed": true,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 5
+      },
+      "bytes": 27857
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c1-after-door-scene-v2.svg",
+      "received_sha256": "518a918a993845f449c1694901838604bd011cd1b778a651eae645d3271faf82",
+      "sanitized_sha256": "518a918a993845f449c1694901838604bd011cd1b778a651eae645d3271faf82",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 9912
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c1-before-ren-ref-door-scene.png",
+      "received_sha256": "d275877dd43cd7f2839e7ffbee6be1a85b0639d874dd15bf45dfa0f814521f6f",
+      "sanitized_sha256": "d275877dd43cd7f2839e7ffbee6be1a85b0639d874dd15bf45dfa0f814521f6f",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 53519
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c2-after-floor-scene-first-no-duck.png",
+      "received_sha256": "2720cfbd584c54b9bbb50d05ee8cf2ebf7abbd4ecf32092c61ac5610f8ae14d8",
+      "sanitized_sha256": "2720cfbd584c54b9bbb50d05ee8cf2ebf7abbd4ecf32092c61ac5610f8ae14d8",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 185059
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c2-after-floor-scene-with-duck.png",
+      "received_sha256": "6891dfa366848ac8d9e65e48dc4599b4645814c942da9f5f113988afd70a0d7c",
+      "sanitized_sha256": "6891dfa366848ac8d9e65e48dc4599b4645814c942da9f5f113988afd70a0d7c",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 190175
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c2-before-original-five-scenes-index.png",
+      "received_sha256": "52e204c2494948c25352d339268aef604b7ef8749c9def967cad3e743caae6d9",
+      "sanitized_sha256": "52e204c2494948c25352d339268aef604b7ef8749c9def967cad3e743caae6d9",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 363844
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c3-apron-tool-preview.png",
+      "received_sha256": "51a24dc42d22c767165e61a0bc6dfc9c926e4deb628304273cd0556a07c69e9b",
+      "sanitized_sha256": "51a24dc42d22c767165e61a0bc6dfc9c926e4deb628304273cd0556a07c69e9b",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 62161
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c3-vest-v2-preview.png",
+      "received_sha256": "882b4d2d496f9295a4799115c50d9ea2a19d2a417387da5dec3af6fe282910a5",
+      "sanitized_sha256": "882b4d2d496f9295a4799115c50d9ea2a19d2a417387da5dec3af6fe282910a5",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 59915
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/c3-vest-v3-preview.png",
+      "received_sha256": "632d7251cdf05fd80350f39b7602e6109573266e846e72997021611b29f3cba8",
+      "sanitized_sha256": "632d7251cdf05fd80350f39b7602e6109573266e846e72997021611b29f3cba8",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 63445
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/images/pane-screenshot-apartment-scenes-before-framing-feedback.jpg",
+      "received_sha256": "50801b74b009c94e39b43ee79193c5fe4526be52c56ef05fc9695834bfba4060",
+      "sanitized_sha256": "50801b74b009c94e39b43ee79193c5fe4526be52c56ef05fc9695834bfba4060",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 56119
+    },
+    {
+      "path": "curator-inbox/claude-ren-plan41-45/submission.md",
+      "received_sha256": "4b3c38f8da0e73a09a86f1d8ca6a0a2833b514d960ad651a8424907ebcd66094",
+      "sanitized_sha256": "4b3c38f8da0e73a09a86f1d8ca6a0a2833b514d960ad651a8424907ebcd66094",
+      "changed": false,
+      "replacements": {
+        "repo_paths": 0,
+        "private_transcript_paths": 0,
+        "session_identifiers": 0
+      },
+      "bytes": 1222
+    }
+  ],
+  "note": "Hash manifest is held-back provenance, not a reviewer prompt. No image bytes were changed."
+}

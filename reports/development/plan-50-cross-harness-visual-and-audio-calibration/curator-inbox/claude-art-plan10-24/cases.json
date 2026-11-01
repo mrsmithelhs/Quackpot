@@ -1,7 +1,7 @@
 {
   "schema": "plan-50 curator case file (held-back answer material)",
   "curator": "Claude (the chat that did Plan 10, 23, 24 and 26 art/engineering work), acting as curator, not reviewer",
-  "source_chat_transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+  "source_chat_transcript": "[private curator transcript; path omitted]",
   "time_note": "Transcript times are UTC; repo commit times are local EDT (UTC-4).",
   "cases": [
     {
@@ -17,7 +17,7 @@
         {
           "label": "before redraw: duck-views.js",
           "kind": "JS source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
           "commit": "c2b52e9",
           "commit_time_local": "2026-10-27 18:37:23 -0400",
@@ -28,7 +28,7 @@
         {
           "label": "before redraw: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "c2b52e9",
           "commit_time_local": "2026-10-27 18:37:23 -0400",
@@ -39,7 +39,7 @@
         {
           "label": "after redraw: duck-views.js (as committed in the redraw commit)",
           "kind": "JS source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/duck-views.js",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -50,7 +50,7 @@
         {
           "label": "after redraw: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -61,7 +61,7 @@
         {
           "label": "selected front duck view",
           "kind": "SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/front.svg",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/front.svg",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/front.svg",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -72,7 +72,7 @@
         {
           "label": "selected side duck view",
           "kind": "SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/side.svg",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/side.svg",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/side.svg",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -83,7 +83,7 @@
         {
           "label": "selected rear duck view",
           "kind": "SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/rear.svg",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/rear.svg",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/rear.svg",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -94,7 +94,7 @@
         {
           "label": "selected high duck view",
           "kind": "SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/high.svg",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/high.svg",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/high.svg",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -105,7 +105,7 @@
         {
           "label": "selected low duck view",
           "kind": "SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/low.svg",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/low.svg",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/low.svg",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -116,7 +116,7 @@
         {
           "label": "selected-view contact sheet (offline raster)",
           "kind": "original captured/generated image (raster made by this chat's throwaway drafting tooling, NOT a browser screenshot)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/selected-contact-sheet-offline.png",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/selected-contact-sheet-offline.png",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/selected-contact-sheet-offline.png",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -127,7 +127,7 @@
         {
           "label": "candidate grid (offline raster)",
           "kind": "original generated image (offline raster)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/candidate-grid-offline.png",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/candidate-grid-offline.png",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/candidate-grid-offline.png",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -138,7 +138,7 @@
         {
           "label": "plan-10-sonnet-view-handoff.md (handoff named in message M0)",
           "kind": "markdown",
-          "path": "C:/AI/Quackpot/reports/orchestration/plan-10-sonnet-view-handoff.md",
+          "path": "reports/orchestration/plan-10-sonnet-view-handoff.md",
           "repo_path": "reports/orchestration/plan-10-sonnet-view-handoff.md",
           "commit": "1589352",
           "commit_time_local": "2026-10-27 20:33:18 -0400",
@@ -151,9 +151,9 @@
         {
           "message": "M0",
           "verbatim": true,
-          "text": "Read and follow C:/AI/Quackpot/reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.",
+          "text": "Read and follow reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 2,
             "uuid": "709d7c03-643b-4a31-9374-0dd091a6c755",
             "timestamp_utc": "2026-10-27T23:26:45.269Z",
@@ -166,7 +166,7 @@
           "verbatim": true,
           "text": "It's an improvement.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 743,
             "uuid": "1be61945-d355-49b1-84f3-be81ca740803",
             "timestamp_utc": "2026-10-27T23:45:14.073Z",
@@ -203,7 +203,7 @@
         {
           "label": "after redraw: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "4c471ac",
           "commit_time_local": "2026-10-27 19:39:43 -0400",
@@ -214,7 +214,7 @@
         {
           "label": "desk side + top-down: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "75902da",
           "commit_time_local": "2026-10-27 19:55:26 -0400",
@@ -225,7 +225,7 @@
         {
           "label": "desk-references.md (Haiku researcher notes; NOT owner words)",
           "kind": "markdown (agent-written)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/desk-references.md",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/desk-references.md",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/desk-references.md",
           "commit": "75902da",
           "commit_time_local": "2026-10-27 19:55:26 -0400",
@@ -240,7 +240,7 @@
           "verbatim": true,
           "text": "It's an improvement.  The desk view is kind of strange though: objects on the desk have different orientations and spatial relationships to the camera.  Is it supposed to be a top-down view or a side view?  Could you send a Haiku researcher to find some reference images of desk surfaces from top and side views, to help correct those orientation mismatches?  We might want multiple perspectives on flat surfaces like the desk, but to avoid obvious tells we could have different collections of objects on each.  Also you may send a Haiku researcher through the codebase to understand the relative dimensions of the phone screen in the Quackpot game, so that in a top-down desk view it's rendered correctly with respect to the metagame.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 743,
             "uuid": "1be61945-d355-49b1-84f3-be81ca740803",
             "timestamp_utc": "2026-10-27T23:45:14.073Z",
@@ -253,7 +253,7 @@
           "verbatim": true,
           "text": "I authorize a scope expansion to change the preview.html file to include two separate desk views from different camera angles.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 761,
             "uuid": "cd3fd263-892d-4dae-9b7a-6a5081178260",
             "timestamp_utc": "2026-10-27T23:46:50.900Z",
@@ -290,7 +290,7 @@
         {
           "label": "desk side + top-down: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "75902da",
           "commit_time_local": "2026-10-27 19:55:26 -0400",
@@ -301,7 +301,7 @@
         {
           "label": "areas + top-down refinements: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "5e24816",
           "commit_time_local": "2026-10-27 20:09:54 -0400",
@@ -325,7 +325,7 @@
           "verbatim": true,
           "text": "The lamp shade in the top-down view is nice but should include a lighting effect with a soft glow affecting items in a radius.  What other elements can we add or improve in the Wide composition?  You can launch another Haiku subagent to look into the story beats for the metagame for ideas, but I think also we could use some more \"standard\" items: refrigerator, stove, countertop, TV, floor lamp, art on wall.  Probably a toy shelf with a few other kinds of toys.  We may later develop other apartment views such that this one doesn't get so crowded, and compose them such that the duck is in those too.  The metagame has several dialogue beats that could show the duck in a variety of apartment locations.  I authorize a further scope expansion of preview.html to at least two other apartment views.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 1017,
             "uuid": "ef5acbc6-6c80-4384-8c95-aa9526047fbd",
             "timestamp_utc": "2026-10-27T23:56:18.329Z",
@@ -338,7 +338,7 @@
           "verbatim": true,
           "text": "Shadow from top-down pencil should be closer to pencil, at this distance it looks like it's floating in the air.  Top-down duck looks good as do keys and paper.  Are those coins at the bottom?  Those could be improved with some quasi-visual designs to provide the impression of detail without compromising the other elements' simplicity.  Lamp glow looks really nice.  Sticky note has the same shadow distance issue: it probably shouldn't have a shadow at all, if it's stuck to the paper.  Let's move the head of the lamp closer to the top left (shorten the visible length of the lamp neck).",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 1109,
             "uuid": null,
             "timestamp_utc": "2026-10-28T00:00:25.871Z",
@@ -410,7 +410,7 @@
         {
           "label": "areas + top-down refinements: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "5e24816",
           "commit_time_local": "2026-10-27 20:09:54 -0400",
@@ -425,7 +425,7 @@
           "verbatim": true,
           "text": "Most of the kitchen scene looks nice except for the bowl of fruit which is way out of proportion and strangely oriented relative to the countertop.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 1296,
             "uuid": null,
             "timestamp_utc": "2026-10-28T00:07:21.556Z",
@@ -462,7 +462,7 @@
         {
           "label": "areas + top-down refinements: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "5e24816",
           "commit_time_local": "2026-10-27 20:09:54 -0400",
@@ -473,7 +473,7 @@
         {
           "label": "lamp/pillow/mug fixes: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "7ad98f1",
           "commit_time_local": "2026-10-27 20:25:41 -0400",
@@ -488,7 +488,7 @@
           "verbatim": true,
           "text": "In the living room, the warm lamp light seems to radiate in all directions equally - more of it should affect objects below it and directly above (the effect of the lampshade).  The pillow on the couch should be lowered to make contact with the seat cushion.  Decrease the size of the coffee cup in the desk side view.  Also in that view, make the light a bit more diffuse though I do like how it's more directed in that view - but, the direction doesn't align with the orientation of the lamp.",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 1454,
             "uuid": "a70d4204-9100-4364-9e5c-ff597565923e",
             "timestamp_utc": "2026-10-28T00:23:30.628Z",
@@ -525,7 +525,7 @@
         {
           "label": "lamp/pillow/mug fixes: preview.html",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "7ad98f1",
           "commit_time_local": "2026-10-27 20:25:41 -0400",
@@ -536,7 +536,7 @@
         {
           "label": "toy shelf fix: preview.html (final committed state of Plan 10; equal at 1f4d8c1)",
           "kind": "HTML+inline SVG source (original)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
           "commit": "ce23e57",
           "commit_time_local": "2026-10-27 20:28:18 -0400",
@@ -547,7 +547,7 @@
         {
           "label": "session-log.md (agent-written request table R0-R10 with commit hashes)",
           "kind": "markdown (agent-written, written AFTER the fact in this chat)",
-          "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/session-log.md",
+          "path": "reports/development/plan-10-metagame-duck-cinematography/session-log.md",
           "repo_path": "reports/development/plan-10-metagame-duck-cinematography/session-log.md",
           "commit": "ce23e57",
           "commit_time_local": "2026-10-27 20:28:18 -0400",
@@ -562,7 +562,7 @@
           "verbatim": true,
           "text": "In the toy shelf, the antenna of the robot pokes through the shelf above it.  Probably get rid of the antenna.  Also: are you writing down all the changes we've made during this session somewhere?  Probably identified by the original handoff and prompt?",
           "locator": {
-            "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+            "transcript": "[private curator transcript; path omitted]",
             "jsonl_line_0_based": 1562,
             "uuid": "cd5a196b-a5b8-478d-b03a-4f098122cbff",
             "timestamp_utc": "2026-10-28T00:27:19.315Z",
@@ -594,9 +594,9 @@
       {
         "message": "M8",
         "verbatim": true,
-        "text": "You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read C:/AI/Quackpot/reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.",
+        "text": "You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.",
         "locator": {
-          "transcript": "~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl",
+          "transcript": "[private curator transcript; path omitted]",
           "jsonl_line_0_based": 1608,
           "uuid": "4bf8ad42-1db3-4202-aebe-c5c5cf13d1a8",
           "timestamp_utc": "2026-10-28T00:44:50.539Z",
@@ -608,7 +608,7 @@
     "artifact": {
       "label": "toy shelf fix: preview.html (final committed state of Plan 10; equal at 1f4d8c1)",
       "kind": "HTML+inline SVG source (original)",
-      "path": "C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html",
+      "path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
       "repo_path": "reports/development/plan-10-metagame-duck-cinematography/preview.html",
       "commit": "ce23e57",
       "commit_time_local": "2026-10-27 20:28:18 -0400",
@@ -617,5 +617,9 @@
       "note": ""
     },
     "limitation": "This is a general acceptance. It does not say which views or versions were inspected, and not every earlier remark has a recorded resolution."
+  },
+  "privacy_sanitization": {
+    "date": "2026-11-01",
+    "note": "Repository absolute paths converted to repository-relative references; local transcript paths/session identifiers omitted. Quoted strings are privacy-sanitized excerpts, not byte-exact originals. Historical source artifact hashes remain historical; see privacy-audit.json for received/current file hashes."
   }
 }

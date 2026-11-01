@@ -1,6 +1,8 @@
+> Privacy sanitation (2026-11-01): absolute repository paths are now repository-relative; private transcript paths/session identifiers are omitted. Edited quotations retain wording except these labeled removals. Historical artifact/hash tables describe the received evidence; current file hashes are in the Plan50 privacy-audit.json.
+
 # Owner messages, verbatim (exact text from this chat's transcript)
 
-Source file: `~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl` (JSONL; line numbers are 0-based record indices of the FIRST occurrence; the same messages are replayed again later in the file after session continuations; the file was still growing when this was written). Times: UTC as recorded; local = UTC-4 (EDT). Text is reproduced exactly as stored; the apostrophe after the word handoff in M0 is U+2019, a typographic apostrophe, exactly as stored; some terminals display it as a replacement mark, which is a display artifact and not part of the text.
+Source file: `[private curator transcript; path omitted]` (JSONL; line numbers are 0-based record indices of the FIRST occurrence; the same messages are replayed again later in the file after session continuations; the file was still growing when this was written). Times: UTC as recorded; local = UTC-4 (EDT). Text is reproduced exactly as stored; the apostrophe after the word handoff in M0 is U+2019, a typographic apostrophe, exactly as stored; some terminals display it as a replacement mark, which is a display artifact and not part of the text.
 
 ## M0  line 2  (user message)
 - uuid: 709d7c03-643b-4a31-9374-0dd091a6c755
@@ -8,7 +10,7 @@ Source file: `~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f
 - note: Message carried 4 image attachments (owner Tinkercad references); images not copied, see baseline limitations.
 
 ````text
-Read and follow C:/AI/Quackpot/reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.
+Read and follow reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.
 ````
 
 ## M1  line 743  (queued while the assistant was working (queue-operation enqueue))
@@ -79,5 +81,5 @@ In the toy shelf, the antenna of the robot pokes through the shelf above it.  Pr
 - delivered to the assistant as a user message at line 1610
 
 ````text
-You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read C:/AI/Quackpot/reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.
+You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.
 ````

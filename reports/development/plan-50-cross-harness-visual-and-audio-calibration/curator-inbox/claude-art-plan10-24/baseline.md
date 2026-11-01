@@ -1,6 +1,8 @@
+> Privacy sanitation (2026-11-01): absolute repository paths are now repository-relative; private transcript paths/session identifiers are omitted. Edited quotations retain wording except these labeled removals. Historical artifact/hash tables describe the received evidence; current file hashes are in the Plan50 privacy-audit.json.
+
 # Plan 50 curator baseline: Plan 10-24 duck-view, framing and apartment-prop iterations (Claude art chat)
 
-**HELD-BACK ANSWER MATERIAL. Do not place any of this in reviewer inputs.** Role: curator, not reviewer. No new art, no new research, no blind evaluation of my own work. Owner words are quoted verbatim from this chat's transcript (`~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl`); everything else is my summary and is labelled as such. Times: transcript UTC; commits local EDT (UTC-4).
+**HELD-BACK ANSWER MATERIAL. Do not place any of this in reviewer inputs.** Role: curator, not reviewer. No new art, no new research, no blind evaluation of my own work. Owner words are quoted verbatim from this chat's transcript (`[private curator transcript; path omitted]`); everything else is my summary and is labelled as such. Times: transcript UTC; commits local EDT (UTC-4).
 
 Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction and Plan 26 weather work). Six compact cases from the Plan 10 art iterations are given (viewpoint, proportion, framing/prop placement, object consistency) with two satisfactory/preference-only elements (cases a and c). Nothing from Plan 23-24 engineering is a case here because the owner feedback on art in that period is not in this chat.
 
@@ -15,24 +17,24 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 
 **Owner feedback (verbatim; see locators in cases.json and evidence/owner-messages-verbatim.md):**
 > [M0, 2026-10-27T23:26:45.269Z UTC / 2026-10-27 19:26:45 -0400, line 2]
-> Read and follow C:/AI/Quackpot/reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.
+> Read and follow reports/orchestration/plan-10-sonnet-view-handoff.md. I authorize the bounded SVG view redraw described there. The attached Tinkercad images are references for proportions and orientation, not surface style or exact colors. Please diagnose the projection problems, then implement your improvements within the handoff’s scope.
 
 > [M1 (first sentence only; the rest of M1 belongs to case p10-b), 2026-10-27T23:45:14.073Z UTC / 2026-10-27 19:45:14 -0400, line 743]
 > It's an improvement.
 
 **Exact artifact versions (originals preserved; paths absolute; hashes are git blob ids or sha256):**
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/duck-views.js` | JS source (original) | commit c2b52e9 (2026-10-27 18:37:23 -0400) | `63b59d0ea995d6bafdc6d6a6ee3a7ad15356e1ee` | 8231 B | last commit touching the folder before message M0
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit c2b52e9 (2026-10-27 18:37:23 -0400) | `0d0c4e9676069ff76c817c3649ac072b99a699e0` | 15743 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/duck-views.js` | JS source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `a1b6e035fd521a4560fb10d99096d9c66ca03579` | 29736 B | a later commit aeefa43 (19:41:58) changed 4 lines of duck-views.js (note alignment); blob at aeefa43 is a48c0e210de27e5b4cbbd1a6b933942f30a2f4e3
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `ca4913b879a14442418bb1c2cfd4499a949e4c65` | 16926 B | unchanged by aeefa43; this is the committed state when message M1 arrived
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/front.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `86ec184aa1c9696084c8246b48011ef6fee98072` | 26551 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/side.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `825fab2a2f5544eab7068a696098e0d83aefc4a4` | 25525 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/rear.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `408acc925d0b4138e278a94da9c68bce05595c52` | 24583 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/high.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `8b74b6ade57d7cb9ef7b678d0f75b2bfc7d17b4c` | 26157 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/low.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `df150636e9f1838c5b4564ca487d109c5ae93fd8` | 25459 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/selected-contact-sheet-offline.png` | original captured/generated image (raster made by this chat's throwaway drafting tooling, NOT a browser screenshot) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `2db64fe59521132b2c22ab31314d021bade00eaa` | 38319 B | copied byte for byte to images/
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/candidate-grid-offline.png` | original generated image (offline raster) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `9812cdf46a9871204ad973019be0fa0708ce5c0d` | 510777 B | not copied (510,777 bytes); path and blob listed
-- `C:/AI/Quackpot/reports/orchestration/plan-10-sonnet-view-handoff.md` | markdown | commit 1589352 (2026-10-27 20:33:18 -0400) | `5c5b9ed64dadace735ba9c3142689ffadf4e38d1` | 8158 B | FIRST COMMITTED at 20:33:18 local, i.e. AFTER message M0 (19:26:45): the file read at 19:26 was untracked, and this blob may not equal it
+- `reports/development/plan-10-metagame-duck-cinematography/duck-views.js` | JS source (original) | commit c2b52e9 (2026-10-27 18:37:23 -0400) | `63b59d0ea995d6bafdc6d6a6ee3a7ad15356e1ee` | 8231 B | last commit touching the folder before message M0
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit c2b52e9 (2026-10-27 18:37:23 -0400) | `0d0c4e9676069ff76c817c3649ac072b99a699e0` | 15743 B
+- `reports/development/plan-10-metagame-duck-cinematography/duck-views.js` | JS source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `a1b6e035fd521a4560fb10d99096d9c66ca03579` | 29736 B | a later commit aeefa43 (19:41:58) changed 4 lines of duck-views.js (note alignment); blob at aeefa43 is a48c0e210de27e5b4cbbd1a6b933942f30a2f4e3
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `ca4913b879a14442418bb1c2cfd4499a949e4c65` | 16926 B | unchanged by aeefa43; this is the committed state when message M1 arrived
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/front.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `86ec184aa1c9696084c8246b48011ef6fee98072` | 26551 B
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/side.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `825fab2a2f5544eab7068a696098e0d83aefc4a4` | 25525 B
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/rear.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `408acc925d0b4138e278a94da9c68bce05595c52` | 24583 B
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/high.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `8b74b6ade57d7cb9ef7b678d0f75b2bfc7d17b4c` | 26157 B
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/low.svg` | SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `df150636e9f1838c5b4564ca487d109c5ae93fd8` | 25459 B
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/selected-contact-sheet-offline.png` | original captured/generated image (raster made by this chat's throwaway drafting tooling, NOT a browser screenshot) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `2db64fe59521132b2c22ab31314d021bade00eaa` | 38319 B | copied byte for byte to images/
+- `reports/development/plan-10-metagame-duck-cinematography/sonnet-candidates/candidate-grid-offline.png` | original generated image (offline raster) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `9812cdf46a9871204ad973019be0fa0708ce5c0d` | 510777 B | not copied (510,777 bytes); path and blob listed
+- `reports/orchestration/plan-10-sonnet-view-handoff.md` | markdown | commit 1589352 (2026-10-27 20:33:18 -0400) | `5c5b9ed64dadace735ba9c3142689ffadf4e38d1` | 8158 B | FIRST COMMITTED at 20:33:18 local, i.e. AFTER message M0 (19:26:45): the file read at 19:26 was untracked, and this blob may not equal it
 
 **What changed afterward (my summary):** Nothing further was requested about the duck views. I reported unresolved weaknesses myself (see agent_self_assessed_defects). Between the redraw commit 4c471ac and the final Plan 10 commit ce23e57 the five view SVGs are unchanged (git diff shows only a 4-line change in duck-views.js, the note alignment from aeefa43).
 
@@ -66,9 +68,9 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 > I authorize a scope expansion to change the preview.html file to include two separate desk views from different camera angles.
 
 **Exact artifact versions (originals preserved; paths absolute; hashes are git blob ids or sha256):**
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `ca4913b879a14442418bb1c2cfd4499a949e4c65` | 16926 B | unchanged by aeefa43; this is the committed state when message M1 arrived
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 75902da (2026-10-27 19:55:26 -0400) | `068dfceef3f9cbf71cfee1888255bbefecbc1946` | 30849 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/desk-references.md` | markdown (agent-written) | commit 75902da (2026-10-27 19:55:26 -0400) | `57d82e59859f1334d80b8cc52edd84f024c7c5b6` | 4885 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 4c471ac (2026-10-27 19:39:43 -0400) | `ca4913b879a14442418bb1c2cfd4499a949e4c65` | 16926 B | unchanged by aeefa43; this is the committed state when message M1 arrived
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 75902da (2026-10-27 19:55:26 -0400) | `068dfceef3f9cbf71cfee1888255bbefecbc1946` | 30849 B
+- `reports/development/plan-10-metagame-duck-cinematography/desk-references.md` | markdown (agent-written) | commit 75902da (2026-10-27 19:55:26 -0400) | `57d82e59859f1334d80b8cc52edd84f024c7c5b6` | 4885 B
 
 **What changed afterward (my summary):** Commit 75902da (19:55:26 local) replaced the single close-up with two desk compositions: an eye-level side view and a top-down view with different object sets, with the phone redrawn to 9:17 after a codebase search. The exact diff is in evidence/diff-desk-views-4c471ac-to-75902da.patch. Haiku researcher notes are in desk-references.md (agent-written, not owner words). Based on a git-time comparison this is the next commit after M1/M2; the linkage of change to message is mine.
 
@@ -101,8 +103,8 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 > Shadow from top-down pencil should be closer to pencil, at this distance it looks like it's floating in the air.  Top-down duck looks good as do keys and paper.  Are those coins at the bottom?  Those could be improved with some quasi-visual designs to provide the impression of detail without compromising the other elements' simplicity.  Lamp glow looks really nice.  Sticky note has the same shadow distance issue: it probably shouldn't have a shadow at all, if it's stuck to the paper.  Let's move the head of the lamp closer to the top left (shorten the visible length of the lamp neck).
 
 **Exact artifact versions (originals preserved; paths absolute; hashes are git blob ids or sha256):**
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 75902da (2026-10-27 19:55:26 -0400) | `068dfceef3f9cbf71cfee1888255bbefecbc1946` | 30849 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 75902da (2026-10-27 19:55:26 -0400) | `068dfceef3f9cbf71cfee1888255bbefecbc1946` | 30849 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
 - `<claude-session-scratchpad>/preview.before-rooms.html` | authoring script / intermediate snapshot in this chat's scratchpad (not in git) | line 1170 00:04:17Z | `f5b966724f8c376a256b7152821365574462cbee2e2496c581ba8628625fa66b` | 34300 B | uncommitted intermediate working-tree state of the desk views at transcript time 00:04:17Z; closest saved snapshot to what the owner saw when sending M4 (00:00:25Z), but it was taken 3m52s AFTER M4 and may include edits made after it
 
 **What changed afterward (my summary):** Commit 5e24816 (20:09:54 local) includes height-scaled shadows (pencil 4 px, sticky note none), detailed coins, the lamp head moved toward the top-left with a shorter neck, plus the three new apartment areas. Diff: evidence/diff-areas-and-topdown-75902da-to-5e24816.patch (large: it also adds the rooms). The assistant's account is at line 1452. The owner said the top-down duck looked good before and after, which I did not change.
@@ -134,7 +136,7 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 - `<claude-session-scratchpad>/patch_rooms1.py` | authoring script / intermediate snapshot in this chat's scratchpad (not in git) | line 1200 00:05:13Z, run 00:05:17Z | `583dfe017fbab723731a2b730279177b242648b49562ea771dc8a6a6e29facc7` | 4290 B
 - `<claude-session-scratchpad>/patch_rooms3.py` | authoring script / intermediate snapshot in this chat's scratchpad (not in git) | line 1255 00:06:17Z, run 00:06:21Z | `c99ff07417d9659c58978b91f22871d10ce057d3de0c1ba5333a2bf3fffa6482` | 1461 B | ran 00:06:21Z, about one minute before message M5
 - `<claude-session-scratchpad>/patch_rooms6.py` | authoring script / intermediate snapshot in this chat's scratchpad (not in git) | line 1309 00:07:37Z, run 00:07:41Z | `78b2088d0a2b5c5958623a7b51e5fc95f6756aae50b6a146f7ef2a284aa1be18` | 691 B | ran 00:07:41Z, 20 seconds AFTER message M5
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
 
 **What changed afterward (my summary):** 20 seconds after M5 the bowl was redrawn as a shallow rimmed bowl sitting on the bar surface, smaller than before (patch_rooms6.py), then committed in 5e24816. My account is at line 1452: "The fruit bowl is redrawn as a shallow bowl on the bar surface, smaller than the first attempt, with fruit inside it."
 
@@ -164,8 +166,8 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 > In the living room, the warm lamp light seems to radiate in all directions equally - more of it should affect objects below it and directly above (the effect of the lampshade).  The pillow on the couch should be lowered to make contact with the seat cushion.  Decrease the size of the coffee cup in the desk side view.  Also in that view, make the light a bit more diffuse though I do like how it's more directed in that view - but, the direction doesn't align with the orientation of the lamp.
 
 **Exact artifact versions (originals preserved; paths absolute; hashes are git blob ids or sha256):**
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 7ad98f1 (2026-10-27 20:25:41 -0400) | `6f858e73661581ed84d207b157615599124e8b38` | 58168 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 5e24816 (2026-10-27 20:09:54 -0400) | `493d5dae5d4269631128e2fe73c073a4c8bff381` | 54994 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 7ad98f1 (2026-10-27 20:25:41 -0400) | `6f858e73661581ed84d207b157615599124e8b38` | 58168 B
 
 **What changed afterward (my summary):** Commit 7ad98f1 (20:25:41 local): living-room, kitchen and bedroom lamps made directional (mostly downward with a fainter upward spill and a small halo at the shade), couch pillow lowered onto the seat cushion, desk side-view mug scaled to 72%, desk side-view lamp head tilted so its opening faces down and slightly right with two soft blurred cones and a diffuse pool. Diff: evidence/diff-lamp-pillow-mug-5e24816-to-7ad98f1.patch. My account is at line 1560 (my words).
 
@@ -194,9 +196,9 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 > In the toy shelf, the antenna of the robot pokes through the shelf above it.  Probably get rid of the antenna.  Also: are you writing down all the changes we've made during this session somewhere?  Probably identified by the original handoff and prompt?
 
 **Exact artifact versions (originals preserved; paths absolute; hashes are git blob ids or sha256):**
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 7ad98f1 (2026-10-27 20:25:41 -0400) | `6f858e73661581ed84d207b157615599124e8b38` | 58168 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit ce23e57 (2026-10-27 20:28:18 -0400) | `f304ff9f8ebd844973a98fd915ecb7c124e97029` | 58100 B
-- `C:/AI/Quackpot/reports/development/plan-10-metagame-duck-cinematography/session-log.md` | markdown (agent-written, written AFTER the fact in this chat) | commit ce23e57 (2026-10-27 20:28:18 -0400) | `698e434e4b292b4c4820a39b3547e130d87fe0dd` | 6991 B | my own summary, not owner words
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit 7ad98f1 (2026-10-27 20:25:41 -0400) | `6f858e73661581ed84d207b157615599124e8b38` | 58168 B
+- `reports/development/plan-10-metagame-duck-cinematography/preview.html` | HTML+inline SVG source (original) | commit ce23e57 (2026-10-27 20:28:18 -0400) | `f304ff9f8ebd844973a98fd915ecb7c124e97029` | 58100 B
+- `reports/development/plan-10-metagame-duck-cinematography/session-log.md` | markdown (agent-written, written AFTER the fact in this chat) | commit ce23e57 (2026-10-27 20:28:18 -0400) | `698e434e4b292b4c4820a39b3547e130d87fe0dd` | 6991 B | my own summary, not owner words
 
 **What changed afterward (my summary):** Commit ce23e57 (20:28:18 local): the robot's antenna rod and red ball were removed (the owner's suggested fix) and, UNREQUESTED, the stacking-ring tower scale went from .85 to .70 and the bunny from .60 to .55 because I judged them "nearly touching the plank above too" (my words, line 1606). Exact diff: evidence/diff-toy-shelf-7ad98f1-to-ce23e57.patch.
 
@@ -217,7 +219,7 @@ Scope note: this chat held the Plan 10 art work (and later Plan 24 extraction an
 
 Owner (M8, verbatim): 
 
-> You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read C:/AI/Quackpot/reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.
+> You did great work.  Plans 10 and 23 are owner-accepted and closed. Continue with Plan 24, using your existing context from creating the artwork. Read reports/orchestration/plan-24-sonnet-starting-handoff.md and the linked packet. Plan 24 is in progress. Return the extraction interface and ownership proposal first for orchestration review, then proceed after approval.
 
 M8 says Plans 10 and 23 are owner-accepted and closed. The final committed Plan 10 preview is ce23e57 (equal at 1f4d8c1). This is a general acceptance. It does not say which views or versions were inspected, and not every earlier remark has a recorded resolution.
 

@@ -1,6 +1,8 @@
+> Privacy sanitation (2026-11-01): absolute repository paths are now repository-relative; private transcript paths/session identifiers are omitted. Edited quotations retain wording except these labeled removals. Historical artifact/hash tables describe the received evidence; current file hashes are in the Plan50 privacy-audit.json.
+
 # Submission record: claude-art-plan10-24 (Plan 50 curator inbox)
 
-Curator: Claude (the chat that did the Plan 10 art, then Plan 23/24/26 work). Role: curator, not reviewer. Source chat transcript (read for owner words and chronology): `~/.claude/projects/C--AI-Quackpot/6ad61cdb-145b-4d6c-9aaa-86e4dc7f5df2.jsonl`. Written only under this folder; no earlier file, source asset, packet or status was modified; no other curator inbox, baseline answer or Plan 50 model output was read. No new art, no research, no reviewer launched.
+Curator: Claude (the chat that did the Plan 10 art, then Plan 23/24/26 work). Role: curator, not reviewer. Source chat transcript (read for owner words and chronology): `[private curator transcript; path omitted]`. Written only under this folder; no earlier file, source asset, packet or status was modified; no other curator inbox, baseline answer or Plan 50 model output was read. No new art, no research, no reviewer launched.
 
 ## Files
 

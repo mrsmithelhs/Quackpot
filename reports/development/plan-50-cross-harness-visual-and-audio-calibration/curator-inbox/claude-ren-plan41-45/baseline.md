@@ -1,8 +1,10 @@
+> Privacy sanitation (2026-11-01): absolute repository paths are now repository-relative; private transcript paths/session identifiers are omitted. Edited quotations retain wording except these labeled removals. Historical artifact/hash tables describe the received evidence; current file hashes are in the Plan50 privacy-audit.json.
+
 # Plan 50 historical evidence: Ren art (Plan 41/45), curator package
 
 HELD-BACK ANSWER MATERIAL. Contains owner verdicts. Do not copy into reviewer inputs. Role: curator, not reviewer. Nothing in this package modifies or improves artwork; every artifact is an existing committed file copied byte-for-byte from the named commit (or listed by path and hash). Machine-readable detail is in `cases.json`.
 
-Source: one Claude Code chat (session 8136ce00-92b3-45d0-a165-c9bc439c174b), 2026-10-31 to 2026-11-01. Message timestamps below are UTC from the session transcript; commit times in git are UTC-4 (for example 20:18 -0400 equals 00:18 UTC). All repo paths are under `reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/`.
+Source: one Claude Code chat (session [curator-local identifier omitted]), 2026-10-31 to 2026-11-01. Message timestamps below are UTC from the session transcript; commit times in git are UTC-4 (for example 20:18 -0400 equals 00:18 UTC). All repo paths are under `reports/development/plan-41-ren-friend-character-and-social-life-study/concepts/`.
 
 ## What this chat can and cannot support
 

@@ -80,18 +80,18 @@
         "sha256": "0fe9188218326bfc4368a62dee2af8cf97baedc8fb816da1cae248d3779ad023"
       }
     ],
-    "sourceFile": "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-sonnet-study/keys-study.mjs",
+    "sourceFile": "reports/development/plan-47-work-and-evening-production-integration/keys-sonnet-study/keys-study.mjs",
     "versions": [
       {
         "id": "codex-candidate",
         "commit": "4006cf5",
         "kind": "SVG source plus original repo PNGs (not copied)",
         "paths": [
-          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate.mjs",
-          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-desktop.png",
-          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-narrow.png",
-          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-desktop.png",
-          "C:/AI/Quackpot/reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-narrow.png"
+          "reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate.mjs",
+          "reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-desktop.png",
+          "reports/development/plan-47-work-and-evening-production-integration/keys-art-review/candidate-narrow.png",
+          "reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-desktop.png",
+          "reports/development/plan-47-work-and-evening-production-integration/keys-art-review/current-narrow.png"
         ]
       },
       {
@@ -318,5 +318,9 @@
         "not a play-through"
       ]
     }
-  ]
+  ],
+  "privacy_sanitization": {
+    "date": "2026-11-01",
+    "note": "Repository absolute paths converted to repository-relative references; local transcript paths/session identifiers omitted. Quoted strings are privacy-sanitized excerpts, not byte-exact originals. Historical source artifact hashes remain historical; see privacy-audit.json for received/current file hashes."
+  }
 }

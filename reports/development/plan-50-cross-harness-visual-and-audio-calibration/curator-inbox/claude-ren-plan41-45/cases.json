@@ -60,7 +60,7 @@
           "label": "verbatim (the relevant clause is item 3; the lead had asked 'Keep the crop' versus 'Full height')",
           "timestamp_utc": "2026-11-01T00:15:45.596Z",
           "message_uuid": "53b06635-c562-49f4-9144-d7061926432f",
-          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "transcript": "Claude Code session [curator-local identifier omitted] (local transcript; message uuids below)",
           "text": "1 add listening, 2 keep, 3 make upper half of door/wall take up the whole frame because the desk is very strange and Ren is floating (don't show door all the way to ground), 4 keep",
           "note": "The owner chose neither offered option. The lead's earlier text called the object a 'console table'; the owner calls it 'the desk'."
         }
@@ -200,7 +200,7 @@
           "label": "verbatim (last paragraph is the original request; the rest of that message concerns other drawings)",
           "timestamp_utc": "2026-10-31T20:26:05.643Z",
           "message_uuid": "afca101f-5b93-4f9a-9c7d-b4cfd21fd276",
-          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "transcript": "Claude Code session [curator-local identifier omitted] (local transcript; message uuids below)",
           "text": "  Revise slicker (hood should go over head and partly obscure hair), and bedhead (really just not sure what that's about - maybe dispatch a Haiku search agent to find some representative images to look at before trying a rewrite).  Oh, also: does Ren have a tattoo on their neck?  I see the dark band, but what's the small blue detail?  It looks like a mistake, if it's supposed to represent a tattoo.  I think we only show a tattoo on Ren when there's an exposed upper arm or shoulder, which may happen sometimes but not always.  Is the detail above the ear supposed to be a pencil maybe?   Reads as some type of jewelry, but in a very awkward location.\n\nCould we have a few composed drawings that show Ren in the player's apartment: in a chair, on the couch, standing somewhere else?  Do the camera views in the apartment make that easy without having to draw more of Ren's body?",
           "note": ""
         },
@@ -208,7 +208,7 @@
           "label": "verbatim, in answer to the lead's four questions",
           "timestamp_utc": "2026-11-01T01:19:11.305Z",
           "message_uuid": "2b781049-d2ef-4a50-9ec1-b24fecfd05cb",
-          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "transcript": "Claude Code session [curator-local identifier omitted] (local transcript; message uuids below)",
           "text": "1 close only, at least close enough that bottom of available body is at bottom of visible scene (otherwise it looks awful, body cut off but scene not is always a non-starter unless lower body obscured by scene object), 2 couch in living room or behind desk (which would mean sitting on floor), 3 commission side and turned poses later, 4 draw it",
           "note": ""
         },
@@ -216,7 +216,7 @@
           "label": "verbatim, after the lead drew the floor scene",
           "timestamp_utc": "2026-11-01T01:26:06.913Z",
           "message_uuid": "f2b7e2ec-c842-4043-8bab-de5fb74b1ea8",
-          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "transcript": "Claude Code session [curator-local identifier omitted] (local transcript; message uuids below)",
           "text": "1 coffee table, 2 revise (add duck on blue book facing board)",
           "note": ""
         }
@@ -325,7 +325,7 @@
           "label": "verbatim; second line answers other questions and is unrelated",
           "timestamp_utc": "2026-11-01T00:59:04.575Z",
           "message_uuid": "0990e3cc-ff9f-48ae-ba3e-784f4c41ea76",
-          "transcript": "Claude Code session 8136ce00-92b3-45d0-a165-c9bc439c174b (local transcript; message uuids below)",
+          "transcript": "Claude Code session [curator-local identifier omitted] (local transcript; message uuids below)",
           "text": "Tool apron looks good, puffer vest does not yet.\n1 keep all, 2 yes, 3 as suggested, 4 yes",
           "note": ""
         }
@@ -352,5 +352,9 @@
         "Control status rests on one sentence of approval."
       ]
     }
-  ]
+  ],
+  "privacy_sanitization": {
+    "date": "2026-11-01",
+    "note": "Repository absolute paths converted to repository-relative references; local transcript paths/session identifiers omitted. Quoted strings are privacy-sanitized excerpts, not byte-exact originals. Historical source artifact hashes remain historical; see privacy-audit.json for received/current file hashes."
+  }
 }

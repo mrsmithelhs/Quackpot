@@ -124,6 +124,13 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S51 | Poses | **Commission side and turned poses later** | First build is front-facing only. |
 | S52 | Floor game night after the couch sale (Example 1) | **Draw it now** | Drawn after this answer; unreviewed. |
 
+### Floor scene follow-up (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S53 | Is "desk" the coffee table | **Coffee table** | The floor game-night scene keeps Ren behind the living-room coffee table. |
+| S54 | Floor scene revision | **Revise: add the duck on the blue book, facing the board** | Done: the duck sits on top of the blue magazine and faces left toward the board; unreviewed. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

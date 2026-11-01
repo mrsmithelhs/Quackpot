@@ -43,6 +43,8 @@ const origItems = {};
 for (const k of Object.keys(ROOM_SPECS)) origItems[k] = ROOM_SPECS[k].items;
 const origOnTable = {};
 for (const k of Object.keys(ROOM_SPECS)) origOnTable[k] = ROOM_SPECS[k].onTable;
+const origAnchor = {};
+for (const k of Object.keys(ROOM_SPECS)) origAnchor[k] = ROOM_SPECS[k].anchor;
 const setExtra = (area, extra) => { ROOM_SPECS[area].items = f => [...origItems[area](f), ...extra]; };
 
 const scenes = [
@@ -62,9 +64,11 @@ const scenes = [
     ren: renItem('outfits/apron-tool/apron-tool.svg', { X: 250, z: 1150, cutY: 770, s: 2.4 }),
     extra: s => [s.ren] },
   // Floor game night (couch sold, plan 05 Example 1): couch removed, Ren sits on the floor behind the coffee table, the table hides the cut.
-  { id: 'ren-floor-game-night', area: 'living', light: 'window', furn: { couch: 'removed', tv: 'present' }, duck: false,
+  { id: 'ren-floor-game-night', area: 'living', light: 'window', furn: { couch: 'removed', tv: 'present' },
+    // the duck rides on top of the blue magazine (stack is 52 mm tall) and faces left toward the board; X is just right of the magazines' X so they draw first
+    anchor: { X: 262, z: 900, Y: 482 },
     onTable: [{ X: -150, z: 900, Y: 430, mm: boardGame() }],
-    label: 'Ren on the floor behind the coffee table at a board game night, couch gone',
+    label: 'Ren on the floor at a board game night, couch gone, duck on a magazine facing the board',
     ren: renItem('outfits/cardigan-terracotta/cardigan-terracotta-v2.svg', { X: -150, z: 1500, cutY: 300, s: 2.4 }),
     extra: s => [s.ren] }
 ];
@@ -79,6 +83,7 @@ const written = [];
 for (const sc of scenes) {
   setExtra(sc.area, sc.extra(sc));
   if (sc.onTable) ROOM_SPECS[sc.area].onTable = [...origOnTable[sc.area], ...sc.onTable];
+  if (sc.anchor) ROOM_SPECS[sc.area].anchor = sc.anchor;
   const prefix = sc.id.slice(0, 22).replace(/[^a-z0-9-]/g, '');
   const r = renderScene({ area: sc.area, idPrefix: prefix, framing: 'wide', light: sc.light, furnishings: sc.furn, duck: sc.duck ?? true, duckView: 'side', decorative: false, label: sc.label });
   let svg = r.svg.replace(/^<svg\b/, '<svg xmlns="http://www.w3.org/2000/svg"');
@@ -87,6 +92,7 @@ for (const sc of scenes) {
   // restore the untouched specs for the next scene
   for (const k of Object.keys(origItems)) ROOM_SPECS[k].items = origItems[k];
   for (const k of Object.keys(origOnTable)) ROOM_SPECS[k].onTable = origOnTable[k];
+  for (const k of Object.keys(origAnchor)) ROOM_SPECS[k].anchor = origAnchor[k];
   writeFileSync(resolve(outDir, `${sc.id}.svg`), svg);
   written.push({ id: sc.id, bytes: svg.length, label: sc.label });
 }

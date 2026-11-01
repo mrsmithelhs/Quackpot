@@ -3,7 +3,9 @@
 **Date**: 2026-10-31  
 **Scope**: Plan 40 Work and Evening Experience Study  
 **Lead Implementer**: Gemini Flash (Plan 40)  
-**Status**: Implemented & Verified (Single departure button, two-stage sequence, combined work shift card, single directional commute, production badge suppression)
+**Status**: Report-local delivery ready for owner review. Root repaired the remaining gig badge leak and duplicate work-slot tracking; 12 focused tests pass. See root review below for exact evidence limits.
+
+**Root review, 2026-10-31:** `reports/orchestration/apartment-viewport-and-plan-40-simplification-review.md` records the Terra-medium review, two locally repaired findings and bounded validation. Earlier 10-test/browser results below describe Flash's pre-root-repair source. Root's two new regressions and current 12-test pass supersede the narrower badge and occurrence claims. No new browser walkthrough of the report was performed after those two fixes. Owner review and production integration remain outstanding.
 
 ---
 

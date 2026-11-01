@@ -14,7 +14,7 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 | Apartment | Accepted art/desk/phone; Plan38 life surfaces exist | Work/evening experience Plan40 assigned Gemini Flash; coherent phase/obligation integration before later disruption |
 | Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, Plan44 Receipt integration delivered for owner review; exporter/analyzer separate |
 | Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 technical repairs; Plan43 report-local style study assigned Codex; weather not mounted |
-| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 assigned Sonnet, Plan36 possibilities preserved; owner selection before integration; not automatic feature adoption |
+| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; draft45 existing SVG extraction and draft46 gated social integration; Plan36 possibilities preserved |
 
 Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.
 
@@ -48,8 +48,7 @@ reference, not an integration plan or authority to implement the review proposal
 
 [Plan 41: Ren friend and social life](development/plan-41-ren-friend-character-and-social-life-study.md)
 develops the owner-selected friend idea through character/reference research,
-visual concepts and social interaction/consequence proposals. It is ready for
-assignment, with production visuals and HP/relationship rules still gated.
+visual concepts and social interaction/consequence proposals. It is owner-closed as an investigation; production extraction and the exact social mechanism are separately scoped in draft Plans45/46.
 
 ## What belongs here
 

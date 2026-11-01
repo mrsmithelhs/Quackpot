@@ -1,7 +1,8 @@
 ---
 id: plan-41
 title: Ren friend character and social life study
-status: delivered
+status: complete
+resolution: "Owner accepts and closes the Ren character/social investigation on 2026-10-31 after root reconciliation. S1-S58 carry forward; final concept acceptance and production SVG/mechanism integration are separately gated in draft Plans45/46. No production adoption, push or deployment."
 depends_on: []
 gate: "Owner opens Ren development on 2026-10-31, with reference research and report-local generated concepts authorized on assignment. Owner selects characterization, visuals and consequential rules before production."
 summary: >-

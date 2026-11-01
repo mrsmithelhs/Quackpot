@@ -586,3 +586,9 @@ Owner adopts Astra's modularity recommendations and endorses root before/after v
 **Date:** 2026-11-01
 
 Owner requests keys as the apartment work-departure affordance and removal of the redundant Continue without departing choice. After root identifies the Day1 launch lock, owner explicitly selects requiring the first tutorial shift; later work remains optional. Plan47 reopens for bounded production repair: supported keys placement, clear departure/completion-wage semantics, coherent Day1 progression and preservation of later disclosed conflicting-activity choices. Historical replay/legacy saves must retain their established semantics; no general economy or schedule rewrite is authorized. Selected direction awaits implementation and root/owner review. Plan45 retains its separate art scope and releases its finite browser slot before Plan47 testing. No push/deployment.
+
+### DECISION-061 — Plan47 accepted presentation and evening/rent refinements
+
+**Date:** 2026-11-01
+
+Owner accepts revised work/commute presentation and reports dinner works. This is partial experience acceptance, not packet closure. Owner selects sitting with the physical duck to restore up to5HP, replacing the current10HP for newly versioned activity behavior; Call Mom remains up to5HP and both are exclusive Evening anchor alternatives. Preserve historical activity replay/config values rather than rewriting old outcomes. Owner cannot find Call Mom; Plan47 must verify the actual reachable evening and make the alternative discoverable before anchor commitment. Rent letter/decision should use ordinary due-date framing rather than Day4 and omit No cash has been taken. Relative due wording may derive from the existing deadline without changing it or introducing a real calendar. These repairs await implementation and review; no push/deployment.

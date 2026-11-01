@@ -114,6 +114,8 @@ The clock is hybrid:
 
 **Tutorial work exception (owner, 2026-11-01):** The first Day1 tutorial shift is required before the evening launch; later scheduled work remains optional. Represent departure through supported keys in the apartment rather than a below-scene work button. Remove the redundant Day1 Continue without departing route; later conflicting activities retain disclosed work consequences. This selected direction is awaiting Plan47 repair, not a claim that the current production route already enforces it. Preserve historical save/replay semantics. See DECISION-060.
 
+**Evening recovery refinement (owner, 2026-11-01):** Sit with the physical duck and Call Mom each restore up to5HP, capped at maximum health, as alternative exclusive Evening anchors. The new sit-with-duck value awaits versioned Plan47 repair; existing historical10HP outcomes retain their replay semantics. Owner accepts revised work/commute presentation and dinner, but Plan47 remains open for keys/tutorial departure, discoverable leisure alternatives and ordinary relative rent-deadline wording. See DECISION-061.
+
 ## Saving
 
 Two modes, chosen by the player:

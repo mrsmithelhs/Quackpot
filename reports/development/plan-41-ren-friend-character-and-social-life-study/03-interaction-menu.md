@@ -90,3 +90,7 @@ Ren availability [PROPOSED]: Ren has a short repeating pattern of free Evenings 
 2. Should Ren's give-back (I3) be a story/object beat only, as proposed, or something with game effect?
 3. Should the player be able to ask Ren for help (I4) in the first wave?
 4. Does dinner stay separate maintenance on a visit night, or can a shared meal substitute (with cost consequences for Plan 29)?
+
+## Status after owner review (2026-10-31)
+
+Owner answered **Yes** to the interaction menu and the Evening-only first wave (ledger S16). Visits happen in the apartment in close framing, front-facing, with Ren on the couch or on the floor behind the coffee table (S49 to S52); the door view is the half-body door scene reframed in round 4 (S28, S29). Numbers stay symbolic; Plan 37 and Plan 29 still own timing and values.

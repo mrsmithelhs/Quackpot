@@ -75,7 +75,8 @@
     <div><h3>You did</h3><div id="r-did"></div></div>
     <div><h3>Automatic consequence</h3><div id="r-auto"></div></div>
   </div>
-  <div class="state" aria-label="Synthetic state">
+  <div class="state" aria-label="Synthetic state (reviewer annotation, not shown to the player)">
+    <span><em>Reviewer annotation only; the player never sees these (owner decision S32):</em></span>
     <span>Ren: <strong id="s-flag"></strong></span>
     <span>HP change: <strong id="s-hp"></strong></span>
     <span>Ren availability: <strong id="s-avail"></strong></span>
@@ -87,7 +88,7 @@
   <ol id="transcript"></ol>
 </details>
 
-<p style="font-size:.9rem">Limits: art uses the round 2 Direction A refinement (still drawn by the lead, still not production art). Door scene is a stand-in composition, not a render of the apartment kit. The storyboard has no animation, so there is nothing to reduce for reduced-motion settings; there is no audio.</p>
+<p style="font-size:.9rem">Limits: art follows the current rules (pencil on the ear, no neck tattoo, door scene reframed with the wall and doorway filling the frame, as in round 4); still drawn by the lead, not production art. Door scene is a stand-in composition, not a render of the apartment kit. The storyboard has no animation, so there is nothing to reduce for reduced-motion settings; there is no audio.</p>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 <defs>
@@ -137,11 +138,12 @@
   <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
 </g>
 <g id="A-hair-short"><use href="#A-hs-shapes" class="hair l3"/><use href="#A-hs-shapes" class="hair" stroke="none"/></g>
-<g id="A-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+<g id="A-tat"></g>
 <g id="A-acc-1">
   <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
   <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
-  <path d="M168 118 L158 98" stroke="#3a2c26" stroke-width="7" stroke-linecap="round"/><path d="M168 118 L158 98" stroke="#e0b341" stroke-width="4" stroke-linecap="round"/>
+
+  <g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g>
 </g>
 <g id="fig-R-warm"><use href="#A-torso-ov"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#Face-warm"/><use href="#A-hair-short"/><use href="#A-tat"/><use href="#A-acc-1"/></g>
 <g id="fig-R-grin"><use href="#A-torso-ov"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#Face-grin"/><use href="#A-hair-short"/><use href="#A-tat"/><use href="#A-acc-1"/></g>
@@ -156,30 +158,27 @@
   <path class="l2" fill="#f7e19a" d="M150 240 Q150 222 158 222 Q166 222 166 240Z"/><path class="l2" fill="#f7e19a" d="M176 240 Q176 224 184 224 Q192 224 192 240Z"/>
   <path class="l2" fill="#c9c2b0" d="M153 240 H163 V246 H153Z"/><path class="l2" fill="#c9c2b0" d="M179 240 H189 V246 H179Z"/>
   <path class="skin l3" d="M216 300 L200 262 L178 268 L192 300Z"/>
-  <path d="M196 276 Q201 284 195 292 M200 283 Q207 281 208 275" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="1.8" stroke-linecap="round"/>
   <ellipse class="skin l3" cx="186" cy="262" rx="13" ry="9" transform="rotate(-20 186 262)"/>
   <path class="l2" fill="none" d="M176 258 Q182 262 190 258"/>
 </g>
 <g id="scene-door">
   <rect width="960" height="540" fill="#e9d6b4"/>
-  <rect y="430" width="960" height="110" fill="#b98a5a"/><path stroke="#a47848" stroke-width="2" d="M0 470H960M0 510H960M120 430V540M300 430V540M480 430V540M660 430V540M840 430V540" fill="none" opacity=".5"/>
-  <rect x="330" y="40" width="300" height="500" fill="#6b4a33" class="l3"/>
-  <rect x="350" y="60" width="260" height="480" fill="#c9d6d3"/>
-  <rect x="350" y="60" width="260" height="480" fill="#fff" opacity=".12"/>
-  <rect x="410" y="130" width="140" height="330" rx="4" fill="#8a7258" class="l3"/><circle cx="530" cy="300" r="6" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><rect x="456" y="150" width="48" height="26" rx="3" fill="#e9d9b0" class="l2"/>
-  <rect x="350" y="440" width="260" height="100" fill="#a9b6b2"/><path d="M350 440H610" stroke="#3a2c26" stroke-width="2"/>
-  <rect x="470" y="62" width="20" height="14" fill="#fff4c8" stroke="#3a2c26" stroke-width="2"/>
-  <g transform="translate(336 170) scale(1.2)" class="fig-in-scene"><use href="#A-torso-ov"/><use href="#R-box-arm"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#Face-warm"/><use href="#A-hair-short"/><use href="#A-tat"/><use href="#A-acc-1"/></g>
-  <!-- interior left: couch arm and lamp -->
-  <rect x="-10" y="320" width="190" height="150" rx="26" fill="#8a6d4f" class="l3"/><rect x="-10" y="300" width="70" height="90" rx="20" fill="#9a7b5a" class="l3"/>
-  <rect x="226" y="360" width="10" height="100" fill="#3a2c26"/><path d="M200 360 L262 360 L246 306 L216 306Z" fill="#f2c872" class="l3"/><ellipse cx="231" cy="466" rx="34" ry="8" fill="#3a2c26" opacity=".25"/>
-  <circle cx="231" cy="330" r="120" fill="#ffd27a" opacity=".12"/>
-  <!-- foreground console -->
-  <rect x="270" y="478" width="420" height="22" rx="6" fill="#9a6c43" class="l3"/><rect x="290" y="498" width="14" height="44" fill="#7d5532" class="l3"/><rect x="656" y="498" width="14" height="44" fill="#7d5532" class="l3"/>
-  <path d="M586 478 Q586 456 610 456 Q634 456 634 478Z" fill="#6b7b4a" class="l3"/><ellipse cx="610" cy="458" rx="22" ry="5" fill="#8d9a62" stroke="#3a2c26" stroke-width="2"/>
-  <circle cx="602" cy="454" r="5" fill="#d9a441" stroke="#3a2c26" stroke-width="1.5"/><path d="M606 452 L612 446" stroke="#3a2c26" stroke-width="2"/>
-  <rect x="304" y="446" width="34" height="32" rx="6" fill="#f1e3c8" class="l3"/><path d="M338 456 Q352 460 338 472" fill="none" stroke="#3a2c26" stroke-width="3"/>
-  <rect x="0" y="0" width="960" height="540" fill="#ff9a3c" opacity=".05"/>
+  <circle cx="190" cy="250" r="190" fill="#ffd27a" opacity=".16"/>
+  <!-- wall sconce on the interior wall (left) -->
+  <rect x="150" y="224" width="12" height="26" rx="3" fill="#3a2c26"/>
+  <path d="M128 232 L184 232 L170 180 L142 180Z" fill="#f2c872" class="l3"/>
+  <!-- framed picture on the interior wall (right) -->
+  <rect x="770" y="150" width="110" height="86" rx="4" fill="#f1e3c8" class="l3"/>
+  <path d="M780 226 L812 188 L834 210 L852 192 L870 226Z" fill="#6b7b4a" class="l2"/><circle cx="846" cy="172" r="9" fill="#e0b341" class="l2"/>
+  <!-- door frame; it runs off the bottom edge so no floor is shown -->
+  <rect x="296" y="26" width="368" height="530" fill="#6b4a33" class="l3"/>
+  <rect x="320" y="50" width="320" height="500" fill="#c9d6d3"/>
+  <rect x="320" y="50" width="320" height="500" fill="#fff" opacity=".12"/>
+  <!-- door across the hall -->
+  <rect x="410" y="92" width="140" height="460" rx="4" fill="#8a7258" class="l3"/><circle cx="530" cy="300" r="6" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><rect x="456" y="104" width="48" height="26" rx="3" fill="#e9d9b0" class="l2"/>
+  <rect x="470" y="56" width="20" height="14" fill="#fff4c8" stroke="#3a2c26" stroke-width="2"/>
+  <g transform="translate(306 105) scale(1.45)"><use href="#A-torso-ov"/><use href="#R-box-arm"/><use href="#A-neck"/><use href="#A-ears"/><use href="#A-head"/><use href="#Face-warm"/><use href="#A-hair-short"/><use href="#A-acc-1"/></g>
+  <rect width="960" height="540" fill="#ff9a3c" opacity=".05"/>
 </g>
 </defs>
 </svg>

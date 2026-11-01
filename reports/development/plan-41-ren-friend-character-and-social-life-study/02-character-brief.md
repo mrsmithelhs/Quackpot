@@ -51,3 +51,7 @@ Early in Day 1 evening or Day 2 (timing is Plan37's call): a knock; Ren holds a 
 2. How much heritage specificity (§4), if any, should be written.
 3. Does Ren ever mention the physical duck's name ("Professor Quacks" is the user-nameable default) or just "the duck"?
 4. Whether Ren plays a small pocket game and how much it surfaces.
+
+## Status after owner review (2026-10-31)
+
+Owner: all good as written, including voice, boundaries and how much heritage detail shows (ledger S17). Appearance choices since: mid-warm complexion A (S46), tattoo arm-only (S9), pencil placements kept as options (S12).

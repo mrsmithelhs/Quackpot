@@ -50,3 +50,7 @@ Ren builds a small shelf for the player after a shelf-carry visit (I3). Later th
 2. Approve Example 1 as the single consequential case (hosting/seating), or choose a different shared context.
 3. Is Example 3 (gifted item) wanted?
 4. Should the neutral "tv's gone" flavor line exist at all?
+
+## Status after owner review (2026-10-31)
+
+Owner approved the principle (a social effect only where a prior scene established a concrete shared context), Example 1 as the single consequential case, the gifted-item reaction (Example 3) and the neutral "tv's gone" line (ledger S18 to S21). The floor game-night scene for Example 1 is drawn: `concepts/apartment-scenes/scenes/ren-floor-game-night.svg` (S52 to S54).

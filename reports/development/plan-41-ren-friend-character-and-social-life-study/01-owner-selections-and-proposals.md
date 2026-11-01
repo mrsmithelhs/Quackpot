@@ -131,6 +131,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S53 | Is "desk" the coffee table | **Coffee table** | The floor game-night scene keeps Ren behind the living-room coffee table. |
 | S54 | Floor scene revision | **Revise: add the duck on the blue book, facing the board** | Done: the duck sits on top of the blue magazine and faces left toward the board; unreviewed. |
 
+### Consequence thresholds (owner answers, 2026-10-31; direction only, Plan 29 owns final numbers)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S55 | Broken commitments to drift (`B`) | **2** | The second no-show without "Tell Ren I can't" moves connected to drifting. |
+| S56 | Expired unanswered invitations to drift (`U`) | **3 in a row** | Measured in game phases, never real time. |
+| S57 | How long Ren remembers | **Window of the last 6 opportunities** | Older breaks and expiries stop counting; N=6 is the owner's direction. |
+| S58 | Ren visit frequency (`g_R`) | **At most every other Evening** | Direction for Plan 29; a visit-every-available-Evening strategy check stays advisory (S25). |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

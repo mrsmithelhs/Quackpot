@@ -92,3 +92,8 @@ Day 5 morning: HP low from skipped meals; Evening: player accepts a visit; compl
 2. Approve the counted events (broken commitment, expired unanswered) and the exemption for "Tell Ren I can't" and for forced bedrest.
 3. Are the flag names right, or should the tone be different ("busy", "distant")? Names are display copy only.
 4. Does the Receipt show the flag by name, or only the facts that led to it?
+
+## Status after owner review (2026-10-31)
+
+Adopted as owner direction (ledger S13 to S15, S32 to S35, S55 to S58): drifting or strained reduces Ren's initiative; broken commitments and expired unanswered invitations are the counted events; the flag names and the floor at strained stand; the "Tell Ren I can't" and forced-bedrest exemption stands; the flag is **never shown to the player** (Ren's pace and tone only); recovery is one repair scene plus one honored visit.
+Direction on the illustrative numbers: `B` = 2 broken commitments, `U` = 3 invitations expired unanswered in a row, a memory window of the last 6 Ren opportunities, and Ren visits at most every other Evening (`g_R`). These are owner direction only; Plan 29 owns calibration, and the visit-every-Evening exploit check stays advisory (S25). Nothing here is implemented.

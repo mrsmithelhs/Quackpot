@@ -1,3 +1,5 @@
+export const callMomScheduled = day => Number.isInteger(day) && day >= 1 && (day - 1) % 5 === 0;
+
 // Pure policy transitions. Callers commit the returned state and effects together.
 import { POLICY_1_CONFIG, POLICY_1_VERSION } from './life-config.mjs';
 import { validWorkStory } from './life-story-content.mjs';
@@ -142,7 +144,7 @@ export function transitionLife(input, balances, intent) {
       if (life.story47?.kind !== 'work' || life.story47.id !== intent.id || life.story47.stage !== 'commute') return fail('invalid_story_stage');
       life.story47.stage = 'work'; break;
     case 'begin_activity47': {
-      if (deadlineBlocks() || life.recovery || mealPending() || life.anchor || life.work || life.phase !== 'evening' || !['call_mom', 'sit_duck'].includes(intent.choice) || ![1, 2].includes(intent.version)) return fail('unavailable');
+      if (deadlineBlocks() || life.recovery || mealPending() || life.anchor || life.work || life.phase !== 'evening' || !['call_mom', 'sit_duck'].includes(intent.choice) || ![1, 2, 3].includes(intent.version) || (intent.version === 3 && (intent.choice !== 'call_mom' || !callMomScheduled(life.day)))) return fail('unavailable');
       const id = `activity-${life.nextId++}`;
       life.anchor = id; life.story47 = { version: intent.version, kind: 'activity', id, choice: intent.choice, stage: 'scene' };
       break;

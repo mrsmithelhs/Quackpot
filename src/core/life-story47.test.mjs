@@ -5,7 +5,7 @@ import { GameEngine } from './game-engine.mjs';
 import { EventLog } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { validateSave, loadGame, saveGame, backupCorruptSave, resetInMemoryStore, setTemporaryPreservationMode, STORAGE_KEY, BACKUP_KEY } from './storage.mjs';
-import { initialLife } from './life-progression.mjs';
+import { initialLife, transitionLife, callMomScheduled } from './life-progression.mjs';
 
 const act = (engine, intent) => { const result = engine.applyLifeIntent(intent); assert.equal(result.ok, true, JSON.stringify(result)); return result; };
 const fresh = () => { const e = new GameEngine('plan47-contract', { lifePolicy: true }); e.start(); e.setupCompanion(); return e; };
@@ -293,4 +293,40 @@ test('next play cannot skip a newly required morning meal after Late Night', () 
   const e=usedEvening();assert.equal(e.buyLifeBundle(330),true);assert.equal(e.commitPromotionalTenPull({confirmNext:true}).length,10);e.revealAllPending();
   const before=stateFingerprint(e);assert.equal(e.previewNextLifePlay('pull').reason,'destination_obligation_pending');
   assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.equal(stateFingerprint(e),before);assert.equal(e.state.life.phase,'lateNight');
+});
+
+
+test('Call Mom v3 follows fixed scheduled days without rolling a missed offer', () => {
+  for (const day of [1,2,5,6,7,10,11,12]) {
+    const life=initialLife();life.day=day;life.phase='evening';life.meals[`d${day}-dinner`]='skip';
+    const before=JSON.stringify(life);const result=transitionLife(life,{cash:80,health:90},{type:'begin_activity47',version:3,choice:'call_mom'});
+    assert.equal(result.ok,[1,6,11].includes(day),`day ${day}`);assert.equal(callMomScheduled(day),[1,6,11].includes(day));
+    assert.equal(JSON.stringify(life),before);
+  }
+});
+
+test('Call Mom v3 respects dinner and anchor and survives save with one capped recovery', () => {
+  let e=fresh();act(e,{type:'meal',choice:'skip'});act(e,{type:'advance'});act(e,{type:'advance'});
+  assert.equal(e.applyLifeIntent({type:'begin_activity47',version:3,choice:'call_mom'}).ok,false);
+  act(e,{type:'meal',choice:'skip'});act(e,{type:'begin_activity47',version:3,choice:'call_mom'});const id=e.state.life.story47.id;
+  e.showLifeStory47(id,'scene');e=saved(e);act(e,{type:'complete_activity47',id});assert.equal(e.state.health,95);e=saved(e);
+  assert.equal(e.applyLifeIntent({type:'complete_activity47',id}).ok,false);act(e,{type:'dismiss_story47',id});
+  assert.equal(e.applyLifeIntent({type:'begin_activity47',version:3,choice:'call_mom'}).ok,false);saved(e);
+});
+
+
+test('legacy v1 and v2 pending calls retain their promised recovery across reload', () => {
+  for (const version of [1,2]) {
+    let e=fresh();act(e,{type:'meal',choice:'skip'});act(e,{type:'advance'});act(e,{type:'advance'});act(e,{type:'meal',choice:'skip'});
+    act(e,{type:'begin_activity47',version,choice:'call_mom'});const id=e.state.life.story47.id;e.showLifeStory47(id,'scene');e=saved(e);
+    act(e,{type:'complete_activity47',id});assert.equal(e.state.health,95);assert.equal(e.log.entries.findLast(x=>x.type==='life_health').payload.delta,5);saved(e);
+  }
+});
+
+test('v3 cannot bypass rent, recovery, existing activity, or unknown versions', () => {
+  const base=initialLife();base.phase='evening';base.meals['d1-dinner']='buy';
+  for (const patch of [{rent:{id:'rent-1',status:'due'}},{recovery:{recovered:false}},{anchor:'other'}]) {
+    const life=Object.assign(structuredClone(base),patch);assert.equal(transitionLife(life,{cash:80,health:90},{type:'begin_activity47',version:3,choice:'call_mom'}).ok,false);
+  }
+  assert.equal(transitionLife(base,{cash:80,health:90},{type:'begin_activity47',version:4,choice:'call_mom'}).ok,false);
 });

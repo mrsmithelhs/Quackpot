@@ -763,7 +763,7 @@ if (app) {
       }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
       onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
-      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: 2, choice })),
+      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice })),
       onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
       onStoryAdvance: commit((story) => {
         let intent;

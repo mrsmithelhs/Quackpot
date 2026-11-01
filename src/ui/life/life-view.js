@@ -11,6 +11,7 @@ import { renderScene } from '../../assets/apartment/index.mjs';
 import { renderStory47 } from './life-story-view.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
+import { callMomScheduled } from '../../core/life-progression.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
@@ -127,6 +128,13 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const r = rentState(engine);
     const offer = offerOf();
     const out = [];
+    if (engine.state.life && ['kitchen-notice', 'kitchen-breakfast'].includes(place)) {
+      const life = engine.state.life;
+      const available = callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
+      out.push({ id: 'mom-note', x: 7, y: 50, w: 7, svg: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M5 8 L94 5 L96 91 L10 96 Z" fill="#f7de83" stroke="#685629" stroke-width="3"/><path d="M12 10 L89 8" stroke="#d8bb62" stroke-width="8"/><text x="50" y="48" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Call</text><text x="50" y="70" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Mom</text></svg>`,
+        label: available ? 'Call Mom, available this evening, up to 5 health' : 'Call Mom note, unavailable now', chip: available ? 'Call Mom' : null, disabled: !available,
+        hold: { mode: 'popover', side: 'right', kind: 'life-call-mom' } });
+    }
     if (place === 'bedroom' && engine.state.life?.recovery) {
       out.push({ id: 'bed', hotspot: true, x: 56, y: 61, w: 37, h: 25, label: 'Bed', chip: 'Rest', done: false,
         hold: { mode: 'popover', side: 'left', kind: 'life-recovery' } });
@@ -216,6 +224,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (kind === 'life-depart-keys') {
       return { spec: { heading: 'Head to work?', lines: [`Your scheduled shift pays ${money(engine.state.life.config.scheduledWage)} after completion.`, 'Leaving now begins the shift.'], confirm: 'Take the keys and go', back: 'Not now' },
         accept: () => { callbacks.onDepartWork(expectLog); return null; } };
+    }
+    if (kind === 'life-call-mom') {
+      return { spec: { heading: 'Call Mom?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Call Mom', back: 'Not now' },
+        accept: () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); return null; } };
     }
     if (kind === 'life-quiet') {
       return { spec: { heading: 'Sit with Duck?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Sit with Duck', back: 'Not now' },
@@ -640,8 +652,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if (e.state.life.phase === 'evening') {
         const blocked = Boolean(e.state.life.anchor || e.state.life.recovery || !e.state.life.meals[`d${e.state.life.day}-dinner`]);
         const reason = e.state.life.anchor ? 'Evening activity already chosen.' : e.state.life.recovery ? 'Resolve recovery first.' : 'Choose dinner first.';
-        const call = control('Call Mom · up to +5 HP', () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); ui.held = null; callbacks.onRefresh(); });
-        if (blocked) { call.disabled = true; call.title = reason; }
         // At the desk the duck itself is the active target; elsewhere this navigates to it.
         if (blocked || place !== 'desk-phone') {
           const duck = control('Sit with Duck · up to +5 HP', () => {

@@ -1,7 +1,8 @@
 ---
 id: plan-40
 title: Work and evening experience study
-status: delivered
+status: complete
+resolution: "Owner accepts the streamlined report-local work and evening study on 2026-10-31 after direct iteration, Terra-medium review and two root repairs with 12 focused checks. Selected presentation and authored-tone catalog are integration references; production work/leisure/gig lifecycle, remaining candidate values, source ownership and usage/export mapping require bounded follow-on implementation. No production adoption, push or deployment."
 depends_on: []
 gate: "Owner assigns Gemini Flash2026-10-31. Direct owner conversation and report-local prototype iteration proceed to coherent delivery; production rules/adoption and material cross-packet implications remain gated."
 summary: >-

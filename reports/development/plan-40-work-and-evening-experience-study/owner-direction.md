@@ -60,9 +60,7 @@
 
 - **Dinner Remains an Explicit Choice**:
   - Kitchen return does not silently establish free automatic dinner.
-  - Presents an unresolved dinner reminder linking to minimal explicit meal choices:
-    - *Eat Prepared Leftovers*: Maintenance meal ($0 cash, routine sustenance).
-    - *Skip Dinner for Now*: Fatigue / lack of appetite ($0 cash, meal skipped).
+  - Presents an unresolved dinner reminder linking to explicit meal choices. The delivered study uses Buy Dinner ($6) or Skip Dinner (−5 HP), matching the current provisional Plan38 budget. The earlier free-leftovers sketch is superseded; no free-meal production rule was selected.
   - Meals remain routine maintenance, not separate charged life anchors.
 
 ---

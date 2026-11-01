@@ -1,6 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { lifePhoneKind, lifePhoneScreen } from './life-phone-context.mjs';
+import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
+
+test('a replied invitation is resolved only until the phone has a new purpose', () => {
+  const life = { day: 1, phase: 'morning', employed: true, anchor: null, work: null, rent: { status: 'pending' } };
+  const entries = [{ type: 'action', payload: { kind: 'launch_reply' } }];
+  assert.equal(lifePhoneResolved(life, []), false);
+  assert.equal(lifePhoneResolved(life, entries), true);
+  assert.deepEqual(lifePhoneScreen(life, false, entries).body, ['On the list!']);
+  life.phase = 'afternoon';
+  assert.equal(lifePhoneResolved(life, entries), false); // work messages
+  life.phase = 'evening';
+  assert.equal(lifePhoneResolved(life, entries), false); // actual gacha entry
+});
 
 test('phone artwork follows work availability and switches back to launch after completion', () => {
   const life = { day: 1, phase: 'afternoon', employed: true, anchor: null, work: null, rent: { status: 'pending' } };

@@ -527,6 +527,39 @@
         ],
         "shop": "Buy for $4.99"
       }
+    },
+    {
+      "invitation": {
+        "replied": false,
+        "phase": "morning",
+        "disabled": false,
+        "heldHidden": true,
+        "actions": 0,
+        "chip": "Launch invitation",
+        "activeIsPhone": false
+      }
+    },
+    {
+      "invitation": {
+        "replied": true,
+        "phase": "morning",
+        "disabled": true,
+        "heldHidden": true,
+        "actions": 0,
+        "chip": null,
+        "activeIsPhone": false
+      }
+    },
+    {
+      "invitation": {
+        "replied": true,
+        "phase": "evening",
+        "disabled": false,
+        "heldHidden": false,
+        "actions": 0,
+        "chip": "Open Quackpot",
+        "activeIsPhone": false
+      }
     }
   ],
   "cleanup": {
@@ -537,73 +570,73 @@
     "profileRemoved": true,
     "trackedDescendants": [
       {
-        "pid": 55416,
-        "ppid": 37044,
-        "created": "10/31/2026 23:37:38",
+        "pid": 57084,
+        "ppid": 25220,
+        "created": "11/01/2026 08:45:13",
         "root": true
       },
       {
-        "pid": 50656,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:38",
+        "pid": 51924,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:13",
         "root": false
       },
       {
-        "pid": 64188,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 39056,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 55880,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 35704,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 60516,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 6436,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 59948,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 30112,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 53392,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 57064,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 33800,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 44696,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 49336,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 52396,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 50852,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 56576,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       },
       {
-        "pid": 65476,
-        "ppid": 55416,
-        "created": "10/31/2026 23:37:39",
+        "pid": 46260,
+        "ppid": 57084,
+        "created": "11/01/2026 08:45:14",
         "root": false
       }
     ],
     "remainingDescendants": [],
-    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:56803/devtools/browser/aacf4f9b-1e4e-451f-bd30-5198c163377a\r\n[55416:50476:1031/233739.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[55416:50476:1031/233739.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n"
+    "chromeStderr": "[57084:53712:1101/084514.265:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[57084:53712:1101/084514.265:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:54745/devtools/browser/2edd6be5-0562-4096-b0fe-1753f8fcf075\r\n"
   }
 }

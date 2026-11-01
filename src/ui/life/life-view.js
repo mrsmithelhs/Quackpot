@@ -11,7 +11,7 @@ import { renderScene } from '../../assets/apartment/index.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
-import { lifePhoneKind, lifePhoneScreen } from './life-phone-context.mjs';
+import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
 } from './life-routing.mjs';
@@ -42,7 +42,7 @@ const SCENES = {
   'kitchen-notice': () => ({ area: 'kitchen', framing: 'wide', light: 'neutral' }),
   'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: e.state.life ? 'wide' : breakfastFraming(e.state.day), light: e.state.life && ['evening', 'lateNight'].includes(e.state.life.phase) ? 'warm' : 'window' }),
   'desk-phone': (e, offered) => ({ area: 'desk-side', light: e.state.life && !['evening', 'lateNight'].includes(e.state.life.phase) ? 'window' : 'warm',
-    ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted) }
+    ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted, e.log.entries) }
       : offered ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
   'desk-card': () => ({ area: 'desk-side', light: 'warm',
     phone: { status: '6:55 PM', brand: 'HARBOR CARD', heading: ['Cash', 'advance'], body: ['Available now'], note: '' } }),
@@ -141,7 +141,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         out.push({ id: 'phone', hotspot: true, ...PHONE_SPOT,
           label: work ? 'Phone: work messages' : worldLabels.phone,
           chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
-          done: false, hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
+          done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         return out;
       }
       const kind = offer === 'extra_shift' ? 'ladder' : 'shift';
@@ -244,7 +244,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (kind === 'life-invite') {
       const replied = engine.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply');
-      return { spec: { heading: 'Quackpot launches tonight', lines: ['Reply LAUNCH to get 10 free ducks when the pond opens.'], confirm: replied ? 'Close' : 'Reply “LAUNCH”', back: 'Put it down' },
+      return { spec: { heading: 'Quackpot launches tonight', lines: replied ? ['You’re on the list! Come back tonight for your free 10-pull.'] : ['Reply LAUNCH to get 10 free ducks when the pond opens.'], confirm: replied ? null : 'Reply “LAUNCH”', back: 'Put it down' },
         accept: () => {
           if (!replied && !callbacks.onReplyLaunch(expectLog)?.ok) return null;
           return { heading: 'Message sent', lines: ['You replied LAUNCH. Quackpot opens tonight.'] };
@@ -345,7 +345,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   const factLines = (lines) => lines.map((l) => `<p class="life-fact">${esc(l)}</p>`).join('');
   const actionsHtml = (spec) => `<div class="life-decide-actions">
-      <button type="button" class="life-btn" data-act="confirm">${esc(spec.confirm)}</button>
+      ${spec.confirm ? `<button type="button" class="life-btn" data-act="confirm">${esc(spec.confirm)}</button>` : ''}
       ${spec.decline ? `<button type="button" class="life-btn life-secondary${spec.decline.endsRun ? ' life-ends-run' : ''}" data-act="decline">${esc(spec.decline.label)}</button>` : ''}
       <button type="button" class="life-btn life-secondary" data-act="back">${esc(spec.back)}</button>
     </div>`;
@@ -694,8 +694,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       Object.assign(b.style, { left: `${o.x}%`, top: `${o.y}%`, width: `${o.w}%`, ...(o.h ? { height: `${o.h}%` } : {}) });
       b.setAttribute('aria-label', o.done ? `${o.label} (done)` : o.label);
       b.innerHTML = `${o.svg ?? ''}${o.tag ? `<span class="life-tag" aria-hidden="true">${o.tag}</span>` : ''}${o.chip && !o.done ? `<span class="life-chip" aria-hidden="true">${esc(o.chip)}</span>` : ''}`;
-      // Done objects stay focusable (focus returns to them after putting something down) but do nothing.
-      if (o.done || o.disabled || !o.hold) b.setAttribute('aria-disabled', 'true');
+      // Resolved one-time targets remain visible, but no longer invite another interaction.
+      if (o.done || o.disabled || !o.hold) { b.setAttribute('aria-disabled', 'true'); b.disabled = true; }
       else b.addEventListener('click', () => { if (!busy && !closing && !committed) activate(o); });
       o.el = b;
       layer.append(b);
@@ -716,7 +716,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const rf = ui.returnFocus;
       ui.returnFocus = null;
       if (active && !ui.held) {
-        ((rf.place === place ? $(`.life-obj[data-obj="${rf.id}"]`) : null) ?? $('.life-obj:not([aria-disabled])') ?? $('.life-obj') ?? $('.life-day-bar button'))?.focus();
+        ((rf.place === place ? $(`.life-obj[data-obj="${rf.id}"]:not([aria-disabled])`) : null) ?? $('.life-obj:not([aria-disabled])') ?? $('.life-day-bar button'))?.focus();
       }
     }
   }

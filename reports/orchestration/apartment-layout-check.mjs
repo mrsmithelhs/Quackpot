@@ -18,16 +18,28 @@ const e=new GameEngine('layout-only',{lifePolicy:true});e.start();e.setupCompani
 e.state.life.phase='evening';e.state.life.meals['d1-dinner']='buy';e.state.step='life_evening';
 e.state.clock.label='day 1 evening';
 renderHud(document.querySelector('#hud-container'),e,'/src/assets/duck-placeholder.svg');
-renderLifeView(document.querySelector('main'),e,{place:'desk-phone'},{});
+let lifeHandle=renderLifeView(document.querySelector('main'),e,{place:'desk-phone'},{});
 window.layoutReady=true;
 window.hubActions=[];
 window.showHub=(mode)=>{
+ lifeHandle?.destroy();lifeHandle=null;
  e.state.tenPullCommitted=mode!=='welcome';
  e.state.pendingReveals=mode==='pending'?[{revealed:false}]:[];
  e.state.owned=mode==='welcome'?[]:['bath_cadet'];
  e.state.life.session=mode==='welcome'?null:{pull:true,race:false};
  document.documentElement.style.fontSize='';
  renderLifePhoneView(document.querySelector('main'),e,{action:a=>window.hubActions.push(a)});
+};
+window.showInvitation=(replied,phase='morning')=>{
+ lifeHandle?.destroy();
+ const run=new GameEngine('resolved-object-only',{lifePolicy:true});run.start();run.setupCompanion();
+ run.showLifeInvitation();if(replied)run.replyLifeInvitation();
+ run.state.life.phase=phase;run.state.life.meals['d1-breakfast']='buy';
+ run.state.step=phase==='evening'?'life_evening':'life_breakfast';
+ const ui={place:'desk-phone',...(replied?{held:{obj:'phone',place:'desk-phone'},returnFocus:{id:'phone',place:'desk-phone'}}:{})};
+ window.inviteActions=0;
+ lifeHandle=renderLifeView(document.querySelector('main'),run,ui,{onInvitationShown:()=>{window.inviteActions++},onLaunchAcknowledgmentShown:()=>{window.inviteActions++}});
+ return run.log.length;
 };
 </script>`;
 const server = http.createServer(async (req,res) => {
@@ -95,6 +107,16 @@ try {
       results.push({hub});
       if(mode==='paid'){const img=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true});await writeFile(`reports/orchestration/session-hub-${width}.png`,Buffer.from(img.data,'base64'));}
     }
+  }
+  for(const [replied,phase] of [[false,'morning'],[true,'morning'],[true,'evening']]){
+    await evaluate(`window.showInvitation(${replied},'${phase}')`);
+    const state=await evaluate(`(()=>{const phone=document.querySelector('[data-obj="phone"]');if(phone.disabled)phone.click();return {disabled:phone.disabled,heldHidden:document.querySelector('.life-held').hidden,actions:window.inviteActions,chip:phone.querySelector('.life-chip')?.textContent??null,activeIsPhone:document.activeElement===phone}})()`);
+    // Resolved target clicks must do nothing; enabled-state action behavior belongs to existing journeys.
+    if(replied&&phase==='morning'){
+      assert.equal(state.disabled,true);assert.equal(state.heldHidden,true);assert.equal(state.actions,0);
+      assert.equal(state.chip,null);assert.equal(state.activeIsPhone,false);
+    }else assert.equal(state.disabled,false);
+    results.push({invitation:{replied,phase,...state}});
   }
 } finally {
   const cleanup=await closeIsolatedChrome(browser);

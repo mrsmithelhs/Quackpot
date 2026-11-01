@@ -35,6 +35,8 @@
 
 Data flow: player action → controller callback → engine mutation/outcome/event → rendered view. Saving serializes state, log and RNG into a validated envelope. Terminal Receipt uses the event projection, never inference from final state. The physical companion and digital roster remain separate.
 
+`src/ui/life/life-phone-context.mjs` supplies matching phone artwork/target context and resolved invitation status from existing events. Resolved one-time object buttons are inactive until a new purpose exists. `life-phone-view.js` and scoped `life-phone.css` render the real session hub; reveal theater remains in `gacha-view.js`. Compact wide HUD and viewport-limited apartment sizing live in `shell.css` and `life.css`.
+
 ## Review artifacts and future integration
 
 `reports/development/*/wireframes.html` and audition pages are isolated review artifacts. The production Vite entry is root `index.html` → `src/main.js`; reports are not imported or published as game pages. Wireframe file size does not itself increase the game bundle.

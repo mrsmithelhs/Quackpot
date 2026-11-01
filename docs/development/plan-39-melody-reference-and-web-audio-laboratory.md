@@ -1,7 +1,7 @@
 ---
 id: plan-39
 title: Melody reference and Web Audio laboratory
-status: in-progress
+status: delivered
 depends_on: [plan-33]
 gate: "Owner authorizes Argon/Flash report-local composition, harness and export experiments on 2026-10-30. Ready for assignment; owner listening selects results, production adoption separate."
 summary: >-

@@ -1,5 +1,7 @@
 # Plan 39 Progress Report — Melody Reference and Web Audio Laboratory (v3 Revision)
 
+> **Current reading guide — root review2026-10-31:** The original v3 sections below are historical. Their claims of integrating the full TinySynth library and an exactly matching audition/export are superseded by the Codex repair section, REPAIR-GUIDE.md and TINYSYNTH-NOTICE.md. Current code is a custom renderer with reported adapted recipes; the historical upstream revision remains unestablished. Audition volume is playback-only and export may apply a recorded safety scale. Source/evidence commits f91dc4b/29698a0 and final repair report f0861cc form the candidate under review. Root has cleared it for bounded owner listening, not Plan43 long-render reuse or production adoption. No owner listening is implied by headless execution.
+
 - **Packet ID**: `plan-39` (`docs/development/plan-39-melody-reference-and-web-audio-laboratory.md`)
 - **Date**: 2026-10-31
 - **Lead / Workers**: Gemini 4 Argon (Medium) lead; 11 bounded Gemini Flash subagent workers across v1, v2 (9-report deep-research synthesis), and v3 (`webaudio-tinysynth` `quality: 1` GM instrument integration + 3-family non-terminal/long-arc/pivot-chord melodic expansions + single-file `.wav` arrangement exporter).

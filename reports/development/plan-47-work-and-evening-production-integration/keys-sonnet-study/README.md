@@ -34,3 +34,7 @@ Current: `x:33, y:74, w:10, h:10` in `life-view.js:148`. Proposal tested in `com
 
 ## Needed next
 A finite browser slot from root, then: run `compare.mjs` through the unchanged Plan 25 `bounded-node-run.ps1`, review zoom/desktop/narrow images, adjust the drawing, update this README with real findings. Preflight note: I ran one trivial `node` file-writer before checking processes; Chrome was already running (not mine).
+
+## Production swap (owner accepted, 2026-11-01)
+Owner replied "Accept for swap". Changed only `workKeysTray()` in `src/ui/life/life-art.mjs` (markup generated from `sonnetKeys()`, viewBox `4 32 100 42`) and the `work-keys` entry's `x/y/w/h` in `src/ui/life/life-view.js:148` (33→33.5, 74→70, 10→12.5, 10→9.5). Label, chip, hold behaviour and button element unchanged.
+Verified: `node --test` on `life-art.test.mjs` and `life-decisions.test.mjs` via the unchanged Plan 25 bounded runner (17/17 pass, exit 0, ~0.6 s). On the dev server (`scene.html?v=current`, which now renders production art) the `work-keys` button is a focusable BUTTON with aria-label "Keys: leave for scheduled work", svg aria-hidden, and the new art shows in the scene (pane narrower than 1366, so box 74x32 there). Not verified: full real play-through, hold popover position, narrow keys chip overlap (still present), other viewports. No full `npm test`/smoke run, push or deploy.

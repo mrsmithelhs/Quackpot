@@ -102,3 +102,11 @@ All files reside strictly inside `reports/development/plan-39-melody-reference-a
 4. **Step 4 — Mix & Match TinySynth GM Instruments & Export a Single `.WAV`**: Use the **Lead GM Instrument**, **Chords GM Instrument**, and **Bass GM Instrument** dropdowns to audition any `webaudio-tinysynth` (`quality: 1`) instrument combination, then click **⬇ Export Current Arrangement (.WAV)** to immediately download that single `.wav` file.
 
 - **Ready for orchestrator review**: **yes**
+
+## Codex technical completion — partial work, 2026-10-31
+
+Not ready for orchestrator review or Plan 43 pinning. The starting repair map and resource preflight are in `repair-map.md`. Source/evidence commit: `08b807f`. The audition volume label now states that the slider affects playback only; WAV uses the patch master and layer mix and may be peak-scaled. This is a copy clarification, not gain reconciliation or a complete export manifest fix. No score, patch, historical export, production source or packet status was changed.
+
+The bounded launcher packet check passed. No browser or audio verification or new tests were performed. The current live loop restarts on a DOM timer and stops its previous graph; offline wrapping overlaps a rendered tail. The complete loop/tail repair, manifest round-trip validation, exact upstream recipe revision and notices, and bounded browser/export/listening matrix remain outstanding. Upstream repository describes Apache-2.0 and quality-1 timbres, but exact provenance of this adaptation has not been established. No pre-delivery advisor consultation ran because implementation is incomplete; the authorized review remains to be performed against the finished artifact (or explicitly reported unavailable). Preserve the existing timeout lock and export URL cleanup and test them in that work.
+
+Unrelated initial changes belonged to Plan 40, Plan 32 previews and a Plan 38 cache; they were not modified or staged. No push or deployment.

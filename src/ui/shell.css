@@ -48,6 +48,20 @@
   flex: 1;
 }
 
+/* Keep the brand, resources and actions together when the window has room.
+   Status pills can wrap within their column if extra controls or debt appear. */
+@media (min-width: 1440px) {
+  .hud-header { display: grid; grid-template-columns: 18rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; }
+  .hud-top-row { display: contents; }
+  .hud-brand { grid-column: 1; grid-row: 1; min-width: 0; gap: .5rem; }
+  .hud-duck-thumb { width: 2.75rem; height: 2.75rem; flex: 0 0 auto; }
+  .hud-title { font-size: 1.3rem; }
+  .hud-companion-info { font-size: .7rem; overflow-wrap: anywhere; }
+  .hud-controls { grid-column: 3; grid-row: 1; flex-wrap: wrap; justify-content: flex-end; max-width: 34rem; }
+  .hud-status-bar { grid-column: 2; grid-row: 1; padding-top: 0; border-top: 0; }
+  .hud-pill { font-size: .78rem; }
+}
+
 @media (max-width: 720px) {
   .hud-header { padding: 0.75rem 0.85rem; }
   .hud-top-row { align-items: flex-start; flex-direction: column; }

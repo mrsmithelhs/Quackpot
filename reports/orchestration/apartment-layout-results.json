@@ -1,0 +1,431 @@
+{
+  "results": [
+    {
+      "viewport": [
+        1892,
+        910
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1892,
+        "height": 70.59375,
+        "bottom": 70.59375
+      },
+      "brand": {
+        "x": 44,
+        "y": 12.796875,
+        "width": 288,
+        "height": 44,
+        "bottom": 56.796875
+      },
+      "status": {
+        "x": 348,
+        "y": 21.203125,
+        "width": 1233.875,
+        "height": 27.1875,
+        "bottom": 48.390625
+      },
+      "controls": {
+        "x": 1597.875,
+        "y": 14.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 54.796875
+      },
+      "scene": {
+        "x": 466,
+        "y": 106.59375,
+        "width": 960,
+        "height": 540,
+        "bottom": 646.59375
+      },
+      "bar": {
+        "x": 466,
+        "y": 657.78125,
+        "width": 960,
+        "height": 97.59375,
+        "bottom": 755.375
+      },
+      "scrollWidth": 1892,
+      "scrollHeight": 910
+    },
+    {
+      "viewport": [
+        1536,
+        730
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1536,
+        "height": 70.59375,
+        "bottom": 70.59375
+      },
+      "brand": {
+        "x": 44,
+        "y": 12.796875,
+        "width": 288,
+        "height": 44,
+        "bottom": 56.796875
+      },
+      "status": {
+        "x": 348,
+        "y": 21.203125,
+        "width": 877.875,
+        "height": 27.1875,
+        "bottom": 48.390625
+      },
+      "controls": {
+        "x": 1241.875,
+        "y": 14.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 54.796875
+      },
+      "scene": {
+        "x": 346.671875,
+        "y": 106.59375,
+        "width": 842.65625,
+        "height": 473.984375,
+        "bottom": 580.578125
+      },
+      "bar": {
+        "x": 346.671875,
+        "y": 591.765625,
+        "width": 842.65625,
+        "height": 97.59375,
+        "bottom": 689.359375
+      },
+      "scrollWidth": 1536,
+      "scrollHeight": 730
+    },
+    {
+      "viewport": [
+        1440,
+        800
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 70.59375,
+        "bottom": 70.59375
+      },
+      "brand": {
+        "x": 43.1875,
+        "y": 12.796875,
+        "width": 288,
+        "height": 44,
+        "bottom": 56.796875
+      },
+      "status": {
+        "x": 347.1875,
+        "y": 21.203125,
+        "width": 783.5,
+        "height": 27.1875,
+        "bottom": 48.390625
+      },
+      "controls": {
+        "x": 1146.6875,
+        "y": 14.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 54.796875
+      },
+      "scene": {
+        "x": 240,
+        "y": 106.59375,
+        "width": 960,
+        "height": 540,
+        "bottom": 646.59375
+      },
+      "bar": {
+        "x": 240,
+        "y": 657.78125,
+        "width": 960,
+        "height": 97.59375,
+        "bottom": 755.375
+      },
+      "scrollWidth": 1440,
+      "scrollHeight": 800
+    },
+    {
+      "viewport": [
+        1366,
+        768
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1366,
+        "height": 121.578125,
+        "bottom": 121.578125
+      },
+      "brand": {
+        "x": 40.96875,
+        "y": 12.796875,
+        "width": 317.5625,
+        "height": 48,
+        "bottom": 60.796875
+      },
+      "status": {
+        "x": 40.96875,
+        "y": 69.59375,
+        "width": 1284.0625,
+        "height": 38.1875,
+        "bottom": 107.78125
+      },
+      "controls": {
+        "x": 1074.90625,
+        "y": 16.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 56.796875
+      },
+      "scene": {
+        "x": 313.21875,
+        "y": 157.578125,
+        "width": 739.546875,
+        "height": 415.984375,
+        "bottom": 573.5625
+      },
+      "bar": {
+        "x": 313.21875,
+        "y": 584.75,
+        "width": 739.546875,
+        "height": 97.59375,
+        "bottom": 682.34375
+      },
+      "scrollWidth": 1366,
+      "scrollHeight": 768
+    },
+    {
+      "viewport": [
+        1280,
+        720
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1280,
+        "height": 121.578125,
+        "bottom": 121.578125
+      },
+      "brand": {
+        "x": 38.390625,
+        "y": 12.796875,
+        "width": 317.5625,
+        "height": 48,
+        "bottom": 60.796875
+      },
+      "status": {
+        "x": 38.390625,
+        "y": 69.59375,
+        "width": 1203.21875,
+        "height": 38.1875,
+        "bottom": 107.78125
+      },
+      "controls": {
+        "x": 991.484375,
+        "y": 16.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 56.796875
+      },
+      "scene": {
+        "x": 312.890625,
+        "y": 157.578125,
+        "width": 654.21875,
+        "height": 367.984375,
+        "bottom": 525.5625
+      },
+      "bar": {
+        "x": 312.890625,
+        "y": 536.75,
+        "width": 654.21875,
+        "height": 97.59375,
+        "bottom": 634.34375
+      },
+      "scrollWidth": 1280,
+      "scrollHeight": 720
+    },
+    {
+      "viewport": [
+        1024,
+        768
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 121.578125,
+        "bottom": 121.578125
+      },
+      "brand": {
+        "x": 30.71875,
+        "y": 12.796875,
+        "width": 317.5625,
+        "height": 48,
+        "bottom": 60.796875
+      },
+      "status": {
+        "x": 30.71875,
+        "y": 69.59375,
+        "width": 962.5625,
+        "height": 38.1875,
+        "bottom": 107.78125
+      },
+      "controls": {
+        "x": 743.15625,
+        "y": 16.796875,
+        "width": 250.125,
+        "height": 40,
+        "bottom": 56.796875
+      },
+      "scene": {
+        "x": 142.21875,
+        "y": 152.296875,
+        "width": 739.546875,
+        "height": 415.984375,
+        "bottom": 568.28125
+      },
+      "bar": {
+        "x": 142.21875,
+        "y": 579.46875,
+        "width": 739.546875,
+        "height": 97.59375,
+        "bottom": 677.0625
+      },
+      "scrollWidth": 1024,
+      "scrollHeight": 768
+    },
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "header": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 213.265625,
+        "bottom": 213.265625
+      },
+      "brand": {
+        "x": 13.59375,
+        "y": 12,
+        "width": 317.5625,
+        "height": 48,
+        "bottom": 60
+      },
+      "status": {
+        "x": 13.59375,
+        "y": 124.890625,
+        "width": 362.8125,
+        "height": 75.375,
+        "bottom": 200.265625
+      },
+      "controls": {
+        "x": 13.59375,
+        "y": 76,
+        "width": 362.8125,
+        "height": 40.09375,
+        "bottom": 116.09375
+      },
+      "scene": {
+        "x": 12,
+        "y": 229.265625,
+        "width": 366,
+        "height": 205.875,
+        "bottom": 435.140625
+      },
+      "bar": {
+        "x": 12,
+        "y": 446.328125,
+        "width": 366,
+        "height": 186,
+        "bottom": 632.328125
+      },
+      "scrollWidth": 390,
+      "scrollHeight": 844
+    },
+    {
+      "enlargedText": {
+        "scrollWidth": 375,
+        "width": 390
+      }
+    }
+  ],
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 56772,
+        "ppid": 61152,
+        "created": "10/31/2026 23:32:54",
+        "root": true
+      },
+      {
+        "pid": 55400,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 49904,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 26400,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 63948,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 51376,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 43284,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 45652,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 10940,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      },
+      {
+        "pid": 41780,
+        "ppid": 56772,
+        "created": "10/31/2026 23:32:54",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[56772:60900:1031/233254.549:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[56772:60900:1031/233254.550:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:56647/devtools/browser/ea3193bd-2eb6-4c5a-bd3f-ed194550c74b\r\n"
+  }
+}

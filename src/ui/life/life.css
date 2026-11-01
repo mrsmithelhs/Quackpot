@@ -20,6 +20,15 @@
   font-family: var(--life-ui);
 }
 .life-view *, .life-view *::before, .life-view *::after { box-sizing: border-box; }
+/* Scale the complete room, including its percentage-positioned targets, as one
+   unit. Reserve height for the HUD and navigation; never crop or lock scrolling.
+   Very short/zoomed windows retain a usable scene and may scroll normally. */
+@media (min-width: 1000px) {
+  .life-view { max-width: min(960px, max(32rem, calc((100svh - 22rem) * 16 / 9))); }
+}
+@media (min-width: 1440px) {
+  .life-view { max-width: min(960px, max(32rem, calc((100svh - 16rem) * 16 / 9))); }
+}
 .life-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .life-is-held { min-height: min(44rem, 100svh); }
 .life-empty { color: var(--text-muted, #94a3b8); }

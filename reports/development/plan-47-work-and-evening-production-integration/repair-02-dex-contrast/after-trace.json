@@ -1,0 +1,627 @@
+{
+  "source": "working tree",
+  "mode": "after",
+  "trace": [
+    {
+      "name": "dex-contrast",
+      "text": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$140.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n🦆 Duck-Dex Collection\nTotal Roster Discovered: 0 / 6 (0%)\n← Return to Game\nPond of Destiny\n0 / 6 Ducks\n\nSet Bonus: None active (standard banner set)\n\nCurio Shelf\nCOMMON\n??? (Unowned)\nMissing from roster\nCOMMON\n??? (Unowned)\nMissing from roster\nRARE\n??? (Unowned)\nMissing from roster\nCOMMON\n??? (Unowned)\nMissing from roster\nRARE\n??? (Unowned)\nMissing from roster\nLEGENDARY\n??? (Unowned)\nMissing from roster",
+      "life": {
+        "policyVersion": 1,
+        "config": {
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "leisureHealth": 10,
+          "overtimeWage": 60,
+          "overtimeHealth": 15
+        },
+        "day": 1,
+        "phase": "evening",
+        "anchor": "leisure-2",
+        "meals": {
+          "d1-breakfast": "skip"
+        },
+        "session": null,
+        "nextId": 3,
+        "work": null,
+        "missedShifts": 0,
+        "employed": true,
+        "shiftDays": {
+          "1": "completed"
+        },
+        "rent": {
+          "id": "rent-1",
+          "status": "pending"
+        },
+        "rentSurfaced": false,
+        "recovery": null,
+        "fatiguePending": false,
+        "sold": []
+      },
+      "cash": 140,
+      "events": [
+        {
+          "type": "run_started",
+          "payload": {
+            "seed": "plan47-historical-fixture",
+            "lifePolicyVersion": 1,
+            "lifeConfig": {
+              "startCash": 80,
+              "startHealth": 100,
+              "maxHealth": 100,
+              "mealCost": 6,
+              "mealSkipHealth": 5,
+              "scheduledWage": 60,
+              "rentAmount": 170,
+              "rentDueDay": 4,
+              "recoveryHealth": 25,
+              "lateFatigueHealth": 10,
+              "leisureHealth": 10,
+              "overtimeWage": 60,
+              "overtimeHealth": 15
+            }
+          }
+        },
+        {
+          "type": "companion_styled",
+          "payload": {
+            "name": "Professor Quacks",
+            "style": "classic-yellow"
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "skip"
+            }
+          }
+        },
+        {
+          "type": "life_health",
+          "payload": {
+            "reason": "breakfast_skipped",
+            "before": 100,
+            "delta": -5,
+            "after": 95
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "meal",
+              "choice": "skip"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "morning",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 80,
+            "health": 95
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "advance"
+            }
+          }
+        },
+        {
+          "type": "life_phase_arrived",
+          "payload": {
+            "day": 1,
+            "phase": "afternoon"
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "advance"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "afternoon",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 1,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 80,
+            "health": 95
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "agree_work",
+              "kind": "scheduled"
+            }
+          }
+        },
+        {
+          "type": "life_work_agreed",
+          "payload": {
+            "id": "work-1",
+            "kind": "scheduled",
+            "status": "doing",
+            "day": 1
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "agree_work",
+              "kind": "scheduled"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "afternoon",
+              "anchor": "work-1",
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 2,
+              "work": {
+                "id": "work-1",
+                "kind": "scheduled",
+                "status": "doing"
+              },
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {},
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 80,
+            "health": 95
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "complete_work",
+              "id": "work-1"
+            }
+          }
+        },
+        {
+          "type": "income",
+          "payload": {
+            "kind": "wage",
+            "amount": 60,
+            "transactionId": "work-1",
+            "cashAfter": 140
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "complete_work",
+              "id": "work-1"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "afternoon",
+              "anchor": "work-1",
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 2,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {
+                "1": "completed"
+              },
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 140,
+            "health": 95
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "advance"
+            }
+          }
+        },
+        {
+          "type": "life_phase_arrived",
+          "payload": {
+            "day": 1,
+            "phase": "evening"
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "advance"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "evening",
+              "anchor": null,
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 2,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {
+                "1": "completed"
+              },
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 140,
+            "health": 95
+          }
+        },
+        {
+          "type": "life_intent",
+          "payload": {
+            "intent": {
+              "type": "leisure"
+            }
+          }
+        },
+        {
+          "type": "life_health",
+          "payload": {
+            "reason": "leisure",
+            "before": 95,
+            "delta": 5,
+            "after": 100
+          }
+        },
+        {
+          "type": "life_transition",
+          "payload": {
+            "intent": {
+              "type": "leisure"
+            },
+            "life": {
+              "policyVersion": 1,
+              "config": {
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "leisureHealth": 10,
+                "overtimeWage": 60,
+                "overtimeHealth": 15
+              },
+              "day": 1,
+              "phase": "evening",
+              "anchor": "leisure-2",
+              "meals": {
+                "d1-breakfast": "skip"
+              },
+              "session": null,
+              "nextId": 3,
+              "work": null,
+              "missedShifts": 0,
+              "employed": true,
+              "shiftDays": {
+                "1": "completed"
+              },
+              "rent": {
+                "id": "rent-1",
+                "status": "pending"
+              },
+              "rentSurfaced": false,
+              "recovery": null,
+              "fatiguePending": false,
+              "sold": []
+            },
+            "cash": 140,
+            "health": 100
+          }
+        },
+        {
+          "type": "cue_shown",
+          "payload": {
+            "technique": "currency_obfuscation",
+            "bundles": [
+              {
+                "gems": 330,
+                "price": 4.99
+              }
+            ],
+            "pullCost": 160
+          }
+        },
+        {
+          "type": "offer_shown",
+          "payload": {
+            "technique": "welcome_offer",
+            "kind": "free_ten_pull",
+            "count": 10
+          }
+        },
+        {
+          "type": "action",
+          "payload": {
+            "kind": "duck_dex_viewed",
+            "source": "app"
+          }
+        },
+        {
+          "type": "cue_shown",
+          "payload": {
+            "cueId": "completion_pressure",
+            "technique": "completion_pressure",
+            "setProgress": [
+              {
+                "set": "Pond of Destiny",
+                "owned": 0,
+                "total": 6
+              }
+            ],
+            "incompleteSets": 1
+          }
+        }
+      ]
+    }
+  ],
+  "runtime": [
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Restored valid run from storage:"
+          },
+          {
+            "type": "object",
+            "className": "Object",
+            "description": "Object",
+            "objectId": "-6172366481336992216.2.1",
+            "preview": {
+              "type": "object",
+              "description": "Object",
+              "overflow": true,
+              "properties": [
+                {
+                  "name": "day",
+                  "type": "number",
+                  "value": "1"
+                },
+                {
+                  "name": "clock",
+                  "type": "object",
+                  "value": "Object"
+                },
+                {
+                  "name": "phase",
+                  "type": "string",
+                  "value": "playing"
+                },
+                {
+                  "name": "step",
+                  "type": "string",
+                  "value": "life_phone"
+                },
+                {
+                  "name": "activeModal",
+                  "type": "object",
+                  "value": "null",
+                  "subtype": "null"
+                }
+              ]
+            }
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793551581334.267,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "T",
+              "scriptId": "6",
+              "url": "http://127.0.0.1:49773/Quackpot/assets/index-DcnjRYJt.js",
+              "lineNumber": 922,
+              "columnNumber": 532
+            },
+            {
+              "functionName": "",
+              "scriptId": "6",
+              "url": "http://127.0.0.1:49773/Quackpot/assets/index-DcnjRYJt.js",
+              "lineNumber": 932,
+              "columnNumber": 7467
+            }
+          ]
+        }
+      },
+      "sessionId": "BC3C3316C35707F85B639F96FE3C7594"
+    },
+    {
+      "method": "Runtime.consoleAPICalled",
+      "params": {
+        "type": "info",
+        "args": [
+          {
+            "type": "string",
+            "value": "[Quackpot] Plan 03 mechanism slice ready."
+          }
+        ],
+        "executionContextId": 2,
+        "timestamp": 1793551581335.906,
+        "stackTrace": {
+          "callFrames": [
+            {
+              "functionName": "",
+              "scriptId": "6",
+              "url": "http://127.0.0.1:49773/Quackpot/assets/index-DcnjRYJt.js",
+              "lineNumber": 932,
+              "columnNumber": 7525
+            }
+          ]
+        }
+      },
+      "sessionId": "BC3C3316C35707F85B639F96FE3C7594"
+    }
+  ]
+}

@@ -112,6 +112,8 @@ The clock is hybrid:
 
 **Owner rent-agency selection,2026-10-31 (LEDGER14):** At Day4 morning, an unpaid but affordable remaining rent balance permits Pay Rent or Hold Cash/Do Not Pay. Withholding preserves cash, marks overdue and immediately triggers landlord escalation; record the choice without inferred motive. Insufficient funds still trigger escalation at the deadline independently of opening a notice. Paying and reaching exactly zero cash remains valid. Exact health/deadline ordering and treatment of solvent withholding require the corrected Plan37 specification; no production adoption follows from the interview. See DECISION-045 and reports/orchestration/plan-37-final-spec-review-01.md.
 
+**Tutorial work exception (owner, 2026-11-01):** The first Day1 tutorial shift is required before the evening launch; later scheduled work remains optional. Represent departure through supported keys in the apartment rather than a below-scene work button. Remove the redundant Day1 Continue without departing route; later conflicting activities retain disclosed work consequences. This selected direction is awaiting Plan47 repair, not a claim that the current production route already enforces it. Preserve historical save/replay semantics. See DECISION-060.
+
 ## Saving
 
 Two modes, chosen by the player:

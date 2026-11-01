@@ -1,7 +1,7 @@
 ---
 id: plan-47
 title: Scheduled work and evening production integration
-status: delivered
+status: in-progress
 depends_on: [plan-38, plan-40]
 gate: "Owner assigns Codex2026-11-01. Root approves one exact mechanism/source/save/event proposal before production mutation; then supervise through delivery. One Terra-medium pre-delivery reviewer authorized; final owner review is the integrated game."
 summary: >-

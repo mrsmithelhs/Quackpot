@@ -568,3 +568,9 @@ Owner continues Plan40 issues directly with its implementer; root leaves their f
 **Date:** 2026-10-31
 
 Owner accepts the simplified work/evening study and requests closure. Preserve atmospheric microfiction, single departure and one commute direction per work sequence, two observations on one work card, clear $60 payslip and kitchen/dinner return, with author IDs/tone hidden from student UI. Call Mom +5 remains recorded owner direction awaiting production adoption; quiet-duck +2 and gig cash/health figures remain proposals. Gigs after job loss and one exclusive Evening anchor with standalone alternative beats remain selected direction. Root recommends scheduled-work/ordinary-leisure integration first and a separate daily-gig lifecycle/calibration packet; neither is dispatched here. Report controller/tracker are demonstrations, not runtime dependencies or accepted export/causality contracts. See Plan40 owner closeout for reload, once-only effects, Ren coordination and evidence requirements. No push/deployment.
+
+### DECISION-058 — Work/Ren parallel assignments and resolved object affordances
+
+**Date:** 2026-11-01
+
+Owner requests both follow-on packets:47 scheduled work/ordinary evening integration assigned Codex in-progress and48 daily gigs remains draft; existing45 Ren extraction also assigned Codex in-progress.45 owns new unmounted assets/report,47 owns root-cleared production work/life integration; no concurrent shared-engine writer. Both authorize one read-only Terra-medium pre-delivery review, with a root source/API checkpoint first. Owner favors noninteractive resolved one-time objects; root implements this for replied launch invitation and existing done targets, with a single immediate acknowledgment dismissal. Phone work/app functions reactivate when context changes. No new save/event/economy rule, packet implementation by assignment alone, push or deployment.

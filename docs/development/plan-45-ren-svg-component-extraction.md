@@ -1,11 +1,9 @@
 ---
 id: plan-45
 title: Ren SVG component extraction and fidelity gallery
-status: draft
+status: in-progress
 depends_on: [plan-41]
-gate: "Owner requests packet2026-10-31. Codex engineering candidate; assignment and exact source/API map before extraction. Owner accepts fidelity/gallery before any production mounting; genuinely new drawing remains separately gated."
-superseded_by: null
-resolution: null
+gate: "Owner assigns Codex2026-11-01. Root approves exact source/API map before extraction. One read-only Terra-medium pre-delivery reviewer authorized. Owner accepts fidelity/gallery before any production mounting; genuinely new drawing remains separately gated."
 summary: >-
   Extract selected existing Ren SVG concepts into reusable unmounted source components, preserving artwork and proving identity, layering and scene-composition fidelity without inventing new drawings.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-45
 - Packet title: Ren SVG component extraction and fidelity gallery
 - Status: (see frontmatter)
-- Owner/model: unassigned; Codex engineering implementer recommended
+- Owner/model: owner-assigned Codex engineering implementer
 - Date: 2026-10-31
 - Packet type: feature / asset extraction
 - Mutation level: source assets and report-local comparison; no runtime mounting
@@ -62,6 +60,6 @@ Require per-instance idPrefix and consistent rewriting of id/url/href references
 
 ## Execution, stop conditions and delivery
 
-Node uses unchanged Plan25 bounded launcher after resource preflight: serial named tests,1GiB heap/2GiB sampled owned tree/90s; finite outputs, no watcher/install/unknown process termination. Coordinate browser/finite server with root, isolated state, preserve owner services. One read-only default-role Terra-medium pre-delivery reviewer may be authorized on assignment for component API/fidelity risks; no automatic repeat allowance. Bounded helpers follow single-writer discipline.
+Node uses unchanged Plan25 bounded launcher after resource preflight: serial named tests,1GiB heap/2GiB sampled owned tree/90s; finite outputs, no watcher/install/unknown process termination. Coordinate browser/finite server with root, isolated state, preserve owner services. Owner/root authorize one read-only default-role gpt-6.1-terra reviewer with explicit medium effort after implementation and before delivery for component API/fidelity risks; no pre-proposal call or automatic repeat allowance. Cold brief, requested/observed settings and finding dispositions must be recorded; report unavailable settings rather than silently substituting. Bounded helpers follow single-writer discipline. Concurrent Plan47 owns work/evening production integration; do not modify its core/controller/life UI scope or its reports.
 
 Stop for new drawing, selection conflict, production/shared ownership expansion or dependency/resource changes. Ordinary extraction/test/copy fixes after clearance proceed to coherent delivery. Commit explicit source/evidence paths, progress last, never packet status/push/deploy. Final root technical and owner gallery review precede closure; no automatic art mounting. Report path: reports/development/plan-45-ren-svg-component-extraction/progress.md.

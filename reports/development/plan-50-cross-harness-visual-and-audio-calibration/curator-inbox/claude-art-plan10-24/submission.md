@@ -40,3 +40,7 @@ Approximate total before this file: 280689 bytes (about 274 KiB). Held-back answ
 ## Commit
 
 See the end of the hand-off message to QP Orch for the exact path and commit hash if the commit succeeded; if it was blocked, the files are left uncommitted and that is stated there.
+
+## Hash caveat
+
+The sha256 values above were computed on the files as I wrote them (LF line endings). This repository has line-ending conversion enabled (git warned "LF will be replaced by CRLF"), so a Windows checkout of the text files (.md, .json, .patch, .html) may have different bytes and therefore different sha256 values; verify text evidence by content or by `git hash-object` on the committed blob, not by the working-copy sha256. The PNG is binary and unaffected. Git blob ids quoted inside baseline.md and cases.json for the Plan 10 source files are repository blob ids and are unaffected.

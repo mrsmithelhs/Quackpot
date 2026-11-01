@@ -107,6 +107,14 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S44 | Which looks join the everyday cosmetic rotation | **As suggested** | Everyday: baseball cap, beanie, headband, bandana, windblown damp, sweaty pushed back, post-nap puff. Scene-only (need a story cue): towel turban, towel around neck, shower cap, sleep bonnet, paint flecks, plaster dust, and the two new dust looks. |
 | S45 | Pencil when a covering hides the ear | **Yes: absent, or behind/in the headgear for the beanie** | One pencil slot per look. |
 
+### Complexion, tattoo and avatar size (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S46 | Complexion | **A, mid-warm** | The fill already used in every drawing (skin `#a8703f`); no redraw needed. B and C not selected. |
+| S47 | Tattoo ink | **Keep** | Low-contrast indigo sprout; legible on fill A. |
+| S48 | Subtle looks at avatar size (sawdust, attic dust, sweaty) | **Keep as is** | They matter mostly at bust and door sizes. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

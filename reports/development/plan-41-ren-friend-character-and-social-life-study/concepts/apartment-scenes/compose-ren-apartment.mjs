@@ -38,13 +38,13 @@ const scenes = [
     ren: renItem('outfits/pajama-navy/pajama-navy.svg', { X: 1050, z: 3900, cutY: 420, s: 2.4 }),
     extra: s => [s.ren, { X: 1350, z: 3900, Y: 0, mm: sofaFront(1500) }] },
   { id: 'ren-loveseat-wide', area: 'living', light: 'neutral', label: 'Ren sitting in a small sofa to the left of the living room, the couch empty',
-    ren: renItem('outfits/coveralls-olive/coveralls-olive.svg', { X: -250, z: 3000, cutY: 420, s: 2.4 }),
+    ren: renItem('outfits/vest-puffer/vest-puffer-v3.svg', { X: -250, z: 3000, cutY: 420, s: 2.4 }),
     extra: s => [{ X: -250, z: 3000, Y: 0, mm: sofa(900), shadow: 1000 }, s.ren, { X: -250, z: 3000, Y: 0, mm: sofaFront(900) }] },
   { id: 'ren-kitchen-bar-wide', area: 'kitchen', light: 'window', label: 'Ren standing behind the kitchen bar, the physical rubber duck on the bar top',
     ren: renItem('outfits/camp-shirt-geometric/camp-shirt-geometric.svg', { X: 250, z: 1150, cutY: 770, s: 2.4 }),
     extra: s => [s.ren] },
   { id: 'ren-kitchen-bar-medium', area: 'kitchen', light: 'window', crop: '446 30 480 270', label: 'Close view of Ren behind the kitchen bar',
-    ren: renItem('outfits/paint-overalls/paint-overalls.svg', { X: 250, z: 1150, cutY: 770, s: 2.4 }),
+    ren: renItem('outfits/apron-tool/apron-tool.svg', { X: 250, z: 1150, cutY: 770, s: 2.4 }),
     extra: s => [s.ren] }
 ];
 

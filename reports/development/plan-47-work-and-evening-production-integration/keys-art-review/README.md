@@ -1,0 +1,9 @@
+# Plan 47 keys artwork — report-local comparison
+
+2026-11-01. One report-local candidate, not integrated into production. `candidate.mjs` redraws two filled brass keys with teeth and head holes, a silver ring and blue rectangular fob from the established identity in `src/assets/apartment/desk/top.mjs` (origin `reports/development/plan-10-metagame-duck-cinematography/preview.html`), on the existing shallow tray. It is not a transformed copy of the overhead art. Owner-supplied images are geometry references; no raster was copied.
+
+`compare.mjs` mounts the real production HUD, apartment scene and life view with a synthetic new engine run, then substitutes the candidate SVG only inside that isolated comparison page. `current-desktop.png`, `candidate-desktop.png`, `current-narrow.png`, `candidate-narrow.png` and `comparison.json` capture the same target geometry. The desktop target was about 74×42 CSS pixels; narrow target about 37×21. The narrow current image's target y differs by four CSS pixels after page reload, so this is not a pixel-registered diff. These are component renders, not a full production interaction or device-accessibility check.
+
+The filled brass blades and blue fob are visible at desktop when closely inspected, but at narrow size the elements are extremely small and the teeth/holes are not reliably distinguishable. Root should judge whether this communicates the intended object; if not, the preferred next step is a bounded Sonnet drawing handoff, not repeated blind iterations. No production art, target placement, engine rules or save behavior changed.
+
+Bounded launcher: packet check RUNNABLE; comparison exit 0, 4.88 s, sampled owned-tree peak 395,587,584 bytes; isolated Chrome tree termination and temporary-profile removal confirmed. No premium reviewer, push or deployment.

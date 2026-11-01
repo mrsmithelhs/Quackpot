@@ -1,0 +1,41 @@
+{
+  "kind": "synthetic component witness, production scene and UI; candidate SVG substituted only in this isolated page",
+  "evidence": [
+    {
+      "name": "current-desktop",
+      "target": {
+        "x": 557.265625,
+        "y": 465.40625,
+        "width": 73.953125,
+        "height": 41.59375
+      }
+    },
+    {
+      "name": "candidate-desktop",
+      "target": {
+        "x": 557.265625,
+        "y": 465.40625,
+        "width": 73.953125,
+        "height": 41.59375
+      }
+    },
+    {
+      "name": "candidate-narrow",
+      "target": {
+        "x": 132.765625,
+        "y": 381.515625,
+        "width": 36.59375,
+        "height": 20.578125
+      }
+    },
+    {
+      "name": "current-narrow",
+      "target": {
+        "x": 132.765625,
+        "y": 385.515625,
+        "width": 36.59375,
+        "height": 20.578125
+      }
+    }
+  ]
+}

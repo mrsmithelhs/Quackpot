@@ -31,16 +31,20 @@ export class StoryboardController {
     // Stable daily extra shifts (1-2 options rolled for the evening)
     this.dailyExtraShifts = rollDailyExtraShifts(2, 0.42);
 
-    // Active session state (synthetic, never touches localStorage)
+    // Active session state (stateless in-memory prototype)
     this.state = {
       cash: 15.00,
       health: 80,
-      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return
+      moment: 'departure', // departure | commute_in | work_1 | work_2 | commute_home | payslip | kitchen_dinner | evening | call_mom | sit_duck | open_gacha | extra_shifts | night_return | evening_complete
       workBeat1Index: 1, // default #012 (Rating 2)
       workBeat2Index: 9, // default #014 (Rating 4)
       commuteInIndex: 2, // default #0C3 (Rating 3)
       commuteHomeIndex: 8, // default #0C4 (Rating 4)
       preChoiceBeats: [], // array of [hexId, rating] strictly before evening choice
+      displayedBeatsSet: new Set(), // tracks beats rendered on screen in current scenario to avoid duplicates
+      dinnerChoice: null, // null | 'eat' | 'skip'
+      eveningChoice: null, // null | 'call_mom' | 'sit_duck' | 'open_gacha' | 'extra_shift'
+      scenarioCommitted: false, // true once an evening anchor is completed
       dialogueStep: 0,
       activeExtraShift: null,
       activeExtraBeat: null,
@@ -52,6 +56,14 @@ export class StoryboardController {
 
     this.bindDom();
     this.render();
+  }
+
+  recordDisplayedBeat(beat) {
+    if (!beat || !beat.hexId) return;
+    if (!this.state.displayedBeatsSet.has(beat.hexId)) {
+      this.state.displayedBeatsSet.add(beat.hexId);
+      this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
+    }
   }
 
   bindDom() {
@@ -158,10 +170,15 @@ export class StoryboardController {
     this.state.health = 80;
     this.state.moment = 'departure';
     this.state.preChoiceBeats = [];
+    this.state.displayedBeatsSet = new Set();
+    this.state.dinnerChoice = null;
+    this.state.eveningChoice = null;
+    this.state.scenarioCommitted = false;
     this.state.dialogueStep = 0;
     this.state.activeExtraShift = null;
     this.state.activeExtraBeat = null;
     this.state.events = [];
+    this.dailyExtraShifts = rollDailyExtraShifts(2, 0.42);
     this.render();
   }
 
@@ -192,10 +209,13 @@ export class StoryboardController {
     else if (this.state.moment === 'payslip') phaseLabel = 'Shift Paid';
     else if (this.state.moment === 'kitchen_dinner') phaseLabel = 'Dinner / Return';
     else if (this.state.moment === 'evening' || ['call_mom', 'sit_duck', 'open_gacha'].includes(this.state.moment)) phaseLabel = 'Evening';
+    else if (this.state.moment === 'evening_complete') phaseLabel = 'Evening Done';
     else if (this.state.moment === 'night_return' || this.state.activeExtraShift) phaseLabel = 'Night';
 
     this.dom.hudPhase.textContent = phaseLabel;
-    this.dom.selectMoment.value = this.state.moment;
+    if (this.dom.selectMoment) {
+      this.dom.selectMoment.value = this.state.moment;
+    }
   }
 
   renderReviewerControls() {
@@ -278,6 +298,8 @@ export class StoryboardController {
     // 2. Commute In (Morning/Afternoon transition)
     if (m === 'commute_in') {
       const beat = COMMUTE_BEATS[this.state.commuteInIndex] || COMMUTE_BEATS[2];
+      this.recordDisplayedBeat(beat);
+
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
@@ -303,7 +325,6 @@ export class StoryboardController {
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-enter-work').addEventListener('click', () => {
-        this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('work_1');
       });
       return;
@@ -312,6 +333,8 @@ export class StoryboardController {
     // 3. Work Beat 1
     if (m === 'work_1') {
       const beat = WORK_BEATS[this.state.workBeat1Index] || WORK_BEATS[0];
+      this.recordDisplayedBeat(beat);
+
       const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
@@ -339,7 +362,6 @@ export class StoryboardController {
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-work-next').addEventListener('click', () => {
-        this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('work_2');
       });
       return;
@@ -348,6 +370,8 @@ export class StoryboardController {
     // 4. Work Beat 2
     if (m === 'work_2') {
       const beat = WORK_BEATS[this.state.workBeat2Index] || WORK_BEATS[9];
+      this.recordDisplayedBeat(beat);
+
       const icon = beat.rating >= 4 ? VIGNETTE_ICONS.breakroom_pastry : VIGNETTE_ICONS.warehouse;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('warehouse', beat.rating);
@@ -375,7 +399,6 @@ export class StoryboardController {
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-clock-out').addEventListener('click', () => {
-        this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('commute_home');
       });
       return;
@@ -384,6 +407,8 @@ export class StoryboardController {
     // 5. Commute Home
     if (m === 'commute_home') {
       const beat = COMMUTE_BEATS[this.state.commuteHomeIndex] || COMMUTE_BEATS[8];
+      this.recordDisplayedBeat(beat);
+
       const icon = beat.rating <= 2 ? VIGNETTE_ICONS.bus_rain : VIGNETTE_ICONS.park_sun;
 
       this.dom.sceneLayer.innerHTML = getAmbientBackdropSvg('commute_transit', beat.rating);
@@ -411,7 +436,6 @@ export class StoryboardController {
         </div>
       `;
       this.dom.overlayLayer.querySelector('#btn-arrive-home').addEventListener('click', () => {
-        this.state.preChoiceBeats.push([beat.hexId, beat.rating]);
         this.jumpToMoment('payslip');
       });
       return;
@@ -437,8 +461,13 @@ export class StoryboardController {
     }
 
     // 7. Day 1 Kitchen / Dinner Return (Plan 38 coordination)
+    // Represents dinner as an explicit choice with disclosed reviewer parameters.
     if (m === 'kitchen_dinner') {
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'kitchen', light: 'warm', duck: false, idPrefix: 'kit' });
+
+      const hasChosenDinner = Boolean(this.state.dinnerChoice);
+      const chosenOpt = hasChosenDinner ? KITCHEN_RETURN_SCENE.options[this.state.dinnerChoice] : null;
+
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
           <div class="vignette-card" role="region" aria-label="Day 1 Kitchen Dinner Return">
@@ -451,19 +480,60 @@ export class StoryboardController {
             </div>
             <div class="vignette-body">
               <p>${esc(KITCHEN_RETURN_SCENE.text)}</p>
-              <p>${esc(KITCHEN_RETURN_SCENE.dinnerNote)}</p>
               <p class="vignette-detail">${esc(KITCHEN_RETURN_SCENE.detail)}</p>
+
+              ${!hasChosenDinner ? `
+                <div style="background:#13151d;padding:12px;border-radius:6px;margin:12px 0;border:1px solid rgba(255,255,255,0.08);">
+                  <div style="font-weight:600;color:var(--text-light);margin-bottom:8px;">${esc(KITCHEN_RETURN_SCENE.prompt)}</div>
+                  <div style="display:flex;flex-direction:column;gap:8px;">
+                    <button type="button" class="btn btn-primary" id="btn-eat-dinner" style="text-align:left;padding:10px 14px;">
+                      <div style="font-weight:bold;">${esc(KITCHEN_RETURN_SCENE.options.eat.label)}</div>
+                      <div style="font-size:0.8rem;opacity:0.85;">${esc(KITCHEN_RETURN_SCENE.options.eat.desc)}</div>
+                      <div style="font-size:0.75rem;color:#8ab17d;margin-top:2px;">Disclosed: ${esc(KITCHEN_RETURN_SCENE.options.eat.disclosedParams)}</div>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-skip-dinner" style="text-align:left;padding:10px 14px;">
+                      <div style="font-weight:bold;">${esc(KITCHEN_RETURN_SCENE.options.skip.label)}</div>
+                      <div style="font-size:0.8rem;opacity:0.85;">${esc(KITCHEN_RETURN_SCENE.options.skip.desc)}</div>
+                      <div style="font-size:0.75rem;color:#f4a261;margin-top:2px;">Disclosed: ${esc(KITCHEN_RETURN_SCENE.options.skip.disclosedParams)}</div>
+                    </button>
+                  </div>
+                </div>
+              ` : `
+                <div style="background:#13151d;padding:12px;border-radius:6px;margin:12px 0;border:1px solid rgba(255,255,255,0.08);">
+                  <p style="margin:0 0 6px 0;color:var(--text-light);">${esc(chosenOpt.resultNarrative)}</p>
+                  <div style="font-size:0.78rem;color:var(--text-muted);">
+                    Dinner Choice: <strong>${esc(chosenOpt.label)}</strong> · ${esc(chosenOpt.disclosedParams)}
+                  </div>
+                </div>
+              `}
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-finish-dinner">${esc(KITCHEN_RETURN_SCENE.actionLabel)}</button>
+              ${hasChosenDinner ? `
+                <button type="button" class="btn btn-primary" id="btn-finish-dinner">${esc(KITCHEN_RETURN_SCENE.actionLabel)}</button>
+              ` : `
+                <span style="font-size:0.8rem;color:var(--text-muted);">Select a dinner option to proceed to the living room desk.</span>
+              `}
             </div>
           </div>
         </div>
       `;
-      this.dom.overlayLayer.querySelector('#btn-finish-dinner').addEventListener('click', () => {
-        this.logEvent('Finished simple dinner at kitchen counter; stepped into living room desk');
-        this.jumpToMoment('evening');
-      });
+
+      if (!hasChosenDinner) {
+        this.dom.overlayLayer.querySelector('#btn-eat-dinner').addEventListener('click', () => {
+          this.state.dinnerChoice = 'eat';
+          this.logEvent('Dinner choice: Ate prepared leftovers ($0 maintenance meal)');
+          this.render();
+        });
+        this.dom.overlayLayer.querySelector('#btn-skip-dinner').addEventListener('click', () => {
+          this.state.dinnerChoice = 'skip';
+          this.logEvent('Dinner choice: Skipped dinner ($0, had cold tap water)');
+          this.render();
+        });
+      } else {
+        this.dom.overlayLayer.querySelector('#btn-finish-dinner').addEventListener('click', () => {
+          this.jumpToMoment('evening');
+        });
+      }
       return;
     }
 
@@ -481,19 +551,19 @@ export class StoryboardController {
           <!-- Sit With Duck Anchor -->
           <div class="anchor-zone" style="top: 52%; left: 56%;" tabindex="0" id="anchor-duck" role="button" aria-label="Sit with Duck">
             <span class="anchor-chip">🦆 Sit with Duck</span>
-            <span class="anchor-badge">+2 HP · Quiet Moment</span>
+            <span class="anchor-badge">+2 HP · Proposal</span>
           </div>
 
           <!-- Quackpot Phone Anchor -->
           <div class="anchor-zone" style="top: 66%; left: 74%;" tabindex="0" id="anchor-gacha" role="button" aria-label="Open Quackpot">
             <span class="anchor-chip">📱 Open Quackpot</span>
-            <span class="anchor-badge">Gacha App</span>
+            <span class="anchor-badge">Launcher Stand-in</span>
           </div>
 
           <!-- Extra Shifts Anchor -->
           <div class="anchor-zone" style="top: 82%; left: 40%;" tabindex="0" id="anchor-extra" role="button" aria-label="Review Extra Shifts">
             <span class="anchor-chip">💼 Tonight's Gigs & Shifts (${this.dailyExtraShifts.length})</span>
-            <span class="anchor-badge">Flat Cash vs Strain</span>
+            <span class="anchor-badge">Candidate Gigs</span>
           </div>
         </div>
       `;
@@ -550,11 +620,14 @@ export class StoryboardController {
         this.dom.overlayLayer.querySelector('#btn-finish-call').addEventListener('click', () => {
           this.state.health = Math.min(100, this.state.health + 5);
           this.logEvent('Called Mom: warm catch-up restored +5 HP');
+          this.state.scenarioCommitted = true;
+          this.state.eveningChoice = 'call_mom';
           this.tracker.recordSession({
             preChoiceBeats: [...this.state.preChoiceBeats],
             eveningChoice: 'call_mom',
+            dinnerChoice: this.state.dinnerChoice,
           });
-          this.jumpToMoment('evening');
+          this.jumpToMoment('evening_complete');
         });
       } else {
         this.dom.overlayLayer.querySelector('#btn-next-call').addEventListener('click', () => {
@@ -578,7 +651,7 @@ export class StoryboardController {
           <div class="dialogue-card" role="dialog" aria-label="Sit with Duck">
             <div class="dialogue-title-bar">
               <span class="dialogue-title">Quiet Desk Moment</span>
-              <span class="anchor-badge">+2 HP</span>
+              <span class="anchor-badge">+2 HP (Proposal)</span>
             </div>
             <div class="dialogue-history">
               ${act.dialogue.map((line) => `
@@ -590,7 +663,7 @@ export class StoryboardController {
               <div class="vignette-detail" style="text-align:center;margin-top:8px;">${esc(act.reflection)}</div>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-finish-duck">Breathe & Return (+2 HP)</button>
+              <button type="button" class="btn btn-primary" id="btn-finish-duck">Breathe & Complete Evening (+2 HP)</button>
               <button type="button" class="btn btn-secondary" id="btn-back-duck">Stand Up</button>
             </div>
           </div>
@@ -599,12 +672,15 @@ export class StoryboardController {
 
       this.dom.overlayLayer.querySelector('#btn-finish-duck').addEventListener('click', () => {
         this.state.health = Math.min(100, this.state.health + 2);
-        this.logEvent('Sat quietly with duck companion: restored +2 HP');
+        this.logEvent('Sat quietly with duck companion: restored +2 HP (working proposal)');
+        this.state.scenarioCommitted = true;
+        this.state.eveningChoice = 'sit_duck';
         this.tracker.recordSession({
           preChoiceBeats: [...this.state.preChoiceBeats],
           eveningChoice: 'sit_duck',
+          dinnerChoice: this.state.dinnerChoice,
         });
-        this.jumpToMoment('evening');
+        this.jumpToMoment('evening_complete');
       });
 
       this.dom.overlayLayer.querySelector('#btn-back-duck').addEventListener('click', () => {
@@ -613,16 +689,16 @@ export class StoryboardController {
       return;
     }
 
-    // 11. Open Quackpot Flow
+    // 11. Open Quackpot Flow (Stand-in Launcher Preview)
     if (m === 'open_gacha') {
       const act = EVENING_ACTIVITIES.openGacha;
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'gacha' });
       this.dom.overlayLayer.innerHTML = `
         <div class="vignette-overlay">
-          <div class="dialogue-card" role="dialog" aria-label="Quackpot Gacha App">
+          <div class="dialogue-card" role="dialog" aria-label="Quackpot Gacha App Launcher Stand-in">
             <div class="dialogue-title-bar">
-              <span class="dialogue-title">Quackpot App Launch</span>
-              <span class="anchor-badge">Gacha App</span>
+              <span class="dialogue-title">Quackpot Launcher Stand-in</span>
+              <span class="anchor-badge">Launcher Stand-in</span>
             </div>
             <div class="dialogue-history">
               ${act.dialogue.map((line) => `
@@ -634,7 +710,7 @@ export class StoryboardController {
               <div class="vignette-detail" style="text-align:center;margin-top:8px;">${esc(act.reflection)}</div>
             </div>
             <div class="vignette-actions">
-              <button type="button" class="btn btn-primary" id="btn-enter-gacha">Launch Quackpot (Simulated)</button>
+              <button type="button" class="btn btn-primary" id="btn-enter-gacha">Commit Anchor: Open Launcher</button>
               <button type="button" class="btn btn-secondary" id="btn-back-gacha">Put Phone Down</button>
             </div>
           </div>
@@ -642,13 +718,15 @@ export class StoryboardController {
       `;
 
       this.dom.overlayLayer.querySelector('#btn-enter-gacha').addEventListener('click', () => {
-        this.logEvent('Opened Quackpot app (simulated gacha session)');
+        this.logEvent('Committed evening anchor to opening Quackpot launcher (stand-in preview)');
+        this.state.scenarioCommitted = true;
+        this.state.eveningChoice = 'open_gacha';
         this.tracker.recordSession({
           preChoiceBeats: [...this.state.preChoiceBeats],
           eveningChoice: 'open_gacha',
+          dinnerChoice: this.state.dinnerChoice,
         });
-        alert('Gacha app launch simulated: in production, this mounts gacha-view with current wallet ($' + this.state.cash.toFixed(2) + ').');
-        this.jumpToMoment('evening');
+        this.jumpToMoment('evening_complete');
       });
 
       this.dom.overlayLayer.querySelector('#btn-back-gacha').addEventListener('click', () => {
@@ -679,7 +757,7 @@ export class StoryboardController {
                   <div class="shift-meta">
                     <span>${esc(shift.workplace)}</span>
                     <span>${esc(shift.hours)}</span>
-                    <span class="shift-cost">−${shift.healthCost} HP</span>
+                    <span class="shift-cost">−${shift.healthCost} HP (Proposal)</span>
                   </div>
                   <div class="shift-prompt">"${esc(shift.prompt)}"</div>
                 </div>
@@ -705,12 +783,8 @@ export class StoryboardController {
           this.state.cash += shift.cashGain;
           this.state.health = Math.max(1, this.state.health - shift.healthCost);
 
-          this.logEvent(`Worked extra shift: ${shift.title} (+${money(shift.cashGain)}, −${shift.healthCost} HP)`);
-          this.tracker.recordSession({
-            preChoiceBeats: [...this.state.preChoiceBeats],
-            eveningChoice: 'extra_shift',
-            postChoiceBeats: [[this.state.activeExtraBeat.hexId, this.state.activeExtraBeat.rating]],
-          });
+          this.logEvent(`Committed to extra shift: ${shift.title} (+${money(shift.cashGain)}, −${shift.healthCost} HP)`);
+          // Jump to night_return where the post-choice beat is rendered and displayed on screen!
           this.jumpToMoment('night_return');
         };
         card.addEventListener('click', choose);
@@ -727,6 +801,19 @@ export class StoryboardController {
     if (m === 'night_return') {
       const shift = this.state.activeExtraShift;
       const beat = this.state.activeExtraBeat;
+
+      // Record session now that the post-choice beat is actually rendered/displayed on screen
+      if (!this.state.scenarioCommitted) {
+        this.state.scenarioCommitted = true;
+        this.state.eveningChoice = 'extra_shift';
+        this.tracker.recordSession({
+          preChoiceBeats: [...this.state.preChoiceBeats],
+          eveningChoice: 'extra_shift',
+          postChoiceBeats: beat ? [[beat.hexId, beat.rating]] : [],
+          dinnerChoice: this.state.dinnerChoice,
+        });
+        this.renderReviewerControls();
+      }
 
       this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'night' });
       this.dom.overlayLayer.innerHTML = `
@@ -745,22 +832,83 @@ export class StoryboardController {
               <p>${esc(beat ? beat.text : 'Exhaustion sets into your limbs.')}</p>
               <div style="background:#13151d;padding:12px;border-radius:6px;margin-top:10px;">
                 <div style="color:#52b788;font-weight:bold;">Cash on hand: ${money(this.state.cash)} (+${money(shift ? shift.cashGain : 0)} credited)</div>
-                <div style="color:#f28482;font-weight:bold;">Health: ${this.state.health} HP (Fatigued)</div>
+                <div style="color:#f28482;font-weight:bold;">Health: ${this.state.health} HP (Fatigued · Candidate: −${shift ? shift.healthCost : 0} HP)</div>
                 <div style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">Rent notice on fridge remains untouched. Wages were NOT auto-applied to rent.</div>
               </div>
             </div>
             <div class="vignette-actions">
               <button type="button" class="btn btn-primary" id="btn-sleep">Turn Off Desk Lamp & Sleep</button>
+              <button type="button" class="btn btn-secondary" id="btn-new-scenario-night">Start New Scenario</button>
             </div>
           </div>
         </div>
       `;
 
-      this.dom.overlayLayer.querySelector('#btn-sleep').addEventListener('click', () => {
-        this.logEvent('Turned off lights; resolved night to morning');
-        alert('Night resolved to Day 2 Morning. In production, this completes the action phase and advances the day progression model.');
+      const conclude = () => {
+        this.logEvent('Turned off lights; night resolved');
         this.resetScenario();
-      });
+      };
+      this.dom.overlayLayer.querySelector('#btn-sleep').addEventListener('click', conclude);
+      this.dom.overlayLayer.querySelector('#btn-new-scenario-night').addEventListener('click', conclude);
+      return;
+    }
+
+    // 14. Evening Choice Completed (Summary)
+    if (m === 'evening_complete') {
+      this.dom.sceneLayer.innerHTML = getApartmentSceneSvg({ area: 'desk-side', light: 'warm', duck: true, idPrefix: 'evedone' });
+
+      let choiceTitle = 'Evening Anchor Resolved';
+      let choiceSummary = 'You concluded your evening at the apartment desk.';
+      if (this.state.eveningChoice === 'call_mom') {
+        choiceTitle = 'Phone Call with Mom Completed';
+        choiceSummary = 'Hearing Mom’s voice grounded the evening and restored +5 HP. You feel calmer and ready for sleep.';
+      } else if (this.state.eveningChoice === 'sit_duck') {
+        choiceTitle = 'Stillness with Duck Completed';
+        choiceSummary = 'Taking a quiet breath at the desk restored +2 HP (working proposal). The apartment is quiet.';
+      } else if (this.state.eveningChoice === 'open_gacha') {
+        choiceTitle = 'Quackpot Launcher Stand-in Completed';
+        choiceSummary = 'The evening anchor was committed to opening the Quackpot gacha app. (Stand-in launcher preview: no simulated play claimed).';
+      }
+
+      const dinnerSummary = this.state.dinnerChoice === 'eat'
+        ? 'Ate prepared dinner ($0)'
+        : this.state.dinnerChoice === 'skip'
+          ? 'Skipped dinner (cold water only)'
+          : 'Dinner unrecorded';
+
+      this.dom.overlayLayer.innerHTML = `
+        <div class="vignette-overlay">
+          <div class="vignette-card" role="region" aria-label="Evening Complete">
+            <div class="vignette-header">
+              <div class="vignette-titles">
+                <h3>${esc(choiceTitle)}</h3>
+                <span>Day 1 Evening · Anchor Spent</span>
+              </div>
+            </div>
+            <div class="vignette-body">
+              <p>${esc(choiceSummary)}</p>
+              <div style="background:#13151d;padding:12px;border-radius:6px;margin-top:10px;">
+                <div style="color:#52b788;font-weight:bold;">Cash on hand: ${money(this.state.cash)}</div>
+                <div style="color:#e9c46a;font-weight:bold;">Health: ${this.state.health} HP</div>
+                <div style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">
+                  Dinner: ${esc(dinnerSummary)} · Evening commitment completed. One session recorded in experiment tracker.
+                </div>
+              </div>
+            </div>
+            <div class="vignette-actions">
+              <button type="button" class="btn btn-primary" id="btn-conclude-night">Turn In for the Night & Sleep</button>
+              <button type="button" class="btn btn-secondary" id="btn-new-scenario">Start New Scenario</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const finish = () => {
+        this.logEvent('Concluded evening; ready for next scenario');
+        this.resetScenario();
+      };
+      this.dom.overlayLayer.querySelector('#btn-conclude-night').addEventListener('click', finish);
+      this.dom.overlayLayer.querySelector('#btn-new-scenario').addEventListener('click', finish);
       return;
     }
   }

@@ -168,15 +168,6 @@ export function renderPaySlipHtml(payslip = WAGE_PAYSLIP) {
         </div>
       </div>
       <div class="payslip-ledger">
-        <div class="ledger-row">
-          <span>Gross Earnings (8.0 hrs)</span>
-          <span>${esc(payslip.gross)}</span>
-        </div>
-        <div class="ledger-row deduction">
-          <span>Payroll Deductions & Ins.</span>
-          <span>${esc(payslip.deductions)}</span>
-        </div>
-        <div class="ledger-divider"></div>
         <div class="ledger-row total">
           <span>Net Take-Home Cash</span>
           <span class="pay-amount">${esc(payslip.takeHome)}</span>

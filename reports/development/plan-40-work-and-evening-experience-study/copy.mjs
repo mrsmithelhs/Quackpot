@@ -295,33 +295,49 @@ export const COMMUTE_BEATS = [
 
 // ==========================================
 // 3. WAGE PAYSLIP (Plan 29 Baseline: $60 Take-Home)
+// Candidate gross and deductions omitted per root continuation 03.
 // ==========================================
 export const WAGE_PAYSLIP = {
   employer: 'Harbor Logistics Distribution Inc.',
   shiftDate: 'Day 1 · Regular Shift',
   hours: 'Afternoon Shift Anchor',
-  gross: '$88.00 (Fictional gross stub)',
-  deductions: '−$28.00 (Fictional deductions)',
   takeHome: '$60.00',
-  disbursement: 'Direct cash take-home disbursed.',
   summaryNote: 'Take-home wages credited: +$60.00 cash.',
 };
 
 // ==========================================
 // 4. DAY 1 RETURN-HOME: KITCHEN / DINNER SCENE
 // Coordinates with closed Plan 38 baseline.
+// Represents dinner as an explicit choice with disclosed reviewer parameters.
 // ==========================================
 export const KITCHEN_RETURN_SCENE = {
   heading: '5:45 PM · Back in the Kitchen',
   text: 'You push the apartment door shut and set your keys and work badge down on the kitchen counter.',
   detail: 'Your shift wage ($60.00 cash) is in your pocket. The apartment is quiet and peaceful.',
-  dinnerNote: 'You pour a cold glass of tap water and fix yourself a simple dinner at the counter before heading to the desk.',
-  actionLabel: 'Finish Dinner & Head to Desk',
+  prompt: 'Dinner is pending before you head to your desk. What would you like to do?',
+  options: {
+    eat: {
+      id: 'eat',
+      label: 'Eat Prepared Leftovers',
+      desc: 'Heat up leftover pasta and pour a tall glass of tap water.',
+      disclosedParams: 'Maintenance meal ($0 cash, routine sustenance)',
+      resultNarrative: 'You heat up the leftover pasta and drink the cold water at the laminate counter, wiping down the surface before moving to the living room.',
+    },
+    skip: {
+      id: 'skip',
+      label: 'Skip Dinner for Now',
+      desc: 'Drink a cold glass of tap water and head straight to the desk.',
+      disclosedParams: 'Fatigue / low appetite ($0 cash, meal skipped)',
+      resultNarrative: 'You drink the glass of cold water and leave the stove cold, carrying your keys and wallet straight toward the desk.',
+    },
+  },
+  actionLabel: 'Head to Desk',
 };
 
 // ==========================================
 // 5. EVENING LIFE ACTIVITIES
 // Factual, neutral framing without moralizing or prescribing student motives.
+// One exclusive anchor per evening scenario.
 // ==========================================
 export const EVENING_ACTIVITIES = {
   callMom: {
@@ -345,7 +361,7 @@ export const EVENING_ACTIVITIES = {
     id: 'sit_duck',
     title: 'Sit with Duck',
     actionLabel: 'Sit quietly with Duck (Desk)',
-    badge: 'Quiet Moment · +2 HP',
+    badge: 'Quiet Moment · +2 HP (Working Proposal)',
     description: 'Take a quiet breath at the desk and sit with your physical rubber duck companion.',
     dialogue: [
       { speaker: 'Desk', text: 'You pull up your desk chair and look at the little yellow duck under the warm lamp pool.' },
@@ -357,15 +373,15 @@ export const EVENING_ACTIVITIES = {
   },
   openGacha: {
     id: 'open_gacha',
-    title: 'Open Quackpot',
-    actionLabel: 'Open Quackpot (Phone App)',
-    badge: 'Gacha App · Quackpot',
-    description: 'Unlock your phone and open the Quackpot gacha game app.',
+    title: 'Open Quackpot (Stand-in)',
+    actionLabel: 'Open Quackpot (Launcher Stand-in)',
+    badge: 'Gacha Launcher · Stand-in Preview',
+    description: 'Unlock your phone and open the Quackpot gacha game app launcher. (Stand-in preview: evening anchor spent; no simulated session claimed).',
     dialogue: [
       { speaker: 'Phone App', text: 'QUACKPOT! · "Special Evening Banner Active! Limited-edition Mallard Commander banner now live!"' },
-      { speaker: 'Wallet Note', text: 'You have fresh cash in your pocket ($60.00 from your shift). The game shop displays single-pull and multi-pull options.' },
+      { speaker: 'Launcher Note', text: 'Evening anchor committed to opening Quackpot. (In production, this mounts gacha-view with current wallet: $60.00 shift wage available).' },
     ],
-    reflection: 'The game launcher opens to the banner screen.',
+    reflection: 'The game launcher opens to the banner screen. The evening anchor is spent on the game.',
     healthEffect: 0,
   },
 };
@@ -374,6 +390,7 @@ export const EVENING_ACTIVITIES = {
 // 6. EXTRA SHIFTS CATALOG (5 distinct shift types)
 // Weighted toward frequent gig work (food/grocery delivery).
 // Each shift has 5 alternative standalone narrative beats (rated 1-5).
+// NOTE: Cash gains and health costs are candidate figures (working proposals).
 // The payout is strictly flat and matches the quoted cash reward.
 // ==========================================
 export const EXTRA_SHIFTS_CATALOG = [

@@ -219,14 +219,24 @@ async function runBrowserCheck() {
     }
     results.stepsPassed.push('Step 6: Wage payslip accurately verified at $60.00 completed-shift take-home');
 
-    // Step 7: Collect wages and step into Kitchen Dinner Return
+    // Step 7: Collect wages and step into Kitchen Dinner Return with explicit meal choice
     await evaluate('document.querySelector("#btn-collect-pay").click()');
     await delay(200);
 
     const kitchenPhase = await evaluate('document.querySelector("#hud-phase").textContent');
     console.log(`Kitchen Dinner Return: Phase=${kitchenPhase}`);
 
-    // Click finish dinner to enter Evening Room
+    // Verify explicit dinner choice buttons exist (Repair 2)
+    const hasDinnerOptions = await evaluate('Boolean(document.querySelector("#btn-eat-dinner") && document.querySelector("#btn-skip-dinner"))');
+    if (!hasDinnerOptions) {
+      throw new Error('Expected explicit dinner choice buttons in Day 1 kitchen return');
+    }
+
+    // Select "Eat Prepared Leftovers" ($0 maintenance meal)
+    await evaluate('document.querySelector("#btn-eat-dinner").click()');
+    await delay(150);
+
+    // Verify dinner choice resolution and click finish to enter Evening Room
     await evaluate('document.querySelector("#btn-finish-dinner").click()');
     await delay(300);
 
@@ -236,11 +246,17 @@ async function runBrowserCheck() {
       throw new Error(`Expected $75.00 after $60 wage collection, got ${eveningCash}`);
     }
     await captureScreenshot('storyboard-evening-desktop.png');
-    results.stepsPassed.push('Step 7: Day 1 Kitchen Dinner return verified and entered Evening Apartment ($75.00)');
+    results.stepsPassed.push('Step 7: Day 1 Kitchen Dinner explicit choice verified and entered Evening Apartment ($75.00)');
 
-    // Step 8: Call Mom (+5 HP)
-    await evaluate('document.querySelector("#anchor-mom").click()');
+    // Step 8: Call Mom (+5 HP) via Keyboard Accessibility (Repair 1 & Repair 5)
+    // Focus #anchor-mom and trigger keyboard 'Enter'
+    await evaluate(`
+      const el = document.querySelector("#anchor-mom");
+      el.focus();
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    `);
     await delay(200);
+
     while (true) {
       const hasNext = await evaluate('Boolean(document.querySelector("#btn-next-call"))');
       if (!hasNext) break;
@@ -255,23 +271,41 @@ async function runBrowserCheck() {
     if (hpAfterMom !== '85 HP') {
       throw new Error(`Expected 85 HP after Mom check-in, got ${hpAfterMom}`);
     }
-    results.stepsPassed.push('Step 8: Call Mom check-in completed, restoring +5 HP (80 -> 85 HP)');
 
-    // Step 9: 1–2 Daily Extra Shifts Offer & Selection
+    // Verify single evening choice enforcement: we are on evening_complete
+    const completedPhase = await evaluate('document.querySelector("#hud-phase").textContent');
+    console.log('Phase after completing Call Mom:', completedPhase);
+    if (completedPhase !== 'Evening Done') {
+      throw new Error(`Expected 'Evening Done' phase after anchor completion, got ${completedPhase}`);
+    }
+    results.stepsPassed.push('Step 8: Call Mom completed via keyboard (80 -> 85 HP), finishing the evening scenario (Session 1 recorded)');
+
+    // Step 9: Start Fresh Scenario for Alternative Preview (Repair 1 & Repair 3)
+    await evaluate('document.querySelector("#btn-new-scenario").click()');
+    await delay(200);
+
+    // Jump to extra_shifts for alternative scenario testing
     await evaluate('window.storyboard.jumpToMoment("extra_shifts")');
     await delay(200);
+
     const numShifts = await evaluate('document.querySelectorAll(".shift-card").length');
     console.log('Number of daily extra shifts displayed:', numShifts);
     if (numShifts < 1 || numShifts > 2) throw new Error(`Expected 1 or 2 extra shift options, got ${numShifts}`);
 
-    // Click the first rolled option (frequent gig work, e.g. food delivery)
-    await evaluate('document.querySelector(".shift-card").click()');
+    // Commit to first rolled gig option via keyboard 'Space'
+    await evaluate(`
+      const card = document.querySelector(".shift-card");
+      card.focus();
+      card.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    `);
     await delay(200);
 
+    // Verify post-choice beat is rendered and displayed on screen in night_return
+    const postBeatBadge = await evaluate('document.querySelector(".likert-badge .hex-id").textContent');
     const nightCash = await evaluate('document.querySelector("#hud-cash").textContent');
     const nightHp = await evaluate('document.querySelector("#hud-hp").textContent');
-    console.log(`Night Return HUD: Cash=${nightCash}, HP=${nightHp}`);
-    results.stepsPassed.push(`Step 9: Daily extra shift completed: Cash=${nightCash}, HP=${nightHp}`);
+    console.log(`Night Return HUD: Post-choice Beat=${postBeatBadge}, Cash=${nightCash}, HP=${nightHp}`);
+    results.stepsPassed.push(`Step 9: Alternative scenario gig committed: Post-choice Beat=${postBeatBadge}, Cash=${nightCash}, HP=${nightHp} (Session 2 recorded)`);
 
     // Step 10: Narrow Viewport & Reduced Motion Toggles
     await evaluate('document.querySelector("#toggle-narrow").click()');

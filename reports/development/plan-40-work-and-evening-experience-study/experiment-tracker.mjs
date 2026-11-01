@@ -19,7 +19,7 @@ export class ExperimentTracker {
    * @param {string} entry.eveningChoice 'call_mom' | 'sit_duck' | 'open_gacha' | 'extra_shift'
    * @param {Array<[string, number]>} [entry.postChoiceBeats] Optional subsequent beats after choice (e.g. extra shift)
    */
-  recordSession({ preChoiceBeats = [], eveningChoice, postChoiceBeats = [] }) {
+  recordSession({ preChoiceBeats = [], eveningChoice, postChoiceBeats = [], dinnerChoice = null }) {
     const isRestorative = eveningChoice === 'call_mom' || eveningChoice === 'sit_duck';
     const isGacha = eveningChoice === 'open_gacha';
     const isExtraShift = eveningChoice === 'extra_shift';
@@ -42,6 +42,7 @@ export class ExperimentTracker {
       avgPreChoiceScore,
       scoreTier,
       eveningChoice,
+      dinnerChoice,
       postChoiceBeats: [...postChoiceBeats],
       isRestorative,
       isGacha,

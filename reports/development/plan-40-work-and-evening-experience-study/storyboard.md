@@ -66,27 +66,32 @@ The interactive storyboard demonstrates an understandable, lived progression fro
 ### Beat 5: Shift Payslip & Wage Disbursal
 - **Visuals**: Clean, tactile institutional pay receipt from *Harbor Logistics Distribution Inc.*
 - **Financial Baseline**:
-  - Direct **$60.00 cash take-home** credited to wallet.
-  - Gross and deduction numbers are fictional presentation copy.
+  - Direct **$60.00 cash take-home** credited to wallet (Plan 29 completed-shift baseline).
+  - Invented $88 gross / $28 deduction arithmetic is omitted per Root Continuation 03.
 - **Player Action**: `[Collect Wages (+$60.00) & Walk In]`. The wallet clearly updates from $15.00 to $75.00.
 
 ### Beat 6: Day 1 Kitchen Dinner Return
 - **Visuals**: Apartment kitchen counter under warm interior lighting (`src/assets/apartment/index.mjs`).
-- **Narrative**: Setting keys and warehouse badge on the laminate counter, sipping warm tea, and eating dinner.
-- **Coordination**: Aligns directly with closed Plan 38's Day 1 kitchen/dinner return baseline before transitioning to the evening desk.
-- **Player Action**: `[Finish Dinner & Head to Desk]`.
+- **Narrative**: Setting keys and warehouse badge on the laminate counter.
+- **Maintenance Dinner Choice (Disclosed Parameters)**:
+  - Presents an explicit, disclosed meal choice:
+    - *Eat Prepared Leftovers*: Maintenance meal ($0 cash, routine sustenance).
+    - *Skip Dinner for Now*: Fatigue / low appetite ($0 cash, meal skipped).
+  - Keeps meals routine maintenance without silently assuming free dinner or consuming an extra anchor.
+- **Player Action**: `[Head to Desk]`.
 
 ### Beat 7: Evening Apartment & Life Anchors
 - **Visuals**: Accepted apartment desk view in warm evening lighting (amber desk lamp pool, physical rubber duck resting calmly).
-- **Interactive Diegetic Anchors (Factual & Neutral)**:
-  1. **📞 Call Mom**: Warm phone conversation about dinner, health, and family news (+5 HP).
-  2. **🦆 Sit with Duck**: Deep breath and stillness at the desk with the physical companion (+2 HP).
-  3. **📱 Open Quackpot**: Factual game launcher opening to the banner screen.
+- **Single Exclusive Evening Choice**:
+  - Selecting and completing an anchor concludes that evening's scenario; alternative previews require starting a fresh scenario.
+  1. **📞 Call Mom**: Warm phone conversation about dinner, health, and family news (+5 HP, owner-selected).
+  2. **🦆 Sit with Duck**: Deep breath and stillness at the desk with the physical companion (+2 HP, working proposal).
+  3. **📱 Open Quackpot**: Factual launcher stand-in preview (no simulated gacha play claimed).
   4. **💼 Tonight's Gigs & Shifts**: Displays 1–2 rolled options for that evening, weighted toward frequent gig work.
 
-### Beat 8: Optional Extra Shifts (1–2 Daily Rolls Weighted Toward Gigs)
+### Beat 8: Optional Extra Shifts (Candidate Gigs & Offers)
 - **Daily Roll Mechanic**:
-  - The phone displays 1 or 2 available offers:
+  - The phone displays 1 or 2 available offers with candidate rewards and fatigue costs:
     - *QuickDrop Food Delivery*: +$35.00 cash, −8 HP (frequent gig).
     - *Harbor Fresh Grocery Dispatch*: +$42.00 cash, −10 HP (frequent gig).
     - *Harbor Street Diner Cover*: +$45.00 cash, −15 HP (occasional).
@@ -97,13 +102,30 @@ The interactive storyboard demonstrates an understandable, lived progression fro
   - Accepting a shift credits cash directly into the player's wallet and reduces health fatigue. It **never** auto-pays the pending rent balance on the fridge.
   - Stated payouts match disbursed cash with zero unbudgeted bonus tips.
 
+### Beat 9: Late Night Return & Evening Complete
+- **Night Return (after Extra Shift)**:
+  - Displays the post-choice beat upon arrival at the dark flat; session is recorded in tracker now that the vignette is actually displayed.
+  - Player turns off the desk lamp and sleeps, resolving the day.
+- **Evening Complete (after Apartment Desk Anchor)**:
+  - Displays a clean summary card of the completed anchor, updated wallet, health, and dinner choice.
+  - Button `[Start New Scenario]` resets the in-memory state cleanly for the next test.
+
 ---
 
 ## 2. Pre-Choice Exposure & Synthetic-Data Separation
 
-### Pre-Choice Isolation:
-- Exposure scores are calculated strictly from the work and commute beats experienced *before* the evening choice is made. Post-choice outcomes (like working an extra shift) are stored separately and do not distort the prior condition score.
-- **Unscored / Unknown Handling**: If `preChoiceBeats` is empty (e.g. testing evening choices directly), the tracker marks the session as `unscored` (mean: `null`) and excludes it from the tone tier denominator, rather than artificially assuming a neutral score of 3.0.
+### Display-vs-Outcome Tracking:
+- Pre-choice work and commute beats are recorded when actually rendered on screen.
+- If a preview session is interrupted or reset before an evening choice, no row is added to the experiment tracker.
+- Post-choice beats from extra shifts are recorded only when rendered and displayed on screen in Night Return.
+- **Single Evening Choice Rule**: One row in the tracker corresponds to exactly one completed evening choice per scenario.
+
+### Unscored / Unknown Handling:
+- If `preChoiceBeats` is empty (e.g. testing evening choices directly), the tracker marks the session as `unscored` (mean: `null`) and excludes it from the tone tier denominator, rather than artificially assuming a neutral score of 3.0.
+
+### Stateless In-Memory Prototype Semantics:
+- The prototype is an in-memory testbed; page reload or 'Reset Scenario' resets all state.
+- Cross-reload state persistence is a proposed Plan 38 integration contract, not verified by this prototype.
 
 ### Data Separation in Reviewer UI:
 - **Observed Preview Sessions**: Tracks actual sessions run in the interactive preview (starts at 0).
@@ -111,13 +133,18 @@ The interactive storyboard demonstrates an understandable, lived progression fro
 
 ---
 
-## 3. Compact Usage Serialization Schema
+## 3. Compact Usage Serialization Schema (Proposed Adapter)
 
-Each student run file records a compact summary:
+Proposed adapter for `CATALOG_VERSION = '1.1.0'` (candidate schema for future CourseVGD integration, not an adopted Plan 42 ZIP schema):
 ```json
 {
   "day": 1,
   "pre": [["012", 2], ["014", 4], ["0C4", 4]],
+  "avg": 3.33,
+  "act": "call_mom",
+  "post": []
+}
+```
   "avg": 3.33,
   "act": "call_mom",
   "post": []

@@ -25,11 +25,17 @@ import {
 } from './scenes.mjs';
 import { ExperimentTracker } from './experiment-tracker.mjs';
 
-test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () => {
+test('Author-assigned tone scale, catalog versioning, and Global Hex ID Uniqueness', () => {
   assert.equal(CATALOG_VERSION, '1.1.0');
 
   // Plan 29 baseline completed-shift take-home wage
   assert.equal(WAGE_PAYSLIP.takeHome, '$60.00');
+  // Candidate gross/deductions omitted per Root Continuation 03
+  assert.equal(WAGE_PAYSLIP.gross, undefined);
+  assert.equal(WAGE_PAYSLIP.deductions, undefined);
+
+  // Global ID Uniqueness Set
+  const allHexIds = [];
 
   // Verify expanded work beats (15 beats)
   assert.equal(WORK_BEATS.length, 15);
@@ -39,6 +45,7 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
     assert.ok(b.heading.length > 0);
     assert.ok(b.text.length > 0);
     assert.ok(b.dimension.length > 0);
+    allHexIds.push(b.hexId);
   }
 
   // Verify expanded commute beats (12 beats)
@@ -49,6 +56,7 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
   for (const b of COMMUTE_BEATS) {
     assert.match(b.hexId, /^[0-9A-F]{3}$/i);
     assert.ok(b.rating >= 1 && b.rating <= 5);
+    allHexIds.push(b.hexId);
   }
 
   // Verify 5 extra shift types with 5 alternative narrative beats each (25 total beats)
@@ -61,12 +69,35 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
       assert.match(beat.hexId, /^[0-9A-F]{3}$/i);
       assert.ok(beat.rating >= 1 && beat.rating <= 5);
       assert.ok(beat.text.length > 0);
+      allHexIds.push(beat.hexId);
     }
   }
 
-  // Day 1 kitchen return scene coordination
+  // STRICT GLOBAL ID UNIQUENESS CHECK across entire 52-beat catalog
+  assert.equal(allHexIds.length, 52);
+  const uniqueHexSet = new Set(allHexIds);
+  assert.equal(uniqueHexSet.size, 52, `Expected 52 globally unique hex IDs, found duplicates in: ${allHexIds}`);
+
+  // Backwards compatibility: verify 1.0.0 core IDs retain stable meanings
+  const id011 = WORK_BEATS.find(b => b.hexId === '011');
+  assert.equal(id011.rating, 1);
+  const id014 = WORK_BEATS.find(b => b.hexId === '014');
+  assert.equal(id014.rating, 4);
+  const id0C1 = COMMUTE_BEATS.find(b => b.hexId === '0C1');
+  assert.equal(id0C1.rating, 1);
+  const id0C4 = COMMUTE_BEATS.find(b => b.hexId === '0C4');
+  assert.equal(id0C4.rating, 4);
+
+  // Day 1 kitchen return scene coordination with explicit dinner choices
   assert.ok(KITCHEN_RETURN_SCENE.heading.includes('Kitchen'));
-  assert.ok(KITCHEN_RETURN_SCENE.text.includes('counter'));
+  assert.ok(KITCHEN_RETURN_SCENE.options.eat);
+  assert.ok(KITCHEN_RETURN_SCENE.options.skip);
+  assert.ok(KITCHEN_RETURN_SCENE.options.eat.disclosedParams.includes('$0'));
+  assert.ok(KITCHEN_RETURN_SCENE.options.skip.disclosedParams.includes('$0'));
+
+  // Evening activities candidate labels
+  assert.ok(EVENING_ACTIVITIES.sitWithDuck.badge.includes('Proposal'));
+  assert.ok(EVENING_ACTIVITIES.openGacha.badge.includes('Stand-in'));
 
   // Verify daily extra shift roll returns 1-2 options and handles weights
   const rolled = rollDailyExtraShifts(2, 0.25);
@@ -74,7 +105,7 @@ test('Author-assigned tone scale, catalog versioning, and 3-digit hex IDs', () =
   assert.notEqual(rolled[0].id, rolled[1].id);
 });
 
-test('Scene rendering, ambient backdrops, and SVG generation', () => {
+test('Scene rendering, payslip honesty (no gross/deductions), and SVG generation', () => {
   // Accepted apartment art renders correctly
   const kitchenSvg = getApartmentSceneSvg({ area: 'kitchen', light: 'neutral', duck: false, idPrefix: 'test-k' });
   assert.ok(kitchenSvg.includes('<svg'));
@@ -96,10 +127,14 @@ test('Scene rendering, ambient backdrops, and SVG generation', () => {
   assert.ok(badgeHtml.includes('#014'));
   assert.ok(badgeHtml.includes('Pleasant / Uplifting'));
 
-  // Payslip HTML matches baseline
+  // Payslip HTML matches baseline without invented gross/deduction numbers
   const payslipHtml = renderPaySlipHtml();
   assert.ok(payslipHtml.includes('$60.00'));
   assert.ok(payslipHtml.includes('Harbor Logistics'));
+  assert.equal(payslipHtml.includes('88.00'), false);
+  assert.equal(payslipHtml.includes('28.00'), false);
+  assert.equal(payslipHtml.includes('Gross'), false);
+  assert.equal(payslipHtml.includes('Deductions'), false);
 });
 
 test('ExperimentTracker pre-choice isolation, unscored handling, and synthetic separation', () => {
@@ -153,10 +188,33 @@ test('ExperimentTracker pre-choice isolation, unscored handling, and synthetic s
   assert.equal(upliftingTier.total, 1);
   assert.equal(upliftingTier.extra, 1);
 
-  // Compact export format verification
+  // Compact export format verification (Proposed Adapter for CATALOG_VERSION 1.1.0)
   const compactJson = tracker.exportCompactUsage();
   assert.ok(compactJson.includes('"pre":[["014",4],["015",5],["0C5",5]]'));
   assert.ok(compactJson.includes('"avg":4.67'));
   assert.ok(compactJson.includes('"act":"extra_shift"'));
   assert.ok(compactJson.includes('"post":[["F01",1]]'));
+});
+
+test('Session lifecycle: single evening choice, dinner maintenance choice, and candidate figures', () => {
+  const tracker = new ExperimentTracker();
+
+  // Test recording a session with explicit dinner choice
+  const session = tracker.recordSession({
+    preChoiceBeats: [['012', 2], ['0C4', 4]],
+    eveningChoice: 'call_mom',
+    dinnerChoice: 'eat',
+  });
+
+  assert.equal(session.dinnerChoice, 'eat');
+  assert.equal(session.eveningChoice, 'call_mom');
+  assert.equal(session.avgPreChoiceScore, 3.0);
+  assert.equal(session.scoreTier, 'neutral');
+  assert.equal(session.postChoiceBeats.length, 0);
+
+  // Verify candidate figures are documented as working proposals
+  for (const shift of EXTRA_SHIFTS_CATALOG) {
+    assert.ok(shift.cashGain >= 35 && shift.cashGain <= 55, `Candidate cashGain out of expected range: ${shift.cashGain}`);
+    assert.ok(shift.healthCost >= 8 && shift.healthCost <= 15, `Candidate healthCost out of expected range: ${shift.healthCost}`);
+  }
 });

@@ -6,9 +6,9 @@
     "Step 4: Work Beat 1 verified with 3-digit hex ID (#016)",
     "Step 5: Work Beat 2 completed and clocked out",
     "Step 6: Wage payslip accurately verified at $60.00 completed-shift take-home",
-    "Step 7: Day 1 Kitchen Dinner return verified and entered Evening Apartment ($75.00)",
-    "Step 8: Call Mom check-in completed, restoring +5 HP (80 -> 85 HP)",
-    "Step 9: Daily extra shift completed: Cash=$117.00, HP=75 HP",
+    "Step 7: Day 1 Kitchen Dinner explicit choice verified and entered Evening Apartment ($75.00)",
+    "Step 8: Call Mom completed via keyboard (80 -> 85 HP), finishing the evening scenario (Session 1 recorded)",
+    "Step 9: Alternative scenario gig committed: Post-choice Beat=#E02, Cash=$57.00, HP=70 HP (Session 2 recorded)",
     "Step 10: Narrow mobile viewport (390px) and reduced motion toggles verified",
     "Step 11: Synthetic demonstration fixture strictly separated from observed sessions"
   ],

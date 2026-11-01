@@ -30,3 +30,7 @@ Current unresolved questions only, reconciled2026-10-31. Selected intent lives i
 - How should Plan30's TV source, track changes, room acoustics and silence-after-sale work? Weather34 helpers remain deliberately unmounted pending a separate evidence/scene-selection gate.
 - Which inexpensive high-impact Plan36 disorientation ideas merit a prototype once ordinary life progression is coherent? Preserve irregular fictional disruptions, text/static equivalents and truthful outcomes; no late-game integration plan is yet selected.
 - Which assets show a measured benefit from PNG delivery? SVG source remains the default; concept references are not shipping assets.
+
+## Call Mom reminder availability (owner direction2026-11-01)
+
+Owner wants non-navigation life actions on diegetic objects; Call Mom should use a persistent apartment reminder, visible but noninteractive when unavailable, and should not be an every-night activity. A fridge sticky is root's recommended first placement, not yet owner visual acceptance. Candidate availability: Day1 then approximately every5days, and/or the day after furniture sale or a narratively bad shift. Exact cadence, event-trigger cooldown and interaction with Ren remain unresolved. Authored work-tone ratings classify fictional content, not player feelings; do not relabel them as player responses. Plan47 is investigating current evidence; no schedule or new health value is authorized by these candidate examples. Preserve prior activity replay.

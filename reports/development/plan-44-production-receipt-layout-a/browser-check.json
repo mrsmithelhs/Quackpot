@@ -1,0 +1,21 @@
+{
+  "desktop": {
+    "title": "Your Receipt",
+    "route": "Quackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early",
+    "details": 6,
+    "overflow": false
+  },
+  "keyboard": {
+    "focused": true,
+    "outline": "none",
+    "open": true
+  },
+  "print": {
+    "during": true,
+    "restored": true
+  },
+  "narrow": {
+    "width": 390,
+    "scrollWidth": 390
+  }
+}

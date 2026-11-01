@@ -17,11 +17,11 @@ try {
   let id=0; const pending=new Map(); socket.onmessage=({data}) => { const msg=JSON.parse(data); if (!msg.id) return; const p=pending.get(msg.id); pending.delete(msg.id); msg.error ? p.reject(Error(msg.error.message)) : p.resolve(msg.result); };
   const send=(method,params={}) => new Promise((resolve,reject) => { const n=++id; pending.set(n,{resolve,reject}); socket.send(JSON.stringify({id:n,method,params})); });
   const evaljs=async expression => {const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true}); if(r.exceptionDetails) throw Error(r.exceptionDetails.text); return r.result.value;};
-  const until=async expression => {for(let i=0;i<100;i++){if(await evaljs(expression)) return; await wait(100);} throw Error(`Timed out: ${expression}`);};
+  const until=async expression => {for(let i=0;i<100;i++){if(await evaljs(expression)) return; await wait(100);} const snap=await send('Page.captureScreenshot',{format:'png'}); writeFileSync('reports/development/plan-44-production-receipt-layout-a/browser-failure.png',Buffer.from(snap.data,'base64')); writeFileSync('reports/development/plan-44-production-receipt-layout-a/browser-failure.txt',String(await evaljs('document.body.innerText')).slice(0,12000)); throw Error(`Timed out: ${expression}`);};
   await send('Page.enable'); await send('Runtime.enable');
   await send('Emulation.setDeviceMetricsOverride',{width:1280,height:900,deviceScaleFactor:1,mobile:false});
-  await send('Page.navigate',{url:'http://127.0.0.1:4187/Quackpot/'}); await until('!!document.querySelector("#btn-start-app")');
-  await evaljs('document.querySelector("#btn-start-app").click()'); await until('!!document.querySelector("#btn-uninstall")');
+  await send('Page.navigate',{url:'http://127.0.0.1:4187/Quackpot/'}); await until('!!document.querySelector("#morning-setup-form")');
+  await evaljs('document.querySelector("#morning-setup-form button[type=submit]").click()'); await until('!!document.querySelector("#btn-uninstall")');
   await evaljs('document.querySelector("#btn-uninstall").click()'); await until('!!document.querySelector("#btn-retention-leave")');
   await evaljs('document.querySelector("#btn-retention-leave").click()'); await until('!!document.querySelector(".plan44-receipt")');
   const capture=async name => {const r=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:true}); writeFileSync(`reports/development/plan-44-production-receipt-layout-a/${name}.png`,Buffer.from(r.data,'base64'));};
@@ -34,4 +34,6 @@ try {
   await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true}); await wait(200); checks.narrow=await evaljs('({width:innerWidth,scrollWidth:document.documentElement.scrollWidth})'); await capture('narrow');
   writeFileSync('reports/development/plan-44-production-receipt-layout-a/browser-check.json',JSON.stringify(checks,null,2)); console.log(JSON.stringify(checks));
 } finally { if(socket) socket.close(); if (child.exitCode === null && child.signalCode === null) { child.kill(); await new Promise(r => child.once('exit',r)); } try {rmSync(profile,{recursive:true,force:true});} catch(e) {console.error(`profile cleanup: ${e.message}`);} }
+
+
 

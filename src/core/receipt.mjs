@@ -49,7 +49,9 @@ export function projectReceipt(entries) {
     return {
       drawIndex: c.payload.drawIndex,
       of: c.payload.of,
+      // Compatibility only: this is a nearest-prior heuristic, not an association.
       purchaseKind: buy?.payload.kind ?? null,
+      purchaseAssociation: 'unknown',
       pityBefore: c.payload.pityBefore,
       drawNumberInWindow: c.payload.drawNumberInWindow,
       preDrawOdds: c.payload.odds,
@@ -73,7 +75,7 @@ export function projectReceipt(entries) {
 
     if (id === 'currency_obfuscation') {
       for (const c of cues) {
-        const b = c.payload.bundles.map((x) => `${x.gems} gems for ${money(x.price)}`).join('; ');
+        const b = Array.isArray(c.payload.bundles) ? c.payload.bundles.map((x) => `${x.gems ?? 'unknown'} gems for ${Number.isFinite(x.price) ? money(x.price) : 'an unavailable price'}`).join('; ') : 'bundle details unavailable';
         displayed.push(line(`Bundle shop shown (${c.clock.label}): ${b}; one pull costs ${c.payload.pullCost} gems.`, c.seq));
       }
       const bundles = purchases.filter((p) => p.payload.kind === 'bundle');
@@ -92,15 +94,16 @@ export function projectReceipt(entries) {
       displayed.push(line(`Pity counter shown ${cues.length} time(s); first at ${cues[0].payload.counter} of ${cues[0].payload.hardPity}, last at ${cues[cues.length - 1].payload.counter} of ${cues[cues.length - 1].payload.hardPity}.`, cues[0].seq));
       const after = drawsCommitted.filter(afterFirst);
       if (after.length) {
-        const ls = after.map((d) => d.payload.odds.legendary);
+        const ls = after.map((d) => d.payload.odds?.legendary).filter(Number.isFinite);
         const minOdds = Math.min(...ls);
         const maxOdds = Math.max(...ls);
         const soft = after.filter((d) => d.payload.advancesPity && d.payload.drawNumberInWindow >= cues[0].payload.softPityStart && d.payload.drawNumberInWindow < cues[0].payload.hardPity).length;
         const hard = after.filter((d) => d.payload.advancesPity && d.payload.drawNumberInWindow >= cues[0].payload.hardPity).length;
-        did.push(line(`${after.length} draw(s) committed after the first display; actual pre-draw legendary odds ranged from ${minOdds} to ${maxOdds}; ${soft} draw(s) had raised soft-pity odds; ${hard} draw(s) reached the hard guarantee.`, after[0].seq));
+        const oddsText = ls.length === after.length ? `actual pre-draw legendary odds ranged from ${minOdds} to ${maxOdds}` : 'some recorded pre-draw odds are unavailable';
+        did.push(line(`${after.length} draw(s) committed after the first display; ${oddsText}; ${soft} draw(s) had raised soft-pity odds; ${hard} draw(s) reached the hard guarantee.`, after[0].seq));
       } else did.push(line('No draw recorded after the counter was shown.', null));
     } else if (id === 'power_creep') {
-      for (const c of cues) displayed.push(line(`Banner ${c.payload.banner + 1} showed new ducks: ${c.payload.newIdentities.join(', ')}.`, c.seq));
+      for (const c of cues) displayed.push(line(`Banner ${Number.isFinite(c.payload.banner) ? c.payload.banner + 1 : 'unknown'} showed new ducks: ${Array.isArray(c.payload.newIdentities) ? c.payload.newIdentities.join(', ') : 'details unavailable'}.`, c.seq));
       const rs = races.filter(afterFirst);
       if (rs.length) {
         const pl = rs.map((r) => r.payload.place);
@@ -126,7 +129,7 @@ export function projectReceipt(entries) {
       else did.push(line('Run continued after the offer.', null));
     } else if (id === 'completion_pressure') {
       const last = cues[cues.length - 1];
-      displayed.push(line(`Set progress shown ${cues.length} time(s); most recent (${last.clock.label}): ${last.payload.setProgress.map((s) => `${s.owned}/${s.total}`).join(' ')}.`, last.seq));
+      displayed.push(line(`Set progress shown ${cues.length} time(s); most recent (${last.clock.label}): ${Array.isArray(last.payload.setProgress) ? last.payload.setProgress.map((s) => `${s.owned ?? '?'}/${s.total ?? '?'}`).join(' ') : 'details unavailable'}.`, last.seq));
       const inc = purchases.filter((p) => /pull/.test(p.payload.kind) && p.payload.cost > 0 && p.payload.incompleteSets > 0);
       did.push(inc.length ? line(`${inc.length} pull purchase(s) made while at least one set was incomplete.`, inc[0].seq) : line('No pull purchase recorded while a set was incomplete.', null));
     } else if (id === 'social_comparison') {
@@ -138,7 +141,9 @@ export function projectReceipt(entries) {
       did.push(buys.length ? line(`${buys.length} gem purchase(s) recorded later on a day the rival was shown.`, buys[0].seq) : line('No gem purchase recorded later on a day the rival was shown.', null));
     } else if (id === 'secondary_currency') {
       const total = revealedDup.reduce((s, e) => s + e.payload.downGained, 0);
-      displayed.push(line(`${revealedDup.length} reveal(s) showed a duplicate converted to Down, ${total} Down in total.`, (revealedDup[0] ?? cues[0]).seq));
+      for (const cue of cues) displayed.push(line('A Down-related cue was recorded as shown.', cue.seq));
+      if (revealedDup.length) displayed.push(line(`${revealedDup.length} reveal(s) showed a duplicate converted to Down, ${total} Down in total.`, revealedDup[0].seq));
+      displayed.sort((a, b) => a.seq - b.seq);
       const spent = ofType('action').filter((e) => ['down_spent', 'race_trial_purchased'].includes(e.payload.kind));
       if (spent.length) for (const a of spent) did.push(line(a.payload.kind === 'race_trial_purchased'
         ? `Spent ${a.payload.costDown} Down for the one-race speed upgrade.`
@@ -153,7 +158,8 @@ export function projectReceipt(entries) {
         did.push(after.length ? line(`${after.length} gem purchase(s) recorded after the offer.`, after[0].seq) : line('No gem purchase recorded after the offer.', null));
       }
     }
-    findings.push({ technique: id, label, displayed, did, question: { text: question, answer: null } });
+    findings.push({ technique: id, label, displayed, did, question: { text: question, answer: null },
+      displayEvidence: [...cues, ...revealedDup].map(({ seq, type, payload }) => ({ seq, type, payload })).sort((a, b) => a.seq - b.seq) });
   }
 
   const terminal = ofType('terminal')[0];
@@ -267,6 +273,8 @@ export function projectReceipt(entries) {
   for (const event of ofType('life_rent_held')) accountingLines.push(line(`Chose to hold cash; rent remained unpaid with ${money(event.payload.cash)} on hand.`, event.seq));
   for (const event of ofType('life_rent_shortfall')) accountingLines.push(line(`Rent became due with a ${money(event.payload.shortfall)} shortfall.`, event.seq));
   for (const event of ofType('life_work_agreed')) accountingLines.push(line(`Agreed to ${event.payload.kind === 'overtime' ? 'an overtime shift' : 'a scheduled shift'} on day ${event.payload.day}.`, event.seq));
+  for (const event of ofType('life_shift_missed')) accountingLines.push(line(`Game recorded a missed shift on day ${event.payload.day}; ${event.payload.count} missed shift(s) recorded.`, event.seq));
+  for (const event of ofType('life_employment_ended')) accountingLines.push(line(`Game recorded that scheduled employment ended on day ${event.payload.day}.`, event.seq));
   for (const event of ofType('work_interrupted')) accountingLines.push(line(`The agreed ${event.payload.kind === 'overtime' ? 'overtime' : 'scheduled'} shift was unfinished when the run ended; no completion was recorded.`, event.seq));
   for (const event of ofType('session_interrupted')) accountingLines.push(line(`An ${event.payload.suspended ? 'on-hold' : 'active'} phone session remained when the run ended.`, event.seq));
   if (lifeStart) for (const event of ofType('income')) {
@@ -290,7 +298,7 @@ export function projectReceipt(entries) {
   }
 
   // Purely event-derived financial, health, and inventory balances (P2 repair)
-  const initialCash = lifeStart ? lifeStart.payload.lifeConfig.startCash : 15.00;
+  const initialCash = lifeStart ? lifeStart.payload.lifeConfig?.startCash : 15.00;
   const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage' || (lifeStart && ['overtime', 'asset_sale'].includes(e.payload.kind))).reduce((s, e) => s + e.payload.amount, 0);
   const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
   const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
@@ -299,7 +307,7 @@ export function projectReceipt(entries) {
 
   const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0)
     + skippedBreakfasts.reduce((s, e) => s + (e.payload.healthLost ?? 0), 0);
-  const derivedFinalHealth = Math.max(0, (lifeStart ? lifeStart.payload.lifeConfig.startHealth : 100) - healthLostSum + ofType('life_health').reduce((sum, e) => sum + e.payload.delta, 0));
+  const derivedFinalHealth = Math.max(0, (lifeStart ? lifeStart.payload.lifeConfig?.startHealth : 100) - healthLostSum + ofType('life_health').reduce((sum, e) => sum + e.payload.delta, 0));
 
   const uniqueOwnedDucks = new Set(drawsCommitted.filter((d) => !d.payload.duplicate).map((d) => d.payload.identity));
   const derivedOwnedDucksCount = uniqueOwnedDucks.size;
@@ -372,6 +380,8 @@ export function projectReceipt(entries) {
     isComplete,
     terminalRoute: terminal?.payload.route ?? null,
     receiptShown: !!receiptShown,
+    // Additive, sequence-linked facts; consumers must not treat temporal proximity as a link.
+    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload, clock })),
     findings,
     pullLedger,
     raceEvidence: {

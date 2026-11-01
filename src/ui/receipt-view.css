@@ -1,0 +1,18 @@
+.plan44-receipt { max-width: 850px; font-family: system-ui, sans-serif; line-height: 1.5; color: #202b35; }
+.plan44-receipt h1 { font-size: clamp(2rem, 6vw, 3rem); margin: .2em 0; }
+.plan44-receipt h2 { margin-bottom: .3em; }
+.plan44-receipt section { border-top: 1px dashed #a5afb3; padding: 1.25rem 0; }
+.plan44-receipt .receipt-eyebrow { font-weight: 700; color: #526873; }
+.plan44-receipt .receipt-totals { display: flex; flex-wrap: wrap; gap: .75rem; }
+.plan44-receipt .receipt-totals > div { background: #edf4f3; border-radius: .5rem; padding: .7rem; flex: 1 1 7rem; display: grid; }
+.plan44-receipt .receipt-cards { display: grid; gap: 1rem; }
+.plan44-receipt .receipt-card { border: 1px solid #b9c9c9; border-radius: .6rem; padding: 1rem; background: #f8fbfa; overflow-wrap: anywhere; }
+.plan44-receipt .receipt-card h3 { margin: 0 0 .7rem; }
+.plan44-receipt .receipt-register { margin: .6rem 0; }
+.plan44-receipt .receipt-register p, .plan44-receipt .receipt-register ul { margin: .25rem 0; }
+.plan44-receipt details { border: 1px solid #b9c9c9; border-radius: .4rem; padding: .7rem; margin: .6rem 0; overflow-wrap: anywhere; }
+.plan44-receipt summary { cursor: pointer; font-weight: 700; }
+.plan44-receipt :focus-visible { outline: 3px solid #005fcc; outline-offset: 3px; }
+.plan44-receipt .receipt-draw + .receipt-draw { border-top: 1px solid #cbd4d4; }
+.plan44-receipt footer { margin-top: 1.5rem; }
+@media print { .plan44-receipt { max-width: none; box-shadow: none; color: #000; } .plan44-receipt footer { display: none; } .plan44-receipt details { break-inside: auto; } }

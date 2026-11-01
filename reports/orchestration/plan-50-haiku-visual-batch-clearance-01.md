@@ -11,3 +11,7 @@ RequestedHaiku alias observedclaude-haiku-5-5 in setup. Setup imageRead correctl
 Run serially through unchanged boundedlauncher/resourcepreflight, no OAuth/authretry/fallback, no increasedlimits, no nestedmodelcalls. Fivecalls is this checkpoint's permittedbatch, not a standingbudget. No repeatedquery-to-agreement, paired/contextfeedback conditions or extraartwork beyond selectedcases. On parse/time/resourcefailure retainfailure; do not silentlyrerun. Haikuhalf may proceed whileFlashsetup unresolved. Report findings and evidencecheckingcost, falsealarms/misses/uncertainty; don't markwholepilotcomplete.
 
 Flash remains held until executable/media/model/confinement independentlyverified and rootclears. Cross-project command request was auto-review rejected and has not been authorized by a direct ownerreply in thischat; no workaround. Audio and standingadoption remain ownergates. No production/packetacceptance changes, push/deployment. Rootreviewsresultssubstantively before ownerhandback.
+
+## Capture-limit hold
+
+Lead identified original65536-character streamcapture truncates image-bearingJSON before result. Historicalcalls are held while report-local equivalent launcher is reviewed: finite2MiBcharacters perstream, explicitretained/drainedcounts/truncationfailure, allpriorresource/processlimits unchanged. SharedPlan25launcher remains frozen. Rootmust reviewdiff and syntheticcap/drain checks before resuming5casebatch. No inference spent on this issue.

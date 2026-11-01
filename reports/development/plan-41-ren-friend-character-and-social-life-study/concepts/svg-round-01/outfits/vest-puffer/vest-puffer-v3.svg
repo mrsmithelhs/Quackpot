@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="720" height="900" role="img" aria-label="Ren concept drawing: vest-puffer-v3">
+<style>
+  svg{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+  <clipPath id="base-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+  <g id="base-neck"><path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+  <g id="base-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+  <path id="base-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+  <g id="base-face">
+    <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+    <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+    <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+    <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+    <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+    <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+  </g>
+  <g id="base-hs-shapes">
+    <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+    <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+  </g>
+  <g id="base-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+  <g id="base-acc">
+    <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+    <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  </g>
+  <g id="base-pencil"><g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g></g>
+  <clipPath id="vest-puffer-vclip"><path d="M96 222 L76 218 C66 226 60 240 60 262 L40 300 L200 300 L180 262 C180 240 174 226 164 218 L144 222Z"/></clipPath>
+</defs>
+<rect width="240" height="300" fill="#efe3cc"/>
+
+<!-- ===== LAYER TORSO (behind the neck). OUTFIT TASKS: replace this group. Baseline: striped tee + teal overalls. ===== -->
+<g id="LAYER-torso">
+  <path class="l3" fill="#f1e3c8" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <path class="l2" fill="none" d="M100 214 Q120 234 140 214"/>
+  <g id="vest-puffer-v3-left">
+    <path class="l3" fill="#6b7b4a" d="M100 278 Q80 283 60 278 C56 285 56 296 58 306 L100 306 Z"/>
+    <path class="l3" fill="#6b7b4a" d="M100 256 Q80 261 60 256 C56 262 56 274 60 280 Q80 285 100 280 Z"/>
+    <path class="l3" fill="#6b7b4a" d="M100 230 L94 217 L76 222 C66 228 61 242 60 258 Q80 264 100 258 Z"/>
+    <path fill="#8c9c66" d="M70 238 C68 244 67 249 67 253 Q72 255 77 255 C74 250 72 244 70 238Z"/>
+    <path fill="#8c9c66" d="M66 264 C65 268 65 272 66 275 Q71 277 76 277 C72 273 70 268 70 264Z"/>
+    <path class="l2" fill="none" d="M100 232 V306"/>
+  </g>
+  <g id="vest-puffer-v3-right" transform="translate(240 0) scale(-1 1)">
+    <path class="l3" fill="#6b7b4a" d="M100 278 Q80 283 60 278 C56 285 56 296 58 306 L100 306 Z"/>
+    <path class="l3" fill="#6b7b4a" d="M100 256 Q80 261 60 256 C56 262 56 274 60 280 Q80 285 100 280 Z"/>
+    <path class="l3" fill="#6b7b4a" d="M100 230 L94 217 L76 222 C66 228 61 242 60 258 Q80 264 100 258 Z"/>
+    <path fill="#8c9c66" d="M70 238 C68 244 67 249 67 253 Q72 255 77 255 C74 250 72 244 70 238Z"/>
+    <path fill="#8c9c66" d="M66 264 C65 268 65 272 66 275 Q71 277 76 277 C72 273 70 268 70 264Z"/>
+    <path class="l2" fill="none" d="M100 232 V306"/>
+  </g>
+  <rect x="104" y="244" width="7" height="11" rx="2" fill="#d9a441" class="l2"/>
+</g>
+
+<use href="#base-neck"/>
+
+<!-- ===== LAYER COLLAR (in front of the neck, behind the head and chin). OUTFIT TASKS: collars, scarf, turtleneck. Empty by default. ===== -->
+<g id="LAYER-collar">
+  <path class="l3" fill="#6b7b4a" d="M93 202 Q97 196 107 198 L112 228 Q101 233 91 227 Z"/>
+  <path class="l3" fill="#6b7b4a" d="M147 202 Q143 196 133 198 L128 228 Q139 233 149 227 Z"/>
+</g>
+
+<use href="#base-ears"/>
+<use href="#base-head"/>
+<use href="#base-face"/>
+
+<!-- ===== LAYER HAIR. HAIR TASKS: replace this line/group. Baseline: short tapered curls (cloud of circles). ===== -->
+<g id="LAYER-hair">
+  <use href="#base-hs-shapes" class="hair l3"/><use href="#base-hs-shapes" class="hair" stroke="none"/>
+</g>
+
+<!-- Earrings and pencil (delete or move the pencil if a hat or hood would hide it). The sprout tattoo is not drawn here; use #base-tat only on a bare upper arm. -->
+<use href="#base-acc"/>
+<use href="#base-pencil"/>
+</svg>

@@ -27,20 +27,20 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 | Paint overalls | `outfits/paint-overalls/` | OWNER-KEPT (S36) |
 | Camp-collar shirt (arm tattoo) | `outfits/camp-shirt-geometric/` | OWNER-KEPT (S36) |
 | Overalls with pocket pencil (plain, paint) | `outfits/overalls-pocket-pencil/` | OWNER-KEPT (S12) |
-| Tool apron over a tee (arm tattoo) | `outfits/apron-tool/apron-tool.svg` | OWNER-SELECTED idea (S37); drawing UNREVIEWED |
-| Puffer vest over a long-sleeve tee (v2) | `outfits/vest-puffer/vest-puffer-v2.svg` | OWNER-SELECTED idea (S37); drawing UNREVIEWED |
+| Tool apron over a tee (arm tattoo) | `outfits/apron-tool/apron-tool.svg` | owner: looks good (S40) |
+| Puffer vest, open over a long-sleeve tee (v3; v1 and v2 were not good enough, S41) | `outfits/vest-puffer/vest-puffer-v3.svg` | OWNER-SELECTED idea (S37); v3 UNREVIEWED |
 
 ## Hair and headgear
 | Part | File | Status |
 |---|---|---|
 | Paint flecks, plaster dust | `hair/hair-paint-flecks/`, `hair/hair-plaster-dust/` | LEAD-PICK (plaster is heavy) |
-| Towel turban, damp hair with neck towel | `hair/hair-towel-turban/`, `hair/hair-towel-neck-damp/` | LEAD-PICK |
-| Shower cap, headband | `hair/hair-shower-cap/`, `hair/hair-headband/` | LEAD-PICK |
-| Baseball cap, beanie | `hair/hair-baseball-cap/`, `hair/hair-beanie/` | LEAD-PICK |
-| Bandana v2, sleep bonnet v2 | `hair/hair-bandana/hair-bandana-v2.svg`, `hair/hair-bonnet-night/hair-bonnet-night-v2.svg` | redrawn this round; UNREVIEWED as final |
-| Windblown damp, sweaty pushed-back, post-nap puff | `hair/hair-windblown-damp/` etc. | LEAD-PICK |
+| Towel turban, damp hair with neck towel | `hair/hair-towel-turban/`, `hair/hair-towel-neck-damp/` | OWNER-KEPT (S42) |
+| Shower cap, headband | `hair/hair-shower-cap/`, `hair/hair-headband/` | OWNER-KEPT (S42) |
+| Baseball cap, beanie | `hair/hair-baseball-cap/`, `hair/hair-beanie/` | OWNER-KEPT (S42) |
+| Bandana v2, sleep bonnet v2 | `hair/hair-bandana/hair-bandana-v2.svg`, `hair/hair-bonnet-night/hair-bonnet-night-v2.svg` | OWNER-KEPT (S42) |
+| Windblown damp, sweaty pushed-back, post-nap puff | `hair/hair-windblown-damp/` etc. | OWNER-KEPT (S42) |
 | Bedhead | `hair/hair-bedhead/` | OWNER-DROPPED (S11) |
-| Sawdust, attic dust with cobweb | not drawn | reserves |
+| Sawdust; attic dust with cobweb | `hair/hair-sawdust/`, `hair/hair-attic-dust/` | OWNER-SELECTED (S43); UNREVIEWED; scene-only (S44) |
 
 ## Faces and door scene (round 4, 2026-10-31)
 | Part | File | Status |
@@ -53,3 +53,5 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 Checked at avatar size; checked in other complexions (three proposed, none selected); placed into the apartment scenes (those use older drawings).
 
 **Outfit rotation (S38) and pocket pencil (S39):** outfits rotate cosmetically from a seeded fork with no new state; the pocket pencil appears on overalls looks sometimes, the ear is the default.
+
+**Hair and headgear rotation (S44):** everyday rotation: baseball cap, beanie, headband, bandana, windblown damp, sweaty pushed back, post-nap puff. Scene-only (need a story cue): towel turban, towel around the neck, shower cap, sleep bonnet, paint flecks, plaster dust, sawdust, attic dust. Pencil is absent under bonnet, bandana and slicker hood, and sits behind or in the beanie (S45).

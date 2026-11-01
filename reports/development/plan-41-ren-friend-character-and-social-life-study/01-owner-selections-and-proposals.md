@@ -96,6 +96,17 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S38 | How outfits get chosen | **B: cosmetic rotation from a seeded cosmetic fork, no new state** | Context-specific looks (slicker, pajamas) stay out of rotation until a cue exists. |
 | S39 | Pocket pencil with overalls | **Sometimes** | Varies by visit as part of the cosmetic rotation; ear pencil is the default. |
 
+### New outfit and hair review (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S40 | Tool apron over a tee | **Looks good** | Not declared final art. |
+| S41 | Puffer vest (v1 helper drawing, then my v2) | **Not yet good** | Needs another pass; owner did not say what is wrong. |
+| S42 | Keep, revise or drop each hair and headgear look | **Keep all** | All 15 looks plus the base: paint flecks, plaster dust, windblown damp, sweaty pushed back, post-nap puff, towel turban, towel around neck, shower cap, headband, bonnet v2, bandana v2, baseball cap, three beanie variants. |
+| S43 | Extra dust looks (sawdust, attic dust with cobweb) | **Yes** | Drawn after this answer; unreviewed. |
+| S44 | Which looks join the everyday cosmetic rotation | **As suggested** | Everyday: baseball cap, beanie, headband, bandana, windblown damp, sweaty pushed back, post-nap puff. Scene-only (need a story cue): towel turban, towel around neck, shower cap, sleep bonnet, paint flecks, plaster dust, and the two new dust looks. |
+| S45 | Pencil when a covering hides the ear | **Yes: absent, or behind/in the headgear for the beanie** | One pencil slot per look. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

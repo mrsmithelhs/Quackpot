@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 300" width="720" height="900" role="img" aria-label="Ren in a brown tool apron over a grey-blue tee, mid-warm complexion">
+<style>
+  svg{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .skin{fill:var(--skin)}.shade{fill:var(--shade)}.blush{fill:var(--blush)}.hair{fill:var(--hair)}
+  .l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+  <clipPath id="base-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+  <g id="base-neck"><path class="skin l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+  <g id="base-ears"><circle class="skin l3" cx="70" cy="122" r="10"/><circle class="skin l3" cx="170" cy="122" r="10"/></g>
+  <path id="base-head" class="skin l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+  <g id="base-face">
+    <ellipse class="blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/>
+    <circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/>
+    <circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/>
+    <path class="l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="l2" fill="none" d="M128 108 Q139 103 150 109"/>
+    <path class="l2" fill="none" d="M120 128 Q115 140 122 142"/>
+    <path class="l2" fill="none" d="M106 155 Q120 165 134 155"/>
+  </g>
+  <g id="base-hs-shapes">
+    <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+    <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+  </g>
+  <g id="base-tat" fill="none" stroke="#2f3a5c" stroke-opacity=".85" stroke-width="2" stroke-linecap="round"><path d="M139 188 Q145 200 140 212"/><path d="M143 197 Q151 195 153 188"/><path d="M142 203 Q134 202 131 196"/></g>
+  <g id="base-acc">
+    <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+    <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  </g>
+  <g id="base-pencil"><g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g></g>
+</defs>
+<rect width="240" height="300" fill="#efe3cc"/>
+
+<!-- ===== LAYER TORSO (behind the neck). Apron task: grey-blue short-sleeve crew tee, bare upper arms below the sleeve hems, brown tool apron with neck straps, waist strap and tie tails. ===== -->
+<g id="LAYER-torso">
+  <path class="l3" fill="#c3d2d8" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <g clip-path="url(#base-tclip)">
+    <path class="skin l3" d="M28 264 L84 258 L66 310 L20 310Z"/>
+    <path class="skin l3" d="M212 264 L156 258 L174 310 L220 310Z"/>
+  </g>
+  <path class="l3" fill="none" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300"/>
+  <path class="l3" fill="#9a5a31" d="M92 230 L100 230 L103 212 L95 211Z"/>
+  <path class="l3" fill="#9a5a31" d="M148 230 L140 230 L137 212 L145 211Z"/>
+  <rect class="l2" x="76" y="287" width="9" height="20" fill="#6e4226"/>
+  <rect class="l2" x="155" y="287" width="9" height="20" fill="#6e4226"/>
+  <path class="l3" fill="#9a5a31" d="M94 228 L146 228 L156 310 L84 310Z"/>
+  <rect class="l2" x="109" y="235" width="6" height="19" rx="3" fill="#6b7b4a" transform="rotate(-8 112 254)"/>
+  <rect class="l2" x="122" y="239" width="6" height="15" rx="3" fill="#c8923a" transform="rotate(8 125 254)"/>
+  <rect class="l2" x="106" y="250" width="28" height="26" rx="3" fill="#7b4524"/>
+  <rect x="110" y="254" width="20" height="18" rx="1.5" fill="none" stroke="#d9b48a" stroke-width="1.2" stroke-dasharray="3 2.5"/>
+  <rect class="l2" x="80" y="280" width="80" height="8" rx="2" fill="#6e4226"/>
+</g>
+
+<use href="#base-neck"/>
+
+<!-- ===== LAYER COLLAR (in front of the neck, behind the head and chin). OUTFIT TASKS: collars, scarf, turtleneck. Empty by default. ===== -->
+<g id="LAYER-collar"></g>
+
+<use href="#base-ears"/>
+<use href="#base-head"/>
+<use href="#base-face"/>
+
+<!-- ===== LAYER HAIR. HAIR TASKS: replace this line/group. Baseline: short tapered curls (cloud of circles). ===== -->
+<g id="LAYER-hair">
+  <use href="#base-hs-shapes" class="hair l3"/><use href="#base-hs-shapes" class="hair" stroke="none"/>
+</g>
+
+<!-- Sprout tattoo on the viewer's-right bare upper arm (short sleeves, so the arm is exposed). -->
+<use href="#base-tat" transform="translate(200 282) scale(.7) translate(-142 -200)"/>
+
+<!-- Earrings and pencil (delete or move the pencil if a hat or hood would hide it). -->
+<use href="#base-acc"/>
+<use href="#base-pencil"/>
+</svg>

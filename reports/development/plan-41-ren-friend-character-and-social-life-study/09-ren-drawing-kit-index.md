@@ -20,13 +20,15 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 ## Outfits
 | Part | File | Status |
 |---|---|---|
-| Olive coveralls (arm tattoo) | `outfits/coveralls-olive/` | LEAD-PICK |
-| Terracotta cardigan v2 | `outfits/cardigan-terracotta/cardigan-terracotta-v2.svg` | LEAD-PICK |
-| Yellow slicker, hood up (v3) | `outfits/slicker-yellow/slicker-yellow-v3.svg` | direction OWNER-SELECTED (S10); drawing UNREVIEWED as final |
-| Navy pajama top | `outfits/pajama-navy/` | LEAD-PICK |
-| Paint overalls | `outfits/paint-overalls/` | LEAD-PICK |
-| Camp-collar shirt (arm tattoo) | `outfits/camp-shirt-geometric/` | LEAD-PICK |
+| Olive coveralls (arm tattoo) | `outfits/coveralls-olive/` | OWNER-KEPT (S36) |
+| Terracotta cardigan v2 | `outfits/cardigan-terracotta/cardigan-terracotta-v2.svg` | OWNER-KEPT (S36) |
+| Yellow slicker, hood up (v3) | `outfits/slicker-yellow/slicker-yellow-v3.svg` | direction OWNER-SELECTED (S10); kept (S36) |
+| Navy pajama top | `outfits/pajama-navy/` | OWNER-KEPT (S36) |
+| Paint overalls | `outfits/paint-overalls/` | OWNER-KEPT (S36) |
+| Camp-collar shirt (arm tattoo) | `outfits/camp-shirt-geometric/` | OWNER-KEPT (S36) |
 | Overalls with pocket pencil (plain, paint) | `outfits/overalls-pocket-pencil/` | OWNER-KEPT (S12) |
+| Tool apron over a tee (arm tattoo) | `outfits/apron-tool/apron-tool.svg` | OWNER-SELECTED idea (S37); drawing UNREVIEWED |
+| Puffer vest over a long-sleeve tee (v2) | `outfits/vest-puffer/vest-puffer-v2.svg` | OWNER-SELECTED idea (S37); drawing UNREVIEWED |
 
 ## Hair and headgear
 | Part | File | Status |
@@ -49,3 +51,5 @@ Date: 2026-10-31. Everything below is report-local concept art under `concepts/s
 
 ## Not yet true of any part
 Checked at avatar size; checked in other complexions (three proposed, none selected); placed into the apartment scenes (those use older drawings).
+
+**Outfit rotation (S38) and pocket pencil (S39):** outfits rotate cosmetically from a seeded fork with no new state; the pocket pencil appears on overalls looks sometimes, the ear is the default.

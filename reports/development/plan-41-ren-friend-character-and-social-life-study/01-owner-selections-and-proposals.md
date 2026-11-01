@@ -87,6 +87,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S34 | Recovery cost after strain | **As written** | One repair scene (I6), then one honored visit at reduced pace, returns to connected. |
 | S35 | Receipt register wording (displayed / you did / automatic consequence) | **Keep** | Plan 27 still owns the Receipt layout. |
 
+### Outfit review (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S36 | Keep, revise or drop the current outfits | **Keep all** | Base, olive coveralls, cardigan v2, slicker v3 (hood up), pajama top, paint overalls, camp-collar shirt, and the two pocket-pencil overalls. Not declared final art. |
+| S37 | More outfits | **Tool apron over a tee and puffer vest** | Drawn after this answer (concept art, not yet reviewed by the owner). Bathrobe and tank top not selected. |
+| S38 | How outfits get chosen | **B: cosmetic rotation from a seeded cosmetic fork, no new state** | Context-specific looks (slicker, pajamas) stay out of rotation until a cue exists. |
+| S39 | Pocket pencil with overalls | **Sometimes** | Varies by visit as part of the cosmetic rotation; ear pencil is the default. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

@@ -115,6 +115,15 @@ Labels: **OWNER-SELECTED** (chosen by the owner in this thread or in an owner-au
 | S47 | Tattoo ink | **Keep** | Low-contrast indigo sprout; legible on fill A. |
 | S48 | Subtle looks at avatar size (sawdust, attic dust, sweaty) | **Keep as is** | They matter mostly at bust and door sizes. |
 
+### Apartment scenes review (owner answers, 2026-10-31)
+
+| ID | Question | Answer | Note |
+|---|---|---|---|
+| S49 | Framing for in-apartment visits | **Close only, with a hard rule: the bottom of Ren's available body must sit at the bottom of the visible scene, unless the lower body is hidden by a scene object** | Owner: a cut-off body in an uncut scene "looks awful" and is a non-starter. Close framing replaces the wide shots as the chosen look; the wide couch, loveseat and bar scenes already hide the lower body behind furniture, so they satisfy the rule but are no longer the preferred framing. |
+| S50 | Where Ren sits or stands | **On the couch in the living room, or behind the desk (which means sitting on the floor)** | No armchair prop and no reuse of the narrow sofa. |
+| S51 | Poses | **Commission side and turned poses later** | First build is front-facing only. |
+| S52 | Floor game night after the couch sale (Example 1) | **Draw it now** | Drawn after this answer; unreviewed. |
+
 ## C. Still PROPOSED / OPEN
 
 Everything else in the character brief (speech style, humor, age band, occupation, backstory, boundaries), all visual details, every interaction, every consequence rule and every number is PROPOSED or OPEN until the owner selects it. See `02-character-brief.md` and later documents; each repeats its own labels.

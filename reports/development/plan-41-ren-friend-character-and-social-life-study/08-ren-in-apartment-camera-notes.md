@@ -41,3 +41,12 @@ I viewed all five rendered together on `scenes/index.png` at desktop width. I di
 - Slicker v3 puts the hood up over the head, partly covering the hair, with forehead curls peeking out.
 - Bedhead: reference search done (`research/bedhead-reference-notes.md`) and v3 drawn from its checklist.
 - The Gemini prompt now says no neck tattoo and describes the new pencil. The older `ren-ref-*.png` references still show the old neck tattoo and pencil and should not be attached to future Gemini runs; use `concepts/svg-round-01/_template/ren-base-template.png`.
+
+## Owner decisions and the floor game-night scene (2026-10-31, round 4)
+
+- **Rule (S49):** use close framing; the bottom of Ren's available body must sit at the bottom of the visible scene unless a scene object hides the lower body. A cut-off body in an uncut scene is a non-starter. The wide couch, loveseat and bar scenes hide the lower body behind furniture, so they satisfy the rule, but close framing is the chosen look.
+- **Seats (S50):** the couch in the living room, or behind a desk (sitting on the floor). No armchair prop and no narrow-sofa reuse. Poses stay front-facing for the first build (S51).
+- **New scene `ren-floor-game-night.svg` (S52):** Example 1 from file 05 after the couch is sold: the kit's `couch: removed` state, Ren (cardigan) seated on the floor behind the coffee table, a flat board game with pawns on the table top (added through the spec's `onTable` list so the table slab does not hide it), no duck on the table. The table and board hide the chest cut. I read "desk" as the living-room coffee table, which the owner may correct.
+- **Script changes:** `compose-ren-apartment.mjs` now takes per-scene `furn`, `duck` and `onTable` and restores them after each scene; the loveseat scene uses the open puffer vest and the close bar scene the tool apron. Run through the Plan 25 bounded launcher in a child shell: exit 0, about 0.6 s, under 5 MB sampled memory. The scene SVGs contain the kit's own gradients and filters (30 hits per scene, same as the older scenes); none come from Ren's drawings.
+- **Viewed:** the floor scene preview at 960 by 540 and the review page `scenes/index-review.html`. Not checked: avatar scale, other complexions.
+

@@ -26,8 +26,23 @@ function renItem(file, { X, z, cutY, s }) {
 const sofaFront = w => R(-w / 2 + 150, -150, w - 300, 40, '#5e5e56') + R(-w / 2, -610, 160, 500, '#65655c', 60) + R(w / 2 - 160, -610, 160, 500, '#65655c', 60)
   + R(-w / 2 + 150, -440, (w - 300) / 2, 310, '#8a897e', 40) + R(0, -440, (w - 300) / 2, 310, '#8a897e', 40);
 
+// Flat board game seen from the kit's slightly raised camera: a trapezoid of coloured cells with a few pawns.
+function boardGame() {
+  const half = y => 250 - 30 * (-y / 72);
+  let s = `<polygon points="-250,0 250,0 220,-72 -220,-72" fill="#f1e3c8" stroke="#3a2c26" stroke-width="6" stroke-linejoin="round"/>`;
+  for (let r = 0; r < 3; r++) for (let c = 0; c < 6; c++) {
+    const y0 = -8 - r * 18, y1 = y0 - 16, cw0 = 2 * (half(y0) - 14) / 6, cw1 = 2 * (half(y1) - 14) / 6;
+    const x = (cw, k, y) => -(half(y) - 14) + cw * k;
+    s += `<polygon points="${x(cw0, c, y0)},${y0} ${x(cw0, c + 1, y0)},${y0} ${x(cw1, c + 1, y1)},${y1} ${x(cw1, c, y1)},${y1}" fill="${(r + c) % 2 ? '#4f6d7a' : '#c76b3d'}" stroke="none"/>`;
+  }
+  const pawn = (cx, cy, f) => `<ellipse cx="${cx}" cy="${cy}" rx="11" ry="15" fill="${f}" stroke="#3a2c26" stroke-width="4"/>`;
+  return s + pawn(-120, -30, '#e0b341') + pawn(-40, -48, '#e58f8f') + pawn(90, -34, '#6b7b4a') + R(150, -34, 26, 20, '#f6e9d6', 4, 'stroke="#3a2c26" stroke-width="3"');
+}
+
 const origItems = {};
 for (const k of Object.keys(ROOM_SPECS)) origItems[k] = ROOM_SPECS[k].items;
+const origOnTable = {};
+for (const k of Object.keys(ROOM_SPECS)) origOnTable[k] = ROOM_SPECS[k].onTable;
 const setExtra = (area, extra) => { ROOM_SPECS[area].items = f => [...origItems[area](f), ...extra]; };
 
 const scenes = [
@@ -45,6 +60,12 @@ const scenes = [
     extra: s => [s.ren] },
   { id: 'ren-kitchen-bar-medium', area: 'kitchen', light: 'window', crop: '446 30 480 270', label: 'Close view of Ren behind the kitchen bar',
     ren: renItem('outfits/apron-tool/apron-tool.svg', { X: 250, z: 1150, cutY: 770, s: 2.4 }),
+    extra: s => [s.ren] },
+  // Floor game night (couch sold, plan 05 Example 1): couch removed, Ren sits on the floor behind the coffee table, the table hides the cut.
+  { id: 'ren-floor-game-night', area: 'living', light: 'window', furn: { couch: 'removed', tv: 'present' }, duck: false,
+    onTable: [{ X: -150, z: 900, Y: 430, mm: boardGame() }],
+    label: 'Ren on the floor behind the coffee table at a board game night, couch gone',
+    ren: renItem('outfits/cardigan-terracotta/cardigan-terracotta-v2.svg', { X: -150, z: 1500, cutY: 300, s: 2.4 }),
     extra: s => [s.ren] }
 ];
 
@@ -57,13 +78,15 @@ const css = p => `<style>.apt-${p}.room-scene .o .ren{stroke:none;--skin:#a8703f
 const written = [];
 for (const sc of scenes) {
   setExtra(sc.area, sc.extra(sc));
+  if (sc.onTable) ROOM_SPECS[sc.area].onTable = [...origOnTable[sc.area], ...sc.onTable];
   const prefix = sc.id.slice(0, 22).replace(/[^a-z0-9-]/g, '');
-  const r = renderScene({ area: sc.area, idPrefix: prefix, framing: 'wide', light: sc.light, duckView: 'side', decorative: false, label: sc.label });
+  const r = renderScene({ area: sc.area, idPrefix: prefix, framing: 'wide', light: sc.light, furnishings: sc.furn, duck: sc.duck ?? true, duckView: 'side', decorative: false, label: sc.label });
   let svg = r.svg.replace(/^<svg\b/, '<svg xmlns="http://www.w3.org/2000/svg"');
   svg = svg.replace(/<\/svg>$/, `${css(prefix)}</svg>`);
   if (sc.crop) svg = svg.replace(/viewBox="[^"]+"/, `viewBox="${sc.crop}"`);
   // restore the untouched specs for the next scene
   for (const k of Object.keys(origItems)) ROOM_SPECS[k].items = origItems[k];
+  for (const k of Object.keys(origOnTable)) ROOM_SPECS[k].onTable = origOnTable[k];
   writeFileSync(resolve(outDir, `${sc.id}.svg`), svg);
   written.push({ id: sc.id, bytes: svg.length, label: sc.label });
 }

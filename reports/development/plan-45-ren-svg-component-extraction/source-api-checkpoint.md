@@ -8,7 +8,7 @@ Paths below are relative to `reports/development/plan-41-ren-friend-character-an
 
 | Source | SHA-256 | Purpose |
 |---|---|---|
-| `round-04-faces-and-door.html` | `4a3824ad4b3c819d5701d1931bdfd9116fae78d00cabb352bae20ebb147ba63` | Six figure/face definitions and their common layers; avatar viewBox `46 30 148 148`, including the actual tilted listening figure. Commit `21b73666a0ee414e92e8cfca41b47d519beda9f2`. |
+| `round-04-faces-and-door.html` | `4a3824ad4b3c819d5701d1931bdfd9116fbae78d00cabb352bae20ebb147ba63` | Six figure/face definitions and their common layers; avatar viewBox `46 30 148 148`, including the actual tilted listening figure. Commit `21b73666a0ee414e92e8cfca41b47d519beda9f2`. |
 | `door-scene-v2.svg` | `891ea0e26b5be21f4492a23375dd56ca0c7a62b6672b4996d61b9afcd6fc50b4` | Reframed existing upper-door/hall artwork; commit `21b73666a0ee414e92e8cfca41b47d519beda9f2`. |
 | `svg-round-01/_template/ren-base-template.svg` | `e75f0a8e6b15d6d4b98a7eee146b964773c2b1d40d7d56ed47a3dc9fd923ada0` | Base bust, short curls, outfit and ear pencil; concept source, not an independent full body. |
 | `svg-round-01/outfits/pajama-navy/pajama-navy.svg` | `1fe0bf4b4b151b03e93253f6adf29fd2c4c1e5b5a9f2fd13185ca9b4f1a9d6ea` | Existing close couch figure. |
@@ -34,4 +34,5 @@ No verified approved gifted-shelf prop, side/turned pose, or complete body is id
 Compare the pinned baseline against extraction structurally after only documented ID/serialization changes; include negative controls and two-instance references. A local gallery presents original and extracted six faces at avatar and bust sizes, door and couch, floor original and derived close framing, plus enlarged cut/occlusion and supported duck. Inspect desktop and narrow viewports and useful enlargement where the coordinated browser slot permits; separately state actual zoom, device and assistive-technology limits. Source equality is not visual acceptance. Pin any additional exact selected source and hash before extracting it, record attribution/license evidence and changes, and report unverified provenance honestly. No production mount or package dependency.
 
 **Gate:** root/QP Orch approves this exact source/API proposal before extraction. Following that approval ordinary extraction and test fixes proceed to one authorized read-only Terra-medium review, then root technical review and owner gallery acceptance. No packet status change, push or deployment.
+
 

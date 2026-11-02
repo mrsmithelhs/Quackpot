@@ -1,5 +1,7 @@
 # Starting handoff — Plan 52 / Codex
 
+**Current gate update2026-11-02:** This starting brief preceded the owner's completed financial decisions. Root has now cleared the exact production stage in `reports/orchestration/plan-52-production-clearance.md`; read that record and the reconciled five-slot contract instead of treating this brief's historical pending questions as unresolved. Final production review/acceptance remain gated.
+
 You are the single Codex production integrator for Plan52 in C:/AI/Quackpot. Read AGENTS.md, docs/agent-starting-prompts/implementer-prompt.md, FULL docs/development/plan-52-five-slot-production-transition.md and docs/five-slot-life-schedule.md. Root QP Orch chat is01a16bb0-8611-7243-8c10-562b96083d60, host local; owner will authorize your two-way channel when started.
 
 Run packet check52 via the unchanged Plan25 bounded-node-run.ps1 after process preflight. Plan51 is closed as a bounded unmounted study, NOT final balance, complete crisis design, actual engine/RNG/save validation or production acceptance. Read its final contract closure table, review disposition, preliminary traces and inspected port inventory. Source/evidence repairs170cb91 and progresscd9c6a5 plus later report-only closure clarifications are provenance; pin actual current HEAD and inspected source. Do not import report code at runtime.

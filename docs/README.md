@@ -8,7 +8,7 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 
 | Area | Selected/current direction | Next boundary |
 |---|---|---|
-| Life and pacing | Accepted five-slot day with slot-consuming meals; staged guidance; roughly30-plus-minute engaged target | Plan51 bounded study closed; in-progress Plan52 first resolves carried decisions/ownership, then ports production + fixtures + docs. Current app still uses older rules. No old-save migration required |
+| Life and pacing | Accepted five-slot day, staged guidance and working financial contract; roughly30-plus-minute engaged target | Plan51 study closed; Plan52 source gate cleared for coordinated production + fixture + docs port, pending implementation and owner acceptance. Current app still uses older rules until port. No old-save migration |
 | Economy | $80 start/$60 shift/$6 meal/$170 remaining-rent working budget; pull-action-plus-race baseline; small purchases erode reserves | Working prices tunable; health/credit/calendar and later session policy remain provisional; recalibrate from integrated-route evidence |
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
 | Apartment | Accepted apartment art/work surfaces, Plan49 action study and selected Ren experience components | Plan46 held at committed Ren baseline for scheduler-dependent edits, whole-experience acceptance pending; Plan52 ports its features together. Plan48 gigs waits for Plan52 |
@@ -72,4 +72,4 @@ Plan50 remains report-only. Owner accepts visual/UI results for experimental use
 
 ## Five-slot transition
 
-Read [five-slot-life-schedule.md](five-slot-life-schedule.md) for current accepted scheduling intent and development-save waiver. Plan51 is closed as a bounded executable unmounted study, not complete crisis design/final balance. Plan52 Stage A resolves carried decisions before affected source writes; its port regenerates active engine-created checkpoints and reconciles current docs. No isolated Ren/meal workaround or report mock may become a competing scheduler. Historical evidence retains its original policy.
+Read [five-slot-life-schedule.md](five-slot-life-schedule.md) for selected scheduling/financial policy and development-save waiver. Plan51 is closed as a bounded unmounted study. Plan52 StageA working decisions and technical source gate are cleared (DECISION-075); its coordinated port, regenerated checkpoints, new-policy replay and owner acceptance remain pending. No isolated Ren/meal workaround or report mock may become a competing scheduler. Historical evidence retains its original policy.

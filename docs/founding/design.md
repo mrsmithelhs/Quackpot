@@ -225,13 +225,13 @@ The phone invitation should transition through an in-world quarter-turn into lan
 |---|---|
 | **Completed the Collection** | Every identity in the finite digital gacha roster is owned |
 | **Influencer** | Deferred with the streaming branch; draft threshold 40,000 followers, deep in debt |
-| **Running on Empty** | Only after the zero-health/money escalation sequence; ordering remains open |
+| **Running on Empty** | First rent unpaid after available choices, or loan default; inability and deliberate withholding/refusal have separate evidence. Later unpaid rent uses a housing-loss/eviction reason on the shared terminal/Receipt flow. |
 | **Run complete** | Designed final day/event; duration and day count remain open |
 | **Uninstall** | Always-visible control opens the retention offer; choosing to leave immediately is a terminal route and the best ending |
 
 All terminal routes reach the Receipt. Early Uninstall does not force the player to continue for extra scenes.
 
-**Plan52 StageA direction,2026-11-02:** Owner proposes an emergency first-rent-shortfall loan and a later, larger second-rent failure leading to eviction, inviting critical revision and merger with Running on Empty. Suggested50% loan cost/five-day due, second-rent interval/amount, refusal/default and exact ending trigger/presentation are under bounded modeling, not implemented or fully selected rules. Reuse terminal/Receipt infrastructure only after factual trigger reconciliation; neither $0 cash nor loan refusal automatically proves the ending. Current first-port working selections are +25 bedrest, −10 late fatigue, overtime +$60/−15 with completion-only wage retained at0HP, recovery before simultaneous rent, and free one-time couch30/TV40 sales with existing social disclosure. No automatic borrowing, rent payment or new relationship penalty is selected.
+**Selected Plan52 working contract,2026-11-02; production port not yet accepted:** Rent170 Day4/400 Day14, exact-shortfall voluntary loan plus one-time50% fee, due entering Midday five calendar days later before work/wage; full early repayment, one active loan, later eligibility after repayment. Freeze accepted terms/history; no rollover, compounding or automatic payment. Recovery first with persistent due latch; simultaneous due bills display combined affordability and let player choose payment order. Allow free apartment navigation/inspection and actual owned couch30/TV40 sales with seating disclosure while due decisions remain pending; block work/gacha/time progression but retain immediate Uninstall. Sale adds cash, never pays bills automatically. Present applicable options and explicit leave-unpaid/refusal consequences before ending; insufficient cash or opening a bill alone is not terminal. Preserve debt, distinguish actual reasons and use shared ending/Receipt plumbing. A loan-funded later rent payment avoids eviction for now. Working health values remain +25 bedrest, −10 late fatigue, overtime+$60/−15 with earned wage retained at0HP, and +5 early bed as an Evening alternative. These remain tunable; see five-slot-life-schedule.md and DECISION-075.
 
 ## The Receipt
 

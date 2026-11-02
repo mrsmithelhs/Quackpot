@@ -11,10 +11,10 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 | Life and pacing | Action-based Morning/Afternoon/Evening, optional LateNight, maintenance meals alongside anchors; roughly30-plus-minute engaged design target | Plans37/29 closed investigations; Plan38 new-run progression and apartment/launch experience integrated and owner-accepted; later work/social treatments remain separate |
 | Economy | $80 start/$60 shift/$6 meal/$170 remaining-rent working budget; pull-action-plus-race baseline; small purchases erode reserves | Working prices tunable; health/credit/calendar and later session policy remain provisional; recalibrate from integrated-route evidence |
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
-| Apartment | Accepted art/desk/phone and Plan38 life surfaces; Plan40 work/evening study owner-closed | Plan47 production work/evening integration owner-accepted and closed; draft49 maps remaining diegetic apartment actions; draft48 later gig lifecycle/calibration. Plan45 selected unmounted Ren kit owner-accepted and closed; Plan46 social integration remains draft |
-| Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 repaired spike delivered for owner review; Plan27 closed, Plan44 Receipt integration delivered for owner review; exporter/analyzer separate |
+| Apartment | Accepted art/desk/phone and Plan38 life surfaces; Plan40 work/evening study owner-closed | Plan47 production work/evening integration owner-accepted and closed; ready Plan49 maps remaining diegetic apartment actions with a Codex lead and Sonnet consultant; draft48 later gig lifecycle/calibration. Plan45 selected unmounted Ren kit owner-accepted and closed; Plan46 social integration is ready for Codex engineering with batched Sonnet writing |
+| Receipt/export | LayoutA selected; ZIP with summary/bounded timeline selected | Plan42 report-local ZIP spike and Plan44 production Receipt are owner-authorized closed on technical sufficiency; Plan27 closed; production exporter/analyzer separate |
 | Audio/weather | Selected audio pools; M1–M6 reference repertoire; extracted weather helpers | Audio preparation/integration, Plan39 accepted local renderer; Plan43 assigned but held before dispatch, extensions gated; weather not mounted |
-| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; Plan45 selected unmounted SVG extraction owner-accepted and closed, Plan46 social integration draft; Plan36 possibilities preserved |
+| Social/later narrative | Ren and reviewed Plan36 possibilities preserved | Plan41 owner-closed; Plan45 selected unmounted SVG extraction owner-accepted and closed, Plan46 Codex-led multi-model social integration ready; Plan36 possibilities preserved |
 
 Do not copy a historical report's pending-stage statement over a later acceptance. Before handoff or closure, reconcile only the affected design, questions, packet gates/status and implementation pointers. Bootstrap is evaluating the staged design-review pilot through its inbox; no generic prompt update or consumer capability adoption has occurred.
 
@@ -52,7 +52,7 @@ reference, not an integration plan or authority to implement the review proposal
 
 [Plan 41: Ren friend and social life](development/plan-41-ren-friend-character-and-social-life-study.md)
 develops the owner-selected friend idea through character/reference research,
-visual concepts and social interaction/consequence proposals. It is owner-closed as an investigation; production extraction and the exact social mechanism are separately scoped in draft Plans45/46.
+visual concepts and social interaction/consequence proposals. It is owner-closed as an investigation; Plan45 extraction is accepted and closed; exact social integration is separately scoped in ready Plan46.
 
 ## What belongs here
 
@@ -68,4 +68,4 @@ visual concepts and social interaction/consequence proposals. It is owner-closed
 - Generated outputs — that goes in `data/generated/` or equivalent.
 - Implementer progress reports — those go in `reports/development/<packet>/`.
 
-Plan50 remains report-only. Owner accepts visual/UI results for experimental use; two simple same-conversation Haiku SVG edits succeeded. Flash synthetic audio control did not validate transport/comprehension. Owner now authorizes one licensed music and two sound-effect probes with neutral copies and held-back audible reference traits, under root method review; no standing adoption or production integration follows. PriorClaude curator prompts and Terra starting handoff are under reports/orchestration/plan-50-*.md. Existing production acceptance and model review gates are unchanged.
+Plan50 remains report-only. Owner accepts visual/UI results for experimental use; two simple same-conversation Haiku SVG edits succeeded. Flash synthetic audio control did not validate transport/comprehension. The three licensed-audio probes completed: owner found music/applause descriptions reasonably good; short quack was misclassified. Sonnet five-image and paired review found an actionable clipping concern but also false claims/unsupported chronology. Plans46/49/43 explicitly authorize experimental task-scoped creative consultants, with Codex verification and owner gates; no universal standing gate or production adoption follows. PriorClaude curator prompts and Terra starting handoff are under reports/orchestration/plan-50-*.md. Existing production acceptance and model review gates are unchanged.

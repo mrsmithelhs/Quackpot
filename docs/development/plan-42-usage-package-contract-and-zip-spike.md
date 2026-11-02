@@ -1,7 +1,8 @@
 ---
 id: plan-42
 title: Usage package contract and ZIP round-trip spike
-status: delivered
+status: complete
+resolution: "Owner authorizes closure on technical sufficiency; final source/evidence audit finds repaired bounded accounting and worker lifecycle sound. Closes synthetic report-local ZIP contract/diagnostic only; production exporter/analyzer and broader archive claims remain separate."
 depends_on: [plan-07]
 gate: "Owner assigned Codex on2026-10-31. Exact dependency/mechanism clearance precedes executable artifact work; contract/spike acceptance precedes production exporter/analyzer integration."
 summary: >-

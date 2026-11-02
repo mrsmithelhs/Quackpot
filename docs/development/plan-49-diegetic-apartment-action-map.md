@@ -1,11 +1,9 @@
 ---
 id: plan-49
 title: Diegetic apartment action map and room-use study
-status: draft
+status: ready
 depends_on: [plan-47]
-gate: "Owner approves dispatch; compare experience choices with owner, then root reviews selected mapping and integration seams before any production writes."
-superseded_by: null
-resolution: null
+gate: "Owner requests Codex-led study2026-11-01 with Sonnet writing/ideation/larger-art consultation and Haiku small drawings. Compare with owner, then root reviews mapping/integration seams; this packet never authorizes production writes."
 summary: >-
   Map remaining non-navigation life controls to supported apartment objects and rooms, remove redundant non-actions, and select coherent sleep/continued-play and optional-life affordances before integration.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-49
 - Packet title: Diegetic apartment action map and room-use study
 - Status: (see frontmatter)
-- Owner/model: unassigned; prefer Claude/Sonnet for owner experience work
+- Owner/model: owner-selected Codex lead; contextual Sonnet experience/writing consultant, Haiku small drawing helper
 - Date: 2026-11-01
 - Packet type: investigation / prototype
 - Mutation level: report-local source and documentation only
@@ -30,6 +28,18 @@ Owner identifies repeated footer controls for life actions despite apartment sce
 ## Dependencies and authority
 
 Plan47 must close first to provide a stable transaction/phase and work/note baseline. Read AGENTS.md, docs/README.md, docs/repo-structure.md, current founding design life/saving/Receipt sections, decision log DECISION-060 through063, selected Plan28/37/40 and Plan47 root reviews. Read draft46 Ren/social and draft48 gigs contracts for extension points, not authorization to implement them. Follow docs/workflows/production-integration-review.md. Pin actual source revision and classify selected/context/placeholder/deferred surfaces. Owner may work directly with lead through a coherent study; root need not approve each composition edit.
+
+## Multi-model experience study, Codex-owned implementation
+
+Plan47 is now owner-accepted and closed. Codex inventories real actions, routes, art APIs, focus/availability behavior and safe preview seams, then builds the report-local comparisons. Owner authorizes direct existing signed-in Sonnet consultations as a secondary ideation/writing engine, using Plan50's experimental route; read its continuation-results.md and sonnet-visual-extension.md. Codex retains engineering and all test/debug iterations rather than consuming Claude usage for routine code work.
+
+Give one dedicated Sonnet conversation a compact but rich inventory: room/prop screenshots and supported views, action->intent/availability/consequence table, accepted time and navigation rules, owner complaints about floating forms/footer controls, static physical duck constraints and examples of accepted phone/fridge/keys treatments. Ask for two coherent apartment-wide arrangements, rather than separate uncoordinated clever objects per button. Request location/support, discoverability, interaction/commit/dismiss sequence, concise copy, inactive state, nonvisual alternative, asset gaps and conflicts for each action. Ask it to challenge mixed metaphors and redundant non-actions, and explain tradeoffs without inventing life rules. Sonnet's preferred arrangement is a proposal; owner chooses. Maintain that conversation through selected feedback and revisions so it can check coherence across rooms.
+
+Batch microcopy/storyboard writing after a representative arrangement is selected. Use Haiku for small report-local props or minor SVG modifications with tight briefs and actual same-session revision when useful; use Sonnet for larger art or composition advice. Prefer existing accepted assets and avoid a large new art program. Substantial new drawing retains its separate owner brief. Codex must render and visually inspect results at target scene scale/background, preserve originals, and verify that requested changes did not erase other requirements. A separate image critic uses cold context and cannot replace root's before/after inspection or owner experience acceptance.
+
+Keep creative helpers to owned staged inputs/outputs, returning text/SVG rather than modifying src or other reports. Retain exact prompts, requested/observed model identity, contextful versus cold condition, sanitized results and adopted/rejected recommendations. Private CLI/session paths/IDs and credentials never enter Git; normal provider persistence is not disabled by assertion. No nested paid agents or automatic provider/model/API/billing fallback. Reuse a conversation for one responsibility; trim/update a context pack when real scope changes instead of accumulating unrelated history. Codex chooses economical bounded batches with an initial scope/call estimate and reasons for further owner-driven turns. Default finite90s/2GiB sampled/1GiB heap, complete capture, process preflight, serialized rendering/heavy work; no automatic retries or silent budget expansion. Normal execution approval may enable the existing CLI's session persistence, not global/account changes. Root clears initial helper/preview method once; routine within-stage revisions proceed without per-command relay.
+
+Plan46 owns social mechanism/source changes while this study owns only its report folder. Read its agreed interface through root and label hypothetical Ren/gig conditions. No source imports of report prototypes, no copy of preview HUD/Receipt/controller into production. Parallel work must not turn proposed sleep/room arrangements into social rules or block46 for cosmetic choices. Delivery includes one compact selected/context/placeholder/deferred integration brief for a later production packet.
 
 ## Scope
 

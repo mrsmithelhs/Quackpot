@@ -1,11 +1,9 @@
 ---
 id: plan-46
 title: Ren invitation and social lifecycle integration
-status: draft
-depends_on: [plan-41, plan-38]
-gate: "Owner requests packet2026-10-31. Mechanism proposal and owner/root decisions before production mutation; accepted Plan45 art before final visual mounting. New social rules extend the existing life resolver, never a separate clock."
-superseded_by: null
-resolution: null
+status: ready
+depends_on: [plan-41, plan-38, plan-45, plan-47]
+gate: "Owner requests Codex-led multi-model execution2026-11-01. Codex owns engineering; Sonnet supplies batched writing/experience and larger-art support, Haiku small drawing support. Mechanism and owner/root decisions precede production mutation; preserve accepted Plan45/47 baseline and one life resolver."
 summary: >-
   Specify and integrate the owner-selected Ren invitation, commitment, recovery and sale-context lifecycle through the existing saved life model, with truthful evidence and separately accepted SVG components.
 ---
@@ -16,7 +14,7 @@ summary: >-
 - Packet id: plan-46
 - Packet title: Ren invitation and social lifecycle integration
 - Status: (see frontmatter)
-- Owner/model: unassigned; Codex mechanism/implementation candidate
+- Owner/model: owner-selected Codex lead; direct Sonnet writing/experience consultant and bounded Haiku drawing helper
 - Date: 2026-10-31
 - Packet type: investigation then gated feature integration
 - Mutation level: report-local proposal first; scoped production changes after approval
@@ -25,7 +23,19 @@ summary: >-
 
 ## Goal, rationale and dependencies
 
-Bring closed Plan41's selected friendship into accepted Plan38 progression without one-off controller rules. Invitation replies, planned visits, conflicts, expiry and recovery need one authoritative action/phase model with once-only effects. Depends on closed41/38; Plan29/37 supply closed calibration/policy evidence, not automatically reopened tasks. Mechanism work can run beside Plan45 extraction using an explicit provisional view interface. Final visual delivery requires accepted Plan45 components; temporary report scaffolds cannot become game-art substitutes.
+Bring closed Plan41's selected friendship into accepted Plan38/47 progression without one-off controller rules. Invitation replies, planned visits, conflicts, expiry and recovery need one authoritative action/phase model with once-only effects. Closed Plans41/38/45/47 provide the selected social direction, life baseline and unmounted accepted art. Plan29/37 supply closed calibration/policy evidence, not automatically reopened tasks. Preserve accepted hand/couch changes and unchanged wide floor scene. Temporary report scaffolds cannot become game-art substitutes.
+
+## Codex lead and contextual creative consultants
+
+Owner authorizes direct existing signed-in Claude CLI consultations for this packet, using Plan50's tested model/receipt/media/session patterns and their limitations. Read reports/development/plan-50-cross-harness-visual-and-audio-calibration/continuation-results.md and sonnet-visual-extension.md. This is task-specific experimental use, not universal reviewer/advisor capability or Bootstrap adoption. Codex owns source discovery, mechanism, integration code, tests, save/log compatibility and final claim verification. Do not spend Claude turns on routine code/test iteration that Codex can perform.
+
+Prepare one compact context pack from selected Plan41 decisions, accepted art, current life constraints, fictional voice and proposed first-wave interaction matrix. Give Sonnet enough context to write a coherent batch rather than repeatedly cold-starting tiny requests. Ask for reusable dialogue across introduction, invitation/reply, accepted/declined/rescheduled plans, arrival/visit, cancellation, unmet commitment, repair/reconnection and established couch-sale reconfirmation. Keep player agency and Ren's own life legible, with variable slots for facts supplied by the engine; no invented amounts, timers, hidden relationship labels or new consequences. Separate student copy from author annotations and candidate policy. Do not request every wardrobe/state combination or a huge catalog before a representative owner read-through. Sonnet may recommend missing beats; new selected rules remain owner decisions.
+
+Use a persistent dedicated Sonnet writing conversation for revisions and consistency checks after owner feedback, retaining its useful context. An independent quality critic gets a fresh conversation without prior verdicts. Prefer Haiku for small report-local props or localized SVG changes; Sonnet for larger drawing/composition work. Existing accepted art is the default: a consultant may identify an asset gap, not silently redraw selected work. Substantial new art requires its existing bounded owner-approved brief before authoring. Render and visually inspect initial/revised SVGs at actual use size; static safety/code checks alone are insufficient. Keep original model output, revisions and provenance; Codex integrates only reviewed assets. Helpers return text/SVG in owned report staging, not shared source edits or nested agent work.
+
+Calls use exact available requested Sonnet/Haiku identities, finite reviewed launchers and complete local receipts; no automatic model/API/billing fallback, installations, credentials or global-setting changes. If contextful resume needs ordinary session persistence, use normal execution approval and the same execution context/cwd; never claim a new session is a continuation or re-feed art while claiming independent memory. Raw private session IDs/paths stay local; committed derivatives are sanitized. Supply only public project context, never owner storage, learner exports or secrets. Reuse a consultant for a coherent responsibility, not an ever-growing cross-project conversation. Lead chooses economical small batches and records an initial call/scope estimate; further calls must serve a specific owner iteration or verification need, not forced agreement. Stop on auth/resource/capture/model failure; no automatic retries or escalation of budgets. Keep helpers serialized with heavy/browser work; defaults remain90s wall/2GiB sampled owned tree/1GiB Node heap unless separately cleared. Sonnet's suggestion or confidence is not owner approval.
+
+Plan49 runs report-only in parallel and may propose future room/object placement. Exchange compact public interface/selected-versus-proposed notes through root; it does not write this packet's source or select Ren rules. Resolve only load-bearing interface conflicts before integration, without making the whole Plan49 study a blocker. One focused root review of initial mechanism/helper plan clears the coherent approved stage; routine copy revisions and small fixes do not require a relay for each turn.
 
 ## Non-goals
 

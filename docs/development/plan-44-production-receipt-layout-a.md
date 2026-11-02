@@ -1,7 +1,8 @@
 ---
 id: plan-44
 title: Production Receipt Layout A and evidence disclosures
-status: delivered
+status: complete
+resolution: "Owner authorizes closure on technical sufficiency; repaired race/draw source disclosures and automatic-consumption classification verified against source and attributed test/browser/print evidence. Closes production Receipt Layout A slice; future social/export mappings and device/AT limits remain explicit."
 depends_on: [plan-27]
 gate: "Root drafts2026-10-31 from selected LayoutA and reviewed Plan27 proposal. Owner assignment and exact projection/ownership mechanism clearance required before production changes."
 summary: >-

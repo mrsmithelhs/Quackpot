@@ -1,0 +1,772 @@
+{
+  "records": [
+    {
+      "file": "mallet-A.wav",
+      "sha256": "66b1ff6347516195bc4da35637ccb3c12aebdd9446a048ea2402589fe7321eac",
+      "bytes": 1728044,
+      "name": "mallet",
+      "which": "custom",
+      "events": [
+        {
+          "p": 12,
+          "n": 60,
+          "t": 0.5,
+          "d": 0.5,
+          "v": 90
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 1.25,
+          "d": 0.5,
+          "v": 90
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 2,
+          "d": 0.8,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "accepted Plan 39 custom",
+        "events": 3,
+        "operators": 9,
+        "nodeCount": 25,
+        "offlineState": "closed"
+      },
+      "stats": {
+        "peak": 0.06218831613659859,
+        "rms": 0.0053979062127356165,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "mallet-B.wav",
+      "sha256": "b4e5434d73b85eef965195e12d892375bbe393179bf9987acaf67ac1f63167bf",
+      "bytes": 1728044,
+      "name": "mallet",
+      "which": "upstream",
+      "events": [
+        {
+          "p": 12,
+          "n": 60,
+          "t": 0.5,
+          "d": 0.5,
+          "v": 90
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 1.25,
+          "d": 0.5,
+          "v": 90
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 2,
+          "d": 0.8,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "upstream with modified offline initialization interface",
+        "programs": {
+          "12": 0,
+          "24": 1,
+          "32": 2
+        },
+        "table": [
+          {
+            "ch": 0,
+            "n": 64,
+            "t": 1.25,
+            "f": 1,
+            "end": 2.45
+          },
+          {
+            "ch": 0,
+            "n": 60,
+            "t": 0.5,
+            "f": 1,
+            "end": 1.7000000000000002
+          },
+          {
+            "ch": 0,
+            "n": 60,
+            "t": 0,
+            "f": 1,
+            "end": 0.35000000000000003
+          },
+          {
+            "ch": 0,
+            "n": 67,
+            "t": 2,
+            "f": 1,
+            "end": 3.5
+          }
+        ],
+        "operators": 6,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "errors": []
+      },
+      "stats": {
+        "peak": 0.15059302747249603,
+        "rms": 0.020079049916725652,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "bass-A.wav",
+      "sha256": "46c4479a682e3eac306a9096adf8c0af9bee1da090e8a0ed2c46dc5644f3bfca",
+      "bytes": 1728044,
+      "name": "bass",
+      "which": "custom",
+      "events": [
+        {
+          "p": 32,
+          "n": 36,
+          "t": 0.5,
+          "d": 0.65,
+          "v": 90
+        },
+        {
+          "p": 32,
+          "n": 43,
+          "t": 1.5,
+          "d": 0.65,
+          "v": 90
+        },
+        {
+          "p": 32,
+          "n": 40,
+          "t": 2.5,
+          "d": 0.8,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "accepted Plan 39 custom",
+        "events": 3,
+        "operators": 9,
+        "nodeCount": 25,
+        "offlineState": "closed"
+      },
+      "stats": {
+        "peak": 0.09971741586923599,
+        "rms": 0.015503862915347095,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "bass-B.wav",
+      "sha256": "0248dd41e89162ef266e241894cae981cc8dd11c0ecd2f4490cf067e341acf91",
+      "bytes": 1728044,
+      "name": "bass",
+      "which": "upstream",
+      "events": [
+        {
+          "p": 32,
+          "n": 36,
+          "t": 0.5,
+          "d": 0.65,
+          "v": 90
+        },
+        {
+          "p": 32,
+          "n": 43,
+          "t": 1.5,
+          "d": 0.65,
+          "v": 90
+        },
+        {
+          "p": 32,
+          "n": 40,
+          "t": 2.5,
+          "d": 0.8,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "upstream with modified offline initialization interface",
+        "programs": {
+          "12": 0,
+          "24": 1,
+          "32": 2
+        },
+        "table": [
+          {
+            "ch": 2,
+            "n": 43,
+            "t": 1.5,
+            "f": 1,
+            "end": 2.3249999999999997
+          },
+          {
+            "ch": 2,
+            "n": 36,
+            "t": 0.5,
+            "f": 1,
+            "end": 1.325
+          },
+          {
+            "ch": 0,
+            "n": 60,
+            "t": 0,
+            "f": 1,
+            "end": 0.35000000000000003
+          },
+          {
+            "ch": 2,
+            "n": 40,
+            "t": 2.5,
+            "f": 1,
+            "end": 3.4749999999999996
+          }
+        ],
+        "operators": 6,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "errors": []
+      },
+      "stats": {
+        "peak": 0.23604469001293182,
+        "rms": 0.039299926741079454,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "guitar-A.wav",
+      "sha256": "f3cd68ff296c4da699ff6199d60d1720abb1307965cca48b454c5c3022685bbd",
+      "bytes": 1728044,
+      "name": "guitar",
+      "which": "custom",
+      "events": [
+        {
+          "p": 24,
+          "n": 60,
+          "t": 0.5,
+          "d": 0.6,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 55,
+          "t": 1.5,
+          "d": 1,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 1.56,
+          "d": 0.94,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 64,
+          "t": 1.62,
+          "d": 0.88,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 67,
+          "t": 1.68,
+          "d": 0.82,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "accepted Plan 39 custom",
+        "events": 5,
+        "operators": 10,
+        "nodeCount": 29,
+        "offlineState": "closed"
+      },
+      "stats": {
+        "peak": 0.07863780856132507,
+        "rms": 0.0060192957990522645,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "guitar-B.wav",
+      "sha256": "82fbf2dd81410dd18fbee9569035137e6626da3dbed5f66681511074ef26f4ff",
+      "bytes": 1728044,
+      "name": "guitar",
+      "which": "upstream",
+      "events": [
+        {
+          "p": 24,
+          "n": 60,
+          "t": 0.5,
+          "d": 0.6,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 55,
+          "t": 1.5,
+          "d": 1,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 1.56,
+          "d": 0.94,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 64,
+          "t": 1.62,
+          "d": 0.88,
+          "v": 90
+        },
+        {
+          "p": 24,
+          "n": 67,
+          "t": 1.68,
+          "d": 0.82,
+          "v": 90
+        }
+      ],
+      "info": {
+        "engine": "upstream with modified offline initialization interface",
+        "programs": {
+          "12": 0,
+          "24": 1,
+          "32": 2
+        },
+        "table": [
+          {
+            "ch": 1,
+            "n": 64,
+            "t": 1.62,
+            "f": 1,
+            "end": 2.675
+          },
+          {
+            "ch": 1,
+            "n": 60,
+            "t": 1.56,
+            "f": 1,
+            "end": 2.675
+          },
+          {
+            "ch": 1,
+            "n": 55,
+            "t": 1.5,
+            "f": 1,
+            "end": 2.675
+          },
+          {
+            "ch": 1,
+            "n": 60,
+            "t": 0.5,
+            "f": 1,
+            "end": 1.2750000000000001
+          },
+          {
+            "ch": 0,
+            "n": 60,
+            "t": 0,
+            "f": 1,
+            "end": 0.35000000000000003
+          },
+          {
+            "ch": 1,
+            "n": 67,
+            "t": 1.68,
+            "f": 1,
+            "end": 2.675
+          }
+        ],
+        "operators": 10,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "errors": []
+      },
+      "stats": {
+        "peak": 0.4103594422340393,
+        "rms": 0.03732358294888027,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "ensemble-A.wav",
+      "sha256": "be1390b687193041b291906f85a8b73f49006369fb0c1cd91fbd209b5705cacc",
+      "bytes": 3840044,
+      "name": "ensemble",
+      "which": "custom",
+      "events": [
+        {
+          "p": 32,
+          "n": 36,
+          "t": 0.5,
+          "d": 1,
+          "v": 80
+        },
+        {
+          "p": 24,
+          "n": 55,
+          "t": 0.55,
+          "d": 1.2,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 0.61,
+          "d": 1.14,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 64,
+          "t": 0.67,
+          "d": 1.08,
+          "v": 78
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 2,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 3.2,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 32,
+          "n": 41,
+          "t": 5,
+          "d": 1,
+          "v": 80
+        },
+        {
+          "p": 24,
+          "n": 57,
+          "t": 5.05,
+          "d": 1.2,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 5.11,
+          "d": 1.14,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 65,
+          "t": 5.17,
+          "d": 1.08,
+          "v": 78
+        },
+        {
+          "p": 12,
+          "n": 69,
+          "t": 7,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 8.2,
+          "d": 1,
+          "v": 85
+        },
+        {
+          "p": 32,
+          "n": 36,
+          "t": 10,
+          "d": 1.5,
+          "v": 80
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 11.5,
+          "d": 1,
+          "v": 85
+        }
+      ],
+      "info": {
+        "engine": "accepted Plan 39 custom",
+        "events": 14,
+        "operators": 36,
+        "nodeCount": 90,
+        "offlineState": "closed"
+      },
+      "stats": {
+        "peak": 0.11295060068368912,
+        "rms": 0.011781489047607452,
+        "lastSecondPeak": 0
+      }
+    },
+    {
+      "file": "ensemble-B.wav",
+      "sha256": "5f4f5a34b640571c6421cfa001fb638ef6ff68af7e52c363d8ece49045a3aeaf",
+      "bytes": 3840044,
+      "name": "ensemble",
+      "which": "upstream",
+      "events": [
+        {
+          "p": 32,
+          "n": 36,
+          "t": 0.5,
+          "d": 1,
+          "v": 80
+        },
+        {
+          "p": 24,
+          "n": 55,
+          "t": 0.55,
+          "d": 1.2,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 0.61,
+          "d": 1.14,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 64,
+          "t": 0.67,
+          "d": 1.08,
+          "v": 78
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 2,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 3.2,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 32,
+          "n": 41,
+          "t": 5,
+          "d": 1,
+          "v": 80
+        },
+        {
+          "p": 24,
+          "n": 57,
+          "t": 5.05,
+          "d": 1.2,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 60,
+          "t": 5.11,
+          "d": 1.14,
+          "v": 78
+        },
+        {
+          "p": 24,
+          "n": 65,
+          "t": 5.17,
+          "d": 1.08,
+          "v": 78
+        },
+        {
+          "p": 12,
+          "n": 69,
+          "t": 7,
+          "d": 0.8,
+          "v": 85
+        },
+        {
+          "p": 12,
+          "n": 67,
+          "t": 8.2,
+          "d": 1,
+          "v": 85
+        },
+        {
+          "p": 32,
+          "n": 36,
+          "t": 10,
+          "d": 1.5,
+          "v": 80
+        },
+        {
+          "p": 12,
+          "n": 64,
+          "t": 11.5,
+          "d": 1,
+          "v": 85
+        }
+      ],
+      "info": {
+        "engine": "upstream with modified offline initialization interface",
+        "programs": {
+          "12": 0,
+          "24": 1,
+          "32": 2
+        },
+        "table": [
+          {
+            "ch": 2,
+            "n": 36,
+            "t": 10,
+            "f": 1,
+            "end": 11.675
+          },
+          {
+            "ch": 0,
+            "n": 67,
+            "t": 8.2,
+            "f": 1,
+            "end": 9.899999999999999
+          },
+          {
+            "ch": 0,
+            "n": 69,
+            "t": 7,
+            "f": 1,
+            "end": 8.5
+          },
+          {
+            "ch": 1,
+            "n": 65,
+            "t": 5.17,
+            "f": 1,
+            "end": 6.425
+          },
+          {
+            "ch": 1,
+            "n": 60,
+            "t": 5.11,
+            "f": 1,
+            "end": 6.425
+          },
+          {
+            "ch": 1,
+            "n": 57,
+            "t": 5.05,
+            "f": 1,
+            "end": 6.425
+          },
+          {
+            "ch": 2,
+            "n": 41,
+            "t": 5,
+            "f": 1,
+            "end": 6.175
+          },
+          {
+            "ch": 0,
+            "n": 64,
+            "t": 3.2,
+            "f": 1,
+            "end": 4.7
+          },
+          {
+            "ch": 0,
+            "n": 67,
+            "t": 2,
+            "f": 1,
+            "end": 3.5
+          },
+          {
+            "ch": 1,
+            "n": 64,
+            "t": 0.67,
+            "f": 1,
+            "end": 1.925
+          },
+          {
+            "ch": 1,
+            "n": 60,
+            "t": 0.61,
+            "f": 1,
+            "end": 1.925
+          },
+          {
+            "ch": 1,
+            "n": 55,
+            "t": 0.55,
+            "f": 1,
+            "end": 1.925
+          },
+          {
+            "ch": 2,
+            "n": 36,
+            "t": 0.5,
+            "f": 1,
+            "end": 1.675
+          },
+          {
+            "ch": 0,
+            "n": 60,
+            "t": 0,
+            "f": 1,
+            "end": 0.35000000000000003
+          },
+          {
+            "ch": 0,
+            "n": 64,
+            "t": 11.5,
+            "f": 1,
+            "end": 13.2
+          }
+        ],
+        "operators": 28,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "errors": []
+      },
+      "stats": {
+        "peak": 0.34123921394348145,
+        "rms": 0.03288124908721469,
+        "lastSecondPeak": 0
+      }
+    }
+  ],
+  "total": 18048352,
+  "requests": [
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/comparison.html",
+    "http://localhost:5173/Quackpot/@vite/client",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/scores.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/patches.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/synth-engine.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/comparison.js",
+    "http://localhost:5173/Quackpot/node_modules/vite/dist/client/env.mjs",
+    "http://localhost:5173/favicon.ico",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js"
+  ]
+}

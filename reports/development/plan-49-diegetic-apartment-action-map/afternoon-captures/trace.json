@@ -1,0 +1,146 @@
+{
+  "description": "Synthetic report-local fixtures, isolated browser, reduced motion; not a production journey.",
+  "trace": [
+    {
+      "name": "room-spec-restoration",
+      "afterSuccess": true,
+      "threw": true,
+      "afterFailure": true
+    },
+    {
+      "name": "desktop-bedroom",
+      "focus": "\n  Apartment action studyIllustrative states · no saved game\n  \n    Choose a study scene\n      Evening · dinner resolved\n      Evening · activity already chosen\n      Late Night\n      Recovery · illustrative morning\n      Future social offer · illustrative only\n      Afternoon · shift not worked (proposal)\n      Afternoon · unemployed (proposal)\n      Afternoon · phone activity used (proposal)\n    These are independent examples, not a simulated run.\n    \n      QUACKPOTEvening · dinner resolvedSave · Settings · Uninstall (context only)\n      .apt-p49-bedroom{width:100%;height:100%;display:block;overflow:visible}.apt-p49-bedroom .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-p49-bedroom .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-p49-bedroom .cast{opacity:.3}.apt-p49-bedroom .cast-keep{opacity:.3}.apt-p49-bedroom .cast-lamp{display:none}.apt-p49-bedroom .lamp-on{opacity:1}.apt-p49-bedroom .lamp-pool{mix-blend-mode:screen}.apt-p49-bedroom .cast-amb{display:none}.apt-p49-bedroom .cast-lamp{display:inline;opacity:.42}.apt-p49-bedroom.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-p49-bedroom.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  ABCTurn in for the night\n      BedroomDeskKitchenLiving room\n      \n    \n    Study only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.\n  \n  \n\n\n",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 1351,
+      "clientWidth": 1351
+    },
+    {
+      "name": "before-enter",
+      "target": true,
+      "window": true,
+      "tag": "BUTTON"
+    },
+    {
+      "name": "desktop-bed-decision",
+      "focus": "Turn in",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\nTurn in for the night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nTurn in\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 1351,
+      "clientWidth": 1351
+    },
+    {
+      "name": "escape-return",
+      "hidden": true,
+      "returnedToBed": true
+    },
+    {
+      "name": "narrow-bedroom",
+      "focus": "Turn in for the night",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-recovery",
+      "focus": "Rest",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nMorning · recovery pending\nSave · Settings · Uninstall (context only)\nA\nB\nC\nRecover in bed\nBedroom\nDesk\nKitchen\nLiving room\nRecover in bed\n\nRecovery is a separate action that uses the current phase. The actual amount and any pending obligations come from the game.\n\nRest\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-used-phone",
+      "focus": "Try a pull example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · activity chosen\nSave · Settings · Uninstall (context only)\n9:41\nQUACKPOT\nWelcome\nFestival\n10 FREE pulls\nwaiting!\nLimited-time invitation\nPhone\nBedroom\nDesk\nKitchen\nLiving room\nPhone · illustrative example\n\nBrowsing is free. Choose the example pull to see the existing further-play warning.\n\nThe actual Quackpot app is not reproduced in this study.\n\nTry a pull example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-late",
+      "focus": "Finish Late Night",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nLate Night\nSave · Settings · Uninstall (context only)\nA\nB\nC\nFinish Late Night\nBedroom\nDesk\nKitchen\nLiving room\nFinish Late Night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nFinish Late Night\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-future",
+      "focus": "Turn in",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · hypothetical social offer\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\nTurn in for the night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nA future social commitment could require a specific notice. Its interface is still being designed.\n\nTurn in\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-phone-example",
+      "focus": "Try a pull example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · activity chosen\nSave · Settings · Uninstall (context only)\n9:41\nQUACKPOT\nWelcome\nFestival\n10 FREE pulls\nwaiting!\nLimited-time invitation\nPhone\nBedroom\nDesk\nKitchen\nLiving room\nPhone · illustrative example\n\nBrowsing is free. Choose the example pull to see the existing further-play warning.\n\nThe actual Quackpot app is not reproduced in this study.\n\nTry a pull example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-pull-warning",
+      "focus": "Confirm example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · activity chosen\nSave · Settings · Uninstall (context only)\n9:41\nQUACKPOT\nWelcome\nFestival\n10 FREE pulls\nwaiting!\nLimited-time invitation\nPhone\nBedroom\nDesk\nKitchen\nLiving room\nStart this pull?\n\nCompleting this pull uses Late Night and can cause up to 10 HP fatigue tomorrow.\n\nConfirm example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "phone-example-escape-return",
+      "phoneFocused": true,
+      "phoneReturn": true,
+      "noStandaloneStay": true
+    },
+    {
+      "name": "narrow-afternoon-plate",
+      "focus": "Dinner · proposed evening route",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · shift not worked\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-afternoon-confirm",
+      "focus": "Confirm example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · shift not worked\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\nBuy dinner and continue?\n\nThis example assumes your scheduled shift has not been worked. Continuing would record a missed shift; repeated misses can affect employment.\n\nIllustrative current cost: $6. A failed purchase must leave time and money unchanged.\n\nProposed flow: a successful dinner choice could move the afternoon to evening. This is not current production behavior.\n\nConfirm example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "afternoon-escape-return",
+      "returned": true
+    },
+    {
+      "name": "narrow-afternoon-unemployed-plate",
+      "focus": "Dinner · proposed evening route",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · unemployed\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-afternoon-unemployed-confirm",
+      "focus": "Confirm example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · unemployed\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\nBuy dinner and continue?\n\nThis example assumes no scheduled job and does not record a missed shift.\n\nIllustrative current cost: $6. A failed purchase must leave time and money unchanged.\n\nProposed flow: a successful dinner choice could move the afternoon to evening. This is not current production behavior.\n\nConfirm example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "afternoon-unemployed-escape-return",
+      "returned": true
+    },
+    {
+      "name": "narrow-afternoon-used-plate",
+      "focus": "Dinner · proposed evening route",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · phone activity used\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-afternoon-used-confirm",
+      "focus": "Confirm example",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nAfternoon · shift not worked (proposal)\nAfternoon · unemployed (proposal)\nAfternoon · phone activity used (proposal)\nThese are independent examples, not a simulated run.\nQUACKPOT\nAfternoon · phone activity used\nSave · Settings · Uninstall (context only)\nKitchen notice\nDinner · proposed evening route\nBedroom\nDesk\nKitchen\nLiving room\nBuy dinner and continue?\n\nThis example assumes your scheduled shift has not been worked. Continuing would record a missed shift; repeated misses can affect employment.\n\nIllustrative current cost: $6. A failed purchase must leave time and money unchanged.\n\nProposed flow: a successful dinner choice could move the afternoon to evening. This is not current production behavior.\n\nConfirm example\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "afternoon-used-escape-return",
+      "returned": true
+    }
+  ],
+  "runtimeExceptions": []
+}

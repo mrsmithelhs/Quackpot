@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { launchIsolatedChrome, closeIsolatedChrome } from '../../../scripts/dev/checkpoints/cdp.mjs';
 
-const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/afternoon-captures');
+const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/competing-action-captures');
 await mkdir(output, { recursive: true });
 let browser, failureSnapshot; const events = []; const trace = [];
 try {
@@ -56,17 +56,20 @@ try {
   const noStandaloneStay = await evalJs(`![...document.querySelectorAll('button')].some(b=>b.textContent.includes('Stay up'))`);
   trace.push({ name:'phone-example-escape-return', phoneFocused, phoneReturn, noStandaloneStay });
   if (!phoneReturn || !noStandaloneStay) throw Error('Phone focus return or selected control treatment failed');
-  for (const scenario of ['afternoon','afternoon-unemployed','afternoon-used']) {
-    await evalJs(`document.querySelector('#scenario').value=${JSON.stringify(scenario)}; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('[aria-label="Dinner · proposed evening route"]').focus();`);
-    await snap(`narrow-${scenario}-plate`);
+  for (const scenario of ['afternoon','afternoon-unemployed','afternoon-used','evening-dinner']) {
+    await evalJs(`document.querySelector('#scenario').value=${JSON.stringify(scenario)}; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('[aria-label="Phone"]').focus();`);
+    await snap(`narrow-${scenario}-phone`);
     await send('Input.dispatchKeyEvent', { type:'keyDown', key:'Enter', code:'Enter', text:'\r', unmodifiedText:'\r', windowsVirtualKeyCode:13 }); await send('Input.dispatchKeyEvent', { type:'keyUp', key:'Enter', code:'Enter', windowsVirtualKeyCode:13 });
     await wait('!document.querySelector("#decision").hidden');
-    await evalJs(`[...document.querySelectorAll('#decision button')].find(b=>b.textContent==='Buy dinner example').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`);
+    await evalJs(`[...document.querySelectorAll('#decision button')].find(b=>b.textContent==='Try a pull example').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`);
     await snap(`narrow-${scenario}-confirm`);
     await send('Input.dispatchKeyEvent', { type:'keyDown', key:'Escape', code:'Escape', windowsVirtualKeyCode:27 }); await send('Input.dispatchKeyEvent', { type:'keyUp', key:'Escape', code:'Escape', windowsVirtualKeyCode:27 });
-    const returned = await evalJs(`document.querySelector('#decision').hidden && document.activeElement?.getAttribute('aria-label')==='Dinner · proposed evening route'`);
-    trace.push({name:`${scenario}-escape-return`, returned}); if (!returned) throw Error('Dinner example focus did not return');
+    const returned = await evalJs(`document.querySelector('#decision').hidden && document.activeElement?.getAttribute('aria-label')==='Phone'`);
+    trace.push({name:`${scenario}-escape-return`, returned}); if (!returned) throw Error('Phone example focus did not return');
   }
+  await evalJs(`document.querySelector('#scenario').value='tutorial'; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('[aria-label="Phone"]').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`);
+  const tutorialNoNewRoute = await evalJs(`!Array.from(document.querySelectorAll('#decision button')).some(b=>b.textContent==='Try a pull example') && document.querySelector('#decision').innerText.includes('begins on Day 2')`);
+  trace.push({name:'day1-excludes-new-dinner-example', tutorialNoNewRoute}); if (!tutorialNoNewRoute) throw Error('Day 1 fixture exposed new dinner-skip example'); await snap('narrow-day1-tutorial');
   if (events.length) throw Error(`Runtime exceptions: ${events.join('; ')}`);
   await writeFile(path.join(output, 'trace.json'), JSON.stringify({ description: 'Synthetic report-local fixtures, isolated browser, reduced motion; not a production journey.', trace, runtimeExceptions: events }, null, 2));
 } catch (error) {

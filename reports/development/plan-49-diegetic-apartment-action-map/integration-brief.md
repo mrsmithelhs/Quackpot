@@ -1,0 +1,23 @@
+# Plan 49 integration brief — working draft
+
+This is a report-local review aid, **not** authority to write production code. It records selections and unresolved implementation questions as of 2026-11-01. Source baseline for the original inventory is `9d6093a4f61c2a4ccf1b3b6c82c6d727ab8c6c86`; Plan46 is developing shared source in parallel, so its eventual accepted revision and public interface must be pinned afresh through root before a follow-on integration.
+
+## Selected, preserved, placeholder, deferred
+
+| Category | Boundary |
+| --- | --- |
+| Selected study direction | Ordinary Evening bedroom access; bed directly offers **Turn in / Not now**, with separately guarded recovery at the bed. In the study, the existing shelf and its contents are shifted left to reveal the bed. An actual activity such as Quackpot play causes staying up; no standalone Stay up non-action. Quackpot is the core competing activity for scheduled work. From Day 2, an available time-advancing activity can result in missing dinner, with a warning before commitment, no meal charge and up to 5 HP lost. |
+| Preserved context | Static physical duck, accepted keys, fridge note and cadence, work completion/wages, meal choices, rent deadlines, recovery, intentional sales, direct phone/app entry, free navigation/browsing/reading, existing play costs and odds, factual event evidence, immediate Uninstall and global operational controls. Existing actions/guards remain production truth until a separately reviewed change. |
+| Placeholders | Report preview HUD, study scene picker, no-op phone and confirmation panels, and report-local shelf rendering. Its synchronous temporary shared-spec substitution is **not** a production pattern; use a pure composition option or immutable variant in a later proposal. |
+| Deferred / open | Exact route for every unemployed/no-cash/used-anchor/obligation state; 0-HP ordering when a missed dinner accompanies play; non-gacha future late activities; old-save/version dispatch; final Finish run placement; accepted Plan46 interface; real production before/after, compatibility and transaction validation. The owner has not authorized implementing these with this packet. |
+
+## Proposed seams and checks for later root review
+
+- `src/ui/life/life-routing.mjs`: allow the chosen bedroom route when appropriate, preserving recovery and obligations; current art presence is not a normal Evening route.
+- `src/assets/apartment/rooms/specs.mjs` and its renderer: propose a pure supported room-composition seam or immutable variant for the chosen shelf position, preserving accepted existing art, duck support and unchanged rooms. Do not import report code or mutate shared specs at runtime.
+- `src/ui/life/life-view.js` / `src/main.js`: replace selected phase controls with bed interaction and activity-led flow while retaining direct phone entry, focus/cancel, guidance and operational exits. Do not copy the study HUD, dummy phone or controller.
+- `src/core/life-progression.mjs`, `game-engine.mjs`, validation/storage and `receipt.mjs`: propose versioned old/new semantics and a single authoritative transaction around the actual committed activity. The source's existing private next-play staging is relevant context, not permission to modify it here. Pin any Plan46 social conflict/pending commitment interface and serialize all shared semantic writes through root.
+
+For a candidate competing action, review at least: Day1 guided behavior versus newly selected Day2+ behavior; dinner already resolved versus pending; affordable/available action versus unavailable/failed action; cancel before confirmation; missed work already recorded versus not; a committed Ren plan requiring its own explicit conflict choice; rent due/recovery; and the 0-HP case. A successful actual action, phase change, one skipped-meal effect and factual evidence need an agreed all-or-nothing boundary. No event or effect may be fabricated for browsing, a canceled confirmation, or a failed transaction. Preserve historical standalone Late Night events and pending saves; do not rewrite or reinterpret prior outcomes. The explicit old ability to enter Late Night without choosing an action is intentionally absent from the new selected direction, not silently claimed equivalent.
+
+The actual integrated review needs root-viewed before/after and neighboring production states, desktop/narrow and static/keyboard paths where affected, plus targeted real behavior/reload/Receipt checks. Report screenshots, no-op controls and component fixtures are not proof of those outcomes. Owner experience acceptance and production authorization remain separate.

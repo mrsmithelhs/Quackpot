@@ -3,7 +3,7 @@ id: plan-50
 title: Cross-harness visual and audio helper calibration
 status: in-progress
 depends_on: []
-gate: "Owner assigns Terra2026-11-01. Historical visual/UI pilot authorized; root reviews initial cases and leakage/scoring design before paid reviewer batch. Audio and broader adoption require a separate owner gate after visual results."
+gate: "Owner accepts visual/UI pilot as experimental evidence 2026-11-01 and opens controlled Flash musical-comprehension stage plus two bounded Haiku SVG draw/revise trials. Root reviews media/control and same-session method before calls; owner reviews results before further expansion or standing adoption."
 summary: >-
   Calibrate direct Haiku and Gemini Flash helpers on frozen historical artwork and UI, measuring actionable findings and false alarms against held-back owner feedback; audio is a separately gated later stage.
 ---
@@ -57,9 +57,15 @@ Score findings as directly useful, useful hint, valid additional finding, prefer
 
 Prepare one optional prospective candidate from incomplete work only if current artifact can be frozen before new owner judgment; separate from retrospective results. No repairs, status changes or pressure on owner acceptance arise from model agreement. Root confirms source-bound evidence and useful dispositions, owner judges whether feedback would help. Retain compact raw outputs/manifests; avoid huge duplicated logs/images. No learner/private data in committed reports.
 
-## Owner gate before audio
+## Original owner gate before audio (satisfied for controlled testing; see continuation)
 
-Stop after visual/UI report and recommendation. Audio/musical comprehension, sound-effect fit, MIDI/audio comparisons, API fallback or actual audio upload are NOT authorized until owner reviews these results and opens the separate stage. Proposed later tests: verify native waveform delivery; audio-only canonical C/M1–M6 vs known transposition/timbre/wrong-note/unrelated controls; score-informed comparison separately; short licensed Plan18 effects; generated tracks exploratory not ground truth. No model claim of melody fidelity, genre/coherence or human suitability is accepted without calibration and owner listening. No final soundtrack selection/production integration.
+The original visual stage stopped for owner review before audio. The owner has now opened controlled musical-comprehension testing as recorded below. Sound-effect fit, generated-track assessment and API fallback remain proposed later conditions requiring their applicable gates. Proposed tests include native waveform delivery; audio-only canonical C/M1–M6 vs known transposition/timbre/wrong-note/unrelated controls; score-informed comparison separately; short licensed Plan18 effects; generated tracks exploratory not ground truth. No model claim of melody fidelity, genre/coherence or human suitability is accepted without calibration and owner listening. No final soundtrack selection/production integration.
+
+## Owner-authorized continuation (2026-11-01)
+
+The owner accepted the visual/UI findings as evidence for experimental supplementary use and opened controlled Flash musical-comprehension testing. The preceding owner gate is historical and satisfied for that stage; it does not authorize production audio, soundtrack selection or standing adoption. First establish actual audio delivery using objective synthetic controls and held-back answers, separating audio-only recognition from score-informed inference. Root reviews the compact transport/control proposal before calls. Generated-track and licensed-effect judgments remain later proposed conditions, not demonstrated capabilities.
+
+The owner also requests two bounded report-local Haiku SVG authoring trials. Each starts with a small drawing brief; after inspecting the first version, the Terra lead selects one concrete revision and sends it to the same conversation/session. Preserve initial and revised SVGs, rendered evidence, briefs, responses and continuity receipts. Judge initial brief compliance, requested change, preservation of prior requirements and verification effort. These are authoring/continuity experiments, not more cold visual critiques. Use separate conversations for the two tasks, with continuity within each task. No production assets or accepted drawings are replaced. Root reviews method before inference; ordinary subject choices belong to the lead. Keep provider processing/persistence and session-reuse limitations explicit. Audio and authoring results return for root/owner review; no additional waves or standing adoption automatically follow.
 
 ## Resource, validation and stop conditions
 

@@ -1,6 +1,6 @@
 # Plan 49 integration brief — working draft
 
-This is a report-local review aid, **not** authority to write production code. It records selections and unresolved implementation questions as of 2026-11-01. Source baseline for the original inventory is `9d6093a4f61c2a4ccf1b3b6c82c6d727ab8c6c86`. Plan46 reports implementation/evidence `a421c99` delivered for owner experience review; the owner has not accepted that experience. Its current **Messages: Ren** desk footer is explicitly temporary, and its existing dinner/standalone Late Night behavior remains the Plan47 baseline. Root must pin the eventual accepted source and public social interface afresh before a follow-on integration.
+This is a report-local review aid, **not** authority to write production code. It records selections and unresolved implementation questions as of 2026-11-01. Source baseline for the original inventory is `9d6093a4f61c2a4ccf1b3b6c82c6d727ab8c6c86`. Plan46 previously delivered implementation/evidence `a421c99` for owner experience review; root subsequently relayed the owner's rejection of the temporary Ren messaging introduction and a reopened door/knock direction. That delivery is not owner-accepted and its temporary desk footer is not the selected endpoint. Its existing dinner/standalone Late Night behavior remains the Plan47 baseline. Root must pin the eventual accepted source and public social interface afresh before a follow-on integration.
 
 ## Selected, preserved, placeholder, deferred
 

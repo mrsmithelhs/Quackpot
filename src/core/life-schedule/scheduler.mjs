@@ -11,7 +11,7 @@ export function createSchedule(policy = BASELINE, calendar = {}) {
   if (policy.recoveryConsumesSlot === true && Math.min(policy.recoveryHealth, policy.maxHealth) <= policy.mealSkipHealth) throw new TypeError('recovery_meal_cycle: recovery cannot escape zero after a missed meal');
   if (Object.hasOwn(calendar,'1') && calendar['1'] !== true) throw new TypeError('tutorial_shift_calendar_required');
   const workCalendar = {'1':true,...copy(calendar)};
-  return { schema: 1, policyId: policy.id, config: copy(policy), day: 1, slot: 'morning', revision: 0, nextActivityId: 1, active: null, completedOperationIds: {}, obligations: {}, rent: policy.id === 'five-slot-v1' ? null : { id:'rent-1', status:'pending' }, employment:{employed:true,missedShifts:0}, futurePlans: {}, fatigue: null, recovery: null, workCalendar };
+  return { schema: 1, policyId: policy.id, config: copy(policy), day: 1, slot: 'morning', revision: 0, nextActivityId: 1, active: null, completedOperationIds: {}, obligations: {}, rent: policy.id === 'five-slot-v1' ? null : { id:'rent-1', status:'pending' }, employment:{employed:true,missedShifts:0}, futurePlans: {}, overtimeReservation: null, fatigue: null, recovery: null, workCalendar };
 }
 export function inspect(state, balances, intent, context = {}) {
   if (!state || !state.config || !balances || !Number.isFinite(balances.cash) || balances.cash < 0 || !Number.isFinite(balances.health) || balances.health < 0 || balances.health > state.config.maxHealth || !intent || typeof intent.operationId !== 'string' || !intent.operationId || ['__proto__','constructor','prototype'].includes(intent.operationId)) return fail('invalid_input');
@@ -23,7 +23,12 @@ export function inspect(state, balances, intent, context = {}) {
   if (rentDue && intent.type !== 'rent' && intent.type !== 'recover') return fail('rent_decision_pending');
   const promisedWork = s.rent?.reservedWork?.status === 'reserved' && s.rent.reservedWork.day === s.day && SLOTS.indexOf(s.slot) <= SLOTS.indexOf('evening');
   if (s.rent?.status === 'escalation-pending' && !['rent','recover','reserve-rent-overtime'].includes(intent.type) && !promisedWork && !(s.active && ['progress','complete','abandon'].includes(intent.type))) return fail('rent_escalation_unresolved');
-  if (intent.type === 'reserve-rent-overtime') {
+  if (intent.type === 'reserve-overtime') {
+    if (!production || !s.employment.employed || typeof intent.reservationId !== 'string' || !intent.reservationId || !Number.isSafeInteger(intent.day) || intent.day < s.day || (intent.day === s.day && (SLOTS.indexOf(s.slot) > SLOTS.indexOf('evening') || (s.slot === 'evening' && s.active))) || s.overtimeReservation?.status === 'reserved' || !context.rentObligation || context.rentObligation.id !== intent.rentId || context.rentObligation.status !== 'due') return fail('overtime_reservation_unavailable');
+    const plan=Object.values(s.futurePlans).find(x=>x.day===intent.day && x.slot==='evening' && x.status==='reserved');
+    if(plan) conflicts.push(plan.id);
+    disclosures.push('rent-overtime-terms'); if(conflicts.length) disclosures.push('social-conflict');
+  } else if (intent.type === 'reserve-rent-overtime') {
     if (s.rent?.status !== 'escalation-pending' || !p.overtimeStudy || !s.employment.employed || s.rent.reservedWork || (s.slot === 'evening' && s.active) || SLOTS.indexOf(s.slot) > SLOTS.indexOf('evening')) return fail('rent_overtime_unavailable');
     const plan=Object.values(s.futurePlans).find(x=>x.day===s.day && x.slot==='evening' && x.status==='reserved'); if (plan) conflicts.push(plan.id);
     disclosures.push('rent-overtime-terms'); if (conflicts.length) disclosures.push('social-conflict');
@@ -34,7 +39,7 @@ export function inspect(state, balances, intent, context = {}) {
     if (intent.choice === 'hold' && balances.cash < p.rentAmount) return fail('hold_unavailable');
     disclosures.push('rent-terms');
   } else if (intent.type === 'reserve') {
-    if (typeof intent.planId !== 'string' || !intent.planId || ['__proto__','constructor','prototype'].includes(intent.planId) || !Number.isInteger(intent.day) || intent.day < s.day || intent.slot !== 'evening' || (s.rent?.reservedWork?.status === 'reserved' && s.rent.reservedWork.day === intent.day && intent.slot === 'evening') || (intent.day === s.day && (SLOTS.indexOf(s.slot) > SLOTS.indexOf('evening') || (s.slot === 'evening' && s.active))) || s.futurePlans[intent.planId] || Object.values(s.futurePlans).some(plan => plan.day === intent.day && plan.slot === intent.slot && plan.status === 'reserved')) return fail('invalid_plan');
+    if (typeof intent.planId !== 'string' || !intent.planId || ['__proto__','constructor','prototype'].includes(intent.planId) || !Number.isInteger(intent.day) || intent.day < s.day || intent.slot !== 'evening' || ((s.rent?.reservedWork?.status === 'reserved' && s.rent.reservedWork.day === intent.day && intent.slot === 'evening') || (s.overtimeReservation?.status === 'reserved' && s.overtimeReservation.day === intent.day && intent.slot === 'evening')) || (intent.day === s.day && (SLOTS.indexOf(s.slot) > SLOTS.indexOf('evening') || (s.slot === 'evening' && s.active))) || s.futurePlans[intent.planId] || Object.values(s.futurePlans).some(plan => plan.day === intent.day && plan.slot === intent.slot && plan.status === 'reserved')) return fail('invalid_plan');
   } else if (intent.type === 'return-to-meal') {
     const plan=s.futurePlans[intent.planId]; if (!m || s.active || !plan || plan.status !== 'reserved' || plan.day !== s.day || plan.slot !== 'evening') return fail('meal_return_unavailable');
   } else if (intent.type === 'meal') {
@@ -53,7 +58,7 @@ export function inspect(state, balances, intent, context = {}) {
     if (intent.kind === 'social' && (!intent.planId || s.futurePlans[intent.planId]?.status !== 'reserved' || s.futurePlans[intent.planId]?.day !== s.day || s.futurePlans[intent.planId]?.slot !== s.slot)) return fail('social_plan_unavailable');
     if (intent.kind === 'work' && (s.slot !== 'midday' || !scheduled)) return fail('work_unavailable');
     if (intent.kind === 'overtime' && (!(production || p.overtimeStudy) || s.slot !== 'evening' || !s.employment.employed)) return fail('overtime_unavailable');
-    if (production && intent.kind === 'overtime' && (!context.overtimeReservation || typeof intent.reservationId !== 'string' || !intent.reservationId || context.overtimeReservation.id !== intent.reservationId || context.overtimeReservation.day !== s.day || context.overtimeReservation.slot !== s.slot || context.overtimeReservation.status !== 'reserved')) return fail('overtime_reservation_required');
+    if (production && intent.kind === 'overtime' && (!context.overtimeReservation || typeof intent.reservationId !== 'string' || !intent.reservationId || context.overtimeReservation.id !== intent.reservationId || context.overtimeReservation.day !== s.day || context.overtimeReservation.slot !== s.slot || context.overtimeReservation.status !== 'reserved' || JSON.stringify(context.overtimeReservation) !== JSON.stringify(s.overtimeReservation))) return fail('overtime_reservation_required');
     if (intent.kind === 'overtime') disclosures.push('overtime-terms');
     if (['social','leisure','early-bed'].includes(intent.kind) && s.slot !== 'evening') return fail('wrong_slot');
     if (intent.kind === 'early-bed' && p.earlyBedHealth === null) return fail('early_bed_value_unselected');
@@ -92,7 +97,8 @@ export function inspect(state, balances, intent, context = {}) {
     if (p.recoveryConsumesSlot && s.slot === 'midday' && scheduled) { displaced.push('shift'); disclosures.push('recovery-misses-shift'); }
   } else return fail('unknown_intent');
   if ((production || p.employmentStudy) && displaced.includes('shift') && s.employment.missedShifts >= 2) disclosures.push('employment-termination');
-  const rentWorkConflict = Boolean(promisedWork && destination === 'evening' && (intent.type === 'play' || intent.type === 'start') && intent.kind !== 'overtime');
+  const reservedToday = s.overtimeReservation?.status === 'reserved' && s.overtimeReservation.day === s.day;
+  const rentWorkConflict = Boolean((promisedWork || reservedToday) && destination === 'evening' && (intent.type === 'play' || intent.type === 'start') && intent.kind !== 'overtime');
   if (rentWorkConflict) disclosures.push('reserved-overtime-conflict');
   let destinationDay = s.day;
   if (intent.type === 'complete' && s.active?.kind === 'early-bed') { destination = 'morning'; destinationDay++; }
@@ -114,7 +120,7 @@ export function inspect(state, balances, intent, context = {}) {
 }
 export function commit(state, balances, proposal, operation = {}, currentContext = null) {
   if (!proposal?.intent) return fail('invalid_proposal');
-  if ((proposal.intent.type === 'play' || (state.config?.id === 'five-slot-v1' && proposal.intent.type === 'start' && proposal.intent.kind === 'overtime')) && !currentContext) return fail('fresh_context_required');
+  if ((proposal.intent.type === 'play' || (state.config?.id === 'five-slot-v1' && (proposal.intent.type === 'reserve-overtime' || (proposal.intent.type === 'start' && proposal.intent.kind === 'overtime')))) && !currentContext) return fail('fresh_context_required');
   const checked = inspect(state, balances, proposal.intent, currentContext ?? proposal.context);
   if (!checked.ok) return checked;
   if (canonical(checked.proposal) !== canonical(proposal)) return fail('stale_proposal');
@@ -126,12 +132,13 @@ export function commit(state, balances, proposal, operation = {}, currentContext
   const s = copy(state), i = proposal.intent, events = [], delta = { cash: proposal.cashDelta, health: proposal.hpDelta };
   const emit = (type, data = {}) => events.push({ type, ...data });
   const missShift = reason => { if (s.obligations[`${s.day}:shift`] === 'missed') return; s.obligations[`${s.day}:shift`] = 'missed'; emit('obligation_missed',{kind:'shift',reason,healthDelta:0}); if (s.config.id === 'five-slot-v1' || s.config.employmentStudy) { s.employment.missedShifts++; if (s.employment.missedShifts >= 3) { s.employment.employed = false; emit('employment_ended',{day:s.day}); } } };
+  if (i.type === 'reserve-overtime') { s.overtimeReservation={id:i.reservationId,day:i.day,slot:'evening',status:'reserved',rentId:i.rentId}; for (const id of proposal.conflicts) { s.futurePlans[id].status=operation.conflictChoice==='notice'?'notice':'broken'; emit('plan_conflict_resolved',{id,choice:operation.conflictChoice}); } emit('rent_overtime_reserved',{id:i.reservationId,day:i.day,slot:'evening',rentId:i.rentId}); }
   if (i.type === 'reserve-rent-overtime') { s.rent.reservedWork={day:s.day,slot:'evening',status:'reserved'}; for (const id of proposal.conflicts) { s.futurePlans[id].status=operation.conflictChoice==='notice'?'notice':'broken'; emit('plan_conflict_resolved',{id,choice:operation.conflictChoice}); } emit('rent_overtime_reserved',{day:s.day,slot:'evening'}); }
   if (i.type === 'rent') { s.rent.status = i.choice === 'pay' ? 'paid' : (s.config.hypotheticalRentContinuation ? 'overdue' : 'escalation-pending'); emit('rent_decided',{id:s.rent.id,choice:i.choice,amount:s.config.rentAmount,cashDelta:delta.cash}); }
   if (i.type === 'reserve') { s.futurePlans[i.planId] = { id:i.planId, day:i.day, slot:i.slot, status:'reserved' }; emit('plan_reserved',{id:i.planId}); }
   if (i.type === 'return-to-meal') emit('returned_to_meal',{planId:i.planId,slot:current(s)});
   if (i.type === 'meal') { s.obligations[`${s.day}:${meal(s.slot)}`] = i.choice; emit('meal_completed',{choice:i.choice, slot:current(s), cashDelta:delta.cash, healthDelta:delta.health}); advance(s); if (balances.health + delta.health === 0) { s.recovery = {id:`recovery-${i.operationId}`, resolved:false}; emit('recovery_required',{id:s.recovery.id}); } }
-  if (proposal.rentWorkConflict) { s.rent.reservedWork.status='withdrawn'; emit('rent_overtime_withdrawn',{day:s.day}); }
+  if (proposal.rentWorkConflict) { if (s.overtimeReservation?.status === 'reserved') s.overtimeReservation.status='withdrawn'; else s.rent.reservedWork.status='withdrawn'; emit('rent_overtime_withdrawn',{day:s.day}); }
   if (proposal.recoveryInstead) {
     if (s.active && i.extend) { emit('activity_completed',{id:s.active.id,reason:'recovery-before-extension'}); s.active = null; advance(s); }
     for (const kind of proposal.displaced) { if (kind !== 'late-fatigue') { s.obligations[`${s.day}:${kind}`] = 'missed'; emit('obligation_missed',{kind,healthDelta:proposal.hpDelta}); } }
@@ -149,13 +156,13 @@ export function commit(state, balances, proposal, operation = {}, currentContext
   }
   if (i.type === 'progress') { s.active.cursor = i.cursor; emit('activity_progressed',{id:s.active.id,cursor:i.cursor}); }
   if (i.type === 'complete' || i.type === 'abandon') {
-    const active = s.active; if (active.kind === 'overtime' && s.rent?.reservedWork?.status === 'reserved') s.rent.reservedWork.status = i.type === 'complete' ? 'completed' : 'abandoned'; if (i.type === 'abandon' && active.kind === 'work') missShift('abandoned-work'); if (i.type === 'complete' && active.kind === 'work') { s.obligations[`${s.day}:shift`] = 'completed'; }
+    const active = s.active; if (active.kind === 'overtime' && s.overtimeReservation?.status === 'reserved') s.overtimeReservation.status = i.type === 'complete' ? 'completed' : 'abandoned'; if (active.kind === 'overtime' && s.rent?.reservedWork?.status === 'reserved') s.rent.reservedWork.status = i.type === 'complete' ? 'completed' : 'abandoned'; if (i.type === 'abandon' && active.kind === 'work') missShift('abandoned-work'); if (i.type === 'complete' && active.kind === 'work') { s.obligations[`${s.day}:shift`] = 'completed'; }
     if (active.kind === 'social' && active.planId) { s.futurePlans[active.planId].status = i.type === 'complete' ? 'completed' : 'interrupted'; }
     emit(i.type === 'complete' ? 'activity_completed' : 'activity_abandoned',{id:active.id}); s.active = null;
     if (active.kind === 'early-bed' && i.type === 'complete') { s.day++; s.slot = 'morning'; } else advance(s);
   }
   if (i.type === 'sleep') { emit('sleep_completed'); advance(s); }
-  if (i.type === 'recover') { const id = s.recovery.id; s.recovery = null; if (s.config.recoveryConsumesSlot) { const missedMeal=meal(s.slot); if (missedMeal) { s.obligations[`${s.day}:${missedMeal}`]='missed'; emit('obligation_missed',{kind:missedMeal,reason:'recovery',healthDelta:-Math.min(s.config.mealSkipHealth,balances.health+Math.min(s.config.recoveryHealth,s.config.maxHealth-balances.health))}); } if (s.slot === 'evening') { if (s.rent?.reservedWork?.status === 'reserved') { s.rent.reservedWork.status='recovery-exempt'; emit('rent_overtime_recovery_exempt',{day:s.day}); } for (const plan of Object.values(s.futurePlans)) if (plan.day===s.day && plan.slot==='evening' && plan.status==='reserved') { plan.status='recovery-exempt'; emit('plan_recovery_exempt',{id:plan.id}); } } if (proposal.displaced.includes('shift')) { missShift('recovery'); } advance(s); } emit('recovery_completed',{id, consumedSlot:s.config.recoveryConsumesSlot}); }
+  if (i.type === 'recover') { const id = s.recovery.id; s.recovery = null; if (s.config.recoveryConsumesSlot) { const missedMeal=meal(s.slot); if (missedMeal) { s.obligations[`${s.day}:${missedMeal}`]='missed'; emit('obligation_missed',{kind:missedMeal,reason:'recovery',healthDelta:-Math.min(s.config.mealSkipHealth,balances.health+Math.min(s.config.recoveryHealth,s.config.maxHealth-balances.health))}); } if (s.slot === 'evening') { if (s.overtimeReservation?.status === 'reserved' && s.overtimeReservation.day === s.day) { s.overtimeReservation.status='recovery-exempt'; emit('rent_overtime_recovery_exempt',{day:s.day}); } if (s.rent?.reservedWork?.status === 'reserved') { s.rent.reservedWork.status='recovery-exempt'; emit('rent_overtime_recovery_exempt',{day:s.day}); } for (const plan of Object.values(s.futurePlans)) if (plan.day===s.day && plan.slot==='evening' && plan.status==='reserved') { plan.status='recovery-exempt'; emit('plan_recovery_exempt',{id:plan.id}); } } if (proposal.displaced.includes('shift')) { missShift('recovery'); } advance(s); } emit('recovery_completed',{id, consumedSlot:s.config.recoveryConsumesSlot}); }
   if (proposal.overtimeRecovery) { s.recovery={id:`recovery-${i.operationId}`,resolved:false}; emit('recovery_required',{id:s.recovery.id}); }
   if (proposal.appliesFatigue) { emit('fatigue_applied',{id:s.fatigue.id,healthDelta:proposal.hpDelta}); s.fatigue = null; if (proposal.fatigueRecovery) { s.recovery={id:`recovery-${i.operationId}`,resolved:false}; emit('recovery_required',{id:s.recovery.id}); } }
   s.completedOperationIds[i.operationId] = { intent:copy(i), resultRef:operation.resultRef ?? null }; s.revision++;

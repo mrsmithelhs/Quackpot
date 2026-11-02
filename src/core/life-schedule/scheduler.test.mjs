@@ -51,12 +51,28 @@ test('fresh tutorial requires explicit meal choices; supported days can replace 
 
 test('production policy seals study controls and requires a reserved overtime context',()=>{
   for(const key of ['rentStudy','employmentStudy','overtimeStudy','hypotheticalRentContinuation']) assert.equal(Object.hasOwn(PRODUCTION,key),false);
-  const s=createSchedule(PRODUCTION,{2:true}); assert.equal(s.rent,null); s.day=2;s.slot='evening';const b={cash:80,health:100};
+  let s=createSchedule(PRODUCTION,{2:true}); assert.equal(s.rent,null); s.day=2;s.slot='evening';const b={cash:80,health:100};
   const intent={type:'start',kind:'overtime',reservationId:'r1',operationId:'ot'};
   assert.equal(inspect(s,b,intent,{}).reason,'overtime_reservation_required');
-  const context={overtimeReservation:{id:'r1',day:2,slot:'evening',status:'reserved',conflict:null}};
+  const reserve={type:'reserve-overtime',reservationId:'r1',rentId:'rent-1',day:2,operationId:'reserve'};
+  const due={rentObligation:{id:'rent-1',status:'due'}}; const prepared=inspect(s,b,reserve,due).proposal;
+  assert.equal(commit(s,b,prepared,{confirmed:true}).reason,'fresh_context_required');
+  const r=commit(s,b,prepared,{confirmed:true},due);assert.equal(r.ok,true);s=r.state;
+  const context={overtimeReservation:structuredClone(s.overtimeReservation)};
   const proposal=inspect(s,b,intent,context).proposal; assert.ok(proposal);
   assert.equal(commit(s,b,proposal,{confirmed:true}).reason,'fresh_context_required');
   assert.equal(commit(s,b,proposal,{confirmed:true},{overtimeReservation:{...context.overtimeReservation,status:'withdrawn'}}).ok,false);
   assert.equal(commit(s,b,proposal,{confirmed:true},context).ok,true);
+});
+
+test('future overtime reserves a real evening and protects an existing Ren plan',()=>{
+  const s=createSchedule(PRODUCTION,{2:true,3:true}); s.day=2; s.slot='morning'; const b={cash:80,health:100};
+  const rent={rentObligation:{id:'rent-1',status:'due'}};
+  const request={type:'reserve-overtime',reservationId:'ot-future',rentId:'rent-1',day:3,operationId:'reserve-future'};
+  const p=inspect(s,b,request,rent); assert.equal(p.ok,true);
+  const committed=commit(s,b,p.proposal,{confirmed:true},rent); assert.equal(committed.ok,true); assert.equal(committed.state.slot,'morning');
+  assert.deepEqual(committed.state.overtimeReservation,{id:'ot-future',day:3,slot:'evening',status:'reserved',rentId:'rent-1'});
+  assert.equal(inspect(committed.state,b,{type:'reserve',planId:'ren',day:3,slot:'evening',operationId:'ren'}).reason,'invalid_plan');
+  assert.equal(inspect(committed.state,b,{type:'meal',choice:'buy',operationId:'breakfast'}).ok,true);
+  assert.equal(inspect(committed.state,b,{...request,operationId:'duplicate-reservation'},rent).reason,'overtime_reservation_unavailable');
 });

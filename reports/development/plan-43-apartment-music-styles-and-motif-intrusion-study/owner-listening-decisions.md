@@ -14,3 +14,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## First procedural guitar response
 
 2026-11-01. Owner heard the guitar comparison and said the new procedural voice is improved and reads as a string instrument, though it sounds as if the strings have tighter tension than a guitar; they ask whether it can improve further. This is owner listening feedback, not a measurement of actual tension or acceptance as a final guitar. No explicit preference was provided for the alternate Plan 39 playing treatment. Preserve all three recordings and their exact scores. Root review is requested for the next bounded same-score exploration.
+
+## Phrase context request
+
+2026-11-01. Owner requested the guitar variations in a short musical phrase for contextual comparison and asked to hear softer attack and slower decay combined in one voice; they have not yet selected either or the combination. The requested four-way phrase is recorded in `guitar-phrase-evidence.md`; owner listening remains pending.

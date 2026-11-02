@@ -61,6 +61,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-50` | Cross-harness visual and audio helper calibration | in-progress | Calibrate direct Haiku and Gemini Flash helpers on frozen historical artwork and UI, measuring actionable findings and false alarms against held-back owner feedback; audio is a separately gated later stage. |
 | `plan-51` | Five-slot scheduler contract and calibration | in-progress | Specify and simulate the accepted five-slot day with slot-consuming meals, one shared pure scheduler, staged guidance and coherent obligation transactions before production integration. |
 | `plan-52` | Five-slot production transition and checkpoint refresh | draft | Integrate the accepted shared five-slot scheduler across life, work, meals, social play, gacha sessions, sleep, storage and Receipt, regenerating synthetic checkpoints and reconciling current docs. |
+| `plan-53` | Generated-track transcription and editable reconstruction | draft | Test local MuScriptor transcription of owner-provided Suno references, recover editable MIDI and resequence it with pinned TinySynth instruments, separating transcription quality from timbre quality. |
 <!-- plan-index:end -->
 
 ## Report Folders

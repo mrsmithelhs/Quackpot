@@ -8,8 +8,29 @@
 
 import { verifyChain, verifyCompleteness } from './event-log.mjs';
 import { formatRaceRating } from './race-rest.mjs';
+import { social46DisplayText } from './life-social.mjs';
 
 const money = (x) => `$${Number(x).toFixed(2)}`;
+
+// Never copy arbitrary social payload fields into the expandable/printable Receipt.
+function publicSocial(payload = {}) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) payload = {};
+  const result = {};
+  const allowed = {
+    kind: ['introduction', 'invitation', 'scene', 'sale_disclosure', 'accepted', 'floor_reconfirmation', 'conflict_notice', 'conflict_continue', 'response_declined', 'response_notice', 'response_broken', 'reply', 'notice', 'continue_anyway', 'scene_next', 'confirm_floor', 'completed'],
+    activity: ['door', 'game', 'repair'], seating: ['door', 'couch', 'floor'],
+    choice: ['accept', 'decline', 'reschedule'], outcome: ['plan_not_kept', 'invitation_expired'],
+  };
+  for (const [key, values] of Object.entries(allowed)) if (values.includes(payload[key])) result[key] = payload[key];
+  if (typeof payload.id === 'string' && /^(?:intro|ren-[1-9]\d*)$/.test(payload.id)) result.id = payload.id;
+  if (Number.isSafeInteger(payload.day) && payload.day >= 1) result.day = payload.day;
+  if (Number.isSafeInteger(payload.atDay) && payload.atDay >= 1) result.atDay = payload.atDay;
+  if (Number.isSafeInteger(payload.newDay) && payload.newDay >= 1) result.newDay = payload.newDay;
+  if (Number.isInteger(payload.beat) && payload.beat >= 0 && payload.beat < 3) result.beat = payload.beat;
+  const shownText = social46DisplayText(payload.kind, payload.activity, payload.day, payload.beat, payload.atDay, payload.seating);
+  if (shownText && payload.text === shownText) result.text = shownText;
+  return result;
+}
 
 export const TECHNIQUES = [
   ['currency_obfuscation', 'Currency obfuscation', 'Did the gem prices and leftover balances affect your purchases?'],
@@ -277,7 +298,24 @@ export function projectReceipt(entries) {
   for (const event of ofType('life_employment_ended')) accountingLines.push(line(`Game recorded that scheduled employment ended on day ${event.payload.day}.`, event.seq));
   for (const event of ofType('work_interrupted')) accountingLines.push(line(`The agreed ${event.payload.kind === 'overtime' ? 'overtime' : 'scheduled'} shift was unfinished when the run ended; no completion was recorded.`, event.seq));
   for (const event of ofType('activity47_interrupted')) accountingLines.push(line('An evening activity was unfinished when the run ended; no recovery was recorded for it.', event.seq));
+  for (const event of ofType('social46_interrupted')) accountingLines.push(line('An evening with Ren was unfinished when the run ended; no completion was recorded.', event.seq));
+  for (const event of ofType('social46_plan_interrupted')) accountingLines.push(line('An accepted plan with Ren was still pending when the run ended.', event.seq));
   for (const event of ofType('story47_shown')) accountingLines.push(line(`Displayed ${event.payload.stage === 'commute' ? 'a commute scene' : event.payload.stage === 'work' ? 'two work observations' : 'an evening activity scene'}.`, event.seq));
+  for (const event of ofType('social46_display')) {
+    const label = { introduction: 'Ren’s introduction', invitation: 'an invitation from Ren', scene: 'a scene with Ren', sale_disclosure: 'a seating-change disclosure', accepted: 'Ren’s acknowledgment', floor_reconfirmation: 'a floor-seating reconfirmation', conflict_notice: 'a plan-conflict choice', conflict_continue: 'a plan-conflict warning', response_declined: 'a message from Ren', response_notice: 'a message from Ren', response_broken: 'a message from Ren' }[event.payload?.kind];
+    const shownText = publicSocial(event.payload).text;
+    if (label) accountingLines.push(line(shownText ? `Displayed ${label}: ${shownText}` : `Displayed ${label}.`, event.seq));
+  }
+  for (const event of ofType('social46_action')) {
+    const label = { accept: 'Accepted an invitation from Ren.', decline: 'Declined an invitation from Ren.', reschedule: 'Asked to reschedule an invitation from Ren.' }[event.payload?.choice]
+      ?? { notice: 'Told Ren the plan could not happen.', continue_anyway: 'Chose another activity without telling Ren.', confirm_floor: 'Confirmed floor seating for the plan.' }[event.payload?.kind];
+    if (label) accountingLines.push(line(label, event.seq));
+  }
+  for (const event of ofType('social46_outcome')) {
+    const label = event.payload?.kind === 'completed' ? 'Completed an evening with Ren.'
+      : { plan_not_kept: 'An accepted plan with Ren was not kept.', invitation_expired: 'A displayed invitation expired without a reply.' }[event.payload?.outcome];
+    if (label) accountingLines.push(line(label, event.seq));
+  }
   for (const event of ofType('session_interrupted')) accountingLines.push(line(`An ${event.payload.suspended ? 'on-hold' : 'active'} phone session remained when the run ended.`, event.seq));
   if (lifeStart) for (const event of ofType('income')) {
     if (event.payload.kind === 'asset_sale') accountingLines.push(line(`Sold ${event.payload.asset} for ${money(event.payload.amount)}.`, event.seq));
@@ -383,7 +421,7 @@ export function projectReceipt(entries) {
     terminalRoute: terminal?.payload.route ?? null,
     receiptShown: !!receiptShown,
     // Additive, sequence-linked facts; consumers must not treat temporal proximity as a link.
-    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload, clock })),
+    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'social46_display', 'social46_action', 'social46_outcome', 'social46_interrupted', 'social46_plan_interrupted', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload: type.startsWith('social46_') ? publicSocial(payload) : payload, clock })),
     findings,
     pullLedger,
     raceEvidence: {

@@ -1,0 +1,18 @@
+{
+  "phase": "unactivated",
+  "error": "Error: Timed out [...document.querySelectorAll('button')].find(b=>!b.disabled && b.textContent.includes(\"The desk\"))",
+  "diagnostic": {
+    "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$68.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\nEvening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nSit with Duck · +5 HP\nDay 2 · evening\nThe kitchen →\nThe living room →\nWork messages →\nMessages: Ren →\nTurn in for the night →\nStay up for Late Night →",
+    "url": "http://localhost:5173/Quackpot/"
+  },
+  "trace": [
+    {
+      "name": "synthetic-engine-checkpoint",
+      "day": 2,
+      "phase": "evening",
+      "health": 90,
+      "valid": true
+    }
+  ],
+  "runtime": []
+}

@@ -8,6 +8,7 @@ import './ui/duck-motion.css';
 import './ui/duck-dex.css';
 import './ui/race-view.css';
 import './ui/life/life-story.css';
+import './ui/life/ren46.css';
 import './ui/apartment-view.css';
 import './ui/life/life.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
@@ -19,6 +20,7 @@ import {
   loadGame,
   clearGame,
   backupCorruptSave,
+  backupUnsupportedRenSave,
   getInMemoryStatus,
   setTemporaryPreservationMode,
   isTemporaryPreservationMode,
@@ -36,6 +38,8 @@ import {
 } from './ui/modals.js';
 import { renderLifeView } from './ui/life/life-view.js';
 import { renderLifePhoneView } from './ui/life/life-phone-view.js';
+import { social46Conflict, social46DisplayText } from './core/life-social.mjs';
+import { renderUnsupportedRenSave } from './ui/life/ren-save-compat.mjs';
 import {
   BREAKFAST_STEP_BY_DAY,
   afterBreakfast,
@@ -73,7 +77,8 @@ if (app) {
   let duckMotionPaused = false;
   let animatePhoneGlow = true;
   // Apartment life UI state (place chosen, object held, Decide expanded). Survives re-renders; never saved.
-  const lifeUi = { place: null, held: null, decideOpen: false };
+  const lifeUi = { place: null, held: null, decideOpen: false, renOpen: false };
+  let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
 
   function generateRandomSeed() {
@@ -98,7 +103,7 @@ if (app) {
   }
 
   function maybeAutosave() {
-    if (engine && engine.autosaveEnabled) {
+    if (engine && engine.autosaveEnabled && !unsupportedRenPreservation) {
       const res = saveGame(engine.toEnvelope());
       checkStorageResult(res);
       updateWarningBanner();
@@ -129,6 +134,21 @@ if (app) {
 
     // Attempt to load existing game
     const loadResult = loadGame();
+
+    if (loadResult.unsupportedDevelopment) {
+      renderUnsupportedRenSave(document.querySelector('#modal-container'), () => {
+        const backup = backupUnsupportedRenSave();
+        unsupportedRenPreservation = true;
+        setTemporaryPreservationMode(true);
+        storageWarningText = backup === 'created'
+          ? 'Unsupported Ren save and a backup are preserved. This session is temporary and cannot overwrite the saved run.'
+          : backup === 'existing'
+            ? 'Unsupported Ren save and an existing backup are preserved; no backup was replaced. This session is temporary.'
+            : 'Unsupported Ren save is preserved; a backup could not be written. This session is temporary and cannot overwrite the saved run.';
+        startFreshRun(false);
+      });
+      return;
+    }
 
     if (loadResult.isCorrupt) {
       renderCorruptSaveModal(document.querySelector('#modal-container'), loadResult.errors, {
@@ -206,7 +226,7 @@ if (app) {
     engine = new GameEngine(seed, { lifePolicy: true, tutorialShift: true });
     engine.start();
 
-    if (!enableStorageSave || isTemporaryPreservationMode()) {
+    if (!enableStorageSave || isTemporaryPreservationMode() || unsupportedRenPreservation) {
       engine.autosaveEnabled = false;
       if (!storageWarningText) {
         storageWarningText = 'Temporary Session: An existing save is preserved in storage. Automatic saving is paused to prevent overwriting it.';
@@ -250,9 +270,38 @@ if (app) {
     notice.textContent = message;
   }
 
+  function resolveSocialConflict(intent) {
+    if (!engine.state.life || !social46Conflict(engine.state.life, intent)) return { ok: true, confirmSocial: false };
+    const plan = engine.state.life.social46.pending;
+    if (!plan.seatingConfirmed) {
+      globalThis.alert('The couch has gone. Open Ren’s messages to confirm floor seating or tell Ren you can’t make it first.');
+      return { ok: false };
+    }
+    const wantsNotice = globalThis.confirm(social46DisplayText('conflict_notice', null, plan.day, 0, engine.state.life.day));
+    if (!engine.applyLifeIntent({ type: 'social46_conflict_shown', id: plan.id, kind: 'conflict_notice' }).ok) return { ok: false };
+    maybeAutosave();
+    if (wantsNotice) {
+      const notified = engine.applyLifeIntent({ type: 'social46_cancel', id: plan.id });
+      if (!notified.ok) return { ok: false };
+      maybeAutosave();
+      return globalThis.confirm('Ren has been told. Continue with your chosen activity?') ? { ok: true, confirmSocial: false } : { ok: false };
+    }
+    const wantsContinue = globalThis.confirm(social46DisplayText('conflict_continue'));
+    if (!engine.applyLifeIntent({ type: 'social46_conflict_shown', id: plan.id, kind: 'conflict_continue' }).ok) return { ok: false };
+    maybeAutosave();
+    return wantsContinue
+      ? { ok: true, confirmSocial: true } : { ok: false };
+  }
+
+  function commitLifeWithSocial(intent) {
+    const conflict = resolveSocialConflict(intent);
+    if (!conflict.ok) return { ok: false, reason: 'cancelled' };
+    return engine.applyLifeIntent(conflict.confirmSocial ? { ...intent, socialConflict: 'continue' } : intent);
+  }
+
   function confirmNextPlay(kind) {
     if (!engine.needsNextLifePlay(kind)) return { ok: true, confirmNext: false };
-    const preview = engine.previewNextLifePlay(kind);
+    const preview = engine.previewNextLifePlay(kind, { socialContinue: true });
     if (!preview.ok) { appNotice('Return to the apartment, finish the current phase, and resolve any meal, rent, or recovery before continuing.'); return { ok: false }; }
     const life = engine.state.life;
     const warning = life.phase === 'evening'
@@ -307,6 +356,10 @@ if (app) {
 
   function saveNow() {
     let res;
+    if (unsupportedRenPreservation) {
+      globalThis.alert('This temporary session cannot overwrite the preserved Ren save.');
+      return { success: false, inMemory: true, preservedSnapshot: true };
+    }
     if (isTemporaryPreservationMode()) {
       const confirmed = typeof globalThis.confirm === 'function'
         ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
@@ -362,8 +415,9 @@ if (app) {
           && !globalThis.confirm('This pull uses the afternoon anchor and misses your scheduled shift. Continue?')) return;
         if (action === 'welcome') {
           const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
-          try { draws = engine.commitPromotionalTenPull({ confirmNext: decision.confirmNext }); }
+          try { draws = engine.commitPromotionalTenPull({ confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
           if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
@@ -372,8 +426,9 @@ if (app) {
           const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
           if (engine.state.gems < cost || engine.state.pendingReveals.some(draw => !draw.revealed)) { appNotice('You need enough Gems and all previous cards revealed before this pull.'); return; }
           const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
-          try { draws = engine.commitPaidPull(count, { confirmNext: decision.confirmNext }); }
+          try { draws = engine.commitPaidPull(count, { confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
           if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
@@ -411,8 +466,9 @@ if (app) {
           if (!next && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
             && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
           const decision = confirmNextPlay('race'); if (!decision.ok) return null;
+          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return null;
           let attempt;
-          try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, confirmNext: decision.confirmNext }); }
+          try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The race could not start. Your time and resources are unchanged; try again or return to the apartment.' : 'The race could not start. Return to the apartment or try again.'); return null; }
           if (!attempt) { appNotice('Return to the apartment and resolve the current obligation before racing.'); return null; }
           currentStep = 'life_race_result'; engine.state.step = currentStep; maybeAutosave(); updateHud();
@@ -623,6 +679,7 @@ if (app) {
           maybeAutosave();
         },
         onFreshRun: () => {
+          if (unsupportedRenPreservation) { startFreshRun(false); return; }
           clearGame();
           startFreshRun(true);
         },
@@ -704,7 +761,7 @@ if (app) {
 
   // Reset in place: the life view keeps a reference to this object (and leaves returnFocus on it for the next render).
   function resetLifeUi() {
-    Object.assign(lifeUi, { place: null, held: null, decideOpen: false, noticeFocus: false, pendingNoticeFocus: false, fadeIn: false });
+    Object.assign(lifeUi, { place: null, held: null, decideOpen: false, noticeFocus: false, pendingNoticeFocus: false, fadeIn: false, renOpen: false });
   }
 
   // Life steps are apartment surfaces: the phone is put away while they are shown.
@@ -743,6 +800,20 @@ if (app) {
       return result;
     };
     return {
+      onSocialOpen: commit(() => {
+        const life = engine.state.life;
+        if (!life?.social46) return engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 1 });
+        const s = life.social46;
+        if (s.introShown && !s.pending && !s.scene && life.phase === 'evening' && s.lastOfferedDay !== life.day) {
+          const day = Math.max(life.day + (life.anchor ? 1 : 0), (s.lastVisitDay ?? -1) + 2);
+          engine.applyLifeIntent({ type: 'social46_offer', day, initiator: 'ren', activity: life.day % 2 ? 'game' : 'door' });
+        }
+        return { ok: true };
+      }),
+      onSocialAction: commit(intent => engine.applyLifeIntent(intent)),
+      onSocialShown: intent => {
+        if (!activeModalBlocksLife() && engine.applyLifeIntent(intent).ok) maybeAutosave();
+      },
       onPayRent: commit(() => engine.state.life
         ? engine.applyLifeIntent({ type: 'rent', choice: 'pay' })
         : engine.billExpense('rent', GAME_CONSTANTS.RENT_DAY2)),
@@ -754,7 +825,7 @@ if (app) {
         resetLifeUi();
         return { ok: true };
       }),
-      onAgreeWork: commit((kind) => kind === 'scheduled' ? engine.beginStoryWork('agree') : engine.applyLifeIntent({ type: 'agree_work', kind })),
+      onAgreeWork: commit((kind) => kind === 'scheduled' ? engine.beginStoryWork('agree') : commitLifeWithSocial({ type: 'agree_work', kind })),
       onDepartWork: commit(() => {
         if (engine.state.life.session && !globalThis.confirm('Leaving for work ends this phone session. Continue?')) return null;
         const result = engine.beginStoryWork('depart', Boolean(engine.state.life.session));
@@ -762,8 +833,8 @@ if (app) {
         return result;
       }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
-      onLeisure: commit(() => engine.applyLifeIntent({ type: 'leisure' })),
-      onBeginStoryActivity: commit((choice) => engine.applyLifeIntent({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice })),
+      onLeisure: commit(() => commitLifeWithSocial({ type: 'leisure' })),
+      onBeginStoryActivity: commit((choice) => commitLifeWithSocial({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice })),
       onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
       onStoryAdvance: commit((story) => {
         let intent;
@@ -804,7 +875,7 @@ if (app) {
         const life = engine.state.life;
         if (life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
           && !globalThis.confirm('Continuing will miss your scheduled shift. Continue?')) return null;
-        const result = engine.applyLifeIntent({ type: 'advance' });
+        const result = commitLifeWithSocial({ type: 'advance' });
         if (result.ok) {
           engine.state.step = lifeSurface(engine);
           if (['life_rent', 'life_recovery'].includes(engine.state.step)) resetLifeUi();
@@ -812,14 +883,14 @@ if (app) {
             resetLifeUi(); lifeUi.place = 'kitchen-breakfast';
           }
         }
-        else globalThis.alert('Resolve the current meal or other commitment before continuing.');
+        else if (result.reason !== 'cancelled') globalThis.alert('Resolve the current meal or other commitment before continuing.');
         return result;
       }),
       onLateNight: commit(() => {
         if (!globalThis.confirm('A pull or race in Late Night causes up to 10 HP fatigue next morning. Continue?')) return null;
-        const result = engine.applyLifeIntent({ type: 'late_night' });
+        const result = commitLifeWithSocial({ type: 'late_night' });
         if (result.ok) engine.state.step = lifeSurface(engine);
-        else globalThis.alert('Resolve the current meal or work before continuing.');
+        else if (result.reason !== 'cancelled') globalThis.alert('Resolve the current meal or work before continuing.');
         return result;
       }),
       onFinishLife: commit(() => {
@@ -861,7 +932,7 @@ if (app) {
       onContinue: commit(() => {
         if (engine.state.life) {
           if (engine.state.life.session && !globalThis.confirm('Continuing ends this phone session. Continue?')) return null;
-          const result = engine.applyLifeIntent({ type: 'advance' });
+          const result = commitLifeWithSocial({ type: 'advance' });
           if (result.ok) engine.state.step = lifeSurface(engine);
           return result;
         }

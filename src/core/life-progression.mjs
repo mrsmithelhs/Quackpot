@@ -3,6 +3,7 @@ export const callMomScheduled = day => Number.isInteger(day) && day >= 1 && (day
 // Pure policy transitions. Callers commit the returned state and effects together.
 import { POLICY_1_CONFIG, POLICY_1_VERSION } from './life-config.mjs';
 import { validWorkStory } from './life-story-content.mjs';
+import { prepareSocial46, social46CouchSold, social46ForcedRecovery, social46NeedsSaleDisclosure, social46PhaseExit, transitionSocial46 } from './life-social.mjs';
 
 export function initialLife() {
   return {
@@ -31,7 +32,10 @@ export function transitionLife(input, balances, intent) {
     const before = health;
     health = cap(health + delta, 0, config.maxHealth);
     record('life_health', { reason, before, delta: health - before, after: health });
-    if (health === 0 && !life.recovery) life.recovery = { id: `recovery-${life.nextId++}`, recovered: false };
+    if (health === 0 && !life.recovery) {
+      life.recovery = { id: `recovery-${life.nextId++}`, recovered: false };
+      social46ForcedRecovery(life, record);
+    }
   };
   const deadlineBlocks = () => life.rent.status === 'due';
   const mealPending = () => {
@@ -47,6 +51,7 @@ export function transitionLife(input, balances, intent) {
     }
   };
   const arrive = (day, phase) => {
+    social46PhaseExit(life, record);
     life.day = day; life.phase = phase; life.anchor = null; life.session = null;
     record('life_phase_arrived', { day, phase });
     if (day >= config.rentDueDay && life.rent.status === 'pending') {
@@ -66,6 +71,10 @@ export function transitionLife(input, balances, intent) {
   };
   if (!intent || typeof intent.type !== 'string') return fail('invalid_intent');
   if (life.story47 && !['work_story_step', 'complete_work', 'complete_activity47', 'dismiss_story47'].includes(intent.type)) return fail('presentation_pending');
+  const socialGuard = prepareSocial46(life, intent, record);
+  if (socialGuard) return socialGuard;
+  const socialResult = transitionSocial46(life, intent, record, hp);
+  if (socialResult) return socialResult.ok ? { ok: true, life, cash, health, events } : socialResult;
   switch (intent.type) {
     case 'meal': {
       if (deadlineBlocks() || life.recovery) return fail('obligation_pending');
@@ -162,8 +171,10 @@ export function transitionLife(input, balances, intent) {
     case 'sell':
     case 'sell_after_open': {
       if (deadlineBlocks() || life.recovery || !['couch', 'tv'].includes(intent.asset) || life.sold.includes(intent.asset)) return fail('unavailable');
+      if (intent.asset === 'couch' && social46NeedsSaleDisclosure(life)) return fail('social_sale_disclosure_required');
       const amount = intent.asset === 'couch' ? 10 : 15;
       life.sold.push(intent.asset); cash = money(cash + amount);
+      if (intent.asset === 'couch') social46CouchSold(life);
       record('income', { kind: 'asset_sale', asset: intent.asset, amount, cashAfter: cash }); break;
     }
     case 'phone_commit': {

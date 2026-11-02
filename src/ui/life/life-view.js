@@ -9,9 +9,12 @@
 
 import { renderScene } from '../../assets/apartment/index.mjs';
 import { renderStory47 } from './life-story-view.mjs';
+import { renderRenScene46 } from './ren-scene-view.mjs';
+import { renderRenChannel46 } from './ren-channel-view.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { callMomScheduled } from '../../core/life-progression.mjs';
+import { social46DisplayText, social46NeedsSaleDisclosure } from '../../core/life-social.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
@@ -240,7 +243,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (kind === 'life-sell-couch' || kind === 'life-sell-tv') {
       const asset = kind === 'life-sell-couch' ? 'couch' : 'tv'; const amount = asset === 'couch' ? 10 : 15;
-      return { spec: { heading: `Sell the ${asset === 'tv' ? 'TV' : asset}?`, lines: [`Receive ${money(amount)}. This item will leave the apartment.`], confirm: `Sell for ${money(amount)}`, back: 'Keep it' },
+      const p = engine.state.life.social46?.pending;
+      const context = asset === 'couch' && engine.state.life.social46?.couchContext && p?.committed && p.activity === 'game';
+      const lines = [`Receive ${money(amount)}. This item will leave the apartment.`];
+      if (context) lines.push(social46DisplayText('sale_disclosure', null, p.day, 0, engine.state.life.day));
+      return { spec: { heading: `Sell the ${asset === 'tv' ? 'TV' : asset}?`, lines, confirm: `Sell for ${money(amount)}`, back: 'Keep it' },
         accept: () => { const result = callbacks.onSell(expectLog, asset); return result?.ok ? { heading: 'Sale complete', lines: [`Cash on hand: ${money(engine.state.cash)}.`] } : null; } };
     }
     if (kind === 'life-recovery') {
@@ -567,7 +574,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function openPopover(obj, { focus = true } = {}) {
     closePopover();
-    const dec = decisionFor(obj.hold.kind);
+    let dec = decisionFor(obj.hold.kind);
     if (!dec.spec) return;
     current = { obj, hold: obj.hold, dec };
     committed = false;
@@ -587,7 +594,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     else pop.style.right = `${box.right - r.left + 14}px`;
     $('.life-popover-layer').append(pop);
     popEl = pop;
-    if (!reduced() && pop.animate && focus) {
+    const socialDisclosure = active && obj.hold.kind === 'life-sell-couch' && social46NeedsSaleDisclosure(engine.state.life);
+    if (socialDisclosure) {
+      callbacks.onSocialShown({ type: 'social46_sale_shown', id: engine.state.life.social46.pending.id });
+      dec = decisionFor(obj.hold.kind); current.dec = dec;
+    }
+    if (!socialDisclosure && !reduced() && pop.animate && focus) {
       const a = pop.animate([{ opacity: 0, transform: `translateX(${side === 'right' ? -8 : 8}px)` }, { opacity: 1, transform: 'none' }], { duration: 160, easing: 'ease-out' });
       anims.add(a);
     }
@@ -669,9 +681,21 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           button.disabled = false;
         });
       }
+      if (place === 'desk-phone' && e.state.life.day >= 2 && !e.state.life.recovery) {
+        control('Messages: Ren', () => {
+          const result = callbacks.onSocialOpen(e.log.length);
+          if (result?.ok) { ui.renOpen = true; render(); }
+        });
+      }
       control(step === 'life_work' ? 'Continue to evening' : e.state.life.phase === 'lateNight' ? 'Finish Late Night' : 'Turn in for the night', () => { callbacks.onLifeAdvance(expectLog); ui.held = null; callbacks.onRefresh(); });
       if (e.state.life.phase === 'evening') control('Stay up for Late Night', () => { callbacks.onLateNight(expectLog); ui.held = null; callbacks.onRefresh(); });
       if (e.state.life.day >= 4) control('Finish run', () => { callbacks.onFinishLife(expectLog); ui.held = null; callbacks.onRefresh(); });
+    }
+    if (e.state.life && step === 'life_breakfast' && e.state.life.day >= 2 && place === 'desk-phone' && !e.state.life.recovery) {
+      control('Messages: Ren', () => {
+        const result = callbacks.onSocialOpen(e.log.length);
+        if (result?.ok) { ui.renOpen = true; render(); }
+      });
     }
     if (isBreakfastStep(step) && optionalOpen(e)) {
       const expectLog = e.log.length;
@@ -714,6 +738,29 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         wage: (id) => engine.log.entries.find(e => e.type === 'income' && e.payload.kind === 'wage' && e.payload.transactionId === id)?.payload.amount,
         shown: (current) => callbacks.onStoryShown(current),
         advance: (current) => { callbacks.onStoryAdvance(engine.log.length, current); ui.held = null; callbacks.onRefresh(); },
+      }, active);
+      root.inert = !active;
+      return;
+    }
+    if (engine.state.life?.social46?.scene) {
+      const scene = engine.state.life.social46.scene;
+      renderRenScene46(root, scene, {
+        health: () => engine.state.health,
+        tvSold: () => engine.state.life.sold.includes('tv'),
+        shown: current => callbacks.onSocialShown({ type: 'social46_scene_shown', id: current.id }),
+        advance: current => {
+          callbacks.onSocialAction(engine.log.length, { type: current.stage !== 'scene' ? 'social46_dismiss' : current.beat < 2 ? 'social46_scene_next' : 'social46_complete', id: current.id });
+          ui.renOpen = false; callbacks.onRefresh();
+        },
+      }, active);
+      root.inert = !active;
+      return;
+    }
+    if (ui.renOpen && engine.state.life?.social46) {
+      renderRenChannel46(root, engine.state.life, {
+        shown: intent => callbacks.onSocialShown(intent),
+        action: intent => { callbacks.onSocialAction(engine.log.length, intent); callbacks.onRefresh(); },
+        close: () => { ui.renOpen = false; render(); },
       }, active);
       root.inert = !active;
       return;

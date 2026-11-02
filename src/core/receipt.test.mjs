@@ -105,3 +105,13 @@ test('Plan 22 Receipt does not invent candidate ordering or trial availability f
   assert.match(evidence.displayed[0].text, /Recorded pace options: Safe pace and Sprint/);
   assert.doesNotMatch(evidence.displayed[0].text, /effective-input order|upgrade available|winner/i);
 });
+
+test('social Receipt fields expose only recognized public facts, never hidden sentinels', () => {
+  const log = new EventLog(); const clock = { day: 2, label: 'day 2 evening' };
+  log.append('social46_display', { kind: 'invitation', id: 'ren-1', day: 2, activity: 'door', text: 'hidden strained sentinel', relationship: 'hidden strained sentinel', counts: { secret: 'hidden strained sentinel' } }, clock);
+  log.append('social46_action', { kind: 'reply', id: 'ren-1', choice: 'accept', relationship: 'hidden strained sentinel' }, clock);
+  log.append('life_transition', { life: { social46: { relationship: 'hidden strained sentinel' } } }, clock);
+  const receipt = projectReceipt(log.entries);
+  assert.equal(JSON.stringify(receipt).includes('hidden strained sentinel'), false);
+  assert.ok(receipt.evidence.some(e => e.type === 'social46_action' && e.payload.choice === 'accept'));
+});

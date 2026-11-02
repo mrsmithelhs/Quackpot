@@ -5,7 +5,7 @@ import { verifyChain } from './event-log.mjs';
 import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, isKnownRaceDuckId, makeRaceRestEvidence } from './race-rest.mjs';
 import { BANNER_1_ROSTER } from './game-engine.mjs';
-import { validateLifeHistory } from './life-validation.mjs';
+import { validateLifeHistory, UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION } from './life-validation.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
@@ -657,6 +657,19 @@ export function backupCorruptSave(storage) {
   return false;
 }
 
+/** Copy an unsupported development save only when doing so will not replace an existing backup. */
+export function backupUnsupportedRenSave(storage) {
+  try {
+    if (storage === undefined) storage = globalThis.localStorage;
+    if (!storage) return 'unavailable';
+    if (storage.getItem(BACKUP_KEY) !== null) return 'existing';
+    const raw = storage.getItem(STORAGE_KEY);
+    if (!raw) return 'unavailable';
+    storage.setItem(BACKUP_KEY, raw);
+    return 'created';
+  } catch { return 'unavailable'; }
+}
+
 /**
  * Loads game envelope from storage (or active in-memory session).
  * Returns { envelope, valid, errors, isCorrupt }
@@ -687,7 +700,8 @@ export function loadGame(storage) {
 
   const migrated = migrateLegacyEnvelope(envelope);
   const { valid, errors } = validateSave(migrated);
-  return { envelope: migrated, valid, errors, isCorrupt: !valid, migrated: migrated.schemaVersion !== envelope.schemaVersion };
+  const unsupportedDevelopment = !valid && errors.length === 1 && [UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION].includes(errors[0]);
+  return { envelope: migrated, valid, errors, isCorrupt: !valid && !unsupportedDevelopment, unsupportedDevelopment, migrated: migrated.schemaVersion !== envelope.schemaVersion };
 }
 
 function entryStatus(entry) {

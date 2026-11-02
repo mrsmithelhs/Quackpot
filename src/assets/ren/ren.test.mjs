@@ -80,3 +80,21 @@ test('selected hand and floor report the intended source and view', async () => 
  const floor=renderFloorCandidate({idPrefix:'floor'});
  assert.equal(floor.meta.viewBox,'0 0 960 540'); assert.equal(floor.meta.duckSupport,'blue magazine');
 });
+
+test('floor composition preserves default bytes and removes only the sold television fragment', async () => {
+  const { renderFloorCandidate } = await import('./index.mjs');
+  const { tvUnit } = await import('../apartment/props/living.mjs');
+  const normal = renderFloorCandidate({ idPrefix: 'tvtest', decorative: true });
+  const explicit = renderFloorCandidate({ idPrefix: 'tvtest', decorative: true, tv: 'present' });
+  assert.deepEqual(explicit, normal);
+  const before = tvUnit(false), after = tvUnit(true);
+  assert.equal(normal.svg.split(before).length - 1, 1);
+  const sold = renderFloorCandidate({ idPrefix: 'tvtest', decorative: true, tv: 'removed' });
+  assert.equal(sold.svg, normal.svg.replace(before, after));
+  assert.equal(sold.svg.split(before).length - 1, 0);
+  assert.ok(sold.svg.includes(after));
+  assert.doesNotMatch(sold.svg, /fill="#1f2c38"/);
+  assert.equal(sold.meta.duckSupport, normal.meta.duckSupport);
+  assert.equal(sold.meta.viewBox, normal.meta.viewBox);
+  assert.throws(() => renderFloorCandidate({ idPrefix: 'tvtest', tv: 'unknown' }), /unsupported TV state/);
+});

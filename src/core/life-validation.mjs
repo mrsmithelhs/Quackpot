@@ -7,8 +7,23 @@ import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs
 import { hasEnteredQuackpot } from './life-entry.mjs';
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+export const UNSUPPORTED_REN_DEVELOPMENT_SAVE = 'Unsupported pre-delivery Ren development snapshot; preserve the original save and use a compatible development revision.';
+export const UNSUPPORTED_REN_REVISION = 'Unsupported Ren social revision; preserve the original save and use a compatible revision.';
 export function validateLifeHistory(entries, state) {
   const errors = [];
+  // Plan 46 was developed on a shared Vite server before its first delivery.
+  // Its provisional snapshots are not migrated by guessing displayed copy or
+  // scene stages; keep older policy-1 histories without social activation intact.
+  const activation = entries.findIndex(e => e.type === 'life_intent' && e.payload?.intent?.type === 'social46_activate');
+  if (activation >= 0) {
+    const snapshot = entries.slice(activation + 1).find(e => e.type === 'life_transition')?.payload?.life?.social46;
+    const eventRevision = entries[activation].payload.intent.revision;
+    const savedRevision = snapshot?.revision;
+    // Pre-delivery social activations and snapshots both omitted the revision.
+    if (snapshot && eventRevision === undefined && savedRevision === undefined && state?.life?.social46?.revision === undefined) return [UNSUPPORTED_REN_DEVELOPMENT_SAVE];
+    if (eventRevision !== savedRevision || state?.life?.social46?.revision !== savedRevision) return ['Ren activation revision does not match its saved state'];
+    if (eventRevision !== 1) return [UNSUPPORTED_REN_REVISION];
+  }
   const start = entries.find(e => e.type === 'run_started');
   if (!start || start.payload.lifePolicyVersion !== POLICY_1_VERSION || !isKnownLifeConfig(start.payload.lifeConfig)) {
     return ['Unknown or missing life policy configuration in run_started'];
@@ -23,6 +38,8 @@ export function validateLifeHistory(entries, state) {
   let interruptedWork = null;
   let interruptedSession = null;
   let interruptedActivity = null;
+  let interruptedSocial = null;
+  let interruptedSocialPlan = null;
   const shownStories = new Set();
   let installed = false;
   let opened = false;
@@ -50,7 +67,17 @@ export function validateLifeHistory(entries, state) {
       acknowledged = true;
     }
     if (terminal && e.type !== 'receipt_shown') errors.push(`Post-terminal event at ${e.seq}`);
-    if ((interruptedWork || interruptedSession || interruptedActivity) && !terminal && !['work_interrupted', 'session_interrupted', 'activity47_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
+    if ((interruptedWork || interruptedSession || interruptedActivity || interruptedSocial || interruptedSocialPlan) && !terminal && !['work_interrupted', 'session_interrupted', 'activity47_interrupted', 'social46_interrupted', 'social46_plan_interrupted', 'terminal'].includes(e.type)) errors.push(`Event between interruption and terminal at ${e.seq}`);
+    if (e.type === 'social46_interrupted') {
+      const scene = life.social46?.scene;
+      if (interruptedSocial || scene?.stage !== 'scene' || !same(e.payload, { id: scene.id, day: life.day })) errors.push(`Invalid social interruption at ${e.seq}`);
+      interruptedSocial = e.payload.id;
+    }
+    if (e.type === 'social46_plan_interrupted') {
+      const social = life.social46, plan = social?.pending;
+      if (interruptedSocialPlan || social?.scene || !plan?.committed || !same(e.payload, { id: plan.id, day: plan.day })) errors.push(`Invalid social plan interruption at ${e.seq}`);
+      interruptedSocialPlan = e.payload.id;
+    }
     if (e.type === 'work_interrupted') {
       if (interruptedWork || !life.work || !same(e.payload, { id: life.work.id, kind: life.work.kind, day: life.day })) errors.push(`Invalid work interruption at ${e.seq}`);
       interruptedWork = e.payload.id;
@@ -72,6 +99,8 @@ export function validateLifeHistory(entries, state) {
       shownStories.add(key);
     }
     if (e.type === 'terminal') {
+      if (life.social46?.scene?.stage === 'scene' && interruptedSocial !== life.social46.scene.id) errors.push('Terminal is missing pending social interruption');
+      if (!life.social46?.scene && life.social46?.pending?.committed && interruptedSocialPlan !== life.social46.pending.id) errors.push('Terminal is missing pending social plan interruption');
       if (life.story47?.kind === 'activity' && life.story47.stage === 'scene' && interruptedActivity !== life.story47.id) errors.push('Terminal is missing pending activity interruption');
       if (life.work && interruptedWork !== life.work.id) errors.push('Terminal is missing pending work interruption');
       if (life.session && interruptedSession !== life.session.id) errors.push('Terminal is missing active session interruption');
@@ -128,7 +157,7 @@ export function validateLifeHistory(entries, state) {
       i += result.events.length + 1;
       continue;
     }
-    if (e.type === 'life_transition' || e.type.startsWith('life_')) errors.push(`Unpaired life event at ${e.seq}`);
+    if (e.type === 'life_transition' || e.type.startsWith('life_') || (e.type.startsWith('social46_') && !['social46_interrupted', 'social46_plan_interrupted'].includes(e.type))) errors.push(`Unpaired life event at ${e.seq}`);
     if (e.type === 'purchase' && e.payload.price) cash -= e.payload.price;
     if (e.type === 'reward' && e.payload.cash) cash += e.payload.cash;
     if (e.type === 'income' && e.payload.amount) cash += e.payload.amount;
@@ -139,7 +168,7 @@ export function validateLifeHistory(entries, state) {
     }
     cash = Math.round(cash * 100) / 100;
   }
-  if ((interruptedWork || interruptedSession || interruptedActivity) && !terminal) errors.push('Interruption evidence requires a terminal event');
+  if ((interruptedWork || interruptedSession || interruptedActivity || interruptedSocial || interruptedSocialPlan) && !terminal) errors.push('Interruption evidence requires a terminal event');
   if (!same(life, state.life)) errors.push('Life state does not match replay');
   if (!same(life.sold, state.assetsSold)) errors.push('Sold furnishings do not match life history');
   if (cash !== state.cash || health !== state.health) errors.push('Life balances do not match replay');

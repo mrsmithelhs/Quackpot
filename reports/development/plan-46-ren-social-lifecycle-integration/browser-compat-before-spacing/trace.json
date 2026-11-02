@@ -1,0 +1,55 @@
+{
+  "sourcePins": {
+    "src/main.js": "8f9a8d66e61509ba1c47d6ca8c322644254f42182ac744ca5e79988010d20c9a",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-validation.mjs": "768bfc0a4b43756e752df2f0535098379f63d3480898f26329ed886011d1b2e0",
+    "src/core/life-social.mjs": "279363b8fca8f9b4bce70ade5f4cdb85f3e4f1e07bd250480164486abafb55f6",
+    "src/ui/life/ren-save-compat.mjs": "4194af58368dd03adce4fcc935f42bd8d362ab82fd1064f8121d3c56ac7fd034"
+  },
+  "fixture": {
+    "control": true,
+    "unsupported": true,
+    "corrupt": false,
+    "errors": [
+      "Unsupported pre-delivery Ren development snapshot; preserve the original save and use a compatible development revision."
+    ]
+  },
+  "trace": [
+    {
+      "name": "classification",
+      "control": true,
+      "unsupported": true,
+      "corrupt": false,
+      "errors": [
+        "Unsupported pre-delivery Ren development snapshot; preserve the original save and use a compatible development revision."
+      ]
+    },
+    {
+      "name": "unsupported-boot",
+      "text": "Ren save from another version\n\nThis save uses a Ren version that this game cannot safely resume. Its original data is preserved. To continue that run, use the compatible version in the same browser.\n\nYou can start a temporary session now. It will not overwrite this save; the game will also try to keep a backup copy.\n\nPlay a temporary session",
+      "reset": false,
+      "same": true
+    },
+    {
+      "name": "temporary-and-manual-save",
+      "same": true,
+      "backup": true,
+      "text": "Unsupported Ren save and a backup are preserved. This session is temporary and cannot overwrite the saved run.\nQuackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSave not replaced; the previous snapshot is preserved.\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →",
+      "dialogs": [
+        {
+          "type": "alert",
+          "message": "This temporary session cannot overwrite the preserved Ren save."
+        }
+      ]
+    },
+    {
+      "name": "fresh-temporary-preserved",
+      "same": true
+    },
+    {
+      "name": "reload-preserved",
+      "same": true
+    }
+  ],
+  "runtime": []
+}

@@ -19,6 +19,7 @@ import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
+const SOCIAL_RESERVATION = Symbol('private-social-reservation');
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -162,6 +163,7 @@ export class GameEngine {
   applyLifeIntent(intent, privateToken = null) {
     if (intent?.type === 'phone_commit_next' && privateToken !== NEXT_RESERVATION) return { ok: false, reason: 'private_reservation' };
     if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
+    if (intent?.type?.startsWith('social46_') && (this.state.activeModal || this.state.interruptedContext)) return { ok: false, reason: 'presentation_covered' };
     if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced
       && !['rent', 'rent_surface', 'recover'].includes(intent?.type)) return { ok: false, reason: 'rent_notice_pending' };
     if (intent?.type === 'sell' || intent?.type === 'sell_after_open') {
@@ -197,9 +199,10 @@ export class GameEngine {
   }
 
   /** Preview only: a next-phase commitment is never made by browsing. */
-  previewNextLifePlay(kind) {
+  previewNextLifePlay(kind, { socialContinue = false } = {}) {
     if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
     const intent = { type: 'phone_commit_next', version: 1, confirmed: true, kind };
+    if (socialContinue) intent.socialConflict = 'continue';
     const gate = tutorialShiftBlock(this.tutorialShiftVersion, this.state.life, intent);
     if (gate) return { ok: false, reason: gate };
     if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced) return { ok: false, reason: 'rent_notice_pending' };
@@ -212,7 +215,7 @@ export class GameEngine {
   }
 
   // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
-  #stageNextPlay(method, args) {
+  #stageNextPlay(method, args, { next = true, social = false } = {}) {
     const draft = new GameEngine(this.seed);
     draft.tutorialShiftVersion = this.tutorialShiftVersion;
     draft.autosaveEnabled = this.autosaveEnabled;
@@ -226,9 +229,10 @@ export class GameEngine {
     for (const name of ['resolveRaceCandidate', 'serializeRaceCandidate', 'sampleLifeDraw']) {
       if (Object.hasOwn(this, name)) draft[name] = this[name];
     }
+    const options = { [NEXT_RESERVATION]: next, [SOCIAL_RESERVATION]: social };
     const result = method === 'runRace'
-      ? draft.runRace(args[0], args[1], args[2], { ...args[3], [NEXT_RESERVATION]: true })
-      : draft[method](...args, { [NEXT_RESERVATION]: true });
+      ? draft.runRace(args[0], args[1], args[2], { ...args[3], ...options })
+      : draft[method](...args, options);
     if (!result) return null;
     this.state = draft.state; this.log = draft.log;
     this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
@@ -313,8 +317,9 @@ export class GameEngine {
     if (this.state.tenPullCommitted) {
       return this.state.pendingReveals;
     }
-    if (options.confirmNext === true) return this.#stageNextPlay('commitPromotionalTenPull', []);
+    if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('commitPromotionalTenPull', [], { next: options.confirmNext === true, social: options.confirmSocial === true });
     const reservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
+    if (options[SOCIAL_RESERVATION]) reservation.socialConflict = 'continue';
     if (this.state.life && !this.applyLifeIntent(reservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) return null;
 
     const draws = [];
@@ -375,8 +380,9 @@ export class GameEngine {
     if (this.isTerminal() || !this.state.life || ![1, 10].includes(count)) return null;
     const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
     if (this.state.gems < cost || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
-    if (options.confirmNext === true) return this.#stageNextPlay('commitPaidPull', [count]);
+    if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('commitPaidPull', [count], { next: options.confirmNext === true, social: options.confirmSocial === true });
     const reservationIntent = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
+    if (options[SOCIAL_RESERVATION]) reservationIntent.socialConflict = 'continue';
     const reservation = this.applyLifeIntent(reservationIntent, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null);
     if (!reservation.ok) return null;
     this.state.gems -= cost;
@@ -757,7 +763,7 @@ export class GameEngine {
   /** Resolve and commit one deterministic race attempt. Re-entry returns its stored attempt. */
   runRace(raceNumber, duckId, stance = 'safe', options = {}) {
     const { useTrial = false } = options;
-    if (options.confirmNext === true) return this.#stageNextPlay('runRace', [raceNumber, duckId, stance, { useTrial }]);
+    if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('runRace', [raceNumber, duckId, stance, { useTrial }], { next: options.confirmNext === true, social: options.confirmSocial === true });
     if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
     const raceId = this.raceIdFor(raceNumber);
     const priorAttempt = this.getRaceAttempt(raceNumber);
@@ -768,6 +774,7 @@ export class GameEngine {
     if (typeof useTrial !== 'boolean') throw new TypeError('useTrial must be boolean');
     if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
     const raceReservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'race' } : { type: 'phone_commit', kind: 'race' };
+    if (options[SOCIAL_RESERVATION]) raceReservation.socialConflict = 'continue';
     if (this.state.life && !transitionLife(this.state.life, this.state, raceReservation).ok) return null;
 
     this.activateRaceRestPolicy();
@@ -1308,7 +1315,11 @@ export class GameEngine {
   /** Record unfinished commitments before terminal, without settling them or inventing consequences. */
   recordPendingLifeInterruption() {
     if (this.isTerminal() || !this.state.life) return;
-    const { work, session, story47 } = this.state.life;
+    const { work, session, story47, social46 } = this.state.life;
+    if (social46?.scene?.stage === 'scene' && !this.log.entries.some(e => e.type === 'social46_interrupted' && e.payload.id === social46.scene.id))
+      this.log.append('social46_interrupted', { id: social46.scene.id, day: this.state.life.day }, this.state.clock);
+    else if (!social46?.scene && social46?.pending?.committed && !this.log.entries.some(e => e.type === 'social46_plan_interrupted' && e.payload.id === social46.pending.id))
+      this.log.append('social46_plan_interrupted', { id: social46.pending.id, day: social46.pending.day }, this.state.clock);
     if (story47?.kind === 'activity' && story47.stage === 'scene' && !this.log.entries.some(e => e.type === 'activity47_interrupted' && e.payload.id === story47.id))
       this.log.append('activity47_interrupted', { id: story47.id, choice: story47.choice, day: this.state.life.day }, this.state.clock);
     if (work?.status === 'doing' && !this.log.entries.some(e => e.type === 'work_interrupted' && e.payload.id === work.id))

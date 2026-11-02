@@ -6,6 +6,7 @@ import {
   loadGame,
   clearGame,
   backupCorruptSave,
+  backupUnsupportedRenSave,
   validateSave,
   STORAGE_KEY,
   BACKUP_KEY,
@@ -602,4 +603,57 @@ test('storage [Repair 02 P2]: backup-key failure does not discard or overwrite p
   assert.equal(saveRes.preservedSnapshot, true);
   // Verify original snapshot is NOT discarded or overwritten
   assert.equal(mockWithBackupFailure.getItem(STORAGE_KEY), 'precious-corrupted-data');
+});
+
+test('unsupported Ren development save is distinct from corruption and preserves stored bytes', () => {
+  resetInMemoryStore(); setTemporaryPreservationMode(false);
+  const e = new GameEngine('synthetic-ren-compat', { lifePolicy: true }); e.start(); e.setupCompanion();
+  const step = intent => assert.equal(e.applyLifeIntent(intent).ok, true, JSON.stringify(intent));
+  step({ type: 'meal', choice: 'buy' }); step({ type: 'advance' }); step({ type: 'advance' });
+  step({ type: 'meal', choice: 'buy' }); step({ type: 'advance' });
+  const acceptedControl = e.toEnvelope();
+  assert.equal(loadGame(createMockStorage({ [STORAGE_KEY]: JSON.stringify(acceptedControl) })).valid, true);
+  step({ type: 'social46_activate', version: 1, revision: 1 });
+  const old = e.toEnvelope(); const rebuilt = new EventLog();
+  const future = e.toEnvelope(); const futureLog = new EventLog();
+  for (const entry of future.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === 'life_intent' && payload.intent?.type === 'social46_activate') payload.intent.revision = 2;
+    if (entry.type === 'life_transition' && payload.life?.social46) payload.life.social46.revision = 2;
+    futureLog.append(entry.type, payload, entry.clock);
+  }
+  future.eventLog = futureLog.entries; future.state.life.social46.revision = 2;
+  const futureRaw = JSON.stringify(future), futureStorage = createMockStorage({ [STORAGE_KEY]: futureRaw });
+  const futureLoad = loadGame(futureStorage);
+  assert.equal(futureLoad.unsupportedDevelopment, true); assert.equal(futureLoad.isCorrupt, false);
+  assert.match(futureLoad.errors[0], /Unsupported Ren social revision/);
+  assert.equal(futureStorage.getItem(STORAGE_KEY), futureRaw);
+  future.state.life.social46.revision = 1;
+  const mismatchRaw = JSON.stringify(future), mismatchStorage = createMockStorage({ [STORAGE_KEY]: mismatchRaw });
+  const mismatch = loadGame(mismatchStorage);
+  assert.equal(mismatch.isCorrupt, true);
+  assert.ok(mismatch.errors.some(error => /revision does not match/.test(error)));
+  assert.equal(mismatchStorage.getItem(STORAGE_KEY), mismatchRaw);
+  for (const entry of old.eventLog) {
+    const payload = structuredClone(entry.payload);
+    if (entry.type === 'life_intent' && payload.intent?.type === 'social46_activate') delete payload.intent.revision;
+    if (entry.type === 'life_transition' && payload.life?.social46) delete payload.life.social46.revision;
+    rebuilt.append(entry.type, payload, entry.clock);
+  }
+  old.eventLog = rebuilt.entries;
+  delete old.state.life.social46.revision;
+  const raw = JSON.stringify(old), mock = createMockStorage({ [STORAGE_KEY]: raw });
+  const result = loadGame(mock);
+  assert.equal(result.valid, false); assert.equal(result.isCorrupt, false); assert.equal(result.unsupportedDevelopment, true);
+  assert.match(result.errors[0], /Unsupported pre-delivery Ren development snapshot/);
+  assert.equal(mock.getItem(STORAGE_KEY), raw);
+  assert.equal(backupUnsupportedRenSave(mock), 'created'); assert.equal(mock.getItem(BACKUP_KEY), raw);
+  const existing = createMockStorage({ [STORAGE_KEY]: raw, [BACKUP_KEY]: 'existing-backup-bytes' });
+  assert.equal(backupUnsupportedRenSave(existing), 'existing');
+  assert.equal(existing.getItem(BACKUP_KEY), 'existing-backup-bytes');
+  assert.equal(existing.getItem(STORAGE_KEY), raw);
+  setTemporaryPreservationMode(true);
+  assert.equal(saveGame(acceptedControl, mock).preservedSnapshot, true);
+  assert.equal(mock.getItem(STORAGE_KEY), raw);
+  setTemporaryPreservationMode(false); resetInMemoryStore();
 });

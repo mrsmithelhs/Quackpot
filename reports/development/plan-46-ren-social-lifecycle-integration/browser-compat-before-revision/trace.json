@@ -1,0 +1,55 @@
+{
+  "sourcePins": {
+    "src/main.js": "5eb8cbc0f2998ce9b4e33a93218862c2a166dc1adf54700d9ab2af2e097bcf63",
+    "src/core/storage.mjs": "5fd3f07bad4674706f1de9ebd5ba29a6f7faac2f4ae02d1ab550f7c492c9e6cc",
+    "src/core/life-validation.mjs": "4635d8891a2a78da092c4df6b4173fb0dd5eb37892faa8a1b52d58ea5e15744c",
+    "src/core/life-social.mjs": "c97f8c6389d99054176154d0e49fbcdb1c4d96b66d9e5105d10ba1601ca78ed6",
+    "src/ui/life/ren-save-compat.mjs": "f735d53b6a53f48322e4e65733cda0a66bd9313afe20e3da2d4276fd238c998e"
+  },
+  "fixture": {
+    "control": true,
+    "unsupported": true,
+    "corrupt": false,
+    "errors": [
+      "Unsupported pre-delivery Ren development snapshot; preserve the original save and use a compatible development revision."
+    ]
+  },
+  "trace": [
+    {
+      "name": "classification",
+      "control": true,
+      "unsupported": true,
+      "corrupt": false,
+      "errors": [
+        "Unsupported pre-delivery Ren development snapshot; preserve the original save and use a compatible development revision."
+      ]
+    },
+    {
+      "name": "unsupported-boot",
+      "text": "Earlier Ren development save\n\nThis save was created by an earlier, unreleased Ren development version. Its original data is preserved; this version cannot safely resume it. To continue that run, use the compatible earlier development revision in the same browser.\n\nYou can start a temporary session now. It will not overwrite this save; the game will also try to keep a backup copy.\n\nPlay a temporary session",
+      "reset": false,
+      "same": true
+    },
+    {
+      "name": "temporary-and-manual-save",
+      "same": true,
+      "backup": true,
+      "text": "Earlier Ren development save and a backup are preserved. This session is temporary and cannot overwrite the saved run.\nQuackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSave not replaced; the previous snapshot is preserved.\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →",
+      "dialogs": [
+        {
+          "type": "alert",
+          "message": "This temporary session cannot overwrite the preserved earlier Ren development save."
+        }
+      ]
+    },
+    {
+      "name": "fresh-temporary-preserved",
+      "same": true
+    },
+    {
+      "name": "reload-preserved",
+      "same": true
+    }
+  ],
+  "runtime": []
+}

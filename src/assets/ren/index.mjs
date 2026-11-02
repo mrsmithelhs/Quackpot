@@ -2,6 +2,7 @@ import { assertIdPrefix, scopeIds } from '../apartment/core/ids.mjs';
 import { figureDefs, doorSource } from './source.mjs';
 import { renderScene } from '../apartment/index.mjs';
 import { patches } from './scene-patches.mjs';
+import { tvUnit } from '../apartment/props/living.mjs';
 
 const expressions = Object.freeze({ warm: 'warm', laugh: 'laugh', tease: 'tease', 'not-tonight': 'sorry', 'long-day': 'tired', listening: 'listen' });
 export const REN_EXPRESSIONS = Object.freeze(Object.keys(expressions));
@@ -80,6 +81,14 @@ function livingScene(prefix, name, decorative) {
 }
 /** Owner-selected original wide floor composition; unmounted and not a production scene contract. */
 export function renderFloorCandidate(input = {}) {
-  options(input, ['idPrefix', 'decorative']);
-  return livingScene(input.idPrefix, 'ren-floor-game-night', input.decorative);
+  options(input, ['idPrefix', 'decorative', 'tv']);
+  if (input.tv !== undefined && !['present', 'removed'].includes(input.tv)) throw new RangeError('unsupported TV state');
+  const rendered = livingScene(input.idPrefix, 'ren-floor-game-night', input.decorative);
+  if (input.tv !== 'removed') return rendered;
+  // Bounded compatibility bridge: preserve the pinned selected floor scene and
+  // substitute only the apartment kit's existing sold-TV variant. A changed
+  // baseline or occurrence count must stop rather than render a sold TV.
+  const before = tvUnit(false), after = tvUnit(true);
+  if (rendered.svg.split(before).length !== 2) throw new Error('Ren floor TV seam drift: expected one fragment');
+  return { svg: rendered.svg.replace(before, after), meta: { ...rendered.meta, tv: 'removed' } };
 }

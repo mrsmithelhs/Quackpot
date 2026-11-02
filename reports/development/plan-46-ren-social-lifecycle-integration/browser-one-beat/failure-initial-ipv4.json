@@ -1,0 +1,62 @@
+{
+  "phase": "synthetic checkpoint",
+  "error": "Error: {\"exceptionId\":2,\"text\":\"Uncaught (in promise) TypeError: Failed to fetch dynamically imported module: chrome-error://chromewebdata/Quackpot/src/core/game-engine.mjs\",\"lineNumber\":0,\"columnNumber\":0,\"exception\":{\"type\":\"object\",\"subtype\":\"error\",\"className\":\"TypeError\",\"description\":\"TypeError: Failed to fetch dynamically imported module: chrome-error://chromewebdata/Quackpot/src/core/game-engine.mjs\",\"objectId\":\"-4176501622852348879.1.2\"}}",
+  "diagnostic": {
+    "body": "This site can’t be reached\n\n127.0.0.1 refused to connect.\n\nTry:\n\nChecking the connection\nChecking the proxy and the firewall\nERR_CONNECTION_REFUSED\nReload\nDetails",
+    "url": "chrome-error://chromewebdata/"
+  },
+  "trace": [],
+  "runtime": [
+    {
+      "method": "Runtime.exceptionThrown",
+      "params": {
+        "timestamp": 1793590523174.857,
+        "exceptionDetails": {
+          "exceptionId": 1,
+          "text": "Uncaught",
+          "lineNumber": 0,
+          "columnNumber": 44,
+          "scriptId": "3",
+          "url": "chrome-error://chromewebdata/",
+          "exception": {
+            "type": "object",
+            "subtype": "error",
+            "className": "DOMException",
+            "description": "SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.",
+            "objectId": "-4176501622852348879.1.1",
+            "preview": {
+              "type": "object",
+              "subtype": "error",
+              "description": "SecurityError: Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document.",
+              "overflow": false,
+              "properties": [
+                {
+                  "name": "stack",
+                  "type": "string",
+                  "value": "SecurityError: Failed to read the 'sessionStorage'…rom 'Window': Access is denied for this document."
+                },
+                {
+                  "name": "code",
+                  "type": "number",
+                  "value": "18"
+                },
+                {
+                  "name": "name",
+                  "type": "string",
+                  "value": "SecurityError"
+                },
+                {
+                  "name": "message",
+                  "type": "string",
+                  "value": "Failed to read the 'sessionStorage' property from 'Window': Access is denied for this document."
+                }
+              ]
+            }
+          },
+          "executionContextId": 1
+        }
+      },
+      "sessionId": "D9D89ABAAADFE23D3A3C6F21C6854C92"
+    }
+  ]
+}

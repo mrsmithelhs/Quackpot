@@ -22,3 +22,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Register listening request
 
 2026-11-01. Owner said softer attack and slower decay **together** were best in the recent phrase and are beginning to sound more like an electric guitar. They observed lower notes sounded more accurate even on the reference than the earlier higher-note probe. They requested the same phrase one octave higher and another chord phrase combining lower and higher notes. This is a contextual sound preference, not production or final foundation acceptance.
+
+## Harpsichord perception
+
+2026-11-01. Owner says the combined plucked-string voice sounds more like a harpsichord, particularly in higher octaves, and requests a Luna researcher to investigate harpsichord versus electric-guitar differences for practical clues. This is owner listening evidence, not a confirmed diagnosis of which audio parameter causes the resemblance or a rejection of the existing pluck for all possible uses.

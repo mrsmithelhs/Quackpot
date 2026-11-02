@@ -1,0 +1,161 @@
+{
+  "records": [
+    {
+      "file": "pluck-same.wav",
+      "sha256": "f898b1d4a61794e964ccfe5bdebb83f8f46af4230aa51b34a879600280273599",
+      "bytes": 1728044,
+      "kind": "pluck-same",
+      "info": {
+        "engine": "original sample-domain plucked-string",
+        "masterGain": 0.25,
+        "pcmAndDelayBytes": 1105608,
+        "audioBufferBytes": 1102080,
+        "offlineBytes": 3456000,
+        "wavBytes": 1728044,
+        "transportBytes": 9216236,
+        "estimatedBytes": 16607968,
+        "maxConcurrent": 4,
+        "notes": [
+          {
+            "midi": 60,
+            "start": 0.5,
+            "duration": 0.6,
+            "velocity": 0.7086614173228346,
+            "seed": 1,
+            "samples": 43200,
+            "delay": 184,
+            "estimatedHz": 261.58038147138967,
+            "estimatedCents": -0.299017181554766
+          },
+          {
+            "midi": 55,
+            "start": 1.5,
+            "duration": 1,
+            "velocity": 0.7086614173228346,
+            "seed": 2,
+            "samples": 62400,
+            "delay": 245,
+            "estimatedHz": 196.31901840490798,
+            "estimatedCents": 2.8357002876198796
+          },
+          {
+            "midi": 60,
+            "start": 1.56,
+            "duration": 0.94,
+            "velocity": 0.7086614173228346,
+            "seed": 3,
+            "samples": 59520,
+            "delay": 184,
+            "estimatedHz": 261.58038147138967,
+            "estimatedCents": -0.299017181554766
+          },
+          {
+            "midi": 64,
+            "start": 1.62,
+            "duration": 0.88,
+            "velocity": 0.7086614173228346,
+            "seed": 4,
+            "samples": 56640,
+            "delay": 146,
+            "estimatedHz": 329.89690721649487,
+            "estimatedCents": 1.4140747403597609
+          },
+          {
+            "midi": 67,
+            "start": 1.68,
+            "duration": 0.82,
+            "velocity": 0.7086614173228346,
+            "seed": 5,
+            "samples": 53760,
+            "delay": 123,
+            "estimatedHz": 391.83673469387753,
+            "estimatedCents": -0.701040572784387
+          }
+        ],
+        "nodeCount": 11,
+        "gateFadeSeconds": 0.08,
+        "sourceBufferCapSeconds": 3
+      },
+      "stats": {
+        "peak": 0.28664690256118774,
+        "rms": 0.014766454102023993,
+        "lastSecondPeak": 0
+      },
+      "contextState": "closed"
+    },
+    {
+      "file": "performance-A.wav",
+      "sha256": "a7d6d5b37ed65849f7e3cadb9cd7bed33df85b30317b5e75fe0412994755d516",
+      "bytes": 1728044,
+      "kind": "performance-A",
+      "info": {
+        "engine": "Plan 39 custom",
+        "masterGain": 0.5,
+        "nodeCount": 29,
+        "notes": [
+          {
+            "midi": 60,
+            "start": 0.5,
+            "duration": 0.6,
+            "velocity": 0.7086614173228346,
+            "seed": 1
+          },
+          {
+            "midi": 48,
+            "start": 1.5,
+            "duration": 0.52,
+            "velocity": 0.7086614173228346,
+            "seed": 2
+          },
+          {
+            "midi": 55,
+            "start": 1.54,
+            "duration": 0.48,
+            "velocity": 0.7086614173228346,
+            "seed": 3
+          },
+          {
+            "midi": 60,
+            "start": 1.58,
+            "duration": 0.44,
+            "velocity": 0.7086614173228346,
+            "seed": 4
+          },
+          {
+            "midi": 64,
+            "start": 1.62,
+            "duration": 0.4,
+            "velocity": 0.7086614173228346,
+            "seed": 5
+          }
+        ]
+      },
+      "stats": {
+        "peak": 0.08303530514240265,
+        "rms": 0.006334888280548144,
+        "lastSecondPeak": 0
+      },
+      "contextState": "closed"
+    }
+  ],
+  "total": 3456088,
+  "existing": 18048352,
+  "sourceHashes": {
+    "probe": "e966ff322f9fe7b5bb07f049f73ddefaf82ca6b5fccccacc32780b8075605653",
+    "pluck": "ce34ecdb84243152522445e5edecfe4c322472570a62b82c3fc18410431b35e9",
+    "engine": "f756539d1a564c0cf0fe997a0602a9fe9b93de5b7790a46e02c9bdc247ae3f82",
+    "control": "f3cd68ff296c4da699ff6199d60d1720abb1307965cca48b454c5c3022685bbd"
+  },
+  "requests": [
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-probe.html",
+    "http://localhost:5173/Quackpot/@vite/client",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/scores.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/patches.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/synth-engine.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-probe.mjs",
+    "http://localhost:5173/Quackpot/node_modules/vite/dist/client/env.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-pluck.mjs",
+    "http://localhost:5173/favicon.ico"
+  ],
+  "runtimeErrors": []
+}

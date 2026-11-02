@@ -59,6 +59,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-48` | Daily gigs and evening work lifecycle | draft | Specify then integrate stable daily gig offers, employment-independent availability, explicit work completion and once-only Evening pay/fatigue without automatic rent payment. |
 | `plan-49` | Diegetic apartment action map and room-use study | complete | Map remaining non-navigation life controls to supported apartment objects and rooms, remove redundant non-actions, and select coherent sleep/continued-play and optional-life affordances before integration. |
 | `plan-50` | Cross-harness visual and audio helper calibration | in-progress | Calibrate direct Haiku and Gemini Flash helpers on frozen historical artwork and UI, measuring actionable findings and false alarms against held-back owner feedback; audio is a separately gated later stage. |
+| `plan-51` | Five-slot scheduler contract and calibration | draft | Specify and simulate the accepted five-slot day with slot-consuming meals, one shared pure scheduler, staged guidance and coherent obligation transactions before production integration. |
+| `plan-52` | Five-slot production transition and checkpoint refresh | draft | Integrate the accepted shared five-slot scheduler across life, work, meals, social play, gacha sessions, sleep, storage and Receipt, regenerating synthetic checkpoints and reconciling current docs. |
 <!-- plan-index:end -->
 
 ## Report Folders

@@ -9,6 +9,10 @@ summary: >-
 ---
 # Plan46: Ren social lifecycle
 
+## Five-slot transition coordination — 2026-11-02
+
+Owner accepted the five-slot day and waived old game-save compatibility for this transition (DECISION-072). Hold scheduler-dependent Ren source changes at committed `0c6874f` / progress `b7755f2`; whole-experience acceptance remains pending. Selected art, voice, invitations, reservations, free arrival/open, Welcome, dialogue and once-only recovery are preserved feature inputs to Plans51/52. Earlier maintenance-dinner guards, old phase/anchor shapes and legacy replay requirements are not new-scheduler requirements. Plan52 owns shared semantic writes and synthetic refresh; resume/closure of this packet is coordinated with owner review of integrated Ren. Do not add another old-policy meal workaround.
+
 ## Packet Metadata
 
 - Packet id: plan-46

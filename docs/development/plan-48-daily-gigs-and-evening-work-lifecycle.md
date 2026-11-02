@@ -2,7 +2,7 @@
 id: plan-48
 title: Daily gigs and evening work lifecycle
 status: draft
-depends_on: [plan-47]
+depends_on: [plan-47, plan-52]
 gate: "Draft only2026-11-01, not assigned. Mechanism and bounded balance proposal with owner-selected remaining values before production integration; root source ownership and final owner review required."
 superseded_by: null
 resolution: null
@@ -10,6 +10,10 @@ summary: >-
   Specify then integrate stable daily gig offers, employment-independent availability, explicit work completion and once-only Evening pay/fatigue without automatic rent payment.
 ---
 # Plan 48: Daily gigs and evening work lifecycle
+
+## Five-slot transition dependency — 2026-11-02
+
+Plan52 completion now gates this unassigned draft. Specify gig availability, occupied slot, completion/pay/fatigue and social conflicts against the accepted five-slot scheduler, not the earlier maintenance/anchor model. Existing owner-selected employment-independent gig intent remains; no gig calibration or implementation is selected by the transition.
 
 ## Packet Metadata
 

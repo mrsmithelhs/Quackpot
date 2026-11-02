@@ -29,8 +29,10 @@ def main(root_arg):
     envpython = root / "venv" / "Scripts" / "python.exe"
     commands = [
         [sys.executable, "-B", str(here / "fetch_python.py"), str(root)],
+        [str(py312), "-B", str(here / "verify_python.py")],
         [uv, "venv", "--python", str(py312), "--no-python-downloads", "--no-config", str(root / "venv")],
         [uv, "pip", "sync", str(resolved), "--python", str(envpython), "--require-hashes", "--torch-backend", "cu128", "--no-build", "--no-config", "--no-python-downloads"],
+        [str(envpython), "-B", str(here / "verify_environment.py")],
     ]
     deadline = time.monotonic() + 1800
     outputs = []

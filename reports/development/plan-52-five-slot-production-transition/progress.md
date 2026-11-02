@@ -9,3 +9,7 @@ Actual evidence is narrower than the intended experience: no-job script stops at
 Advisor posture: orchestrator-gate-only for this report-local behavioral model under root instruction; no pre-proposal advisor ran. A single authorized Terra-medium read-only review remains required after stable production integration. Root received findings and owner questions were asked in the implementer chat. Production source ownership/transaction/save gate remains uncleared. Ready for root review of this bounded model: yes. Ready for implementation or owner acceptance: no.
 
 Other concurrent Plan53 proposal and supervisor files were present in the shared tree and left untouched. Root owns packet/status/decision documents. No push or deployment.
+
+## Owner playtest candidate
+
+Owner subsequently selected $400 second rent on Day 14 as a working playtest candidate, recorded in Stage A savepoint `b457306`. Scripted affordable payments in the study are predeclared model choices, not observed player behavior or an adopted automatic payment UI. Loan terms and default direction remain pending; root is coordinating decision documentation. No new validation or source clearance follows from this selection.

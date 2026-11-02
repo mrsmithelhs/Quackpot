@@ -214,8 +214,9 @@ export class GameEngine {
     return Boolean(life && ((life.session && life.session[kind]) || (!life.session && life.anchor && life.phase === 'evening')));
   }
 
-  // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
-  #stageNextPlay(method, args, { next = true, social = false } = {}) {
+  // Transaction drafts keep game state, evidence and each RNG stream together.
+  // A failed operation must never publish any part of its draft.
+  #transactionDraft() {
     const draft = new GameEngine(this.seed);
     draft.tutorialShiftVersion = this.tutorialShiftVersion;
     draft.autosaveEnabled = this.autosaveEnabled;
@@ -225,20 +226,28 @@ export class GameEngine {
     draft.rngDraw = restoreRng(this.rngDraw.serialize());
     draft.rngRace = restoreRng(this.rngRace.serialize());
     draft.rngEvent = restoreRng(this.rngEvent.serialize());
-    // Preserve focused deterministic failure-injection seams, with `this` bound to the draft.
     for (const name of ['resolveRaceCandidate', 'serializeRaceCandidate', 'sampleLifeDraw']) {
       if (Object.hasOwn(this, name)) draft[name] = this[name];
     }
+    return draft;
+  }
+
+  #publishTransaction(draft) {
+    this.state = draft.state; this.log = draft.log;
+    this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
+  }
+
+  // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
+  #stageNextPlay(method, args, { next = true, social = false } = {}) {
+    const draft = this.#transactionDraft();
     const options = { [NEXT_RESERVATION]: next, [SOCIAL_RESERVATION]: social };
     const result = method === 'runRace'
       ? draft.runRace(args[0], args[1], args[2], { ...args[3], ...options })
       : draft[method](...args, options);
     if (!result) return null;
-    this.state = draft.state; this.log = draft.log;
-    this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
+    this.#publishTransaction(draft);
     return result;
   }
-
   /** Select independently of gameplay RNG, in the same transaction as the work commitment. */
   beginStoryWork(kind, confirmedSessionEnd = false) {
     if (!this.state.life) return { ok: false, reason: 'unavailable' };

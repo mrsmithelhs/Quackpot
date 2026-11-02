@@ -26,3 +26,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Harpsichord perception
 
 2026-11-01. Owner says the combined plucked-string voice sounds more like a harpsichord, particularly in higher octaves, and requests a Luna researcher to investigate harpsichord versus electric-guitar differences for practical clues. This is owner listening evidence, not a confirmed diagnosis of which audio parameter causes the resemblance or a rejection of the existing pluck for all possible uses.
+
+## Pickup-color and playback request
+
+2026-11-02. Owner requested the exact same higher-note phrase with unchanged control and pickup-inspired coloration, plus three additional increasingly strong settings to make differences easier to hear. They also asked that starting a sound rewind all other played or paused sounds to 0.0 seconds. These requests do not select a guitar sound or authorize a production change.

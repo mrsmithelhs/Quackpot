@@ -1,0 +1,2 @@
+import {validateEvents} from './guitar-pluck.mjs';
+export function estimatePickupBatch(events){const v=validateEvents(events,{sampleRate:48000,decay:.996,damping:.5});const copiedBytes=v.events.reduce((n,e)=>n+e.samples*4,0),offlineBytes=528000*2*4,wavBytes=44+528000*2*2,transportBytes=Math.ceil(wavBytes*4/3)*4,totalBytes=v.totalBytes+copiedBytes*2+offlineBytes+wavBytes+transportBytes;if(!Number.isSafeInteger(totalBytes)||totalBytes>40000000)throw Error('pickup preallocation budget');return {v,copiedBytes,offlineBytes,wavBytes,transportBytes,totalBytes};}

@@ -1,0 +1,11 @@
+# Independent review disposition
+
+A read-only pre-delivery review was requested as `gpt-6.1-terra`, explicit `medium`, in a default-role child after substantive implementation. The reviewer reported that its served model identity and actual reasoning effort were not independently exposed; do not treat the requested settings as observed proof. The review was instruction-read-only, not structurally verified read-only: it was told not to write, execute tests or spawn children, and reported it did none. A subsequent `git status --short` showed only the three expected untracked Plan51 directories; this status check cannot prove unchanged contents of already-untracked files. Approximate cost: one reviewer task and one repair/verification cycle; no paid cross-provider call.
+
+| Finding | Independent disposition |
+| --- | --- |
+| P1 default empty calendar stranded required Day1 shift | Accepted. Confirmed `createSchedule()` produced no Day1 scheduled work while other Midday actions were rejected. Default calendar now has Day1 work; an explicit false Day1 entry is rejected. Focused test exercises the default. |
+| P2 recovery after job loss could record an undisclosed extra shift miss and termination | Accepted. Confirmed inspection used employment eligibility while commit used raw calendar. Commit now uses the inspected `displaced` result, preserving the same consequence; a focused unemployed recovery test verifies no duplicate miss/termination. |
+| P2 social plan could be newly reserved over already-reserved rent overtime | Accepted. Confirmed future plan check omitted the overtime reservation. Reservation now rejects that occupied Evening, with a focused test. |
+
+No finding was rejected; the reviewer returned exactly these three actionable findings and separately identified already-declared engine integration and crisis gaps as limitations. The lead independently inspected each implementation and added tests, then ran the focused bounded suite: 50 tests passed in 0.52 s with 2,093,056 sampled peak private bytes. That count includes the scoped simulator tests; it does not demonstrate a mounted game, a real save/reload, accessibility or whole-policy acceptance. No repeated reviewer was commissioned.

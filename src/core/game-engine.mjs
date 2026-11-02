@@ -17,9 +17,14 @@ import { initialLife, transitionLife } from './life-progression.mjs';
 import { selectWorkStory } from './life-story-content.mjs';
 import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs';
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
+import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
+import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
+import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition } from './life-coordinator.mjs';
+import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
+const FIVE_SLOT_RACE = Symbol('private-five-slot-race');
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -138,7 +143,10 @@ export class GameEngine {
       escalationStepIndex: 0,
     };
     if (lifePolicy) {
-      this.state.life = initialLife();
+      this.state.life = lifePolicy === 'five-slot-v1'
+        ? { policyVersion: PRODUCTION.id, config: { ...PRODUCTION }, schedule: createSchedule(PRODUCTION, PLAYTEST_WORK_CALENDAR),
+          finance: initialFinance(), social46: null, socialRevision: 0, socialOperationIds: {}, sold: [], story47: null }
+        : initialLife();
       this.state.cash = this.state.life.config.startCash;
       this.state.health = this.state.life.config.startHealth;
     }
@@ -146,6 +154,172 @@ export class GameEngine {
 
   isTerminal() {
     return this.state.phase === 'terminal' || this.state.phase === 'receipt_presented';
+  }
+
+  // Development seam for the coordinated five-slot engine. The browser is not
+  // switched to this policy until its controller and schema-5 replay are ready.
+  #fiveSlotContext() {
+    const life = this.state.life, schedule = life.schedule;
+    const finance = latchDue(life.finance, { day: schedule.day, slot: schedule.slot });
+    const due = dueObligations(finance, Math.round(this.state.cash * 100));
+    const rent = due.bills.find(bill => bill.id.startsWith('rent-'));
+    return { schedule: { overtimeReservation: structuredClone(schedule.overtimeReservation),
+      rentObligation: rent ? { id: rent.id, status: 'due' } : null },
+      optionsDisclosed: this.#fiveSlotDueOptionsWereShown() };
+  }
+
+  checkDueObligations() {
+    const life = this.state.life;
+    if (life?.policyVersion !== 'five-slot-v1') return null;
+    const finance = latchDue(life.finance, { day: life.schedule.day, slot: life.schedule.slot });
+    return dueObligations(finance, Math.round(this.state.cash * 100));
+  }
+
+  #fiveSlotDueOptions() {
+    const life = this.state.life;
+    if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || life.schedule.recovery) return null;
+    const due = this.checkDueObligations();
+    if (!due.bills.length) return null;
+    return { bills: due.bills.map(bill => ({ id: bill.id, amountCents: bill.amountCents ?? bill.totalCents })),
+      cashCents: due.cashCents, totalCents: due.totalCents, shortfallCents: due.shortfallCents,
+      saleOptions: ['couch', 'tv'].filter(asset => !life.sold.includes(asset)),
+      scheduleRevision: life.schedule.revision, financeRevision: life.finance.revision };
+  }
+
+  // Call only when the due obligations and available choices are actually shown.
+  previewFiveSlotDueOptions() {
+    return structuredClone(this.#fiveSlotDueOptions());
+  }
+
+  recordFiveSlotDueOptionsShown() {
+    const options = this.#fiveSlotDueOptions();
+    if (!options) return null;
+    return this.log.append('life52_due_options_shown', options, this.state.clock);
+  }
+
+  #fiveSlotDueOptionsWereShown() {
+    const options = this.#fiveSlotDueOptions();
+    return Boolean(options && this.log.entries.some(event => event.type === 'life52_due_options_shown'
+      && JSON.stringify(event.payload) === JSON.stringify(options)));
+  }
+
+  sellFiveSlotAsset(asset, expectedLogLength) {
+    const life = this.state.life;
+    if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || life.schedule.recovery
+      || !['couch', 'tv'].includes(asset) || life.sold.includes(asset)) return { ok: false, reason: 'unavailable' };
+    if (!Number.isSafeInteger(expectedLogLength) || expectedLogLength !== this.log.length) return { ok: false, reason: 'stale_callback' };
+    const socialView = { social46: life.social46, day: life.schedule.day, sold: life.sold };
+    if (asset === 'couch' && social46NeedsSaleDisclosure(socialView)) return { ok: false, reason: 'social_sale_disclosure_required' };
+    const draft = this.#transactionDraft();
+    const amount = asset === 'couch' ? 30 : 40;
+    draft.state.life.sold.push(asset);
+    if (asset === 'couch') social46CouchSold({ social46: draft.state.life.social46 });
+    draft.state.assetsSold = [...draft.state.life.sold];
+    draft.state.cash = Math.round((draft.state.cash + amount) * 100) / 100;
+    draft.log.append('income', { kind: 'asset_sale', asset, amount, cashAfter: draft.state.cash }, draft.state.clock);
+    this.#publishTransaction(draft);
+    return { ok: true, asset, amount };
+  }
+
+  #fiveSlotLoanTerms(billId) {
+    const life = this.state.life;
+    if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || life.schedule.recovery
+      || life.finance.loans.some(loan => loan.status === 'pending')) return null;
+    const cashCents = Math.round(this.state.cash * 100);
+    const bill = this.checkDueObligations().bills.find(item => item.id === billId && item.id.startsWith('rent-'));
+    if (!bill || cashCents >= bill.amountCents) return null;
+    const principalCents = bill.amountCents - cashCents;
+    const feeCents = Math.ceil(principalCents / 2);
+    return { billId, cashCents, principalCents, feeCents, totalCents: principalCents + feeCents,
+      due: { day: life.schedule.day + 5, slot: 'midday' }, scheduleRevision: life.schedule.revision,
+      financeRevision: life.finance.revision };
+  }
+
+  // The view calls this only after the exact loan terms have actually appeared.
+  previewFiveSlotLoanTerms(billId) {
+    return structuredClone(this.#fiveSlotLoanTerms(billId));
+  }
+
+  recordFiveSlotLoanTermsShown(billId) {
+    const terms = this.#fiveSlotLoanTerms(billId);
+    if (!terms) return null;
+    return this.log.append('life52_loan_terms_shown', terms, this.state.clock);
+  }
+
+  #fiveSlotLoanTermsWereShown(billId) {
+    const terms = this.#fiveSlotLoanTerms(billId);
+    if (!terms) return false;
+    return this.log.entries.some(event => event.type === 'life52_loan_terms_shown'
+      && JSON.stringify(event.payload) === JSON.stringify(terms));
+  }
+
+  prepareFiveSlotAction(intent) {
+    const life = this.state.life;
+    if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1') return { ok: false, reason: 'unavailable' };
+    // Real pull/race outcomes and consequence-bearing defaults need their own
+    // engine-owned operations and actual displayed-option evidence.
+    if (intent?.domain === 'schedule' && intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
+    if (intent?.domain === 'finance' && intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
+    if (intent?.domain === 'finance' && intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };
+    return inspectLifeTransaction(life, { cashCents: Math.round(this.state.cash * 100), health: this.state.health }, intent, this.#fiveSlotContext());
+  }
+
+  commitFiveSlotAction(proposal, operation = {}) {
+    const life = this.state.life;
+    if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || !proposal?.intent) return { ok: false, reason: 'unavailable' };
+    if (proposal.intent.domain === 'schedule' && proposal.intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
+    if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
+    if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(proposal.intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };
+    const draft = this.#transactionDraft();
+    const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
+    const result = commitLifeTransaction(draft.state.life, balances, proposal, operation, draft.#fiveSlotContext());
+    if (!result.ok) return result;
+    const cashCents = balances.cashCents + result.cashDeltaCents;
+    const health = balances.health + result.healthDelta;
+    if (!Number.isSafeInteger(cashCents) || cashCents < 0 || !Number.isFinite(health) || health < 0 || health > PRODUCTION.maxHealth) return { ok: false, reason: 'invalid_result' };
+    const recordedOperation = Object.fromEntries(['confirmed', 'kind', 'conflictChoice', 'overtimeChoice']
+      .filter(key => operation[key] !== undefined).map(key => [key, operation[key]]));
+    draft.log.append('life52_intent', { intent: structuredClone(proposal.intent), operation: recordedOperation }, draft.state.clock);
+    for (const event of result.events) draft.log.append('life52_effect', { effect: event }, draft.state.clock);
+    draft.log.append('life52_commit', { domain: proposal.intent.domain,
+      operationId: proposal.intent.action.operationId ?? proposal.intent.action.id,
+      cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta }, draft.state.clock);
+    draft.state.life = result.state; draft.state.cash = cashCents / 100; draft.state.health = health;
+    draft.state.debt = result.state.finance.loans.filter(loan => ['pending', 'defaulted'].includes(loan.status))
+      .reduce((sum, loan) => sum + loan.totalCents, 0) / 100;
+    draft.state.day = result.state.schedule.day;
+    draft.state.clock = { day: result.state.schedule.day, label: `day ${result.state.schedule.day} ${result.state.schedule.slot}` };
+    const defaultEvent = result.events.find(event => event.type === 'financial_default');
+    if (defaultEvent) {
+      draft.state.phase = 'terminal'; draft.state.terminalRoute = 'running_on_empty';
+      draft.state.step = 'receipt'; draft.state.activeModal = null;
+      draft.log.append('terminal', { route: 'running_on_empty', reason: defaultEvent.reason,
+        obligationId: defaultEvent.obligationId, outstandingCents: defaultEvent.outstandingCents,
+        housingLost: defaultEvent.route === 'housing_loss' }, draft.state.clock);
+    }
+    this.#publishTransaction(draft);
+    return { ok: true, cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta, events: result.events };
+  }
+
+  applyFiveSlotSocialAction(intent, expectedLogLength) {
+    if (this.isTerminal() || this.state.life?.policyVersion !== 'five-slot-v1') return { ok: false, reason: 'unavailable' };
+    if (!Number.isSafeInteger(expectedLogLength) || expectedLogLength !== this.log.length) return { ok: false, reason: 'stale_callback' };
+    const draft = this.#transactionDraft();
+    const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
+    const result = stageSocialTransition(draft.state.life, balances, intent, draft.#fiveSlotContext());
+    if (!result.ok) return result;
+    const cashCents = balances.cashCents + result.cashDeltaCents;
+    const health = balances.health + result.healthDelta;
+    if (!Number.isSafeInteger(cashCents) || cashCents < 0 || !Number.isFinite(health) || health < 0 || health > PRODUCTION.maxHealth) return { ok: false, reason: 'invalid_result' };
+    draft.log.append('life52_social_intent', { intent: structuredClone(intent) }, draft.state.clock);
+    for (const event of result.events) draft.log.append('life52_effect', { effect: event }, draft.state.clock);
+    draft.log.append('life52_commit', { domain: 'social', operationId: intent.operationId,
+      cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta }, draft.state.clock);
+    draft.state.life = result.state; draft.state.cash = cashCents / 100; draft.state.health = health;
+    draft.state.day = result.state.schedule.day;
+    draft.state.clock = { day: result.state.schedule.day, label: `day ${result.state.schedule.day} ${result.state.schedule.slot}` };
+    this.#publishTransaction(draft);
+    return { ok: true, cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta, events: result.events };
   }
 
   /** Starts the game run, logs run_started, and transitions to companion setup */
@@ -163,6 +337,7 @@ export class GameEngine {
   applyLifeIntent(intent, privateToken = null) {
     if (intent?.type === 'phone_commit_next' && privateToken !== NEXT_RESERVATION) return { ok: false, reason: 'private_reservation' };
     if (this.isTerminal() || !this.state.life) return { ok: false, reason: 'unavailable' };
+    if (this.state.life.policyVersion === 'five-slot-v1') return { ok: false, reason: 'five_slot_action_required' };
     if (intent?.type?.startsWith('social46_') && (this.state.activeModal || this.state.interruptedContext)) return { ok: false, reason: 'presentation_covered' };
     if (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced
       && !['rent', 'rent_surface', 'recover'].includes(intent?.type)) return { ok: false, reason: 'rent_notice_pending' };
@@ -301,6 +476,11 @@ export class GameEngine {
   openLifeApp() {
     if (this.isTerminal() || !this.state.life) return false;
     const life = this.state.life;
+    if (life.policyVersion === 'five-slot-v1') {
+      if (life.schedule.day === 1 && !['evening', 'late-evening'].includes(life.schedule.slot)) return false;
+      if (!hasEnteredQuackpot(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
+      return true;
+    }
     if (life.day === 1 && !['evening', 'lateNight'].includes(life.phase)) return false;
     if (!hasEnteredQuackpot(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
     return true;
@@ -326,62 +506,13 @@ export class GameEngine {
     if (this.state.tenPullCommitted) {
       return this.state.pendingReveals;
     }
+    if (this.state.life?.policyVersion === 'five-slot-v1') return this.#stageFiveSlotPull(10, false, options);
     if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('commitPromotionalTenPull', [], { next: options.confirmNext === true, social: options.confirmSocial === true });
     const reservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
     if (options[SOCIAL_RESERVATION]) reservation.socialConflict = 'continue';
     if (this.state.life && !this.applyLifeIntent(reservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) return null;
 
-    const draws = [];
-    const bannerPool = BANNER_1_ROSTER;
-    const ownedSet = new Set(this.state.owned);
-
-    for (let i = 0; i < 10; i++) {
-      const odds = calculatePreDrawOdds(this.state.pityCount);
-      const r = this.sampleLifeDraw();
-      let rarity = 'common';
-      if (r < odds.legendary) {
-        rarity = 'legendary';
-      } else if (r < odds.legendary + odds.rare) {
-        rarity = 'rare';
-      }
-
-      const matchingDucks = bannerPool.filter((d) => d.tier === rarity);
-      const chosenDuck = matchingDucks[this.rngDraw.int(matchingDucks.length)];
-
-      const isDuplicate = ownedSet.has(chosenDuck.id);
-      let downGained = 0;
-      if (!isDuplicate) {
-        ownedSet.add(chosenDuck.id);
-        this.state.owned.push(chosenDuck.id);
-      } else {
-        downGained = GAME_CONSTANTS.DOWN_PER_DUPLICATE[rarity];
-        this.state.down += downGained;
-      }
-
-      const drawPayload = {
-        drawIndex: i + 1,
-        of: 10,
-        pityBefore: this.state.pityCount,
-        drawNumberInWindow: this.state.pityCount + 1,
-        odds,
-        rarity,
-        identity: chosenDuck.id,
-        duplicate: isDuplicate,
-        downGained,
-        advancesPity: false,
-      };
-
-      const entry = this.log.append('draw_committed', drawPayload, this.state.clock);
-      draws.push({
-        ...drawPayload,
-        commitSeq: entry.seq,
-        revealed: false,
-      });
-    }
-
-    this.state.pendingReveals = draws;
-    this.state.tenPullCommitted = true;
-    return draws;
+    return this.#commitDrawBatch(10, false);
   }
 
   /** A normal pull commits its cost and all outcomes before any reveal. */
@@ -389,6 +520,7 @@ export class GameEngine {
     if (this.isTerminal() || !this.state.life || ![1, 10].includes(count)) return null;
     const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
     if (this.state.gems < cost || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
+    if (this.state.life.policyVersion === 'five-slot-v1') return this.#stageFiveSlotPull(count, true, options);
     if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('commitPaidPull', [count], { next: options.confirmNext === true, social: options.confirmSocial === true });
     const reservationIntent = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'pull' } : { type: 'phone_commit', kind: 'pull' };
     if (options[SOCIAL_RESERVATION]) reservationIntent.socialConflict = 'continue';
@@ -396,31 +528,126 @@ export class GameEngine {
     if (!reservation.ok) return null;
     this.state.gems -= cost;
     this.log.append('purchase', { kind: count === 1 ? 'single_pull' : 'ten_pull', cost, price: 0, gemsAfter: this.state.gems }, this.state.clock);
-    const draws = [];
-    const owned = new Set(this.state.owned);
+    return this.#commitDrawBatch(count, true);
+  }
+
+  // The actual draw is generated on an owned draft; only its successful result
+  // can be paired with the prepared scheduler action and published.
+  #stageFiveSlotPull(count, paid, options) {
+    if (!hasEnteredQuackpot(this.log.entries) || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
+    const draft = this.#transactionDraft();
+    const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
+    const context = draft.#fiveSlotContext();
+    context.schedule.operationAvailable = true;
+    const operationId = `pull:${draft.log.length}`;
+    const intent = { domain: 'schedule', action: { type: 'play', kind: 'pull', operationId,
+      ...(options.confirmNext === true ? { extend: true } : {}) } };
+    const prepared = inspectLifeTransaction(draft.state.life, balances, intent, context);
+    if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
+    if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
+    if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
+    draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {
+      confirmed: true, ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) } }, draft.state.clock);
+    if (paid) {
+      const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
+      if (draft.state.gems < cost || draft.state.pendingReveals.some(draw => !draw.revealed)) return null;
+      draft.state.gems -= cost;
+      draft.log.append('purchase', { kind: count === 1 ? 'single_pull' : 'ten_pull', cost, price: 0, gemsAfter: draft.state.gems }, draft.state.clock);
+    }
+    const draws = draft.#commitDrawBatch(count, paid);
+    const operation = { confirmed: true, success: true, operationId, resultRef: `draw:${draws[0].commitSeq}`,
+      ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) };
+    const result = commitLifeTransaction(draft.state.life, balances, prepared.proposal, operation, context);
+    if (!result.ok) return null;
+    draft.state.life = result.state;
+    draft.state.cash = (balances.cashCents + result.cashDeltaCents) / 100;
+    draft.state.health = balances.health + result.healthDelta;
+    for (const event of result.events) draft.log.append('life52_effect', { effect: event }, draft.state.clock);
+    draft.log.append('life52_commit', { domain: 'schedule', operationId,
+      cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta }, draft.state.clock);
+    draft.state.day = result.state.schedule.day;
+    draft.state.clock = { day: result.state.schedule.day, label: `day ${result.state.schedule.day} ${result.state.schedule.slot}` };
+    this.#publishTransaction(draft);
+    return draws;
+  }
+
+  #stageFiveSlotRace(raceNumber, duckId, stance, options) {
+    if (this.isTerminal() || !hasEnteredQuackpot(this.log.entries)) return null;
+    if (!Number.isSafeInteger(raceNumber) || raceNumber < 1) return null;
+    const prior = this.getRaceAttempt(raceNumber);
+    if (prior) return prior;
+    const nextRace = Math.max(0, ...Object.keys(this.state.raceAttempts).map(Number)) + 1;
+    if (raceNumber !== nextRace) return null;
+    const draft = this.#transactionDraft();
+    const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
+    const context = draft.#fiveSlotContext();
+    context.schedule.operationAvailable = true;
+    const operationId = `race:${raceNumber}:${draft.log.length}`;
+    const intent = { domain: 'schedule', action: { type: 'play', kind: 'race', operationId,
+      ...(options.confirmNext === true ? { extend: true } : {}) } };
+    const prepared = inspectLifeTransaction(draft.state.life, balances, intent, context);
+    if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
+    if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
+    if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
+    draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {
+      confirmed: true, ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) } }, draft.state.clock);
+    const attempt = draft.runRace(raceNumber, duckId, stance, { useTrial: options.useTrial ?? false, [FIVE_SLOT_RACE]: true });
+    if (!attempt || typeof attempt.resolutionDigest !== 'string') return null;
+    const operation = { confirmed: true, success: true, operationId, resultRef: `race:${attempt.resolutionDigest}`,
+      ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) };
+    const result = commitLifeTransaction(draft.state.life, balances, prepared.proposal, operation, context);
+    if (!result.ok) return null;
+    draft.state.life = result.state;
+    draft.state.cash = (balances.cashCents + result.cashDeltaCents) / 100;
+    draft.state.health = balances.health + result.healthDelta;
+    for (const event of result.events) draft.log.append('life52_effect', { effect: event }, draft.state.clock);
+    draft.log.append('life52_commit', { domain: 'schedule', operationId,
+      cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta }, draft.state.clock);
+    draft.state.day = result.state.schedule.day;
+    draft.state.clock = { day: result.state.schedule.day, label: `day ${result.state.schedule.day} ${result.state.schedule.slot}` };
+    this.#publishTransaction(draft);
+    return attempt;
+  }
+
+  // Shared outcome generation for both promotional and paid draws. The caller
+  // owns reservation, wallet checks, staging and publication.
+  #commitDrawBatch(count, advancesPity) {
+    const draws = [], owned = new Set(this.state.owned);
     for (let i = 0; i < count; i++) {
-      const odds = calculatePreDrawOdds(this.state.pityCount);
+      const pityBefore = this.state.pityCount;
+      const odds = calculatePreDrawOdds(pityBefore);
       const roll = this.sampleLifeDraw();
       const rarity = roll < odds.legendary ? 'legendary' : roll < odds.legendary + odds.rare ? 'rare' : 'common';
       const pool = BANNER_1_ROSTER.filter(duck => duck.tier === rarity);
       const chosen = pool[this.rngDraw.int(pool.length)];
       const duplicate = owned.has(chosen.id);
       const downGained = duplicate ? GAME_CONSTANTS.DOWN_PER_DUPLICATE[rarity] : 0;
-      const pityBefore = this.state.pityCount;
       if (duplicate) this.state.down += downGained;
       else { owned.add(chosen.id); this.state.owned.push(chosen.id); }
-      this.state.pityCount = rarity === 'legendary' ? 0 : pityBefore + 1;
+      if (advancesPity) this.state.pityCount = rarity === 'legendary' ? 0 : pityBefore + 1;
       const payload = { drawIndex: i + 1, of: count, pityBefore, drawNumberInWindow: pityBefore + 1,
-        odds, rarity, identity: chosen.id, duplicate, downGained, advancesPity: true };
+        odds, rarity, identity: chosen.id, duplicate, downGained, advancesPity };
       const entry = this.log.append('draw_committed', payload, this.state.clock);
       draws.push({ ...payload, commitSeq: entry.seq, revealed: false });
     }
     this.state.pendingReveals = draws;
+    if (!advancesPity) this.state.tenPullCommitted = true;
     return draws;
   }
-
   buyLifeBundle(gems) {
-    if (this.isTerminal() || !this.state.life || this.state.life.rent.status === 'due'
+    if (this.isTerminal() || !this.state.life) return false;
+    if (this.state.life.policyVersion === 'five-slot-v1') {
+      const price = new Map([[60, 0.99], [330, 4.99], [1090, 14.99]]).get(gems);
+      if (!hasEnteredQuackpot(this.log.entries) || price === undefined || this.state.cash < price
+        || this.state.life.schedule.recovery || this.checkDueObligations().bills.length) return false;
+      const draft = this.#transactionDraft();
+      draft.state.cash = Math.round((draft.state.cash - price) * 100) / 100;
+      draft.state.gems += gems;
+      draft.log.append('purchase', { kind: 'bundle', bundleGems: gems, price, gemsAfter: draft.state.gems, cashAfter: draft.state.cash, banner: 0 }, draft.state.clock);
+      this.#publishTransaction(draft);
+      return true;
+    }
+    if (this.state.life.rent.status === 'due'
       || (this.state.life.rent.status === 'overdue' && !this.state.life.rentSurfaced) || this.state.life.recovery) return false;
     const price = new Map([[60, 0.99], [330, 4.99], [1090, 14.99]]).get(gems);
     if (price === undefined || this.state.cash < price) return false;
@@ -772,6 +999,9 @@ export class GameEngine {
   /** Resolve and commit one deterministic race attempt. Re-entry returns its stored attempt. */
   runRace(raceNumber, duckId, stance = 'safe', options = {}) {
     const { useTrial = false } = options;
+    if (this.state.life?.policyVersion === 'five-slot-v1' && !options[FIVE_SLOT_RACE]) {
+      return this.#stageFiveSlotRace(raceNumber, duckId, stance, options);
+    }
     if (options.confirmNext === true || options.confirmSocial === true) return this.#stageNextPlay('runRace', [raceNumber, duckId, stance, { useTrial }], { next: options.confirmNext === true, social: options.confirmSocial === true });
     if (this.isTerminal()) throw new Error('Cannot race: game is in terminal phase');
     const raceId = this.raceIdFor(raceNumber);
@@ -784,7 +1014,7 @@ export class GameEngine {
     if (useTrial && !this.state.raceTrialAvailable) throw new RangeError('No purchased race trial is available');
     const raceReservation = options[NEXT_RESERVATION] ? { type: 'phone_commit_next', version: 1, confirmed: true, kind: 'race' } : { type: 'phone_commit', kind: 'race' };
     if (options[SOCIAL_RESERVATION]) raceReservation.socialConflict = 'continue';
-    if (this.state.life && !transitionLife(this.state.life, this.state, raceReservation).ok) return null;
+    if (this.state.life && this.state.life.policyVersion !== 'five-slot-v1' && !transitionLife(this.state.life, this.state, raceReservation).ok) return null;
 
     this.activateRaceRestPolicy();
     const fieldBaseSpeed = raceNumber === 1 ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
@@ -810,7 +1040,7 @@ export class GameEngine {
     // Compute and serialize before any wallet, trial, progression, or log mutation.
     const resolution = this.resolveRaceCandidate(resolverInput);
     const saved = this.serializeRaceCandidate(resolution);
-    if (this.state.life && !this.applyLifeIntent(raceReservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) throw new Error('Race reservation changed during resolution');
+    if (this.state.life && this.state.life.policyVersion !== 'five-slot-v1' && !this.applyLifeIntent(raceReservation, options[NEXT_RESERVATION] ? NEXT_RESERVATION : null).ok) throw new Error('Race reservation changed during resolution');
     const player = resolution.finish.find((entrant) => entrant.id === 'P') ?? null;
     const rival = raceNumber === 2 ? resolution.finish.find((entrant) => entrant.id === 'A') : null;
     const isFinished = resolution.status === 'finished' && resolution.finish.length === 6 && player?.place;

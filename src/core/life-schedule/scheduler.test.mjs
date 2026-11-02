@@ -76,3 +76,7 @@ test('future overtime reserves a real evening and protects an existing Ren plan'
   assert.equal(inspect(committed.state,b,{type:'meal',choice:'buy',operationId:'breakfast'}).ok,true);
   assert.equal(inspect(committed.state,b,{...request,operationId:'duplicate-reservation'},rent).reason,'overtime_reservation_unavailable');
 });
+
+test('cancelled unstarted plan frees its slot and can be reserved again without advancing time',()=>{
+ const x=setup();x.s.day=2;x.s.slot='morning';apply(x,{type:'reserve',planId:'ren',day:3,slot:'evening',operationId:'r1'});apply(x,{type:'cancel-plan',planId:'ren',operationId:'c1'});assert.equal(x.s.slot,'morning');assert.equal(x.s.futurePlans.ren.status,'cancelled');apply(x,{type:'reserve',planId:'ren',day:4,slot:'evening',operationId:'r2'});assert.equal(x.s.futurePlans.ren.day,4);
+});

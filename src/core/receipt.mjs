@@ -205,7 +205,8 @@ export function projectReceipt(entries) {
 
   // Event-derived accounting / terminal outcome section
   const expenseDues = ofType('expense_due');
-  const lifeStart = ofType('run_started')[0]?.payload?.lifePolicyVersion === 1 ? ofType('run_started')[0] : null;
+  const start = ofType('run_started')[0];
+  const lifeStart = [1, 'five-slot-v1'].includes(start?.payload?.lifePolicyVersion) ? start : null;
   const expensePaids = ofType('expense_paid');
   const escalationResults = ofType('escalation_result');
   const interestEntries = ofType('interest_charged');
@@ -277,9 +278,20 @@ export function projectReceipt(entries) {
     (e.type === 'escalation_result' && e.payload?.step === 'credit_card' && e.payload?.effects?.debtAfter !== undefined)
   ));
   const latestDebtEvent = debtEvents.length ? debtEvents[debtEvents.length - 1] : null;
-  const finalDebt = latestDebtEvent
+  let finalDebt = latestDebtEvent
     ? (latestDebtEvent.type === 'interest_charged' ? latestDebtEvent.payload.debtAfter : latestDebtEvent.payload.effects.debtAfter)
     : 0;
+
+  const fiveSlotEffects = ofType('life52_effect');
+  if (lifeStart?.payload.lifePolicyVersion === 'five-slot-v1') {
+    const outstanding = new Map();
+    for (const event of fiveSlotEffects) {
+      const effect = event.payload?.effect;
+      if (effect?.type === 'loan_accepted' && effect.loan?.id && Number.isSafeInteger(effect.loan.totalCents)) outstanding.set(effect.loan.id, effect.loan.totalCents);
+      if (effect?.type === 'loan_repaid' && effect.loanId) outstanding.delete(effect.loanId);
+    }
+    finalDebt = [...outstanding.values()].reduce((sum, cents) => sum + cents, 0) / 100;
+  }
 
   const accountingLines = [];
   for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'fictional_launch_invitation')) accountingLines.push(line('A fictional invitation to the evening launch was shown.', event.seq));
@@ -310,6 +322,32 @@ export function projectReceipt(entries) {
   }
   for (const event of ofType('life_rent_held')) accountingLines.push(line(`Chose to hold cash; rent remained unpaid with ${money(event.payload.cash)} on hand.`, event.seq));
   for (const event of ofType('life_rent_shortfall')) accountingLines.push(line(`Rent became due with a ${money(event.payload.shortfall)} shortfall.`, event.seq));
+  for (const event of ofType('life52_loan_terms_shown')) {
+    const p = event.payload;
+    if ([p?.principalCents, p?.feeCents, p?.totalCents].every(Number.isSafeInteger) && Number.isSafeInteger(p?.due?.day) && typeof p.due.slot === 'string')
+      accountingLines.push(line(`Loan terms shown: ${money(p.principalCents / 100)} borrowed, ${money(p.feeCents / 100)} fee, ${money(p.totalCents / 100)} due on day ${p.due.day} at ${p.due.slot}.`, event.seq));
+  }
+  for (const event of ofType('life52_due_options_shown')) {
+    const p = event.payload;
+    if (Array.isArray(p?.bills) && [p.totalCents, p.cashCents, p.shortfallCents].every(Number.isSafeInteger))
+      accountingLines.push(line(`Due choices shown: ${p.bills.length} obligation(s), ${money(p.totalCents / 100)} total, ${money(p.cashCents / 100)} cash, ${money(p.shortfallCents / 100)} combined shortfall.`, event.seq));
+  }
+  for (const event of fiveSlotEffects) {
+    const effect = event.payload?.effect;
+    if (effect?.type === 'loan_accepted' && Number.isSafeInteger(effect.loan?.principalCents) && Number.isSafeInteger(effect.loan?.feeCents)) accountingLines.push(line(`Accepted a ${money(effect.loan.principalCents / 100)} loan with a ${money(effect.loan.feeCents / 100)} fee.`, event.seq));
+    if (effect?.type === 'loan_repaid' && Number.isSafeInteger(effect.amountCents)) accountingLines.push(line(`Repaid ${money(effect.amountCents / 100)} on the loan${effect.early ? ' early' : ''}.`, event.seq));
+    if (effect?.type === 'rent_paid' && Number.isSafeInteger(effect.amountCents) && /^rent-[12]$/.test(effect.billId)) accountingLines.push(line(`Paid ${money(effect.amountCents / 100)} for ${effect.billId}.`, event.seq));
+    if (effect?.type === 'social46_display') {
+      const fact = publicSocial(effect.payload);
+      if (fact.kind) accountingLines.push(line(fact.text ? `Displayed a Ren interaction: ${fact.text}` : `Displayed Ren interaction: ${fact.kind}.`, event.seq));
+    }
+    if (effect?.type === 'social46_outcome') {
+      const fact = publicSocial(effect.payload);
+      if (fact.kind === 'completed') accountingLines.push(line('Completed an evening with Ren.', event.seq));
+      else if (fact.outcome === 'plan_not_kept') accountingLines.push(line('An accepted plan with Ren was not kept.', event.seq));
+      else if (fact.outcome === 'invitation_expired') accountingLines.push(line('A displayed invitation expired without a reply.', event.seq));
+    }
+  }
   for (const event of ofType('life_work_agreed')) accountingLines.push(line(`Agreed to ${event.payload.kind === 'overtime' ? 'an overtime shift' : 'a scheduled shift'} on day ${event.payload.day}.`, event.seq));
   for (const event of ofType('life_shift_missed')) accountingLines.push(line(`Game recorded a missed shift on day ${event.payload.day}; ${event.payload.count} missed shift(s) recorded.`, event.seq));
   for (const event of ofType('life_employment_ended')) accountingLines.push(line(`Game recorded that scheduled employment ended on day ${event.payload.day}.`, event.seq));
@@ -351,7 +389,10 @@ export function projectReceipt(entries) {
     accountingLines.push(line(`Final debt recorded was ${money(finalDebt)} (credit drawn at ${latestDebtEvent.clock.label}).`, latestDebtEvent.seq));
   }
   if (terminal?.payload.route === 'running_on_empty') {
-    accountingLines.push(line(`Terminal route was running_on_empty following ${unpaidExpense ? `unpaid ${unpaidExpense.kind} bill` : 'exhausted resources'}.`, terminal.seq));
+    const reason = { first_rent_unaffordable: 'first rent could not be paid', first_rent_withheld: 'first rent was deliberately left unpaid',
+      later_rent_unaffordable: 'later rent could not be paid and housing was lost', later_rent_withheld: 'later rent was deliberately left unpaid and housing was lost',
+      loan_unaffordable: 'the loan could not be repaid', loan_refused: 'loan repayment was deliberately refused' }[terminal.payload.reason];
+    accountingLines.push(line(`Terminal route was running_on_empty following ${reason ?? (unpaidExpense ? `unpaid ${unpaidExpense.kind} bill` : 'exhausted resources')}.`, terminal.seq));
   }
 
   // Purely event-derived financial, health, and inventory balances (P2 repair)
@@ -360,11 +401,12 @@ export function projectReceipt(entries) {
   const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
   const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
   const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);
-  const derivedFinalCash = Math.max(0, Math.round((initialCash + wagesSum + escalationCashSum - expensesPaidSum - purchasesPaidSum) * 100) / 100);
+  const life52Cash = ofType('life52_commit').reduce((sum, event) => sum + (Number.isSafeInteger(event.payload?.cashDeltaCents) ? event.payload.cashDeltaCents : 0), 0) / 100;
+  const derivedFinalCash = Math.max(0, Math.round((initialCash + wagesSum + escalationCashSum - expensesPaidSum - purchasesPaidSum + life52Cash) * 100) / 100);
 
   const healthLostSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.healthLost ?? 0), 0)
     + skippedBreakfasts.reduce((s, e) => s + (e.payload.healthLost ?? 0), 0);
-  const derivedFinalHealth = Math.max(0, (lifeStart ? lifeStart.payload.lifeConfig?.startHealth : 100) - healthLostSum + ofType('life_health').reduce((sum, e) => sum + e.payload.delta, 0));
+  const derivedFinalHealth = Math.max(0, (lifeStart ? lifeStart.payload.lifeConfig?.startHealth : 100) - healthLostSum + ofType('life_health').reduce((sum, e) => sum + e.payload.delta, 0) + ofType('life52_commit').reduce((sum, e) => sum + (Number.isFinite(e.payload?.healthDelta) ? e.payload.healthDelta : 0), 0));
 
   const uniqueOwnedDucks = new Set(drawsCommitted.filter((d) => !d.payload.duplicate).map((d) => d.payload.identity));
   const derivedOwnedDucksCount = uniqueOwnedDucks.size;
@@ -438,7 +480,7 @@ export function projectReceipt(entries) {
     terminalRoute: terminal?.payload.route ?? null,
     receiptShown: !!receiptShown,
     // Additive, sequence-linked facts; consumers must not treat temporal proximity as a link.
-    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'social46_display', 'social46_action', 'social46_outcome', 'social46_interrupted', 'social46_plan_interrupted', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload: type.startsWith('social46_') ? publicSocial(payload) : payload, clock })),
+    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'social46_display', 'social46_action', 'social46_outcome', 'social46_interrupted', 'social46_plan_interrupted', 'life52_loan_terms_shown', 'life52_due_options_shown', 'life52_effect', 'life52_commit', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload: type.startsWith('social46_') ? publicSocial(payload) : type === 'life52_effect' && payload?.effect?.type?.startsWith('social46_') ? { effect: { type: payload.effect.type, payload: publicSocial(payload.effect.payload) } } : payload, clock })),
     findings,
     pullLedger,
     raceEvidence: {

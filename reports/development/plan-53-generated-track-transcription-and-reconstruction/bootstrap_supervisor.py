@@ -28,6 +28,13 @@ class ACCOUNTING(c.Structure):
 
 
 query = j.api("QueryInformationJobObject", w.BOOL, [w.HANDLE, c.c_int, c.c_void_p, w.DWORD, c.c_void_p])
+init_attributes = j.api("InitializeProcThreadAttributeList", w.BOOL, [c.c_void_p, w.DWORD, w.DWORD, c.POINTER(c.c_size_t)])
+update_attribute = j.api("UpdateProcThreadAttribute", w.BOOL, [c.c_void_p, w.DWORD, c.c_size_t, c.c_void_p, c.c_size_t, c.c_void_p, c.c_void_p])
+delete_attributes = j.api("DeleteProcThreadAttributeList", None, [c.c_void_p])
+
+
+class STARTUPEX(c.Structure):
+    _fields_ = [("StartupInfo", j.STARTUP), ("lpAttributeList", c.c_void_p)]
 
 
 def active(job):
@@ -62,7 +69,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
     if not root.is_dir() or not command or not os.path.isabs(command[0]):
         raise ValueError("existing workspace and absolute executable required")
     job = j.create_job(None, None); j.check(job, "CreateJobObject")
-    proc = j.PROCESS(); started = assigned = False; output = input_stream = None
+    proc = j.PROCESS(); started = assigned = False; output = input_stream = None; attributes = None; attributes_ready = False
     reason = "exception"; peak_disk = 0; gaps = []; samples = 0
     start = last = time.monotonic(); error = None; cleanup = "not verified"
     try:
@@ -71,7 +78,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
         j.check(j.set_job(job, 9, c.byref(limits), c.sizeof(limits)), "SetInformationJobObject")
         if tree_bytes(root) > footprint or shutil.disk_usage(root).free < free_floor:
             raise ValueError("disk preflight failed")
-        startup = j.STARTUP(); startup.cb = c.sizeof(startup)
+        startup = STARTUPEX(); startup.StartupInfo.cb = c.sizeof(startup)
         # A dedicated new log avoids mixing runs. It may contain dependency
         # diagnostics, so stays local and is reviewed/redacted before sharing.
         output = open(root / "bootstrap-output.log", "xb", buffering=0)
@@ -79,8 +86,22 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
         output_handle = msvcrt.get_osfhandle(output.fileno())
         input_handle = msvcrt.get_osfhandle(input_stream.fileno())
         os.set_handle_inheritable(output_handle, True); os.set_handle_inheritable(input_handle, True)
-        startup.dwFlags = 0x100
-        startup.hStdInput = input_handle; startup.hStdOutput = output_handle; startup.hStdError = output_handle
+        startup.StartupInfo.dwFlags = 0x100
+        startup.StartupInfo.hStdInput = input_handle; startup.StartupInfo.hStdOutput = output_handle; startup.StartupInfo.hStdError = output_handle
+        size = c.c_size_t()
+        init_attributes(None, 2, 0, c.byref(size))
+        if not size.value:
+            raise OSError(c.get_last_error(), "attribute list size")
+        buffer = c.create_string_buffer(size.value); attributes = c.cast(buffer, c.c_void_p)
+        j.check(init_attributes(attributes, 2, 0, c.byref(size)), "InitializeProcThreadAttributeList")
+        attributes_ready = True
+        handles = (w.HANDLE * 2)(input_handle, output_handle)
+        jobs = (w.HANDLE * 1)(job)
+        j.check(update_attribute(attributes, 0, 0x20002, c.cast(handles, c.c_void_p), c.sizeof(handles), None, None), "handle allowlist")
+        # Atomic job assignment avoids a suspended unowned child if the outer
+        # watchdog kills this supervisor between creation and assignment.
+        j.check(update_attribute(attributes, 0, 0x2000D, c.cast(jobs, c.c_void_p), c.sizeof(jobs), None, None), "job list")
+        startup.lpAttributeList = attributes
         cmdline = c.create_unicode_buffer(subprocess.list2cmdline(command))
         # Explicit child environment keeps caches/temp inside the measured tree
         # and excludes inherited credentials and unreviewed UV settings.
@@ -89,13 +110,11 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
                     "UV_PYTHON_INSTALL_DIR": str(root / "python"), "UV_NO_CONFIG": "1",
                     "HF_HOME": str(root / "hf-cache"), "TORCH_HOME": str(root / "torch-cache")})
         environment = c.create_unicode_buffer("\0".join(f"{key}={value}" for key, value in sorted(env.items(), key=lambda p: p[0].upper())) + "\0\0")
-        # Only explicitly prepared handles should be inheritable in this
-        # single-threaded process; never pass credentials as arguments.
-        j.check(j.create(command[0], cmdline, None, None, True, 0x4 | 0x400 | 0x08000000,
-                         c.cast(environment, c.c_void_p), str(root), c.byref(startup), c.byref(proc)), "CreateProcess suspended")
-        started = True
+        # Explicit allowlist, and atomic job assignment at process creation.
+        j.check(j.create(command[0], cmdline, None, None, True, 0x4 | 0x400 | 0x08000000 | 0x80000,
+                         c.cast(environment, c.c_void_p), str(root), c.cast(c.byref(startup), c.POINTER(j.STARTUP)), c.byref(proc)), "CreateProcess suspended")
+        started = assigned = True
         os.set_handle_inheritable(output_handle, False); os.set_handle_inheritable(input_handle, False)
-        j.check(j.assign(job, proc.hProcess), "AssignProcessToJobObject"); assigned = True
         if j.resume(proc.hThread) == 0xFFFFFFFF:
             raise OSError(c.get_last_error(), "ResumeThread")
         reason = "root exited"
@@ -141,6 +160,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
             cleanup = "UNVERIFIED: " + type(exc).__name__
             error = error or "cleanup failed"
         finally:
+            if attributes_ready: delete_attributes(attributes)
             j.close(job)
             if started:
                 j.close(proc.hThread); j.close(proc.hProcess)

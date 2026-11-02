@@ -1,11 +1,9 @@
 ---
 id: plan-52
 title: Five-slot production transition and checkpoint refresh
-status: draft
+status: in-progress
 depends_on: [plan-51]
-gate: "Plan51 owner/root acceptance precedes production port. One coordinated source writer; pin Plan46 baseline and exact save/transaction/fixture seams. Root source and actual production before/after review, then owner integrated experience acceptance. Old-save migration/backward compatibility not required."
-superseded_by: null
-resolution: null
+gate: "Plan51 bounded study accepted; begin Stage A with owner decisions on working parameters and crisis transactions plus root exact ownership/API/fixture clearance before affected production writes. No study flags or unresolved-crisis freeze may ship by default. One source writer; root production evidence review and final owner acceptance. No old-save migration required."
 summary: >-
   Integrate the accepted shared five-slot scheduler across life, work, meals, social play, gacha sessions, sleep, storage and Receipt, regenerating synthetic checkpoints and reconciling current docs.
 ---
@@ -33,7 +31,7 @@ No migration/dual legacy engine, wholesale codebase rewrite, new weekends/calend
 
 ## Depends on and coordination
 
-Plan51 must be complete with owner/root accepted contract, traces and working parameter decisions. Pin the current committed Plan46 implementation and its actual owner-selected art/dialogue/lifecycle; do not assume its whole experience is accepted. Plan46 remains held for scheduler-dependent writes while this packet owns the port; no circular dependency on Plan46 closure. Root explicitly allocates shared source and Git index turns. Plan43 may continue report-local audio; Plan48 stays draft until this port stabilizes. Closed Plan49 contributes accepted diegetic selections; no fresh Plan49 runtime writer.
+Plan51 is closed as a bounded study, not a complete crisis policy or final calibration. Its selected invariants and finite evidence are inputs; Stage A below owns the remaining decisions. Pin the current committed Plan46 implementation and its actual owner-selected art/dialogue/lifecycle; do not assume its whole experience is accepted. Plan46 remains held for scheduler-dependent writes while this packet owns the port; no circular dependency on Plan46 closure. Root explicitly allocates shared source and Git index turns. Plan53 owns disjoint report-local transcription work; serialize its heavy installation/inference/browser jobs with validation here. Plan43 may finish a read-only technical handoff, not alter this port. Plan48 stays draft until the port stabilizes.
 
 ## Authority and contracts
 
@@ -44,6 +42,16 @@ Read AGENTS, docs hub/design/decision log/open questions, `docs/five-slot-life-s
 Propose exact paths after inspection, with one root-cleared writer across `src/core/life-schedule/`, life config/progression/social/story/validation, engine/storage/Receipt, `src/main.js`, relevant life/gacha/HUD/Receipt UI, focused style modules, tests and simulation/checkpoint tooling. Modify accepted asset modules only for a necessary pure composition option (e.g. Plan49 shelf positioning) under a bounded approved seam; no artwork redesign. Report folder: `reports/development/plan-52-five-slot-production-transition/`.
 
 ## Integration record and work plan
+
+### Stage A — resolve carried decisions and clear the production seam
+
+Read Plan51's `contract-and-handoff.md` closure table, `review-disposition.md`, final progress and inspected inventory. Return one compact selected/preserved/candidate/deferred record and exact source ownership. Bring the owner meaningful decisions directly in this implementer chat, with a recommendation and concrete trace. Root clears the technical source seam after that batch; no per-command approval loop follows.
+
+Do not infer adoption of +25 bedrest, −10 fatigue or overtime +$60/−15 from Plan51 closure. These are recommended working inputs for owner selection; +5 early bed is already a working testing selection. Resolve recovery-versus-rent ordering, eligible real-slot overtime terms/reservation/conflicts, conscious payment/withholding and the exact initial furniture-sale contract. Keep credit amount/interest/repayment and any eventual ending explicitly deferred unless owner selects them. Determine which decisions are prerequisites for each production slice rather than blocking all investigation on every future price.
+
+The owner-selected unresolved-crisis stop is a MODEL evidence boundary. It is not authorization for a playable softlock, to remove accepted existing mechanics silently, or to invent an ending. Propose a coherent bounded development port and its explicitly excluded routes if later crisis design remains deferred; root/owner must approve that amendment before mutating those routes. Whole-run/student acceptance remains blocked until reachable unresolved crises have a reviewed experience. Preserve immediate Uninstall. Reuse selected legacy behavior only after explicit reconciliation with new timing and conscious-payment rules, never by automatic fallback.
+
+No existing source writes before Stage A ownership/transaction approval. Report-only investigation and concrete proposals may proceed immediately. Once cleared, implement autonomously inside the approved seams and ask owner only for material new decisions.
 
 1. Before source writes, present selected/preserved/placeholder/deferred table, exact source pins and replace/extend seams, activity callers, save schema boundary and fixture dependency matrix. Root clears it once; routine changes inside that scope continue autonomously. Refresh the record on meaningful amendments.
 2. Import the actual Plan51 pure authority into production. UI asks for eligibility/confirmation and dispatches actions; no scattered day checks, independently chosen slot transitions, or universal append-to-main pattern. Replace old meal-maintenance/anchor assumptions deliberately; do not preserve them through aliases that make two authorities coexist.

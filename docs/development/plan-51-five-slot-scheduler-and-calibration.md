@@ -1,9 +1,10 @@
 ---
 id: plan-51
 title: Five-slot scheduler contract and calibration
-status: in-progress
+status: complete
+resolution: "Accepted as bounded unmounted scheduler study with repaired Day1 rules and finite evidence; remaining working-value and crisis decisions transfer explicitly to Plan52 Stage A. No full-policy, production or final balance acceptance; owner authorized root closure 2026-11-02."
 depends_on: [plan-29, plan-37, plan-49]
-gate: "Owner accepts five-slot direction 2026-11-02. Root clears concrete mechanism before shared pure source; owner/root review complete traces and working parameters before Plan52 production integration. No old-save compatibility requirement; no runtime mount."
+gate: "Closed as bounded unmounted scheduler study under owner-authorized root disposition 2026-11-02, not complete crisis design or final balance. Remaining working-value adoption and crisis transaction decisions transfer to Plan52's first stage before affected production writes. No old-save compatibility requirement; no runtime mount."
 summary: >-
   Specify and simulate the accepted five-slot day with slot-consuming meals, one shared pure scheduler, staged guidance and coherent obligation transactions before production integration.
 ---
@@ -22,6 +23,8 @@ summary: >-
 - Expected artifacts: transition/action contract, shared pure scheduler, bounded simulator/results, documentation reconciliation, Plan52 handoff, progress
 
 ## Goal and why this exists
+
+**Closure scope disposition (2026-11-02):** Root accepts the bounded unmounted contract, repaired implementation and finite evidence, following owner authorization to close if sufficient. This narrows closure from a fully settled policy: rent-crisis routes, sale/credit terms, exhaustion, final balance and whole-game acceptance are explicitly incomplete and transfer to Plan52 Stage A. Selected rules stand; comparison values are not adopted merely by closure. See DECISION-073 and the final contract's closure table. Historical reports retain their original limitations. No production readiness is claimed.
 
 Replace the maintenance-meal/phase-anchor design with Morning, Midday, Early Evening, Evening and Late Evening. Meals occupy their slot. Establish one implementable authority for commitment, completion, slot advancement, obligations and guidance; quantify consequences before porting the live game. Current Ren dinner/arrival fixes expose the cost of independent local scheduling rules. A rename-only port or another simulator whose rules diverge from the eventual game would not meet the objective.
 

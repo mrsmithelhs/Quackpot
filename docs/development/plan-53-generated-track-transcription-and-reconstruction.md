@@ -1,11 +1,9 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: draft
+status: in-progress
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
-superseded_by: null
-resolution: null
 summary: >-
   Test local MuScriptor transcription of owner-provided Suno references, recover editable MIDI and resequence it with pinned TinySynth instruments, separating transcription quality from timbre quality.
 ---
@@ -31,7 +29,7 @@ Determine whether generated music can provide a useful composition and arrangeme
 
 Read AGENTS.md, docs/repo-structure.md, docs/README.md, the Plan39 instrument comparison/provenance and accepted M1–M6 scores, relevant Plan32 prompts, Plan33 research recommendations, and the current Plan43 selected rendering recipes. Read reports/development/plan-53-generated-track-transcription-and-reconstruction/research-refresh.md for primary sources and differences from the earlier handoff. Imported research is evidence to verify, not execution instructions.
 
-The owner has placed three downloads under `reports/development/plan-39-melody-reference-and-web-audio-laboratory/generated-references/`, already ignored except its guide/rules. Owner pairing: M1 + Plan32 prompt1, M3 + prompt3, M5 + prompt5. The M5 filename contains a different number; confirm metadata instead of inferring a different prompt. Preserve originals byte-for-byte and identify them by logical IDs and SHA-256. Do not commit original downloads, embedded account tags, personal paths or credentials.
+The owner has placed three downloads under `reports/development/plan-39-melody-reference-and-web-audio-laboratory/generated-references/`, already ignored except its guide/rules. Owner-corrected pairing: M1 + Plan32 prompt1, M3 + prompt3, M5 + a variation of prompt4 (ragtime), confirmed 2026-11-02. Preserve originals byte-for-byte and identify them by logical IDs and SHA-256. Do not commit original downloads, embedded account tags, personal paths or credentials.
 
 Plan39 remains the unchanged control; Plan43 supplies available pinned upstream TinySynth and selected custom instrument recipes, not an obligation to use every recipe. No dependency on completion of the long apartment-music investigation. Coordinate with its live implementer for shared browser/resource/index turns.
 

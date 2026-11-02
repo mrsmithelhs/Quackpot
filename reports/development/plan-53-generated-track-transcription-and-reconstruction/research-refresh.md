@@ -4,7 +4,7 @@ This is a checked research digest, not installation or inference evidence. The o
 
 ## Confirmed local intake and prerequisites
 
-- Existing ignored intake: `reports/development/plan-39-melody-reference-and-web-audio-laboratory/generated-references/`. Three MP3 downloads are present. Owner identifies M1/prompt1, M3/prompt3 and M5/prompt5; M5 filename contains `4`, a metadata discrepancy to resolve without renaming/reinterpreting the original.
+- Existing ignored intake: `reports/development/plan-39-melody-reference-and-web-audio-laboratory/generated-references/`. Three MP3 downloads are present. Owner corrected the pairing on 2026-11-02: M1/prompt1, M3/prompt3 and M5/a variation of prompt4 (ragtime). Preserve original filenames and bytes.
 - `uv`, `uvx`, Python and `nvidia-smi` are discoverable. Host Python is 3.14; an isolated supported runtime should be resolved before installation. No Python package imports were used for these checks.
 - Read-only GPU query returned RTX4060 Laptop GPU, 8188MiB total, 151MiB used at that instant. This is not an inference-memory measurement or a guarantee that Large fits.
 

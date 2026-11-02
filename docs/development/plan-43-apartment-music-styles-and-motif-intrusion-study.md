@@ -3,7 +3,7 @@ id: plan-43
 title: Apartment music styles and motif-intrusion study
 status: in-progress
 depends_on: []
-gate: "Owner assigns Codex study2026-11-01, not yet dispatched. Compare genuine pinned upstream TinySynth playback against unchanged accepted Plan39 control before longer composition. Root clears adapter/dependency/resources; owner hears comparison and first short pilots with Flash impressions before selecting foundation/long-track expansion. No production adoption."
+gate: "Owner finds extended M1/M5 arrangements unsatisfactory 2026-11-02; hold further composition/renders/inference. Finish a report-only technical renderer/MIDI handoff for Plan53, preserving selected instrument sounds and controls. Remaining long/style-loop goals are deferred, not satisfied or soundtrack-approved. No production adoption."
 summary: >-
   Research six apartment instrumental styles and prototype longer TV-music loops with shorter gacha-motif-inflected companions using editable scores and the Plan39 synthesis work.
 ---

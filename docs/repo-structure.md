@@ -7,6 +7,7 @@
 | `index.html`, `vite.config.mjs`, package/lock files | Root web entry and build configuration; preserve CommonJS behavior for existing Node `.js` tooling |
 | `src/` | Playable Plan 03 browser mechanism slice plus accepted standalone rig/audio proofs |
 | `src/core/` | Current game engine, canonical pure PRNG/log/Receipt modules, browser storage and digital rig composer |
+| `src/core/life-schedule/`, `sim/plan-51/` | Plan51 pure five-slot scheduler and finite study, currently unmounted; Plan52 owns the coordinated production port after its StageA gate |
 | `src/assets/svg/` | Authored SVG source; accepted Mode C rig. Digital cards and races use the accepted rig through focused render/motion helpers; physical companion assets remain separate |
 | `sim/` | Separate headless model, strategies, experiments and tests; PRNG/log/Receipt entry files re-export canonical `src/core` modules |
 | `scripts/dev/` | Development, packet and smoke tooling |

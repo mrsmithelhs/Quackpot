@@ -1,7 +1,7 @@
 ---
 id: plan-54
 title: Gacha progression and return-visit investigation
-status: draft
+status: in-progress
 depends_on: [plan-12, plan-17, plan-21, plan-22, plan-23]
 gate: "Owner selects the comparison approach before prototype construction; owner experience choices and orchestration review precede any production or economy integration."
 superseded_by: null
@@ -30,7 +30,7 @@ summary: >-
 
 Establish what a player hopes to accomplish inside Quackpot across successive visits, beyond repeating pulls and races. Apartment and life systems have advanced substantially; the gacha needs a coherent progression direction to make its leisure opportunities meaningful. Compare three distinct organizing models before adding currencies, activities or more production UI. An attractive preview is not evidence of a viable economy, replayable implementation or compelling student experience.
 
-The owner approves this investigation's direction and Sonnet consultancy. This packet's draft status does not dispatch an implementer or authorize production changes. Plan11 remains the visual-composition study; Plan15 remains the pull-anticipation/local-cue study. Plan54 informs their priorities without absorbing their effects work or reopening their separate gates.
+The owner approves starting this investigation with a Codex lead and Sonnet consultancy. Assignment does not authorize production changes. Plan11 remains the visual-composition study; Plan15 remains the pull-anticipation/local-cue study. Plan54 informs their priorities without absorbing their effects work or reopening their separate gates.
 
 ## Non-goals
 

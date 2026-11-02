@@ -16,3 +16,7 @@ No production source, status, release, deployment or owner data was changed by t
 Advisor posture at this interim checkpoint: **orchestrator-gate-only**. No independent pre-delivery code consultation ran; the actual reviewer gate remains open if substantive prototype/tooling is delivered. Sonnet's creative consultation is not an independent code review. Root inspected the relevant preview and selected evidence; neither that nor the user's experience choice is production acceptance.
 
 Scoped checkpoint artifact commit: `d80750b`. This progress report is committed separately as the checkpoint's final act.
+
+## Owner-directed bedroom adjustment
+
+The owner requested the shelf move farther left so its left edge is off scene with the robot still visible, then said the result looked better and requested the bed target cover the visible bed. The report-local preview implements these changes, with the shelf contents and physical duck moving together. Desktop/narrow synthetic captures and the focused restoration/keyboard witness are in `preview-evidence.md`; owner feedback on the expanded target is not inferred. The temporary room-spec substitution is preview-only; a future production integration requires a pure composition seam and its own review. Plan49 remains in progress, with Stay up and the broader action map still open.

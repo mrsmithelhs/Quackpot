@@ -45,3 +45,7 @@ Owner found the first procedural pluck improved and string-like but perceived it
 ## Owner-requested contextual phrase
 
 Owner requested the prior three pluck variants in a short phrase and a combined softer-attack/slower-decay voice. Root cleared the retained-audio ceiling expansion, pure checks and finite four-render pass. Four identical-score 11 s stereo PCM16 files, editable 15-event score, combined implementation, hashes, page and technical evidence committed `af2375e`. `guitar-phrase-evidence.md` records pure 4/4, finite tuning tests, controlled note-off behavior, 33,408,704 retained WAV bytes, render and isolated four-player checks. Existing controls remain unchanged. No new dependency, model call, long composition or foundation selection. Await owner listening; packet remains incomplete.
+
+## Owner-requested register comparison
+
+Owner preferred the combined soft/slow pluck in context and requested an exact octave-higher phrase plus mixed lower/higher guitar chords. Root cleared bounded score/tests, two additional 11 s renders and the listener check. Scoped source/audio/evidence committed `866dd95`; `guitar-register-evidence.md` records exact mapping, two new WAVs and prior hash preservation, all-used-pitch finite tuning tests, resource and cleanup, and three-player checks. Mixed voicings are a new score, not a single-variable register test. Owner listening remains pending; no final sound foundation or production selection, new inference or long composition. Packet remains incomplete.

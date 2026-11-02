@@ -26,3 +26,12 @@
 @media (max-width: 700px) {
   .ren46-graph-floor .ren46-door-bubble { left:-1%; width:30%; }
 }
+.ren46-phone-stage { overflow-y:auto; }
+.ren46-channel-layout { display:flex; align-items:center; justify-content:center; gap:1.2rem; width:min(100%,44rem); }
+.ren46-channel-layout .ren46-channel-phone { flex:0 1 20rem; height:min(24rem,calc(100svh - 5rem)); }
+.ren46-channel-decide .life-decide-body { padding:1rem; }
+@media (max-width:760px) {
+  .ren46-channel-layout { flex-direction:column; align-items:stretch; gap:.6rem; }
+  .ren46-channel-layout .ren46-channel-phone { flex:none; width:min(100%,20rem); height:min(12rem,25svh); margin:0 auto; }
+  .ren46-channel-decide { position:static; width:100%; }
+}

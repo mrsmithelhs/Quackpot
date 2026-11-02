@@ -1,0 +1,1388 @@
+{
+  "pins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-social-dialogue.mjs": "1a0ca003b51ace632c955396d601a1cc6e1b8cafcc7ed9613d83582a735dadb5",
+    "src/core/life-validation.mjs": "ba9742c63bab36b66b544b52a73625a26f215306c3131bf04314d31f2b01c6c7",
+    "src/core/receipt.mjs": "064fc66e543c4c3256ad5010fda77ff08004f08bf25684c6e361eebe76392e6d",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/life/ren-door-view.mjs": "28ba07baf4c85bb1d2dbaeeff1ce7ea5b4efead7bf2549aaa5a7c1fa4b1aa437",
+    "src/ui/life/ren-channel-view.mjs": "2c1c1e74f0883a1d14321feefb6712ef75fd50d963500a64cd049bce88e859c9",
+    "src/ui/life/ren-scene-view.mjs": "2f86e5118ddd5abecbdd43b9be353f11d0747d2f9e0e703e0b97248024ad4511",
+    "src/ui/life/ren46.css": "c3a838e7757f499085659a5d88c6fa5e56b91cf76ff11daadc9797f4177c576f",
+    "src/assets/ren/index.mjs": "ae18fbe8103d4b4fd40b621f63c5c46e2ef6da3883da77f56e63f42ef95eb2af",
+    "src/assets/ren/arrival-scenes.mjs": "224a04789289c73cebc170692a4397b2d90757afb16631c427fe1632b71706f8",
+    "reports/development/plan-46-ren-social-lifecycle-integration/dialogue-synthetic-fixtures.mjs": "c857475e1fdd9d71914a23032788066b1a66bdad1318407158b350df6124a720"
+  },
+  "checks": [
+    {
+      "fixture": {
+        "health": 90,
+        "day": 2,
+        "phase": "evening",
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner\",\"s\":[1811223342,2010558734,906336193,3888550348]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/draw\",\"s\":[1701935290,1991953618,1817989481,637907118]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/race\",\"s\":[2226951145,3509250792,273203313,2529184036]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/event\",\"s\":[173523316,1429100512,3290712332,2014015743]}"
+        }
+      }
+    },
+    {
+      "phoneLayout": {
+        "phoneTop": 241.171875,
+        "phoneBottom": 433.171875,
+        "firstTop": 498.34375,
+        "lastBottom": 750.34375,
+        "viewport": 844
+      }
+    },
+    {
+      "escapeFocus": true
+    },
+    {
+      "arrival": {
+        "valid": true,
+        "errors": [],
+        "health": 90,
+        "day": 2,
+        "phase": "evening",
+        "anchor": null,
+        "fatigue": false,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner\",\"s\":[1811223342,2010558734,906336193,3888550348]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/draw\",\"s\":[1701935290,1991953618,1817989481,637907118]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/race\",\"s\":[2226951145,3509250792,273203313,2529184036]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/event\",\"s\":[173523316,1429100512,3290712332,2014015743]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": 2,
+          "pending": {
+            "id": "ren-1",
+            "day": 2,
+            "initiator": "ren",
+            "activity": "door",
+            "shown": true,
+            "replied": true,
+            "committed": true,
+            "rescheduled": false,
+            "seatingConfirmed": true,
+            "lastShownDay": 2,
+            "ackShownDay": 2,
+            "arrival": {
+              "version": 1,
+              "open": true,
+              "ignored": false,
+              "lineShown": true,
+              "look": "cardigan"
+            }
+          },
+          "scene": null,
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "meals": {
+          "d1-breakfast": "skip",
+          "d1-dinner": "buy",
+          "d2-breakfast": "skip"
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "door",
+              "text": "Ren: i could come by this evening for a chat. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_knock",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "visit_open",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_arrival",
+              "id": "ren-1",
+              "day": 2,
+              "lookVersion": 1,
+              "look": "cardigan",
+              "text": "Ren: hey. i’m here."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "completed": {
+        "valid": true,
+        "errors": [],
+        "health": 95,
+        "day": 2,
+        "phase": "evening",
+        "anchor": "ren-1",
+        "fatigue": false,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner\",\"s\":[1811223342,2010558734,906336193,3888550348]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/draw\",\"s\":[1701935290,1991953618,1817989481,637907118]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/race\",\"s\":[2226951145,3509250792,273203313,2529184036]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/event\",\"s\":[173523316,1429100512,3290712332,2014015743]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [
+            {
+              "id": "ren-1",
+              "outcome": "honored"
+            }
+          ],
+          "unanswered": 0,
+          "lastVisitDay": 2,
+          "lastOfferedDay": 2,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "meals": {
+          "d1-breakfast": "skip",
+          "d1-dinner": "buy",
+          "d2-breakfast": "skip",
+          "d2-dinner": "buy"
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "door",
+              "text": "Ren: i could come by this evening for a chat. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_knock",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "visit_open",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_arrival",
+              "id": "ren-1",
+              "day": 2,
+              "lookVersion": 1,
+              "look": "cardigan",
+              "text": "Ren: hey. i’m here."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s0",
+              "text": "hey. good to see you."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s0",
+              "choice": "a"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s1a",
+              "text": "you too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s1a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c0",
+              "text": "how’s your day going?"
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c0",
+              "choice": "busy"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy",
+              "text": "same here. i’m glad we found a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy",
+              "choice": "me-too"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy-a",
+              "text": "me too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy-a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-end",
+              "text": "i should get going. glad we had a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-end",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_outcome",
+            "payload": {
+              "kind": "completed",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "day": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "turnIn": {
+        "valid": true,
+        "errors": [],
+        "health": 95,
+        "day": 3,
+        "phase": "morning",
+        "anchor": null,
+        "fatigue": false,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner\",\"s\":[1811223342,2010558734,906336193,3888550348]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/draw\",\"s\":[1701935290,1991953618,1817989481,637907118]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/race\",\"s\":[2226951145,3509250792,273203313,2529184036]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/event\",\"s\":[173523316,1429100512,3290712332,2014015743]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [
+            {
+              "id": "ren-1",
+              "outcome": "honored"
+            }
+          ],
+          "unanswered": 0,
+          "lastVisitDay": 2,
+          "lastOfferedDay": 2,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "meals": {
+          "d1-breakfast": "skip",
+          "d1-dinner": "buy",
+          "d2-breakfast": "skip",
+          "d2-dinner": "buy"
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "door",
+              "text": "Ren: i could come by this evening for a chat. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_knock",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "visit_open",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_arrival",
+              "id": "ren-1",
+              "day": 2,
+              "lookVersion": 1,
+              "look": "cardigan",
+              "text": "Ren: hey. i’m here."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s0",
+              "text": "hey. good to see you."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s0",
+              "choice": "a"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s1a",
+              "text": "you too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s1a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c0",
+              "text": "how’s your day going?"
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c0",
+              "choice": "busy"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy",
+              "text": "same here. i’m glad we found a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy",
+              "choice": "me-too"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy-a",
+              "text": "me too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy-a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-end",
+              "text": "i should get going. glad we had a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-end",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_outcome",
+            "payload": {
+              "kind": "completed",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "day": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "syntheticFailedPlay": {
+        "threw": true,
+        "sameState": true,
+        "sameLog": true,
+        "sameStreams": true
+      }
+    },
+    {
+      "latePlay": {
+        "valid": true,
+        "errors": [],
+        "health": 95,
+        "day": 2,
+        "phase": "lateNight",
+        "anchor": "session-1",
+        "fatigue": true,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner\",\"s\":[1811223342,2010558734,906336193,3888550348]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/draw\",\"s\":[2677472782,2388268486,3481880892,637907138]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/race\",\"s\":[2226951145,3509250792,273203313,2529184036]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-branch-dinner/event\",\"s\":[173523316,1429100512,3290712332,2014015743]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [
+            {
+              "id": "ren-1",
+              "outcome": "honored"
+            }
+          ],
+          "unanswered": 0,
+          "lastVisitDay": 2,
+          "lastOfferedDay": 2,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "meals": {
+          "d1-breakfast": "skip",
+          "d1-dinner": "buy",
+          "d2-breakfast": "skip",
+          "d2-dinner": "buy"
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "door",
+              "text": "Ren: i could come by this evening for a chat. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_knock",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "visit_open",
+              "id": "ren-1",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "visit_arrival",
+              "id": "ren-1",
+              "day": 2,
+              "lookVersion": 1,
+              "look": "cardigan",
+              "text": "Ren: hey. i’m here."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s0",
+              "text": "hey. good to see you."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s0",
+              "choice": "a"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "s1a",
+              "text": "you too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "s1a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c0",
+              "text": "how’s your day going?"
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c0",
+              "choice": "busy"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy",
+              "text": "same here. i’m glad we found a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy",
+              "choice": "me-too"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-busy-a",
+              "text": "me too."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-busy-a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "node": "c-end",
+              "text": "i should get going. glad we had a minute."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "door",
+              "node": "c-end",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_outcome",
+            "payload": {
+              "kind": "completed",
+              "id": "ren-1",
+              "activity": "door",
+              "seating": "door",
+              "day": 2
+            }
+          },
+          {
+            "type": "life_session_commit",
+            "payload": {
+              "id": "session-1",
+              "kind": "pull"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "dialogs": [
+    {
+      "type": "confirm",
+      "message": "You already chose an evening activity. Opening and browsing Quackpot is free; starting a pull or race will ask before Late Night. Open it?"
+    },
+    {
+      "type": "confirm",
+      "message": "Starting this pull moves into Late Night. A pull or race then causes up to 10 HP fatigue next morning. Continue?"
+    },
+    {
+      "type": "confirm",
+      "message": "Starting this pull moves into Late Night. A pull or race then causes up to 10 HP fatigue next morning. Continue?"
+    }
+  ]
+}

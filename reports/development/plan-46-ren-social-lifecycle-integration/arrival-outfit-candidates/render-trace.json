@@ -1,0 +1,31 @@
+{
+  "sourcePins": {
+    "door": "dc37ee19fd374f5bea27bd822c313e3550eebc629fb0d82081864ed5ea29d5f9",
+    "donors": {
+      "pajamas": "7acbcebd07824c4f905949e915d4c0b4f112ffdce5a5d171fb3d057170194081",
+      "cardigan": "c8acf4739d4b9e4320c12313cafddf16d4bc7fbc38f89db72beb61bb25119c12"
+    },
+    "candidates": {
+      "pajamas": "f928b80c5b79e732248f465dbc76d2562818d427b161a75c8ba87048f332f75b",
+      "cardigan": "ea70b2de161e2e9af5e12aa1fe7ad34d47bb3f28753572cb748571b3794c4d70"
+    }
+  },
+  "sizes": [
+    {
+      "name": "desktop",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "name": "narrow",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "profileRemoved": true,
+    "treeTerminationConfirmed": true
+  }
+}

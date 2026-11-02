@@ -1,5 +1,5 @@
 // Focused Plan 46 scenes. State changes and evidence are owned by engine callbacks.
-import { renderRenScene, renderFloorCandidate } from '../../assets/ren/index.mjs';
+import { renderRenScene, renderRenArrival, renderFloorCandidate } from '../../assets/ren/index.mjs';
 import { social46DisplayText, social46SceneSetting } from '../../core/life-social.mjs';
 import { renGraphNode } from '../../core/life-social-dialogue.mjs';
 
@@ -37,7 +37,9 @@ function renderGraphScene(root, scene, callbacks, active) {
   const options = {idPrefix:'ren46graph',decorative:true};
   const seating = social46SceneSetting(scene);
   room.classList.add(`ren46-graph-${seating}`);
-  art.innerHTML = seating === 'floor' ? renderFloorCandidate({...options,tv:callbacks.tvSold()?'removed':'present'}).svg : renderRenScene({...options,scene:seating==='couch'?'couch-close':'door'}).svg;
+  art.innerHTML = seating === 'floor' ? renderFloorCandidate({...options,tv:callbacks.tvSold()?'removed':'present'}).svg
+    : seating === 'door' && scene.arrivalLook ? renderRenArrival({...options,look:scene.arrivalLook}).svg
+      : renderRenScene({...options,scene:seating==='couch'?'couch-close':'door'}).svg;
   const bubble = document.createElement('div'); bubble.className = 'ren46-door-bubble'; bubble.setAttribute('role','status');
   const speaker = document.createElement('strong'); speaker.textContent = 'Ren'; const text = document.createElement('span'); text.textContent = node.text; bubble.append(speaker,text);
   box.append(art,bubble); const panel = document.createElement('section'); panel.className = 'ren46-door-decide'; panel.setAttribute('aria-label','Decide');

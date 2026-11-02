@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { renderRen, renderRenScene, REN_EXPRESSIONS } from './index.mjs';
+import { renderRen, renderRenScene, renderRenArrival, renderFloorCandidate, REN_EXPRESSIONS } from './index.mjs';
 test('explicit deterministic expressions and strict options', () => {
   for (const expression of REN_EXPRESSIONS) {
     const o = { idPrefix: 'one', expression, framing: 'avatar' };
@@ -106,4 +106,17 @@ test('selected closed door is accessible, isolated and preserves the open doorwa
  assert.doesNotMatch(closed.svg,/<script\b|<foreignObject\b|\son\w+=|(?:href|src)="(?:https?:|\/\/)/i);
  assert.equal(renderRenScene({idPrefix:'closeddecorative',scene:'closed-door',decorative:true}).svg.includes('aria-hidden="true"'),true);
  assert.equal(renderRenScene({idPrefix:'opencheck',scene:'door'}).meta.hand,'owner-selected-derived');
+});
+
+test('selected box-free arrivals retain pinned source provenance and scoped instances',()=>{
+ assert.equal(sha(renderRenScene({idPrefix:'outfit',scene:'door'}).svg),'dc37ee19fd374f5bea27bd822c313e3550eebc629fb0d82081864ed5ea29d5f9');
+ assert.equal(sha(renderRenScene({idPrefix:'outfit',scene:'couch-close'}).svg),'7acbcebd07824c4f905949e915d4c0b4f112ffdce5a5d171fb3d057170194081');
+ assert.equal(sha(renderFloorCandidate({idPrefix:'outfit'}).svg),'c8acf4739d4b9e4320c12313cafddf16d4bc7fbc38f89db72beb61bb25119c12');
+ assert.equal(sha(renderRenArrival({idPrefix:'outfit',look:'pajamas'}).svg),'fb0ddc764c8f26d71f3bbb62752453e8b1519e27762440dbb8466fa82d3c8e0a');
+ assert.equal(sha(renderRenArrival({idPrefix:'outfit',look:'cardigan'}).svg),'c52633d146461038c7514ea9a0ac57d4784b26c8b1fe0f3b23a216ae41a3884d');
+ const a=renderRenArrival({idPrefix:'arrivala',look:'pajamas'}).svg,b=renderRenArrival({idPrefix:'arrivalb',look:'cardigan',decorative:true}).svg;
+ const ids=[...(a+b).matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);assert.equal(ids.length,new Set(ids).size);
+ for(const m of (a+b).matchAll(/(?:href="#|url\(#)([^"\)]+)/g))assert.ok(ids.includes(m[1]),m[1]);
+ assert.doesNotMatch(a,/<use href="#arrivala-r4-box-arm"\/>/);assert.match(b,/aria-hidden="true"/);
+ assert.throws(()=>renderRenArrival({idPrefix:'arrival',look:'other'}));
 });

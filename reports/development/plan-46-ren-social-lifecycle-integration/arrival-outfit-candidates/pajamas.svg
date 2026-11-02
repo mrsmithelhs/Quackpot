@@ -1,0 +1,109 @@
+<svg class="ren-outfit-root" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Ren at the apartment door">
+<title>Ren at the apartment door (v2)</title>
+<desc>Looking from inside a warm apartment through the open front door. The wall and doorway fill the frame; no floor or table is shown. Ren, in striped tee and overalls, stands in the cooler hallway holding a small cardboard box with two light bulbs. The frame edge crops Ren at the chest.</desc>
+<style>
+  .ren-outfit-root{--skin:#a8703f;--shade:#8a5428;--blush:#c9784f;--hair:#2a1d17}
+  .ren-outfit-skin{fill:var(--skin)}.ren-outfit-shade{fill:var(--shade)}.ren-outfit-blush{fill:var(--blush)}.ren-outfit-hair{fill:var(--hair)}
+  .ren-outfit-l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  .ren-outfit-l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+</style>
+<defs>
+<clipPath id="outfit-r4-tclip"><path d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/></clipPath>
+<g id="outfit-r4-torso">
+  <path class="ren-outfit-l3" fill="#f1e3c8" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <g clip-path="url(#outfit-r4-tclip)" stroke="#c76b3d" stroke-width="5" fill="none"><path d="M20 252 Q120 222 220 252"/><path d="M20 272 Q120 242 220 272"/><path d="M20 292 Q120 262 220 292"/></g>
+  <path class="ren-outfit-l3" fill="#4f6d7a" d="M74 218 L94 211 L98 242 L82 244Z"/>
+  <path class="ren-outfit-l3" fill="#4f6d7a" d="M146 211 L166 218 L158 244 L142 242Z"/>
+  <path class="ren-outfit-l3" fill="#4f6d7a" d="M82 240 Q120 250 158 240 L162 300 L78 300Z"/>
+  <circle cx="88" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><circle cx="152" cy="248" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+  <rect x="104" y="268" width="32" height="22" rx="4" fill="#42606c" class="ren-outfit-l2"/>
+</g>
+<g id="outfit-r4-neck"><path class="ren-outfit-skin ren-outfit-l3" d="M102 150 L102 214 Q120 226 138 214 L138 150Z"/><path class="ren-outfit-shade" d="M104 178 Q120 194 136 178 L136 196 Q120 208 104 196Z"/></g>
+<g id="outfit-r4-ears"><circle class="ren-outfit-skin ren-outfit-l3" cx="70" cy="122" r="10"/><circle class="ren-outfit-skin ren-outfit-l3" cx="170" cy="122" r="10"/></g>
+<path id="outfit-r4-head" class="ren-outfit-skin ren-outfit-l3" d="M70 112 C70 70 92 52 120 52 C148 52 170 70 170 112 C170 148 148 176 120 176 C92 176 70 148 70 112 Z"/>
+<g id="outfit-r4-cheeks"><ellipse class="ren-outfit-blush" cx="90" cy="144" rx="10" ry="6" opacity=".45"/><ellipse class="ren-outfit-blush" cx="150" cy="144" rx="10" ry="6" opacity=".45"/></g>
+<g id="outfit-r4-nose"><path class="ren-outfit-l2" fill="none" d="M120 128 Q115 140 122 142"/></g>
+<g id="outfit-r4-eyes"><circle cx="101" cy="122" r="6" fill="#2b1a14"/><circle cx="139" cy="122" r="6" fill="#2b1a14"/><circle cx="103" cy="120" r="1.8" fill="#fff"/><circle cx="141" cy="120" r="1.8" fill="#fff"/></g>
+<g id="outfit-r4-face-warm"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-eyes"/><use href="#outfit-r4-nose"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 109 Q101 103 112 108"/><path class="ren-outfit-l2" fill="none" d="M128 108 Q139 103 150 109"/>
+  <path class="ren-outfit-l2" fill="none" d="M106 155 Q120 165 134 155"/></g>
+<g id="outfit-r4-face-laugh"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-nose"/>
+  <path class="ren-outfit-l2" fill="none" stroke-width="3" d="M93 125 Q101 116 109 125"/><path class="ren-outfit-l2" fill="none" stroke-width="3" d="M131 125 Q139 116 147 125"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 106 Q101 99 112 105"/><path class="ren-outfit-l2" fill="none" d="M128 105 Q139 99 150 106"/>
+  <path class="ren-outfit-l2" fill="#7a2f25" d="M104 152 Q120 176 136 152 Q120 158 104 152Z"/><path fill="#f6e9d6" d="M108 154 Q120 160 132 154 Q120 157 108 154Z"/></g>
+<g id="outfit-r4-face-tease"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-eyes"/><use href="#outfit-r4-nose"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 110 Q101 106 112 109"/><path class="ren-outfit-l2" fill="none" d="M128 104 Q139 96 150 104"/>
+  <path class="ren-outfit-l2" fill="none" d="M108 157 Q122 164 136 150"/></g>
+<g id="outfit-r4-face-sorry"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-eyes"/><use href="#outfit-r4-nose"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 112 Q100 107 112 102"/><path class="ren-outfit-l2" fill="none" d="M128 102 Q140 107 150 112"/>
+  <path class="ren-outfit-l2" fill="none" d="M110 159 Q120 154 130 159"/></g>
+<g id="outfit-r4-face-tired"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-nose"/>
+  <path d="M95 122 A6 6 0 0 0 107 122Z" fill="#2b1a14"/><path d="M133 122 A6 6 0 0 0 145 122Z" fill="#2b1a14"/>
+  <path class="ren-outfit-l2" fill="none" stroke-width="2.6" d="M93 122 H109"/><path class="ren-outfit-l2" fill="none" stroke-width="2.6" d="M131 122 H147"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 112 Q101 108 112 111"/><path class="ren-outfit-l2" fill="none" d="M128 111 Q139 108 150 112"/>
+  <path class="ren-outfit-l2" fill="none" d="M108 156 Q120 162 132 156"/></g>
+<g id="outfit-r4-face-listen"><use href="#outfit-r4-cheeks"/><use href="#outfit-r4-nose"/>
+  <circle cx="102" cy="122" r="6.6" fill="#2b1a14"/><circle cx="140" cy="122" r="6.6" fill="#2b1a14"/>
+  <circle cx="104.4" cy="119.6" r="2" fill="#fff"/><circle cx="142.4" cy="119.6" r="2" fill="#fff"/>
+  <path class="ren-outfit-l2" fill="none" d="M90 106 Q101 99 112 104"/><path class="ren-outfit-l2" fill="none" d="M128 104 Q139 99 150 106"/>
+  <path class="ren-outfit-l2" fill="none" d="M110 157 Q120 160 130 157"/></g>
+<g id="outfit-r4-hs-shapes">
+  <circle cx="78" cy="88" r="16"/><circle cx="86" cy="66" r="16"/><circle cx="104" cy="54" r="16"/><circle cx="122" cy="50" r="16"/>
+  <circle cx="140" cy="54" r="16"/><circle cx="158" cy="66" r="16"/><circle cx="166" cy="88" r="16"/><ellipse cx="122" cy="72" rx="46" ry="22"/>
+</g>
+<g id="outfit-r4-hair"><use href="#outfit-r4-hs-shapes" class="ren-outfit-hair ren-outfit-l3"/><use href="#outfit-r4-hs-shapes" class="ren-outfit-hair" stroke="none"/></g>
+<g id="outfit-r4-acc">
+  <circle cx="68" cy="138" r="9" fill="none" stroke="#3a2c26" stroke-width="5.5"/><circle cx="68" cy="138" r="9" fill="none" stroke="#d9a441" stroke-width="3"/>
+  <circle cx="171" cy="132" r="4" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/>
+</g>
+<g id="outfit-r4-pencil"><g transform="translate(184 106) rotate(190)"><rect x="0" y="-3.2" width="5" height="6.4" rx="1.6" fill="#e58f8f" stroke="#3a2c26" stroke-width="1.6"/><rect x="5" y="-3.2" width="3.6" height="6.4" fill="#c9c2b0" stroke="#3a2c26" stroke-width="1.6"/><rect x="8.6" y="-3.2" width="17" height="6.4" fill="#e0b341" stroke="#3a2c26" stroke-width="1.6"/><path d="M8.6 0H25.6" stroke="#b8891f" stroke-width="1.2"/><path d="M25.6 -3.2 L33 -1.1 L33 1.1 L25.6 3.2Z" fill="#ecd0a2" stroke="#3a2c26" stroke-width="1.6" stroke-linejoin="round"/><path d="M31 -1.2 L34 0 L31 1.2Z" fill="#3a2c26"/></g></g>
+<g id="outfit-r4-box-arm">
+  <rect x="138" y="240" width="62" height="54" rx="3" fill="#c99a5b" class="ren-outfit-l3"/>
+  <rect x="164" y="240" width="12" height="54" fill="#e9d9b0" opacity=".85"/>
+  <path class="ren-outfit-l2" fill="#f7e19a" d="M150 240 Q150 222 158 222 Q166 222 166 240Z"/><path class="ren-outfit-l2" fill="#f7e19a" d="M176 240 Q176 224 184 224 Q192 224 192 240Z"/>
+  <path class="ren-outfit-l2" fill="#c9c2b0" d="M153 240 H163 V246 H153Z"/><path class="ren-outfit-l2" fill="#c9c2b0" d="M179 240 H189 V246 H179Z"/>
+  <path class="ren-outfit-skin ren-outfit-l3" d="M216 300 L207 281 Q205 276 205 270 Q205 265 204 263 Q208 257 205 254 Q202 252 199 259 Q197 258 195 259 L190 259 Q187 259 187 262 Q187 264 190 265 L187 265 Q184 265 184 268 Q184 271 187 271 L189 271 Q186 271 186 274 Q186 277 190 277 L192 277 Q189 277 189 280 Q189 282 192 282 L195 281 Q198 282 199 285 L192 300Z"/><path class="ren-outfit-l2" fill="none" d="M190 265 L198 264 M189 271 L198 270 M192 277 L200 275"/>
+</g>
+<g id="outfit-r4-fig-warm"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-warm"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+<g id="outfit-r4-fig-laugh"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-laugh"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+<g id="outfit-r4-fig-tease"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-tease"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+<g id="outfit-r4-fig-sorry"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-sorry"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+<g id="outfit-r4-fig-tired"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-tired"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+<g id="outfit-r4-fig-listen" transform="rotate(5 120 215)"><use href="#outfit-r4-torso"/><use href="#outfit-r4-neck"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-listen"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+
+<g id="outfit-r4-scene-door">
+  <rect width="960" height="540" fill="#e9d6b4"/>
+  <circle cx="190" cy="250" r="190" fill="#ffd27a" opacity=".16"/>
+  <!-- wall sconce on the interior wall (left) -->
+  <rect x="150" y="224" width="12" height="26" rx="3" fill="#3a2c26"/>
+  <path d="M128 232 L184 232 L170 180 L142 180Z" fill="#f2c872" class="ren-outfit-l3"/>
+  <!-- framed picture on the interior wall (right) -->
+  <rect x="770" y="150" width="110" height="86" rx="4" fill="#f1e3c8" class="ren-outfit-l3"/>
+  <path d="M780 226 L812 188 L834 210 L852 192 L870 226Z" fill="#6b7b4a" class="ren-outfit-l2"/><circle cx="846" cy="172" r="9" fill="#e0b341" class="ren-outfit-l2"/>
+  <!-- door frame; it runs off the bottom edge so no floor is shown -->
+  <rect x="296" y="26" width="368" height="530" fill="#6b4a33" class="ren-outfit-l3"/>
+  <rect x="320" y="50" width="320" height="500" fill="#c9d6d3"/>
+  <rect x="320" y="50" width="320" height="500" fill="#fff" opacity=".12"/>
+  <!-- door across the hall -->
+  <rect x="410" y="92" width="140" height="460" rx="4" fill="#8a7258" class="ren-outfit-l3"/><circle cx="530" cy="300" r="6" fill="#d9a441" stroke="#3a2c26" stroke-width="2"/><rect x="456" y="104" width="48" height="26" rx="3" fill="#e9d9b0" class="ren-outfit-l2"/>
+  <rect x="470" y="56" width="20" height="14" fill="#fff4c8" stroke="#3a2c26" stroke-width="2"/>
+  <g transform="translate(306 105) scale(1.45)"><use href="#outfit-ren-couch-medium-LAYER-torso"/><use href="#outfit-r4-box-arm"/><use href="#outfit-r4-neck"/><use href="#outfit-ren-couch-medium-LAYER-collar"/><use href="#outfit-r4-ears"/><use href="#outfit-r4-head"/><use href="#outfit-r4-face-warm"/><use href="#outfit-r4-hair"/><use href="#outfit-r4-acc"/><use href="#outfit-r4-pencil"/></g>
+  <rect width="960" height="540" fill="#ff9a3c" opacity=".05"/>
+</g>
+<g id="outfit-ren-couch-medium-LAYER-torso">
+  <path class="ren-outfit-l3" fill="#3b4a6b" d="M24 300 C24 236 66 208 120 208 C174 208 216 236 216 300Z"/>
+  <path class="ren-outfit-l2" fill="none" d="M63 222 Q72 262 70 300"/>
+  <path class="ren-outfit-l2" fill="none" d="M177 222 Q168 262 170 300"/>
+  <path class="ren-outfit-l2" fill="none" d="M34 262 Q42 280 40 300"/>
+  <path class="ren-outfit-l2" fill="none" d="M206 262 Q198 280 200 300"/>
+</g><g id="outfit-ren-couch-medium-LAYER-collar">
+  <path class="ren-outfit-skin" d="M102 212 L138 212 L120 264Z"/>
+  <path class="ren-outfit-l3" fill="#3b4a6b" d="M101 212 L84 218 L92 226 L96 250 L120 264 Z"/>
+  <path class="ren-outfit-l3" fill="#3b4a6b" d="M139 212 L156 218 L148 226 L144 250 L120 264 Z"/>
+  <path fill="none" stroke="#f1e3c8" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" d="M84 218 L92 226 L96 250 L120 264 L101 212"/>
+  <path fill="none" stroke="#f1e3c8" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" d="M156 218 L148 226 L144 250 L120 264 L139 212"/>
+  <path fill="none" stroke="#f1e3c8" stroke-width="2.5" stroke-linecap="round" d="M116 266 L116 300 M124 266 L124 300"/>
+  <circle cx="120" cy="280" r="3" fill="#f1e3c8" class="ren-outfit-l2"/><circle cx="120" cy="296" r="3" fill="#f1e3c8" class="ren-outfit-l2"/>
+</g></defs>
+<use href="#outfit-r4-scene-door"/>
+</svg>

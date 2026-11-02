@@ -1,0 +1,11 @@
+{
+  "door": "dc37ee19fd374f5bea27bd822c313e3550eebc629fb0d82081864ed5ea29d5f9",
+  "donors": {
+    "pajamas": "7acbcebd07824c4f905949e915d4c0b4f112ffdce5a5d171fb3d057170194081",
+    "cardigan": "c8acf4739d4b9e4320c12313cafddf16d4bc7fbc38f89db72beb61bb25119c12"
+  },
+  "candidates": {
+    "pajamas": "fb0ddc764c8f26d71f3bbb62752453e8b1519e27762440dbb8466fa82d3c8e0a",
+    "cardigan": "c52633d146461038c7514ea9a0ac57d4784b26c8b1fe0f3b23a216ae41a3884d"
+  }
+}

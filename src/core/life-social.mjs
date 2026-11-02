@@ -24,6 +24,7 @@ export function social46DisplayText(kind, activity, day, beat = 0, atDay = day, 
     return `Ren: i could come by ${social46When(day, atDay)} for ${activity === 'game' ? 'a game' : activity === 'repair' ? 'a little fix-it time' : 'a chat'}. no pressure.`;
   if (kind === 'suggestion_response' && Number.isSafeInteger(day) && day >= 1 && ['door', 'game'].includes(activity))
     return `Ren: ${activity === 'game' ? 'a game' : 'a chat'} could work ${social46When(day, atDay)}. want to make that the plan?`;
+  if (kind === 'visit_arrival') return 'Ren: hey. i’m here.';
   if (kind === 'scene' && ['door', 'game', 'repair'].includes(activity) && Number.isInteger(beat) && beat >= 0 && beat < 3) {
     if (activity === 'game' && seating === 'couch' && beat === 1) return 'Ren: i dressed for a pajama game night. comfort is a competitive advantage.';
     const lines = {
@@ -51,6 +52,13 @@ const slotEligible = (life, day) => Number.isInteger(day) && day >= life.day
 const blocked = life => life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced)
   || Boolean(life.recovery || life.work || life.story47);
 const event = (record, type, payload) => record(type, payload);
+
+// An actual committed arrival is separate from the first-introduction knock.
+export function social46VisitAtDoor(life) {
+  const s = life?.social46, p = s?.pending;
+  return Boolean(s?.revision === 2 && p?.committed && p.day === life.day && life.phase === 'evening'
+    && !life.anchor && !life.session && !blocked(life) && !s.scene);
+}
 
 // Close only a shown/replied/committed opportunity. An unseen candidate is discarded
 // without aging history or resetting the consecutive shown-unanswered streak.
@@ -189,6 +197,7 @@ export function transitionSocial46(life, intent, record, hp) {
       if (!p?.committed || p.id !== intent.id || p.rescheduled || !p.seatingConfirmed || !slotEligible(life, intent.day) || intent.day <= p.day) return fail('social_reschedule_unavailable');
       event(record, 'social46_action', { kind: 'reply', id: p.id, choice: 'reschedule', day: p.day, newDay: intent.day });
       p.day = intent.day; p.rescheduled = true; p.replied = true; p.committed = false; p.shown = false; p.lastShownDay = null; p.ackShownDay = null;
+      if (p.arrival) delete p.arrival;
       s.unanswered = 0;
       return { ok: true };
     }
@@ -237,14 +246,42 @@ export function transitionSocial46(life, intent, record, hp) {
       r.reply.shown = true;
       event(record, 'social46_display', { kind: 'response_reply', id: r.id, response: r.kind, choice: r.reply.choice, text: REN_RESPONSE_LINES[r.kind][r.reply.choice] }); return { ok: true };
     }
+    case 'social46_visit_knock_shown': {
+      const p = s.pending;
+      if (!social46VisitAtDoor(life) || p.id !== intent.id || p.arrival) return fail('social_visit_arrival_unavailable');
+      p.arrival = { version: 1, open: false, ignored: false, lineShown: false };
+      event(record, 'social46_display', { kind: 'visit_knock', id: p.id, day: life.day }); return { ok: true };
+    }
+    case 'social46_visit_open': {
+      const p = s.pending;
+      if (!social46VisitAtDoor(life) || p.id !== intent.id || p.arrival?.version !== 1 || p.arrival.open) return fail('social_visit_arrival_unavailable');
+      p.arrival.open = true;
+      event(record, 'social46_action', { kind: 'visit_open', id: p.id, day: life.day }); return { ok: true };
+    }
+    case 'social46_visit_ignore': {
+      const p = s.pending;
+      if (!social46VisitAtDoor(life) || p.id !== intent.id || p.arrival?.version !== 1 || p.arrival.open || p.arrival.ignored) return fail('social_visit_arrival_unavailable');
+      p.arrival.ignored = true;
+      event(record, 'social46_action', { kind: 'visit_ignore', id: p.id, day: life.day }); return { ok: true };
+    }
+    case 'social46_visit_arrival_shown': {
+      const p = s.pending;
+      if (!social46VisitAtDoor(life) || p.id !== intent.id || p.arrival?.version !== 1 || !p.arrival.open || p.arrival.lineShown) return fail('social_visit_arrival_unavailable');
+      if (intent.lookVersion !== undefined && intent.lookVersion !== 1) return fail('social_visit_look_unavailable');
+      p.arrival.lineShown = true;
+      if (intent.lookVersion === 1) p.arrival.look = p.activity === 'game' && !life.sold.includes('couch') ? 'pajamas' : 'cardigan';
+      event(record, 'social46_display', { kind: 'visit_arrival', id: p.id, day: life.day, ...(p.arrival.look ? { lookVersion: 1, look: p.arrival.look } : {}), text: social46DisplayText('visit_arrival') }); return { ok: true };
+    }
     case 'social46_begin': {
       const p = s.pending;
       if (intent.dialogueVersion !== undefined && (s.revision !== 2 || intent.dialogueVersion !== 1)) return fail('social_dialogue_version');
+      if (intent.arrivalVersion !== undefined && (intent.arrivalVersion !== 1 || intent.dialogueVersion !== 1 || s.revision !== 2 || p?.arrival?.version !== 1 || !p.arrival.open || !p.arrival.lineShown)) return fail('social_visit_arrival_unavailable');
       if (!p?.committed || p.id !== intent.id || p.day !== life.day || life.phase !== 'evening' || life.anchor
         || life.work || life.story47 || blocked(life) || !life.meals[`d${life.day}-dinner`] || !p.seatingConfirmed) return fail('social_visit_unavailable');
       life.anchor = p.id;
       s.scene = { id: p.id, activity: p.activity, stage: 'scene', beat: 0, shown: false,
         seating: p.activity === 'game' ? (life.sold.includes('couch') ? 'floor' : 'couch') : 'door' };
+      if (intent.arrivalVersion === 1 && p.arrival.look) s.scene.arrivalLook = p.arrival.look;
       if (intent.dialogueVersion === 1) Object.assign(s.scene, { dialogueVersion: 1, node: 's0', hasUncommunicatedBreak: s.history.some(item => item.outcome === 'broken') });
       return { ok: true };
     }

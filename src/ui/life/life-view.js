@@ -15,7 +15,7 @@ import { renderRenDoor46 } from './ren-door-view.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { callMomScheduled } from '../../core/life-progression.mjs';
-import { social46DisplayText, social46NeedsSaleDisclosure } from '../../core/life-social.mjs';
+import { social46DisplayText, social46NeedsSaleDisclosure, social46VisitAtDoor } from '../../core/life-social.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
@@ -762,7 +762,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       renderRenChannel46(root, engine.state.life, {
         shown: intent => callbacks.onSocialShown(intent),
         action: intent => { callbacks.onSocialAction(engine.log.length, intent); callbacks.onRefresh(); },
-        close: () => { ui.renOpen = false; render(); },
+        close: () => {
+          ui.renOpen = false; render();
+          if (active) [...root.querySelectorAll('button')].find(button => button.textContent.includes('Messages: Ren'))?.focus();
+        },
+        goDoor: () => { ui.renOpen = false; ui.place = 'door'; render(); root.querySelector('.ren46-door-knock')?.focus(); },
       }, active);
       root.inert = !active;
       return;
@@ -773,16 +777,23 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if (active && social?.revision === 2 && !social.introShown && !social.intro.open && !social.intro.node && social.intro.knockDay !== engine.state.life.day && social.intro.ignoredDay !== engine.state.life.day) {
         callbacks.onSocialShown({ type: 'social46_knock_shown' });
       }
+      if (active && social46VisitAtDoor(engine.state.life) && !engine.state.life.social46.pending.arrival) {
+        callbacks.onSocialShown({ type: 'social46_visit_knock_shown', id: engine.state.life.social46.pending.id });
+      }
       renderRenDoor46(root, engine.state.life, {
         action: intent => {
           callbacks.onSocialAction(engine.log.length, intent);
           render();
           if (active) root.querySelector('.ren46-door-decide button:not(:disabled), .ren46-door-knock:not(:disabled)')?.focus();
         },
+        kitchen: () => { ui.place = 'kitchen-breakfast'; render(); root.querySelector('.life-obj:not([aria-disabled])')?.focus(); },
       }, active);
       renderDayBar(place);
       const intro = engine.state.life.social46?.intro;
       if (active && intro?.open && intro.node && !intro.shown.includes(intro.node)) callbacks.onSocialShown({ type: 'social46_intro_line_shown' });
+      const pending = engine.state.life.social46?.pending;
+      if (active && social46VisitAtDoor(engine.state.life) && pending?.arrival?.open && !pending.arrival.lineShown) callbacks.onSocialShown({ type: 'social46_visit_arrival_shown', id: pending.id, lookVersion: 1 });
+      if (active && social46VisitAtDoor(engine.state.life) && pending?.arrival?.open && !pending.seatingConfirmed && pending.floorPromptDay !== engine.state.life.day) callbacks.onSocialShown({ type: 'social46_floor_shown', id: pending.id });
       root.inert = !active;
       return;
     }
@@ -893,7 +904,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   const onKeydown = (ev) => {
     if (ev.key !== 'Escape' || !active || destroyed || busy) return;
-    if (heldEl && !heldEl.hidden) { ev.preventDefault(); putDown(); }
+    if (ui.renOpen) {
+      ev.preventDefault(); ui.renOpen = false; render();
+      [...root.querySelectorAll('button')].find(button => button.textContent.includes('Messages: Ren'))?.focus();
+    } else if (heldEl && !heldEl.hidden) { ev.preventDefault(); putDown(); }
     else if (popEl) {
       ev.preventDefault();
       if (committed) finish(); else closePopover({ refocus: true });

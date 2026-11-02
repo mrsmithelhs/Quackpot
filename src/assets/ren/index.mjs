@@ -4,6 +4,7 @@ import { renderScene } from '../apartment/index.mjs';
 import { patches } from './scene-patches.mjs';
 import { tvUnit } from '../apartment/props/living.mjs';
 import { closedDoorSource } from './closed-door.mjs';
+import { arrivalScenes } from './arrival-scenes.mjs';
 
 const expressions = Object.freeze({ warm: 'warm', laugh: 'laugh', tease: 'tease', 'not-tonight': 'sorry', 'long-day': 'tired', listening: 'listen' });
 export const REN_EXPRESSIONS = Object.freeze(Object.keys(expressions));
@@ -62,6 +63,17 @@ export function baselineFingerprint(s) {
   let a = 2166136261, b = 5381;
   for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); a = Math.imul(a ^ c, 16777619); b = (Math.imul(b, 33) ^ c) | 0; }
   return [a >>> 0, b >>> 0].map(n => n.toString(16).padStart(8, '0')).join('');
+}
+const arrivalFingerprints = Object.freeze({ cardigan: '9fe27f9be9099cb3', pajamas: 'ea813044a8b954de' });
+// Two selected, box-free doorway looks; this is not a general wardrobe composer.
+export function renderRenArrival(input = {}) {
+  options(input, ['idPrefix', 'look', 'decorative']);
+  if (!Object.hasOwn(arrivalFingerprints, input.look)) throw new RangeError('unsupported arrival look');
+  const source = arrivalScenes[input.look];
+  if (baselineFingerprint(source) !== arrivalFingerprints[input.look]) throw new Error('Ren arrival source drift');
+  let svg = source.replaceAll('outfit-', `${input.idPrefix}-`);
+  if (input.decorative) svg = replaceOnce(svg, 'role="img" aria-label="Ren at the apartment door"', 'aria-hidden="true"', 'Arrival label');
+  return { svg, meta: { scene: 'arrival', look: input.look, viewBox: '0 0 960 540', prop: 'none' } };
 }
 const fingerprints = Object.freeze({'ren-couch-medium':'2cbc01bb3ec0b079', 'ren-floor-game-night':'6fa7b2d744181793'});
 // Patch only the changed source spans; fingerprint and contexts detect baseline drift.

@@ -1,0 +1,12 @@
+# Plan 50 field-feedback intake
+
+This is an intake record for capability observations routed by QP Orch from ongoing work. A candidate is not authorization for a model call, an implementation hold, or a new calibration wave. Plan 50 remains on hold; owner/root clearance is required before any additional experiment.
+
+## Plan 49: bounds for a richer multi-image task
+
+- **Source and artifact:** Root relayed an initial Plan 49 Sonnet call for persistent four-image ideation. The exact four artifacts, their hashes, full private receipt and prompt were not supplied to this intake and have not been independently inspected here.
+- **Observed in root's relay:** The unchanged Plan 25 launcher timed out after 90.076 seconds at approximately 487 MB, with stdout capped at 65,536 characters during the first image Read. There was no final result. The incomplete capture and unfinished read do not establish delivery of all images, arrangement quality, continuity, or Sonnet's capability at the task.
+- **Operational lesson:** The small, cold, single-image Plan 50 review bounds and capture approach do not automatically fit a richer, contextful multi-image ideation task. Plan 50 previously developed a reviewed 2 MiB-per-stream complete-capture variant for its bounded media calls; that does not itself prove any new Plan 49 call will complete.
+- **Related Plan 49 action, separately directed by root:** Reuse that capture variant and allow one report-local 180-second repair, retaining the existing memory bounds, after the Plan 46 slot. That is Plan 49 coordination, not an additional Plan 50 call or evidence of its result.
+- **Potential future question:** Under explicitly owner/root-cleared conditions, which bounded time and capture settings allow this kind of task to return a complete multi-image receipt and usable response? Checkable evidence would include exact frozen input hashes and prompt, image-read payloads for every intended image, model and tool trace, complete untruncated output, timeout/memory measurements, final response and human-assessed continuity. Unknown inputs, session effects, task complexity and possible provider latency limit interpretation; one success or failure would not isolate their causes.
+- **Scope now:** No Plan 50 experiment, retry, new inference, provider substitution or additional paid call is authorized by this feedback. A future comparison would need its own proposed case, control, resource cap and explicit clearance.

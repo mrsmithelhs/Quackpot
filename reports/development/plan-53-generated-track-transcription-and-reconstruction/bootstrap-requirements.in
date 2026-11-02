@@ -1,0 +1,5 @@
+# Frozen direct candidates for a separate, bounded uv resolution gate.
+muscriptor==0.4.0
+beat-this==1.1.0
+torch==2.8.0+cu128
+torchaudio==2.8.0+cu128

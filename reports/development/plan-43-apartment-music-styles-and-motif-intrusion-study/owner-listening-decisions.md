@@ -18,3 +18,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Phrase context request
 
 2026-11-01. Owner requested the guitar variations in a short musical phrase for contextual comparison and asked to hear softer attack and slower decay combined in one voice; they have not yet selected either or the combination. The requested four-way phrase is recorded in `guitar-phrase-evidence.md`; owner listening remains pending.
+
+## Register listening request
+
+2026-11-01. Owner said softer attack and slower decay **together** were best in the recent phrase and are beginning to sound more like an electric guitar. They observed lower notes sounded more accurate even on the reference than the earlier higher-note probe. They requested the same phrase one octave higher and another chord phrase combining lower and higher notes. This is a contextual sound preference, not production or final foundation acceptance.

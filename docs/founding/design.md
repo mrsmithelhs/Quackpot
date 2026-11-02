@@ -231,6 +231,8 @@ The phone invitation should transition through an in-world quarter-turn into lan
 
 All terminal routes reach the Receipt. Early Uninstall does not force the player to continue for extra scenes.
 
+**Plan52 StageA direction,2026-11-02:** Owner proposes an emergency first-rent-shortfall loan and a later, larger second-rent failure leading to eviction, inviting critical revision and merger with Running on Empty. Suggested50% loan cost/five-day due, second-rent interval/amount, refusal/default and exact ending trigger/presentation are under bounded modeling, not implemented or fully selected rules. Reuse terminal/Receipt infrastructure only after factual trigger reconciliation; neither $0 cash nor loan refusal automatically proves the ending. Current first-port working selections are +25 bedrest, −10 late fatigue, overtime +$60/−15 with completion-only wage retained at0HP, recovery before simultaneous rent, and free one-time couch30/TV40 sales with existing social disclosure. No automatic borrowing, rent payment or new relationship penalty is selected.
+
 ## The Receipt
 
 ### Receipt event record

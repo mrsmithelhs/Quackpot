@@ -1003,6 +1003,8 @@ test('Plan52 staged engine path commits real scheduler and finance state without
  const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);
  const noTerms=structuredClone(envelope);noTerms.eventLog=noTerms.eventLog.filter(event=>event.type!=='life52_loan_terms_shown');
  assert.ok(validateFiveSlotTransactionHistory(noTerms).some(error=>error.includes('Loan terms were not shown')));
+ const noTerminal=structuredClone(envelope);noTerminal.eventLog=noTerminal.eventLog.filter(event=>event.type!=='terminal');
+ assert.ok(validateFiveSlotTransactionHistory(noTerminal).some(error=>error.includes('terminal')));
 });
 
 test('Plan52 staged engine coordinates Ren reservation and actual visit start',()=>{
@@ -1018,6 +1020,7 @@ test('Plan52 staged engine coordinates Ren reservation and actual visit start',(
  social({type:'social46_offer',day:2,initiator:'ren',activity:'door'});const id=e.state.life.social46.pending.id;social({type:'social46_offer_shown',id});social({type:'social46_reply',id,choice:'accept'});assert.equal(e.state.life.schedule.active,null);
  social({type:'social46_visit_knock_shown',id});social({type:'social46_visit_open',id});social({type:'social46_visit_arrival_shown',id,lookVersion:1});social({type:'social46_begin',id,dialogueVersion:1,arrivalVersion:1});
  assert.equal(e.state.life.schedule.active.planId,id);assert.equal(e.state.life.social46.scene.id,id);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
  const snapshot=structuredClone(e.state);assert.equal(e.applyFiveSlotSocialAction({operationId:'stale',action:{type:'social46_scene_shown',id}},e.log.length-1).reason,'stale_callback');assert.deepEqual(e.state,snapshot);
 });
 
@@ -1030,9 +1033,13 @@ test('Plan52 staged engine commits actual pull with schedule, RNG and prior resu
  const draws=e.commitPromotionalTenPull();assert.equal(draws.length,10);assert.equal(e.state.life.schedule.active.kind,'session');assert.equal(e.state.life.schedule.active.pullUsed,true);const after=e.rngDraw.serialize();assert.notEqual(after,before.rng);assert.strictEqual(e.commitPromotionalTenPull(),e.state.pendingReveals);assert.equal(e.rngDraw.serialize(),after);assert.deepEqual(validateSeededDrawHistory(e.toEnvelope()),[]);
  const beforeRace={state:structuredClone(e.state),log:e.log.entries,rng:e.rngDraw.serialize()};e.resolveRaceCandidate=()=>{throw Error('forced race failure');};assert.throws(()=>e.runRace(1,e.state.owned[0]),/forced race failure/);assert.deepEqual(e.state,beforeRace.state);assert.deepEqual(e.log.entries,beforeRace.log);assert.equal(e.rngDraw.serialize(),beforeRace.rng);delete e.resolveRaceCandidate;
  assert.equal(e.runRace(2,e.state.owned[0]),null);const race=e.runRace(1,e.state.owned[0]);assert.ok(race);assert.equal(e.state.life.schedule.active.raceUsed,true);assert.strictEqual(e.runRace(1,e.state.owned[0]),e.getRaceAttempt(1));assert.deepEqual(validateSeededRaceHistory(e.toEnvelope()),[]);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ const alteredOutcome=structuredClone(e.toEnvelope());alteredOutcome.eventLog.find(event=>event.type==='race_result').payload.place=99;
+ assert.ok(validateFiveSlotTransactionHistory(alteredOutcome).some(error=>error.includes('outcome mismatch')));
  e.revealAllPending();assert.equal(e.buyLifeBundle(1090),true);assert.equal(e.buyLifeBundle(1090),true);
  const pending=structuredClone(e.state),rngBeforeExtension=e.rngDraw.serialize();assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.deepEqual(e.state,pending);assert.equal(e.rngDraw.serialize(),rngBeforeExtension);
  const paid=e.commitPaidPull(1,{confirmNext:true,confirmConsequences:true});assert.equal(paid.length,1);assert.equal(e.state.life.schedule.slot,'late-evening');assert.equal(e.state.life.schedule.fatigue.pending,true);assert.deepEqual(validateSeededDrawHistory(e.toEnvelope()),[]);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
 });
 
 test('Plan52 due options allow one-time furniture sales without automatically paying',()=>{
@@ -1043,4 +1050,7 @@ test('Plan52 due options allow one-time furniture sales without automatically pa
  assert.equal(e.sellFiveSlotAsset('couch',e.log.length).ok,true);assert.equal(e.sellFiveSlotAsset('couch',e.log.length).reason,'unavailable');assert.equal(e.sellFiveSlotAsset('tv',e.log.length).ok,true);assert.equal(e.state.cash,174);assert.equal(e.state.life.finance.rents[0].status,'pending');
  const hold={domain:'finance',action:{type:'leave_unpaid',billId:'rent-1',id:'hold',confirmed:true,optionsDisclosed:true}};assert.equal(e.prepareFiveSlotAction(hold).reason,'default_evidence_required');const after=e.recordFiveSlotDueOptionsShown();assert.deepEqual(after.payload.saleOptions,[]);
  const p=e.prepareFiveSlotAction(hold);assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal).ok,true);const terminal=e.log.entries.filter(x=>x.type==='terminal');assert.equal(terminal.length,1);assert.equal(terminal[0].payload.reason,'first_rent_withheld');assert.equal(e.state.cash,174);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ const forged=structuredClone(e.toEnvelope());forged.eventLog.find(event=>event.type==='income' && event.payload.asset==='couch').payload.amount=300;
+ assert.ok(validateFiveSlotTransactionHistory(forged).some(error=>error.includes('Invalid asset sale')));
 });

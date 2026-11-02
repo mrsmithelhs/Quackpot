@@ -1601,7 +1601,7 @@ export class GameEngine {
   /** Serializes complete game snapshot into storage envelope */
   toEnvelope() {
     return {
-      schemaVersion: this.state.life ? 4 : 3,
+      schemaVersion: this.state.life?.policyVersion === 'five-slot-v1' ? 5 : this.state.life ? 4 : 3,
       raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,

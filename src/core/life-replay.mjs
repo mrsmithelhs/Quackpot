@@ -7,6 +7,8 @@ import {resolveSeededRace,serializeRaceResolution} from './race-resolver.mjs';
 import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
 import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition} from './life-coordinator.mjs';
+import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
+import {hasEnteredQuackpot} from './life-entry.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 
 // Rebuild the coordinated portion from its original policy and recorded inputs.
@@ -17,21 +19,37 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(!Array.isArray(entries))return ['Missing transaction history'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
-  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth};
-  const errors=[];
+  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth}, expectedTerminal=null;
+  const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
+  if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
-    if(entry.type==='income' || (entry.type==='purchase' && entry.payload?.price>0)) {
-      errors.push(`Unsupported external balance action at ${entry.seq}`);break;
+    if(expectedTerminal) {
+      if(entry.type!=='terminal' || !same(entry.payload,expectedTerminal))errors.push(`Financial terminal mismatch at ${entry.seq}`);
+      expectedTerminal=null;if(errors.length)break;
+      continue;
+    }
+    if(entry.type==='income') {
+      const p=entry.payload, amount={couch:30,tv:40}[p?.asset];
+      const view={social46:life.social46,day:life.schedule.day,sold:life.sold};
+      if(p?.kind!=='asset_sale' || !amount || p.amount!==amount || life.sold.includes(p.asset) || life.schedule.recovery
+        || (p.asset==='couch' && social46NeedsSaleDisclosure(view)) || p.cashAfter!==(balances.cashCents+amount*100)/100) {errors.push(`Invalid asset sale at ${entry.seq}`);break;}
+      life.sold.push(p.asset);if(p.asset==='couch')social46CouchSold({social46:life.social46});balances.cashCents+=amount*100;continue;
+    }
+    if(entry.type==='purchase' && entry.payload?.price>0) {
+      const p=entry.payload, price=new Map([[60,99],[330,499],[1090,1499]]).get(p.bundleGems);
+      const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
+      if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !hasEnteredQuackpot(entries.slice(0,i)) || p.cashAfter!==(balances.cashCents-price)/100) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
+      balances.cashCents-=price;continue;
     }
     if(!['life52_intent','life52_social_intent'].includes(entry.type)) {
       if(['life52_effect','life52_commit'].includes(entry.type))errors.push(`Orphan transaction evidence at ${entry.seq}`);
+      if(entry.type==='draw_committed' || ['race_result','race_attempt_unresolved'].includes(entry.type))errors.push(`Unbound gameplay outcome at ${entry.seq}`);
       continue;
     }
     const end=entries.findIndex((event,index)=>index>i && event.type==='life52_commit');
     if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
     const inside=entries.slice(i+1,end), actualEvents=inside.filter(event=>event.type==='life52_effect').map(event=>event.payload?.effect);
-    if(inside.some(event=>event.type!=='life52_effect')) {errors.push(`Unsupported transaction evidence at ${entry.seq}`);break;}
     const intent=entry.payload?.intent, finance=latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot});
     const due=dueObligations(finance,balances.cashCents), rent=due.bills.find(bill=>bill.id.startsWith('rent-'));
     const options={bills:due.bills.map(bill=>({id:bill.id,amountCents:bill.amountCents??bill.totalCents})),
@@ -48,23 +66,41 @@ export function validateFiveSlotTransactionHistory(envelope) {
         due:{day:life.schedule.day+5,slot:'midday'},scheduleRevision:life.schedule.revision,financeRevision:life.finance.revision};
       if(principalCents<=0 || !wasShown('life52_loan_terms_shown',terms)){errors.push(`Loan terms were not shown at ${entry.seq}`);break;}
     }
-    if(intent?.action?.type==='play') {
-      errors.push(`Unsupported transaction kind at ${entry.seq}`);break;
-    }
+    const gameplay=intent?.domain==='schedule' && intent?.action?.type==='play';
+    let operation=entry.payload?.operation??{};
+    if(gameplay) {
+      context.schedule.operationAvailable=true;
+      const other=inside.filter(event=>event.type!=='life52_effect');
+      if(intent.action.kind==='pull') {
+        const draws=other.filter(event=>event.type==='draw_committed'), purchases=other.filter(event=>event.type==='purchase');
+        if(![1,10].includes(draws.length) || purchases.length>1 || other.some(event=>!['draw_committed','purchase'].includes(event.type)) || (purchases.length===0 && draws.length!==10)) {errors.push(`Invalid draw transaction at ${entry.seq}`);break;}
+        operation={...operation,success:true,operationId:intent.action.operationId,resultRef:`draw:${draws[0].seq}`};
+      } else if(intent.action.kind==='race') {
+        const outcomes=other.filter(event=>['race_result','race_attempt_unresolved'].includes(event.type));
+        if(outcomes.length!==1 || typeof outcomes[0].payload?.resolutionDigest!=='string' || other.some(event=>!['race_rest_policy_activated','action','race_result','race_attempt_unresolved','reward'].includes(event.type))) {errors.push(`Invalid race transaction at ${entry.seq}`);break;}
+        operation={...operation,success:true,operationId:intent.action.operationId,resultRef:`race:${outcomes[0].payload.resolutionDigest}`};
+      } else {errors.push(`Unsupported gameplay at ${entry.seq}`);break;}
+    } else if(inside.some(event=>event.type!=='life52_effect')) {errors.push(`Unsupported transaction evidence at ${entry.seq}`);break;}
     let result;
     if(entry.type==='life52_social_intent') result=stageSocialTransition(life,balances,intent,context);
     else {
       const proposal=inspectLifeTransaction(life,balances,intent,context);
       if(!proposal.ok){errors.push(`Invalid transaction at ${entry.seq}: ${proposal.reason}`);break;}
-      result=commitLifeTransaction(life,balances,proposal.proposal,entry.payload.operation??{},context);
+      result=commitLifeTransaction(life,balances,proposal.proposal,operation,context);
     }
     const commit=entries[end].payload;
     if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
       errors.push(`Transaction mismatch at ${entry.seq}`);break;
     }
     life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
+    const terminal=result.events.find(event=>event.type==='financial_default');
+    if(terminal)expectedTerminal={route:'running_on_empty',reason:terminal.reason,obligationId:terminal.obligationId,
+      outstandingCents:terminal.outstandingCents,housingLost:terminal.route==='housing_loss'};
     i=end;
   }
+  if(expectedTerminal)errors.push('Missing financial terminal event');
+  const debt=life.finance.loans.filter(loan=>['pending','defaulted'].includes(loan.status)).reduce((sum,loan)=>sum+loan.totalCents,0)/100;
+  if(!errors.length && envelope.state?.debt!==debt)errors.push('Reconstructed debt does not match saved state');
   if(!errors.length && (!same(life,envelope.state?.life) || balances.cashCents!==Math.round(envelope.state?.cash*100) || balances.health!==envelope.state?.health))errors.push('Reconstructed life or balances do not match saved state');
   return errors;
 }

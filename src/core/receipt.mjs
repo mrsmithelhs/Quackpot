@@ -9,6 +9,8 @@
 import { verifyChain, verifyCompleteness } from './event-log.mjs';
 import { formatRaceRating } from './race-rest.mjs';
 import { social46DisplayText } from './life-social.mjs';
+import { REN_INTRO_LINES } from './life-social-door.mjs';
+import { renGraphNode, REN_RESPONSE_LINES } from './life-social-dialogue.mjs';
 
 const money = (x) => `$${Number(x).toFixed(2)}`;
 
@@ -17,8 +19,9 @@ function publicSocial(payload = {}) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) payload = {};
   const result = {};
   const allowed = {
-    kind: ['introduction', 'invitation', 'scene', 'sale_disclosure', 'accepted', 'floor_reconfirmation', 'conflict_notice', 'conflict_continue', 'response_declined', 'response_notice', 'response_broken', 'reply', 'notice', 'continue_anyway', 'scene_next', 'confirm_floor', 'completed'],
+    kind: ['introduction', 'knock', 'intro_line', 'knock_ignore', 'door_open', 'intro_reply', 'intro_close', 'graph_line', 'graph_choice', 'response_reply', 'invitation', 'suggestion_response', 'suggest_activity', 'scene', 'sale_disclosure', 'accepted', 'floor_reconfirmation', 'conflict_notice', 'conflict_continue', 'response_declined', 'response_notice', 'response_broken', 'reply', 'notice', 'continue_anyway', 'scene_next', 'confirm_floor', 'completed'],
     activity: ['door', 'game', 'repair'], seating: ['door', 'couch', 'floor'],
+    previousActivity: ['door', 'game'],
     choice: ['accept', 'decline', 'reschedule'], outcome: ['plan_not_kept', 'invitation_expired'],
   };
   for (const [key, values] of Object.entries(allowed)) if (values.includes(payload[key])) result[key] = payload[key];
@@ -27,6 +30,18 @@ function publicSocial(payload = {}) {
   if (Number.isSafeInteger(payload.atDay) && payload.atDay >= 1) result.atDay = payload.atDay;
   if (Number.isSafeInteger(payload.newDay) && payload.newDay >= 1) result.newDay = payload.newDay;
   if (Number.isInteger(payload.beat) && payload.beat >= 0 && payload.beat < 3) result.beat = payload.beat;
+  if (Object.hasOwn(REN_INTRO_LINES, payload.node)) result.node = payload.node;
+  if (['meet','why','later','making','glad','continue','thanks','noted','finish','close','a','b','busy','me-too','break','fun','tease','together','convenient','memory','learn','basics','reconnect','apology','tell','better','steps','honest','good','appreciate','sorry','talk'].includes(payload.choice)) result.choice = payload.choice;
+  if (payload.kind === 'intro_line' && result.node && payload.text === REN_INTRO_LINES[result.node]) result.text = payload.text;
+  if (payload.kind === 'graph_line') {
+    const graph = renGraphNode(payload.activity, payload.node, payload.seating, true);
+    if (graph && payload.text === graph.text) { result.node = payload.node; result.text = graph.text; }
+  }
+  if (payload.kind === 'graph_choice' && renGraphNode(payload.activity, payload.node, 'couch', true)) result.node = payload.node;
+  if (Object.hasOwn(REN_RESPONSE_LINES, payload.response)) {
+    result.response = payload.response;
+    if (payload.kind === 'response_reply' && payload.text === REN_RESPONSE_LINES[payload.response][payload.choice]) result.text = payload.text;
+  }
   const shownText = social46DisplayText(payload.kind, payload.activity, payload.day, payload.beat, payload.atDay, payload.seating);
   if (shownText && payload.text === shownText) result.text = shownText;
   return result;
@@ -302,13 +317,13 @@ export function projectReceipt(entries) {
   for (const event of ofType('social46_plan_interrupted')) accountingLines.push(line('An accepted plan with Ren was still pending when the run ended.', event.seq));
   for (const event of ofType('story47_shown')) accountingLines.push(line(`Displayed ${event.payload.stage === 'commute' ? 'a commute scene' : event.payload.stage === 'work' ? 'two work observations' : 'an evening activity scene'}.`, event.seq));
   for (const event of ofType('social46_display')) {
-    const label = { introduction: 'Ren’s introduction', invitation: 'an invitation from Ren', scene: 'a scene with Ren', sale_disclosure: 'a seating-change disclosure', accepted: 'Ren’s acknowledgment', floor_reconfirmation: 'a floor-seating reconfirmation', conflict_notice: 'a plan-conflict choice', conflict_continue: 'a plan-conflict warning', response_declined: 'a message from Ren', response_notice: 'a message from Ren', response_broken: 'a message from Ren' }[event.payload?.kind];
+    const label = { introduction: 'Ren’s introduction', knock: 'a knock at the door', intro_line: 'a line from Ren at the door', graph_line: 'a line from Ren during a visit', response_reply: 'a reply from Ren', invitation: 'an invitation from Ren', suggestion_response: 'Ren’s response to a suggested activity', scene: 'a scene with Ren', sale_disclosure: 'a seating-change disclosure', accepted: 'Ren’s acknowledgment', floor_reconfirmation: 'a floor-seating reconfirmation', conflict_notice: 'a plan-conflict choice', conflict_continue: 'a plan-conflict warning', response_declined: 'a message from Ren', response_notice: 'a message from Ren', response_broken: 'a message from Ren' }[event.payload?.kind];
     const shownText = publicSocial(event.payload).text;
     if (label) accountingLines.push(line(shownText ? `Displayed ${label}: ${shownText}` : `Displayed ${label}.`, event.seq));
   }
   for (const event of ofType('social46_action')) {
     const label = { accept: 'Accepted an invitation from Ren.', decline: 'Declined an invitation from Ren.', reschedule: 'Asked to reschedule an invitation from Ren.' }[event.payload?.choice]
-      ?? { notice: 'Told Ren the plan could not happen.', continue_anyway: 'Chose another activity without telling Ren.', confirm_floor: 'Confirmed floor seating for the plan.' }[event.payload?.kind];
+      ?? { knock_ignore: 'Ignored the knock at the door.', door_open: 'Opened the door to Ren.', intro_reply: 'Chose a reply in the introduction.', intro_close: 'Paused the introduction.', graph_choice: 'Chose a reply during a visit with Ren.', response_reply: 'Replied to a message from Ren.', suggest_activity: 'Suggested a different activity to Ren.', notice: 'Told Ren the plan could not happen.', continue_anyway: 'Chose another activity without telling Ren.', confirm_floor: 'Confirmed floor seating for the plan.' }[event.payload?.kind];
     if (label) accountingLines.push(line(label, event.seq));
   }
   for (const event of ofType('social46_outcome')) {

@@ -1,8 +1,11 @@
 // Plan 46 social policy. This module does not own a clock, balances, storage, or DOM.
 // It is activated explicitly; existing life histories retain their original shape.
+import { transitionDoorIntro } from './life-social-door.mjs';
+import { renGraphNode, REN_RESPONSE_LINES } from './life-social-dialogue.mjs';
 export const SOCIAL_46_VERSION = 1;
 
 export function social46SceneSetting(scene) {
+  if (scene.dialogueVersion === 1) return renGraphNode(scene.activity, scene.node, scene.seating, scene.hasUncommunicatedBreak)?.setting ?? scene.seating;
   return scene.activity === 'game' && scene.stage === 'scene' && scene.beat === 0 ? 'door' : scene.seating;
 }
 
@@ -19,6 +22,8 @@ export function social46DisplayText(kind, activity, day, beat = 0, atDay = day, 
   if (kind === 'introduction') return 'Ren: oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.';
   if (kind === 'invitation' && Number.isSafeInteger(day) && day >= 1 && ['door', 'game', 'repair'].includes(activity))
     return `Ren: i could come by ${social46When(day, atDay)} for ${activity === 'game' ? 'a game' : activity === 'repair' ? 'a little fix-it time' : 'a chat'}. no pressure.`;
+  if (kind === 'suggestion_response' && Number.isSafeInteger(day) && day >= 1 && ['door', 'game'].includes(activity))
+    return `Ren: ${activity === 'game' ? 'a game' : 'a chat'} could work ${social46When(day, atDay)}. want to make that the plan?`;
   if (kind === 'scene' && ['door', 'game', 'repair'].includes(activity) && Number.isInteger(beat) && beat >= 0 && beat < 3) {
     if (activity === 'game' && seating === 'couch' && beat === 1) return 'Ren: i dressed for a pajama game night. comfort is a competitive advantage.';
     const lines = {
@@ -113,14 +118,20 @@ export function social46ForcedRecovery(life, record) {
 export function transitionSocial46(life, intent, record, hp) {
   if (!intent.type.startsWith('social46_')) return null;
   if (intent.type === 'social46_activate') {
-    if (active(life) || intent.version !== SOCIAL_46_VERSION || intent.revision !== 1 || life.day < 2 || blocked(life) || life.session) return fail('social_activation_unavailable');
-    life.social46 = { version: SOCIAL_46_VERSION, revision: 1, relationship: 'connected', initiativeEpoch: life.day,
+    if (active(life) || intent.version !== SOCIAL_46_VERSION || ![1, 2].includes(intent.revision) || life.day < 2 || blocked(life) || life.session) return fail('social_activation_unavailable');
+    life.social46 = { version: SOCIAL_46_VERSION, revision: intent.revision, relationship: 'connected', initiativeEpoch: life.day,
       nextId: 1, history: [], unanswered: 0, lastVisitDay: null, lastOfferedDay: null, pending: null, scene: null, response: null,
       introShown: false, couchContext: false };
+    if (intent.revision === 2) life.social46.intro = { knockDay: null, ignoredDay: null, node: null, open: false, shown: [], numberShared: false };
     return { ok: true };
   }
   const s = active(life);
-  if (!s || s.version !== SOCIAL_46_VERSION || s.revision !== 1) return fail('social_not_active');
+  if (!s || s.version !== SOCIAL_46_VERSION || ![1, 2].includes(s.revision)) return fail('social_not_active');
+  if (s.revision === 2) {
+    const result = transitionDoorIntro(life, intent, record);
+    if (result) return result;
+    if (intent.type === 'social46_intro_shown') return fail('social_intro_unavailable');
+  }
   switch (intent.type) {
     case 'social46_intro_shown':
       if (s.introShown || blocked(life) || s.scene) return fail('social_intro_unavailable');
@@ -143,7 +154,17 @@ export function transitionSocial46(life, intent, record, hp) {
       const p = s.pending;
       if (!p || p.lastShownDay === life.day || p.id !== intent.id || blocked(life) || s.scene) return fail('social_offer_not_pending');
       p.shown = true; p.lastShownDay = life.day;
-      event(record, 'social46_display', { kind: 'invitation', id: p.id, day: p.day, atDay: life.day, activity: p.activity, text: social46DisplayText('invitation', p.activity, p.day, 0, life.day) });
+      const kind = p.suggested ? 'suggestion_response' : 'invitation';
+      event(record, 'social46_display', { kind, id: p.id, day: p.day, atDay: life.day, activity: p.activity, text: social46DisplayText(kind, p.activity, p.day, 0, life.day) });
+      return { ok: true };
+    }
+    case 'social46_suggest_activity': {
+      const p = s.pending;
+      if (s.revision !== 2 || blocked(life) || s.scene || !p || p.id !== intent.id || !p.shown || p.replied || p.committed || p.suggested || p.initiator !== 'ren' || !['door', 'game'].includes(p.activity) || !['door', 'game'].includes(intent.activity) || p.activity === intent.activity || !slotEligible(life, p.day) || (p.day === life.day && life.anchor)) return fail('social_suggestion_unavailable');
+      const previousActivity = p.activity;
+      event(record, 'social46_action', { kind: 'suggest_activity', id: p.id, previousActivity, activity: intent.activity, day: p.day });
+      p.activity = intent.activity; p.initiator = 'player'; p.suggested = true; p.replied = true;
+      p.shown = false; p.lastShownDay = null; s.unanswered = 0;
       return { ok: true };
     }
     case 'social46_reply': {
@@ -202,15 +223,29 @@ export function transitionSocial46(life, intent, record, hp) {
       event(record, 'social46_display', { kind: s.response.kind, id: s.response.id, text: social46DisplayText(s.response.kind) });
       return { ok: true };
     case 'social46_response_dismiss':
-      if (!s.response || s.response.id !== intent.id || !s.response.shown) return fail('social_response_not_shown');
+      if (!s.response || s.response.id !== intent.id || !s.response.shown || (s.response.reply && !s.response.reply.shown)) return fail('social_response_not_shown');
       s.response = null; return { ok: true };
+    case 'social46_response_reply': {
+      const r = s.response;
+      if (s.revision !== 2 || !r || r.id !== intent.id || !r.shown || r.reply || !Object.hasOwn(REN_RESPONSE_LINES[r.kind] ?? {}, intent.choice)) return fail('social_response_reply_unavailable');
+      r.reply = { choice: intent.choice, shown: false };
+      event(record, 'social46_action', { kind: 'response_reply', id: r.id, response: r.kind, choice: intent.choice }); return { ok: true };
+    }
+    case 'social46_response_reply_shown': {
+      const r = s.response;
+      if (s.revision !== 2 || !r || r.id !== intent.id || !r.reply || r.reply.shown) return fail('social_response_reply_unavailable');
+      r.reply.shown = true;
+      event(record, 'social46_display', { kind: 'response_reply', id: r.id, response: r.kind, choice: r.reply.choice, text: REN_RESPONSE_LINES[r.kind][r.reply.choice] }); return { ok: true };
+    }
     case 'social46_begin': {
       const p = s.pending;
+      if (intent.dialogueVersion !== undefined && (s.revision !== 2 || intent.dialogueVersion !== 1)) return fail('social_dialogue_version');
       if (!p?.committed || p.id !== intent.id || p.day !== life.day || life.phase !== 'evening' || life.anchor
         || life.work || life.story47 || blocked(life) || !life.meals[`d${life.day}-dinner`] || !p.seatingConfirmed) return fail('social_visit_unavailable');
       life.anchor = p.id;
       s.scene = { id: p.id, activity: p.activity, stage: 'scene', beat: 0, shown: false,
         seating: p.activity === 'game' ? (life.sold.includes('couch') ? 'floor' : 'couch') : 'door' };
+      if (intent.dialogueVersion === 1) Object.assign(s.scene, { dialogueVersion: 1, node: 's0', hasUncommunicatedBreak: s.history.some(item => item.outcome === 'broken') });
       return { ok: true };
     }
     case 'social46_scene_shown':
@@ -218,16 +253,27 @@ export function transitionSocial46(life, intent, record, hp) {
       s.scene.shown = true;
       {
         const seating = social46SceneSetting(s.scene);
-        event(record, 'social46_display', { kind: 'scene', id: s.scene.id, activity: s.scene.activity, seating, beat: s.scene.beat, text: social46DisplayText('scene', s.scene.activity, null, s.scene.beat, null, seating) });
+        const graph = s.scene.dialogueVersion === 1 && renGraphNode(s.scene.activity, s.scene.node, s.scene.seating, s.scene.hasUncommunicatedBreak);
+        if (s.scene.dialogueVersion === 1 && !graph) return fail('social_dialogue_node');
+        event(record, 'social46_display', graph ? { kind: 'graph_line', id: s.scene.id, activity: s.scene.activity, seating, node: s.scene.node, text: graph.text } : { kind: 'scene', id: s.scene.id, activity: s.scene.activity, seating, beat: s.scene.beat, text: social46DisplayText('scene', s.scene.activity, null, s.scene.beat, null, seating) });
       }
       return { ok: true };
     case 'social46_scene_next':
+      if (s.scene?.dialogueVersion === 1) {
+        const scene = s.scene, graph = renGraphNode(scene.activity, scene.node, scene.seating, scene.hasUncommunicatedBreak);
+        const selected = graph?.choices.find(item => item.id === intent.choice && item.next);
+        if (scene.id !== intent.id || scene.stage !== 'scene' || !scene.shown || !selected) return fail('social_scene_not_ready');
+        event(record, 'social46_action', { kind: 'graph_choice', id: scene.id, activity: scene.activity, node: scene.node, choice: selected.id });
+        scene.node = selected.next; scene.shown = false; return { ok: true };
+      }
       if (!s.scene || s.scene.id !== intent.id || s.scene.stage !== 'scene' || !s.scene.shown || s.scene.beat >= 2) return fail('social_scene_not_ready');
       event(record, 'social46_action', { kind: 'scene_next', id: s.scene.id, beat: s.scene.beat });
       s.scene.beat++; s.scene.shown = false; return { ok: true };
     case 'social46_complete': {
       const scene = s.scene;
-      if (!scene || scene.id !== intent.id || scene.stage !== 'scene' || scene.beat !== 2 || !scene.shown) return fail('social_scene_not_shown');
+      const graph = scene?.dialogueVersion === 1 && renGraphNode(scene.activity, scene.node, scene.seating, scene.hasUncommunicatedBreak);
+      if (!scene || scene.id !== intent.id || scene.stage !== 'scene' || !scene.shown || (scene.dialogueVersion === 1 ? !graph?.choices.some(item => item.id === intent.choice && item.next === null) : scene.beat !== 2)) return fail('social_scene_not_shown');
+      if (scene.dialogueVersion === 1) event(record, 'social46_action', { kind: 'graph_choice', id: scene.id, activity: scene.activity, node: scene.node, choice: intent.choice });
       hp(5, scene.activity === 'repair' ? 'ren_repair' : 'ren_visit');
       s.lastVisitDay = life.day;
       if (scene.activity === 'game' && scene.seating === 'couch') s.couchContext = true;

@@ -618,11 +618,11 @@ test('unsupported Ren development save is distinct from corruption and preserves
   const future = e.toEnvelope(); const futureLog = new EventLog();
   for (const entry of future.eventLog) {
     const payload = structuredClone(entry.payload);
-    if (entry.type === 'life_intent' && payload.intent?.type === 'social46_activate') payload.intent.revision = 2;
-    if (entry.type === 'life_transition' && payload.life?.social46) payload.life.social46.revision = 2;
+    if (entry.type === 'life_intent' && payload.intent?.type === 'social46_activate') payload.intent.revision = 3;
+    if (entry.type === 'life_transition' && payload.life?.social46) payload.life.social46.revision = 3;
     futureLog.append(entry.type, payload, entry.clock);
   }
-  future.eventLog = futureLog.entries; future.state.life.social46.revision = 2;
+  future.eventLog = futureLog.entries; future.state.life.social46.revision = 3;
   const futureRaw = JSON.stringify(future), futureStorage = createMockStorage({ [STORAGE_KEY]: futureRaw });
   const futureLoad = loadGame(futureStorage);
   assert.equal(futureLoad.unsupportedDevelopment, true); assert.equal(futureLoad.isCorrupt, false);

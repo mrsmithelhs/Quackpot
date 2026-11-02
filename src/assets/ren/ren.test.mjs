@@ -98,3 +98,12 @@ test('floor composition preserves default bytes and removes only the sold televi
   assert.equal(sold.meta.viewBox, normal.meta.viewBox);
   assert.throws(() => renderFloorCandidate({ idPrefix: 'tvtest', tv: 'unknown' }), /unsupported TV state/);
 });
+
+test('selected closed door is accessible, isolated and preserves the open doorway default',()=>{
+ const closed=renderRenScene({idPrefix:'closedtest',scene:'closed-door'});
+ assert.match(closed.svg,/aria-label="The closed apartment door"/);
+ assert.match(closed.svg,/viewBox="0 0 960 540"/);
+ assert.doesNotMatch(closed.svg,/<script\b|<foreignObject\b|\son\w+=|(?:href|src)="(?:https?:|\/\/)/i);
+ assert.equal(renderRenScene({idPrefix:'closeddecorative',scene:'closed-door',decorative:true}).svg.includes('aria-hidden="true"'),true);
+ assert.equal(renderRenScene({idPrefix:'opencheck',scene:'door'}).meta.hand,'owner-selected-derived');
+});

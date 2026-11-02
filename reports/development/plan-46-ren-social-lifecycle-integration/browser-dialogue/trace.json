@@ -1,0 +1,748 @@
+{
+  "pins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/life-social.mjs": "e0284e234783e0abc35636205a66d48aae1373e0a14a52b8700908dd1479da0f",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-social-dialogue.mjs": "1138466cf9599c3e46798e954a2e670e6651a0e4f841094b223032c39bc0bd09",
+    "src/core/life-validation.mjs": "ba9742c63bab36b66b544b52a73625a26f215306c3131bf04314d31f2b01c6c7",
+    "src/core/receipt.mjs": "03216108cf09d185e3a88c0faeeab90cb29e9c7c3674c9204b4844c76e9e67ac",
+    "src/ui/life/life-view.js": "557c0e36de7b2c66c0ecc3c22146ebcdcf215446851741c8c956187360b92da1",
+    "src/ui/life/ren-door-view.mjs": "2354a2febe7953684e64df77d868535f49ac30039c8b42c8486815fe966eecba",
+    "src/ui/life/ren-scene-view.mjs": "ce6a2ecf38fec61843691d4d4f755489380109b4df6af471709f5989cf3e0455",
+    "src/ui/life/ren-channel-view.mjs": "2f86c98ef391aa12499f6a523e651c06879a92dfc50ab0d43acb63c7675e272c",
+    "src/ui/life/ren46.css": "2ea974d9b31c3b53d6f7be615c55066c4f5f01fefd7fd150c30c6c236c0b1c6e",
+    "src/assets/ren/index.mjs": "9481926d5a210be577c713dd51b859c917c2907b41c290509279cbf044b28218",
+    "src/assets/ren/closed-door.mjs": "1f39cf807901432c3f0b83bdacfc3c6d1a2d6bd6314e0f3e0e56a44378815d78"
+  },
+  "checks": [
+    {
+      "fixture": {
+        "health": 90,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser\",\"s\":[1765040439,874737819,1264547069,977114172]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/draw\",\"s\":[3535908068,1928857321,1036576487,641965910]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/race\",\"s\":[4112772024,1955456406,3324143828,3216347322]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/event\",\"s\":[3880901866,1971458773,1282914838,4108585487]}"
+        }
+      }
+    },
+    {
+      "before": {
+        "valid": true,
+        "errors": [],
+        "health": 90,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser\",\"s\":[1765040439,874737819,1264547069,977114172]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/draw\",\"s\":[3535908068,1928857321,1036576487,641965910]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/race\",\"s\":[4112772024,1955456406,3324143828,3216347322]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/event\",\"s\":[3880901866,1971458773,1282914838,4108585487]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": 2,
+          "pending": {
+            "id": "ren-1",
+            "day": 2,
+            "initiator": "player",
+            "activity": "game",
+            "shown": true,
+            "replied": true,
+            "committed": true,
+            "rescheduled": false,
+            "seatingConfirmed": true,
+            "lastShownDay": 2,
+            "ackShownDay": 2
+          },
+          "scene": {
+            "id": "ren-1",
+            "activity": "game",
+            "stage": "scene",
+            "beat": 0,
+            "shown": true,
+            "seating": "couch",
+            "dialogueVersion": 1,
+            "node": "g-together-a",
+            "hasUncommunicatedBreak": false
+          },
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "events": [
+          {
+            "type": "life_health",
+            "payload": {
+              "reason": "breakfast_skipped",
+              "before": 100,
+              "delta": -5,
+              "after": 95
+            }
+          },
+          {
+            "type": "life_health",
+            "payload": {
+              "reason": "breakfast_skipped",
+              "before": 95,
+              "delta": -5,
+              "after": 90
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "game",
+              "text": "Ren: i could come by this evening for a game. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "door",
+              "node": "s0",
+              "text": "glad we could do this. i brought the game."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "s0",
+              "choice": "a"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "door",
+              "node": "s1a",
+              "text": "thanks for having me."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "s1a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-cue",
+              "text": "i dressed for a pajama game night. comfort is a competitive advantage."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-cue",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g0",
+              "text": "i remember the rules being simpler than this. possibly because i was winning."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g0",
+              "choice": "together"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-together",
+              "text": "yes, please. i was hoping one of us had read them."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-together",
+              "choice": "learn"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-together-a",
+              "text": "excellent. confusion is better with company."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "finished": {
+        "valid": true,
+        "errors": [],
+        "health": 95,
+        "streams": {
+          "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser\",\"s\":[1765040439,874737819,1264547069,977114172]}",
+          "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/draw\",\"s\":[3535908068,1928857321,1036576487,641965910]}",
+          "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/race\",\"s\":[4112772024,1955456406,3324143828,3216347322]}",
+          "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan46-graph-browser/event\",\"s\":[3880901866,1971458773,1282914838,4108585487]}"
+        },
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 2,
+          "history": [
+            {
+              "id": "ren-1",
+              "outcome": "honored"
+            }
+          ],
+          "unanswered": 0,
+          "lastVisitDay": 2,
+          "lastOfferedDay": 2,
+          "pending": null,
+          "scene": {
+            "id": "ren-1",
+            "activity": "game",
+            "stage": "ack",
+            "beat": 0,
+            "shown": true,
+            "seating": "couch",
+            "dialogueVersion": 1,
+            "node": "g-end",
+            "hasUncommunicatedBreak": false
+          },
+          "response": null,
+          "introShown": true,
+          "couchContext": true,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": null,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "glad",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "events": [
+          {
+            "type": "life_health",
+            "payload": {
+              "reason": "breakfast_skipped",
+              "before": 100,
+              "delta": -5,
+              "after": 95
+            }
+          },
+          {
+            "type": "life_health",
+            "payload": {
+              "reason": "breakfast_skipped",
+              "before": 95,
+              "delta": -5,
+              "after": 90
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "glad"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "glad",
+              "text": "me too. hallway introductions are surprisingly difficult to schedule."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "glad",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "invitation",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "activity": "game",
+              "text": "Ren: i could come by this evening for a game. no pressure."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "reply",
+              "id": "ren-1",
+              "choice": "accept",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "accepted",
+              "id": "ren-1",
+              "day": 2,
+              "atDay": 2,
+              "text": "Ren: cool. this evening. i’ll knock."
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "door",
+              "node": "s0",
+              "text": "glad we could do this. i brought the game."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "s0",
+              "choice": "a"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "door",
+              "node": "s1a",
+              "text": "thanks for having me."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "s1a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-cue",
+              "text": "i dressed for a pajama game night. comfort is a competitive advantage."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-cue",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g0",
+              "text": "i remember the rules being simpler than this. possibly because i was winning."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g0",
+              "choice": "together"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-together",
+              "text": "yes, please. i was hoping one of us had read them."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-together",
+              "choice": "learn"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-together-a",
+              "text": "excellent. confusion is better with company."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-together-a",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "graph_line",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "node": "g-end",
+              "text": "good game. we should do that again sometime."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "graph_choice",
+              "id": "ren-1",
+              "activity": "game",
+              "node": "g-end",
+              "choice": "finish"
+            }
+          },
+          {
+            "type": "life_health",
+            "payload": {
+              "reason": "ren_visit",
+              "before": 90,
+              "delta": 5,
+              "after": 95
+            }
+          },
+          {
+            "type": "social46_outcome",
+            "payload": {
+              "kind": "completed",
+              "id": "ren-1",
+              "activity": "game",
+              "seating": "couch",
+              "day": 2
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

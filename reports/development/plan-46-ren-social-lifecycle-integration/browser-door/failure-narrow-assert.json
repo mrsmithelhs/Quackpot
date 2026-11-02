@@ -1,0 +1,73 @@
+{
+  "phase": "next day",
+  "error": "ReferenceError: b is not defined",
+  "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 3:\nday 3 morning\n💵\nCash:\n$68.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\nRen\noh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.\nDecide\nNice to meet you\nWhat brings you by?\nNot a great time\nClose for now\nDay 3 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+  "checks": [
+    {
+      "fixture": {
+        "day": 2,
+        "phase": "evening",
+        "health": 90
+      }
+    },
+    {
+      "ignore": {
+        "valid": true,
+        "errors": [],
+        "day": 2,
+        "health": 90,
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 1,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": null,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": false,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": 2,
+            "node": null,
+            "open": false,
+            "shown": [],
+            "numberShared": false
+          }
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "knock_ignore",
+              "id": "intro",
+              "day": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "wide": {
+        "innerWidth": 1366,
+        "bubbleRight": 527.671875,
+        "panelLeft": 845.703125,
+        "focus": "Nice to meet you"
+      }
+    }
+  ],
+  "errors": []
+}

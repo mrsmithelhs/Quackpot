@@ -72,9 +72,12 @@ export function availablePlaces(engine) {
   const step = engine.state.step;
   if (engine.state.life && step === 'life_recovery') return ['bedroom', 'desk-phone', 'kitchen-breakfast', 'living'];
   if (engine.state.life && step === 'life_rent') return ['kitchen-breakfast', 'desk-phone', 'living'];
-  if (engine.state.life && step === 'life_work') return ['desk-phone', 'kitchen-breakfast', 'living'];
-  if (engine.state.life && step === 'life_evening') return ['desk-phone', 'kitchen-breakfast', 'living'];
-  if (engine.state.life && step === 'life_breakfast') return ['kitchen-breakfast', 'desk-phone', 'living'];
+  if (engine.state.life && ['life_work', 'life_evening', 'life_breakfast'].includes(step)) {
+    const life = engine.state.life;
+    const places = step === 'life_breakfast' ? ['kitchen-breakfast', 'desk-phone', 'living'] : ['desk-phone', 'kitchen-breakfast', 'living'];
+    if (life.day >= 2 && !life.recovery && !life.work && !life.story47 && !life.session && life.rent.status !== 'due' && !(life.rent.status === 'overdue' && !life.rentSurfaced)) places.push('door');
+    return places;
+  }
   const offer = currentOffer(engine);
   if (offer) return [OFFER_PLACE[offer] ?? 'kitchen-notice'];
   if (isBreakfastStep(step)) return ['kitchen-breakfast'];

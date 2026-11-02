@@ -1,0 +1,388 @@
+{
+  "pins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/life-social.mjs": "7bc069723426c9787f4e884550e252f12e3ca1bea6f9255d2c610ffae1c3e79e",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-validation.mjs": "ba9742c63bab36b66b544b52a73625a26f215306c3131bf04314d31f2b01c6c7",
+    "src/core/receipt.mjs": "c51b9e19960818f98316f0f5e1146feca7b5682b0a2305e5ae713ab9ad8efdaa",
+    "src/ui/life/life-view.js": "898071f412542be3e6d349baa69346d9ea0e683873e7c4f5c20e25040f9c02dd",
+    "src/ui/life/life-routing.mjs": "45d5e12f33c505a2cb45e4c0ae227d8e83a537ef158ec4d2d26e873b7d3f3b8d",
+    "src/ui/life/ren-door-view.mjs": "1e13cf1127da3f5ed7b62a3378ba9f0e4f2557d4e7601d864bf12dda6139fed8",
+    "src/ui/life/ren46.css": "27703d84af522e99f2944ddb15d05e4136521509aa1637fc19d26a8a43deab42",
+    "src/assets/ren/index.mjs": "9481926d5a210be577c713dd51b859c917c2907b41c290509279cbf044b28218",
+    "src/assets/ren/closed-door.mjs": "1f39cf807901432c3f0b83bdacfc3c6d1a2d6bd6314e0f3e0e56a44378815d78"
+  },
+  "checks": [
+    {
+      "fixture": {
+        "day": 2,
+        "phase": "evening",
+        "health": 90
+      }
+    },
+    {
+      "ignore": {
+        "valid": true,
+        "errors": [],
+        "day": 2,
+        "health": 90,
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 1,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": null,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": false,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 2,
+            "ignoredDay": 2,
+            "node": null,
+            "open": false,
+            "shown": [],
+            "numberShared": false
+          }
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "knock_ignore",
+              "id": "intro",
+              "day": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "wide": {
+        "innerWidth": 1366,
+        "bubbleRight": 527.671875,
+        "panelLeft": 845.703125,
+        "sceneLeft": 313.21875,
+        "sceneWidth": 739.546875,
+        "focus": "Nice to meet you"
+      }
+    },
+    {
+      "narrow": {
+        "innerWidth": 390,
+        "sceneBottom": 437.421875,
+        "panelTop": 447.015625
+      }
+    },
+    {
+      "number": {
+        "valid": true,
+        "errors": [],
+        "day": 3,
+        "health": 90,
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 1,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": null,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": false,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 3,
+            "ignoredDay": 2,
+            "node": "number",
+            "open": true,
+            "shown": [
+              "hello",
+              "greeting",
+              "making",
+              "number"
+            ],
+            "numberShared": true
+          }
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "knock_ignore",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 3
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 3
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "making"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "making",
+              "text": "depends what catches my attention. i like figuring out how things fit together."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "making",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "completed": {
+        "valid": true,
+        "errors": [],
+        "day": 3,
+        "health": 90,
+        "social": {
+          "version": 1,
+          "revision": 2,
+          "relationship": "connected",
+          "initiativeEpoch": 2,
+          "nextId": 1,
+          "history": [],
+          "unanswered": 0,
+          "lastVisitDay": null,
+          "lastOfferedDay": null,
+          "pending": null,
+          "scene": null,
+          "response": null,
+          "introShown": true,
+          "couchContext": false,
+          "intro": {
+            "knockDay": 3,
+            "ignoredDay": 2,
+            "node": "thanks",
+            "open": false,
+            "shown": [
+              "hello",
+              "greeting",
+              "making",
+              "number",
+              "thanks"
+            ],
+            "numberShared": true
+          }
+        },
+        "events": [
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "knock_ignore",
+              "id": "intro",
+              "day": 2
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "knock",
+              "id": "intro",
+              "day": 3
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "door_open",
+              "id": "intro",
+              "day": 3
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "hello",
+              "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "hello",
+              "choice": "meet"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "greeting",
+              "text": "you too. i make and fix things. mostly i just wanted to say hello."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "greeting",
+              "choice": "making"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "making",
+              "text": "depends what catches my attention. i like figuring out how things fit together."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "making",
+              "choice": "continue"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "number",
+              "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "number",
+              "choice": "thanks"
+            }
+          },
+          {
+            "type": "social46_display",
+            "payload": {
+              "kind": "intro_line",
+              "id": "intro",
+              "node": "thanks",
+              "text": "sure. see you around."
+            }
+          },
+          {
+            "type": "social46_action",
+            "payload": {
+              "kind": "intro_reply",
+              "id": "intro",
+              "node": "thanks",
+              "choice": "finish"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

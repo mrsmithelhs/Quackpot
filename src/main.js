@@ -800,6 +800,7 @@ if (app) {
       return result;
     };
     return {
+      onDoorActivate: commit(() => engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 2 })),
       onSocialOpen: commit(() => {
         const life = engine.state.life;
         if (!life?.social46) return engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 1 });

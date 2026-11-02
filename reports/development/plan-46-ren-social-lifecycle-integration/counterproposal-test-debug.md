@@ -1,0 +1,1 @@
+First counterproposal named suite exited 1 (2.57 s, peak 142,438,400 bytes, no stop/cleanup note): two new tests tried to advance through an accepted plan without the required explicit `socialConflict: continue` choice. The existing guard correctly rejected them. The fixture now supplies the real explicit break confirmation; no production guard was weakened.

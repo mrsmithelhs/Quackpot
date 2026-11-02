@@ -3,6 +3,7 @@ import { figureDefs, doorSource } from './source.mjs';
 import { renderScene } from '../apartment/index.mjs';
 import { patches } from './scene-patches.mjs';
 import { tvUnit } from '../apartment/props/living.mjs';
+import { closedDoorSource } from './closed-door.mjs';
 
 const expressions = Object.freeze({ warm: 'warm', laugh: 'laugh', tease: 'tease', 'not-tonight': 'sorry', 'long-day': 'tired', listening: 'listen' });
 export const REN_EXPRESSIONS = Object.freeze(Object.keys(expressions));
@@ -47,6 +48,10 @@ function replaceOnce(source, from, to, name) {
 export function renderRenScene(input = {}) {
   options(input, ['idPrefix', 'scene', 'decorative']);
   if (input.scene === 'couch-close') return livingScene(input.idPrefix, 'ren-couch-medium', input.decorative);
+  if (input.scene === 'closed-door') {
+    const access = input.decorative ? 'aria-hidden="true"' : 'role="img" aria-label="The closed apartment door"';
+    return { svg: finish(closedDoorSource.replace('<svg ', `<svg ${access} `), input.idPrefix), meta: { scene: 'closed-door', viewBox: '0 0 960 540' } };
+  }
   if (input.scene !== 'door') throw new RangeError('unsupported scene');
   let svg = replaceOnce(doorSource, originalHand, selectedHand, 'Door hand').replace(/ role="img" aria-label="[^"]*"/, input.decorative ? ' aria-hidden="true"' : ' role="img" aria-label="Ren at the apartment door"');
   return { svg: finish(svg, input.idPrefix), meta: { scene: 'door', viewBox: '0 0 960 540', bodyEdge: 'frame', hand: 'owner-selected-derived' } };

@@ -1,0 +1,1 @@
+Fixture precheck attempt 1: exit 1, 0.52 s, peak 1,888,256 bytes, no stop/cleanup note. Message fixture validated; floor fixture stopped because the actual engine rejected selling before the synthetic run opened the game app. No browser ran and no owner save was involved. Fixture now performs the real app-opening transition before the sale; it does not weaken the engine guard.

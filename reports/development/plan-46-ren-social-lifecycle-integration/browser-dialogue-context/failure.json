@@ -1,0 +1,14 @@
+{
+  "phase": "message",
+  "error": "Error: UNKNOWN: unknown error, open 'C:\\AI\\Quackpot\\reports\\development\\plan-46-ren-social-lifecycle-integration\\browser-dialogue-context\\message-reply.png'",
+  "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$68.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\nRen\n\nRen: all good. another time.\n\nRen: of course.\n\nClose message",
+  "checks": [
+    {
+      "fixture": "message",
+      "health": 90,
+      "day": 2,
+      "sold": []
+    }
+  ],
+  "errors": []
+}

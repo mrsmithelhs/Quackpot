@@ -22,7 +22,7 @@ export function validateLifeHistory(entries, state) {
     // Pre-delivery social activations and snapshots both omitted the revision.
     if (snapshot && eventRevision === undefined && savedRevision === undefined && state?.life?.social46?.revision === undefined) return [UNSUPPORTED_REN_DEVELOPMENT_SAVE];
     if (eventRevision !== savedRevision || state?.life?.social46?.revision !== savedRevision) return ['Ren activation revision does not match its saved state'];
-    if (eventRevision !== 1) return [UNSUPPORTED_REN_REVISION];
+    if (![1, 2].includes(eventRevision)) return [UNSUPPORTED_REN_REVISION];
   }
   const start = entries.find(e => e.type === 'run_started');
   if (!start || start.payload.lifePolicyVersion !== POLICY_1_VERSION || !isKnownLifeConfig(start.payload.lifeConfig)) {

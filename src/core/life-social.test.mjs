@@ -30,7 +30,7 @@ test('pre-activation life shape stays unchanged; activation is explicit and vers
   const s = state();
   assert.equal(Object.hasOwn(s.life, 'social46'), false);
   assert.equal(transitionLife(s.life, s, { type: 'social46_activate', version: 2, revision: 1 }).ok, false);
-  assert.equal(transitionLife(s.life, s, { type: 'social46_activate', version: 1, revision: 2 }).ok, false);
+  assert.equal(transitionLife(s.life, s, { type: 'social46_activate', version: 1, revision: 3 }).ok, false);
   const activated = apply(s, { type: 'social46_activate', version: 1, revision: 1 });
   assert.equal(transitionLife(activated.life, activated, { type: 'social46_activate', version: 1, revision: 1 }).ok, false);
 });
@@ -331,10 +331,10 @@ test('pre-delivery social snapshots without the release revision fail closed wit
   ];
   assert.match(validateLifeHistory(old, {})[0], /Unsupported pre-delivery Ren development snapshot/);
   const future = [
-    { type: 'life_intent', payload: { intent: { type: 'social46_activate', version: 1, revision: 2 } } },
-    { type: 'life_transition', payload: { life: { social46: { revision: 2 } } } },
+    { type: 'life_intent', payload: { intent: { type: 'social46_activate', version: 1, revision: 3 } } },
+    { type: 'life_transition', payload: { life: { social46: { revision: 3 } } } },
   ];
-  assert.match(validateLifeHistory(future, { life: { social46: { revision: 2 } } })[0], /Unsupported Ren social revision/);
+  assert.match(validateLifeHistory(future, { life: { social46: { revision: 3 } } })[0], /Unsupported Ren social revision/);
   future[1].payload.life.social46.revision = 1;
-  assert.match(validateLifeHistory(future, { life: { social46: { revision: 2 } } })[0], /revision does not match/);
+  assert.match(validateLifeHistory(future, { life: { social46: { revision: 3 } } })[0], /revision does not match/);
 });

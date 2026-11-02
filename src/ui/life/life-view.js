@@ -11,6 +11,7 @@ import { renderScene } from '../../assets/apartment/index.mjs';
 import { renderStory47 } from './life-story-view.mjs';
 import { renderRenScene46 } from './ren-scene-view.mjs';
 import { renderRenChannel46 } from './ren-channel-view.mjs';
+import { renderRenDoor46 } from './ren-door-view.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
 import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { callMomScheduled } from '../../core/life-progression.mjs';
@@ -60,7 +61,7 @@ const WHEN = {
   living: 'Day 2 · late afternoon',
 };
 const PLACE_LABEL = {
-  'kitchen-notice': 'The kitchen notice', 'kitchen-breakfast': 'The kitchen', 'desk-phone': 'The desk', living: 'The living room', bedroom: 'The bedroom',
+  'kitchen-notice': 'The kitchen notice', 'kitchen-breakfast': 'The kitchen', 'desk-phone': 'The desk', living: 'The living room', bedroom: 'The bedroom', door: 'The door',
 };
 
 // ---------- posed duck ----------
@@ -681,7 +682,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           button.disabled = false;
         });
       }
-      if (place === 'desk-phone' && e.state.life.day >= 2 && !e.state.life.recovery) {
+      if (place === 'desk-phone' && (e.state.life.social46?.revision === 1 || e.state.life.social46?.introShown) && !e.state.life.recovery) {
         control('Messages: Ren', () => {
           const result = callbacks.onSocialOpen(e.log.length);
           if (result?.ok) { ui.renOpen = true; render(); }
@@ -691,7 +692,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if (e.state.life.phase === 'evening') control('Stay up for Late Night', () => { callbacks.onLateNight(expectLog); ui.held = null; callbacks.onRefresh(); });
       if (e.state.life.day >= 4) control('Finish run', () => { callbacks.onFinishLife(expectLog); ui.held = null; callbacks.onRefresh(); });
     }
-    if (e.state.life && step === 'life_breakfast' && e.state.life.day >= 2 && place === 'desk-phone' && !e.state.life.recovery) {
+    if (e.state.life && step === 'life_breakfast' && (e.state.life.social46?.revision === 1 || e.state.life.social46?.introShown) && place === 'desk-phone' && !e.state.life.recovery) {
       control('Messages: Ren', () => {
         const result = callbacks.onSocialOpen(e.log.length);
         if (result?.ok) { ui.renOpen = true; render(); }
@@ -748,8 +749,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         health: () => engine.state.health,
         tvSold: () => engine.state.life.sold.includes('tv'),
         shown: current => callbacks.onSocialShown({ type: 'social46_scene_shown', id: current.id }),
-        advance: current => {
-          callbacks.onSocialAction(engine.log.length, { type: current.stage !== 'scene' ? 'social46_dismiss' : current.beat < 2 ? 'social46_scene_next' : 'social46_complete', id: current.id });
+        advance: (current, choice) => {
+          const type = current.stage !== 'scene' ? 'social46_dismiss' : current.dialogueVersion === 1 ? (choice === 'finish' ? 'social46_complete' : 'social46_scene_next') : current.beat < 2 ? 'social46_scene_next' : 'social46_complete';
+          callbacks.onSocialAction(engine.log.length, { type, id: current.id, ...(choice ? { choice } : {}) });
           ui.renOpen = false; callbacks.onRefresh();
         },
       }, active);
@@ -762,6 +764,25 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         action: intent => { callbacks.onSocialAction(engine.log.length, intent); callbacks.onRefresh(); },
         close: () => { ui.renOpen = false; render(); },
       }, active);
+      root.inert = !active;
+      return;
+    }
+    if (place === 'door') {
+      if (active && !engine.state.life.social46) callbacks.onDoorActivate(engine.log.length);
+      const social = engine.state.life.social46;
+      if (active && social?.revision === 2 && !social.introShown && !social.intro.open && !social.intro.node && social.intro.knockDay !== engine.state.life.day && social.intro.ignoredDay !== engine.state.life.day) {
+        callbacks.onSocialShown({ type: 'social46_knock_shown' });
+      }
+      renderRenDoor46(root, engine.state.life, {
+        action: intent => {
+          callbacks.onSocialAction(engine.log.length, intent);
+          render();
+          if (active) root.querySelector('.ren46-door-decide button:not(:disabled), .ren46-door-knock:not(:disabled)')?.focus();
+        },
+      }, active);
+      renderDayBar(place);
+      const intro = engine.state.life.social46?.intro;
+      if (active && intro?.open && intro.node && !intro.shown.includes(intro.node)) callbacks.onSocialShown({ type: 'social46_intro_line_shown' });
       root.inert = !active;
       return;
     }

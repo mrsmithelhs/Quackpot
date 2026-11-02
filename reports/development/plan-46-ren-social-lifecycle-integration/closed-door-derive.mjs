@@ -1,0 +1,12 @@
+import { doorSource } from '../../../src/assets/ren/source.mjs';
+import { readFile, writeFile } from 'node:fs/promises';
+const sceneStart='<g id="r4-scene-door">';
+const frameEnd='  <rect x="296" y="26" width="368" height="530" fill="#6b4a33" class="l3"/>';
+const scene=doorSource.slice(doorSource.indexOf(sceneStart));
+const frameIndex=scene.indexOf(frameEnd); if(frameIndex<0||scene.indexOf(frameEnd,frameIndex+1)!==-1) throw Error('frame mismatch');
+const surrounds=scene.slice(sceneStart.length,frameIndex+frameEnd.length);
+const candidate=await readFile('reports/development/plan-46-ren-social-lifecycle-integration/closed-door-haiku-candidate.svg','utf8');
+const panel=candidate.slice(candidate.indexOf('  <rect x="319"'),candidate.indexOf('  <polygon points="137'));
+if(!panel.includes('x="598"')||!panel.includes('x="570"')) throw Error('door geometry mismatch');
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540"><style>.l3{stroke:#3a2c26;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}.l2{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}</style>${surrounds}\n${panel}<rect width="960" height="540" fill="#ff9a3c" opacity=".05"/></svg>`;
+await writeFile('reports/development/plan-46-ren-social-lifecycle-integration/closed-door-derived-candidate.svg',svg);

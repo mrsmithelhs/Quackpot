@@ -73,3 +73,7 @@ Owner reported that the combined procedural pluck sounds more like harpsichord i
 ## Shortened drum revision checkpoint
 
 2026-11-02 owner preferred the original kick and revised snare/hi-hat but requested about half their decay. Root cleared two report-local same-score renders and the 60 MB cap. Cloned revised timing settings were halved, with previous recordings preserved; source, two WAVs, listener and detailed evidence committed `28f0461`. Pure timing test, finite render/per-hit/PCM/hash and isolated 390px metadata/gain checks passed; details, nondeterministic noise and paused-rewind limitation are in `drum-short-evidence.md`. Advisor mode is orchestrator-gate-only. Await owner hearing; no additional variants, arrangement, foundation selection or production integration.
+
+## Tighter snare and hi-hat level checkpoint
+
+2026-11-02 owner reaffirmed the original TinySynth kick, liked the short revised hi-hat but found it too soft, and requested the short snare at 75% of its timing. Root cleared one 4 s snare render and playback gain on unchanged hi-hat, preserving prior files. Source, audition, listener and evidence committed `2a92ceb`; pure timing, bounded render/hash/cleanup, and 390px media/gain/one-player browser checks passed. See `drum-snare-tighter-evidence.md` for limits and exact settings; no perceived-loudness or paused-rewind claim. Advisor mode orchestrator-gate-only. Await owner listening; no further render or foundation selection.

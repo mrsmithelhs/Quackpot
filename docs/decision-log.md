@@ -660,3 +660,10 @@ Owner explicitly authorizes bidirectional root supervision of QP Impl46 and QP I
 **Date:** 2026-11-01
 
 Owner selects in QP Impl46: eligible introduction from Day2, capped5HP on completed visit and completed repair, shown invitations only for unanswered consequences, reconnecting broken commitment returns to repair (notice/forced bedrest exempt), and flexible eligible Evenings with one full intervening Evening after completed visit/repair. Fixed even-day slots are not selected. Root clears the final proposal's day-derived initiative default and versioned activation/replay/atomic conflict/scene/public evidence mechanisms under reports/orchestration/plan-46-mechanism-clearance-01.md. Generated unseen candidates do not age last6 or reset/increment U. Plan46 is exclusive social source writer within that clearance; this is implementation authority, not implemented behavior, owner narrative acceptance or packet closure. Plans49/43 remain report-only; no push/deployment.
+
+
+### DECISION-071 — Owner accepts diegetic apartment action study
+
+**Date:** 2026-11-01
+
+Owner confirms Plan49: "Yes, the study captures my direction." Root reviewed its action map, integration brief and actual selected preview captures. Select ordinary Evening bedroom/bed Turn in or Not now; actual activity causes Late Night rather than standalone Stay up; Quackpot competes with work, and from Day2 qualifying time-advancing activity may miss dinner with prior warning, $0 meal cost and up to5HP loss. Day1 remains guided. Finish run is a temporary proxy for future diegetic ending interactions, not removed here. Root closes the report-only investigation; no production integration or policy migration is authorized. Unemployed/no-cash/used-anchor availability, 0HP, obligations, transactional failure, historical replay and Ren coordination require a subsequent mechanism. Plan46 introduction is reopened under owner direction and not accepted by this closure. Source evidence: reports/development/plan-49-diegetic-apartment-action-map/owner-study-review.md. No push/deployment.

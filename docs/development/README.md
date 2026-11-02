@@ -57,7 +57,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-46` | Ren invitation and social lifecycle integration | in-progress | Specify and integrate the owner-selected Ren invitation, commitment, recovery and sale-context lifecycle through the existing saved life model, with truthful evidence and separately accepted SVG components. |
 | `plan-47` | Scheduled work and evening production integration | complete | Integrate the accepted streamlined scheduled-work, payslip, dinner-return and ordinary evening experience through the existing life model, with resumable presentation and once-only outcomes. |
 | `plan-48` | Daily gigs and evening work lifecycle | draft | Specify then integrate stable daily gig offers, employment-independent availability, explicit work completion and once-only Evening pay/fatigue without automatic rent payment. |
-| `plan-49` | Diegetic apartment action map and room-use study | in-progress | Map remaining non-navigation life controls to supported apartment objects and rooms, remove redundant non-actions, and select coherent sleep/continued-play and optional-life affordances before integration. |
+| `plan-49` | Diegetic apartment action map and room-use study | complete | Map remaining non-navigation life controls to supported apartment objects and rooms, remove redundant non-actions, and select coherent sleep/continued-play and optional-life affordances before integration. |
 | `plan-50` | Cross-harness visual and audio helper calibration | in-progress | Calibrate direct Haiku and Gemini Flash helpers on frozen historical artwork and UI, measuring actionable findings and false alarms against held-back owner feedback; audio is a separately gated later stage. |
 <!-- plan-index:end -->
 

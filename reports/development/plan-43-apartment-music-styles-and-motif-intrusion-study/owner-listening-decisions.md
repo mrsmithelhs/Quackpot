@@ -10,3 +10,7 @@
 | Combined phrase | A | Prefer Plan 39 custom result for this sparse phrase. |
 
 These preferences are for the exact files and page controls, not an overall selection of one engine, a decision to integrate either into production, or validation of other programs, genres or compositions. The owner explicitly suggests guitar may be a predictable weak point and asks two Luna researchers to investigate demonstrated TinySynth guitar techniques and general acoustic/electric guitar characteristics, including transferable work from other MIDI synthesizers. They offer to ferry deep research if useful. Research is read-only; any new dependency, licensed samples, adapter architecture or material resource expansion returns to root for clearance. Retain both exact baselines and all original scores.
+
+## First procedural guitar response
+
+2026-11-01. Owner heard the guitar comparison and said the new procedural voice is improved and reads as a string instrument, though it sounds as if the strings have tighter tension than a guitar; they ask whether it can improve further. This is owner listening feedback, not a measurement of actual tension or acceptance as a final guitar. No explicit preference was provided for the alternate Plan 39 playing treatment. Preserve all three recordings and their exact scores. Root review is requested for the next bounded same-score exploration.

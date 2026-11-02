@@ -21,7 +21,10 @@ test('living-scene patches apply without mutable room data', async () => {
   const { renderFloorCandidate } = await import('./index.mjs');
   const a=renderRenScene({idPrefix:'couch',scene:'couch-close'});
   const b=renderFloorCandidate({idPrefix:'floor'});
-  assert.equal(a.meta.bodyEdge,'sofa foreground');
+  assert.equal(a.meta.bodyEdge,'frame');
+  assert.equal(a.meta.viewBox,'536 -10 400 225');
+  assert.match(a.svg,/translate\(735\.8 316\.4\) scale\(0\.2436\)/);
+  assert.equal(renderRenScene({idPrefix:'door',scene:'door'}).meta.hand,'owner-selected-derived');
   assert.equal(b.meta.duckSupport,'blue magazine');
   const output=a.svg+b.svg;
   const ids=[...output.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
@@ -64,4 +67,16 @@ test('per-instance references resolve internally, fingerprints detect drift, pat
  const changed=raw.slice(0,1000)+(raw[1000]==='X'?'Y':'X')+raw.slice(1001);
  assert.equal(changed.length,raw.length); assert.notEqual(baselineFingerprint(changed),baselineFingerprint(raw));
  assert.throws(()=>{patches['ren-couch-medium'].ops[0].value='altered'});
+});
+
+test('selected hand and floor report the intended source and view', async () => {
+ const {doorSource}=await import('./source.mjs');
+ const old=`<path class="skin l3" d="M216 300 L200 262 L178 268 L192 300Z"/>\n  <ellipse class="skin l3" cx="186" cy="262" rx="13" ry="9" transform="rotate(-20 186 262)"/>\n  <path class="l2" fill="none" d="M176 258 Q182 262 190 258"/>`;
+ assert.equal(doorSource.split(old).length,2);
+ const selected=renderRenScene({idPrefix:'sel',scene:'door'}).svg;
+ assert.match(selected,/Q208 257 205 254 Q202 252 199 259/);
+ assert.doesNotMatch(selected,/cx="186" cy="262" rx="13" ry="9"/);
+ const {renderFloorCandidate}=await import('./index.mjs');
+ const floor=renderFloorCandidate({idPrefix:'floor'});
+ assert.equal(floor.meta.viewBox,'0 0 960 540'); assert.equal(floor.meta.duckSupport,'blue magazine');
 });

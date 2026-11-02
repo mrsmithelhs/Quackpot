@@ -5,10 +5,22 @@
       "name": "revised-hand",
       "width": 1280,
       "scrollWidth": 1265,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -20,11 +32,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -40,10 +52,22 @@
       "name": "revised-door",
       "width": 1280,
       "scrollWidth": 1265,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -55,11 +79,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -75,10 +99,22 @@
       "name": "revised-couch",
       "width": 1280,
       "scrollWidth": 1265,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -90,11 +126,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -110,10 +146,22 @@
       "name": "revised-floor-detail",
       "width": 1280,
       "scrollWidth": 1265,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -125,11 +173,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -145,10 +193,22 @@
       "name": "revised-narrow-couch",
       "width": 390,
       "scrollWidth": 375,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -160,11 +220,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -180,10 +240,22 @@
       "name": "revised-narrow-detail",
       "width": 390,
       "scrollWidth": 375,
-      "svgCount": 29,
+      "svgCount": 25,
       "images": [
         {
           "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/door-scene-v2.svg",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/25e7478d-fdc4-44ec-9c6f-d313033bc837",
+          "loaded": true
+        },
+        {
+          "src": "blob:http://127.0.0.1:59531/79cadc00-5436-48ea-b580-1ae954ff7fbc",
+          "loaded": true
+        },
+        {
+          "src": "../plan-41-ren-friend-character-and-social-life-study/concepts/apartment-scenes/scenes/ren-couch-medium.svg",
           "loaded": true
         },
         {
@@ -195,11 +267,11 @@
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/ec57dca3-bb4e-4c37-88f8-4458c51d9e4e",
+          "src": "blob:http://127.0.0.1:59531/3e984785-03a2-416a-8366-83ec3632fcf5",
           "loaded": true
         },
         {
-          "src": "blob:http://127.0.0.1:62404/6dbc544d-d762-46a2-a41e-73cac9160089",
+          "src": "blob:http://127.0.0.1:59531/8a42e027-8069-4d5f-9b72-76373f543069",
           "loaded": true
         }
       ],
@@ -214,129 +286,80 @@
   ],
   "errors": [],
   "cleanup": {
-    "residual": true,
-    "uncertainty": true,
+    "residual": false,
+    "uncertainty": false,
     "childExitCode": 0,
-    "treeTerminationConfirmed": false,
-    "profileRemoved": false,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
     "trackedDescendants": [
       {
-        "pid": 764,
-        "ppid": 54972,
-        "created": "11/01/2026 10:39:06",
+        "pid": 6852,
+        "ppid": 3688,
+        "created": "11/01/2026 21:06:11",
         "root": true
       },
       {
-        "pid": 38012,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:06",
+        "pid": 7816,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 41148,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:07",
+        "pid": 10656,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 5964,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:07",
+        "pid": 24160,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 12976,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:07",
+        "pid": 14360,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 29756,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:07",
+        "pid": 26920,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 53088,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:08",
+        "pid": 15092,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 4664,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:08",
+        "pid": 25948,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 57336,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:08",
+        "pid": 23824,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 24668,
-        "ppid": 41148,
-        "created": "10/31/2026 00:05:43",
+        "pid": 15436,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:11",
         "root": false
       },
       {
-        "pid": 28540,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      },
-      {
-        "pid": 24896,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      },
-      {
-        "pid": 10492,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      },
-      {
-        "pid": 37804,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:08",
-        "root": false
-      },
-      {
-        "pid": 46276,
-        "ppid": 764,
-        "created": "11/01/2026 10:39:08",
+        "pid": 22364,
+        "ppid": 6852,
+        "created": "11/01/2026 21:06:12",
         "root": false
       }
     ],
-    "remainingDescendants": [
-      {
-        "pid": 24668,
-        "ppid": 41148,
-        "created": "10/31/2026 00:05:43",
-        "root": false
-      },
-      {
-        "pid": 28540,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      },
-      {
-        "pid": 24896,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      },
-      {
-        "pid": 10492,
-        "ppid": 24668,
-        "created": "10/31/2026 00:05:44",
-        "root": false
-      }
-    ],
-    "chromeStderr": "[764:55064:1101/103907.151:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[764:55064:1101/103907.152:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:62407/devtools/browser/8ae01901-e882-43d3-8bc7-ef5411e59f8e\r\n"
+    "remainingDescendants": [],
+    "chromeStderr": "[6852:18784:1101/210611.667:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[6852:18784:1101/210611.667:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:59533/devtools/browser/18ffadd3-69a5-4d92-9d66-f42071a8da78\r\n"
   }
 }

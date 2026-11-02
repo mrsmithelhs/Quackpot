@@ -33,12 +33,22 @@ export function renderRen(input = {}) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" ${access}>${style}<defs>${figureDefs}</defs><use href="#r4-fig-${expressions[expression]}"/></svg>`;
   return { svg: finish(svg, input.idPrefix), meta: { expression, framing, viewBox, pose: 'front', complexion: 'A', pencil: 'ear' } };
 }
+// Owner-selected door hand: a derived replacement of the original arm/hand fragment.
+const originalHand = `<path class="skin l3" d="M216 300 L200 262 L178 268 L192 300Z"/>
+  <ellipse class="skin l3" cx="186" cy="262" rx="13" ry="9" transform="rotate(-20 186 262)"/>
+  <path class="l2" fill="none" d="M176 258 Q182 262 190 258"/>`;
+const selectedHand = `<path class="skin l3" d="M216 300 L207 281 Q205 276 205 270 Q205 265 204 263 Q208 257 205 254 Q202 252 199 259 Q197 258 195 259 L190 259 Q187 259 187 262 Q187 264 190 265 L187 265 Q184 265 184 268 Q184 271 187 271 L189 271 Q186 271 186 274 Q186 277 190 277 L192 277 Q189 277 189 280 Q189 282 192 282 L195 281 Q198 282 199 285 L192 300Z"/><path class="l2" fill="none" d="M190 265 L198 264 M189 271 L198 270 M192 277 L200 275"/>`;
+function replaceOnce(source, from, to, name) {
+  const pos = source.indexOf(from);
+  if (pos < 0 || source.indexOf(from, pos + from.length) !== -1) throw new Error(`${name} source drift`);
+  return source.slice(0, pos) + to + source.slice(pos + from.length);
+}
 export function renderRenScene(input = {}) {
   options(input, ['idPrefix', 'scene', 'decorative']);
   if (input.scene === 'couch-close') return livingScene(input.idPrefix, 'ren-couch-medium', input.decorative);
   if (input.scene !== 'door') throw new RangeError('unsupported scene');
-  let svg = doorSource.replace(/ role="img" aria-label="[^"]*"/, input.decorative ? ' aria-hidden="true"' : ' role="img" aria-label="Ren at the apartment door"');
-  return { svg: finish(svg, input.idPrefix), meta: { scene: 'door', viewBox: '0 0 960 540', bodyEdge: 'frame', candidate: true } };
+  let svg = replaceOnce(doorSource, originalHand, selectedHand, 'Door hand').replace(/ role="img" aria-label="[^"]*"/, input.decorative ? ' aria-hidden="true"' : ' role="img" aria-label="Ren at the apartment door"');
+  return { svg: finish(svg, input.idPrefix), meta: { scene: 'door', viewBox: '0 0 960 540', bodyEdge: 'frame', hand: 'owner-selected-derived' } };
 }
 
 // Full-output drift fingerprint; not a cryptographic authenticity check.
@@ -58,13 +68,17 @@ function livingScene(prefix, name, decorative) {
     if (svg.slice(op.start,op.end) !== op.old || svg.slice(Math.max(0,op.start-40),op.start) !== op.before || svg.slice(op.end,op.end+40) !== op.after) throw new Error('Apartment baseline drift: context');
   }
   for (const op of [...patch.ops].reverse()) svg = svg.slice(0,op.start) + op.value + svg.slice(op.end);
+  if (!floor) {
+    svg = replaceOnce(svg, 'translate(735.8 405.4) scale(0.2436)', 'translate(735.8 316.4) scale(0.2436)', 'Couch figure');
+    svg = replaceOnce(svg, 'viewBox="536 100 400 225"', 'viewBox="536 -10 400 225"', 'Couch framing');
+  }
   svg = svg.replaceAll(`apt-${name}`, `apt-${prefix}-${name}`);
   if (decorative) svg = svg.replace(/ role="img" aria-label="[^"]*"/, ' aria-hidden="true"');
   return {svg: finish(svg, prefix), meta: floor
-    ? {scene:'floor-game-night-original', viewBox:'0 0 960 540', bodyEdge:'coffee-table', duckSupport:'blue magazine', candidate:true}
-    : {scene:'couch-close', viewBox:'536 100 400 225', bodyEdge:'sofa foreground', candidate:true}};
+    ? {scene:'floor-game-night-original', viewBox:'0 0 960 540', bodyEdge:'coffee-table', duckSupport:'blue magazine', selection:'owner-selected-wide'}
+    : {scene:'couch-close', viewBox:'536 -10 400 225', bodyEdge:'frame', framing:'owner-selected-derived'}};
 }
-/** Unreviewed original floor composition; gallery reference only, not a production scene contract. */
+/** Owner-selected original wide floor composition; unmounted and not a production scene contract. */
 export function renderFloorCandidate(input = {}) {
   options(input, ['idPrefix', 'decorative']);
   return livingScene(input.idPrefix, 'ren-floor-game-night', input.decorative);

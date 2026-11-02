@@ -176,9 +176,9 @@
 .life-activity-note { align-self: center; font-size: .85rem; color: var(--life-slate-text, #dce4ee); }
 
 /* Handwritten updates sit over the original printed notice. */
-.life-rent-crossed, .life-rent-written { display: inline-block; color: #345779; font-family: "Segoe Print", "Comic Sans MS", cursive; font-weight: 700; transform: rotate(-4deg); }
+.life-rent-crossed, .life-rent-written { display: inline-block; color: #a52222; font-family: "Segoe Print", "Comic Sans MS", cursive; font-weight: 700; transform: rotate(-4deg); }
 .life-rent-crossed { position: relative; }
-.life-rent-crossed::after { content: ''; position: absolute; left: -.1em; right: -.1em; top: 50%; border-top: 2px solid #345779; border-radius: 45%; transform: rotate(-7deg); pointer-events: none; }
+.life-rent-crossed::after { content: ''; position: absolute; left: -.1em; right: -.1em; top: 50%; border-top: 2px solid #a52222; border-radius: 45%; transform: rotate(-7deg); pointer-events: none; }
 .life-rent-printed { color: inherit; font: inherit; transform: none; }
 .life-rent-written:last-child { transform: rotate(-3deg); }
 
@@ -188,5 +188,3 @@
 
 /* Keep the fridge note's label inside the narrow room and clear of the rent label. */
 .life-obj[data-obj='mom-note'] .life-chip { left: calc(100% + .35rem); bottom: 50%; transform: translateY(50%); }
-
-.life-mom-hint { position: absolute; left: calc(100% + .35rem); top: 50%; transform: translateY(-50%); width: max-content; color: #fff5dc; text-shadow: 0 1px 3px #1a1510, 0 0 4px #1a1510; font: 600 .75rem/1.2 var(--life-ui); pointer-events: none; }

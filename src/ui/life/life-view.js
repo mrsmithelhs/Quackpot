@@ -133,7 +133,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const available = callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
       const noteReason = life.phase !== 'evening' || !callMomScheduled(life.day) ? 'not available now' : life.anchor ? 'evening activity already chosen' : life.recovery ? 'resolve recovery first' : life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced) ? 'resolve rent first' : !life.meals[`d${life.day}-dinner`] ? 'available after dinner' : 'not available now';
       out.push({ id: 'mom-note', x: 7, y: 50, w: 7, svg: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M5 8 L94 5 L96 91 L10 96 Z" fill="#f7de83" stroke="#685629" stroke-width="3"/><path d="M12 10 L89 8" stroke="#d8bb62" stroke-width="8"/><text x="50" y="48" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Call</text><text x="50" y="70" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Mom</text></svg>`,
-        label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, annotation: noteReason === 'available after dinner' ? 'After dinner' : null, chip: available ? 'Call Mom' : null, disabled: !available,
+        label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, chip: available ? 'Call Mom' : null, disabled: !available,
         hold: { mode: 'popover', side: 'right', kind: 'life-call-mom' } });
     }
     if (place === 'bedroom' && engine.state.life?.recovery) {
@@ -758,7 +758,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       b.dataset.obj = o.id;
       Object.assign(b.style, { left: `${o.x}%`, top: `${o.y}%`, width: `${o.w}%`, ...(o.h ? { height: `${o.h}%` } : {}) });
       b.setAttribute('aria-label', o.done ? `${o.label} (done)` : o.label);
-      b.innerHTML = `${o.svg ?? ''}${o.annotation ? `<span class="life-mom-hint" aria-hidden="true">${esc(o.annotation)}</span>` : ''}${o.tag ? `<span class="life-tag" aria-hidden="true">${o.tag}</span>` : ''}${o.chip && !o.done && !(o.id === 'notice' && o.disabled) ? `<span class="life-chip" aria-hidden="true">${esc(o.chip)}</span>` : ''}`;
+      b.innerHTML = `${o.svg ?? ''}${o.tag ? `<span class="life-tag" aria-hidden="true">${o.tag}</span>` : ''}${o.chip && !o.done && !(o.id === 'notice' && o.disabled) ? `<span class="life-chip" aria-hidden="true">${esc(o.chip)}</span>` : ''}`;
       // Resolved one-time targets remain visible, but no longer invite another interaction.
       if (o.done || o.disabled || !o.hold) { b.setAttribute('aria-disabled', 'true'); b.disabled = true; }
       else b.addEventListener('click', () => { if (!busy && !closing && !committed) activate(o); });

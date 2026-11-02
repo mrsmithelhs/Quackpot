@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apartment action study</title>
+  <link rel="stylesheet" href="./preview.css">
+</head>
+<body>
+  <header class="study-head"><strong>Apartment action study</strong><span>Illustrative states · no saved game</span></header>
+  <main>
+    <div class="fixture"><label for="scenario">Choose a study scene</label><select id="scenario">
+      <option value="evening">Evening · dinner resolved</option>
+      <option value="used">Evening · activity already chosen</option>
+      <option value="late">Late Night</option>
+      <option value="recovery">Recovery · illustrative morning</option>
+      <option value="future">Future social offer · illustrative only</option>
+    </select><span>These are independent examples, not a simulated run.</span></div>
+    <section class="shell" aria-label="Apartment preview">
+      <div class="status"><strong>QUACKPOT</strong><span id="phase"></span><span class="placeholder">Save · Settings · Uninstall (context only)</span></div>
+      <div id="scene" class="scene"></div>
+      <div class="under"><nav id="rooms" aria-label="Rooms"></nav><div id="notice" class="notice" aria-live="polite"></div></div>
+      <section id="decision" class="decision" aria-live="polite" hidden></section>
+    </section>
+    <p class="study-foot">Study only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.</p>
+  </main>
+  <script type="module" src="./preview.mjs"></script>
+</body>
+</html>

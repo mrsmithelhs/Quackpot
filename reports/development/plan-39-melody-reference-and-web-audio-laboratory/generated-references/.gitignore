@@ -1,0 +1,4 @@
+# Local generated-music intake; keep only this guide and ignore rule tracked.
+*
+!.gitignore
+!README.md

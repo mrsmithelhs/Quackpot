@@ -1,0 +1,36 @@
+{
+  "case_id": "case-1",
+  "condition": "owner-amended staged comparison; startup context and broader isolation not fully audited",
+  "image_sha256": "2fefba84d700df0229b5c6fc11f4047e6a4c0a70a8757a37015ca7130c571ef5",
+  "model_requested": "gemini-3.8-flash-medium",
+  "model_reported": "gemini-3.8-flash-medium",
+  "effort_requested": "medium",
+  "effective_effort": "unverified",
+  "permission_mode": "request-review",
+  "tool_step_names": [
+    "read_file"
+  ],
+  "intended_image_read": "DONE; exact staged image path verified",
+  "unexpected_tool_steps": 0,
+  "exit_code": 0,
+  "result_status": "SUCCESS",
+  "finished_reason": "print_timeout",
+  "response_length": 0,
+  "usage": {
+    "input_tokens": 7042,
+    "output_tokens": 437,
+    "thinking_tokens": 352,
+    "cache_read_tokens": 0,
+    "total_tokens": 7479
+  },
+  "elapsed_seconds": 48.0776515,
+  "peak_sampled_private_bytes": 206036992,
+  "stdout_characters_drained": 2928,
+  "stdout_characters_retained": 2928,
+  "stdout_truncated": false,
+  "stderr_characters_drained": 156,
+  "stderr_characters_retained": 156,
+  "stderr_truncated": false,
+  "raw_receipt_sha256": "532d7845bd44ec5680a4a825d4ea6cf5febefdea8dcd5397139586fd6d2f7257",
+  "disposition": "Timeout; no review findings; batch stopped without retry."
+}

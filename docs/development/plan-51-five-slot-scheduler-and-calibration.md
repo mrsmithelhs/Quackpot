@@ -1,11 +1,9 @@
 ---
 id: plan-51
 title: Five-slot scheduler contract and calibration
-status: draft
+status: in-progress
 depends_on: [plan-29, plan-37, plan-49]
 gate: "Owner accepts five-slot direction 2026-11-02. Root clears concrete mechanism before shared pure source; owner/root review complete traces and working parameters before Plan52 production integration. No old-save compatibility requirement; no runtime mount."
-superseded_by: null
-resolution: null
 summary: >-
   Specify and simulate the accepted five-slot day with slot-consuming meals, one shared pure scheduler, staged guidance and coherent obligation transactions before production integration.
 ---

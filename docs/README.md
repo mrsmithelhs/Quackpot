@@ -8,7 +8,7 @@ The canonical design is `founding/design.md`. It combines selected intent with e
 
 | Area | Selected/current direction | Next boundary |
 |---|---|---|
-| Life and pacing | Accepted five-slot day with slot-consuming meals; staged guidance; roughly30-plus-minute engaged target | Draft Plan51 shared scheduler/calibration, then draft Plan52 coordinated production + fixture + docs port; current app still uses older phase/maintenance rules. No old-save migration/dual scheduler required |
+| Life and pacing | Accepted five-slot day with slot-consuming meals; staged guidance; roughly30-plus-minute engaged target | In-progress Plan51 shared scheduler/calibration, then draft Plan52 coordinated production + fixture + docs port; current app still uses older phase/maintenance rules. No old-save migration/dual scheduler required |
 | Economy | $80 start/$60 shift/$6 meal/$170 remaining-rent working budget; pull-action-plus-race baseline; small purchases erode reserves | Working prices tunable; health/credit/calendar and later session policy remain provisional; recalibrate from integrated-route evidence |
 | Race and collection | Accepted production race, digital motion, Duck-Dex and soft rest | Broader catalog/compositions separate; preserve accepted mechanics |
 | Apartment | Accepted apartment art/work surfaces, Plan49 action study and selected Ren experience components | Plan46 held at committed Ren baseline for scheduler-dependent edits, whole-experience acceptance pending; Plan52 ports its features together. Plan48 gigs waits for Plan52 |

@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {tighterDrums,tighterStops,validateTighter} from './drum-snare-tighter.mjs';import {shortDrums,shortStops} from './drum-short.mjs';
+test('tightens snare timing only and leaves hat unchanged',()=>{validateTighter();assert.equal(tighterStops[38],shortStops[38]*.75);for(let i=0;i<tighterDrums[38].length;i++)for(const [k,v] of Object.entries(shortDrums[38][i]))assert.equal(tighterDrums[38][i][k],['d','h','r'].includes(k)?v*.75:v);assert.strictEqual(tighterDrums[42],shortDrums[42]);});

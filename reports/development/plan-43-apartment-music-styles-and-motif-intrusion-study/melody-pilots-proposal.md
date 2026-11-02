@@ -1,0 +1,28 @@
+# M1–M6 arrangement pilots: proposed render boundary
+
+2026-11-02. Owner approved the latest drum balance and requests longer variations of the accepted Plan39 M1–M6 expansions as Suno inputs, compared with their baseline tracks. This is a report-local composition proposal, not a renderer comparison, production soundtrack decision, or upload to any service. Plan39 and its existing exports remain immutable. The accepted symbolic score source is `../plan-39-melody-reference-and-web-audio-laboratory/lab/scores.js`, SHA-256 `f5462620a3ffe7f83eaac7405cac22fdb9f92c2cbd4bff1bf0d4c400539ae68f`.
+
+## Six candidates and form
+
+Each is 12 bars at 100 BPM (28.8 s of score, 30.0 s file including up to 1.2 s tail), with a complete unchanged Plan39 melody statement including pitches, timing, durations and velocities. Harmony derives from that candidate’s paired Plan39 harmony, including M5 minor-iv and M6 secondary-dominant pivots; these cannot be described as strictly diatonic. Closing reprises are explicitly identified: a reprise is new form, not an assertion that the original lead is longer.
+
+| Candidate | Lead source | Form | Arrangement focus |
+|---|---|---|---|
+| M1 | `M1-skyward-vista` / `H-A1-skyward` | 4-bar lead, 4-bar accompaniment bridge, 4-bar reprise | Airy, offbeat chord motion |
+| M2 | `M2-supertonic-question` / `H-A2-supertonic` | 4 lead, 4 bridge, 4 reprise | Measured call and response |
+| M3 | `M3-horizon-drift` / `H-B1-horizon` | 6 lead, 2 bridge, 4-bar opening reprise | Flowing bass and restrained pulse |
+| M4 | `M4-celestial-wanderer` / `H-B2-wanderer` | 8 lead, 4-bar opening reprise | Broad, slower chord attacks |
+| M5 | `M5-minor-iv-yearning` / `H-C1-minor-iv` | 4 lead, 4 bridge, 4 reprise | Sparse voicings emphasizing the minor-iv color |
+| M6 | `M6-secondary-dominant-drive` / `H-C2-sec-dom` | 4 lead, 4 bridge, 4 reprise | More forward motion around the secondary dominant |
+
+Those are compositional intentions, not claims of audible quality or recognizability. Follow Plan39 research as design ideas: maintain the anchor and harmonic function, provide rhythmic bass/chord motion under held lead notes, use space and a clear return, avoiding an empty drone or unrelated filler. Exact event-level arrangements must be documented, including any voicing or section-level repetitions.
+
+## Instrument and technical boundaries
+
+Genuine pinned TinySynth quality-1 GM marimba B carries the melody; Plan39 selected acoustic bass A carries bass; the existing combined softer-attack/slower-decay Level4 procedural guitar supplies quiet rhythm chords; the most recently approved per-instance TinySynth drum recipe uses original kick, tighter snare and short hat with 3× operator level before synth compression. No preset or source recipe changes; new composition and mix are not the prior same-score engine test. Hats boosted inside the synth are not proven identical to isolated post-render playback boost.
+
+Proposed maximums per render: 1,440,000 frames (11,520,000 stereo float bytes); 5,760,044 PCM16 WAV bytes; approximately 15,360,120 bytes for the UTF-16 base64 transport string, excluding implementation overhead. At most 36 guitar notes, segmented into at most three four-bar batches with at most 12 notes each using the existing 16-event/nine-second segment-relative validator, with independent bounds on global offsets and at most eight concurrent guitar voices across boundaries. Each individual guitar note is at most three seconds, so a conservative full PCM copy is <=20,736,000 bytes; reserve two copies (41,472,000). At most 24 Plan39 bass notes, 48 rhythm hits, 80 upstream pitched notes plus bootstrap, four operators per pitched voice and two per drum hit. Use 96 upstream voice slots to avoid stealing future scheduled pitched notes, and verify no table entry is silently pruned, paired note on/off semantics and any same-pitch overlaps. Conservative nodes: upstream 51 static + 2 × (4 bootstrap + 80 × 4 pitched + 48 × 2 drum) = 891; guitar <=73; Plan39 bass <=172; total <=1,136. Reserve 8,000,000 bytes for upstream/Plan39 ancillary buffers and reject preallocation if finite bounds exceeded; measured process-tree limits remain 2 GiB sampled, 1 GiB Node heap and 90 s through the unchanged bounded launcher. Proposed six WAVs add 34,560,264 bytes to 62,017,540 existing, totaling 96,577,804 bytes; request a 97,000,000-byte cap. (This arithmetic supersedes an earlier provisional total sent to root.) One render at a time, bounded owned browser/context cleanup, no watcher or user-storage access.
+
+Before rendering, generate editable event source and validate original melody fidelity, matching harmony references, M5/M6 pivots, duration, section boundaries, valid pitch/velocity, global polyphony and all buffer/node bounds. After each render verify WAV header/hash, nonzero windows and sample peaks/tail, effective timbres, note scheduling, error handling and owned teardown. Compare source and prior-output hashes. Test in a narrow listener with download links; raw levels disclosed, no claim of perceptual matching or seamless loop. Stage M1 and M5 first to check mechanism and form; only render the other four if that bounded check supports continuing and root clears it. No Flash/model calls or external uploads implied. Owner listening remains musical authority.
+
+Official Suno help currently says free uploads up to 60 seconds and Pro/Premier up to eight minutes; an older help page still says 120 seconds for Pro/Premier. Thirty-second files fit both stated limits, but upload success and melody retention are unverified. Sources: https://help.suno.com/en/articles/6141569 and https://help.suno.com/en/articles/2477633.

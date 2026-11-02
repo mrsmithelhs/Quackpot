@@ -1,0 +1,54 @@
+{
+  "task": "envelope",
+  "turn": "initial",
+  "model_requested": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effective_effort": "unverified",
+  "tool_count": 0,
+  "session_id_matches_private_expected": true,
+  "session_persistence_requested": true,
+  "exit_code": 0,
+  "elapsed_seconds": 3.1472028,
+  "peak_sampled_private_bytes": 454021120,
+  "stdout_characters_drained": 6525,
+  "stdout_truncated": false,
+  "stderr_characters_drained": 0,
+  "stderr_truncated": false,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 706,
+    "cache_read_input_tokens": 2134,
+    "output_tokens": 282,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 706,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 282,
+        "cache_read_input_tokens": 2134,
+        "cache_creation_input_tokens": 706,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 706
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "reported_list_cost_usd": 0.00030374000000000004,
+  "response": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 256 256\" width=\"256\" height=\"256\"><rect x=\"32\" y=\"64\" width=\"192\" height=\"128\" rx=\"12\" fill=\"#FFF8E7\" stroke=\"#2B2B2B\" stroke-width=\"8\" stroke-linejoin=\"round\"/><path d=\"M40 76 L128 146 L216 76\" fill=\"none\" stroke=\"#2B2B2B\" stroke-width=\"8\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><circle cx=\"128\" cy=\"150\" r=\"22\" fill=\"#FF6F61\" stroke=\"#2B2B2B\" stroke-width=\"8\"/><circle cx=\"128\" cy=\"150\" r=\"10\" fill=\"none\" stroke=\"#2B2B2B\" stroke-width=\"4\" opacity=\"0.35\"/></svg>",
+  "raw_receipt_sha256": "be8eceeab664c6830aef617a16e19c442e6f77746292424a9d6ce17577816d49"
+}

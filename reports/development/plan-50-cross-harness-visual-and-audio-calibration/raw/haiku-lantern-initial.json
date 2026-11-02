@@ -1,0 +1,53 @@
+{
+  "task": "lantern",
+  "turn": "initial",
+  "model_requested": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effective_effort": "unverified",
+  "tool_count": 0,
+  "session_id_matches_requested": true,
+  "session_persistence_requested": true,
+  "session_resumability": "not established",
+  "exit_code": 0,
+  "elapsed_seconds": 12.7265874,
+  "peak_sampled_private_bytes": 378728448,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2193,
+    "cache_read_input_tokens": 649,
+    "output_tokens": 1598,
+    "output_tokens_details": {
+      "thinking_tokens": 1005
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2193,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1598,
+        "cache_read_input_tokens": 649,
+        "cache_creation_input_tokens": 2193,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2193
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "reported_list_cost_usd": 0.00124429,
+  "response": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 256 256\" width=\"256\" height=\"256\">\n  <g transform=\"translate(0 8)\" stroke=\"#1d2a2e\" stroke-width=\"4\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n    <path d=\"M104 80 C100 36 156 36 152 80\" fill=\"none\" stroke-width=\"8\"/>\n    <rect x=\"94\" y=\"78\" width=\"68\" height=\"16\" rx=\"5\" fill=\"#1f8a85\"/>\n    <path d=\"M98 94 L158 94 L176 170 L80 170 Z\" fill=\"#f2a31b\"/>\n    <path d=\"M110 102 L146 102 L160 162 L96 162 Z\" fill=\"#ffd166\" opacity=\"0.6\" stroke=\"none\"/>\n    <ellipse cx=\"128\" cy=\"132\" rx=\"14\" ry=\"18\" fill=\"#fff1b8\" stroke=\"none\" opacity=\"0.85\"/>\n    <path d=\"M116 100 L108 164\" fill=\"none\" stroke-width=\"2\" opacity=\"0.35\"/>\n    <path d=\"M140 100 L148 164\" fill=\"none\" stroke-width=\"2\" opacity=\"0.35\"/>\n    <path d=\"M110 110 L104 150\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"5\" opacity=\"0.35\"/>\n    <rect x=\"76\" y=\"170\" width=\"104\" height=\"12\" rx=\"4\" fill=\"#1f8a85\"/>\n    <rect x=\"60\" y=\"182\" width=\"136\" height=\"28\" rx=\"14\" fill=\"#1f8a85\"/>\n    <rect x=\"78\" y=\"190\" width=\"100\" height=\"6\" rx=\"3\" fill=\"#7fd1cc\" stroke=\"none\" opacity=\"0.7\"/>\n  </g>\n</svg>",
+  "raw_receipt_sha256": "bdcdd7180159a6cffef52ca849763ee39492e0f6f11f96973f54ae980b610e33"
+}

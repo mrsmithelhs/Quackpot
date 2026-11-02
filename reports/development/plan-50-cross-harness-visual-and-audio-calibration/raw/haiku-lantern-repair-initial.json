@@ -1,0 +1,54 @@
+{
+  "task": "lantern-repair",
+  "turn": "initial",
+  "model_requested": "claude-haiku-5-5",
+  "model_reported": "claude-haiku-5-5",
+  "effective_effort": "unverified",
+  "tool_count": 0,
+  "session_id_matches_private_expected": true,
+  "session_persistence_requested": true,
+  "exit_code": 0,
+  "elapsed_seconds": 11.5125568,
+  "peak_sampled_private_bytes": 481320960,
+  "stdout_characters_drained": 14720,
+  "stdout_truncated": false,
+  "stderr_characters_drained": 0,
+  "stderr_truncated": false,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 410,
+    "cache_read_input_tokens": 2435,
+    "output_tokens": 1917,
+    "output_tokens_details": {
+      "thinking_tokens": 1010
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 410,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1917,
+        "cache_read_input_tokens": 2435,
+        "cache_creation_input_tokens": 410,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 410
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "reported_list_cost_usd": 0.0010650500000000001,
+  "response": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 256 256\" width=\"256\" height=\"256\">\n  <defs>\n    <linearGradient id=\"amberGlass\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#ffd98a\"/>\n      <stop offset=\"0.55\" stop-color=\"#f5a623\"/>\n      <stop offset=\"1\" stop-color=\"#d9731a\"/>\n    </linearGradient>\n    <linearGradient id=\"tealMetal\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0\" stop-color=\"#35c2b6\"/>\n      <stop offset=\"0.5\" stop-color=\"#1d8f88\"/>\n      <stop offset=\"1\" stop-color=\"#136a65\"/>\n    </linearGradient>\n  </defs>\n  <g stroke=\"#1c2326\" stroke-width=\"5\" stroke-linejoin=\"round\" stroke-linecap=\"round\">\n    <!-- loop handle -->\n    <path d=\"M104 66 Q128 22 152 66\" fill=\"none\" stroke=\"#1c2326\" stroke-width=\"13\"/>\n    <path d=\"M104 66 Q128 22 152 66\" fill=\"none\" stroke=\"url(#tealMetal)\" stroke-width=\"6\"/>\n    <!-- top cap -->\n    <path d=\"M108 60 L148 60 L158 78 L98 78 Z\" fill=\"url(#tealMetal)\"/>\n    <!-- amber glass body -->\n    <path d=\"M100 78 L156 78 L166 100 L166 176 L156 188 L100 188 L90 176 L90 100 Z\" fill=\"url(#amberGlass)\"/>\n    <!-- frame bars -->\n    <path d=\"M116 82 L116 184 M140 82 L140 184 M128 80 L128 186\" fill=\"none\" stroke-width=\"4\"/>\n    <!-- glass highlight -->\n    <path d=\"M100 96 L106 96 L106 172 L100 164 Z\" fill=\"#ffffff\" fill-opacity=\"0.45\" stroke=\"none\"/>\n    <!-- bottom collar -->\n    <path d=\"M96 188 L160 188 L166 198 L90 198 Z\" fill=\"url(#tealMetal)\"/>\n    <!-- stem -->\n    <path d=\"M122 198 L134 198 L134 212 L122 212 Z\" fill=\"url(#tealMetal)\"/>\n    <!-- base -->\n    <path d=\"M64 228 Q64 212 128 212 Q192 212 192 228 Q192 240 128 240 Q64 240 64 228 Z\" fill=\"url(#tealMetal)\"/>\n  </g>\n</svg>",
+  "raw_receipt_sha256": "d61262344aaf1168bc43bd82b3d5620e6dc879da3db2266266055509dd9d626c"
+}

@@ -1,0 +1,33 @@
+{
+  "purpose": "neutral synthetic audio transport/content control",
+  "fixture_sha256": "de7314f29f9230dc3791f7bfcb1bb05e88b71d5b249158f796ddda7593b2130a",
+  "model_requested": "gemini-3.8-flash-medium",
+  "model_reported": "gemini-3.8-flash-medium",
+  "effort_requested": "medium",
+  "effective_effort": "unverified",
+  "permission_mode": "request-review",
+  "advertised_tool_count": 60,
+  "actual_tool": "read_file",
+  "read_state": "DONE",
+  "other_tool_steps": 0,
+  "audio_payload_or_mime_visible_in_trace": false,
+  "exit_code": 0,
+  "elapsed_seconds": 19.372786,
+  "peak_sampled_private_bytes": 202092544,
+  "stdout_characters_drained": 5357,
+  "stdout_truncated": false,
+  "stderr_characters_drained": 78,
+  "stderr_truncated": false,
+  "result_status": "SUCCESS",
+  "finished_reason": "not reported",
+  "response": "Based on the audio in item.wav:\n\n- **Number of distinct tones:** 3 distinct tones.\n- **Pitch progression:** The pitch **rises** between successive tones (ascending in pitch from the first tone to the second, and from the second to the third).\n",
+  "usage": {
+    "input_tokens": 14289,
+    "output_tokens": 1337,
+    "thinking_tokens": 1125,
+    "cache_read_tokens": 0,
+    "total_tokens": 15626
+  },
+  "raw_receipt_sha256": "b853d5d95f72bae4ec7ebf96621588c029f93efab5a75639c6cd53cf9edbf330",
+  "redaction": "Replaced local audio link; machine/session fields omitted."
+}

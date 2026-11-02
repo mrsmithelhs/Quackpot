@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <linearGradient id="amberGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd98a"/>
+      <stop offset="0.55" stop-color="#f5a623"/>
+      <stop offset="1" stop-color="#d9731a"/>
+    </linearGradient>
+    <linearGradient id="tealMetal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#35c2b6"/>
+      <stop offset="0.5" stop-color="#1d8f88"/>
+      <stop offset="1" stop-color="#136a65"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#1c2326" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- loop handle -->
+    <path d="M104 66 Q128 22 152 66" fill="none" stroke="#1c2326" stroke-width="13"/>
+    <path d="M104 66 Q128 22 152 66" fill="none" stroke="url(#tealMetal)" stroke-width="6"/>
+    <!-- top cap -->
+    <path d="M108 60 L148 60 L158 78 L98 78 Z" fill="url(#tealMetal)"/>
+    <!-- amber glass body -->
+    <path d="M100 78 L156 78 L166 100 L166 176 L156 188 L100 188 L90 176 L90 100 Z" fill="url(#amberGlass)"/>
+    <!-- frame bars -->
+    <path d="M116 82 L116 184 M140 82 L140 184 M128 80 L128 186" fill="none" stroke-width="4"/>
+    <!-- glass highlight -->
+    <path d="M100 96 L106 96 L106 172 L100 164 Z" fill="#ffffff" fill-opacity="0.45" stroke="none"/>
+    <!-- bottom collar -->
+    <path d="M96 188 L160 188 L166 198 L90 198 Z" fill="url(#tealMetal)"/>
+    <!-- stem -->
+    <path d="M122 198 L134 198 L134 212 L122 212 Z" fill="url(#tealMetal)"/>
+    <!-- base -->
+    <path d="M64 228 Q64 212 128 212 Q192 212 192 228 Q192 240 128 240 Q64 240 64 228 Z" fill="url(#tealMetal)"/>
+    <!-- coral button -->
+    <circle cx="128" cy="226" r="7" fill="#ff7f6e"/>
+  </g>
+</svg>

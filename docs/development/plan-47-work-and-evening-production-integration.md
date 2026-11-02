@@ -1,7 +1,8 @@
 ---
 id: plan-47
 title: Scheduled work and evening production integration
-status: delivered
+status: complete
+resolution: "Owner accepts integrated work, commute, dinner, periodic Call Mom and final fridge/rent presentation revisions. Root reviewed source and rendered evidence; later diegetic action study and gig/social integrations remain separate."
 depends_on: [plan-38, plan-40]
 gate: "Owner assigns Codex2026-11-01. Root approves one exact mechanism/source/save/event proposal before production mutation; then supervise through delivery. One Terra-medium pre-delivery reviewer authorized; final owner review is the integrated game."
 summary: >-

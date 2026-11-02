@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { launchIsolatedChrome, closeIsolatedChrome } from '../../../scripts/dev/checkpoints/cdp.mjs';
 
-const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/shelf-offset-captures');
+const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/stay-up-captures');
 await mkdir(output, { recursive: true });
 let browser, failureSnapshot; const events = []; const trace = [];
 try {
@@ -45,6 +45,21 @@ try {
   await evalJs('document.querySelector("#decision").scrollIntoView({block:"nearest"})'); await snap('narrow-used-phone');
   await evalJs(`document.querySelector('#scenario').value='late'; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('.target').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`); await snap('narrow-late');
   await evalJs(`document.querySelector('#scenario').value='future'; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); document.querySelector('.target').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`); await snap('narrow-future');
+  await evalJs(`document.querySelector('#scenario').value='used'; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true})); [...document.querySelectorAll('#rooms button')].find(b=>b.textContent==='Desk').click();`);
+  const separated = await evalJs(`(()=>{const a=document.querySelector('[aria-label="Stay up"]').getBoundingClientRect(),b=document.querySelector('[aria-label="Phone"]').getBoundingClientRect();return a.right<=b.left||b.right<=a.left||a.bottom<=b.top||b.bottom<=a.top})()`);
+  if (!separated) throw Error('Lamp and phone targets overlap');
+  await evalJs('document.querySelector(\'[aria-label="Stay up"]\').click(); document.querySelector("#decision").scrollIntoView({block:"nearest"})'); await snap('narrow-a-lamp');
+  await evalJs(`document.querySelector('#stay-layout').value='bed'; document.querySelector('#stay-layout').dispatchEvent(new Event('change',{bubbles:true})); [...document.querySelectorAll('#rooms button')].find(b=>b.textContent==='Bedroom').click(); document.querySelector('[aria-label="Bed · night choices"]').focus();`);
+  const choiceBedFocused = await evalJs(`document.activeElement?.getAttribute('aria-label')==='Bed · night choices'`);
+  trace.push({ name:'bed-choices-before-enter', choiceBedFocused });
+  if (!choiceBedFocused) throw Error('Bed choices did not receive initial focus');
+  await send('Input.dispatchKeyEvent', { type:'keyDown', key:'Enter', code:'Enter', text:'\r', unmodifiedText:'\r', windowsVirtualKeyCode:13 }); await send('Input.dispatchKeyEvent', { type:'keyUp', key:'Enter', code:'Enter', windowsVirtualKeyCode:13 });
+  await wait('!document.querySelector("#decision").hidden'); await evalJs(`document.querySelector('#decision').scrollIntoView({block:'nearest'})`); await snap('narrow-b-choices');
+  await evalJs(`[...document.querySelectorAll('#decision button')].find(b=>b.textContent==='Stay up for Late Night').click(); document.querySelector('#decision').scrollIntoView({block:'nearest'});`); await snap('narrow-b-stay-confirm');
+  await send('Input.dispatchKeyEvent', { type:'keyDown', key:'Escape', code:'Escape', windowsVirtualKeyCode:27 }); await send('Input.dispatchKeyEvent', { type:'keyUp', key:'Escape', code:'Escape', windowsVirtualKeyCode:27 });
+  const bedChoiceReturn = await evalJs(`document.querySelector('#decision').hidden && document.activeElement?.getAttribute('aria-label')==='Bed · night choices'`);
+  trace.push({ name:'bed-choices-escape-return', bedChoiceReturn, lampPhoneTargetsSeparated:separated });
+  if (!bedChoiceReturn) throw Error('Bed choices did not restore focus');
   if (events.length) throw Error(`Runtime exceptions: ${events.join('; ')}`);
   await writeFile(path.join(output, 'trace.json'), JSON.stringify({ description: 'Synthetic report-local fixtures, isolated browser, reduced motion; not a production journey.', trace, runtimeExceptions: events }, null, 2));
 } catch (error) {

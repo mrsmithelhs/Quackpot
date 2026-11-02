@@ -12,6 +12,7 @@ Current unresolved questions only, scheduling reconciled2026-11-02. Selected int
 
 ## Gacha and collection
 
+- Which primary progression structure should make successive gacha visits meaningful: collection-led, competition-led or event-led? Draft Plan54 compares matched visits and nonspending routes with a Sonnet consultant; no new rewards, session allowances, banner rules or set effects are selected by opening this question.
 - Which gacha visual compositions and broader identity catalog should follow the accepted layered-paper rig, animations, Duck-Dex and visual race/rest UI? Plans08/09/10/20/21/22 are accepted; those features are not missing foundations. Plan11 studies broader compositions/assets. No 3D physical-duck pipeline is selected.
 - How should closed Plan06's progressive contextual odds detail be integrated, preserving conditional Receipt odds and simple tutorial language? Exact banner carry/reset and whole-run tuning remain future evidence-based work.
 - Which pull anticipation/commercial urgency cues should Plan15 test, with what fictional game-time labels, dismissal/static paths and truthful event evidence? No new expiry, hidden behavior detection or Fast Pull price is selected.

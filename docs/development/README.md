@@ -62,6 +62,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-51` | Five-slot scheduler contract and calibration | complete | Specify and simulate the accepted five-slot day with slot-consuming meals, one shared pure scheduler, staged guidance and coherent obligation transactions before production integration. |
 | `plan-52` | Five-slot production transition and checkpoint refresh | in-progress | Integrate the accepted shared five-slot scheduler across life, work, meals, social play, gacha sessions, sleep, storage and Receipt, regenerating synthetic checkpoints and reconciling current docs. |
 | `plan-53` | Generated-track transcription and editable reconstruction | in-progress | Test local MuScriptor transcription of owner-provided Suno references, recover editable MIDI and resequence it with pinned TinySynth instruments, separating transcription quality from timbre quality. |
+| `plan-54` | Gacha progression and return-visit investigation | draft | Compare collection-led, competition-led and event-led reasons to return to Quackpot, using a Codex lead and reusable Sonnet design consultant in a report-local study that preserves the five-slot contract and accepted mechanics. |
 <!-- plan-index:end -->
 
 ## Report Folders

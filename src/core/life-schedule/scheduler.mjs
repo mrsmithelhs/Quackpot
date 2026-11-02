@@ -44,6 +44,7 @@ export function inspect(state, balances, intent, context = {}) {
     destination = SLOTS[SLOTS.indexOf(s.slot) + 1];
   } else if (intent.type === 'start' || intent.type === 'play') {
     const play = intent.type === 'play';
+    if (s.day === 1 && m && !s.active) return fail('tutorial_meal_choice_required');
     if (play && !['pull','race'].includes(intent.kind)) return fail('invalid_play');
     if (play && context.operationAvailable !== true) return fail('operation_unavailable');
     if (!play && !['work','overtime','social','leisure','early-bed','quiet'].includes(intent.kind)) return fail('invalid_activity');

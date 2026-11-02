@@ -1,7 +1,7 @@
 ---
 id: plan-49
 title: Diegetic apartment action map and room-use study
-status: ready
+status: in-progress
 depends_on: [plan-47]
 gate: "Owner requests Codex-led study2026-11-01 with Sonnet writing/ideation/larger-art consultation and Haiku small drawings. Compare with owner, then root reviews mapping/integration seams; this packet never authorizes production writes."
 summary: >-

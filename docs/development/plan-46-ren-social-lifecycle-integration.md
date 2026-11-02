@@ -1,7 +1,7 @@
 ---
 id: plan-46
 title: Ren invitation and social lifecycle integration
-status: ready
+status: in-progress
 depends_on: [plan-41, plan-38, plan-45, plan-47]
 gate: "Owner requests Codex-led multi-model execution2026-11-01. Codex owns engineering; Sonnet supplies batched writing/experience and larger-art support, Haiku small drawing support. Mechanism and owner/root decisions precede production mutation; preserve accepted Plan45/47 baseline and one life resolver."
 summary: >-

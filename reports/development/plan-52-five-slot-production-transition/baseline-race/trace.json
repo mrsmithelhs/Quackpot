@@ -1,0 +1,153 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/ui/life/life-phone-view.js": "842e3c8f89e70429350761cff078d5028f0f04e46bb7d4d9c3e0acdff734dba9",
+    "src/ui/gacha-view.js": "c7b7965775bb2b91b02a1ed1f2feb1c5656e3723d84b004062d7d3f4fcf58c00",
+    "src/ui/race-view.js": "d04f2fa57c41be7060a3427eceec73cbeb3b77c8d6d12d7b4bcd11b582b4a074",
+    "src/ui/race-playback-controller.mjs": "758bb2e52f2ceea541a00fc13d5a2ff55a33f63292ed01b6d807c4b3e9968714",
+    "src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191"
+  },
+  "fixture": "../baseline-phone/hub-generated.save.json",
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "route": "restore actual isolated app-generated validated hub save; welcome pull, reveal all, race, settled podium",
+  "captures": [
+    {
+      "name": "hub-restored",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off."
+    },
+    {
+      "name": "race-entry-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\nDuck-Dex\nField pace: 8.0 rating. Finish places and awards are determined by actual crossings.\nChoose an owned digital racer\nPond Rocket\nrare · speed rating 14\nRace rating 14\nRested. No prior finished race.\nTurbo Drake\nrare · speed rating 14\nRace rating 14\nRested. No prior finished race.\nBath Cadet\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nPuddle Quacker\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nRubber Mallard\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\n\nA duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n\nChoose a stance\nSteady pace\nMore consistent pacing\nVariable pace\nWider swings in pacing\nExchange 3 Down for a +5% one-race speed upgrade\n\nAvailable Down: 13\n\nStart race"
+    },
+    {
+      "name": "race-entry-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\nDuck-Dex\nField pace: 8.0 rating. Finish places and awards are determined by actual crossings.\nChoose an owned digital racer\nPond Rocket\nrare · speed rating 14\nRace rating 14\nRested. No prior finished race.\nTurbo Drake\nrare · speed rating 14\nRace rating 14\nRested. No prior finished race.\nBath Cadet\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nPuddle Quacker\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nRubber Mallard\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\n\nA duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n\nChoose a stance\nSteady pace\nMore consistent pacing\nVariable pace\nWider swings in pacing\nExchange 3 Down for a +5% one-race speed upgrade\n\nAvailable Down: 13\n\nStart race"
+    },
+    {
+      "name": "race-podium-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\n1st place! +50 Gems\n\nFINISH\nRival A\nPond Rocket\nRival B\nRival C\nRival D\nRival E\nFINISH\n2nd place\nRival B\n20 Gems\n1st place (you!)\nPond Rocket\n50 Gems\n3rd place\nRival C\n10 Gems\n\nRival E crossed the finish line.\n\n22.56s\nPause\nReplay race\nRace timeline and stills\nPond Rocket crossed first\n\n1st place! +50 Gems\n\nFinal results by finish order:\n\nPond Rocket — place 1, 50 Gems (you!)\nRival B — place 2, 20 Gems\nRival C — place 3, 10 Gems\nRival D — place 4, 0 Gems\nRival A — place 5, 0 Gems\nRival E — place 6, 0 Gems\nContinueDuck-Dex"
+    },
+    {
+      "name": "race-podium-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\n1st place! +50 Gems\n\nFINISH\nRival A\nPond Rocket\nRival B\nRival C\nRival D\nRival E\nFINISH\n2nd place\nRival B\n20 Gems\n1st place (you!)\nPond Rocket\n50 Gems\n3rd place\nRival C\n10 Gems\n\nRival E crossed the finish line.\n\n22.56s\nPause\nReplay race\nRace timeline and stills\nPond Rocket crossed first\n\n1st place! +50 Gems\n\nFinal results by finish order:\n\nPond Rocket — place 1, 50 Gems (you!)\nRival B — place 2, 20 Gems\nRival C — place 3, 10 Gems\nRival D — place 4, 0 Gems\nRival A — place 5, 0 Gems\nRival E — place 6, 0 Gems\nContinueDuck-Dex"
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 44704,
+        "ppid": 33080,
+        "created": "11/02/2026 17:57:12",
+        "root": true
+      },
+      {
+        "pid": 29476,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 5916,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 43548,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 48040,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 35796,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 3208,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 46756,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 44924,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 47200,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:12",
+        "root": false
+      },
+      {
+        "pid": 28748,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:13",
+        "root": false
+      },
+      {
+        "pid": 44864,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:16",
+        "root": false
+      },
+      {
+        "pid": 24440,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:16",
+        "root": false
+      },
+      {
+        "pid": 17560,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:16",
+        "root": false
+      },
+      {
+        "pid": 21476,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:26",
+        "root": false
+      },
+      {
+        "pid": 34412,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:26",
+        "root": false
+      },
+      {
+        "pid": 45872,
+        "ppid": 44704,
+        "created": "11/02/2026 17:57:28",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

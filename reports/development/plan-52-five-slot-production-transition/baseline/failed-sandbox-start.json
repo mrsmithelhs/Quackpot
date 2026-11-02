@@ -1,0 +1,17 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/kitchen-setup-view.js": "4101a857b6ef37172d7e5b1523ab1e84aebd83b16d844eb41d70249c0f5f6d5a"
+  },
+  "url": "http://localhost:5173/Quackpot/",
+  "storage": "new isolated Chrome profile; no owner data",
+  "captures": [],
+  "error": "Error: Isolated Chrome startup failed; cleanup={\"residual\":false,\"uncertainty\":true,\"childExitCode\":4294930433,\"treeTerminationConfirmed\":false,\"profileRemoved\":false,\"trackedDescendants\":[],\"remainingDescendants\":[],\"chromeStderr\":\"[1102/174527.837:ERROR:third_party\\\\crashpad\\\\crashpad\\\\util\\\\win\\\\registration_protocol_win.cc:136] TransactNamedPipe: The pipe has been ended. (0x6D)\\r\\n[1102/174527.870:ERROR:third_party\\\\crashpad\\\\crashpad\\\\client\\\\crashpad_client_win.cc:145] crash server failed to launch, self-terminating\\r\\n\"}; Owned process-tree inspection failed (1): Get-CimInstance : Access to a CIM resource was not available to the client.\r\nAt C:\\AI\\Quackpot\\scripts\\dev\\checkpoints\\process-tree.ps1:3 char:16\r\n+ ... ocesses = @(Get-CimInstance -ClassName Win32_Process -Property Proces ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (:) [Get-CimInstance], CimException\r\n    + FullyQualifiedErrorId : Microsoft.Management.Infrastructure.CimException,Microsoft.Management.Infrastructure.Cim \r\n   Cmdlets.GetCimInstanceCommand\r\n \r\n",
+  "cleanup": null
+}

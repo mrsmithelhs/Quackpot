@@ -1,0 +1,216 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/kitchen-setup-view.js": "4101a857b6ef37172d7e5b1523ab1e84aebd83b16d844eb41d70249c0f5f6d5a"
+  },
+  "url": "http://localhost:5173/Quackpot/",
+  "storage": "new isolated Chrome profile; no owner data",
+  "captures": [
+    {
+      "name": "fresh-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning"
+    },
+    {
+      "name": "fresh-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning"
+    },
+    {
+      "name": "post-setup-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "post-setup-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "breakfast-decision",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nBreakfast from the bakery downstairs\n\nBreakfast costs $6.00.\n\nCash on hand: $80.00 → $74.00.\n\nBuy breakfast for $6.00\nSkip breakfast (−5 HP)\nPut it down\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "breakfast-complete",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDay 1 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "desk-keys",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nDay 1 · morning\nThe kitchen →\nThe living room →"
+    },
+    {
+      "name": "work-keys-decision",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nHead to work?\n\nYour scheduled shift pays $60.00 after completion.\n\nLeaving now begins the shift.\n\nTake the keys and go\nNot now\nDay 1 · morning\nThe kitchen →\nThe living room →"
+    },
+    {
+      "name": "work-departure",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOn the way to work\n\nA clean, invigorating autumn breeze sweeps off the bay. You listen to an engaging science podcast that makes the twenty-minute walk feel effortless.\n\nYou arrive at the warehouse gate feeling awake and mentally clear.\n\nArrive at work"
+    },
+    {
+      "name": "work-departure-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOn the way to work\n\nA clean, invigorating autumn breeze sweeps off the bay. You listen to an engaging science podcast that makes the twenty-minute walk feel effortless.\n\nYou arrive at the warehouse gate feeling awake and mentally clear.\n\nArrive at work"
+    },
+    {
+      "name": "work-shift-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nYour shift\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nStandard cardboard cartons slide down the rollers at a predictable cadence. No backlogs, no equipment alarms. You find an even, automatic rhythm. The break clock ticks down steadily. You finish the third pallet exactly on schedule.\n\nComplete shift"
+    },
+    {
+      "name": "work-shift-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nYour shift\n\nA shipment of flimsy, undersized cardboard cartons tears along every seam. You struggle to tape reinforced corners as heavy tape dispenser teeth nick your knuckles. Cardboard dust coats your mouth and throat. The bin backlog creeps upward.\n\nStandard cardboard cartons slide down the rollers at a predictable cadence. No backlogs, no equipment alarms. You find an even, automatic rhythm. The break clock ticks down steadily. You finish the third pallet exactly on schedule.\n\nComplete shift"
+    },
+    {
+      "name": "payslip-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "payslip-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "return-home-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDinner\nDay 1 · evening\nThe desk →\nThe living room →\nSit with Duck · up to +5 HP →\nChoose dinner first.\nTurn in for the night →\nStay up for Late Night →"
+    },
+    {
+      "name": "evening-desk-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nEvening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nSit with Duck · +5 HP\nDay 1 · evening\nThe kitchen →\nThe living room →\nWork messages →\nTurn in for the night →\nStay up for Late Night →"
+    },
+    {
+      "name": "phone-hub-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off.\n\nQUACKPOT"
+    },
+    {
+      "name": "phone-hub-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off."
+    },
+    {
+      "name": "hub-generated-save",
+      "valid": true
+    },
+    {
+      "name": "revealed-cards-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPOND OF DESTINY\nPond of Destiny\n\nYour committed pull\n\nCommon: 80%\nRare: 18%\nLegendary: 2%\nDuck-Dex\n✓ All 10 ducks revealed!\nⅡ\nPause or resume the decorative motion on revealed digital ducks.\nCOMMON\nBath Cadet\nSpeed: 10.0\nNEW!\nRARE\nPond Rocket\nSpeed: 14.0\nNEW!\nCOMMON\nPuddle Quacker\nSpeed: 10.0\nNEW!\nCOMMON\nPuddle Quacker\nSpeed: 10.0\n+1 Down\nCOMMON\nRubber Mallard\nSpeed: 10.0\nNEW!\nCOMMON\nRubber Mallard\nSpeed: 10.0\n+1 Down\nRARE\nTurbo Drake\nSpeed: 14.0\nNEW!\nCOMMON\nRubber Mallard\nSpeed: 10.0\n+1 Down\nRARE\nTurbo Drake\nSpeed: 14.0\n+5 Down\nRARE\nTurbo Drake\nSpeed: 14.0\n+5 Down\nPull complete\n\nYou have 5 unique ducks in your digital stable.\n\nDuplicate ducks converted to 13 Down.\n\nReturn to Quackpot ➔\n✨ 5 new ducks added to Duck-Dex!\nDuplicate ducks are automatically returned and converted to Down. This common duplicate awarded 1 Down. Common duplicates award 1, Rare 5, and Legendary 20.\n×"
+    },
+    {
+      "name": "revealed-cards-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPOND OF DESTINY\nPond of Destiny\n\nYour committed pull\n\nCommon: 80%\nRare: 18%\nLegendary: 2%\nDuck-Dex\n✓ All 10 ducks revealed!\nⅡ\nPause or resume the decorative motion on revealed digital ducks.\nCOMMON\nBath Cadet\nSpeed: 10.0\nNEW!\nRARE\nPond Rocket\nSpeed: 14.0\nNEW!\nCOMMON\nPuddle Quacker\nSpeed: 10.0\nNEW!\nCOMMON\nPuddle Quacker\nSpeed: 10.0\n+1 Down\nCOMMON\nRubber Mallard\nSpeed: 10.0\nNEW!\nCOMMON\nRubber Mallard\nSpeed: 10.0\n+1 Down\nRARE\nTurbo Drake\nSpeed: 14.0\nNEW!\nCOMMON\nRubber Mallard\nSpeed: 10.0\n+1 Down\nRARE\nTurbo Drake\nSpeed: 14.0\n+5 Down\nRARE\nTurbo Drake\nSpeed: 14.0\n+5 Down\nPull complete\n\nYou have 5 unique ducks in your digital stable.\n\nDuplicate ducks converted to 13 Down.\n\nReturn to Quackpot ➔\n✨ 5 new ducks added to Duck-Dex!\nDuplicate ducks are automatically returned and converted to Down. This common duplicate awarded 1 Down. Common duplicates award 1, Rare 5, and Legendary 20.\n×"
+    },
+    {
+      "name": "receipt-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n100 HP\nDebt\n$0.00\nDigital ducks\n5\nDown\n13\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#27] Bundle shop shown (day 1 evening): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nSecondary-currency obfuscation\nWe displayed\n[#45] 5 reveal(s) showed a duplicate converted to Down, 13 Down in total.\nYou did / game recorded\nRecorded: No Down spending recorded.\nDid this affect you?\n\nDid Down affect how you valued duplicate ducks?\n\nAll supporting records\nExit friction\nWe displayed\n[#59] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#60] Recorded: Chose to leave immediately.\n[#62] Game recorded: Run then ended with route: uninstall.\nDid this affect you?\n\nDid the retention offer affect your decision to leave or stay?\n\nAll supporting records\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n10 draws committed · 10 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\npaid: 2 · waived: 0 · partially waived: 0 · unpaid: 0\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    },
+    {
+      "name": "receipt-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n100 HP\nDebt\n$0.00\nDigital ducks\n5\nDown\n13\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#27] Bundle shop shown (day 1 evening): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nSecondary-currency obfuscation\nWe displayed\n[#45] 5 reveal(s) showed a duplicate converted to Down, 13 Down in total.\nYou did / game recorded\nRecorded: No Down spending recorded.\nDid this affect you?\n\nDid Down affect how you valued duplicate ducks?\n\nAll supporting records\nExit friction\nWe displayed\n[#59] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#60] Recorded: Chose to leave immediately.\n[#62] Game recorded: Run then ended with route: uninstall.\nDid this affect you?\n\nDid the retention offer affect your decision to leave or stay?\n\nAll supporting records\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n10 draws committed · 10 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\npaid: 2 · waived: 0 · partially waived: 0 · unpaid: 0\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 42816,
+        "ppid": 19504,
+        "created": "11/02/2026 17:55:51",
+        "root": true
+      },
+      {
+        "pid": 3152,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 46712,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 39004,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 47560,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 2452,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 27716,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 47296,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 17348,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 39972,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:52",
+        "root": false
+      },
+      {
+        "pid": 16980,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:53",
+        "root": false
+      },
+      {
+        "pid": 26948,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:55",
+        "root": false
+      },
+      {
+        "pid": 18172,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:55",
+        "root": false
+      },
+      {
+        "pid": 25676,
+        "ppid": 42816,
+        "created": "11/02/2026 17:55:55",
+        "root": false
+      },
+      {
+        "pid": 42940,
+        "ppid": 42816,
+        "created": "11/02/2026 17:56:07",
+        "root": false
+      },
+      {
+        "pid": 7804,
+        "ppid": 42816,
+        "created": "11/02/2026 17:56:07",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

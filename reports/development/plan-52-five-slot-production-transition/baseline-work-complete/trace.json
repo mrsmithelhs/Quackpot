@@ -1,0 +1,172 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/kitchen-setup-view.js": "4101a857b6ef37172d7e5b1523ab1e84aebd83b16d844eb41d70249c0f5f6d5a"
+  },
+  "url": "http://localhost:5173/Quackpot/",
+  "storage": "new isolated Chrome profile; no owner data",
+  "captures": [
+    {
+      "name": "fresh-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning"
+    },
+    {
+      "name": "fresh-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning"
+    },
+    {
+      "name": "post-setup-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "post-setup-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "breakfast-decision",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nBreakfast\nBreakfast from the bakery downstairs\n\nBreakfast costs $6.00.\n\nCash on hand: $80.00 → $74.00.\n\nBuy breakfast for $6.00\nSkip breakfast (−5 HP)\nPut it down\nDay 1 · morning\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "breakfast-complete",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDay 1 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →"
+    },
+    {
+      "name": "desk-keys",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nDay 1 · morning\nThe kitchen →\nThe living room →"
+    },
+    {
+      "name": "work-keys-decision",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nTonight!\nReply LAUNCH\nLaunch invitation\nWork keys\nHead to work?\n\nYour scheduled shift pays $60.00 after completion.\n\nLeaving now begins the shift.\n\nTake the keys and go\nNot now\nDay 1 · morning\nThe kitchen →\nThe living room →"
+    },
+    {
+      "name": "work-departure",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOn the way to work\n\nWalking past the gray brick apartment blocks under an overcast sky. Neutral morning traffic hums by. Pigeons peck at breadcrumbs on the phone booth roof.\n\nNeither rushed nor delayed. An uneventful walk to the turnstile.\n\nArrive at work"
+    },
+    {
+      "name": "work-departure-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOn the way to work\n\nWalking past the gray brick apartment blocks under an overcast sky. Neutral morning traffic hums by. Pigeons peck at breadcrumbs on the phone booth roof.\n\nNeither rushed nor delayed. An uneventful walk to the turnstile.\n\nArrive at work"
+    },
+    {
+      "name": "work-shift-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nYour shift\n\nA misrouted pallet of ceramic mugs jams the transfer arm. The line supervisor hovers over your shoulder, checking his stopwatch without uttering a word. Your lumbar spine throbs. Fluorescent tubes flicker violently. Time seems frozen in place.\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nComplete shift"
+    },
+    {
+      "name": "work-shift-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nYour shift\n\nA misrouted pallet of ceramic mugs jams the transfer arm. The line supervisor hovers over your shoulder, checking his stopwatch without uttering a word. Your lumbar spine throbs. Fluorescent tubes flicker violently. Time seems frozen in place.\n\nEverything clicks: tape dispensers glide without tangling, labels stick cleanly, and your station finishes the freight run fifteen minutes before the final truck departure. You take a leisurely stretch and lean against the clean workbench.\n\nComplete shift"
+    },
+    {
+      "name": "payslip-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "payslip-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 afternoon\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home"
+    },
+    {
+      "name": "return-home-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDinner\nDay 1 · evening\nThe desk →\nThe living room →\nSit with Duck · up to +5 HP →\nChoose dinner first.\nTurn in for the night →\nStay up for Late Night →"
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 2764,
+        "ppid": 47428,
+        "created": "11/02/2026 17:54:32",
+        "root": true
+      },
+      {
+        "pid": 43788,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:32",
+        "root": false
+      },
+      {
+        "pid": 2440,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:32",
+        "root": false
+      },
+      {
+        "pid": 42720,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 12728,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 9824,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 30368,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 47724,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 47608,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 8148,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 41316,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:33",
+        "root": false
+      },
+      {
+        "pid": 7732,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:36",
+        "root": false
+      },
+      {
+        "pid": 38096,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:36",
+        "root": false
+      },
+      {
+        "pid": 1344,
+        "ppid": 2764,
+        "created": "11/02/2026 17:54:36",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/life/ren-door-view.mjs": "28ba07baf4c85bb1d2dbaeeff1ce7ea5b4efead7bf2549aaa5a7c1fa4b1aa437",
+    "src/ui/life/ren-scene-view.mjs": "2f86e5118ddd5abecbdd43b9be353f11d0747d2f9e0e703e0b97248024ad4511",
+    "src/ui/life/ren46.css": "c3a838e7757f499085659a5d88c6fa5e56b91cf76ff11daadc9797f4177c576f"
+  },
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "route": "actual UI from validated hub save, return to apartment, sleep, door",
+  "phase": "door",
+  "captures": [
+    {
+      "name": "evening-return",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nEvening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nSit with Duck · +5 HP\nDay 1 · evening\nThe kitchen →\nThe living room →\nWork messages →\nTurn in for the night →\nStay up for Late Night →",
+      "scrollY": 0
+    },
+    {
+      "name": "day2-morning",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nDay 2 · morning\nThe kitchen →\nThe living room →\nThe door →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-knock-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSomeone is knocking\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-knock-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSomeone is knocking\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-intro-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\noh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.\nDecide\nNice to meet you\nWhat brings you by?\nNot a great time\nClose for now\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-intro-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\noh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.\nDecide\nNice to meet you\nWhat brings you by?\nNot a great time\nClose for now\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 36124,
+        "ppid": 25392,
+        "created": "11/02/2026 18:01:49",
+        "root": true
+      },
+      {
+        "pid": 38172,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:49",
+        "root": false
+      },
+      {
+        "pid": 44644,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:49",
+        "root": false
+      },
+      {
+        "pid": 42464,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:49",
+        "root": false
+      },
+      {
+        "pid": 12024,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:49",
+        "root": false
+      },
+      {
+        "pid": 11344,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 44496,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 46704,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 43568,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 38024,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 44300,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:50",
+        "root": false
+      },
+      {
+        "pid": 36880,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:53",
+        "root": false
+      },
+      {
+        "pid": 42716,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:53",
+        "root": false
+      },
+      {
+        "pid": 39156,
+        "ppid": 36124,
+        "created": "11/02/2026 18:01:53",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

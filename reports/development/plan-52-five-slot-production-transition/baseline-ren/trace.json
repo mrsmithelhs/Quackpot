@@ -1,0 +1,126 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/life/ren-door-view.mjs": "28ba07baf4c85bb1d2dbaeeff1ce7ea5b4efead7bf2549aaa5a7c1fa4b1aa437",
+    "src/ui/life/ren-scene-view.mjs": "2f86e5118ddd5abecbdd43b9be353f11d0747d2f9e0e703e0b97248024ad4511",
+    "src/ui/life/ren46.css": "c3a838e7757f499085659a5d88c6fa5e56b91cf76ff11daadc9797f4177c576f"
+  },
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "route": "actual UI from validated hub save, return to apartment, sleep, door",
+  "phase": "sleep",
+  "captures": [
+    {
+      "name": "evening-return",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off.\n\nQUACKPOT",
+      "scrollY": 0
+    }
+  ],
+  "error": "Error: timeout Array.from(document.querySelectorAll('button')).find(x=>x.textContent.trim()===\"Turn in for the night\")",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 1648,
+        "ppid": 4260,
+        "created": "11/02/2026 17:59:30",
+        "root": true
+      },
+      {
+        "pid": 10156,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 47404,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 11384,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 12892,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 31264,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 37972,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 47436,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 42500,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 18328,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 46152,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:30",
+        "root": false
+      },
+      {
+        "pid": 47248,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:31",
+        "root": false
+      },
+      {
+        "pid": 47892,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:33",
+        "root": false
+      },
+      {
+        "pid": 25528,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:33",
+        "root": false
+      },
+      {
+        "pid": 21408,
+        "ppid": 1648,
+        "created": "11/02/2026 17:59:34",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

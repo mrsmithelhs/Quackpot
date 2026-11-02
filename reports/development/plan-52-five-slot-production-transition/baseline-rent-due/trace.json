@@ -1,0 +1,197 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/life-social.mjs": "5446ef7471c0d083215e2df4b726220ee340a8830be7751e5132778ce33dbc07",
+    "src/core/life-social-door.mjs": "f3092c82153d7bd0df8fb6cb9ab52b06ea885a3247f3f29ca586ce9b1aa81927",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/ui/life/life-view.js": "3fa5a7f3ccb376c6a83324ab2ed9a565157215b87554cb55d02440d591fbf863",
+    "src/ui/life/ren-door-view.mjs": "28ba07baf4c85bb1d2dbaeeff1ce7ea5b4efead7bf2549aaa5a7c1fa4b1aa437",
+    "src/ui/life/ren-scene-view.mjs": "2f86e5118ddd5abecbdd43b9be353f11d0747d2f9e0e703e0b97248024ad4511",
+    "src/ui/life/ren46.css": "c3a838e7757f499085659a5d88c6fa5e56b91cf76ff11daadc9797f4177c576f"
+  },
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "route": "actual UI from validated hub save, return to apartment, sleep, door",
+  "phase": "ren phone",
+  "captures": [
+    {
+      "name": "evening-return",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nEvening\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nSit with Duck · +5 HP\nDay 1 · evening\nThe kitchen →\nThe living room →\nWork messages →\nTurn in for the night →\nStay up for Late Night →",
+      "scrollY": 0
+    },
+    {
+      "name": "day2-morning",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nMorning\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nDay 2 · morning\nThe kitchen →\nThe living room →\nThe door →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-knock-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSomeone is knocking\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-knock-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSomeone is knocking\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-intro-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\noh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.\nDecide\nNice to meet you\nWhat brings you by?\nNot a great time\nClose for now\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "door-intro-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\noh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird.\nDecide\nNice to meet you\nWhat brings you by?\nNot a great time\nClose for now\nDay 2 · morning\nThe kitchen →\nThe desk →\nThe living room →",
+      "scrollY": 0
+    },
+    {
+      "name": "rent-notice-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$122.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDay 2 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →\nThe door →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2.\nthree days. 2\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nDecide\n: Remaining rent balance",
+      "scrollY": 0
+    },
+    {
+      "name": "rent-notice-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 morning\n💵\nCash:\n$122.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDay 2 · morning\nYour work keys are on the desk.\nThe desk →\nThe living room →\nThe door →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2.\nthree days. 2\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nDecide\n: Remaining rent balance",
+      "scrollY": 0
+    },
+    {
+      "name": "ren-phone-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nevening ● ● ●\nRen\n\ni could come by this evening for a chat. no pressure.\n\nDecide\nAccept this evening\nNot this time\nAnother evening\nSuggest game night instead\nClose",
+      "scrollY": 0
+    },
+    {
+      "name": "ren-phone-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nevening ● ● ●\nRen\n\ni could come by this evening for a chat. no pressure.\n\nDecide\nAccept this evening\nNot this time\nAnother evening\nSuggest game night instead\nClose",
+      "scrollY": 0
+    },
+    {
+      "name": "ren-arrival-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\nhey. i’m here.\nDecide\nWelcome Ren in · uses this Evening\nDay 2 · evening\nThe desk →\nThe kitchen →\nThe living room →\nSit with Duck · up to +5 HP →\nTurn in for the night →\nStay up for Late Night →",
+      "scrollY": 0
+    },
+    {
+      "name": "ren-arrival-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\nhey. i’m here.\nDecide\nWelcome Ren in · uses this Evening\nDay 2 · evening\nThe desk →\nThe kitchen →\nThe living room →\nSit with Duck · up to +5 HP →\nTurn in for the night →\nStay up for Late Night →",
+      "scrollY": 0
+    },
+    {
+      "name": "failure-body",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nday 2 evening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nRen\nhey. good to see you.\nDecide\nGood to see you too\nHow are you?"
+    }
+  ],
+  "error": "Error: timeout (()=>{const a=Array.from(document.querySelectorAll('button')).filter(x=>!x.disabled&&x.getClientRects().length&&x.textContent.trim().replace(/\\s*→$/, '')===\"Continue\");return a.length===1?a[0]:null})()",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 27272,
+        "ppid": 12736,
+        "created": "11/02/2026 18:06:00",
+        "root": true
+      },
+      {
+        "pid": 44148,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:00",
+        "root": false
+      },
+      {
+        "pid": 46308,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 41256,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 47412,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 16932,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 32664,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 46188,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 33100,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 40052,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 44912,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:01",
+        "root": false
+      },
+      {
+        "pid": 46452,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:04",
+        "root": false
+      },
+      {
+        "pid": 46420,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:04",
+        "root": false
+      },
+      {
+        "pid": 44656,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:04",
+        "root": false
+      },
+      {
+        "pid": 36124,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:13",
+        "root": false
+      },
+      {
+        "pid": 44816,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:13",
+        "root": false
+      },
+      {
+        "pid": 12528,
+        "ppid": 27272,
+        "created": "11/02/2026 18:06:15",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

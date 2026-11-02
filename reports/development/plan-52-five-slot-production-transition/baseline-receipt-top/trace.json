@@ -1,0 +1,117 @@
+{
+  "sourceCommit": "406c8de7a4183575fdde93c2fd613c4f3765c592",
+  "sourcePins": {
+    "src/main.js": "7ec1e48785dc7c88f935244f68aabab318cc31a87bfaca7c4f9e3946a1533eb2",
+    "src/core/game-engine.mjs": "b0f31784c3d36a3f08ced8b96f63c70c47357e5cb519c343b41619596a7e2a05",
+    "src/core/storage.mjs": "e2625b81a811ad597d9cfcec5fd05d3be10523d67e4273f430855a2485588738",
+    "src/core/life-progression.mjs": "e39712eb722636a6375bd22915c8b7e6368a85bbc5b150257e3308a14cc70440",
+    "src/ui/life/life-phone-view.js": "842e3c8f89e70429350761cff078d5028f0f04e46bb7d4d9c3e0acdff734dba9",
+    "src/ui/gacha-view.js": "c7b7965775bb2b91b02a1ed1f2feb1c5656e3723d84b004062d7d3f4fcf58c00",
+    "src/ui/race-view.js": "d04f2fa57c41be7060a3427eceec73cbeb3b77c8d6d12d7b4bcd11b582b4a074",
+    "src/ui/race-playback-controller.mjs": "758bb2e52f2ceea541a00fc13d5a2ff55a33f63292ed01b6d807c4b3e9968714",
+    "src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191"
+  },
+  "fixture": "../baseline-phone/hub-generated.save.json",
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "route": "restore actual isolated app-generated validated hub save; immediate Uninstall/Leave; top of Receipt",
+  "captures": [
+    {
+      "name": "hub-restored",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off."
+    },
+    {
+      "name": "receipt-top-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n100 HP\nDebt\n$0.00\nDigital ducks\n0\nDown\n0\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#27] Bundle shop shown (day 1 evening): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nExit friction\nWe displayed\n[#32] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#33] Recorded: Chose to leave immediately.\n[#34] Game recorded: Run then ended with route: uninstall.\nDid this affect you?\n\nDid the retention offer affect your decision to leave or stay?\n\nAll supporting records\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n0 draws committed · 0 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\npaid: 2 · waived: 0 · partially waived: 0 · unpaid: 0\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    },
+    {
+      "name": "desktop-scrollY",
+      "value": 0
+    },
+    {
+      "name": "receipt-top-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n100 HP\nDebt\n$0.00\nDigital ducks\n0\nDown\n0\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#27] Bundle shop shown (day 1 evening): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nExit friction\nWe displayed\n[#32] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#33] Recorded: Chose to leave immediately.\n[#34] Game recorded: Run then ended with route: uninstall.\nDid this affect you?\n\nDid the retention offer affect your decision to leave or stay?\n\nAll supporting records\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n0 draws committed · 0 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\npaid: 2 · waived: 0 · partially waived: 0 · unpaid: 0\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    },
+    {
+      "name": "narrow-scrollY",
+      "value": 0
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 26800,
+        "ppid": 28724,
+        "created": "11/02/2026 18:07:09",
+        "root": true
+      },
+      {
+        "pid": 27352,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 47380,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 41300,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 46404,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 17180,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 4260,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 43176,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 45940,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 39436,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:09",
+        "root": false
+      },
+      {
+        "pid": 12116,
+        "ppid": 26800,
+        "created": "11/02/2026 18:07:10",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[Transient browser diagnostics omitted; cleanup fields retained.]"
+  }
+}

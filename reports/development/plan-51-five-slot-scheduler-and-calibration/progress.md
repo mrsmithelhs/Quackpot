@@ -29,3 +29,5 @@ Root found a further selected-rule gap after the initial candidate delivery: Day
 ## Report-only closure proposal
 
 At root's request, `f75777e` adds one compact remaining-decisions table to `contract-and-handoff.md`: adopted rules, tunable recovery/fatigue/overtime values, concrete rent/withholding/recovery, sales and credit proposals, unresolved escalation/exhaustion, deferred ending and experience details, and the distinct gate each affects. Recommendations are not owner decisions and do not change the current Plan52 gate. No source or test changed; no new validation run or reviewer was warranted for this prose-only addition. Root/owner decide the disposition.
+
+Root requested two report-only clarifications in the closure table: the early-bed and later fatigue arithmetic explicitly occurs on different days, and the proposed temporary credit exclusion is a development boundary, not authorization to ship a student route frozen at unresolved crisis. Immediate Uninstall remains available and whole-run acceptance stays blocked. Clarification savepoint `42e4c1c`; no owner adoption, source/test change or new review follows.

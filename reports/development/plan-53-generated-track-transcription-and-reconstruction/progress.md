@@ -11,3 +11,11 @@ The proposal is a review artifact, not proof that dependencies fit or the propos
 Advisor consultation: not warranted for this proposal-only prose milestone; no substantive tooling has been implemented. The packet authorizes a separate read-only Terra-medium review after substantive tooling, subject to its stated conditions. No packet status was changed. No push or deployment.
 
 Owned proposal committed as `dca2042`. The initially clean worktree was checked before work. Ready for orchestrator review of the proposal: **yes**; ready for packet delivery: **no**.
+
+## Preparation authorization and follow-up
+
+Root subsequently cleared preparation only. The proposal now puts caches and environment outside the repo, reduces the proposed inference job limit to 8 GiB and explicitly identifies OS-level network isolation as unresolved. Public metadata identified CPython 3.12.13 build 20260623 and beat-this 1.1.0; upstream source indicates a `final0` beat checkpoint may be fetched implicitly. Its exact artifact identity and size, complete dependency set, and cache staging remain open. No binary package or weights were downloaded. These metadata requests were not all explicitly configured with per-request timeouts; future metadata helpers must enforce finite timeouts and output bounds.
+
+Added `verify_inputs.py`, a read-only streaming SHA-256 manifest verifier. A Python standard-library synthetic check exercised a matching hash, mismatch and duplicate IDs successfully. It does not decode or select excerpts. Proposed control is Plan43's authored mixed M1 pilot score, subject to a bounded render plan and exact score/export verification; no control has been rendered or frozen. The owner must audition a suitable 20–30 second Suno excerpt before fixing its timecodes.
+
+**Not ready to bootstrap:** the required Windows Job Object supervisor and synthetic timeout/memory/child-cleanup tests have not yet been built; OS-enforced network isolation, full dependency/auxiliary-weight manifest and full-host inspection remain unresolved. The concurrent untracked Plan52 report directory is outside this scope and was left untouched. The helper is behavioral code; the authorized read-only reviewer is deferred until substantive tooling is complete. No package installation, model import, inference or owner listening occurred.

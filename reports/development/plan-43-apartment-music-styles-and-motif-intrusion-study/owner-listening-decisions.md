@@ -38,3 +38,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Rhythm-guitar direction and drums
 
 2026-11-02. Owner says to stop iterating on guitar tone for now: Level 4 may be good enough as a softer chord/background or rhythm-guitar role, while its remaining shortcomings are more exposed as a loud melodic lead. This is a provisional listening direction, not production or full-track acceptance. Owner asks to hear genuine TinySynth kick, snare and hi-hat individually and in an arrangement with Level 4 guitar and selected bass.
+
+## Drum audition feedback and revision request
+
+2026-11-02. Owner says the quieter-guitar/bass/drum arrangement sounds like music and, though still far from natural instruments, the effect is enough to work with in an arrangement. Owner hears the original kick more as a hip-hop drum machine than a real drum, the snare as partly rattling but also breathy/flute-like, and the closed hi-hat as a tap lacking a static-like “shhh” after attack. Owner invited drum revisions for listening. These are listener observations, not causal measurements or production approval. Owner's prior instruction to stop guitar-tone iteration remains in force.

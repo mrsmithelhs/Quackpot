@@ -1,0 +1,352 @@
+{
+  "records": [
+    {
+      "file": "kick.wav",
+      "sha256": "5217be0b004fe235fee83e0f30ad34c76ac4d845682ee5574169d44a5f738e40",
+      "bytes": 768044,
+      "kind": "kick",
+      "events": [
+        {
+          "note": 36,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 36,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 36,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.23710130155086517
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.1566152125597
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.08897048234939575
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 36,
+          "onset": 0.5,
+          "stop": 0.815
+        },
+        {
+          "note": 36,
+          "onset": 1.5,
+          "stop": 1.815
+        },
+        {
+          "note": 36,
+          "onset": 2.5,
+          "stop": 2.815
+        }
+      ],
+      "stats": {
+        "peak": 0.23710130155086517,
+        "rms": 0.020551080017229224,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "label": "modified per-instance upstream bank",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "effectivePatch": [
+          {
+            "w": "triangle",
+            "t": 0,
+            "f": 95,
+            "v": 0.85,
+            "d": 0.09,
+            "h": 0.02,
+            "p": 0.8,
+            "q": 0.06,
+            "g": 0,
+            "a": 0,
+            "s": 0,
+            "r": 0.05,
+            "k": 0
+          },
+          {
+            "w": "n0",
+            "g": 0,
+            "t": 0,
+            "f": 850,
+            "v": 0.13,
+            "d": 0.025,
+            "h": 0,
+            "r": 0.02,
+            "p": 1,
+            "a": 0,
+            "s": 0,
+            "q": 1,
+            "k": 0
+          }
+        ],
+        "tablesUnchanged": true,
+        "otherProgramsUnchanged": true,
+        "operators": 6,
+        "upstreamNodesUpper": 71,
+        "estimatedBytes": 10400280,
+        "noise": "upstream Math.random noise; not bit-repeatable",
+        "defaultBankHash": "0b557112cb3bfdf378460e3ff7cfa5377ed0d7468719da73e0fffc3f70d2e23a"
+      }
+    },
+    {
+      "file": "snare.wav",
+      "sha256": "601b0d6b00541075f0eba2a37d3fde1af35cd2c9406d35e7a57e7ec52d6c07c8",
+      "bytes": 768044,
+      "kind": "snare",
+      "events": [
+        {
+          "note": 38,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 38,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 38,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.16430841386318207
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.10673598945140839
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.06006384640932083
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 38,
+          "onset": 0.5,
+          "stop": 0.7625
+        },
+        {
+          "note": 38,
+          "onset": 1.5,
+          "stop": 1.7625
+        },
+        {
+          "note": 38,
+          "onset": 2.5,
+          "stop": 2.7625
+        }
+      ],
+      "stats": {
+        "peak": 0.16430841386318207,
+        "rms": 0.010527589157472964,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "label": "modified per-instance upstream bank",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "effectivePatch": [
+          {
+            "w": "n0",
+            "g": 0,
+            "t": 0,
+            "f": 550,
+            "v": 0.6,
+            "d": 0.075,
+            "h": 0.01,
+            "r": 0.02,
+            "p": 1,
+            "a": 0,
+            "s": 0,
+            "q": 1,
+            "k": 0
+          },
+          {
+            "w": "triangle",
+            "g": 0,
+            "t": 0,
+            "f": 180,
+            "v": 0.1,
+            "d": 0.035,
+            "h": 0,
+            "r": 0.02,
+            "p": 1,
+            "a": 0,
+            "s": 0,
+            "q": 1,
+            "k": 0
+          }
+        ],
+        "tablesUnchanged": true,
+        "otherProgramsUnchanged": true,
+        "operators": 6,
+        "upstreamNodesUpper": 71,
+        "estimatedBytes": 10400280,
+        "noise": "upstream Math.random noise; not bit-repeatable",
+        "defaultBankHash": "0b557112cb3bfdf378460e3ff7cfa5377ed0d7468719da73e0fffc3f70d2e23a"
+      }
+    },
+    {
+      "file": "hat.wav",
+      "sha256": "02580afd82de688d6758ee41a32c44231a4860228decbe90399befe897726fab",
+      "bytes": 768044,
+      "kind": "hat",
+      "events": [
+        {
+          "note": 42,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 42,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 42,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.05084538087248802
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.03254104405641556
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.018304338678717613
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 42,
+          "onset": 0.5,
+          "stop": 0.78
+        },
+        {
+          "note": 42,
+          "onset": 1.5,
+          "stop": 1.78
+        },
+        {
+          "note": 42,
+          "onset": 2.5,
+          "stop": 2.7800000000000002
+        }
+      ],
+      "stats": {
+        "peak": 0.05084538087248802,
+        "rms": 0.0031234429796309685,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "label": "modified per-instance upstream bank",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "effectivePatch": [
+          {
+            "w": "n0",
+            "g": 0,
+            "t": 0,
+            "f": 1250,
+            "v": 0.2,
+            "d": 0.08,
+            "h": 0,
+            "r": 0.02,
+            "p": 1,
+            "a": 0,
+            "s": 0,
+            "q": 1,
+            "k": 0
+          }
+        ],
+        "tablesUnchanged": true,
+        "otherProgramsUnchanged": true,
+        "operators": 3,
+        "upstreamNodesUpper": 65,
+        "estimatedBytes": 10400280,
+        "noise": "upstream Math.random noise; not bit-repeatable",
+        "defaultBankHash": "0b557112cb3bfdf378460e3ff7cfa5377ed0d7468719da73e0fffc3f70d2e23a"
+      }
+    }
+  ],
+  "total": 2304132,
+  "existing": 55105232,
+  "hashes": {
+    "revisions": "1d5f364a9c5a856143845698e12d086715d0d8f1a48937ec38adde0a060937b2",
+    "drumscore": "54bf73994a5f26de5456a3f760f92e40f2f2a3f4d413a2324d48ec712aeb488c",
+    "upstream": "dd2b1d95d64499dfc3c292858e8c2d6525dc0bcdc345a900b7db207dffaae38c",
+    "score": "e29f5af4abe846ef8c3d791279e1522a223fffe7ed9be894c1280a8cd74d184d",
+    "pickup": "1874c03c7e23330844114ee95173c14c731479b9530b634700372ff772bdf80a",
+    "budget": "52a2e94ad9041fc5608a9f6521987c12d2c0999cd166c98f503c7b7fd051639b",
+    "register": "02ce6a3eefeb979ff1cb3ca17e0ce02193bb41edd40a95cff0d2eef0d50dd8d4",
+    "phrase": "09cba727b032751879c356c9d5c9660a605bc8b829602de0a29b15a88eb7ee7a",
+    "variant": "883919db5efa6e8b857a8c0dd2a3b52933a7f540435d6ee70f2b4ce464df9ce0",
+    "page": "f4821805b2c6672cfb1c9b0894dfbcb6e53204c22dac82a6b3d7c9d2fffde2a2",
+    "pluck": "ce34ecdb84243152522445e5edecfe4c322472570a62b82c3fc18410431b35e9",
+    "engine": "f756539d1a564c0cf0fe997a0602a9fe9b93de5b7790a46e02c9bdc247ae3f82",
+    "patches": "e52172032484d5909cb6daf60b5ff6b7ab29f026879031d919d3e748e3b206f2",
+    "control": "5dd152239c0c5de7a944b0998ce9e4c30e56c103277f5b058dee5e90d10304fc"
+  },
+  "defaultBankHash": "0b557112cb3bfdf378460e3ff7cfa5377ed0d7468719da73e0fffc3f70d2e23a",
+  "requests": [
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/drum-revisions.html",
+    "http://localhost:5173/Quackpot/@vite/client",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/scores.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/patches.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/synth-engine.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/drum-revisions-page.mjs",
+    "http://localhost:5173/Quackpot/node_modules/vite/dist/client/env.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/tinysynth-drums.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/drum-revisions.mjs",
+    "http://localhost:5173/favicon.ico",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js"
+  ],
+  "runtimeErrors": [],
+  "networkCoverage": "Top CDP session; same-target iframe requests observed, not browser-global network"
+}

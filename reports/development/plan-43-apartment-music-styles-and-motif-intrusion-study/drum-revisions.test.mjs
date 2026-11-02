@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {revisedDrums,revisedStopSeconds,validateRevisions} from './drum-revisions.mjs';import {drumIsolates,validateDrums} from './tinysynth-drums.mjs';
+test('three modified timbres are bounded and have explicit finite stop lengths',()=>{const v=validateRevisions();assert.deepEqual(v.programs,[36,38,42]);assert.equal(v.maxStopSeconds,.315);for(const n of [36,38,42])assert(Math.abs(revisedDrums[n][0].d*3.5-revisedStopSeconds[n])<1e-9);});
+test('auditions keep the original three hit timing and velocity',()=>{for(const k of ['kick','snare','hat']){const e=drumIsolates[k],v=validateDrums(e,4);assert.equal(v.events,3);assert.deepEqual(e.map(x=>x.time),[.5,1.5,2.5]);assert.deepEqual(e.map(x=>x.velocity),[100,80,60]);}});
+
+test('invalid operator fields fail before browser graph',()=>{const copy=JSON.parse(JSON.stringify(revisedDrums));copy[36][0].p=Infinity;assert.throws(()=>validateRevisions(copy));copy[36][0].p=.8;copy[38][0].h=-1;assert.throws(()=>validateRevisions(copy));});

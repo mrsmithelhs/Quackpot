@@ -32,7 +32,7 @@ These are the exact bytes presented, with the model descriptions summarized alon
 
 ## Call method and finite trace
 
-Each fresh signed-in CLI call explicitly requested `gemini-3.8-flash-medium`, effort medium, plan mode, disabled slash commands and existing session-only restrictions. Init reported the requested model; effective effort, complete startup knowledge, session-policy merging and all alternate access paths remain unverified. No shell, web, source, metadata or analysis tools were available/requested in the prompt. The stream recorded exactly one `read_file` DONE for the intended path and no other actual tool step per case; it did not expose the payload. No finished-reason value was supplied. All results were nonempty `SUCCESS`, exit 0, with no reported timeout, resource stop or truncation. Usage is CLI-reported, not a billing amount.
+Each fresh signed-in CLI call explicitly requested `gemini-3.8-flash-medium`, effort medium, plan mode, disabled slash commands and existing session-only restrictions. Init reported the requested model; effective effort, complete startup knowledge, session-policy merging and all alternate access paths remain unverified. The prompts authorized only the intended file read; no shell, web, source, metadata or analysis tool executions were observed. Effective restrictions and startup context were incompletely audited. The stream recorded exactly one `read_file` DONE for the intended path and no other actual tool step per case; it did not expose the payload. No finished-reason value was supplied. All results were nonempty `SUCCESS`, exit 0, with no reported timeout, resource stop or truncation. Usage is CLI-reported, not a billing amount.
 
 | Case | Elapsed seconds | Sampled peak private bytes | Input / output tokens (thinking within output) | Full raw receipt SHA-256 |
 | --- | ---: | ---: | --- | --- |
@@ -43,5 +43,3 @@ Each fresh signed-in CLI call explicitly requested `gemini-3.8-flash-medium`, ef
 Calls were serial, with 90-second outer / 60-second print limits, 2 GiB sampled process-tree and 1 GiB heap limits and full capture; no retries or fallback. Preflight initially held before any call because an existing Quackpot Vite server matched an overly broad process filter. Root identified the steady server as noncompeting infrastructure, instructed it remain untouched and clarified that tests/builds/simulations/inference, large or runaway Node processes and insufficient memory remain stop conditions. The preflight was narrowed accordingly; at least 19 GiB was available before each call. The bounded process-tree launcher itself was unchanged.
 
 This is a bounded report for root/owner review before any further audio or motif experiments. No production files, packet status, standing workflow or adoption gates were changed.
-
-

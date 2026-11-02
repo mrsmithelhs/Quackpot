@@ -1,0 +1,70 @@
+<!doctype html><meta charset="utf-8"><title>Plan 43 adapter feasibility</title>
+<pre id="result">PENDING</pre>
+<script>
+(async () => {
+ const output=document.querySelector('#result');
+ const findings={test:'explicit offline initialization adapter feasibility',revision:1,cases:[]};
+ // The lock covers actual startRendering settlement, even if surrounding UI waits expire.
+ let rendering=false;
+ async function oneCase(addNote) {
+  const result={kind:addNote?'one-note':'initialization-only',sampleRate:48000,seconds:3};
+  const frame=document.createElement('iframe'); document.body.append(frame);
+  let original,offline,ticks=0;
+  try {
+   const w=frame.contentWindow, nativeInterval=w.setInterval.bind(w);
+   w.setInterval=(fn,ms)=>nativeInterval(()=>{ticks++;fn();},ms);
+   const unhandled=[];
+   w.addEventListener('unhandledrejection',e=>{unhandled.push(String(e.reason));});
+   const script=w.document.createElement('script'); script.src=new URL('vendor/webaudio-tinysynth.js',location.href).href;
+   await new Promise((resolve,reject)=>{script.onload=resolve;script.onerror=()=>reject(Error('upstream script load failed'));w.document.head.append(script);});
+   const synth=new w.WebAudioTinySynth({quality:1,useReverb:0,voices:16});
+   original=synth.getAudioContext(); await original.close(); result.originalState=original.state;
+   offline=new w.OfflineAudioContext(2,144000,48000);
+   const oldOwn=Object.getOwnPropertyDescriptor(offline,'resume');
+   const oldIdentity=offline.resume; let calls=0, active=true;
+   try {
+    Object.defineProperty(offline,'resume',{configurable:true,writable:true,value:function(){
+     if(!active || this!==offline || offline.state!=='suspended' || ++calls>2) throw Error('unexpected initialization resume');
+     return Promise.resolve();
+    }});
+    if(offline.state!=='suspended')throw Error('offline not suspended before init');
+    synth.setAudioContext(offline);
+    if(offline.state!=='suspended'||calls!==2)throw Error('initialization invariant failed');
+   } finally {
+    active=false;
+    if(oldOwn)Object.defineProperty(offline,'resume',oldOwn); else if(!delete offline.resume)throw Error('cannot restore inherited resume');
+   }
+   const nowOwn=Object.getOwnPropertyDescriptor(offline,'resume');
+   result.resumeCalls=calls; result.resumeIdentityRestored=offline.resume===oldIdentity;
+   result.ownDescriptorRestored=(!oldOwn && !nowOwn) || Boolean(oldOwn && nowOwn && ['value','get','set','writable','enumerable','configurable'].every(k=>oldOwn[k]===nowOwn[k]));
+   result.stateAfterInit=offline.state;
+   if(!result.resumeIdentityRestored||!result.ownDescriptorRestored||offline.state!=='suspended')throw Error('method restoration failed');
+   synth.setTsMode(0); synth.setProgram(0,12);
+   if(addNote) { synth.noteOn(0,60,100,0.5); synth.noteOff(0,60,1); }
+   result.noteTable=synth.notetab.map(n=>({note:n.n,start:n.t,end:n.e,released:n.f}));
+   if(synth.notetab.length>16)throw Error('total note bound exceeded');
+   if(rendering)throw Error('offline render overlap');
+   rendering=true; let buffer;
+   try { buffer=await offline.startRendering(); } finally {rendering=false;}
+   result.offlineState=offline.state;
+   function stats(a,b){const data=buffer.getChannelData(0);let peak=0,sum=0;for(let i=Math.round(a*48000);i<Math.round(b*48000);i++){const x=data[i];peak=Math.max(peak,Math.abs(x));sum+=x*x;}return {peak,rms:Math.sqrt(sum/Math.round((b-a)*48000))};}
+   result.early=stats(0,0.4);result.note=stats(0.5,1);result.tail=stats(2,3);
+   await new Promise(r=>setTimeout(r,200)); result.unhandled=unhandled;
+   result.success=original.state==='closed' && offline.state==='closed' && calls===2 && unhandled.length===0 && (!addNote || result.noteTable.some(n=>n.n===60&&n.start===0.5&&n.released===1)) && (addNote ? result.note.peak>1e-6 : true);
+  } catch(e){result.error=String(e&&e.stack||e);result.success=false;}
+  finally {
+   if(original&&original.state!=='closed')await original.close().catch(e=>{result.originalCloseError=String(e);result.success=false;});
+   frame.remove(); result.frameRemoved=!frame.isConnected;
+   const before=ticks;await new Promise(r=>setTimeout(r,300));result.ticksAfterRemoval=ticks-before;
+   result.success=Boolean(result.success&&result.frameRemoved&&result.ticksAfterRemoval===0&&!rendering);
+  }
+  return result;
+ }
+ try {for(const addNote of [false,true]){const result=await oneCase(addNote);findings.cases.push(result);if(!result.success)break;} findings.success=findings.cases.length===2&&findings.cases.every(x=>x.success);}
+ catch(e){findings.error=String(e&&e.stack||e);findings.success=false;}
+ output.textContent=JSON.stringify(findings,null,2);
+})();
+</script>
+
+
+

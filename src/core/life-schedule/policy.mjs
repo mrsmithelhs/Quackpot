@@ -6,3 +6,13 @@ export function guidance(day, consequences, policy) {
 }
 
 
+
+// Versioned first-port working values. Rent, loan and deadlines belong to
+// life-finance and the engine coordinator, not the experimental rent study.
+export const PRODUCTION = Object.freeze({
+  id: 'five-slot-v1', startCash: 80, startHealth: 100, maxHealth: 100,
+  mealCost: 6, mealSkipHealth: 5, scheduledWage: 60,
+  overtimeWage: 60, overtimeHealth: 15, rentAmount: 170, rentDueDay: 4,
+  recoveryHealth: 25, lateFatigueHealth: 10, earlyBedHealth: 5,
+  recoveryConsumesSlot: true, supportedDays: 5,
+});

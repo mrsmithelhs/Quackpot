@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {BASELINE,createSchedule,inspect,commit,guidance,replay,observe} from './index.mjs';
+import {BASELINE,PRODUCTION,createSchedule,inspect,commit,guidance,replay,observe} from './index.mjs';
 const setup = () => ({s:createSchedule({...BASELINE,earlyBedHealth:5},{1:true,2:true}), b:{cash:80,health:100}});
 function apply(x,intent,operation={}) { const p=inspect(x.s,x.b,intent,intent.type==='play'?{operationAvailable:true}:{}); assert.equal(p.ok,true,p.reason); const r=commit(x.s,x.b,p.proposal,{confirmed:true,...operation},intent.type==='play'?{operationAvailable:true}:null); assert.equal(r.ok,true,r.reason); x.s=r.state; x.b={cash:x.b.cash+r.balanceDeltas.cash,health:x.b.health+r.balanceDeltas.health}; return r; }
 test('meals occupy slots and required tutorial shift completes once',()=>{const x=setup(); apply(x,{type:'meal',choice:'buy',operationId:'m1'}); assert.equal(x.s.slot,'midday'); assert.equal(inspect(x.s,x.b,{type:'play',kind:'pull',operationId:'p'},{operationAvailable:true}).reason,'tutorial_shift_required'); apply(x,{type:'start',kind:'work',operationId:'w'}); const id=x.s.active.id; apply(x,{type:'complete',activityId:id,operationId:'done'}); assert.equal(x.b.cash,134); assert.equal(x.s.slot,'early-evening'); assert.equal(inspect(x.s,x.b,{type:'complete',activityId:id,operationId:'done'}).reason,'duplicate_operation');});
@@ -48,3 +48,15 @@ test('default calendar guarantees the required first tutorial shift',()=>{const 
 test('recovery after job loss does not invent another missed shift or termination',()=>{const x=setup();x.s.day=2;x.s.slot='midday';x.s.config.employmentStudy=true;x.s.employment={employed:false,missedShifts:3};x.s.recovery={id:'rec',resolved:false};x.b.health=0;const p=inspect(x.s,x.b,{type:'recover',operationId:'rec'}).proposal;assert.equal(p.displaced.includes('shift'),false);const r=commit(x.s,x.b,p,{});assert.equal(r.state.employment.missedShifts,3);assert.equal(r.events.some(e=>e.type==='employment_ended'||e.kind==='shift'),false);});
 test('social plan cannot reserve an evening already reserved for rent overtime',()=>{const x=setup();x.s.day=4;x.s.rent.status='escalation-pending';x.s.rent.reservedWork={day:4,slot:'evening',status:'reserved'};assert.equal(inspect(x.s,x.b,{type:'reserve',planId:'ren',day:4,slot:'evening',operationId:'ren'}).reason,'invalid_plan');});
 test('fresh tutorial requires explicit meal choices; supported days can replace meals with disclosure',()=>{for(const choice of ['buy','skip']){const x={s:createSchedule(),b:{cash:80,health:100}};assert.equal(inspect(x.s,x.b,{type:'start',kind:'quiet',operationId:'q'}).reason,'tutorial_meal_choice_required');assert.equal(inspect(x.s,x.b,{type:'play',kind:'race',operationId:'r'},{operationAvailable:true}).reason,'tutorial_meal_choice_required');apply(x,{type:'meal',choice,operationId:'breakfast'});apply(x,{type:'start',kind:'work',operationId:'work'});apply(x,{type:'complete',activityId:x.s.active.id,operationId:'done'});assert.equal(x.s.slot,'early-evening');assert.equal(inspect(x.s,x.b,{type:'start',kind:'quiet',operationId:'q2'}).reason,'tutorial_meal_choice_required');apply(x,{type:'meal',choice,operationId:'dinner'});assert.equal(x.s.slot,'evening');}const y=setup();y.s.day=2;const p=inspect(y.s,y.b,{type:'start',kind:'quiet',operationId:'quiet'});assert.equal(p.ok,true);assert.ok(p.proposal.disclosures.includes('breakfast'));assert.deepEqual(p.proposal.displaced,['breakfast']);});
+
+test('production policy seals study controls and requires a reserved overtime context',()=>{
+  for(const key of ['rentStudy','employmentStudy','overtimeStudy','hypotheticalRentContinuation']) assert.equal(Object.hasOwn(PRODUCTION,key),false);
+  const s=createSchedule(PRODUCTION,{2:true}); assert.equal(s.rent,null); s.day=2;s.slot='evening';const b={cash:80,health:100};
+  const intent={type:'start',kind:'overtime',reservationId:'r1',operationId:'ot'};
+  assert.equal(inspect(s,b,intent,{}).reason,'overtime_reservation_required');
+  const context={overtimeReservation:{id:'r1',day:2,slot:'evening',status:'reserved',conflict:null}};
+  const proposal=inspect(s,b,intent,context).proposal; assert.ok(proposal);
+  assert.equal(commit(s,b,proposal,{confirmed:true}).reason,'fresh_context_required');
+  assert.equal(commit(s,b,proposal,{confirmed:true},{overtimeReservation:{...context.overtimeReservation,status:'withdrawn'}}).ok,false);
+  assert.equal(commit(s,b,proposal,{confirmed:true},context).ok,true);
+});

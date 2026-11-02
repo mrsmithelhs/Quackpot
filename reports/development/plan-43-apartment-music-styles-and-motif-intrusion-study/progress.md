@@ -49,3 +49,7 @@ Owner requested the prior three pluck variants in a short phrase and a combined 
 ## Owner-requested register comparison
 
 Owner preferred the combined soft/slow pluck in context and requested an exact octave-higher phrase plus mixed lower/higher guitar chords. Root cleared bounded score/tests, two additional 11 s renders and the listener check. Scoped source/audio/evidence committed `866dd95`; `guitar-register-evidence.md` records exact mapping, two new WAVs and prior hash preservation, all-used-pitch finite tuning tests, resource and cleanup, and three-player checks. Mixed voicings are a new score, not a single-variable register test. Owner listening remains pending; no final sound foundation or production selection, new inference or long composition. Packet remains incomplete.
+
+## Harpsichord / electric-guitar research
+
+Owner reported that the combined procedural pluck sounds more like harpsichord in higher octaves and explicitly requested one Luna researcher. Read-only research and owner feedback committed `3ff0f8b`; `harpsichord-guitar-research.md` distinguishes primary-source evidence, current model limitations, owner perception and hypotheses. No new audio, dependency, tests, runtime source or production adoption. One possible next test is an output-only pickup-inspired coloration vs unchanged voice; root/owner gates apply and stylized-pluck/genre alternatives remain open. Advisor consultation not warranted for this research-only checkpoint. Await owner direction; packet incomplete.

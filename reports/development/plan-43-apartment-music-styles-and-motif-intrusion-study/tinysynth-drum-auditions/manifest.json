@@ -1,0 +1,772 @@
+{
+  "records": [
+    {
+      "file": "kick.wav",
+      "sha256": "24e9b22b2a51b68e204330b264f4ec310e4eabefd2e21f80211cd768b406931c",
+      "bytes": 768044,
+      "kind": "kick",
+      "events": [
+        {
+          "note": 36,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 36,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 36,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.254171222448349
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.16925936937332153
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.09664272516965866
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 36,
+          "onset": 0.5,
+          "stop": 0.675
+        },
+        {
+          "note": 36,
+          "onset": 1.5,
+          "stop": 1.675
+        },
+        {
+          "note": 36,
+          "onset": 2.5,
+          "stop": 2.675
+        }
+      ],
+      "stats": {
+        "peak": 0.254171222448349,
+        "rms": 0.02222217424932598,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "tableBefore": 1,
+        "tableAfter": 0,
+        "drumBounds": {
+          "events": 3,
+          "concurrent": 1,
+          "operators": 6,
+          "operatorNodeUpper": 12,
+          "sourceLifetimeSeconds": {
+            "36": 0.175,
+            "38": 0.175,
+            "42": 0.035
+          }
+        },
+        "totalNodesUpper": 71,
+        "upstreamUpper": 71,
+        "guitarNodes": 0,
+        "plan39Nodes": 0,
+        "estimatedBytes": 18813848,
+        "upstreamReserveBytes": 4000000,
+        "plan39ReserveBytes": 0,
+        "guitarMaster": null,
+        "bassMaster": null,
+        "bassLayerGain": null,
+        "guitarEvents": [],
+        "bassEvents": [],
+        "noise": "upstream Math.random noise buffers; rendered output is not claimed bit-repeatable"
+      }
+    },
+    {
+      "file": "snare.wav",
+      "sha256": "5810ca87bb455eaa7c82044b0f258eabe904285501bf17934c8a683a4ee52367",
+      "bytes": 768044,
+      "kind": "snare",
+      "events": [
+        {
+          "note": 38,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 38,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 38,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.20118732750415802
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.13204459846019745
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.07452902942895889
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 38,
+          "onset": 0.5,
+          "stop": 0.675
+        },
+        {
+          "note": 38,
+          "onset": 1.5,
+          "stop": 1.675
+        },
+        {
+          "note": 38,
+          "onset": 2.5,
+          "stop": 2.675
+        }
+      ],
+      "stats": {
+        "peak": 0.20118732750415802,
+        "rms": 0.009690665755859163,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "tableBefore": 1,
+        "tableAfter": 0,
+        "drumBounds": {
+          "events": 3,
+          "concurrent": 1,
+          "operators": 9,
+          "operatorNodeUpper": 18,
+          "sourceLifetimeSeconds": {
+            "36": 0.175,
+            "38": 0.175,
+            "42": 0.035
+          }
+        },
+        "totalNodesUpper": 77,
+        "upstreamUpper": 77,
+        "guitarNodes": 0,
+        "plan39Nodes": 0,
+        "estimatedBytes": 18813848,
+        "upstreamReserveBytes": 4000000,
+        "plan39ReserveBytes": 0,
+        "guitarMaster": null,
+        "bassMaster": null,
+        "bassLayerGain": null,
+        "guitarEvents": [],
+        "bassEvents": [],
+        "noise": "upstream Math.random noise buffers; rendered output is not claimed bit-repeatable"
+      }
+    },
+    {
+      "file": "hat.wav",
+      "sha256": "842c734dd9c8853b6745b8553cb44f2e1e728061d8154418784448bda21a97b4",
+      "bytes": 768044,
+      "kind": "hat",
+      "events": [
+        {
+          "note": 42,
+          "time": 0.5,
+          "velocity": 100
+        },
+        {
+          "note": 42,
+          "time": 1.5,
+          "velocity": 80
+        },
+        {
+          "note": 42,
+          "time": 2.5,
+          "velocity": 60
+        }
+      ],
+      "hitWindows": [
+        {
+          "onset": 0.5,
+          "peak": 0.30151548981666565
+        },
+        {
+          "onset": 1.5,
+          "peak": 0.2010423094034195
+        },
+        {
+          "onset": 2.5,
+          "peak": 0.11555656045675278
+        }
+      ],
+      "drumStopTimes": [
+        {
+          "note": 42,
+          "onset": 0.5,
+          "stop": 0.535
+        },
+        {
+          "note": 42,
+          "onset": 1.5,
+          "stop": 1.535
+        },
+        {
+          "note": 42,
+          "onset": 2.5,
+          "stop": 2.535
+        }
+      ],
+      "stats": {
+        "peak": 0.30151548981666565,
+        "rms": 0.0025536104499996985,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "tableBefore": 1,
+        "tableAfter": 0,
+        "drumBounds": {
+          "events": 3,
+          "concurrent": 1,
+          "operators": 3,
+          "operatorNodeUpper": 6,
+          "sourceLifetimeSeconds": {
+            "36": 0.175,
+            "38": 0.175,
+            "42": 0.035
+          }
+        },
+        "totalNodesUpper": 65,
+        "upstreamUpper": 65,
+        "guitarNodes": 0,
+        "plan39Nodes": 0,
+        "estimatedBytes": 18813848,
+        "upstreamReserveBytes": 4000000,
+        "plan39ReserveBytes": 0,
+        "guitarMaster": null,
+        "bassMaster": null,
+        "bassLayerGain": null,
+        "guitarEvents": [],
+        "bassEvents": [],
+        "noise": "upstream Math.random noise buffers; rendered output is not claimed bit-repeatable"
+      }
+    },
+    {
+      "file": "arrangement.wav",
+      "sha256": "5dd152239c0c5de7a944b0998ce9e4c30e56c103277f5b058dee5e90d10304fc",
+      "bytes": 2304044,
+      "kind": "arrangement",
+      "events": [
+        {
+          "note": 36,
+          "time": 0.3,
+          "velocity": 95
+        },
+        {
+          "note": 42,
+          "time": 0.3,
+          "velocity": 65
+        },
+        {
+          "note": 38,
+          "time": 1.5,
+          "velocity": 85
+        },
+        {
+          "note": 42,
+          "time": 1.5,
+          "velocity": 65
+        },
+        {
+          "note": 36,
+          "time": 2.7,
+          "velocity": 95
+        },
+        {
+          "note": 42,
+          "time": 2.7,
+          "velocity": 65
+        },
+        {
+          "note": 38,
+          "time": 3.9,
+          "velocity": 85
+        },
+        {
+          "note": 42,
+          "time": 3.9,
+          "velocity": 65
+        },
+        {
+          "note": 36,
+          "time": 5.1,
+          "velocity": 95
+        },
+        {
+          "note": 42,
+          "time": 5.1,
+          "velocity": 65
+        },
+        {
+          "note": 38,
+          "time": 6.3,
+          "velocity": 85
+        },
+        {
+          "note": 42,
+          "time": 6.3,
+          "velocity": 65
+        },
+        {
+          "note": 36,
+          "time": 7.5,
+          "velocity": 95
+        },
+        {
+          "note": 42,
+          "time": 7.5,
+          "velocity": 65
+        },
+        {
+          "note": 38,
+          "time": 8.7,
+          "velocity": 85
+        },
+        {
+          "note": 42,
+          "time": 8.7,
+          "velocity": 65
+        }
+      ],
+      "hitWindows": [],
+      "drumStopTimes": [
+        {
+          "note": 36,
+          "onset": 0.3,
+          "stop": 0.475
+        },
+        {
+          "note": 42,
+          "onset": 0.3,
+          "stop": 0.33499999999999996
+        },
+        {
+          "note": 38,
+          "onset": 1.5,
+          "stop": 1.675
+        },
+        {
+          "note": 42,
+          "onset": 1.5,
+          "stop": 1.535
+        },
+        {
+          "note": 36,
+          "onset": 2.7,
+          "stop": 2.875
+        },
+        {
+          "note": 42,
+          "onset": 2.7,
+          "stop": 2.7350000000000003
+        },
+        {
+          "note": 38,
+          "onset": 3.9,
+          "stop": 4.075
+        },
+        {
+          "note": 42,
+          "onset": 3.9,
+          "stop": 3.935
+        },
+        {
+          "note": 36,
+          "onset": 5.1,
+          "stop": 5.2749999999999995
+        },
+        {
+          "note": 42,
+          "onset": 5.1,
+          "stop": 5.135
+        },
+        {
+          "note": 38,
+          "onset": 6.3,
+          "stop": 6.475
+        },
+        {
+          "note": 42,
+          "onset": 6.3,
+          "stop": 6.335
+        },
+        {
+          "note": 36,
+          "onset": 7.5,
+          "stop": 7.675
+        },
+        {
+          "note": 42,
+          "onset": 7.5,
+          "stop": 7.535
+        },
+        {
+          "note": 38,
+          "onset": 8.7,
+          "stop": 8.875
+        },
+        {
+          "note": 42,
+          "onset": 8.7,
+          "stop": 8.735
+        }
+      ],
+      "stats": {
+        "peak": 0.3360023498535156,
+        "rms": 0.025692732512968892,
+        "lastSecondPeak": 0
+      },
+      "info": {
+        "upstreamRevision": "3d75aee4b3f43cbd932265e7d60201fd5b770397",
+        "channel": 9,
+        "quality": 1,
+        "reverb": false,
+        "drumMaster": 0.22,
+        "initResumeCalls": 2,
+        "originalState": "closed",
+        "offlineState": "closed",
+        "tableBefore": 1,
+        "tableAfter": 0,
+        "drumBounds": {
+          "events": 16,
+          "concurrent": 2,
+          "operators": 28,
+          "operatorNodeUpper": 56,
+          "sourceLifetimeSeconds": {
+            "36": 0.175,
+            "38": 0.175,
+            "42": 0.035
+          }
+        },
+        "totalNodesUpper": 206,
+        "upstreamUpper": 115,
+        "guitarNodes": 31,
+        "plan39Nodes": 60,
+        "estimatedBytes": 33613848,
+        "upstreamReserveBytes": 4000000,
+        "plan39ReserveBytes": 2000000,
+        "guitarMaster": 0.12,
+        "bassMaster": 0.5,
+        "bassLayerGain": 0.75,
+        "guitarEvents": [
+          {
+            "midi": 48,
+            "start": 0.3,
+            "duration": 0.8,
+            "velocity": 0.6692913385826772,
+            "seed": 1,
+            "samples": 52801,
+            "frequency": 130.8127826502993,
+            "delay": 367,
+            "estimatedHz": 130.96862210095497,
+            "estimatedCents": 2.0612204697259786
+          },
+          {
+            "midi": 55,
+            "start": 0.36,
+            "duration": 0.74,
+            "velocity": 0.6692913385826772,
+            "seed": 2,
+            "samples": 49920,
+            "frequency": 195.99771799087463,
+            "delay": 245,
+            "estimatedHz": 196.31901840490798,
+            "estimatedCents": 2.8357002876198796
+          },
+          {
+            "midi": 67,
+            "start": 0.42,
+            "duration": 0.68,
+            "velocity": 0.6692913385826772,
+            "seed": 3,
+            "samples": 47040,
+            "frequency": 391.99543598174927,
+            "delay": 123,
+            "estimatedHz": 391.83673469387753,
+            "estimatedCents": -0.701040572784387
+          },
+          {
+            "midi": 72,
+            "start": 1.5,
+            "duration": 0.5,
+            "velocity": 0.6692913385826772,
+            "seed": 4,
+            "samples": 38400,
+            "frequency": 523.2511306011972,
+            "delay": 92,
+            "estimatedHz": 524.5901639344262,
+            "estimatedCents": 4.424680289449375
+          },
+          {
+            "midi": 45,
+            "start": 2.7,
+            "duration": 0.8,
+            "velocity": 0.6692913385826772,
+            "seed": 5,
+            "samples": 52801,
+            "frequency": 110,
+            "delay": 437,
+            "estimatedHz": 109.96563573883161,
+            "estimatedCents": -0.5409261250278266
+          },
+          {
+            "midi": 52,
+            "start": 2.76,
+            "duration": 0.74,
+            "velocity": 0.6692913385826772,
+            "seed": 6,
+            "samples": 49920,
+            "frequency": 164.81377845643496,
+            "delay": 292,
+            "estimatedHz": 164.6655231560892,
+            "estimatedCents": -1.5580016102954106
+          },
+          {
+            "midi": 69,
+            "start": 2.82,
+            "duration": 0.68,
+            "velocity": 0.6692913385826772,
+            "seed": 7,
+            "samples": 47040,
+            "frequency": 440,
+            "delay": 110,
+            "estimatedHz": 438.35616438356163,
+            "estimatedCents": -6.479985291107774
+          },
+          {
+            "midi": 72,
+            "start": 3.9,
+            "duration": 0.5,
+            "velocity": 0.6692913385826772,
+            "seed": 8,
+            "samples": 38400,
+            "frequency": 523.2511306011972,
+            "delay": 92,
+            "estimatedHz": 524.5901639344262,
+            "estimatedCents": 4.424680289449375
+          },
+          {
+            "midi": 41,
+            "start": 5.1,
+            "duration": 0.8,
+            "velocity": 0.6692913385826772,
+            "seed": 9,
+            "samples": 52801,
+            "frequency": 87.30705785825097,
+            "delay": 550,
+            "estimatedHz": 87.35213830755232,
+            "estimatedCents": 0.893681091222876
+          },
+          {
+            "midi": 48,
+            "start": 5.16,
+            "duration": 0.74,
+            "velocity": 0.6692913385826772,
+            "seed": 10,
+            "samples": 49920,
+            "frequency": 130.8127826502993,
+            "delay": 367,
+            "estimatedHz": 130.96862210095497,
+            "estimatedCents": 2.0612204697259786
+          },
+          {
+            "midi": 65,
+            "start": 5.22,
+            "duration": 0.68,
+            "velocity": 0.6692913385826772,
+            "seed": 11,
+            "samples": 47040,
+            "frequency": 349.2282314330039,
+            "delay": 138,
+            "estimatedHz": 349.09090909090907,
+            "estimatedCents": -0.6808838641262126
+          },
+          {
+            "midi": 69,
+            "start": 6.3,
+            "duration": 0.5,
+            "velocity": 0.6692913385826772,
+            "seed": 12,
+            "samples": 38400,
+            "frequency": 440,
+            "delay": 110,
+            "estimatedHz": 438.35616438356163,
+            "estimatedCents": -6.479985291107774
+          },
+          {
+            "midi": 43,
+            "start": 7.5,
+            "duration": 0.7,
+            "velocity": 0.6692913385826772,
+            "seed": 13,
+            "samples": 48000,
+            "frequency": 97.99885899543733,
+            "delay": 490,
+            "estimatedHz": 98.05924412665986,
+            "estimatedCents": 1.0664267058664716
+          },
+          {
+            "midi": 50,
+            "start": 7.56,
+            "duration": 0.64,
+            "velocity": 0.6692913385826772,
+            "seed": 14,
+            "samples": 45120,
+            "frequency": 146.8323839587038,
+            "delay": 327,
+            "estimatedHz": 147.01378254211332,
+            "estimatedCents": 2.1374683745834564
+          },
+          {
+            "midi": 67,
+            "start": 7.62,
+            "duration": 0.58,
+            "velocity": 0.6692913385826772,
+            "seed": 15,
+            "samples": 42240,
+            "frequency": 391.99543598174927,
+            "delay": 123,
+            "estimatedHz": 391.83673469387753,
+            "estimatedCents": -0.701040572784387
+          }
+        ],
+        "bassEvents": [
+          {
+            "midi": 36,
+            "start": 0.3,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 43,
+            "start": 1.5,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 33,
+            "start": 2.7,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 40,
+            "start": 3.9,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 29,
+            "start": 5.1,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 36,
+            "start": 6.3,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 31,
+            "start": 7.5,
+            "duration": 0.6,
+            "velocity": 0.65
+          },
+          {
+            "midi": 38,
+            "start": 8.7,
+            "duration": 0.6,
+            "velocity": 0.65
+          }
+        ],
+        "noise": "upstream Math.random noise buffers; rendered output is not claimed bit-repeatable"
+      }
+    }
+  ],
+  "total": 4608176,
+  "existing": 50497056,
+  "hashes": {
+    "drumscore": "54bf73994a5f26de5456a3f760f92e40f2f2a3f4d413a2324d48ec712aeb488c",
+    "upstream": "dd2b1d95d64499dfc3c292858e8c2d6525dc0bcdc345a900b7db207dffaae38c",
+    "score": "e29f5af4abe846ef8c3d791279e1522a223fffe7ed9be894c1280a8cd74d184d",
+    "pickup": "1874c03c7e23330844114ee95173c14c731479b9530b634700372ff772bdf80a",
+    "budget": "52a2e94ad9041fc5608a9f6521987c12d2c0999cd166c98f503c7b7fd051639b",
+    "register": "02ce6a3eefeb979ff1cb3ca17e0ce02193bb41edd40a95cff0d2eef0d50dd8d4",
+    "phrase": "09cba727b032751879c356c9d5c9660a605bc8b829602de0a29b15a88eb7ee7a",
+    "variant": "883919db5efa6e8b857a8c0dd2a3b52933a7f540435d6ee70f2b4ce464df9ce0",
+    "page": "75ee08003315b1192b111197968798748e7cab03ddd267f311d419f08376dd91",
+    "pluck": "ce34ecdb84243152522445e5edecfe4c322472570a62b82c3fc18410431b35e9",
+    "engine": "f756539d1a564c0cf0fe997a0602a9fe9b93de5b7790a46e02c9bdc247ae3f82",
+    "patches": "e52172032484d5909cb6daf60b5ff6b7ab29f026879031d919d3e748e3b206f2",
+    "control": "e7a0f74d3f66d5dc4f6b070645e87622478991e7e5c6e4fe559b469854eb3a22"
+  },
+  "requests": [
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/tinysynth-drums.html",
+    "http://localhost:5173/Quackpot/@vite/client",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/scores.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/patches.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-39-melody-reference-and-web-audio-laboratory/lab/synth-engine.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/tinysynth-drums-page.mjs",
+    "http://localhost:5173/Quackpot/node_modules/vite/dist/client/env.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/tinysynth-drums.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/level4-arrangement.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-register.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-pickup.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-pickup-budget.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-phrase.mjs",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-pluck.mjs?t=1793593387430",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/guitar-variants.mjs?t=1793593387430",
+    "http://localhost:5173/favicon.ico",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js",
+    "http://localhost:5173/Quackpot/reports/development/plan-43-apartment-music-styles-and-motif-intrusion-study/vendor/webaudio-tinysynth.js"
+  ],
+  "runtimeErrors": [],
+  "networkCoverage": "Top CDP session; same-target iframe requests observed, not browser-global network"
+}

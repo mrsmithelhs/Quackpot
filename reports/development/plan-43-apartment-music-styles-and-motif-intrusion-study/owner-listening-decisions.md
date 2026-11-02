@@ -34,3 +34,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Level 4 and percussion request
 
 2026-11-02. Owner preferred pickup color Level 4 from the higher-note comparison and requested a mixed-register phrase using it, plus a short arrangement with other instruments such as the previously preferred bass. Owner also asked whether percussion sounds are available, noting their importance in many arrangements. This is a selection for these probes, not blanket production/final foundation approval.
+
+## Rhythm-guitar direction and drums
+
+2026-11-02. Owner says to stop iterating on guitar tone for now: Level 4 may be good enough as a softer chord/background or rhythm-guitar role, while its remaining shortcomings are more exposed as a loud melodic lead. This is a provisional listening direction, not production or full-track acceptance. Owner asks to hear genuine TinySynth kick, snare and hi-hat individually and in an arrangement with Level 4 guitar and selected bass.

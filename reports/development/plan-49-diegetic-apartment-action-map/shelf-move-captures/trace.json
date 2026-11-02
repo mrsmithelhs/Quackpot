@@ -1,0 +1,72 @@
+{
+  "description": "Synthetic report-local fixtures, isolated browser, reduced motion; not a production journey.",
+  "trace": [
+    {
+      "name": "room-spec-restoration",
+      "afterSuccess": true,
+      "threw": true,
+      "afterFailure": true
+    },
+    {
+      "name": "desktop-bedroom",
+      "focus": "\n  Apartment action studyIllustrative states · no saved game\n  \n    Choose a study scene\n      Evening · dinner resolved\n      Evening · activity already chosen\n      Late Night\n      Recovery · illustrative morning\n      Future social offer · illustrative only\n    These are independent examples, not a simulated run.\n    \n      QUACKPOTEvening · dinner resolvedSave · Settings · Uninstall (context only)\n      .apt-p49-bedroom{width:100%;height:100%;display:block;overflow:visible}.apt-p49-bedroom .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-p49-bedroom .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-p49-bedroom .cast{opacity:.3}.apt-p49-bedroom .cast-keep{opacity:.3}.apt-p49-bedroom .cast-lamp{display:none}.apt-p49-bedroom .lamp-on{opacity:1}.apt-p49-bedroom .lamp-pool{mix-blend-mode:screen}.apt-p49-bedroom .cast-amb{display:none}.apt-p49-bedroom .cast-lamp{display:inline;opacity:.42}.apt-p49-bedroom.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-p49-bedroom.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  ABCTurn in for the night\n      BedroomDeskKitchenLiving room\n      \n    \n    Study only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.\n  \n  \n\n\n",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 1351,
+      "clientWidth": 1351
+    },
+    {
+      "name": "before-enter",
+      "target": true,
+      "window": true,
+      "tag": "BUTTON"
+    },
+    {
+      "name": "desktop-bed-decision",
+      "focus": "Turn in",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\nTurn in for the night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nTurn in\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 1351,
+      "clientWidth": 1351
+    },
+    {
+      "name": "escape-return",
+      "hidden": true,
+      "returnedToBed": false
+    },
+    {
+      "name": "narrow-bedroom",
+      "focus": "\n  Apartment action studyIllustrative states · no saved game\n  \n    Choose a study scene\n      Evening · dinner resolved\n      Evening · activity already chosen\n      Late Night\n      Recovery · illustrative morning\n      Future social offer · illustrative only\n    These are independent examples, not a simulated run.\n    \n      QUACKPOTEvening · dinner resolvedSave · Settings · Uninstall (context only)\n      .apt-p49-bedroom{width:100%;height:100%;display:block;overflow:visible}.apt-p49-bedroom .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-p49-bedroom .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-p49-bedroom .cast{opacity:.3}.apt-p49-bedroom .cast-keep{opacity:.3}.apt-p49-bedroom .cast-lamp{display:none}.apt-p49-bedroom .lamp-on{opacity:1}.apt-p49-bedroom .lamp-pool{mix-blend-mode:screen}.apt-p49-bedroom .cast-amb{display:none}.apt-p49-bedroom .cast-lamp{display:inline;opacity:.42}.apt-p49-bedroom.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-p49-bedroom.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  ABCTurn in for the night\n      BedroomDeskKitchenLiving room\n      \n    \n    Study only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.\n  \n  \n\n\n",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · dinner resolved\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-recovery",
+      "focus": "Rest",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nMorning · recovery pending\nSave · Settings · Uninstall (context only)\nA\nB\nC\nRecover in bed\nBedroom\nDesk\nKitchen\nLiving room\nRecover in bed\n\nRecovery is a separate action that uses the current phase. The actual amount and any pending obligations come from the game.\n\nRest\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-used-phone",
+      "focus": "Not now",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · activity chosen\nSave · Settings · Uninstall (context only)\n9:41\nQUACKPOT\nWelcome\nFestival\n10 FREE pulls\nwaiting!\nLimited-time invitation\nPhone\nBedroom\nDesk\nKitchen\nLiving room\nPhone\n\nBrowsing is free. A further pull or race asks for confirmation and may enter Late Night; the existing game supplies the exact warning.\n\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-late",
+      "focus": "Finish Late Night",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nLate Night\nSave · Settings · Uninstall (context only)\nA\nB\nC\nFinish Late Night\nBedroom\nDesk\nKitchen\nLiving room\nFinish Late Night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nFinish Late Night\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    },
+    {
+      "name": "narrow-future",
+      "focus": "Turn in",
+      "text": "Apartment action study\nIllustrative states · no saved game\nChoose a study scene\nEvening · dinner resolved\nEvening · activity already chosen\nLate Night\nRecovery · illustrative morning\nFuture social offer · illustrative only\nThese are independent examples, not a simulated run.\nQUACKPOT\nEvening · hypothetical social offer\nSave · Settings · Uninstall (context only)\nA\nB\nC\nTurn in for the night\nBedroom\nDesk\nKitchen\nLiving room\nTurn in for the night?\n\nThe next phase is morning. Pending meals, work or rent may need attention first.\n\nA future social commitment could require a specific notice. Its interface is still being designed.\n\nTurn in\nNot now\n\nStudy only: no engine, transactions, save, Receipt or production navigation. Values and transitions shown are illustrative; the production implementation remains authoritative.",
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  ],
+  "runtimeExceptions": []
+}

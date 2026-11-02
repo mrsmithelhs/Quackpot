@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { launchIsolatedChrome, closeIsolatedChrome } from '../../../scripts/dev/checkpoints/cdp.mjs';
 
-const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/captures');
+const output = path.resolve('reports/development/plan-49-diegetic-apartment-action-map/shelf-offset-captures');
 await mkdir(output, { recursive: true });
 let browser, failureSnapshot; const events = []; const trace = [];
 try {
@@ -21,6 +21,9 @@ try {
   await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
   await send('Page.navigate', { url: 'http://localhost:5173/Quackpot/reports/development/plan-49-diegetic-apartment-action-map/preview.html' });
   await wait('document.querySelector(".target") && document.querySelector("#scene svg")');
+  const restoration = await evalJs(`(async()=>{const {ROOM_SPECS}=await import('/Quackpot/src/assets/apartment/rooms/specs.mjs'); const {bedroomStudyScene}=await import('./bedroom-study.mjs'); const original=ROOM_SPECS.bedroom; const snapshot=JSON.stringify({anchor:original.anchor,onTable:original.onTable,surfaces:original.surfaces,items:original.items({couch:'present',tv:'present'})}); bedroomStudyScene('valid-check'); const afterSuccess=ROOM_SPECS.bedroom===original && JSON.stringify({anchor:original.anchor,onTable:original.onTable,surfaces:original.surfaces,items:original.items({couch:'present',tv:'present'})})===snapshot; let threw=false; try{bedroomStudyScene('!invalid')}catch{threw=true} return {afterSuccess,threw,afterFailure:ROOM_SPECS.bedroom===original && JSON.stringify({anchor:original.anchor,onTable:original.onTable,surfaces:original.surfaces,items:original.items({couch:'present',tv:'present'})})===snapshot}})()`);
+  trace.push({ name: 'room-spec-restoration', ...restoration });
+  if (!restoration.afterSuccess || !restoration.threw || !restoration.afterFailure) throw Error('Original bedroom spec restoration check failed');
   await snap('desktop-bedroom');
   // Exercise actual key activation and Escape/focus return, not a programmatic click.
   await evalJs('document.querySelector(".target").focus()');
@@ -33,6 +36,7 @@ try {
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
   trace.push({ name: 'escape-return', hidden: await evalJs('document.querySelector("#decision").hidden'), returnedToBed: await evalJs('document.activeElement === document.querySelector(".target")') });
+  if (!trace.at(-1).hidden || !trace.at(-1).returnedToBed) throw Error('Escape did not close the decision and restore bed focus');
   await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
   await snap('narrow-bedroom');
   await evalJs(`document.querySelector('#scenario').value='recovery'; document.querySelector('#scenario').dispatchEvent(new Event('change',{bubbles:true}));`);

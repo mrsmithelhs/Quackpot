@@ -1,5 +1,6 @@
 // Report-local static fixtures only; no game engine, storage or production callbacks.
 import { renderScene } from '../../../src/assets/apartment/index.mjs';
+import { bedroomStudyScene } from './bedroom-study.mjs';
 
 const $ = (selector) => document.querySelector(selector);
 const state = { scenario: 'evening', room: 'bedroom', returnFocus: null };
@@ -35,15 +36,15 @@ function target(label, box, onClick) {
 function render() {
   $('#decision').hidden = true; $('#notice').textContent = '';
   $('#phase').textContent = labels[state.scenario];
-  $('#scene').innerHTML = renderScene({ ...scenes[state.room], idPrefix: `p49-${state.room.replace('-', '')}`, duckView: 'side' }).svg;
+  $('#scene').innerHTML = (state.room === 'bedroom' ? bedroomStudyScene() : renderScene({ ...scenes[state.room], idPrefix: `p49-${state.room.replace('-', '')}`, duckView: 'side' })).svg;
   $('#rooms').replaceChildren();
   for (const [room, label] of Object.entries(names)) {
     const button = document.createElement('button'); button.textContent = label; button.setAttribute('aria-current', room === state.room ? 'page' : 'false');
     button.addEventListener('click', () => { state.room = room; render(); $('#rooms').querySelector('[aria-current="page"]')?.focus(); }); $('#rooms').append(button);
   }
   if (state.room === 'bedroom') {
-    if (state.scenario === 'recovery') target('Recover in bed', { x: 56, y: 61, w: 37, h: 25 }, () => decision('Recover in bed', ['Recovery is a separate action that uses the current phase. The actual amount and any pending obligations come from the game.'], 'Rest'));
-    else target(state.scenario === 'late' ? 'Finish Late Night' : 'Turn in for the night', { x: 56, y: 61, w: 37, h: 25 }, () => decision(state.scenario === 'late' ? 'Finish Late Night?' : 'Turn in for the night?', ['The next phase is morning. Pending meals, work or rent may need attention first.', ...(state.scenario === 'future' ? ['A future social commitment could require a specific notice. Its interface is still being designed.'] : [])], state.scenario === 'late' ? 'Finish Late Night' : 'Turn in'));
+    if (state.scenario === 'recovery') target('Recover in bed', { x: 40, y: 61, w: 53, h: 25 }, () => decision('Recover in bed', ['Recovery is a separate action that uses the current phase. The actual amount and any pending obligations come from the game.'], 'Rest'));
+    else target(state.scenario === 'late' ? 'Finish Late Night' : 'Turn in for the night', { x: 40, y: 61, w: 53, h: 25 }, () => decision(state.scenario === 'late' ? 'Finish Late Night?' : 'Turn in for the night?', ['The next phase is morning. Pending meals, work or rent may need attention first.', ...(state.scenario === 'future' ? ['A future social commitment could require a specific notice. Its interface is still being designed.'] : [])], state.scenario === 'late' ? 'Finish Late Night' : 'Turn in'));
   }
   if (state.room === 'desk-side') target('Phone', { x: 63, y: 17, w: 17.5, h: 58 }, () => decision('Phone', [state.scenario === 'used' ? 'Browsing is free. A further pull or race asks for confirmation and may enter Late Night; the existing game supplies the exact warning.' : state.scenario === 'late' ? 'Browsing is free. A pull or race in Late Night can cause fatigue the following morning.' : 'Browsing and returning are free. A pull or race may commit a session.'], null));
   if (state.room === 'kitchen') target('Kitchen notice', { x: 3.6, y: 25, w: 9.5, h: 22 }, () => decision('Rent notice', ['Existing payment and obligation controls belong here. This study does not change them.'], null));

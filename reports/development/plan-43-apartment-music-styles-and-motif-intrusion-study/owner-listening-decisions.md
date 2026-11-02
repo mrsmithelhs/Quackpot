@@ -30,3 +30,7 @@ These preferences are for the exact files and page controls, not an overall sele
 ## Pickup-color and playback request
 
 2026-11-02. Owner requested the exact same higher-note phrase with unchanged control and pickup-inspired coloration, plus three additional increasingly strong settings to make differences easier to hear. They also asked that starting a sound rewind all other played or paused sounds to 0.0 seconds. These requests do not select a guitar sound or authorize a production change.
+
+## Level 4 and percussion request
+
+2026-11-02. Owner preferred pickup color Level 4 from the higher-note comparison and requested a mixed-register phrase using it, plus a short arrangement with other instruments such as the previously preferred bass. Owner also asked whether percussion sounds are available, noting their importance in many arrangements. This is a selection for these probes, not blanket production/final foundation approval.

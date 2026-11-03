@@ -22,7 +22,7 @@ This increment tests whether reading different opponents changes the decision, w
 
 Proposed sequence for orchestration, with each packet's exact scope and gate to be settled separately:
 
-1. **Core race/progression investigation:** specify and compare opponent forecasts, field choices, risk/injury with a no-injury control, and one comprehensible ability/growth choice. Preserve the current race as control and the owner's no-reflex direction. Define finite traces and a simulation proposal before any model execution or source mutation.
+1. **Core race/progression investigation:** develop a contract-first comparison around opponent forecasts, field choices, risk/injury with a no-injury control, and one comprehensible ability/growth choice. This is not a mandate to implement all these systems in one packet. Preserve the current race as control and the owner's no-reflex direction. Define finite traces and a simulation proposal before any model execution or source mutation; exact numeric candidates and execution remain later gates.
 2. **Leaderboard and event economy:** once the first mechanism is concrete, study ranking, seeded field adaptation, meaningful milestones, progression curves, life sacrifices and nonspending/spending routes together. This is a later calibration and design gate, not evidence that any balancing target is met.
 3. **Optional expansion:** develop cosmetic personalization, a bounded achievement catalog and any expanded roster/content only as independently scoped follow-ons. The profile-wide multi-run export is a selected forward direction routed by QP Orch to a separate storage/export/analyzer packet; it should not be bundled into the core race study.
 

@@ -1,13 +1,22 @@
-"""Reserved inference entry point, deliberately unavailable pending OS-boundary verification.
+"""Proposed local-model entry; executable launch disabled pending root review."""
+import argparse
+import local_network_guard
 
-An earlier synthetic trial receipt or a caller-provided callback cannot prove
-that the live process and every network-capable helper are isolated. No model,
-GPU, audio or networking modules are imported by this entry point.
-"""
+ROOT_CLEARED = False
+
+def run_reviewed(root, input_path, output, kind):
+    # Install before importing runner or ML. Native/OS activity is not covered.
+    guard = local_network_guard.Guard().install()
+    import runner_wiring
+    return runner_wiring.execute(root, input_path, output, kind, guard.check)
 
 
 def main():
-    raise RuntimeError('Inference is disabled: a reviewed live OS network boundary and explicit orchestration clearance are required.')
+    if not ROOT_CLEARED: raise RuntimeError('Inference entry disabled pending orchestration review and first-run clearance.')
+    parser=argparse.ArgumentParser()
+    parser.add_argument('root'); parser.add_argument('input'); parser.add_argument('output'); parser.add_argument('kind', choices=('m1-excerpt','known-score'))
+    args=parser.parse_args()
+    run_reviewed(args.root,args.input,args.output,args.kind)
 
 
 if __name__ == '__main__':

@@ -1,9 +1,7 @@
 """Report-local future runner wiring; no executable entry point.
 
-Actual use is prohibited until root approves a genuine OS offline boundary,
-GPU/host monitors, a bounded launcher, and the final artifact paths. Imports
-of Torch and MuScriptor occur only after all checks and the injected boundary
-verifier; this file is not itself a network sandbox.
+Actual use is prohibited until root reviews the bounded launcher, resource
+controls and final input. This is not a network sandbox.
 """
 import hashlib
 import json
@@ -23,11 +21,11 @@ def file_hash(path):
     return digest.hexdigest()
 
 
-def execute(root_arg, input_path, output_dir, kind, boundary_check):
+def execute(root_arg, input_path, output_dir, kind, access_check):
     """Wire one preverified input to one model pass after external controls.
 
-    A callable alone does not prove isolation: the future runner must supply a
-    root-reviewed verifier that checks a real OS boundary in this process.
+    The audit guard records Python-visible attempts; it cannot observe all
+    native or OS activity and is not a containment boundary.
     """
     root = Path(root_arg).resolve(strict=True)
     input_file = Path(input_path).resolve(strict=True)
@@ -49,9 +47,8 @@ def execute(root_arg, input_path, output_dir, kind, boundary_check):
     torch_home = os.environ.get("TORCH_HOME")
     if not torch_home or Path(torch_home).resolve() != root / "torch-cache":
         raise ValueError("unexpected Torch cache")
-    if os.environ.get("HF_HUB_OFFLINE") != "1": raise ValueError("offline flag missing")
-    if not callable(boundary_check) or boundary_check() is not True:
-        raise RuntimeError("verified OS offline boundary unavailable")
+    if any(os.environ.get(k) != '1' for k in ('HF_HUB_OFFLINE','HF_HUB_DISABLE_TELEMETRY','DO_NOT_TRACK')): raise ValueError('offline/telemetry environment missing')
+    if not callable(access_check) or access_check() is not True: raise RuntimeError('unexpected access detected')
     # These imports and all GPU/model operations are deliberately unreachable
     # from a module import or synthetic test; real invocation remains gated.
     import torch
@@ -63,4 +60,7 @@ def execute(root_arg, input_path, output_dir, kind, boundary_check):
     options = ExportOptions(bpm=None, beats_per_bar=None, first_downbeat=None, tempo_map=None,
                             beat_scale=1.0, quantize=False, subdivision=None, strength=1.0,
                             fill_gaps=0.0, trim_leading_bars=False)
-    return single_pass_core.run(model, input_file, output, NoteStartEvent, NoteEndEvent, ProgressEvent, options, resolve_grid)
+    access_check()
+    result = single_pass_core.run(model, input_file, output, NoteStartEvent, NoteEndEvent, ProgressEvent, options, resolve_grid)
+    access_check()
+    return result

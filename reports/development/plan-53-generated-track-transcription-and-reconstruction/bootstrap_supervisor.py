@@ -87,7 +87,7 @@ def tree_bytes(root, counters=None):
     return total
 
 
-def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1, max_active=0, resource_guard=None):
+def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1, max_active=0, resource_guard=None, log_dir=None):
     root = Path(root).resolve(strict=True)
     if not root.is_dir() or not command or not os.path.isabs(command[0]):
         raise ValueError("existing workspace and absolute executable required")
@@ -110,7 +110,9 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1,
         startup = STARTUPEX(); startup.StartupInfo.cb = c.sizeof(startup)
         # A dedicated new log avoids mixing runs. It may contain dependency
         # diagnostics, so stays local and is reviewed/redacted before sharing.
-        output = open(root / "bootstrap-output.log", "xb", buffering=0)
+        log_parent = root if log_dir is None else Path(log_dir).resolve(strict=True)
+        if log_parent != root and root not in log_parent.parents: raise ValueError('log directory outside workspace')
+        output = open(log_parent / "bootstrap-output.log", "xb", buffering=0)
         input_stream = open(os.devnull, "rb")
         output_handle = msvcrt.get_osfhandle(output.fileno())
         input_handle = msvcrt.get_osfhandle(input_stream.fileno())
@@ -137,7 +139,8 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1,
         env = {k: os.environ[k] for k in ("SystemRoot", "WINDIR", "ComSpec", "PATH", "PATHEXT") if k in os.environ}
         env.update({"TEMP": str(root), "TMP": str(root), "UV_CACHE_DIR": str(root / "uv-cache"),
                     "UV_PYTHON_INSTALL_DIR": str(root / "python"), "UV_NO_CONFIG": "1",
-                    "HF_HOME": str(root / "hf-cache"), "TORCH_HOME": str(root / "torch-cache")})
+                    "HF_HOME": str(root / "hf-cache"), "TORCH_HOME": str(root / "torch-cache"),
+                    "HF_HUB_OFFLINE": "1", "HF_HUB_DISABLE_TELEMETRY": "1", "DO_NOT_TRACK": "1"})
         environment = c.create_unicode_buffer("\0".join(f"{key}={value}" for key, value in sorted(env.items(), key=lambda p: p[0].upper())) + "\0\0")
         # Explicit allowlist, and atomic job assignment at process creation.
         j.check(j.create(command[0], cmdline, None, None, True, 0x4 | 0x400 | 0x08000000 | 0x80000,

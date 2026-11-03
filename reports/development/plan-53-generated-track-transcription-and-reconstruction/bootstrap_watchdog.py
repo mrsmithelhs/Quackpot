@@ -7,8 +7,9 @@ import sys
 import time
 
 
-def run(seconds, args):
-    supervisor = Path(__file__).with_name("bootstrap_supervisor.py").resolve(strict=True)
+def run(seconds, args, supervisor_name="bootstrap_supervisor.py"):
+    if supervisor_name not in ("bootstrap_supervisor.py", "pilot_supervisor.py"): raise ValueError('unreviewed supervisor')
+    supervisor = Path(__file__).with_name(supervisor_name).resolve(strict=True)
     started = time.monotonic()
     child = subprocess.Popen([sys.executable, "-B", str(supervisor), *args], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     try:

@@ -1,7 +1,12 @@
 """Injected resource and normalized-rule tests; no GPU, OS policy or ML."""
 import unittest
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 import firewall_review
 import inference_monitor as monitor
+import local_network_guard
+import pilot_supervisor
 
 
 def sample(**changes):
@@ -10,6 +15,31 @@ def sample(**changes):
 
 
 class Controls(unittest.TestCase):
+    def test_pilot_wires_owned_limits_without_running_model(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); kind='m1-excerpt'
+            for part in ('venv/Scripts','pilot-supervision/'+kind,'pilot-runs/'+kind): (root/part).mkdir(parents=True)
+            (root/'venv/Scripts/python.exe').touch(); (root/'nvidia.exe').touch(); (root/'input.wav').touch()
+            with patch.object(pilot_supervisor.supervisor, 'run', return_value={'fake':True}) as run:
+                result=pilot_supervisor.run(root,root/'input.wav',kind,root/'nvidia.exe')
+            self.assertEqual(result,{'fake':True})
+            args, kwargs=run.call_args
+            self.assertEqual((args[2],args[3],args[4],args[5]),(900,8*monitor.GIB,20*monitor.GIB,30*monitor.GIB))
+            self.assertEqual(kwargs['max_active'],2)
+            self.assertEqual(kwargs['log_dir'],root/'pilot-supervision'/kind)
+            self.assertIsInstance(kwargs['resource_guard'],monitor.JobResourceGuard)
+            (root/'pilot-runs'/kind/'existing').touch()
+            with self.assertRaises(ValueError): pilot_supervisor.run(root,root/'input.wav',kind,root/'nvidia.exe')
+
+    def test_audit_rejects_requests_and_remembers_caught_attempt(self):
+        for event in ('socket.connect','socket.connect_ex','socket.sendto','socket.sendmsg','socket.getaddrinfo','socket.gethostbyname','socket.gethostbyaddr','subprocess.Popen','os.system','os.posix_spawn','os.spawn','os.exec','os.startfile','os.startfile/2'):
+            with self.subTest(event=event):
+                guard=local_network_guard.Guard()
+                with self.assertRaises(local_network_guard.UnexpectedAccess): guard.audit(event, ('private data',))
+                with self.assertRaises(local_network_guard.UnexpectedAccess) as caught: guard.check()
+                self.assertNotIn('private data', str(caught.exception))
+        guard=local_network_guard.Guard(); guard.audit('open', ('file',)); self.assertTrue(guard.check())
+
     def test_job_guard_preflight_sampling_and_fail_closed_entry(self):
         import inference_entry
         values=iter([sample(),sample(gpu_used_mib=7168)])

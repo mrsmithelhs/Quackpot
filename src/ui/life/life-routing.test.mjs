@@ -6,7 +6,7 @@ import {
   isLifeStep, isBreakfastStep, isKnownStep,
   rentState, breakfastState, optionalOpen, currentOffer, availablePlaces,
   placeFor, afterBreakfast, breakfastBeforeMidday, normalizeLoadedStep,
-  lifeSurface, fiveSlotPriority,
+  lifeSurface, fiveSlotPriority, fiveSlotSocialView,
 } from './life-routing.mjs';
 
 test('five-slot routing puts recovery before a latched loan or rent',()=>{
@@ -25,6 +25,11 @@ test('five-slot apartment routing uses the actual slot and keeps free navigation
  e.state.life.schedule.day=2;e.state.life.schedule.slot='evening';e.state.step=lifeSurface(e);
  assert.equal(e.state.step,'life_evening');assert.ok(availablePlaces(e).includes('bedroom'));assert.ok(availablePlaces(e).includes('door'));
  e.state.life.schedule.active={id:'activity',kind:'session'};assert.equal(availablePlaces(e).includes('door'),false);
+});
+test('five-slot Ren presentation uses scheduler day and dinner without mutating state',()=>{
+ const e=new GameEngine('five-slot-ren-view',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ e.state.life.schedule.day=2;e.state.life.schedule.slot='evening';e.state.life.schedule.obligations['2:dinner']='buy';const before=structuredClone(e.state);
+ const view=fiveSlotSocialView(e);assert.equal(view.day,2);assert.equal(view.phase,'evening');assert.equal(view.meals['d2-dinner'],'buy');assert.deepEqual(e.state,before);
 });
 
 // Test-local stand-ins for the controller (main.js) wiring described in the Plan 38 brief.

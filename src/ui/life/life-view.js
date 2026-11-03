@@ -19,10 +19,10 @@ import { social46DisplayText, social46NeedsSaleDisclosure, social46VisitAtDoor }
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
-  RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState,
+  RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState, fiveSlotSocialView,
 } from './life-routing.mjs';
 import {
-  breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines,
+  breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines, fiveSlotDueDecision,
 } from './life-decisions.mjs';
 import { BREAKFAST_AMOUNT, RENT_AMOUNT, furnishingsFrom, outcomeView } from './life-preview.mjs';
 import { cardApp, chips, marisolThread, money, noticeLetter, rentDueText, rentNoticeCorrections, results, worldLabels } from './life-copy.mjs';
@@ -149,13 +149,18 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, chip: available ? 'Call Mom' : null, disabled: !available,
         hold: { mode: 'popover', side: 'right', kind: 'life-call-mom' } });
     }
-    if (place === 'bedroom' && engine.state.life?.recovery) {
+    if (place === 'bedroom' && engine.state.life?.policyVersion==='five-slot-v1' && (engine.state.life.schedule.recovery || (engine.state.life.schedule.slot==='evening' && (!engine.state.life.schedule.active || engine.state.life.schedule.active.kind==='early-bed')))) {
+      const recovering=Boolean(engine.state.life.schedule.recovery);
+      out.push({id:'bed',hotspot:true,x:56,y:61,w:37,h:25,label:recovering?'Bed: recover':'Bed: turn in early',chip:recovering?'Rest':'Turn in',done:false,
+        hold:{mode:'popover',side:'left',kind:recovering?'five-slot-recovery':'five-slot-bed'}});
+    } else if (place === 'bedroom' && engine.state.life?.recovery) {
       out.push({ id: 'bed', hotspot: true, x: 56, y: 61, w: 37, h: 25, label: 'Bed', chip: 'Rest', done: false,
         hold: { mode: 'popover', side: 'left', kind: 'life-recovery' } });
     } else if (place === 'kitchen-notice') {
       out.push({ id: 'notice', svg: tapedNotice({ idPrefix: uid('lfn'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
         label: worldLabels.rentNotice, chip: chips.rentNotice, done: r.paid || (!engine.state.life && r.owing),
-        hold: { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
+        hold: engine.state.life?.policyVersion==='five-slot-v1' && engine.checkDueObligations().bills.length
+          ? {mode:'five-due'} : { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
     } else if (place === 'desk-phone') {
       if (engine.state.life) {
         const life = engine.state.life;
@@ -188,6 +193,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     } else if (place === 'living') {
       if (engine.state.life) {
         const life = engine.state.life;
+        if(life.policyVersion==='five-slot-v1') {
+          if(life.schedule.recovery)return out;
+          if(!life.sold.includes('couch'))out.push({id:'couch-sale',hotspot:true,...COUCH_SPOT,w:COUCH_SPOT.w/2,label:'Couch: consider selling',chip:'Couch',tag:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'left',kind:'life-sell-couch'}});
+          if(!life.sold.includes('tv'))out.push({id:'tv-sale',hotspot:true,...TV_SPOT,label:'TV: consider selling',chip:'TV',tag:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'right',kind:'life-sell-tv'}});
+          return out;
+        }
         if (life.recovery || life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced)) return out;
         const canSell = hasEnteredQuackpot(engine.log.entries);
         if (canSell && !life.sold.includes('couch')) out.push({ id: 'couch-sale', hotspot: true, ...COUCH_SPOT, w: COUCH_SPOT.w / 2,
@@ -210,14 +221,17 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         const inactive = engine.state.life.day === 1 && engine.state.life.phase === 'morning' && !engine.state.life.meals['d1-breakfast'];
         out.push({ id: 'notice', svg: tapedNotice({ idPrefix: uid('lfn'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
           label: inactive ? 'Rent notice, available after breakfast' : worldLabels.rentNotice, chip: chips.rentNotice,
-          disabled: inactive, done: r.paid, hold: { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
+          disabled: inactive, done: r.paid && !r.owing, hold: engine.state.life.policyVersion==='five-slot-v1' && engine.checkDueObligations().bills.length
+            ? {mode:'five-due'} : { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
       }
-      const mealAvailable = !engine.state.life || ['morning', 'evening'].includes(engine.state.life.phase);
+      const five=engine.state.life?.policyVersion==='five-slot-v1',schedule=five?engine.state.life.schedule:null;
+      const mealAvailable = !engine.state.life || (five?['morning','early-evening'].includes(schedule.slot):['morning', 'evening'].includes(engine.state.life.phase));
       if (!mealAvailable) return out;
       const settled = breakfastState(engine).settled;
-      const mealName = engine.state.life?.phase === 'evening' ? 'Dinner' : 'Breakfast';
-      const mealBlocked = engine.state.life && (engine.state.life.rent.status === 'due' || (engine.state.life.rent.status === 'overdue' && !engine.state.life.rentSurfaced));
-      const skipped = engine.state.life ? engine.state.life.meals[breakfastState(engine).billId] === 'skip'
+      const mealName = (five?schedule.slot==='early-evening':engine.state.life?.phase === 'evening') ? 'Dinner' : 'Breakfast';
+      const mealBlocked = five?!engine.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'skip',operationId:`meal-preview:${engine.log.length}`}}).ok
+        :engine.state.life && (engine.state.life.rent.status === 'due' || (engine.state.life.rent.status === 'overdue' && !engine.state.life.rentSurfaced));
+      const skipped = five?schedule.obligations[breakfastState(engine).billId]==='skip' : engine.state.life ? engine.state.life.meals[breakfastState(engine).billId] === 'skip'
         : engine.log.entries.some((entry) => entry.type === 'action' && entry.payload?.kind === 'breakfast_skipped'
           && entry.payload.billId === breakfastState(engine).billId);
       out.push(settled
@@ -235,6 +249,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function decisionFor(kind) {
     const expectLog = engine.log.length;
+    if(kind==='five-slot-recovery')return {spec:{heading:'Rest and recover?',lines:[`Rest restores up to ${engine.state.life.config.recoveryHealth} HP and takes this time slot.`],confirm:'Rest',back:'Not now'},accept:()=>{const result=callbacks.onFiveSlotRecover(expectLog);return result?.ok?{heading:'Rested',lines:[`Health: ${engine.state.health} HP.`]}:null;}};
+    if(kind==='five-slot-bed')return {spec:{heading:'Turn in early?',lines:[`Resting now restores up to ${engine.state.life.config.earlyBedHealth} HP and moves to morning.`],confirm:'Turn in',back:'Not now'},accept:()=>{const result=callbacks.onFiveSlotBed(expectLog);return result?.ok?{heading:'A new morning',lines:[`Health: ${engine.state.health} HP.`]}:null;}};
     if (kind === 'life-depart-keys') {
       return { spec: { heading: 'Head to work?', lines: [`Your scheduled shift pays ${money(engine.state.life.config.scheduledWage)} after completion.`, 'Leaving now begins the shift.'], confirm: 'Take the keys and go', back: 'Not now' },
         accept: () => { callbacks.onDepartWork(expectLog); return null; } };
@@ -252,11 +268,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         accept: () => { const result = callbacks.onLeisure(expectLog); return result?.ok ? { heading: 'Break complete', lines: [`Health: ${engine.state.health} HP.`] } : null; } };
     }
     if (kind === 'life-sell-couch' || kind === 'life-sell-tv') {
-      const asset = kind === 'life-sell-couch' ? 'couch' : 'tv'; const amount = asset === 'couch' ? 10 : 15;
+      const asset = kind === 'life-sell-couch' ? 'couch' : 'tv'; const five=engine.state.life.policyVersion==='five-slot-v1';const amount = five?(asset==='couch'?30:40):(asset === 'couch' ? 10 : 15);
       const p = engine.state.life.social46?.pending;
       const context = asset === 'couch' && engine.state.life.social46?.couchContext && p?.committed && p.activity === 'game';
       const lines = [`Receive ${money(amount)}. This item will leave the apartment.`];
-      if (context) lines.push(social46DisplayText('sale_disclosure', null, p.day, 0, engine.state.life.day));
+      if (context) lines.push(social46DisplayText('sale_disclosure', null, p.day, 0, five?engine.state.life.schedule.day:engine.state.life.day));
       return { spec: { heading: `Sell the ${asset === 'tv' ? 'TV' : asset}?`, lines, confirm: `Sell for ${money(amount)}`, back: 'Keep it' },
         accept: () => { const result = callbacks.onSell(expectLog, asset); return result?.ok ? { heading: 'Sale complete', lines: [`Cash on hand: ${money(engine.state.cash)}.`] } : null; } };
     }
@@ -271,6 +287,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (kind === 'life-work') {
       const life = engine.state.life;
+      if(life.policyVersion==='five-slot-v1') {
+        const active=life.schedule.active?.kind==='work';
+        return {spec:{heading:'Scheduled shift',lines:[active?'Your shift is underway. Continue the work story to finish it.':`Your scheduled Midday shift pays ${money(life.config.scheduledWage)} after completion. Take the keys to leave for work.`],confirm:null,back:'Put it down'}};
+      }
       const doing = Boolean(life.work);
       const overtime = doing ? life.work.kind === 'overtime' : life.phase === 'evening';
       const pay = overtime ? life.config.overtimeWage : life.config.scheduledWage;
@@ -298,6 +318,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         } };
     }
     if (kind === 'rent' || kind === 'shortfall') {
+      if(engine.state.life?.policyVersion==='five-slot-v1') {
+        const rent=engine.state.life.finance.rents.find(bill=>bill.status==='pending');
+        return {spec:{heading:rent?'Rent notice':'Rent paid',lines:rent
+          ? [`${money(rent.amountCents/100)} is due on Day ${rent.due.day}.`]
+          : ['No further rent is scheduled in this playtest.'],confirm:null,back:'Put it down'}};
+      }
       if (engine.state.life) {
         const amount = rentAmount();
         const affordable = engine.state.cash >= amount;
@@ -373,18 +399,19 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         return results.couchSold({ gain: spec.preview.effect.cash || spec.preview.delta.cash, cashAfter: engine.state.cash });
       } };
     }
+    const isDinner=engine.state.life?.policyVersion==='five-slot-v1' ? engine.state.life.schedule.slot==='early-evening' : engine.state.life?.phase==='evening';
     const spec = breakfastDecision(engine);
     return { spec, decline: () => {
       const result = callbacks.onSkipBreakfast(expectLog);
       if (result === null || (!result.skipped && !result.alreadySettled)) return null;
       if (engine.state.life?.day === 1 && engine.state.life.phase === 'morning' && result.skipped) ui.pendingNoticeFocus = true;
-      return { heading: engine.state.life?.phase === 'evening' ? 'Dinner skipped' : 'Breakfast skipped', lines: [`No cash spent. Health −${result.healthLost ?? 0} HP.`, `Cash on hand: ${money(engine.state.cash)}.`] };
+      return { heading: isDinner ? 'Dinner skipped' : 'Breakfast skipped', lines: [`No cash spent. Health −${result.healthLost ?? 0} HP.`, `Cash on hand: ${money(engine.state.cash)}.`] };
     }, accept: () => {
       const res = callbacks.onBreakfast(expectLog);
       if (res === null) return null;
       if (engine.state.life?.day === 1 && engine.state.life.phase === 'morning' && res?.paid) ui.pendingNoticeFocus = true;
       return res?.paid || breakfastState(engine).settled
-        ? engine.state.life?.phase === 'evening' ? { heading: 'Dinner bought', lines: [`Paid ${money(engine.state.life.config.mealCost)}. Cash on hand: ${money(engine.state.cash)}.`] }
+        ? isDinner ? { heading: 'Dinner bought', lines: [`Paid ${money(engine.state.life.config.mealCost)}. Cash on hand: ${money(engine.state.cash)}.`] }
           : results.breakfastBought({ amount: engine.state.life?.config.mealCost ?? BREAKFAST_AMOUNT, cashAfter: engine.state.cash })
         : { heading: 'Nothing bought', lines: ['There is not enough cash for breakfast. Nothing was taken.', `Cash on hand: ${money(engine.state.cash)}.`] };
     } };
@@ -503,13 +530,19 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     </div></div>`;
 
   function heldObjectHtml(hold, dec, hid) {
-    if (hold.variant === 'letter') return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueText: engine.state.life ? 'due in three days' : rentDueText(null), corrections: rentNoticeCorrections(engine.state.life) }), hid);
+    if (hold.variant === 'letter') {
+      if(engine.state.life?.policyVersion==='five-slot-v1') {
+        const rent=engine.state.life.finance.rents.find(bill=>bill.status==='pending');
+        return letterHtml({sender:'Harbor Court',heading:rent?.id==='rent-1'?'Remaining rent balance · 4B':'Rent · 4B',paragraphs:rent?[`${money(rent.amountCents/100)} is due on Day ${rent.due.day}.`]:['No further rent is scheduled in this playtest.'],footer:'Harbor Court · 4B'},hid);
+      }
+      return letterHtml(noticeLetter({ amount: rentAmount(), unit: '4B', dueText: engine.state.life ? 'due in three days' : rentDueText(null), corrections: rentNoticeCorrections(engine.state.life) }), hid);
+    }
     if (hold.variant.startsWith('life-')) {
       const life = engine.state.life;
       const body = hold.variant === 'life-work'
-        ? `<p class="life-bubble">${life.work ? 'Your shift is underway.' : life.phase === 'evening' ? `An evening shift pays ${esc(money(life.config.overtimeWage))} on completion.` : `Your scheduled afternoon shift pays ${esc(money(life.config.scheduledWage))} when completed.`}</p>`
+        ? `<p class="life-bubble">${life.policyVersion==='five-slot-v1' ? (life.schedule.active?.kind==='work'?'Your shift is underway.':`Your scheduled Midday shift pays ${esc(money(life.config.scheduledWage))} when completed.`) : life.work ? 'Your shift is underway.' : life.phase === 'evening' ? `An evening shift pays ${esc(money(life.config.overtimeWage))} on completion.` : `Your scheduled afternoon shift pays ${esc(money(life.config.scheduledWage))} when completed.`}</p>`
         : hold.variant === 'life-invite' ? `<p class="life-bubble">Quackpot launches tonight! Reply LAUNCH to get 10 free ducks when the pond opens.</p>${engine.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply') ? '<p class="life-bubble life-you">LAUNCH</p><p class="life-bubble">You’re on the list! Come back tonight for your free 10-pull.</p>' : ''}` : '<p class="life-bubble">Quackpot is ready when you are.</p>';
-      return phoneHtml({ status: life.phase, app: hold.variant === 'life-work' ? 'Harbor Street Diner' : 'Messages', body }, hid);
+      return phoneHtml({ status: life.policyVersion==='five-slot-v1'?life.schedule.slot:life.phase, app: hold.variant === 'life-work' ? 'Harbor Street Diner' : 'Messages', body }, hid);
     }
     if (hold.variant === 'card') {
       const c = cardApp({ available: dec.spec.preview.accept.effect.cash, owedNow: engine.state.debt });
@@ -604,7 +637,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     else pop.style.right = `${box.right - r.left + 14}px`;
     $('.life-popover-layer').append(pop);
     popEl = pop;
-    const socialDisclosure = active && obj.hold.kind === 'life-sell-couch' && social46NeedsSaleDisclosure(engine.state.life);
+    const socialDisclosure = active && obj.hold.kind === 'life-sell-couch' && social46NeedsSaleDisclosure(fiveSlotSocialView(engine));
     if (socialDisclosure) {
       callbacks.onSocialShown({ type: 'social46_sale_shown', id: engine.state.life.social46.pending.id });
       dec = decisionFor(obj.hold.kind); current.dec = dec;
@@ -634,9 +667,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const e = engine;
     const step = e.state.step;
     const r = rentState(e);
-    const when = e.state.life ? `Day ${e.state.life.day} · ${e.state.life.phase === 'lateNight' ? 'Late Night' : e.state.life.phase}`
+    const when = e.state.life?.policyVersion === 'five-slot-v1' ? `Day ${e.state.life.schedule.day} · ${({'morning':'Morning','midday':'Midday','early-evening':'Early Evening','evening':'Evening','late-evening':'Late Evening'})[e.state.life.schedule.slot]}`
+      : e.state.life ? `Day ${e.state.life.day} · ${e.state.life.phase === 'lateNight' ? 'Late Night' : e.state.life.phase}`
       : place ? (isBreakfastStep(step) ? `Day ${e.state.day} · morning` : WHEN[place]) : `Day ${e.state.day}`;
-    const status = r.owing && e.state.life ? `Rent ${e.state.life.rent.status === 'overdue' ? 'overdue' : 'due'} · ${money(rentAmount())} unpaid`
+    const status = r.owing && e.state.life?.policyVersion === 'five-slot-v1' ? `Rent due · ${money(rentAmount())} unpaid`
+      : r.owing && e.state.life ? `Rent ${e.state.life.rent.status === 'overdue' ? 'overdue' : 'due'} · ${money(rentAmount())} unpaid`
       : r.owing ? `Rent unpaid · ${money(r.short)} short`
       : RENT_STEPS.includes(step) ? (r.paid ? 'Rent paid' : `Rent due · ${money(rentAmount())}`)
         : null;
@@ -668,6 +703,28 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         render();
         if (active) ($('.life-obj:not([aria-disabled])') ?? $('.life-day-bar button'))?.focus();
       }, '', rooms);
+    }
+    if(e.state.life?.policyVersion==='five-slot-v1') {
+      const schedule=e.state.life.schedule,expectLog=e.log.length;
+      if(e.checkDueObligations().bills.length && !schedule.recovery && ui.fiveDueHidden)
+        control('View payments',()=>{ui.fiveDueHidden=false;render();});
+      const earlyLoan=e.state.life.finance.loans.find(loan=>loan.status==='pending' && !e.checkDueObligations().bills.some(bill=>bill.id===loan.id));
+      if(earlyLoan && !schedule.recovery && Math.round(e.state.cash*100)>=earlyLoan.totalCents)
+        control(`Repay loan · ${money(earlyLoan.totalCents/100)}`,()=>{callbacks.onFiveSlotEarlyRepay(expectLog,earlyLoan.id);callbacks.onRefresh();});
+      if(place==='desk-phone' && (e.state.life.social46?.revision===1 || e.state.life.social46?.introShown) && !schedule.recovery)
+        control('Messages: Ren',()=>{const result=callbacks.onSocialOpen(e.log.length);if(result?.ok){ui.renOpen=true;render();}});
+      const quiet=e.prepareFiveSlotAction({domain:'schedule',action:{type:'start',kind:'quiet',operationId:`quiet-preview:${expectLog}`}});
+      if(quiet.ok && !schedule.active && !schedule.recovery)
+        control('Spend time quietly',()=>{callbacks.onFiveSlotQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
+      if(schedule.active?.kind==='quiet')control('Finish quiet time',()=>{callbacks.onFiveSlotFinishQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
+      if(schedule.active?.kind==='session')control('Finish phone session',()=>{callbacks.onFiveSlotFinishSession(expectLog);callbacks.onRefresh();});
+      if(schedule.slot==='evening' && !schedule.active && schedule.overtimeReservation?.status==='reserved' && schedule.overtimeReservation.day===schedule.day)
+        control('Start extra shift',()=>{callbacks.onFiveSlotOvertime(expectLog);callbacks.onRefresh();});
+      if(schedule.active?.kind==='overtime')control('Complete extra shift',()=>{callbacks.onFiveSlotFinishOvertime(expectLog);callbacks.onRefresh();});
+      if(schedule.slot==='late-evening' && !schedule.active && !schedule.recovery)
+        control('Go to sleep',()=>{callbacks.onFiveSlotSleep(expectLog);ui.held=null;callbacks.onRefresh();});
+      if(schedule.day>=4)control('Finish run',()=>{callbacks.onFinishLife(expectLog);ui.held=null;callbacks.onRefresh();});
+      return;
     }
     if (e.state.life && ['life_work', 'life_evening'].includes(step)) {
       const expectLog = e.log.length;
@@ -736,6 +793,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     closing = false;
     for (const a of anims) a.cancel?.();
     anims.clear();
+    if(engine.state.life?.policyVersion==='five-slot-v1') {
+      const key=engine.checkDueObligations().bills.map(bill=>bill.id).join('|');
+      if(key!==ui.fiveDueKey){ui.fiveDueKey=key;ui.fiveDueHidden=false;}
+    }
     ui.place = engine.state.life?.policyVersion === 'five-slot-v1' && engine.state.life.story47
       ? (ui.place || 'kitchen-breakfast') : placeFor(engine, ui.place);
     const place = ui.place;
@@ -769,7 +830,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       return;
     }
     if (ui.renOpen && engine.state.life?.social46) {
-      renderRenChannel46(root, engine.state.life, {
+      renderRenChannel46(root, fiveSlotSocialView(engine), {
         shown: intent => callbacks.onSocialShown(intent),
         action: intent => { callbacks.onSocialAction(engine.log.length, intent); callbacks.onRefresh(); },
         close: () => {
@@ -783,14 +844,16 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (place === 'door') {
       if (active && !engine.state.life.social46) callbacks.onDoorActivate(engine.log.length);
+      let socialLife=fiveSlotSocialView(engine);
       const social = engine.state.life.social46;
-      if (active && social?.revision === 2 && !social.introShown && !social.intro.open && !social.intro.node && social.intro.knockDay !== engine.state.life.day && social.intro.ignoredDay !== engine.state.life.day) {
+      if (active && social?.revision === 2 && !social.introShown && !social.intro.open && !social.intro.node && social.intro.knockDay !== socialLife.day && social.intro.ignoredDay !== socialLife.day) {
         callbacks.onSocialShown({ type: 'social46_knock_shown' });
       }
-      if (active && social46VisitAtDoor(engine.state.life) && !engine.state.life.social46.pending.arrival) {
+      if (active && social46VisitAtDoor(socialLife) && !engine.state.life.social46.pending.arrival) {
         callbacks.onSocialShown({ type: 'social46_visit_knock_shown', id: engine.state.life.social46.pending.id });
       }
-      renderRenDoor46(root, engine.state.life, {
+      socialLife=fiveSlotSocialView(engine);
+      renderRenDoor46(root, socialLife, {
         action: intent => {
           callbacks.onSocialAction(engine.log.length, intent);
           render();
@@ -802,8 +865,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const intro = engine.state.life.social46?.intro;
       if (active && intro?.open && intro.node && !intro.shown.includes(intro.node)) callbacks.onSocialShown({ type: 'social46_intro_line_shown' });
       const pending = engine.state.life.social46?.pending;
-      if (active && social46VisitAtDoor(engine.state.life) && pending?.arrival?.open && !pending.arrival.lineShown) callbacks.onSocialShown({ type: 'social46_visit_arrival_shown', id: pending.id, lookVersion: 1 });
-      if (active && social46VisitAtDoor(engine.state.life) && pending?.arrival?.open && !pending.seatingConfirmed && pending.floorPromptDay !== engine.state.life.day) callbacks.onSocialShown({ type: 'social46_floor_shown', id: pending.id });
+      if (active && social46VisitAtDoor(socialLife) && pending?.arrival?.open && !pending.arrival.lineShown) callbacks.onSocialShown({ type: 'social46_visit_arrival_shown', id: pending.id, lookVersion: 1 });
+      if (active && social46VisitAtDoor(socialLife) && pending?.arrival?.open && !pending.seatingConfirmed && pending.floorPromptDay !== socialLife.day) callbacks.onSocialShown({ type: 'social46_floor_shown', id: pending.id });
       root.inert = !active;
       return;
     }
@@ -855,6 +918,35 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       layer.append(b);
     }
     renderDayBar(place);
+    if(engine.state.life?.policyVersion==='five-slot-v1' && !ui.fiveDueHidden && !engine.state.life.schedule.recovery) {
+      const due=fiveSlotDueDecision(engine);
+      if(due) {
+        const panel=document.createElement('section');panel.className='life-five-slot-payments';panel.setAttribute('aria-label',due.heading);
+        const heading=document.createElement('h2');heading.textContent=due.heading;panel.append(heading);
+        for(const line of due.lines){const p=document.createElement('p');p.textContent=line;panel.append(p);}
+        $('.life-stage').append(panel);
+        const button=(label,fn,disabled=false)=>{const b=document.createElement('button');b.type='button';b.className='life-btn';b.textContent=label;b.disabled=!active||disabled;b.addEventListener('click',()=>{b.disabled=true;fn();});panel.append(b);};
+        for(const bill of due.bills) {
+          button(`Pay ${bill.label} · ${money(bill.amountCents/100)}`,()=>{callbacks.onFiveSlotPay(engine.log.length,bill.id);ui.held=null;callbacks.onRefresh();},!bill.canPay);
+          if(due.loanRentIds.includes(bill.id))button(`See loan terms for ${bill.label}`,()=>{callbacks.onFiveSlotLoan(engine.log.length,bill.id);callbacks.onRefresh();});
+          button(`Leave ${bill.label} unpaid`,()=>{callbacks.onFiveSlotLeaveUnpaid(engine.log.length,bill.id);callbacks.onRefresh();});
+        }
+        if(due.overtimeAvailable) {
+          const rent=due.bills.find(bill=>bill.id.startsWith('rent-')),label=document.createElement('label');label.textContent='Extra shift evening: ';
+          const select=document.createElement('select');select.setAttribute('aria-label','Extra shift evening');
+          const schedule=engine.state.life.schedule;
+          for(let day=schedule.day;day<=schedule.day+7;day++) {
+            const probe=engine.prepareFiveSlotAction({domain:'schedule',action:{type:'reserve-overtime',rentId:rent.id,day,reservationId:`rent-shift:${rent.id}`,operationId:`shift-preview:${day}`}});
+            if(probe.ok){const option=document.createElement('option');option.value=String(day);option.textContent=`Day ${day} Evening`;select.append(option);}
+          }
+          label.append(select);panel.append(label);
+          button('Reserve extra shift',()=>{callbacks.onFiveSlotReserve(engine.log.length,rent.id,Number(select.value));callbacks.onRefresh();},!select.options.length);
+        }
+        if(due.saleOptions.length)button('Inspect furniture in the living room',()=>{ui.fiveDueHidden=true;ui.place='living';render();});
+        button('Put payments down',()=>{ui.fiveDueHidden=true;render();});
+        if(active)callbacks.onFiveSlotDueShown();
+      }
+    }
     root.inert = !active;
 
     // Restore a held view (after Uninstall→Stay or Settings close) instantly, without animation.
@@ -877,7 +969,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   function activate(o) {
     if (o.id === 'notice') { ui.noticeFocus = false; o.el?.classList.remove('life-notice-focus'); }
-    if (o.hold.mode === 'direct-phone') {
+    if(o.hold.mode==='five-due') {ui.fiveDueHidden=false;render();}
+    else if (o.hold.mode === 'direct-phone') {
       const result = callbacks.onOpenPhone(engine.log.length);
       if (result?.ok) { callbacks.onRefresh(); callbacks.onPhoneTransition(); }
     } else if (o.hold.mode === 'popover') openPopover(o);

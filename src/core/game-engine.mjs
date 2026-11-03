@@ -25,6 +25,7 @@ import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mj
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
 const FIVE_SLOT_RACE = Symbol('private-five-slot-race');
+const fiveSlotAppOpened = entries => entries.some(e => e.type==='action' && e.payload?.kind==='quackpot_opened' && e.payload.app==='Quackpot');
 
 function deepFreeze(value) {
   if (!value || typeof value !== 'object' || Object.isFrozen(value)) return value;
@@ -279,7 +280,7 @@ export class GameEngine {
 
   prepareFiveSlotPlay(kind, {operationId,extend=false}={}) {
     if(this.isTerminal() || this.state.life?.policyVersion!=='five-slot-v1' || !['pull','race'].includes(kind)
-      || typeof operationId!=='string' || !operationId || !hasEnteredQuackpot(this.log.entries))return {ok:false,reason:'unavailable'};
+      || typeof operationId!=='string' || !operationId || !fiveSlotAppOpened(this.log.entries))return {ok:false,reason:'unavailable'};
     const context=this.#fiveSlotContext();context.schedule.operationAvailable=true;
     return inspectLifeTransaction(this.state.life,{cashCents:Math.round(this.state.cash*100),health:this.state.health},
       {domain:'schedule',action:{type:'play',kind,operationId,...(extend?{extend:true}:{})}},context);
@@ -293,7 +294,18 @@ export class GameEngine {
   }
 
   #fiveSlotWarningWasShown(proposal) {
-    return this.log.entries.some(event=>event.type==='life52_schedule_warning_shown' && JSON.stringify(event.payload?.proposal)===JSON.stringify(proposal));
+    const events=this.log.entries,shown=events.findLastIndex(event=>event.type==='life52_schedule_warning_shown' && JSON.stringify(event.payload?.proposal)===JSON.stringify(proposal));
+    const cancelled=events.findLastIndex(event=>event.type==='life52_schedule_warning_cancelled' && event.payload?.operationId===proposal?.intent?.action?.operationId);
+    return shown>=0 && shown>cancelled;
+  }
+
+  recordFiveSlotWarningCancelled(proposal) {
+    if(!this.#fiveSlotWarningWasShown(proposal))return null;
+    const action=proposal.intent.action,current=action.type==='play'
+      ? this.prepareFiveSlotPlay(action.kind,{operationId:action.operationId,extend:action.extend===true})
+      : this.prepareFiveSlotAction(proposal.intent);
+    if(!current.ok || JSON.stringify(current.proposal)!==JSON.stringify(proposal))return null;
+    return this.log.append('life52_schedule_warning_cancelled',{operationId:proposal.intent.action.operationId},this.state.clock);
   }
 
   commitFiveSlotAction(proposal, operation = {}) {
@@ -504,7 +516,11 @@ export class GameEngine {
 
   /** Fictional preparation and entry are free; older entry evidence remains authoritative. */
   showLifeInvitation() {
-    if (this.isTerminal() || !this.state.life || this.state.life.day !== 1 || !['morning', 'afternoon'].includes(this.state.life.phase)) return null;
+    const life=this.state.life;
+    const invitationWindow=life?.policyVersion==='five-slot-v1'
+      ? life.schedule.day===1 && ['morning','midday','early-evening'].includes(life.schedule.slot)
+      : life?.day===1 && ['morning','afternoon'].includes(life.phase);
+    if (this.isTerminal() || !invitationWindow) return null;
     if (this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation')) return null;
     return this.log.append('offer_shown', { kind: 'launch_reply_invitation', technique: 'launch_invitation', launch: 'day_1_evening' }, this.state.clock);
   }
@@ -534,7 +550,7 @@ export class GameEngine {
     const life = this.state.life;
     if (life.policyVersion === 'five-slot-v1') {
       if (life.schedule.day === 1 && !['evening', 'late-evening'].includes(life.schedule.slot)) return false;
-      if (!hasEnteredQuackpot(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
+      if (!fiveSlotAppOpened(this.log.entries)) this.log.append('action', { kind: 'quackpot_opened', app: 'Quackpot' }, this.state.clock);
       return true;
     }
     if (life.day === 1 && !['evening', 'lateNight'].includes(life.phase)) return false;
@@ -590,7 +606,7 @@ export class GameEngine {
   // The actual draw is generated on an owned draft; only its successful result
   // can be paired with the prepared scheduler action and published.
   #stageFiveSlotPull(count, paid, options) {
-    if (!hasEnteredQuackpot(this.log.entries) || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
+    if (!fiveSlotAppOpened(this.log.entries) || this.state.pendingReveals.some(draw => !draw.revealed)) return null;
     const draft = this.#transactionDraft();
     const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
     const context = draft.#fiveSlotContext();
@@ -602,9 +618,10 @@ export class GameEngine {
     if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
     if(draft.tutorialShiftVersion && prepared.proposal.schedule.disclosures.length && !draft.#fiveSlotWarningWasShown(prepared.proposal))return null;
     if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
-    if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
+    const conflictChoice=options.conflictChoice ?? (options.confirmSocial===true?'break':null);
+    if (prepared.proposal.schedule.conflicts.length && !['notice','break'].includes(conflictChoice)) return null;
     draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {
-      confirmed: true, ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) } }, draft.state.clock);
+      confirmed: true, ...(conflictChoice ? { conflictChoice } : {}), ...(options.overtimeChoice ? {overtimeChoice:options.overtimeChoice} : {}) } }, draft.state.clock);
     if (paid) {
       const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
       if (draft.state.gems < cost || draft.state.pendingReveals.some(draw => !draw.revealed)) return null;
@@ -613,7 +630,7 @@ export class GameEngine {
     }
     const draws = draft.#commitDrawBatch(count, paid);
     const operation = { confirmed: true, success: true, operationId, resultRef: `draw:${draws[0].commitSeq}`,
-      ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) };
+      ...(conflictChoice ? { conflictChoice } : {}), ...(options.overtimeChoice ? {overtimeChoice:options.overtimeChoice} : {}) };
     const result = commitLifeTransaction(draft.state.life, balances, prepared.proposal, operation, context);
     if (!result.ok) return null;
     draft.state.life = result.state;
@@ -629,7 +646,7 @@ export class GameEngine {
   }
 
   #stageFiveSlotRace(raceNumber, duckId, stance, options) {
-    if (this.isTerminal() || !hasEnteredQuackpot(this.log.entries)) return null;
+    if (this.isTerminal() || !fiveSlotAppOpened(this.log.entries)) return null;
     if (!Number.isSafeInteger(raceNumber) || raceNumber < 1) return null;
     const prior = this.getRaceAttempt(raceNumber);
     if (prior) return prior;
@@ -646,13 +663,14 @@ export class GameEngine {
     if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
     if(draft.tutorialShiftVersion && prepared.proposal.schedule.disclosures.length && !draft.#fiveSlotWarningWasShown(prepared.proposal))return null;
     if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
-    if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
+    const conflictChoice=options.conflictChoice ?? (options.confirmSocial===true?'break':null);
+    if (prepared.proposal.schedule.conflicts.length && !['notice','break'].includes(conflictChoice)) return null;
     draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {
-      confirmed: true, ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) } }, draft.state.clock);
+      confirmed: true, ...(conflictChoice ? { conflictChoice } : {}), ...(options.overtimeChoice ? {overtimeChoice:options.overtimeChoice} : {}) } }, draft.state.clock);
     const attempt = draft.runRace(raceNumber, duckId, stance, { useTrial: options.useTrial ?? false, [FIVE_SLOT_RACE]: true });
     if (!attempt || typeof attempt.resolutionDigest !== 'string') return null;
     const operation = { confirmed: true, success: true, operationId, resultRef: `race:${attempt.resolutionDigest}`,
-      ...(options.confirmSocial === true ? { conflictChoice: 'break' } : {}) };
+      ...(conflictChoice ? { conflictChoice } : {}), ...(options.overtimeChoice ? {overtimeChoice:options.overtimeChoice} : {}) };
     const result = commitLifeTransaction(draft.state.life, balances, prepared.proposal, operation, context);
     if (!result.ok) return null;
     draft.state.life = result.state;
@@ -696,7 +714,7 @@ export class GameEngine {
     if (this.isTerminal() || !this.state.life) return false;
     if (this.state.life.policyVersion === 'five-slot-v1') {
       const price = new Map([[60, 0.99], [330, 4.99], [1090, 14.99]]).get(gems);
-      if (!hasEnteredQuackpot(this.log.entries) || price === undefined || this.state.cash < price
+      if (!fiveSlotAppOpened(this.log.entries) || price === undefined || this.state.cash < price
         || this.state.life.schedule.recovery || this.checkDueObligations().bills.length) return false;
       const draft = this.#transactionDraft();
       draft.state.cash = Math.round((draft.state.cash - price) * 100) / 100;
@@ -1037,6 +1055,7 @@ export class GameEngine {
   purchaseRaceTrial() {
     const cost = GAME_CONSTANTS.RACE_TRIAL_COST;
     if (this.isTerminal() || this.state.raceTrialAvailable || this.state.down < cost) return false;
+    if (this.state.life?.policyVersion==='five-slot-v1' && (this.state.life.schedule.recovery || this.checkDueObligations().bills.length)) return false;
     const downBefore = this.state.down;
     this.state.down -= cost;
     this.state.raceTrialAvailable = true;

@@ -81,7 +81,7 @@ export function commitLifeTransaction(state,balances,proposal,operation={},curre
       if(!view.social46?.pending || !proposal.schedule.conflicts.includes(view.social46.pending.id))return bad('social_conflict_mismatch');
       let resolved;
       if(operation.conflictChoice==='notice') resolved=transitionSocial46(view,{type:'social46_cancel',id:view.social46.pending.id},record,()=>{});
-      else if(operation.conflictChoice==='break') {view.day=proposal.schedule.destination.day;view.phase='evening';resolved=prepareSocial46(view,{type:'phone_commit',socialConflict:'continue'},record) ?? {ok:true};}
+      else if(operation.conflictChoice==='break') {view.day=proposal.intent.action.type==='reserve-overtime'?proposal.intent.action.day:proposal.schedule.destination.day;view.phase='evening';resolved=prepareSocial46(view,{type:'phone_commit',socialConflict:'continue'},record) ?? {ok:true};}
       else return bad('conflict_choice_required');
       if(!resolved.ok)return resolved;
     }

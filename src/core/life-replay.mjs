@@ -8,7 +8,6 @@ import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
 import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
-import {hasEnteredQuackpot} from './life-entry.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 
 // Rebuild the coordinated portion from its original policy and recorded inputs.
@@ -20,8 +19,8 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
-  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null;
-  const shownStages=[];
+  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null,appOpened=false;
+  const shownStages=[];let expectedInterruptions=[];
   const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
@@ -39,6 +38,16 @@ export function validateFiveSlotTransactionHistory(envelope) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
       receiptSeen=true;continue;
     }
+    if(leaveRequested && expectedInterruptions.length) {
+      const expected=expectedInterruptions.shift();
+      if(entry.type!==expected.type || !same(entry.payload,expected.payload)){errors.push(`Invalid interruption after uninstall choice at ${entry.seq}`);break;}
+      continue;
+    }
+    if(leaveRequested && entry.type!=='terminal') {errors.push(`Unexpected event after uninstall choice at ${entry.seq}`);break;}
+    if(entry.type==='action' && entry.payload?.kind==='quackpot_opened') {
+      if(appOpened || entry.payload.app!=='Quackpot' || (life.schedule.day===1 && !['evening','late-evening'].includes(life.schedule.slot))) {errors.push(`Invalid app entry at ${entry.seq}`);break;}
+      appOpened=true;continue;
+    }
     if(entry.type==='action' && entry.payload?.kind==='uninstall_chosen') {
       if(retentionOpen || entries[i+1]?.type!=='retention_modal_shown') {errors.push(`Invalid uninstall prompt at ${entry.seq}`);break;}
       const modal=entries[i+1].payload;if(modal?.gemsOffered!==(retentionUsed?0:GAME_CONSTANTS.RETENTION_GEMS)){errors.push(`Invalid retention offer at ${entry.seq}`);break;}
@@ -49,7 +58,17 @@ export function validateFiveSlotTransactionHistory(envelope) {
       gems+=GAME_CONSTANTS.RETENTION_GEMS;retentionUsed=true;retentionOpen=false;i++;continue;
     }
     if(entry.type==='action' && entry.payload?.kind==='stay_without_reward') {if(!retentionOpen || !retentionUsed){errors.push(`Invalid retention choice at ${entry.seq}`);break;}retentionOpen=false;continue;}
-    if(entry.type==='action' && entry.payload?.kind==='leave_immediately') {if(!retentionOpen){errors.push(`Invalid uninstall choice at ${entry.seq}`);break;}retentionOpen=false;leaveRequested=true;continue;}
+    if(entry.type==='action' && entry.payload?.kind==='leave_immediately') {
+      if(!retentionOpen){errors.push(`Invalid uninstall choice at ${entry.seq}`);break;}
+      const active=life.schedule.active,day=life.schedule.day,social=life.social46,story=life.story47;
+      const unseen=(type,id)=>!entries.slice(0,i).some(event=>event.type===type && event.payload?.id===id);
+      if(social?.scene?.stage==='scene' && unseen('social46_interrupted',social.scene.id))expectedInterruptions.push({type:'social46_interrupted',payload:{id:social.scene.id,day}});
+      else if(!social?.scene && social?.pending?.committed && unseen('social46_plan_interrupted',social.pending.id))expectedInterruptions.push({type:'social46_plan_interrupted',payload:{id:social.pending.id,day:social.pending.day}});
+      if(story?.kind==='activity' && story.stage==='scene' && unseen('activity47_interrupted',story.id))expectedInterruptions.push({type:'activity47_interrupted',payload:{id:story.id,choice:story.choice,day}});
+      if(['work','overtime'].includes(active?.kind) && unseen('work_interrupted',active.id))expectedInterruptions.push({type:'work_interrupted',payload:{id:active.id,kind:active.kind==='work'?'scheduled':'overtime',day}});
+      if(active?.kind==='session' && unseen('session_interrupted',active.id))expectedInterruptions.push({type:'session_interrupted',payload:{id:active.id,suspended:null,pull:active.pullUsed,race:active.raceUsed}});
+      retentionOpen=false;leaveRequested=true;continue;
+    }
     if(entry.type==='terminal') {
       if(entry.payload?.route==='uninstall' && leaveRequested)terminalRoute='uninstall';
       else if(entry.payload?.route==='run_complete' && !leaveRequested && !retentionOpen)terminalRoute='run_complete';
@@ -63,6 +82,13 @@ export function validateFiveSlotTransactionHistory(envelope) {
       if(!story || story.id!==entry.payload?.id || story.stage!==entry.payload?.stage || !beats || entry.payload.version!==1 || !same(entry.payload.beats,beats) || shownStages.includes(key)){errors.push(`Invalid displayed work story at ${entry.seq}`);break;}
       shownStages.push(key);continue;
     }
+    if(entry.type==='life52_schedule_warning_cancelled') {
+      const operationId=entry.payload?.operationId,earlier=entries.slice(0,i);
+      const shown=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_shown' && event.payload?.proposal?.intent?.action?.operationId===operationId);
+      const cancelled=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_cancelled' && event.payload?.operationId===operationId);
+      if(typeof operationId!=='string' || shown<0 || shown<=cancelled || Object.hasOwn(life.schedule.completedOperationIds,operationId)){errors.push(`Invalid warning cancellation at ${entry.seq}`);break;}
+      continue;
+    }
     if(entry.type==='income') {
       const p=entry.payload, amount={couch:30,tv:40}[p?.asset];
       const view={social46:life.social46,day:life.schedule.day,sold:life.sold};
@@ -70,10 +96,14 @@ export function validateFiveSlotTransactionHistory(envelope) {
         || (p.asset==='couch' && social46NeedsSaleDisclosure(view)) || p.cashAfter!==(balances.cashCents+amount*100)/100) {errors.push(`Invalid asset sale at ${entry.seq}`);break;}
       life.sold.push(p.asset);if(p.asset==='couch')social46CouchSold({social46:life.social46});balances.cashCents+=amount*100;continue;
     }
+    if(entry.type==='action' && entry.payload?.kind==='race_trial_purchased') {
+      const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
+      if(life.schedule.recovery || due.bills.length){errors.push(`Race trial purchased while payment or recovery was pending at ${entry.seq}`);break;}
+    }
     if(entry.type==='purchase' && entry.payload?.price>0) {
       const p=entry.payload, price=new Map([[60,99],[330,499],[1090,1499]]).get(p.bundleGems);
       const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
-      if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !hasEnteredQuackpot(entries.slice(0,i)) || p.cashAfter!==(balances.cashCents-price)/100 || p.gemsAfter!==gems+p.bundleGems) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
+      if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !appOpened || p.cashAfter!==(balances.cashCents-price)/100 || p.gemsAfter!==gems+p.bundleGems) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
       balances.cashCents-=price;gems+=p.bundleGems;continue;
     }
     if(!['life52_intent','life52_social_intent','life52_work_story_intent'].includes(entry.type)) {
@@ -86,6 +116,7 @@ export function validateFiveSlotTransactionHistory(envelope) {
     if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent','life52_work_story_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
     const inside=entries.slice(i+1,end), actualEvents=inside.filter(event=>event.type==='life52_effect').map(event=>event.payload?.effect);
     const intent=entry.payload?.intent, finance=latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot});
+    if(entries[0].payload?.tutorialShiftVersion && entry.type==='life52_intent' && intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='work') {errors.push(`Tutorial work bypasses story at ${entry.seq}`);break;}
     const due=dueObligations(finance,balances.cashCents), rent=due.bills.find(bill=>bill.id.startsWith('rent-'));
     const options={bills:due.bills.map(bill=>({id:bill.id,amountCents:bill.amountCents??bill.totalCents})),
       cashCents:due.cashCents,totalCents:due.totalCents,shortfallCents:due.shortfallCents,
@@ -108,7 +139,7 @@ export function validateFiveSlotTransactionHistory(envelope) {
     const gameplay=intent?.domain==='schedule' && intent?.action?.type==='play';
     let operation=entry.payload?.operation??{};
     if(gameplay) {
-      if(!hasEnteredQuackpot(entries.slice(0,i))) {errors.push(`Gameplay before app entry at ${entry.seq}`);break;}
+      if(!appOpened) {errors.push(`Gameplay before app entry at ${entry.seq}`);break;}
       context.schedule.operationAvailable=true;
       const other=inside.filter(event=>event.type!=='life52_effect');
       const firstEffect=inside.findIndex(event=>event.type==='life52_effect');
@@ -139,8 +170,11 @@ export function validateFiveSlotTransactionHistory(envelope) {
     else {
       const proposal=inspectLifeTransaction(life,balances,intent,context);
       if(!proposal.ok){errors.push(`Invalid transaction at ${entry.seq}: ${proposal.reason}`);break;}
-      if(entries[0].payload?.tutorialShiftVersion && proposal.proposal.domain==='schedule' && proposal.proposal.schedule.disclosures.length
-        && !wasShown('life52_schedule_warning_shown',{proposal:proposal.proposal})){errors.push(`Schedule warning was not shown at ${entry.seq}`);break;}
+      if(entries[0].payload?.tutorialShiftVersion && proposal.proposal.domain==='schedule' && proposal.proposal.schedule.disclosures.length) {
+        const earlier=entries.slice(0,i),shown=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_shown' && same(event.payload,{proposal:proposal.proposal}));
+        const cancelled=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_cancelled' && event.payload?.operationId===intent.action.operationId);
+        if(shown<0 || shown<=cancelled){errors.push(`Schedule warning was not shown at ${entry.seq}`);break;}
+      }
       result=commitLifeTransaction(life,balances,proposal.proposal,operation,context);
     }
     const commit=entries[end].payload;
@@ -156,9 +190,12 @@ export function validateFiveSlotTransactionHistory(envelope) {
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
   if(expectedStoryIncome)errors.push('Missing work income evidence');
+  if(expectedInterruptions.length)errors.push('Missing interruption evidence after uninstall choice');
+  if(leaveRequested && !terminalRoute)errors.push('Missing terminal after uninstall choice');
   if(!errors.length && terminalRoute && (envelope.state?.terminalRoute!==terminalRoute || envelope.state?.phase!==(receiptSeen?'receipt_presented':'terminal')))errors.push('Terminal does not match saved state');
   if(!errors.length && !terminalRoute && ['terminal','receipt_presented'].includes(envelope.state?.phase))errors.push('Saved terminal has no matching event');
   if(!errors.length && Boolean(envelope.state?.retentionUsed)!==retentionUsed)errors.push('Retention reward state does not match history');
+  if(!errors.length && Boolean(envelope.state?.tenPullCommitted)!==entries.some(event=>event.type==='draw_committed' && event.payload?.advancesPity===false))errors.push('Promotional pull state does not match history');
   const debt=life.finance.loans.filter(loan=>['pending','defaulted'].includes(loan.status)).reduce((sum,loan)=>sum+loan.totalCents,0)/100;
   if(!errors.length && envelope.state?.debt!==debt)errors.push('Reconstructed debt does not match saved state');
   if(!errors.length && envelope.state?.gems!==gems)errors.push('Reconstructed Gem balance does not match saved state');
@@ -209,7 +246,11 @@ export function validateSeededRaceHistory(envelope) {
     if(e.type==='draw_committed' && e.payload?.duplicate)down+=e.payload.downGained??0;
     if(e.type==='action' && e.payload?.kind==='down_spent') {const amount=e.payload.amount;if(!Number.isSafeInteger(amount) || amount<0 || amount>down)errors.push(`Invalid Down spending at ${e.seq}`);else down-=amount;}
     if(e.type==='action' && e.payload?.kind==='race_trial_purchased'){if(trialAvailable || e.payload.costDown!==GAME_CONSTANTS.RACE_TRIAL_COST || down<GAME_CONSTANTS.RACE_TRIAL_COST)errors.push(`Invalid race trial purchase at ${e.seq}`);down-=GAME_CONSTANTS.RACE_TRIAL_COST;trialAvailable=true;continue;}
-    if(e.type==='action' && e.payload?.kind==='race_trial_consumed'){if(!trialAvailable)errors.push(`Race trial consumed without purchase at ${e.seq}`);trialAvailable=false;continue;}
+    if(e.type==='action' && e.payload?.kind==='race_trial_consumed'){
+      const outcome=entries[i-1],choice=entries[i-2];
+      if(!trialAvailable || outcome?.type!=='race_result' || choice?.type!=='action' || choice.payload?.kind!=='race_choice' || !choice.payload.trialCommitted || choice.payload.raceId!==e.payload.raceId || outcome.payload?.raceId!==e.payload.raceId)errors.push(`Race trial consumed without matching completed race at ${e.seq}`);
+      trialAvailable=false;continue;
+    }
     if(e.type!=='action'||e.payload?.kind!=='race_choice')continue;
     const p=e.payload, next=entries[i+1];
     if(!next || !['race_result','race_attempt_unresolved'].includes(next.type)){errors.push(`Missing race outcome after ${e.seq}`);continue;}

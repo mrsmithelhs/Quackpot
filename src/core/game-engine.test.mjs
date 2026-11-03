@@ -1072,10 +1072,13 @@ test('five-slot future rent shift remains reserved after deliberate early rent p
  const earlyBed=()=>{act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});};
  for(let day=1;day<=3;day++){act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});earlyBed();}
  assert.equal(e.state.cash,224);assert.equal(e.state.life.schedule.day,4);
+ const priorDown=e.state.down;e.state.down=3;const beforeTrialLog=e.log.length;assert.equal(e.purchaseRaceTrial(),false);assert.equal(e.state.down,3);assert.equal(e.log.length,beforeTrialLog);e.state.down=priorDown;
  const reserveIntent={domain:'schedule',action:{type:'reserve-overtime',reservationId:'extra',rentId:'rent-1',day:5,operationId:'shift-warning'}};
  const reserve=e.prepareFiveSlotAction(reserveIntent);assert.equal(reserve.ok,true);assert.equal(e.commitFiveSlotAction(reserve.proposal,{confirmed:true}).reason,'warning_not_shown');
- const beforeWarning=structuredClone(e.state),rngBeforeWarning=e.rngDraw.serialize();assert.ok(e.recordFiveSlotScheduleWarningShown(reserve.proposal));assert.deepEqual(e.state,beforeWarning);assert.equal(e.rngDraw.serialize(),rngBeforeWarning);
+ const beforeWarning=structuredClone(e.state),rngBeforeWarning=e.rngDraw.serialize();assert.ok(e.recordFiveSlotScheduleWarningShown(reserve.proposal));assert.ok(e.recordFiveSlotWarningCancelled(reserve.proposal));
+ assert.equal(e.commitFiveSlotAction(reserve.proposal,{confirmed:true}).reason,'warning_not_shown');assert.deepEqual(e.state,beforeWarning);assert.equal(e.rngDraw.serialize(),rngBeforeWarning);assert.ok(e.recordFiveSlotScheduleWarningShown(reserve.proposal));
  assert.equal(e.commitFiveSlotAction(reserve.proposal,{confirmed:true}).ok,true);
+ assert.equal(e.recordFiveSlotWarningCancelled(reserve.proposal),null);
  const payment=e.prepareFiveSlotAction({domain:'finance',action:{type:'pay_rent',billId:'rent-1',id:'pay-early'}});assert.equal(payment.ok,true);assert.equal(e.commitFiveSlotAction(payment.proposal).ok,true);
  assert.equal(e.state.life.schedule.overtimeReservation.status,'reserved');assert.equal(e.state.cash,54);
  act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});earlyBed();
@@ -1083,8 +1086,8 @@ test('five-slot future rent shift remains reserved after deliberate early rent p
  assert.equal(e.state.cash,210);assert.equal(e.state.health,85);assert.equal(e.state.life.schedule.overtimeReservation.status,'completed');assert.equal(e.state.life.finance.rents[0].status,'paid');
  assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
  const noWarning=structuredClone(e.toEnvelope());noWarning.eventLog=noWarning.eventLog.filter(event=>event.type!=='life52_schedule_warning_shown');
- assert.ok(validateFiveSlotTransactionHistory(noWarning).some(error=>error.includes('warning was not shown')));
- e.finishRunComplete();assert.ok(e.presentReceipt().accounting.lines.some(line=>line.text.includes('extra-shift terms')));
+ assert.ok(validateFiveSlotTransactionHistory(noWarning).some(error=>/warning/i.test(error)));
+ e.finishRunComplete();const receipt=e.presentReceipt();assert.ok(receipt.accounting.lines.some(line=>line.text.includes('extra-shift terms')));assert.ok(receipt.accounting.lines.some(line=>line.text.includes('Cancelled after a schedule warning')));
 });
 
 test('five-slot late-play warning must be shown before its actual paid pull',()=>{

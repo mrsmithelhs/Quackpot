@@ -3,13 +3,14 @@ import { mountAppDexNav } from '../app-dex-nav.mjs';
 // Quackpot session menu. This is inside the phone, not an apartment clock.
 export function renderLifePhoneView(container, engine, callbacks) {
   const life = engine.state.life;
-  const session = life.session;
+  const session = life.policyVersion==='five-slot-v1' && life.schedule.active?.kind==='session'
+    ? {pull:life.schedule.active.pullUsed,race:life.schedule.active.raceUsed} : life.session;
   const pending = engine.state.pendingReveals.some(draw => !draw.revealed);
   container.innerHTML = `<section class="gacha-container life-phone-hub" aria-labelledby="life-phone-title">
     <div class="gacha-banner-card"><div class="gacha-banner-header"><div class="banner-tag">Quackpot</div>
       <h2 id="life-phone-title">Pond of Destiny</h2><p class="banner-sub">Collect your flock. Take to the pond.</p>
       <p class="life-phone-allowance">This session: <strong>Pull ${session?.pull ? 'complete' : 'ready'}</strong><span aria-hidden="true"> · </span><strong>Race ${session?.race ? 'complete' : 'ready'}</strong></p>
-      ${life.phase === 'lateNight' ? `<p>A pull or race in Late Night causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.</p>` : ''}</div>
+      ${life.phase === 'lateNight' ? `<p>A pull or race in Late Night causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.</p>` : life.schedule?.slot==='late-evening' ? `<p>A pull or race in Late Evening causes up to ${life.config.lateFatigueHealth} HP fatigue next morning.</p>` : ''}</div>
       <div class="life-phone-activities">
         <section class="life-phone-panel" aria-labelledby="phone-pulls-title">
           <h3 id="phone-pulls-title">Grow your flock</h3>

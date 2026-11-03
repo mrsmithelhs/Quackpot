@@ -38,6 +38,7 @@ import {
 } from './ui/modals.js';
 import { renderLifeView } from './ui/life/life-view.js';
 import { renderLifePhoneView } from './ui/life/life-phone-view.js';
+import { fiveSlotWarningLines, fiveSlotLoanDecision } from './ui/life/life-decisions.mjs';
 import { social46Conflict, social46DisplayText } from './core/life-social.mjs';
 import { renderUnsupportedRenSave } from './ui/life/ren-save-compat.mjs';
 import {
@@ -48,6 +49,7 @@ import {
   isLifeStep,
   normalizeLoadedStep,
   lifeSurface,
+  fiveSlotSocialView,
 } from './ui/life/life-routing.mjs';
 import { renderReceiptView } from './ui/receipt-view.js';
 import { renderSettingsModal } from './ui/settings-modal.js';
@@ -300,6 +302,34 @@ if (app) {
   }
 
   function confirmNextPlay(kind) {
+    if(engine.state.life?.policyVersion==='five-slot-v1') {
+      const active=engine.state.life.schedule.active,extend=Boolean(active?.kind==='session' && active[`${kind}Used`]);
+      const operationId=`play-ui:${engine.log.length}`,prepared=engine.prepareFiveSlotPlay(kind,{operationId,extend});
+      if(!prepared.ok){appNotice('Resolve the current commitment before playing.');return {ok:false};}
+      const proposal=prepared.proposal;let conflictChoice=null,overtimeChoice=null;
+      if(proposal.schedule.conflicts.length) {
+        const view=fiveSlotSocialView(engine),plan=view.social46?.pending;
+        if(!plan || !plan.seatingConfirmed || !proposal.schedule.conflicts.includes(plan.id)){appNotice('Resolve your plan with Ren first.');return {ok:false};}
+        const tell=globalThis.confirm(`${social46DisplayText('conflict_notice',null,plan.day,0,view.day)}\n\nOK: tell Ren. Cancel: see another option.`);
+        const shown=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_notice'}},engine.log.length);if(!shown.ok)return {ok:false};
+        if(tell)conflictChoice='notice';else {
+          const proceed=globalThis.confirm(social46DisplayText('conflict_continue'));
+          const shownAgain=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_continue'}},engine.log.length);if(!shownAgain.ok || !proceed)return {ok:false};
+          conflictChoice='break';
+        }
+      }
+      if(proposal.schedule.rentWorkConflict) {
+        if(!globalThis.confirm('This conflicts with your reserved extra shift. Withdraw from the shift and continue?'))return {ok:false};
+        overtimeChoice='withdraw';
+      }
+      if(proposal.schedule.disclosures.length) {
+        const lines=fiveSlotWarningLines(proposal);if(!lines){appNotice('This consequence cannot be shown yet.');return {ok:false};}
+        const accepted=globalThis.confirm(`${lines.join('\n')}\n\nContinue?`);
+        if(!engine.recordFiveSlotPlayWarningShown(proposal))return {ok:false};
+        if(!accepted){engine.recordFiveSlotWarningCancelled(proposal);return {ok:false};}
+      } else if(extend && !globalThis.confirm('This starts another time slot. Continue?'))return {ok:false};
+      return {ok:true,confirmNext:extend,confirmSocial:false,confirmConsequences:true,conflictChoice,overtimeChoice,operationId};
+    }
     if (!engine.needsNextLifePlay(kind)) return { ok: true, confirmNext: false };
     const preview = engine.previewNextLifePlay(kind, { socialContinue: true });
     if (!preview.ok) { appNotice('Return to the apartment, finish the current phase, and resolve any meal, rent, or recovery before continuing.'); return { ok: false }; }
@@ -415,9 +445,9 @@ if (app) {
           && !globalThis.confirm('This pull uses the afternoon anchor and misses your scheduled shift. Continue?')) return;
         if (action === 'welcome') {
           const decision = confirmNextPlay('pull'); if (!decision.ok) return;
-          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
+          const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
-          try { draws = engine.commitPromotionalTenPull({ confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
+          try { draws = engine.commitPromotionalTenPull({ ...decision, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
           if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
@@ -426,9 +456,9 @@ if (app) {
           const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
           if (engine.state.gems < cost || engine.state.pendingReveals.some(draw => !draw.revealed)) { appNotice('You need enough Gems and all previous cards revealed before this pull.'); return; }
           const decision = confirmNextPlay('pull'); if (!decision.ok) return;
-          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
+          const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
-          try { draws = engine.commitPaidPull(count, { confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
+          try { draws = engine.commitPaidPull(count, { ...decision, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The pull could not start. Your time and resources are unchanged.' : 'The pull could not start. Return to the apartment or try again.'); return; }
           if (!draws) { appNotice('Return to the apartment and resolve the current obligation before playing.'); return; }
           currentStep = 'life_gacha';
@@ -466,9 +496,9 @@ if (app) {
           if (!next && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
             && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
           const decision = confirmNextPlay('race'); if (!decision.ok) return null;
-          const conflict = resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return null;
+          const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return null;
           let attempt;
-          try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, confirmNext: decision.confirmNext, confirmSocial: conflict.confirmSocial }); }
+          try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, ...decision, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The race could not start. Your time and resources are unchanged; try again or return to the apartment.' : 'The race could not start. Return to the apartment or try again.'); return null; }
           if (!attempt) { appNotice('Return to the apartment and resolve the current obligation before racing.'); return null; }
           currentStep = 'life_race_result'; engine.state.step = currentStep; maybeAutosave(); updateHud();
@@ -787,6 +817,20 @@ if (app) {
 
   const activeModalBlocksLife = () => activeModal === 'retention' || activeModal === 'starter';
 
+  function commitFiveSlotSchedule(action, {conflictChoice=null}={}) {
+    const intent={domain:'schedule',action:{...action,operationId:`life-ui:${engine.log.length}`}};
+    const prepared=engine.prepareFiveSlotAction(intent);if(!prepared.ok)return prepared;
+    const proposal=prepared.proposal,disclosures=proposal.schedule.disclosures;
+    if((proposal.schedule.conflicts.length && !['notice','break'].includes(conflictChoice)) || proposal.schedule.rentWorkConflict)return {ok:false,reason:'specific_conflict_choice_required'};
+    if(disclosures.length) {
+      const lines=fiveSlotWarningLines(proposal);if(!lines)return {ok:false,reason:'unsupported_warning'};
+      const accepted=globalThis.confirm(`${lines.join('\n')}\n\nContinue?`);
+      if(!engine.recordFiveSlotScheduleWarningShown(proposal))return {ok:false,reason:'stale_warning'};
+      if(!accepted){engine.recordFiveSlotWarningCancelled(proposal);return {ok:false,reason:'cancelled'};}
+    }
+    return engine.commitFiveSlotAction(proposal,{confirmed:true,...(conflictChoice?{conflictChoice}:{}),...(proposal.schedule.recoveryInstead?{kind:'accept-recovery'}:{})});
+  }
+
   // Every life commitment names the log length it was decided against, so a double activation or a stale view
   // cannot apply an effect twice or apply the next offer by mistake.
   function lifeCallbacks() {
@@ -800,24 +844,83 @@ if (app) {
       return result;
     };
     return {
-      onDoorActivate: commit(() => engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 2 })),
+      onDoorActivate: commit(() => engine.state.life?.policyVersion==='five-slot-v1'
+        ? engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_activate',version:1,revision:2}},engine.log.length)
+        : engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 2 })),
       onSocialOpen: commit(() => {
-        const life = engine.state.life;
-        if (!life?.social46) return engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 1 });
+        const life = fiveSlotSocialView(engine),five=engine.state.life?.policyVersion==='five-slot-v1';
+        const apply=intent=>five?engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:intent},engine.log.length):engine.applyLifeIntent(intent);
+        if (!life?.social46) return apply({ type: 'social46_activate', version: 1, revision: 1 });
         const s = life.social46;
         if (s.introShown && !s.pending && !s.scene && life.phase === 'evening' && s.lastOfferedDay !== life.day) {
           const day = Math.max(life.day + (life.anchor ? 1 : 0), (s.lastVisitDay ?? -1) + 2);
-          engine.applyLifeIntent({ type: 'social46_offer', day, initiator: 'ren', activity: life.day % 2 ? 'game' : 'door' });
+          apply({ type: 'social46_offer', day, initiator: 'ren', activity: life.day % 2 ? 'game' : 'door' });
         }
         return { ok: true };
       }),
-      onSocialAction: commit(intent => engine.applyLifeIntent(intent)),
+      onSocialAction: commit(intent => {
+        if(engine.state.life?.policyVersion!=='five-slot-v1')return engine.applyLifeIntent(intent);
+        const result=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:intent},engine.log.length);
+        if(result.ok)engine.state.step=lifeSurface(engine);
+        return result;
+      }),
       onSocialShown: intent => {
-        if (!activeModalBlocksLife() && engine.applyLifeIntent(intent).ok) maybeAutosave();
+        if(activeModalBlocksLife())return;
+        const result=engine.state.life?.policyVersion==='five-slot-v1'
+          ? engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:intent},engine.log.length) : engine.applyLifeIntent(intent);
+        if(result.ok)maybeAutosave();
       },
       onPayRent: commit(() => engine.state.life
         ? engine.applyLifeIntent({ type: 'rent', choice: 'pay' })
         : engine.billExpense('rent', GAME_CONSTANTS.RENT_DAY2)),
+      onFiveSlotDueShown: () => { const shown=engine.recordFiveSlotDueOptionsShown();if(shown)maybeAutosave();return shown; },
+      onFiveSlotPay: commit((billId) => {
+        const loan=billId.startsWith('loan-'),action=loan?{type:'repay_loan',loanId:billId}:{type:'pay_rent',billId};
+        const p=engine.prepareFiveSlotAction({domain:'finance',action:{...action,id:`finance-ui:${engine.log.length}`}});
+        if(!p.ok)return p;const result=engine.commitFiveSlotAction(p.proposal);
+        if(result.ok)engine.state.step=lifeSurface(engine);return result;
+      }),
+      onFiveSlotEarlyRepay: commit((loanId) => {
+        const loan=engine.state.life.finance.loans.find(item=>item.id===loanId && item.status==='pending');
+        if(!loan || Math.round(engine.state.cash*100)<loan.totalCents)return {ok:false,reason:'loan_unavailable'};
+        if(!globalThis.confirm(`Repay the full $${(loan.totalCents/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};
+        const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'repay_loan',loanId,id:`repay-ui:${engine.log.length}`}});
+        return p.ok?engine.commitFiveSlotAction(p.proposal):p;
+      }),
+      onFiveSlotLoan: commit((billId) => {
+        const choice=fiveSlotLoanDecision(engine,billId);if(!choice)return {ok:false,reason:'loan_unavailable'};
+        const accepted=globalThis.confirm(`${choice.lines.join('\n')}\n\nAccept this loan?`);
+        if(!engine.recordFiveSlotLoanTermsShown(billId))return {ok:false,reason:'stale_terms'};
+        if(!accepted)return {ok:false,reason:'cancelled'};
+        const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'accept_loan',billId,id:`loan-ui:${engine.log.length}`}});
+        return p.ok?engine.commitFiveSlotAction(p.proposal):p;
+      }),
+      onFiveSlotReserve: commit((billId,day) => {
+        const action={type:'reserve-overtime',rentId:billId,day,reservationId:`rent-shift:${billId}`};
+        const probe=engine.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`reserve-preview:${engine.log.length}`}});
+        if(!probe.ok)return probe;
+        let conflictChoice=null;
+        if(probe.proposal.schedule.conflicts.length) {
+          const view=fiveSlotSocialView(engine),plan=view.social46?.pending;
+          if(!plan || !plan.seatingConfirmed || !probe.proposal.schedule.conflicts.includes(plan.id))return {ok:false,reason:'social_conflict_unavailable'};
+          const tell=globalThis.confirm(`${social46DisplayText('conflict_notice',null,plan.day,0,view.day)}\n\nOK: tell Ren. Cancel: see another option.`);
+          const shown=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_notice'}},engine.log.length);if(!shown.ok)return shown;
+          if(tell)conflictChoice='notice';
+          else {
+            const proceed=globalThis.confirm(social46DisplayText('conflict_continue'));
+            const shownAgain=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_continue'}},engine.log.length);if(!shownAgain.ok)return shownAgain;
+            if(!proceed)return {ok:false,reason:'cancelled'};conflictChoice='break';
+          }
+        }
+        return commitFiveSlotSchedule(action,{conflictChoice});
+      }),
+      onFiveSlotLeaveUnpaid: commit((billId) => {
+        const loan=billId.startsWith('loan-'),consequence=billId==='rent-2'?'Losing housing ends the run.':'Running on Empty ends the run.';
+        if(!globalThis.confirm(`Leave this payment unpaid? ${consequence}`))return {ok:false,reason:'cancelled'};
+        const action=loan?{type:'leave_unpaid',loanId:billId}:{type:'leave_unpaid',billId};
+        const p=engine.prepareFiveSlotAction({domain:'finance',action:{...action,id:`default-ui:${engine.log.length}`,confirmed:true,optionsDisclosed:true}});
+        return p.ok?engine.commitFiveSlotAction(p.proposal):p;
+      }),
       onHoldRent: commit(() => engine.applyLifeIntent({ type: 'rent', choice: 'hold' })),
       onRentContinue: commit(() => {
         if (!engine.state.life || engine.state.life.rent.status === 'due') return null;
@@ -857,7 +960,8 @@ if (app) {
         return result;
       }),
 
-      onSell: commit((asset) => engine.applyLifeIntent({ type: 'sell', asset })),
+      onSell: commit((asset) => engine.state.life?.policyVersion==='five-slot-v1'
+        ? engine.sellFiveSlotAsset(asset,engine.log.length) : engine.applyLifeIntent({ type: 'sell', asset })),
       onRecover: commit(() => engine.applyLifeIntent({ type: 'recover' })),
       onFinishRecovery: commit(() => {
         const result = engine.applyLifeIntent({ type: 'finish_recovery' });
@@ -916,6 +1020,11 @@ if (app) {
         return engine.chooseZeroCashOption(choice);
       }),
       onBreakfast: commit(() => {
+        if (engine.state.life?.policyVersion === 'five-slot-v1') {
+          const result=commitFiveSlotSchedule({type:'meal',choice:'buy'});
+          if(result.ok)engine.state.step=lifeSurface(engine);
+          return {paid:result.ok};
+        }
         if (engine.state.life) {
           const result = engine.applyLifeIntent({ type: 'meal', choice: 'buy' });
           return { paid: result.ok };
@@ -925,7 +1034,60 @@ if (app) {
         if (result.paid && !result.zeroCash) applyStepTransition(next);
         return result;
       }),
+      onFiveSlotSleep: commit(() => {
+        const result=commitFiveSlotSchedule({type:'sleep'});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotRecover: commit(() => {
+        const result=commitFiveSlotSchedule({type:'recover'});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotQuiet: commit(() => {
+        const start=commitFiveSlotSchedule({type:'start',kind:'quiet'});if(!start.ok)return start;
+        if(engine.state.life.schedule.recovery){engine.state.step=lifeSurface(engine);resetLifeUi();return start;}
+        const result=commitFiveSlotSchedule({type:'complete',activityId:engine.state.life.schedule.active.id});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotFinishQuiet: commit(() => {
+        const active=engine.state.life.schedule.active;if(active?.kind!=='quiet')return {ok:false,reason:'unavailable'};
+        const result=commitFiveSlotSchedule({type:'complete',activityId:active.id});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotFinishSession: commit(() => {
+        const active=engine.state.life.schedule.active;if(active?.kind!=='session')return {ok:false,reason:'unavailable'};
+        const result=commitFiveSlotSchedule({type:'complete',activityId:active.id});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotOvertime: commit(() => {
+        const reservation=engine.state.life.schedule.overtimeReservation;
+        if(!reservation)return {ok:false,reason:'unavailable'};
+        return commitFiveSlotSchedule({type:'start',kind:'overtime',reservationId:reservation.id});
+      }),
+      onFiveSlotFinishOvertime: commit(() => {
+        const active=engine.state.life.schedule.active;if(active?.kind!=='overtime')return {ok:false,reason:'unavailable'};
+        const result=commitFiveSlotSchedule({type:'complete',activityId:active.id});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
+      onFiveSlotBed: commit(() => {
+        const active=engine.state.life.schedule.active;
+        if(active && active.kind!=='early-bed')return {ok:false,reason:'activity_pending'};
+        if(!active){const start=commitFiveSlotSchedule({type:'start',kind:'early-bed'});if(!start.ok)return start;}
+        const result=commitFiveSlotSchedule({type:'complete',activityId:engine.state.life.schedule.active.id});
+        if(result.ok){engine.state.step=lifeSurface(engine);resetLifeUi();}
+        return result;
+      }),
       onSkipBreakfast: commit(() => {
+        if (engine.state.life?.policyVersion === 'five-slot-v1') {
+          const before=engine.state.health,result=commitFiveSlotSchedule({type:'meal',choice:'skip'});
+          if(result.ok)engine.state.step=lifeSurface(engine);
+          return {skipped:result.ok,healthLost:before-engine.state.health};
+        }
         if (engine.state.life) {
           const result = engine.applyLifeIntent({ type: 'meal', choice: 'skip' });
           const healthEvent = result.events?.find((event) => event.type === 'life_health');

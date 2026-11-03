@@ -17,6 +17,16 @@ export function fiveSlotPriority(engine) {
   return {kind:'slot',day:life.schedule.day,slot:life.schedule.slot};
 }
 
+// Presentation-only compatibility view; scheduler state remains authoritative.
+export function fiveSlotSocialView(engine) {
+  const life=engine.state.life;if(life?.policyVersion!=='five-slot-v1')return life;
+  const s=life.schedule,active=s.active,dinner=s.obligations[`${s.day}:dinner`],due=engine.checkDueObligations();
+  return {...life,day:s.day,phase:s.slot,anchor:active?.id??null,
+    session:active?.kind==='session'?active:null,work:['work','overtime'].includes(active?.kind)?active:null,
+    recovery:s.recovery,rent:{status:due.bills.length?'due':'pending'},rentSurfaced:true,
+    meals:dinner?{[`d${s.day}-dinner`]:dinner}:{}};
+}
+
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
 export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent']);

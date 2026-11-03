@@ -1,0 +1,461 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-day1-final/payslip-narrow.save.json",
+  "sourceSha256": "3af3a283f8b5f202f65c8dd4469f881a610572328976759ae866d24d3063454a",
+  "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+  "recipeSha256": "d7bf5c0b00dcfc7ee1047ee07e08ff81f61aa0888549c42b361ff678bd809d83",
+  "captures": [
+    {
+      "name": "day4-rent-shortfall",
+      "sha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "health": 100,
+      "debt": 0,
+      "terminal": null,
+      "employment": {
+        "employed": true,
+        "missedShifts": 2
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$104.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $104.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nA payday loan may cover a rent shortfall; see its full terms before deciding.\n\nPay Remaining rent · $170.00\nSee loan terms for Remaining rent\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down"
+    },
+    {
+      "name": "day4-rent-shortfall-desktop",
+      "sha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "health": 100,
+      "debt": 0,
+      "terminal": null,
+      "employment": {
+        "employed": true,
+        "missedShifts": 2
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$104.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $104.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nA payday loan may cover a rent shortfall; see its full terms before deciding.\n\nPay Remaining rent · $170.00\nSee loan terms for Remaining rent\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down"
+    },
+    {
+      "name": "day4-loan-accepted",
+      "sha256": "e852f9e0a2c83a463b93909cf8926554d84ebec844769f1be318f3987627d156",
+      "day": 4,
+      "slot": "morning",
+      "cash": 170,
+      "health": 100,
+      "debt": 99,
+      "terminal": null,
+      "employment": {
+        "employed": true,
+        "missedShifts": 2
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Remaining rent · $170.00\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down"
+    },
+    {
+      "name": "day4-rent-paid",
+      "sha256": "eb454f8a8b6e59054d36129d65a39d4d0e5e8401b010ee42cb729592e4f437b3",
+      "day": 4,
+      "slot": "morning",
+      "cash": 0,
+      "health": 100,
+      "debt": 99,
+      "terminal": null,
+      "employment": {
+        "employed": true,
+        "missedShifts": 2
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nCall\nMom\nPAID\nBreakfast\nDay 4 · Morning\nThe desk →\nThe living room →\nThe door →\nSpend time quietly →\nFinish run →",
+      "paymentFocus": {
+        "tag": "BUTTON",
+        "text": "Breakfast",
+        "connected": true
+      }
+    },
+    {
+      "name": "day9-loan-due",
+      "sha256": "7056a0f3b31643276d9651c86e944e16008472a6a6ec156cd0ea330721004317",
+      "day": 9,
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "terminal": null,
+      "employment": {
+        "employed": false,
+        "missedShifts": 3
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\n$99.00\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down"
+    },
+    {
+      "name": "day9-loan-due-desktop",
+      "sha256": "7056a0f3b31643276d9651c86e944e16008472a6a6ec156cd0ea330721004317",
+      "day": 9,
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "terminal": null,
+      "employment": {
+        "employed": false,
+        "missedShifts": 3
+      },
+      "wages": 1,
+      "cancelledWarnings": 1,
+      "rents": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\n$99.00\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down"
+    }
+  ],
+  "dialogs": [
+    {
+      "type": "confirm",
+      "message": "This action misses your scheduled shift; missed shifts can end your job.\n\nContinue?",
+      "accepted": false
+    },
+    {
+      "type": "confirm",
+      "message": "This action misses your scheduled shift; missed shifts can end your job.\n\nContinue?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "This action misses your scheduled shift; missed shifts can end your job.\n\nContinue?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Borrow $66.00.\nOne-time fee: $33.00. Repay $99.00 by Midday on day 9, before work.\nYou may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.\n\nAccept this loan?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "This action misses your scheduled shift; missed shifts can end your job.\nThis missed shift ends scheduled employment.\n\nContinue?",
+      "accepted": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 36464,
+        "ppid": 29668,
+        "created": "11/02/2026 21:16:48",
+        "root": true
+      },
+      {
+        "pid": 48980,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 47540,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 45444,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 38664,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 39784,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 25644,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 34520,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 28380,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 13860,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:48",
+        "root": false
+      },
+      {
+        "pid": 5128,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:49",
+        "root": false
+      },
+      {
+        "pid": 47164,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:51",
+        "root": false
+      },
+      {
+        "pid": 6840,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:51",
+        "root": false
+      },
+      {
+        "pid": 43036,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:51",
+        "root": false
+      },
+      {
+        "pid": 44496,
+        "ppid": 36464,
+        "created": "11/02/2026 21:16:52",
+        "root": false
+      },
+      {
+        "pid": 44800,
+        "ppid": 36464,
+        "created": "11/02/2026 21:17:01",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[36464:8864:1102/211648.564:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[36464:8864:1102/211648.564:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:64881/devtools/browser/d461d98f-513b-4dce-a9ff-f68d157cf119\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n[36464:48524:1102/211707.529:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n[36464:48524:1102/211707.740:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n[36464:48524:1102/211708.155:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n[36464:48524:1102/211708.764:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n[36464:48524:1102/211709.575:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n[36464:48524:1102/211710.579:ERROR:chrome\\updater\\ipc\\update_service_dialer_win.cc:77] Failed to open named pipe server process 18892: Access is denied. (0x5)\r\n"
+  }
+}

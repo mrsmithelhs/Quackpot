@@ -30,8 +30,12 @@ async function plan52Fixture(id) {
   }
   const trace=JSON.parse((await readBounded(entry.captureTrace,1024*1024)).toString('utf8'));
   if(trace.error || trace.cleanup?.residual || trace.cleanup?.uncertainty || trace.consoleErrors?.length)fail(`${id} capture did not complete cleanly`);
+  if(trace.sourceClosureSha256 && (trace.sourceClosureSha256!==closure.sha256 || trace.recipeSha256!==entry.recipeSha256))fail(`${id} capture closure or recipe mismatch`);
+  if(entry.captureName && trace.captures?.find(item=>item.name===entry.captureName)?.sha256!==entry.sha256)fail(`${id} capture does not identify fixture bytes`);
   for(const [file,pin] of Object.entries(trace.pins??{}))if(sha256(await readBounded(file,2*1024*1024))!==pin)fail(`${id} captured source pin changed: ${file}`);
-  if(envelope.eventLog?.[0]?.payload?.seed!==entry.seed || envelope.state.life?.schedule?.slot!==entry.boundary.slot || envelope.state.life?.story47?.stage!==entry.boundary.storyStage)fail(`${id} seed or boundary mismatch`);
+  const b=entry.boundary,s=envelope.state;
+  if(envelope.eventLog?.[0]?.payload?.seed!==entry.seed || s.life?.schedule?.slot!==b.slot || (b.day!==undefined && s.life.schedule.day!==b.day) || (b.cash!==undefined && s.cash!==b.cash) || (b.debt!==undefined && s.debt!==b.debt) || (b.storyStage!==undefined && s.life?.story47?.stage!==b.storyStage))fail(`${id} seed or boundary mismatch`);
+  if(b.dueId && ![...(s.life?.finance?.rents??[]),...(s.life?.finance?.loans??[])].some(item=>item.id===b.dueId && item.status==='pending' && item.latched))fail(`${id} due obligation mismatch`);
   const options={experimentalFiveSlot:true,requireFiveSlotTutorial:true},validation=validateSave(envelope,options);if(!validation.valid)fail(`${id} failed validation: ${validation.errors.join('; ')}`);
   const stable=value=>{const copy=structuredClone(value);delete copy.savedAt;return JSON.stringify(copy);};
   if(stable(GameEngine.fromEnvelope(envelope).toEnvelope())!==stable(envelope))fail(`${id} hydrate/serialize mismatch`);

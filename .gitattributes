@@ -1,2 +1,13 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Plan 52 final evidence pins exact LF bytes across checkouts.
+/reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-finance-final-browser.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-ren-final-browser.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/restore-day1-final-checkpoints.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-finance-final/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-ren-final/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-restores-final/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/smoke-final-observations.json text eol=lf

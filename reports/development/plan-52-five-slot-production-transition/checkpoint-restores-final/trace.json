@@ -1,0 +1,157 @@
+{
+  "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+  "recipeSha256": "23e699e24644d573697d76b57e4c59d581d696e3e53a6e493eb77e3352b1382f",
+  "results": [
+    {
+      "name": "payslip",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/payslip-narrow.save.json",
+      "fixtureSha256": "3af3a283f8b5f202f65c8dd4469f881a610572328976759ae866d24d3063454a",
+      "beforeEvents": 19,
+      "afterEvents": 22,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "wages": 1
+    },
+    {
+      "name": "call-scene",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/mom-scene-narrow.save.json",
+      "fixtureSha256": "2d78fdb445738a8a89b1f29da33a739edce096e9b568077ae8fb896c9522ac46",
+      "beforeEvents": 30,
+      "afterEvents": 34,
+      "slot": "late-evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "wages": 1
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 10476,
+        "ppid": 48016,
+        "created": "11/02/2026 21:18:15",
+        "root": true
+      },
+      {
+        "pid": 45236,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 16788,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 36804,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 36956,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 19756,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 10640,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 45444,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 39436,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 46056,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:15",
+        "root": false
+      },
+      {
+        "pid": 21388,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:16",
+        "root": false
+      },
+      {
+        "pid": 19472,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:16",
+        "root": false
+      },
+      {
+        "pid": 33424,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:16",
+        "root": false
+      },
+      {
+        "pid": 16016,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      },
+      {
+        "pid": 12328,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      },
+      {
+        "pid": 16372,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      },
+      {
+        "pid": 27612,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      },
+      {
+        "pid": 28028,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      },
+      {
+        "pid": 44876,
+        "ppid": 10476,
+        "created": "11/02/2026 21:18:18",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[10476:39248:1102/211815.597:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[10476:39248:1102/211815.597:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:51185/devtools/browser/6865b5e7-ec39-4c80-abd3-ab4595902f44\r\n[10476:21548:1102/211819.228:ERROR:chrome\\browser\\web_applications\\externally_managed_app_manager.cc:680] https://docs.google.com/spreadsheets/installwebapp?usp=chrome_default from install source 1 failed to install with reason 21\r\n"
+  }
+}

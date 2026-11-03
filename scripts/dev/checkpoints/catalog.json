@@ -8,7 +8,11 @@
     "archiveFileBytesMaximum": 1048576,
     "archiveAggregateBytesMaximum": 2097152
   },
-  "plan52Limits": { "newFixturesMaximum": 5, "newFixtureBytesMaximum": 1048576, "newFixturesAggregateBytesMaximum": 2097152 },
+  "plan52Limits": {
+    "newFixturesMaximum": 5,
+    "newFixtureBytesMaximum": 1048576,
+    "newFixturesAggregateBytesMaximum": 2097152
+  },
   "references": {
     "qp16.pending-reveal.v1": {
       "status": "historical-reference",
@@ -37,96 +41,118 @@
   },
   "checkpoints": {
     "plan52.rent-shortfall.v1": {
-      "status": "source-changed-revalidation-required",
+      "status": "pending-browser-restore",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
-      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance/day4-rent-shortfall.save.json",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
       "bytes": 22993,
-      "sha256": "78445a4d60655fa1f813c592d3cd07159c9a5176bc86a32f3f8ef3ec4a35147f",
+      "sha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
       "seed": "c4526757-fcb50b7b",
-      "boundary": { "day": 4, "slot": "morning", "cash": 104, "dueId": "rent-1" },
-      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-browser.mjs",
-      "recipeSha256": "24a77c6a939847b74048b55a67eba3c60864e19086e719b9b1b4fe70a2a3a16a",
-      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance/trace.json",
-      "captureTraceSha256": "a7a7b4d0fdb78f2405c353b70ea7805538d920bb626194bd9c5a453e8f035664",
+      "boundary": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 104,
+        "dueId": "rent-1"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-final-browser.mjs",
+      "recipeSha256": "d7bf5c0b00dcfc7ee1047ee07e08ff81f61aa0888549c42b361ff678bd809d83",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance-final/trace.json",
+      "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day4-rent-shortfall",
-      "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan52.rent-paid-zero.v1": {
-      "status": "source-changed-revalidation-required",
+      "status": "pending-browser-restore",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
-      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance/day4-rent-paid.save.json",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-paid.save.json",
       "bytes": 25187,
-      "sha256": "abc7bfd2bc30e6b126295eb805f5c52f0d0ffac6f269bf111b346bc79ba253b9",
+      "sha256": "eb454f8a8b6e59054d36129d65a39d4d0e5e8401b010ee42cb729592e4f437b3",
       "seed": "c4526757-fcb50b7b",
-      "boundary": { "day": 4, "slot": "morning", "cash": 0, "debt": 99 },
-      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-browser.mjs",
-      "recipeSha256": "24a77c6a939847b74048b55a67eba3c60864e19086e719b9b1b4fe70a2a3a16a",
-      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance/trace.json",
-      "captureTraceSha256": "a7a7b4d0fdb78f2405c353b70ea7805538d920bb626194bd9c5a453e8f035664",
+      "boundary": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 0,
+        "debt": 99
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-final-browser.mjs",
+      "recipeSha256": "d7bf5c0b00dcfc7ee1047ee07e08ff81f61aa0888549c42b361ff678bd809d83",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance-final/trace.json",
+      "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day4-rent-paid",
-      "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan52.loan-due.v1": {
-      "status": "source-changed-revalidation-required",
+      "status": "pending-browser-restore",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
-      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance/day9-loan-due.save.json",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day9-loan-due.save.json",
       "bytes": 50099,
-      "sha256": "240757f2b7012fd06ba3ae6e432b9db1c00a181bdae8317eba71eb6eb19c0281",
+      "sha256": "7056a0f3b31643276d9651c86e944e16008472a6a6ec156cd0ea330721004317",
       "seed": "c4526757-fcb50b7b",
-      "boundary": { "day": 9, "slot": "midday", "cash": 0, "debt": 99, "dueId": "loan-1" },
-      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-browser.mjs",
-      "recipeSha256": "24a77c6a939847b74048b55a67eba3c60864e19086e719b9b1b4fe70a2a3a16a",
-      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance/trace.json",
-      "captureTraceSha256": "a7a7b4d0fdb78f2405c353b70ea7805538d920bb626194bd9c5a453e8f035664",
+      "boundary": {
+        "day": 9,
+        "slot": "midday",
+        "cash": 0,
+        "debt": 99,
+        "dueId": "loan-1"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-final-browser.mjs",
+      "recipeSha256": "d7bf5c0b00dcfc7ee1047ee07e08ff81f61aa0888549c42b361ff678bd809d83",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-finance-final/trace.json",
+      "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day9-loan-due",
-      "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan52.day1-payslip.v1": {
-      "status": "source-changed-revalidation-required",
+      "status": "current-loadable",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
-      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/payslip-narrow.save.json",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/payslip-narrow.save.json",
       "bytes": 7488,
-      "sha256": "7e8083c47ccb3308255eb0252154eee155008855a4f0ff9a3440f97efe26faf8",
+      "sha256": "3af3a283f8b5f202f65c8dd4469f881a610572328976759ae866d24d3063454a",
       "seed": "c4526757-fcb50b7b",
-      "boundary": { "slot": "early-evening", "storyStage": "payslip" },
-      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-browser.mjs",
-      "recipeSha256": "55db42df626a2e87b7d2580d03035f99ac6951b5e7509248b62566630d0e4391",
-      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/trace.json",
-      "captureTraceSha256": "427733b6f9f4c44d8c2330ecbefeac148599432f39820014b68c07de22ba2655",
-      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restores/trace.json",
-      "restoreTraceSha256": "7b279a9971196d8eab4779d70334529bbbcb4790ca6c763464f0967e3d826c4d",
-      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/restore-day1-checkpoints.mjs",
-      "restoreRecipeSha256": "33aedc652f11194c1fb47610e296a03f4fbaeb567e61883552eeeb1e3b711920",
+      "boundary": {
+        "slot": "early-evening",
+        "storyStage": "payslip"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restores-final/trace.json",
+      "restoreTraceSha256": "ffb83c3b16aa4645d792d06fb721c59da54ea1c30ea1281815dfa218f2063fb9",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/restore-day1-final-checkpoints.mjs",
+      "restoreRecipeSha256": "23e699e24644d573697d76b57e4c59d581d696e3e53a6e493eb77e3352b1382f",
       "restoreName": "payslip",
-      "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan52.day1-call-scene.v1": {
-      "status": "source-changed-revalidation-required",
+      "status": "current-loadable",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
-      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/mom-scene-narrow.save.json",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/mom-scene-narrow.save.json",
       "bytes": 10073,
-      "sha256": "dec7872fd93da127a83fa8762dd997718891ec508ef60c939bbf3aa8234aa966",
+      "sha256": "2d78fdb445738a8a89b1f29da33a739edce096e9b568077ae8fb896c9522ac46",
       "seed": "c4526757-fcb50b7b",
-      "boundary": { "slot": "evening", "storyStage": "scene" },
-      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-browser.mjs",
-      "recipeSha256": "55db42df626a2e87b7d2580d03035f99ac6951b5e7509248b62566630d0e4391",
-      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/trace.json",
-      "captureTraceSha256": "427733b6f9f4c44d8c2330ecbefeac148599432f39820014b68c07de22ba2655",
-      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restores/trace.json",
-      "restoreTraceSha256": "7b279a9971196d8eab4779d70334529bbbcb4790ca6c763464f0967e3d826c4d",
-      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/restore-day1-checkpoints.mjs",
-      "restoreRecipeSha256": "33aedc652f11194c1fb47610e296a03f4fbaeb567e61883552eeeb1e3b711920",
+      "boundary": {
+        "slot": "evening",
+        "storyStage": "scene"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restores-final/trace.json",
+      "restoreTraceSha256": "ffb83c3b16aa4645d792d06fb721c59da54ea1c30ea1281815dfa218f2063fb9",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/restore-day1-final-checkpoints.mjs",
+      "restoreRecipeSha256": "23e699e24644d573697d76b57e4c59d581d696e3e53a6e493eb77e3352b1382f",
       "restoreName": "call-scene",
-      "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan35.rent-paid-zero.v1": {
@@ -468,7 +494,7 @@
             "pointer": {
               "x": 682.5,
               "y": 600.6875,
-              "text": "💳 Buy Starter Pack ($0.99)"
+              "text": "\u00f0\u0178\u2019\u00b3 Buy Starter Pack ($0.99)"
             }
           }
         ],
@@ -679,13 +705,13 @@
               {
                 "x": 682.5,
                 "y": 509.59375,
-                "text": "✅ Continue to Evening Wage (Take No Action)"
+                "text": "\u00e2\u0153\u2026 Continue to Evening Wage (Take No Action)"
               }
             ]
           }
         ],
         "observations": {
-          "visibleText": "Championship Race\n\nCHAMPIONSHIP FINALE\n\nField pace: 11.2 rating. Finish places and awards are determined by actual crossings.\nChoose an owned digital racer\nBiblically Accurate Duck\nlegendary · speed rating 20\nRace rating 10\nNeeds rest · 50% lower race rating.\nPuddle Quacker\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nBath Cadet\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\nRubber Mallard\ncommon · speed rating 10\nRace rating 10\nRested. No prior finished race.\n\nA duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n\nChoose a stance\nSteady pace\nMore consistent pacing\nVariable pace\nWider swings in pacing\nExchange 3 Down for a +5% one-race speed upgrade\n\nAvailable Down: 25\n\nStart race",
+          "visibleText": "Championship Race\n\nCHAMPIONSHIP FINALE\n\nField pace: 11.2 rating. Finish places and awards are determined by actual crossings.\nChoose an owned digital racer\nBiblically Accurate Duck\nlegendary \u00c2\u00b7 speed rating 20\nRace rating 10\nNeeds rest \u00c2\u00b7 50% lower race rating.\nPuddle Quacker\ncommon \u00c2\u00b7 speed rating 10\nRace rating 10\nRested. No prior finished race.\nBath Cadet\ncommon \u00c2\u00b7 speed rating 10\nRace rating 10\nRested. No prior finished race.\nRubber Mallard\ncommon \u00c2\u00b7 speed rating 10\nRace rating 10\nRested. No prior finished race.\n\nA duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.\n\nChoose a stance\nSteady pace\nMore consistent pacing\nVariable pace\nWider swings in pacing\nExchange 3 Down for a +5% one-race speed upgrade\n\nAvailable Down: 25\n\nStart race",
           "state": {
             "step": "d3_midday_race",
             "activeModal": null,

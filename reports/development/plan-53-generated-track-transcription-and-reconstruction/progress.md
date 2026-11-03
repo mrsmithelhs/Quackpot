@@ -170,3 +170,9 @@ The scoped control comparison and limitations are in `control-schedule-evaluatio
 
 The control evaluation, Large feasibility and first-listening delivery records and evaluator are committed as `167736b`; no packet status was changed.
 
+
+## Owner comparison feedback and raw group verification
+
+The owner judged roughly 90% of the melody's original quality/recognizability to come through, subjectively, with arrangement glitches; curated drums improved the sound somewhat. They found this much more promising than prior agentic arrangements and good enough as a working gacha direction while describing the sound as less natural and seeking improved stems, instrument mapping, expression and potentially Large. They also suggested using compositional patterns to change mood with the gacha/life balance. This is feedback and follow-up interest, not production-integration acceptance or a measured accuracy claim. See `delivery.md` for the complete distinction between note, arrangement and timbre concerns.
+
+Reinspection confirmed 452 raw `acoustic_guitar` starts and 90 raw `drums` starts, with no additional instrument category. One zero-duration guitar event is explicitly omitted, so playback has 451 guitar-labeled notes and 90 drum hits. The converter preserves model category labels; the page assigns those groups to channel 0/GM 24 and drum channel 9, respectively, with an assigned velocity of 85. Its two part controls reflect the model's two groups, not source stems; its chosen synthesis instruments do not establish the original recording's instrumentation. No additional model, audio render or production work was performed for this verification.

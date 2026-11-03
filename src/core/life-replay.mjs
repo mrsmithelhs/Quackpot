@@ -164,10 +164,12 @@ export function validateSeededDrawHistory(envelope) {
 export function validateSeededRaceHistory(envelope) {
   const entries=envelope?.eventLog, starts=Array.isArray(entries)?entries.filter(e=>e.type==='run_started'):[];
   if(starts.length!==1 || typeof starts[0].payload?.seed!=='string')return ['Missing or duplicate seeded run start'];
-  const seed=starts[0].payload.seed, errors=[], seen=new Set(); let trialAvailable=false, expectedRaceNumber=1;
+  const seed=starts[0].payload.seed, errors=[], seen=new Set(); let trialAvailable=false, expectedRaceNumber=1,down=0;
   for(let i=0;i<entries.length;i++) {
     const e=entries[i];
-    if(e.type==='action' && e.payload?.kind==='race_trial_purchased'){if(trialAvailable)errors.push(`Duplicate race trial at ${e.seq}`);trialAvailable=true;continue;}
+    if(e.type==='draw_committed' && e.payload?.duplicate)down+=e.payload.downGained??0;
+    if(e.type==='action' && e.payload?.kind==='down_spent') {const amount=e.payload.amount;if(!Number.isSafeInteger(amount) || amount<0 || amount>down)errors.push(`Invalid Down spending at ${e.seq}`);else down-=amount;}
+    if(e.type==='action' && e.payload?.kind==='race_trial_purchased'){if(trialAvailable || e.payload.costDown!==GAME_CONSTANTS.RACE_TRIAL_COST || down<GAME_CONSTANTS.RACE_TRIAL_COST)errors.push(`Invalid race trial purchase at ${e.seq}`);down-=GAME_CONSTANTS.RACE_TRIAL_COST;trialAvailable=true;continue;}
     if(e.type==='action' && e.payload?.kind==='race_trial_consumed'){if(!trialAvailable)errors.push(`Race trial consumed without purchase at ${e.seq}`);trialAvailable=false;continue;}
     if(e.type!=='action'||e.payload?.kind!=='race_choice')continue;
     const p=e.payload, next=entries[i+1];
@@ -186,13 +188,19 @@ export function validateSeededRaceHistory(envelope) {
       if(!same(envelope.state?.raceResolutions?.[p.raceId],encoded.encoded))errors.push(`Seeded race resolution mismatch for ${p.raceId}`);
       if(next.payload?.resolutionDigest!==encoded.digest || next.payload?.raceId!==p.raceId || next.payload?.duckId!==p.duckId)errors.push(`Race outcome identity mismatch for ${p.raceId}`);
       if(result.status==='finished' && result.finish.length===6 && player?.place) {
-        const expected={place:player.place,payoutGems:player.payout,rivalPlace:rival?.place??null,playerPerf:player.sampledPerformance,winner:result.winner,finishTimeSeconds:result.finishTimeSeconds,lastFinishTimeSeconds:result.lastFinishTimeSeconds,finishOrder:result.finish.map(x=>({id:x.id,place:x.place,payout:x.payout}))};
+        const expected={status:'finished',resolutionStatus:result.status,stance:p.stance,trialConsumed:p.trialCommitted,restEvidence:p.restEvidence,
+          place:player.place,payoutGems:player.payout,rivalPlace:rival?.place??null,playerPerf:player.sampledPerformance,winner:result.winner,finishTimeSeconds:result.finishTimeSeconds,lastFinishTimeSeconds:result.lastFinishTimeSeconds,finishOrder:result.finish.map(x=>({id:x.id,place:x.place,payout:x.payout}))};
         if(next.type!=='race_result'||Object.entries(expected).some(([k,v])=>!same(next.payload?.[k],v)))errors.push(`Seeded race outcome mismatch for ${p.raceId}`);
         const consumed=entries[i+2], reward=entries[i+(p.trialCommitted?3:2)];
         if(p.trialCommitted && (consumed?.type!=='action' || consumed.payload?.kind!=='race_trial_consumed' || consumed.payload?.raceId!==p.raceId || consumed.payload?.multiplier!==GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER))errors.push(`Missing race trial consumption for ${p.raceId}`);
         if(!p.trialCommitted && consumed?.type==='action' && consumed.payload?.kind==='race_trial_consumed')errors.push(`Unexpected race trial consumption for ${p.raceId}`);
         if(player.payout>0 && (reward?.type!=='reward'||reward.payload?.kind!=='race_gems'||reward.payload?.raceId!==p.raceId||reward.payload?.gems!==player.payout))errors.push(`Missing race reward for ${p.raceId}`);
-      } else if(next.type!=='race_attempt_unresolved' || next.payload?.resolutionStatus!==result.status) errors.push(`Seeded unresolved race mismatch for ${p.raceId}`);
+      } else {
+        const expected={status:'unresolved',resolutionStatus:result.status,unresolvedReason:result.unresolvedReason,
+          guardEvidence:result.guardEvidence,knownCrossings:result.finishCrossings.map(crossing=>({id:crossing.id,crossingTimeSeconds:crossing.crossingTimeSeconds})),
+          trialAvailable,trialCommitted:p.trialCommitted,restEvidence:p.restEvidence};
+        if(next.type!=='race_attempt_unresolved' || Object.entries(expected).some(([key,value])=>!same(next.payload?.[key],value)))errors.push(`Seeded unresolved race mismatch for ${p.raceId}`);
+      }
     } catch(error) {errors.push(`Race reconstruction failed for ${p.raceId}: ${error.message}`);}
   }
   for(let i=0;i<entries.length;i++){const e=entries[i];if(['race_result','race_attempt_unresolved'].includes(e.type) && (entries[i-1]?.type!=='action' || entries[i-1]?.payload?.kind!=='race_choice' || entries[i-1]?.payload?.raceId!==e.payload?.raceId))errors.push(`Race outcome lacks adjacent choice at ${e.seq}`);}

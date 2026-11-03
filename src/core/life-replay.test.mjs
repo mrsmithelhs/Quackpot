@@ -33,5 +33,6 @@ test('actual paid pull is replayed from a genuine life run',()=>{
 test('race replay rejects missing trial consumption and nonsequential race identity',()=>{
  const e=new GameEngine('plan52-race-trial');e.start();e.setupCompanion();e.commitPromotionalTenPull();assert.ok(e.state.down>=3);assert.equal(e.purchaseRaceTrial(),true);e.runRace(1,e.state.owned[0],'safe',{useTrial:true});const env=e.toEnvelope();assert.deepEqual(validateSeededRaceHistory(env),[]);
  const missing=structuredClone(env);const index=missing.eventLog.findIndex(x=>x.type==='action'&&x.payload.kind==='race_trial_consumed');assert.ok(index>=0);missing.eventLog.splice(index,1);assert.ok(validateSeededRaceHistory(missing).some(x=>x.includes('trial consumption')));
+ const freeTrial=structuredClone(env);freeTrial.eventLog.find(x=>x.type==='action'&&x.payload.kind==='race_trial_purchased').payload.costDown=0;assert.ok(validateSeededRaceHistory(freeTrial).some(x=>x.includes('Invalid race trial purchase')));
  const skipped=structuredClone(env);const choice=skipped.eventLog.find(x=>x.type==='action'&&x.payload.kind==='race_choice');const result=skipped.eventLog.find(x=>x.type==='race_result');choice.payload.raceId='R02';result.payload.raceId='R02';result.payload.raceNumber=2;assert.ok(validateSeededRaceHistory(skipped).some(x=>x.includes('sequence mismatch')));
 });

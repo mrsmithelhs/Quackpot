@@ -29,12 +29,12 @@ class BootstrapTests(unittest.TestCase):
 
     def test_monitor_exception_cleans_job(self):
         real = s.tree_bytes; calls = 0
-        def fail_after_launch(root):
+        def fail_after_launch(root, counters=None):
             nonlocal calls
             calls += 1
             if calls > 1:
                 raise OSError("synthetic monitor failure")
-            return real(root)
+            return real(root, counters)
         with patch.object(s, "tree_bytes", side_effect=fail_after_launch):
             r = self.run_probe("import time;time.sleep(30)")
         self.assertEqual(r["reason"], "monitor or launch failure")

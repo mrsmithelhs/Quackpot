@@ -11,6 +11,7 @@ import msvcrt
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
 import time
@@ -43,24 +44,46 @@ def active(job):
     return value.ActiveProcesses
 
 
-def tree_bytes(root):
-    total = 0; count = 0; pending = [root]
+def tree_bytes(root, counters=None):
+    # Root disappearance/replacement is a failure; a descendant disappearing
+    # during an active uv cache update is expected and contributes no bytes to
+    # this sample. This remains sampled, not an atomic filesystem snapshot.
+    root_info = os.stat(root, follow_symlinks=False)
+    if root_info.st_file_attributes & 0x400 or not stat.S_ISDIR(root_info.st_mode):
+        raise ValueError("workspace root is not a normal directory")
+    identity = (root_info.st_dev, root_info.st_ino)
+    total = 0; count = 0; pending = [(root, True)]
+    vanished = 0
     while pending:
-        current = pending.pop()
-        with os.scandir(current) as entries:
-            for entry in entries:
-                count += 1
-                if count > 1_000_000:
-                    raise ValueError("storage enumeration ceiling exceeded")
-                info = entry.stat(follow_symlinks=False)
-                if info.st_file_attributes & 0x400:  # reparse points can escape accounting
-                    raise ValueError("reparse point in monitored workspace")
-                if entry.is_dir(follow_symlinks=False):
-                    pending.append(entry.path)
-                elif entry.is_file(follow_symlinks=False):
-                    total += info.st_size
-                else:
-                    raise ValueError("unsupported filesystem entry")
+        current, is_root = pending.pop()
+        try:
+            with os.scandir(current) as entries:
+                for entry in entries:
+                    count += 1
+                    if count > 1_000_000:
+                        raise ValueError("storage enumeration ceiling exceeded")
+                    try:
+                        info = entry.stat(follow_symlinks=False)
+                    except FileNotFoundError:
+                        vanished += 1
+                        continue
+                    if info.st_file_attributes & 0x400:
+                        raise ValueError("reparse point in monitored workspace")
+                    if stat.S_ISDIR(info.st_mode):
+                        pending.append((entry.path, False))
+                    elif stat.S_ISREG(info.st_mode):
+                        total += info.st_size
+                    else:
+                        raise ValueError("unsupported filesystem entry")
+        except FileNotFoundError:
+            if is_root:
+                raise
+            vanished += 1
+    final = os.stat(root, follow_symlinks=False)
+    if (final.st_dev, final.st_ino) != identity or final.st_file_attributes & 0x400:
+        raise ValueError("workspace root changed during accounting")
+    if counters is not None:
+        counters["vanished_descendants"] = counters.get("vanished_descendants", 0) + vanished
     return total
 
 
@@ -70,7 +93,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
         raise ValueError("existing workspace and absolute executable required")
     job = j.create_job(None, None); j.check(job, "CreateJobObject")
     proc = j.PROCESS(); started = assigned = False; output = input_stream = None; attributes = None; attributes_ready = False
-    reason = "exception"; peak_disk = 0; gaps = []; samples = 0
+    reason = "exception"; peak_disk = 0; gaps = []; samples = 0; scan_counters = {}
     start = last = time.monotonic(); error = None; cleanup = "not verified"
     try:
         limits = j.EXTENDED(); limits.BasicLimitInformation.LimitFlags = 0x2000 | 0x200
@@ -123,7 +146,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
             if result not in (0, 258):
                 raise OSError(c.get_last_error(), "WaitForSingleObject")
             now = time.monotonic(); gaps.append(round(now - last, 3)); last = now
-            size = tree_bytes(root); peak_disk = max(peak_disk, size); samples += 1
+            size = tree_bytes(root, scan_counters); peak_disk = max(peak_disk, size); samples += 1
             if os.fstat(output.fileno()).st_size > 1024**2:
                 reason = "sampled diagnostic log exceeded 1 MiB"; break
             if size > footprint:
@@ -169,6 +192,7 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
     return {"reason": reason, "error": error, "root_exit_code": code.value if started and 'code' in locals() else None,
             "elapsed_seconds": round(time.monotonic()-start, 3), "sample_count": samples,
             "max_sample_gap_seconds": max(gaps, default=None), "sampled_peak_workspace_bytes": peak_disk,
+            "vanished_descendants": scan_counters.get("vanished_descendants", 0),
             "host_memory_limit_bytes": memory, "cleanup": cleanup}
 
 

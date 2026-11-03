@@ -43,6 +43,19 @@ test('unsupported-save replacement refuses an invalid new envelope before touchi
  assert.equal(storage.getItem(STORAGE_KEY),primary);assert.equal(storage.getItem(BACKUP_KEY),backup);
 });
 
+test('experimental new-save replacement preserves an occupied backup and refuses quota failures',()=>{
+ const e=new GameEngine('reset-five-slot',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();const candidate=e.toEnvelope();
+ const original=JSON.stringify({schemaVersion:4,old:'preserve'}),backup='earlier backup';
+ const storage=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});
+ const accepted=replaceUnsupportedSave(candidate,storage,{experimentalFiveSlot:true});assert.equal(accepted.success,true);assert.equal(storage.getItem(BACKUP_KEY),backup);
+ assert.equal(JSON.parse(storage.getItem(STORAGE_KEY)).schemaVersion,5);
+ const quota=createMockStorage({[STORAGE_KEY]:original});quota.setFailWrites(true);
+ const failed=replaceUnsupportedSave(candidate,quota,{experimentalFiveSlot:true});assert.equal(failed.success,false);assert.equal(failed.stage,'storage');assert.equal(quota.getItem(STORAGE_KEY),original);assert.equal(quota.getItem(BACKUP_KEY),null);
+ const fresh=createMockStorage({[STORAGE_KEY]:original});const copied=replaceUnsupportedSave(candidate,fresh,{experimentalFiveSlot:true});assert.equal(copied.success,true);assert.equal(copied.backupCreated,true);assert.equal(fresh.getItem(BACKUP_KEY),original);
+ const blocked=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});const set=blocked.setItem;blocked.setItem=(key,value)=>{if(key===STORAGE_KEY)throw Error('primary quota');set(key,value);};
+ const refused=replaceUnsupportedSave(candidate,blocked,{experimentalFiveSlot:true});assert.equal(refused.success,false);assert.equal(blocked.getItem(STORAGE_KEY),original);assert.equal(blocked.getItem(BACKUP_KEY),backup);
+});
+
 function makeValidEnvelope() {
   const rng = createRng('test-seed');
   const rngDraw = rng.fork('draw');

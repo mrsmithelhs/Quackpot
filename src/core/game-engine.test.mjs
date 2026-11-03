@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { GameEngine, calculatePreDrawOdds, BANNER_1_ROSTER } from './game-engine.mjs';
-import { verifyCompleteness } from './event-log.mjs';
+import { EventLog, verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
 import { validateSave } from './storage.mjs';
 import { resolveSeededRace } from './race-resolver.mjs';
@@ -1050,7 +1050,12 @@ test('five-slot engine stages actual work story and records the paid payslip onc
  assert.ok(e.showLifeStory47(id,'work'));const complete={type:'complete',id,operationId:'paid',confirmed:true};
  assert.equal(e.applyFiveSlotWorkStory(complete,e.log.length).ok,true);assert.equal(e.state.cash,134);assert.equal(e.state.life.story47.stage,'payslip');
  assert.equal(e.log.entries.filter(event=>event.type==='income' && event.payload.transactionId===id).length,1);
- assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);e=GameEngine.fromEnvelope(e.toEnvelope());
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);assert.equal(validateSave(e.toEnvelope()).valid,false);
+ assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ const forgedCash=structuredClone(e.toEnvelope());forgedCash.state.cash+=1;assert.equal(validateSave(forgedCash,{experimentalFiveSlot:true}).valid,false);e=GameEngine.fromEnvelope(e.toEnvelope());
+ const forgedStory=structuredClone(e.toEnvelope());forgedStory.eventLog.find(event=>event.type==='life52_effect' && event.payload.effect.type==='story47_started').payload.effect.story.commute='forged';
+ const rebuilt=new EventLog();for(const event of forgedStory.eventLog)rebuilt.append(event.type,event.payload,event.clock);forgedStory.eventLog=rebuilt.entries;
+ assert.equal(validateSave(forgedStory,{experimentalFiveSlot:true}).valid,false);
  assert.equal(e.applyFiveSlotWorkStory(complete,e.log.length).reason,'duplicate_operation');
  assert.equal(e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:'back-home'},e.log.length).ok,true);assert.equal(e.state.life.story47,null);
  e.finishRunComplete();const receipt=e.presentReceipt();assert.equal(receipt.summary.finalCash,134);
@@ -1087,6 +1092,7 @@ test('Plan52 staged engine commits actual pull with schedule, RNG and prior resu
  const pending=structuredClone(e.state),rngBeforeExtension=e.rngDraw.serialize();assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.deepEqual(e.state,pending);assert.equal(e.rngDraw.serialize(),rngBeforeExtension);
  const paid=e.commitPaidPull(1,{confirmNext:true,confirmConsequences:true});assert.equal(paid.length,1);assert.equal(e.state.life.schedule.slot,'late-evening');assert.equal(e.state.life.schedule.fatigue.pending,true);assert.deepEqual(validateSeededDrawHistory(e.toEnvelope()),[]);
  assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
  const freePaidDraw=structuredClone(e.toEnvelope());freePaidDraw.eventLog.find(event=>event.type==='purchase' && event.payload.kind==='single_pull').payload.cost=0;
  assert.ok(validateFiveSlotTransactionHistory(freePaidDraw).some(error=>error.includes('draw transaction')));
  const extraReward=structuredClone(e.toEnvelope());extraReward.eventLog.push({seq:extraReward.eventLog.length,type:'reward',payload:{kind:'race_gems',gems:500}});

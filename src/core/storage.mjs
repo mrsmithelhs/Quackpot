@@ -6,6 +6,7 @@ import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './r
 import { RACE_REST_POLICY_VERSION, isKnownRaceDuckId, makeRaceRestEvidence } from './race-rest.mjs';
 import { BANNER_1_ROSTER } from './game-engine.mjs';
 import { validateLifeHistory, UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION } from './life-validation.mjs';
+import { validateFiveSlotTransactionHistory } from './life-replay.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
@@ -58,14 +59,14 @@ export function isTemporaryPreservationMode() {
  * Validates a save envelope semantically.
  * Returns { valid: boolean, errors: string[] }
  */
-export function validateSave(envelope) {
+export function validateSave(envelope, { experimentalFiveSlot = false } = {}) {
   const errors = [];
   try {
     if (!envelope || typeof envelope !== 'object') {
       return { valid: false, errors: ['Save payload is not an object'] };
     }
 
-    if (![1, 2, 3, 4].includes(envelope.schemaVersion)) {
+    if (![1, 2, 3, 4].includes(envelope.schemaVersion) && !(experimentalFiveSlot && envelope.schemaVersion===5)) {
       errors.push(`Incompatible schema version: ${envelope.schemaVersion}`);
     }
     if (envelope.schemaVersion >= 3 && envelope.raceRestEvidenceVersion !== 1) {
@@ -247,19 +248,27 @@ export function validateSave(envelope) {
           errors.push('Race rest policy evidence exists without its append-only activation boundary');
         }
         // Reconcile state against event log
-        if (envelope.schemaVersion === 4) errors.push(...validateLifeHistory(entries, state));
+        if (envelope.schemaVersion === 5 && experimentalFiveSlot) errors.push(...validateFiveSlotTransactionHistory(envelope));
+        else if (envelope.schemaVersion === 4) errors.push(...validateLifeHistory(entries, state));
         else if (state.life || entries.some(e => e.type === 'life_intent' || (e.type === 'run_started' && Object.hasOwn(e.payload ?? {}, 'tutorialShiftVersion')))) errors.push('Life policy requires schema 4');
-        let calcCash = envelope.schemaVersion === 4 ? 80 : 15.00;
+        let calcCash = [4,5].includes(envelope.schemaVersion) ? 80 : 15.00;
         let calcGems = 0;
         let calcHealth = 100;
         let calcDebt = 0;
         let calcDown = 0;
         const expectedOwned = [];
         let calcPity = 0;
+        const fiveSlotLoans=new Map();
         const resolvedBreakfastBills = new Set();
 
         for (const e of entries) {
-          if (e.type === 'income' && e.payload?.amount) calcCash += e.payload.amount;
+          if (e.type === 'income' && e.payload?.amount && e.payload.source!=='five-slot-work-story') calcCash += e.payload.amount;
+          if (envelope.schemaVersion===5 && e.type==='life52_commit') {calcCash+=(e.payload?.cashDeltaCents??0)/100;calcHealth+=e.payload?.healthDelta??0;}
+          if (envelope.schemaVersion===5 && e.type==='life52_effect') {
+            const effect=e.payload?.effect;
+            if(effect?.type==='loan_accepted' && effect.loan?.id)fiveSlotLoans.set(effect.loan.id,effect.loan.totalCents);
+            if(effect?.type==='loan_repaid')fiveSlotLoans.delete(effect.loanId);
+          }
           if (e.type === 'life_health') calcHealth += e.payload.delta;
           if (e.type === 'expense_paid' && e.payload?.amount) calcCash -= e.payload.amount;
           if (e.type === 'expense_paid' && e.payload?.kind === 'food' && e.payload?.billId) {
@@ -309,6 +318,7 @@ export function validateSave(envelope) {
           }
         }
 
+        if(envelope.schemaVersion===5)calcDebt=[...fiveSlotLoans.values()].reduce((sum,value)=>sum+value,0)/100;
         calcCash = Math.round(calcCash * 100) / 100;
         if (Math.abs(calcCash - state.cash) > 0.01) {
           errors.push(`State cash mismatch: log implies $${calcCash}, state reports $${state.cash}`);
@@ -340,9 +350,9 @@ export function validateSave(envelope) {
           entries.filter((e) => e.type === 'reveal_shown').map((e) => e.payload?.commitSeq)
         );
         const lastBatchSize = allCommitEvents.at(-1)?.payload?.of ?? 0;
-        const commitEvents = envelope.schemaVersion === 4 && Number.isInteger(lastBatchSize) && lastBatchSize > 0
+        const commitEvents = [4,5].includes(envelope.schemaVersion) && Number.isInteger(lastBatchSize) && lastBatchSize > 0
           ? allCommitEvents.slice(-lastBatchSize) : allCommitEvents;
-        if (envelope.schemaVersion === 4 && allCommitEvents.slice(0, allCommitEvents.length - commitEvents.length).some(e => !revealedSeqs.has(e.seq))) {
+        if ([4,5].includes(envelope.schemaVersion) && allCommitEvents.slice(0, allCommitEvents.length - commitEvents.length).some(e => !revealedSeqs.has(e.seq))) {
           errors.push('An earlier draw batch contains unrevealed outcomes');
         }
 
@@ -675,14 +685,14 @@ export function backupUnsupportedRenSave(storage) {
  * callers must show the reset consequences before invoking it. A failed write
  * cannot promise atomic rollback across browser storage keys.
  */
-export function replaceUnsupportedSave(envelope, storage) {
+export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot = false } = {}) {
   let serialized;
   try {
     serialized=JSON.stringify(envelope);
     if(typeof serialized!=='string')throw new Error('Replacement save could not be serialized');
     const candidate=JSON.parse(serialized);
     if(candidate?.schemaVersion!==5)throw new Error('A new-policy save is required');
-    const validation=validateSave(candidate);
+    const validation=validateSave(candidate,{experimentalFiveSlot});
     if(!validation.valid)throw new Error(`Replacement save is invalid: ${validation.errors.join('; ')}`);
   } catch(error) {return {success:false,stage:'prepare',error:error.message};}
   let original=null,originalRead=false,backupCreated=false,replacementAttempted=false;

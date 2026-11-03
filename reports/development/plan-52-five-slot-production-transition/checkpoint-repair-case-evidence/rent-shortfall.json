@@ -1,0 +1,274 @@
+{
+  "description": "Extracted single completed case from an original serial browser batch; original batch remains authoritative and its overall outcome is recorded below.",
+  "originalBatch": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/trace.json",
+  "originalBatchSha256": "e6fa440af1b1bab94cad4cd8902dd9bda20a949ff75c69ac20f548f371c85af2",
+  "originalBatchError": null,
+  "origin": "historical-parent-resave",
+  "parent": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "parentSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "input": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "inputSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "sourceClosureSha256": "0fab3d5160f3686a73ef8f17b99f34664143955d23e734da262c2e3eb19e9168",
+  "recipeSha256": "eb3e1422a69266b749ce8ce3edc9c60797b4f876fe6ea90bda53659a322c57d7",
+  "captures": [
+    {
+      "name": "rent-shortfall",
+      "sha256": "1f24f80dc5b37e20bf8a22a59a4870dc6e03e4127bbd09c8fc7b28c5bd569b6d"
+    }
+  ],
+  "results": [
+    {
+      "name": "rent-shortfall",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+      "parentSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+      "inputSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/rent-shortfall.save.json",
+      "fixtureSha256": "1f24f80dc5b37e20bf8a22a59a4870dc6e03e4127bbd09c8fc7b28c5bd569b6d",
+      "restoredEvents": 76,
+      "afterEvents": 82,
+      "day": 4,
+      "slot": "morning",
+      "cash": 170,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 6216,
+        "ppid": 31420,
+        "created": "11/03/2026 06:32:45",
+        "root": true
+      },
+      {
+        "pid": 39088,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 19464,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 32356,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 33452,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 47764,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 35272,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 8740,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 49512,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 20936,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:45",
+        "root": false
+      },
+      {
+        "pid": 32900,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:47",
+        "root": false
+      },
+      {
+        "pid": 30112,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:47",
+        "root": false
+      },
+      {
+        "pid": 50116,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:47",
+        "root": false
+      },
+      {
+        "pid": 15436,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:48",
+        "root": false
+      },
+      {
+        "pid": 31180,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:48",
+        "root": false
+      },
+      {
+        "pid": 24956,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:48",
+        "root": false
+      },
+      {
+        "pid": 33088,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:49",
+        "root": false
+      },
+      {
+        "pid": 47396,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:49",
+        "root": false
+      },
+      {
+        "pid": 26376,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:49",
+        "root": false
+      },
+      {
+        "pid": 35856,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:49",
+        "root": false
+      },
+      {
+        "pid": 41084,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:49",
+        "root": false
+      },
+      {
+        "pid": 46872,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:51",
+        "root": false
+      },
+      {
+        "pid": 25928,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:51",
+        "root": false
+      },
+      {
+        "pid": 6716,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:51",
+        "root": false
+      },
+      {
+        "pid": 23812,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:54",
+        "root": false
+      },
+      {
+        "pid": 34104,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:54",
+        "root": false
+      },
+      {
+        "pid": 30572,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:54",
+        "root": false
+      },
+      {
+        "pid": 27832,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:55",
+        "root": false
+      },
+      {
+        "pid": 43104,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:55",
+        "root": false
+      },
+      {
+        "pid": 36948,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:55",
+        "root": false
+      },
+      {
+        "pid": 23180,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:56",
+        "root": false
+      },
+      {
+        "pid": 26324,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:56",
+        "root": false
+      },
+      {
+        "pid": 49212,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:56",
+        "root": false
+      },
+      {
+        "pid": 36936,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:58",
+        "root": false
+      },
+      {
+        "pid": 36572,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:58",
+        "root": false
+      },
+      {
+        "pid": 34904,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:58",
+        "root": false
+      },
+      {
+        "pid": 43012,
+        "ppid": 6216,
+        "created": "11/03/2026 06:32:58",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[6216:43488:1103/063245.780:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[6216:43488:1103/063245.780:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:49965/devtools/browser/80af93ea-f295-4640-82c4-5af1ebe4a577\r\n"
+  }
+}

@@ -1,0 +1,422 @@
+{
+  "sourceClosureSha256": "0fab3d5160f3686a73ef8f17b99f34664143955d23e734da262c2e3eb19e9168",
+  "recipeSha256": "194e473188767b497d225bd17d605a5764c2894a71d5fb94895d8a4bfb529ce4",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/morning-narrow.save.json",
+      "parentSha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/morning-narrow.save.json",
+      "inputSha256": "5cfd422a505d2194388c274fc697b6efdec126cd596571d2910f6fde25294722",
+      "origin": "new-current-day1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/fresh-tutorial.save.json",
+      "fixtureSha256": "795d248d2d81cc3589c674fe41ffd661f5ee89020bf8086c6f05fd461ca0a576",
+      "restoredEvents": 2,
+      "afterEvents": 5,
+      "day": 1,
+      "slot": "midday",
+      "cash": 74,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+      "parentSha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/work-narrow.save.json",
+      "inputSha256": "b6e5ae486122117e3f8f69b7bd1388461d4ec057668f539061c5833a0c54e26f",
+      "origin": "new-current-day1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "fixtureSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "unresolved-dinner",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/dinner-narrow.save.json",
+      "parentSha256": "dea25c3c08991d307179d44bbef91f03f60707244b53c35d11dd26c658937c61",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/dinner-narrow.save.json",
+      "inputSha256": "0a1e862645d35b4a8e3172f0e0425ded04a921b54b11afdf6a5ce052bfc72473",
+      "origin": "new-current-day1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/unresolved-dinner.save.json",
+      "fixtureSha256": "af20c87882871ab30fd2ff50955ffbf59024c5e25346d7804efc6532a6e15857",
+      "restoredEvents": 22,
+      "afterEvents": 25,
+      "day": 1,
+      "slot": "evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "completed-evening",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/evening-return-desktop.save.json",
+      "parentSha256": "9b1f342fdaac6c7218e4a54e7f937f0451ff053c2f47d844e97e0652bd3f810c",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/evening-return-desktop.save.json",
+      "inputSha256": "905c897c1451a9f0f376cd5f5ab26c0ffcaaf38e452480e9e9288b8f62dd3733",
+      "origin": "new-current-day1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/completed-evening.save.json",
+      "fixtureSha256": "375e35eec478986ec0a82e8e9398c54c01a11a355d4856ac3d81f4add4a8b7b8",
+      "restoredEvents": 37,
+      "afterEvents": 40,
+      "day": 2,
+      "slot": "morning",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "independent-day",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/day7-morning.save.json",
+      "parentSha256": "76b700c500d9e04cb008464dbb602d0c3e0be88d5bd733c61e477e74f91a35f5",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/day7-morning.save.json",
+      "inputSha256": "76b700c500d9e04cb008464dbb602d0c3e0be88d5bd733c61e477e74f91a35f5",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/independent-day.save.json",
+      "fixtureSha256": "d0a7897c0763c937fc0bf015d0e11113505408d2145aa573f7f1186d77092c63",
+      "restoredEvents": 251,
+      "afterEvents": 254,
+      "day": 7,
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "ren-reserved",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-reserved.save.json",
+      "parentSha256": "27033430ec114cf0cbb29f715e597af35120a0143127a3309b4c279843e55039",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-reserved.save.json",
+      "inputSha256": "27033430ec114cf0cbb29f715e597af35120a0143127a3309b4c279843e55039",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-reserved.save.json",
+      "fixtureSha256": "53100d592e20a79e6a8120693a8f32669f697ef16f6478442081ce04f9305a31",
+      "restoredEvents": 148,
+      "afterEvents": 163,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "ren-arriving",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-arrival.save.json",
+      "parentSha256": "11eb4c755886e2a42ca0ab0d39c92cb41b06fe126b91221ae24be4783acc0716",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-arrival.save.json",
+      "inputSha256": "11eb4c755886e2a42ca0ab0d39c92cb41b06fe126b91221ae24be4783acc0716",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-arriving.save.json",
+      "fixtureSha256": "ca2c95e78f7005ca49a756c83bd1e4fbebf57004395f6245311ca25efc00e80e",
+      "restoredEvents": 163,
+      "afterEvents": 169,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [],
+  "consoleErrors": [],
+  "error": "Error: rent-shortfall: resave changed history or RNG",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 48268,
+        "ppid": 20436,
+        "created": "11/03/2026 06:24:14",
+        "root": true
+      },
+      {
+        "pid": 47064,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 47108,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 8032,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 46656,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 37268,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 32596,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 3372,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 35904,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 13304,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:15",
+        "root": false
+      },
+      {
+        "pid": 39236,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 17836,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 35416,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 31948,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 42148,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 44816,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 20404,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:18",
+        "root": false
+      },
+      {
+        "pid": 49348,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:18",
+        "root": false
+      },
+      {
+        "pid": 33796,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 49892,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 17364,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 19092,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 20452,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 49832,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 14360,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 43520,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 17840,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 45376,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 22276,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 47528,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 45580,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 3812,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 7532,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 20696,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 25212,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 17968,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 48728,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 39856,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 34460,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 38000,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 16204,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 18220,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 21840,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 47884,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 30732,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 34752,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:30",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:56904/devtools/browser/ea29e955-929d-45c6-9f42-70d222f7ff10\r\n[48268:29056:1103/062414.845:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[48268:29056:1103/062414.845:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

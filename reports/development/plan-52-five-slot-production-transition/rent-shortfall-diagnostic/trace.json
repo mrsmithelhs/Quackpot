@@ -1,0 +1,111 @@
+{
+  "parent": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "parentSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "recipeSha256": "4d0dd14f816f82bd6a81fad19edd70e61adf2ed542c103a2827b3fd7fcb32c82",
+  "sourceClosureSha256": "0fab3d5160f3686a73ef8f17b99f34664143955d23e734da262c2e3eb19e9168",
+  "reports": [
+    {
+      "name": "post-render-pre-save",
+      "storageSha256": "55680e4c691933452efd318d6fd3138eab84d3ac551b0f160f8e2cf6a095fbdf"
+    },
+    {
+      "name": "post-save",
+      "storageSha256": "992455dc95548d1a958fec8f51a7b5f11d1fb2348791f61d0b54128044d8062d"
+    },
+    {
+      "name": "post-reload",
+      "storageSha256": "24dfcf1296625cefc79f69874105fb2d549e6c8c4f4d0568c99f212fef31da39"
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 47032,
+        "ppid": 12640,
+        "created": "11/03/2026 06:30:32",
+        "root": true
+      },
+      {
+        "pid": 49452,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 27004,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 47988,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 10636,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 46036,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 46668,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 42616,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 4604,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 29552,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:32",
+        "root": false
+      },
+      {
+        "pid": 16616,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:33",
+        "root": false
+      },
+      {
+        "pid": 47892,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:33",
+        "root": false
+      },
+      {
+        "pid": 43492,
+        "ppid": 47032,
+        "created": "11/03/2026 06:30:33",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:57329/devtools/browser/fb1a3a5c-7d7d-4077-9323-2bc259aac88a\r\n[47032:4656:1103/063032.633:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[47032:4656:1103/063032.633:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n[47032:24956:1103/063036.015:ERROR:chrome\\browser\\web_applications\\externally_managed_app_manager.cc:680] https://mail.google.com/mail/installwebapp?usp=chrome_default from install source 1 failed to install with reason 21\r\n"
+  }
+}

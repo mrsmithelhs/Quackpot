@@ -1,0 +1,328 @@
+{
+  "description": "Extracted single completed case from an original serial browser batch; original batch remains authoritative and its overall outcome is recorded below.",
+  "originalBatch": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/trace.json",
+  "originalBatchSha256": "261f816ed4a959cff551e800aaf3e6dcf4a446ba34e2f8cb60874854686de586",
+  "originalBatchError": "Error: rent-shortfall: resave changed history or RNG",
+  "origin": "new-current-day1",
+  "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+  "parentSha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+  "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/work-narrow.save.json",
+  "inputSha256": "b6e5ae486122117e3f8f69b7bd1388461d4ec057668f539061c5833a0c54e26f",
+  "sourceClosureSha256": "0fab3d5160f3686a73ef8f17b99f34664143955d23e734da262c2e3eb19e9168",
+  "recipeSha256": "194e473188767b497d225bd17d605a5764c2894a71d5fb94895d8a4bfb529ce4",
+  "captures": [
+    {
+      "name": "midday-work",
+      "sha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e"
+    }
+  ],
+  "results": [
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+      "parentSha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+      "input": "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current/work-narrow.save.json",
+      "inputSha256": "b6e5ae486122117e3f8f69b7bd1388461d4ec057668f539061c5833a0c54e26f",
+      "origin": "new-current-day1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "fixtureSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 48268,
+        "ppid": 20436,
+        "created": "11/03/2026 06:24:14",
+        "root": true
+      },
+      {
+        "pid": 47064,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 47108,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 8032,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 46656,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 37268,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 32596,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 3372,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 35904,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:14",
+        "root": false
+      },
+      {
+        "pid": 13304,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:15",
+        "root": false
+      },
+      {
+        "pid": 39236,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 17836,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 35416,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:16",
+        "root": false
+      },
+      {
+        "pid": 31948,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 42148,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 44816,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:17",
+        "root": false
+      },
+      {
+        "pid": 20404,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:18",
+        "root": false
+      },
+      {
+        "pid": 49348,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:18",
+        "root": false
+      },
+      {
+        "pid": 33796,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 49892,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 17364,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:19",
+        "root": false
+      },
+      {
+        "pid": 19092,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 20452,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 49832,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:20",
+        "root": false
+      },
+      {
+        "pid": 14360,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 43520,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 17840,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 45376,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 22276,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 47528,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:22",
+        "root": false
+      },
+      {
+        "pid": 45580,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 3812,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 7532,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:23",
+        "root": false
+      },
+      {
+        "pid": 20696,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 25212,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 17968,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:26",
+        "root": false
+      },
+      {
+        "pid": 48728,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 39856,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 34460,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:27",
+        "root": false
+      },
+      {
+        "pid": 38000,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 16204,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 18220,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:28",
+        "root": false
+      },
+      {
+        "pid": 21840,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 47884,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 30732,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:29",
+        "root": false
+      },
+      {
+        "pid": 34752,
+        "ppid": 48268,
+        "created": "11/03/2026 06:24:30",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:56904/devtools/browser/ea29e955-929d-45c6-9f42-70d222f7ff10\r\n[48268:29056:1103/062414.845:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[48268:29056:1103/062414.845:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

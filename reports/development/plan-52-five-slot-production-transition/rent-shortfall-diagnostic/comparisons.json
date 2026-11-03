@@ -1,0 +1,91 @@
+{
+  "parentToRendered": {
+    "prefix": true,
+    "added": [
+      {
+        "seq": 75,
+        "type": "life52_due_options_shown",
+        "clock": {
+          "day": 4,
+          "label": "day 4 morning"
+        },
+        "payload": {
+          "bills": [
+            {
+              "id": "rent-1",
+              "amountCents": 17000
+            }
+          ],
+          "cashCents": 10400,
+          "totalCents": 17000,
+          "shortfallCents": 6600,
+          "saleOptions": [
+            "couch",
+            "tv"
+          ],
+          "loanRentIds": [
+            "rent-1"
+          ],
+          "overtimeAvailable": true,
+          "scheduleRevision": 18,
+          "financeRevision": 1
+        },
+        "chain": "6e229b58"
+      }
+    ],
+    "rngEqual": true,
+    "cashEqual": true,
+    "debtEqual": true,
+    "financeEqual": true,
+    "scheduleEqual": true
+  },
+  "renderedToSaved": {
+    "prefix": true,
+    "added": [],
+    "rngEqual": true,
+    "cashEqual": true,
+    "debtEqual": true,
+    "financeEqual": true,
+    "scheduleEqual": true
+  },
+  "savedToReload": {
+    "prefix": true,
+    "added": [
+      {
+        "seq": 76,
+        "type": "life52_due_options_shown",
+        "clock": {
+          "day": 4,
+          "label": "day 4 morning"
+        },
+        "payload": {
+          "bills": [
+            {
+              "id": "rent-1",
+              "amountCents": 17000
+            }
+          ],
+          "cashCents": 10400,
+          "totalCents": 17000,
+          "shortfallCents": 6600,
+          "saleOptions": [
+            "couch",
+            "tv"
+          ],
+          "loanRentIds": [
+            "rent-1"
+          ],
+          "overtimeAvailable": true,
+          "scheduleRevision": 18,
+          "financeRevision": 1
+        },
+        "chain": "561c93fd"
+      }
+    ],
+    "rngEqual": true,
+    "cashEqual": true,
+    "debtEqual": true,
+    "financeEqual": true,
+    "scheduleEqual": true
+  }
+}

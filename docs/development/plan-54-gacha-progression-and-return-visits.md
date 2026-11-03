@@ -1,7 +1,7 @@
 ---
 id: plan-54
 title: Gacha progression and return-visit investigation
-status: in-progress
+status: delivered
 depends_on: [plan-12, plan-17, plan-21, plan-22, plan-23]
 gate: "Owner selects the comparison approach before prototype construction; owner experience choices and orchestration review precede any production or economy integration."
 summary: >-

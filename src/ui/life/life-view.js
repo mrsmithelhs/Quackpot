@@ -727,15 +727,16 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     closing = false;
     for (const a of anims) a.cancel?.();
     anims.clear();
-    ui.place = placeFor(engine, ui.place);
+    ui.place = engine.state.life?.policyVersion === 'five-slot-v1' && engine.state.life.story47
+      ? (ui.place || 'kitchen-breakfast') : placeFor(engine, ui.place);
     const place = ui.place;
-    const offer = offerOf();
+    const offer = engine.state.life?.policyVersion === 'five-slot-v1' && engine.state.life.story47 ? null : offerOf();
     root.classList.remove('life-is-held');
     if (engine.state.life?.story47) {
       const story = engine.state.life.story47;
       renderStory47(root, story, {
         health: () => engine.state.health,
-        day: () => engine.state.life.day,
+        day: () => engine.state.life.schedule?.day ?? engine.state.life.day,
         wage: (id) => engine.log.entries.find(e => e.type === 'income' && e.payload.kind === 'wage' && e.payload.transactionId === id)?.payload.amount,
         shown: (current) => callbacks.onStoryShown(current),
         advance: (current) => { callbacks.onStoryAdvance(engine.log.length, current); ui.held = null; callbacks.onRefresh(); },

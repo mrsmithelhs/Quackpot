@@ -14,8 +14,17 @@ test('five-slot routing puts recovery before a latched loan or rent',()=>{
  e.state.life.schedule.day=14;e.state.life.schedule.slot='midday';e.state.life.schedule.recovery={id:'zero',resolved:false};
  e.state.life.finance.loans.push({id:'loan-1',totalCents:150,due:{day:14,slot:'midday'},status:'pending',latched:false});
  assert.deepEqual(fiveSlotPriority(e),{kind:'recovery'});
+ assert.equal(lifeSurface(e),'life_recovery');
  e.state.life.schedule.recovery=null;
  assert.deepEqual(fiveSlotPriority(e),{kind:'payment',billIds:['rent-1','rent-2','loan-1'],rescueReservation:null});
+ assert.equal(lifeSurface(e),'life_rent');
+ assert.equal(rentState(e).owing,true);assert.equal(rentState(e).short,90);
+});
+test('five-slot apartment routing uses the actual slot and keeps free navigation available',()=>{
+ const e=new GameEngine('five-slot-places',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ e.state.life.schedule.day=2;e.state.life.schedule.slot='evening';e.state.step=lifeSurface(e);
+ assert.equal(e.state.step,'life_evening');assert.ok(availablePlaces(e).includes('bedroom'));assert.ok(availablePlaces(e).includes('door'));
+ e.state.life.schedule.active={id:'activity',kind:'session'};assert.equal(availablePlaces(e).includes('door'),false);
 });
 
 // Test-local stand-ins for the controller (main.js) wiring described in the Plan 38 brief.

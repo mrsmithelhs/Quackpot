@@ -12,6 +12,15 @@ export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
 export const CURRENT_SCHEMA_VERSION = 4;
 
+function isRecognizedDevelopmentSave(envelope) {
+  try { return [1,2,3,4].includes(envelope?.schemaVersion) && Number.isFinite(envelope.savedAt) && envelope.savedAt>0
+    && envelope.state && typeof envelope.state==='object' && !Array.isArray(envelope.state)
+    && envelope.prngStreams && typeof envelope.prngStreams==='object' && !Array.isArray(envelope.prngStreams)
+    && ['root','draw','race','event'].every(name=>typeof envelope.prngStreams[name]==='string')
+    && Array.isArray(envelope.eventLog) && envelope.eventLog.length>0 && verifyChain(envelope.eventLog);
+  } catch { return false; }
+}
+
 function hasRaceRestPolicyFacts(envelope, entries = envelope?.eventLog) {
   const state = envelope?.state ?? {};
   const logFact = Array.isArray(entries) && entries.some((entry) => {
@@ -705,7 +714,7 @@ export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot
     original=storage.getItem(STORAGE_KEY);originalRead=true;
     let old;
     try {old=JSON.parse(original);} catch {throw new Error('Primary save is not a recognized development save');}
-    if(original===null || ![1,2,3,4].includes(old?.schemaVersion))throw new Error('Primary save is not an unsupported development save');
+    if(original===null || !isRecognizedDevelopmentSave(old))throw new Error('Primary save is not an unsupported development save');
     if(original!==null && storage.getItem(BACKUP_KEY)===null) {
       storage.setItem(BACKUP_KEY,original);
       if(storage.getItem(BACKUP_KEY)!==original)throw new Error('Backup verification failed');
@@ -719,6 +728,7 @@ export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot
   } catch(error) {
     let restoration='not_needed';
     try {
+      if(!replacementAttempted && originalRead && storage && storage.getItem(STORAGE_KEY)!==original)restoration='not_attempted_primary_changed';
       if(replacementAttempted && originalRead && storage) {
         const current=storage.getItem(STORAGE_KEY);
         if(current===serialized) {
@@ -759,7 +769,7 @@ export function loadGame(storage, { experimentalFiveSlot = false } = {}) {
     return { envelope: null, valid: false, errors: [`JSON parse failure: ${err.message}`], isCorrupt: true };
   }
 
-  if(experimentalFiveSlot && [1,2,3,4].includes(envelope?.schemaVersion)) {
+  if(experimentalFiveSlot && isRecognizedDevelopmentSave(envelope)) {
     unsupportedFiveSlotPreservationActive=true;
     return {envelope:null,valid:false,errors:['Unsupported development save'],isCorrupt:false,unsupportedDevelopment:true,migrated:false};
   }

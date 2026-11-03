@@ -838,6 +838,12 @@ if (app) {
       onBeginStoryActivity: commit((choice) => commitLifeWithSocial({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice })),
       onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
       onStoryAdvance: commit((story) => {
+        if (engine.state.life?.policyVersion === 'five-slot-v1' && story.kind === 'work') {
+          const type = story.stage === 'commute' ? 'advance' : story.stage === 'work' ? 'complete' : 'dismiss';
+          const result = engine.applyFiveSlotWorkStory({ type, id: story.id, operationId: `work-story-ui:${engine.log.length}`, confirmed: true }, engine.log.length);
+          if (result.ok && type === 'dismiss') { engine.state.step = lifeSurface(engine); resetLifeUi(); }
+          return result;
+        }
         let intent;
         if (story.kind === 'work' && story.stage === 'commute') intent = { type: 'work_story_step', id: story.id };
         else if (story.kind === 'work' && story.stage === 'work') intent = { type: 'complete_work', id: story.id };

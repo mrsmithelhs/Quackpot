@@ -34,6 +34,8 @@ test('five-slot financial decisions explain combined debt and exact loan deadlin
  e.state.life.finance.loans=[];const loan=fiveSlotLoanDecision(e,'rent-2');
  assert.ok(loan.lines.some(line=>line.includes('$450.00') && line.includes('day 19')));
  assert.ok(loan.lines.some(line=>line.includes('does not pay rent')));
+ const rentOnly=fiveSlotDueDecision(e);assert.ok(rentOnly.lines.some(line=>line.includes('$60.00') && line.includes('15 HP')));
+ assert.ok(rentOnly.lines.some(line=>line.includes('$30.00') && line.includes('$40.00')));
 });
 
 test('rent short: trying to pay records the bill as due and takes nothing; the panel says so first', () => {

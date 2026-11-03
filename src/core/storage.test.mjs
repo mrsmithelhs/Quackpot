@@ -45,7 +45,7 @@ test('unsupported-save replacement refuses an invalid new envelope before touchi
 
 test('experimental new-save replacement preserves an occupied backup and refuses quota failures',()=>{
  const e=new GameEngine('reset-five-slot',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();const candidate=e.toEnvelope();
- const original=JSON.stringify({schemaVersion:4,old:'preserve'}),backup='earlier backup';
+ const old=new GameEngine('reset-old',{lifePolicy:true});old.start();old.setupCompanion();const original=JSON.stringify(old.toEnvelope()),backup='earlier backup';
  const storage=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});
  const accepted=replaceUnsupportedSave(candidate,storage,{experimentalFiveSlot:true});assert.equal(accepted.success,true);assert.equal(storage.getItem(BACKUP_KEY),backup);
  assert.equal(JSON.parse(storage.getItem(STORAGE_KEY)).schemaVersion,5);
@@ -54,10 +54,16 @@ test('experimental new-save replacement preserves an occupied backup and refuses
  const fresh=createMockStorage({[STORAGE_KEY]:original});const copied=replaceUnsupportedSave(candidate,fresh,{experimentalFiveSlot:true});assert.equal(copied.success,true);assert.equal(copied.backupCreated,true);assert.equal(fresh.getItem(BACKUP_KEY),original);
  const blocked=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});const set=blocked.setItem;blocked.setItem=(key,value)=>{if(key===STORAGE_KEY)throw Error('primary quota');set(key,value);};
  const refused=replaceUnsupportedSave(candidate,blocked,{experimentalFiveSlot:true});assert.equal(refused.success,false);assert.equal(blocked.getItem(STORAGE_KEY),original);assert.equal(blocked.getItem(BACKUP_KEY),backup);
+ const partial=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});const partialSet=partial.setItem;let first=true;
+ partial.setItem=(key,value)=>{partialSet(key,value);if(key===STORAGE_KEY && first){first=false;throw Error('write reported failure');}};
+ const restored=replaceUnsupportedSave(candidate,partial,{experimentalFiveSlot:true});assert.equal(restored.success,false);assert.equal(restored.restoration,'restored');assert.equal(partial.getItem(STORAGE_KEY),original);assert.equal(partial.getItem(BACKUP_KEY),backup);
+ const changed=createMockStorage({[STORAGE_KEY]:original,[BACKUP_KEY]:backup});const get=changed.getItem;let reads=0;
+ changed.getItem=key=>{if(key===STORAGE_KEY && ++reads===2)changed._store.set(STORAGE_KEY,'newer save');return get(key);};
+ const raced=replaceUnsupportedSave(candidate,changed,{experimentalFiveSlot:true});assert.equal(raced.success,false);assert.equal(raced.restoration,'not_attempted_primary_changed');assert.equal(changed.getItem(STORAGE_KEY),'newer save');assert.equal(changed.getItem(BACKUP_KEY),backup);
 });
 
 test('experimental load preserves unsupported primary and backup during temporary play until explicit reset',()=>{
- resetInMemoryStore();const old=JSON.stringify({schemaVersion:4,old:'original'}),backup='occupied backup';
+ resetInMemoryStore();const oldEngine=new GameEngine('old-development',{lifePolicy:true});oldEngine.start();oldEngine.setupCompanion();const old=JSON.stringify(oldEngine.toEnvelope()),backup='occupied backup';
  const storage=createMockStorage({[STORAGE_KEY]:old,[BACKUP_KEY]:backup});
  const loaded=loadGame(storage,{experimentalFiveSlot:true});assert.equal(loaded.unsupportedDevelopment,true);assert.equal(loaded.isCorrupt,false);assert.equal(loaded.migrated,false);
  const e=new GameEngine('preserved-new',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();const candidate=e.toEnvelope();
@@ -65,6 +71,7 @@ test('experimental load preserves unsupported primary and backup during temporar
  assert.equal(backupCorruptSave(storage),false);assert.equal(clearGame(storage).success,false);assert.equal(storage.getItem(STORAGE_KEY),old);
  const reset=replaceUnsupportedSave(candidate,storage,{experimentalFiveSlot:true});assert.equal(reset.success,true);assert.equal(storage.getItem(BACKUP_KEY),backup);
  const reloaded=loadGame(storage,{experimentalFiveSlot:true});assert.equal(reloaded.valid,true);assert.equal(reloaded.envelope.schemaVersion,5);resetInMemoryStore();
+ const malformed=createMockStorage({[STORAGE_KEY]:JSON.stringify({schemaVersion:4})});const broken=loadGame(malformed,{experimentalFiveSlot:true});assert.equal(broken.isCorrupt,true);assert.equal(broken.unsupportedDevelopment,false);
 });
 
 function makeValidEnvelope() {

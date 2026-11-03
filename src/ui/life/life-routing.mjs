@@ -43,6 +43,10 @@ const settled = (engine, billId) => (engine.state.billsSettled ?? []).includes(b
 export function rentState(engine) {
   const s = engine.state;
   if (s.life) {
+    if(s.life.policyVersion==='five-slot-v1') {
+      const due=engine.checkDueObligations().bills.find(bill=>bill.id.startsWith('rent-'));
+      return {paid:!due && s.life.finance.rents.some(bill=>bill.status==='paid'),owing:Boolean(due),short:due?Math.max(0,round(due.amountCents/100-s.cash)):0,cash:s.cash};
+    }
     const amount = s.life.config.rentAmount;
     const paid = s.life.rent.status === 'paid';
     const owing = ['due', 'overdue'].includes(s.life.rent.status);
@@ -55,6 +59,10 @@ export function rentState(engine) {
 }
 
 export function breakfastState(engine) {
+  if(engine.state.life?.policyVersion==='five-slot-v1') {
+    const schedule=engine.state.life.schedule,kind=schedule.slot==='early-evening'?'dinner':'breakfast',billId=`${schedule.day}:${kind}`;
+    return {day:schedule.day,billId,settled:Boolean(schedule.obligations[billId]),owing:false};
+  }
   const day = BREAKFAST_DAY_BY_STEP[engine.state.step] ?? engine.state.day;
   if (engine.state.life) {
     const billId = `d${day}-${engine.state.life.phase === 'evening' ? 'dinner' : 'breakfast'}`;
@@ -82,6 +90,15 @@ export function currentOffer(engine) {
 /** Places this step lets the player visit. Optional places appear only while the opportunity is open. */
 export function availablePlaces(engine) {
   const step = engine.state.step;
+  if(engine.state.life?.policyVersion==='five-slot-v1') {
+    const life=engine.state.life,s=life.schedule;
+    if(step==='life_recovery')return ['bedroom','desk-phone','kitchen-breakfast','living'];
+    if(step==='life_rent')return ['kitchen-breakfast','desk-phone','living'];
+    const places=step==='life_breakfast'?['kitchen-breakfast','desk-phone','living']:['desk-phone','kitchen-breakfast','living'];
+    if(['evening','late-evening'].includes(s.slot))places.push('bedroom');
+    if(s.day>=2 && !s.recovery && !s.active && !life.story47 && !engine.checkDueObligations().bills.length)places.push('door');
+    return places;
+  }
   if (engine.state.life && step === 'life_recovery') return ['bedroom', 'desk-phone', 'kitchen-breakfast', 'living'];
   if (engine.state.life && step === 'life_rent') return ['kitchen-breakfast', 'desk-phone', 'living'];
   if (engine.state.life && ['life_work', 'life_evening', 'life_breakfast'].includes(step)) {
@@ -128,6 +145,13 @@ export function placeFor(engine, requested = null) {
 export function lifeSurface(engine) {
   const life = engine.state.life;
   if (!life) return null;
+  if(life.policyVersion==='five-slot-v1') {
+    const priority=fiveSlotPriority(engine);
+    if(priority.kind==='recovery')return 'life_recovery';
+    if(priority.kind==='payment')return 'life_rent';
+    if(['morning','early-evening'].includes(priority.slot))return 'life_breakfast';
+    return priority.slot==='midday'?'life_work':'life_evening';
+  }
   if (life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced)) return 'life_rent';
   if (life.recovery) return 'life_recovery';
   if (life.phase === 'morning') return 'life_breakfast';

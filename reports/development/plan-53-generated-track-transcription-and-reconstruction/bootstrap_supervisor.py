@@ -216,10 +216,11 @@ if __name__ == "__main__":
     p.add_argument("--footprint-mib", type=int, required=True)
     p.add_argument("--free-floor-mib", type=int, required=True)
     p.add_argument("--max-active", type=int, default=0)
+    p.add_argument("--log-dir")
     p.add_argument("command", nargs=argparse.REMAINDER)
     a = p.parse_args()
     if not 0 < a.seconds <= 1800 or not 64 <= a.memory_mib <= 4096 or not 1 <= a.footprint_mib <= 20480 or a.free_floor_mib < 0 or not 0 <= a.max_active <= 2:
         p.error("outside bootstrap limits")
-    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2, max_active=a.max_active)
+    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2, max_active=a.max_active, log_dir=a.log_dir)
     print(json.dumps(result))
     sys.exit(0 if result['error'] is None and result['root_exit_code'] == 0 and not result['cleanup'].startswith('UNVERIFIED') else 1)

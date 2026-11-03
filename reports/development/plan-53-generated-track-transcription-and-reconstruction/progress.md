@@ -111,3 +111,7 @@ Execution deviation: root specified an independent timeout for each fake operati
 
 Prepared controls and fake fixtures are committed as `b415684`. No live trial or inference is authorized by that commit.
 
+
+## Root correction to first-run controls
+
+Root withdrew its firewall and guardian prerequisite as beyond Plan 53's scope; see `reports/orchestration/plan-53-first-run-control-scope.md`. The historical trial preparation and fake results above remain evidence, not a live-action requirement. No firewall rule was changed. Its live entry is explicitly disabled. The local experiment instead requires verified pinned files, offline settings, no implicit downloads, bounded resources and abort/report for detectable unexpected access. A Python audit hook cannot establish native-code or OS-level network isolation. Root review and fresh resource clearance remain necessary before real audio processing or model execution, and the owner-listening gate is unchanged.

@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 
 import { GameEngine } from '../../core/game-engine.mjs';
 import { noticeLetter, rentDueText, rentNoticeCorrections } from './life-copy.mjs';
-import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision, fiveSlotDueDecision, fiveSlotLoanDecision } from './life-decisions.mjs';
+import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision, fiveSlotDueDecision, fiveSlotLoanDecision, fiveSlotWarningLines } from './life-decisions.mjs';
 import { effectFromEvents, previewZeroCash } from './life-preview.mjs';
 import { OFFER_PLACE, placeFor, rentState } from './life-routing.mjs';
 
@@ -40,6 +40,11 @@ test('five-slot financial decisions explain combined debt and exact loan deadlin
 test('five-slot Early Evening meal uses dinner copy and the selected cost',()=>{
  const e=new GameEngine('five-slot-dinner-copy',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();e.state.life.schedule.slot='early-evening';
  const decision=breakfastDecision(e);assert.equal(decision.heading,'Dinner at home');assert.ok(decision.confirm.includes('$6.00'));assert.ok(decision.decline.label.includes('Skip dinner'));
+});
+test('five-slot warning copy describes actual consequences and rejects unknown labels',()=>{
+ const lines=fiveSlotWarningLines({schedule:{disclosures:['late-fatigue','overtime-recovery']}});
+ assert.ok(lines[0].includes('10 HP'));assert.ok(lines[1].includes('keep its pay'));
+ assert.equal(fiveSlotWarningLines({schedule:{disclosures:['unknown']}}),null);
 });
 
 test('rent short: trying to pay records the bill as due and takes nothing; the panel says so first', () => {

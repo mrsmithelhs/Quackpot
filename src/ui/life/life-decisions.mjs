@@ -5,6 +5,7 @@
 import { decide } from './life-copy.mjs';
 import { rentState } from './life-routing.mjs';
 import { BREAKFAST_AMOUNT, RENT_AMOUNT, effectText, money, previewLadder, previewZeroCash } from './life-preview.mjs';
+import { PRODUCTION } from '../../core/life-schedule/index.mjs';
 
 const round = (n) => Math.round(n * 100) / 100;
 
@@ -35,6 +36,28 @@ export function fiveSlotLoanDecision(engine,billId) {
   return {heading:'Payday loan',lines:[`Borrow ${money(terms.principalCents/100)}.`,
     `One-time fee: ${money(terms.feeCents/100)}. Repay ${money(terms.totalCents/100)} by Midday on day ${terms.due.day}, before work.`,
     'You may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.'],terms};
+}
+
+export function fiveSlotWarningLines(proposal) {
+  const labels={
+    breakfast:`This action skips breakfast: no meal charge, and up to ${PRODUCTION.mealSkipHealth} HP is lost.`,
+    dinner:`This action skips dinner: no meal charge, and up to ${PRODUCTION.mealSkipHealth} HP is lost.`,
+    shift:'This action misses your scheduled shift; missed shifts can end your job.',
+    'late-fatigue':`Playing in Late Evening costs up to ${PRODUCTION.lateFatigueHealth} HP the next morning.`,
+    'recovery-required':'This choice brings health to 0 and starts recovery.',
+    'recovery-misses-meal':`Recovery takes this slot and misses the meal, costing up to ${PRODUCTION.mealSkipHealth} HP after recovery.`,
+    'recovery-misses-shift':'Recovery takes this slot and misses the scheduled shift.',
+    'fatigue-recovery':'Fatigue will bring health to 0 and start recovery.',
+    'overtime-recovery':'The completed shift brings health to 0; you keep its pay and then recover.',
+    'employment-termination':'This missed shift ends scheduled employment.',
+    'abandon-misses-shift':'Leaving this shift unfinished records a missed shift and pays no wage.',
+    'rent-overtime-terms':`The reserved shift pays ${money(PRODUCTION.overtimeWage)} and costs up to ${PRODUCTION.overtimeHealth} HP when completed.`,
+    'overtime-terms':`The shift pays ${money(PRODUCTION.overtimeWage)} and costs up to ${PRODUCTION.overtimeHealth} HP when completed.`,
+    'social-conflict':'This conflicts with your plan with Ren; choose how to handle the conflict.',
+    'reserved-overtime-conflict':'This conflicts with your reserved extra shift.',
+  };
+  const disclosures=proposal?.schedule?.disclosures;
+  return Array.isArray(disclosures) && disclosures.every(value=>labels[value])?disclosures.map(value=>labels[value]):null;
 }
 
 /** Use the committed effect, including clamping, rather than reconstructing it from the offer. */

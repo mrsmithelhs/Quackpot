@@ -269,6 +269,33 @@ export class GameEngine {
     return inspectLifeTransaction(life, { cashCents: Math.round(this.state.cash * 100), health: this.state.health }, intent, this.#fiveSlotContext());
   }
 
+  // Called only after the view actually presents these exact consequences.
+  recordFiveSlotScheduleWarningShown(proposal) {
+    if(proposal?.domain!=='schedule' || !proposal.schedule?.disclosures?.length)return null;
+    const current=this.prepareFiveSlotAction(proposal.intent);
+    if(!current.ok || JSON.stringify(current.proposal)!==JSON.stringify(proposal))return null;
+    return this.log.append('life52_schedule_warning_shown',{proposal:structuredClone(proposal)},this.state.clock);
+  }
+
+  prepareFiveSlotPlay(kind, {operationId,extend=false}={}) {
+    if(this.isTerminal() || this.state.life?.policyVersion!=='five-slot-v1' || !['pull','race'].includes(kind)
+      || typeof operationId!=='string' || !operationId || !hasEnteredQuackpot(this.log.entries))return {ok:false,reason:'unavailable'};
+    const context=this.#fiveSlotContext();context.schedule.operationAvailable=true;
+    return inspectLifeTransaction(this.state.life,{cashCents:Math.round(this.state.cash*100),health:this.state.health},
+      {domain:'schedule',action:{type:'play',kind,operationId,...(extend?{extend:true}:{})}},context);
+  }
+
+  recordFiveSlotPlayWarningShown(proposal) {
+    if(proposal?.intent?.action?.type!=='play' || !proposal.schedule?.disclosures?.length)return null;
+    const action=proposal.intent.action,current=this.prepareFiveSlotPlay(action.kind,{operationId:action.operationId,extend:action.extend===true});
+    if(!current.ok || JSON.stringify(current.proposal)!==JSON.stringify(proposal))return null;
+    return this.log.append('life52_schedule_warning_shown',{proposal:structuredClone(proposal)},this.state.clock);
+  }
+
+  #fiveSlotWarningWasShown(proposal) {
+    return this.log.entries.some(event=>event.type==='life52_schedule_warning_shown' && JSON.stringify(event.payload?.proposal)===JSON.stringify(proposal));
+  }
+
   commitFiveSlotAction(proposal, operation = {}) {
     const life = this.state.life;
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || !proposal?.intent) return { ok: false, reason: 'unavailable' };
@@ -276,6 +303,8 @@ export class GameEngine {
     if (proposal.intent.domain === 'schedule' && proposal.intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(proposal.intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };
+    if (this.tutorialShiftVersion && proposal.domain==='schedule' && proposal.schedule?.disclosures?.length
+      && !this.#fiveSlotWarningWasShown(proposal)) return {ok:false,reason:'warning_not_shown'};
     const draft = this.#transactionDraft();
     const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
     const result = commitLifeTransaction(draft.state.life, balances, proposal, operation, draft.#fiveSlotContext());
@@ -566,11 +595,12 @@ export class GameEngine {
     const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
     const context = draft.#fiveSlotContext();
     context.schedule.operationAvailable = true;
-    const operationId = `pull:${draft.log.length}`;
+    const operationId = options.operationId ?? `pull:${draft.log.length}`;
     const intent = { domain: 'schedule', action: { type: 'play', kind: 'pull', operationId,
       ...(options.confirmNext === true ? { extend: true } : {}) } };
     const prepared = inspectLifeTransaction(draft.state.life, balances, intent, context);
     if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
+    if(draft.tutorialShiftVersion && prepared.proposal.schedule.disclosures.length && !draft.#fiveSlotWarningWasShown(prepared.proposal))return null;
     if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
     if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
     draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {
@@ -609,11 +639,12 @@ export class GameEngine {
     const balances = { cashCents: Math.round(draft.state.cash * 100), health: draft.state.health };
     const context = draft.#fiveSlotContext();
     context.schedule.operationAvailable = true;
-    const operationId = `race:${raceNumber}:${draft.log.length}`;
+    const operationId = options.operationId ?? `race:${raceNumber}:${draft.log.length}`;
     const intent = { domain: 'schedule', action: { type: 'play', kind: 'race', operationId,
       ...(options.confirmNext === true ? { extend: true } : {}) } };
     const prepared = inspectLifeTransaction(draft.state.life, balances, intent, context);
     if (!prepared.ok || prepared.proposal.schedule.recoveryInstead) return null;
+    if(draft.tutorialShiftVersion && prepared.proposal.schedule.disclosures.length && !draft.#fiveSlotWarningWasShown(prepared.proposal))return null;
     if (prepared.proposal.schedule.disclosures.length && options.confirmConsequences !== true) return null;
     if (prepared.proposal.schedule.conflicts.length && options.confirmSocial !== true) return null;
     draft.log.append('life52_intent', { intent: structuredClone(intent), operation: {

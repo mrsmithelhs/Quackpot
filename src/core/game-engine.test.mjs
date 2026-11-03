@@ -1067,18 +1067,39 @@ test('five-slot engine stages actual work story and records the paid payslip onc
 
 test('five-slot future rent shift remains reserved after deliberate early rent payment',()=>{
  const e=new GameEngine('plan52-rescue-paid',{lifePolicy:'five-slot-v1',tutorialShift:true});e.start();e.setupCompanion();let n=0;
- const act=action=>{const intent={domain:'schedule',action:{...action,operationId:`rescue-engine-${++n}`}};const p=e.prepareFiveSlotAction(intent);assert.equal(p.ok,true,JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));};
+ const act=action=>{const intent={domain:'schedule',action:{...action,operationId:`rescue-engine-${++n}`}};const p=e.prepareFiveSlotAction(intent);assert.equal(p.ok,true,JSON.stringify(p));if(p.proposal.schedule.disclosures.length)assert.ok(e.recordFiveSlotScheduleWarningShown(p.proposal));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));};
  const work=()=>{assert.equal(e.beginStoryWork('agree').ok,true);const id=e.state.life.story47.id;assert.ok(e.showLifeStory47(id,'commute'));assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:`arrive-${++n}`},e.log.length).ok,true);assert.ok(e.showLifeStory47(id,'work'));assert.equal(e.applyFiveSlotWorkStory({type:'complete',id,operationId:`finish-${++n}`,confirmed:true},e.log.length).ok,true);assert.equal(e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:`dismiss-${++n}`},e.log.length).ok,true);};
  const earlyBed=()=>{act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});};
  for(let day=1;day<=3;day++){act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});earlyBed();}
  assert.equal(e.state.cash,224);assert.equal(e.state.life.schedule.day,4);
- act({type:'reserve-overtime',reservationId:'extra',rentId:'rent-1',day:5});
+ const reserveIntent={domain:'schedule',action:{type:'reserve-overtime',reservationId:'extra',rentId:'rent-1',day:5,operationId:'shift-warning'}};
+ const reserve=e.prepareFiveSlotAction(reserveIntent);assert.equal(reserve.ok,true);assert.equal(e.commitFiveSlotAction(reserve.proposal,{confirmed:true}).reason,'warning_not_shown');
+ const beforeWarning=structuredClone(e.state),rngBeforeWarning=e.rngDraw.serialize();assert.ok(e.recordFiveSlotScheduleWarningShown(reserve.proposal));assert.deepEqual(e.state,beforeWarning);assert.equal(e.rngDraw.serialize(),rngBeforeWarning);
+ assert.equal(e.commitFiveSlotAction(reserve.proposal,{confirmed:true}).ok,true);
  const payment=e.prepareFiveSlotAction({domain:'finance',action:{type:'pay_rent',billId:'rent-1',id:'pay-early'}});assert.equal(payment.ok,true);assert.equal(e.commitFiveSlotAction(payment.proposal).ok,true);
  assert.equal(e.state.life.schedule.overtimeReservation.status,'reserved');assert.equal(e.state.cash,54);
  act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});earlyBed();
  act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});act({type:'start',kind:'overtime',reservationId:'extra'});act({type:'complete',activityId:e.state.life.schedule.active.id});
  assert.equal(e.state.cash,210);assert.equal(e.state.health,85);assert.equal(e.state.life.schedule.overtimeReservation.status,'completed');assert.equal(e.state.life.finance.rents[0].status,'paid');
  assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ const noWarning=structuredClone(e.toEnvelope());noWarning.eventLog=noWarning.eventLog.filter(event=>event.type!=='life52_schedule_warning_shown');
+ assert.ok(validateFiveSlotTransactionHistory(noWarning).some(error=>error.includes('warning was not shown')));
+ e.finishRunComplete();assert.ok(e.presentReceipt().accounting.lines.some(line=>line.text.includes('extra-shift terms')));
+});
+
+test('five-slot late-play warning must be shown before its actual paid pull',()=>{
+ const e=new GameEngine('plan52-play-warning',{lifePolicy:'five-slot-v1',tutorialShift:true});e.start();e.setupCompanion();let n=0;
+ const meal=choice=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice,operationId:`meal-${++n}`}});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ meal('buy');assert.equal(e.beginStoryWork('agree').ok,true);const id=e.state.life.story47.id;
+ assert.ok(e.showLifeStory47(id,'commute'));assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:'arrive'},e.log.length).ok,true);
+ assert.ok(e.showLifeStory47(id,'work'));assert.equal(e.applyFiveSlotWorkStory({type:'complete',id,operationId:'finish',confirmed:true},e.log.length).ok,true);
+ assert.equal(e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:'home'},e.log.length).ok,true);meal('buy');
+ assert.equal(e.openLifeApp(),true);assert.ok(e.commitPromotionalTenPull());e.revealAllPending();assert.equal(e.buyLifeBundle(1090),true);assert.equal(e.buyLifeBundle(1090),true);
+ const preview=e.prepareFiveSlotPlay('pull',{operationId:'late-paid',extend:true});assert.equal(preview.ok,true);assert.ok(preview.proposal.schedule.disclosures.includes('late-fatigue'));
+ const before=structuredClone(e.state),rng=e.rngDraw.serialize();assert.equal(e.commitPaidPull(1,{confirmNext:true,confirmConsequences:true,operationId:'late-paid'}),null);assert.deepEqual(e.state,before);assert.equal(e.rngDraw.serialize(),rng);
+ assert.ok(e.recordFiveSlotPlayWarningShown(preview.proposal));assert.equal(e.commitPaidPull(1,{confirmNext:true,confirmConsequences:true,operationId:'late-paid'}).length,1);
+ assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ const missing=structuredClone(e.toEnvelope());missing.eventLog=missing.eventLog.filter(event=>event.type!=='life52_schedule_warning_shown');assert.ok(validateFiveSlotTransactionHistory(missing).some(error=>error.includes('warning was not shown')));
 });
 
 test('five-slot uninstall preserves an unfinished phone session without inventing its visibility',()=>{

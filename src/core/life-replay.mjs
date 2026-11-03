@@ -139,6 +139,8 @@ export function validateFiveSlotTransactionHistory(envelope) {
     else {
       const proposal=inspectLifeTransaction(life,balances,intent,context);
       if(!proposal.ok){errors.push(`Invalid transaction at ${entry.seq}: ${proposal.reason}`);break;}
+      if(entries[0].payload?.tutorialShiftVersion && proposal.proposal.domain==='schedule' && proposal.proposal.schedule.disclosures.length
+        && !wasShown('life52_schedule_warning_shown',{proposal:proposal.proposal})){errors.push(`Schedule warning was not shown at ${entry.seq}`);break;}
       result=commitLifeTransaction(life,balances,proposal.proposal,operation,context);
     }
     const commit=entries[end].payload;

@@ -11,7 +11,7 @@ def run(root_arg, input_arg, kind, nvidia_arg):
     python=(root/'venv'/'Scripts'/'python.exe').resolve(strict=True)
     log=(root/'pilot-supervision'/('known-score-retry-1' if kind == 'known-score' else kind)).resolve(strict=True)
     output=(root/'pilot-runs'/kind).resolve(strict=True)
-    if kind not in ('m1-excerpt','known-score') or any(log.iterdir()) or any(output.iterdir()):
+    if kind not in ('m1-excerpt','known-score','m3-excerpt','m5-excerpt') or any(log.iterdir()) or any(output.iterdir()):
         raise ValueError('unexpected or nonempty pilot directories')
     if root not in log.parents or root not in output.parents: raise ValueError('pilot directory outside workspace')
     executable=Path(nvidia_arg).resolve(strict=True)

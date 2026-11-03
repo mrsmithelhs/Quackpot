@@ -10,6 +10,7 @@ from pathlib import Path
 
 import single_pass_core
 import verify_inference_inputs
+import stage_d_crop
 
 CONTROL_SHA256 = "7035dc984a07e2ad704833bff28a2402d80fc3ec13bc07a911b2225d0505b723"
 
@@ -31,7 +32,7 @@ def execute(root_arg, input_path, output_dir, kind, access_check):
     input_file = Path(input_path).resolve(strict=True)
     output = Path(output_dir).resolve(strict=True)
     expected_output_parent = (root / "pilot-runs").resolve(strict=True)
-    if output.parent != expected_output_parent or kind not in ("m1-excerpt", "known-score") or output.name != kind:
+    if output.parent != expected_output_parent or kind not in ("m1-excerpt", "known-score", "m3-excerpt", "m5-excerpt") or output.name != kind:
         raise ValueError("output must be the designated pilot directory")
     if any(output.iterdir()): raise ValueError("pilot output must be empty")
     if kind == "m1-excerpt":
@@ -41,6 +42,14 @@ def execute(root_arg, input_path, output_dir, kind, access_check):
             raise ValueError("unexpected crop manifest")
         if input_file != expected.resolve(strict=True) or file_hash(input_file) != manifest.get("output_sha256"):
             raise ValueError("crop path or hash mismatch")
+    elif kind in stage_d_crop.SOURCES:
+        expected=root/'pilot-inputs'/kind/'excerpt.wav'
+        manifest=json.loads((expected.parent/'crop-manifest.json').read_text(encoding='utf-8'))
+        if (manifest.get('source_id')!=kind or manifest.get('source_sha256')!=stage_d_crop.SOURCES[kind][1]
+            or (manifest.get('start_seconds'),manifest.get('end_seconds'))!=(20,45)):
+            raise ValueError('unexpected Stage D crop manifest')
+        if input_file!=expected.resolve(strict=True) or file_hash(input_file)!=manifest.get('output_sha256'):
+            raise ValueError('Stage D crop path or hash mismatch')
     else:
         if file_hash(input_file) != CONTROL_SHA256: raise ValueError("known-score WAV hash mismatch")
     verify_inference_inputs.verify(root)

@@ -1,7 +1,7 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-
@@ -87,6 +87,12 @@ If a specific part fails, propose ONE targeted repair (for example owner-exporte
 - One read-only Terra-medium pre-delivery reviewer may be authorized by root after substantive tooling work; no automatic extra paid consultant/repeated repair review.
 - Keep tests serial and bounded. Existing Node/browser tests use the unchanged approved launcher; GPU inference uses a separately approved bounded supervisor, with no broad process termination or modifications to GPU drivers.
 - Final progress at `reports/development/plan-53-generated-track-transcription-and-reconstruction/progress.md`; explicit owned-path commits, progress last, no status changes/push/deployment.
+
+## Owner-authorized M5 lower-register comparison (2026-11-03)
+
+The owner authorizes one report-local M5 listening comparison using the existing selected 50%-duration piano capture as control and exactly two new variants of the same 450 events. For MIDI pitch <=55 (103 events), variant A uses piano program 0 with assigned velocity 60; variant B uses Electric Piano 1 program 4 with assigned velocity 85. Higher events remain piano program 0, velocity 85. Preserve all onsets, pitches and 50%-duration ends, raw inputs, original MIDI and existing control bytes. This pitch split is a rendering heuristic, not recovered stems or chord identification. Use a separate pitched channel for the alternative timbre so it cannot change upper notes. Preserve M3 and existing listening/export paths; label variant identity and transformation in exports.
+
+After root resource allocation, validate pure mapping/boundaries/immutability and perform exactly two serial finite browser renders with distinct no-overwrite output paths; reuse the control without rerendering. Existing unchanged bounded launcher, real-host preflight and cleanup evidence apply (90s/2GiB per allocated render job); no retry, extra model run, installation, download, separation or production integration. Root reviews technical/rendered evidence, then owner listening determines preference. The previous duration experiment remains immutable evidence; no automatic additional reviewer budget.
 
 ## Stop conditions
 

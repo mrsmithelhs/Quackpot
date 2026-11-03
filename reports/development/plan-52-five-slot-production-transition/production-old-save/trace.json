@@ -1,0 +1,160 @@
+{
+  "sourceCommit": "0d066d2a0b7cf252561434eb9de4ff39ba7aff3d",
+  "pins": {
+    "src/main.js": "c36f526df0872f43f0c3c367cd30635b580f70476a1072d8c4299803a461d13d",
+    "src/core/storage.mjs": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+    "src/core/life-replay.mjs": "78fd64d78038a0617fc52cb91ccdb3c85a68712f688c8af5357050331d8ab99e"
+  },
+  "fixturePath": "reports/development/plan-52-five-slot-production-transition/baseline-phone/hub-generated.save.json",
+  "fixtureSha256": "8fa086c1501ac356b37fc0576ebc4ce5be4e60feb53d7274452f0cc370d42887",
+  "results": [
+    {
+      "mode": "temporary",
+      "primaryUnchanged": true,
+      "backup": "occupied-backup-sentinel",
+      "schema": 4,
+      "body": "Unsupported Ren save and an existing backup are preserved; no backup was replaced. This session is temporary.\nQuackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nSave not replaced; the previous snapshot is preserved.\nCall\nMom\nRent notice\nBreakfast\nDay 1 · Morning\nThe desk →\nThe living room →"
+    },
+    {
+      "mode": "replacement",
+      "primaryUnchanged": false,
+      "backup": "occupied-backup-sentinel",
+      "schema": 5,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning"
+    },
+    {
+      "mode": "quota-failure",
+      "primaryUnchanged": true,
+      "backup": "occupied-backup-sentinel",
+      "schema": 4,
+      "body": "Save from an earlier development version\n\nThis version cannot resume that save. You can play temporarily while keeping it, or deliberately replace the saved run with a new one.\n\nA replacement attempts to preserve a backup if the backup slot is empty. An existing backup is not overwritten.\n\nThe replacement did not complete (synthetic quota failure). Restoration: not_needed. The browser may have kept a backup; check the saved data before trying again.\n\nPlay a temporary sessionReplace with a new run"
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 5080,
+        "ppid": 48160,
+        "created": "11/02/2026 20:24:08",
+        "root": true
+      },
+      {
+        "pid": 37752,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:08",
+        "root": false
+      },
+      {
+        "pid": 46036,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:08",
+        "root": false
+      },
+      {
+        "pid": 34144,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 32552,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 13612,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 33932,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 44836,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 48968,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 22372,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 28052,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 43136,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 38620,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:09",
+        "root": false
+      },
+      {
+        "pid": 42552,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:11",
+        "root": false
+      },
+      {
+        "pid": 27868,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:11",
+        "root": false
+      },
+      {
+        "pid": 2452,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:11",
+        "root": false
+      },
+      {
+        "pid": 23908,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:12",
+        "root": false
+      },
+      {
+        "pid": 48704,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:12",
+        "root": false
+      },
+      {
+        "pid": 21984,
+        "ppid": 5080,
+        "created": "11/02/2026 20:24:12",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[5080:41912:1102/202409.062:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[5080:41912:1102/202409.062:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:62132/devtools/browser/f4113129-06a8-4d33-bc5e-ca533f5fd823\r\n"
+  }
+}

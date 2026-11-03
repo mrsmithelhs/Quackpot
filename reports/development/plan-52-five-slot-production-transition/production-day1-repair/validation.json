@@ -1,0 +1,305 @@
+{
+  "origin": "actual isolated browser localStorage captured after real UI actions; no save contents edited",
+  "browserTraceError": "Error: Missing button The desk",
+  "browserCleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 44816,
+        "ppid": 49204,
+        "created": "11/02/2026 20:27:41",
+        "root": true
+      },
+      {
+        "pid": 22912,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:41",
+        "root": false
+      },
+      {
+        "pid": 21740,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:41",
+        "root": false
+      },
+      {
+        "pid": 18724,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 4064,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 49356,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 36144,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 18812,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 49176,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 26100,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 17088,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:42",
+        "root": false
+      },
+      {
+        "pid": 19280,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:45",
+        "root": false
+      },
+      {
+        "pid": 39800,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:45",
+        "root": false
+      },
+      {
+        "pid": 46176,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:45",
+        "root": false
+      },
+      {
+        "pid": 29016,
+        "ppid": 44816,
+        "created": "11/02/2026 20:27:56",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:52296/devtools/browser/598ecd12-4847-43d8-969c-748400838d97\r\n[44816:41092:1102/202742.051:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[44816:41092:1102/202742.051:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  },
+  "sourceCommit": "0d066d2a0b7cf252561434eb9de4ff39ba7aff3d",
+  "pins": [
+    {
+      "path": "src/main.js",
+      "expected": "13fc6888c541198fec889aa21aeacdf9ef616e072c65bd697270104e9a3b86ce",
+      "actual": "13fc6888c541198fec889aa21aeacdf9ef616e072c65bd697270104e9a3b86ce",
+      "match": true
+    },
+    {
+      "path": "src/core/game-engine.mjs",
+      "expected": "ea13cf6d1ddd4533d49ee390aaf6a36281c0a68b15aee6b503fa211988ae534a",
+      "actual": "ea13cf6d1ddd4533d49ee390aaf6a36281c0a68b15aee6b503fa211988ae534a",
+      "match": true
+    },
+    {
+      "path": "src/core/storage.mjs",
+      "expected": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+      "actual": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+      "match": true
+    },
+    {
+      "path": "src/core/life-coordinator.mjs",
+      "expected": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+      "actual": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+      "match": true
+    },
+    {
+      "path": "src/core/life-replay.mjs",
+      "expected": "64f79124f8e604af494f74c0f3a01a5505ae2c1581c786c375b4706b322f4d31",
+      "actual": "64f79124f8e604af494f74c0f3a01a5505ae2c1581c786c375b4706b322f4d31",
+      "match": true
+    },
+    {
+      "path": "src/core/life-schedule/scheduler.mjs",
+      "expected": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+      "actual": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+      "match": true
+    },
+    {
+      "path": "src/ui/hud.js",
+      "expected": "3012ea6492a0c4683b0634e5d77648967a0ea5d30a87dfd6325a79e07c1d6395",
+      "actual": "3012ea6492a0c4683b0634e5d77648967a0ea5d30a87dfd6325a79e07c1d6395",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life-routing.mjs",
+      "expected": "f0255a54bfe57ad2a061755d7d19d749fffd51ce514e2a3367295eb8715814e2",
+      "actual": "f0255a54bfe57ad2a061755d7d19d749fffd51ce514e2a3367295eb8715814e2",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life-view.js",
+      "expected": "b4b4944d79b090922b51ce42ca3f37cf03bf8286df4852e1e40aebdf966c2dce",
+      "actual": "b4b4944d79b090922b51ce42ca3f37cf03bf8286df4852e1e40aebdf966c2dce",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life.css",
+      "expected": "1a8dd9fac58bfdfa016432b69ac516e19b07fff3a8c77d605d430883dcbaadbb",
+      "actual": "1a8dd9fac58bfdfa016432b69ac516e19b07fff3a8c77d605d430883dcbaadbb",
+      "match": true
+    }
+  ],
+  "saves": [
+    {
+      "file": "breakfast-complete-narrow.save.json",
+      "sha256": "a71dd3ea959d354d3c07bfe8991babe8c06eaa30303da31cb22f313a0a0ff045",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": null
+    },
+    {
+      "file": "commute-narrow.save.json",
+      "sha256": "afcf2501d845c3d835938475e5b0361aa10001c11b87a4f876f325081724919d",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": "commute"
+    },
+    {
+      "file": "dinner-narrow.save.json",
+      "sha256": "686728d8c44f9b037a552ee60585fd59ddb88a1a3d8494e9eac25b1e85ff8566",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": null
+    },
+    {
+      "file": "evening-narrow.save.json",
+      "sha256": "65d7baede91adf059c4a976ce193cc905bfc4c748ea1cba08f0e09e858a9db3d",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": null
+    },
+    {
+      "file": "evening-return-desktop.save.json",
+      "sha256": "2f566a4a7ce8ecdcbaa2a205a203a6435d3bfc74d09676ad11b8d54638067a98",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": null
+    },
+    {
+      "file": "midday-keys.save.json",
+      "sha256": "a71dd3ea959d354d3c07bfe8991babe8c06eaa30303da31cb22f313a0a0ff045",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": null
+    },
+    {
+      "file": "mom-ack-desktop.save.json",
+      "sha256": "913a7b8fd8e0178fc5d0134e0f19a1a4a8bdd862edc6040ad89dba5098d43d25",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": "ack"
+    },
+    {
+      "file": "mom-ack.save.json",
+      "sha256": "913a7b8fd8e0178fc5d0134e0f19a1a4a8bdd862edc6040ad89dba5098d43d25",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": "ack"
+    },
+    {
+      "file": "mom-scene-narrow.save.json",
+      "sha256": "81ec8e5d44268993bdb97d9e4ea3aab93044181a561aa96bf1f1c6a465f69048",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": "scene"
+    },
+    {
+      "file": "mom-scene-reloaded.save.json",
+      "sha256": "81ec8e5d44268993bdb97d9e4ea3aab93044181a561aa96bf1f1c6a465f69048",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": "scene"
+    },
+    {
+      "file": "morning-desktop.save.json",
+      "sha256": "11b5ada1b240ca8e1bc9acc3b3cda12b1f1d255476fc7cf84bf4d6cbc33273d7",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "morning",
+      "story": null
+    },
+    {
+      "file": "morning-narrow.save.json",
+      "sha256": "11b5ada1b240ca8e1bc9acc3b3cda12b1f1d255476fc7cf84bf4d6cbc33273d7",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "morning",
+      "story": null
+    },
+    {
+      "file": "payslip-narrow.save.json",
+      "sha256": "96423b09e9f762fae82ef7d3c29109f3a138c67a57198c49559bd7ea2cfbaa47",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": "payslip"
+    },
+    {
+      "file": "payslip-reloaded.save.json",
+      "sha256": "96423b09e9f762fae82ef7d3c29109f3a138c67a57198c49559bd7ea2cfbaa47",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": "payslip"
+    },
+    {
+      "file": "work-narrow.save.json",
+      "sha256": "e6ad6e9590bf3d60b24c710a868c3f0daf84b0158f023005650fc3142d3daa1e",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": "work"
+    }
+  ]
+}

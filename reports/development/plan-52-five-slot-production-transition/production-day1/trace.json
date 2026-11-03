@@ -1,0 +1,3641 @@
+{
+  "sourceCommit": "0d066d2a0b7cf252561434eb9de4ff39ba7aff3d",
+  "pins": {
+    "src/main.js": "c36f526df0872f43f0c3c367cd30635b580f70476a1072d8c4299803a461d13d",
+    "src/core/game-engine.mjs": "ea13cf6d1ddd4533d49ee390aaf6a36281c0a68b15aee6b503fa211988ae534a",
+    "src/core/storage.mjs": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+    "src/core/life-coordinator.mjs": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+    "src/core/life-replay.mjs": "78fd64d78038a0617fc52cb91ccdb3c85a68712f688c8af5357050331d8ab99e",
+    "src/core/life-schedule/scheduler.mjs": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+    "src/ui/life/life-view.js": "211e4b7c8775fc9c19f267a37393bf6bc5541c99a49a9fa1dfa5e877cf2bce4d"
+  },
+  "url": "http://localhost:5173/Quackpot/",
+  "storage": "fresh isolated Chrome profile",
+  "captures": [
+    {
+      "name": "fresh-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nDay 1 · Morning in the kitchen\nName your rubber duck\n Enable automatic saving at safe junctures Start the morning",
+      "saved": null
+    },
+    {
+      "name": "morning-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 1 · Morning\nThe desk →\nThe living room →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "morning-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 morning\n💵\nCash:\n$80.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 1 · Morning\nThe desk →\nThe living room →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "midday-keys",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 midday\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPM\nMESSAGES\nWork\nShift today\nWork\nWork keys\nDay 1 · Midday\nThe kitchen →\nThe living room →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "commute-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 midday\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nOn the way to work\n\nFreezing sleet cuts into your face while waiting twenty minutes for the delayed Route 14 bus. A passing delivery van splashes dirty curb water across your ankles.\n\nYour damp socks stay cold all morning. Your teeth chatter as you board.\n\nArrive at work",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "story": {
+          "version": 1,
+          "kind": "work",
+          "id": "activity-1",
+          "stage": "commute",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C1",
+            "work": [
+              "012",
+              "01F"
+            ]
+          }
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "work-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 midday\n💵\nCash:\n$74.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nYour shift\n\nSlice tape, fold flaps, slap shipping label, slide tote. You repeat the exact sequence 180 times in two hours. Your heels burn against the sealed concrete. In your pocket, your phone buzzes twice.\n\nThe warehouse team smashes the quarterly dispatch record by 4:30 PM. The shift lead calls an early pack-up with full shift wages guaranteed. A palpable buzz of accomplishment fills the locker room as everyone packs their bags.\n\nComplete shift",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "story": {
+          "version": 1,
+          "kind": "work",
+          "id": "activity-1",
+          "stage": "work",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C1",
+            "work": [
+              "012",
+              "01F"
+            ]
+          }
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "payslip-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 early-evening\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "story": {
+          "version": 1,
+          "kind": "work",
+          "id": "activity-1",
+          "stage": "payslip",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C1",
+            "work": [
+              "012",
+              "01F"
+            ]
+          }
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "payslip-reloaded",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 early-evening\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nPAID\nPAYSLIP\n\nHarbor Logistics Distribution\n\nDay 1 · Scheduled shift\n\nNet take-home cash: $60.00\n\nSettled and credited to cash.\n\nReturn home",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "story": {
+          "version": 1,
+          "kind": "work",
+          "id": "activity-1",
+          "stage": "payslip",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C1",
+            "work": [
+              "012",
+              "01F"
+            ]
+          }
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "dinner-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 early-evening\n💵\nCash:\n$134.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDinner\nDay 1 · Early Evening\nThe desk →\nThe living room →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "evening-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nCall Mom\nRent notice\nDay 1 · Evening\nThe desk →\nThe living room →\nThe bedroom →\nSpend time quietly →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mom-scene-narrow",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall Mom\n\nYou call home. Mom asks about your day, and tells you that the neighbor’s cat got onto the roof again.\n\n“Take care of yourself, okay? I love you.” You promise to call again soon.\n\nFinish the call",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "story": {
+          "version": 3,
+          "kind": "activity",
+          "id": "activity-2",
+          "choice": "call_mom",
+          "stage": "scene"
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "choice": "call_mom",
+                "operationId": "activity-ui:25",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-2",
+                "kind": "activity47",
+                "slot": "1:evening"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-2",
+                "choice": "call_mom"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-ui:25",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-2",
+              "stage": "scene",
+              "version": 1,
+              "beats": [
+                "call_mom"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mom-scene-reloaded",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall Mom\n\nYou call home. Mom asks about your day, and tells you that the neighbor’s cat got onto the roof again.\n\n“Take care of yourself, okay? I love you.” You promise to call again soon.\n\nFinish the call",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "story": {
+          "version": 3,
+          "kind": "activity",
+          "id": "activity-2",
+          "choice": "call_mom",
+          "stage": "scene"
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "choice": "call_mom",
+                "operationId": "activity-ui:25",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-2",
+                "kind": "activity47",
+                "slot": "1:evening"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-2",
+                "choice": "call_mom"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-ui:25",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-2",
+              "stage": "scene",
+              "version": 1,
+              "beats": [
+                "call_mom"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mom-ack",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 late-evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall complete\n\nHealth: 100 HP.\n\nContinue",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "late-evening",
+        "cash": 128,
+        "health": 100,
+        "story": {
+          "version": 3,
+          "kind": "activity",
+          "id": "activity-2",
+          "choice": "call_mom",
+          "stage": "ack"
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "choice": "call_mom",
+                "operationId": "activity-ui:25",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-2",
+                "kind": "activity47",
+                "slot": "1:evening"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-2",
+                "choice": "call_mom"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-ui:25",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-2",
+              "stage": "scene",
+              "version": 1,
+              "beats": [
+                "call_mom"
+              ]
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-2",
+                "operationId": "activity-story-ui:30",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-2"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-2",
+                "stage": "ack"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-story-ui:30",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "mom-ack-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 late-evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall complete\n\nHealth: 100 HP.\n\nContinue",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "late-evening",
+        "cash": 128,
+        "health": 100,
+        "story": {
+          "version": 3,
+          "kind": "activity",
+          "id": "activity-2",
+          "choice": "call_mom",
+          "stage": "ack"
+        },
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "choice": "call_mom",
+                "operationId": "activity-ui:25",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-2",
+                "kind": "activity47",
+                "slot": "1:evening"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-2",
+                "choice": "call_mom"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-ui:25",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-2",
+              "stage": "scene",
+              "version": 1,
+              "beats": [
+                "call_mom"
+              ]
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-2",
+                "operationId": "activity-story-ui:30",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-2"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-2",
+                "stage": "ack"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-story-ui:30",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "evening-return-desktop",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 1:\nday 1 late-evening\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nLate\nQUACKPOT\nInvitation\nOpen the app\nOpen Quackpot\nDay 1 · Late Evening\nThe kitchen →\nThe living room →\nThe bedroom →\nSpend time quietly →\nGo to sleep →",
+      "saved": {
+        "schema": 5,
+        "day": 1,
+        "slot": "late-evening",
+        "cash": 128,
+        "health": 100,
+        "story": null,
+        "events": [
+          {
+            "type": "run_started",
+            "payload": {
+              "seed": "7e56bf99-b326896c",
+              "lifePolicyVersion": "five-slot-v1",
+              "lifeConfig": {
+                "id": "five-slot-v1",
+                "startCash": 80,
+                "startHealth": 100,
+                "maxHealth": 100,
+                "mealCost": 6,
+                "mealSkipHealth": 5,
+                "scheduledWage": 60,
+                "overtimeWage": 60,
+                "overtimeHealth": 15,
+                "rentAmount": 170,
+                "rentDueDay": 4,
+                "recoveryHealth": 25,
+                "lateFatigueHealth": 10,
+                "earlyBedHealth": 5,
+                "recoveryConsumesSlot": true,
+                "supportedDays": 5
+              },
+              "tutorialShiftVersion": 1
+            }
+          },
+          {
+            "type": "companion_styled",
+            "payload": {
+              "name": "Professor Quacks",
+              "style": "classic-yellow"
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:2"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:morning",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:2",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "operationId": "work-story:5",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-1",
+                "kind": "work",
+                "slot": "1:midday"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-1",
+                "story": {
+                  "version": 1,
+                  "catalog": "1.1.0",
+                  "commute": "0C1",
+                  "work": [
+                    "012",
+                    "01F"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story:5",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "commute",
+              "version": 1,
+              "beats": [
+                "0C1"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "advance",
+                "id": "activity-1",
+                "operationId": "work-story-ui:10",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "work"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:10",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-1",
+              "stage": "work",
+              "version": 1,
+              "beats": [
+                "012",
+                "01F"
+              ]
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-1",
+                "operationId": "work-story-ui:14",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-1",
+                "stage": "payslip"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:14",
+              "cashDeltaCents": 6000,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "income",
+            "payload": {
+              "kind": "wage",
+              "amount": 60,
+              "transactionId": "activity-1",
+              "cashAfter": 134,
+              "source": "five-slot-work-story"
+            }
+          },
+          {
+            "type": "life52_work_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-1",
+                "operationId": "work-story-ui:19",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-1"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "work_story",
+              "operationId": "work-story-ui:19",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_intent",
+            "payload": {
+              "intent": {
+                "domain": "schedule",
+                "action": {
+                  "type": "meal",
+                  "choice": "buy",
+                  "operationId": "life-ui:22"
+                }
+              },
+              "operation": {
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "meal_completed",
+                "choice": "buy",
+                "slot": "1:early-evening",
+                "cashDelta": -6,
+                "healthDelta": 0
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "schedule",
+              "operationId": "life-ui:22",
+              "cashDeltaCents": -600,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "start",
+                "choice": "call_mom",
+                "operationId": "activity-ui:25",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_started",
+                "id": "activity-2",
+                "kind": "activity47",
+                "slot": "1:evening"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_started",
+                "id": "activity-2",
+                "choice": "call_mom"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-ui:25",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "story47_shown",
+            "payload": {
+              "id": "activity-2",
+              "stage": "scene",
+              "version": 1,
+              "beats": [
+                "call_mom"
+              ]
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "complete",
+                "id": "activity-2",
+                "operationId": "activity-story-ui:30",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "activity_completed",
+                "id": "activity-2"
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_advanced",
+                "id": "activity-2",
+                "stage": "ack"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-story-ui:30",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          },
+          {
+            "type": "life52_activity_story_intent",
+            "payload": {
+              "intent": {
+                "type": "dismiss",
+                "id": "activity-2",
+                "operationId": "activity-story-ui:34",
+                "confirmed": true
+              }
+            }
+          },
+          {
+            "type": "life52_effect",
+            "payload": {
+              "effect": {
+                "type": "story47_dismissed",
+                "id": "activity-2"
+              }
+            }
+          },
+          {
+            "type": "life52_commit",
+            "payload": {
+              "domain": "activity_story",
+              "operationId": "activity-story-ui:34",
+              "cashDeltaCents": 0,
+              "healthDelta": 0
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 30964,
+        "ppid": 48440,
+        "created": "11/02/2026 20:22:49",
+        "root": true
+      },
+      {
+        "pid": 26200,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 49444,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 3344,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 48668,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 25532,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 28440,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 39372,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 31632,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 12448,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:49",
+        "root": false
+      },
+      {
+        "pid": 32472,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:50",
+        "root": false
+      },
+      {
+        "pid": 13172,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:52",
+        "root": false
+      },
+      {
+        "pid": 8392,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:52",
+        "root": false
+      },
+      {
+        "pid": 13136,
+        "ppid": 30964,
+        "created": "11/02/2026 20:22:52",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[30964:10648:1102/202249.375:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[30964:10648:1102/202249.375:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:56729/devtools/browser/e59b28d1-7e83-4ecd-9cdb-15586f28c829\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

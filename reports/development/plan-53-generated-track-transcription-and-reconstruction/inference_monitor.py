@@ -69,32 +69,41 @@ def supervise(sample, launch, wait_owned, terminate_owned, now=time.monotonic):
     zero active owned processes separately. External watchdog and Windows job
     impose the hard wall and job-commit limits; polling is not a hard GPU cap.
     """
-    start=now(); last=start; max_gap=0; peak_gpu=0; peak_workspace=0; count=0; launched=False
+    start=now(); last=start; max_gap=0; peak_gpu=0; peak_workspace=0; min_host=None; count=0; launched=False
     try:
-        initial=preflight(sample()); peak_gpu=initial["gpu_used_mib"]; peak_workspace=initial["workspace_bytes"]
+        initial=preflight(sample()); peak_gpu=initial["gpu_used_mib"]; peak_workspace=initial["workspace_bytes"]; min_host=initial["host_free_bytes"]
+        sampled_at=now(); max_gap=max(max_gap,sampled_at-start); last=sampled_at
         # The launcher may create a child before raising. Require the cleanup
         # callback even on launch exceptions; it must tolerate no child.
         launched=True; launch()
         while True:
             finished=wait_owned(1)
-            current=now(); max_gap=max(max_gap,current-last); last=current
             value=valid_sample(sample()); count+=1
+            # Measure completed-sample intervals, including nvidia-smi and
+            # filesystem scan latency. Sampling itself can exceed one second.
+            current=now(); max_gap=max(max_gap,current-last); last=current
             peak_gpu=max(peak_gpu,value["gpu_used_mib"]); peak_workspace=max(peak_workspace,value["workspace_bytes"])
+            min_host=min(min_host,value["host_free_bytes"])
             if value["gpu_used_mib"]>=7168: raise ValueError("sampled GPU usage reached 7 GiB")
+            if value["host_free_bytes"]<4*GIB: raise ValueError("sampled available host RAM below 4 GiB emergency floor")
             if value["disk_free_bytes"]<30*GIB: raise ValueError("sampled free disk below floor")
             if value["workspace_bytes"]>20*GIB: raise ValueError("sampled workspace exceeded cap")
             if current-start>=900: raise TimeoutError("sampled 15-minute deadline")
             if finished:
                 return {"status":"root exited", "samples":count,"max_gap_seconds":max_gap,
-                        "sampled_peak_gpu_mib":peak_gpu,"sampled_peak_workspace_bytes":peak_workspace,
+                        "sampled_peak_gpu_mib":peak_gpu,"sampled_peak_workspace_bytes":peak_workspace,"minimum_host_free_bytes":min_host,
                         "cleanup":"caller must independently verify owned job cleanup"}
-    except Exception as exc:
+    except BaseException as exc:
         cleanup="not launched"
         if launched:
             try:
                 terminate_owned(); cleanup="termination requested; caller must verify cleanup"
             except Exception:
                 cleanup="termination failed; cleanup unverified"
+        if not isinstance(exc, Exception):
+            if hasattr(exc, "add_note"):
+                exc.add_note("Owned cleanup: " + cleanup)
+            raise
         return {"status":"stopped", "reason":type(exc).__name__+": "+str(exc),"samples":count,
                 "max_gap_seconds":max_gap,"sampled_peak_gpu_mib":peak_gpu,
-                "sampled_peak_workspace_bytes":peak_workspace,"cleanup":cleanup}
+                "sampled_peak_workspace_bytes":peak_workspace,"minimum_host_free_bytes":min_host,"cleanup":cleanup}

@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import crop_adapter
 
@@ -32,18 +33,21 @@ class CropFixtures(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder); source=root/"source.mp3"; source.write_bytes(b"synthetic original")
             out=root/"out"; out.mkdir(); expected=hashlib.sha256(source.read_bytes()).hexdigest()
-            result=crop_adapter.prepare(FakeSoundfile(),source,out,expected)
+            with patch.object(crop_adapter,"M1_SHA256",expected):
+                result=crop_adapter.prepare(FakeSoundfile(),source,out)
             self.assertEqual((result["start_seconds"],result["end_seconds"],result["frames"]),(20,45,1200000))
             self.assertEqual(source.read_bytes(),b"synthetic original")
             self.assertEqual(json.loads((out/"crop-manifest.json").read_text())["output_sha256"],hashlib.sha256(b"synthetic wav").hexdigest())
-            with self.assertRaises(FileExistsError): crop_adapter.prepare(FakeSoundfile(),source,out,expected)
+            with patch.object(crop_adapter,"M1_SHA256",expected):
+                with self.assertRaises(FileExistsError): crop_adapter.prepare(FakeSoundfile(),source,out)
 
     def test_mismatch_and_short_crop_stop(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder); source=root/"source.mp3"; source.write_bytes(b"synthetic")
             out=root/"out"; out.mkdir()
-            with self.assertRaisesRegex(ValueError,"hash"): crop_adapter.prepare(FakeSoundfile(),source,out,"0"*64)
-            with self.assertRaisesRegex(ValueError,"short"): crop_adapter.prepare(FakeSoundfile(True),source,out,hashlib.sha256(b"synthetic").hexdigest())
+            with self.assertRaisesRegex(ValueError,"hash"): crop_adapter.prepare(FakeSoundfile(),source,out)
+            with patch.object(crop_adapter,"M1_SHA256",hashlib.sha256(b"synthetic").hexdigest()):
+                with self.assertRaisesRegex(ValueError,"short"): crop_adapter.prepare(FakeSoundfile(True),source,out)
             self.assertFalse((out/"m1-0020-0045.wav").exists())
 
 

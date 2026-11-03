@@ -17,13 +17,13 @@ def sha256(path):
     return result.hexdigest()
 
 
-def prepare(soundfile, source, output_dir, expected_hash=M1_SHA256):
+def prepare(soundfile, source, output_dir):
     source = Path(source).resolve(strict=True); out = Path(output_dir).resolve(strict=True)
     if not out.is_dir(): raise ValueError("output directory unavailable")
     wav = out / "m1-0020-0045.wav"; manifest = out / "crop-manifest.json"
     if wav.exists() or manifest.exists(): raise FileExistsError("crop outputs already exist")
     before = sha256(source)
-    if before != expected_hash: raise ValueError("original M1 hash mismatch")
+    if before != M1_SHA256: raise ValueError("original M1 hash mismatch")
     with soundfile.SoundFile(str(source), "r") as reader:
         rate, channels = reader.samplerate, reader.channels
         if rate != 48000 or channels != 2: raise ValueError("unexpected source format")

@@ -1005,7 +1005,7 @@ test('Plan52 staged engine path commits real scheduler and finance state without
  assert.ok(validateFiveSlotTransactionHistory(noTerms).some(error=>error.includes('Loan terms were not shown')));
  const noTerminal=structuredClone(envelope);noTerminal.eventLog=noTerminal.eventLog.filter(event=>event.type!=='terminal');
  assert.ok(validateFiveSlotTransactionHistory(noTerminal).some(error=>error.includes('terminal')));
- const resumed=structuredClone(envelope);resumed.state.phase='playing';assert.ok(validateFiveSlotTransactionHistory(resumed).some(error=>error.includes('terminal')));
+ const resumed=structuredClone(envelope);resumed.state.phase='playing';assert.ok(validateFiveSlotTransactionHistory(resumed).some(error=>/terminal/i.test(error)));
 });
 
 test('Plan52 staged engine coordinates Ren reservation and actual visit start',()=>{
@@ -1023,6 +1023,29 @@ test('Plan52 staged engine coordinates Ren reservation and actual visit start',(
  assert.equal(e.state.life.schedule.active.planId,id);assert.equal(e.state.life.social46.scene.id,id);
  assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
  const snapshot=structuredClone(e.state);assert.equal(e.applyFiveSlotSocialAction({operationId:'stale',action:{type:'social46_scene_shown',id}},e.log.length-1).reason,'stale_callback');assert.deepEqual(e.state,snapshot);
+});
+
+test('five-slot uninstall records interrupted work without awarding its wage',()=>{
+ const e=new GameEngine('plan52-work-interrupted',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ for(const action of [{type:'meal',choice:'skip',operationId:'meal'},{type:'start',kind:'work',operationId:'work'}]){
+  const p=e.prepareFiveSlotAction({domain:'schedule',action});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);
+ }
+ const cash=e.state.cash,id=e.state.life.schedule.active.id;e.clickUninstall();e.leaveUninstall();
+ const interruption=e.log.entries.find(event=>event.type==='work_interrupted');assert.deepEqual(interruption.payload,{id,kind:'scheduled',day:1});assert.equal(e.state.cash,cash);
+ assert.equal(e.state.terminalRoute,'uninstall');
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ const continued=structuredClone(e.toEnvelope());continued.eventLog.push({seq:continued.eventLog.length,type:'income',payload:{kind:'asset_sale',asset:'tv',amount:40}});
+ assert.ok(validateFiveSlotTransactionHistory(continued).some(error=>error.includes('after terminal')));
+});
+
+test('five-slot uninstall preserves an unfinished phone session without inventing its visibility',()=>{
+ const e=new GameEngine('plan52-session-interrupted',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
+ const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`u-${++n}`}});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});
+ assert.equal(e.openLifeApp(),true);assert.ok(e.commitPromotionalTenPull());const id=e.state.life.schedule.active.id;
+ e.clickUninstall();e.leaveUninstall();const interruption=e.log.entries.find(event=>event.type==='session_interrupted');
+ assert.equal(interruption.payload.id,id);assert.equal(interruption.payload.suspended,null);assert.equal(interruption.payload.pull,true);
+ assert.ok(e.presentReceipt().accounting.lines.some(line=>line.text==='A phone session remained when the run ended.'));
 });
 
 test('Plan52 staged engine commits actual pull with schedule, RNG and prior results atomically',()=>{

@@ -3,6 +3,7 @@
 import {inspect as inspectSchedule,commit as commitSchedule} from './life-schedule/index.mjs';
 import {latchDue,dueObligations,prepareFinance,commitFinance} from './life-finance.mjs';
 import {prepareSocial46,transitionSocial46,social46PhaseExit,social46ForcedRecovery} from './life-social.mjs';
+import {selectWorkStory} from './life-story-content.mjs';
 const copy = value => structuredClone(value);
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 const bad = reason => ({ok:false,reason});
@@ -130,4 +131,41 @@ export function stageSocialTransition(state,balances,intent,context={}) {
   const nextFinance=latchDue(finance,pos(nextSchedule));
   const socialOperationIds={...(state.socialOperationIds??{}),[intent.operationId]:true};
   return {ok:true,state:{...copy(state),schedule:nextSchedule,finance:nextFinance,social46:view.social46,socialOperationIds,socialRevision:(state.socialRevision??0)+1},cashDeltaCents,healthDelta,events:[...newDue(state.finance,finance),...socialEvents,...scheduleEvents,...newDue(finance,nextFinance)]};
+}
+
+// Unmounted Plan47 work-story adapter. The caller supplies shown-stage facts
+// from the append-only log; scheduler and deterministic story remain staged.
+export function stageWorkStory(state,balances,intent,context={}) {
+  if(!state?.schedule || !state?.finance || !validBalances(balances) || typeof context.seed!=='string'
+    || typeof intent?.operationId!=='string' || !intent.operationId || ['__proto__','constructor','prototype'].includes(intent.operationId))return bad('invalid_story_input');
+  if(Object.hasOwn(state.storyOperationIds??{},intent.operationId))return bad('duplicate_operation');
+  let next=copy(state),cashDeltaCents=0,healthDelta=0,events=[];
+  const story=next.story47;
+  if(intent.type==='start') {
+    if(story)return bad('story_pending');
+    const action={domain:'schedule',action:{type:'start',kind:'work',operationId:`story:${intent.operationId}`}};
+    const p=inspectLifeTransaction(next,balances,action,context);if(!p.ok)return p;
+    const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true},context);if(!r.ok)return r;
+    next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
+    const id=next.schedule.active.id;
+    next.story47={version:1,kind:'work',id,stage:'commute',story:selectWorkStory(context.seed,id)};
+    events.push({type:'story47_started',id,story:copy(next.story47.story)});
+  } else {
+    if(story?.kind!=='work' || story.id!==intent.id)return bad('story_unavailable');
+    if(intent.type==='advance' && story.stage==='commute') {
+      if(!context.shownStages?.includes(`${story.id}:commute`))return bad('story_not_shown');
+      next.story47.stage='work';events.push({type:'story47_advanced',id:story.id,stage:'work'});
+    } else if(intent.type==='complete' && story.stage==='work') {
+      if(!context.shownStages?.includes(`${story.id}:work`))return bad('story_not_shown');
+      const action={domain:'schedule',action:{type:'complete',activityId:story.id,operationId:`story:${intent.operationId}`}};
+      const p=inspectLifeTransaction(next,balances,action,context);if(!p.ok)return p;
+      const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true},context);if(!r.ok)return r;
+      next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
+      next.story47.stage='payslip';events.push({type:'story47_advanced',id:story.id,stage:'payslip'});
+    } else if(intent.type==='dismiss' && story.stage==='payslip') {
+      next.story47=null;events.push({type:'story47_dismissed',id:story.id});
+    } else return bad('invalid_story_stage');
+  }
+  next.storyOperationIds={...(next.storyOperationIds??{}),[intent.operationId]:true};
+  return {ok:true,state:next,cashDeltaCents,healthDelta,events};
 }

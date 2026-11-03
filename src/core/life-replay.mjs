@@ -20,17 +20,38 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
-  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth}, gems=0,expectedTerminal=null,financialTerminalSeen=false;
+  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false;
   const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
     if(expectedTerminal) {
       if(entry.type!=='terminal' || !same(entry.payload,expectedTerminal))errors.push(`Financial terminal mismatch at ${entry.seq}`);
-      expectedTerminal=null;if(errors.length)break;financialTerminalSeen=true;
+      expectedTerminal=null;if(errors.length)break;terminalRoute='running_on_empty';
       continue;
     }
-    if(financialTerminalSeen && ['life52_intent','life52_social_intent','life52_effect','life52_commit','income','purchase','draw_committed','race_result','race_attempt_unresolved','terminal'].includes(entry.type)) {errors.push(`Gameplay after financial terminal at ${entry.seq}`);break;}
+    if(terminalRoute) {
+      if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
+      receiptSeen=true;continue;
+    }
+    if(entry.type==='action' && entry.payload?.kind==='uninstall_chosen') {
+      if(retentionOpen || entries[i+1]?.type!=='retention_modal_shown') {errors.push(`Invalid uninstall prompt at ${entry.seq}`);break;}
+      const modal=entries[i+1].payload;if(modal?.gemsOffered!==(retentionUsed?0:GAME_CONSTANTS.RETENTION_GEMS)){errors.push(`Invalid retention offer at ${entry.seq}`);break;}
+      retentionOpen=true;i++;continue;
+    }
+    if(entry.type==='action' && entry.payload?.kind==='play_out_the_trap') {
+      const reward=entries[i+1];if(!retentionOpen || retentionUsed || reward?.type!=='reward' || reward.payload?.kind!=='retention_gems' || reward.payload.gems!==GAME_CONSTANTS.RETENTION_GEMS || reward.payload.gemsAfter!==gems+GAME_CONSTANTS.RETENTION_GEMS){errors.push(`Invalid retention reward at ${entry.seq}`);break;}
+      gems+=GAME_CONSTANTS.RETENTION_GEMS;retentionUsed=true;retentionOpen=false;i++;continue;
+    }
+    if(entry.type==='action' && entry.payload?.kind==='stay_without_reward') {if(!retentionOpen || !retentionUsed){errors.push(`Invalid retention choice at ${entry.seq}`);break;}retentionOpen=false;continue;}
+    if(entry.type==='action' && entry.payload?.kind==='leave_immediately') {if(!retentionOpen){errors.push(`Invalid uninstall choice at ${entry.seq}`);break;}retentionOpen=false;leaveRequested=true;continue;}
+    if(entry.type==='terminal') {
+      if(entry.payload?.route==='uninstall' && leaveRequested)terminalRoute='uninstall';
+      else if(entry.payload?.route==='run_complete' && !leaveRequested && !retentionOpen)terminalRoute='run_complete';
+      else {errors.push(`Unsupported terminal at ${entry.seq}`);break;}
+      continue;
+    }
+    if(retentionOpen && ['life52_intent','life52_social_intent','purchase','income','draw_committed','race_result','race_attempt_unresolved'].includes(entry.type)) {errors.push(`Gameplay while retention prompt was open at ${entry.seq}`);break;}
     if(entry.type==='income') {
       const p=entry.payload, amount={couch:30,tv:40}[p?.asset];
       const view={social46:life.social46,day:life.schedule.day,sold:life.sold};
@@ -119,7 +140,9 @@ export function validateFiveSlotTransactionHistory(envelope) {
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
-  if(!errors.length && financialTerminalSeen && (envelope.state?.terminalRoute!=='running_on_empty' || !['terminal','receipt_presented'].includes(envelope.state?.phase)))errors.push('Financial terminal does not match saved state');
+  if(!errors.length && terminalRoute && (envelope.state?.terminalRoute!==terminalRoute || envelope.state?.phase!==(receiptSeen?'receipt_presented':'terminal')))errors.push('Terminal does not match saved state');
+  if(!errors.length && !terminalRoute && ['terminal','receipt_presented'].includes(envelope.state?.phase))errors.push('Saved terminal has no matching event');
+  if(!errors.length && Boolean(envelope.state?.retentionUsed)!==retentionUsed)errors.push('Retention reward state does not match history');
   const debt=life.finance.loans.filter(loan=>['pending','defaulted'].includes(loan.status)).reduce((sum,loan)=>sum+loan.totalCents,0)/100;
   if(!errors.length && envelope.state?.debt!==debt)errors.push('Reconstructed debt does not match saved state');
   if(!errors.length && envelope.state?.gems!==gems)errors.push('Reconstructed Gem balance does not match saved state');

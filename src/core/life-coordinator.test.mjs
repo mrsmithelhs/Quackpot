@@ -3,10 +3,25 @@ import assert from 'node:assert/strict';
 import {createSchedule,PRODUCTION} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,prepareFinance,commitFinance} from './life-finance.mjs';
 import {renGraphNode} from './life-social-dialogue.mjs';
-import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition} from './life-coordinator.mjs';
+import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory} from './life-coordinator.mjs';
 const setup=()=>({schedule:createSchedule(PRODUCTION,{2:true,3:true,4:true}),finance:initialFinance()});
 const prep=(s,b,i,c={})=>inspectLifeTransaction(s,b,i,c);
 const commit=(s,b,p,o={},c={})=>commitLifeTransaction(s,b,p,o,c);
+test('staged work story requires displayed scenes and pays only on completion',()=>{
+ let s=setup(),b={cashCents:8000,health:100};const meal=prep(s,b,{domain:'schedule',action:{type:'meal',choice:'buy',operationId:'breakfast'}});
+ let result=commit(s,b,meal.proposal,{confirmed:true});assert.equal(result.ok,true);s=result.state;b.cashCents+=result.cashDeltaCents;
+ const context={seed:'work-story',schedule:{},shownStages:[]};
+ result=stageWorkStory(s,b,{type:'start',operationId:'begin',confirmed:true},context);assert.equal(result.ok,true,JSON.stringify(result));s=result.state;
+ const id=s.story47.id;assert.equal(s.story47.stage,'commute');assert.equal(s.schedule.active.id,id);assert.equal(b.cashCents,7400);
+ assert.equal(stageWorkStory(s,b,{type:'advance',id,operationId:'hidden'},context).reason,'story_not_shown');
+ context.shownStages.push(`${id}:commute`);result=stageWorkStory(s,b,{type:'advance',id,operationId:'arrive'},context);assert.equal(result.ok,true);s=result.state;
+ assert.equal(stageWorkStory(s,b,{type:'complete',id,operationId:'unseen'},context).reason,'story_not_shown');
+ context.shownStages.push(`${id}:work`);result=stageWorkStory(s,b,{type:'complete',id,operationId:'finish',confirmed:true},context);
+ assert.equal(result.ok,true,JSON.stringify(result));assert.equal(result.cashDeltaCents,6000);s=result.state;b.cashCents+=result.cashDeltaCents;
+ assert.equal(s.story47.stage,'payslip');assert.equal(s.schedule.slot,'early-evening');assert.equal(b.cashCents,13400);
+ assert.equal(stageWorkStory(s,b,{type:'complete',id,operationId:'finish',confirmed:true},context).reason,'duplicate_operation');
+ result=stageWorkStory(s,b,{type:'dismiss',id,operationId:'home'},context);assert.equal(result.ok,true);assert.equal(result.state.story47,null);
+});
 test('due rent blocks ordinary schedule, but explicit payment is staged once',()=>{
  const s=setup();s.schedule.day=4;const b={cashCents:17000,health:100};
  assert.equal(prep(s,b,{domain:'schedule',action:{type:'meal',choice:'buy',operationId:'m'}}).reason,'financial_obligation_due');

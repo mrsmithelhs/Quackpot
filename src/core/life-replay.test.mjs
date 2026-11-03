@@ -14,6 +14,12 @@ test('five-slot transaction replay rebuilds real actions and rejects changed eff
  const wrongPolicy=structuredClone(envelope);wrongPolicy.eventLog[0].payload.lifeConfig.scheduledWage=600;assert.ok(validateFiveSlotTransactionHistory(wrongPolicy).some(error=>error.includes('policy start')));
  const missing=structuredClone(envelope);missing.eventLog.splice(missing.eventLog.findIndex(event=>event.type==='life52_effect'),1);assert.ok(validateFiveSlotTransactionHistory(missing).some(error=>error.includes('mismatch')));
 });
+test('five-slot replay verifies retention rewards and the immediate uninstall ending',()=>{
+ const e=new GameEngine('plan52-retention',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();e.clickUninstall();e.stayUninstall();e.clickUninstall();e.leaveUninstall();e.recordReceiptPresented();
+ const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);
+ const altered=structuredClone(envelope);altered.eventLog.find(event=>event.type==='reward' && event.payload.kind==='retention_gems').payload.gems=800;
+ assert.ok(validateFiveSlotTransactionHistory(altered).some(error=>error.includes('retention reward')));
+});
 test('real engine promotional batch matches independently regenerated stream',()=>{assert.deepEqual(validateSeededDrawHistory(realDraw()),[]);});
 test('tampered draw result, order and RNG are rejected',()=>{const env=realDraw();const draw=env.eventLog.find(x=>x.type==='draw_committed');const modified=structuredClone(env);modified.eventLog[draw.seq].payload.identity='forged';assert.ok(validateSeededDrawHistory(modified).some(x=>x.includes('mismatch')));const reordered=structuredClone(env);const i=draw.seq;[reordered.eventLog[i],reordered.eventLog[i+1]]=[reordered.eventLog[i+1],reordered.eventLog[i]];assert.ok(validateSeededDrawHistory(reordered).some(x=>x.includes('mismatch')));const rng=structuredClone(env);rng.prngStreams.draw=rng.prngStreams.root;assert.ok(validateSeededDrawHistory(rng).some(x=>x.includes('Draw RNG')));});
 test('removed batch member and unaccompanied paid purchase are rejected',()=>{const env=realDraw();const missing=structuredClone(env);missing.eventLog.splice(missing.eventLog.findIndex(x=>x.type==='draw_committed'),1);assert.ok(validateSeededDrawHistory(missing).length);const purchase=structuredClone(env);purchase.eventLog.push({seq:purchase.eventLog.length,type:'purchase',payload:{kind:'single_pull'}});assert.ok(validateSeededDrawHistory(purchase).some(x=>x.includes('Incomplete')));});

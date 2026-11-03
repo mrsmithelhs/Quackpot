@@ -371,7 +371,7 @@ export function projectReceipt(entries) {
       : { plan_not_kept: 'An accepted plan with Ren was not kept.', invitation_expired: 'A displayed invitation expired without a reply.' }[event.payload?.outcome];
     if (label) accountingLines.push(line(label, event.seq));
   }
-  for (const event of ofType('session_interrupted')) accountingLines.push(line(`An ${event.payload.suspended ? 'on-hold' : 'active'} phone session remained when the run ended.`, event.seq));
+  for (const event of ofType('session_interrupted')) accountingLines.push(line(event.payload.suspended === null ? 'A phone session remained when the run ended.' : `An ${event.payload.suspended ? 'on-hold' : 'active'} phone session remained when the run ended.`, event.seq));
   if (lifeStart) for (const event of ofType('income')) {
     if (event.payload.kind === 'asset_sale') accountingLines.push(line(`Sold ${event.payload.asset} for ${money(event.payload.amount)}.`, event.seq));
     if (['wage', 'overtime'].includes(event.payload.kind)) accountingLines.push(line(`Completed ${event.payload.kind === 'wage' ? 'a scheduled shift' : 'overtime'} and received ${money(event.payload.amount)}.`, event.seq));

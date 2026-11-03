@@ -1558,15 +1558,20 @@ export class GameEngine {
   /** Record unfinished commitments before terminal, without settling them or inventing consequences. */
   recordPendingLifeInterruption() {
     if (this.isTerminal() || !this.state.life) return;
-    const { work, session, story47, social46 } = this.state.life;
+    const life=this.state.life,{story47,social46}=life,active=life.schedule?.active;
+    const work=life.policyVersion==='five-slot-v1' && ['work','overtime'].includes(active?.kind)
+      ? {id:active.id,kind:active.kind==='work'?'scheduled':'overtime',status:'doing'} : life.work;
+    const session=life.policyVersion==='five-slot-v1' && active?.kind==='session'
+      ? {id:active.id,suspended:null,pull:active.pullUsed,race:active.raceUsed} : life.session;
+    const day=life.schedule?.day??life.day;
     if (social46?.scene?.stage === 'scene' && !this.log.entries.some(e => e.type === 'social46_interrupted' && e.payload.id === social46.scene.id))
-      this.log.append('social46_interrupted', { id: social46.scene.id, day: this.state.life.day }, this.state.clock);
+      this.log.append('social46_interrupted', { id: social46.scene.id, day }, this.state.clock);
     else if (!social46?.scene && social46?.pending?.committed && !this.log.entries.some(e => e.type === 'social46_plan_interrupted' && e.payload.id === social46.pending.id))
       this.log.append('social46_plan_interrupted', { id: social46.pending.id, day: social46.pending.day }, this.state.clock);
     if (story47?.kind === 'activity' && story47.stage === 'scene' && !this.log.entries.some(e => e.type === 'activity47_interrupted' && e.payload.id === story47.id))
-      this.log.append('activity47_interrupted', { id: story47.id, choice: story47.choice, day: this.state.life.day }, this.state.clock);
+      this.log.append('activity47_interrupted', { id: story47.id, choice: story47.choice, day }, this.state.clock);
     if (work?.status === 'doing' && !this.log.entries.some(e => e.type === 'work_interrupted' && e.payload.id === work.id))
-      this.log.append('work_interrupted', { id: work.id, kind: work.kind, day: this.state.life.day }, this.state.clock);
+      this.log.append('work_interrupted', { id: work.id, kind: work.kind, day }, this.state.clock);
     if (session && !this.log.entries.some(e => e.type === 'session_interrupted' && e.payload.id === session.id))
       this.log.append('session_interrupted', { id: session.id, suspended: session.suspended, pull: session.pull, race: session.race }, this.state.clock);
   }

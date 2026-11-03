@@ -1,0 +1,654 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance/day4-rent-paid.save.json",
+  "sourceSha256": "abc7bfd2bc30e6b126295eb805f5c52f0d0ffac6f269bf111b346bc79ba253b9",
+  "sourceClosureSha256": "fe937183dbaa3ba067271c8150c06568c019adc163a9c0911dde2e076ba1e24d",
+  "recipeSha256": "7df80105fe3861e23fa79c086e9ffd055fccc7955596e17285ea069fc0110df2",
+  "captures": [
+    {
+      "name": "intro-complete",
+      "sha256": "79e9fc8aae176e8e5375f699ea9f217f6ea544a669db9229c1b5646ebee33576",
+      "day": 4,
+      "slot": "morning",
+      "cash": 0,
+      "health": 100,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 1,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": null,
+        "pending": null,
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nDay 4 · Morning\nThe kitchen →\nThe desk →\nThe living room →\nSpend time quietly →\nFinish run →"
+    },
+    {
+      "name": "invitation-shown",
+      "sha256": "c4d79c339ffe008162356a2190490eff6533889cfaf44eeaf9a7bd7fb9bb53d3",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": false,
+          "committed": false,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4
+        },
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nevening ● ● ●\nRen\n\ni could come by this evening for a chat. no pressure.\n\nDecide\nAccept this evening\nNot this time\nAnother evening\nSuggest game night instead\nClose"
+    },
+    {
+      "name": "ren-reserved",
+      "sha256": "d2ed690674b7c79e63a5973a4ffc1a50803c0f71e1566094617e4527ca2fa4ff",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4
+        },
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nevening ● ● ●\nRen\n\ncool. this evening. i’ll knock.\n\nDecide\nTell Ren I can’t make it\nSuggest another evening\nGo to the door\nClose"
+    },
+    {
+      "name": "ren-conflict-cancelled",
+      "sha256": "a873aa6db5337edcf9fc4a1a46b4dbfb3056d67d04f01a88c15edbd64c1340ff",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4
+        },
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nEvening\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nSit with Duck · +5 HP\nDay 4 · Evening\nThe kitchen →\nThe living room →\nThe bedroom →\nThe door →\nMessages: Ren →\nSpend time quietly →\nFinish run →"
+    },
+    {
+      "name": "ren-arrival",
+      "sha256": "f115d9aead95c0cf7ab346a9ccc7cb3b3692872a06330ccabb793399ff8351c0",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4,
+          "arrival": {
+            "version": 1,
+            "open": true,
+            "ignored": false,
+            "lineShown": true,
+            "look": "cardigan"
+          }
+        },
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nRen\nhey. i’m here.\nDecide\nWelcome Ren in · uses this Evening\nDay 4 · Evening\nThe desk →\nThe kitchen →\nThe living room →\nThe bedroom →\nSpend time quietly →\nFinish run →"
+    },
+    {
+      "name": "ren-scene-narrow",
+      "sha256": "4a3756210aa6bb7b706347a4c2e00da4287bd1ad27f420298f018ebfce43dbdf",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4,
+          "arrival": {
+            "version": 1,
+            "open": true,
+            "ignored": false,
+            "lineShown": true,
+            "look": "cardigan"
+          }
+        },
+        "scene": {
+          "id": "ren-1",
+          "activity": "door",
+          "stage": "scene",
+          "beat": 0,
+          "shown": true,
+          "seating": "door",
+          "arrivalLook": "cardigan",
+          "dialogueVersion": 1,
+          "node": "s0",
+          "hasUncommunicatedBreak": false
+        },
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nRen\nhey. good to see you.\nDecide\nGood to see you too\nHow are you?"
+    },
+    {
+      "name": "ren-scene-desktop",
+      "sha256": "4a3756210aa6bb7b706347a4c2e00da4287bd1ad27f420298f018ebfce43dbdf",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4,
+          "arrival": {
+            "version": 1,
+            "open": true,
+            "ignored": false,
+            "lineShown": true,
+            "look": "cardigan"
+          }
+        },
+        "scene": {
+          "id": "ren-1",
+          "activity": "door",
+          "stage": "scene",
+          "beat": 0,
+          "shown": true,
+          "seating": "door",
+          "arrivalLook": "cardigan",
+          "dialogueVersion": 1,
+          "node": "s0",
+          "hasUncommunicatedBreak": false
+        },
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nRen\nhey. good to see you.\nDecide\nGood to see you too\nHow are you?"
+    },
+    {
+      "name": "ren-scene-reloaded",
+      "sha256": "4a3756210aa6bb7b706347a4c2e00da4287bd1ad27f420298f018ebfce43dbdf",
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [],
+        "unanswered": 0,
+        "lastVisitDay": null,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-1",
+          "day": 4,
+          "initiator": "ren",
+          "activity": "door",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": true,
+          "lastShownDay": 4,
+          "ackShownDay": 4,
+          "arrival": {
+            "version": 1,
+            "open": true,
+            "ignored": false,
+            "lineShown": true,
+            "look": "cardigan"
+          }
+        },
+        "scene": {
+          "id": "ren-1",
+          "activity": "door",
+          "stage": "scene",
+          "beat": 0,
+          "shown": true,
+          "seating": "door",
+          "arrivalLook": "cardigan",
+          "dialogueVersion": 1,
+          "node": "s0",
+          "hasUncommunicatedBreak": false
+        },
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nEvening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n90 HP\n⚠️\nDebt:\n$99.00\nRen\nhey. good to see you.\nDecide\nGood to see you too\nHow are you?"
+    },
+    {
+      "name": "ren-complete",
+      "sha256": "ee104617d04527f6744e64ef12f9cc0a078e2860e093868a25491f455a215b52",
+      "day": 4,
+      "slot": "late-evening",
+      "cash": 0,
+      "health": 95,
+      "debt": 99,
+      "social": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 4,
+        "nextId": 2,
+        "history": [
+          {
+            "id": "ren-1",
+            "outcome": "honored"
+          }
+        ],
+        "unanswered": 0,
+        "lastVisitDay": 4,
+        "lastOfferedDay": 4,
+        "pending": null,
+        "scene": {
+          "id": "ren-1",
+          "activity": "door",
+          "stage": "ack",
+          "beat": 0,
+          "shown": true,
+          "seating": "door",
+          "arrivalLook": "cardigan",
+          "dialogueVersion": 1,
+          "node": "c-end",
+          "hasUncommunicatedBreak": false
+        },
+        "response": null,
+        "introShown": true,
+        "couchContext": false,
+        "intro": {
+          "knockDay": 4,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nLate Evening\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\n⚠️\nDebt:\n$99.00\nEvening complete\n\nHealth: 95 HP.\n\nContinue"
+    }
+  ],
+  "dialogs": [
+    {
+      "type": "confirm",
+      "message": "This action misses your scheduled shift; missed shifts can end your job.\nThis missed shift ends scheduled employment.\n\nContinue?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "You have a plan with Ren this evening. Tell Ren you can’t make it? Choose Cancel for more choices.\n\nOK: tell Ren. Cancel: see another option.",
+      "accepted": false
+    },
+    {
+      "type": "confirm",
+      "message": "Continue anyway? Your plan with Ren will not be kept, and Ren will not be told. Choose Cancel to go back.",
+      "accepted": false
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 48740,
+        "ppid": 33636,
+        "created": "11/02/2026 21:03:08",
+        "root": true
+      },
+      {
+        "pid": 48932,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:08",
+        "root": false
+      },
+      {
+        "pid": 9596,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 46672,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 19896,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 41236,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 31936,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 38312,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 1940,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 33988,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 37940,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:09",
+        "root": false
+      },
+      {
+        "pid": 29264,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:12",
+        "root": false
+      },
+      {
+        "pid": 36736,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:12",
+        "root": false
+      },
+      {
+        "pid": 30612,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:12",
+        "root": false
+      },
+      {
+        "pid": 7056,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:12",
+        "root": false
+      },
+      {
+        "pid": 43156,
+        "ppid": 48740,
+        "created": "11/02/2026 21:03:21",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:59492/devtools/browser/27260934-3a0d-4b83-a520-458177fe09fc\r\n[48740:24644:1102/210309.372:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[48740:24644:1102/210309.372:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n"
+  }
+}

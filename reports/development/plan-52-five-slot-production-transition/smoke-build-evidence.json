@@ -1,0 +1,25 @@
+{
+  "sourceClosureSha256": "343c2a746bfa7ba4b160f63b0d3cd50ca5cbe77b318ba0fd96e4565e3b6014a0",
+  "build": "vite build",
+  "exitCode": 0,
+  "elapsedSeconds": 1.0413409,
+  "peakSampledPrivateBytes": 448786432,
+  "cleanup": "normal",
+  "assets": [
+    {
+      "name": "duck-placeholder-Mhd15Sdp.svg",
+      "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+      "bytes": 1011
+    },
+    {
+      "name": "index-C1b8N2xQ.js",
+      "sha256": "391c67ef26e9bf6266cdb85ba8856c46c226bb7388b8bad13dcb2ed0b5e738ce",
+      "bytes": 636249
+    },
+    {
+      "name": "index-CwsYQINj.css",
+      "sha256": "340f7c4c4c1edf4664fdcbe7f06bf4c9591d5211f8b334579674f50ef9f04ac6",
+      "bytes": 65536
+    }
+  ]
+}

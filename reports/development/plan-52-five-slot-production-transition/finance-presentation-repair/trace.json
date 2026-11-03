@@ -1,0 +1,686 @@
+{
+  "sourceClosureSha256": "65f3fcd6faaf1f5691a87db25ca27859aaf41069feed8724d17cd21550f06cd8",
+  "recipeSha256": "5712b5569141812a7b960221e49e31a3d421a1f97457ec63008bcbcb6fa70d1a",
+  "captures": [
+    {
+      "name": "rent-shortfall-due-narrow",
+      "sha256": "a90aba43096519495beaf3af3003b9e1655cd422eec30540f2daca9cef97cc86",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$104.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT\n\nPayment due\n\nRemaining rent: $170.00.\n\nHarbor Court · 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $104.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nA payday loan may cover a rent shortfall; see its full terms before deciding.\n\nPay Remaining rent · $170.00\nSee loan terms for Remaining rent\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down",
+      "focus": {
+        "text": "Payment due",
+        "top": 304.171875,
+        "bottom": 330.859375,
+        "height": 844
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "debt": 0,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": []
+    },
+    {
+      "name": "rent-shortfall-due-desktop",
+      "sha256": "a90aba43096519495beaf3af3003b9e1655cd422eec30540f2daca9cef97cc86",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$104.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT\n\nPayment due\n\nRemaining rent: $170.00.\n\nHarbor Court · 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $104.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nA payday loan may cover a rent shortfall; see its full terms before deciding.\n\nPay Remaining rent · $170.00\nSee loan terms for Remaining rent\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down",
+      "focus": {
+        "text": "See loan terms for Remaining rent",
+        "top": 587.609375,
+        "bottom": 647.609375,
+        "height": 720
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "debt": 0,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": []
+    },
+    {
+      "name": "rent-loan-accepted",
+      "sha256": "1421764cd3b71f8cc9669f9a407bee8faf02b9f9d83b7872d91b2625ec88596f",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\nFinish run →\n\nHARBOR COURT\n\nPayment due\n\nRemaining rent: $170.00.\n\nHarbor Court · 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nReserve an eligible future Evening extra shift: $60.00 and up to 15 HP lost when completed.\n\nIf the completed shift brings you to 0 HP, you keep the pay and enter recovery.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Remaining rent · $170.00\nLeave Remaining rent unpaid\nExtra shift evening: \nDay 4 Evening\nDay 5 Evening\nDay 6 Evening\nDay 7 Evening\nDay 8 Evening\nDay 9 Evening\nDay 10 Evening\nDay 11 Evening\nReserve extra shift\nInspect furniture in the living room\nPut it down",
+      "focus": {
+        "text": "Payment due",
+        "top": 277.359375,
+        "bottom": 304.046875,
+        "height": 844
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 170,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ]
+    },
+    {
+      "name": "rent-paid-zero",
+      "sha256": "9c249ca1451898bb889514c4f4ee443f541b7a84a2ecc1ccc46261cbeba765c5",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nCall\nMom\nPAID\nBreakfast\nDay 4 · Morning\nThe desk →\nThe living room →\nThe door →\nSpend time quietly →\nFinish run →",
+      "focus": {
+        "text": "\n    \n      \n        \n        \n    \n      \n        \n          \n            \n          \n          \n            Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          \n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 4:\n          Morning\n        \n        \n          💵\n          Cash:\n          $0.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          100 HP\n        \n        \n          \n            ⚠️\n            Debt:\n            $99.00\n          \n        \n      \n      \n    \n  \n        \n        \n          \n            .apt-lfs13{width:100%;height:100%;display:block;overflow:visible}.apt-lfs13 .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-lfs13 .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-lfs13 .cast{opacity:.3}.apt-lfs13 .cast-keep{opacity:.3}.apt-lfs13 .cast-lamp{display:none}.apt-lfs13 .lamp-on{opacity:0}.apt-lfs13 .lamp-pool{mix-blend-mode:screen}.apt-lfs13.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-lfs13.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n            \n            CallMom\n    \n      \n      \n      \n      \n      PAID\n      \n      \n    \n    \n    \n    \n    Breakfast\n          \n          \n        \n        Day 4 · MorningThe desk →The living room →The door →Spend time quietly →Finish run →\n      \n      \n      \n        \n      \n    \n    \n  \n\n",
+        "top": 0,
+        "bottom": 844,
+        "height": 844
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 0,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ]
+    },
+    {
+      "name": "paid-zero-statement-narrow",
+      "sha256": "abc7bfd2bc30e6b126295eb805f5c52f0d0ffac6f269bf111b346bc79ba253b9",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nMorning\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 4 · Morning\nThe kitchen →\nThe living room →\nThe door →\nSpend time quietly →\nFinish run →\nMorning\n● ● ●\nPayday loan statement\n\nOutstanding balance: $99.00.\n\nPayday loan statement\n\nOutstanding balance: $99.00.\n\nDue Midday on Day 9, before work.\n\nYou may repay the full amount early.\n\nRepay loan · $99.00\nOpen Quackpot\nPut it down",
+      "focus": {
+        "text": "Payday loan statement",
+        "top": 326.34375,
+        "bottom": 365.9375,
+        "height": 844
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 0,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ]
+    },
+    {
+      "name": "paid-zero-browse",
+      "sha256": "2f00271bbd94f7a0f0a4c433dd530dce402cb70e3ea6347a9ade6028e9edc0fe",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$99.00\nQUACKPOT\nPond of Destiny\n\nCollect your flock. Take to the pond.\n\nThis session: Pull ready · Race ready\n\nDuck-Dex\nGrow your flock\n\nMeet your first racing team with ten free pulls.\n\nClaim free 10-pull\nGem shop\n\n330 Gems\n\nBuy for $4.99\n\nOne pull action and one race per session. You can return to the apartment and pick up where you left off.\n\nQUACKPOT",
+      "focus": {
+        "text": "\n    \n      \n        \n        \n    \n      \n        \n          \n            \n          \n          \n            Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 4:\n          Morning\n        \n        \n          💵\n          Cash:\n          $0.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          100 HP\n        \n        \n          \n            ⚠️\n            Debt:\n            $99.00\n          \n        \n      \n      \n    \n  \n        \n    Quackpot\n      Pond of DestinyCollect your flock. Take to the pond.\n      This session: Pull ready · Race ready\n      Duck-Dex\n      \n        \n          Grow your flock\n          Meet your first racing team with ten free pulls.\n          \n            \n            Claim free 10-pull\n            \n          \n        \n        \n        Gem shop330 GemsBuy for $4.99\n      \n      \n        One pull action and one race per session. You can return to the apartment and pick up where you left off.\n\n      QUACKPOT\n        \n      \n    \n    \n  \n\n",
+        "top": 0,
+        "bottom": 1129.53125,
+        "height": 844
+      },
+      "day": 4,
+      "slot": "morning",
+      "cash": 0,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ]
+    },
+    {
+      "name": "loan-due-due-narrow",
+      "sha256": "d34b5dbabb32c6a801a154a104264cd65f0a06d269210861d8cb13085b62ca39",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\nPayday loan: $99.00.\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down",
+      "focus": {
+        "text": "Payment due",
+        "top": 326.34375,
+        "bottom": 365.9375,
+        "height": 844
+      },
+      "day": 9,
+      "slot": "midday",
+      "cash": 0,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ]
+    },
+    {
+      "name": "loan-due-due-desktop",
+      "sha256": "d34b5dbabb32c6a801a154a104264cd65f0a06d269210861d8cb13085b62ca39",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\nPayday loan: $99.00.\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down",
+      "focus": {
+        "text": "Leave Payday loan unpaid",
+        "top": 396.703125,
+        "bottom": 440.703125,
+        "height": 720
+      },
+      "day": 9,
+      "slot": "midday",
+      "cash": 0,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ]
+    },
+    {
+      "name": "loan-after-couch-sale",
+      "sha256": "654d858b6e10e445feae106ca1999628eb36ff2b4e4137bd00d02f91c717782d",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$30.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\n$\nTV\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe desk →\nFinish run →",
+      "focus": {
+        "text": "\n    \n      \n      \n      \n      $\n      \n    TV",
+        "top": 315.578125,
+        "bottom": 377.328125,
+        "height": 844
+      },
+      "day": 9,
+      "slot": "midday",
+      "cash": 30,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ]
+    },
+    {
+      "name": "loan-reopened",
+      "sha256": "582248f39d28bd08a26981fd8032ce7e52297276ca7527583ba4a2bcba7ddceb",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$30.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\nPayday loan: $99.00.\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $30.00.\n\nIn the apartment you can inspect the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down",
+      "focus": {
+        "text": "Payment due",
+        "top": 324.34375,
+        "bottom": 363.9375,
+        "height": 844
+      },
+      "day": 9,
+      "slot": "midday",
+      "cash": 30,
+      "debt": 99,
+      "terminal": null,
+      "bills": [
+        {
+          "id": "rent-1",
+          "amountCents": 17000,
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "status": "paid",
+          "latched": true
+        },
+        {
+          "id": "rent-2",
+          "amountCents": 40000,
+          "due": {
+            "day": 14,
+            "slot": "morning"
+          },
+          "status": "pending",
+          "latched": false
+        }
+      ],
+      "loans": [
+        {
+          "id": "loan-1",
+          "rentId": "rent-1",
+          "principalCents": 6600,
+          "feeCents": 3300,
+          "totalCents": 9900,
+          "accepted": {
+            "day": 4,
+            "slot": "morning"
+          },
+          "due": {
+            "day": 9,
+            "slot": "midday"
+          },
+          "status": "pending",
+          "latched": true
+        }
+      ]
+    }
+  ],
+  "dialogs": [
+    {
+      "case": "rent-shortfall",
+      "type": "confirm",
+      "message": "Borrow $66.00.\nOne-time fee: $33.00. Repay $99.00 by Midday on day 9, before work.\nYou may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.\n\nAccept this loan?"
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 25240,
+        "ppid": 36004,
+        "created": "11/02/2026 20:51:14",
+        "root": true
+      },
+      {
+        "pid": 31024,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:14",
+        "root": false
+      },
+      {
+        "pid": 39296,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:14",
+        "root": false
+      },
+      {
+        "pid": 49336,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:14",
+        "root": false
+      },
+      {
+        "pid": 43128,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 15236,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 30688,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 49688,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 39596,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 28232,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 21696,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 36492,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 35276,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:15",
+        "root": false
+      },
+      {
+        "pid": 34436,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:18",
+        "root": false
+      },
+      {
+        "pid": 42904,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:18",
+        "root": false
+      },
+      {
+        "pid": 49552,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:18",
+        "root": false
+      },
+      {
+        "pid": 44628,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:18",
+        "root": false
+      },
+      {
+        "pid": 1800,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:18",
+        "root": false
+      },
+      {
+        "pid": 32384,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:20",
+        "root": false
+      },
+      {
+        "pid": 39800,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:20",
+        "root": false
+      },
+      {
+        "pid": 34652,
+        "ppid": 25240,
+        "created": "11/02/2026 20:51:20",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:64428/devtools/browser/f2daae75-d81a-438f-af33-6febcd1b9803\r\n[25240:13332:1102/205115.027:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[25240:13332:1102/205115.027:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n"
+  }
+}

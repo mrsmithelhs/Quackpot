@@ -1,0 +1,274 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance/day9-loan-due.save.json",
+  "sourceSha256": "240757f2b7012fd06ba3ae6e432b9db1c00a181bdae8317eba71eb6eb19c0281",
+  "sourceClosureSha256": "fe937183dbaa3ba067271c8150c06568c019adc163a9c0911dde2e076ba1e24d",
+  "recipeSha256": "5e944a13ffd41c170f4292e415d1a9b8acb5a38daa9229b56a87cf6176f2818e",
+  "captures": [
+    {
+      "name": "loan-default-cancelled",
+      "sha256": "183892bc70dad943cb0a3aa5733381aa5bf5c21a0040d5027bfcc2c45fd4e2ca",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "playing",
+      "terminal": [],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\n$99.00\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down"
+    },
+    {
+      "name": "loan-default-receipt-narrow",
+      "sha256": "2c72a128ae45177f4b7765a488911319e1115ef542909f8aee389764e3815a3b",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "receipt_presented",
+      "terminal": [
+        {
+          "seq": 186,
+          "type": "terminal",
+          "clock": {
+            "day": 9,
+            "label": "day 9 midday"
+          },
+          "payload": {
+            "route": "running_on_empty",
+            "reason": "loan_unaffordable",
+            "obligationId": "loan-1",
+            "outstandingCents": 9900,
+            "housingLost": false
+          },
+          "chain": "f32687db"
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Running on empty\n\nYour run at a glance\nCash\nUnavailable\nHealth\nUnavailable\nDebt\nUnavailable\nDigital ducks\nUnavailable\nDown\nUnavailable\nThings to reflect on\n\nThese questions are yours to answer.\n\nNo technique display was recorded in the available record.\n\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n0 draws committed · 0 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\nExpense status unavailable for this record.\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    },
+    {
+      "name": "loan-default-receipt-desktop",
+      "sha256": "2c72a128ae45177f4b7765a488911319e1115ef542909f8aee389764e3815a3b",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "receipt_presented",
+      "terminal": [
+        {
+          "seq": 186,
+          "type": "terminal",
+          "clock": {
+            "day": 9,
+            "label": "day 9 midday"
+          },
+          "payload": {
+            "route": "running_on_empty",
+            "reason": "loan_unaffordable",
+            "obligationId": "loan-1",
+            "outstandingCents": 9900,
+            "housingLost": false
+          },
+          "chain": "f32687db"
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Running on empty\n\nYour run at a glance\nCash\nUnavailable\nHealth\nUnavailable\nDebt\nUnavailable\nDigital ducks\nUnavailable\nDown\nUnavailable\nThings to reflect on\n\nThese questions are yours to answer.\n\nNo technique display was recorded in the available record.\n\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n0 draws committed · 0 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\nExpense status unavailable for this record.\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    },
+    {
+      "name": "settings-over-loan",
+      "sha256": "d51c936cff7a59dcad69ca9f7fd4ce4cd3dc7b951de5927052183d74ba0f32ba",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "playing",
+      "terminal": [],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\n$99.00\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down\n\n×\nSettings\n\nSaving stays in this browser. If browser storage is unavailable, the game will tell you when progress is only temporary.\n\nAutomatic saving\nSave at safe points during play\nAnimate phone glow\nWhen off, the phone keeps a soft static glow. Reduced-motion settings also keep it static.\nSave now\nDone\n\nCredits and asset notices"
+    },
+    {
+      "name": "uninstall-offer",
+      "sha256": "ab6acfb3ad2b8deee85fd42664a0fc14c50927ed9680decd09645747798d19d2",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "playing",
+      "terminal": [],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\nPM\nQUACKPOT\nInvitation\nOpen the app\nLoan statement\nDay 9 · Midday\nLoan payment due\nThe kitchen →\nThe living room →\nFinish run →\nMidday\n● ● ●\nPayment due\n\n$99.00\n\nPayment due\n\nPayday loan: $99.00.\n\nCash on hand: $0.00.\n\nIn the apartment you can inspect the couch ($30.00) and the TV ($40.00) for sale.\n\nPay Payday loan · $99.00\nLeave Payday loan unpaid\nInspect furniture in the living room\nOpen Quackpot\nPut it down\n\nWAIT! DON'T UNINSTALL!\nA Special Gift Just For You!\n\nAre you sure you want to leave? If you stay right now, we will immediately credit your account with:\n\n🎁 80 FREE GEMS! 💎\n\n\"Play out the trap!\" The gacha pond misses you already.\n\n💎 Take 80 Gems & Stay\nLeave Anyway (Uninstall)"
+    },
+    {
+      "name": "uninstall-receipt",
+      "sha256": "223a8b71adb1e63afb4ecf77a0b32199d430e17dd573672bc5d8f06ba04ee558",
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "debt": 99,
+      "phase": "receipt_presented",
+      "terminal": [
+        {
+          "seq": 186,
+          "type": "terminal",
+          "clock": {
+            "day": 9,
+            "label": "day 9 midday"
+          },
+          "payload": {
+            "route": "uninstall"
+          },
+          "chain": "0cb8afd4"
+        }
+      ],
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 9:\nMidday\n💵\nCash:\n$0.00\n💎\nGems:\n0\n❤️\nHealth:\n70 HP\n⚠️\nDebt:\n$99.00\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\nUnavailable\nHealth\nUnavailable\nDebt\nUnavailable\nDigital ducks\nUnavailable\nDown\nUnavailable\nThings to reflect on\n\nThese questions are yours to answer.\n\nExit friction\nWe displayed\n[#184] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#185] Recorded: Chose to leave immediately.\n[#186] Game recorded: Run then ended with route: uninstall.\nDid this affect you?\n\nDid the retention offer affect your decision to leave or stay?\n\nAll supporting records\nRaces\n\nChoice offers: 0 · Choices: 0 · Finished results: 0 · Unresolved attempts: 0 · Cues displayed: 0 · Playback actions: 0\n\nRace records in order (0)\nDraws and transactions\n\n0 draws committed · 0 revealed\n\nDraw results and recorded odds\nFull recorded draw details\nPurchase transactions (0)\nLife and accounting\n\nPayments, obligations, and other recorded moments.\n\nExpense status unavailable for this record.\n\nLife and accounting records\nSupporting event details\nStart fresh run"
+    }
+  ],
+  "dialogs": [
+    {
+      "mode": "default",
+      "type": "confirm",
+      "message": "Leave this payment unpaid? Running on Empty ends the run.",
+      "accepted": false
+    },
+    {
+      "mode": "default",
+      "type": "confirm",
+      "message": "Leave this payment unpaid? Running on Empty ends the run.",
+      "accepted": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 39684,
+        "ppid": 34456,
+        "created": "11/02/2026 21:01:55",
+        "root": true
+      },
+      {
+        "pid": 40524,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 2612,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 38000,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 35640,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 27768,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 49784,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 50088,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 22784,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 49088,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:55",
+        "root": false
+      },
+      {
+        "pid": 9112,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:56",
+        "root": false
+      },
+      {
+        "pid": 38712,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:56",
+        "root": false
+      },
+      {
+        "pid": 31024,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:56",
+        "root": false
+      },
+      {
+        "pid": 5572,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 49648,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 34516,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 24436,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 32024,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 50132,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:58",
+        "root": false
+      },
+      {
+        "pid": 18512,
+        "ppid": 39684,
+        "created": "11/02/2026 21:01:59",
+        "root": false
+      },
+      {
+        "pid": 15808,
+        "ppid": 39684,
+        "created": "11/02/2026 21:02:00",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[39684:14656:1102/210155.516:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[39684:14656:1102/210155.516:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:64526/devtools/browser/ed6058c1-8c1c-4d9a-a81d-3063e4fab6b5\r\n"
+  }
+}

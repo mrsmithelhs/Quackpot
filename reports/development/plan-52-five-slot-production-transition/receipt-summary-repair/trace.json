@@ -1,0 +1,139 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-endings/loan-default-receipt-narrow.save.json",
+  "sourceSha256": "2c72a128ae45177f4b7765a488911319e1115ef542909f8aee389764e3815a3b",
+  "sourceClosureSha256": "343c2a746bfa7ba4b160f63b0d3cd50ca5cbe77b318ba0fd96e4565e3b6014a0",
+  "recipeSha256": "aae64e44fa89337e8c573def4f4de7efe9603f05b3470fd07a0d6485b989c9d1",
+  "captures": [
+    {
+      "name": "narrow",
+      "summary": [
+        {
+          "label": "Cash",
+          "value": "$0.00"
+        },
+        {
+          "label": "Health",
+          "value": "70 HP"
+        },
+        {
+          "label": "Debt",
+          "value": "$99.00"
+        },
+        {
+          "label": "Digital ducks",
+          "value": "0"
+        },
+        {
+          "label": "Down",
+          "value": "0"
+        }
+      ],
+      "ending": "Running on empty"
+    },
+    {
+      "name": "desktop",
+      "summary": [
+        {
+          "label": "Cash",
+          "value": "$0.00"
+        },
+        {
+          "label": "Health",
+          "value": "70 HP"
+        },
+        {
+          "label": "Debt",
+          "value": "$99.00"
+        },
+        {
+          "label": "Digital ducks",
+          "value": "0"
+        },
+        {
+          "label": "Down",
+          "value": "0"
+        }
+      ],
+      "ending": "Running on empty"
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 30480,
+        "ppid": 42320,
+        "created": "11/02/2026 21:06:06",
+        "root": true
+      },
+      {
+        "pid": 19244,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 18160,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 19160,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 30636,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 47764,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 40020,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 47328,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 20200,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 3208,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:06",
+        "root": false
+      },
+      {
+        "pid": 29116,
+        "ppid": 30480,
+        "created": "11/02/2026 21:06:07",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[30480:49308:1102/210606.586:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[30480:49308:1102/210606.586:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:50814/devtools/browser/4d97724c-3377-4962-a82c-6b765afdff7e\r\n"
+  }
+}

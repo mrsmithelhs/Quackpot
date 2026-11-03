@@ -1,0 +1,121 @@
+{
+  "sourceClosureSha256": "b2e452abb64f0c7aee5e2ac8f299621c1693bbde182337daf23364ad87dcdfbe",
+  "recipeSha256": "33aedc652f11194c1fb47610e296a03f4fbaeb567e61883552eeeb1e3b711920",
+  "results": [
+    {
+      "name": "payslip",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/payslip-narrow.save.json",
+      "fixtureSha256": "7e8083c47ccb3308255eb0252154eee155008855a4f0ff9a3440f97efe26faf8",
+      "beforeEvents": 19,
+      "afterEvents": 22,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "wages": 1
+    },
+    {
+      "name": "call-scene",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-seeded/mom-scene-narrow.save.json",
+      "fixtureSha256": "dec7872fd93da127a83fa8762dd997718891ec508ef60c939bbf3aa8234aa966",
+      "beforeEvents": 30,
+      "afterEvents": 34,
+      "slot": "late-evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "wages": 1
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 47048,
+        "ppid": 41384,
+        "created": "11/02/2026 20:40:28",
+        "root": true
+      },
+      {
+        "pid": 34540,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:28",
+        "root": false
+      },
+      {
+        "pid": 27968,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 44812,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 22016,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 44164,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 48516,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 38104,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 31220,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 42064,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:29",
+        "root": false
+      },
+      {
+        "pid": 2452,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:32",
+        "root": false
+      },
+      {
+        "pid": 46960,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:32",
+        "root": false
+      },
+      {
+        "pid": 13632,
+        "ppid": 47048,
+        "created": "11/02/2026 20:40:32",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[47048:50060:1102/204029.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[47048:50060:1102/204029.198:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:50560/devtools/browser/238b3dcd-793a-4521-b176-ce183fd784fb\r\n"
+  }
+}

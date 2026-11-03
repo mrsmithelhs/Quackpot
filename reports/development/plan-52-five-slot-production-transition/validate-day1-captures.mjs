@@ -1,7 +1,9 @@
 import {readFile,writeFile,readdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {validateSave} from '../../../src/core/storage.mjs';
-const dir='reports/development/plan-52-five-slot-production-transition/production-day1-repair';
+const name=process.argv[2]??'production-day1-repair';
+if(!['production-day1-repair','production-day1-seeded'].includes(name))throw Error('Unknown captured Day 1 directory');
+const dir=`reports/development/plan-52-five-slot-production-transition/${name}`;
 const trace=JSON.parse(await readFile(`${dir}/trace.json`,'utf8'));
 const pins=[];for(const [path,expected] of Object.entries(trace.pins)){const actual=createHash('sha256').update(await readFile(path)).digest('hex');pins.push({path,expected,actual,match:actual===expected});}
 const files=(await readdir(dir)).filter(name=>name.endsWith('.save.json')).sort(),saves=[];

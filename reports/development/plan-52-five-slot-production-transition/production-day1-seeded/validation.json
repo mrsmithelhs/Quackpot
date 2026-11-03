@@ -1,0 +1,311 @@
+{
+  "origin": "actual isolated browser localStorage captured after real UI actions; no save contents edited",
+  "browserTraceError": null,
+  "browserCleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 37220,
+        "ppid": 43312,
+        "created": "11/02/2026 20:35:22",
+        "root": true
+      },
+      {
+        "pid": 45752,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:22",
+        "root": false
+      },
+      {
+        "pid": 900,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 26080,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 26484,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 21996,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 25984,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 33304,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 19524,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 44728,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 29180,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:23",
+        "root": false
+      },
+      {
+        "pid": 34648,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:25",
+        "root": false
+      },
+      {
+        "pid": 8612,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:25",
+        "root": false
+      },
+      {
+        "pid": 41896,
+        "ppid": 37220,
+        "created": "11/02/2026 20:35:26",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:53856/devtools/browser/5cd7773d-f313-4a44-8a86-0609c3a9e7ff\r\n[37220:31384:1102/203523.284:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[37220:31384:1102/203523.284:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  },
+  "sourceCommit": "ad189cb6e47260c572f2cceb9532e18941394089",
+  "pins": [
+    {
+      "path": "reports/development/plan-52-five-slot-production-transition/production-day1-browser.mjs",
+      "expected": "55db42df626a2e87b7d2580d03035f99ac6951b5e7509248b62566630d0e4391",
+      "actual": "55db42df626a2e87b7d2580d03035f99ac6951b5e7509248b62566630d0e4391",
+      "match": true
+    },
+    {
+      "path": "src/main.js",
+      "expected": "13fc6888c541198fec889aa21aeacdf9ef616e072c65bd697270104e9a3b86ce",
+      "actual": "13fc6888c541198fec889aa21aeacdf9ef616e072c65bd697270104e9a3b86ce",
+      "match": true
+    },
+    {
+      "path": "src/core/game-engine.mjs",
+      "expected": "ea13cf6d1ddd4533d49ee390aaf6a36281c0a68b15aee6b503fa211988ae534a",
+      "actual": "ea13cf6d1ddd4533d49ee390aaf6a36281c0a68b15aee6b503fa211988ae534a",
+      "match": true
+    },
+    {
+      "path": "src/core/storage.mjs",
+      "expected": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+      "actual": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+      "match": true
+    },
+    {
+      "path": "src/core/life-coordinator.mjs",
+      "expected": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+      "actual": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+      "match": true
+    },
+    {
+      "path": "src/core/life-replay.mjs",
+      "expected": "64f79124f8e604af494f74c0f3a01a5505ae2c1581c786c375b4706b322f4d31",
+      "actual": "64f79124f8e604af494f74c0f3a01a5505ae2c1581c786c375b4706b322f4d31",
+      "match": true
+    },
+    {
+      "path": "src/core/life-schedule/scheduler.mjs",
+      "expected": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+      "actual": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+      "match": true
+    },
+    {
+      "path": "src/core/life-schedule/policy.mjs",
+      "expected": "ad2b1756cbe8823cda34e567a328615d9cc9e1910f78c1adfb9bb3f3391ee259",
+      "actual": "ad2b1756cbe8823cda34e567a328615d9cc9e1910f78c1adfb9bb3f3391ee259",
+      "match": true
+    },
+    {
+      "path": "src/ui/hud.js",
+      "expected": "3012ea6492a0c4683b0634e5d77648967a0ea5d30a87dfd6325a79e07c1d6395",
+      "actual": "3012ea6492a0c4683b0634e5d77648967a0ea5d30a87dfd6325a79e07c1d6395",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life-routing.mjs",
+      "expected": "f0255a54bfe57ad2a061755d7d19d749fffd51ce514e2a3367295eb8715814e2",
+      "actual": "f0255a54bfe57ad2a061755d7d19d749fffd51ce514e2a3367295eb8715814e2",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life-view.js",
+      "expected": "b4b4944d79b090922b51ce42ca3f37cf03bf8286df4852e1e40aebdf966c2dce",
+      "actual": "b4b4944d79b090922b51ce42ca3f37cf03bf8286df4852e1e40aebdf966c2dce",
+      "match": true
+    },
+    {
+      "path": "src/ui/life/life.css",
+      "expected": "1a8dd9fac58bfdfa016432b69ac516e19b07fff3a8c77d605d430883dcbaadbb",
+      "actual": "1a8dd9fac58bfdfa016432b69ac516e19b07fff3a8c77d605d430883dcbaadbb",
+      "match": true
+    }
+  ],
+  "saves": [
+    {
+      "file": "breakfast-complete-narrow.save.json",
+      "sha256": "33d83ea2b6327c11197331f61fb12c36d1c5991307098a6cbb4718d13368aefd",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": null
+    },
+    {
+      "file": "commute-narrow.save.json",
+      "sha256": "d9a7c6e6070729ed354176a78063d5e7c7e0e7a61c47b5ae4e0be13368d3568a",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": "commute"
+    },
+    {
+      "file": "dinner-narrow.save.json",
+      "sha256": "154886f6c4968b82a5549a40294bc79fbd2c012d263fdc1b2476cf9e24efa2dd",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": null
+    },
+    {
+      "file": "evening-narrow.save.json",
+      "sha256": "3594822e36087f72c443b94066f741bb3452483f5e13894dffe2f97a58a3e5c1",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": null
+    },
+    {
+      "file": "evening-return-desktop.save.json",
+      "sha256": "8e29f3b5705981d64b19f66f3850cd628c6c0dded6837966d66fa108c81309fd",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": null
+    },
+    {
+      "file": "midday-keys.save.json",
+      "sha256": "33d83ea2b6327c11197331f61fb12c36d1c5991307098a6cbb4718d13368aefd",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": null
+    },
+    {
+      "file": "mom-ack-desktop.save.json",
+      "sha256": "9a8bb27efb69a34e2a0e59d6d0bebffe152d3bda39d5edbb4b5f44aea8b89a68",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": "ack"
+    },
+    {
+      "file": "mom-ack.save.json",
+      "sha256": "9a8bb27efb69a34e2a0e59d6d0bebffe152d3bda39d5edbb4b5f44aea8b89a68",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "late-evening",
+      "story": "ack"
+    },
+    {
+      "file": "mom-scene-narrow.save.json",
+      "sha256": "dec7872fd93da127a83fa8762dd997718891ec508ef60c939bbf3aa8234aa966",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": "scene"
+    },
+    {
+      "file": "mom-scene-reloaded.save.json",
+      "sha256": "dec7872fd93da127a83fa8762dd997718891ec508ef60c939bbf3aa8234aa966",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "evening",
+      "story": "scene"
+    },
+    {
+      "file": "morning-desktop.save.json",
+      "sha256": "bf5ba313d13e6100e3465b0212dac807acfe21ca94d2c14630f158891446a33e",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "morning",
+      "story": null
+    },
+    {
+      "file": "morning-narrow.save.json",
+      "sha256": "bf5ba313d13e6100e3465b0212dac807acfe21ca94d2c14630f158891446a33e",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "morning",
+      "story": null
+    },
+    {
+      "file": "payslip-narrow.save.json",
+      "sha256": "7e8083c47ccb3308255eb0252154eee155008855a4f0ff9a3440f97efe26faf8",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": "payslip"
+    },
+    {
+      "file": "payslip-reloaded.save.json",
+      "sha256": "7e8083c47ccb3308255eb0252154eee155008855a4f0ff9a3440f97efe26faf8",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "early-evening",
+      "story": "payslip"
+    },
+    {
+      "file": "work-narrow.save.json",
+      "sha256": "2f734d4c264edca7bf5fd6b0e052ac1fcfd7a01518f2a9c8023a9ed1eb708f78",
+      "valid": true,
+      "errors": [],
+      "day": 1,
+      "slot": "midday",
+      "story": "work"
+    }
+  ]
+}

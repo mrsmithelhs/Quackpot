@@ -16,6 +16,8 @@
 
 ## Validation, boundaries and follow-up
 
+QP Orch subsequently inspected both final collection/competition captures as well as the earlier event/desktop views and cleared owner review of this version; that visual clearance does not adopt mechanics or close Plan 54. During the interview the owner preferred both richer collection and competition, found the no-reward event framing insufficient, and proposed the broader opponent/level/event/customization direction in `owner-selections.md`. They prefer every completed race to advance the duck, with better places/event goals contributing more. Owner requested Codex and Sonnet assessment; `consultation/strategy-brief.md` is the prepared fresh-context payload. QP Orch reported that automated approval review rejected its message clearing that follow-up because the new external project-context payload was not specifically authorized. No second call occurred. Present the exact brief to the owner for explicit payload authorization; this is separate from adopting any proposed mechanic.
+
 No production code, schema, save, package, packet status or deployment changes. The preview and its finite checks are report-local; they are not gameplay validation, balance evidence, or a claim about player learning. Owner experience review and root inspection remain outstanding; recommendations and integration brief follow the actual owner choices. The pre-delivery advisor was the separate read-only Terra-medium review above, distinct from Sonnet's design consultancy.
 
 Unrelated Plan 52/53 work was visible in the shared tree and is not owned by this packet. A coordinated Git-index turn is required before staging; never include other chats' changes. Ready for final orchestrator review: **no**.

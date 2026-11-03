@@ -115,3 +115,12 @@ Prepared controls and fake fixtures are committed as `b415684`. No live trial or
 ## Root correction to first-run controls
 
 Root withdrew its firewall and guardian prerequisite as beyond Plan 53's scope; see `reports/orchestration/plan-53-first-run-control-scope.md`. The historical trial preparation and fake results above remain evidence, not a live-action requirement. No firewall rule was changed. Its live entry is explicitly disabled. The local experiment instead requires verified pinned files, offline settings, no implicit downloads, bounded resources and abort/report for detectable unexpected access. A Python audit hook cannot establish native-code or OS-level network isolation. Root review and fresh resource clearance remain necessary before real audio processing or model execution, and the owner-listening gate is unchanged.
+
+## Revised local runner synthetic checks
+
+A coordinated fake-only batch passed 16 named resource, audit-callback, argument-wiring, crop and single-pass tests. An initial watchdog CLI command was rejected during argument parsing before launching a child; the corrected call used the watchdog function. The independent 10-second outer watchdog reported normal supervisor exit in 0.724 seconds; its 128 MiB job completed in 0.547 seconds with root exit zero and zero active owned processes. The 8 GiB pilot setting was checked as a mocked argument, not as an actual kernel memory-limit test. No real GPU, audio, network or ML was used.
+
+The pilot draft supplies pinned local paths, offline/telemetry settings, an early Python audit hook, an independent watchdog and a separate 8 GiB inference job envelope. Audit checks can deny and record Python-visible requests, but cannot prove native or OS isolation. The entry remains disabled until root reviews the exact vector and clears the first run. Whole-workspace resource sampling, actual API behavior, decoder accuracy and GPU fit remain unverified. First listening and later expansion gates remain in force.
+
+The reviewed draft runner and fixtures are committed as `a2637ea`; the executable entry remains disabled pending root review and first-run clearance.
+

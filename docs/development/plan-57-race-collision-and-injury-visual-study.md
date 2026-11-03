@@ -1,11 +1,9 @@
 ---
 id: plan-57
 title: Race collision and injury visual study
-status: draft
+status: in-progress
 depends_on: []
 gate: "Report-local gallery only. Root clears the bounded mechanism/helper proposal before execution; owner selects rendered effects before any separately scoped production integration."
-superseded_by: null
-resolution: null
 summary: >-
   Compare readable layered-paper collision effects and persistent injury markers at close-up and actual race scale, using bounded Haiku drawings and a Codex-built animation gallery without changing race mechanics or production.
 ---
@@ -98,4 +96,4 @@ Root must view rendered comparisons, not just SVG/code or test counts, before ow
 
 Stop for semantic disagreement with Plan55, need to change race mechanics/production/source assets, missing safe helper transport, resource overrun, uncertain cleanup, private data exposure, or a meaningful owner design choice. Sparse collisions in Plan55 do not justify invented mechanical events; synthetic gallery fixtures remain clearly labeled.
 
-Implementers never set packet status, edit orchestrator dispositions, or declare the feature complete/ready to ship. Inherit the repository's consultation declaration and reviewer routing; no automatic additional reviewer or advisor call budget is granted here. Report the exact consultation posture. Coordinate immediate Git-index turns with root, stage explicit owned paths, commit scoped work and progress last, never push. Deliver the gallery URL, selection record, evidence, limitations and a concise future integration brief; root/owner decide acceptance.
+Implementers never set packet status, edit orchestrator dispositions, or declare the feature complete/ready to ship. Inherit the repository's consultation declaration and reviewer routing. Owner authorization (2026-11-03) includes one read-only Terra-medium pre-delivery review (`gpt-6.1-terra`, explicit `medium`) of stable gallery code, lifecycle and actual rendered evidence, after implementation and before delivery. Use a default-role child if a named role fixes conflicting settings. This is not a pre-proposal or repeated repair-review budget. Record requested/observed identity and effort, findings and verified dispositions; do not invent unavailable attestation. Report the exact consultation posture. Coordinate immediate Git-index turns with root, stage explicit owned paths, commit scoped work and progress last, never push. Deliver the gallery URL, selection record, evidence, limitations and a concise future integration brief; root/owner decide acceptance.

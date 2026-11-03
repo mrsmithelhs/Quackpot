@@ -251,7 +251,7 @@ Separate each finding into three registers:
 2. **You did:** the recorded action and result.
 3. **Did this affect you?** An optional discussion question, not an asserted answer.
 
-The record stays in the browser during play. A student may download a run-usage file and manually submit it to an assignment store. The game itself makes no network request and performs no automatic upload. Every ending, including early Uninstall and Running on Empty, displays the Receipt.
+The record stays in the browser during play. Owner-selected forward direction (2026-11-02, Plan54 interview): one student-initiated usage export contains data from all runs recorded in that browser profile, including unlocked achievements, rather than requiring separate submission files for each run. This supersedes the earlier per-run-only export direction, not the per-run identity and evidence boundaries within the package. It is not implemented: storage, export versioning and teacher-analyzer changes require a separate bounded design/integration. A browser profile is not verified student identity, and cleared, shared or different profiles do not establish a complete history. Missing past data cannot be reconstructed. Keep data minimization, explicit local clearing, storage-failure behavior and unfinished-run handling as design gates. The game itself makes no network request and performs no automatic upload. Every ending, including early Uninstall and Running on Empty, displays the Receipt. The ban on post-Receipt retention techniques does not itself prohibit local historical records.
 
 ## Assets
 
@@ -329,14 +329,14 @@ Suggested prompts:
 
 Students who replay can examine the game's variety from a game-design perspective.
 
-A student may download a run-usage file and manually submit it to a class assignment store. A teacher can import multiple files into a local analysis dashboard. This workflow does not require cloud storage, automatic transmission, or a teacher account in the game. Keep student files outside tracked repository content.
+A student may manually download and submit the selected future profile-scoped usage package, retaining distinct run records and achievement evidence. A teacher can import submitted packages into a local analysis dashboard. Cross-package deduplication and incomplete/shared-profile history require a reviewed contract; submissions do not prove identity or all attempts. This workflow does not require cloud storage, automatic transmission, or a teacher account in the game. Keep student files outside tracked repository content.
 
 ## Open questions
 
 - What is the final title?
 - What in-game schedule supports at least roughly 30 minutes of engaged play, around 15 minutes for rapid play, and longer resumed runs?
 - How should the implemented localStorage save path behave on shared or cleared lab computers? No IndexedDB migration is selected.
-- How should the selected per-run offline export and teacher analyzer be integrated? Distinct run IDs do not establish student identity or all attempts; seed/name/free-text export is not selected by default (Plan07/42).
+- How should the selected profile-scoped multi-run offline export, achievements and teacher analyzer be integrated? Preserve distinct run IDs and factual evidence; define clearing, unfinished runs, storage failures, duplicate imports and shared/cleared-profile limits. The earlier Plan07/42 per-run spike is a technical reference, not the complete new contract. Seed/name/free-text export is not selected by default.
 - What pity thresholds and banner carry/reset rule should simulation recommend?
 - What roster size, duplicate rate, Down shop, set bonuses, and event effects work without variant-specific balancing?
 - Which near-miss forms should testing retain, and what firing rule/rate is accurate?

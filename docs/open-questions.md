@@ -22,7 +22,7 @@ Current unresolved questions only, scheduling reconciled2026-11-02. Selected int
 ## Reflection and offline teaching tools
 
 - How should selected Plan27 LayoutA become a compact production Receipt with deeper optional evidence, preserving displayed/action/reflection separation and actual conditional odds?
-- After Plan42 acceptance, which production log adapters should populate the selected ZIP package, summary and bounded timeline, and how should the local teacher analyzer expose uncertainty/repeats? No default personal/free-text/reflection/seed/exact-time export, installation identity, automatic upload, identity proof or all-attempt tracking.
+- Owner selects one manual profile-scoped export containing all runs recorded in that profile and unlocked achievements (DECISION-076), superseding the per-run-only packaging direction. How should a separately gated storage/export design preserve per-run evidence, unfinished runs, clearing, quota failure, duplicate imports and achievement scope? Shared/cleared profiles do not establish student identity or complete attempts. Plan42's ZIP/summary/timeline spike remains a reference; no default personal/free-text/reflection/seed/exact-time export, installation identity or automatic upload is selected. Local historical records are distinct from prohibited post-Receipt retention techniques.
 - How should localStorage saves behave on shared/cleared lab machines? Current storage is implemented; no IndexedDB migration is selected.
 
 ## Audio, weather and later narrative

@@ -34,6 +34,8 @@ Preserve current production untouched. Use the accepted race, rating mapping, co
 
 ## Scope and non-goals
 
+Owner amendment2026-11-03 (DECISION-079): pause the prepared Common-only StageB. Investigate multiple genuine collision episodes per race, preserving the implemented one-contact model as control, and use Bounce plus independent crowd acceleration for the first ability-combination comparison. Defensive driving is a candidate against dogpiles. Return exact report-local contact/ability semantics, event/rollback/individual-crossing boundaries, fixed finite protocol and resource proposal before code/runs. Rarity starting abilities/capacity/ceiling/risk remain proposals, with owner shortlist before numeric testing. This expands the study's candidate contract, not production authority. Plan57 owns collision/injury art; animations for all abilities need a separate bounded scope. Earlier results remain immutable limited evidence.
+
 Own only reports/development/plan-55-opponent-risk-and-duck-growth-study/. Read production and existing studies without changing them. Use pure read-only imports or an explicitly pinned report-local experimental adapter with a difference ledger; never import reports into the game. No production integration, complete opponent stable/art campaign, leaderboard economy, achievements/export, new purchases, full roster rebalance or soundtrack. No provider calls merely because this packet mentions a consultant; propose exact brief/transport/resource bounds under current helper policy first.
 
 ## Work plan

@@ -10,6 +10,19 @@ def sample(**changes):
 
 
 class Controls(unittest.TestCase):
+    def test_job_guard_preflight_sampling_and_fail_closed_entry(self):
+        import inference_entry
+        values=iter([sample(),sample(gpu_used_mib=7168)])
+        times=iter([0.,.2,1.5])
+        guard=monitor.JobResourceGuard(lambda:next(values),now=lambda:next(times))
+        guard.before_launch()
+        with self.assertRaisesRegex(ValueError, '7 GiB'): guard.on_sample()
+        self.assertEqual(guard.report()['sampled_peak_gpu_mib'],7168)
+        self.assertAlmostEqual(guard.report()['max_gap_seconds'],1.3)
+        with self.assertRaisesRegex(RuntimeError,'disabled'): inference_entry.main()
+        guard=monitor.JobResourceGuard(lambda:sample(host_free_bytes=15*monitor.GIB),now=lambda:0.)
+        with self.assertRaisesRegex(ValueError,'16 GiB'): guard.before_launch()
+
     def test_preflight_and_gpu_stop(self):
         values=iter([sample(),sample(gpu_used_mib=7168)]); calls=[]; times=iter([0.,.1,1.4])
         result=monitor.supervise(lambda:next(values),lambda:calls.append("launch"),lambda _:False,lambda:calls.append("terminate"),now=lambda:next(times))

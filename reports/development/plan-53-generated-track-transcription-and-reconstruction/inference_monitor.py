@@ -62,6 +62,44 @@ def preflight(sample):
     return value
 
 
+class JobResourceGuard:
+    """Sampling adapter for the owned Windows job; values are observations, not hard caps."""
+    def __init__(self, sample, now=time.monotonic):
+        self.sample, self.now = sample, now
+        self.started = self.last = None
+        self.count = 0
+        self.max_gap = 0
+        self.peak_gpu = self.peak_workspace = 0
+        self.min_host = None
+
+    def _record(self, value):
+        current = self.now()
+        self.max_gap = max(self.max_gap, current - self.last)
+        self.last = current
+        self.count += 1
+        self.peak_gpu = max(self.peak_gpu, value['gpu_used_mib'])
+        self.peak_workspace = max(self.peak_workspace, value['workspace_bytes'])
+        self.min_host = value['host_free_bytes'] if self.min_host is None else min(self.min_host, value['host_free_bytes'])
+
+    def before_launch(self):
+        self.started = self.last = self.now()
+        self._record(preflight(self.sample()))
+
+    def on_sample(self):
+        value = valid_sample(self.sample())
+        self._record(value)
+        if value['gpu_used_mib'] >= 7168: raise ValueError('sampled GPU usage reached 7 GiB')
+        if value['host_free_bytes'] < 4 * GIB: raise ValueError('sampled host RAM below emergency floor')
+        if value['disk_free_bytes'] < 30 * GIB: raise ValueError('sampled free disk below floor')
+        if value['workspace_bytes'] > 20 * GIB: raise ValueError('sampled workspace exceeded cap')
+        if self.last - self.started >= 900: raise TimeoutError('sampled 15-minute deadline')
+
+    def report(self):
+        return {'samples': self.count, 'max_gap_seconds': self.max_gap,
+                'sampled_peak_gpu_mib': self.peak_gpu, 'sampled_peak_workspace_bytes': self.peak_workspace,
+                'minimum_host_free_bytes': self.min_host}
+
+
 def supervise(sample, launch, wait_owned, terminate_owned, now=time.monotonic):
     """Preflight then sample a single owned job; returns no cleanup claim.
 

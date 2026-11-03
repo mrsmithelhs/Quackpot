@@ -87,7 +87,7 @@ def tree_bytes(root, counters=None):
     return total
 
 
-def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1):
+def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1, max_active=0, resource_guard=None):
     root = Path(root).resolve(strict=True)
     if not root.is_dir() or not command or not os.path.isabs(command[0]):
         raise ValueError("existing workspace and absolute executable required")
@@ -97,10 +97,16 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
     start = last = time.monotonic(); error = None; cleanup = "not verified"
     try:
         limits = j.EXTENDED(); limits.BasicLimitInformation.LimitFlags = 0x2000 | 0x200
+        if max_active:
+            if not 1 <= max_active <= 2: raise ValueError("active-process limit outside reviewed range")
+            limits.BasicLimitInformation.LimitFlags |= 0x8
+            limits.BasicLimitInformation.ActiveProcessLimit = max_active
         limits.JobMemoryLimit = memory
         j.check(j.set_job(job, 9, c.byref(limits), c.sizeof(limits)), "SetInformationJobObject")
         if tree_bytes(root) > footprint or shutil.disk_usage(root).free < free_floor:
             raise ValueError("disk preflight failed")
+        if resource_guard is not None:
+            resource_guard.before_launch()
         startup = STARTUPEX(); startup.StartupInfo.cb = c.sizeof(startup)
         # A dedicated new log avoids mixing runs. It may contain dependency
         # diagnostics, so stays local and is reviewed/redacted before sharing.
@@ -147,6 +153,8 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
                 raise OSError(c.get_last_error(), "WaitForSingleObject")
             now = time.monotonic(); gaps.append(round(now - last, 3)); last = now
             size = tree_bytes(root, scan_counters); peak_disk = max(peak_disk, size); samples += 1
+            if resource_guard is not None:
+                resource_guard.on_sample()
             if os.fstat(output.fileno()).st_size > 1024**2:
                 reason = "sampled diagnostic log exceeded 1 MiB"; break
             if size > footprint:
@@ -193,7 +201,8 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1)
             "elapsed_seconds": round(time.monotonic()-start, 3), "sample_count": samples,
             "max_sample_gap_seconds": max(gaps, default=None), "sampled_peak_workspace_bytes": peak_disk,
             "vanished_descendants": scan_counters.get("vanished_descendants", 0),
-            "host_memory_limit_bytes": memory, "cleanup": cleanup}
+            "host_memory_limit_bytes": memory, "cleanup": cleanup,
+            "resource_guard": resource_guard.report() if resource_guard is not None else None}
 
 
 if __name__ == "__main__":
@@ -203,10 +212,11 @@ if __name__ == "__main__":
     p.add_argument("--memory-mib", type=int, required=True)
     p.add_argument("--footprint-mib", type=int, required=True)
     p.add_argument("--free-floor-mib", type=int, required=True)
+    p.add_argument("--max-active", type=int, default=0)
     p.add_argument("command", nargs=argparse.REMAINDER)
     a = p.parse_args()
-    if not 0 < a.seconds <= 1800 or not 64 <= a.memory_mib <= 4096 or not 1 <= a.footprint_mib <= 20480 or a.free_floor_mib < 0:
+    if not 0 < a.seconds <= 1800 or not 64 <= a.memory_mib <= 4096 or not 1 <= a.footprint_mib <= 20480 or a.free_floor_mib < 0 or not 0 <= a.max_active <= 2:
         p.error("outside bootstrap limits")
-    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2)
+    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2, max_active=a.max_active)
     print(json.dumps(result))
     sys.exit(0 if result['error'] is None and result['root_exit_code'] == 0 and not result['cleanup'].startswith('UNVERIFIED') else 1)

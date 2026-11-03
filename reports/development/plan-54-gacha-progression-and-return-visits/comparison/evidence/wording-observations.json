@@ -1,0 +1,16 @@
+{
+  "checkedBodies": 18,
+  "captures": [
+    "return/collection/richer",
+    "return/competition/richer"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "remainingCount": 0
+  }
+}

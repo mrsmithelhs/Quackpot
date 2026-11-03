@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quackpot — progression comparison</title>
+  <link rel="stylesheet" href="comparison.css">
+</head>
+<body>
+  <header class="page-header">
+    <p class="eyebrow">Plan 54 · owner review</p>
+    <h1>What brings you back to the pond?</h1>
+    <p>Compare the same visit through three possible directions. These are scripted examples, not game saves or predictions.</p>
+  </header>
+  <main>
+    <noscript><p>This comparison needs JavaScript for its visit and model selectors. A plain-language summary of the matched situations and proposed choices is available in <a href="../proposal.md">the proposal</a>; it does not reproduce every preview line.</p></noscript>
+    <section class="review-controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">Choose a comparison</h2>
+      <div class="control-grid">
+        <label>Visit <select id="visit"><option value="early">Early · first flock</option><option value="return">Return · rent approaching</option><option value="later">Later · competing plans</option></select></label>
+        <label>Direction <select id="model"><option value="collection">Collection-led</option><option value="competition">Competition-led</option><option value="event">Event-led</option></select></label>
+        <label>Version <select id="variant"><option value="lean">Lean control</option><option value="richer">Proposed richer choice</option></select></label>
+      </div>
+      <p id="review-context"></p>
+    </section>
+    <div class="comparison-layout">
+      <section class="phone" aria-label="Illustrative fictional game screen">
+        <header class="phone-header"><span>QUACKPOT</span><span>✦ POND OF DESTINY ✦</span></header>
+        <div class="wallet" id="wallet"></div>
+        <div class="phone-content" id="screen" aria-live="polite"></div>
+        <footer class="phone-footer" aria-label="Illustrative game navigation, not interactive"><span>Duck-Dex</span><span>Settings &amp; Save</span><span>Uninstall</span></footer>
+      </section>
+      <aside class="review-notes" aria-labelledby="notes-title">
+        <p class="eyebrow">Outside the game</p>
+        <h2 id="notes-title">What this comparison changes</h2>
+        <div id="notes"></div>
+        <details><summary>Compare optional spending</summary><p>In the return example, 150 Gems is 10 short of a 160-Gem single. The existing hub displays 330 Gems for $4.99 fictional cash. Buying it would bring the illustrative wallet to 480 Gems, enough for three singles in total, subject to session allowances. It would also reduce cash available for life obligations. The example does not claim the player can or should buy it.</p></details>
+        <details><summary>How to read the examples</summary><p>Amounts and rosters are illustrative snapshots. A race can pay Gems for a qualifying placement, but a payout is never guaranteed. A duplicate converts to Down; it is not another owned identity. The selected 6-Down pull is not demonstrated as a production exchange. The richer variants are proposals, not existing game features.</p></details>
+      </aside>
+    </div>
+    <section class="review-questions" aria-labelledby="questions-title"><h2 id="questions-title">Questions for review</h2><p>What would you want to do next? Does the proposed choice add a reason to return, or just another thing to track? What feels missing after the pull or race is used?</p></section>
+  </main>
+  <script type="module" src="comparison.mjs"></script>
+</body>
+</html>

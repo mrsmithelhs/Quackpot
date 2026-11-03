@@ -1,0 +1,175 @@
+{
+  "observations": [
+    {
+      "visit": "early",
+      "model": "collection",
+      "variant": "lean",
+      "title": "Two ducks, a pond of possibilities"
+    },
+    {
+      "visit": "early",
+      "model": "collection",
+      "variant": "richer",
+      "title": "Make a duck your favorite"
+    },
+    {
+      "visit": "early",
+      "model": "competition",
+      "variant": "lean",
+      "title": "Choose your first racer"
+    },
+    {
+      "visit": "early",
+      "model": "competition",
+      "variant": "richer",
+      "title": "Meet the other entrants"
+    },
+    {
+      "visit": "early",
+      "model": "event",
+      "variant": "lean",
+      "title": "Welcome Regatta"
+    },
+    {
+      "visit": "early",
+      "model": "event",
+      "variant": "richer",
+      "title": "Welcome Regatta"
+    },
+    {
+      "visit": "return",
+      "model": "collection",
+      "variant": "lean",
+      "title": "Three familiar faces"
+    },
+    {
+      "visit": "return",
+      "model": "collection",
+      "variant": "richer",
+      "title": "A favorite with a history"
+    },
+    {
+      "visit": "return",
+      "model": "competition",
+      "variant": "lean",
+      "title": "Favorite or rested racer?"
+    },
+    {
+      "visit": "return",
+      "model": "competition",
+      "variant": "richer",
+      "title": "A new field at the pond"
+    },
+    {
+      "visit": "return",
+      "model": "event",
+      "variant": "lean",
+      "title": "The Friendly Float"
+    },
+    {
+      "visit": "return",
+      "model": "event",
+      "variant": "richer",
+      "title": "The Friendly Float"
+    },
+    {
+      "visit": "later",
+      "model": "collection",
+      "variant": "lean",
+      "title": "Five ducks in the Duck-Dex"
+    },
+    {
+      "visit": "later",
+      "model": "collection",
+      "variant": "richer",
+      "title": "Your favorite’s pond story"
+    },
+    {
+      "visit": "later",
+      "model": "competition",
+      "variant": "lean",
+      "title": "The race is complete"
+    },
+    {
+      "visit": "later",
+      "model": "competition",
+      "variant": "richer",
+      "title": "A field to consider later"
+    },
+    {
+      "visit": "later",
+      "model": "event",
+      "variant": "lean",
+      "title": "The Familiar Faces Float"
+    },
+    {
+      "visit": "later",
+      "model": "event",
+      "variant": "richer",
+      "title": "The Familiar Faces Float"
+    },
+    {
+      "name": "desktop",
+      "geometry": {
+        "viewport": 1265,
+        "scroll": 1265,
+        "controls": [
+          {
+            "label": "Visit\nEarly · first flock\nReturn · rent approaching\nLater · competing plans",
+            "disabled": false
+          },
+          {
+            "label": "Direction\nCollection-led\nCompetition-led\nEvent-led",
+            "disabled": false
+          },
+          {
+            "label": "Version\nLean control\nProposed richer choice",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "narrow",
+      "geometry": {
+        "viewport": 390,
+        "scroll": 390,
+        "controls": [
+          {
+            "label": "Visit\nEarly · first flock\nReturn · rent approaching\nLater · competing plans",
+            "disabled": false
+          },
+          {
+            "label": "Direction\nCollection-led\nCompetition-led\nEvent-led",
+            "disabled": false
+          },
+          {
+            "label": "Version\nLean control\nProposed richer choice",
+            "disabled": false
+          }
+        ]
+      }
+    },
+    {
+      "keyboard": {
+        "value": "return",
+        "active": "visit",
+        "context": "Illustrative Evening: dinner is complete and this phone session is already committed. Three ducks are owned; the previous racer is tired. Rent is approaching but not due. A single costs 160 Gems, so this wallet cannot afford one without earning or buying more."
+      },
+      "storage": {
+        "local": 0,
+        "session": 0,
+        "external": 0
+      }
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "remainingCount": 0
+  }
+}

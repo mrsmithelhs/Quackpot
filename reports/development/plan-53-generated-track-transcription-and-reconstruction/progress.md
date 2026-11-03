@@ -161,3 +161,12 @@ Root and implementer viewed the ignored local screenshot evidence at `local/list
 
 Listening page, conversion and bounded-browser check source are committed as `eee26d6`; model entry remains disabled after the one approved M1 run.
 
+
+## Control schedule evaluation and Large feasibility
+
+The scoped control comparison and limitations are in `control-schedule-evaluation.md`. Its predeclared exact-pitch/category ±0.10-second rule matched 92 of 146 scheduled events one-to-one against 117 predictions. Independent, nonadditive role matches were 38/38 lead, 28/36 guitar, 22/24 bass and 4/48 drums. Pitched matches were labeled acoustic piano. These are agreement with an authored schedule, not an accuracy result against independently annotated waveform onsets; full unmatched and near-boundary events remain in ignored local output. Two fake matcher tests and the actual read-only evaluation ran separately under 128 MiB/10s independent watchdogs, 0.399s and 0.276s, with zero active owned processes.
+
+`large-feasibility.md` records the owner's interest and exact public metadata. Installed source indicates that the CUDA loader builds the model and loads its full float32 checkpoint to the GPU before a requested dtype conversion. A direct Large FP16 call therefore does not establish an 8 GiB fit; the official 5,465,642,136-byte weights would also exceed the existing 20 GiB workspace ceiling with preserved artifacts. CPU-first wrapper migration has no established supported public path in the inspected version, and memory peaks are unmeasured. No Large weights, new packages, custom loader or model run were acquired or executed. A separately reviewed initialization/storage approach would be needed; the 24 GiB single-copy envelope in the feasibility report is only a proposal. The owner's listenable-but-not-amazing reaction is not final Plan53 acceptance or production adoption.
+
+The control evaluation, Large feasibility and first-listening delivery records and evaluator are committed as `167736b`; no packet status was changed.
+

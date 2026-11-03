@@ -1,0 +1,75 @@
+{
+  "parent": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-complete.save.json",
+  "parentSha256": "59d2624c98d98631335acdc12966d4aeee52dfcdf6d15ecc87709703aeaa652e",
+  "recipeSha256": "2b703c805903aba019f6f9e98bdc01bec6ba8e7859a1b6e5cf54471800a9045d",
+  "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+  "actions": [
+    {
+      "type": "social46_dismiss"
+    },
+    {
+      "type": "sleep"
+    },
+    {
+      "type": "meal",
+      "choice": "skip"
+    },
+    {
+      "type": "start",
+      "kind": "quiet"
+    },
+    {
+      "type": "complete",
+      "activityId": "activity-9"
+    },
+    {
+      "type": "meal",
+      "choice": "skip"
+    },
+    {
+      "type": "start",
+      "kind": "quiet"
+    },
+    {
+      "type": "complete",
+      "activityId": "activity-10"
+    },
+    {
+      "type": "sleep"
+    },
+    {
+      "type": "meal",
+      "choice": "skip"
+    },
+    {
+      "type": "start",
+      "kind": "quiet"
+    },
+    {
+      "type": "complete",
+      "activityId": "activity-11"
+    },
+    {
+      "type": "meal",
+      "choice": "skip"
+    },
+    {
+      "type": "start",
+      "kind": "quiet"
+    },
+    {
+      "type": "complete",
+      "activityId": "activity-12"
+    },
+    {
+      "type": "sleep"
+    }
+  ],
+  "captures": [
+    {
+      "name": "day7-morning",
+      "sha256": "76b700c500d9e04cb008464dbb602d0c3e0be88d5bd733c61e477e74f91a35f5"
+    }
+  ],
+  "error": null
+}

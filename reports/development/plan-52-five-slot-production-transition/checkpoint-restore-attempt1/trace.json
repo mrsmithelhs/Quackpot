@@ -1,0 +1,228 @@
+{
+  "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+  "recipeSha256": "dbe272249ed8f260cf12ac378861e6c62712d3bace9d9f76fbfa359d3fd52680",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/morning-narrow.save.json",
+      "fixtureSha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b",
+      "restoredEvents": 2,
+      "afterEvents": 5,
+      "day": 1,
+      "slot": "midday",
+      "cash": 74,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "midday-work",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+      "fixtureSha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "unresolved-dinner",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/dinner-narrow.save.json",
+      "fixtureSha256": "dea25c3c08991d307179d44bbef91f03f60707244b53c35d11dd26c658937c61",
+      "restoredEvents": 22,
+      "afterEvents": 25,
+      "day": 1,
+      "slot": "evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "completed-evening",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/evening-return-desktop.save.json",
+      "fixtureSha256": "9b1f342fdaac6c7218e4a54e7f937f0451ff053c2f47d844e97e0652bd3f810c",
+      "restoredEvents": 37,
+      "afterEvents": 40,
+      "day": 2,
+      "slot": "morning",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [],
+  "consoleErrors": [],
+  "error": "Error: independent-day: missing [data-obj=plate]",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 49784,
+        "ppid": 37348,
+        "created": "11/02/2026 21:30:48",
+        "root": true
+      },
+      {
+        "pid": 36508,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 42600,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 38716,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 25840,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 42920,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 46052,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 43188,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 44000,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 47372,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 36632,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 15432,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 47468,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:48",
+        "root": false
+      },
+      {
+        "pid": 28676,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 40320,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 40236,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 26120,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 2392,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 30288,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 28212,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 48640,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:51",
+        "root": false
+      },
+      {
+        "pid": 42292,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:52",
+        "root": false
+      },
+      {
+        "pid": 49624,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:52",
+        "root": false
+      },
+      {
+        "pid": 49096,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:53",
+        "root": false
+      },
+      {
+        "pid": 19472,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:53",
+        "root": false
+      },
+      {
+        "pid": 30192,
+        "ppid": 49784,
+        "created": "11/02/2026 21:30:53",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[49784:49368:1102/213048.404:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[49784:49368:1102/213048.404:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:61974/devtools/browser/4b848c2c-067f-4ff2-aa2e-db0ac9cc3b0b\r\n"
+  }
+}

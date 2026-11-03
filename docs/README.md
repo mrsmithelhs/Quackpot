@@ -72,4 +72,4 @@ Plan50 remains report-only. Owner accepts visual/UI results for experimental use
 
 ## Five-slot transition
 
-Read [five-slot-life-schedule.md](five-slot-life-schedule.md) for selected scheduling/financial policy and development-save waiver. Plan51 is closed as a bounded unmounted study. Plan52 has mounted the selected development scheduler and new-save path; regenerated checkpoints, broader replay/lifecycle evidence and owner acceptance remain pending. No isolated Ren/meal workaround or report mock may become a competing scheduler. Historical evidence retains its original policy.
+Read [five-slot-life-schedule.md](five-slot-life-schedule.md) for selected scheduling/financial policy and development-save waiver. Plan51 is closed as a bounded unmounted study. Plan52 has mounted the selected development scheduler and new-save path and regenerated its targeted checkpoint starts; broader replay/lifecycle evidence and owner acceptance remain pending. No isolated Ren/meal workaround or report mock may become a competing scheduler. Historical evidence retains its original policy.

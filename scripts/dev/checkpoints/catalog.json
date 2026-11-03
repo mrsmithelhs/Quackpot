@@ -9,7 +9,7 @@
     "archiveAggregateBytesMaximum": 2097152
   },
   "plan52Limits": {
-    "newFixturesMaximum": 5,
+    "newFixturesMaximum": 13,
     "newFixtureBytesMaximum": 1048576,
     "newFixturesAggregateBytesMaximum": 2097152
   },
@@ -41,7 +41,7 @@
   },
   "checkpoints": {
     "plan52.rent-shortfall.v1": {
-      "status": "pending-browser-restore",
+      "status": "current-loadable",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
@@ -60,10 +60,15 @@
       "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day4-rent-shortfall",
       "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
-      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "rent-shortfall",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.rent-paid-zero.v1": {
-      "status": "pending-browser-restore",
+      "status": "current-loadable",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-paid.save.json",
@@ -82,10 +87,15 @@
       "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day4-rent-paid",
       "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
-      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "rent-paid-zero",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.loan-due.v1": {
-      "status": "pending-browser-restore",
+      "status": "current-loadable",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day9-loan-due.save.json",
@@ -97,7 +107,8 @@
         "slot": "midday",
         "cash": 0,
         "debt": 99,
-        "dueId": "loan-1"
+        "dueId": "loan-1",
+        "employed": false
       },
       "recipe": "reports/development/plan-52-five-slot-production-transition/production-finance-final-browser.mjs",
       "recipeSha256": "d7bf5c0b00dcfc7ee1047ee07e08ff81f61aa0888549c42b361ff678bd809d83",
@@ -105,7 +116,12 @@
       "captureTraceSha256": "6a4f6c8f7952c806565af6cc3eccb7673206252db414872014ba2c7fe00e42f0",
       "captureName": "day9-loan-due",
       "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
-      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "loan-due",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.day1-payslip.v1": {
       "status": "current-loadable",
@@ -863,10 +879,223 @@
         },
         "prehistory": "All events before this checkpoint were synthetic or earlier mounted setup, as specified by captureParent; they are not attributed to the pilot reviewer."
       }
+    },
+    "plan52.fresh-tutorial.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/morning-narrow.save.json",
+      "bytes": 3536,
+      "sha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 1,
+        "slot": "morning"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "captureName": "morning-narrow",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "fresh-tutorial",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.midday-work.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+      "bytes": 6455,
+      "sha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 1,
+        "slot": "midday",
+        "storyStage": "work"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "captureName": "work-narrow",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "midday-work",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.unresolved-dinner.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/dinner-narrow.save.json",
+      "bytes": 7973,
+      "sha256": "dea25c3c08991d307179d44bbef91f03f60707244b53c35d11dd26c658937c61",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 1,
+        "slot": "early-evening"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "captureName": "dinner-narrow",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "unresolved-dinner",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.completed-evening.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/evening-return-desktop.save.json",
+      "bytes": 11437,
+      "sha256": "9b1f342fdaac6c7218e4a54e7f937f0451ff053c2f47d844e97e0652bd3f810c",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 1,
+        "slot": "late-evening"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-day1-final-browser.mjs",
+      "recipeSha256": "3f89ba797ddc6ff77ae77e347749534d94150d12cbc7ce18b19ea9dd5d9b5cc8",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-day1-final/trace.json",
+      "captureTraceSha256": "5051429e5de7a6bdbb25ff18f1db9a3e073d2689e47642a63c4347b259979dba",
+      "captureName": "evening-return-desktop",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "completed-evening",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.independent-day.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/day7-morning.save.json",
+      "bytes": 65952,
+      "sha256": "76b700c500d9e04cb008464dbb602d0c3e0be88d5bd733c61e477e74f91a35f5",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 7,
+        "slot": "morning",
+        "cash": 0,
+        "health": 75,
+        "employed": false,
+        "guidance": "independent"
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent-generator.mjs",
+      "recipeSha256": "2b703c805903aba019f6f9e98bdc01bec6ba8e7859a1b6e5cf54471800a9045d",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/trace.json",
+      "captureTraceSha256": "fdf14844ee05c0089e27c83419b5a6f39daaef0e39cbc69ed59418a88d87af21",
+      "captureName": "day7-morning",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "independent-day",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.ren-reserved.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-reserved.save.json",
+      "bytes": 41289,
+      "sha256": "27033430ec114cf0cbb29f715e597af35120a0143127a3309b4c279843e55039",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 4,
+        "slot": "evening",
+        "renCommitted": true
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-ren-final-browser.mjs",
+      "recipeSha256": "70b30638ceaef2538138827a502f034255b45b5756791b347a085e70401acf69",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-ren-final/trace.json",
+      "captureTraceSha256": "579f8cc48ff7ce45f222a916afc767afccbd1c86dd68d76aca188feccc9b641f",
+      "captureName": "ren-reserved",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "ren-reserved",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.ren-arriving.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-arrival.save.json",
+      "bytes": 44888,
+      "sha256": "11eb4c755886e2a42ca0ab0d39c92cb41b06fe126b91221ae24be4783acc0716",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 4,
+        "slot": "evening",
+        "renCommitted": true,
+        "renArriving": true
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/production-ren-final-browser.mjs",
+      "recipeSha256": "70b30638ceaef2538138827a502f034255b45b5756791b347a085e70401acf69",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/production-ren-final/trace.json",
+      "captureTraceSha256": "579f8cc48ff7ce45f222a916afc767afccbd1c86dd68d76aca188feccc9b641f",
+      "captureName": "ren-arrival",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "ren-arriving",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
+    },
+    "plan52.zero-hp-recovery.v1": {
+      "status": "current-loadable",
+      "class": "captured-replayable",
+      "policy": "five-slot-v1",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/zero-hp-recovery.save.json",
+      "bytes": 76341,
+      "sha256": "3056ab28b3f70c6c5bab60637f35d895cba29f451e8ef3f1d270168974e6e3f5",
+      "seed": "c4526757-fcb50b7b",
+      "boundary": {
+        "day": 13,
+        "slot": "evening",
+        "cash": 4,
+        "health": 0,
+        "employed": false,
+        "recovery": true
+      },
+      "recipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-recovery-browser.mjs",
+      "recipeSha256": "537dbd09263b7ee254dd89d68c0ce99a54db7038f8c4bc8c7596b46f72588679",
+      "captureTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/trace.json",
+      "captureTraceSha256": "e9bf0e02179ed3727755050119cf09b5e96e0d58a7e1f00f3bde71087b7daa1f",
+      "captureName": "zero-hp-recovery",
+      "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+      "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md",
+      "restoreName": "zero-hp-recovery",
+      "restoreRecipe": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs",
+      "restoreRecipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+      "restoreTrace": "reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json",
+      "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     }
   },
   "freshness": {
     "policy": "Every new fixture records exact capture bytes, parent fixture identity, action route, original capture recipe/source identity, current loader identity, and full Plan16 production source closure. A mismatch blocks loading; no automatic rebinding.",
     "onlySavedAtNormalization": "No generated-reproduction claims are made for Plan35 captured checkpoints. If added later, only top-level savedAt may be excluded from strict semantic equality."
-  }
+  },
+  "plan52ValidationLoaderSha256": "28fe9dfe847863b032bd07d2f6a55db271c4151b85ea67d61b31dbcab71f5345"
 }

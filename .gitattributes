@@ -11,3 +11,16 @@
 /reports/development/plan-52-five-slot-production-transition/production-ren-final/trace.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/checkpoint-restores-final/trace.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/smoke-final-observations.json text eol=lf
+
+# Plan 52 checkpoint loader and evidence byte pins. Three CRLF recipes use -text to preserve captured bytes.
+/scripts/dev/checkpoints/checkpoint-proof.mjs text eol=lf
+/scripts/dev/checkpoints/provenance.mjs text eol=lf
+/scripts/dev/checkpoints/envelope.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-independent-generator.mjs -text
+/reports/development/plan-52-five-slot-production-transition/checkpoint-recovery-browser.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch.mjs -text
+/reports/development/plan-52-five-slot-production-transition/checkpoint-restore-attempt1.mjs -text
+/reports/development/plan-52-five-slot-production-transition/checkpoint-independent/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/checkpoint-restore-attempt1/trace.json text eol=lf

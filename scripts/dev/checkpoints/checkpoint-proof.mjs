@@ -4,6 +4,7 @@ import { assertCatalogBoundary, assertNegativeControls, validateAndHydrate } fro
 import {validateSave} from '../../../src/core/storage.mjs';
 import {GameEngine} from '../../../src/core/game-engine.mjs';
 import {EventLog} from '../../../src/core/event-log.mjs';
+import {guidance} from '../../../src/core/life-schedule/policy.mjs';
 import {
   MAX_FIXTURE_TOTAL_BYTES, PLAN35, ROOT, assertFreshnessNegativeControls, assertValidationAttestation,
   assertValidationAttestationNegativeControls,
@@ -19,6 +20,9 @@ const resultsPath = path.join(ROOT, PLAN35, 'pilot-results.jsonl');
 
 async function plan52Fixture(id) {
   const catalog=await readCatalog(),entry=catalogEntry(catalog,id);
+  const candidates=Object.entries(catalog.checkpoints).filter(([key])=>key.startsWith('plan52.'));
+  if(candidates.length>catalog.plan52Limits.newFixturesMaximum || candidates.reduce((total,[,item])=>total+item.bytes,0)>catalog.plan52Limits.newFixturesAggregateBytesMaximum || candidates.some(([,item])=>item.bytes>catalog.plan52Limits.newFixtureBytesMaximum))fail('Plan 52 checkpoint catalog exceeds its declared bounds');
+  if(await currentValidationLoaderSha256()!==catalog.plan52ValidationLoaderSha256)fail('Plan 52 validation loader changed; review the tooling change and deliberately revalidate and re-pin the checkpoint catalog');
   if(!['current-loadable','pending-browser-restore'].includes(entry.status) || entry.policy!=='five-slot-v1')fail(`${id} is not a five-slot checkpoint candidate`);
   const fixture=await readFixtureBeforeParse(entry),envelope=JSON.parse(fixture.raw),closure=await currentPlan52SourceClosure();
   if(closure.sha256!==entry.sourceClosureSha256)fail(`${id} source closure changed`);
@@ -26,25 +30,38 @@ async function plan52Fixture(id) {
   if(entry.status==='current-loadable') {
     for(const [file,pin] of [[entry.restoreRecipe,entry.restoreRecipeSha256],[entry.restoreTrace,entry.restoreTraceSha256]])if(sha256(await readBounded(file,1024*1024))!==pin)fail(`${id} restore evidence changed: ${file}`);
     const restore=JSON.parse((await readBounded(entry.restoreTrace,1024*1024)).toString('utf8')),result=restore.results?.find(item=>item.name===entry.restoreName);
-    if(restore.error || restore.consoleErrors?.length || restore.cleanup?.residual || restore.cleanup?.uncertainty || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || result?.wages!==1 || result?.unchangedRng!==true)fail(`${id} restore evidence does not match`);
+    if(restore.error || restore.consoleErrors?.length || restore.cleanup?.residual || restore.cleanup?.uncertainty || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || (result?.continuationVerified!==true && result?.wages!==1) || result?.unchangedRng!==true)fail(`${id} restore evidence does not match`);
   }
   const trace=JSON.parse((await readBounded(entry.captureTrace,1024*1024)).toString('utf8'));
   if(trace.error || trace.cleanup?.residual || trace.cleanup?.uncertainty || trace.consoleErrors?.length)fail(`${id} capture did not complete cleanly`);
   if(trace.sourceClosureSha256 && (trace.sourceClosureSha256!==closure.sha256 || trace.recipeSha256!==entry.recipeSha256))fail(`${id} capture closure or recipe mismatch`);
-  if(entry.captureName && trace.captures?.find(item=>item.name===entry.captureName)?.sha256!==entry.sha256)fail(`${id} capture does not identify fixture bytes`);
+  if(entry.captureName) {
+    const capture=trace.captures?.find(item=>item.name===entry.captureName);
+    if(capture?.sha256!==entry.sha256) {
+      const saved=capture?.saved, events=envelope.eventLog?.map(({type,payload})=>({type,payload}));
+      if(!saved || saved.schema!==envelope.schemaVersion || saved.day!==envelope.state.life?.schedule?.day || saved.slot!==envelope.state.life?.schedule?.slot || saved.cash!==envelope.state.cash || saved.health!==envelope.state.health || JSON.stringify(saved.events)!==JSON.stringify(events))fail(`${id} capture does not identify fixture history and boundary`);
+    }
+  }
+  if(trace.parent && sha256(await readBounded(trace.parent,1024*1024))!==trace.parentSha256)fail(`${id} generator parent changed`);
+  if(trace.source && sha256(await readBounded(trace.source,1024*1024))!==trace.sourceSha256)fail(`${id} capture parent changed`);
   for(const [file,pin] of Object.entries(trace.pins??{}))if(sha256(await readBounded(file,2*1024*1024))!==pin)fail(`${id} captured source pin changed: ${file}`);
   const b=entry.boundary,s=envelope.state;
   if(envelope.eventLog?.[0]?.payload?.seed!==entry.seed || s.life?.schedule?.slot!==b.slot || (b.day!==undefined && s.life.schedule.day!==b.day) || (b.cash!==undefined && s.cash!==b.cash) || (b.debt!==undefined && s.debt!==b.debt) || (b.storyStage!==undefined && s.life?.story47?.stage!==b.storyStage))fail(`${id} seed or boundary mismatch`);
   if(b.dueId && ![...(s.life?.finance?.rents??[]),...(s.life?.finance?.loans??[])].some(item=>item.id===b.dueId && item.status==='pending' && item.latched))fail(`${id} due obligation mismatch`);
+  if((b.health!==undefined && s.health!==b.health) || (b.employed!==undefined && s.life.schedule.employment.employed!==b.employed) || (b.renCommitted!==undefined && Boolean(s.life.social46?.pending?.committed)!==b.renCommitted) || (b.recovery!==undefined && Boolean(s.life.schedule.recovery && !s.life.schedule.recovery.resolved)!==b.recovery))fail(`${id} review condition mismatch`);
+  if(b.renArriving && !s.life.social46?.pending?.arrival?.lineShown)fail(`${id} Ren arrival not shown`);
+  if(b.guidance && guidance(s.life.schedule.day,[],s.life.schedule.config).stage!==b.guidance)fail(`${id} guidance boundary mismatch`);
   const options={experimentalFiveSlot:true,requireFiveSlotTutorial:true},validation=validateSave(envelope,options);if(!validation.valid)fail(`${id} failed validation: ${validation.errors.join('; ')}`);
   const stable=value=>{const copy=structuredClone(value);delete copy.savedAt;return JSON.stringify(copy);};
   if(stable(GameEngine.fromEnvelope(envelope).toEnvelope())!==stable(envelope))fail(`${id} hydrate/serialize mismatch`);
   const alteredCash=structuredClone(envelope);alteredCash.state.cash+=1;
   const alteredRng=structuredClone(envelope);alteredRng.prngStreams.draw='not-json';
-  const alteredHistory=structuredClone(envelope),effect=alteredHistory.eventLog.find(event=>event.type==='life52_effect');if(!effect)fail(`${id} lacks a transaction effect for negative control`);
-  effect.payload.effect.type='forged_effect';const rebuilt=new EventLog();for(const event of alteredHistory.eventLog)rebuilt.append(event.type,event.payload,event.clock);alteredHistory.eventLog=rebuilt.entries;
+  const alteredHistory=structuredClone(envelope),effect=alteredHistory.eventLog.find(event=>event.type==='life52_effect');
+  if(effect)effect.payload.effect.type='forged_effect';
+  else alteredHistory.eventLog[0].payload.lifeConfig.startCash+=1;
+  const rebuilt=new EventLog();for(const event of alteredHistory.eventLog)rebuilt.append(event.type,event.payload,event.clock);alteredHistory.eventLog=rebuilt.entries;
   if([alteredCash,alteredRng,alteredHistory].some(value=>validateSave(value,options).valid))fail(`${id} accepted a negative control`);
-  return {id,status:entry.status,fixture:entry.fixture,sha256:fixture.hash,seed:entry.seed,boundary:entry.boundary,sourceClosureSha256:closure.sha256,validation:'valid',negativeControls:['cash','rng','re-chained transaction effect'],limit:'This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.'};
+  return {id,status:entry.status,fixture:entry.fixture,sha256:fixture.hash,seed:entry.seed,boundary:entry.boundary,sourceClosureSha256:closure.sha256,validation:'valid',negativeControls:['cash','rng',effect?'re-chained transaction effect':'re-chained starting config'],limit:'This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.'};
 }
 
 async function appendResult(record) {

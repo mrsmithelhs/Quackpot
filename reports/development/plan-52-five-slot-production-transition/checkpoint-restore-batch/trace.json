@@ -1,0 +1,396 @@
+{
+  "sourceClosureSha256": "7c85adf71eb35b06c9739df24069e58ac412a0dd4939f33008dde90fa1f94de6",
+  "recipeSha256": "aa26c4c98f75e4ca598c2e2f50df77d987c2063f636a8bbc7e031f849f7f10ad",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/morning-narrow.save.json",
+      "fixtureSha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b",
+      "restoredEvents": 2,
+      "afterEvents": 5,
+      "day": 1,
+      "slot": "midday",
+      "cash": 74,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "midday-work",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
+      "fixtureSha256": "ef404c3c50a48e677c9f3bca348d4be04e388d6ba2171e895c84086a403af1bb",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "unresolved-dinner",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/dinner-narrow.save.json",
+      "fixtureSha256": "dea25c3c08991d307179d44bbef91f03f60707244b53c35d11dd26c658937c61",
+      "restoredEvents": 22,
+      "afterEvents": 25,
+      "day": 1,
+      "slot": "evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "completed-evening",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/evening-return-desktop.save.json",
+      "fixtureSha256": "9b1f342fdaac6c7218e4a54e7f937f0451ff053c2f47d844e97e0652bd3f810c",
+      "restoredEvents": 37,
+      "afterEvents": 40,
+      "day": 2,
+      "slot": "morning",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "independent-day",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/day7-morning.save.json",
+      "fixtureSha256": "76b700c500d9e04cb008464dbb602d0c3e0be88d5bd733c61e477e74f91a35f5",
+      "restoredEvents": 251,
+      "afterEvents": 254,
+      "day": 7,
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "ren-reserved",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-reserved.save.json",
+      "fixtureSha256": "27033430ec114cf0cbb29f715e597af35120a0143127a3309b4c279843e55039",
+      "restoredEvents": 148,
+      "afterEvents": 163,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "ren-arriving",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-arrival.save.json",
+      "fixtureSha256": "11eb4c755886e2a42ca0ab0d39c92cb41b06fe126b91221ae24be4783acc0716",
+      "restoredEvents": 163,
+      "afterEvents": 169,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "rent-shortfall",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+      "fixtureSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+      "restoredEvents": 76,
+      "afterEvents": 81,
+      "day": 4,
+      "slot": "morning",
+      "cash": 170,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "rent-paid-zero",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-paid.save.json",
+      "fixtureSha256": "eb454f8a8b6e59054d36129d65a39d4d0e5e8401b010ee42cb729592e4f437b3",
+      "restoredEvents": 83,
+      "afterEvents": 86,
+      "day": 4,
+      "slot": "midday",
+      "cash": 0,
+      "health": 95,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "loan-due",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day9-loan-due.save.json",
+      "fixtureSha256": "7056a0f3b31643276d9651c86e944e16008472a6a6ec156cd0ea330721004317",
+      "restoredEvents": 182,
+      "afterEvents": 183,
+      "day": 9,
+      "slot": "midday",
+      "cash": 30,
+      "health": 70,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "zero-hp-recovery",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/zero-hp-recovery.save.json",
+      "fixtureSha256": "3056ab28b3f70c6c5bab60637f35d895cba29f451e8ef3f1d270168974e6e3f5",
+      "restoredEvents": 288,
+      "afterEvents": 291,
+      "day": 13,
+      "slot": "late-evening",
+      "cash": 4,
+      "health": 25,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [
+    {
+      "sessionId": "F2F35C1BCAD08E94579B5204F4AC4BB2",
+      "message": "Borrow $66.00.\nOne-time fee: $33.00. Repay $99.00 by Midday on day 9, before work.\nYou may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.\n\nAccept this loan?"
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 15964,
+        "ppid": 2280,
+        "created": "11/02/2026 21:31:47",
+        "root": true
+      },
+      {
+        "pid": 6868,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:47",
+        "root": false
+      },
+      {
+        "pid": 42852,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 31552,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 35352,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 27840,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 49688,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 37504,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 39772,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 31568,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:48",
+        "root": false
+      },
+      {
+        "pid": 43228,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:49",
+        "root": false
+      },
+      {
+        "pid": 27728,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:49",
+        "root": false
+      },
+      {
+        "pid": 48600,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:49",
+        "root": false
+      },
+      {
+        "pid": 43312,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 15976,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 21616,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 25680,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 13284,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 14936,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:51",
+        "root": false
+      },
+      {
+        "pid": 45000,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:52",
+        "root": false
+      },
+      {
+        "pid": 42116,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:52",
+        "root": false
+      },
+      {
+        "pid": 46860,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:53",
+        "root": false
+      },
+      {
+        "pid": 21840,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:53",
+        "root": false
+      },
+      {
+        "pid": 36844,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:53",
+        "root": false
+      },
+      {
+        "pid": 48280,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:55",
+        "root": false
+      },
+      {
+        "pid": 11992,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:55",
+        "root": false
+      },
+      {
+        "pid": 27680,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:55",
+        "root": false
+      },
+      {
+        "pid": 20904,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:56",
+        "root": false
+      },
+      {
+        "pid": 11340,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:56",
+        "root": false
+      },
+      {
+        "pid": 31024,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:56",
+        "root": false
+      },
+      {
+        "pid": 48748,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:57",
+        "root": false
+      },
+      {
+        "pid": 46368,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:57",
+        "root": false
+      },
+      {
+        "pid": 30320,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:57",
+        "root": false
+      },
+      {
+        "pid": 31068,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:58",
+        "root": false
+      },
+      {
+        "pid": 49520,
+        "ppid": 15964,
+        "created": "11/02/2026 21:31:58",
+        "root": false
+      },
+      {
+        "pid": 5448,
+        "ppid": 15964,
+        "created": "11/02/2026 21:32:00",
+        "root": false
+      },
+      {
+        "pid": 20008,
+        "ppid": 15964,
+        "created": "11/02/2026 21:32:00",
+        "root": false
+      },
+      {
+        "pid": 42336,
+        "ppid": 15964,
+        "created": "11/02/2026 21:32:00",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[15964:48744:1102/213148.308:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[15964:48744:1102/213148.308:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:57246/devtools/browser/ec072da7-9ff7-4078-8614-3e4f8c543ca4\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

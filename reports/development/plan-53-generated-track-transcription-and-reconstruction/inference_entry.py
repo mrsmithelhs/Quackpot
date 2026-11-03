@@ -2,7 +2,7 @@
 import argparse
 import local_network_guard
 
-ROOT_CLEARED = False  # Reviewed known-score retry complete; further runs require clearance.
+ROOT_CLEARED = False  # One-time M1 run complete; further inference requires clearance.
 
 def run_reviewed(root, input_path, output, kind):
     # Install before importing runner or ML. Native/OS activity is not covered.
@@ -16,7 +16,7 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('root'); parser.add_argument('input'); parser.add_argument('output'); parser.add_argument('kind', choices=('m1-excerpt','known-score'))
     args=parser.parse_args()
-    if args.kind != 'known-score': raise RuntimeError('Only the first known-score control is cleared.')
+    if args.kind != 'm1-excerpt': raise RuntimeError('Only the M1 excerpt is cleared.')
     run_reviewed(args.root,args.input,args.output,args.kind)
 
 

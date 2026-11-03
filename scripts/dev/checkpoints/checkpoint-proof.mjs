@@ -1,3 +1,4 @@
+import { acceptsPlan52Cleanup } from './cleanup-evidence.mjs';
 import { appendFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { assertCatalogBoundary, assertNegativeControls, validateAndHydrate } from './envelope.mjs';
@@ -30,10 +31,10 @@ async function plan52Fixture(id) {
   if(entry.status==='current-loadable') {
     for(const [file,pin] of [[entry.restoreRecipe,entry.restoreRecipeSha256],[entry.restoreTrace,entry.restoreTraceSha256]])if(sha256(await readBounded(file,1024*1024))!==pin)fail(`${id} restore evidence changed: ${file}`);
     const restore=JSON.parse((await readBounded(entry.restoreTrace,1024*1024)).toString('utf8')),result=restore.results?.find(item=>item.name===entry.restoreName);
-    if(restore.error || restore.consoleErrors?.length || restore.cleanup?.residual || restore.cleanup?.uncertainty || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || (result?.continuationVerified!==true && result?.wages!==1) || result?.unchangedRng!==true)fail(`${id} restore evidence does not match`);
+    if(restore.error || restore.consoleErrors?.length || !acceptsPlan52Cleanup(restore.cleanup,entry.cleanupEvidencePolicy) || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || (result?.continuationVerified!==true && result?.wages!==1) || result?.unchangedRng!==true)fail(`${id} restore evidence does not match`);
   }
   const trace=JSON.parse((await readBounded(entry.captureTrace,1024*1024)).toString('utf8'));
-  if(trace.error || trace.cleanup?.residual || trace.cleanup?.uncertainty || trace.consoleErrors?.length)fail(`${id} capture did not complete cleanly`);
+  if(trace.error || !acceptsPlan52Cleanup(trace.cleanup,entry.cleanupEvidencePolicy) || trace.consoleErrors?.length)fail(`${id} capture did not complete cleanly`);
   if(trace.sourceClosureSha256 && (trace.sourceClosureSha256!==closure.sha256 || trace.recipeSha256!==entry.recipeSha256))fail(`${id} capture closure or recipe mismatch`);
   if(entry.captureName) {
     const capture=trace.captures?.find(item=>item.name===entry.captureName);

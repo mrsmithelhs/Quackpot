@@ -1,0 +1,13 @@
+# Owner review rent-display repair A — validation manifest
+
+Status: the 560-test suite, build, isolated smoke, targeted payment browser evidence and all 13 refreshed loader proofs passed for source closure `d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06`; fresh owner review and acceptance remain pending. The 82/82 focused pass preceded the additional legacy-v1-only test, which subsequently passed in a two-test targeted run. The earlier 13 checkpoint proofs under `0fab3d5160f3686a73ef8f17b99f34664143955d23e734da262c2e3eb19e9168` remain historical. The current starts use sampled-only process observation with retained profiles; complete cleanup is not claimed.
+
+The following sequence records the validation plan and its boundaries; actual results and limitations are in `owner-review-repair.md`:
+
+1. Run the focused legacy-v1-only confirmed default/replay test and applicable forged-v2 tests; record exact command, counts, elapsed, memory and failure before any repair/retry.
+2. Once source is stable, run the full package tests once, build and isolated smoke, with actual work, financial and Receipt evidence and no owner storage. Stop on substantive failure.
+3. Isolated source-pinned browser captures of an affordable due rent panel, shortfall rescue panel, a committed overtime reservation, simultaneous loan/rent and a narrow viewport. Inspect actual mounted buttons, recorded v2 payload, Pay, put-down/free navigation and appropriate payment ordering. Root views actual captures; label any historical-parent setup and avoid claims of newly generated histories.
+4. Revalidate/refresh the 13 stale review starts against the final source closure. Preserve historical v1 parent bytes and old quiet actions, and demonstrate current load, disclosure, UI resave, fresh-context meaningful continuation, exact source/recipe/parent/child/trace pins and loader cash/RNG/history negative controls. Do not recatalog from hash changes alone. Stop on new behavior failure and preserve it. The actual last-resort fallback UI remains unwitnessed unless a genuine route is demonstrated.
+5. Reconcile inventory and report, request scoped Git/index turn; root review before returning the repaired view to the owner. No unrelated source, owner profile replacement, publication or packet completion.
+
+The user separately requested readable pre-ending warnings and narrative ending scenes. Those remain an unimplemented, separately gated proposal in `owner-ending-scene-proposal.md`. The earlier desired warning-on-conflicting-commitment and meal-skip changes are separate behavioral design work, not part of repair A.

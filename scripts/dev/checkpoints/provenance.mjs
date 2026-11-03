@@ -27,7 +27,7 @@ const CAPTURE_ORIGIN_LOADER_FILES = [
 ];
 const VALIDATION_LOADER_FILES = [
   'scripts/dev/checkpoints/provenance.mjs', 'scripts/dev/checkpoints/envelope.mjs',
-  'scripts/dev/checkpoints/checkpoint-proof.mjs',
+  'scripts/dev/checkpoints/checkpoint-proof.mjs', 'scripts/dev/checkpoints/cleanup-evidence.mjs',
 ];
 const PLAN35_CHECKPOINT_IDS = [
   'plan35.rent-paid-zero.v1', 'plan35.rent-unpaid-escalation.v1', 'plan35.finale-race-entry.v1',

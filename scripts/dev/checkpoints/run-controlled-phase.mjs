@@ -1,3 +1,4 @@
+import { signalOriginalChild } from './process-cleanup-policy.mjs';
 // One serialized Plan 35 capture or pilot phase; invoke only through Plan 25's guard.
 import { execFileSync, spawn } from 'node:child_process';
 import { createConnection, createServer } from 'node:net';
@@ -321,7 +322,7 @@ async function stopOwnedOnce(record) {
   let rootObserved = false;
   if (process.platform === 'win32') {
     try {
-      tracked = record.monitor ? await record.monitor.stop() : await snapshotOwnedTree(record.child.pid);
+      tracked = record.monitor ? await record.monitor.stop() : []; 
       rootObserved = tracked.some((row) => row.root === true);
       if (!rootObserved) {
         inspectionFailed = true;
@@ -351,10 +352,8 @@ async function stopOwnedOnce(record) {
       rememberInspectionFailure('live-root-identity-check', error?.message ?? error);
     }
   }
-  if (record.exit === null && process.platform === 'win32' && rootObserved) {
-    try { execFileSync('taskkill.exe', ['/PID', String(record.child.pid), '/T', '/F'], { cwd: ROOT, stdio: 'ignore', timeout: 2500 }); }
-    catch { /* exit and fresh tree inspection below are authoritative */ }
-  } else if (record.exit === null) { try { record.child.kill('SIGTERM'); } catch {} }
+  // Signal only the original spawned ChildProcess; never traverse numeric descendants.
+  if (record.exit === null && rootObserved) { try { signalOriginalChild(record.child); } catch { /* finite wait and inspection report failure */ } }
   if (record.close === null) await Promise.race([new Promise((resolve) => record.child.once('close', resolve)), delay(2500)]);
   let remaining = [];
   let remainingTree = [];
@@ -362,7 +361,9 @@ async function stopOwnedOnce(record) {
     try {
       const until = Date.now() + 1800;
       do {
-        remainingTree = await snapshotOwnedTree(record.child.pid);
+        const identity = record.monitor?.rootIdentity;
+        if (!identity) throw new Error('Original root identity unavailable.');
+        remainingTree = await snapshotOwnedTree(identity.pid, 2500, identity.created);
         const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
         tracked.push(...remainingTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
         remaining = await inspectOwnedIdentities(tracked);
@@ -379,10 +380,10 @@ async function stopOwnedOnce(record) {
     && (capturePhase ? provedBrowserCleanup() : provedPilotCleanup());
   const retainedClear = remaining.length === 0 && remainingTree.length === 0;
   const residual = record.exit === null || remaining.length > 0 || remainingTree.length > 0;
-  const terminationConfirmed = rootObserved && record.close !== null && !residual && retainedClear;
+  const observedProcessesExited = rootObserved && record.close !== null && !residual && retainedClear;
+  const terminationConfirmed = false; // sampled observations cannot prove complete descendant coverage
   const parentUnobserved = parentExitedOnEntry && !terminationConfirmed;
-  return { residual, uncertainty: inspectionFailed || !record.close || remaining.length > 0 || remainingTree.length > 0 || parentUnobserved
-      || (record === proofChild && helperConfirmed && !retainedClear),
+  return { residual, uncertainty: true, coverage: 'sampled-only', observedProcessesExited,
     exit: record.exit, close: record.close, trackedDescendants: tracked, remainingDescendants: remaining, remainingTree,
     inspectionFailed, rootObserved, parentExitedOnEntry, helperConfirmed, terminationConfirmed,
     inspectionFailureStage, inspectionFailureMessage };

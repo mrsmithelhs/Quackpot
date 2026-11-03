@@ -1,0 +1,339 @@
+{
+  "sourceClosureSha256": "d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06",
+  "recipeSha256": "fd5cda9d7d4e871a017ffb4f24554fda0fa4259fd1fdffdb3b1a0349136247c8",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/fresh-tutorial.save.json",
+      "parentSha256": "795d248d2d81cc3589c674fe41ffd661f5ee89020bf8086c6f05fd461ca0a576",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/fresh-tutorial.save.json",
+      "inputSha256": "795d248d2d81cc3589c674fe41ffd661f5ee89020bf8086c6f05fd461ca0a576",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/fresh-tutorial.save.json",
+      "fixtureSha256": "e4080d684173fe85016414d6b66e9de6eb575c230408bf005afe488e1c8b4092",
+      "restoredEvents": 2,
+      "afterEvents": 5,
+      "day": 1,
+      "slot": "midday",
+      "cash": 74,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "parentSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "inputSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/midday-work.save.json",
+      "fixtureSha256": "80303fdd6f0ffd66b0f8440e016b1699cd5dc5d7d26d37554cc846352edf07db",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "unresolved-dinner",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/unresolved-dinner.save.json",
+      "parentSha256": "af20c87882871ab30fd2ff50955ffbf59024c5e25346d7804efc6532a6e15857",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/unresolved-dinner.save.json",
+      "inputSha256": "af20c87882871ab30fd2ff50955ffbf59024c5e25346d7804efc6532a6e15857",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/unresolved-dinner.save.json",
+      "fixtureSha256": "bb7bef08c42b9a75728023fa2ea46fe4804d14e9c15621267c3038e11c17da6c",
+      "restoredEvents": 22,
+      "afterEvents": 25,
+      "day": 1,
+      "slot": "evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "completed-evening",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/completed-evening.save.json",
+      "parentSha256": "375e35eec478986ec0a82e8e9398c54c01a11a355d4856ac3d81f4add4a8b7b8",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/completed-evening.save.json",
+      "inputSha256": "375e35eec478986ec0a82e8e9398c54c01a11a355d4856ac3d81f4add4a8b7b8",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/completed-evening.save.json",
+      "fixtureSha256": "7a472582d12acdd8c281ff233e190f38565ac358c943f8c2e0677b2f7ba1b13a",
+      "restoredEvents": 37,
+      "afterEvents": 40,
+      "day": 2,
+      "slot": "morning",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "independent-day",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/independent-day.save.json",
+      "parentSha256": "d0a7897c0763c937fc0bf015d0e11113505408d2145aa573f7f1186d77092c63",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/independent-day.save.json",
+      "inputSha256": "d0a7897c0763c937fc0bf015d0e11113505408d2145aa573f7f1186d77092c63",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/independent-day.save.json",
+      "fixtureSha256": "232cbd6c36f712128042a04b1c3d272a93cddd410a70b03a042d7638078266e1",
+      "restoredEvents": 251,
+      "afterEvents": 254,
+      "day": 7,
+      "slot": "midday",
+      "cash": 0,
+      "health": 70,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "ren-reserved",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-reserved.save.json",
+      "parentSha256": "53100d592e20a79e6a8120693a8f32669f697ef16f6478442081ce04f9305a31",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-reserved.save.json",
+      "inputSha256": "53100d592e20a79e6a8120693a8f32669f697ef16f6478442081ce04f9305a31",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-refresh-first/ren-reserved.save.json",
+      "fixtureSha256": "d9d6ca41e48ee97364048658b2a7c8b5ce7653f0b0796e8c4acdd14c1c995faa",
+      "restoredEvents": 148,
+      "afterEvents": 163,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [],
+  "consoleErrors": [],
+  "error": "Browser cleanup uncertain",
+  "cleanup": {
+    "residual": true,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "trackedDescendants": [
+      {
+        "pid": 26568,
+        "ppid": 30168,
+        "created": "11/03/2026 15:39:23",
+        "root": true
+      },
+      {
+        "pid": 25940,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:23",
+        "root": false
+      },
+      {
+        "pid": 22180,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:23",
+        "root": false
+      },
+      {
+        "pid": 22560,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 30372,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 11056,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 18400,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 6400,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 23692,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 5068,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:24",
+        "root": false
+      },
+      {
+        "pid": 1296,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:25",
+        "root": false
+      },
+      {
+        "pid": 20084,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:25",
+        "root": false
+      },
+      {
+        "pid": 10804,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:25",
+        "root": false
+      },
+      {
+        "pid": 9276,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:26",
+        "root": false
+      },
+      {
+        "pid": 30932,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:26",
+        "root": false
+      },
+      {
+        "pid": 29448,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:26",
+        "root": false
+      },
+      {
+        "pid": 32604,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:27",
+        "root": false
+      },
+      {
+        "pid": 16964,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:27",
+        "root": false
+      },
+      {
+        "pid": 21020,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 6956,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 3620,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 11036,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 31008,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 9752,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:28",
+        "root": false
+      },
+      {
+        "pid": 15468,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:30",
+        "root": false
+      },
+      {
+        "pid": 28760,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:30",
+        "root": false
+      },
+      {
+        "pid": 10720,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:30",
+        "root": false
+      },
+      {
+        "pid": 27304,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:32",
+        "root": false
+      },
+      {
+        "pid": 24608,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:32",
+        "root": false
+      },
+      {
+        "pid": 14324,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:32",
+        "root": false
+      },
+      {
+        "pid": 25824,
+        "ppid": 24608,
+        "created": "11/03/2026 08:11:16",
+        "root": false
+      },
+      {
+        "pid": 3440,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:35",
+        "root": false
+      },
+      {
+        "pid": 26484,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:35",
+        "root": false
+      },
+      {
+        "pid": 31720,
+        "ppid": 26568,
+        "created": "11/03/2026 15:39:35",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [
+      {
+        "pid": 25824,
+        "ppid": 24608,
+        "created": "11/03/2026 08:11:16",
+        "root": false
+      }
+    ],
+    "chromeStderr": "[26568:24880:1103/153924.039:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[26568:24880:1103/153924.039:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:57396/devtools/browser/f6c489dd-0efc-4898-a582-cbde15a4e730\r\n"
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "description": "One completed case projected from the named successful serial batch; sampled-only process observation is not complete cleanup proof.",
+  "originalBatch": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/trace.json",
+  "originalBatchSha256": "820f1462ec717e949042198960abc8bee5985bd2c32d95c5a7d1b68ece115ee1",
+  "origin": "historical-parent-resave",
+  "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+  "parentSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+  "sourceClosureSha256": "d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06",
+  "recipeSha256": "14c8fe70db5d1ae5d5c7b2dcddfe8fd859025938672092523c817e5a99bad04a",
+  "captures": [
+    {
+      "name": "midday-work",
+      "sha256": "4ef27c47e166768ed7de135e74e244d15a3a8cf27898d46017ddeee7bb303302"
+    }
+  ],
+  "results": [
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "parentSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/midday-work.save.json",
+      "inputSha256": "75e57ac91bbe17978dead84af2d358e9c4d4428f11f49039c729d30eb0194f4e",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/midday-work.save.json",
+      "fixtureSha256": "4ef27c47e166768ed7de135e74e244d15a3a8cf27898d46017ddeee7bb303302",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "703add6b9d2e049c8c3b07cf3fde19438630f64f025b06a7d4dfa7a485113a02",
+    "trackedDescendants": [
+      {
+        "pid": 20840,
+        "ppid": 31100,
+        "created": "639293360752728480",
+        "root": true
+      },
+      {
+        "pid": 32092,
+        "ppid": 20840,
+        "created": "639293360752881250",
+        "root": false
+      },
+      {
+        "pid": 22460,
+        "ppid": 20840,
+        "created": "639293360754212980",
+        "root": false
+      },
+      {
+        "pid": 27304,
+        "ppid": 20840,
+        "created": "639293360754706510",
+        "root": false
+      },
+      {
+        "pid": 33664,
+        "ppid": 20840,
+        "created": "639293360754929050",
+        "root": false
+      },
+      {
+        "pid": 13812,
+        "ppid": 20840,
+        "created": "639293360755434360",
+        "root": false
+      },
+      {
+        "pid": 30156,
+        "ppid": 20840,
+        "created": "639293360755787250",
+        "root": false
+      },
+      {
+        "pid": 22304,
+        "ppid": 20840,
+        "created": "639293360756089600",
+        "root": false
+      },
+      {
+        "pid": 32540,
+        "ppid": 20840,
+        "created": "639293360756105570",
+        "root": false
+      },
+      {
+        "pid": 31340,
+        "ppid": 20840,
+        "created": "639293360756878400",
+        "root": false
+      },
+      {
+        "pid": 32816,
+        "ppid": 20840,
+        "created": "639293360774581240",
+        "root": false
+      },
+      {
+        "pid": 9064,
+        "ppid": 20840,
+        "created": "639293360774764770",
+        "root": false
+      },
+      {
+        "pid": 33620,
+        "ppid": 20840,
+        "created": "639293360779123940",
+        "root": false
+      },
+      {
+        "pid": 6780,
+        "ppid": 20840,
+        "created": "639293360779214080",
+        "root": false
+      },
+      {
+        "pid": 28224,
+        "ppid": 20840,
+        "created": "639293360779229060",
+        "root": false
+      },
+      {
+        "pid": 32920,
+        "ppid": 20840,
+        "created": "639293360779645890",
+        "root": false
+      },
+      {
+        "pid": 26368,
+        "ppid": 20840,
+        "created": "639293360779645900",
+        "root": false
+      },
+      {
+        "pid": 10984,
+        "ppid": 20840,
+        "created": "639293360779688240",
+        "root": false
+      },
+      {
+        "pid": 26500,
+        "ppid": 20840,
+        "created": "639293360783633770",
+        "root": false
+      },
+      {
+        "pid": 26196,
+        "ppid": 20840,
+        "created": "639293360785679810",
+        "root": false
+      },
+      {
+        "pid": 1964,
+        "ppid": 20840,
+        "created": "639293360787869480",
+        "root": false
+      },
+      {
+        "pid": 32836,
+        "ppid": 20840,
+        "created": "639293360788118470",
+        "root": false
+      },
+      {
+        "pid": 30028,
+        "ppid": 20840,
+        "created": "639293360788123980",
+        "root": false
+      },
+      {
+        "pid": 27780,
+        "ppid": 20840,
+        "created": "639293360803451150",
+        "root": false
+      },
+      {
+        "pid": 33552,
+        "ppid": 20840,
+        "created": "639293360803670040",
+        "root": false
+      },
+      {
+        "pid": 33416,
+        "ppid": 20840,
+        "created": "639293360803672640",
+        "root": false
+      },
+      {
+        "pid": 33948,
+        "ppid": 20840,
+        "created": "639293360811327210",
+        "root": false
+      },
+      {
+        "pid": 33996,
+        "ppid": 20840,
+        "created": "639293360811543370",
+        "root": false
+      },
+      {
+        "pid": 34004,
+        "ppid": 20840,
+        "created": "639293360811546410",
+        "root": false
+      },
+      {
+        "pid": 34320,
+        "ppid": 20840,
+        "created": "639293360832653840",
+        "root": false
+      },
+      {
+        "pid": 34316,
+        "ppid": 20840,
+        "created": "639293360832841040",
+        "root": false
+      },
+      {
+        "pid": 34308,
+        "ppid": 20840,
+        "created": "639293360832843120",
+        "root": false
+      },
+      {
+        "pid": 34196,
+        "ppid": 20840,
+        "created": "639293360849379830",
+        "root": false
+      },
+      {
+        "pid": 34324,
+        "ppid": 20840,
+        "created": "639293360849621530",
+        "root": false
+      },
+      {
+        "pid": 34356,
+        "ppid": 20840,
+        "created": "639293360849624910",
+        "root": false
+      },
+      {
+        "pid": 34048,
+        "ppid": 20840,
+        "created": "639293360866303480",
+        "root": false
+      },
+      {
+        "pid": 11808,
+        "ppid": 20840,
+        "created": "639293360866547130",
+        "root": false
+      },
+      {
+        "pid": 30492,
+        "ppid": 20840,
+        "created": "639293360866549020",
+        "root": false
+      },
+      {
+        "pid": 34396,
+        "ppid": 20840,
+        "created": "639293360875526310",
+        "root": false
+      },
+      {
+        "pid": 6484,
+        "ppid": 20840,
+        "created": "639293360875771930",
+        "root": false
+      },
+      {
+        "pid": 9740,
+        "ppid": 20840,
+        "created": "639293360875771920",
+        "root": false
+      },
+      {
+        "pid": 33748,
+        "ppid": 20840,
+        "created": "639293360883831420",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

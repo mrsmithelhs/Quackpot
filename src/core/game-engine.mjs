@@ -1,3 +1,4 @@
+import { availableDueOptions, displayedDueOptions } from './life-due-display.mjs';
 // src/core/game-engine.mjs
 // Core Game Engine and State Machine for Quackpot Plan 03 Mechanism Slice.
 // Fully implements the ratified Revision 3 contract and Repair 01 specifications:
@@ -182,14 +183,7 @@ export class GameEngine {
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || life.schedule.recovery) return null;
     const due = this.checkDueObligations();
     if (!due.bills.length) return null;
-    return { bills: due.bills.map(bill => ({ id: bill.id, amountCents: bill.amountCents ?? bill.totalCents })),
-      cashCents: due.cashCents, totalCents: due.totalCents, shortfallCents: due.shortfallCents,
-      saleOptions: ['couch', 'tv'].filter(asset => !life.sold.includes(asset)),
-      loanRentIds: life.finance.loans.some(loan=>loan.status==='pending') ? [] : due.bills.filter(bill=>bill.id.startsWith('rent-') && bill.amountCents>due.cashCents).map(bill=>bill.id),
-      overtimeAvailable: !due.bills.some(bill=>bill.id.startsWith('loan-')) && due.bills.some(bill=>bill.id.startsWith('rent-'))
-        && life.schedule.employment.employed && life.schedule.overtimeReservation?.status!=='reserved'
-        && due.bills.some(bill=>bill.id.startsWith('rent-') && bill.id!==life.schedule.overtimeReservation?.rentId),
-      scheduleRevision: life.schedule.revision, financeRevision: life.finance.revision };
+    return displayedDueOptions(life, due);
   }
 
   // Call only when the due obligations and available choices are actually shown.
@@ -205,8 +199,9 @@ export class GameEngine {
 
   #fiveSlotDueOptionsWereShown() {
     const options = this.#fiveSlotDueOptions();
+    const legacy = options && availableDueOptions(this.state.life, this.checkDueObligations());
     return Boolean(options && this.log.entries.some(event => event.type === 'life52_due_options_shown'
-      && JSON.stringify(event.payload) === JSON.stringify(options)));
+      && (JSON.stringify(event.payload) === JSON.stringify(options) || JSON.stringify(event.payload) === JSON.stringify(legacy))));
   }
 
   sellFiveSlotAsset(asset, expectedLogLength) {

@@ -33,9 +33,16 @@ function inspect(args, timeoutMs = 2500) {
   });
 }
 
-export function snapshotOwnedTree(rootPid, timeoutMs = 2500) {
-  if (!Number.isSafeInteger(rootPid) || rootPid <= 0) return Promise.reject(new Error('Invalid owned process root PID.'));
-  return inspect(['-RootPid', String(rootPid)], timeoutMs);
+export function snapshotOwnedTree(rootPid, timeoutMs = 2500, rootCreated = null) {
+  if (!Number.isSafeInteger(rootPid) || rootPid <= 0 || !/^\d+$/.test(rootCreated ?? '')) return Promise.reject(new Error('Bound root PID and UTC creation ticks are required.'));
+  return inspect(['-RootPid', String(rootPid), '-RootCreated', rootCreated], timeoutMs);
+}
+
+export async function captureRootIdentity(rootPid, timeoutMs = 2500) {
+  if (!Number.isSafeInteger(rootPid) || rootPid <= 0) throw new Error('Invalid owned process root PID.');
+  const rows = await inspect(['-RootPid', String(rootPid), '-RootOnly'], timeoutMs);
+  if (rows.length !== 1 || rows[0].pid !== rootPid || !/^\d+$/.test(rows[0].created)) throw new Error('Live root identity unavailable.');
+  return { ...rows[0], root: true };
 }
 
 export function inspectOwnedIdentities(rows, timeoutMs = 2500) {
@@ -46,51 +53,44 @@ export function inspectOwnedIdentities(rows, timeoutMs = 2500) {
   return inspect(['-OwnedJson', JSON.stringify(rows.map(({ pid, created }) => ({ pid, created })))], timeoutMs);
 }
 
-export function startOwnedProcessMonitor(rootPid, { intervalMs = 750, maxDurationMs = 76000, isAlive = () => true } = {}) {
+export function startOwnedProcessMonitor(rootPid, { intervalMs = 750, maxDurationMs = 76000, isAlive = () => true,
+  captureRoot = captureRootIdentity, snapshot = snapshotOwnedTree } = {}) {
   const identities = new Map();
   const started = Date.now();
-  let stopped = false;
-  let timer = null;
-  let active = null;
-  let failure = null;
-  let firstSample = true;
-  const rememberFailure = (stage, error) => {
-    if (!failure) failure = { stage, error };
-  };
-  const sample = async () => {
-    if (stopped) return;
-    active = snapshotOwnedTree(rootPid, 2000);
-    try {
-      const rows = await active;
-      if (!rows.some((row) => row.root === true) && isAlive()) {
-        rememberFailure('live-root-unobserved', new Error('Owned process root disappeared during live monitoring.'));
+  let stopped = false, timer = null, active = null, failure = null, rootIdentity = null;
+  const sample = () => {
+    if (stopped) return Promise.resolve();
+    const work = (async () => {
+      try {
+        if (!rootIdentity) rootIdentity = await captureRoot(rootPid, 2000);
+        const rows = await snapshot(rootPid, 2000, rootIdentity.created);
+        if (!rows.some(row => row.root === true) && isAlive()) throw new Error('Owned process root disappeared during live monitoring.');
+        for (const row of rows) identities.set(`${row.pid}:${row.created}`, row);
+      } catch (error) { if (!failure) failure = error; }
+    })();
+    active = work;
+    return work.then(() => {
+      if (active === work) active = null;
+      if (!stopped) {
+        if (Date.now() - started >= maxDurationMs) failure ??= new Error('Owned process monitor reached its hard deadline.');
+        else timer = setTimeout(() => { sample().catch(() => {}); }, intervalMs);
       }
-      for (const row of rows) identities.set(`${row.pid}:${row.created}`, row);
-    } catch (error) { rememberFailure('tree-snapshot', error); }
-    finally { active = null; }
-    const initialFailure = firstSample && failure;
-    firstSample = false;
-    if (!stopped) {
-      if (Date.now() - started >= maxDurationMs) {
-        rememberFailure('monitor-deadline', new Error('Owned process monitor reached its hard deadline.'));
-      }
-      else timer = setTimeout(sample, intervalMs);
-    }
-    if (initialFailure) throw initialFailure.error;
+      if (failure) throw failure;
+    });
   };
   const ready = sample();
   return {
     ready,
+    get rootIdentity() { return rootIdentity; },
     async stop() {
-      stopped = true;
-      clearTimeout(timer);
+      stopped = true; clearTimeout(timer);
       if (active) await active.catch(() => {});
       if (failure) {
-        const stoppedError = new Error(`Owned process monitor failed during ${failure.stage}: ${failure.error.message}`, { cause: failure.error });
-        stoppedError.ownedIdentities = [...identities.values()];
-        stoppedError.inspectionFailureStage = failure.stage;
-        stoppedError.inspectionFailureMessage = failure.error.message;
-        throw stoppedError;
+        const error = new Error(`Owned process monitor failed: ${failure.message}`, { cause: failure });
+        error.ownedIdentities = [...identities.values()];
+        error.inspectionFailureStage = 'tree-snapshot';
+        error.inspectionFailureMessage = failure.message;
+        throw error;
       }
       return [...identities.values()];
     },

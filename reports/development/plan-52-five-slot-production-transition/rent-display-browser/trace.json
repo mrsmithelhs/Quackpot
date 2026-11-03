@@ -1,0 +1,239 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "fixtureSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "sourceClosureSha256": "d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06",
+  "recipeSha256": "a12cefb4c124fd62f16450688df60e18dc5ef3138350aaefbb73be6889e67cdf",
+  "results": [
+    {
+      "width": 1024,
+      "height": 700,
+      "shortCue": {
+        "bills": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000
+          }
+        ],
+        "cashCents": 10400,
+        "totalCents": 17000,
+        "shortfallCents": 6600,
+        "saleOptions": [
+          "couch",
+          "tv"
+        ],
+        "loanRentIds": [
+          "rent-1"
+        ],
+        "overtimeAvailable": true,
+        "scheduleRevision": 18,
+        "financeRevision": 1,
+        "displayVersion": 2
+      },
+      "solventCue": {
+        "bills": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000
+          }
+        ],
+        "cashCents": 17400,
+        "totalCents": 17000,
+        "shortfallCents": 0,
+        "saleOptions": [],
+        "loanRentIds": [],
+        "overtimeAvailable": false,
+        "scheduleRevision": 18,
+        "financeRevision": 1,
+        "displayVersion": 2
+      },
+      "paidCash": 4,
+      "oneNewPaymentAndUnchangedOnReload": true,
+      "fixtureOrigin": "historical parent, current UI sales and payment"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "shortCue": {
+        "bills": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000
+          }
+        ],
+        "cashCents": 10400,
+        "totalCents": 17000,
+        "shortfallCents": 6600,
+        "saleOptions": [
+          "couch",
+          "tv"
+        ],
+        "loanRentIds": [
+          "rent-1"
+        ],
+        "overtimeAvailable": true,
+        "scheduleRevision": 18,
+        "financeRevision": 1,
+        "displayVersion": 2
+      },
+      "solventCue": {
+        "bills": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000
+          }
+        ],
+        "cashCents": 17400,
+        "totalCents": 17000,
+        "shortfallCents": 0,
+        "saleOptions": [],
+        "loanRentIds": [],
+        "overtimeAvailable": false,
+        "scheduleRevision": 18,
+        "financeRevision": 1,
+        "displayVersion": 2
+      },
+      "paidCash": 4,
+      "oneNewPaymentAndUnchangedOnReload": true,
+      "fixtureOrigin": "historical parent, current UI sales and payment"
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 27100,
+        "ppid": 31816,
+        "created": "11/03/2026 15:37:05",
+        "root": true
+      },
+      {
+        "pid": 7208,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 8548,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 19024,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 15852,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 24616,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 30256,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 18772,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 32388,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 23892,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 30852,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 20520,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 21860,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:06",
+        "root": false
+      },
+      {
+        "pid": 14632,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:09",
+        "root": false
+      },
+      {
+        "pid": 16820,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:09",
+        "root": false
+      },
+      {
+        "pid": 13220,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:09",
+        "root": false
+      },
+      {
+        "pid": 27720,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:09",
+        "root": false
+      },
+      {
+        "pid": 25224,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:09",
+        "root": false
+      },
+      {
+        "pid": 5984,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:11",
+        "root": false
+      },
+      {
+        "pid": 4628,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:11",
+        "root": false
+      },
+      {
+        "pid": 9128,
+        "ppid": 27100,
+        "created": "11/03/2026 15:37:11",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[27100:1884:1103/153706.238:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[27100:1884:1103/153706.239:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:60281/devtools/browser/280944a4-7520-4a17-9b5d-0b0ceee838b4\r\n"
+  }
+}

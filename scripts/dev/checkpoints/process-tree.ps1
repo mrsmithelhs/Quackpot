@@ -1,30 +1,17 @@
-param([int]$RootPid, [string]$OwnedJson)
+param([int]$RootPid, [string]$RootCreated, [string]$OwnedJson, [switch]$RootOnly)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'process-tree-graph.ps1')
 $processes = @(Get-CimInstance -ClassName Win32_Process -Property ProcessId, ParentProcessId, CreationDate | ForEach-Object {
-  [pscustomobject]@{ pid = [int]$_.ProcessId; ppid = [int]$_.ParentProcessId; created = ([string]$_.CreationDate); root = $false }
+  [pscustomobject]@{ pid = [int]$_.ProcessId; ppid = [int]$_.ParentProcessId; created = ([string]$_.CreationDate.ToUniversalTime().Ticks); root = $false }
 })
 if ($OwnedJson) {
   $wanted = @(ConvertFrom-Json -InputObject $OwnedJson)
-  $result = @($processes | Where-Object {
-    $current = $_
-    @($wanted | Where-Object { $_.pid -eq $current.pid -and $_.created -eq $current.created }).Count -gt 0
-  })
+  $result = @(Select-RetainedIdentities -Processes $processes -Wanted $wanted)
+} elseif ($RootOnly) {
+  if ($RootPid -le 0) { throw 'RootPid is required.' }
+  $result = @($processes | Where-Object { $_.pid -eq $RootPid } | Select-Object -First 1)
 } else {
-  if ($RootPid -le 0) { throw 'RootPid is required for a process-tree snapshot.' }
-  $known = [System.Collections.Generic.HashSet[int]]::new()
-  [void]$known.Add($RootPid)
-  $result = [System.Collections.Generic.List[object]]::new()
-  $root = $processes | Where-Object { $_.pid -eq $RootPid } | Select-Object -First 1
-  if ($root) { $root.root = $true; $result.Add($root) }
-  do {
-    $changed = $false
-    foreach ($item in $processes) {
-      if ($known.Contains($item.ppid) -and -not $known.Contains($item.pid)) {
-        [void]$known.Add($item.pid)
-        $result.Add($item)
-        $changed = $true
-      }
-    }
-  } while ($changed)
+  if ($RootPid -le 0 -or -not $RootCreated) { throw 'Root PID and creation identity are required.' }
+  $result = @(Select-VerifiedTree -Processes $processes -RootPid $RootPid -RootCreated $RootCreated)
 }
 ConvertTo-Json -InputObject @($result) -Compress -Depth 3

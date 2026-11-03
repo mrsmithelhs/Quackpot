@@ -1,3 +1,4 @@
+import { availableDueOptions, displayedDueOptions } from './life-due-display.mjs';
 // Independent seeded draw verification for five-slot replay. It consumes the
 // recorded event stream, not pending-reveal snapshots or UI success references.
 import {createRng} from './prng.mjs';
@@ -131,6 +132,10 @@ export function validateFiveSlotTransactionHistory(envelope) {
       balances.cashCents-=price;gems+=p.bundleGems;continue;
     }
     if(!['life52_intent','life52_social_intent','life52_work_story_intent','life52_activity_story_intent'].includes(entry.type)) {
+      if(entry.type==='life52_due_options_shown' && Object.hasOwn(entry.payload ?? {},'displayVersion')) {
+        const dueNow=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
+        if(!same(entry.payload,displayedDueOptions(life,dueNow))) {errors.push(`Invalid due display evidence at ${entry.seq}`);break;}
+      }
       if(['life52_effect','life52_commit'].includes(entry.type))errors.push(`Orphan transaction evidence at ${entry.seq}`);
       if(entry.type==='draw_committed' || ['race_result','race_attempt_unresolved'].includes(entry.type))errors.push(`Unbound gameplay outcome at ${entry.seq}`);
       if(entry.type==='reward' || entry.type==='terminal' || (entry.type==='purchase' && !(entry.payload?.price>0)))errors.push(`Unsupported standalone outcome at ${entry.seq}`);
@@ -142,17 +147,10 @@ export function validateFiveSlotTransactionHistory(envelope) {
     const intent=entry.payload?.intent, finance=latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot});
     if(entries[0].payload?.tutorialShiftVersion && entry.type==='life52_intent' && intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='work') {errors.push(`Tutorial work bypasses story at ${entry.seq}`);break;}
     const due=dueObligations(finance,balances.cashCents), rent=due.bills.find(bill=>bill.id.startsWith('rent-'));
-    const options={bills:due.bills.map(bill=>({id:bill.id,amountCents:bill.amountCents??bill.totalCents})),
-      cashCents:due.cashCents,totalCents:due.totalCents,shortfallCents:due.shortfallCents,
-      saleOptions:['couch','tv'].filter(asset=>!life.sold.includes(asset)),
-      loanRentIds:life.finance.loans.some(loan=>loan.status==='pending')?[]:due.bills.filter(bill=>bill.id.startsWith('rent-') && bill.amountCents>due.cashCents).map(bill=>bill.id),
-      overtimeAvailable:!due.bills.some(bill=>bill.id.startsWith('loan-')) && due.bills.some(bill=>bill.id.startsWith('rent-'))
-        && life.schedule.employment.employed && life.schedule.overtimeReservation?.status!=='reserved'
-        && due.bills.some(bill=>bill.id.startsWith('rent-') && bill.id!==life.schedule.overtimeReservation?.rentId),
-      scheduleRevision:life.schedule.revision,financeRevision:life.finance.revision};
+    const options=availableDueOptions(life,due), displayed=displayedDueOptions(life,due);
     const wasShown=(type,payload)=>entries.slice(0,i).some(event=>event.type===type && same(event.payload,payload));
     const context={schedule:{overtimeReservation:structuredClone(life.schedule.overtimeReservation),
-      rentObligation:rent?{id:rent.id,status:'due'}:null},optionsDisclosed:due.bills.length>0 && wasShown('life52_due_options_shown',options)};
+      rentObligation:rent?{id:rent.id,status:'due'}:null},optionsDisclosed:due.bills.length>0 && (wasShown('life52_due_options_shown',options) || wasShown('life52_due_options_shown',displayed))};
     if(intent?.action?.type==='accept_loan') {
       const bill=due.bills.find(item=>item.id===intent.action.billId && item.id.startsWith('rent-'));
       const principalCents=bill?bill.amountCents-balances.cashCents:0,feeCents=Math.ceil(principalCents/2);

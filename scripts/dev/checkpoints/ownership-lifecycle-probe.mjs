@@ -133,7 +133,8 @@ async function runMonitoredCase(name, code, { expectDescendant = false } = {}) {
   try {
     await monitor.ready;
     readyRecord = await waitForReadyRecord(record, deadline);
-    preReleaseRows = await snapshotOwnedTree(record.pid, 2000);
+    if (!monitor.rootIdentity) fail(`${name}: original root identity unavailable.`);
+    preReleaseRows = await snapshotOwnedTree(record.pid, 2000, monitor.rootIdentity.created);
     const rootIdentity = preReleaseRows.find((row) => row.pid === record.pid && row.root === true);
     if (!rootIdentity) fail(`${name}: live root snapshot did not return the controlled root identity.`);
     const liveRootRoundTrip = await queryIdentities([rootIdentity], rootIdentity, identityQueries, caseStartedMono);
@@ -189,11 +190,11 @@ async function runMonitoredCase(name, code, { expectDescendant = false } = {}) {
       catch { /* the uncertainty is retained in the reported failure below */ }
     }
     tracked = [...new Map([...preReleaseRows, ...tracked].map((row) => [identityKey(row), row])).values()];
-    let cleanupConfirmed = false;
+    let trackedGoneObserved = false;
     if (tracked.length && identityComparatorValidated) {
       try {
         await waitForIdentitiesGone(tracked, Math.min(Date.now() + 8000, startedAt + MAX_TOTAL_MS), identityQueries, caseStartedMono);
-        cleanupConfirmed = true;
+        trackedGoneObserved = true;
       } catch { /* report cleanup as unproven */ }
     }
     const errorText = error.stack || error.message;
@@ -201,9 +202,9 @@ async function runMonitoredCase(name, code, { expectDescendant = false } = {}) {
       rootExit: record.exit, rootExitElapsedMs: record.exitElapsedMs, rootCloseElapsedMs: record.closeElapsedMs,
       monitorStopStartElapsedMs, monitorStopEndElapsedMs, rootIdentityRoundTrip: identityComparatorValidated,
       intendedIdentity: intendedDescendant, descendantObservation, descendantStates,
-      identityQueries, trackedIdentityCount: tracked.length, cleanupConfirmed,
+      identityQueries, trackedIdentityCount: tracked.length, trackedGoneObserved,
       error: errorText.slice(0, 2000), elapsedMs: Date.now() - caseStarted });
-    throw new Error(`${name} failed; cleanupConfirmed=${cleanupConfirmed}: ${error.message}`);
+    throw new Error(`${name} failed; trackedGoneObserved=${trackedGoneObserved}: ${error.message}`);
   }
 }
 

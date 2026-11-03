@@ -243,3 +243,20 @@ test('rent notice preserves its original print and accumulates daily handwritten
     assert.deepEqual(letter.corrections,marks);
   }
 });
+
+test('affordable due payments show no unneeded crisis options but retain pay and withholding choices',()=>{
+ const e=new GameEngine('affordable-due',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ e.state.life.schedule.day=4;e.state.cash=170;
+ const shown=e.previewFiveSlotDueOptions(),decision=fiveSlotDueDecision(e);
+ assert.equal(shown.displayVersion,2);assert.equal(shown.shortfallCents,0);assert.deepEqual(shown.saleOptions,[]);assert.equal(shown.overtimeAvailable,false);assert.deepEqual(shown.loanRentIds,[]);
+ assert.equal(decision.bills[0].canPay,true);assert.deepEqual(decision.saleOptions,[]);assert.equal(decision.overtimeAvailable,false);
+ assert.equal(decision.lines.some(line=>/extra shift|couch|TV|payday loan/i.test(line)),false);
+ const event=e.recordFiveSlotDueOptionsShown();assert.deepEqual(event.payload,shown);
+});
+
+test('combined shortfall retains useful sale help and honors simultaneous loan priority',()=>{
+ const e=new GameEngine('combined-due',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();e.state.life.schedule.day=14;e.state.cash=450;e.state.life.finance.rents[0].status='paid';
+ e.state.life.finance.loans.push({id:'loan-1',totalCents:7500,due:{day:14,slot:'midday'},status:'pending',latched:true});
+ const due=fiveSlotDueDecision(e);assert.equal(due.bills.length,2);assert.deepEqual(due.saleOptions,['couch','tv']);assert.equal(due.overtimeAvailable,false);assert.deepEqual(due.loanRentIds,[]);
+ e.state.cash=475;const solvent=fiveSlotDueDecision(e);assert.deepEqual(solvent.saleOptions,[]);assert.equal(solvent.overtimeAvailable,false);
+});

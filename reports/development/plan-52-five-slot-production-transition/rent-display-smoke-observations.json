@@ -1,0 +1,206 @@
+{
+  "timestamp": "2026-11-03T20:34:12.838Z",
+  "browser": "Chrome/156.0.8078.80",
+  "origin": "http://127.0.0.1:4173",
+  "subpath": "/Quackpot/",
+  "expectedBuildChunks": {
+    "js": "index-BrH9rsD7.js",
+    "css": "index-BrcOO8Tm.css",
+    "svg": "duck-placeholder-Mhd15Sdp.svg"
+  },
+  "sourceClosureSha256": "d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06",
+  "smokeScriptSha256": "ef5f6350926c8c7c11a9dc702017e62695b8e9ee8f0f1bca22e84c3752d8e6c7",
+  "buildJsSha256": "0439b36dcaaf9c158f6da15befa9636bdde1ff1035f25ece7cf7acfdc2fdac0f",
+  "buildCssSha256": "93227171d56c826ae923096804f970ac318a7f34f7e2f3424e3a15bafe4a9bf0",
+  "initialLoad": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BrH9rsD7.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 200,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BrcOO8Tm.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 200,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    }
+  },
+  "reload": {
+    "requests": [
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/",
+        "method": "GET",
+        "type": "Document",
+        "status": 200,
+        "mimeType": "text/html"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BrH9rsD7.js",
+        "method": "GET",
+        "type": "Script",
+        "status": 304,
+        "mimeType": "text/javascript"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/index-BrcOO8Tm.css",
+        "method": "GET",
+        "type": "Stylesheet",
+        "status": 304,
+        "mimeType": "text/css"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Image",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      },
+      {
+        "url": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+        "method": "GET",
+        "type": "Other",
+        "status": 200,
+        "mimeType": "image/svg+xml"
+      }
+    ],
+    "dom": {
+      "hasApp": true,
+      "h1": "Quackpot",
+      "duckSrc": "http://127.0.0.1:4173/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg",
+      "duckComplete": true,
+      "duckNaturalWidth": 120,
+      "duckNaturalHeight": 120,
+      "specItemsCount": 0
+    }
+  },
+  "trailingSlash": {
+    "requestedUrl": "http://127.0.0.1:4173/Quackpot",
+    "statusCode": 404,
+    "locationHeader": null,
+    "note": "Observed 404 on local Vite preview server. Production GitHub Pages 301 redirect is a remote deployment property and is not established or claimed by this local test."
+  },
+  "dialogs": [
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Buy 330 Gems for $4.99?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Borrow $5.88.\nOne-time fee: $2.94. Repay $8.82 by Midday on day 9, before work.\nYou may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.\n\nAccept this loan?",
+      "accepted": true
+    },
+    {
+      "type": "confirm",
+      "message": "Finish this run and view the Receipt?",
+      "accepted": true
+    }
+  ],
+  "checks": {
+    "earlyUninstallReceipt": true,
+    "purchase": true,
+    "midRevealReload": true,
+    "repeatRetention": true,
+    "raceResultReloadReducedMotion": true,
+    "rentLoanSeparatePaymentZeroCash": true,
+    "financialReceipt": true,
+    "corruptSavePreserved": true,
+    "syntheticQuotaWarnings": true,
+    "autosaveDisabledManualSave": true
+  },
+  "limits": [
+    "The rent-shortfall route deliberately buys 12 fictional Gem bundles and completes scheduled shifts; it is not a nonspending balance claim.",
+    "Legacy starter-offer, automatic rent escalation and old zero-cash modal journeys retired; five-slot decisions exercised instead.",
+    "Race result smoke uses reduced motion and does not validate normal playback timing."
+  ]
+}

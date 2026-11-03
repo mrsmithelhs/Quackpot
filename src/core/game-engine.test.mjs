@@ -1151,3 +1151,21 @@ test('Plan52 due options allow one-time furniture sales without automatically pa
  const forged=structuredClone(e.toEnvelope());forged.eventLog.find(event=>event.type==='income' && event.payload.asset==='couch').payload.amount=300;
  assert.ok(validateFiveSlotTransactionHistory(forged).some(error=>error.includes('Invalid asset sale')));
 });
+
+test('due option display v2 is replayable and forged display versions or fields are rejected',()=>{
+ const initial=JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json','utf8'));
+ const e=GameEngine.fromEnvelope(initial);const displayed=e.recordFiveSlotDueOptionsShown();assert.equal(displayed.payload.displayVersion,2);
+ const valid=e.toEnvelope();assert.equal(validateSave(valid,{experimentalFiveSlot:true,requireFiveSlotTutorial:true}).valid,true);
+ for(const mutate of [p=>{p.displayVersion=3;},p=>{p.saleOptions=[];},p=>{p.extra=true;}]){
+  const changed=structuredClone(valid);mutate(changed.eventLog.at(-1).payload);const rebuilt=new EventLog();for(const event of changed.eventLog)rebuilt.append(event.type,event.payload,event.clock);changed.eventLog=rebuilt.entries;
+  assert.equal(validateSave(changed,{experimentalFiveSlot:true,requireFiveSlotTutorial:true}).valid,false);
+ }
+});
+
+test('legacy v1 shown due options still authorize and replay an explicitly confirmed financial default',()=>{
+ const initial=JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json','utf8'));
+ const e=GameEngine.fromEnvelope(initial);assert.equal(e.log.entries.at(-1).type,'life52_due_options_shown');assert.equal(Object.hasOwn(e.log.entries.at(-1).payload,'displayVersion'),false);
+ const action={domain:'finance',action:{type:'leave_unpaid',billId:'rent-1',id:'legacy-default',confirmed:true,optionsDisclosed:true}};
+ const p=e.prepareFiveSlotAction(action);assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal).ok,true);
+ assert.equal(e.log.entries.filter(event=>event.type==='terminal').length,1);assert.equal(validateSave(e.toEnvelope(),{experimentalFiveSlot:true,requireFiveSlotTutorial:true}).valid,true);
+});

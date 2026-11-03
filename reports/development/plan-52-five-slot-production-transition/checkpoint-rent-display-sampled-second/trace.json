@@ -1,0 +1,428 @@
+{
+  "sourceClosureSha256": "d5a49498b70a18a1109731159cdc8dabbf2e1b9ce58b3aabaffca1dc64db7d06",
+  "recipeSha256": "14c8fe70db5d1ae5d5c7b2dcddfe8fd859025938672092523c817e5a99bad04a",
+  "results": [
+    {
+      "name": "ren-arriving",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-arriving.save.json",
+      "parentSha256": "ca2c95e78f7005ca49a756c83bd1e4fbebf57004395f6245311ca25efc00e80e",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-bridge/ren-arriving.save.json",
+      "inputSha256": "ca2c95e78f7005ca49a756c83bd1e4fbebf57004395f6245311ca25efc00e80e",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/ren-arriving.save.json",
+      "fixtureSha256": "c90c2a84531055b39aedd2a2e3d2cf05ea1de7093a34f0533cd1f1bb51b29d20",
+      "restoredEvents": 163,
+      "afterEvents": 169,
+      "day": 4,
+      "slot": "evening",
+      "cash": 0,
+      "health": 90,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "rent-shortfall",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/rent-shortfall.save.json",
+      "parentSha256": "1f24f80dc5b37e20bf8a22a59a4870dc6e03e4127bbd09c8fc7b28c5bd569b6d",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/rent-shortfall.save.json",
+      "inputSha256": "1f24f80dc5b37e20bf8a22a59a4870dc6e03e4127bbd09c8fc7b28c5bd569b6d",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-shortfall.save.json",
+      "fixtureSha256": "218c329f6e688a8888490c5f114ca8e283ebcedcd5c9155e4351491ec2c73667",
+      "restoredEvents": 77,
+      "afterEvents": 83,
+      "day": 4,
+      "slot": "morning",
+      "cash": 170,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "rent-paid-zero",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/rent-paid-zero.save.json",
+      "parentSha256": "3299ae7e458a52c2f3c51cdfcc69d250296dd13bad10ac8a10270c03ec4ebf95",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/rent-paid-zero.save.json",
+      "inputSha256": "3299ae7e458a52c2f3c51cdfcc69d250296dd13bad10ac8a10270c03ec4ebf95",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-paid-zero.save.json",
+      "fixtureSha256": "c1cee12ee3420abb4b7e7c2467c479542c4f30efb9d212f0ffcaf107ce6df2fb",
+      "restoredEvents": 83,
+      "afterEvents": 86,
+      "day": 4,
+      "slot": "midday",
+      "cash": 0,
+      "health": 95,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "loan-due",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/loan-due.save.json",
+      "parentSha256": "40bf6e375478f7c1ff06a0222c8865f5b50d019ea545d0bf8a39f3ccec2f9e8b",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/loan-due.save.json",
+      "inputSha256": "40bf6e375478f7c1ff06a0222c8865f5b50d019ea545d0bf8a39f3ccec2f9e8b",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/loan-due.save.json",
+      "fixtureSha256": "291f06bdbb28e8116c8fcef663ef05396c1f93b416df3a36ad1b0e54de749fb0",
+      "restoredEvents": 183,
+      "afterEvents": 185,
+      "day": 9,
+      "slot": "midday",
+      "cash": 30,
+      "health": 70,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "zero-hp-recovery",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/zero-hp-recovery.save.json",
+      "parentSha256": "ec5b93fee9af35443b8770309ddd543a1454ed88f52af5dd2f49d2984a12fee6",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/zero-hp-recovery.save.json",
+      "inputSha256": "ec5b93fee9af35443b8770309ddd543a1454ed88f52af5dd2f49d2984a12fee6",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/zero-hp-recovery.save.json",
+      "fixtureSha256": "32aa03b948b576cf7c6f633d7210e6dc4f3214d7cb4a8168a656f572312b8a24",
+      "restoredEvents": 288,
+      "afterEvents": 291,
+      "day": 13,
+      "slot": "late-evening",
+      "cash": 4,
+      "health": 25,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "day1-payslip",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/day1-payslip.save.json",
+      "parentSha256": "4fe7a2f9c4e5b66eb4fdc861ab747d794c56dcc8e5a4e835b806492620f059df",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/day1-payslip.save.json",
+      "inputSha256": "4fe7a2f9c4e5b66eb4fdc861ab747d794c56dcc8e5a4e835b806492620f059df",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/day1-payslip.save.json",
+      "fixtureSha256": "a316466896d68932f8aa4372dd10c2acd3801ff67342f684b0e8fea90ecb3769",
+      "restoredEvents": 19,
+      "afterEvents": 22,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "day1-call-scene",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/day1-call-scene.save.json",
+      "parentSha256": "0590199a3a2b6b641a40fa3770188f22bfe393f53007befcc3c55b36f0789261",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-repair-remaining/day1-call-scene.save.json",
+      "inputSha256": "0590199a3a2b6b641a40fa3770188f22bfe393f53007befcc3c55b36f0789261",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/day1-call-scene.save.json",
+      "fixtureSha256": "13e63957c4d8ab26009f890737fdb1c53d7ab3196f7263793d7f020e1965eb1a",
+      "restoredEvents": 30,
+      "afterEvents": 34,
+      "day": 1,
+      "slot": "late-evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [
+    {
+      "sessionId": "79A9FF8DEA45702A97031AE5CAE09118",
+      "message": "Borrow $66.00.\nOne-time fee: $33.00. Repay $99.00 by Midday on day 9, before work.\nYou may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.\n\nAccept this loan?",
+      "allowed": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "f449f539bc78293ddb180eb65e64c74565c78ced6a79709bf8d29e579316990d",
+    "trackedDescendants": [
+      {
+        "pid": 9044,
+        "ppid": 6780,
+        "created": "639293361084396910",
+        "root": true
+      },
+      {
+        "pid": 21796,
+        "ppid": 9044,
+        "created": "639293361084543230",
+        "root": false
+      },
+      {
+        "pid": 23892,
+        "ppid": 9044,
+        "created": "639293361086334540",
+        "root": false
+      },
+      {
+        "pid": 23140,
+        "ppid": 9044,
+        "created": "639293361086866290",
+        "root": false
+      },
+      {
+        "pid": 15336,
+        "ppid": 9044,
+        "created": "639293361087077270",
+        "root": false
+      },
+      {
+        "pid": 18700,
+        "ppid": 9044,
+        "created": "639293361087604690",
+        "root": false
+      },
+      {
+        "pid": 28064,
+        "ppid": 9044,
+        "created": "639293361087836470",
+        "root": false
+      },
+      {
+        "pid": 13024,
+        "ppid": 9044,
+        "created": "639293361088138840",
+        "root": false
+      },
+      {
+        "pid": 34656,
+        "ppid": 9044,
+        "created": "639293361088154350",
+        "root": false
+      },
+      {
+        "pid": 33664,
+        "ppid": 9044,
+        "created": "639293361088863220",
+        "root": false
+      },
+      {
+        "pid": 23296,
+        "ppid": 9044,
+        "created": "639293361106477160",
+        "root": false
+      },
+      {
+        "pid": 13376,
+        "ppid": 9044,
+        "created": "639293361106722320",
+        "root": false
+      },
+      {
+        "pid": 1532,
+        "ppid": 9044,
+        "created": "639293361110606130",
+        "root": false
+      },
+      {
+        "pid": 33448,
+        "ppid": 9044,
+        "created": "639293361110668650",
+        "root": false
+      },
+      {
+        "pid": 28556,
+        "ppid": 9044,
+        "created": "639293361110690520",
+        "root": false
+      },
+      {
+        "pid": 34288,
+        "ppid": 9044,
+        "created": "639293361110793650",
+        "root": false
+      },
+      {
+        "pid": 30344,
+        "ppid": 9044,
+        "created": "639293361110802480",
+        "root": false
+      },
+      {
+        "pid": 34068,
+        "ppid": 9044,
+        "created": "639293361110803520",
+        "root": false
+      },
+      {
+        "pid": 34584,
+        "ppid": 9044,
+        "created": "639293361111244960",
+        "root": false
+      },
+      {
+        "pid": 34400,
+        "ppid": 9044,
+        "created": "639293361115572040",
+        "root": false
+      },
+      {
+        "pid": 33616,
+        "ppid": 9044,
+        "created": "639293361117282880",
+        "root": false
+      },
+      {
+        "pid": 18740,
+        "ppid": 9044,
+        "created": "639293361119564390",
+        "root": false
+      },
+      {
+        "pid": 9284,
+        "ppid": 9044,
+        "created": "639293361119734680",
+        "root": false
+      },
+      {
+        "pid": 34376,
+        "ppid": 9044,
+        "created": "639293361119736390",
+        "root": false
+      },
+      {
+        "pid": 33104,
+        "ppid": 9044,
+        "created": "639293361137993260",
+        "root": false
+      },
+      {
+        "pid": 33008,
+        "ppid": 9044,
+        "created": "639293361138223010",
+        "root": false
+      },
+      {
+        "pid": 33744,
+        "ppid": 9044,
+        "created": "639293361138223060",
+        "root": false
+      },
+      {
+        "pid": 12892,
+        "ppid": 9044,
+        "created": "639293361146043520",
+        "root": false
+      },
+      {
+        "pid": 34204,
+        "ppid": 9044,
+        "created": "639293361146230040",
+        "root": false
+      },
+      {
+        "pid": 32976,
+        "ppid": 9044,
+        "created": "639293361146232110",
+        "root": false
+      },
+      {
+        "pid": 34252,
+        "ppid": 9044,
+        "created": "639293361167658180",
+        "root": false
+      },
+      {
+        "pid": 33836,
+        "ppid": 9044,
+        "created": "639293361167887820",
+        "root": false
+      },
+      {
+        "pid": 33956,
+        "ppid": 9044,
+        "created": "639293361167887840",
+        "root": false
+      },
+      {
+        "pid": 33184,
+        "ppid": 9044,
+        "created": "639293361183661910",
+        "root": false
+      },
+      {
+        "pid": 28744,
+        "ppid": 9044,
+        "created": "639293361183841320",
+        "root": false
+      },
+      {
+        "pid": 32012,
+        "ppid": 9044,
+        "created": "639293361183843200",
+        "root": false
+      },
+      {
+        "pid": 25580,
+        "ppid": 9044,
+        "created": "639293361192427590",
+        "root": false
+      },
+      {
+        "pid": 33796,
+        "ppid": 9044,
+        "created": "639293361192682120",
+        "root": false
+      },
+      {
+        "pid": 20088,
+        "ppid": 9044,
+        "created": "639293361192707880",
+        "root": false
+      },
+      {
+        "pid": 4896,
+        "ppid": 9044,
+        "created": "639293361214303070",
+        "root": false
+      },
+      {
+        "pid": 32664,
+        "ppid": 9044,
+        "created": "639293361214544670",
+        "root": false
+      },
+      {
+        "pid": 33504,
+        "ppid": 9044,
+        "created": "639293361214549710",
+        "root": false
+      },
+      {
+        "pid": 23560,
+        "ppid": 9044,
+        "created": "639293361230393480",
+        "root": false
+      },
+      {
+        "pid": 28320,
+        "ppid": 9044,
+        "created": "639293361230615410",
+        "root": false
+      },
+      {
+        "pid": 7848,
+        "ppid": 9044,
+        "created": "639293361230615520",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

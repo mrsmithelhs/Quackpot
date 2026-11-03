@@ -1,7 +1,9 @@
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { sampledCleanup } from './process-cleanup-policy.mjs';
+import { mkdtemp, readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn, execFileSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
@@ -53,11 +55,16 @@ export class CDP {
 
 export async function launchIsolatedChrome() {
   const profile = await mkdtemp(path.join(os.tmpdir(), 'qp35-chrome-'));
+  const profileHash = createHash('sha256').update(profile).digest('hex');
+  const privateDir = path.join(os.tmpdir(), 'qp35-private-diagnostics');
+  await mkdir(privateDir, { recursive: true });
+  const privateRecord = path.join(privateDir, `${profileHash}.json`);
+  await writeFile(privateRecord, JSON.stringify({ profile, profileHash }), { flag: 'wx' });
   const child = spawn(CHROME, ['--headless=new', '--no-first-run', '--disable-gpu', '--no-default-browser-check',
     '--window-size=1365,900', '--remote-debugging-port=0', `--user-data-dir=${profile}`, 'about:blank'],
   { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
   let stderr = '';
-  const owned = { profile, child, cdp: null, stderr: () => stderr, closed: false, monitor: null };
+  const owned = { profile, profileHash, privateRecord, child, cdp: null, stderr: () => stderr, closed: false, monitor: null };
   ownedBrowsers.add(owned);
   child.stderr.on('data', (chunk) => { if (stderr.length < 8192) stderr += chunk.toString().slice(0, 8192 - stderr.length); });
   let startError = null;
@@ -68,6 +75,7 @@ export async function launchIsolatedChrome() {
   let portInfo = null;
   try {
     await owned.monitor.ready;
+    await writeFile(privateRecord, JSON.stringify({ profile, profileHash, pid: child.pid, rootCreated: owned.monitor.rootIdentity?.created ?? null }));
     while (Date.now() < until) {
       if (startError || child.exitCode !== null) fail(`Chrome exited during startup (${startError?.message ?? child.exitCode}): ${stderr}`);
       try { portInfo = (await readFile(portFile, 'utf8')).trim().split(/\r?\n/); break; }
@@ -96,7 +104,7 @@ async function closeIsolatedChromeOnce(browser) {
   let tracked = [];
   let initialInspectionFailed = browser.child.exitCode !== null;
   try {
-    tracked = browser.monitor ? await browser.monitor.stop() : await snapshotOwnedTree(browser.child.pid);
+    tracked = browser.monitor ? await browser.monitor.stop() : []; 
     if (!tracked.some((row) => row.root === true)) initialInspectionFailed = true;
   } catch { initialInspectionFailed = true; }
   if (browser.cdp && !initialInspectionFailed) {
@@ -106,22 +114,12 @@ async function closeIsolatedChromeOnce(browser) {
   if (browser.child.exitCode === null) await Promise.race([new Promise((resolve) => browser.child.once('exit', resolve)), delay(1200)]);
   let treeTerminationConfirmed = false;
   let inspectionFailed = initialInspectionFailed;
-  if (browser.child.pid) {
-    if (browser.child.exitCode === null && !initialInspectionFailed) {
-      const rootIdentity = tracked.find((row) => row.root === true);
-      try {
-        if (!rootIdentity || !(await inspectOwnedIdentities([rootIdentity])).length) inspectionFailed = true;
-      } catch { inspectionFailed = true; }
-    }
-    if (browser.child.exitCode === null && !inspectionFailed) {
-      try { execFileSync('taskkill.exe', ['/PID', String(browser.child.pid), '/T', '/F'], { stdio: 'ignore', timeout: 2500 }); }
-      catch { /* verification below decides whether termination is confirmed */ }
-    }
-    if (browser.child.exitCode === null) await Promise.race([new Promise((resolve) => browser.child.once('exit', resolve)), delay(500)]);
-  }
+  // Do not use taskkill /T: numeric parent links can include unrelated reused PIDs.
+  // If graceful close leaves any process alive, retain the private profile and fail closed.
   let remaining = [];
   try {
-    const finalTree = browser.child.pid ? await snapshotOwnedTree(browser.child.pid) : [];
+    const identity = browser.monitor?.rootIdentity;
+    const finalTree = identity ? await snapshotOwnedTree(identity.pid, 2500, identity.created) : [];
     const known = new Set(tracked.map((row) => `${row.pid}:${row.created}`));
     tracked.push(...finalTree.filter((row) => !known.has(`${row.pid}:${row.created}`)));
     const until = Date.now() + 2000;
@@ -132,14 +130,14 @@ async function closeIsolatedChromeOnce(browser) {
     } while (Date.now() < until);
   } catch { inspectionFailed = true; }
   const residual = browser.child.exitCode === null || remaining.length > 0;
-  let profileRemoved = false;
-  if (treeTerminationConfirmed && !residual) {
-    try { await rm(browser.profile, { recursive: true, force: true, maxRetries: 2, retryDelay: 100 }); profileRemoved = true; }
-    catch { /* caller records cleanup failure */ }
-  }
+  // Sampled process identities cannot prove that an unsampled orphan never existed.
+  // Keep the profile and ignored local diagnostic; never claim complete tree cleanup.
+  const observation = sampledCleanup({ rootExited: browser.child.exitCode !== null, remainingCount: remaining.length, inspectionFailed });
+  treeTerminationConfirmed = false;
+  const profileRemoved = false;
   ownedBrowsers.delete(browser);
-  const cleanupResult = { residual, uncertainty: inspectionFailed || !treeTerminationConfirmed || !profileRemoved, childExitCode: browser.child.exitCode,
-    treeTerminationConfirmed, profileRemoved, trackedDescendants: tracked, remainingDescendants: remaining, chromeStderr: browser.stderr() };
+  const cleanupResult = { residual, ...observation, childExitCode: browser.child.exitCode,
+    treeTerminationConfirmed, profileRemoved, profileIdSha256: browser.profileHash, trackedDescendants: tracked, remainingDescendants: remaining, chromeStderrPresent: Boolean(browser.stderr()) };
   browser.cleanupResult = cleanupResult;
   return cleanupResult;
 }

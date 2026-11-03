@@ -4,7 +4,7 @@ You are the Codex lead for Plan54, Gacha progression and return-visit investigat
 
 Run `check54` through the unchanged Plan25 bounded Node launcher after fresh process preflight and resource coordination. Stop if nonzero. Ordinary reading/writing can start after the packet check; do not interrupt a live Plan53 setup to obtain a test turn. Root's starting verification is not blanket permission to overlap later heavy jobs.
 
-Dispatch-time resource note: Plan53 was actively synchronizing its isolated packages when owner requested this assignment. Root recorded the requested in-progress frontmatter and matching board row without launching Node alongside that operation; canonical index regeneration, lint and `check54` are deferred to the first yielded tooling turn. Before substantive work, coordinate that turn and run those commands through the unchanged bounded launcher. Do not treat this recorded activation as a passed tooling check or assume the installation is still active later.
+Dispatch verification: Plan53 was actively synchronizing its isolated packages when owner requested this assignment, so root initially deferred Node tooling. After Plan53 safely stopped and released the turn, root ran canonical `set54 in-progress` (index re-rendered and lint clean), `check54` (RUNNABLE), and `lint` (no violations) through the unchanged bounded launcher on2026-11-02. Each completed in about0.53s without a stop reason or cleanup notes. These are packet checks, not preview or game validation. Recheck current resource ownership and `check54` at your own start; do not assume installation remains active or that root's turn reserves yours.
 
 ## Assignment and boundaries
 

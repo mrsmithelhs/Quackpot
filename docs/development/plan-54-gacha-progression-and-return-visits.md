@@ -4,8 +4,6 @@ title: Gacha progression and return-visit investigation
 status: in-progress
 depends_on: [plan-12, plan-17, plan-21, plan-22, plan-23]
 gate: "Owner selects the comparison approach before prototype construction; owner experience choices and orchestration review precede any production or economy integration."
-superseded_by: null
-resolution: null
 summary: >-
   Compare collection-led, competition-led and event-led reasons to return to
   Quackpot, using a Codex lead and reusable Sonnet design consultant in a

@@ -38,7 +38,7 @@ No live engine, scheduler, save schema, event/export schema, Receipt, shared tes
 
 Read `AGENTS.md`, `docs/README.md`, `docs/repo-structure.md`, `docs/decision-log.md`, `docs/open-questions.md`, and the complete `docs/founding/design.md`. The current five-slot and financial direction is `docs/five-slot-life-schedule.md`; Plan52's production clearance and latest committed milestone distinguish selected policy from a partially ported browser build.
 
-Read the relevant selected outputs of Plans12/17/21/22/23, current Plan45 hub, and draft Plans11/15. Use the packet index to resolve exact report paths. Inspect actual relevant production modules and data before claiming a system exists: hub, pulls/shop, roster, Duck-Dex, race preparation and outcomes. Do not scan every report or replay the whole game as a prerequisite.
+Read the relevant selected outputs of Plans12/17/21/22/23, the current hub in `src/ui/life/life-phone-view.js`, and draft Plans11/15. Plan45 concerns Ren SVG extraction, not the hub. Use the packet index to resolve exact report paths. Inspect actual relevant production modules and data before claiming a system exists: hub, pulls/shop, roster, Duck-Dex, race preparation and outcomes. Do not scan every report or replay the whole game as a prerequisite.
 
 Preserve these boundaries:
 

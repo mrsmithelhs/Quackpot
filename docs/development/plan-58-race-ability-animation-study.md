@@ -1,11 +1,9 @@
 ---
 id: plan-58
 title: Race ability animation language and gallery
-status: draft
+status: in-progress
 depends_on: []
 gate: "Report-local creative study. Root clears the consultancy/gallery mechanism before calls or executable work; owner reviews early animation directions and final rendered selections before separate production integration."
-superseded_by: null
-resolution: null
 summary: >-
   Use Sonnet and Flash creative consultation, Haiku/Sonnet SVG drawing support and a Codex animation gallery to develop distinct, readable cues for candidate duck abilities, including combinations and static equivalents.
 ---
@@ -77,6 +75,8 @@ Possible directions to evaluate, not mandated selections:
 After the early owner checkpoint, develop a base treatment for each retained candidate and alternatives where a meaningful uncertainty remains. Avoid a combinatorial collection of every color, timing and pairing. Group comparisons by useful families and present a few recommended combinations for judging clarity.
 
 Show close-up and actual production race-scale six-duck views, crowded and dispersed situations, left/right facing and Y turns, upright labels, ordinary/drama lighting and narrow layout. Use the same duck arrangement and fixture across alternatives. Include activation, active state, end/cancel, unavailable/no-trigger control, post-finish cancellation where applicable, and distinct collision/injury context from Plan57. Test both events separated in time and a small set of simultaneous/overlapping combinations, especially Bounce plus crowd acceleration. No always-on full-scene light, automatic repeated flashing, color-only distinction or clutter masking the player's duck.
+
+Owner direction2026-11-03: enlarged ability demonstrations are also useful for players inspecting a duck in the Duck-Dex or choosing a racer. Include report-local examples of those two explanation contexts with deliberate replay and concise player-facing descriptions. An enlarged demonstration must actually enlarge the duck/effect, not merely crop a race-size sprite. It may clarify source/target and activation/active/end states more fully than the race cue, while preserving the same visual identity and event meaning. Do not imply a guaranteed outcome or require the player to watch an animation to understand an ability. Duck-Dex/racer-selection production mounting remains separately scoped.
 
 The prototype takes explicit time-coded presentation events and state. It does not roll ability chance, invent target effects or compute race rewards. Synthetic fixtures may depict proposed water/air paths, but reviewer-only captions must identify invented motion and unresolved landing/contact details. Expose useful tuning controls without disguising them as production UI. Default to deliberate playback, with pause/replay/seek and no autoplay audio or endless unattended effects.
 

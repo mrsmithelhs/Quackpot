@@ -1,7 +1,7 @@
 ---
 id: plan-52
 title: Five-slot production transition and checkpoint refresh
-status: in-progress
+status: delivered
 depends_on: [plan-51]
 gate: "Stage A owner decisions and root technical source gate cleared 2026-11-02; exact scope in reports/orchestration/plan-52-production-clearance.md. One production writer; targeted engine/replay/checkpoint checks, postimplementation Terra-medium review, root actual production before/after review and final owner acceptance remain. No old-save migration."
 summary: >-

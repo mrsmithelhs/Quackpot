@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plan 52 lighting reference</title>
+<style>html,body{margin:0;width:100%;height:100%;background:#181b20}main{width:100vw;aspect-ratio:16/9}main>svg{display:block;width:100%;height:100%}</style></head>
+<body><main id="scene"></main><script type="module">
+import {renderScene} from '../../../src/assets/apartment/index.mjs';
+import {renderStudyScene} from '../plan-26-apartment-daylight-weather-study/study/scene.mjs';
+const choice=new URLSearchParams(location.search).get('scene');
+const options={framing:'wide',duckView:'side',idPrefix:'reference'};
+const result=choice==='living-sun'
+  ? renderStudyScene({...options,area:'living',light:'neutral',daylight:'sun',strength:'strong'})
+  : renderScene({...options,area:'kitchen',light:choice});
+document.querySelector('#scene').innerHTML=result.svg;
+document.documentElement.dataset.ready=choice;
+</script></body></html>

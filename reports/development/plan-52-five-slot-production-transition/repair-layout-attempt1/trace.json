@@ -1,0 +1,225 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "fixtureSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "sourceClosureSha256": "ee03ab297509a72e3f11405efa5ce2899f4372c809d1b55af3b86bc867974ead",
+  "recipeSha256": "d33338a1fdcbe202d211269eabc7cfdaec5dcdebe5d7ec65e487b1aaf242d9fa",
+  "results": [
+    {
+      "width": 1280,
+      "height": 720,
+      "setup": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 618.75
+      },
+      "play": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 618.75
+      },
+      "letter": {
+        "left": 219.7247772216797,
+        "top": 170.24957275390625,
+        "width": 486.3629150390625,
+        "height": 465.7352294921875
+      },
+      "decide": {
+        "left": 722.09375,
+        "top": 173.578125,
+        "width": 320,
+        "height": 504
+      },
+      "held": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 704
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 1024,
+      "height": 600,
+      "setup": {
+        "left": 30.71875,
+        "top": 152.296875,
+        "width": 947.5625,
+        "height": 533
+      },
+      "play": {
+        "left": 30.71875,
+        "top": 152.296875,
+        "width": 947.5625,
+        "height": 533
+      },
+      "letter": {
+        "left": 91.72477722167969,
+        "top": 164.96832275390625,
+        "width": 486.3629150390625,
+        "height": 465.7352294921875
+      },
+      "decide": {
+        "left": 594.09375,
+        "top": 168.296875,
+        "width": 320,
+        "height": 420
+      },
+      "held": {
+        "left": 30.71875,
+        "top": 152.296875,
+        "width": 947.5625,
+        "height": 600
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": "Error: 860: setup/play scene geometry differs",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 49044,
+        "ppid": 17276,
+        "created": "11/02/2026 22:52:44",
+        "root": true
+      },
+      {
+        "pid": 39736,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 17184,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 25960,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 24076,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 15700,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 24796,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 1888,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 28292,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:44",
+        "root": false
+      },
+      {
+        "pid": 31804,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:45",
+        "root": false
+      },
+      {
+        "pid": 38456,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:45",
+        "root": false
+      },
+      {
+        "pid": 2876,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:45",
+        "root": false
+      },
+      {
+        "pid": 36412,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:45",
+        "root": false
+      },
+      {
+        "pid": 29024,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 41184,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 44316,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 31100,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 26460,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 47768,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:48",
+        "root": false
+      },
+      {
+        "pid": 48412,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:51",
+        "root": false
+      },
+      {
+        "pid": 29720,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:51",
+        "root": false
+      },
+      {
+        "pid": 39204,
+        "ppid": 49044,
+        "created": "11/02/2026 22:52:51",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[49044:42188:1102/225244.847:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[49044:42188:1102/225244.847:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:58298/devtools/browser/5ac09d78-e851-4aa0-8939-6ad4b56bf381\r\n"
+  }
+}

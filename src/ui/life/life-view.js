@@ -192,6 +192,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           out.push({ id: 'quiet-duck', hotspot: true, x: Math.max(0, kit.x - kit.w / 2), y: Math.max(0, kit.y - kit.w * 1.5), w: kit.w, h: kit.w * 1.5,
             label: 'Sit with your duck, up to 5 health', chip: 'Sit with Duck · +5 HP', hold: { mode: 'popover', side: 'left', kind: 'life-quiet' } });
         }
+        if (life.policyVersion==='five-slot-v1' && engine.fiveSlotQuietFallback().ok) {
+          const scene=renderScene({idPrefix:uid('lffallback'),...SCENES['desk-phone'](engine,false),duckView:'side',duck:true});
+          const kit=kitBox(scene.svg);
+          out.push({id:'fallback-duck',hotspot:true,x:Math.max(0,kit.x-kit.w/2),y:Math.max(0,kit.y-kit.w*1.5),w:kit.w,h:kit.w*1.5,
+            label:'Take a quiet break with your duck',chip:'Quiet break',hold:{mode:'popover',side:'left',kind:'five-slot-quiet-fallback'}});
+        }
         return out;
       }
       const kind = offer === 'extra_shift' ? 'ladder' : 'shift';
@@ -269,6 +275,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (kind === 'life-call-mom') {
       return { spec: { heading: 'Call Mom?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Call Mom', back: 'Not now' },
         accept: () => { callbacks.onBeginStoryActivity(expectLog, 'call_mom'); return null; } };
+    }
+    if (kind === 'five-slot-quiet-fallback') {
+      return {spec:{heading:'Take a quiet break?',lines:['Spend this time slot quietly with your duck.'],confirm:'Take a break',back:'Not now'},
+        accept:()=>{callbacks.onFiveSlotQuiet(expectLog);return null;}};
     }
     if (kind === 'life-quiet') {
       return { spec: { heading: 'Sit with Duck?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Sit with Duck', back: 'Not now' },
@@ -568,6 +578,15 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     : hold.variant === 'card' ? 'Phone, held: card app'
       : hold.variant?.startsWith('life-') ? 'Phone, held' : 'Phone, held: messages from Marisol');
 
+  function focusHeldHeading(heading) {
+    // Keep the beginning of a held object below the sticky HUD without letting
+    // browser focus scrolling hide it behind that header on short viewports.
+    heading.focus({preventScroll:true});
+    const top=root.getBoundingClientRect().top;
+    const hudBottom=document.querySelector('#hud-container')?.getBoundingClientRect().bottom ?? 0;
+    if(top<hudBottom)window.scrollTo({top:Math.max(0,window.scrollY+top-hudBottom-8),behavior:'auto'});
+  }
+
   function openHeld(obj, { instant = false, focus = true } = {}) {
     const dec = decisionFor(obj.hold.kind);
     if (!dec.spec) { ui.held = null; return; }
@@ -603,7 +622,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const heading = $(`#${hid}`, heldEl);
     heading.setAttribute('tabindex', '-1');
     if (!instant) flip(obj.el, heldEl.querySelector('.life-held-object > *'));
-    if (focus) heading.focus();
+    if (focus) focusHeldHeading(heading);
   }
 
   // Rent and loan choices use the same held-object / Decide surface as other
@@ -644,7 +663,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if(isPhone)button('Open Quackpot',()=>{const result=callbacks.onOpenPhone(engine.log.length);if(result?.ok){ui.held=null;callbacks.onRefresh();callbacks.onPhoneTransition();}});
     button('Put it down',()=>{ui.fiveDueHidden=true;putDown();});
     if(active && due)callbacks.onFiveSlotDueShown();
-    const heading=$(`#${hid}`,heldEl);heading.setAttribute('tabindex','-1');if(due && !isPhone)heading.setAttribute('aria-label',`Payment due: ${heading.textContent}`);if(focus)heading.focus();
+    const heading=$(`#${hid}`,heldEl);heading.setAttribute('tabindex','-1');if(due && !isPhone)heading.setAttribute('aria-label',`Payment due: ${heading.textContent}`);if(focus)focusHeldHeading(heading);
   }
 
   async function putDown({ instant = false } = {}) {
@@ -762,9 +781,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const schedule=e.state.life.schedule,expectLog=e.log.length;
       if(place==='desk-phone' && (e.state.life.social46?.revision===1 || e.state.life.social46?.introShown) && !schedule.recovery)
         control('Messages: Ren',()=>{const result=callbacks.onSocialOpen(e.log.length);if(result?.ok){ui.renOpen=true;render();}});
-      const quiet=e.prepareFiveSlotAction({domain:'schedule',action:{type:'start',kind:'quiet',operationId:`quiet-preview:${expectLog}`}});
-      if(quiet.ok && !schedule.active && !schedule.recovery)
-        control('Spend time quietly',()=>{callbacks.onFiveSlotQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
       if(schedule.active?.kind==='quiet')control('Finish quiet time',()=>{callbacks.onFiveSlotFinishQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
       if(schedule.active?.kind==='session')control('Finish phone session',()=>{callbacks.onFiveSlotFinishSession(expectLog);callbacks.onRefresh();});
       if(schedule.slot==='evening' && !schedule.active && schedule.overtimeReservation?.status==='reserved' && schedule.overtimeReservation.day===schedule.day)

@@ -3,9 +3,9 @@ import { renderScene } from '../assets/apartment/index.mjs';
 // Setup belongs to the morning scene. The phone invitation is shown only when opening it really opens the game.
 export function renderKitchenSetupView(container, onReady) {
   const { svg } = renderScene({ area: 'kitchen', framing: 'wide', light: 'window', idPrefix: 'morning-setup' });
-  container.innerHTML = `<section class="desk-card">
-    <h2>Day 1 · Morning in the kitchen</h2>
+  container.innerHTML = `<section class="life-view life-setup">
     <div class="life-scene">${svg}</div>
+    <h2>Day 1 · Morning in the kitchen</h2>
     <form id="morning-setup-form">
       <div class="form-group"><label for="morning-duck-name">Name your rubber duck</label>
       <input id="morning-duck-name" class="form-input" value="Professor Quacks" maxlength="30"></div>

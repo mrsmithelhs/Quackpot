@@ -41,7 +41,7 @@
   },
   "checkpoints": {
     "plan52.rent-shortfall.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
@@ -68,7 +68,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.rent-paid-zero.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-paid.save.json",
@@ -95,7 +95,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.loan-due.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day9-loan-due.save.json",
@@ -124,7 +124,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.day1-payslip.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/payslip-narrow.save.json",
@@ -148,7 +148,7 @@
       "brief": "reports/development/plan-52-five-slot-production-transition/checkpoint-brief.md"
     },
     "plan52.day1-call-scene.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/mom-scene-narrow.save.json",
@@ -881,7 +881,7 @@
       }
     },
     "plan52.fresh-tutorial.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/morning-narrow.save.json",
@@ -906,7 +906,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.midday-work.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/work-narrow.save.json",
@@ -932,7 +932,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.unresolved-dinner.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/dinner-narrow.save.json",
@@ -957,7 +957,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.completed-evening.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-day1-final/evening-return-desktop.save.json",
@@ -982,7 +982,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.independent-day.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-independent/day7-morning.save.json",
@@ -1011,7 +1011,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.ren-reserved.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-reserved.save.json",
@@ -1037,7 +1037,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.ren-arriving.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/production-ren-final/ren-arrival.save.json",
@@ -1064,7 +1064,7 @@
       "restoreTraceSha256": "66928070dfc9fe532f256157545eb7d9946b84611521cb3de7c2ffce9aaf3794"
     },
     "plan52.zero-hp-recovery.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/zero-hp-recovery.save.json",

@@ -1,0 +1,119 @@
+{
+  "htmlSha256": "f7777c1085d7bbe57674bef9884f7859906522d42fcd8525eafd6f3d35055608",
+  "candidateSha256": "8e2b84b40a687c2bd5a44089f0652532e7f86a42ccd10a69952d817e1dc7da60",
+  "recipeSha256": "412477e1fc9befe856a908691603ff984031a834f9a5960e690d2685c4b25acb",
+  "results": [
+    {
+      "name": "day",
+      "sha256": "07a2ef1b8205674187a46c768360a70584eb737af94a2985dedbbf5ed24799cc",
+      "clip": {
+        "x": 24,
+        "y": 108.53125,
+        "width": 1037,
+        "height": 583.3125,
+        "scale": 1
+      }
+    },
+    {
+      "name": "candidate",
+      "sha256": "ee0adf97c269b96c769dcc540df8637688ecb3720dc066cba272a037cd3a150a",
+      "clip": {
+        "x": 24,
+        "y": 107.84375,
+        "width": 1037,
+        "height": 583.3125,
+        "scale": 1
+      }
+    },
+    {
+      "name": "evening",
+      "sha256": "ee0adf97c269b96c769dcc540df8637688ecb3720dc066cba272a037cd3a150a",
+      "clip": {
+        "x": 24,
+        "y": 169.15625,
+        "width": 1037,
+        "height": 583.3125,
+        "scale": 1
+      }
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 45956,
+        "ppid": 9960,
+        "created": "11/02/2026 23:13:36",
+        "root": true
+      },
+      {
+        "pid": 4960,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 45708,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 18588,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 33444,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 22864,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 1824,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 39040,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 16180,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 29328,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:36",
+        "root": false
+      },
+      {
+        "pid": 3872,
+        "ppid": 45956,
+        "created": "11/02/2026 23:13:37",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[45956:11456:1102/231336.721:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[45956:11456:1102/231336.721:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:53218/devtools/browser/7843475d-0335-4958-b3a0-71a4c21cafbf\r\n"
+  }
+}

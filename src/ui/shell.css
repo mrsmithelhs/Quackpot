@@ -1,5 +1,9 @@
 @import './desk-phone.css';
 
+/* Setup and apartment share a stable content width even when only one needs
+   vertical scrolling. Other screens keep their existing scrollbar behavior. */
+html:has(.life-view) { scrollbar-gutter: stable; }
+
 .game-wrapper {
   max-width: none;
   min-height: 100vh;

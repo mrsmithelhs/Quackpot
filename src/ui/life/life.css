@@ -17,20 +17,17 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  max-width: 960px;
+  max-width: 1100px;
+  container-type: inline-size;
   margin: 0 auto;
   font-family: var(--life-ui);
 }
 .life-view *, .life-view *::before, .life-view *::after { box-sizing: border-box; }
-/* Scale the complete room, including its percentage-positioned targets, as one
-   unit. Reserve height for the HUD and navigation; never crop or lock scrolling.
-   Very short/zoomed windows retain a usable scene and may scroll normally. */
-@media (min-width: 1000px) {
-  .life-view { max-width: min(960px, max(32rem, calc((100svh - 22rem) * 16 / 9))); }
-}
-@media (min-width: 1440px) {
-  .life-view { max-width: min(960px, max(32rem, calc((100svh - 16rem) * 16 / 9))); }
-}
+/* The opening and play share this width; short windows scroll rather than
+   compressing the apartment or its text to fit the viewport height. */
+.life-setup h2 { margin: 1rem 0 .6rem; text-align: center; }
+.life-setup form { text-align: center; }
+.life-setup .form-group { text-align: left; }
 .life-visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .life-is-held { min-height: min(44rem, 100svh); }
 .life-empty { color: var(--text-muted, #94a3b8); }
@@ -97,7 +94,7 @@
 .life-btn:focus-visible, .life-decide-toggle:focus-visible { outline: 3px solid var(--life-accent); outline-offset: 3px; }
 
 /* ---------- layer 2: held (covers the room area only; the HUD outside stays reachable) ---------- */
-.life-held { position: absolute; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center; gap: 1.2rem;
+.life-held { position: absolute; inset: 0; z-index: 20; display: flex; align-items: flex-start; justify-content: center; gap: 1.2rem;
   padding: 1rem; overflow-y: auto; border-radius: .85rem; background: rgba(20, 18, 15, .6); backdrop-filter: blur(3px); }
 .life-held[hidden] { display: none; }
 .life-held-object { position: relative; flex: 0 1 auto; min-width: 0; outline: none; }
@@ -154,13 +151,14 @@
 .life-popover h3 { font-size: 1rem; }
 .life-popover p { font-size: .92rem; line-height: 1.35; }
 
-@media (max-width: 760px) {
+@container (max-width: 55rem) {
   .life-held { flex-direction: column; justify-content: flex-start; align-items: stretch; padding: .6rem; gap: .6rem; }
   .life-held-object { display: flex; justify-content: center; }
-  .life-letter { width: 100%; transform: none; }
+  .life-letter { width: min(30rem, 100%); transform: none; }
   .life-phone-held { width: 100%; max-width: 20rem; height: min(30rem, calc(100svh - 8rem)); margin: 0 auto; }
-  /* the collapsed decision bar docks at the bottom of the held view on phones */
-  .life-decide { position: sticky; bottom: 0; width: 100%; align-self: stretch; }
+  .life-decide { position: static; width: 100%; align-self: stretch; }
+}
+@media (max-width: 760px) {
   /* narrow: the confirm becomes a sheet directly under the room, so the object it acts on stays visible */
   .life-popover-layer { position: static; }
   .life-popover { position: relative; left: auto !important; right: auto !important; top: auto !important; bottom: auto !important; width: 100%; margin-top: .6rem; }
@@ -192,7 +190,7 @@
 .life-payment-held { align-items: flex-start; }
 .life-payment-held .life-decide { align-self: flex-start; max-height: min(70svh, 38rem); overflow-y: auto; }
 .life-payment-held .life-phone-held { height: auto; min-height: 10rem; }
-@media (max-width: 760px) {
+@container (max-width: 55rem) {
   .life-payment-held .life-decide { position: static; max-height: none; overflow: visible; }
   .life-payment-held .life-phone-held { height: auto; min-height: 8rem; }
 }

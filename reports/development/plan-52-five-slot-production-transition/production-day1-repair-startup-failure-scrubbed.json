@@ -1,0 +1,23 @@
+{
+  "sourceCommit": "ddc17fecbf9b30758b4a8b7b307bf888354be9ca",
+  "pins": {
+    "reports/development/plan-52-five-slot-production-transition/production-day1-repair-current-browser.mjs": "d0f31da6c40f2b51ff89ad725ff8e7c834ec06fad18a90199b1c08363b26832b",
+    "src/main.js": "13fc6888c541198fec889aa21aeacdf9ef616e072c65bd697270104e9a3b86ce",
+    "src/core/game-engine.mjs": "bf36362f5ef9fad1383cd3caf2727504f684d2c3fa6fbad25ab9aa2c28581b69",
+    "src/core/storage.mjs": "a9100e9d70897b33611b07aa82284e69a013ae90be09ef39243094605deee634",
+    "src/core/life-coordinator.mjs": "d0ab3b03e4db4b473edacdc1a70dcdef2170915c9b4396d82772c51fc22db0e0",
+    "src/core/life-replay.mjs": "64f79124f8e604af494f74c0f3a01a5505ae2c1581c786c375b4706b322f4d31",
+    "src/core/life-schedule/scheduler.mjs": "5633dd45982444f18828321dffec8474d6d3196df229ff06f8f28da10002bdd4",
+    "src/core/life-schedule/policy.mjs": "ad2b1756cbe8823cda34e567a328615d9cc9e1910f78c1adfb9bb3f3391ee259",
+    "src/ui/hud.js": "3012ea6492a0c4683b0634e5d77648967a0ea5d30a87dfd6325a79e07c1d6395",
+    "src/ui/life/life-routing.mjs": "f0255a54bfe57ad2a061755d7d19d749fffd51ce514e2a3367295eb8715814e2",
+    "src/ui/life/life-view.js": "35142d9f28f49abadd7fceeeeae46d02309e6f44a01226b01293241d5f33a77f",
+    "src/ui/life/life.css": "f0b02d9bc4361b4690491e6707ca7acda1330d9da3fbf453a5e44638902d6d71"
+  },
+  "url": "http://localhost:5173/Quackpot/",
+  "storage": "fresh isolated Chrome profile",
+  "captures": [],
+  "consoleErrors": [],
+  "error": "Isolated Chrome startup failed after sandbox denied CIM process-tree inspection; child exit code 4294930433. Cleanup uncertainty remained; no capture was made. Later elevated process inventory found no matching Quackpot browser or server. Possible unidentified temporary profile left untouched.",
+  "cleanup": null
+}

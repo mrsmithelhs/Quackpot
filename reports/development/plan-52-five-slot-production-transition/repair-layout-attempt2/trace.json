@@ -1,0 +1,391 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "fixtureSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "sourceClosureSha256": "7f7e826fb6827b603767d3380b39d6ae6863fd4cd4553ad27a5080b20e3a9c8e",
+  "recipeSha256": "a4648a967a9b71b874f18ab0f9354404195aed270dbaa897cbffe0aa1f6847b1",
+  "results": [
+    {
+      "width": 1280,
+      "height": 720,
+      "setup": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 618.75
+      },
+      "play": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 618.75
+      },
+      "ordinaryLetter": {
+        "left": 218.55543518066406,
+        "top": 160.80099487304688,
+        "width": 482.5001220703125,
+        "height": 460.1050109863281
+      },
+      "ordinaryDecide": {
+        "left": 722.09375,
+        "top": 474.578125,
+        "width": 320,
+        "height": 48
+      },
+      "letter": {
+        "left": 219.7247772216797,
+        "top": 170.24957275390625,
+        "width": 486.3629150390625,
+        "height": 465.7352294921875
+      },
+      "decide": {
+        "left": 722.09375,
+        "top": 173.578125,
+        "width": 320,
+        "height": 504
+      },
+      "held": {
+        "left": 82.5,
+        "top": 157.578125,
+        "width": 1100,
+        "height": 704
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 1024,
+      "height": 600,
+      "setup": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 533.5
+      },
+      "play": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 533.5
+      },
+      "ordinaryLetter": {
+        "left": 91.31132507324219,
+        "top": 5.813730239868164,
+        "width": 482.34808349609375,
+        "height": 459.96002197265625
+      },
+      "ordinaryDecide": {
+        "left": 594.09375,
+        "top": 267.84375,
+        "width": 320,
+        "height": 48
+      },
+      "letter": {
+        "left": 91.72477722167969,
+        "top": 164.51519775390625,
+        "width": 486.3629150390625,
+        "height": 465.7352294921875
+      },
+      "decide": {
+        "left": 594.09375,
+        "top": 167.84375,
+        "width": 320,
+        "height": 420
+      },
+      "held": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 600
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 860,
+      "height": 700,
+      "setup": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 446.796875
+      },
+      "play": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 446.796875
+      },
+      "ordinaryLetter": {
+        "left": 181.5576934814453,
+        "top": 157.1463165283203,
+        "width": 477.56756591796875,
+        "height": 454.7821044921875
+      },
+      "ordinaryDecide": {
+        "left": 34.9375,
+        "top": 623.1875,
+        "width": 775.125,
+        "height": 48
+      },
+      "letter": {
+        "left": 175,
+        "top": 156.515625,
+        "width": 480,
+        "height": 459.078125
+      },
+      "decide": {
+        "left": 34.9375,
+        "top": 347.328125,
+        "width": 760.125,
+        "height": 490
+      },
+      "held": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 700
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "setup": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 205.875
+      },
+      "play": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 205.875
+      },
+      "ordinaryLetter": {
+        "left": 21.532772064208984,
+        "top": 242.8413848876953,
+        "width": 345.8589172363281,
+        "height": 597.8848266601562
+      },
+      "ordinaryDecide": {
+        "left": 21.59375,
+        "top": 852.0625,
+        "width": 346.8125,
+        "height": 48
+      },
+      "letter": {
+        "left": 21.59375,
+        "top": 242.765625,
+        "width": 346.8125,
+        "height": 626.890625
+      },
+      "decide": {
+        "left": 21.59375,
+        "top": 879.25,
+        "width": 346.8125,
+        "height": 667.859375
+      },
+      "held": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 704
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "stacked",
+      "noFallbackAtBreakfastWorkOrDue": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 43700,
+        "ppid": 33720,
+        "created": "11/02/2026 22:54:51",
+        "root": true
+      },
+      {
+        "pid": 20904,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:51",
+        "root": false
+      },
+      {
+        "pid": 42188,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:51",
+        "root": false
+      },
+      {
+        "pid": 3940,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:51",
+        "root": false
+      },
+      {
+        "pid": 38568,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:51",
+        "root": false
+      },
+      {
+        "pid": 43052,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:51",
+        "root": false
+      },
+      {
+        "pid": 7644,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 35964,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 33512,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 4220,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 16800,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 35528,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 25216,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:52",
+        "root": false
+      },
+      {
+        "pid": 41264,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:54",
+        "root": false
+      },
+      {
+        "pid": 46076,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:55",
+        "root": false
+      },
+      {
+        "pid": 16792,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:55",
+        "root": false
+      },
+      {
+        "pid": 2672,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:55",
+        "root": false
+      },
+      {
+        "pid": 35460,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:56",
+        "root": false
+      },
+      {
+        "pid": 37800,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:56",
+        "root": false
+      },
+      {
+        "pid": 32880,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:56",
+        "root": false
+      },
+      {
+        "pid": 25992,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:59",
+        "root": false
+      },
+      {
+        "pid": 29348,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:59",
+        "root": false
+      },
+      {
+        "pid": 33408,
+        "ppid": 43700,
+        "created": "11/02/2026 22:54:59",
+        "root": false
+      },
+      {
+        "pid": 3688,
+        "ppid": 43700,
+        "created": "11/02/2026 22:55:03",
+        "root": false
+      },
+      {
+        "pid": 18756,
+        "ppid": 43700,
+        "created": "11/02/2026 22:55:03",
+        "root": false
+      },
+      {
+        "pid": 4808,
+        "ppid": 43700,
+        "created": "11/02/2026 22:55:03",
+        "root": false
+      },
+      {
+        "pid": 31936,
+        "ppid": 43700,
+        "created": "11/02/2026 22:55:06",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[43700:39052:1102/225451.949:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[43700:39052:1102/225451.949:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:57166/devtools/browser/d6230889-6b35-406c-8388-65f4869c4b48\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

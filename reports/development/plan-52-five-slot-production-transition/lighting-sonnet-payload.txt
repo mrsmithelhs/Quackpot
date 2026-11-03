@@ -1,0 +1,186 @@
+# Sonnet kitchen lighting study — owner-authorized brief
+
+The owner wants an identifiable Early Evening apartment lighting setup. Start with the kitchen only. They may later commission matching rooms if they approve the kitchen. This is a report-local visual investigation, not an adopted appearance or permission to modify production.
+
+## Reference bundle and geometry
+
+You may read only four files in this isolated input directory: `neutral.png`, `window.png`, `warm.png`, and `living-sun.png`. The first three are the actual existing kitchen kit, rendered at 960 × 540 with the same wide framing and the physical duck. They illustrate existing light setups, not proposed art. `living-sun.png` is the owner-liked strong-sun example from a separate living-room study; use it as a style and low-sun reference, not a stencil or a geometry source for the kitchen. The living-room study was not mounted in production. Compare image content honestly; don't infer interactions from static images.
+
+The actual kitchen is a projected, hand-authored SVG with a `0 0 960 540` wide viewBox. Its room model has horizon y=250, camera height 1132 and back wall z=3700; the window is on the back wall toward screen right at world X=1700, z=3700, Y=1000. The fridge is toward screen left, upper cabinets span the back wall, the stove is near center, and the foreground bar spans the bottom of the scene. The mug and physical duck sit on the bar; a large pendant hangs near center. Paint order is wall and floor, back-to-front furniture, counter surface, tabletop objects, duck, foreground pendant, then optional light overlays. Don't obscure the counter, duck, fridge notice area, or UI labels.
+
+Existing `neutral` adds only a very faint warm-white wash. `window` adds a pale window-like linear wash without turning on the lamp. `warm` enables the pendant and places a strong orange pool around it, with considerably darker surrounding areas. The current game selects `warm` for all of Early Evening, Evening and Late Evening, so a daylight-to-lamp distinction should be legible without treating a new appearance as already approved. The owner wants the dinner-to-Evening change to be easier to see. Dinner cost is clear; no clock-explanation copy change was requested.
+
+## Task
+
+Develop one original, restrained candidate for a recognizable Early Evening kitchen, visually between the existing daytime/window look and the warm lamp-lit Evening. A low-angle late-day daylight look is a candidate, not an owner-selected design. Use the actual kitchen as your reference: plausible local light direction and window/room geometry matter more than a generic orange full-screen tint. Maintain the established visual style and keep text, duck, objects and interactive overlays legible. Do not animate the physical duck. No weather, night, sound, new game mechanics, other rooms, external assets, runtime network calls, generated bitmaps or deployment.
+
+Return a **complete original self-contained SVG overlay fragment** as a fenced `svg` block using `viewBox="0 0 100 100"` and `preserveAspectRatio="none"`, with transparent background, `pointer-events="none"`, and no external resources. It will be composited over the actual kitchen only in a report-local comparison by the integrator. Prefer a few explicitly bounded shapes, gradients and soft edges; avoid obscuring the center countertop, readable notices or usable hotspots. Include exact assumptions about where sunlight enters and how the candidate differs from the existing `window` and `warm` modes, plus any visual limitations. A color wash alone does not establish physically coherent cast shadows; do not claim otherwise.
+
+You are a read-only helper. Use only Read for the four named images; output your proposed SVG and explanation in the response. Do not edit, create or delete files; do not use shell, network, browser, Git, subagents or other tools. The integrator will save the candidate under this Plan52 report directory, render and inspect it with the real kitchen and compare it to existing day and evening before any owner-facing claim. Report any missing context honestly.
+
+
+# Exact project source excerpts for the kitchen study
+
+## Kitchen geometry
+```js
+  kitchen: {
+    label: 'Kitchen', hy: 250, camH: 1132, zw: 3700, wall: '#d7dccf', floor: '#b8a58c', tiles: true,
+    anchor: { X: -100, z: 1000, Y: 900 }, lampAt: { X: -100, z: 1700, Y: 1100, r: 500 }, poolRx: '44%', poolRy: '82%', poolDy: 8,
+    cones: [{ X: -100, z: 1700, Y: 1250, dir: 'down', w0: 190, w1: 1250, len: 1250 }],
+    items: () => [
+      { X: 1700, z: 3700, Y: 1000, mm: windowMm(600, 800, '#8fb0a0') },
+      { X: -1500, z: 3500, Y: 0, mm: fridge(), shadow: 760 },
+      { X: -700, z: 3500, Y: 1350, mm: upperCabs(800) },
+      { X: 800, z: 3500, Y: 1350, mm: upperCabs(1000) },
+      { X: -150, z: 3500, Y: 0, mm: hood(), hoodOnly: true },
+      { X: 100, z: 3350, Y: 0, mm: cabinetRun(2100), shadow: 2100 },
+      { X: -150, z: 3340, Y: 0, mm: stove() },
+      { X: -150, z: 3340, Y: 935, mm: pot() },
+      { X: 560, z: 3340, Y: 910, mm: kettle() }, { X: 960, z: 3340, Y: 910, mm: toaster() }, { X: 1380, z: 3340, Y: 910, mm: jars() },
+      { X: -100, z: 800, Y: 0, mm: bar(1500), shadow: 1600 },
+      { X: -1200, z: 1250, Y: 0, mm: stool(), shadow: 420 }, { X: 1000, z: 1250, Y: 0, mm: stool(), shadow: 420 }
+    ],
+    onTable: [{ X: -440, z: 1000, Y: 900, mm: mug('#4f8fc0') }, { X: 470, z: 1050, Y: 900, mm: fruit() }],
+    pendant: { X: -100, z: 1700, Y: 1250 },
+    surfaces: [{ X: -100, w: 1560, zf: 800, zb: 1200, Y: 900, fill: '#d6b684' }],
+    rug: null
+  },
+
+```
+
+## Projection and scene paint order
+```js
+import { F, CX } from '../core/constants.mjs';
+
+export const proj = (sc, X, z, Y = 0) => { const s = F / z; return { s, x: CX + s * X, y: sc.hy + s * (sc.camH - Y) }; };
+export const put = (sc, X, z, Y, mm, cls = '') => { const p = proj(sc, X, z, Y); return `<g class="o ${cls}" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.s.toFixed(4)})">${mm}</g>`; };
+
+import { proj, put } from './camera.mjs';
+import { ROOM_SPECS } from './specs.mjs';
+import { pendant } from '../props/index.mjs';
+import { CX, DUCK_UNITS_PER_MM, DUCK_CX } from '../core/constants.mjs';
+import { sceneDefs } from '../lighting/defs.mjs';
+import { DUCK_LABELS, duckInnerMarkup } from '../duck/index.mjs';
+
+// duck: false omits the duck and its ground shadow only; the anchor still sets the medium crop.
+export function buildRoomScene({ area, duckView, framing, furnishings, duck = true }) {
+  if (!Object.prototype.hasOwnProperty.call(ROOM_SPECS, area)) throw new RangeError(`Unknown room area: ${String(area)}`);
+  if (framing !== 'wide' && framing !== 'medium') throw new RangeError(`Unknown framing: ${String(framing)}`);
+  if (duck && !['front', 'side', 'rear'].includes(duckView)) throw new RangeError(`Unknown duck view: ${String(duckView)}`);
+  const states = ['present', 'removed'];
+  if (!furnishings || !states.includes(furnishings.couch) || !states.includes(furnishings.tv)) throw new RangeError('furnishings must be { couch, tv } with each "present" or "removed"');
+  const sc = ROOM_SPECS[area], wallBase = proj(sc, 0, sc.zw), sw = wallBase.s;
+  const items = sc.items(furnishings).slice().sort((a, b) => b.z - a.z);
+  const out = [], glows = [];
+  const floorLines = [-9, -7, -5, -3, -1, 1, 3, 5, 7, 9].map(i => { const X = i * 650, yb = 700, sNear = (yb - sc.hy) / sc.camH; return `<line x1="${CX + sw * X}" y1="${wallBase.y}" x2="${CX + sNear * X}" y2="${yb}" stroke="#000" stroke-opacity=".07" stroke-width="2"/>`; }).join('');
+  const tile = sc.tiles ? `<pattern id="k-tile" width="${sw * 120}" height="${sw * 120}" patternUnits="userSpaceOnUse"><rect width="${sw * 120}" height="${sw * 120}" fill="${sc.wall}"/><path d="M0 0H${sw * 120}M0 0V${sw * 120}" stroke="#a9b3a0" stroke-width="1.2" fill="none"/></pattern>` : '';
+  const wallFill = sc.tiles ? 'url(#k-tile)' : sc.wall;
+  out.push(`<rect x="-900" y="-700" width="2760" height="${wallBase.y + 700}" fill="${wallFill}"/>`);
+  if (sc.tiles) out.push(`<rect x="-900" y="-700" width="2760" height="${proj(sc, 0, sc.zw, 1700).y + 700}" fill="${sc.wall}" opacity=".0"/>`);
+  out.push(`<rect x="-900" y="${wallBase.y}" width="2760" height="900" fill="${sc.floor}"/>${floorLines}`);
+  out.push(`<rect x="-900" y="${wallBase.y - sw * 100}" width="2760" height="${sw * 100}" fill="#000" opacity=".12"/>`);
+  if (sc.rug) { const pts = sc.rug.map(([X, z]) => { const p = proj(sc, X, z); return `${p.x.toFixed(1)},${p.y.toFixed(1)}`; }).join(' '); out.push(`<polygon points="${pts}" fill="${sc.rugFill}" stroke="${sc.rugTrim}" stroke-width="4"/>`); }
+  const k =proj(sc, 0, sc.anchor.z).s / DUCK_UNITS_PER_MM, dp = proj(sc, sc.anchor.X, sc.anchor.z, sc.anchor.Y);
+  const duckSvg = duck ? `<svg x="${(dp.x - DUCK_CX[duckView] * k).toFixed(1)}" y="${(dp.y - 250 * k).toFixed(1)}" width="${360 * k}" height="${270 * k}" viewBox="0 0 360 270" overflow="visible" role="img" aria-label="${DUCK_LABELS[duckView]} rubber duck in the ${sc.label.toLowerCase()}">${duckInnerMarkup(duckView)}</svg>` : '';
+  const dShadow = duck ? `<ellipse cx="${dp.x + k * 20}" cy="${dp.y + 2}" rx="${k * 105}" ry="${k * 11}" fill="url(#g-soft)"/>` : '';
+  for (const it of items) {
+    if (it.ghost) { out.push(put(sc, it.X, it.z, it.Y, it.mm)); continue; }
+    if (it.shadow) { const p = proj(sc, it.X, it.z, 0); out.push(`<ellipse cx="${(p.x + p.s * it.shadow * .06).toFixed(1)}" cy="${(p.y + 2).toFixed(1)}" rx="${(p.s * it.shadow * .56).toFixed(1)}" ry="${(p.s * Math.min(it.shadow, 900) * .05).toFixed(1)}" fill="url(#g-soft)"/>`); }
+    out.push(put(sc, it.X, it.z, it.Y, it.mm));
+  }
+  for (const sf of sc.surfaces || []) {
+    const q = [[sf.X - sf.w / 2, sf.zb], [sf.X + sf.w / 2, sf.zb], [sf.X + sf.w / 2, sf.zf], [sf.X - sf.w / 2, sf.zf]].map(([X, z]) => { const pp = proj(sc, X, z, sf.Y); return `${pp.x.toFixed(1)},${pp.y.toFixed(1)}`; }).join(' ');
+    out.push(`<polygon points="${q}" fill="${sf.fill}" stroke="#3a2c26" stroke-width="2" stroke-linejoin="round"/>`);
+  }
+  // things on the duck's surface, then duck, then foreground pendant
+  const nearAnchor = [];
+  for (const it of sc.onTable.filter(t => t.X < sc.anchor.X)) nearAnchor.push(it);
+  for (const it of sc.onTable.filter(t => t.X >= sc.anchor.X)) nearAnchor.push(it);
+  for (const it of nearAnchor) out.push(put(sc, it.X, it.z, it.Y, it.mm));
+  if (duck) out.push(dShadow + duckSvg);
+  if (sc.pendant) { const p = sc.pendant; out.push(put(sc, p.X, p.z, p.Y, pendant(-3600), 'pendant')); }
+  // lamp glow
+  const L = sc.lampAt, lp = proj(sc, L.X, L.z, L.Y);
+  // An open lampshade throws light mainly down (and a fainter spill up), not equally in all directions:
+  // a soft halo at the shade plus blurred cones from its openings.
+  glows.push(put(sc, L.X, L.z, L.Y, `<circle r="${L.r}" fill="url(#g-glow)" opacity=".5"/>`, 'lamp-on lamp-pool'));
+  for (const c of sc.cones || []) {
+    const e = c.dir === 'down' ? c.len : -c.len;
+    glows.push(put(sc, c.X, c.z, c.Y, `<polygon points="${-c.w0},0 ${c.w0},0 ${c.w1},${e} ${-c.w1},${e}" fill="url(#g-cone-${c.dir === 'down' ? 'd' : 'u'})" stroke="none" opacity="${c.op ?? 1}" filter="url(#f-blur-mm)"/>`, 'lamp-on lamp-pool'));
+  }
+  const vb = framing === 'medium' ? (() => { const w = 440, h = w * 540 / 960; return `${(dp.x - w * .46).toFixed(1)} ${Math.max(0, Math.min(540 - h, dp.y - h * .66)).toFixed(1)} ${w} ${h.toFixed(1)}`; })() : '0 0 960 540';
+  const [vx, vy, vw, vh] = vb.split(' ').map(Number);
+  return {
+    lamp: { x: Math.max(5, Math.min(95, (lp.x - vx) / vw * 100)), y: Math.max(5, Math.min(95, (lp.y - vy) / vh * 100 + (sc.poolDy || 0))), rx: sc.poolRx, ry: sc.poolRy },
+    svg: `<svg class="desk-scene room-scene" viewBox="${vb}" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${sceneDefs}<defs>${tile}</defs>${out.join('')}${glows.join('')}</svg>`
+  };
+}
+
+```
+
+## Current lighting modes
+```js
+// Light modes for the apartment scenes, baked into the returned SVG so a scene is self-contained.
+//
+// The original review page switched light with page CSS (.stage[data-light]) plus an HTML overlay. Here the same
+// rules are emitted as a <style> block scoped to the scene's own class, with the chosen mode already applied, and
+// the overlay is drawn inside the SVG in scene coordinates. Intentional differences: no 0.2 s fade (static output)
+// and the overlay follows the scene box instead of a host stage's percentages (hosts that prefer the original
+// behaviour can pass overlay:'none' and use the returned `lighting` hints).
+
+export const LIGHT_MODES = ['neutral', 'window', 'warm'];
+
+/** Hints for desk scenes (the original page's per-area CSS custom properties, in percent of the scene box). */
+export const DESK_LIGHT_HINTS = { 'desk-side': { x: 33, y: 62 }, 'desk-top': { x: 28, y: 38 } };
+
+/** Scoped copy of the original page CSS for the scene classes, with `mode` applied. `cls` is the root class. */
+export function sceneStyle(cls, mode) {
+  const s = `.${cls}`;
+  const warm = mode === 'warm';
+  return `<style>${s}{width:100%;height:100%;display:block;overflow:visible}`
+    + `${s} .cast [fill]:not([fill="none"]){fill:#1a0f0a}${s} .cast [stroke]:not([stroke="none"]){stroke:#1a0f0a}`
+    + `${s} .cast{opacity:.3}${s} .cast-keep{opacity:.3}${s} .cast-lamp{display:none}`
+    + `${s} .lamp-on{opacity:${warm ? 1 : 0}}${s} .lamp-pool{mix-blend-mode:screen}`
+    + (warm ? `${s} .cast-amb{display:none}${s} .cast-lamp{display:inline;opacity:.42}` : '')
+    + `${s}.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}${s}.room-scene .o *{vector-effect:non-scaling-stroke}</style>`;
+}
+
+const BIG = 'x="-6000" y="-6000" width="14000" height="14000" pointer-events="none"';
+
+/**
+ * In-SVG equivalent of the original HTML overlay. `box` = [x, y, w, h] of the scene viewBox; `hint` =
+ * { x, y, rx, ry } in percent of that box (centre and ellipse radii of the warm pool).
+ */
+export function overlayMarkup(mode, box, hint) {
+  const [vx, vy, vw, vh] = box;
+  if (mode === 'neutral') return `<rect ${BIG} fill="rgb(255,247,227)" fill-opacity=".05"/>`;
+  if (mode === 'window') {
+    // CSS linear-gradient(115deg, rgb(255 245 205 / 24%), transparent 58%) over the box.
+    const a = 115 * Math.PI / 180, dx = Math.sin(a), dy = -Math.cos(a), len = Math.abs(vw * Math.sin(a)) + Math.abs(vh * Math.cos(a));
+    const cx = vx + vw / 2, cy = vy + vh / 2, f = n => Math.round(n * 100) / 100;
+    return `<defs><linearGradient id="g-overlay" gradientUnits="userSpaceOnUse" x1="${f(cx - dx * len / 2)}" y1="${f(cy - dy * len / 2)}" x2="${f(cx + dx * len / 2)}" y2="${f(cy + dy * len / 2)}"><stop offset="0" stop-color="rgb(255,245,205)" stop-opacity=".24"/><stop offset=".58" stop-color="rgb(255,245,205)" stop-opacity="0"/></linearGradient></defs><rect ${BIG} fill="url(#g-overlay)"/>`;
+  }
+  // warm: CSS radial-gradient(ellipse rx ry at px, py, rgb(255 190 98 / 48%), rgb(255 171 76 / 20%) 34%, rgb(18 19 29 / 82%)).
+  const cx = vx + vw * hint.x / 100, cy = vy + vh * hint.y / 100, rx = vw * hint.rx / 100, ry = vh * hint.ry / 100, f = n => Math.round(n * 100) / 100;
+  const stops = premultipliedStops(WARM_STOPS, 8).map(s => `<stop offset="${s.offset}" stop-color="rgb(${s.rgb.join(',')})" stop-opacity="${s.a}"/>`).join('');
+  return `<defs><radialGradient id="g-overlay" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(${f(cx)} ${f(cy)}) scale(${f(rx)} ${f(ry)})">${stops}</radialGradient></defs><rect ${BIG} fill="url(#g-overlay)"/>`;
+}
+
+// CSS gradients interpolate in premultiplied alpha; SVG gradients interpolate straight colour and alpha, which makes the
+// middle of the warm pool noticeably lighter than the original. `premultipliedStops` samples the CSS curve into `n` SVG
+// stops per segment so the rendered pool matches.
+const WARM_STOPS = [{ offset: 0, rgb: [255, 190, 98], a: .48 }, { offset: .34, rgb: [255, 171, 76], a: .2 }, { offset: 1, rgb: [18, 19, 29], a: .82 }];
+function premultipliedStops(stops, n) {
+  const out = [], r = (v, p) => Math.round(v * p) / p;
+  for (let i = 0; i < stops.length - 1; i++) {
+    const s0 = stops[i], s1 = stops[i + 1];
+    for (let k = i === 0 ? 0 : 1; k <= n; k++) {
+      const t = k / n, a = s0.a + (s1.a - s0.a) * t;
+      const rgb = [0, 1, 2].map(c => Math.round(((s0.rgb[c] * s0.a) * (1 - t) + (s1.rgb[c] * s1.a) * t) / a));
+      out.push({ offset: r(s0.offset + (s1.offset - s0.offset) * t, 1000), rgb, a: r(a, 1000) });
+    }
+  }
+  return out;
+}
+
+```

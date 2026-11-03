@@ -24,3 +24,17 @@
 /reports/development/plan-52-five-slot-production-transition/checkpoint-recovery/trace.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/checkpoint-restore-batch/trace.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/checkpoint-restore-attempt1/trace.json text eol=lf
+
+# Plan 52 repair evidence: preserve attested recipe, study and payload bytes.
+/reports/development/plan-52-five-slot-production-transition/repair-layout-attempt1.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/repair-layout-attempt2.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/repair-layout-browser.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/lighting-reference-capture.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/lighting-reference.html text eol=lf
+/reports/development/plan-52-five-slot-production-transition/lighting-comparison-attempt1.mjs text eol=lf
+/reports/development/plan-52-five-slot-production-transition/lighting-comparison-capture.mjs -text
+/reports/development/plan-52-five-slot-production-transition/lighting-comparison.html text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sonnet-kitchen-candidate.svg text eol=lf
+/reports/development/plan-52-five-slot-production-transition/lighting-sonnet-payload.txt text eol=lf
+/reports/development/plan-52-five-slot-production-transition/production-day1-repair-current-browser.mjs -text
+/reports/development/plan-52-five-slot-production-transition/repair-build-evidence.json -text

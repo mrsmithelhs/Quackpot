@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Early Evening kitchen lighting comparison</title>
+<style>
+  :root {color-scheme:dark;font-family:system-ui,sans-serif;background:#101724;color:#f6f1e9}
+  body {margin:0;padding:1.5rem} main {max-width:1100px;margin:auto} h1 {font-size:1.45rem} p {line-height:1.5;max-width:78ch}
+  figure {margin:1.5rem 0} figcaption {font-size:1.05rem;font-weight:700;margin-bottom:.5rem}
+  .scene {position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:.6rem;background:#222}
+  .scene img {position:absolute;inset:0;width:100%;height:100%;display:block}
+  .scene .candidate {pointer-events:none}
+  body.capture {padding:0} body.capture main {max-width:none} body.capture h1,body.capture p,body.capture figcaption {display:none}
+  body.capture figure {display:none;margin:0} body.capture figure.selected {display:block}
+</style></head><body><main>
+<h1>Early Evening kitchen lighting comparison</h1>
+<p>These are static study images. The middle image is a proposed lighting layer over the existing daytime kitchen; it has not been selected or added to the game.</p>
+<figure data-name="day"><figcaption>Existing daytime window light</figcaption><div class="scene"><img src="lighting-references/window.png" alt="Kitchen in the existing daylight treatment"></div></figure>
+<figure data-name="candidate"><figcaption>Sonnet candidate: late-day window light</figcaption><div class="scene"><img src="lighting-references/neutral.png" alt="Kitchen in the proposed early-evening treatment"><img class="candidate" src="sonnet-kitchen-candidate.svg" alt=""></div></figure>
+<figure data-name="evening"><figcaption>Existing warm lamp light</figcaption><div class="scene"><img src="lighting-references/warm.png" alt="Kitchen in the existing lamp-lit evening treatment"></div></figure>
+</main><script>const focus=new URLSearchParams(location.search).get('capture');if(['day','candidate','evening'].includes(focus)){document.body.classList.add('capture');document.querySelector(`figure[data-name="${focus}"]`).classList.add('selected');}</script></body></html>

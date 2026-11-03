@@ -1,0 +1,333 @@
+{
+  "source": "reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json",
+  "fixtureSha256": "46900bb4cbeb66d25dd806cac3dc26e9f819e5a8e2bb844e10a9075c12b4a5c1",
+  "sourceClosureSha256": "c4b03da344a09a3b9fd32531246b5bd9bdf68bde56aeb56c78fc676683fa6c47",
+  "recipeSha256": "a4f0f8e271551d2a9950d0852b39eddde8887e8f6571b3776dddf19a5ffe0939",
+  "results": [
+    {
+      "width": 1024,
+      "height": 600,
+      "setup": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 533.5
+      },
+      "play": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 533.5
+      },
+      "ordinaryLetter": {
+        "left": 91.4784927368164,
+        "top": 143.30441284179688,
+        "width": 483.9113464355469,
+        "height": 461.4403991699219
+      },
+      "ordinaryDecide": {
+        "left": 594.09375,
+        "top": 405.84375,
+        "width": 320,
+        "height": 48
+      },
+      "returnFocus": {
+        "connected": true,
+        "object": "notice"
+      },
+      "letter": {
+        "left": 91.72477722167969,
+        "top": 164.51519775390625,
+        "width": 486.3629150390625,
+        "height": 465.7352294921875
+      },
+      "decide": {
+        "left": 594.09375,
+        "top": 167.84375,
+        "width": 320,
+        "height": 420
+      },
+      "held": {
+        "left": 30.265625,
+        "top": 151.84375,
+        "width": 948.46875,
+        "height": 600
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "side-by-side",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 860,
+      "height": 700,
+      "setup": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 446.796875
+      },
+      "play": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 446.796875
+      },
+      "ordinaryLetter": {
+        "left": 181.56094360351562,
+        "top": 157.14414978027344,
+        "width": 477.5758972167969,
+        "height": 454.78997802734375
+      },
+      "ordinaryDecide": {
+        "left": 34.9375,
+        "top": 623.1875,
+        "width": 775.125,
+        "height": 48
+      },
+      "returnFocus": {
+        "connected": true,
+        "object": "notice"
+      },
+      "letter": {
+        "left": 175,
+        "top": 156.515625,
+        "width": 480,
+        "height": 459.078125
+      },
+      "decide": {
+        "left": 34.9375,
+        "top": 625.1875,
+        "width": 760.125,
+        "height": 555.90625
+      },
+      "held": {
+        "left": 25.34375,
+        "top": 146.921875,
+        "width": 794.3125,
+        "height": 700
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "stacked",
+      "noFallbackAtBreakfastWorkOrDue": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "setup": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 205.875
+      },
+      "play": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 205.875
+      },
+      "ordinaryLetter": {
+        "left": 21.481443405151367,
+        "top": 242.90585327148438,
+        "width": 345.0496826171875,
+        "height": 596.3426513671875
+      },
+      "ordinaryDecide": {
+        "left": 21.59375,
+        "top": 852.0625,
+        "width": 346.8125,
+        "height": 48
+      },
+      "returnFocus": {
+        "connected": true,
+        "object": "notice"
+      },
+      "letter": {
+        "left": 21.59375,
+        "top": 242.765625,
+        "width": 346.8125,
+        "height": 626.890625
+      },
+      "decide": {
+        "left": 21.59375,
+        "top": 879.25,
+        "width": 346.8125,
+        "height": 667.859375
+      },
+      "held": {
+        "left": 12,
+        "top": 233.171875,
+        "width": 366,
+        "height": 704
+      },
+      "shell": {
+        "horizontalOverflow": false,
+        "uninstallVisible": true
+      },
+      "letterLayout": "stacked",
+      "noFallbackAtBreakfastWorkOrDue": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 29240,
+        "ppid": 47924,
+        "created": "11/02/2026 22:56:56",
+        "root": true
+      },
+      {
+        "pid": 23912,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 4632,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 29212,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 30116,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 33488,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 30220,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 26284,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 34732,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 12816,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:56",
+        "root": false
+      },
+      {
+        "pid": 37072,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:57",
+        "root": false
+      },
+      {
+        "pid": 41040,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:57",
+        "root": false
+      },
+      {
+        "pid": 24044,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:57",
+        "root": false
+      },
+      {
+        "pid": 34456,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:59",
+        "root": false
+      },
+      {
+        "pid": 9960,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:59",
+        "root": false
+      },
+      {
+        "pid": 49000,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:59",
+        "root": false
+      },
+      {
+        "pid": 9420,
+        "ppid": 29240,
+        "created": "11/02/2026 22:56:59",
+        "root": false
+      },
+      {
+        "pid": 31200,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:00",
+        "root": false
+      },
+      {
+        "pid": 2316,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:01",
+        "root": false
+      },
+      {
+        "pid": 24740,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:01",
+        "root": false
+      },
+      {
+        "pid": 42684,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:01",
+        "root": false
+      },
+      {
+        "pid": 48820,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:06",
+        "root": false
+      },
+      {
+        "pid": 29264,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:06",
+        "root": false
+      },
+      {
+        "pid": 29688,
+        "ppid": 29240,
+        "created": "11/02/2026 22:57:06",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "\r\nDevTools listening on ws://127.0.0.1:58064/devtools/browser/1dface7c-0371-44af-824e-c043f4cdbc98\r\n[29240:36388:1102/225656.523:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[29240:36388:1102/225656.523:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\nCreated TensorFlow Lite XNNPACK delegate for CPU.\r\n"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "referenceHtmlSha256": "1aba71e6d63cdda9c3087df4caeb3cb0052188e54804f7d91bda937afd2d69ef",
+  "recipeSha256": "93bfbc66bfd2b0cd1e9ed46c9d55a4eb6a2b8c6560143fb3a0a0fbf644cc99b4",
+  "results": [
+    {
+      "name": "neutral",
+      "file": "reports/development/plan-52-five-slot-production-transition/lighting-references/neutral.png",
+      "sha256": "bdb9598cbcca063a1e6ccdc0fbd2cca5f4aa7479803c4123b904e8d78dd600c2",
+      "viewport": [
+        960,
+        540
+      ]
+    },
+    {
+      "name": "window",
+      "file": "reports/development/plan-52-five-slot-production-transition/lighting-references/window.png",
+      "sha256": "d7538c12dee51a03c9c54bb1aca419883e526d84df2d7ef18a1f0966f1035205",
+      "viewport": [
+        960,
+        540
+      ]
+    },
+    {
+      "name": "warm",
+      "file": "reports/development/plan-52-five-slot-production-transition/lighting-references/warm.png",
+      "sha256": "bc75427965bfb12cd918fa18d09aba3f58b3430a43cbd19377fe2cd0a7ddf0f2",
+      "viewport": [
+        960,
+        540
+      ]
+    },
+    {
+      "name": "living-sun",
+      "file": "reports/development/plan-52-five-slot-production-transition/lighting-references/living-sun.png",
+      "sha256": "a078e010a9fdf82a139d1e2aecd7a3e51a97231422d8e9dfb78fc35902e37d37",
+      "viewport": [
+        960,
+        540
+      ]
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": false,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": true,
+    "profileRemoved": true,
+    "trackedDescendants": [
+      {
+        "pid": 21796,
+        "ppid": 40004,
+        "created": "11/02/2026 23:04:46",
+        "root": true
+      },
+      {
+        "pid": 21932,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:46",
+        "root": false
+      },
+      {
+        "pid": 47620,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:46",
+        "root": false
+      },
+      {
+        "pid": 35796,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:46",
+        "root": false
+      },
+      {
+        "pid": 14404,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 34864,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 41504,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 36456,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 27700,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 49488,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      },
+      {
+        "pid": 41268,
+        "ppid": 21796,
+        "created": "11/02/2026 23:04:47",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderr": "[21796:39296:1102/230447.013:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\dngcpimnedloihjnnfngkgjoidhnaolf.\r\n[21796:39296:1102/230447.013:ERROR:chrome\\browser\\extensions\\external_registry_loader_win.cc:147] Missing value path for key Software\\Google\\Chrome\\Extensions\\fcoeoabgfenejglbffodgkkbkcdhcgfn.\r\n\r\nDevTools listening on ws://127.0.0.1:55293/devtools/browser/84fa2282-9650-4168-9202-9c152da47b61\r\n"
+  }
+}

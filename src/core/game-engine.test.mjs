@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import { GameEngine, calculatePreDrawOdds, BANNER_1_ROSTER } from './game-engine.mjs';
 import { EventLog, verifyCompleteness } from './event-log.mjs';
 import { projectReceipt } from './receipt.mjs';
@@ -971,14 +972,11 @@ test('engine [Plan 21 Repair 02]: duplicate-first reveal discovers identity and 
 });
 
 test('Plan52 staged engine path commits real scheduler and finance state without accepting fake play',()=>{
- const e=new GameEngine('plan52-engine-staged',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
- const act=action=>{const intent={domain:'schedule',action:{...action,operationId:`op-${++n}`}};const p=e.prepareFiveSlotAction(intent);assert.equal(p.ok,true,JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));return r;};
- const before=e.rngDraw.serialize(), fake=e.prepareFiveSlotAction({domain:'schedule',action:{type:'play',kind:'pull',operationId:'fake'}});assert.equal(fake.reason,'gameplay_operation_required');assert.equal(e.rngDraw.serialize(),before);
+ let e=new GameEngine('plan52-engine-staged',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ let before=e.rngDraw.serialize();const fake=e.prepareFiveSlotAction({domain:'schedule',action:{type:'play',kind:'pull',operationId:'fake'}});assert.equal(fake.reason,'gameplay_operation_required');assert.equal(e.rngDraw.serialize(),before);
  assert.equal(e.applyLifeIntent({type:'advance'}).reason,'five_slot_action_required');assert.equal(e.openLifeApp(),false);assert.equal(e.buyLifeBundle(60),false);assert.equal(e.commitPromotionalTenPull(),null);assert.equal(e.runRace(1,'duck-0'),null);assert.equal(e.rngDraw.serialize(),before);
- for(let day=1;day<=3;day++){
-  act({type:'meal',choice:'buy'});act({type:'start',kind:day===1?'work':'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});
-  act({type:'meal',choice:'buy'});act({type:'start',kind:'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'sleep'});
- }
+ // Resume a genuine pre-repair UI capture; old quiet events remain replayable.
+ e=GameEngine.fromEnvelope(JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json','utf8')));before=e.rngDraw.serialize();
  assert.equal(e.state.life.schedule.day,4);assert.equal(e.state.cash,104);assert.equal(e.checkDueObligations().bills[0].id,'rent-1');
  const confirmed=e.log.entries.find(event=>event.type==='life52_intent' && event.payload.intent.action.type==='meal');
  assert.deepEqual(confirmed.payload.operation,{confirmed:true});
@@ -989,8 +987,11 @@ test('Plan52 staged engine path commits real scheduler and finance state without
  let p=e.prepareFiveSlotAction(loanIntent);assert.equal(p.ok,true);let r=e.commitFiveSlotAction(p.proposal);assert.equal(r.ok,true);assert.equal(e.state.cash,170);assert.equal(e.state.life.finance.loans[0].principalCents,6600);
  p=e.prepareFiveSlotAction({domain:'finance',action:{type:'pay_rent',billId:'rent-1',id:'rent-payment'}});assert.equal(p.ok,true);r=e.commitFiveSlotAction(p.proposal);assert.equal(r.ok,true);assert.equal(e.state.cash,0);assert.equal(e.state.life.finance.rents[0].status,'paid');
  assert.equal(e.commitFiveSlotAction(p.proposal).ok,false);assert.equal(e.state.cash,0);assert.equal(e.rngDraw.serialize(),before);assert.equal(e.state.debt,99);
- for(let day=4;day<=8;day++){act({type:'meal',choice:'skip'});act({type:'start',kind:'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'skip'});act({type:'start',kind:'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'sleep'});}
- act({type:'meal',choice:'skip'});assert.equal(e.state.life.schedule.day,9);assert.equal(e.state.life.schedule.slot,'midday');assert.equal(e.checkDueObligations().bills[0].id,'loan-1');
+ // A second genuine UI capture reaches the due deadline under the earlier
+ // policy; the pre-existing quiet events must still replay after this repair.
+ const dueSave=JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-finance-final/day9-loan-due.save.json','utf8'));
+ const rebuilt=new EventLog();for(const event of dueSave.eventLog.filter(event=>event.type!=='life52_due_options_shown' || !event.payload.bills?.some(bill=>bill.id==='loan-1')))rebuilt.append(event.type,event.payload,event.clock);dueSave.eventLog=rebuilt.entries;e=GameEngine.fromEnvelope(dueSave);
+ assert.equal(e.state.life.schedule.day,9);assert.equal(e.state.life.schedule.slot,'midday');assert.equal(e.checkDueObligations().bills[0].id,'loan-1');
  const unpaid={domain:'finance',action:{type:'leave_unpaid',loanId:'loan-1',id:'default',confirmed:true,optionsDisclosed:true}};assert.equal(e.prepareFiveSlotAction(unpaid).reason,'default_evidence_required');
  const shown=e.recordFiveSlotDueOptionsShown();assert.deepEqual(shown.payload.saleOptions,['couch','tv']);assert.equal(e.isTerminal(),false);
  p=e.prepareFiveSlotAction(unpaid);assert.equal(p.ok,true);r=e.commitFiveSlotAction(p.proposal);assert.equal(r.ok,true);assert.equal(e.state.terminalRoute,'running_on_empty');assert.equal(e.state.debt,99);assert.equal(e.log.entries.filter(x=>x.type==='terminal').at(-1).payload.reason,'loan_unaffordable');assert.equal(e.commitFiveSlotAction(p.proposal).ok,false);
@@ -1013,8 +1014,8 @@ test('Plan52 staged engine coordinates Ren reservation and actual visit start',(
  const schedule=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`s-${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));};
  const social=action=>{const intent={operationId:`ren-op-${++n}`,action};const r=e.applyFiveSlotSocialAction(intent,e.log.length);assert.equal(r.ok,true,JSON.stringify({action,r}));return r;};
  for(let day=1;day<=2;day++){
-  schedule({type:'meal',choice:'buy'});schedule({type:'start',kind:day===1?'work':'quiet'});schedule({type:'complete',activityId:e.state.life.schedule.active.id});schedule({type:'meal',choice:'buy'});
-  if(day===1){schedule({type:'start',kind:'quiet'});schedule({type:'complete',activityId:e.state.life.schedule.active.id});schedule({type:'sleep'});}
+  schedule({type:'meal',choice:'buy'});schedule({type:'start',kind:'work'});schedule({type:'complete',activityId:e.state.life.schedule.active.id});schedule({type:'meal',choice:'buy'});
+  if(day===1){schedule({type:'start',kind:'early-bed'});schedule({type:'complete',activityId:e.state.life.schedule.active.id});}
  }
  social({type:'social46_activate',version:1,revision:2});social({type:'social46_knock_shown'});social({type:'social46_door_open'});
  for(const choice of ['meet','glad','continue','thanks','finish']){social({type:'social46_intro_line_shown'});social({type:'social46_intro_choose',choice});}
@@ -1141,9 +1142,7 @@ test('Plan52 staged engine commits actual pull with schedule, RNG and prior resu
 });
 
 test('Plan52 due options allow one-time furniture sales without automatically paying',()=>{
- const e=new GameEngine('plan52-sales',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
- const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`sale-s-${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));};
- for(let day=1;day<=3;day++){act({type:'meal',choice:'buy'});act({type:'start',kind:day===1?'work':'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});act({type:'start',kind:'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'sleep'});}
+ const e=GameEngine.fromEnvelope(JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-finance-final/day4-rent-shortfall.save.json','utf8')));
  const shown=e.recordFiveSlotDueOptionsShown();assert.equal(shown.payload.shortfallCents,6600);assert.deepEqual(shown.payload.loanRentIds,['rent-1']);assert.equal(shown.payload.overtimeAvailable,true);assert.equal(e.isTerminal(),false);
  assert.equal(e.sellFiveSlotAsset('couch',e.log.length).ok,true);assert.equal(e.sellFiveSlotAsset('couch',e.log.length).reason,'unavailable');assert.equal(e.sellFiveSlotAsset('tv',e.log.length).ok,true);assert.equal(e.state.cash,174);assert.equal(e.state.life.finance.rents[0].status,'pending');
  const hold={domain:'finance',action:{type:'leave_unpaid',billId:'rent-1',id:'hold',confirmed:true,optionsDisclosed:true}};assert.equal(e.prepareFiveSlotAction(hold).reason,'default_evidence_required');const after=e.recordFiveSlotDueOptionsShown();assert.deepEqual(after.payload.saleOptions,[]);

@@ -18,6 +18,7 @@ import { selectWorkStory } from './life-story-content.mjs';
 import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs';
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
+import { quietFallbackEligibility } from './life-schedule/quiet-fallback.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
 import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
@@ -262,12 +263,50 @@ export class GameEngine {
     const life = this.state.life;
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1') return { ok: false, reason: 'unavailable' };
     if (this.tutorialShiftVersion && intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='work') return {ok:false,reason:'story_work_required'};
+    if (intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='quiet') {
+      const fallback=this.fiveSlotQuietFallback(intent.action.operationId);
+      if (!fallback.ok) return fallback;
+    }
     // Real pull/race outcomes and consequence-bearing defaults need their own
     // engine-owned operations and actual displayed-option evidence.
     if (intent?.domain === 'schedule' && intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
     if (intent?.domain === 'finance' && intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
     if (intent?.domain === 'finance' && intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };
     return inspectLifeTransaction(life, { cashCents: Math.round(this.state.cash * 100), health: this.state.health }, intent, this.#fiveSlotContext());
+  }
+
+  // Live eligibility is rechecked at the transaction boundary. Historical
+  // replay deliberately uses the original coordinator contract for old logs.
+  fiveSlotQuietFallback(operationId = `quiet-preview:${this.log.length}`) {
+    const life=this.state.life;
+    if(this.isTerminal() || life?.policyVersion!=='five-slot-v1' || this.state.activeModal || this.state.interruptedContext)return {ok:false,reason:'unavailable'};
+    const balances={cashCents:Math.round(this.state.cash*100),health:this.state.health}, context=this.#fiveSlotContext(),s=life.schedule;
+    const inspect=(action,extra=context)=>inspectLifeTransaction(life,balances,{domain:'schedule',action},extra);
+    const quiet=inspect({type:'start',kind:'quiet',operationId});
+    if(!quiet.ok)return quiet;
+    const available=[];let n=0;
+    const probe=(action,extra=context)=>inspect({...action,operationId:`fallback-check:${this.log.length}:${++n}`},extra);
+    const add=availableNow=>available.push({available:Boolean(availableNow),free:true});
+    add(probe({type:'meal',choice:'skip'}).ok);
+    add(probe({type:'start',kind:'work'}).ok);
+    add(probe({type:'start',kind:'early-bed'}).ok);
+    add(probe({type:'sleep'}).ok);
+    add(prepareActivityStory(life,balances,{choice:'sit_duck',operationId:`fallback-check:${this.log.length}:sit`},context).ok);
+    add(prepareActivityStory(life,balances,{choice:'call_mom',operationId:`fallback-check:${this.log.length}:call`},context).ok);
+    const reservation=s.overtimeReservation;
+    if(reservation?.status==='reserved')add(probe({type:'start',kind:'overtime',reservationId:reservation.id}).ok);
+    const ren=life.social46?.pending;
+    if(ren?.committed)add(probe({type:'start',kind:'social',planId:ren.id}).ok);
+    // Opening the app is free. Existing Gems, the promotion, and owned ducks
+    // provide play; purchasing Gems with cash does not count as a free option.
+    const appOpenable=!(s.day===1 && !['evening','late-evening'].includes(s.slot));
+    const pending=this.state.pendingReveals.some(draw=>!draw.revealed);
+    const freePull=!pending && (!this.state.tenPullCommitted || this.state.gems>=GAME_CONSTANTS.PULL_SINGLE_COST);
+    const race=this.state.owned.length>0;
+    const playContext={...context,schedule:{...context.schedule,operationAvailable:true}};
+    if(appOpenable && freePull)add(probe({type:'play',kind:'pull'},playContext).ok);
+    if(appOpenable && race)add(probe({type:'play',kind:'race'},playContext).ok);
+    return quietFallbackEligibility({quiet,alternatives:available});
   }
 
   // Called only after the view actually presents these exact consequences.
@@ -313,6 +352,7 @@ export class GameEngine {
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || !proposal?.intent) return { ok: false, reason: 'unavailable' };
     if (this.tutorialShiftVersion && proposal.intent.domain==='schedule' && proposal.intent.action?.type==='start' && proposal.intent.action?.kind==='work') return {ok:false,reason:'story_work_required'};
     if (proposal.intent.domain === 'schedule' && proposal.intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
+    if (proposal.intent.domain==='schedule' && proposal.intent.action?.type==='start' && proposal.intent.action?.kind==='quiet') { const fallback=this.fiveSlotQuietFallback(proposal.intent.action.operationId); if(!fallback.ok)return fallback; }
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(proposal.intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };
     if (this.tutorialShiftVersion && proposal.domain==='schedule' && proposal.schedule?.disclosures?.length

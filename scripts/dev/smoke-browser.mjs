@@ -554,6 +554,7 @@ async function runSmoke() {
     const reload = async () => {const event=waitForCdpEvent(cdp,'Page.loadEventFired',8000);await cdp.send('Page.reload',{ignoreCache:false});await event;await sleep(400);};
     const meal = async skip => {await waitForSelector(cdp,'[data-obj=plate]');await clickSelector(cdp,'[data-obj=plate]');await clickSelector(cdp,skip?'[data-act=decline]':'[data-act=confirm]');await clickSelector(cdp,'[data-act=done]');};
     const earlyBed = async () => {await clickButtonText(cdp,'The bedroom');await clickSelector(cdp,'[data-obj=bed]');await clickSelector(cdp,'[data-act=confirm]');await clickSelector(cdp,'[data-act=done]');};
+    const scheduledWork = async () => {await clickButtonText(cdp,'The desk');await clickSelector(cdp,'[data-obj=work-keys]');await clickSelector(cdp,'[data-act=confirm]');await waitForSelector(cdp,'.life-story47 .life-day-next');await clickSelector(cdp,'.life-story47 .life-day-next');await clickSelector(cdp,'.life-story47 .life-day-next');await clickSelector(cdp,'.life-story47 .life-day-next');};
     await cdp.send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
 
     await resetAndLoadFresh(cdp);await clickSelector(cdp,'#btn-uninstall');await waitForSelector(cdp,'#btn-retention-leave');
@@ -565,6 +566,10 @@ async function runSmoke() {
     await resetAndLoadFresh(cdp);await startFiveSlotDay(cdp);
     await clickSelector(cdp,'[data-life-phone=bundle]');const afterBundle=await saved();
     assert(afterBundle.state.cash===123.01 && afterBundle.state.gems===330,'Real bundle purchase balance mismatch');
+    // Deliberate fictional spending creates a later rent shortfall even when
+    // the player completes scheduled shifts; this is not a nonspending route.
+    for(let i=0;i<11;i++)await clickSelector(cdp,'[data-life-phone=bundle]');
+    const afterSpending=await saved();assert(afterSpending.eventLog.filter(e=>e.type==='purchase'&&e.payload.kind==='bundle').length===12 && Math.abs(afterSpending.state.cash-68.12)<0.001,'Repeated fictional purchases were not committed as expected');
     await clickSelector(cdp,'[data-life-phone=welcome]');await waitForSelector(cdp,'#btn-reveal-next');await clickSelector(cdp,'#btn-reveal-next');await clickSelector(cdp,'#btn-reveal-next');
     assert(await evalExpr(cdp,"document.querySelectorAll('.duck-card.card-revealed').length")===2,'Expected two revealed cards');
     await clickSelector(cdp,'#btn-uninstall');await clickSelector(cdp,'#btn-retention-stay');await waitForSelector(cdp,'#btn-reveal-next');
@@ -579,7 +584,7 @@ async function runSmoke() {
     assert(afterRaceReload.state.gems===beforeRaceReload.state.gems && afterRaceReload.eventLog.filter(e=>e.type==='race_result').length===1,'Race reload duplicated outcome or Gems');
     await continueRace(cdp);await waitForSelector(cdp,'#btn-return-apartment');await clickSelector(cdp,'#btn-return-apartment');await waitForSelector(cdp,'.life-day-actions');
     await clickButtonText(cdp,'Finish phone session');await clickButtonText(cdp,'Go to sleep');
-    for(let day=2;day<=3;day++){await meal(false);await clickButtonText(cdp,'Spend time quietly');await meal(false);await earlyBed();}
+    for(let day=2;day<=3;day++){await meal(false);await scheduledWork();await meal(false);await earlyBed();}
     const rentBefore=await saved();assert(rentBefore.state.life.schedule.day===4 && rentBefore.state.cash<170,'Expected Day 4 rent shortfall');
     await clickButtonText(cdp,'See loan terms');const loan=await saved();assert(loan.state.life.finance.rents[0].status==='pending' && loan.state.debt>0 && loan.state.cash===170,'Loan silently paid rent or terms failed');
     await clickButtonText(cdp,'Pay Remaining rent');const paid=await saved();assert(paid.state.cash===0 && paid.state.life.finance.rents[0].status==='paid' && !paid.state.terminalRoute,'Explicit zero-cash rent payment failed');
@@ -601,7 +606,7 @@ async function runSmoke() {
     const observationRecord={timestamp:new Date().toISOString(),browser:browserMeta.Browser,origin:EXPECTED_ORIGIN,subpath:BASE_PATH,expectedBuildChunks:expectedChunks,sourceClosureSha256:sourceAtStart.sha256,smokeScriptSha256:sha256(readFileSync('scripts/dev/smoke-browser.mjs')),buildJsSha256:sha256(readFileSync(path.resolve('dist/assets',expectedChunks.js))),buildCssSha256:sha256(readFileSync(path.resolve('dist/assets',expectedChunks.css))),
       initialLoad:{requests:initialReqList.map(({requestId,...rest})=>rest),dom:domPhase1},reload:{requests:reloadReqList.map(({requestId,...rest})=>rest),dom:domPhase2},trailingSlash:trailingSlashObservation,dialogs,
       checks:{earlyUninstallReceipt:true,purchase:true,midRevealReload:true,repeatRetention:true,raceResultReloadReducedMotion:true,rentLoanSeparatePaymentZeroCash:true,financialReceipt:true,corruptSavePreserved:true,syntheticQuotaWarnings:true,autosaveDisabledManualSave:true},
-      limits:['Legacy starter-offer, automatic rent escalation and old zero-cash modal journeys retired; five-slot decisions exercised instead.','Race result smoke uses reduced motion and does not validate normal playback timing.']};
+      limits:['The rent-shortfall route deliberately buys 12 fictional Gem bundles and completes scheduled shifts; it is not a nonspending balance claim.','Legacy starter-offer, automatic rent escalation and old zero-cash modal journeys retired; five-slot decisions exercised instead.','Race result smoke uses reduced motion and does not validate normal playback timing.']};
     writeFileSync(OBSERVATION_OUTPUT_PATH,JSON.stringify(observationRecord,null,2),'utf8');
     console.log(`Five-slot UI smoke passed; observations: ${OBSERVATION_OUTPUT_PATH}`);
 

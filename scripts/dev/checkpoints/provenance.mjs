@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFile, rename, stat, writeFile } from 'node:fs/promises';
+import { readFile, readdir, rename, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,6 +34,20 @@ const PLAN35_CHECKPOINT_IDS = [
 ];
 
 export const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
+export async function currentPlan52SourceClosure() {
+  const paths=[];
+  async function walk(dir) {
+    for(const entry of await readdir(resolveRepoPath(dir),{withFileTypes:true})) {
+      const relative=`${dir}/${entry.name}`;
+      if(entry.isDirectory())await walk(relative);
+      else if(entry.isFile())paths.push(relative);
+      else throw new Error(`Unsupported source entry: ${relative}`);
+    }
+  }
+  await walk('src');paths.push('index.html','vite.config.mjs','package.json','package-lock.json');paths.sort();
+  const files=[];for(const relative of paths)files.push({path:relative,sha256:sha256(await readBounded(relative,2*1024*1024))});
+  return {sha256:sha256(Buffer.from(files.map(item=>`${item.path}\0${item.sha256}\n`).join(''))),files};
+}
 const fail = (message) => { throw new Error(message); };
 
 export function resolveRepoPath(relative) {

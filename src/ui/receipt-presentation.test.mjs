@@ -1,9 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import { GameEngine } from '../core/game-engine.mjs';
 import { EventLog } from '../core/event-log.mjs';
 import { projectReceipt } from '../core/receipt.mjs';
 import { presentReceipt } from './receipt-presentation.mjs';
+
+test('actual five-slot loan-default Receipt displays event-derived totals and rejects missing commit data',()=>{
+ const envelope=JSON.parse(readFileSync('reports/development/plan-52-five-slot-production-transition/production-endings/loan-default-receipt-narrow.save.json','utf8'));
+ const view=presentReceipt(projectReceipt(envelope.eventLog));assert.deepEqual(view.totals,{finalCash:0,finalHealth:70,finalDebt:99,ownedDucksCount:0,totalDown:0});
+ const altered=structuredClone(envelope.eventLog);delete altered.find(event=>event.type==='life52_commit').payload.cashDeltaCents;
+ const rebuilt=new EventLog();for(const event of altered)rebuilt.append(event.type,event.payload,event.clock);
+ assert.equal(presentReceipt(projectReceipt(rebuilt.entries)).totals,null);
+});
 
 test('actual engine draws and races remain chronological and separate from purchases', () => {
   const e = new GameEngine('plan44-race', { lifePolicy: true }); e.start(); e.setupCompanion();

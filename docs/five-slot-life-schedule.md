@@ -1,6 +1,6 @@
 # Five-slot life schedule — accepted direction and transition boundary
 
-Owner accepted 2026-11-02. This is the current forward design, linked from the founding design. **It is not yet the playable scheduler.** Plans 51 and 52 specify/simulate and integrate it respectively. Historical reports and completed packets retain their original evidence; their maintenance-plus-anchor assumptions do not override this direction.
+Owner accepted 2026-11-02. This is the current selected design, linked from the founding design. Plan 52 has mounted the five-slot scheduler in the development game; integration, checkpoint coverage and owner acceptance remain in progress. Historical reports and completed packets retain their original evidence; their maintenance-plus-anchor assumptions do not override this direction.
 
 ## Selected structure
 
@@ -56,4 +56,4 @@ Plan 51 owns the contract, unmounted pure scheduler intended for direct producti
 
 Plan51 closed as a bounded unmounted study. Subsequent Plan52 owner selections above settle the working financial contract; root clears the exact production seam in reports/orchestration/plan-52-production-clearance.md. Final balance, integrated experience, new-policy replay/checkpoints and production acceptance remain gated. The study's unresolved-crisis stop cannot ship as a softlock. No weekends, third rent, new gigs, large housing-art branch or production soundtrack is selected. See DECISION-073/075.
 
-Current code still uses Morning/Afternoon/Evening/lateNight with maintenance meals until Plan 52 lands. Do not fix that mismatch by isolated phase-name replacements or fresh Plan 46 meal workarounds.
+Development startup now uses the five-slot policy and recognizes earlier development saves as unsupported, with explicit preservation or replacement choices. This mounted behavior has bounded Day 1 and save-transition evidence; the broader finance, social, checkpoint and lifecycle review remains open under Plan 52. Do not add isolated phase-name workarounds or a second scheduler.

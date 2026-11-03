@@ -5,7 +5,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { GameEngine } from '../../core/game-engine.mjs';
-import { noticeLetter, rentDueText, rentNoticeCorrections } from './life-copy.mjs';
+import { noticeLetter, rentDueText, rentNoticeCorrections, fiveSlotRentNotice } from './life-copy.mjs';
 import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision, fiveSlotDueDecision, fiveSlotLoanDecision, fiveSlotWarningLines } from './life-decisions.mjs';
 import { effectFromEvents, previewZeroCash } from './life-preview.mjs';
 import { OFFER_PLACE, placeFor, rentState } from './life-routing.mjs';
@@ -21,6 +21,12 @@ const unpaid = () => { const e = fresh(); e.state.day = 2; e.state.cash = 14.01;
 // Day 2, exactly $15: rent billed and paid, cash now $0.00 (zero-cash choices open).
 const paidZero = () => { const e = fresh(); e.state.day = 2; e.state.cash = 15; e.billExpense('rent', 15); return e; };
 const types = (e, from) => e.log.entries.filter((x) => x.seq >= from).map((x) => x.type);
+
+test('second rent keeps fixed $400 print while handwritten countdown advances',()=>{
+ const life={schedule:{day:11},finance:{rents:[{id:'rent-1',status:'paid'},{id:'rent-2',status:'pending',amountCents:40000,due:{day:14}}]}};
+ const first=fiveSlotRentNotice(life);assert.match(first.heading,/Rent/);assert.match(first.paragraphs[0],/\$400\.00/);assert.deepEqual(first.corrections,[]);
+ life.schedule.day=14;const due=fiveSlotRentNotice(life);assert.deepEqual(due.paragraphs,first.paragraphs);assert.deepEqual(due.corrections,['2','1','TODAY!']);
+});
 
 test('five-slot financial decisions explain combined debt and exact loan deadline without committing',()=>{
  const e=new GameEngine('decision-52',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();

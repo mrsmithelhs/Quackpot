@@ -8,6 +8,13 @@ import { CATALOG_PATH, CAPTURE_ORIGIN_MANIFEST_SHA256, PLAN35, ROOT, catalogEntr
   currentLoaderSha256, currentValidationLoaderSha256, readFixtureBeforeParse, resolveRepoPath, sha256 } from './provenance.mjs';
 import { inspectOwnedIdentities, snapshotOwnedTree, startOwnedProcessMonitor } from './process-tree.mjs';
 
+// These Plan35 phases mutate or consume old-policy fixtures. They remain
+// historical evidence and cannot be recaptured against five-slot startup.
+if (process.argv[1]) {
+  process.stderr.write('Plan35 controlled phases are historical and unsupported by five-slot startup; use a current Plan52 checkpoint recipe.\n');
+  process.exit(1);
+}
+
 const HOST = '127.0.0.1';
 const PORT = 5181;
 const BASE_URL = `http://${HOST}:${PORT}/Quackpot/`;

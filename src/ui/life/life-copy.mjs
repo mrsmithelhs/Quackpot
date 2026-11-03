@@ -46,6 +46,18 @@ export function noticeLetter({ amount, unit, dueText = 'due today', corrections 
   };
 }
 
+// One fixed printed notice per bill; only the handwritten corrections vary by day.
+export function fiveSlotRentNotice(life) {
+  const bill=life.finance.rents.find(item=>item.status==='pending');
+  const amount=(bill?.amountCents??17000)/100,dueDay=bill?.due.day??4;
+  const letter=noticeLetter({amount,unit:'4B',dueText:'due in three days',corrections:rentNoticeCorrections({day:life.schedule.day,config:{rentDueDay:dueDay}})});
+  if(bill?.id==='rent-2') {
+    letter.heading='Rent · Unit 4B';
+    letter.paragraphs[0]=`The rent for Unit 4B is ${money(amount)}; it is due in three days.`;
+  }
+  return letter;
+}
+
 /** Harbor Card app on the phone: the advance on offer and what is already owed. Institution text, no controls. */
 export function cardApp({ available, owedNow }) {
   return {

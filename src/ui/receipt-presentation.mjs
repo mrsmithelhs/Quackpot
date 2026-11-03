@@ -16,7 +16,16 @@ export function presentReceipt(receipt) {
   const start = evidence.find(e => e.type === 'run_started');
   // Legacy projections make assumptions about initial balances and associations.
   const numericFields = { purchase: 'price', income: 'amount', expense_paid: 'amount', life_health: 'delta' };
-  const current = receipt.chainValid && start?.payload?.lifePolicyVersion === 1 && Number.isFinite(start.payload.lifeConfig?.startCash) && Number.isFinite(start.payload.lifeConfig?.startHealth)
+  const policy=start?.payload?.lifePolicyVersion;
+  const fiveSlotEvidence = policy!=='five-slot-v1' || evidence.every(e => {
+    if(e.type==='life52_commit')return Number.isSafeInteger(e.payload?.cashDeltaCents) && Number.isFinite(e.payload?.healthDelta);
+    if(e.type!=='life52_effect')return true;
+    const effect=e.payload?.effect;
+    if(effect?.type==='loan_accepted')return typeof effect.loan?.id==='string' && Number.isSafeInteger(effect.loan?.totalCents);
+    if(effect?.type==='loan_repaid')return typeof effect.loanId==='string' && Number.isSafeInteger(effect.amountCents);
+    return Boolean(effect && typeof effect.type==='string');
+  });
+  const current = receipt.chainValid && [1,'five-slot-v1'].includes(policy) && fiveSlotEvidence && Number.isFinite(start.payload.lifeConfig?.startCash) && Number.isFinite(start.payload.lifeConfig?.startHealth)
     && evidence.every(e => !numericFields[e.type] || Number.isFinite(e.payload?.[numericFields[e.type]]))
     && evidence.filter(e => ['expense_due', 'expense_paid'].includes(e.type)).every(e => typeof e.payload?.billId === 'string' && e.payload.billId.length > 0 && Number.isFinite(e.payload.amount))
     && Object.values(receipt.summary).every(Number.isFinite);

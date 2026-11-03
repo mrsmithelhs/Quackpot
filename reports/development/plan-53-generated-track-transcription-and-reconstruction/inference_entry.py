@@ -2,8 +2,8 @@
 import argparse
 import local_network_guard
 
-ROOT_CLEARED = False  # One-time M1 run complete; further inference requires clearance.
-ENABLED_KIND = None  # Set to exactly one excerpt only after its coordinated clearance.
+ROOT_CLEARED = False  # Both Stage D attempts complete; further inference requires clearance.
+ENABLED_KIND = None
 
 def run_reviewed(root, input_path, output, kind):
     # Install before importing runner or ML. Native/OS activity is not covered.

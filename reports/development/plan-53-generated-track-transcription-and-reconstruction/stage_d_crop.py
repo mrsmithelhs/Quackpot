@@ -8,7 +8,7 @@ SOURCES = {
     'm5-excerpt': ('M5-4-Ragtime-Question.mp3','439d250854162b437ca4981e67c1dda3d02832fbbbb45c2e84ced4b502c5aea0'),
 }
 SOURCE_DIR = Path(__file__).resolve().parents[3] / 'reports/development/plan-39-melody-reference-and-web-audio-laboratory/generated-references'
-ENABLED_KIND = None  # Set only for an individually cleared crop turn.
+ENABLED_KIND = None  # Both one-time crops complete; further decoding requires clearance.
 
 def sha256(path):
     digest=hashlib.sha256()

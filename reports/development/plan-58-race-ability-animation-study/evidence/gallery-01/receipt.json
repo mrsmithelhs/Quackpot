@@ -1,0 +1,164 @@
+{
+  "disclaimer": "Synthetic events; no production game or saves.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "afeb71291eeaed27ddbff6e1827fcb2e578d0549c7cf722ddb13e00c8d752d39",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "3ac62df733ab18c02372247a2c1c96c3250e81d582cc3e1817d776bb565a73c4",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "78ede54eb1e44b055f2f4494f549c00610ecefe584ffa0969e556a1cc45b9532",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "e88f4693c7db68377facc833cc676e74550b5cd05ecddf2f92f47439c0b69de2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "reports/development/plan-58-race-ability-animation-study/tools/gallery-browser.mjs": "6968bc2158a11de206af4f8b28bef360d0cc4ebfe727b0c6f335fd34d12da19e",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "overlap": "A: crowd acceleration active · A: Bounce active",
+      "independent": true,
+      "backward": true,
+      "control": "Contact: A and B",
+      "prep": "A: predicted threat near B",
+      "raceWidth": 84,
+      "dexWidth": 190,
+      "selectionWidth": 190,
+      "teardownDomEmpty": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overlap": "A: crowd acceleration active · A: Bounce active",
+      "independent": true,
+      "backward": true,
+      "control": "Contact: A and B",
+      "prep": "A: predicted threat near B",
+      "raceWidth": 40,
+      "dexWidth": 159.625,
+      "selectionWidth": 159.625,
+      "teardownDomEmpty": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "0d7f8b8bc339449d1b80ad7044721c22725ef5b38fb29fcac5662083323563a5",
+    "trackedDescendants": [
+      {
+        "pid": 36248,
+        "ppid": 23724,
+        "created": "639293408148573060",
+        "root": true
+      },
+      {
+        "pid": 12156,
+        "ppid": 36248,
+        "created": "639293408148722290",
+        "root": false
+      },
+      {
+        "pid": 6796,
+        "ppid": 36248,
+        "created": "639293408150115550",
+        "root": false
+      },
+      {
+        "pid": 6168,
+        "ppid": 36248,
+        "created": "639293408150637940",
+        "root": false
+      },
+      {
+        "pid": 27992,
+        "ppid": 36248,
+        "created": "639293408150853000",
+        "root": false
+      },
+      {
+        "pid": 33316,
+        "ppid": 36248,
+        "created": "639293408151454260",
+        "root": false
+      },
+      {
+        "pid": 35040,
+        "ppid": 36248,
+        "created": "639293408151811570",
+        "root": false
+      },
+      {
+        "pid": 17604,
+        "ppid": 36248,
+        "created": "639293408152113470",
+        "root": false
+      },
+      {
+        "pid": 35420,
+        "ppid": 36248,
+        "created": "639293408152131130",
+        "root": false
+      },
+      {
+        "pid": 15672,
+        "ppid": 36248,
+        "created": "639293408152902480",
+        "root": false
+      },
+      {
+        "pid": 27660,
+        "ppid": 36248,
+        "created": "639293408171396470",
+        "root": false
+      },
+      {
+        "pid": 10752,
+        "ppid": 36248,
+        "created": "639293408176311690",
+        "root": false
+      },
+      {
+        "pid": 34132,
+        "ppid": 36248,
+        "created": "639293408176312290",
+        "root": false
+      },
+      {
+        "pid": 35520,
+        "ppid": 36248,
+        "created": "639293408176765890",
+        "root": false
+      },
+      {
+        "pid": 436,
+        "ppid": 36248,
+        "created": "639293408176909710",
+        "root": false
+      },
+      {
+        "pid": 35664,
+        "ppid": 36248,
+        "created": "639293408176953670",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

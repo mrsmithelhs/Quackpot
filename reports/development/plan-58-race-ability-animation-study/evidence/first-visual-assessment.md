@@ -1,0 +1,7 @@
+# First gallery capture — lead visual assessment
+
+The initial capture (`gallery-01/receipt.json`) completed after a separately documented missing-parent failure. Synthetic state checks passed; desktop race ducks measured 84 px wide versus 190 px enlarged, and narrow race ducks 40 px versus 159.625 px enlarged. The browser cleanup evidence is sampled only; profile retained and complete descendant termination unproven.
+
+Lead viewed the desktop arc, disc, wedge, folds and combination, and narrow folds, Duck-Dex and selection stills. The initial full-size arc crossed the duck and label; wedge/folds crossed the face or body. In enlarged examples the raised duck and arc obscured the label. The disc was visible but suggested a physical platform, an anticipated interpretation risk. The first capture is therefore not owner-ready. The lead adjusted per-motif placement and label layering in source after the captured pins; that repair remains unrendered and unverified. The placeholder contact mark is not Plan57 art. No static, reduced-motion, live playback, turn, device or AT conclusion follows from these stills.
+
+Correction proposed after viewing all 14 stills: move effect layer behind the body, scale and offset each unmodified original motif independently (arc beside duck; disc below; wedge at bow; folds behind), and raise the upright label in proportion to lift. Source pins and further capture proposal were sent to QP Orch. The effect placement under left/right turns remains an explicit test gap; this correction has not been rendered.

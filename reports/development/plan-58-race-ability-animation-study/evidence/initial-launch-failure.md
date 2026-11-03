@@ -1,0 +1,3 @@
+# Initial capture launch failure
+
+The first allocated gallery-browser.mjs job exited 1 before HTTP or browser startup. `mkdir evidence/gallery-01` failed with ENOENT because its parent `evidence/` did not exist. No screenshot, browser profile or game storage was created. Launcher elapsed 0.547 s, sampled peak 4,005,888 bytes, no resource stop or cleanup note. Browser script SHA-256 `6968bc2158a11de206af4f8b28bef360d0cc4ebfe727b0c6f335fd34d12da19e`; gallery module SHA-256 `78ede54eb1e44b055f2f4494f549c00610ecefe584ffa0969e556a1cc45b9532`. The owned evidence parent was subsequently created; `gallery-01` remains absent so a separately allocated retry can preserve its non-overwriting contract. No automatic retry occurred.

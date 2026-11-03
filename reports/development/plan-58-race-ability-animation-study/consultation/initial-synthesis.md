@@ -1,5 +1,7 @@
 # Independent consultancy synthesis — early checkpoint proposal
 
+**Historical trigger context:** This synthesis reflects the earlier post-impact Bounce brief. The owner subsequently directed that Bounce may activate before a predicted imminent collision; see ../concepts/early-storyboards.md for the current delta. Earlier consultant input was not revised or re-run.
+
 2026-11-03. These are creative suggestions, not owner selections or mechanic evidence. Sonnet's final JSON reported the requested model and no permission denials; Flash's final JSON did not report model, tool actions or permission denials. Neither final JSON independently proves image reads. Both descriptions mention visible features; Flash also asserted variable lighting, which the still references do not show. Flash CLI warned `--mode plan` had no effect with slash expansion disabled; effective deny rules and tool activity are unverified. Both requested medium effort; neither confirms effective effort. The source fixtures are synthetic.
 
 ## Shared vocabulary and differences

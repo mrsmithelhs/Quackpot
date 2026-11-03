@@ -1,7 +1,7 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-

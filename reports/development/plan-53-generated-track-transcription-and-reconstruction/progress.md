@@ -209,7 +209,7 @@ Ignored screenshot evidence (all under `local/stage-d/`): `m3/desktop-check.png`
 Stage D comparison page, bounded-browser harness, converter/tests and updated delivery are committed as `4a381fd`. Root viewed the narrow screenshots and cleared that bounded layout check. The prior reviewer budget was consumed on the initial implementation; this Stage D expansion used the orchestrator gate rather than an additional reviewer.
 
 
-## M5 duration experiment preparation
+## M5 duration experiment preparation (historical; completed browser evidence follows)
 
 At the owner's request, prepared separate 75% and 50% note-duration variants of the existing 450-note M5 piano event data: `end = start + factor × (original end − start)`. Onsets, pitch, instrument/program, assigned velocity and source data are unchanged; these are explicit experimental edits, not recovered original durations. The listening page adds clearly labeled controls, factor-specific event exports and WAV filenames; the existing unmodified raw/MIDI and baseline remain preserved. Source event SHA-256 and finite two-render resource proposal are recorded in `duration-experiment.md`.
 
@@ -217,3 +217,10 @@ Two focused synthetic Node tests passed in 0.523s under the existing bounded lau
 
 M5 duration controls, transforms and prepared test harness are committed as `08316fe`. Rendered comparisons and runtime factor assertions remain pending the coordinated browser turn.
 
+
+
+## M5 duration comparison browser evidence
+
+On 2026-11-03 root allocated the browser turn. Fresh preflight reported 18,513,256,448 bytes available RAM and 288,114,978,816 bytes free disk; the source event hash matched and all four output paths were absent. The single 75%-then-50% batch exited 0 in 57.707s, with sampled private peak 608,518,144 bytes. Each factor-specific completion reported 450 scheduled note-ons, no detected active-voice pruning, and the harness detected no underrun; both 48 kHz stereo PCM16 captures were finite, nonzero and nonclipped. Durations, peaks and SHA-256 values are in `duration-experiment.md`. Requests observed for the target were local/blob. Chrome reported missing extension registry paths and updater named-pipe access-denied warnings. Cleanup explicitly reported no residual or uncertainty, tree termination confirmed and profile removed. The browser turn was released to root.
+
+The implementer viewed the desktop and 390px screenshots: both duration buttons were visible and legible and the narrow layout wrapped without horizontal overflow. This is not accessibility or owner-device validation. Captures have unmeasured start latency; scheduling and signal checks do not establish individual audible notes or musical improvement. Root review and owner listening remain the decision gates.

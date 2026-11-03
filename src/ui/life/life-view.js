@@ -125,8 +125,17 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
 
   const offerOf = () => { try { return currentOffer(engine); } catch { return null; } };
   const offerDecision = () => { try { return ladderDecision(engine); } catch { return null; } };
-  const rentAmount = () => engine.state.life?.config.rentAmount ?? RENT_AMOUNT;
-  const keysAvailable = (life) => Boolean(life && life.phase === 'morning' && life.employed && life.meals[`d${life.day}-breakfast`] && !life.work && !life.recovery && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced));
+  const rentAmount = () => engine.state.life?.policyVersion === 'five-slot-v1'
+    ? (engine.checkDueObligations().bills.find(bill => bill.id.startsWith('rent-'))?.amountCents ?? 17000) / 100
+    : engine.state.life?.config.rentAmount ?? RENT_AMOUNT;
+  const keysAvailable = (life) => {
+    if(life?.policyVersion==='five-slot-v1') {
+      const s=life.schedule,due=engine.checkDueObligations().bills;
+      const rescue=s.overtimeReservation?.status==='reserved' && s.day<=s.overtimeReservation.day && due.some(bill=>bill.id===s.overtimeReservation.rentId) && !due.some(bill=>bill.id.startsWith('loan-'));
+      return Boolean(s.slot==='midday' && s.employment.employed && s.workCalendar[String(s.day)] && !s.active && !s.recovery && !life.story47 && (!due.length || rescue));
+    }
+    return Boolean(life && life.phase === 'morning' && life.employed && life.meals[`d${life.day}-breakfast`] && !life.work && !life.recovery && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced));
+  };
 
   function objectsFor(place) {
     const r = rentState(engine);

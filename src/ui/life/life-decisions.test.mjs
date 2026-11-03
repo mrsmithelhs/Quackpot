@@ -37,6 +37,10 @@ test('five-slot financial decisions explain combined debt and exact loan deadlin
  const rentOnly=fiveSlotDueDecision(e);assert.ok(rentOnly.lines.some(line=>line.includes('$60.00') && line.includes('15 HP')));
  assert.ok(rentOnly.lines.some(line=>line.includes('$30.00') && line.includes('$40.00')));
 });
+test('five-slot Early Evening meal uses dinner copy and the selected cost',()=>{
+ const e=new GameEngine('five-slot-dinner-copy',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();e.state.life.schedule.slot='early-evening';
+ const decision=breakfastDecision(e);assert.equal(decision.heading,'Dinner at home');assert.ok(decision.confirm.includes('$6.00'));assert.ok(decision.decline.label.includes('Skip dinner'));
+});
 
 test('rent short: trying to pay records the bill as due and takes nothing; the panel says so first', () => {
   const e = unpaid();

@@ -76,6 +76,7 @@
   padding: .15rem .55rem; border-radius: 999px; font: 700 .75rem/1.4 var(--life-ui); color: var(--life-slate-ink); background: var(--life-slate);
   box-shadow: 0 .2rem .5rem rgba(0, 0, 0, .25); }
 .life-chip::before { content: "●"; margin-right: .35rem; color: var(--life-accent); }
+.life-obj[data-obj='notice'] .life-chip { left: 0; transform: none; }
 .life-obj.life-done .life-chip { opacity: 0; }
 .life-tag { position: absolute; left: 8%; top: 12%; width: 12%; pointer-events: none; }
 

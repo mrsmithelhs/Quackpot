@@ -9,6 +9,16 @@ import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
 import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+const exitInterruptions=(life,entries)=>{
+  const active=life.schedule.active,day=life.schedule.day,social=life.social46,story=life.story47,out=[];
+  const unseen=(type,id)=>!entries.some(event=>event.type===type && event.payload?.id===id);
+  if(social?.scene?.stage==='scene' && unseen('social46_interrupted',social.scene.id))out.push({type:'social46_interrupted',payload:{id:social.scene.id,day}});
+  else if(!social?.scene && social?.pending?.committed && unseen('social46_plan_interrupted',social.pending.id))out.push({type:'social46_plan_interrupted',payload:{id:social.pending.id,day:social.pending.day}});
+  if(story?.kind==='activity' && story.stage==='scene' && unseen('activity47_interrupted',story.id))out.push({type:'activity47_interrupted',payload:{id:story.id,choice:story.choice,day}});
+  if(['work','overtime'].includes(active?.kind) && unseen('work_interrupted',active.id))out.push({type:'work_interrupted',payload:{id:active.id,kind:active.kind==='work'?'scheduled':'overtime',day}});
+  if(active?.kind==='session' && unseen('session_interrupted',active.id))out.push({type:'session_interrupted',payload:{id:active.id,suspended:null,pull:active.pullUsed,race:active.raceUsed}});
+  return out;
+};
 
 // Rebuild the coordinated portion from its original policy and recorded inputs.
 // Fail closed on cases this first replay slice does not yet cover; this function
@@ -20,7 +30,7 @@ export function validateFiveSlotTransactionHistory(envelope) {
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
   let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null,appOpened=false;
-  const shownStages=[];let expectedInterruptions=[];
+  const shownStages=[];let expectedInterruptions=[],completionInterruptions=null;
   const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
@@ -37,6 +47,14 @@ export function validateFiveSlotTransactionHistory(envelope) {
     if(terminalRoute) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
       receiptSeen=true;continue;
+    }
+    if(completionInterruptions!==null) {
+      if(completionInterruptions.length) {
+        const expected=completionInterruptions.shift();if(entry.type!==expected.type || !same(entry.payload,expected.payload)){errors.push(`Invalid interruption before run completion at ${entry.seq}`);break;}
+        continue;
+      }
+      if(entry.type!=='terminal' || entry.payload?.route!=='run_complete'){errors.push(`Unexpected event after run interruption at ${entry.seq}`);break;}
+      completionInterruptions=null;
     }
     if(leaveRequested && expectedInterruptions.length) {
       const expected=expectedInterruptions.shift();
@@ -60,18 +78,17 @@ export function validateFiveSlotTransactionHistory(envelope) {
     if(entry.type==='action' && entry.payload?.kind==='stay_without_reward') {if(!retentionOpen || !retentionUsed){errors.push(`Invalid retention choice at ${entry.seq}`);break;}retentionOpen=false;continue;}
     if(entry.type==='action' && entry.payload?.kind==='leave_immediately') {
       if(!retentionOpen){errors.push(`Invalid uninstall choice at ${entry.seq}`);break;}
-      const active=life.schedule.active,day=life.schedule.day,social=life.social46,story=life.story47;
-      const unseen=(type,id)=>!entries.slice(0,i).some(event=>event.type===type && event.payload?.id===id);
-      if(social?.scene?.stage==='scene' && unseen('social46_interrupted',social.scene.id))expectedInterruptions.push({type:'social46_interrupted',payload:{id:social.scene.id,day}});
-      else if(!social?.scene && social?.pending?.committed && unseen('social46_plan_interrupted',social.pending.id))expectedInterruptions.push({type:'social46_plan_interrupted',payload:{id:social.pending.id,day:social.pending.day}});
-      if(story?.kind==='activity' && story.stage==='scene' && unseen('activity47_interrupted',story.id))expectedInterruptions.push({type:'activity47_interrupted',payload:{id:story.id,choice:story.choice,day}});
-      if(['work','overtime'].includes(active?.kind) && unseen('work_interrupted',active.id))expectedInterruptions.push({type:'work_interrupted',payload:{id:active.id,kind:active.kind==='work'?'scheduled':'overtime',day}});
-      if(active?.kind==='session' && unseen('session_interrupted',active.id))expectedInterruptions.push({type:'session_interrupted',payload:{id:active.id,suspended:null,pull:active.pullUsed,race:active.raceUsed}});
+      expectedInterruptions=exitInterruptions(life,entries.slice(0,i));
       retentionOpen=false;leaveRequested=true;continue;
+    }
+    if(['social46_interrupted','social46_plan_interrupted','activity47_interrupted','work_interrupted','session_interrupted'].includes(entry.type)) {
+      completionInterruptions=exitInterruptions(life,entries.slice(0,i));const expected=completionInterruptions.shift();
+      if(!expected || entry.type!==expected.type || !same(entry.payload,expected.payload)){errors.push(`Invalid interruption before run completion at ${entry.seq}`);break;}
+      continue;
     }
     if(entry.type==='terminal') {
       if(entry.payload?.route==='uninstall' && leaveRequested)terminalRoute='uninstall';
-      else if(entry.payload?.route==='run_complete' && !leaveRequested && !retentionOpen)terminalRoute='run_complete';
+      else if(entry.payload?.route==='run_complete' && !leaveRequested && !retentionOpen && exitInterruptions(life,entries.slice(0,i)).length===0)terminalRoute='run_complete';
       else {errors.push(`Unsupported terminal at ${entry.seq}`);break;}
       continue;
     }
@@ -206,6 +223,7 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(expectedTerminal)errors.push('Missing financial terminal event');
   if(expectedStoryIncome)errors.push('Missing work income evidence');
   if(expectedInterruptions.length)errors.push('Missing interruption evidence after uninstall choice');
+  if(completionInterruptions!==null)errors.push('Missing terminal after run interruption');
   if(leaveRequested && !terminalRoute)errors.push('Missing terminal after uninstall choice');
   if(!errors.length && terminalRoute && (envelope.state?.terminalRoute!==terminalRoute || envelope.state?.phase!==(receiptSeen?'receipt_presented':'terminal')))errors.push('Terminal does not match saved state');
   if(!errors.length && !terminalRoute && ['terminal','receipt_presented'].includes(envelope.state?.phase))errors.push('Saved terminal has no matching event');

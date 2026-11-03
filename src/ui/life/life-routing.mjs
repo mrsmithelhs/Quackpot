@@ -4,6 +4,7 @@
 // place is UI state that is never saved.
 
 const round = (n) => Math.round(n * 100) / 100;
+export const fiveSlotLabel = slot => ({morning:'Morning',midday:'Midday','early-evening':'Early Evening',evening:'Evening','late-evening':'Late Evening'})[slot] ?? '';
 
 // Unmounted routing seam for the new policy. Recovery wins even when an
 // obligation is already due; the pending bill remains visible afterward.

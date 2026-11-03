@@ -70,7 +70,7 @@ export function isTemporaryPreservationMode() {
  * Validates a save envelope semantically.
  * Returns { valid: boolean, errors: string[] }
  */
-export function validateSave(envelope, { experimentalFiveSlot = false } = {}) {
+export function validateSave(envelope, { experimentalFiveSlot = false, requireFiveSlotTutorial = false } = {}) {
   const errors = [];
   try {
     if (!envelope || typeof envelope !== 'object') {
@@ -80,6 +80,7 @@ export function validateSave(envelope, { experimentalFiveSlot = false } = {}) {
     if (![1, 2, 3, 4].includes(envelope.schemaVersion) && !(experimentalFiveSlot && envelope.schemaVersion===5)) {
       errors.push(`Incompatible schema version: ${envelope.schemaVersion}`);
     }
+    if(requireFiveSlotTutorial && envelope.schemaVersion===5 && envelope.eventLog?.[0]?.payload?.tutorialShiftVersion!==1)errors.push('Five-slot production save requires the current tutorial policy');
     if (envelope.schemaVersion >= 3 && envelope.raceRestEvidenceVersion !== 1) {
       errors.push('Current save schema requires raceRestEvidenceVersion 1');
     }
@@ -697,14 +698,14 @@ export function backupUnsupportedRenSave(storage) {
  * callers must show the reset consequences before invoking it. A failed write
  * cannot promise atomic rollback across browser storage keys.
  */
-export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot = false } = {}) {
+export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot = false, requireFiveSlotTutorial = false } = {}) {
   let serialized;
   try {
     serialized=JSON.stringify(envelope);
     if(typeof serialized!=='string')throw new Error('Replacement save could not be serialized');
     const candidate=JSON.parse(serialized);
     if(candidate?.schemaVersion!==5)throw new Error('A new-policy save is required');
-    const validation=validateSave(candidate,{experimentalFiveSlot});
+    const validation=validateSave(candidate,{experimentalFiveSlot,requireFiveSlotTutorial});
     if(!validation.valid)throw new Error(`Replacement save is invalid: ${validation.errors.join('; ')}`);
   } catch(error) {return {success:false,stage:'prepare',error:error.message};}
   let original=null,originalRead=false,backupCreated=false,replacementAttempted=false;
@@ -745,7 +746,7 @@ export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot
  * Loads game envelope from storage (or active in-memory session).
  * Returns { envelope, valid, errors, isCorrupt }
  */
-export function loadGame(storage, { experimentalFiveSlot = false } = {}) {
+export function loadGame(storage, { experimentalFiveSlot = false, requireFiveSlotTutorial = false } = {}) {
   let raw = null;
   if (inMemoryActive && inMemoryStore) {
     raw = inMemoryStore;
@@ -774,7 +775,7 @@ export function loadGame(storage, { experimentalFiveSlot = false } = {}) {
     return {envelope:null,valid:false,errors:['Unsupported development save'],isCorrupt:false,unsupportedDevelopment:true,migrated:false};
   }
   const migrated = experimentalFiveSlot ? envelope : migrateLegacyEnvelope(envelope);
-  const { valid, errors } = validateSave(migrated,{experimentalFiveSlot});
+  const { valid, errors } = validateSave(migrated,{experimentalFiveSlot,requireFiveSlotTutorial});
   const unsupportedDevelopment = !valid && errors.length === 1 && [UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION].includes(errors[0]);
   return { envelope: migrated, valid, errors, isCorrupt: !valid && !unsupportedDevelopment, unsupportedDevelopment, migrated: migrated.schemaVersion !== envelope.schemaVersion };
 }

@@ -35,6 +35,16 @@ function createMockStorage(initialData = {}) {
   };
 }
 
+test('production five-slot restore requires the recorded tutorial policy',()=>{
+  resetInMemoryStore();const e=new GameEngine('plan52-production-restore',{lifePolicy:'five-slot-v1',tutorialShift:true});e.start();
+  const storage=createMockStorage();assert.equal(saveGame(e.toEnvelope(),storage).success,true);
+  assert.equal(loadGame(storage,{experimentalFiveSlot:true,requireFiveSlotTutorial:true}).valid,true);
+  const unmarked=new GameEngine('plan52-unmarked',{lifePolicy:'five-slot-v1'});unmarked.start();
+  assert.equal(validateSave(unmarked.toEnvelope(),{experimentalFiveSlot:true}).valid,true);
+  assert.ok(validateSave(unmarked.toEnvelope(),{experimentalFiveSlot:true,requireFiveSlotTutorial:true}).errors.some(error=>error.includes('tutorial policy')));
+  resetInMemoryStore();
+});
+
 test('unsupported-save replacement refuses an invalid new envelope before touching either slot',()=>{
  const primary=JSON.stringify({schemaVersion:4}),backup='already preserved';
  const storage=createMockStorage({[STORAGE_KEY]:primary,[BACKUP_KEY]:backup});

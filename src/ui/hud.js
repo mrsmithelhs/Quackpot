@@ -1,10 +1,12 @@
 // src/ui/hud.js
 // Persistent HUD displaying clock, resources, save controls, and persistent Uninstall button.
+import { fiveSlotLabel } from './life/life-routing.mjs';
 
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false } = callbacks;
   const state = engine.state;
   const isTerminal = engine.isTerminal();
+  const fiveSlot=state.life?.policyVersion==='five-slot-v1';
 
   container.innerHTML = `
     <header class="hud-header">
@@ -48,7 +50,7 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
         <div class="hud-pill hud-pill-clock" id="hud-clock">
           <span class="pill-icon">📅</span>
           <span class="pill-label">Day ${state.day}:</span>
-          <span class="pill-val">${state.clock.label}</span>
+          <span class="pill-val">${fiveSlot ? fiveSlotLabel(state.life.schedule.slot) : state.clock.label}</span>
         </div>
         <div class="hud-pill hud-pill-cash ${state.cash === 0 ? 'pill-alert' : ''}" id="hud-cash">
           <span class="pill-icon">💵</span>

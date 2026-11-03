@@ -42,6 +42,9 @@ test('five-slot story conflict requires shown choices and cancelled warning cann
  assert.ok(e.recordFiveSlotActivityWarningShown(intent.choice,intent.operationId,preview.proposal));assert.equal(e.applyFiveSlotActivityStory(intent,e.log.length).ok,true);
  assert.equal(e.state.life.social46.pending,null);assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
  e.finishRunComplete();const receipt=e.presentReceipt();assert.ok(receipt.accounting.lines.some(line=>line.text.includes('Cancelled after an activity warning')));assert.ok(receipt.evidence.some(event=>event.type==='life52_activity_warning_cancelled'));
+ const completed=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(completed),[]);
+ const missing=structuredClone(completed);missing.eventLog=missing.eventLog.filter(event=>event.type!=='activity47_interrupted');assert.ok(validateFiveSlotTransactionHistory(missing).length);
+ const altered=structuredClone(completed);altered.eventLog.find(event=>event.type==='activity47_interrupted').payload.choice='call_mom';assert.ok(validateFiveSlotTransactionHistory(altered).some(error=>error.includes('Invalid interruption')));
 });
 test('five-slot transaction replay rebuilds real actions and rejects changed effects or snapshots',()=>{
  const e=new GameEngine('plan52-transaction-replay',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;

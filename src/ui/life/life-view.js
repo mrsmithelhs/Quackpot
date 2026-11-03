@@ -19,7 +19,7 @@ import { social46DisplayText, social46NeedsSaleDisclosure, social46VisitAtDoor }
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import {
-  RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState, fiveSlotSocialView,
+  RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState, fiveSlotSocialView, fiveSlotLabel,
 } from './life-routing.mjs';
 import {
   breakfastDecision, ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, workCompletionLines, fiveSlotDueDecision,
@@ -44,16 +44,17 @@ const PHONE_SPOT = { x: 63, y: 17, w: 17.5, h: 58 };
 const COUCH_SPOT = { x: 65, y: 33, w: 34, h: 46 };
 const TV_SPOT = { x: 1, y: 21, w: 26, h: 30 };
 
+const warmLife = e => e.state.life?.policyVersion==='five-slot-v1' ? ['early-evening','evening','late-evening'].includes(e.state.life.schedule.slot) : ['evening','lateNight'].includes(e.state.life?.phase);
 const SCENES = {
-  'kitchen-notice': () => ({ area: 'kitchen', framing: 'wide', light: 'neutral' }),
-  'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: e.state.life ? 'wide' : breakfastFraming(e.state.day), light: e.state.life && ['evening', 'lateNight'].includes(e.state.life.phase) ? 'warm' : 'window' }),
-  'desk-phone': (e, offered) => ({ area: 'desk-side', light: e.state.life && !['evening', 'lateNight'].includes(e.state.life.phase) ? 'window' : 'warm',
+  'kitchen-notice': (e) => ({ area: 'kitchen', framing: 'wide', light: e.state.life?.policyVersion==='five-slot-v1' && warmLife(e) ? 'warm' : 'neutral' }),
+  'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: e.state.life ? 'wide' : breakfastFraming(e.state.day), light: warmLife(e) ? 'warm' : 'window' }),
+  'desk-phone': (e, offered) => ({ area: 'desk-side', light: e.state.life && !warmLife(e) ? 'window' : 'warm',
     ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted, e.log.entries) }
       : offered ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
   'desk-card': () => ({ area: 'desk-side', light: 'warm',
     phone: { status: '6:55 PM', brand: 'HARBOR CARD', heading: ['Cash', 'advance'], body: ['Available now'], note: '' } }),
-  bedroom: () => ({ area: 'bedroom', light: 'neutral' }),
-  living: (e) => ({ area: 'living', framing: 'wide', light: e.state.life && ['evening', 'lateNight'].includes(e.state.life.phase) ? 'warm' : 'neutral', furnishings: furnishingsFrom(e.state.assetsSold) }),
+  bedroom: (e) => ({ area: 'bedroom', light: e.state.life?.policyVersion==='five-slot-v1' && warmLife(e) ? 'warm' : 'neutral' }),
+  living: (e) => ({ area: 'living', framing: 'wide', light: warmLife(e) ? 'warm' : 'neutral', furnishings: furnishingsFrom(e.state.assetsSold) }),
 };
 
 const WHEN = {
@@ -128,6 +129,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   const rentAmount = () => engine.state.life?.policyVersion === 'five-slot-v1'
     ? (engine.checkDueObligations().bills.find(bill => bill.id.startsWith('rent-'))?.amountCents ?? 17000) / 100
     : engine.state.life?.config.rentAmount ?? RENT_AMOUNT;
+  const noticeBeforeBreakfast = life => life?.policyVersion==='five-slot-v1'
+    ? life.schedule.day===1 && life.schedule.slot==='morning' && !life.schedule.obligations['1:breakfast']
+    : Boolean(life && life.day===1 && life.phase==='morning' && !life.meals['d1-breakfast']);
   const keysAvailable = (life) => {
     if(life?.policyVersion==='five-slot-v1') {
       const s=life.schedule,due=engine.checkDueObligations().bills;
@@ -158,8 +162,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       out.push({ id: 'bed', hotspot: true, x: 56, y: 61, w: 37, h: 25, label: 'Bed', chip: 'Rest', done: false,
         hold: { mode: 'popover', side: 'left', kind: 'life-recovery' } });
     } else if (place === 'kitchen-notice') {
+      const inactive=noticeBeforeBreakfast(engine.state.life);
       out.push({ id: 'notice', svg: tapedNotice({ idPrefix: uid('lfn'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
-        label: worldLabels.rentNotice, chip: chips.rentNotice, done: r.paid || (!engine.state.life && r.owing),
+        label: inactive?'Rent notice, available after breakfast':worldLabels.rentNotice, chip: chips.rentNotice, disabled:inactive, done: r.paid || (!engine.state.life && r.owing),
         hold: engine.state.life?.policyVersion==='five-slot-v1' && engine.checkDueObligations().bills.length
           ? {mode:'five-due'} : { mode: 'held', kind: r.cash < rentAmount() ? 'shortfall' : 'rent', variant: 'letter' } });
     } else if (place === 'desk-phone') {
@@ -219,7 +224,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       }
     } else if (place === 'kitchen-breakfast') {
       if (engine.state.life) {
-        const inactive = engine.state.life.day === 1 && engine.state.life.phase === 'morning' && !engine.state.life.meals['d1-breakfast'];
+        const inactive=noticeBeforeBreakfast(engine.state.life);
         out.push({ id: 'notice', svg: tapedNotice({ idPrefix: uid('lfn'), state: r.paid ? 'paid' : r.owing ? 'read' : 'unread' }), ...NOTICE,
           label: inactive ? 'Rent notice, available after breakfast' : worldLabels.rentNotice, chip: chips.rentNotice,
           disabled: inactive, done: r.paid && !r.owing, hold: engine.state.life.policyVersion==='five-slot-v1' && engine.checkDueObligations().bills.length
@@ -668,7 +673,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const e = engine;
     const step = e.state.step;
     const r = rentState(e);
-    const when = e.state.life?.policyVersion === 'five-slot-v1' ? `Day ${e.state.life.schedule.day} · ${({'morning':'Morning','midday':'Midday','early-evening':'Early Evening','evening':'Evening','late-evening':'Late Evening'})[e.state.life.schedule.slot]}`
+    const when = e.state.life?.policyVersion === 'five-slot-v1' ? `Day ${e.state.life.schedule.day} · ${fiveSlotLabel(e.state.life.schedule.slot)}`
       : e.state.life ? `Day ${e.state.life.day} · ${e.state.life.phase === 'lateNight' ? 'Late Night' : e.state.life.phase}`
       : place ? (isBreakfastStep(step) ? `Day ${e.state.day} · morning` : WHEN[place]) : `Day ${e.state.day}`;
     const status = r.owing && e.state.life?.policyVersion === 'five-slot-v1' ? `Rent due · ${money(rentAmount())} unpaid`

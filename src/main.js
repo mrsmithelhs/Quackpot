@@ -21,6 +21,7 @@ import {
   clearGame,
   backupCorruptSave,
   backupUnsupportedRenSave,
+  replaceUnsupportedSave,
   getInMemoryStatus,
   setTemporaryPreservationMode,
   isTemporaryPreservationMode,
@@ -40,7 +41,6 @@ import { renderLifeView } from './ui/life/life-view.js';
 import { renderLifePhoneView } from './ui/life/life-phone-view.js';
 import { fiveSlotWarningLines, fiveSlotLoanDecision } from './ui/life/life-decisions.mjs';
 import { social46Conflict, social46DisplayText } from './core/life-social.mjs';
-import { renderUnsupportedRenSave } from './ui/life/ren-save-compat.mjs';
 import {
   BREAKFAST_STEP_BY_DAY,
   afterBreakfast,
@@ -135,10 +135,19 @@ if (app) {
     `;
 
     // Attempt to load existing game
-    const loadResult = loadGame();
+    const loadResult = loadGame(undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true});
 
     if (loadResult.unsupportedDevelopment) {
-      renderUnsupportedRenSave(document.querySelector('#modal-container'), () => {
+      const container=document.querySelector('#modal-container');
+      const overlay=document.createElement('div');overlay.className='modal-backdrop';
+      const card=document.createElement('section');card.className='modal-card modal-corrupt ren46-save-compat';card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');card.setAttribute('aria-labelledby','development-save-heading');
+      const heading=document.createElement('h2');heading.id='development-save-heading';heading.textContent='Save from an earlier development version';
+      const message=document.createElement('p');message.textContent='This version cannot resume that save. You can play temporarily while keeping it, or deliberately replace the saved run with a new one.';
+      const note=document.createElement('p');note.textContent='A replacement attempts to preserve a backup if the backup slot is empty. An existing backup is not overwritten.';
+      const status=document.createElement('p');status.setAttribute('role','status');
+      const temporary=document.createElement('button');temporary.type='button';temporary.className='btn btn-primary btn-lg';temporary.textContent='Play a temporary session';
+      const replace=document.createElement('button');replace.type='button';replace.className='btn btn-secondary btn-lg';replace.textContent='Replace with a new run';
+      temporary.addEventListener('click', () => {
         const backup = backupUnsupportedRenSave();
         unsupportedRenPreservation = true;
         setTemporaryPreservationMode(true);
@@ -149,6 +158,15 @@ if (app) {
             : 'Unsupported Ren save is preserved; a backup could not be written. This session is temporary and cannot overwrite the saved run.';
         startFreshRun(false);
       });
+      replace.addEventListener('click',()=>{
+        if(!globalThis.confirm('Replace the saved run with a new run? The original will be copied to an empty backup slot if possible.'))return;
+        const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true});fresh.start();
+        const result=replaceUnsupportedSave(fresh.toEnvelope(),undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true});
+        if(!result.success){const restoration={restored:'The original was restored.',not_needed:'The original was not replaced.',failed:'The original could not be verified as restored.',not_attempted_primary_changed:'The saved data changed during the attempt; it was not overwritten again.'}[result.restoration]??'The saved data could not be verified.';status.textContent=`The replacement did not complete (${result.error}). ${restoration} The browser may have kept a backup; check the saved data before trying again.`;return;}
+        unsupportedRenPreservation=false;startFreshRun(true,fresh);
+      });
+      const temporaryRow=document.createElement('div'),replaceRow=document.createElement('div');temporaryRow.append(temporary);replaceRow.append(replace);
+      card.append(heading,message,note,status,temporaryRow,replaceRow);overlay.append(card);container.append(overlay);temporary.focus();
       return;
     }
 
@@ -223,10 +241,9 @@ if (app) {
     startFreshRun(true);
   }
 
-  function startFreshRun(enableStorageSave = true) {
-    const seed = generateRandomSeed();
-    engine = new GameEngine(seed, { lifePolicy: true, tutorialShift: true });
-    engine.start();
+  function startFreshRun(enableStorageSave = true, preparedEngine = null) {
+    engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true });
+    if(!preparedEngine)engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode() || unsupportedRenPreservation) {
       engine.autosaveEnabled = false;

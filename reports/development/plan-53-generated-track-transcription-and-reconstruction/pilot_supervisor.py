@@ -9,7 +9,7 @@ import inference_monitor as monitor
 def run(root_arg, input_arg, kind, nvidia_arg):
     root=Path(root_arg).resolve(strict=True)
     python=(root/'venv'/'Scripts'/'python.exe').resolve(strict=True)
-    log=(root/'pilot-supervision'/kind).resolve(strict=True)
+    log=(root/'pilot-supervision'/('known-score-retry-1' if kind == 'known-score' else kind)).resolve(strict=True)
     output=(root/'pilot-runs'/kind).resolve(strict=True)
     if kind not in ('m1-excerpt','known-score') or any(log.iterdir()) or any(output.iterdir()):
         raise ValueError('unexpected or nonempty pilot directories')
@@ -19,7 +19,7 @@ def run(root_arg, input_arg, kind, nvidia_arg):
     entry=Path(__file__).with_name('inference_entry.py').resolve(strict=True)
     return supervisor.run([str(python),'-B',str(entry),str(root),str(Path(input_arg).resolve(strict=True)),str(output),kind],
                           root,900,8*monitor.GIB,20*monitor.GIB,30*monitor.GIB,
-                          max_active=2,resource_guard=guard,log_dir=log)
+                          max_active=2,resource_guard=guard,log_dir=log,user_profile=root/'tool-home')
 
 if __name__ == '__main__':
     parser=argparse.ArgumentParser()

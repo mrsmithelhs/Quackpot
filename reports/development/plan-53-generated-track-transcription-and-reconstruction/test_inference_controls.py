@@ -17,8 +17,8 @@ def sample(**changes):
 class Controls(unittest.TestCase):
     def test_pilot_wires_owned_limits_without_running_model(self):
         with tempfile.TemporaryDirectory() as tmp:
-            root=Path(tmp); kind='m1-excerpt'
-            for part in ('venv/Scripts','pilot-supervision/'+kind,'pilot-runs/'+kind): (root/part).mkdir(parents=True)
+            root=Path(tmp); kind='known-score'
+            for part in ('venv/Scripts','pilot-supervision/known-score-retry-1','pilot-runs/'+kind,'tool-home'): (root/part).mkdir(parents=True)
             (root/'venv/Scripts/python.exe').touch(); (root/'nvidia.exe').touch(); (root/'input.wav').touch()
             with patch.object(pilot_supervisor.supervisor, 'run', return_value={'fake':True}) as run:
                 result=pilot_supervisor.run(root,root/'input.wav',kind,root/'nvidia.exe')
@@ -26,7 +26,8 @@ class Controls(unittest.TestCase):
             args, kwargs=run.call_args
             self.assertEqual((args[2],args[3],args[4],args[5]),(900,8*monitor.GIB,20*monitor.GIB,30*monitor.GIB))
             self.assertEqual(kwargs['max_active'],2)
-            self.assertEqual(kwargs['log_dir'],root/'pilot-supervision'/kind)
+            self.assertEqual(kwargs['log_dir'],root/'pilot-supervision'/'known-score-retry-1')
+            self.assertEqual(kwargs['user_profile'],root/'tool-home')
             self.assertIsInstance(kwargs['resource_guard'],monitor.JobResourceGuard)
             (root/'pilot-runs'/kind/'existing').touch()
             with self.assertRaises(ValueError): pilot_supervisor.run(root,root/'input.wav',kind,root/'nvidia.exe')

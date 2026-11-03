@@ -87,7 +87,7 @@ def tree_bytes(root, counters=None):
     return total
 
 
-def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1, max_active=0, resource_guard=None, log_dir=None):
+def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1, max_active=0, resource_guard=None, log_dir=None, user_profile=None):
     root = Path(root).resolve(strict=True)
     if not root.is_dir() or not command or not os.path.isabs(command[0]):
         raise ValueError("existing workspace and absolute executable required")
@@ -141,6 +141,12 @@ def run(command, root, seconds, memory, footprint, free_floor, sample_seconds=1,
                     "UV_PYTHON_INSTALL_DIR": str(root / "python"), "UV_NO_CONFIG": "1",
                     "HF_HOME": str(root / "hf-cache"), "TORCH_HOME": str(root / "torch-cache"),
                     "HF_HUB_OFFLINE": "1", "HF_HUB_DISABLE_TELEMETRY": "1", "DO_NOT_TRACK": "1"})
+        if user_profile is not None:
+            home = Path(user_profile)
+            info = home.stat(follow_symlinks=False)
+            if getattr(info, 'st_file_attributes', 0) & 0x400 or not home.is_dir() or home.resolve(strict=True) != root / 'tool-home':
+                raise ValueError('tool home must be the normal dedicated workspace directory')
+            env['USERPROFILE'] = str(home.resolve(strict=True))
         environment = c.create_unicode_buffer("\0".join(f"{key}={value}" for key, value in sorted(env.items(), key=lambda p: p[0].upper())) + "\0\0")
         # Explicit allowlist, and atomic job assignment at process creation.
         j.check(j.create(command[0], cmdline, None, None, True, 0x4 | 0x400 | 0x08000000 | 0x80000,
@@ -217,10 +223,11 @@ if __name__ == "__main__":
     p.add_argument("--free-floor-mib", type=int, required=True)
     p.add_argument("--max-active", type=int, default=0)
     p.add_argument("--log-dir")
+    p.add_argument("--user-profile")
     p.add_argument("command", nargs=argparse.REMAINDER)
     a = p.parse_args()
     if not 0 < a.seconds <= 1800 or not 64 <= a.memory_mib <= 4096 or not 1 <= a.footprint_mib <= 20480 or a.free_floor_mib < 0 or not 0 <= a.max_active <= 2:
         p.error("outside bootstrap limits")
-    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2, max_active=a.max_active, log_dir=a.log_dir)
+    result = run(a.command, a.workspace, a.seconds, a.memory_mib*1024**2, a.footprint_mib*1024**2, a.free_floor_mib*1024**2, max_active=a.max_active, log_dir=a.log_dir, user_profile=a.user_profile)
     print(json.dumps(result))
     sys.exit(0 if result['error'] is None and result['root_exit_code'] == 0 and not result['cleanup'].startswith('UNVERIFIED') else 1)

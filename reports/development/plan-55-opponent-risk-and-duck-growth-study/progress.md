@@ -41,3 +41,11 @@ Independent audit and reserved single Terra-medium review completed. Requested g
 
 
 Study artifacts committed as `ca5fb23`; report-local `.gitattributes` preserves attested bytes without modifying repository-wide attributes. All 38 staged files were within Plan55 scope and their staged blobs matched the raw file bytes. `git diff --check` reports existing extra terminal blank lines in several byte-pinned recipes/reports; they were preserved because normalizing them would change recorded hashes. Progress is committed separately as the final act. No packet status was changed.
+
+## Follow-on discussion — 2026-11-03
+
+QP Orch conveyed the owner's correction: a favorite is not presumed to race while tired or injured, and Guard is intended to prevent injury to a rested competitive favorite. `follow-on-proposal.md` describes the original study's player-only injury and rival-risk limitations, proposes condition-aware policies and a rested matchup, and identifies unresolved collision-participant/rival-lifecycle choices. This is a proposal only; no follow-on experiment is cleared or run. The first stress-test evidence is unchanged.
+
+QP Orch reviewed and accepted the proposed follow-on direction as experimental assumptions, with amendments appended to `follow-on-protocol.md`: Stage A's post-race Guard endpoint is injury, final effective speed target is the onset seam, condition-aware fallback maximizes effective input, full disabled-hook parity and participant denominators are required, and Stage A stops for review before Stage B. Code preparation is cleared; execution is not.
+
+Follow-on proposal and root amendments saved as `869fe03`; progress recorded last in the coordinated index turn. No production source changed and no follow-on tests or races ran.

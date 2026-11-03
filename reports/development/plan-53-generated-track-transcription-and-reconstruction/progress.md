@@ -208,3 +208,12 @@ Ignored screenshot evidence (all under `local/stage-d/`): `m3/desktop-check.png`
 
 Stage D comparison page, bounded-browser harness, converter/tests and updated delivery are committed as `4a381fd`. Root viewed the narrow screenshots and cleared that bounded layout check. The prior reviewer budget was consumed on the initial implementation; this Stage D expansion used the orchestrator gate rather than an additional reviewer.
 
+
+## M5 duration experiment preparation
+
+At the owner's request, prepared separate 75% and 50% note-duration variants of the existing 450-note M5 piano event data: `end = start + factor × (original end − start)`. Onsets, pitch, instrument/program, assigned velocity and source data are unchanged; these are explicit experimental edits, not recovered original durations. The listening page adds clearly labeled controls, factor-specific event exports and WAV filenames; the existing unmodified raw/MIDI and baseline remain preserved. Source event SHA-256 and finite two-render resource proposal are recorded in `duration-experiment.md`.
+
+Two focused synthetic Node tests passed in 0.523s under the existing bounded launcher (sampled private peak 1,863,680 bytes), checking both factors, unchanged source/fields and invalid inputs. A serial syntax check passed in 0.522s; it is not a runtime or listening check. The subsequent factor-specific completion-status assertion is to be covered by the pending browser batch. No 75% or 50% audio has been rendered yet. The browser/resource turn remains queued while another project's browser matrix and the Plan52 checkpoint refresh run; no automatic model inference, retry, full-track or production integration is authorized.
+
+M5 duration controls, transforms and prepared test harness are committed as `08316fe`. Rendered comparisons and runtime factor assertions remain pending the coordinated browser turn.
+

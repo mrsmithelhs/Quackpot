@@ -1,7 +1,7 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-
@@ -70,6 +70,8 @@ Build a report-local page with aligned original-excerpt, raw-transcription recon
 Owner judges melody recognizability, harmonic/bass/rhythmic coherence, instrument separation, density, timbre compromise and whether editing saves effort over composing manually. Flash audio consultancy can provide secondary leads only with separately cleared local transport/call bounds; it cannot replace owner listening or certify exact pitch. Stop here before expanding.
 
 ### D — Conditional expansion and targeted repairs
+
+**Owner clearance, 2026-11-02:** Continue with one predeclared representative 20–25-second Medium passage from each of M3 (prompt3) and M5 (variation of prompt4, ragtime). Reuse pinned environment/model, unchanged inference controls and existing note/render treatment; preserve originals, raw predictions and omission/mapping ledgers. Return brief original/stock/curated comparisons and instrument-group/correction findings for owner listening. No full tracks, separation, new instruments or automatic retries. Prepare within report scope; root coordinates serial heavy-resource and browser turns with the live Plan52 owner review. Large's preconverted FP16/runtime feasibility is routed separately to Plan56, not an expansion of this environment.
 
 Only after owner/root review: compare Large on the SAME excerpt if useful and feasible; transcribe bounded representative portions of the other two tracks; then consider full-track/chunk reconciliation with explicit continuity, tempo and note-boundary checks. A failed install/OOM gets one recorded stop and revised proposal, not repeated escalation of memory.
 

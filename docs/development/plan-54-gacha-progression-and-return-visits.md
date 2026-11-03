@@ -1,7 +1,8 @@
 ---
 id: plan-54
 title: Gacha progression and return-visit investigation
-status: delivered
+status: complete
+resolution: "Owner accepted the combined progression experience; root reviewed the report-local comparison, selections and integration boundaries. Numeric mechanics, simulation and production adoption remain separate follow-on gates."
 depends_on: [plan-12, plan-17, plan-21, plan-22, plan-23]
 gate: "Owner selects the comparison approach before prototype construction; owner experience choices and orchestration review precede any production or economy integration."
 summary: >-

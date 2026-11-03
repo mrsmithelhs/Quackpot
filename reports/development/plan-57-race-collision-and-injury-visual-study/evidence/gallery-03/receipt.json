@@ -1,0 +1,478 @@
+{
+  "disclaimer": "Synthetic gallery states; fixed presentation clock snapshots, not race outcomes.",
+  "pins": {
+    "gallery/index.html": "84cbadd4d2c4a7b30206783b9137d6101f7f4944e9fdaebfe7b3189269a0f377",
+    "gallery/gallery.css": "b24949726044191dec2b16a51985897a0a90cb251c70e38d5dee92e514cd4983",
+    "gallery/gallery.mjs": "0a079bbe46870ee67480ba3aa704064a1fa596692add36efab4d7388aea7bdb3",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "art/impact-burst.svg": "9af09a4861916cfed001e46bdd10c9e1d0a6e5e0675c4757d8a99fa884da52c4",
+    "art/paper-splash.svg": "3859624ec2ea43e054af2fae6bc0be2f2b19af438e6ae1ac2e69fb084b345e34",
+    "art/adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "art/status-tab-icon.svg": "10cc0ae9a464067c1508e440f38884b1eadaeaa34dc59beef4a5053887931b12",
+    "tools/repair-browser.mjs": "8699790fd5e612ef82ae0bca5d03aad9a1d99ffa9fa928080278c100fc9c9d24"
+  },
+  "captures": [
+    {
+      "width": 1024,
+      "name": "burst-neither",
+      "fixture": "neither",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; neither injured. Contact: A and B. Injured: none.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 346.6138000488281,
+          "right": 403.7388000488281,
+          "top": 494,
+          "bottom": 514.8125
+        },
+        {
+          "left": 449.04803466796875,
+          "right": 505.39178466796875,
+          "top": 618.65625,
+          "bottom": 639.46875
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "splash-one-dim",
+      "fixture": "first",
+      "cue": "splash",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": true,
+      "still": false,
+      "narrative": "Contact; A injured. Contact: A and B. Injured: A.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 307.6450500488281,
+          "right": 442.7075500488281,
+          "top": 490.421875,
+          "bottom": 514.8125
+        },
+        {
+          "left": 449.04803466796875,
+          "right": 505.39178466796875,
+          "top": 618.65625,
+          "bottom": 639.46875
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 317.3325500488281,
+          "right": 433.0200500488281,
+          "top": 492,
+          "bottom": 514.8125
+        },
+        {
+          "left": 419.76678466796875,
+          "right": 534.6730346679688,
+          "top": 618.65625,
+          "bottom": 641.46875
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "wall-static",
+      "fixture": "wall",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": true,
+      "narrative": "Wall impact; no injury. Contact: A and wall. Injured: none.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 62.6953125,
+          "right": 134.1796875,
+          "top": 581.046875,
+          "bottom": 601.859375
+        },
+        {
+          "left": 446.703125,
+          "right": 503.046875,
+          "top": 618.65625,
+          "bottom": 639.46875
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "name": "existing-contact",
+      "fixture": "existing",
+      "cue": "burst",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Already injured A contacts B; injury clears. Contact: A and B. Injured: A.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 307.6450500488281,
+          "right": 442.7075500488281,
+          "top": 490.421875,
+          "bottom": 514.8125
+        },
+        {
+          "left": 449.04803466796875,
+          "right": 505.39178466796875,
+          "top": 618.65625,
+          "bottom": 639.46875
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "dynamics": {
+        "before": "color-mix(in srgb, #fbbf24 39.99999999999999%, white)",
+        "after": "#fbbf24",
+        "rewind": true,
+        "stable": true,
+        "replay": true,
+        "animations": 0,
+        "emptied": true
+      },
+      "reduced": {
+        "participants": 2,
+        "animations": 0
+      },
+      "detail": "Emulated preference; not a physical OS or assistive technology test."
+    },
+    {
+      "width": 390,
+      "name": "burst-neither",
+      "fixture": "neither",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; neither injured. Contact: A and B. Injured: none.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 126.49662017822266,
+          "right": 159.44973754882812,
+          "top": 646.296875,
+          "bottom": 672.109375
+        },
+        {
+          "left": 173.07147216796875,
+          "right": 206.02459716796875,
+          "top": 718.078125,
+          "bottom": 743.890625
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "splash-one-dim",
+      "fixture": "first",
+      "cue": "splash",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": true,
+      "still": false,
+      "narrative": "Contact; A injured. Contact: A and B. Injured: A.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 117.58255767822266,
+          "right": 168.36380004882812,
+          "top": 632.234375,
+          "bottom": 672.109375
+        },
+        {
+          "left": 173.07147216796875,
+          "right": 206.02459716796875,
+          "top": 718.078125,
+          "bottom": 743.890625
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 117.58255767822266,
+          "right": 168.36380004882812,
+          "top": 644.296875,
+          "bottom": 672.109375
+        },
+        {
+          "left": 164.15740966796875,
+          "right": 214.93865966796875,
+          "top": 718.078125,
+          "bottom": 745.890625
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "wall-static",
+      "fixture": "wall",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": true,
+      "narrative": "Wall impact; no injury. Contact: A and wall. Injured: none.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 31.2421875,
+          "right": 64.1953125,
+          "top": 674.8125,
+          "bottom": 700.625
+        },
+        {
+          "left": 170.7265625,
+          "right": 203.6796875,
+          "top": 718.078125,
+          "bottom": 743.890625
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "name": "existing-contact",
+      "fixture": "existing",
+      "cue": "burst",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Already injured A contacts B; injury clears. Contact: A and B. Injured: A.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 117.58255767822266,
+          "right": 168.36380004882812,
+          "top": 632.234375,
+          "bottom": 672.109375
+        },
+        {
+          "left": 173.07147216796875,
+          "right": 206.02459716796875,
+          "top": 718.078125,
+          "bottom": 743.890625
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "dynamics": {
+        "before": "color-mix(in srgb, #fbbf24 39.99999999999999%, white)",
+        "after": "#fbbf24",
+        "rewind": true,
+        "stable": true,
+        "replay": true,
+        "animations": 0,
+        "emptied": true
+      },
+      "reduced": {
+        "participants": 2,
+        "animations": 0
+      },
+      "detail": "Emulated preference; not a physical OS or assistive technology test."
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "c605cf192654dd5ec804241d1252893ccc0ff8b65786f9f77ed70817c5cf7dd4",
+    "trackedDescendants": [
+      {
+        "pid": 7316,
+        "ppid": 20932,
+        "created": "639293388632484160",
+        "root": true
+      },
+      {
+        "pid": 13436,
+        "ppid": 7316,
+        "created": "639293388632645240",
+        "root": false
+      },
+      {
+        "pid": 11972,
+        "ppid": 7316,
+        "created": "639293388634679140",
+        "root": false
+      },
+      {
+        "pid": 35284,
+        "ppid": 7316,
+        "created": "639293388635378960",
+        "root": false
+      },
+      {
+        "pid": 18208,
+        "ppid": 7316,
+        "created": "639293388635926740",
+        "root": false
+      },
+      {
+        "pid": 32840,
+        "ppid": 7316,
+        "created": "639293388636492430",
+        "root": false
+      },
+      {
+        "pid": 33444,
+        "ppid": 7316,
+        "created": "639293388636921460",
+        "root": false
+      },
+      {
+        "pid": 31948,
+        "ppid": 7316,
+        "created": "639293388637295830",
+        "root": false
+      },
+      {
+        "pid": 33068,
+        "ppid": 7316,
+        "created": "639293388637320410",
+        "root": false
+      },
+      {
+        "pid": 35012,
+        "ppid": 7316,
+        "created": "639293388638185980",
+        "root": false
+      },
+      {
+        "pid": 33136,
+        "ppid": 7316,
+        "created": "639293388650213010",
+        "root": false
+      },
+      {
+        "pid": 5944,
+        "ppid": 7316,
+        "created": "639293388650519580",
+        "root": false
+      },
+      {
+        "pid": 35676,
+        "ppid": 7316,
+        "created": "639293388662179330",
+        "root": false
+      },
+      {
+        "pid": 15432,
+        "ppid": 7316,
+        "created": "639293388662891250",
+        "root": false
+      },
+      {
+        "pid": 20776,
+        "ppid": 7316,
+        "created": "639293388662905630",
+        "root": false
+      },
+      {
+        "pid": 34492,
+        "ppid": 7316,
+        "created": "639293388663248400",
+        "root": false
+      },
+      {
+        "pid": 12328,
+        "ppid": 7316,
+        "created": "639293388668521710",
+        "root": false
+      },
+      {
+        "pid": 34756,
+        "ppid": 7316,
+        "created": "639293388668801760",
+        "root": false
+      },
+      {
+        "pid": 29888,
+        "ppid": 7316,
+        "created": "639293388669524180",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

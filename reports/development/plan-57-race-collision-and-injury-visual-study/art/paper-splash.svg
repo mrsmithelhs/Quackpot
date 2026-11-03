@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <path fill="#f2998a" stroke="#1d2b36" stroke-width="6" stroke-linejoin="miter"
+        d="M88,168 L72,150 L84,146 L70,128 L96,132 L100,112 L116,126 L124,100 L134,124 L150,106 L152,130 L172,122 L164,142 L186,150 L168,164 L184,184 L158,180 L146,198 L128,184 L110,198 L102,180 L76,186 Z"/>
+  <path fill="#f2998a" stroke="#1d2b36" stroke-width="5" stroke-linejoin="miter" d="M196,96 L206,90 L202,102 Z"/>
+  <path fill="#f2998a" stroke="#1d2b36" stroke-width="5" stroke-linejoin="miter" d="M52,176 L44,168 L58,170 Z"/>
+  <path fill="#f2998a" stroke="#1d2b36" stroke-width="5" stroke-linejoin="miter" d="M190,206 L198,214 L186,216 Z"/>
+</svg>

@@ -1,0 +1,198 @@
+{
+  "disclaimer": "Synthetic events and stand-in scene; no production game or saves.",
+  "pins": {
+    "gallery/index.html": "84cbadd4d2c4a7b30206783b9137d6101f7f4944e9fdaebfe7b3189269a0f377",
+    "gallery/gallery.css": "82592ea6a62a0bd57ae5dfb4d41f7968f5617c4dd00dd2b9f9fe86b5708e3578",
+    "gallery/gallery.mjs": "1b1987bcf5ee36eca915b89cf49e98929973548c83b05e02676179f33a95337d",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "art/impact-burst.svg": "9af09a4861916cfed001e46bdd10c9e1d0a6e5e0675c4757d8a99fa884da52c4",
+    "art/paper-splash.svg": "3859624ec2ea43e054af2fae6bc0be2f2b19af438e6ae1ac2e69fb084b345e34",
+    "art/adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "art/status-tab-icon.svg": "10cc0ae9a464067c1508e440f38884b1eadaeaa34dc59beef4a5053887931b12",
+    "tools/gallery-browser.mjs": "e38b05778a5094a82e101769fd1d6bf6959cacebf6e6197cdce944b5e3a1a5d7"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "injury": [
+        "Injured",
+        "Injured",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "independent": true,
+      "backward": true,
+      "overlap": true,
+      "staticText": 2,
+      "closeupWidth": 200,
+      "raceWidth": 84,
+      "captureMode": "static, both injured, angular burst, attached bandage",
+      "keyboardPlay": true,
+      "pausedStable": true,
+      "teardownDomEmpty": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "injury": [
+        "Injured",
+        "Injured",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "independent": true,
+      "backward": true,
+      "overlap": true,
+      "staticText": 2,
+      "closeupWidth": 123.59375,
+      "raceWidth": 40,
+      "captureMode": "static, both injured, angular burst, attached bandage",
+      "keyboardPlay": true,
+      "pausedStable": true,
+      "teardownDomEmpty": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "ed8d0044b1b541cd3f87827cec2808bd4d76595ef06c278243b41784f0f21a6d",
+    "trackedDescendants": [
+      {
+        "pid": 34736,
+        "ppid": 32052,
+        "created": "639293376301150710",
+        "root": true
+      },
+      {
+        "pid": 33828,
+        "ppid": 34736,
+        "created": "639293376301383850",
+        "root": false
+      },
+      {
+        "pid": 20912,
+        "ppid": 34736,
+        "created": "639293376304368020",
+        "root": false
+      },
+      {
+        "pid": 35136,
+        "ppid": 34736,
+        "created": "639293376305313340",
+        "root": false
+      },
+      {
+        "pid": 32976,
+        "ppid": 34736,
+        "created": "639293376305838870",
+        "root": false
+      },
+      {
+        "pid": 30480,
+        "ppid": 34736,
+        "created": "639293376306551260",
+        "root": false
+      },
+      {
+        "pid": 23080,
+        "ppid": 34736,
+        "created": "639293376306973620",
+        "root": false
+      },
+      {
+        "pid": 34444,
+        "ppid": 34736,
+        "created": "639293376307353240",
+        "root": false
+      },
+      {
+        "pid": 32092,
+        "ppid": 34736,
+        "created": "639293376307376940",
+        "root": false
+      },
+      {
+        "pid": 31672,
+        "ppid": 34736,
+        "created": "639293376308556520",
+        "root": false
+      },
+      {
+        "pid": 31276,
+        "ppid": 34736,
+        "created": "639293376332965940",
+        "root": false
+      },
+      {
+        "pid": 35536,
+        "ppid": 34736,
+        "created": "639293376333360710",
+        "root": false
+      },
+      {
+        "pid": 25808,
+        "ppid": 34736,
+        "created": "639293376333361640",
+        "root": false
+      },
+      {
+        "pid": 28760,
+        "ppid": 34736,
+        "created": "639293376335566740",
+        "root": false
+      },
+      {
+        "pid": 34276,
+        "ppid": 34736,
+        "created": "639293376335812930",
+        "root": false
+      },
+      {
+        "pid": 23028,
+        "ppid": 34736,
+        "created": "639293376335823600",
+        "root": false
+      },
+      {
+        "pid": 26492,
+        "ppid": 34736,
+        "created": "639293376335876840",
+        "root": false
+      },
+      {
+        "pid": 34464,
+        "ppid": 34736,
+        "created": "639293376335994490",
+        "root": false
+      },
+      {
+        "pid": 35784,
+        "ppid": 34736,
+        "created": "639293376336441000",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

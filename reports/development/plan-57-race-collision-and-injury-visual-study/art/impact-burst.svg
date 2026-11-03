@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <path fill="#f7efd9" fill-rule="evenodd" stroke="#1d2b36" stroke-width="6" stroke-linejoin="miter"
+        d="M240,128 L192.7,101.2 L207,49 L154.8,63.3 L128,16 L101.2,63.3 L49,49 L63.3,101.2 L16,128 L63.3,154.8 L49,207 L101.2,192.7 L128,240 L154.8,192.7 L207,207 L192.7,154.8 Z M184,128 A56,56 0 1,0 72,128 A56,56 0 1,0 184,128 Z"/>
+</svg>

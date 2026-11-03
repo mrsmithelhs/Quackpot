@@ -1,0 +1,18 @@
+{
+  "disclaimer": "Synthetic reference scene; production rig and paused contact pose, simplified course and placement; no race or injury outcome.",
+  "httpStatus": null,
+  "pins": {
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/index.html": "84cbadd4d2c4a7b30206783b9137d6101f7f4944e9fdaebfe7b3189269a0f377",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/gallery.css": "abdff62af7e13de0b71990b668df5eca5c4e687f021fd6e9785e6e1d94f8d630",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/gallery.mjs": "9ef7ba55a903ba66c71fe974dbe4f1fe88fd13ab3429324a75b14bbd2cc641d2",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/tools/capture-reference.mjs": "23117132a1f7645a189a93341843001551326d423126e2716d5a906de7f00415",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191",
+    "src/ui/duck-motion-controller.mjs": "29e674e45d2bfb5c9bebf2a5ad8f36a626c907bf91046954022a7255e9538d20"
+  },
+  "error": "TypeError: fetch failed",
+  "cleanup": null,
+  "accepted": false
+}

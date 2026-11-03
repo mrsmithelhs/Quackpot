@@ -1,0 +1,15 @@
+# Pre-delivery reviewer dispositions
+
+One read-only reviewer was requested with `gpt-6.1-terra`, explicit `medium`. The platform accepted that requested configuration; the reviewer reported that actual model and effort were not independently observable. The brief instructed read-only work, no execution, no edits, and no children. This is instruction-read-only, not a claim of a structurally read-only sandbox. The scoped post-review status showed only the lead's existing untracked Plan57 folder; shared unrelated work remains outside this comparison. No additional reviewer was run.
+
+| Finding | Independent verification and disposition | Result |
+|---|---|---|
+| Static/reduced-motion playback still moves A/B because approach depends on time. | Confirmed in source: time-derived convergence was applied even when `still` was true. Accepted. | Gate convergence on animated mode; wall contacts also do not apply duck-pair convergence. Test actual manual-static playback positions and emulated-preference positions in the proposed focused follow-up. |
+| Paused stage resize leaves label placement based on old dimensions. | Confirmed: layout ran on render and no resize observer existed. Accepted. | Observe stage resize and rerender, disconnect on destroy. Test all labels' bounds and pairwise overlap after paused viewport resize. |
+| Overlapping active contacts only show the last cue; a cropped B/C contact can falsely appear on B alone. | Confirmed `contacts.at(-1)` and filtering to visible participants. Accepted. | Render one cue per active event. If a cropped view lacks any participant, omit that event's spatial cue there while retaining factual narrative; verify two full-view cues and one valid close-up cue for the repeated-contact fixture. |
+
+No findings were rejected: all three were independently supported and accepted. The reviewer also correctly limited conclusions about continuous perception, assistive technology, physical devices and process cleanup; those are evidence boundaries, not rejected findings. The candidate SVG review found no apparent scripts or external references, and rig prefixes were instance-specific.
+
+The focused `evidence/gallery-05/receipt.json` records the bounded follow-up: manual-static playback advanced the clock while positions stayed fixed, emulated reduced-motion positions stayed fixed, paused viewport resize left all six labels inside the stage and nonoverlapping, and the repeated-contact fixture displayed two full-view cues and one valid cropped-view cue. Both 1024px and 390px contexts exercised these assertions. These are bounded browser checks, not physical OS, assistive-technology, continuous-perception or exhaustive layout evidence. Root visual review of the post-repair captures and owner choice remain separate.
+
+The reviewer did not establish owner selection, production readiness or general accessibility conformance. Rough elapsed time/cost were not separately measured; this was one reviewer turn and no repeated review was requested.

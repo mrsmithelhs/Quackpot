@@ -1,0 +1,450 @@
+{
+  "disclaimer": "Synthetic gallery states; fixed presentation clock snapshots, not race outcomes.",
+  "pins": {
+    "gallery/index.html": "84cbadd4d2c4a7b30206783b9137d6101f7f4944e9fdaebfe7b3189269a0f377",
+    "gallery/gallery.css": "e1b4fbf46f5f1c9d74be137163422c52301df031a7527b188ce2f24d508a222e",
+    "gallery/gallery.mjs": "31283b98208f9fdcfdb052a5cdfafe3b3fe6ede1bd083952582a4b384d8ac59b",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "art/impact-burst.svg": "9af09a4861916cfed001e46bdd10c9e1d0a6e5e0675c4757d8a99fa884da52c4",
+    "art/paper-splash.svg": "3859624ec2ea43e054af2fae6bc0be2f2b19af438e6ae1ac2e69fb084b345e34",
+    "art/adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "art/status-tab-icon.svg": "10cc0ae9a464067c1508e440f38884b1eadaeaa34dc59beef4a5053887931b12",
+    "tools/labels-browser.mjs": "1784c16d33174196d53a61b2416ed4a184da207ec08599a3e8128925299fcad3"
+  },
+  "captures": [
+    {
+      "width": 1024,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 84,
+      "stageWidth": 947,
+      "stageHeight": 584.296875,
+      "labels": [
+        {
+          "left": 329.1763000488281,
+          "right": 444.8638000488281,
+          "top": 490.125,
+          "bottom": 512.9375
+        },
+        {
+          "left": 488.21990966796875,
+          "right": 603.1261596679688,
+          "top": 513.34375,
+          "bottom": 536.15625
+        },
+        {
+          "left": 634.5138549804688,
+          "right": 690.0607299804688,
+          "top": 457.3125,
+          "bottom": 478.125
+        },
+        {
+          "left": 244.69873046875,
+          "right": 301.93310546875,
+          "top": 689.421875,
+          "bottom": 710.234375
+        },
+        {
+          "left": 513.466552734375,
+          "right": 567.982177734375,
+          "top": 683.625,
+          "bottom": 704.4375
+        },
+        {
+          "left": 718.7088012695312,
+          "right": 773.0838012695312,
+          "top": 666.21875,
+          "bottom": 687.03125
+        }
+      ],
+      "inside": true,
+      "overlap": false
+    },
+    {
+      "width": 1024,
+      "name": "closeup-both",
+      "fixture": "both",
+      "time": "1.2"
+    },
+    {
+      "width": 1024,
+      "name": "motion-onset",
+      "time": 1.12,
+      "detail": "Playback-clock screenshot; not a listening or continuous visual perception test."
+    },
+    {
+      "width": 1024,
+      "name": "motion-middle",
+      "time": 1.68,
+      "detail": "Playback-clock screenshot; not a listening or continuous visual perception test."
+    },
+    {
+      "width": 1024,
+      "name": "motion-return",
+      "time": 2.31,
+      "detail": "Playback-clock screenshot; not a listening or continuous visual perception test."
+    },
+    {
+      "width": 1024,
+      "dynamics": {
+        "before": "color-mix(in srgb, #fbbf24 39.99999999999999%, white)",
+        "after": "#fbbf24",
+        "rewind": true,
+        "stable": true,
+        "replay": true,
+        "animations": 0,
+        "emptied": true
+      },
+      "reduced": {
+        "participants": 2,
+        "animations": 0
+      },
+      "detail": "Emulated preference; not a physical OS or assistive technology test."
+    },
+    {
+      "width": 390,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 129.47317504882812,
+          "right": 180.25442504882812,
+          "top": 643.296875,
+          "bottom": 671.109375
+        },
+        {
+          "left": 187.73553466796875,
+          "right": 238.51678466796875,
+          "top": 650.890625,
+          "bottom": 678.703125
+        },
+        {
+          "left": 245.7169952392578,
+          "right": 278.67010498046875,
+          "top": 633.890625,
+          "bottom": 659.703125
+        },
+        {
+          "left": 88.35497283935547,
+          "right": 128.35498046875,
+          "top": 709.9375,
+          "bottom": 735.75
+        },
+        {
+          "left": 178.60716247558594,
+          "right": 218.60716247558594,
+          "top": 708.03125,
+          "bottom": 733.84375
+        },
+        {
+          "left": 250.20880126953125,
+          "right": 290.20880126953125,
+          "top": 702.328125,
+          "bottom": 728.140625
+        }
+      ],
+      "inside": true,
+      "overlap": false
+    },
+    {
+      "width": 390,
+      "name": "wall-static",
+      "fixture": "wall",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": true,
+      "narrative": "Wall impact; no injury. Contact: A and wall. Injured: none.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 39.21875,
+          "right": 79.71875,
+          "top": 673.8125,
+          "bottom": 699.625
+        },
+        {
+          "left": 155.203125,
+          "right": 195.203125,
+          "top": 652.890625,
+          "bottom": 678.703125
+        },
+        {
+          "left": 222.015625,
+          "right": 262.015625,
+          "top": 633.890625,
+          "bottom": 659.703125
+        },
+        {
+          "left": 95.328125,
+          "right": 135.328125,
+          "top": 709.9375,
+          "bottom": 735.75
+        },
+        {
+          "left": 181.859375,
+          "right": 221.859375,
+          "top": 708.03125,
+          "bottom": 733.84375
+        },
+        {
+          "left": 246.75,
+          "right": 286.75,
+          "top": 702.328125,
+          "bottom": 728.140625
+        }
+      ],
+      "inside": true,
+      "overlap": false
+    },
+    {
+      "width": 390,
+      "name": "existing-contact",
+      "fixture": "existing",
+      "cue": "burst",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Already injured A contacts B; injury clears. Contact: A and B. Injured: A.",
+      "duckWidth": 40,
+      "stageWidth": 313,
+      "stageHeight": 194.140625,
+      "labels": [
+        {
+          "left": 129.47317504882812,
+          "right": 180.25442504882812,
+          "top": 631.296875,
+          "bottom": 671.171875
+        },
+        {
+          "left": 184.14178466796875,
+          "right": 217.09490966796875,
+          "top": 652.890625,
+          "bottom": 678.703125
+        },
+        {
+          "left": 221.2169952392578,
+          "right": 257.73260498046875,
+          "top": 633.890625,
+          "bottom": 659.703125
+        },
+        {
+          "left": 88.35497283935547,
+          "right": 128.35498046875,
+          "top": 709.9375,
+          "bottom": 735.75
+        },
+        {
+          "left": 178.60716247558594,
+          "right": 218.60716247558594,
+          "top": 708.03125,
+          "bottom": 733.84375
+        },
+        {
+          "left": 250.20880126953125,
+          "right": 290.20880126953125,
+          "top": 702.328125,
+          "bottom": 728.140625
+        }
+      ],
+      "inside": true,
+      "overlap": false
+    },
+    {
+      "width": 390,
+      "dynamics": {
+        "before": "color-mix(in srgb, #fbbf24 39.99999999999999%, white)",
+        "after": "#fbbf24",
+        "rewind": true,
+        "stable": true,
+        "replay": true,
+        "animations": 0,
+        "emptied": true
+      },
+      "reduced": {
+        "participants": 2,
+        "animations": 0
+      },
+      "detail": "Emulated preference; not a physical OS or assistive technology test."
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "aaeb03d1cc1bbd99f50a16960fc13c93d83c2b47de640872c470a9eee27b250f",
+    "trackedDescendants": [
+      {
+        "pid": 25476,
+        "ppid": 27680,
+        "created": "639293391106286210",
+        "root": true
+      },
+      {
+        "pid": 35992,
+        "ppid": 25476,
+        "created": "639293391106451860",
+        "root": false
+      },
+      {
+        "pid": 35908,
+        "ppid": 25476,
+        "created": "639293391108434710",
+        "root": false
+      },
+      {
+        "pid": 26296,
+        "ppid": 25476,
+        "created": "639293391109113680",
+        "root": false
+      },
+      {
+        "pid": 27564,
+        "ppid": 25476,
+        "created": "639293391109382730",
+        "root": false
+      },
+      {
+        "pid": 29120,
+        "ppid": 25476,
+        "created": "639293391109932590",
+        "root": false
+      },
+      {
+        "pid": 8736,
+        "ppid": 25476,
+        "created": "639293391110337000",
+        "root": false
+      },
+      {
+        "pid": 25472,
+        "ppid": 25476,
+        "created": "639293391110723730",
+        "root": false
+      },
+      {
+        "pid": 36360,
+        "ppid": 25476,
+        "created": "639293391110736260",
+        "root": false
+      },
+      {
+        "pid": 36848,
+        "ppid": 25476,
+        "created": "639293391111639380",
+        "root": false
+      },
+      {
+        "pid": 35924,
+        "ppid": 25476,
+        "created": "639293391124016380",
+        "root": false
+      },
+      {
+        "pid": 36388,
+        "ppid": 25476,
+        "created": "639293391124273540",
+        "root": false
+      },
+      {
+        "pid": 34668,
+        "ppid": 25476,
+        "created": "639293391136193860",
+        "root": false
+      },
+      {
+        "pid": 28528,
+        "ppid": 25476,
+        "created": "639293391136197150",
+        "root": false
+      },
+      {
+        "pid": 26264,
+        "ppid": 25476,
+        "created": "639293391136570480",
+        "root": false
+      },
+      {
+        "pid": 10936,
+        "ppid": 25476,
+        "created": "639293391136722990",
+        "root": false
+      },
+      {
+        "pid": 31152,
+        "ppid": 25476,
+        "created": "639293391136787660",
+        "root": false
+      },
+      {
+        "pid": 23004,
+        "ppid": 25476,
+        "created": "639293391141743490",
+        "root": false
+      },
+      {
+        "pid": 30728,
+        "ppid": 25476,
+        "created": "639293391142319100",
+        "root": false
+      },
+      {
+        "pid": 29828,
+        "ppid": 25476,
+        "created": "639293391148277130",
+        "root": false
+      },
+      {
+        "pid": 4008,
+        "ppid": 25476,
+        "created": "639293391148546150",
+        "root": false
+      },
+      {
+        "pid": 20624,
+        "ppid": 25476,
+        "created": "639293391148549430",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

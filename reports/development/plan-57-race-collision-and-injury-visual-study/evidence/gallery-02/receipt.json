@@ -1,0 +1,272 @@
+{
+  "disclaimer": "Synthetic gallery states; fixed presentation clock snapshots, not race outcomes.",
+  "pins": {
+    "gallery/index.html": "84cbadd4d2c4a7b30206783b9137d6101f7f4944e9fdaebfe7b3189269a0f377",
+    "gallery/gallery.css": "dd124b13e88c8974d41ddbfb536a43ea5ddd0ee0f6f5bdb892d601bf5da64600",
+    "gallery/gallery.mjs": "107d6715347686e83f0b30fcd0e1245ef938e2191b1e00732d6f968c05c92803",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "art/impact-burst.svg": "9af09a4861916cfed001e46bdd10c9e1d0a6e5e0675c4757d8a99fa884da52c4",
+    "art/paper-splash.svg": "3859624ec2ea43e054af2fae6bc0be2f2b19af438e6ae1ac2e69fb084b345e34",
+    "art/adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "art/status-tab-icon.svg": "10cc0ae9a464067c1508e440f38884b1eadaeaa34dc59beef4a5053887931b12",
+    "tools/variant-browser.mjs": "637fe2b8ee2cedb9d49ea8c69ff00191d12945d079b1817a9b38d017c8c43ac3"
+  },
+  "captures": [
+    {
+      "width": 1024,
+      "name": "burst-neither",
+      "fixture": "neither",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; neither injured. Contact: A and B. Injured: none.",
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "name": "splash-one-dim",
+      "fixture": "first",
+      "cue": "splash",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": true,
+      "still": false,
+      "narrative": "Contact; A injured. Contact: A and B. Injured: A.",
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "name": "wall-static",
+      "fixture": "wall",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": true,
+      "narrative": "Wall impact; no injury. Contact: A and wall. Injured: none.",
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "name": "existing-contact",
+      "fixture": "existing",
+      "cue": "burst",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Already injured A contacts B; injury clears. Contact: A and B. Injured: A.",
+      "duckWidth": 84
+    },
+    {
+      "width": 390,
+      "name": "burst-neither",
+      "fixture": "neither",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; neither injured. Contact: A and B. Injured: none.",
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "name": "splash-one-dim",
+      "fixture": "first",
+      "cue": "splash",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": true,
+      "still": false,
+      "narrative": "Contact; A injured. Contact: A and B. Injured: A.",
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "name": "white-both",
+      "fixture": "both",
+      "cue": "none",
+      "duration": "1",
+      "marker": "bandage",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Contact; both injured. Contact: A and B. Injured: A, B.",
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "name": "wall-static",
+      "fixture": "wall",
+      "cue": "burst",
+      "duration": "0",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": true,
+      "narrative": "Wall impact; no injury. Contact: A and wall. Injured: none.",
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "name": "existing-contact",
+      "fixture": "existing",
+      "cue": "burst",
+      "duration": "0.5",
+      "marker": "tab",
+      "time": "1.2",
+      "drama": false,
+      "still": false,
+      "narrative": "Already injured A contacts B; injury clears. Contact: A and B. Injured: A.",
+      "duckWidth": 40
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "1f5d0026b03fc7404179dd894f70ac35df4f988fe373969b6fde1ebba499e795",
+    "trackedDescendants": [
+      {
+        "pid": 34092,
+        "ppid": 33816,
+        "created": "639293381865523880",
+        "root": true
+      },
+      {
+        "pid": 34604,
+        "ppid": 34092,
+        "created": "639293381865783040",
+        "root": false
+      },
+      {
+        "pid": 15236,
+        "ppid": 34092,
+        "created": "639293381868135790",
+        "root": false
+      },
+      {
+        "pid": 27224,
+        "ppid": 34092,
+        "created": "639293381868949130",
+        "root": false
+      },
+      {
+        "pid": 34296,
+        "ppid": 34092,
+        "created": "639293381869269760",
+        "root": false
+      },
+      {
+        "pid": 34664,
+        "ppid": 34092,
+        "created": "639293381869948530",
+        "root": false
+      },
+      {
+        "pid": 30612,
+        "ppid": 34092,
+        "created": "639293381870392610",
+        "root": false
+      },
+      {
+        "pid": 24112,
+        "ppid": 34092,
+        "created": "639293381870790330",
+        "root": false
+      },
+      {
+        "pid": 11112,
+        "ppid": 34092,
+        "created": "639293381870813500",
+        "root": false
+      },
+      {
+        "pid": 2752,
+        "ppid": 34092,
+        "created": "639293381874317450",
+        "root": false
+      },
+      {
+        "pid": 35124,
+        "ppid": 34092,
+        "created": "639293381899709630",
+        "root": false
+      },
+      {
+        "pid": 14572,
+        "ppid": 34092,
+        "created": "639293381899806760",
+        "root": false
+      },
+      {
+        "pid": 34692,
+        "ppid": 34092,
+        "created": "639293381899811350",
+        "root": false
+      },
+      {
+        "pid": 25020,
+        "ppid": 34092,
+        "created": "639293381899997080",
+        "root": false
+      },
+      {
+        "pid": 35644,
+        "ppid": 34092,
+        "created": "639293381908118690",
+        "root": false
+      },
+      {
+        "pid": 26972,
+        "ppid": 34092,
+        "created": "639293381910591210",
+        "root": false
+      },
+      {
+        "pid": 29144,
+        "ppid": 34092,
+        "created": "639293381910740460",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

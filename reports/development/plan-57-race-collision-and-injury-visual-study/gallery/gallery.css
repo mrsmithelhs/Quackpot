@@ -1,0 +1,19 @@
+:root { font-family: system-ui,sans-serif; color: #102a43; background: #f3f7f5; }
+body { margin: 0; } main { max-width: 1100px; margin: auto; padding: 1rem; }
+.study { border: 1px solid #8da5a8; border-radius: .7rem; padding: 1rem; margin: 1rem 0; background: white; }
+.controls { display: flex; flex-wrap: wrap; gap: .6rem; align-items: end; margin-bottom: .7rem; }
+label { display: grid; gap: .2rem; font-size: .9rem; } button,select,input { font: inherit; } button,select { padding: .35rem; }
+.stage { position: relative; width: 100%; aspect-ratio: 104 / 64; overflow: hidden; border: 2px solid #37566b; border-radius: 1.2rem; background: radial-gradient(ellipse, #bcd8be 35%, #6c9d95 36%, #91b8a9 65%); isolation: isolate; }
+.stage.drama:after { content: ''; position: absolute; inset: 0; z-index: 1; background: #0009; pointer-events: none; }
+.runner { position: absolute; z-index: 3; width: clamp(2.5rem, 9%, 5.25rem); aspect-ratio: 1; transform: translate(-50%,-50%); }
+.orientation,.scope,.contact,.shell { width: 100%; height: 100%; } .orientation { transform-style: preserve-3d; }
+.shell { position: relative; } .shell svg { width: 100%; height: 100%; overflow: visible; } .name { position:absolute; left:50%; bottom:98%; transform:translateX(-50%); background:#f8fafc; padding:.12rem .35rem; border-radius:.3rem; font-weight:800; font-size:clamp(.58rem,1.3vw,.82rem); white-space:nowrap; }
+.status { display: inline-block; background: #fff2bd; border: 1px solid #533c18; padding: 0 .2rem; }
+.name.offset::after { content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: 5px; background: #102a43; }
+.wall-standin { position: absolute; left: 1%; top: 26%; height: 48%; width: .4rem; background: #30495a; color: #fff; z-index: 2; font-size: .65rem; writing-mode: vertical-rl; }
+.collision-art { position: absolute; height: auto; aspect-ratio: 1; z-index: 2; pointer-events: none; }
+.bandage { position: absolute; width: 32%; height: 32%; left: 41%; top: 39%; pointer-events: none; }
+.tab-icon { width: 1.2em; height: 1.2em; vertical-align: middle; }
+[hidden] { display: none !important; }
+.closeup { max-width: 520px; } .closeup .runner { width: min(200px, 40%); } .narrative { min-height: 1.5em; }
+@media (max-width: 390px) { .name { white-space:normal; font-size:.55rem; } }

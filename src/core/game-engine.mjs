@@ -19,7 +19,7 @@ import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
-import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition, stageWorkStory } from './life-coordinator.mjs';
+import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
@@ -387,6 +387,46 @@ export class GameEngine {
     if(intent.type==='complete')draft.log.append('income',{kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:draft.state.cash,source:'five-slot-work-story'},draft.state.clock);
     this.#publishTransaction(draft);
     return {ok:true,cashDeltaCents:result.cashDeltaCents,healthDelta:result.healthDelta,events:result.events};
+  }
+
+  prepareFiveSlotActivityStory(choice,operationId) {
+    if(this.isTerminal() || this.state.life?.policyVersion!=='five-slot-v1' || this.state.activeModal || this.state.interruptedContext)return {ok:false,reason:'unavailable'};
+    return prepareActivityStory(this.state.life,{cashCents:Math.round(this.state.cash*100),health:this.state.health},{choice,operationId},this.#fiveSlotContext());
+  }
+
+  recordFiveSlotActivityWarningShown(choice,operationId,proposal) {
+    const current=this.prepareFiveSlotActivityStory(choice,operationId);
+    if(!current.ok || !current.proposal.schedule.disclosures.length || JSON.stringify(current.proposal)!==JSON.stringify(proposal))return null;
+    return this.log.append('life52_activity_warning_shown',{choice,operationId,proposal:structuredClone(proposal)},this.state.clock);
+  }
+
+  recordFiveSlotActivityWarningCancelled(choice,operationId) {
+    const prior=this.log.entries.findLast(e=>e.type==='life52_activity_warning_shown' && e.payload?.choice===choice && e.payload?.operationId===operationId);
+    const cancelled=this.log.entries.findLast(e=>e.type==='life52_activity_warning_cancelled' && e.payload?.choice===choice && e.payload?.operationId===operationId);
+    if(!prior || (cancelled && cancelled.seq>prior.seq))return null;
+    return this.log.append('life52_activity_warning_cancelled',{choice,operationId},this.state.clock);
+  }
+
+  applyFiveSlotActivityStory(intent,expectedLogLength) {
+    if(this.isTerminal() || this.state.life?.policyVersion!=='five-slot-v1' || this.state.activeModal || this.state.interruptedContext)return {ok:false,reason:'unavailable'};
+    if(!Number.isSafeInteger(expectedLogLength) || expectedLogLength!==this.log.length)return {ok:false,reason:'stale_callback'};
+    const draft=this.#transactionDraft(),balances={cashCents:Math.round(draft.state.cash*100),health:draft.state.health};
+    const context=draft.#fiveSlotContext(),shownStages=draft.log.entries.filter(e=>e.type==='story47_shown').map(e=>`${e.payload.id}:${e.payload.stage}`);
+    const preview=intent.type==='start'?prepareActivityStory(draft.state.life,balances,intent,context):null;
+    const warningIndex=preview?.ok?draft.log.entries.findLastIndex(e=>e.type==='life52_activity_warning_shown' && JSON.stringify(e.payload)===JSON.stringify({choice:intent.choice,operationId:intent.operationId,proposal:preview.proposal})):-1;
+    const cancelIndex=draft.log.entries.findLastIndex(e=>e.type==='life52_activity_warning_cancelled' && e.payload?.choice===intent.choice && e.payload?.operationId===intent.operationId);
+    const warningShown=warningIndex>=0 && warningIndex>cancelIndex;
+    const plan=draft.state.life.social46?.pending;
+    const conflictShownKinds=draft.log.entries.filter(e=>e.type==='life52_effect' && e.payload?.effect?.type==='social46_display' && e.payload.effect.payload?.id===plan?.id && e.payload.effect.payload?.atDay===draft.state.life.schedule.day).map(e=>e.payload.effect.payload.kind);
+    const result=stageActivityStory(draft.state.life,balances,intent,{...context,shownStages,warningShown,conflictShownKinds});if(!result.ok)return result;
+    const cashCents=balances.cashCents+result.cashDeltaCents,health=balances.health+result.healthDelta;
+    if(!Number.isSafeInteger(cashCents)||cashCents<0||!Number.isFinite(health)||health<0||health>PRODUCTION.maxHealth)return {ok:false,reason:'invalid_result'};
+    draft.log.append('life52_activity_story_intent',{intent:structuredClone(intent)},draft.state.clock);
+    for(const effect of result.events)draft.log.append('life52_effect',{effect},draft.state.clock);
+    draft.log.append('life52_commit',{domain:'activity_story',operationId:intent.operationId,cashDeltaCents:result.cashDeltaCents,healthDelta:result.healthDelta},draft.state.clock);
+    draft.state.life=result.state;draft.state.cash=cashCents/100;draft.state.health=health;
+    draft.state.day=result.state.schedule.day;draft.state.clock={day:result.state.schedule.day,label:`day ${result.state.schedule.day} ${result.state.schedule.slot}`};
+    this.#publishTransaction(draft);return {ok:true,cashDeltaCents:result.cashDeltaCents,healthDelta:result.healthDelta,events:result.events};
   }
 
   /** Starts the game run, logs run_started, and transitions to companion setup */

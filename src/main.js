@@ -938,9 +938,37 @@ if (app) {
       }),
       onCompleteWork: commit((id) => engine.applyLifeIntent({ type: 'complete_work', id })),
       onLeisure: commit(() => commitLifeWithSocial({ type: 'leisure' })),
-      onBeginStoryActivity: commit((choice) => commitLifeWithSocial({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice })),
+      onBeginStoryActivity: commit((choice) => {
+        if(engine.state.life?.policyVersion!=='five-slot-v1')return commitLifeWithSocial({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice });
+        const operationId=`activity-ui:${engine.log.length}`;let preview=engine.prepareFiveSlotActivityStory(choice,operationId),conflictChoice=null;
+        if(!preview.ok)return preview;
+        if(preview.proposal.schedule.conflicts.length) {
+          const view=fiveSlotSocialView(engine),plan=view.social46?.pending;
+          if(!plan || !plan.seatingConfirmed || !preview.proposal.schedule.conflicts.includes(plan.id))return {ok:false,reason:'social_conflict_unavailable'};
+          const tell=globalThis.confirm(`${social46DisplayText('conflict_notice',null,plan.day,0,view.day)}\n\nOK: tell Ren. Cancel: see another option.`);
+          const shown=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_notice'}},engine.log.length);if(!shown.ok)return shown;
+          if(tell)conflictChoice='notice';else {
+            const proceed=globalThis.confirm(social46DisplayText('conflict_continue'));
+            const shownAgain=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_conflict_shown',id:plan.id,kind:'conflict_continue'}},engine.log.length);if(!shownAgain.ok)return shownAgain;
+            if(!proceed)return {ok:false,reason:'cancelled'};conflictChoice='break';
+          }
+          preview=engine.prepareFiveSlotActivityStory(choice,operationId);if(!preview.ok)return preview;
+        }
+        if(preview.proposal.schedule.disclosures.length) {
+          const lines=fiveSlotWarningLines(preview.proposal);if(!lines)return {ok:false,reason:'unsupported_warning'};
+          const accepted=globalThis.confirm(`${lines.join('\n')}\n\nContinue?`);
+          if(!engine.recordFiveSlotActivityWarningShown(choice,operationId,preview.proposal))return {ok:false,reason:'stale_warning'};
+          if(!accepted){engine.recordFiveSlotActivityWarningCancelled(choice,operationId);return {ok:false,reason:'cancelled'};}
+        }
+        return engine.applyFiveSlotActivityStory({type:'start',choice,operationId,confirmed:true,...(conflictChoice?{conflictChoice}:{})},engine.log.length);
+      }),
       onStoryShown: (story) => { if (engine.showLifeStory47(story.id, story.stage)) maybeAutosave(); },
       onStoryAdvance: commit((story) => {
+        if(engine.state.life?.policyVersion==='five-slot-v1' && story.kind==='activity') {
+          const type=story.stage==='scene'?'complete':'dismiss';
+          const result=engine.applyFiveSlotActivityStory({type,id:story.id,operationId:`activity-story-ui:${engine.log.length}`,confirmed:true},engine.log.length);
+          if(result.ok && type==='dismiss'){engine.state.step=lifeSurface(engine);resetLifeUi();}return result;
+        }
         if (engine.state.life?.policyVersion === 'five-slot-v1' && story.kind === 'work') {
           const type = story.stage === 'commute' ? 'advance' : story.stage === 'work' ? 'complete' : 'dismiss';
           const result = engine.applyFiveSlotWorkStory({ type, id: story.id, operationId: `work-story-ui:${engine.log.length}`, confirmed: true }, engine.log.length);

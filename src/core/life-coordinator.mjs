@@ -36,6 +36,7 @@ export function inspectLifeTransaction(state,balances,intent,context={}) {
   const due=dueObligations(finance,balances.cashCents);
   const recovery=Boolean(state.schedule.recovery);
   if(intent.domain==='schedule') {
+    if(context.allowActivityStory!==true && ((intent.action?.type==='start' && intent.action?.kind==='activity47') || (['complete','abandon','progress'].includes(intent.action?.type) && state.schedule.active?.kind==='activity47')))return bad('activity_story_required');
     if(state.story47 && context.allowWorkStory!==true)return bad('story_pending');
     if(state.social46?.scene)return bad('social_scene_pending');
     const reservingRentShift = !due.bills.some(bill=>bill.id.startsWith('loan-')) && intent.action?.type==='reserve-overtime'
@@ -166,6 +167,49 @@ export function stageWorkStory(state,balances,intent,context={}) {
       next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
       next.story47.stage='payslip';events.push({type:'story47_advanced',id:story.id,stage:'payslip'});
     } else if(intent.type==='dismiss' && story.stage==='payslip') {
+      next.story47=null;events.push({type:'story47_dismissed',id:story.id});
+    } else return bad('invalid_story_stage');
+  }
+  next.storyOperationIds={...(next.storyOperationIds??{}),[intent.operationId]:true};
+  return {ok:true,state:next,cashDeltaCents,healthDelta,events};
+}
+
+// The activity scene and its slot reservation are one staged operation. The
+// caller supplies only actually displayed warning/scene facts from the log.
+export function prepareActivityStory(state,balances,intent,context={}) {
+  if(!state?.schedule || !['call_mom','sit_duck'].includes(intent?.choice) || typeof intent.operationId!=='string' || !intent.operationId)return bad('invalid_activity_story');
+  if(state.story47 || (intent.choice==='call_mom' && (state.schedule.day-1)%5!==0))return bad('activity_unavailable');
+  const action={domain:'schedule',action:{type:'start',kind:'activity47',operationId:`story:${intent.operationId}`}};
+  return inspectLifeTransaction(state,balances,action,{...context,allowActivityStory:true});
+}
+
+export function stageActivityStory(state,balances,intent,context={}) {
+  if(!state?.schedule || !validBalances(balances) || typeof intent?.operationId!=='string' || !intent.operationId || ['__proto__','constructor','prototype'].includes(intent.operationId))return bad('invalid_story_input');
+  if(Object.hasOwn(state.storyOperationIds??{},intent.operationId))return bad('duplicate_operation');
+  let next=copy(state),cashDeltaCents=0,healthDelta=0,events=[];
+  const story=next.story47;
+  if(intent.type==='start') {
+    const {warningShown,shownStages,conflictShownKinds,...baseContext}=context;
+    const p=prepareActivityStory(next,balances,intent,baseContext);if(!p.ok)return p;
+    if(p.proposal.schedule.recoveryInstead)return bad('recovery_required');
+    if(p.proposal.schedule.disclosures.length && context.warningShown!==true)return bad('warning_not_shown');
+    if(p.proposal.schedule.conflicts.length && !(conflictShownKinds??[]).includes(intent.conflictChoice==='notice'?'conflict_notice':'conflict_continue'))return bad('conflict_not_shown');
+    const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true,conflictChoice:intent.conflictChoice},{...baseContext,allowActivityStory:true});if(!r.ok)return r;
+    next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
+    const id=next.schedule.active.id;
+    next.story47={version:intent.choice==='call_mom'?3:2,kind:'activity',id,choice:intent.choice,stage:'scene'};
+    events.push({type:'story47_started',id,choice:intent.choice});
+  } else {
+    if(story?.kind!=='activity' || story.id!==intent.id)return bad('story_unavailable');
+    if(intent.type==='complete' && story.stage==='scene') {
+      if(!context.shownStages?.includes(`${story.id}:scene`))return bad('story_not_shown');
+      const action={domain:'schedule',action:{type:'complete',activityId:story.id,operationId:`story:${intent.operationId}`}};
+      const allowed={...context,allowActivityStory:true,allowWorkStory:true};
+      const p=inspectLifeTransaction(next,balances,action,allowed);if(!p.ok)return p;
+      const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true},allowed);if(!r.ok)return r;
+      next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
+      next.story47.stage='ack';events.push({type:'story47_advanced',id:story.id,stage:'ack'});
+    } else if(intent.type==='dismiss' && story.stage==='ack') {
       next.story47=null;events.push({type:'story47_dismissed',id:story.id});
     } else return bad('invalid_story_stage');
   }

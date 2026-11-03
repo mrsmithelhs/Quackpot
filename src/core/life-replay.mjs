@@ -6,7 +6,7 @@ import {makeRaceRestEvidence} from './race-rest.mjs';
 import {resolveSeededRace,serializeRaceResolution} from './race-resolver.mjs';
 import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
-import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory} from './life-coordinator.mjs';
+import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 
@@ -75,10 +75,10 @@ export function validateFiveSlotTransactionHistory(envelope) {
       else {errors.push(`Unsupported terminal at ${entry.seq}`);break;}
       continue;
     }
-    if(retentionOpen && ['life52_intent','life52_social_intent','life52_work_story_intent','purchase','income','draw_committed','race_result','race_attempt_unresolved'].includes(entry.type)) {errors.push(`Gameplay while retention prompt was open at ${entry.seq}`);break;}
+    if(retentionOpen && ['life52_intent','life52_social_intent','life52_work_story_intent','life52_activity_story_intent','purchase','income','draw_committed','race_result','race_attempt_unresolved'].includes(entry.type)) {errors.push(`Gameplay while retention prompt was open at ${entry.seq}`);break;}
     if(entry.type==='story47_shown') {
       const story=life.story47,key=`${entry.payload?.id}:${entry.payload?.stage}`;
-      const beats=story?.kind==='work' && story.stage==='commute'?[story.story.commute]:story?.kind==='work' && story.stage==='work'?[...story.story.work]:null;
+      const beats=story?.kind==='work' && story.stage==='commute'?[story.story.commute]:story?.kind==='work' && story.stage==='work'?[...story.story.work]:story?.kind==='activity' && story.stage==='scene'?[story.choice]:null;
       if(!story || story.id!==entry.payload?.id || story.stage!==entry.payload?.stage || !beats || entry.payload.version!==1 || !same(entry.payload.beats,beats) || shownStages.includes(key)){errors.push(`Invalid displayed work story at ${entry.seq}`);break;}
       shownStages.push(key);continue;
     }
@@ -87,6 +87,13 @@ export function validateFiveSlotTransactionHistory(envelope) {
       const shown=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_shown' && event.payload?.proposal?.intent?.action?.operationId===operationId);
       const cancelled=earlier.findLastIndex(event=>event.type==='life52_schedule_warning_cancelled' && event.payload?.operationId===operationId);
       if(typeof operationId!=='string' || shown<0 || shown<=cancelled || Object.hasOwn(life.schedule.completedOperationIds,operationId)){errors.push(`Invalid warning cancellation at ${entry.seq}`);break;}
+      continue;
+    }
+    if(entry.type==='life52_activity_warning_cancelled') {
+      const {choice,operationId}=entry.payload??{},earlier=entries.slice(0,i);
+      const shown=earlier.findLastIndex(event=>event.type==='life52_activity_warning_shown' && event.payload?.choice===choice && event.payload?.operationId===operationId);
+      const cancelled=earlier.findLastIndex(event=>event.type==='life52_activity_warning_cancelled' && event.payload?.choice===choice && event.payload?.operationId===operationId);
+      if(!['call_mom','sit_duck'].includes(choice) || typeof operationId!=='string' || shown<0 || shown<=cancelled || Object.hasOwn(life.storyOperationIds??{},operationId)){errors.push(`Invalid activity warning cancellation at ${entry.seq}`);break;}
       continue;
     }
     if(entry.type==='income') {
@@ -106,14 +113,14 @@ export function validateFiveSlotTransactionHistory(envelope) {
       if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !appOpened || p.cashAfter!==(balances.cashCents-price)/100 || p.gemsAfter!==gems+p.bundleGems) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
       balances.cashCents-=price;gems+=p.bundleGems;continue;
     }
-    if(!['life52_intent','life52_social_intent','life52_work_story_intent'].includes(entry.type)) {
+    if(!['life52_intent','life52_social_intent','life52_work_story_intent','life52_activity_story_intent'].includes(entry.type)) {
       if(['life52_effect','life52_commit'].includes(entry.type))errors.push(`Orphan transaction evidence at ${entry.seq}`);
       if(entry.type==='draw_committed' || ['race_result','race_attempt_unresolved'].includes(entry.type))errors.push(`Unbound gameplay outcome at ${entry.seq}`);
       if(entry.type==='reward' || entry.type==='terminal' || (entry.type==='purchase' && !(entry.payload?.price>0)))errors.push(`Unsupported standalone outcome at ${entry.seq}`);
       continue;
     }
     const end=entries.findIndex((event,index)=>index>i && event.type==='life52_commit');
-    if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent','life52_work_story_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
+    if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent','life52_work_story_intent','life52_activity_story_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
     const inside=entries.slice(i+1,end), actualEvents=inside.filter(event=>event.type==='life52_effect').map(event=>event.payload?.effect);
     const intent=entry.payload?.intent, finance=latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot});
     if(entries[0].payload?.tutorialShiftVersion && entry.type==='life52_intent' && intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='work') {errors.push(`Tutorial work bypasses story at ${entry.seq}`);break;}
@@ -167,6 +174,14 @@ export function validateFiveSlotTransactionHistory(envelope) {
     let result;
     if(entry.type==='life52_social_intent') result=stageSocialTransition(life,balances,intent,context);
     else if(entry.type==='life52_work_story_intent')result=stageWorkStory(life,balances,intent,{...context,seed:entries[0].payload.seed,shownStages});
+    else if(entry.type==='life52_activity_story_intent') {
+      const preview=intent?.type==='start'?prepareActivityStory(life,balances,intent,context):null;
+      const earlier=entries.slice(0,i),shown=preview?.ok?earlier.findLastIndex(event=>event.type==='life52_activity_warning_shown' && same(event.payload,{choice:intent.choice,operationId:intent.operationId,proposal:preview.proposal})):-1;
+      const cancelled=earlier.findLastIndex(event=>event.type==='life52_activity_warning_cancelled' && event.payload?.choice===intent?.choice && event.payload?.operationId===intent?.operationId);
+      const warningShown=shown>=0 && shown>cancelled;
+      const plan=life.social46?.pending,conflictShownKinds=earlier.filter(e=>e.type==='life52_effect' && e.payload?.effect?.type==='social46_display' && e.payload.effect.payload?.id===plan?.id && e.payload.effect.payload?.atDay===life.schedule.day).map(e=>e.payload.effect.payload.kind);
+      result=stageActivityStory(life,balances,intent,{...context,shownStages,warningShown,conflictShownKinds});
+    }
     else {
       const proposal=inspectLifeTransaction(life,balances,intent,context);
       if(!proposal.ok){errors.push(`Invalid transaction at ${entry.seq}: ${proposal.reason}`);break;}
@@ -178,7 +193,7 @@ export function validateFiveSlotTransactionHistory(envelope) {
       result=commitLifeTransaction(life,balances,proposal.proposal,operation,context);
     }
     const commit=entries[end].payload;
-    if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':entry.type==='life52_work_story_intent'?'work_story':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
+    if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':entry.type==='life52_work_story_intent'?'work_story':entry.type==='life52_activity_story_intent'?'activity_story':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
       errors.push(`Transaction mismatch at ${entry.seq}`);break;
     }
     life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};

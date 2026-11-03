@@ -143,8 +143,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const out = [];
     if (engine.state.life && ['kitchen-notice', 'kitchen-breakfast'].includes(place)) {
       const life = engine.state.life;
-      const available = callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
-      const noteReason = life.phase !== 'evening' || !callMomScheduled(life.day) ? 'not available now' : life.anchor ? 'evening activity already chosen' : life.recovery ? 'resolve recovery first' : life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced) ? 'resolve rent first' : !life.meals[`d${life.day}-dinner`] ? 'available after dinner' : 'not available now';
+      const five=life.policyVersion==='five-slot-v1';
+      const available = five ? engine.prepareFiveSlotActivityStory('call_mom',`activity-preview:${engine.log.length}`).ok : callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
+      const noteReason = five?'not available now':life.phase !== 'evening' || !callMomScheduled(life.day) ? 'not available now' : life.anchor ? 'evening activity already chosen' : life.recovery ? 'resolve recovery first' : life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced) ? 'resolve rent first' : !life.meals[`d${life.day}-dinner`] ? 'available after dinner' : 'not available now';
       out.push({ id: 'mom-note', x: 7, y: 50, w: 7, svg: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M5 8 L94 5 L96 91 L10 96 Z" fill="#f7de83" stroke="#685629" stroke-width="3"/><path d="M12 10 L89 8" stroke="#d8bb62" stroke-width="8"/><text x="50" y="48" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Call</text><text x="50" y="70" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Mom</text></svg>`,
         label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, chip: available ? 'Call Mom' : null, disabled: !available,
         hold: { mode: 'popover', side: 'right', kind: 'life-call-mom' } });
@@ -175,7 +176,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           out.push({ id: 'work-keys', svg: workKeysTray(), x: 33.5, y: 70, w: 12.5, h: 9.5,
             label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } });
         }
-        if (life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
+        if (life.policyVersion==='five-slot-v1' ? engine.prepareFiveSlotActivityStory('sit_duck',`activity-preview:${engine.log.length}`).ok : life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
           const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
           const kit = kitBox(scene.svg);
           out.push({ id: 'quiet-duck', hotspot: true, x: Math.max(0, kit.x - kit.w / 2), y: Math.max(0, kit.y - kit.w * 1.5), w: kit.w, h: kit.w * 1.5,

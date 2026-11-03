@@ -55,7 +55,7 @@ export function inspect(state, balances, intent, context = {}) {
     if (s.day === 1 && m && !s.active) return fail('tutorial_meal_choice_required');
     if (play && !['pull','race'].includes(intent.kind)) return fail('invalid_play');
     if (play && context.operationAvailable !== true) return fail('operation_unavailable');
-    if (!play && !['work','overtime','social','leisure','early-bed','quiet'].includes(intent.kind)) return fail('invalid_activity');
+    if (!play && !['work','overtime','social','leisure','early-bed','quiet','activity47'].includes(intent.kind)) return fail('invalid_activity');
     if (s.day === 1 && (play || intent.kind !== 'work') && s.slot === 'midday') return fail('tutorial_shift_required');
     if (s.day === 1 && play && !['evening','late-evening'].includes(s.slot)) return fail('tutorial_play_locked');
     if (intent.kind === 'social' && (!intent.planId || s.futurePlans[intent.planId]?.status !== 'reserved' || s.futurePlans[intent.planId]?.day !== s.day || s.futurePlans[intent.planId]?.slot !== s.slot)) return fail('social_plan_unavailable');
@@ -63,7 +63,7 @@ export function inspect(state, balances, intent, context = {}) {
     if (intent.kind === 'overtime' && (!(production || p.overtimeStudy) || s.slot !== 'evening' || !s.employment.employed)) return fail('overtime_unavailable');
     if (production && intent.kind === 'overtime' && (!context.overtimeReservation || typeof intent.reservationId !== 'string' || !intent.reservationId || context.overtimeReservation.id !== intent.reservationId || context.overtimeReservation.day !== s.day || context.overtimeReservation.slot !== s.slot || context.overtimeReservation.status !== 'reserved' || JSON.stringify(context.overtimeReservation) !== JSON.stringify(s.overtimeReservation))) return fail('overtime_reservation_required');
     if (intent.kind === 'overtime') disclosures.push('overtime-terms');
-    if (['social','leisure','early-bed'].includes(intent.kind) && s.slot !== 'evening') return fail('wrong_slot');
+    if (['social','leisure','early-bed','activity47'].includes(intent.kind) && s.slot !== 'evening') return fail('wrong_slot');
     if (intent.kind === 'early-bed' && p.earlyBedHealth === null) return fail('early_bed_value_unselected');
     if (s.active) {
       if (!play || s.active.kind !== 'session') return fail('activity_pending');
@@ -116,6 +116,7 @@ export function inspect(state, balances, intent, context = {}) {
   let overtimeRecovery = false;
   if (intent.type === 'complete' && s.active?.kind === 'overtime') { cashDelta += p.overtimeWage; hpDelta -= Math.min(balances.health,p.overtimeHealth); if (balances.health + hpDelta === 0) { overtimeRecovery = true; disclosures.push('overtime-recovery'); } }
   if (intent.type === 'complete' && s.active?.kind === 'social') hpDelta += Math.min(5, p.maxHealth - balances.health);
+  if (intent.type === 'complete' && s.active?.kind === 'activity47') hpDelta += Math.min(5, p.maxHealth - balances.health);
   if (intent.type === 'complete' && s.active?.kind === 'early-bed') hpDelta += Math.min(p.earlyBedHealth, p.maxHealth - balances.health);
   if (intent.type === 'recover') { const restored=Math.min(p.recoveryHealth, p.maxHealth - balances.health); hpDelta += restored; if (p.recoveryConsumesSlot && meal(s.slot)) hpDelta -= Math.min(p.mealSkipHealth, balances.health + restored); }
   const entersRecovery = overtimeRecovery || fatigueRecovery || recoveryInstead || (intent.type === 'meal' && balances.health + hpDelta === 0);

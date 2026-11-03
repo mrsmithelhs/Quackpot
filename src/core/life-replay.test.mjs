@@ -1,12 +1,47 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {GameEngine} from './game-engine.mjs';
+import {validateSave} from './storage.mjs';
 import {validateSeededDrawHistory,validateSeededRaceHistory,validateFiveSlotTransactionHistory} from './life-replay.mjs';
 function realDraw(){const e=new GameEngine('plan52-replay-seed');e.start();e.setupCompanion();e.commitPromotionalTenPull();return e.toEnvelope();}
 test('five-slot first-day invitation can be shown and answered before launch',()=>{
  const e=new GameEngine('plan52-invitation',{lifePolicy:'five-slot-v1',tutorialShift:true});e.start();e.setupCompanion();
  assert.ok(e.showLifeInvitation());assert.equal(e.replyLifeInvitation(),true);assert.ok(e.showLifeAcknowledgment());
  assert.ok(e.displayLifeGemShop());assert.equal(e.buyLifeBundle(60),false);assert.equal(e.openLifeApp(),false);
+});
+test('five-slot evening story requires display, restores health once and replays',()=>{
+ const e=new GameEngine('plan52-activity',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
+ const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`activity-setup:${++n}`}});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ act({type:'meal',choice:'skip'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});
+ assert.equal(e.state.health,95);const preview=e.prepareFiveSlotActivityStory('call_mom','mom-start');assert.equal(preview.ok,true);
+ assert.equal(e.applyFiveSlotActivityStory({type:'start',choice:'call_mom',operationId:'mom-start',confirmed:true},e.log.length).ok,true);
+ assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ const id=e.state.life.story47.id,complete={type:'complete',id,operationId:'mom-complete',confirmed:true};
+ assert.equal(e.applyFiveSlotActivityStory(complete,e.log.length).reason,'story_not_shown');assert.ok(e.showLifeStory47(id,'scene'));
+ assert.equal(e.applyFiveSlotActivityStory(complete,e.log.length).ok,true);assert.equal(e.state.health,100);
+ assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ assert.equal(e.applyFiveSlotActivityStory(complete,e.log.length).ok,false);assert.equal(e.applyFiveSlotActivityStory({type:'dismiss',id,operationId:'mom-dismiss'},e.log.length).ok,true);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ const missing=structuredClone(e.toEnvelope());missing.eventLog=missing.eventLog.filter(event=>event.type!=='story47_shown');assert.ok(validateFiveSlotTransactionHistory(missing).length);
+});
+test('five-slot story conflict requires shown choices and cancelled warning cannot authorize it',()=>{
+ const e=new GameEngine('plan52-activity-ren',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
+ const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`ren-setup:${++n}`}});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});
+ act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});
+ act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});
+ const social=action=>{const r=e.applyFiveSlotSocialAction({operationId:`ren-social:${++n}`,action},e.log.length);assert.equal(r.ok,true,JSON.stringify(r));};
+ social({type:'social46_activate',version:1,revision:2});social({type:'social46_knock_shown'});social({type:'social46_door_open'});
+ for(const choice of ['meet','glad','continue','thanks','finish']){social({type:'social46_intro_line_shown'});social({type:'social46_intro_choose',choice});}
+ social({type:'social46_offer',day:2,initiator:'ren',activity:'door'});const id=e.state.life.social46.pending.id;social({type:'social46_offer_shown',id});social({type:'social46_reply',id,choice:'accept'});
+ const intent={type:'start',choice:'sit_duck',operationId:'duck-conflict',confirmed:true,conflictChoice:'notice'};
+ let preview=e.prepareFiveSlotActivityStory(intent.choice,intent.operationId);assert.deepEqual(preview.proposal.schedule.conflicts,[id]);
+ assert.ok(e.recordFiveSlotActivityWarningShown(intent.choice,intent.operationId,preview.proposal));assert.ok(e.recordFiveSlotActivityWarningCancelled(intent.choice,intent.operationId));
+ assert.equal(e.applyFiveSlotActivityStory(intent,e.log.length).reason,'warning_not_shown');assert.equal(e.state.life.social46.pending.id,id);
+ social({type:'social46_conflict_shown',id,kind:'conflict_notice'});preview=e.prepareFiveSlotActivityStory(intent.choice,intent.operationId);
+ assert.ok(e.recordFiveSlotActivityWarningShown(intent.choice,intent.operationId,preview.proposal));assert.equal(e.applyFiveSlotActivityStory(intent,e.log.length).ok,true);
+ assert.equal(e.state.life.social46.pending,null);assert.deepEqual(validateSave(e.toEnvelope(),{experimentalFiveSlot:true}),{valid:true,errors:[]});
+ e.finishRunComplete();const receipt=e.presentReceipt();assert.ok(receipt.accounting.lines.some(line=>line.text.includes('Cancelled after an activity warning')));assert.ok(receipt.evidence.some(event=>event.type==='life52_activity_warning_cancelled'));
 });
 test('five-slot transaction replay rebuilds real actions and rejects changed effects or snapshots',()=>{
  const e=new GameEngine('plan52-transaction-replay',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;

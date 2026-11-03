@@ -1,0 +1,2 @@
+# Preserve exact study source, manifest and evidence bytes used by the recorded hashes.
+* -text

@@ -2,6 +2,8 @@
 
 Snapshot inspected 2026-11-02 at repository commit `9a6c97d926faa84020dce31aab5fd48ff64a963a`. Plan 52 is actively editing the engine; these observations are a source snapshot, not a claim that its in-flight port is finished or owner-accepted. The engine working copy changed during inspection; stable roster/cost observations below also appear in that commit. No browser playthrough or current production acceptance is claimed. Paths below are repository-relative; blob IDs pin committed versions.
 
+**Later status update:** At `5944e25050e4c1a56179c34b8e39305ff3ebbe99`, Plan 52 is delivered for owner experience review: the five-slot scheduler/schema-5 transition is mounted and 13 current-loadable checkpoint starts have evidence. Root's `reports/orchestration/plan-52-owner-review.md` records limits and pending owner acceptance. The historical snapshot below is not relabeled as a fresh runtime check of that later commit.
+
 | Area | Evidence and what it establishes |
 | --- | --- |
 | Roster | `src/core/game-engine.mjs` at `9a6c97d`, blob `6547dc96550a5c809a1bfc0e9a84deeb2ed3613f`, defines six identities: three common speed 10, two rare 14, one legendary 20, and separate cosmetic configurations. There is one defined banner roster, not evidence of a broad catalog. |

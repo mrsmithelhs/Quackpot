@@ -397,7 +397,7 @@ export function projectReceipt(entries) {
 
   // Purely event-derived financial, health, and inventory balances (P2 repair)
   const initialCash = lifeStart ? lifeStart.payload.lifeConfig?.startCash : 15.00;
-  const wagesSum = ofType('income').filter((e) => e.payload.kind === 'wage' || (lifeStart && ['overtime', 'asset_sale'].includes(e.payload.kind))).reduce((s, e) => s + e.payload.amount, 0);
+  const wagesSum = ofType('income').filter((e) => e.payload.source !== 'five-slot-work-story' && (e.payload.kind === 'wage' || (lifeStart && ['overtime', 'asset_sale'].includes(e.payload.kind)))).reduce((s, e) => s + e.payload.amount, 0);
   const escalationCashSum = escalationResults.reduce((s, e) => s + (e.payload.effects?.cashGained ?? 0), 0);
   const expensesPaidSum = expensePaids.reduce((s, e) => s + e.payload.amount, 0);
   const purchasesPaidSum = purchases.reduce((s, e) => s + e.payload.price, 0);

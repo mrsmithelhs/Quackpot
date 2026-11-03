@@ -6,7 +6,7 @@ import {makeRaceRestEvidence} from './race-rest.mjs';
 import {resolveSeededRace,serializeRaceResolution} from './race-resolver.mjs';
 import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
-import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition} from './life-coordinator.mjs';
+import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
 import {hasEnteredQuackpot} from './life-entry.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
@@ -20,11 +20,16 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
-  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false;
+  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null;
+  const shownStages=[];
   const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
+    if(expectedStoryIncome) {
+      if(entry.type!=='income' || !same(entry.payload,expectedStoryIncome)){errors.push(`Work income evidence mismatch at ${entry.seq}`);break;}
+      expectedStoryIncome=null;continue;
+    }
     if(expectedTerminal) {
       if(entry.type!=='terminal' || !same(entry.payload,expectedTerminal))errors.push(`Financial terminal mismatch at ${entry.seq}`);
       expectedTerminal=null;if(errors.length)break;terminalRoute='running_on_empty';
@@ -51,7 +56,13 @@ export function validateFiveSlotTransactionHistory(envelope) {
       else {errors.push(`Unsupported terminal at ${entry.seq}`);break;}
       continue;
     }
-    if(retentionOpen && ['life52_intent','life52_social_intent','purchase','income','draw_committed','race_result','race_attempt_unresolved'].includes(entry.type)) {errors.push(`Gameplay while retention prompt was open at ${entry.seq}`);break;}
+    if(retentionOpen && ['life52_intent','life52_social_intent','life52_work_story_intent','purchase','income','draw_committed','race_result','race_attempt_unresolved'].includes(entry.type)) {errors.push(`Gameplay while retention prompt was open at ${entry.seq}`);break;}
+    if(entry.type==='story47_shown') {
+      const story=life.story47,key=`${entry.payload?.id}:${entry.payload?.stage}`;
+      const beats=story?.kind==='work' && story.stage==='commute'?[story.story.commute]:story?.kind==='work' && story.stage==='work'?[...story.story.work]:null;
+      if(!story || story.id!==entry.payload?.id || story.stage!==entry.payload?.stage || !beats || entry.payload.version!==1 || !same(entry.payload.beats,beats) || shownStages.includes(key)){errors.push(`Invalid displayed work story at ${entry.seq}`);break;}
+      shownStages.push(key);continue;
+    }
     if(entry.type==='income') {
       const p=entry.payload, amount={couch:30,tv:40}[p?.asset];
       const view={social46:life.social46,day:life.schedule.day,sold:life.sold};
@@ -65,14 +76,14 @@ export function validateFiveSlotTransactionHistory(envelope) {
       if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !hasEnteredQuackpot(entries.slice(0,i)) || p.cashAfter!==(balances.cashCents-price)/100 || p.gemsAfter!==gems+p.bundleGems) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
       balances.cashCents-=price;gems+=p.bundleGems;continue;
     }
-    if(!['life52_intent','life52_social_intent'].includes(entry.type)) {
+    if(!['life52_intent','life52_social_intent','life52_work_story_intent'].includes(entry.type)) {
       if(['life52_effect','life52_commit'].includes(entry.type))errors.push(`Orphan transaction evidence at ${entry.seq}`);
       if(entry.type==='draw_committed' || ['race_result','race_attempt_unresolved'].includes(entry.type))errors.push(`Unbound gameplay outcome at ${entry.seq}`);
       if(entry.type==='reward' || entry.type==='terminal' || (entry.type==='purchase' && !(entry.payload?.price>0)))errors.push(`Unsupported standalone outcome at ${entry.seq}`);
       continue;
     }
     const end=entries.findIndex((event,index)=>index>i && event.type==='life52_commit');
-    if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
+    if(end<0 || entries.slice(i+1,end).some(event=>['life52_intent','life52_social_intent','life52_work_story_intent'].includes(event.type))) {errors.push(`Incomplete transaction at ${entry.seq}`);break;}
     const inside=entries.slice(i+1,end), actualEvents=inside.filter(event=>event.type==='life52_effect').map(event=>event.payload?.effect);
     const intent=entry.payload?.intent, finance=latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot});
     const due=dueObligations(finance,balances.cashCents), rent=due.bills.find(bill=>bill.id.startsWith('rent-'));
@@ -124,22 +135,25 @@ export function validateFiveSlotTransactionHistory(envelope) {
     } else if(inside.some(event=>event.type!=='life52_effect')) {errors.push(`Unsupported transaction evidence at ${entry.seq}`);break;}
     let result;
     if(entry.type==='life52_social_intent') result=stageSocialTransition(life,balances,intent,context);
+    else if(entry.type==='life52_work_story_intent')result=stageWorkStory(life,balances,intent,{...context,seed:entries[0].payload.seed,shownStages});
     else {
       const proposal=inspectLifeTransaction(life,balances,intent,context);
       if(!proposal.ok){errors.push(`Invalid transaction at ${entry.seq}: ${proposal.reason}`);break;}
       result=commitLifeTransaction(life,balances,proposal.proposal,operation,context);
     }
     const commit=entries[end].payload;
-    if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
+    if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':entry.type==='life52_work_story_intent'?'work_story':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
       errors.push(`Transaction mismatch at ${entry.seq}`);break;
     }
     life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
+    if(entry.type==='life52_work_story_intent' && intent.type==='complete')expectedStoryIncome={kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:balances.cashCents/100,source:'five-slot-work-story'};
     const terminal=result.events.find(event=>event.type==='financial_default');
     if(terminal)expectedTerminal={route:'running_on_empty',reason:terminal.reason,obligationId:terminal.obligationId,
       outstandingCents:terminal.outstandingCents,housingLost:terminal.route==='housing_loss'};
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
+  if(expectedStoryIncome)errors.push('Missing work income evidence');
   if(!errors.length && terminalRoute && (envelope.state?.terminalRoute!==terminalRoute || envelope.state?.phase!==(receiptSeen?'receipt_presented':'terminal')))errors.push('Terminal does not match saved state');
   if(!errors.length && !terminalRoute && ['terminal','receipt_presented'].includes(envelope.state?.phase))errors.push('Saved terminal has no matching event');
   if(!errors.length && Boolean(envelope.state?.retentionUsed)!==retentionUsed)errors.push('Retention reward state does not match history');

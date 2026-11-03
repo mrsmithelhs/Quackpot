@@ -1038,6 +1038,27 @@ test('five-slot uninstall records interrupted work without awarding its wage',()
  assert.ok(validateFiveSlotTransactionHistory(continued).some(error=>error.includes('after terminal')));
 });
 
+test('five-slot engine stages actual work story and records the paid payslip once',()=>{
+ let e=new GameEngine('plan52-work-story',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ const breakfast=e.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'buy',operationId:'breakfast'}});assert.equal(breakfast.ok,true);assert.equal(e.commitFiveSlotAction(breakfast.proposal,{confirmed:true}).ok,true);
+ assert.equal(e.beginStoryWork('agree').ok,true);const id=e.state.life.story47.id;
+ assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:'unseen'},e.log.length).reason,'story_not_shown');
+ assert.ok(e.showLifeStory47(id,'commute'));assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);e=GameEngine.fromEnvelope(e.toEnvelope());
+ assert.equal(e.showLifeStory47(id,'commute'),null);e.clickUninstall();assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:'covered'},e.log.length).reason,'presentation_covered');e.stayUninstall();
+ assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:'arrive'},e.log.length).ok,true);
+ assert.equal(e.applyFiveSlotWorkStory({type:'complete',id,operationId:'hidden'},e.log.length).reason,'story_not_shown');
+ assert.ok(e.showLifeStory47(id,'work'));const complete={type:'complete',id,operationId:'paid',confirmed:true};
+ assert.equal(e.applyFiveSlotWorkStory(complete,e.log.length).ok,true);assert.equal(e.state.cash,134);assert.equal(e.state.life.story47.stage,'payslip');
+ assert.equal(e.log.entries.filter(event=>event.type==='income' && event.payload.transactionId===id).length,1);
+ assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);e=GameEngine.fromEnvelope(e.toEnvelope());
+ assert.equal(e.applyFiveSlotWorkStory(complete,e.log.length).reason,'duplicate_operation');
+ assert.equal(e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:'back-home'},e.log.length).ok,true);assert.equal(e.state.life.story47,null);
+ e.finishRunComplete();const receipt=e.presentReceipt();assert.equal(receipt.summary.finalCash,134);
+ const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);
+ const missing=structuredClone(envelope);missing.eventLog=missing.eventLog.filter(event=>!(event.type==='story47_shown' && event.payload.stage==='work'));
+ assert.ok(validateFiveSlotTransactionHistory(missing).length>0);
+});
+
 test('five-slot uninstall preserves an unfinished phone session without inventing its visibility',()=>{
  const e=new GameEngine('plan52-session-interrupted',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
  const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`u-${++n}`}});assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};

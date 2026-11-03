@@ -19,7 +19,7 @@ import { TUTORIAL_SHIFT_VERSION, tutorialShiftBlock } from './tutorial-shift.mjs
 import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
-import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition } from './life-coordinator.mjs';
+import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition, stageWorkStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
@@ -326,6 +326,26 @@ export class GameEngine {
     return { ok: true, cashDeltaCents: result.cashDeltaCents, healthDelta: result.healthDelta, events: result.events };
   }
 
+  applyFiveSlotWorkStory(intent, expectedLogLength) {
+    if(this.isTerminal() || this.state.life?.policyVersion!=='five-slot-v1')return {ok:false,reason:'unavailable'};
+    if(this.state.activeModal || this.state.interruptedContext)return {ok:false,reason:'presentation_covered'};
+    if(!Number.isSafeInteger(expectedLogLength) || expectedLogLength!==this.log.length)return {ok:false,reason:'stale_callback'};
+    const draft=this.#transactionDraft(),balances={cashCents:Math.round(draft.state.cash*100),health:draft.state.health};
+    const shownStages=draft.log.entries.filter(event=>event.type==='story47_shown').map(event=>`${event.payload.id}:${event.payload.stage}`);
+    const context={...draft.#fiveSlotContext(),seed:draft.seed,shownStages};
+    const result=stageWorkStory(draft.state.life,balances,intent,context);if(!result.ok)return result;
+    const cashCents=balances.cashCents+result.cashDeltaCents,health=balances.health+result.healthDelta;
+    if(!Number.isSafeInteger(cashCents) || cashCents<0 || !Number.isFinite(health) || health<0 || health>PRODUCTION.maxHealth)return {ok:false,reason:'invalid_result'};
+    draft.log.append('life52_work_story_intent',{intent:structuredClone(intent)},draft.state.clock);
+    for(const event of result.events)draft.log.append('life52_effect',{effect:event},draft.state.clock);
+    draft.log.append('life52_commit',{domain:'work_story',operationId:intent.operationId,cashDeltaCents:result.cashDeltaCents,healthDelta:result.healthDelta},draft.state.clock);
+    draft.state.life=result.state;draft.state.cash=cashCents/100;draft.state.health=health;
+    draft.state.day=result.state.schedule.day;draft.state.clock={day:result.state.schedule.day,label:`day ${result.state.schedule.day} ${result.state.schedule.slot}`};
+    if(intent.type==='complete')draft.log.append('income',{kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:draft.state.cash,source:'five-slot-work-story'},draft.state.clock);
+    this.#publishTransaction(draft);
+    return {ok:true,cashDeltaCents:result.cashDeltaCents,healthDelta:result.healthDelta,events:result.events};
+  }
+
   /** Starts the game run, logs run_started, and transitions to companion setup */
   start() {
     if (this.isTerminal()) throw new Error('Cannot start run: game is in terminal phase');
@@ -430,6 +450,7 @@ export class GameEngine {
   /** Select independently of gameplay RNG, in the same transaction as the work commitment. */
   beginStoryWork(kind, confirmedSessionEnd = false) {
     if (!this.state.life) return { ok: false, reason: 'unavailable' };
+    if(this.state.life.policyVersion==='five-slot-v1')return ['agree','depart'].includes(kind) ? this.applyFiveSlotWorkStory({type:'start',operationId:`work-story:${this.log.length}`,confirmed:true},this.log.length) : {ok:false,reason:'invalid_kind'};
     const id = `work-${this.state.life.nextId}`;
     const story = selectWorkStory(this.seed, id);
     return this.applyLifeIntent(kind === 'depart'

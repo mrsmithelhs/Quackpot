@@ -36,6 +36,7 @@ export function inspectLifeTransaction(state,balances,intent,context={}) {
   const due=dueObligations(finance,balances.cashCents);
   const recovery=Boolean(state.schedule.recovery);
   if(intent.domain==='schedule') {
+    if(state.story47 && context.allowWorkStory!==true)return bad('story_pending');
     if(state.social46?.scene)return bad('social_scene_pending');
     const reservingRentShift = !due.bills.some(bill=>bill.id.startsWith('loan-')) && intent.action?.type==='reserve-overtime'
       && due.bills.some(bill=>bill.id===intent.action.rentId && bill.id.startsWith('rent-'));
@@ -97,6 +98,7 @@ export function commitLifeTransaction(state,balances,proposal,operation={},curre
 // the scheduler and finance on every call; it is not a second clock or wallet.
 export function stageSocialTransition(state,balances,intent,context={}) {
   if(!state?.schedule || !state?.finance || !validBalances(balances) || !intent?.action?.type?.startsWith('social46_') || typeof intent.operationId!=='string' || !intent.operationId || ['__proto__','constructor','prototype'].includes(intent.operationId)) return bad('invalid_social_input');
+  if(state.story47)return bad('story_pending');
   if(Object.hasOwn(state.socialOperationIds ?? {},intent.operationId)) return bad('duplicate_operation');
   const schedule=state.schedule, finance=latchDue(state.finance,pos(schedule));
   const due=dueObligations(finance,balances.cashCents), active=schedule.active;
@@ -158,8 +160,9 @@ export function stageWorkStory(state,balances,intent,context={}) {
     } else if(intent.type==='complete' && story.stage==='work') {
       if(!context.shownStages?.includes(`${story.id}:work`))return bad('story_not_shown');
       const action={domain:'schedule',action:{type:'complete',activityId:story.id,operationId:`story:${intent.operationId}`}};
-      const p=inspectLifeTransaction(next,balances,action,context);if(!p.ok)return p;
-      const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true},context);if(!r.ok)return r;
+      const allowed={...context,allowWorkStory:true};
+      const p=inspectLifeTransaction(next,balances,action,allowed);if(!p.ok)return p;
+      const r=commitLifeTransaction(next,balances,p.proposal,{confirmed:intent.confirmed===true},allowed);if(!r.ok)return r;
       next=r.state;cashDeltaCents=r.cashDeltaCents;healthDelta=r.healthDelta;events=r.events;
       next.story47.stage='payslip';events.push({type:'story47_advanced',id:story.id,stage:'payslip'});
     } else if(intent.type==='dismiss' && story.stage==='payslip') {

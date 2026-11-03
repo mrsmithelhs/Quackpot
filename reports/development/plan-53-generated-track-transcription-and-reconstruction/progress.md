@@ -124,3 +124,12 @@ The pilot draft supplies pinned local paths, offline/telemetry settings, an earl
 
 The reviewed draft runner and fixtures are committed as `a2637ea`; the executable entry remains disabled pending root review and first-run clearance.
 
+
+## Selected M1 crop
+
+Under root's first-live-stage clearance the initial crop process exited 1 in a 256 MiB job: OpenBLAS reported an allocation failure. No crop manifest was produced, zero owned processes remained, and its diagnostic log was retained. Root then specifically cleared one diagnostic retry with `OPENBLAS_NUM_THREADS`, `OMP_NUM_THREADS`, `MKL_NUM_THREADS` and `NUMEXPR_NUM_THREADS` set to `1` in the crop process only, with the same 256 MiB job and 30-second independent watchdog. This succeeded; the result does not establish the exact cause of the initial failure. No model or GPU ran.
+
+The source MP3's SHA-256 `55c4735cc709157ef6114520ef1653227517cbb9bb13e9837709079eb1d1d538` matched before and after decoding. The reopened WAV is PCM16, 48 kHz stereo, 1,200,000 frames (25 seconds), SHA-256 `63f39148c3763e72aaf19cebcbe1036dce939b61617ef74913ffafd50fc874da`, with a matching private manifest. Successful retry: available host RAM at preflight 14,704,472,064 bytes; outer elapsed 1.370s; owned supervisor 1.212s; zero active owned processes; sampled peak workspace 16,500,546,788 bytes; maximum sampling gap 0.993s. Original and first failure log are preserved. The one-time crop entry is disabled again. The most recent RAM reading was below the 16 GiB model preflight floor; the owner was asked whether to close optional applications or defer. The control requires a newly coordinated resource turn and fresh checks; no automatic CPU fallback, cap changes or inference retry is authorized.
+
+Crop entry and exclusive logging are committed as `9c08859`; the entry is disabled after the authorized one-time crop.
+

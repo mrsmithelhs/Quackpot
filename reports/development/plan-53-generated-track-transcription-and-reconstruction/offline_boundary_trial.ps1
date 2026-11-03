@@ -63,6 +63,7 @@ function Invoke-OwnedBoundaryTrial {
 }
 
 if ($LibraryOnly) { return }
+throw 'Live trial disabled: independent watchdog and surviving cleanup guardian are not integrated.'
 if (-not $ExecuteReviewedTrial -or -not $Workspace) { throw 'Explicitly reviewed trial and workspace are required.' }
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Administrator privileges are required.' }
 $root=(Resolve-Path -LiteralPath $Workspace -ErrorAction Stop).Path

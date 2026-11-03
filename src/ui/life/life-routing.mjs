@@ -5,6 +5,18 @@
 
 const round = (n) => Math.round(n * 100) / 100;
 
+// Unmounted routing seam for the new policy. Recovery wins even when an
+// obligation is already due; the pending bill remains visible afterward.
+export function fiveSlotPriority(engine) {
+  const life=engine.state.life;
+  if(life?.policyVersion!=='five-slot-v1')return null;
+  if(life.schedule.recovery)return {kind:'recovery'};
+  const due=engine.checkDueObligations();
+  if(due.bills.length)return {kind:'payment',billIds:due.bills.map(bill=>bill.id),
+    rescueReservation:!due.bills.some(bill=>bill.id.startsWith('loan-')) && life.schedule.overtimeReservation?.status==='reserved' ? structuredClone(life.schedule.overtimeReservation) : null};
+  return {kind:'slot',day:life.schedule.day,slot:life.schedule.slot};
+}
+
 export const BREAKFAST_STEP_BY_DAY = Object.freeze({ 1: 'd1_morning_breakfast', 2: 'd2_morning_breakfast', 3: 'd3_morning_breakfast' });
 const BREAKFAST_DAY_BY_STEP = Object.freeze(Object.fromEntries(Object.entries(BREAKFAST_STEP_BY_DAY).map(([d, s]) => [s, Number(d)])));
 export const RENT_STEPS = Object.freeze(['d2_afternoon_rent', 'd2_afternoon_rent_resolved', 'd2_afternoon_zerocash', 'd2_afternoon_escalation', 'life_rent']);

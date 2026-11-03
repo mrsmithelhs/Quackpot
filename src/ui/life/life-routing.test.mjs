@@ -6,8 +6,17 @@ import {
   isLifeStep, isBreakfastStep, isKnownStep,
   rentState, breakfastState, optionalOpen, currentOffer, availablePlaces,
   placeFor, afterBreakfast, breakfastBeforeMidday, normalizeLoadedStep,
-  lifeSurface,
+  lifeSurface, fiveSlotPriority,
 } from './life-routing.mjs';
+
+test('five-slot routing puts recovery before a latched loan or rent',()=>{
+ const e=new GameEngine('five-slot-route',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ e.state.life.schedule.day=14;e.state.life.schedule.slot='midday';e.state.life.schedule.recovery={id:'zero',resolved:false};
+ e.state.life.finance.loans.push({id:'loan-1',totalCents:150,due:{day:14,slot:'midday'},status:'pending',latched:false});
+ assert.deepEqual(fiveSlotPriority(e),{kind:'recovery'});
+ e.state.life.schedule.recovery=null;
+ assert.deepEqual(fiveSlotPriority(e),{kind:'payment',billIds:['rent-1','rent-2','loan-1'],rescueReservation:null});
+});
 
 // Test-local stand-ins for the controller (main.js) wiring described in the Plan 38 brief.
 

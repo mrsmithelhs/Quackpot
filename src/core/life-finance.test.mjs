@@ -7,3 +7,12 @@ test('shortfall loan terms freeze, early repay permits later loan',()=>{let s=la
 test('due latch survives crossing and combined bill reflects cash',()=>{let s=latchDue(initialFinance(),now(4));let a=run(s,16999,now(4),{id:'a',type:'accept_loan',billId:'rent-1'});assert.equal(a.finance.loans[0].feeCents,1);s=latchDue(a.finance,now(14,'evening'));const due=dueObligations(s,100);assert.equal(due.bills.length,3);assert.equal(due.shortfallCents,56902);});
 test('stale and duplicate attempts are rejected without mutation',()=>{let s=latchDue(initialFinance(),now(4));const p=prepareFinance(s,17000,now(4),{id:'one',type:'pay_rent',billId:'rent-1'}).proposal;assert.equal(commitFinance(s,16999,now(4),p).ok,false);const r=commitFinance(s,17000,now(4),p);assert.equal(prepareFinance(r.finance,0,now(4),p.intent).reason,'duplicate_operation');assert.equal(s.rents[0].status,'pending');});
 test('default needs explicit confirmation and preserves amount/reason',()=>{const s=latchDue(initialFinance(),now(4));assert.equal(prepareFinance(s,0,now(4),{id:'x',type:'leave_unpaid',billId:'rent-1'}).reason,'confirmation_required');const r=run(s,0,now(4),{id:'y',type:'leave_unpaid',billId:'rent-1',optionsDisclosed:true,confirmed:true});assert.equal(r.events[0].reason,'first_rent_unaffordable');assert.equal(r.events[0].outstandingCents,17000);});
+test('simultaneous rent and loan remain separate choices in either payment order',()=>{
+ let s=latchDue(initialFinance(),now(9));s=run(s,16900,now(9),{id:'loan',type:'accept_loan',billId:'rent-1'}).finance;
+ s=run(s,17000,now(9),{id:'rent',type:'pay_rent',billId:'rent-1'}).finance;s=latchDue(s,now(14,'midday'));
+ const due=dueObligations(s,40000);assert.deepEqual(due.bills.map(bill=>bill.id),['rent-2','loan-1']);assert.equal(due.shortfallCents,150);
+ const rentFirst=run(s,40000,now(14,'midday'),{id:'rent2',type:'pay_rent',billId:'rent-2'});
+ assert.equal(rentFirst.finance.loans[0].status,'pending');assert.equal(dueObligations(rentFirst.finance,0).bills[0].id,'loan-1');
+ const loanFirst=run(s,40000,now(14,'midday'),{id:'repay',type:'repay_loan',loanId:'loan-1'});
+ assert.equal(loanFirst.finance.rents[1].status,'pending');assert.equal(dueObligations(loanFirst.finance,39850).shortfallCents,150);
+});

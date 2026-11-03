@@ -8,6 +8,34 @@ import { BREAKFAST_AMOUNT, RENT_AMOUNT, effectText, money, previewLadder, previe
 
 const round = (n) => Math.round(n * 100) / 100;
 
+// Presentation data only. The caller records that a choice or terms were
+// shown after mounting this content; previewing it changes no game state.
+export function fiveSlotDueDecision(engine) {
+  const due=engine.previewFiveSlotDueOptions();
+  if(!due)return null;
+  const label=id=>id.startsWith('loan-')?'Payday loan':id==='rent-1'?'Remaining rent':'Rent';
+  return {
+    heading:due.bills.length>1?'Payments due':'Payment due',
+    lines:[...due.bills.map(bill=>`${label(bill.id)}: ${money(bill.amountCents/100)}.`),
+      `Cash on hand: ${money(due.cashCents/100)}.`,
+      ...(due.bills.length>1?[`Together: ${money(due.totalCents/100)}; combined shortfall: ${money(due.shortfallCents/100)}. Choose which to handle first.`]:[]),
+      ...(due.overtimeAvailable?['You can reserve an eligible future Evening extra shift.']:[]),
+      ...(due.saleOptions.length?[`You can inspect the ${due.saleOptions.join(' and ')} for a sale in the apartment.`]:[]),
+      ...(due.loanRentIds.length?['A payday loan may cover a rent shortfall; see its full terms before deciding.']:[])],
+    bills:due.bills.map(bill=>({...bill,label:label(bill.id),canPay:due.cashCents>=bill.amountCents,
+      unpaidOutcome:bill.id==='rent-2'?'Losing housing ends the run.':'Running on Empty ends the run.'})),
+    saleOptions:due.saleOptions,loanRentIds:due.loanRentIds,overtimeAvailable:due.overtimeAvailable,
+  };
+}
+
+export function fiveSlotLoanDecision(engine,billId) {
+  const terms=engine.previewFiveSlotLoanTerms(billId);
+  if(!terms)return null;
+  return {heading:'Payday loan',lines:[`Borrow ${money(terms.principalCents/100)}.`,
+    `One-time fee: ${money(terms.feeCents/100)}. Repay ${money(terms.totalCents/100)} by Midday on day ${terms.due.day}, before work.`,
+    'You may repay the full amount early. Accepting the loan does not pay rent; choose Pay separately.'],terms};
+}
+
 /** Use the committed effect, including clamping, rather than reconstructing it from the offer. */
 export function workCompletionLines(result, state, pay, overtime) {
   const lines = [`Pay received: ${money(pay)}. Cash on hand: ${money(state.cash)}.`];

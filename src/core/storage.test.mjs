@@ -7,6 +7,7 @@ import {
   clearGame,
   backupCorruptSave,
   backupUnsupportedRenSave,
+  replaceUnsupportedSave,
   validateSave,
   STORAGE_KEY,
   BACKUP_KEY,
@@ -33,6 +34,14 @@ function createMockStorage(initialData = {}) {
     _store: store,
   };
 }
+
+test('unsupported-save replacement refuses an invalid new envelope before touching either slot',()=>{
+ const primary=JSON.stringify({schemaVersion:4}),backup='already preserved';
+ const storage=createMockStorage({[STORAGE_KEY]:primary,[BACKUP_KEY]:backup});
+ const result=replaceUnsupportedSave({schemaVersion:5},storage);
+ assert.equal(result.success,false);assert.equal(result.stage,'prepare');
+ assert.equal(storage.getItem(STORAGE_KEY),primary);assert.equal(storage.getItem(BACKUP_KEY),backup);
+});
 
 function makeValidEnvelope() {
   const rng = createRng('test-seed');

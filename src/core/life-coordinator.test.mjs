@@ -36,6 +36,7 @@ test('rent rescue allows necessary routine to the reserved shift, but a due loan
  act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:s.schedule.active.id});act({type:'meal',choice:'buy'});
  act({type:'start',kind:'overtime',reservationId:'extra'});act({type:'complete',activityId:s.schedule.active.id});
  assert.equal(b.cashCents,16200);assert.equal(b.health,80);assert.equal(s.schedule.overtimeReservation.status,'completed');assert.equal(s.finance.rents[0].status,'pending');
+ assert.equal(prep(s,b,{domain:'schedule',action:{type:'reserve-overtime',operationId:'again',reservationId:'extra-again',day:6,rentId:'rent-1'}},context()).reason,'overtime_reservation_unavailable');
  assert.equal(prep(s,b,{domain:'schedule',action:{type:'sleep',operationId:'after-shift'}},context()).reason,'financial_obligation_due');
 });
 test('recovery crossing a deadline latches the debt without a second cash authority',()=>{
@@ -58,6 +59,18 @@ test('forced recovery crossing a loan deadline leaves repayment due before work'
  assert.equal(result.state.schedule.slot,'midday');assert.equal(result.state.finance.loans[0].latched,true);
  assert.ok(result.events.some(event=>event.type==='financial_due' && event.id==='loan-1'));
  assert.equal(prep(result.state,{cashCents:0,health:20},{domain:'schedule',action:{type:'start',kind:'work',operationId:'work-loan'}}).reason,'financial_obligation_due');
+});
+test('recovery crossing a loan deadline preserves simultaneous rent and loan choices',()=>{
+ const s=setup();let finance=latchDue(s.finance,{day:9,slot:'morning'});
+ const loan=prepareFinance(finance,16900,{day:9,slot:'morning'},{type:'accept_loan',billId:'rent-1',id:'loan-collision'});
+ assert.equal(loan.ok,true);finance=commitFinance(finance,16900,{day:9,slot:'morning'},loan.proposal).finance;
+ const rent=prepareFinance(finance,17000,{day:9,slot:'morning'},{type:'pay_rent',billId:'rent-1',id:'rent-collision'});
+ assert.equal(rent.ok,true);s.finance=commitFinance(finance,17000,{day:9,slot:'morning'},rent.proposal).finance;
+ s.schedule.day=14;s.schedule.slot='morning';s.schedule.recovery={id:'zero',resolved:false};const b={cashCents:0,health:0};
+ const p=prep(s,b,{domain:'schedule',action:{type:'recover',operationId:'collision-recover'}});assert.equal(p.ok,true);
+ const r=commit(s,b,p.proposal,{confirmed:true});assert.equal(r.ok,true);
+ assert.deepEqual(r.events.filter(event=>event.type==='financial_due').map(event=>event.id),['rent-2','loan-1']);
+ assert.equal(r.state.finance.rents[1].latched,true);assert.equal(r.state.finance.loans[0].latched,true);
 });
 test('changed context or balance rejects a prepared transaction without mutation',()=>{
  const s=setup();s.schedule.day=4;const b={cashCents:17000,health:100};const before=structuredClone(s);

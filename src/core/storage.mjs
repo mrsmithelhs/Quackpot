@@ -671,6 +671,54 @@ export function backupUnsupportedRenSave(storage) {
 }
 
 /**
+ * Explicit unsupported-save replacement. Kept separate from load/autosave;
+ * callers must show the reset consequences before invoking it. A failed write
+ * cannot promise atomic rollback across browser storage keys.
+ */
+export function replaceUnsupportedSave(envelope, storage) {
+  let serialized;
+  try {
+    serialized=JSON.stringify(envelope);
+    if(typeof serialized!=='string')throw new Error('Replacement save could not be serialized');
+    const candidate=JSON.parse(serialized);
+    if(candidate?.schemaVersion!==5)throw new Error('A new-policy save is required');
+    const validation=validateSave(candidate);
+    if(!validation.valid)throw new Error(`Replacement save is invalid: ${validation.errors.join('; ')}`);
+  } catch(error) {return {success:false,stage:'prepare',error:error.message};}
+  let original=null,originalRead=false,backupCreated=false,replacementAttempted=false;
+  try {
+    if(storage===undefined)storage=globalThis.localStorage;
+    if(!storage)throw new Error('localStorage is not available');
+    original=storage.getItem(STORAGE_KEY);originalRead=true;
+    let old;
+    try {old=JSON.parse(original);} catch {throw new Error('Primary save is not a recognized development save');}
+    if(original===null || ![1,2,3,4].includes(old?.schemaVersion))throw new Error('Primary save is not an unsupported development save');
+    if(original!==null && storage.getItem(BACKUP_KEY)===null) {
+      storage.setItem(BACKUP_KEY,original);
+      if(storage.getItem(BACKUP_KEY)!==original)throw new Error('Backup verification failed');
+      backupCreated=true;
+    }
+    if(storage.getItem(STORAGE_KEY)!==original)throw new Error('Primary save changed during reset');
+    replacementAttempted=true;storage.setItem(STORAGE_KEY,serialized);
+    if(storage.getItem(STORAGE_KEY)!==serialized)throw new Error('Replacement verification failed');
+    resetInMemoryStore();
+    return {success:true,backupCreated};
+  } catch(error) {
+    let restoration='not_needed';
+    try {
+      if(replacementAttempted && originalRead && storage) {
+        const current=storage.getItem(STORAGE_KEY);
+        if(current===serialized) {
+          if(original===null)storage.removeItem(STORAGE_KEY);else storage.setItem(STORAGE_KEY,original);
+          restoration=storage.getItem(STORAGE_KEY)===original?'restored':'failed';
+        } else if(current!==original)restoration='not_attempted_primary_changed';
+      }
+    } catch {restoration='failed';}
+    return {success:false,stage:'storage',error:error.message,backupCreated,restoration,originalBytes:original};
+  }
+}
+
+/**
  * Loads game envelope from storage (or active in-memory session).
  * Returns { envelope, valid, errors, isCorrupt }
  */

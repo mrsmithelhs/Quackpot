@@ -1005,6 +1005,7 @@ test('Plan52 staged engine path commits real scheduler and finance state without
  assert.ok(validateFiveSlotTransactionHistory(noTerms).some(error=>error.includes('Loan terms were not shown')));
  const noTerminal=structuredClone(envelope);noTerminal.eventLog=noTerminal.eventLog.filter(event=>event.type!=='terminal');
  assert.ok(validateFiveSlotTransactionHistory(noTerminal).some(error=>error.includes('terminal')));
+ const resumed=structuredClone(envelope);resumed.state.phase='playing';assert.ok(validateFiveSlotTransactionHistory(resumed).some(error=>error.includes('terminal')));
 });
 
 test('Plan52 staged engine coordinates Ren reservation and actual visit start',()=>{
@@ -1036,17 +1037,23 @@ test('Plan52 staged engine commits actual pull with schedule, RNG and prior resu
  assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
  const alteredOutcome=structuredClone(e.toEnvelope());alteredOutcome.eventLog.find(event=>event.type==='race_result').payload.place=99;
  assert.ok(validateFiveSlotTransactionHistory(alteredOutcome).some(error=>error.includes('outcome mismatch')));
+ const wrongClock=structuredClone(e.toEnvelope());wrongClock.state.clock.label='day 2 morning';
+ assert.ok(validateFiveSlotTransactionHistory(wrongClock).some(error=>error.includes('schedule clock')));
  e.revealAllPending();assert.equal(e.buyLifeBundle(1090),true);assert.equal(e.buyLifeBundle(1090),true);
  const pending=structuredClone(e.state),rngBeforeExtension=e.rngDraw.serialize();assert.equal(e.commitPaidPull(1,{confirmNext:true}),null);assert.deepEqual(e.state,pending);assert.equal(e.rngDraw.serialize(),rngBeforeExtension);
  const paid=e.commitPaidPull(1,{confirmNext:true,confirmConsequences:true});assert.equal(paid.length,1);assert.equal(e.state.life.schedule.slot,'late-evening');assert.equal(e.state.life.schedule.fatigue.pending,true);assert.deepEqual(validateSeededDrawHistory(e.toEnvelope()),[]);
  assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);
+ const freePaidDraw=structuredClone(e.toEnvelope());freePaidDraw.eventLog.find(event=>event.type==='purchase' && event.payload.kind==='single_pull').payload.cost=0;
+ assert.ok(validateFiveSlotTransactionHistory(freePaidDraw).some(error=>error.includes('draw transaction')));
+ const extraReward=structuredClone(e.toEnvelope());extraReward.eventLog.push({seq:extraReward.eventLog.length,type:'reward',payload:{kind:'race_gems',gems:500}});
+ assert.ok(validateFiveSlotTransactionHistory(extraReward).some(error=>error.includes('standalone outcome')));
 });
 
 test('Plan52 due options allow one-time furniture sales without automatically paying',()=>{
  const e=new GameEngine('plan52-sales',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();let n=0;
  const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`sale-s-${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(r.ok,true,JSON.stringify(r));};
  for(let day=1;day<=3;day++){act({type:'meal',choice:'buy'});act({type:'start',kind:day===1?'work':'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});act({type:'start',kind:'quiet'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'sleep'});}
- const shown=e.recordFiveSlotDueOptionsShown();assert.equal(shown.payload.shortfallCents,6600);assert.equal(e.isTerminal(),false);
+ const shown=e.recordFiveSlotDueOptionsShown();assert.equal(shown.payload.shortfallCents,6600);assert.deepEqual(shown.payload.loanRentIds,['rent-1']);assert.equal(shown.payload.overtimeAvailable,true);assert.equal(e.isTerminal(),false);
  assert.equal(e.sellFiveSlotAsset('couch',e.log.length).ok,true);assert.equal(e.sellFiveSlotAsset('couch',e.log.length).reason,'unavailable');assert.equal(e.sellFiveSlotAsset('tv',e.log.length).ok,true);assert.equal(e.state.cash,174);assert.equal(e.state.life.finance.rents[0].status,'pending');
  const hold={domain:'finance',action:{type:'leave_unpaid',billId:'rent-1',id:'hold',confirmed:true,optionsDisclosed:true}};assert.equal(e.prepareFiveSlotAction(hold).reason,'default_evidence_required');const after=e.recordFiveSlotDueOptionsShown();assert.deepEqual(after.payload.saleOptions,[]);
  const p=e.prepareFiveSlotAction(hold);assert.equal(p.ok,true);assert.equal(e.commitFiveSlotAction(p.proposal).ok,true);const terminal=e.log.entries.filter(x=>x.type==='terminal');assert.equal(terminal.length,1);assert.equal(terminal[0].payload.reason,'first_rent_withheld');assert.equal(e.state.cash,174);

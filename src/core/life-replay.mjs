@@ -17,18 +17,20 @@ const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 export function validateFiveSlotTransactionHistory(envelope) {
   const entries=envelope?.eventLog;
   if(!Array.isArray(entries))return ['Missing transaction history'];
+  if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
-  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth}, expectedTerminal=null;
+  let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth}, gems=0,expectedTerminal=null,financialTerminalSeen=false;
   const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
     if(expectedTerminal) {
       if(entry.type!=='terminal' || !same(entry.payload,expectedTerminal))errors.push(`Financial terminal mismatch at ${entry.seq}`);
-      expectedTerminal=null;if(errors.length)break;
+      expectedTerminal=null;if(errors.length)break;financialTerminalSeen=true;
       continue;
     }
+    if(financialTerminalSeen && ['life52_intent','life52_social_intent','life52_effect','life52_commit','income','purchase','draw_committed','race_result','race_attempt_unresolved','terminal'].includes(entry.type)) {errors.push(`Gameplay after financial terminal at ${entry.seq}`);break;}
     if(entry.type==='income') {
       const p=entry.payload, amount={couch:30,tv:40}[p?.asset];
       const view={social46:life.social46,day:life.schedule.day,sold:life.sold};
@@ -39,12 +41,13 @@ export function validateFiveSlotTransactionHistory(envelope) {
     if(entry.type==='purchase' && entry.payload?.price>0) {
       const p=entry.payload, price=new Map([[60,99],[330,499],[1090,1499]]).get(p.bundleGems);
       const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
-      if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !hasEnteredQuackpot(entries.slice(0,i)) || p.cashAfter!==(balances.cashCents-price)/100) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
-      balances.cashCents-=price;continue;
+      if(p.kind!=='bundle' || price===undefined || p.price!==price/100 || balances.cashCents<price || life.schedule.recovery || due.bills.length || !hasEnteredQuackpot(entries.slice(0,i)) || p.cashAfter!==(balances.cashCents-price)/100 || p.gemsAfter!==gems+p.bundleGems) {errors.push(`Invalid cash purchase at ${entry.seq}`);break;}
+      balances.cashCents-=price;gems+=p.bundleGems;continue;
     }
     if(!['life52_intent','life52_social_intent'].includes(entry.type)) {
       if(['life52_effect','life52_commit'].includes(entry.type))errors.push(`Orphan transaction evidence at ${entry.seq}`);
       if(entry.type==='draw_committed' || ['race_result','race_attempt_unresolved'].includes(entry.type))errors.push(`Unbound gameplay outcome at ${entry.seq}`);
+      if(entry.type==='reward' || entry.type==='terminal' || (entry.type==='purchase' && !(entry.payload?.price>0)))errors.push(`Unsupported standalone outcome at ${entry.seq}`);
       continue;
     }
     const end=entries.findIndex((event,index)=>index>i && event.type==='life52_commit');
@@ -55,6 +58,10 @@ export function validateFiveSlotTransactionHistory(envelope) {
     const options={bills:due.bills.map(bill=>({id:bill.id,amountCents:bill.amountCents??bill.totalCents})),
       cashCents:due.cashCents,totalCents:due.totalCents,shortfallCents:due.shortfallCents,
       saleOptions:['couch','tv'].filter(asset=>!life.sold.includes(asset)),
+      loanRentIds:life.finance.loans.some(loan=>loan.status==='pending')?[]:due.bills.filter(bill=>bill.id.startsWith('rent-') && bill.amountCents>due.cashCents).map(bill=>bill.id),
+      overtimeAvailable:!due.bills.some(bill=>bill.id.startsWith('loan-')) && due.bills.some(bill=>bill.id.startsWith('rent-'))
+        && life.schedule.employment.employed && life.schedule.overtimeReservation?.status!=='reserved'
+        && due.bills.some(bill=>bill.id.startsWith('rent-') && bill.id!==life.schedule.overtimeReservation?.rentId),
       scheduleRevision:life.schedule.revision,financeRevision:life.finance.revision};
     const wasShown=(type,payload)=>entries.slice(0,i).some(event=>event.type===type && same(event.payload,payload));
     const context={schedule:{overtimeReservation:structuredClone(life.schedule.overtimeReservation),
@@ -69,15 +76,28 @@ export function validateFiveSlotTransactionHistory(envelope) {
     const gameplay=intent?.domain==='schedule' && intent?.action?.type==='play';
     let operation=entry.payload?.operation??{};
     if(gameplay) {
+      if(!hasEnteredQuackpot(entries.slice(0,i))) {errors.push(`Gameplay before app entry at ${entry.seq}`);break;}
       context.schedule.operationAvailable=true;
       const other=inside.filter(event=>event.type!=='life52_effect');
+      const firstEffect=inside.findIndex(event=>event.type==='life52_effect');
+      if(firstEffect>=0 && inside.slice(firstEffect).some(event=>event.type!=='life52_effect')) {errors.push(`Gameplay evidence out of order at ${entry.seq}`);break;}
       if(intent.action.kind==='pull') {
         const draws=other.filter(event=>event.type==='draw_committed'), purchases=other.filter(event=>event.type==='purchase');
-        if(![1,10].includes(draws.length) || purchases.length>1 || other.some(event=>!['draw_committed','purchase'].includes(event.type)) || (purchases.length===0 && draws.length!==10)) {errors.push(`Invalid draw transaction at ${entry.seq}`);break;}
+        const expectedKind=draws.length===1?'single_pull':'ten_pull',expectedCost=draws.length===1?160:1600;
+        if(![1,10].includes(draws.length) || purchases.length>1 || other.some(event=>!['draw_committed','purchase'].includes(event.type)) || (purchases.length===0 && draws.length!==10)
+          || (purchases.length===1 && (other[0]!==purchases[0] || purchases[0].payload?.kind!==expectedKind || purchases[0].payload?.cost!==expectedCost || purchases[0].payload?.price!==0))) {errors.push(`Invalid draw transaction at ${entry.seq}`);break;}
+        if(purchases.length) {if(gems<expectedCost || purchases[0].payload.gemsAfter!==gems-expectedCost){errors.push(`Invalid draw payment at ${entry.seq}`);break;}gems-=expectedCost;}
         operation={...operation,success:true,operationId:intent.action.operationId,resultRef:`draw:${draws[0].seq}`};
       } else if(intent.action.kind==='race') {
         const outcomes=other.filter(event=>['race_result','race_attempt_unresolved'].includes(event.type));
-        if(outcomes.length!==1 || typeof outcomes[0].payload?.resolutionDigest!=='string' || other.some(event=>!['race_rest_policy_activated','action','race_result','race_attempt_unresolved','reward'].includes(event.type))) {errors.push(`Invalid race transaction at ${entry.seq}`);break;}
+        const choices=other.filter(event=>event.type==='action' && event.payload?.kind==='race_choice');
+        if(outcomes.length!==1 || choices.length!==1 || choices[0].payload.raceId!==outcomes[0].payload?.raceId || typeof outcomes[0].payload?.resolutionDigest!=='string' || other.some(event=>!['race_rest_policy_activated','action','race_result','race_attempt_unresolved','reward'].includes(event.type))) {errors.push(`Invalid race transaction at ${entry.seq}`);break;}
+        const ordered=other.filter(event=>event.type!=='race_rest_policy_activated');
+        const expected=[choices[0],outcomes[0]];
+        if(outcomes[0].type==='race_result' && choices[0].payload.trialCommitted)expected.push(other.find(event=>event.type==='action' && event.payload?.kind==='race_trial_consumed'));
+        if(outcomes[0].type==='race_result' && outcomes[0].payload.payoutGems>0)expected.push(other.find(event=>event.type==='reward' && event.payload?.kind==='race_gems'));
+        if(expected.some(event=>!event) || !same(ordered,expected) || other.filter(event=>event.type==='race_rest_policy_activated').length>1 || (other.some(event=>event.type==='race_rest_policy_activated') && other[0].type!=='race_rest_policy_activated')) {errors.push(`Invalid race evidence order at ${entry.seq}`);break;}
+        if(outcomes[0].type==='race_result') {const payout=outcomes[0].payload.payoutGems;if(outcomes[0].payload.gemsAfter!==gems+payout || (payout>0 && expected.at(-1)?.payload?.gemsAfter!==gems+payout)){errors.push(`Invalid race reward balance at ${entry.seq}`);break;}gems+=payout;}
         operation={...operation,success:true,operationId:intent.action.operationId,resultRef:`race:${outcomes[0].payload.resolutionDigest}`};
       } else {errors.push(`Unsupported gameplay at ${entry.seq}`);break;}
     } else if(inside.some(event=>event.type!=='life52_effect')) {errors.push(`Unsupported transaction evidence at ${entry.seq}`);break;}
@@ -99,8 +119,11 @@ export function validateFiveSlotTransactionHistory(envelope) {
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
+  if(!errors.length && financialTerminalSeen && (envelope.state?.terminalRoute!=='running_on_empty' || !['terminal','receipt_presented'].includes(envelope.state?.phase)))errors.push('Financial terminal does not match saved state');
   const debt=life.finance.loans.filter(loan=>['pending','defaulted'].includes(loan.status)).reduce((sum,loan)=>sum+loan.totalCents,0)/100;
   if(!errors.length && envelope.state?.debt!==debt)errors.push('Reconstructed debt does not match saved state');
+  if(!errors.length && envelope.state?.gems!==gems)errors.push('Reconstructed Gem balance does not match saved state');
+  if(!errors.length && (envelope.state?.day!==life.schedule.day || envelope.state?.clock?.day!==life.schedule.day || envelope.state?.clock?.label!==`day ${life.schedule.day} ${life.schedule.slot}`))errors.push('Reconstructed schedule clock does not match saved state');
   if(!errors.length && (!same(life,envelope.state?.life) || balances.cashCents!==Math.round(envelope.state?.cash*100) || balances.health!==envelope.state?.health))errors.push('Reconstructed life or balances do not match saved state');
   return errors;
 }

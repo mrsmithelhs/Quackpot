@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 
 import { GameEngine } from '../../core/game-engine.mjs';
 import { noticeLetter, rentDueText, rentNoticeCorrections } from './life-copy.mjs';
-import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision } from './life-decisions.mjs';
+import { ladderDecision, optionalCouchDecision, optionalShiftDecision, payRentDecision, shortfallDecision, breakfastDecision, fiveSlotDueDecision, fiveSlotLoanDecision } from './life-decisions.mjs';
 import { effectFromEvents, previewZeroCash } from './life-preview.mjs';
 import { OFFER_PLACE, placeFor, rentState } from './life-routing.mjs';
 
@@ -21,6 +21,20 @@ const unpaid = () => { const e = fresh(); e.state.day = 2; e.state.cash = 14.01;
 // Day 2, exactly $15: rent billed and paid, cash now $0.00 (zero-cash choices open).
 const paidZero = () => { const e = fresh(); e.state.day = 2; e.state.cash = 15; e.billExpense('rent', 15); return e; };
 const types = (e, from) => e.log.entries.filter((x) => x.seq >= from).map((x) => x.type);
+
+test('five-slot financial decisions explain combined debt and exact loan deadline without committing',()=>{
+ const e=new GameEngine('decision-52',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ // Isolated presentation fixture: the production replay is tested separately.
+ e.state.life.schedule.day=14;e.state.cash=100;e.state.life.finance.rents[0].status='paid';
+ e.state.life.finance.loans.push({id:'loan-1',totalCents:7500,due:{day:14,slot:'midday'},status:'pending',latched:true});
+ const before=structuredClone(e.state),length=e.log.length;
+ const due=fiveSlotDueDecision(e);assert.ok(due.lines.some(line=>line.includes('$475.00') && line.includes('$375.00')));
+ assert.equal(due.bills.find(bill=>bill.id==='loan-1').canPay,true);
+ assert.equal(fiveSlotLoanDecision(e,'rent-2'),null);assert.deepEqual(e.state,before);assert.equal(e.log.length,length);
+ e.state.life.finance.loans=[];const loan=fiveSlotLoanDecision(e,'rent-2');
+ assert.ok(loan.lines.some(line=>line.includes('$450.00') && line.includes('day 19')));
+ assert.ok(loan.lines.some(line=>line.includes('does not pay rent')));
+});
 
 test('rent short: trying to pay records the bill as due and takes nothing; the panel says so first', () => {
   const e = unpaid();

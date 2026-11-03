@@ -2,6 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderScene } from '../../assets/apartment/index.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
+import { GameEngine } from '../../core/game-engine.mjs';
+
+test('five-slot phone shows the scheduled shift but not work blocked by a due loan',()=>{
+ const e=new GameEngine('five-slot-phone',{lifePolicy:'five-slot-v1'});const life=e.state.life;
+ life.schedule.day=2;life.schedule.slot='midday';assert.equal(lifePhoneKind(life),'work');assert.deepEqual(lifePhoneScreen(life,false).body,['Shift today']);
+ life.finance.loans.push({id:'loan-1',totalCents:150,due:{day:2,slot:'midday'},status:'pending',latched:false});
+ assert.equal(lifePhoneKind(life),'app');
+ life.finance.loans=[];life.schedule.day=4;life.schedule.overtimeReservation={id:'extra',day:5,slot:'evening',status:'reserved',rentId:'rent-1'};
+ assert.equal(lifePhoneKind(life),'work');
+ life.finance.loans.push({id:'loan-1',totalCents:150,due:{day:4,slot:'midday'},status:'pending',latched:false});
+ assert.equal(lifePhoneKind(life),'app');
+});
 
 test('a replied invitation is resolved only until the phone has a new purpose', () => {
   const life = { day: 1, phase: 'morning', employed: true, anchor: null, work: null, rent: { status: 'pending' } };

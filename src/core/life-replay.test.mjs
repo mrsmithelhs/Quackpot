@@ -11,6 +11,7 @@ test('five-slot transaction replay rebuilds real actions and rejects changed eff
  const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);
  const altered=structuredClone(envelope);altered.eventLog.find(event=>event.type==='life52_effect').payload.effect.choice='skip';assert.ok(validateFiveSlotTransactionHistory(altered).some(error=>error.includes('mismatch')));
  const snapshot=structuredClone(envelope);snapshot.state.life.schedule.day=7;assert.ok(validateFiveSlotTransactionHistory(snapshot).some(error=>error.includes('Reconstructed')));
+ const wrongPolicy=structuredClone(envelope);wrongPolicy.eventLog[0].payload.lifeConfig.scheduledWage=600;assert.ok(validateFiveSlotTransactionHistory(wrongPolicy).some(error=>error.includes('policy start')));
  const missing=structuredClone(envelope);missing.eventLog.splice(missing.eventLog.findIndex(event=>event.type==='life52_effect'),1);assert.ok(validateFiveSlotTransactionHistory(missing).some(error=>error.includes('mismatch')));
 });
 test('real engine promotional batch matches independently regenerated stream',()=>{assert.deepEqual(validateSeededDrawHistory(realDraw()),[]);});

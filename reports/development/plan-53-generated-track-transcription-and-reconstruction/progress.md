@@ -133,3 +133,14 @@ The source MP3's SHA-256 `55c4735cc709157ef6114520ef1653227517cbb9bb13e983770907
 
 Crop entry and exclusive logging are committed as `9c08859`; the entry is disabled after the authorized one-time crop.
 
+
+## Known-score control
+
+After fresh root-coordinated preflight passed (18,746,576,896 bytes free host RAM, 290,253,905,920 bytes free disk, 8,188 MiB total GPU / 0 MiB used, workspace 16,500,546,895 bytes; control and pinned model/config/final0 hashes matched), the first control exited 1 during MuScriptor import before model load: the filtered environment did not set a Windows home directory. The private error log was retained; owned job reported zero active processes. Outer elapsed 9.742s, supervisor 9.588s, sampled GPU peak 0 MiB, minimum host RAM 18,338,926,592 bytes, maximum supervisor sampling gap 3.253s. No model output was produced.
+
+Root cleared a contained `ROOT/tool-home` USERPROFILE and one retry with a distinct log, without inheriting the real user profile or changing resource caps. The first no-ML fixture batch confirmed actual `Path.home()` and missing token variables but failed one test due to a fixture directory mismatch; that failure was reported. After the fixture correction, one coordinated independent-watchdog rerun passed ten tests and confirmed the dedicated home, 128 MiB job, 0.613s elapsed, zero active owned processes. No ML was used by the fixture tests.
+
+Fresh retry preflight showed host free RAM 18,874,814,464 bytes, disk free 290,255,147,008 bytes, GPU 8,188 MiB total / 0 used, workspace 16,500,549,189 bytes, and matching control/model/config/final0 hashes. The single control retry completed normally: watchdog 14.347s, supervisor 14.194s, 8 GiB job cap, zero active owned processes, sampled GPU peak 2,479 MiB, minimum host RAM 17,151,148,032 bytes, workspace peak 16,500,595,806 bytes, maximum supervisor gap 2.155s and resource gap 1.605s. No unexpected Python audit event was reported; this is not proof against native/OS network access. Model output included detected grid, 241 raw events, timing and a derived MIDI. A lightweight actual `mido` parse accepted the type-1 MIDI with 480 ticks/beat, three tracks and 246 messages. Detected BPM was about 99.994 for the nominal 100 BPM control; neither this nor MIDI parsing establishes note-level accuracy. The entry was disabled again, the first error and retry logs are preserved, and root review is required before M1 inference.
+
+The contained-home fix and test correction are committed as `e8078b9`. Root's artifact review counted 117 note starts and 117 note ends: 103 acoustic-piano starts and 14 drum starts. This indicates limited instrument separation against the four-part authored control; it is not note-level or musical-quality acceptance.
+

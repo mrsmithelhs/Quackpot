@@ -1000,7 +1000,7 @@ test('Plan52 staged engine path commits real scheduler and finance state without
  assert.equal(receipt.summary.finalDebt,99);
  assert.ok(receipt.accounting.lines.some(line=>line.text.includes('Loan terms shown: $66.00 borrowed')));
  assert.ok(receipt.accounting.lines.some(line=>line.text.includes('the loan could not be repaid')));
- const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);
+ const envelope=e.toEnvelope();assert.deepEqual(validateFiveSlotTransactionHistory(envelope),[]);assert.deepEqual(validateSave(envelope,{experimentalFiveSlot:true}),{valid:true,errors:[]});
  const noTerms=structuredClone(envelope);noTerms.eventLog=noTerms.eventLog.filter(event=>event.type!=='life52_loan_terms_shown');
  assert.ok(validateFiveSlotTransactionHistory(noTerms).some(error=>error.includes('Loan terms were not shown')));
  const noTerminal=structuredClone(envelope);noTerminal.eventLog=noTerminal.eventLog.filter(event=>event.type!=='terminal');
@@ -1039,8 +1039,9 @@ test('five-slot uninstall records interrupted work without awarding its wage',()
 });
 
 test('five-slot engine stages actual work story and records the paid payslip once',()=>{
- let e=new GameEngine('plan52-work-story',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ let e=new GameEngine('plan52-work-story',{lifePolicy:'five-slot-v1',tutorialShift:true});e.start();e.setupCompanion();
  const breakfast=e.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'buy',operationId:'breakfast'}});assert.equal(breakfast.ok,true);assert.equal(e.commitFiveSlotAction(breakfast.proposal,{confirmed:true}).ok,true);
+ assert.equal(e.prepareFiveSlotAction({domain:'schedule',action:{type:'start',kind:'work',operationId:'bypass'}}).reason,'story_work_required');
  assert.equal(e.beginStoryWork('agree').ok,true);const id=e.state.life.story47.id;
  assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:'unseen'},e.log.length).reason,'story_not_shown');
  assert.ok(e.showLifeStory47(id,'commute'));assert.deepEqual(validateFiveSlotTransactionHistory(e.toEnvelope()),[]);e=GameEngine.fromEnvelope(e.toEnvelope());

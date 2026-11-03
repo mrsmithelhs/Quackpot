@@ -260,6 +260,7 @@ export class GameEngine {
   prepareFiveSlotAction(intent) {
     const life = this.state.life;
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1') return { ok: false, reason: 'unavailable' };
+    if (this.tutorialShiftVersion && intent?.domain==='schedule' && intent.action?.type==='start' && intent.action?.kind==='work') return {ok:false,reason:'story_work_required'};
     // Real pull/race outcomes and consequence-bearing defaults need their own
     // engine-owned operations and actual displayed-option evidence.
     if (intent?.domain === 'schedule' && intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
@@ -271,6 +272,7 @@ export class GameEngine {
   commitFiveSlotAction(proposal, operation = {}) {
     const life = this.state.life;
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || !proposal?.intent) return { ok: false, reason: 'unavailable' };
+    if (this.tutorialShiftVersion && proposal.intent.domain==='schedule' && proposal.intent.action?.type==='start' && proposal.intent.action?.kind==='work') return {ok:false,reason:'story_work_required'};
     if (proposal.intent.domain === 'schedule' && proposal.intent.action?.type === 'play') return { ok: false, reason: 'gameplay_operation_required' };
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'leave_unpaid' && !this.#fiveSlotDueOptionsWereShown()) return { ok: false, reason: 'default_evidence_required' };
     if (proposal.intent.domain === 'finance' && proposal.intent.action?.type === 'accept_loan' && !this.#fiveSlotLoanTermsWereShown(proposal.intent.action.billId)) return { ok: false, reason: 'loan_terms_not_shown' };

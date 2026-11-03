@@ -36,6 +36,7 @@ function hasRaceRestPolicyFacts(envelope, entries = envelope?.eventLog) {
 let inMemoryStore = null;
 let inMemoryActive = false;
 let temporaryPreservationActive = false;
+let unsupportedFiveSlotPreservationActive = false;
 
 export function getInMemoryStatus() {
   return inMemoryActive;
@@ -45,6 +46,7 @@ export function resetInMemoryStore() {
   inMemoryStore = null;
   inMemoryActive = false;
   temporaryPreservationActive = false;
+  unsupportedFiveSlotPreservationActive = false;
 }
 
 export function setTemporaryPreservationMode(active) {
@@ -625,7 +627,7 @@ export function saveGame(envelope, storage, allowOverwritePreserved = false) {
   }
 
   // If temporary preservation mode is active, protect the primary snapshot from being overwritten
-  if (temporaryPreservationActive && !allowOverwritePreserved) {
+  if (unsupportedFiveSlotPreservationActive || (temporaryPreservationActive && !allowOverwritePreserved)) {
     inMemoryStore = serialized;
     inMemoryActive = true;
     return {
@@ -653,6 +655,7 @@ export function saveGame(envelope, storage, allowOverwritePreserved = false) {
  * Backs up an existing corrupted or legacy save before overwriting.
  */
 export function backupCorruptSave(storage) {
+  if (unsupportedFiveSlotPreservationActive) return false;
   try {
     if (storage === undefined) storage = globalThis.localStorage;
     if (!storage) return false;
@@ -732,7 +735,7 @@ export function replaceUnsupportedSave(envelope, storage, { experimentalFiveSlot
  * Loads game envelope from storage (or active in-memory session).
  * Returns { envelope, valid, errors, isCorrupt }
  */
-export function loadGame(storage) {
+export function loadGame(storage, { experimentalFiveSlot = false } = {}) {
   let raw = null;
   if (inMemoryActive && inMemoryStore) {
     raw = inMemoryStore;
@@ -756,8 +759,12 @@ export function loadGame(storage) {
     return { envelope: null, valid: false, errors: [`JSON parse failure: ${err.message}`], isCorrupt: true };
   }
 
-  const migrated = migrateLegacyEnvelope(envelope);
-  const { valid, errors } = validateSave(migrated);
+  if(experimentalFiveSlot && [1,2,3,4].includes(envelope?.schemaVersion)) {
+    unsupportedFiveSlotPreservationActive=true;
+    return {envelope:null,valid:false,errors:['Unsupported development save'],isCorrupt:false,unsupportedDevelopment:true,migrated:false};
+  }
+  const migrated = experimentalFiveSlot ? envelope : migrateLegacyEnvelope(envelope);
+  const { valid, errors } = validateSave(migrated,{experimentalFiveSlot});
   const unsupportedDevelopment = !valid && errors.length === 1 && [UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION].includes(errors[0]);
   return { envelope: migrated, valid, errors, isCorrupt: !valid && !unsupportedDevelopment, unsupportedDevelopment, migrated: migrated.schemaVersion !== envelope.schemaVersion };
 }
@@ -797,6 +804,7 @@ function migrateLegacyEnvelope(envelope) {
  * Clears saved game from storage and in-memory store.
  */
 export function clearGame(storage) {
+  if (unsupportedFiveSlotPreservationActive) return {success:false,error:'unsupported_snapshot_preserved'};
   try {
     if (storage === undefined) storage = globalThis.localStorage;
     if (storage) storage.removeItem(STORAGE_KEY);

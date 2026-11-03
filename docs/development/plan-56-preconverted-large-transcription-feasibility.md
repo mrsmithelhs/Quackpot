@@ -1,7 +1,7 @@
 ---
 id: plan-56
 title: Preconverted MuScriptor Large runtime feasibility
-status: ready
+status: in-progress
 depends_on: []
 gate: "Read-only source/toolchain/provenance investigation first. Root clears exact staged installation/download/build/resource proposal before execution; same-M1 listening gate before expansion."
 summary: >-

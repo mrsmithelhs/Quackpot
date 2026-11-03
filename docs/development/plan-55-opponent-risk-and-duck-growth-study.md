@@ -1,7 +1,7 @@
 ---
 id: plan-55
 title: Opponent choices, race risk and duck growth study
-status: ready
+status: in-progress
 depends_on: [plan-54]
 gate: "Contract-first proposal and owner choice before finite executable experiments; no production writes. Coordinate resources with Plan52 owner review and Plan53."
 summary: >-

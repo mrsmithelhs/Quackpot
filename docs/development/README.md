@@ -63,8 +63,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-52` | Five-slot production transition and checkpoint refresh | delivered | Integrate the accepted shared five-slot scheduler across life, work, meals, social play, gacha sessions, sleep, storage and Receipt, regenerating synthetic checkpoints and reconciling current docs. |
 | `plan-53` | Generated-track transcription and editable reconstruction | in-progress | Test local MuScriptor transcription of owner-provided Suno references, recover editable MIDI and resequence it with pinned TinySynth instruments, separating transcription quality from timbre quality. |
 | `plan-54` | Gacha progression and return-visit investigation | complete | Compare collection-led, competition-led and event-led reasons to return to Quackpot, using a Codex lead and reusable Sonnet design consultant in a report-local study that preserves the five-slot contract and accepted mechanics. |
-| `plan-55` | Opponent choices, race risk and duck growth study | ready | Turn Plan54's accepted competitive-pond direction into a small comparison of meaningful opponent information, risk and one duck-growth choice, preserving current-race and no-injury controls. |
-| `plan-56` | Preconverted MuScriptor Large runtime feasibility | ready | Investigate preconverted FP16 GGUF with muscriptor.cpp on Windows/Vulkan, using Crane as a secondary candidate, without modifying the working Plan53 Medium pipeline. |
+| `plan-55` | Opponent choices, race risk and duck growth study | in-progress | Turn Plan54's accepted competitive-pond direction into a small comparison of meaningful opponent information, risk and one duck-growth choice, preserving current-race and no-injury controls. |
+| `plan-56` | Preconverted MuScriptor Large runtime feasibility | in-progress | Investigate preconverted FP16 GGUF with muscriptor.cpp on Windows/Vulkan, using Crane as a secondary candidate, without modifying the working Plan53 Medium pipeline. |
 <!-- plan-index:end -->
 
 ## Report Folders

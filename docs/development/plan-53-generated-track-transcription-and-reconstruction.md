@@ -1,7 +1,7 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-
@@ -72,6 +72,8 @@ Owner judges melody recognizability, harmonic/bass/rhythmic coherence, instrumen
 ### D — Conditional expansion and targeted repairs
 
 **Owner clearance, 2026-11-02:** Continue with one predeclared representative 20–25-second Medium passage from each of M3 (prompt3) and M5 (variation of prompt4, ragtime). Reuse pinned environment/model, unchanged inference controls and existing note/render treatment; preserve originals, raw predictions and omission/mapping ledgers. Return brief original/stock/curated comparisons and instrument-group/correction findings for owner listening. No full tracks, separation, new instruments or automatic retries. Prepare within report scope; root coordinates serial heavy-resource and browser turns with the live Plan52 owner review. Large's preconverted FP16/runtime feasibility is routed separately to Plan56, not an expansion of this environment.
+
+**Owner listening follow-up, 2026-11-02:** After the M3/M5 delivery, owner explicitly requests M5 variants with each recovered note's duration multiplied by0.75 and0.50. Preserve each onset, pitch, program, velocity and the existing unedited baseline; compute new end as start plus factor times original duration, without quantization or new model inference. Label edited playback/export separately with source/event/transform pins; raw output/MIDI must not be overwritten or presented as corrected ground truth. Reuse the fixed25-second passage, existing piano and bounded rendering pipeline. This remains Plan53's targeted-repair experiment, not a new packet or production soundtrack decision. Report-only preparation/focused tests may proceed; root coordinates the finite two-variant render around other browser work, with stop-on-failure/no automatic retry.
 
 Only after owner/root review: compare Large on the SAME excerpt if useful and feasible; transcribe bounded representative portions of the other two tracks; then consider full-track/chunk reconciliation with explicit continuity, tempo and note-boundary checks. A failed install/OOM gets one recorded stop and revised proposal, not repeated escalation of memory.
 

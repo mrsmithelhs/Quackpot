@@ -1,0 +1,13 @@
+# Plan53 first-run control scope correction — 2026-11-02
+
+Root re-read the original Plan53 packet and starting handoff. They require local authoring inference, separation from dependency/network bootstrap, recorded unexpected network access, pinned inputs and bounded resources. They do not require a general-purpose adversarial OS/DNS sandbox. Root's later firewall/guardian prerequisite expanded the work disproportionately and is withdrawn before any actual firewall mutation or model execution.
+
+For this trusted, pinned, report-local experiment, use verified local Medium weights/config and final0, explicit dedicated caches, supported offline/telemetry-disable flags, no source-audio upload, no implicit online fallback, and abort/report unexpected outbound requests. A small early Python audit hook may deny and record socket/DNS/subprocess attempts; it is supplemental application-level control, not proof against native-code bypass or OS services. Report that residual limitation honestly. No credentials are needed in the model process. Firewall trial entry stays disabled; guardian/sandbox expansion is deferred, not a prerequisite or a completed capability.
+
+The student-game zero-network hard constraint remains unchanged. Nothing in this authoring-tool correction authorizes a service/API transcription upload or new runtime dependency in the student build.
+
+Keep the16GiB free-RAM preflight,6.5GiB free-VRAM preflight,8GiB owned-job commit limit,15-minute independent watchdog, sampled7GiB device-wide GPU stop,4GiB emergency available-RAM stop,20GiB sampled workspace ceiling and30GiB disk floor, with observed sampling gaps and owned cleanup verification. No unrelated-process termination, automatic CPU fallback, OOM retry or silent precision/backend change. Model/API compatibility and actual GPU fit remain unverified.
+
+Author the concrete bounded launcher, supported crop and single-pass raw/derived output path with synthetic checks. Root must review the final executable vector and controls and explicitly clear the first real run. This note is not permission to import Torch, process real audio, load a model or execute inference. Owner terms/input rights/passage and verified model acquisitions remain settled as recorded; no repeat questionnaire is needed. No additional generic isolation infrastructure is requested.
+
+Root accepts responsibility for correcting the unnecessary prerequisite. Preserve historical reports as evidence of what was requested/tested; update current gate summaries to this scope rather than presenting the superseded firewall gate as still required.

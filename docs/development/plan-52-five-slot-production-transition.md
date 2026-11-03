@@ -1,7 +1,7 @@
 ---
 id: plan-52
 title: Five-slot production transition and checkpoint refresh
-status: delivered
+status: in-progress
 depends_on: [plan-51]
 gate: "Stage A owner decisions and root technical source gate cleared 2026-11-02; exact scope in reports/orchestration/plan-52-production-clearance.md. One production writer; targeted engine/replay/checkpoint checks, postimplementation Terra-medium review, root actual production before/after review and final owner acceptance remain. No old-save migration."
 summary: >-
@@ -104,6 +104,12 @@ Required review starts: fresh tutorial, Midday work, unresolved Early Evening di
 - [ ] Required current docs and source map reconciled; owner reviews integrated five-slot day and social behavior. No temporary mock accepted as finished production.
 
 ## Resources, stop conditions and delivery
+
+### Owner walkthrough repair A (2026-11-03)
+
+Reopen for a narrow presentation repair: when available cash covers the relevant due obligations, do not present shortfall/crisis rescue choices as though they are needed. Preserve independent living-room furniture sales, already committed overtime reservations, simultaneous-obligation ordering and existing financial transaction/replay semantics. Own only the relevant due-decision/payment view seam and focused assertions/evidence, plus honest source-pin/checkpoint freshness reconciliation. Coordinate source writes with the owner's live walkthrough so hot reload cannot disrupt review. Root clears finite validation and inspects actual affected/neighbor renders before returning delivery.
+
+The owner confirmed that explicit `Leave Remaining rent unpaid` did end the run; there is no established no-op defect. Replacing that explicit action with warnings on genuine conflicting commitments, or removing later explicit meal skips, is a separate behavioral proposal requiring a concrete action/transaction map. Do not implement either through this presentation repair, change due guards/endings, count free navigation as commitment, or remove the accepted Day1 meal choice. Keep current voluntary withholding and meal/quiet semantics until separately reconciled.
 
 Use the unchanged Plan25 bounded launcher for every Node command with process preflight, default1GiB heap/2GiB sampled owned tree/90s, serial named finite suites/renders. Coordinate existing loopback server and isolated browser ownership; do not stop owner servers or unrelated processes. Batch meaningful debug work rather than request a relay per command; report source pins, failures, actual memory and cleanup limitations. Use targeted new checkpoints to avoid wasteful full-run repetition. No automatic model/helper calls: an existing task-specific consultation grant is not unlimited inference authority.
 

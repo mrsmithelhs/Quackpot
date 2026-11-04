@@ -228,6 +228,8 @@ The phone invitation should transition through an in-world quarter-turn into lan
 
 ## Endings
 
+**Ending presentation direction,2026-11-04:** The Day4+ Finish run control is a temporary development exit while more endings and longer runs become reachable. For now move it to the global header as End run & view Receipt, preserving current eligibility and confirmation. The apartment's below-scene controls are for room navigation only; meaningful metagame actions use scene objects and their contextual decisions where possible. Future in-game actions and consequences should lead into ending-specific narrative or animation sequences, including an Uninstall ending sequence. Exact content/timing/skip and accessibility treatment remain future design; preserve immediate, unobstructed Uninstall and Receipt access rather than imposing a mandatory cinematic or wait. This direction does not authorize new ending rules or sequences in the current UI repair. See DECISION-083.
+
 | Ending | How you get it |
 |---|---|
 | **Completed the Collection** | Every identity in the finite digital gacha roster is owned |

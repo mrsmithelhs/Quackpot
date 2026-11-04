@@ -772,3 +772,11 @@ Owner closes Plan56 and selects the existing RTX3090 desktop roundtrip with offi
 Owner permits Bounce during ordinary weaving and collision recovery while preserving earlier collision effects. After a natural study race stopped at an occupied landing, the owner explicitly selects a genuine landing collision, retaining the bouncing participant's tested landing-phase protection with independent injury risk for the other duck. Reduced and full protection remain experimental alternatives; no final balance is selected.
 
 Plan55 may prepare a separate pinned report-local implementation and correctness contract for landing geometry, phase/contact/finish ordering, rearm, multiple/coincident/nonclosing contacts and rollback. New resolver calls require root gate review. Preserve the original stopped screen and single-seed diagnostic; no silent hovering, ability extension, safe-position teleport or discarded contact. Synthetic prior-contact correctness evidence is not a causal natural-collision comparison. This is forward mechanics intent, not implemented or accepted production behavior; no retuning, deployment or push follows.
+
+### DECISION-083 — Navigation-only apartment bar and temporary ending utility
+
+**Date:** 2026-11-04
+
+Owner reiterates that below-scene buttons are reserved for navigation and metagame actions should be diegetic where possible. Root Terra-medium audit found remaining Ren, quiet completion, overtime start/completion and Finish run controls. Plan52 may consolidate their presentation using existing guarded callbacks and add rendered navigation/state-invariant regression checks; no new mechanics or economy is adopted.
+
+Owner accepts moving the existing Day4+ Finish run control to the global header as End run & view Receipt for now, preserving confirmation and availability. It is a temporary development exit while natural endings and supported duration expand. In-game actions/consequences should eventually lead to ending-specific narrative or animation sequences, including Uninstall; exact sequence content/timing/accessible equivalents remain future work. Preserve immediate unobstructed Uninstall and Receipt access, not forced cinematic delay. No ending engine rewrite is authorized by the current UI repair.

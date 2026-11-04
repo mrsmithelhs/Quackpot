@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<rect x="0" y="0" width="256" height="256" fill="#6fa094"/>
+<ellipse cx="128" cy="150" rx="122" ry="88" fill="#c4dcc8"/>
+<polygon points="44,160 50,146 70,138 98,131 130,129 164,132 192,139 210,150 214,162 204,176 174,183 140,185 108,183 76,178 52,172" fill="none" stroke="#5b4b9a" stroke-width="3" stroke-linejoin="round" opacity="0.4"/>
+<path d="M58 156 C58 144 90 138 128 138 C166 138 198 144 198 156" fill="none" stroke="#5b4b9a" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="128" cy="154" rx="32" ry="6" fill="#1e3a5f" opacity="0.3"/>
+<path d="M103 143 C98 128 110 115 126 111 C138 109 149 115 153 127 C156 139 144 148 128 153 C115 157 107 153 103 143 Z" fill="none" stroke="#b7791f" stroke-width="2" opacity="0.5"/>
+<circle cx="132" cy="105" r="12" fill="none" stroke="#b7791f" stroke-width="2" opacity="0.5"/>
+<path d="M102 122 L91 113 L94 121 L88 124 L100 131 Z" fill="#fbbf24" stroke="#d58a0a" stroke-width="2" stroke-linejoin="round"/>
+<path d="M99 132 C100 116 116 108 133 111 C145 115 153 124 151 137 C150 149 135 153 118 151 C105 149 99 142 99 132 Z" fill="#fbbf24" stroke="#d58a0a" stroke-width="2"/>
+<path d="M118 130 C126 122 142 126 145 135 C138 141 123 138 118 130 Z" fill="#f59e0b" stroke="#92400e" stroke-width="2"/>
+<path d="M123 130 C128 126 137 127 140 131 C136 135 127 134 123 130 Z" fill="#fcd34d"/>
+<circle cx="141" cy="108" r="12" fill="#fbbf24" stroke="#d58a0a" stroke-width="1.5"/>
+<path d="M151 110 L167 114 C168 116 165 119 161 118 L150 116 Z" fill="#f97316" stroke="#c2410c" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="146" cy="106" r="2.6" fill="#1e293b"/>
+<circle cx="147" cy="105" r="0.9" fill="#ffffff"/>
+<path d="M58 156 C58 168 90 174 128 174 C166 174 198 168 198 156" fill="none" stroke="#5b4b9a" stroke-width="5" stroke-linecap="round"/>
+<rect x="118" y="68" width="26" height="16" rx="4" fill="#ffffff" stroke="#1e293b" stroke-width="1.5"/>
+<polyline points="126,80 131,69 136,80" fill="none" stroke="#1e293b" stroke-width="2.4" stroke-linejoin="round"/>
+<line x1="128" y1="77" x2="134" y2="77" stroke="#1e293b" stroke-width="2.2"/>
+</svg>

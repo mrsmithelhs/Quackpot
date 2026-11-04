@@ -16,6 +16,12 @@ export const scenarios = {
   'ahead-control': {label:'Flap Ahead control: no activation',events:[]},
   draft: {label:'Draft: follow leader then disengage',events:[{id:'draft',type:'draft',at:.8,end:2.8,source:'A',targets:['B']}]},
   'draft-control': {label:'Draft control: leader, no activation',events:[]},
+  straight: {label:'Straight Shooter: contact then possible response',events:[{id:'hit',type:'contact',at:1,end:1.55,source:'A',targets:['B']},{id:'straight',type:'straight',at:1.35,end:3.15,source:'A',targets:[]}]},
+  'straight-control': {label:'Straight Shooter control: contact, no activation',events:[{id:'hit',type:'contact',at:1,end:1.55,source:'A',targets:['B']}]},
+  steady: {label:'Steady Nerves: self-wobble with response',events:[{id:'wobble',type:'wobble',at:.65,end:3.2,source:'A',targets:[]},{id:'steady',type:'steady',at:1.2,end:3.2,source:'A',targets:[]}]},
+  'steady-control': {label:'Steady Nerves control: self-wobble, no activation',events:[{id:'wobble',type:'wobble',at:.65,end:3.2,source:'A',targets:[]}]},
+  wake: {label:'Wake Break: source A with follower B',events:[{id:'wake',type:'wake',at:.8,end:3.1,source:'A',targets:['B']}]},
+  'wake-control': {label:'Wake Break control: follower, no activation',events:[]},
 };
 export function stateAt(events,time) { return events.filter(e=>time>=e.at && time<e.end).map(e=>({...e,phase:(time-e.at)/(e.end-e.at)})); }
 

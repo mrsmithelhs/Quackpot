@@ -1,0 +1,325 @@
+{
+  "disclaimer": "Synthetic ability concepts; no race or saved outcomes.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "679b9eb7965f2369eac82fd99dcf23c6f7417ba048c0c83643b819f0e02ba5f0",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "5f8dc4bae5536404014a6b748845996143ba5eadb6a0409036538ecfcf7c344b",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "8033bd125bad70d9ea5d071f4223cff34af31a50bfaab8c1ab2b0ba189fa43a2",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e",
+    "reports/development/plan-58-race-ability-animation-study/gallery/candidate-effects.mjs": "b3447007eb0f284f52466e9e6b163b75cb51ff4d4c6a90b3ffbcab2b06831972",
+    "reports/development/plan-58-race-ability-animation-study/gallery/alternatives-effects.mjs": "627c2409120f56dd9afad8c302375fb39ac94e748c7416687db7dccdbd03bd93",
+    "reports/development/plan-58-race-ability-animation-study/gallery/final-three-effects.mjs": "a991e06124e6da15f6fe1e72a3f2b8c6ae69bf24607e9a05e70fe3dfafa4f8e5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "reports/development/plan-58-race-ability-animation-study/art/plan57-adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/final-three-phases.mjs": "3e1ae3830d4404ede0d5f6761a52621692dd5c0216585f5146a2e812634b3997",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "nextBatch": {
+        "wide": true,
+        "noWide": true,
+        "ahead": true,
+        "grounded": true,
+        "draft": true,
+        "released": true,
+        "rightLeader": true,
+        "bandage": true,
+        "persistent": true,
+        "scoped": true
+      },
+      "alternatives": {
+        "distinct": true,
+        "frontBack": true,
+        "neutral": true,
+        "pose": true,
+        "noFalseEvents": true,
+        "mirror": true
+      },
+      "airGap": true,
+      "refinement": {
+        "arcs": true,
+        "growth": true,
+        "angle": true,
+        "draft": true,
+        "crowd": true,
+        "overlap": true,
+        "reset": true,
+        "leaderRight": true,
+        "leaderLeft": true
+      },
+      "finalThree": {
+        "distinct": true,
+        "motion": true,
+        "clean": true,
+        "layers": true,
+        "controls": true,
+        "heading": true
+      },
+      "phaseProof": {
+        "moves": true,
+        "clears": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "nextBatch": {
+        "wide": true,
+        "noWide": true,
+        "ahead": true,
+        "grounded": true,
+        "draft": true,
+        "released": true,
+        "rightLeader": true,
+        "bandage": true,
+        "persistent": true,
+        "scoped": true
+      },
+      "alternatives": {
+        "distinct": true,
+        "frontBack": true,
+        "neutral": true,
+        "pose": true,
+        "noFalseEvents": true,
+        "mirror": true
+      },
+      "airGap": true,
+      "refinement": {
+        "arcs": true,
+        "growth": true,
+        "angle": true,
+        "draft": true,
+        "crowd": true,
+        "overlap": true,
+        "reset": true,
+        "leaderRight": true,
+        "leaderLeft": true
+      },
+      "finalThree": {
+        "distinct": true,
+        "motion": true,
+        "clean": true,
+        "layers": true,
+        "controls": true,
+        "heading": true
+      },
+      "phaseProof": {
+        "moves": true,
+        "clears": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:56873/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:56873/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "3adb8b7282bd2562ceee1b2809d805f0c0933cd0c77fd18523da36d75c228331",
+    "trackedDescendants": [
+      {
+        "pid": 18700,
+        "ppid": 17388,
+        "created": "639294272559784350",
+        "root": true
+      },
+      {
+        "pid": 35788,
+        "ppid": 18700,
+        "created": "639294272560091190",
+        "root": false
+      },
+      {
+        "pid": 40808,
+        "ppid": 18700,
+        "created": "639294272562561620",
+        "root": false
+      },
+      {
+        "pid": 4880,
+        "ppid": 18700,
+        "created": "639294272563195810",
+        "root": false
+      },
+      {
+        "pid": 42964,
+        "ppid": 18700,
+        "created": "639294272563458690",
+        "root": false
+      },
+      {
+        "pid": 37528,
+        "ppid": 18700,
+        "created": "639294272564037840",
+        "root": false
+      },
+      {
+        "pid": 10416,
+        "ppid": 18700,
+        "created": "639294272564420290",
+        "root": false
+      },
+      {
+        "pid": 14208,
+        "ppid": 18700,
+        "created": "639294272564691470",
+        "root": false
+      },
+      {
+        "pid": 33756,
+        "ppid": 18700,
+        "created": "639294272564709650",
+        "root": false
+      },
+      {
+        "pid": 38148,
+        "ppid": 18700,
+        "created": "639294272565493160",
+        "root": false
+      },
+      {
+        "pid": 31216,
+        "ppid": 18700,
+        "created": "639294272576533180",
+        "root": false
+      },
+      {
+        "pid": 25260,
+        "ppid": 18700,
+        "created": "639294272576757310",
+        "root": false
+      },
+      {
+        "pid": 19500,
+        "ppid": 18700,
+        "created": "639294272576759500",
+        "root": false
+      },
+      {
+        "pid": 35392,
+        "ppid": 18700,
+        "created": "639294272590194770",
+        "root": false
+      },
+      {
+        "pid": 14688,
+        "ppid": 18700,
+        "created": "639294272590436990",
+        "root": false
+      },
+      {
+        "pid": 23428,
+        "ppid": 18700,
+        "created": "639294272602187600",
+        "root": false
+      },
+      {
+        "pid": 25144,
+        "ppid": 18700,
+        "created": "639294272602216380",
+        "root": false
+      },
+      {
+        "pid": 39184,
+        "ppid": 18700,
+        "created": "639294272604374560",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

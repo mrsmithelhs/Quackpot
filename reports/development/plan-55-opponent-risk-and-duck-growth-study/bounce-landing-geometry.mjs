@@ -6,3 +6,5 @@ export function landingGeometry(a,b,{diameter=1,epsilon=.001}={}){
  return {normal:{x:nx,y:ny},distance,displacement,coincident:distance<=1e-9,deltaA:{x:-nx*displacement,y:-ny*displacement},deltaB:{x:nx*displacement,y:ny*displacement}};
 }
 export function landingImpulse(relativeNormal,restitution=.25){if(!Number.isFinite(relativeNormal)||!Number.isFinite(restitution)||restitution<0)throw RangeError('invalid contact velocity');return relativeNormal<0?-(1+restitution)*relativeNormal/2:0}
+
+export function compareLandingEvents(a,b){return a.tick-b.tick||((a.contactCause==='occupied-landing')-(b.contactCause==='occupied-landing'))||a.id.localeCompare(b.id)}

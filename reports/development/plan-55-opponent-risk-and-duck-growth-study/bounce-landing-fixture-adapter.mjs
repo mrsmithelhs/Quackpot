@@ -1,4 +1,4 @@
-import {landingGeometry,landingImpulse} from './bounce-landing-geometry.mjs';
+import {landingGeometry,landingImpulse,compareLandingEvents} from './bounce-landing-geometry.mjs';
 import { createRng } from '../../../src/core/prng.mjs';
 import { selectPredictedThreat, shouldFollowAdvice } from './predictive-advice-candidate.mjs';
 import { captureReferenceIndices, rebindSnapshotReferences, firstDifference } from './predictive-rollback.mjs';
@@ -644,7 +644,7 @@ function resolveOneDuckContact(entrants, tick, input, records, keys, previous, l
   }
   setVelocity(a, ar.x, ar.y, tick); setVelocity(b, br.x, br.y, tick);
   const record = {
-    id: `duck-contact-${tick}-${a.id}-${b.id}`, tick, time: q((tick-(input._landing?1:0)) * PHYSICS.dt, 1000), type: 'duck-contact',
+    id: `duck-contact-${tick}-${a.id}-${b.id}`, tick, time: q(tick * PHYSICS.dt, 1000), type: 'duck-contact',
     ...(input._landing?{contactCause:'occupied-landing',contactFraction:0}:{}),
     participants: [a.id, b.id].sort(),
     effect: contactType(input) === 'control'
@@ -911,11 +911,12 @@ function simulate(input, guardLimitOverrides = {}) {
     },(item,now)=>{
       const a=byId[item.a],b=byId[item.b],before=records.length,snapshot=Object.fromEntries([a,b].map(e=>[e.id,pos(e)])),ranks=Object.fromEntries(rankAt(active).map((e,index)=>[e.id,index+1])),steering=Object.fromEntries([a,b].map(e=>[e.id,{kind:e.steeringEpisode?.kind??null,phase:e.steeringEpisode?.phase??null}]));
       const phases={[a.id]:a===player?'landing':a.bounceStudy?.phase??'idle',[b.id]:b===player?'landing':b.bounceStudy?.phase??'idle'};
-      resolveOneDuckContact([a,b],tick,{...input,_multiOne:true,_landing:true,_landingNormal:now.geometry.normal,_studyContactPhases:phases,_studyContactFraction:0},records,keys,snapshot,limits);
+      resolveOneDuckContact([a,b],tick-1,{...input,_multiOne:true,_landing:true,_landingNormal:now.geometry.normal,_studyContactPhases:phases,_studyContactFraction:0},records,keys,snapshot,limits);
       const added=records.slice(before).filter(x=>x.type==='duck-contact');if(added.length!==1)throw new LandingOverlapGuardError(tick,player.id,[b.id]);if(guardLimitOverrides.testLandingGuardAfterContact){const error=new ContactGuardError(tick,'test-landing-after-contact',multiState.count);error.afterActualContact=true;throw error;}
       for(const [e,delta] of [[a,now.geometry.deltaA],[b,now.geometry.deltaB]]){const frame=frameAt(e.progress,e.lateral);e.progress+=delta.x*frame.tx+delta.y*frame.ty;e.lateral+=delta.x*frame.nx+delta.y*frame.ny;if(Math.abs(e.lateral)>PHYSICS.corridorHalfWidth||e.progress>=COURSE_LENGTH)throw new LandingOverlapGuardError(tick,player.id,[b.id]);}
+      if(guardLimitOverrides.testLandingGuardAfterProjection){const error=new ContactGuardError(tick,'test-landing-after-projection',multiState.count);error.afterActualContact=true;throw error;}
       const pa=pos(a),pb=pos(b);if(Math.hypot(pa.x-pb.x,pa.y-pb.y)<diameter)throw new LandingOverlapGuardError(tick,player.id,[b.id]);
-      added[0].studyRanksAtContact=ranks;added[0].studyActiveCountAtContact=active.length;added[0].studySteeringAtContact=steering;added[0].studyContactFraction=0;added[0].studyContactPhases=phases;added[0].landingResolution={normal:now.geometry.normal,coincident:now.geometry.coincident,perDuckDisplacement:now.geometry.displacement};
+      added[0].studyRanksAtContact=ranks;added[0].studyActiveCountAtContact=active.length;added[0].studySteeringAtContact=steering;added[0].studyContactFraction=0;added[0].studyContactPhases=phases;added[0].landingResolution={normal:now.geometry.normal,coincident:now.geometry.coincident,perDuckDisplacement:now.geometry.displacement,after:{[a.id]:{...pa,lateral:a.lateral},[b.id]:{...pb,lateral:b.lateral}},distance:Math.hypot(pa.x-pb.x,pa.y-pb.y)};
       return true;
     });
     multiState=result.state;
@@ -926,13 +927,15 @@ function simulate(input, guardLimitOverrides = {}) {
   }
   for (let tick = 1; tick <= PHYSICS.maxTicks + limits.maxCompletionTicks; tick += 1) {
     if(guardLimitOverrides.testLandingCase&&tick===5){
-      const kind=guardLimitOverrides.testLandingCase;if(!input.studyAbility||!['closing','stationary','separating','coincident','multiple','boundary'].includes(kind))throw Error('invalid landing fixture');
+      const kind=guardLimitOverrides.testLandingCase;if(!input.studyAbility||!['closing','stationary','separating','coincident','multiple','boundary','unrearmed','priorinjury'].includes(kind))throw Error('invalid landing fixture');
       const player=entrants.find(e=>e.player),a=entrants.find(e=>e.id==='A'),b=entrants.find(e=>e.id==='B');
       for(const e of entrants){e.progress=-30-entrants.indexOf(e)*5;e.lateral=0;e.heading=0;e.speed=8;e.steeringEpisode=null;}
-      player.progress=kind==='boundary'?COURSE_LENGTH-.1:10;player.lateral=0;player.heading=0;player.speed=kind==='stationary'?0:kind==='separating'?5:10;
+      player.progress=kind==='boundary'?COURSE_LENGTH-.8:10;player.lateral=0;player.heading=0;player.speed=kind==='stationary'?0:kind==='separating'?5:kind==='boundary'?20:10;
       a.progress=player.progress+(kind==='boundary'?-.5:kind==='coincident'?0:.5);a.lateral=0;a.heading=0;a.speed=kind==='stationary'?0:kind==='separating'?10:5;
-      if(kind==='multiple'){b.progress=player.progress+.5;b.lateral=.4;b.speed=5;}
+      if(kind==='multiple'){b.progress=player.progress-.5;b.lateral=0;b.speed=5;}
       player.bounceStudy={...initialAbilityState(),phase:'airborne',phaseStart:-7,latched:true};
+      if(kind==='unrearmed')multiState={pairs:{'A|P':{tick:4,separated:false}},count:1};
+      if(kind==='priorinjury'){player.susceptibilityInjured=true;player.susceptibilityOnsetTick=1;}
       priorPositions=Object.fromEntries(entrants.map(e=>[e.id,pos(e)]));
     }
     if(guardLimitOverrides.testLandingStop&&tick>guardLimitOverrides.testLandingStop){status='unresolved';unresolvedReason='test_fixture_horizon';guardEvidence={kind:'test_fixture_horizon',tick,limit:guardLimitOverrides.testLandingStop};break;}
@@ -1103,6 +1106,7 @@ function simulate(input, guardLimitOverrides = {}) {
       }
       advanceSteeringEpisode(e, tick, settings.controller, tickStartOrder.findIndex((item) => item.id === e.id) + 1,
         ['R2combined', 'R2combined-risk-only'].includes(input.dramaArm), tickEvents, limits);
+      if(guardLimitOverrides.testLandingCase==='priorinjury'&&tick===5&&e.player)abilityAudit.push({kind:'test-prior-injury-state',tick,injured:!!e.susceptibilityInjured,onset:e.susceptibilityOnsetTick??null});
     }
       const crossed = [];
     for (const beforeEntrant of before) {
@@ -1276,7 +1280,7 @@ function simulate(input, guardLimitOverrides = {}) {
     courseLength: q(COURSE_LENGTH, 1000), dt: PHYSICS.dt, horizonSeconds: q(finalTick * PHYSICS.dt, 1_000_000), ticks: finalTick,
     entrants: entrants.map((e) => ({ id: e.id, name: e.name, lane: e.lane, row: e.row, player: Boolean(e.player), performanceDraw: e.performanceDraw, sampledPerformance: q(e.sampledPerformance, 1000), topSpeed: q(e.topSpeed, 1000) })),
     trajectory,
-    eventRecords: eventRecords.sort((a, b) => a.tick - b.tick || a.id.localeCompare(b.id)),
+    eventRecords: eventRecords.sort(compareLandingEvents),
     opportunityRecords,
     finish,
     ...(input.multiContact ? { multiContactAudit: contactAudit, adviceAudit } : {}),

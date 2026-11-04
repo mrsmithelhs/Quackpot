@@ -302,3 +302,8 @@ The job exited 1 solely on sampled-only browser cleanup uncertainty: no residual
 ## Owner M5 preference and Flash consultation attempt
 
 The owner found the full M5 all-piano 50% duration version far better and requested separate detailed Gemini Flash consultations for the three full original/reconstruction pairs. The first M1 call produced no response and ended with `print_timeout` despite outer exit 0; it attempted an additional denied command and read its own out-of-stage transcript. Audio payload delivery was not visible. Remaining consultations were stopped without retry. The sanitized route finding and technical limits are in `flash-full-track-consultation.md`; no model-derived musical recommendations or production changes resulted.
+
+
+## M1 smaller audio transport preparation
+
+The owner reported that a separate desktop Flash attempt read the original MP3 and reconstructed WAV then compacted and wandered; context pressure is a hypothesis, not a verified cause. At their direction, a preserved full M1 reconstruction WAV was encoded to a separate ignored 192 kbps stereo 48 kHz MP3 using the existing VideoLAN VLC 3.0.24 installation. The first bounded invocation mistakenly disabled playlist autostart and timed out without output; the corrected invocation exited 0 in 5.296s. The 3,100,608-byte MP3's SHA-256 is `07c1afbd91e80497936a2089fa872f29240de4f3f62b43f4cfffd9230708b237`; independent local decode found 129.192s, nonzero PCM, 48 kHz stereo, compared with source WAV 129.1735s. The approximate 18.5ms framing difference and lossy encoding are disclosed. No new provider call, model inference or installation occurred.

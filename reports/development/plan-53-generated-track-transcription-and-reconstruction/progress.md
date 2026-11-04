@@ -314,3 +314,8 @@ The owner reported that a separate desktop Flash attempt read the original MP3 a
 Two owner-provided desktop reviews are retained as unverified listening reports. A six-call full-track versus fixed 30-second excerpt trial was prepared; source-relative clips were decoded to exactly 30 seconds and encoded with the owner's FFmpeg 9.0.1 installation, with lossy encoding and alignment uncertainty. The first CLI attempt failed during profile initialization: profile log/crash creation was denied in the managed sandbox and the CLI reported no authentication. No audio read, model initialization, or consultation response was observed. The other five calls were stopped; orchestration was notified. See `flash-full-track-consultation.md` for evidence and limitations.
 
 A proposed host-context follow-up was not approved by automatic review pending explicit owner clarification; no host retry or workaround was attempted.
+
+
+## M1 host-context repeat trial
+
+Following explicit owner authorization, all six frozen full-versus-30-second-excerpt calls completed with the requested model reported at initialization and the intended two file reads each. Five of six stated incorrect input durations despite claiming complete coverage; shorter clips were correct in only one of three answers. File reads and confident descriptions do not prove audio comprehension. Sanitized model responses and exact resource/receipt evidence are recorded in `flash-full-track-consultation.md`; suggestions remain hypotheses, and no M3/M5 calls, music changes or production integration occurred.

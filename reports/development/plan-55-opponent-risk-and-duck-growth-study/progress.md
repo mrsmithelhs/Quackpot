@@ -252,3 +252,5 @@ Landing boundary rearm repair and 17-call correctness passed; source and receipt
 2026-11-04: Same-boundary landing reconciliation source prepared at a63f764, pin d30aef5431ed6cc56b8ea8e4dca44bbc8b83e0210f0793bbde70af4d3768bbab. Eight pure tests passed; proposed eight correctness calls require QP Orch review and clearance. No physics, risk or comparison conclusion follows from preparation.
 
 2026-11-04: Root-cleared eight-call same-boundary correctness passed; failed seed001 partial replay preserved the original P/C event, impulse and both injury rolls exactly once, full replay also finished. Evidence f5147d4, see bounce-reconcile-results.md. No natural screen resumed; further finite protocol requires root approval.
+
+2026-11-04: QP Orch approved preparing 24 new reconciled matched-stat calls and reuse of the hashed eight-race matched no-ability control with explicit one-seed deep parity and source-inspection limitation. Protocol/source savepoint 6bed94a0, pin e8f0635ef700524e586018a3991db540f633bdc58b5bf2fdaf6110ac38e22457. No new resolver calls; execution clearance pending.

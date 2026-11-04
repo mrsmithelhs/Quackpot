@@ -31,3 +31,7 @@ export function diveLayer(phase,layer) {
  const ring=behind&&d.ring?`<g transform="translate(128 180) scale(${d.ring}) translate(-128 -180)" opacity="${Math.max(.35,d.splash)}"><ellipse cx="128" cy="180" rx="86" ry="20" fill="#6ab4b1" fill-opacity=".72" stroke="#245d68" stroke-width="6"/><ellipse cx="128" cy="180" rx="48" ry="10" fill="none" stroke="#d6f2ea" stroke-width="4"/></g>`:'';
  return wrap('dive-layer',ring+spray);
 }
+
+// Local comparison primitives; no gameplay effect is computed.
+export function wideCue(phase){const strength=Math.sin(Math.PI*phase);return wrap('wide-cue',`<g fill="none" stroke="#d9f5ef" stroke-width="8" stroke-linecap="round" opacity="${strength}"><path d="M178 90 Q223 121 183 154"/><path d="M190 78 Q246 121 196 166"/></g>`);}
+export function draftCue(phase){const strength=Math.min(1,phase*5,(1-phase)*5);return wrap('draft-cue',`<g fill="none" stroke="#cceee9" stroke-width="6" stroke-linecap="round" opacity="${strength}"><path d="M28 139 Q62 124 94 137"/><path d="M35 151 Q64 140 90 150"/></g>`);}

@@ -19,3 +19,5 @@
 .controls select{min-width:0}
 
 .name.contact-leader::after{content:'';position:absolute;top:100%;left:50%;height:12px;border-left:1px solid #344e59;pointer-events:none}
+
+.injury-bandage{position:absolute;width:32%;height:32%;left:41%;top:39%;pointer-events:none}.injury-bandage[hidden]{display:none}

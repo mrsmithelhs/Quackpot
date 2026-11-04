@@ -43,3 +43,7 @@ test('Dive has three continuous travel phases and layered inert splashes',()=>{
  for(const layer of ['front','behind']){const markup=diveLayer(.1,layer);assert.match(markup,/<ellipse/);assert.doesNotMatch(markup,/<script|on\w+\s*=|href\s*=|url\(|https?:/i);}
  assert.notEqual(diveLayer(.1,'front'),diveLayer(.1,'behind'));
 });
+
+test('new ability and control events keep distinct participants and activation',()=>{
+ for(const name of ['wide','ahead','draft']){assert.equal(stateAt(scenarios[name].events,1).length,1);assert.deepEqual(stateAt(scenarios[name].events,1)[0].targets,['B']);assert.deepEqual(stateAt(scenarios[name+'-control'].events,1),[]);assert.deepEqual(stateAt(scenarios[name].events,3.3),[]);}
+});

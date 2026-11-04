@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<rect x="0" y="0" width="256" height="256" rx="14" fill="#6f9f93" stroke="#3f6470" stroke-width="4"/>
+<ellipse cx="128" cy="206" rx="122" ry="44" fill="#c3dac6"/>
+<ellipse cx="66" cy="203" rx="36" ry="5" fill="#a9c2b2"/>
+<ellipse cx="200" cy="217" rx="36" ry="5" fill="#a9c2b2"/>
+<polyline points="128,201.5 141.2,206.8 146,214 141.2,221.2 128,226.5" fill="none" stroke="#2f7f86" stroke-width="6"/>
+<polyline points="128,201.5 141.2,206.8 146,214 141.2,221.2 128,226.5" fill="none" stroke="#f4fbf4" stroke-width="2"/>
+<polyline points="136,196 155,203.6" fill="none" stroke="#2f7f86" stroke-width="4"/>
+<polyline points="155,224.4 136,232" fill="none" stroke="#2f7f86" stroke-width="4"/>
+<polygon points="92.4,169.2 109.2,154.8 106.8,172.8 98.4,181.2" fill="#ffb21f" stroke="#9a4f0c" stroke-width="2"/>
+<ellipse cx="66" cy="180" rx="30" ry="19.8" fill="#f0a21a" stroke="#9a4f0c" stroke-width="2"/>
+<ellipse cx="66" cy="177.6" rx="28.2" ry="16" fill="#ffc233"/>
+<polygon points="50.4,178.2 57.6,171 67.2,169.2 78,171 88,176 78,186 64.8,189.6 55.2,187.2" fill="#ffd96e" stroke="#9a4f0c" stroke-width="2"/>
+<polyline points="58,180 72,178 84,177" fill="none" stroke="#c46a10" stroke-width="1.5"/>
+<circle cx="40.8" cy="160.8" r="15.6" fill="#ffc233" stroke="#9a4f0c" stroke-width="2"/>
+<polygon points="26.4,158.4 10.8,163.2 26.4,169.2" fill="#ef6a1a" stroke="#8a3208" stroke-width="2"/>
+<line x1="12" y1="163.8" x2="26.4" y2="163.8" stroke="#8a3208" stroke-width="1.5"/>
+<circle cx="36" cy="156.6" r="4.2" fill="#ffffff"/>
+<circle cx="36" cy="156.6" r="2.7" fill="#1d2b4a"/>
+<circle cx="37.2" cy="155.4" r="1.1" fill="#ffffff"/>
+<polygon points="226.4,183.2 243.2,168.8 240.8,186.8 232.4,195.2" fill="#0e8f66" stroke="#05402e" stroke-width="2"/>
+<ellipse cx="200" cy="194" rx="30" ry="19.8" fill="#0a6a4c" stroke="#05402e" stroke-width="2"/>
+<ellipse cx="200" cy="191.6" rx="28.2" ry="16" fill="#12946a"/>
+<polygon points="184.4,192.2 191.6,185 201.2,183.2 210.8,186.2 216.8,192.2 208.4,200 198.8,203.6 189.2,201.2" fill="#2fc79a" stroke="#05402e" stroke-width="2"/>
+<polyline points="192,195 202,194 214,193" fill="none" stroke="#0b6a4c" stroke-width="1.5"/>
+<circle cx="175.8" cy="173.8" r="15.6" fill="#12946a" stroke="#05402e" stroke-width="2"/>
+<polygon points="161.4,171.4 145.8,176.2 161.4,182.2" fill="#ef6a1a" stroke="#8a3208" stroke-width="2"/>
+<line x1="147" y1="176.8" x2="161.4" y2="176.8" stroke="#8a3208" stroke-width="1.5"/>
+<circle cx="171" cy="169.6" r="4.2" fill="#ffffff"/>
+<circle cx="171" cy="169.6" r="2.7" fill="#1d2b4a"/>
+<circle cx="172.2" cy="168.4" r="1.1" fill="#ffffff"/>
+<circle cx="18" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+<circle cx="32" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+<circle cx="48" cy="18" r="6" fill="#1d2b4a" stroke="#fff0d6" stroke-width="3"/>
+</svg>

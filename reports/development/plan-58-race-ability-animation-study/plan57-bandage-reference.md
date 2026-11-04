@@ -1,0 +1,3 @@
+# Plan 57 bandage reference
+
+The copied report-local `art/plan57-adhesive-bandage.svg` is byte-identical to `reports/development/plan-57-race-collision-and-injury-visual-study/art/adhesive-bandage.svg`, SHA-256 `008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1`. The owner-selected attached bandage appears in Plan 57's `owner-motion-selection.md`; it denotes a separately established injury. This study prepares it solely for the injured Quick Recovery fixture, not all ducks or the game. This reference does not adopt injury mechanics or production integration. Render validation is pending.

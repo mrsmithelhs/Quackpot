@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<rect x="0" y="0" width="256" height="256" rx="14" fill="#6f9f93" stroke="#3f6470" stroke-width="4"/>
+<ellipse cx="128" cy="206" rx="122" ry="44" fill="#c3dac6"/>
+<ellipse cx="130" cy="241" rx="32" ry="5.5" fill="#8fa89a"/>
+<ellipse cx="95" cy="217" rx="28" ry="4" fill="#a9c2b2"/>
+<ellipse cx="189" cy="231" rx="28" ry="4" fill="#a9c2b2"/>
+<polygon points="117,189 131,177 129,192 122,199" fill="#ffb21f" stroke="#9a4f0c" stroke-width="1.5"/>
+<ellipse cx="95" cy="198" rx="25" ry="16.5" fill="#f0a21a" stroke="#9a4f0c" stroke-width="1.5"/>
+<ellipse cx="95" cy="196" rx="23.5" ry="13.5" fill="#ffc233"/>
+<polygon points="82,196.5 88,190.5 96,189 104,191.5 109,196.5 102,203 94,206 86,204" fill="#ffd96e" stroke="#9a4f0c" stroke-width="1.5"/>
+<circle cx="74" cy="182" r="13" fill="#ffc233" stroke="#9a4f0c" stroke-width="1.5"/>
+<polygon points="62,180 49,184 62,189" fill="#ef6a1a" stroke="#8a3208" stroke-width="1.5"/>
+<line x1="50" y1="184.5" x2="62" y2="184.5" stroke="#8a3208" stroke-width="1"/>
+<circle cx="70" cy="178.5" r="3.5" fill="#ffffff"/>
+<circle cx="70" cy="178.5" r="2.3" fill="#1d2b4a"/>
+<circle cx="71" cy="177.5" r="1" fill="#ffffff"/>
+<polygon points="211,205 225,193 223,208 216,215" fill="#0e8f66" stroke="#05402e" stroke-width="1.5"/>
+<ellipse cx="189" cy="214" rx="25" ry="16.5" fill="#0a6a4c" stroke="#05402e" stroke-width="1.5"/>
+<ellipse cx="189" cy="212" rx="23.5" ry="13.5" fill="#12946a"/>
+<polygon points="176,212.5 182,206.5 190,205 198,207.5 203,212.5 196,219 188,222 180,220" fill="#2fc79a" stroke="#05402e" stroke-width="1.5"/>
+<circle cx="168" cy="198" r="13" fill="#12946a" stroke="#05402e" stroke-width="1.5"/>
+<polygon points="156,196 143,200 156,205" fill="#ef6a1a" stroke="#8a3208" stroke-width="1.5"/>
+<line x1="144" y1="200.5" x2="156" y2="200.5" stroke="#8a3208" stroke-width="1"/>
+<circle cx="164" cy="194.5" r="3.5" fill="#ffffff"/>
+<circle cx="164" cy="194.5" r="2.3" fill="#1d2b4a"/>
+<circle cx="165" cy="193.5" r="1" fill="#ffffff"/>
+<polygon points="132,96 146,76 168,62 202,56 204,68 194,68 198,79 188,79 190,90 180,90 176,100 150,102" fill="#e88ab0" stroke="#8a2a5a" stroke-width="2"/>
+<polygon points="156.4,101.2 173.2,86.8 170.8,104.8 162.4,113.2" fill="#f06aa4" stroke="#8a2a5a" stroke-width="2"/>
+<ellipse cx="130" cy="112" rx="30" ry="19.8" fill="#e0558f" stroke="#8a2a5a" stroke-width="2"/>
+<ellipse cx="130" cy="109.6" rx="28.2" ry="16" fill="#ff7fb3"/>
+<polygon points="122,104 136,84 158,70 192,64 194,76 184,76 188,87 178,87 180,98 170,98 166,108 140,110" fill="#ffc2dc" stroke="#8a2a5a" stroke-width="2"/>
+<polyline points="130,98 150,80 186,70" fill="none" stroke="#c23a7a" stroke-width="1.5"/>
+<circle cx="104.8" cy="92.8" r="15.6" fill="#ff7fb3" stroke="#8a2a5a" stroke-width="2"/>
+<polygon points="90.4,90.4 74.8,95.2 90.4,101.2" fill="#ef6a1a" stroke="#8a3208" stroke-width="2"/>
+<line x1="76" y1="95.8" x2="90.4" y2="95.8" stroke="#8a3208" stroke-width="1.5"/>
+<circle cx="100" cy="88.6" r="4.2" fill="#ffffff"/>
+<circle cx="100" cy="88.6" r="2.7" fill="#1d2b4a"/>
+<circle cx="101.2" cy="87.4" r="1.1" fill="#ffffff"/>
+<circle cx="18" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+<circle cx="32" cy="18" r="6" fill="#1d2b4a" stroke="#fff0d6" stroke-width="3"/>
+<circle cx="48" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+</svg>

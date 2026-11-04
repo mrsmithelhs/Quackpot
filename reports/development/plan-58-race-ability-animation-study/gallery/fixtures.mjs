@@ -10,6 +10,12 @@ export const scenarios = {
   'recovery-control': { label:'Recovery control: contact and injury, no response', events:[{id:'hit',type:'contact',at:1,end:1.55,source:'A',targets:['B']},{id:'injury',type:'injury',at:1.15,end:4.01,source:'A',targets:[]}] },
   dive: { label:'Dive: submerge and resurface', events:[{id:'dive',type:'dive',at:.8,end:3.3,source:'A',targets:[]}] },
   'dive-control': { label:'Dive control: no activation', events:[] },
+  wide: {label:'Wide Flap: nearby duck yields',events:[{id:'wide',type:'wide',at:.8,end:3.2,source:'A',targets:['B']}]},
+  'wide-control': {label:'Wide Flap control: nearby, no activation',events:[]},
+  ahead: {label:'Flap Ahead: airborne pass',events:[{id:'ahead',type:'ahead',at:.8,end:3.2,source:'A',targets:['B']}]},
+  'ahead-control': {label:'Flap Ahead control: no activation',events:[]},
+  draft: {label:'Draft: follow leader then disengage',events:[{id:'draft',type:'draft',at:.8,end:2.8,source:'A',targets:['B']}]},
+  'draft-control': {label:'Draft control: leader, no activation',events:[]},
 };
 export function stateAt(events,time) { return events.filter(e=>time>=e.at && time<e.end).map(e=>({...e,phase:(time-e.at)/(e.end-e.at)})); }
 

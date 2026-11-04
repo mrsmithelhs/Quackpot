@@ -1,0 +1,9 @@
+# Wing and wake drawing attempt — stopped on truncated receipt
+
+One owner-authorized, QP Orch-cleared retained Sonnet continuation was dispatched with the literal brief and staging/transport manifest. The child exited 0 after 494.024s, with sampled peak private bytes 703,713,280, but the wrapper rejected the receipt: stdout drained 2,296,405 characters and retained 2,097,152; stdout was truncated. No retry or alternative provider was attempted. The CLI final result and continuity at completion are not established by the truncated trace, and effective effort remains unverified.
+
+The complete events retained in the private trace contain eight Write and six Edit uses, three Bash calls all exactly `python render_drafts.py`, and three Read calls naming a rendered sheet; image blocks appear in the retained stream. Three iteration folders and eight working SVGs are present in isolated host staging. These observations do not replace a full trace, prove no unobserved actions after truncation, or authorize use of the drawings. Independent XML checks, sheet inspection, provenance and root disposition are pending. Earlier accepted drafts were staged separately and not intentionally overwritten. Raw receipt and session information remain private.
+
+No gallery executable or browser test for the new batch has run. Source is a draft pending review and tests; production integration is outside this study.
+
+QP Orch cleared independent offline inspection of existing outputs after the failed receipt. Seven staged input hashes were unchanged; 24 SVGs passed strict inert XML validation, and the original three existing sheets plus SVGs were archived under `art/sonnet-wing-draft/` with hashes and filename mapping. Lead viewed all sheets; root disposition remains pending. No rerender or provider retry occurred.

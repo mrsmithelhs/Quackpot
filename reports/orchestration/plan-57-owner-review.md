@@ -1,5 +1,13 @@
 # Plan 57 — gallery technical review and owner selection
 
+## Final study disposition — 2026-11-03
+
+Owner accepts angular pop, scattered fragments and earlier burst A as the varying forward collision-cue foundation, with one-second participant white return and an attached bandage only for independently injured ducks. Directional tear is not selected. The exact owner wording and selected asset hashes/contracts are in the report's `owner-motion-selection.md` and `integration-brief.md` (commits `02ae6420`, progress `34c5593`). This closes the report-local drawing/motion study; production mounting and deterministic variant/event/save/replay mapping remain separately scoped.
+
+Root viewed actual enlarged pop onset/mid/late and race mid captures from `distinct-motion-02`, enlarged tear/fragments from `distinct-motion-01`, and corrected full-viewport 390px pop/tear/fragments from `distinct-motion-03`. Original radial-star pop was rejected and retained; the selected asymmetric pop is explicitly Codex-authored, with raw Haiku output unchanged. Earlier clipped narrow images did not show the contact region and are not narrow-readability evidence. Source/pure tests and sampled GPU-permitted captures support exercised states, not a general continuous-motion, device, physical OS reduced-motion or assistive-technology claim. Root accepts the bounded technical delivery and owner selection; no production or mechanics adoption is inferred.
+
+The following earlier checkpoints are historical and do not reopen the final selections above.
+
 ## Revised owner checkpoint — 2026-11-03
 
 Root clears the revised A/B/C burst gallery for owner review after inspecting the final enlarged A/B/C expansion, race B expansion and narrow B sample in `evidence/burst-foreground-gpu-01/`. The original angular direction, one-second white return and attached bandage are owner-selected; no specific new A/B/C silhouette or final burst timing is selected. Frame buttons and deliberate playback allow comparison of onset, expansion, breakup and settle.

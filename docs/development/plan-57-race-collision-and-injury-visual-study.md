@@ -1,7 +1,8 @@
 ---
 id: plan-57
 title: Race collision and injury visual study
-status: in-progress
+status: complete
+resolution: "Owner selected angular pop, scattered fragments and earlier burst A with one-second participant white return and actual-injury bandage; root reviewed bounded source and rendered evidence. Report-local study complete; production integration and deterministic variant/event/replay mapping remain separate."
 depends_on: []
 gate: "Report-local gallery only. Root clears the bounded mechanism/helper proposal before execution; owner selects rendered effects before any separately scoped production integration."
 summary: >-

@@ -1,4 +1,8 @@
-# Full-track Flash consultation: first attempt and route limitation
+# Full-track Flash consultation: current disposition and historical evidence
+
+**Current disposition:** Six authorized host-context M1 trials (three full pairs and three fixed 30-second excerpt pairs) completed, each with the two intended file reads and no explicit compaction event observed. Five answers misstated input duration while claiming complete coverage; the musical recommendations remain unverified hypotheses. No M3 or M5 consultation has been run, so the broader three-track request remains pending. The first failed attempt and interrupted trial described below are historical; the later host trial resumed after explicit owner authorization.
+
+## Historical first attempt and route limitation
 
 The owner preferred the full M5 all-piano 50%-duration version and requested three detailed, separate Gemini Flash consultations comparing each original with its full Large reconstruction (M5 using the selected piano-half version). These are subjective listening preferences, not production adoption or measured offline/live equivalence. Three pairs and per-track briefs were staged privately with source/copy hashes verified. The owner authorized sending those six audio files for this purpose.
 
@@ -11,14 +15,14 @@ The installed CLI reported version 1.5.0. Its local help and [official headless 
 A possible owner-reviewed alternative is a native-audio Gemini interface with three fresh sessions, each receiving only its authorized original/reconstruction pair and corresponding prepared brief. Actual audio attachment, file-size support and effective Flash model must be observed; do not infer these from filenames or generic product claims. The original failure and previous calibration remain limitations, not a verdict on Gemini's general ability. No alternative upload or API call is authorized by this note alone.
 
 
-## Owner-observed compaction and smaller-format preparation
+## Historical owner-observed compaction and smaller-format preparation
 
 The owner reported a separate desktop Flash attempt that read an original MP3 and reconstructed WAV, then immediately compacted context and wandered; they stopped it manually. Context pressure is a plausible hypothesis, not a confirmed explanation or measured audio-token mechanism. The owner requested trying a smaller MP3 reconstruction next, with aligned 30-second pairs as a potential later fallback.
 
 A report-local isolated M1 pair now contains the original MP3 and an MP3 converted from the existing full Large WAV; the WAV is preserved separately. The locally installed VideoLAN VLC 3.0.24 encoder was used headlessly without a new installation. The first conversion attempt inadvertently disabled playlist autostart, timed out and produced no output; that failure does not establish encoder incompatibility. One corrected bounded conversion exited 0 in 5.296 seconds with sampled peak private memory 30,224,384 bytes. The output is 3,100,608 bytes, SHA-256 `07c1afbd91e80497936a2089fa872f29240de4f3f62b43f4cfffd9230708b237`. Frame inspection found MPEG-1 Layer III, 192 kbps, 48 kHz stereo, with no ID3 prefix. A separate bounded local decode produced 48 kHz stereo PCM16, 129.192 seconds, nonzero samples, peak 24030. The original WAV is 129.1735 seconds; codec framing adds about 18.5 ms. MP3 is lossy; the check does not establish sample alignment or audio equivalence. The owner plans to run the next Flash test manually; no new provider call was made by this thread.
 
 
-## M1 full-versus-excerpt reliability trial: stopped at CLI startup
+## Historical M1 trial interruption at CLI startup
 
 The owner reported two desktop Flash reviews of the same M1 MP3 pair. Both returned detailed suggestions, but their genre interpretations differed and one placed an ending around 33–41 seconds in a recording exceeding two minutes. Genre is interpretive; the timing claim raises a separate coverage question. The responses are preserved separately as unverified model output. Their recommendations are hypotheses; repeated suggestions alone do not validate listening claims.
 

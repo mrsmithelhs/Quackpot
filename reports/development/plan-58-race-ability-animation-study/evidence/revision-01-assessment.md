@@ -1,0 +1,3 @@
+# Revision-01 initial render assessment
+
+The first revised state checks passed at 1024 and 390 widths; receipt `revision-01/receipt.json` records pins, synthetic assertions and sampled-only browser cleanup with retained profile. Lead viewed desktop enlarged Bounce and crowd and narrow combination/right-facing frames. The intended duck body, arrows, wave and blue air appear, but enlarged pad/wave are clipped at the stage bottom and the airflow crosses the duck's face. These frames are not owner-ready. A source-only correction increases enlarged stage height/repositions the runner and puts the air layer behind the duck; this is unrendered. No claim of continuous motion quality, actual device or AT behavior follows from the stills. This evidence and failure are retained.

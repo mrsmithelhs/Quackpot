@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<rect x="0" y="0" width="256" height="256" rx="14" fill="#6f9f93" stroke="#3f6470" stroke-width="4"/>
+<ellipse cx="128" cy="206" rx="122" ry="44" fill="#c3dac6"/>
+<ellipse cx="138" cy="206" rx="78" ry="12" fill="none" stroke="#3f9aa0" stroke-width="3"/>
+<ellipse cx="138" cy="207" rx="58" ry="9" fill="#7fcfc8" stroke="#256f7c" stroke-width="2"/>
+<ellipse cx="128" cy="238" rx="46" ry="10" fill="#8a6a3a" stroke="#4a3a20" stroke-width="3"/>
+<polygon points="182,136 210,112 206,142 192,156" fill="#ffb21f" stroke="#9a4f0c" stroke-width="3"/>
+<ellipse cx="138" cy="154" rx="50" ry="33" fill="#f0a21a" stroke="#9a4f0c" stroke-width="3"/>
+<ellipse cx="138" cy="150" rx="47" ry="29" fill="#ffc233"/>
+<polygon points="112,150 124,138 144,126 164,118 182,114 178,134 166,150 148,160 126,162" fill="#ffd96e" stroke="#9a4f0c" stroke-width="3"/>
+<polyline points="126,150 150,134 172,122" fill="none" stroke="#c46a10" stroke-width="2"/>
+<polyline points="136,156 158,142 178,130" fill="none" stroke="#c46a10" stroke-width="2"/>
+<circle cx="96" cy="122" r="26" fill="#ffc233" stroke="#9a4f0c" stroke-width="3"/>
+<polygon points="72,118 46,126 72,136" fill="#ef6a1a" stroke="#8a3208" stroke-width="3"/>
+<line x1="48" y1="127" x2="72" y2="127" stroke="#8a3208" stroke-width="2"/>
+<circle cx="88" cy="115" r="7" fill="#ffffff"/>
+<circle cx="88" cy="115" r="4.5" fill="#1d2b4a"/>
+<circle cx="90" cy="113" r="1.8" fill="#ffffff"/>
+<polygon points="123,236 123,210 116,210 128,196 140,210 133,210 133,236" fill="#ff5a3c" stroke="#4a140c" stroke-width="3"/>
+<polygon points="93,236 93,218 86,218 98,204 110,218 103,218 103,236" fill="#ff5a3c" stroke="#4a140c" stroke-width="3"/>
+<polygon points="153,236 153,218 146,218 158,204 170,218 163,218 163,236" fill="#ff5a3c" stroke="#4a140c" stroke-width="3"/>
+<ellipse cx="128" cy="236" rx="42" ry="6" fill="#f6efd9" stroke="#4a3a20" stroke-width="2.5"/>
+<ellipse cx="128" cy="236" rx="22" ry="3.5" fill="none" stroke="#ef6a1a" stroke-width="2.5"/>
+<ellipse cx="128" cy="236" rx="34" ry="5" fill="none" stroke="#ef6a1a" stroke-width="2"/>
+<circle cx="18" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+<circle cx="34" cy="18" r="6" fill="#1d2b4a" stroke="#fff0d6" stroke-width="3"/>
+<circle cx="50" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+<circle cx="64" cy="18" r="4" fill="#dfeee6" stroke="#1d2b4a" stroke-width="2"/>
+</svg>

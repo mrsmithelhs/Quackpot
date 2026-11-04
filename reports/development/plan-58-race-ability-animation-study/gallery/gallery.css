@@ -7,3 +7,6 @@
 
 .large .stage{height:320px}
 .motif-arc{left:-3%}.motif-wedge{left:0}.motif-folds{left:58%}
+
+.water-effects,.air-effects{position:absolute;pointer-events:none;inset:-30%;z-index:1}.water-effects svg,.air-effects svg{width:100%;height:100%;overflow:visible}.air-effects{z-index:3}.air-effects svg{opacity:.9}
+.large .stage{height:400px}.large .runner{top:58% !important}.air-effects{z-index:1}

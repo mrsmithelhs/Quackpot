@@ -1,0 +1,142 @@
+{
+  "disclaimer": "Synthetic presentation events; no real race or game save.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "3beb1b22eaff9dcbaab890a2cf546ac7ab4fb0746525f4573aead9579dbf7d33",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "d309f24ee38d035fa37b7370af1f4a2e484e261d34faa69dae32ee0c5926e8ef",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "92dbe915c57d38251e3b36cfd6d0ba80c5a5bb027ec62ff179c428727640b036",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "6eb77c2dddbff7902e4762a4914c463bfbe96c34fee2ea165783d608f25aa97c",
+    "reports/development/plan-58-race-ability-animation-study/tools/revision-browser.mjs": "4b536058b61b10cf6b5a48459bf76bbc224951b675dd687b753f65c3ba7fa03c",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "wingMoves": true,
+      "pad": true,
+      "moving": true,
+      "overlap": true,
+      "mirror": true,
+      "labelUpright": true,
+      "manual": true,
+      "reduced": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "wingMoves": true,
+      "pad": true,
+      "moving": true,
+      "overlap": true,
+      "mirror": true,
+      "labelUpright": true,
+      "manual": true,
+      "reduced": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "73fdec37aa3990a1c48827fb8ae75208b93387dc8f78c8aa9f9d4fe62199f958",
+    "trackedDescendants": [
+      {
+        "pid": 32900,
+        "ppid": 28412,
+        "created": "639293524963742600",
+        "root": true
+      },
+      {
+        "pid": 26296,
+        "ppid": 32900,
+        "created": "639293524963894560",
+        "root": false
+      },
+      {
+        "pid": 38132,
+        "ppid": 32900,
+        "created": "639293524965440930",
+        "root": false
+      },
+      {
+        "pid": 32272,
+        "ppid": 32900,
+        "created": "639293524965961260",
+        "root": false
+      },
+      {
+        "pid": 16168,
+        "ppid": 32900,
+        "created": "639293524966169080",
+        "root": false
+      },
+      {
+        "pid": 18220,
+        "ppid": 32900,
+        "created": "639293524966614420",
+        "root": false
+      },
+      {
+        "pid": 38668,
+        "ppid": 32900,
+        "created": "639293524966916200",
+        "root": false
+      },
+      {
+        "pid": 1316,
+        "ppid": 32900,
+        "created": "639293524967172060",
+        "root": false
+      },
+      {
+        "pid": 39216,
+        "ppid": 32900,
+        "created": "639293524967189590",
+        "root": false
+      },
+      {
+        "pid": 24704,
+        "ppid": 32900,
+        "created": "639293524967920970",
+        "root": false
+      },
+      {
+        "pid": 27068,
+        "ppid": 32900,
+        "created": "639293524988456280",
+        "root": false
+      },
+      {
+        "pid": 36964,
+        "ppid": 32900,
+        "created": "639293524988641230",
+        "root": false
+      },
+      {
+        "pid": 35636,
+        "ppid": 32900,
+        "created": "639293524988641300",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

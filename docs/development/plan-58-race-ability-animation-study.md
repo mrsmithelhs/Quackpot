@@ -1,7 +1,8 @@
 ---
 id: plan-58
 title: Race ability animation language and gallery
-status: in-progress
+status: complete
+resolution: "Owner accepts eleven report-local ability visual directions and revised Steady sequence; root reviewed selected renders, evidence and pinned integration brief. Burst deferred. Study complete, not numerical ability adoption or production readiness; real event binding, finish/cancel, combinations and accessibility/lifecycle checks remain separate integration gates."
 depends_on: []
 gate: "Report-local creative study. Root clears the consultancy/gallery mechanism before calls or executable work; owner reviews early animation directions and final rendered selections before separate production integration."
 summary: >-

@@ -1,0 +1,9 @@
+# Plan58 visual study closure
+
+2026-11-04. Root accepts the report-local study after owner review of the eleven retained visual directions, including the revised combined Steady Nerves sequence. Root independently viewed the successive pinned enlarged/race/narrow captures and final phase sequences during supervision. Selection-and-evidence.md and integration-brief.md were reviewed and committed by the implementer as 0b748103; subsequent study approval does not change their captured evidence.
+
+Burst has no defined discrete trigger and is deferred, not silently merged or a mandatory twelfth ability. The enlarged Duck-Dex/selection demonstrations are study examples, not differentiated production layouts. Selected visuals do not establish numerical abilities or make the whole catalog a prerequisite for the first growth/injury slice.
+
+Preserve explicit limitations: the gallery has no actual race-finish/general cancellation fixture; combinations beyond specific Bounce/crowd examples are not comprehensively tested; seeked stills are not a real-time motion/performance measurement. Reduced-motion emulation is distinct from OS/assistive-device validation. Sonnet helper rendering failures and missing model visual inspection were retained; root inspected independently validated late sheets and actual Codex gallery captures. Sampled process cleanup uncertainty and retained profiles remain evidence qualifications.
+
+Close as an owner-selected study, not production-ready animation code. A separate bounded port must bind effects to real versioned activation/contact/injury/finish events, preserve Plan23 presentation, coordinate Plan55 mechanics and Plan57 collision cues, and validate cancellation, restarts, headings/layers, safe teardown, reduced-motion/static equivalence and save/replay/Receipt boundaries with actual production evidence. No report runtime dependencies, new provider jobs, production writes, push or deployment follow from closure.

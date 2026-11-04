@@ -800,3 +800,11 @@ Working injury: 10% race-rating reduction starting in the injury race, injured d
 Plan55 growth-injury-slice-design.md owns the coherent report contract and remaining production gate proposals. Atomic attempt/state/log/save/replay, actual scheduler day-boundary semantics, nonfinish fallback and pinned ability/injury odds require technical review and serialized ownership after Plan52 stable baseline. No production writes or new experiments follow automatically.
 
 Separate Gem bonus idea is report-only: owner selects all owned ducks, future earned progress only, expiry at same slot next in-game day, and requests comparison of effective1-point-per2 versus1-point-per1 candidates. Price, later progression, stacking/rebuy and exact expiry semantics remain unselected. Do not expand or block the free first slice or claim usable extra points before later redemption rules exist. See gem-one-day-progression-proposal.md.
+
+### DECISION-086 — Ability visual study accepted and Plan58 closed
+
+**Date:** 2026-11-04
+
+Owner accepts the final combined Steady Nerves sequence and asks to close Plan58. Root reviewed the final eleven-direction selection map, pinned integration brief and actual rendered/phase evidence during supervision. Selected Straight Shooter A, Wake Break B and Steady Nerves ring-to-side-accent sequence join the earlier recorded choices; selection-and-evidence.md is the detailed current map. Burst remains deferred without a discrete activation, not a mandatory twelfth mechanic.
+
+This closes the report-local visual study, not a production port or numerical ability catalog. Finish/cancel and broader combination protocols, actual event binding, headings/layers/lifecycle, accessibility and production evidence remain integration gates. Preserve helper failures, limits of seeked stills and sampled cleanup qualifications. Pair the first required visual subset with Plan55/57 mechanics and collision integration after stable source ownership; do not require every future ability before a bounded first slice. No provider runs, production changes, push or deployment are authorized by closure.

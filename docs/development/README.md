@@ -66,7 +66,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-55` | Opponent choices, race risk and duck growth study | complete | Turn Plan54's accepted competitive-pond direction into a small comparison of meaningful opponent information, risk and one duck-growth choice, preserving current-race and no-injury controls. |
 | `plan-56` | Preconverted MuScriptor Large runtime feasibility | complete | Investigate preconverted FP16 GGUF with muscriptor.cpp on Windows/Vulkan, using Crane as a secondary candidate, without modifying the working Plan53 Medium pipeline. |
 | `plan-57` | Race collision and injury visual study | complete | Compare readable layered-paper collision effects and persistent injury markers at close-up and actual race scale, using bounded Haiku drawings and a Codex-built animation gallery without changing race mechanics or production. |
-| `plan-58` | Race ability animation language and gallery | in-progress | Use Sonnet and Flash creative consultation, Haiku/Sonnet SVG drawing support and a Codex animation gallery to develop distinct, readable cues for candidate duck abilities, including combinations and static equivalents. |
+| `plan-58` | Race ability animation language and gallery | complete | Use Sonnet and Flash creative consultation, Haiku/Sonnet SVG drawing support and a Codex animation gallery to develop distinct, readable cues for candidate duck abilities, including combinations and static equivalents. |
 <!-- plan-index:end -->
 
 ## Report Folders

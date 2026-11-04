@@ -1,7 +1,7 @@
 ---
 id: plan-57
 title: Race collision and injury visual study
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Report-local gallery only. Root clears the bounded mechanism/helper proposal before execution; owner selects rendered effects before any separately scoped production integration."
 summary: >-

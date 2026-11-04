@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Quackpot action component witness</title><link rel="stylesheet" href="/Quackpot/src/ui/life/life.css"></head><body><main id="host"></main><script type="module">
+import {GameEngine} from '/Quackpot/src/core/game-engine.mjs';
+import {renderLifeView} from '/Quackpot/src/ui/life/life-view.js';
+const url='/Quackpot/reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/ren-arriving.save.json';
+const envelope=await (await fetch(url)).json();const freshEnvelope=await (await fetch('/Quackpot/reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/fresh-tutorial.save.json')).json();let engine,ui,handle,mode;window.calls=[];
+window.mountScenario=(scenario)=>{
+ handle?.destroy();engine=GameEngine.fromEnvelope(scenario==='invitation'?freshEnvelope:envelope);if(scenario==='invitation')engine.state.life.social46=structuredClone(envelope.state.life.social46);ui={place:'desk-phone',held:null,decideOpen:false,renOpen:false};window.calls=[];mode=scenario;const life=engine.state.life,s=life.schedule;
+ // Deliberately synthetic in-memory presentation cases; never saved or passed off as valid replay states.
+ if(scenario==='quiet'){life.finance.loans=[];s.day=7;s.slot='midday';s.active={id:'test-quiet',kind:'quiet',day:7,slot:'midday',status:'active'};engine.state.step='life_work';}
+ else if(scenario==='due-loan'){s.day=9;s.slot='midday';life.finance.loans[0].due={day:9,slot:'midday'};life.finance.loans[0].latched=true;engine.state.step='life_rent';}
+ else if(scenario==='loan'){s.day=4;s.slot='evening';engine.state.step='life_evening';}
+ else {life.finance.loans=[];s.active=null;if(scenario==='work'){s.day=2;s.slot='midday';s.employment.employed=true;s.workCalendar['2']=true;engine.state.step='life_work';}else if(scenario==='invitation'){s.day=1;s.slot='morning';engine.state.tenPullCommitted=false;engine.state.step='life_breakfast';}else {s.day=2;s.slot='evening';engine.state.step='life_evening';}}
+ const calls=window.calls,record=(name,result={ok:true})=>(...args)=>{calls.push({name,args});return result;};
+ const callbacks={onOpenPhone:record('onOpenPhone'),onPhoneTransition:record('onPhoneTransition'),onSocialOpen:record('onSocialOpen'),onSocialShown:record('onSocialShown'),onFiveSlotDueShown:record('onFiveSlotDueShown'),onFiveSlotFinishQuiet:(expectLog)=>{calls.push({name:'onFiveSlotFinishQuiet',args:[expectLog]});s.active=null;s.slot='early-evening';return {ok:true};},onRefresh:()=>draw(),onSocialAction:record('onSocialAction'),onFiveSlotPay:record('onFiveSlotPay'),onFiveSlotLoan:record('onFiveSlotLoan'),onFiveSlotReserve:record('onFiveSlotReserve'),onFiveSlotLeaveUnpaid:record('onFiveSlotLeaveUnpaid'),onFiveSlotEarlyRepay:record('onFiveSlotEarlyRepay'),onDoorActivate:record('onDoorActivate'),onInvitationShown:record('onInvitationShown'),onLaunchAcknowledgmentShown:record('onLaunchAcknowledgmentShown')};
+ function draw(){handle?.destroy();handle=renderLifeView(document.querySelector('#host'),engine,ui,callbacks,{active:true});}draw();return true;
+};window.ready=true;
+</script></body></html>

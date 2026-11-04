@@ -1,0 +1,174 @@
+{
+  "source": "412dadc431a1fb24eea6c72bb2b8bee9ed84a940c267c945e7a522dad0425b08",
+  "synthetic": "in-memory component states; not valid save or playthrough",
+  "harnessSha256": "16bd52ac62dc717fdf9a791ee552fd6de57e3765a24434b646642c91bb41e993",
+  "recipeSha256": "6b3380e5e0fba05262f40b69f2089935ffdd0a5c9a234d07616b12dd7a00f680",
+  "results": [
+    {
+      "mode": "app",
+      "label": "Open Quackpot",
+      "calls": [
+        "onOpenPhone",
+        "onPhoneTransition"
+      ]
+    },
+    {
+      "mode": "work",
+      "label": "Work",
+      "calls": []
+    },
+    {
+      "mode": "invitation",
+      "label": "Launch invitation",
+      "calls": [
+        "onInvitationShown"
+      ]
+    },
+    {
+      "mode": "loan",
+      "label": "Loan statement",
+      "calls": []
+    },
+    {
+      "mode": "due-loan",
+      "initialDue": true,
+      "calls": [
+        {
+          "name": "onFiveSlotDueShown",
+          "args": []
+        }
+      ]
+    },
+    {
+      "mode": "quiet",
+      "callbackCount": 1
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "2b2bc72f9b47ea269588c2408c567b1d2e194559219a652fad9e0eca3feef8dd",
+    "trackedDescendants": [
+      {
+        "pid": 40716,
+        "ppid": 23436,
+        "created": "639294278270201920",
+        "root": true
+      },
+      {
+        "pid": 38228,
+        "ppid": 40716,
+        "created": "639294278270475760",
+        "root": false
+      },
+      {
+        "pid": 34656,
+        "ppid": 40716,
+        "created": "639294278272020830",
+        "root": false
+      },
+      {
+        "pid": 3800,
+        "ppid": 40716,
+        "created": "639294278272575600",
+        "root": false
+      },
+      {
+        "pid": 30804,
+        "ppid": 40716,
+        "created": "639294278272814460",
+        "root": false
+      },
+      {
+        "pid": 3340,
+        "ppid": 40716,
+        "created": "639294278273322190",
+        "root": false
+      },
+      {
+        "pid": 42488,
+        "ppid": 40716,
+        "created": "639294278273710500",
+        "root": false
+      },
+      {
+        "pid": 8,
+        "ppid": 40716,
+        "created": "639294278274008350",
+        "root": false
+      },
+      {
+        "pid": 30188,
+        "ppid": 40716,
+        "created": "639294278274025140",
+        "root": false
+      },
+      {
+        "pid": 34892,
+        "ppid": 40716,
+        "created": "639294278274880250",
+        "root": false
+      },
+      {
+        "pid": 40832,
+        "ppid": 40716,
+        "created": "639294278285649880",
+        "root": false
+      },
+      {
+        "pid": 14664,
+        "ppid": 40716,
+        "created": "639294278285873900",
+        "root": false
+      },
+      {
+        "pid": 40216,
+        "ppid": 40716,
+        "created": "639294278285875380",
+        "root": false
+      },
+      {
+        "pid": 23892,
+        "ppid": 40716,
+        "created": "639294278308983210",
+        "root": false
+      },
+      {
+        "pid": 1080,
+        "ppid": 40716,
+        "created": "639294278309668480",
+        "root": false
+      },
+      {
+        "pid": 41500,
+        "ppid": 40716,
+        "created": "639294278310715580",
+        "root": false
+      },
+      {
+        "pid": 24632,
+        "ppid": 40716,
+        "created": "639294278397459720",
+        "root": false
+      },
+      {
+        "pid": 26816,
+        "ppid": 40716,
+        "created": "639294278398646390",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

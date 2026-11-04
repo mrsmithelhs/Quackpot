@@ -1,0 +1,8 @@
+{
+  "source": "4c4943db0287c6ed5278368c88ccea05e1bffaa48aede87d2fb16f9feafd3464",
+  "recipeSha256": "76a2eb8869892595f6a9f1ebd9f058d698ae80cbd4e3a423a99b1e96b667658d",
+  "results": [],
+  "errors": [],
+  "error": "Error: Isolated Chrome startup failed; cleanup={\"residual\":true,\"rootExited\":false,\"observedProcessesExited\":false,\"inspectionFailed\":true,\"coverage\":\"sampled-only\",\"uncertainty\":true,\"profileRetained\":true,\"treeTerminationConfirmed\":false,\"childExitCode\":null,\"profileRemoved\":false,\"profileIdSha256\":\"ac136d153caff167828ea4bdfdea63960ba1894cd905321be7971fb9dc72eb5b\",\"trackedDescendants\":[],\"remainingDescendants\":[],\"chromeStderrPresent\":true}; Owned process-tree inspection timed out.",
+  "cleanup": null
+}

@@ -1,0 +1,134 @@
+{
+  "source": "412dadc431a1fb24eea6c72bb2b8bee9ed84a940c267c945e7a522dad0425b08",
+  "synthetic": "in-memory component states; not valid save or playthrough",
+  "harnessSha256": "640e5553e2b632fa172c999e3559f054ecf559b98c10c52bd7772478e7b69ddd",
+  "recipeSha256": "544ecd84443c0cf73c5916aa96d984f97d99c60c3926e1bc22ba1bfbeebfd9ff",
+  "results": [],
+  "errors": [],
+  "error": "Error: harness did not initialize",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "c2820b59e10af3c780a688a2320c2113cd97941cc34083f0ddc16353ef75ecb1",
+    "trackedDescendants": [
+      {
+        "pid": 42952,
+        "ppid": 4652,
+        "created": "639294276984010740",
+        "root": true
+      },
+      {
+        "pid": 30212,
+        "ppid": 42952,
+        "created": "639294276984303970",
+        "root": false
+      },
+      {
+        "pid": 35088,
+        "ppid": 42952,
+        "created": "639294276986335650",
+        "root": false
+      },
+      {
+        "pid": 24296,
+        "ppid": 42952,
+        "created": "639294276987072820",
+        "root": false
+      },
+      {
+        "pid": 9688,
+        "ppid": 42952,
+        "created": "639294276987516890",
+        "root": false
+      },
+      {
+        "pid": 35584,
+        "ppid": 42952,
+        "created": "639294276988191480",
+        "root": false
+      },
+      {
+        "pid": 22372,
+        "ppid": 42952,
+        "created": "639294276988573210",
+        "root": false
+      },
+      {
+        "pid": 40316,
+        "ppid": 42952,
+        "created": "639294276988874190",
+        "root": false
+      },
+      {
+        "pid": 36900,
+        "ppid": 42952,
+        "created": "639294276988895330",
+        "root": false
+      },
+      {
+        "pid": 41252,
+        "ppid": 42952,
+        "created": "639294276989752560",
+        "root": false
+      },
+      {
+        "pid": 11588,
+        "ppid": 42952,
+        "created": "639294277001156080",
+        "root": false
+      },
+      {
+        "pid": 37372,
+        "ppid": 42952,
+        "created": "639294277001382090",
+        "root": false
+      },
+      {
+        "pid": 14652,
+        "ppid": 42952,
+        "created": "639294277001382560",
+        "root": false
+      },
+      {
+        "pid": 34752,
+        "ppid": 42952,
+        "created": "639294277043161520",
+        "root": false
+      },
+      {
+        "pid": 38620,
+        "ppid": 42952,
+        "created": "639294277043682240",
+        "root": false
+      },
+      {
+        "pid": 20136,
+        "ppid": 42952,
+        "created": "639294277044591370",
+        "root": false
+      },
+      {
+        "pid": 36404,
+        "ppid": 42952,
+        "created": "639294277045148190",
+        "root": false
+      },
+      {
+        "pid": 32024,
+        "ppid": 42952,
+        "created": "639294277046389070",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

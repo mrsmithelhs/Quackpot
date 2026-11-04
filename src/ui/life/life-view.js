@@ -1,3 +1,4 @@
+import { renderRoomNavigation } from './room-navigation.mjs';
 // src/ui/life/life-view.js
 // Apartment life view (Plan 38, the Plan 28 selected mix). Three layers:
 //   1 in the room: world objects are real buttons (halo, decorative chip) and the still duck gazes at the target;
@@ -182,10 +183,24 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
             chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
             done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         }
-        const workKeysReady = keysAvailable(life);
-        if (workKeysReady || life.policyVersion === 'five-slot-v1') {
+        const phone = out.find(item => item.id === 'phone');
+        if (life.policyVersion === 'five-slot-v1' && (life.social46?.revision === 1 || life.social46?.introShown) && !life.schedule.recovery && phone) {
+          phone.hold = { mode: 'phone-menu', primary: phone.hold, primaryLabel: phone.chip || 'Open phone', primaryDisabled: Boolean(phone.done) };
+          phone.label = 'Phone: choose an action'; phone.chip = 'Phone'; phone.done = false;
+        }
+        const schedule = life.schedule;
+        const overtimeActive = life.policyVersion === 'five-slot-v1' && schedule.active?.kind === 'overtime';
+        const overtimeReady = life.policyVersion === 'five-slot-v1' && schedule.slot === 'evening' && !schedule.active && schedule.overtimeReservation?.status === 'reserved' && schedule.overtimeReservation.day === schedule.day;
+        const workKeysReady = keysAvailable(life), keyKind = overtimeActive ? 'five-overtime-finish' : overtimeReady ? 'five-overtime-start' : workKeysReady ? 'life-depart-keys' : null;
+        if (keyKind || life.policyVersion === 'five-slot-v1') {
+          const label = overtimeActive ? 'Keys: complete extra shift' : overtimeReady ? 'Keys: start extra shift' : 'Keys: leave for scheduled work';
           out.push({ id: 'work-keys', svg: workKeysTray(), x: 33.5, y: 70, w: 12.5, h: 9.5,
-            ...(workKeysReady ? { label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } } : { decorative: true, done: true }) });
+            ...(keyKind ? { label, chip: overtimeActive ? 'Complete extra shift' : overtimeReady ? 'Extra shift' : 'Work keys', hold: { mode: 'popover', side: 'right', kind: keyKind } } : { decorative: true, done: true }) });
+        }
+        if (life.policyVersion === 'five-slot-v1' && schedule.active?.kind === 'quiet') {
+          const scene=renderScene({idPrefix:uid('lfquietactive'),...SCENES['desk-phone'](engine,false),duckView:'side',duck:true});
+          const kit=kitBox(scene.svg);
+          out.push({id:'active-quiet-duck',hotspot:true,x:Math.max(0,kit.x-kit.w/2),y:Math.max(0,kit.y-kit.w*1.5),w:kit.w,h:kit.w*1.5,label:'Duck: finish quiet time',chip:'Finish quiet time',hold:{mode:'popover',side:'left',kind:'five-quiet-finish'}});
         }
         if (life.policyVersion==='five-slot-v1' ? engine.prepareFiveSlotActivityStory('sit_duck',`activity-preview:${engine.log.length}`).ok : life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
           const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
@@ -282,6 +297,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       return {spec:{heading:'Take a quiet break?',lines:['Spend this time slot quietly with your duck.'],confirm:'Take a break',back:'Not now'},
         accept:()=>{callbacks.onFiveSlotQuiet(expectLog);return null;}};
     }
+    if (kind === 'five-quiet-finish') return {spec:{heading:'Finish your quiet break?',lines:['Finish this time slot.'],confirm:'Finish quiet time',back:'Not now'},accept:()=>{callbacks.onFiveSlotFinishQuiet(expectLog);return null;}};
+    if (kind === 'five-overtime-start') return {spec:{heading:'Start your extra shift?',lines:[`Your reserved shift pays ${money(engine.state.life.config.overtimeWage)} when completed.`],confirm:'Start extra shift',back:'Not now'},accept:()=>{callbacks.onFiveSlotOvertime(expectLog);return null;}};
+    if (kind === 'five-overtime-finish') return {spec:{heading:'Complete your extra shift?',lines:[`Complete the shift to earn ${money(engine.state.life.config.overtimeWage)}.`],confirm:'Complete extra shift',back:'Not now'},accept:()=>{callbacks.onFiveSlotFinishOvertime(expectLog);return null;}};
     if (kind === 'life-quiet') {
       return { spec: { heading: 'Sit with Duck?', lines: ['This evening activity restores up to 5 HP after you finish.'], confirm: 'Sit with Duck', back: 'Not now' },
         accept: () => { callbacks.onBeginStoryActivity(expectLog, 'sit_duck'); return null; } };
@@ -589,6 +607,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if(top<hudBottom)window.scrollTo({top:Math.max(0,window.scrollY+top-hudBottom-8),behavior:'auto'});
   }
 
+  const phoneSubviewKey = hold => `${hold?.mode ?? ''}:${hold?.kind ?? ''}:${hold?.variant ?? ''}`;
+
   function openHeld(obj, { instant = false, focus = true } = {}) {
     const dec = decisionFor(obj.hold.kind);
     if (!dec.spec) { ui.held = null; return; }
@@ -596,7 +616,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     current = { obj, hold, dec };
     committed = false;
     closing = false;
-    ui.held = { obj: obj.id, place: ui.place };
+    ui.held = { obj: obj.id, place: ui.place, ...(obj.id === 'phone' ? { phoneSubview: phoneSubviewKey(hold) } : {}) };
     const hid = uid('lfh');
     const bodyId = uid('lfd');
     const expanded = !!ui.decideOpen;
@@ -638,7 +658,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     const object=isPhone
       ? phoneHtml({status:fiveSlotLabel(engine.state.life.schedule.slot),app:title,body:`<p class="life-bubble">${esc(money(loan.totalCents/100))}</p>`},hid)
       : letterHtml(fiveSlotRentNotice(engine.state.life),hid);
-    current={obj,hold:obj.hold,dec:null};committed=false;closing=false;ui.held={obj:obj.id,place:ui.place};ui.fiveDueHidden=false;
+    current={obj,hold:obj.hold,dec:null};committed=false;closing=false;ui.held={obj:obj.id,place:ui.place,...(isPhone?{phoneSubview:phoneSubviewKey(obj.hold)}:{})};ui.fiveDueHidden=false;
     heldEl=$('.life-held');heldEl.classList.add('life-payment-held');
     heldEl.innerHTML=`<div class="life-held-object">${object}</div><section class="life-decide"><div class="life-decide-body"><h3>${esc(title)}</h3>${factLines(lines)}<div class="life-decide-actions"></div></div></section>`;
     heldEl.hidden=false;heldEl.setAttribute('role','dialog');heldEl.setAttribute('aria-modal','false');heldEl.setAttribute('aria-labelledby',hid);heldEl.removeAttribute('aria-label');
@@ -672,11 +692,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (!heldEl || heldEl.hidden || closing) return;
     if (committed) { finish(); return; }
     closing = true;
-    const obj = current?.obj;
+    const held = heldEl, obj = current?.obj;
     const el = obj?.el;
     ui.held = null;
-    if (!instant && !reduced()) await flip(el, heldEl.querySelector('.life-held-object > *'), true);
-    if (destroyed) return;
+    if (!instant && !reduced()) await flip(el, held.querySelector('.life-held-object > *'), true);
+    if (destroyed || heldEl !== held) return;
     heldEl.hidden = true;
     heldEl.innerHTML = '';
     heldEl.classList.remove('life-payment-held');
@@ -768,26 +788,18 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       group.append(btn);
       return btn;
     };
-    for (const p of availablePlaces(e)) {
-      if (p === place || !PLACE_LABEL[p]) continue;
-      control(PLACE_LABEL[p], () => {
-        ui.place = p;
-        ui.held = null;
-        ui.decideOpen = false;
-        ui.noticeFocus = false;
-        render();
-        if (active) ($('.life-obj:not([aria-disabled])') ?? $('.life-day-bar button'))?.focus();
-      }, '', rooms);
+    const navigateRoom = (p) => {
+      if (busy || !availablePlaces(e).includes(p) || p === place) return;
+      ui.place = p; ui.held = null; ui.decideOpen = false; ui.noticeFocus = false;
+      render();
+      if (active) ($('.life-obj:not([aria-disabled])') ?? $('.life-day-bar button'))?.focus();
+    };
+    if (e.state.life?.policyVersion === 'five-slot-v1') renderRoomNavigation(rooms, availablePlaces(e).filter(p => p !== place && PLACE_LABEL[p]), navigateRoom);
+    else for (const p of availablePlaces(e)) {
+      if (p !== place && PLACE_LABEL[p]) control(PLACE_LABEL[p], () => navigateRoom(p), '', rooms);
     }
     if(e.state.life?.policyVersion==='five-slot-v1') {
       const schedule=e.state.life.schedule,expectLog=e.log.length;
-      if(place==='desk-phone' && (e.state.life.social46?.revision===1 || e.state.life.social46?.introShown) && !schedule.recovery)
-        control('Messages: Ren',()=>{const result=callbacks.onSocialOpen(e.log.length);if(result?.ok){ui.renOpen=true;render();}});
-      if(schedule.active?.kind==='quiet')control('Finish quiet time',()=>{callbacks.onFiveSlotFinishQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
-      if(schedule.slot==='evening' && !schedule.active && schedule.overtimeReservation?.status==='reserved' && schedule.overtimeReservation.day===schedule.day)
-        control('Start extra shift',()=>{callbacks.onFiveSlotOvertime(expectLog);callbacks.onRefresh();});
-      if(schedule.active?.kind==='overtime')control('Complete extra shift',()=>{callbacks.onFiveSlotFinishOvertime(expectLog);callbacks.onRefresh();});
-      if(schedule.day>=4)control('Finish run',()=>{callbacks.onFinishLife(expectLog);ui.held=null;callbacks.onRefresh();});
       return;
     }
     if (e.state.life && ['life_work', 'life_evening'].includes(step)) {
@@ -923,8 +935,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         shown: intent => callbacks.onSocialShown(intent),
         action: intent => { callbacks.onSocialAction(engine.log.length, intent); callbacks.onRefresh(); },
         close: () => {
-          ui.renOpen = false; render();
-          if (active) [...root.querySelectorAll('button')].find(button => button.textContent.includes('Messages: Ren'))?.focus();
+          ui.renOpen = false; ui.returnFocus = { place: 'desk-phone', id: 'phone' }; callbacks.onRefresh();
         },
         goDoor: () => { ui.renOpen = false; ui.place = 'door'; render(); root.querySelector('.ren46-door-knock')?.focus(); },
       }, active);
@@ -1025,7 +1036,11 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (ui.held && ui.held.place === place) {
       const o = objects.find((x) => x.id === ui.held.obj && !x.done && x.hold);
       if (o) {
-        if (['five-due','five-payment'].includes(o.hold.mode)) openFivePayment(o,{focus:active});
+        if (o.hold.mode === 'phone-menu' && !ui.fiveDueHidden && engine.checkDueObligations().bills.length && o.hold.primary.mode === 'five-payment') openFivePayment({...o,hold:o.hold.primary},{focus:active});
+        else if (o.hold.mode === 'phone-menu' && ui.held.phoneSubview === phoneSubviewKey(o.hold.primary) && o.hold.primary.mode === 'five-payment') openFivePayment({...o,hold:o.hold.primary},{focus:active});
+        else if (o.hold.mode === 'phone-menu' && ui.held.phoneSubview === phoneSubviewKey(o.hold.primary) && o.hold.primary.mode === 'held') openHeld({...o,hold:o.hold.primary},{instant:true,focus:active});
+        else if (o.hold.mode === 'phone-menu') openPhoneMenu(o,{focus:active});
+        else if (['five-due','five-payment'].includes(o.hold.mode)) openFivePayment(o,{focus:active});
         else if (o.hold.mode === 'popover') openPopover(o, { focus: active });
         else openHeld(o, { instant: true, focus: active });
       } else ui.held = null;
@@ -1040,9 +1055,24 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
   }
 
+  function openPhoneMenu(obj, { focus = true } = {}) {
+    closePopover();
+    current = { obj, hold: obj.hold }; ui.held = { obj: obj.id, place: ui.place };
+    const box = $('.life-box').getBoundingClientRect(), r = obj.el.getBoundingClientRect(), pop = document.createElement('section'), hid = uid('lfphone-menu');
+    pop.className = 'life-popover life-arrow-right'; pop.setAttribute('role','dialog'); pop.setAttribute('aria-modal','false'); pop.setAttribute('aria-labelledby',hid);
+    pop.innerHTML = `<h3 id="${hid}" tabindex="-1">Phone</h3><div class="life-decide-actions"><button type="button" class="life-btn" data-phone-menu="primary">${esc(obj.hold.primaryLabel)}</button><button type="button" class="life-btn" data-phone-menu="ren">Messages: Ren</button><button type="button" class="life-btn life-secondary" data-phone-menu="back">Put it down</button></div>`;
+    pop.style.top = `${Math.max(0,r.top-box.top-8)}px`; pop.style.right = `${box.right-r.left+14}px`; $('.life-popover-layer').append(pop); popEl = pop;
+    const primary=pop.querySelector('[data-phone-menu=primary]'); primary.disabled = !active || obj.hold.primaryDisabled;
+    primary.addEventListener('click',()=>{if(primary.disabled)return;const original={...obj,hold:obj.hold.primary};closePopover();activate(original);});
+    const ren=pop.querySelector('[data-phone-menu=ren]');ren.disabled=!active;ren.addEventListener('click',()=>{if(ren.disabled)return;ren.disabled=true;const result=callbacks.onSocialOpen(engine.log.length);if(result?.ok){ui.held=null;ui.renOpen=true;callbacks.onRefresh();}else ren.disabled=false;});
+    pop.querySelector('[data-phone-menu=back]').addEventListener('click',()=>closePopover({refocus:true}));
+    if(focus && active)pop.querySelector('h3').focus();
+  }
+
   function activate(o) {
     if (o.id === 'notice') { ui.noticeFocus = false; o.el?.classList.remove('life-notice-focus'); }
-    if(['five-due','five-payment'].includes(o.hold.mode)) openFivePayment(o);
+    if(o.hold.mode==='phone-menu') openPhoneMenu(o);
+    else if(['five-due','five-payment'].includes(o.hold.mode)) openFivePayment(o);
     else if (o.hold.mode === 'direct-phone') {
       const result = callbacks.onOpenPhone(engine.log.length);
       if (result?.ok) { callbacks.onRefresh(); callbacks.onPhoneTransition(); }
@@ -1081,8 +1111,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   const onKeydown = (ev) => {
     if (ev.key !== 'Escape' || !active || destroyed || busy) return;
     if (ui.renOpen) {
-      ev.preventDefault(); ui.renOpen = false; render();
-      [...root.querySelectorAll('button')].find(button => button.textContent.includes('Messages: Ren'))?.focus();
+      ev.preventDefault(); ui.renOpen = false; ui.returnFocus = { place: 'desk-phone', id: 'phone' }; callbacks.onRefresh();
     } else if (heldEl && !heldEl.hidden) { ev.preventDefault(); putDown(); }
     else if (popEl) {
       ev.preventDefault();

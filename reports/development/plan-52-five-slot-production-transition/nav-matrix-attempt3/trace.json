@@ -1,0 +1,733 @@
+{
+  "source": "1851112afe629fc0b06441a2482afa8f93b750490c514a76927ee9c5f5431569",
+  "recipeSha256": "445aba3b4bd34cd92f4fe52150d7ece00812390f00a20bea2256d2278d33b7de",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "unresolved-dinner",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "completed-evening",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "independent-day",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "rent-shortfall",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "rent-paid-zero",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": [
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:83",
+                  "action": {
+                    "type": "social46_activate",
+                    "version": 1,
+                    "revision": 2
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:83",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            },
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:85",
+                  "action": {
+                    "type": "social46_knock_shown"
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_effect",
+              "payload": {
+                "effect": {
+                  "type": "social46_display",
+                  "payload": {
+                    "kind": "knock",
+                    "id": "intro",
+                    "day": 4
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:85",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            }
+          ]
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "loan-due",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "ren-reserved",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": [
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:148",
+                  "action": {
+                    "type": "social46_visit_knock_shown",
+                    "id": "ren-1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_effect",
+              "payload": {
+                "effect": {
+                  "type": "social46_display",
+                  "payload": {
+                    "kind": "visit_knock",
+                    "id": "ren-1",
+                    "day": 4
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:148",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            }
+          ]
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "ren-arriving",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "zero-hp-recovery",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "bedroom",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "bedroom",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "ren-menu",
+      "actionVerified": true
+    },
+    {
+      "name": "reserved-overtime",
+      "actionVerified": true
+    },
+    {
+      "name": "active-overtime",
+      "actionVerified": true
+    }
+  ],
+  "dialogs": [
+    {
+      "message": "The shift pays $60.00 and costs up to 15 HP when completed.\n\nContinue?",
+      "accept": true
+    }
+  ],
+  "errors": [
+    {
+      "exceptionId": 1,
+      "text": "Uncaught (in promise)",
+      "lineNumber": 1328,
+      "columnNumber": 3710,
+      "scriptId": "5",
+      "url": "http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js",
+      "stackTrace": {
+        "callFrames": [
+          {
+            "functionName": "ne",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js",
+            "lineNumber": 1328,
+            "columnNumber": 3710
+          }
+        ]
+      },
+      "exception": {
+        "type": "object",
+        "subtype": "error",
+        "className": "TypeError",
+        "description": "TypeError: Cannot set properties of null (setting 'hidden')\n    at ne (http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)",
+        "objectId": "2083991568343498515.2.2",
+        "preview": {
+          "type": "object",
+          "subtype": "error",
+          "description": "TypeError: Cannot set properties of null (setting 'hidden')\n    at ne (http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)",
+          "overflow": false,
+          "properties": [
+            {
+              "name": "stack",
+              "type": "string",
+              "value": "TypeError: Cannot set properties of null (setting …4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)"
+            },
+            {
+              "name": "message",
+              "type": "string",
+              "value": "Cannot set properties of null (setting 'hidden')"
+            }
+          ]
+        }
+      },
+      "executionContextId": 2
+    },
+    {
+      "exceptionId": 1,
+      "text": "Uncaught (in promise)",
+      "lineNumber": 1328,
+      "columnNumber": 3710,
+      "scriptId": "5",
+      "url": "http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js",
+      "stackTrace": {
+        "callFrames": [
+          {
+            "functionName": "ne",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js",
+            "lineNumber": 1328,
+            "columnNumber": 3710
+          }
+        ]
+      },
+      "exception": {
+        "type": "object",
+        "subtype": "error",
+        "className": "TypeError",
+        "description": "TypeError: Cannot set properties of null (setting 'hidden')\n    at ne (http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)",
+        "objectId": "3808087728361860983.2.2",
+        "preview": {
+          "type": "object",
+          "subtype": "error",
+          "description": "TypeError: Cannot set properties of null (setting 'hidden')\n    at ne (http://127.0.0.1:4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)",
+          "overflow": false,
+          "properties": [
+            {
+              "name": "stack",
+              "type": "string",
+              "value": "TypeError: Cannot set properties of null (setting …4192/Quackpot/assets/index-C8C1NxLk.js:1329:3711)"
+            },
+            {
+              "name": "message",
+              "type": "string",
+              "value": "Cannot set properties of null (setting 'hidden')"
+            }
+          ]
+        }
+      },
+      "executionContextId": 2
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "aa6de8242343fe7eb68a755eb64753f8b6a601798c67f37303847c645a74ebd0",
+    "trackedDescendants": [
+      {
+        "pid": 6108,
+        "ppid": 42724,
+        "created": "639294263894175320",
+        "root": true
+      },
+      {
+        "pid": 3028,
+        "ppid": 6108,
+        "created": "639294263894383420",
+        "root": false
+      },
+      {
+        "pid": 31244,
+        "ppid": 6108,
+        "created": "639294263895859310",
+        "root": false
+      },
+      {
+        "pid": 496,
+        "ppid": 6108,
+        "created": "639294263896339810",
+        "root": false
+      },
+      {
+        "pid": 31272,
+        "ppid": 6108,
+        "created": "639294263896552260",
+        "root": false
+      },
+      {
+        "pid": 14884,
+        "ppid": 6108,
+        "created": "639294263897018800",
+        "root": false
+      },
+      {
+        "pid": 24760,
+        "ppid": 6108,
+        "created": "639294263897365590",
+        "root": false
+      },
+      {
+        "pid": 41388,
+        "ppid": 6108,
+        "created": "639294263897610620",
+        "root": false
+      },
+      {
+        "pid": 34744,
+        "ppid": 6108,
+        "created": "639294263897624930",
+        "root": false
+      },
+      {
+        "pid": 40304,
+        "ppid": 6108,
+        "created": "639294263898355820",
+        "root": false
+      },
+      {
+        "pid": 30184,
+        "ppid": 6108,
+        "created": "639294263920603100",
+        "root": false
+      },
+      {
+        "pid": 42160,
+        "ppid": 6108,
+        "created": "639294263934003480",
+        "root": false
+      },
+      {
+        "pid": 17612,
+        "ppid": 6108,
+        "created": "639294263934196820",
+        "root": false
+      },
+      {
+        "pid": 18488,
+        "ppid": 6108,
+        "created": "639294263934919600",
+        "root": false
+      },
+      {
+        "pid": 8188,
+        "ppid": 6108,
+        "created": "639294263935725680",
+        "root": false
+      },
+      {
+        "pid": 13928,
+        "ppid": 6108,
+        "created": "639294263936466390",
+        "root": false
+      },
+      {
+        "pid": 7380,
+        "ppid": 6108,
+        "created": "639294263947596240",
+        "root": false
+      },
+      {
+        "pid": 27712,
+        "ppid": 6108,
+        "created": "639294263947778540",
+        "root": false
+      },
+      {
+        "pid": 18288,
+        "ppid": 6108,
+        "created": "639294263947779770",
+        "root": false
+      },
+      {
+        "pid": 33104,
+        "ppid": 6108,
+        "created": "639294263961526900",
+        "root": false
+      },
+      {
+        "pid": 15828,
+        "ppid": 6108,
+        "created": "639294263961719290",
+        "root": false
+      },
+      {
+        "pid": 30360,
+        "ppid": 6108,
+        "created": "639294263961720070",
+        "root": false
+      },
+      {
+        "pid": 28848,
+        "ppid": 6108,
+        "created": "639294263980286710",
+        "root": false
+      },
+      {
+        "pid": 19940,
+        "ppid": 6108,
+        "created": "639294263980479320",
+        "root": false
+      },
+      {
+        "pid": 42492,
+        "ppid": 6108,
+        "created": "639294263980479440",
+        "root": false
+      },
+      {
+        "pid": 9924,
+        "ppid": 6108,
+        "created": "639294263986790730",
+        "root": false
+      },
+      {
+        "pid": 34176,
+        "ppid": 6108,
+        "created": "639294263986969760",
+        "root": false
+      },
+      {
+        "pid": 29288,
+        "ppid": 6108,
+        "created": "639294263986971340",
+        "root": false
+      },
+      {
+        "pid": 7172,
+        "ppid": 6108,
+        "created": "639294264000883390",
+        "root": false
+      },
+      {
+        "pid": 21624,
+        "ppid": 6108,
+        "created": "639294264001063790",
+        "root": false
+      },
+      {
+        "pid": 7304,
+        "ppid": 6108,
+        "created": "639294264001065980",
+        "root": false
+      },
+      {
+        "pid": 3752,
+        "ppid": 6108,
+        "created": "639294264013616610",
+        "root": false
+      },
+      {
+        "pid": 30448,
+        "ppid": 6108,
+        "created": "639294264013788890",
+        "root": false
+      },
+      {
+        "pid": 26204,
+        "ppid": 6108,
+        "created": "639294264013789770",
+        "root": false
+      },
+      {
+        "pid": 17360,
+        "ppid": 6108,
+        "created": "639294264024031640",
+        "root": false
+      },
+      {
+        "pid": 30904,
+        "ppid": 6108,
+        "created": "639294264026236620",
+        "root": false
+      },
+      {
+        "pid": 24600,
+        "ppid": 6108,
+        "created": "639294264026422480",
+        "root": false
+      },
+      {
+        "pid": 31824,
+        "ppid": 6108,
+        "created": "639294264026424290",
+        "root": false
+      },
+      {
+        "pid": 16052,
+        "ppid": 6108,
+        "created": "639294264038880910",
+        "root": false
+      },
+      {
+        "pid": 40416,
+        "ppid": 6108,
+        "created": "639294264038999030",
+        "root": false
+      },
+      {
+        "pid": 15964,
+        "ppid": 6108,
+        "created": "639294264040719170",
+        "root": false
+      },
+      {
+        "pid": 35084,
+        "ppid": 6108,
+        "created": "639294264040944440",
+        "root": false
+      },
+      {
+        "pid": 7672,
+        "ppid": 6108,
+        "created": "639294264040945440",
+        "root": false
+      },
+      {
+        "pid": 35020,
+        "ppid": 6108,
+        "created": "639294264053927200",
+        "root": false
+      },
+      {
+        "pid": 25812,
+        "ppid": 6108,
+        "created": "639294264062310420",
+        "root": false
+      },
+      {
+        "pid": 35596,
+        "ppid": 6108,
+        "created": "639294264062474770",
+        "root": false
+      },
+      {
+        "pid": 30744,
+        "ppid": 6108,
+        "created": "639294264062476030",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

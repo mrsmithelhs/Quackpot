@@ -1,0 +1,198 @@
+{
+  "source": "daf9298f8ada27ba8fb4deb15be30c9f02c6c4711a8e00d91f3694f135f49ff2",
+  "synthetic": "in-memory component states; not valid save or playthrough",
+  "harnessSha256": "f378f542a7e5ff9a9727f1cfb4a028fa72eade14d433a75d50ba1b83a59f9592",
+  "recipeSha256": "c7627a6155c9e675d0df6a2ef24baa69031a2cb8033849ce303e664320b3bb99",
+  "results": [
+    {
+      "mode": "app",
+      "label": "Open Quackpot",
+      "calls": [
+        "onOpenPhone",
+        "onPhoneTransition"
+      ]
+    },
+    {
+      "mode": "work",
+      "label": "Work",
+      "calls": []
+    },
+    {
+      "mode": "invitation",
+      "label": "Launch invitation",
+      "calls": [
+        "onInvitationShown"
+      ]
+    },
+    {
+      "mode": "loan",
+      "label": "Loan statement",
+      "calls": []
+    },
+    {
+      "mode": "due-loan",
+      "initialDue": true,
+      "calls": [
+        {
+          "name": "onFiveSlotDueShown",
+          "args": []
+        }
+      ]
+    },
+    {
+      "mode": "quiet",
+      "callbackCount": 1
+    },
+    {
+      "mode": "production-settings-stay",
+      "menuRestored": true,
+      "loanRestored": true,
+      "socialIntentsAdded": 0
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "26439b19b8a4c9214f0706cf366a06d52d144163836ec005ae65c208098a5c0a",
+    "trackedDescendants": [
+      {
+        "pid": 22180,
+        "ppid": 36700,
+        "created": "639294282158962690",
+        "root": true
+      },
+      {
+        "pid": 31592,
+        "ppid": 22180,
+        "created": "639294282159238550",
+        "root": false
+      },
+      {
+        "pid": 34752,
+        "ppid": 22180,
+        "created": "639294282160778510",
+        "root": false
+      },
+      {
+        "pid": 13964,
+        "ppid": 22180,
+        "created": "639294282161292650",
+        "root": false
+      },
+      {
+        "pid": 41008,
+        "ppid": 22180,
+        "created": "639294282161495880",
+        "root": false
+      },
+      {
+        "pid": 40880,
+        "ppid": 22180,
+        "created": "639294282161953540",
+        "root": false
+      },
+      {
+        "pid": 30444,
+        "ppid": 22180,
+        "created": "639294282162277490",
+        "root": false
+      },
+      {
+        "pid": 37972,
+        "ppid": 22180,
+        "created": "639294282162538080",
+        "root": false
+      },
+      {
+        "pid": 22516,
+        "ppid": 22180,
+        "created": "639294282162554400",
+        "root": false
+      },
+      {
+        "pid": 36164,
+        "ppid": 22180,
+        "created": "639294282163322590",
+        "root": false
+      },
+      {
+        "pid": 2788,
+        "ppid": 22180,
+        "created": "639294282173696260",
+        "root": false
+      },
+      {
+        "pid": 9784,
+        "ppid": 22180,
+        "created": "639294282173883330",
+        "root": false
+      },
+      {
+        "pid": 36340,
+        "ppid": 22180,
+        "created": "639294282173883910",
+        "root": false
+      },
+      {
+        "pid": 30744,
+        "ppid": 22180,
+        "created": "639294282197645930",
+        "root": false
+      },
+      {
+        "pid": 14412,
+        "ppid": 22180,
+        "created": "639294282237972380",
+        "root": false
+      },
+      {
+        "pid": 35184,
+        "ppid": 22180,
+        "created": "639294282253423770",
+        "root": false
+      },
+      {
+        "pid": 29260,
+        "ppid": 22180,
+        "created": "639294282253446460",
+        "root": false
+      },
+      {
+        "pid": 35444,
+        "ppid": 22180,
+        "created": "639294282285526290",
+        "root": false
+      },
+      {
+        "pid": 19352,
+        "ppid": 22180,
+        "created": "639294282293018240",
+        "root": false
+      },
+      {
+        "pid": 38524,
+        "ppid": 22180,
+        "created": "639294282293212970",
+        "root": false
+      },
+      {
+        "pid": 25304,
+        "ppid": 22180,
+        "created": "639294282293213990",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

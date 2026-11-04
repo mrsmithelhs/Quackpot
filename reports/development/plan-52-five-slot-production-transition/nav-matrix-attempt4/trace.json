@@ -1,0 +1,630 @@
+{
+  "source": "c53ec1f1ab447cf84e7ea3aea4a5f83ce4753c921bc8b8565db9295f15b41dd7",
+  "recipeSha256": "0e270403428e7eb97034ea3e471305483897613fbc7ab9d15458614506cf4d89",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "unresolved-dinner",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "completed-evening",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "independent-day",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "rent-shortfall",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "rent-paid-zero",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": [
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:83",
+                  "action": {
+                    "type": "social46_activate",
+                    "version": 1,
+                    "revision": 2
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:83",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            },
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:85",
+                  "action": {
+                    "type": "social46_knock_shown"
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_effect",
+              "payload": {
+                "effect": {
+                  "type": "social46_display",
+                  "payload": {
+                    "kind": "knock",
+                    "id": "intro",
+                    "day": 4
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:85",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            }
+          ]
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "loan-due",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "ren-reserved",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": [
+            {
+              "type": "life52_social_intent",
+              "payload": {
+                "intent": {
+                  "operationId": "social-ui:148",
+                  "action": {
+                    "type": "social46_visit_knock_shown",
+                    "id": "ren-1"
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_effect",
+              "payload": {
+                "effect": {
+                  "type": "social46_display",
+                  "payload": {
+                    "kind": "visit_knock",
+                    "id": "ren-1",
+                    "day": 4
+                  }
+                }
+              }
+            },
+            {
+              "type": "life52_commit",
+              "payload": {
+                "domain": "social",
+                "operationId": "social-ui:148",
+                "cashDeltaCents": 0,
+                "healthDelta": 0
+              }
+            }
+          ]
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "ren-arriving",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "door",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "zero-hp-recovery",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "bedroom",
+          "events": []
+        },
+        {
+          "destination": "desk-phone",
+          "events": []
+        },
+        {
+          "destination": "bedroom",
+          "events": []
+        }
+      ]
+    },
+    {
+      "name": "header-exit",
+      "actionVerified": true
+    },
+    {
+      "name": "ren-menu",
+      "actionVerified": true
+    },
+    {
+      "name": "reserved-overtime",
+      "actionVerified": true
+    },
+    {
+      "name": "active-overtime",
+      "actionVerified": true
+    }
+  ],
+  "dialogs": [
+    {
+      "message": "Finish this run and view the Receipt?",
+      "accept": false
+    },
+    {
+      "message": "Finish this run and view the Receipt?",
+      "accept": true
+    },
+    {
+      "message": "The shift pays $60.00 and costs up to 15 HP when completed.\n\nContinue?",
+      "accept": true
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "ba637d499491bd71200e0052ac4a64a28e2bf631cfd8a4981f504800a3e240b5",
+    "trackedDescendants": [
+      {
+        "pid": 19508,
+        "ppid": 23964,
+        "created": "639294270587272580",
+        "root": true
+      },
+      {
+        "pid": 41388,
+        "ppid": 19508,
+        "created": "639294270587478860",
+        "root": false
+      },
+      {
+        "pid": 27168,
+        "ppid": 19508,
+        "created": "639294270589000520",
+        "root": false
+      },
+      {
+        "pid": 34512,
+        "ppid": 19508,
+        "created": "639294270589505460",
+        "root": false
+      },
+      {
+        "pid": 37500,
+        "ppid": 19508,
+        "created": "639294270589723550",
+        "root": false
+      },
+      {
+        "pid": 34916,
+        "ppid": 19508,
+        "created": "639294270590248630",
+        "root": false
+      },
+      {
+        "pid": 35488,
+        "ppid": 19508,
+        "created": "639294270590582130",
+        "root": false
+      },
+      {
+        "pid": 23284,
+        "ppid": 19508,
+        "created": "639294270590835980",
+        "root": false
+      },
+      {
+        "pid": 31216,
+        "ppid": 19508,
+        "created": "639294270590852140",
+        "root": false
+      },
+      {
+        "pid": 16072,
+        "ppid": 19508,
+        "created": "639294270591605580",
+        "root": false
+      },
+      {
+        "pid": 19932,
+        "ppid": 19508,
+        "created": "639294270601557170",
+        "root": false
+      },
+      {
+        "pid": 34524,
+        "ppid": 19508,
+        "created": "639294270601848270",
+        "root": false
+      },
+      {
+        "pid": 25272,
+        "ppid": 19508,
+        "created": "639294270601849870",
+        "root": false
+      },
+      {
+        "pid": 16696,
+        "ppid": 19508,
+        "created": "639294270627549690",
+        "root": false
+      },
+      {
+        "pid": 27920,
+        "ppid": 19508,
+        "created": "639294270627723990",
+        "root": false
+      },
+      {
+        "pid": 38508,
+        "ppid": 19508,
+        "created": "639294270627725020",
+        "root": false
+      },
+      {
+        "pid": 7816,
+        "ppid": 19508,
+        "created": "639294270640171750",
+        "root": false
+      },
+      {
+        "pid": 6640,
+        "ppid": 19508,
+        "created": "639294270640332910",
+        "root": false
+      },
+      {
+        "pid": 22900,
+        "ppid": 19508,
+        "created": "639294270640334040",
+        "root": false
+      },
+      {
+        "pid": 26528,
+        "ppid": 19508,
+        "created": "639294270653088880",
+        "root": false
+      },
+      {
+        "pid": 6520,
+        "ppid": 19508,
+        "created": "639294270653287770",
+        "root": false
+      },
+      {
+        "pid": 39472,
+        "ppid": 19508,
+        "created": "639294270653288030",
+        "root": false
+      },
+      {
+        "pid": 18824,
+        "ppid": 19508,
+        "created": "639294270671913340",
+        "root": false
+      },
+      {
+        "pid": 19060,
+        "ppid": 19508,
+        "created": "639294270678276390",
+        "root": false
+      },
+      {
+        "pid": 42764,
+        "ppid": 19508,
+        "created": "639294270678430720",
+        "root": false
+      },
+      {
+        "pid": 20576,
+        "ppid": 19508,
+        "created": "639294270678431780",
+        "root": false
+      },
+      {
+        "pid": 38180,
+        "ppid": 19508,
+        "created": "639294270691071740",
+        "root": false
+      },
+      {
+        "pid": 39176,
+        "ppid": 19508,
+        "created": "639294270691236520",
+        "root": false
+      },
+      {
+        "pid": 38364,
+        "ppid": 19508,
+        "created": "639294270691237320",
+        "root": false
+      },
+      {
+        "pid": 41188,
+        "ppid": 19508,
+        "created": "639294270704034230",
+        "root": false
+      },
+      {
+        "pid": 21324,
+        "ppid": 19508,
+        "created": "639294270704225930",
+        "root": false
+      },
+      {
+        "pid": 39420,
+        "ppid": 19508,
+        "created": "639294270704226090",
+        "root": false
+      },
+      {
+        "pid": 29192,
+        "ppid": 19508,
+        "created": "639294270729174540",
+        "root": false
+      },
+      {
+        "pid": 24868,
+        "ppid": 19508,
+        "created": "639294270729338270",
+        "root": false
+      },
+      {
+        "pid": 38840,
+        "ppid": 19508,
+        "created": "639294270729338410",
+        "root": false
+      },
+      {
+        "pid": 41268,
+        "ppid": 19508,
+        "created": "639294270743204140",
+        "root": false
+      },
+      {
+        "pid": 13988,
+        "ppid": 19508,
+        "created": "639294270745345670",
+        "root": false
+      },
+      {
+        "pid": 26472,
+        "ppid": 19508,
+        "created": "639294270748986780",
+        "root": false
+      },
+      {
+        "pid": 19272,
+        "ppid": 19508,
+        "created": "639294270749164380",
+        "root": false
+      },
+      {
+        "pid": 23708,
+        "ppid": 19508,
+        "created": "639294270749165880",
+        "root": false
+      },
+      {
+        "pid": 19288,
+        "ppid": 19508,
+        "created": "639294270769688390",
+        "root": false
+      },
+      {
+        "pid": 35620,
+        "ppid": 19508,
+        "created": "639294270769837620",
+        "root": false
+      },
+      {
+        "pid": 27792,
+        "ppid": 19508,
+        "created": "639294270769837820",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

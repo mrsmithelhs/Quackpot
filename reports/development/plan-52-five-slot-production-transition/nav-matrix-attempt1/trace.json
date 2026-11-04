@@ -1,0 +1,501 @@
+{
+  "source": "661379ac1f216287032f88520fc1ef876e39e1b511583c8da936bab070eb5cf5",
+  "recipeSha256": "00a2b416f9b2a8f3c7ec2fd73c3f5b9f1206624e2952b94dd4c68e24159b9e1a",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "unresolved-dinner",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "completed-evening",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "independent-day",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "rent-shortfall",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "rent-paid-zero",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "eventTypes": [
+            "life52_social_intent",
+            "life52_commit",
+            "life52_social_intent",
+            "life52_effect",
+            "life52_commit"
+          ]
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        },
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "kitchen-breakfast",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "loan-due",
+      "initial": {
+        "count": 2,
+        "invalid": [],
+        "blocked": true
+      },
+      "moves": []
+    },
+    {
+      "name": "ren-reserved",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "eventTypes": [
+            "life52_social_intent",
+            "life52_effect",
+            "life52_commit"
+          ]
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "ren-arriving",
+      "initial": {
+        "count": 4,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "door",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        }
+      ]
+    },
+    {
+      "name": "zero-hp-recovery",
+      "initial": {
+        "count": 3,
+        "invalid": [],
+        "blocked": false
+      },
+      "moves": [
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "bedroom",
+          "eventTypes": []
+        },
+        {
+          "destination": "desk-phone",
+          "eventTypes": []
+        },
+        {
+          "destination": "bedroom",
+          "eventTypes": []
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "93004198fa71adbc1103bd5eb455483b14e9a3a488c2b6e2572332423f7190a3",
+    "trackedDescendants": [
+      {
+        "pid": 22392,
+        "ppid": 34964,
+        "created": "639294257323615860",
+        "root": true
+      },
+      {
+        "pid": 4888,
+        "ppid": 22392,
+        "created": "639294257323898750",
+        "root": false
+      },
+      {
+        "pid": 8752,
+        "ppid": 22392,
+        "created": "639294257326674510",
+        "root": false
+      },
+      {
+        "pid": 37140,
+        "ppid": 22392,
+        "created": "639294257327380980",
+        "root": false
+      },
+      {
+        "pid": 7436,
+        "ppid": 22392,
+        "created": "639294257327892110",
+        "root": false
+      },
+      {
+        "pid": 27052,
+        "ppid": 22392,
+        "created": "639294257328530360",
+        "root": false
+      },
+      {
+        "pid": 13384,
+        "ppid": 22392,
+        "created": "639294257328903700",
+        "root": false
+      },
+      {
+        "pid": 24316,
+        "ppid": 22392,
+        "created": "639294257329240860",
+        "root": false
+      },
+      {
+        "pid": 32672,
+        "ppid": 22392,
+        "created": "639294257329258210",
+        "root": false
+      },
+      {
+        "pid": 26024,
+        "ppid": 22392,
+        "created": "639294257330272510",
+        "root": false
+      },
+      {
+        "pid": 38920,
+        "ppid": 22392,
+        "created": "639294257361088640",
+        "root": false
+      },
+      {
+        "pid": 35360,
+        "ppid": 22392,
+        "created": "639294257361454930",
+        "root": false
+      },
+      {
+        "pid": 25256,
+        "ppid": 22392,
+        "created": "639294257361464340",
+        "root": false
+      },
+      {
+        "pid": 10856,
+        "ppid": 22392,
+        "created": "639294257361673000",
+        "root": false
+      },
+      {
+        "pid": 7776,
+        "ppid": 22392,
+        "created": "639294257361919250",
+        "root": false
+      },
+      {
+        "pid": 32892,
+        "ppid": 22392,
+        "created": "639294257361919440",
+        "root": false
+      },
+      {
+        "pid": 24396,
+        "ppid": 22392,
+        "created": "639294257361938690",
+        "root": false
+      },
+      {
+        "pid": 460,
+        "ppid": 22392,
+        "created": "639294257361940070",
+        "root": false
+      },
+      {
+        "pid": 26252,
+        "ppid": 22392,
+        "created": "639294257368203090",
+        "root": false
+      },
+      {
+        "pid": 13320,
+        "ppid": 22392,
+        "created": "639294257370413240",
+        "root": false
+      },
+      {
+        "pid": 40004,
+        "ppid": 22392,
+        "created": "639294257377091620",
+        "root": false
+      },
+      {
+        "pid": 40972,
+        "ppid": 22392,
+        "created": "639294257377344910",
+        "root": false
+      },
+      {
+        "pid": 32896,
+        "ppid": 22392,
+        "created": "639294257377346320",
+        "root": false
+      },
+      {
+        "pid": 34588,
+        "ppid": 22392,
+        "created": "639294257395544850",
+        "root": false
+      },
+      {
+        "pid": 29048,
+        "ppid": 22392,
+        "created": "639294257395785900",
+        "root": false
+      },
+      {
+        "pid": 13168,
+        "ppid": 22392,
+        "created": "639294257395787540",
+        "root": false
+      },
+      {
+        "pid": 8896,
+        "ppid": 22392,
+        "created": "639294257410577980",
+        "root": false
+      },
+      {
+        "pid": 27884,
+        "ppid": 22392,
+        "created": "639294257410817040",
+        "root": false
+      },
+      {
+        "pid": 8276,
+        "ppid": 22392,
+        "created": "639294257410818720",
+        "root": false
+      },
+      {
+        "pid": 14624,
+        "ppid": 22392,
+        "created": "639294257435394960",
+        "root": false
+      },
+      {
+        "pid": 42184,
+        "ppid": 22392,
+        "created": "639294257435656510",
+        "root": false
+      },
+      {
+        "pid": 26132,
+        "ppid": 22392,
+        "created": "639294257435658510",
+        "root": false
+      },
+      {
+        "pid": 39400,
+        "ppid": 22392,
+        "created": "639294257445238370",
+        "root": false
+      },
+      {
+        "pid": 17252,
+        "ppid": 22392,
+        "created": "639294257445434790",
+        "root": false
+      },
+      {
+        "pid": 38676,
+        "ppid": 22392,
+        "created": "639294257445436580",
+        "root": false
+      },
+      {
+        "pid": 9344,
+        "ppid": 22392,
+        "created": "639294257465112410",
+        "root": false
+      },
+      {
+        "pid": 30724,
+        "ppid": 22392,
+        "created": "639294257465319300",
+        "root": false
+      },
+      {
+        "pid": 1444,
+        "ppid": 22392,
+        "created": "639294257465320570",
+        "root": false
+      },
+      {
+        "pid": 4196,
+        "ppid": 22392,
+        "created": "639294257475253150",
+        "root": false
+      },
+      {
+        "pid": 28428,
+        "ppid": 22392,
+        "created": "639294257492684560",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

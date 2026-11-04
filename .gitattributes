@@ -419,3 +419,41 @@
 /reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/morning.save.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/trace.json text eol=lf
 /reports/development/plan-52-five-slot-production-transition/bed-witness.mjs -text
+
+# Plan 52 navigation/action placement evidence.
+/reports/development/plan-52-five-slot-production-transition/nav-component-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-component-attempt2/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-component-harness-attempt1.html -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-harness.html -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-server.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-witness-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-witness.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-wrapper.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-engine-fixtures/active-overtime.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-engine-fixtures/reserved-overtime.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-engine-fixtures.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-attempt2/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-attempt3/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-attempt4/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-attempt5/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-matrix-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-matrix.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-preview-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-preview-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-preview-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-preview.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-static-server-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-static-server-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-static-server-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-static-server.mjs -text
+/scripts/dev/checkpoints/navigation-invariants.mjs -text
+/src/ui/life/room-navigation.mjs -text
+
+# Plan 52 phone subview restoration evidence.
+/reports/development/plan-52-five-slot-production-transition/nav-component-harness-attempt2.html -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-witness-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/nav-component-attempt3/trace.json text eol=lf

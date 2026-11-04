@@ -371,6 +371,8 @@ if (app) {
         settingsOpen = true;
         renderApp();
       },
+      showEndRun: engine.state.life?.policyVersion === 'five-slot-v1' && engine.state.life.schedule.day >= 4 && isLifeStep(currentStep) && !engine.state.life.story47 && !engine.state.life.social46?.scene && !lifeUi.renOpen && !(engine.state.life.schedule.active?.kind === 'session' && !engine.state.life.schedule.recovery && !engine.checkDueObligations().bills.length) && !settingsOpen && !activeModalBlocksLife(),
+      onEndRun: () => { const result = lifeCallbacks().onFinishLife(engine.log.length); if (result?.ok) lifeCallbacks().onRefresh(); },
       showReturn: phoneOpen && !engine.isTerminal() && currentStep !== 'duck_dex',
       onReturnToApartment: () => {
         if (engine.state.life) {

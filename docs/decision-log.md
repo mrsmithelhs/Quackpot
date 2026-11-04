@@ -764,3 +764,11 @@ After reviewing the revised motion gallery, the owner selects **angular pop, sca
 Owner closes Plan56 and selects the existing RTX3090 desktop roundtrip with official MuScriptor Large CUDA FP32 for future authorized generated-music transcriptions. The successful excerpt and full M1/M3/M5 returns and laptop TinySynth listening make the additional community-FP16 laptop toolchain unnecessary for this workflow. This is a scope/value decision, not proof that GGUF/Vulkan or FP16 is infeasible, inaccurate or unsafe. Preserve Plan56 research; no community runtime, compiler/SDK or model installation is authorized.
 
 `docs/workflows/generated-music-desktop-roundtrip.md` makes the standalone transfer, staged setup/excerpt/listening/full-run gates, immutable raw-event/MIDI return ZIP and laptop validation/reconstruction reusable. Existing scripts and environments remain examples requiring verification, not unattended execution authority. Future input rights, resource limits, access and owner listening remain gated. No new inference, soundtrack adoption, production changes, push or deployment follows.
+
+### DECISION-082 — Bounce can steer concurrently and collide on landing
+
+**Date:** 2026-11-04
+
+Owner permits Bounce during ordinary weaving and collision recovery while preserving earlier collision effects. After a natural study race stopped at an occupied landing, the owner explicitly selects a genuine landing collision, retaining the bouncing participant's tested landing-phase protection with independent injury risk for the other duck. Reduced and full protection remain experimental alternatives; no final balance is selected.
+
+Plan55 may prepare a separate pinned report-local implementation and correctness contract for landing geometry, phase/contact/finish ordering, rearm, multiple/coincident/nonclosing contacts and rollback. New resolver calls require root gate review. Preserve the original stopped screen and single-seed diagnostic; no silent hovering, ability extension, safe-position teleport or discarded contact. Synthetic prior-contact correctness evidence is not a causal natural-collision comparison. This is forward mechanics intent, not implemented or accepted production behavior; no retuning, deployment or push follows.

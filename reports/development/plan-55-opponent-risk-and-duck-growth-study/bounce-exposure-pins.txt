@@ -1,0 +1,16 @@
+b2babe632c43c8298b4bb7be4516a8f8006aa3f5809a0cb5e2ecfebc6a1488fe  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-exposure-adapter.mjs
+9878ec97fe2a8841ae028b9599bd18f6976d74ee1f806bb0a44465f2717286ad  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-exposure-io.mjs
+9cb0ed2002e34cdebadcc74d4deccb74b5ce15dcf2d389b7e5f7028cca2b45e6  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-exposure-runner.mjs
+61fa50c2718621cb01b0a99a611bf0f4f972ac60aa934b37c5b3b35c934f997f  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-exposure-analysis.mjs
+807ad5aa90bd0f95ab8fcda87efc5b2627a868917b6876631ac32a8aa078ee16  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-exposure-protocol.md
+493e55aee991b581db0818d3c4f710fbd4971e38ad8388126bae14e7f18376a1  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-study-pins.txt
+07e2422bfd09a6dfffc33f9cf645827350589a3c88faad19b7e7a273f492f491  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-integrated-fixture-output/result.json
+5841e7223a75aae2b0a0eff7192f87cf91d40e47b8f68f6169c97526b1769f6f  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-integrated-fixture-output/complete.json
+d4b9518ec928ed3d71b09087be5ef42b484fe313f854eb3ee6498131776372c2  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-diagnostic-output/result.json
+ad9265d58bc090df6d2229ee68b619b16947c5bf711981759fc199d36ffe3723  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-diagnostic-output/complete.json
+25667c36fa51bfec7f6668d8ed649320c801112d2bdfd743ccc574163dbf85cb  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/none-medium.started.json
+951464a0a7b64d0ffd1e3fb39b57437468fb0bd0f48792031109b26c66836361  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/none-medium.complete.json
+ac82b3362d319180b41bdacc0dc504a27337f7bc85c39e631ad9178d2c906221  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/none-medium.json
+75cf1e05d543e82ece9ab95a384644087d43331435343d6b497d3c4a9b3d78d8  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/clearance-medium.started.json
+da080de7aff1355ce7d65cc609e28790ac373d567687ffc356c1987e78e966d7  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/clearance-medium.complete.json
+2ee3bc70e4028f9b0f14805d64ed3d2391b2454df1e868675b6b03287abfa959  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-output/clearance-medium.json

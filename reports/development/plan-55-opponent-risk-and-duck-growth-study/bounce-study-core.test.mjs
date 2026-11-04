@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {ARMS,abilityStudyInput} from './bounce-study-core.mjs';
+test('all five arms preserve medium injury and fixed eight seeds',()=>{for(const a of ARMS)for(const t of ['none','clearance']){const x=abilityStudyInput(0,t,a);assert.equal(x.seed,'p55t-screen-000');assert.equal(x.injuryBand,'medium');assert.equal(x.multiContact.advice,t==='clearance')}assert.throws(()=>abilityStudyInput(8,'none','crowd'));assert.throws(()=>abilityStudyInput(0,'none','unknown'))});

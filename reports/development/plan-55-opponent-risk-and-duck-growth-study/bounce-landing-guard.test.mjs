@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {LandingOverlapGuardError,contactGuardEvidence} from './bounce-landing-guard.mjs';import {ContactGuardError} from './multi-contact-state.mjs';
+test('landing guard identifies overlap without claiming a collision cap',()=>{const e=new LandingOverlapGuardError(20,'P',['B','A']);assert.deepEqual(contactGuardEvidence(e,20,1),{kind:'landing_overlap_unresolved',tick:20,duck:'P',overlaps:['A','B'],tickRecordsDiscarded:1})});
+test('ordinary contact-cap guard retains its own evidence',()=>{const x=contactGuardEvidence(new ContactGuardError(4,'A|B',33),4,0);assert.equal(x.kind,'multi_contact_guard');assert.equal(x.attemptedCount,33);assert.equal(x.limit,32)});

@@ -1,0 +1,2 @@
+export function crowdAcceleration(base,phase){if(!Number.isFinite(base)||base<0||!['idle','accelerating'].includes(phase))throw RangeError('invalid acceleration');return base+(phase==='accelerating'?1.5:0)}
+export function accelerateTowardTarget(speed,target,acceleration,dt){if(![speed,target,acceleration,dt].every(Number.isFinite)||acceleration<0||dt<0||speed>target)throw RangeError('invalid acceleration fixture');return Math.min(target,speed+acceleration*dt)}

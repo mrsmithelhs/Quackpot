@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {residualContactProbability as risk} from './bounce-residual-risk.mjs';
+const x={base:.1,hasBounce:true,phase:'rising',actualParticipant:true,factor:.5};
+test('real contacts during each active Bounce phase retain nonzero reduced risk',()=>{for(const phase of ['rising','airborne','landing'])assert.deepEqual(risk({...x,phase}),{probability:.05,protectedContact:true})});
+test('other participant and inactive Bounce retain their own original odds',()=>{assert.equal(risk({...x,hasBounce:false}).probability,.1);assert.equal(risk({...x,phase:'idle'}).probability,.1);assert.equal(risk({...x,actualParticipant:false}),null)});
+test('full protection zeroes only active Bounce participant while leaving others unchanged',()=>{assert.equal(risk({...x,factor:0}).probability,0);assert.equal(risk({...x,factor:0,hasBounce:false}).probability,.1);assert.equal(risk({...x,factor:0,actualParticipant:false}),null);assert.throws(()=>risk({...x,factor:1}))});

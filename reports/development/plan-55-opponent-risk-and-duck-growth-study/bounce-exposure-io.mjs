@@ -1,0 +1,3 @@
+import {bouncePins} from './bounce-study-io.mjs';import {boundedRead,sha} from './predictive-stage-io.mjs';
+const base='reports/development/plan-55-opponent-risk-and-duck-growth-study/',studyPin='493e55aee991b581db0818d3c4f710fbd4971e38ad8388126bae14e7f18376a1';
+export async function exposurePins(expected){await bouncePins(studyPin);const b=await boundedRead(base+'bounce-exposure-pins.txt',32768);if(!/^[a-f0-9]{64}$/.test(expected??'')||sha(b)!==expected)throw Error('exposure pin mismatch');for(const line of b.toString().trim().split(/\r?\n/)){const [h,p]=line.split('  ');if(sha(await boundedRead(p,2*1024*1024))!==h)throw Error('exposure pin drift '+p)}}

@@ -1,0 +1,7 @@
+export function findBounceThreat(own,neighbors,courseLength){
+ if(!Number.isFinite(courseLength)||courseLength<=0)throw RangeError('invalid course');const hits=[];
+ for(const n of neighbors){if(!n.active||!n.ground||n.id===own.id)continue;const arc=Math.abs(n.progress-own.progress)%courseLength;if(Math.min(arc,courseLength-arc)>8)continue;const dx=n.x-own.x,dy=n.y-own.y,dvx=n.vx-own.vx,dvy=n.vy-own.vy;if(![dx,dy,dvx,dvy].every(Number.isFinite))throw RangeError('invalid observation');const distance=Math.hypot(dx,dy),v2=dvx*dvx+dvy*dvy,dot=dx*dvx+dy*dvy;if(distance<=1||distance>6||v2===0||dot>=0)continue;const time=-dot/v2;if(time<=0||time>.5)continue;const separation=Math.hypot(dx+dvx*time,dy+dvy*time);if(separation<1.2)hits.push({id:n.id,time,separation})}
+ hits.sort((a,b)=>a.separation-b.separation||a.id.localeCompare(b.id));return hits[0]??null;
+}
+export function crowdEligible(own,neighbors,courseLength){if(!Number.isFinite(courseLength)||courseLength<=0)throw RangeError('invalid course');return neighbors.filter(n=>{if(!n.active||!n.ground||n.id===own.id)return false;const arc=Math.abs(n.progress-own.progress)%courseLength;return Math.min(arc,courseLength-arc)<=8&&Math.hypot(n.x-own.x,n.y-own.y)<=4}).length>=2}
+export function landingOverlaps(own,neighbors,diameter=1){if(!Number.isFinite(diameter)||diameter<=0)throw RangeError('invalid diameter');return neighbors.filter(n=>n.id!==own.id&&n.active&&n.phase!=='airborne'&&Math.hypot(n.x-own.x,n.y-own.y)<diameter).map(n=>n.id).sort()}

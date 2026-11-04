@@ -325,3 +325,6 @@ The consultation report now leads with the current six-trial M1 disposition and 
 
 
 Public audio documentation, model card, controlled music benchmark and a qualified anecdotal timing report are summarized in `flash-full-track-consultation.md`. They support a proposed owner-verified event/order and same-versus-changed control before further audio advice, without resolving what the existing CLI file reads delivered. No new experiments or provider calls were run; M3/M5 remain pending.
+
+
+A design-only `flash-audio-control-protocol.md` proposes owner-verified early/middle/late event coverage and identical/changed/reversed pair controls for the prior CLI route, with staged resource and stop rules. The owner requested notice before the experiment starts. No preparation or experiment was run.

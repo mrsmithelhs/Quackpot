@@ -2,6 +2,7 @@ import { createDigitalDuckSvg } from '../../../../src/ui/duck-rig-view.mjs';
 import { createRaceMotionController } from '../../../../src/ui/race-motion-controller.mjs';
 import { fixtures, stateAt } from './fixtures.mjs';
 import { BURST_FRAMES, burstFrameAt } from './burst-timeline.mjs';
+import { distinctMotionAt } from './distinct-motion.mjs';
 
 // This is a presentation stand-in, not a production race or an injury contract.
 const racers = [
@@ -17,12 +18,12 @@ export function mount(host, closeup = false) {
   host.className = 'study';
   host.innerHTML = `<h2>${closeup ? 'Close-up' : 'Six ducks at race scale'}</h2>
     <div class="controls"><label>Authored scenario<select data-fixture>${options}</select></label>
-    <label>Collision cue<select data-cue><option value="A">Irregular burst A</option><option value="B">Irregular burst B</option><option value="C">Irregular burst C</option><option value="burst">Original burst reference</option><option value="splash">Paper splash reference</option><option value="none">No shape</option></select></label>
+    <label>Collision cue<select data-cue><option value="pop">Angular pop</option><option value="tear">Directional tear</option><option value="fragments">Scattered fragments</option><option value="A">Earlier burst A</option><option value="B">Earlier burst B</option><option value="C">Earlier burst C</option><option value="burst">Original burst reference</option><option value="splash">Paper splash reference</option><option value="none">No shape</option></select></label>
     <label>White return<select data-duration><option value="1">1 second (selected)</option><option value="0.5">0.5 seconds</option><option value="0">Off</option></select></label>
     <label>Injury marker<select data-marker><option value="bandage">Attached bandage</option><option value="tab">Status tab</option><option value="none">Text only</option></select></label>
     <label><input type="checkbox" data-static> Static / reduced motion</label><label><input type="checkbox" data-drama> Drama dimming</label>
     <button data-play type="button">Play</button><button data-reset type="button">Replay</button>
-    <div role="group" aria-label="Collision frame stills">${BURST_FRAMES.map(frame => `<button type="button" data-frame="${frame.name}">${frame.name}</button>`).join('')}</div>
+    <div role="group" aria-label="Collision frame stills">${BURST_FRAMES.map((frame,index) => `<button type="button" data-frame="${frame.name}">${['Onset','Early','Mid','Late'][index]}</button>`).join('')}</div>
     <label>Time <input data-time type="range" min="0" max="4" step="0.01" value="0"></label></div>
     <div class="stage ${closeup ? 'closeup' : ''}" aria-label="Synthetic race scene"><div class="wall-standin" hidden>Wall</div><div class="collision-layer" aria-hidden="true"></div>${racers.slice(0, closeup ? 2 : 6).map(([id,palette,x,y]) => `<div class="runner" data-id="${id}" style="left:${closeup ? (id === 'A' ? 33 : 70) : x}%;top:${closeup ? 55 : y}%"><div class="orientation"><div class="scope" data-race-runner-scope><div class="contact" data-race-contact-layer><div class="shell" data-duck-motion="paddle" data-duck-prefix="study-${instance}-${id}" data-race-id="${id}">${createDigitalDuckSvg({ prefix: `study-${instance}-${id}`, label: `Duck ${id}`, palette, hat: id === 'C' ? 'sailor-cap' : 'none' })}<img class="bandage" src="../art/adhesive-bandage.svg" alt="" hidden></div></div></div></div><span class="name">Duck ${id} <span data-contact-text aria-hidden="true"></span><span data-status></span></span></div>`).join('')}</div><p class="narrative" aria-live="polite"></p><p>Course and positions are simplified stand-ins. Collision and injury scenarios are separately authored.</p>`;
   const get = name => host.querySelector(`[data-${name}]`);
@@ -109,6 +110,21 @@ export function mount(host, closeup = false) {
       const stageRect = stage.getBoundingClientRect();
       const centers = participants.map(runner => { const r = runner.getBoundingClientRect(); return { x: r.left + r.width / 2 - stageRect.left, y: r.top + r.height / 2 - stageRect.top, width: r.width }; });
       const cue = get('cue').value;
+      if (['pop','tear','fragments'].includes(cue)) {
+        const pieces = distinctMotionAt(cue, event.age, still);
+        if (!pieces.length) continue;
+        const group = document.createElement('span'); group.className = 'motion-cue';
+        group.style.left = `${centers.reduce((sum,item)=>sum+item.x,0)/centers.length}px`;
+        group.style.top = `${centers.reduce((sum,item)=>sum+item.y,0)/centers.length}px`;
+        group.style.width = `${centers[0].width * .8}px`;
+        for (const piece of pieces) {
+          const image=document.createElement('img'); image.alt=''; image.className='motion-piece';
+          image.src=piece.name==='pop' ? '../art/distinct-motion-codex/pop.svg' : `../art/distinct-motion-normalized/${piece.name}.svg`;
+          image.style.left=`${50+piece.x*100}%`; image.style.top=`${50+piece.y*100}%`; image.style.width=`${piece.width*100}%`;
+          image.style.transform=`translate(-50%,-50%) scale(${piece.scaleX},${piece.scaleY})`; image.style.opacity=String(piece.opacity); group.append(image);
+        }
+        layer.append(group); continue;
+      }
       const frame = ['A','B','C'].includes(cue) ? burstFrameAt(event.age, still) : null;
       if (['A','B','C'].includes(cue) && !frame) continue;
       const art = document.createElement('img'); art.className = 'collision-art'; art.alt = '';
@@ -137,7 +153,7 @@ export function mount(host, closeup = false) {
     if (event.target.matches('[data-frame]')) {
       const frame = BURST_FRAMES.find(item => item.name === event.target.dataset.frame);
       const first = fixtures[get('fixture').value].events.find(item => item.type === 'collision');
-      if (first && frame) { playing = false; cancelAnimationFrame(raf); last = null; get('time').value = first.at + frame.sample; get('play').textContent = 'Play'; }
+      if (first && frame) { playing = false; cancelAnimationFrame(raf); last = null; const sample = get('cue').value === 'pop' && frame.name === 'settle' ? .58 : frame.sample; get('time').value = first.at + sample; get('play').textContent = 'Play'; }
     }
     if (event.target.matches('[data-fixture]')) { playing = false; cancelAnimationFrame(raf); get('time').value = 0; get('play').textContent = 'Play'; }
     render();

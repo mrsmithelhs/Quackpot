@@ -1,0 +1,68 @@
+{
+  "method": "union vertices per motion family with conservative half-stroke times default miter limit 4; square around union; fixed across all animation poses",
+  "families": {
+    "pop": {
+      "union": [
+        30,
+        38,
+        240,
+        232
+      ],
+      "maxStroke": 8,
+      "margin": 16,
+      "viewBox": "14 14 242 242",
+      "components": {
+        "pop": {
+          "original": "0030135b279e37ba6d6a41448996662fee4c48a58dd3ccf044053c9572e28148",
+          "derived": "1e9c2b707be8b4f832cacfdec262d829f40ce7079e4ecd1de76a4600f5618d4e"
+        }
+      }
+    },
+    "tear": {
+      "union": [
+        22,
+        104,
+        236,
+        162
+      ],
+      "maxStroke": 8,
+      "margin": 16,
+      "viewBox": "6 10 246 246",
+      "components": {
+        "tear": {
+          "original": "f54b2e12e849da132aaf614744e275ce66303460c2c2515d16238f0a61692647",
+          "derived": "fd1756ebb25042cba45e5e9d1e29f7a9838a8d88a2b8e70739455e86aede6d92"
+        }
+      }
+    },
+    "fragments": {
+      "union": [
+        104,
+        100,
+        156,
+        146
+      ],
+      "maxStroke": 6,
+      "margin": 12,
+      "viewBox": "92 85 76 76",
+      "components": {
+        "chip1": {
+          "original": "e00e082283918c577370858a2fa331d86b129f0fba3c9e54b620ee9c8f333aa3",
+          "derived": "18005d3d628a543b25a309db47735519debc14f3c3b63b20f98fcfb7dbd5e497"
+        },
+        "chip2": {
+          "original": "1f9cbb3af6e1c133e36d9ed82b7d9a83ae0d74b6de8a40ac39f40a770c3e518b",
+          "derived": "ee42c215a36266fb2f43f63211464269d932b6e5e880d508723d9aca71439eb0"
+        },
+        "chip3": {
+          "original": "1382e4152f17fc965c2d4afa5ba12edf0663d9ddc6fed69a72f53f237b96977c",
+          "derived": "d66050ca5dbf0f4382dc79e8fbe74a8d6b824133bff78e8da8d7d018f93fd851"
+        },
+        "chip4": {
+          "original": "b2798bb6075085a57b4742f16e6396b26b6b039d40e4578ad9b8d3ed728a070a",
+          "derived": "9d5a96b35d5c651d3e9c72491de5982ecd6e6f55b6df55bc530f2f2f4ffa6856"
+        }
+      }
+    }
+  }
+}

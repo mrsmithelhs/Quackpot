@@ -1,0 +1,739 @@
+{
+  "disclaimer": "Pinned task-owned static snapshot and synthetic scenarios; not race outcomes.",
+  "pins": {
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/index.html": "f5509a06d2f73086054165ff2416ebdbb2b1cef904d4e144a9bd2233ba1ccee8",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/gallery.css": "e5b288b7d56c56f781177832df5792f4e984e064aafa161ef138695cb66e001f",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/gallery.mjs": "d22e0c156a75b5b6f0c334cb4b001323f1d20f4c758d7c5738b160bf82fb120b",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/boot.mjs": "d49ee56ba10ba2b9c4e1767e9f4bf9119f4deb2adba85607c1b8a1d6a01a7755",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/burst-timeline.mjs": "d8d77babe6c8ba5dc72323e318ca106a71352481e1ed0b476e70b68a2b125a26",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/gallery/distinct-motion.mjs": "446be5191357e9c2c27624827a1e4c2a38fd8c18b17c3eee8c19391878323b94",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/status-tab-icon.svg": "10cc0ae9a464067c1508e440f38884b1eadaeaa34dc59beef4a5053887931b12",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/impact-burst.svg": "9af09a4861916cfed001e46bdd10c9e1d0a6e5e0675c4757d8a99fa884da52c4",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/paper-splash.svg": "3859624ec2ea43e054af2fae6bc0be2f2b19af438e6ae1ac2e69fb084b345e34",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/pop.svg": "1e9c2b707be8b4f832cacfdec262d829f40ce7079e4ecd1de76a4600f5618d4e",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/tear.svg": "fd1756ebb25042cba45e5e9d1e29f7a9838a8d88a2b8e70739455e86aede6d92",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/chip1.svg": "18005d3d628a543b25a309db47735519debc14f3c3b63b20f98fcfb7dbd5e497",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/chip2.svg": "ee42c215a36266fb2f43f63211464269d932b6e5e880d508723d9aca71439eb0",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/chip3.svg": "d66050ca5dbf0f4382dc79e8fbe74a8d6b824133bff78e8da8d7d018f93fd851",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/distinct-motion-normalized/chip4.svg": "9d5a96b35d5c651d3e9c72491de5982ecd6e6f55b6df55bc530f2f2f4ffa6856",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/A-onset.svg": "2ec65052f1810989c356605dc2d6c62c39eccdb8b8138eebe1f37250029dcd25",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/A-expansion.svg": "9efad9cc32f99b2f76bbca7a98483767aacffd21b71c6ddbc46bcb5d859c26bb",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/A-breakup.svg": "ae003f071a224e9a62b3398bf1f74d7cb97079bdece99f499b91b04fdd01c827",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/A-settle.svg": "2c393e87358416a1ba1cfcfd2e375b3ac60707eb5a0726522e5529d79a14677c",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/B-onset.svg": "1195c950f9b1b992f7ba7ddb1326771bd40bdc9a32f318d6a54089d7a97f8574",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/B-expansion.svg": "944cd45c64fce07b699bfd92d8e896f776d1c7dbaa46d55504b94095885fa272",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/B-breakup.svg": "d782a91630095a9984324fbf212a67ace749c5403f189390a125bc185c767b9d",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/B-settle.svg": "bcda6f830d6b6a160c0cf7cff9bf04c82c56c00a39b818cbb08f69a71fa223b9",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/C-onset.svg": "1076f7a86cd5fc168263d18928135e09c7840f294b330b19a6559a01c818597f",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/C-expansion.svg": "eb8909dd6c154b032dd7ab8bde91358153f093b37aef5b335fccf3d8573af209",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/C-breakup.svg": "83e662e9ae2de3a4f8a0c4e0d6b48b1eda7253b6d732c81948c54207758249ec",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/art/burst-normalized/C-settle.svg": "d145f63bc5c92cdf78947a65364e82517453ddceb546371345c0e2b01cb9030c",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191",
+    "src/ui/duck-motion-controller.mjs": "29e674e45d2bfb5c9bebf2a5ad8f36a626c907bf91046954022a7255e9538d20",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/tools/distinct-motion-browser.mjs": "1193d76f1ad1469bdc2d00c01cb3e1b251c29df7179970a601c8ce13c84d57bf",
+    "reports/development/plan-57-race-collision-and-injury-visual-study/tools/gpu-cdp.mjs": "4d773a4f7638f7f1e3084a32ed903d83995f6726fd4941ef8640a353582536d1",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "gpu": {
+    "glRenderer": "ANGLE (AMD, AMD Radeon 780M Graphics (0x00001900) Direct3D11 vs_5_0 ps_5_0, D3D11-32.0.31033.3)",
+    "featureStatus": {
+      "2d_canvas": "enabled",
+      "direct_rendering_display_compositor": "disabled_off_ok",
+      "gpu_compositing": "enabled",
+      "multiple_raster_threads": "enabled_on",
+      "opengl": "enabled_on",
+      "rasterization": "enabled",
+      "raw_draw": "disabled_off_ok",
+      "skia_graphite": "disabled_off",
+      "trees_in_viz": "disabled_off",
+      "video_decode": "enabled",
+      "video_encode": "enabled",
+      "webgl": "enabled",
+      "webgpu": "enabled",
+      "webnn": "disabled_off"
+    }
+  },
+  "captures": [
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "pop",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "pop",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "pop",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "pop",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "pop",
+      "frame": "settle",
+      "time": 1.58,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "pop",
+      "frame": "settle",
+      "time": 1.58,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "tear",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "tear",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "tear",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "tear",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "tear",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "tear",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "fragments",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "fragments",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "fragments",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "fragments",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "kind": "fragments",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "kind": "fragments",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "defaults": [
+        {
+          "cue": "pop",
+          "duration": "1",
+          "marker": "bandage"
+        },
+        {
+          "cue": "pop",
+          "duration": "1",
+          "marker": "bandage"
+        }
+      ],
+      "interaction": {
+        "injured": 1,
+        "bandages": 1,
+        "paused": true,
+        "independent": true,
+        "played": true,
+        "reset": 0
+      },
+      "reduced": {
+        "first": [
+          [
+            "26%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "75%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "27%",
+            "71%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "74%",
+            "72%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ]
+        ],
+        "last": [
+          [
+            "26%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "75%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "27%",
+            "71%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "74%",
+            "72%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ]
+        ],
+        "animations": 0
+      },
+      "instances": {
+        "before": {
+          "studies": 2,
+          "runners": 8
+        },
+        "during": {
+          "studies": 3,
+          "runners": 14
+        },
+        "after": {
+          "studies": 2,
+          "runners": 8
+        },
+        "empty": true,
+        "animations": 0
+      }
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "pop",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "pop",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "pop",
+      "frame": "settle",
+      "time": 1.58,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40.00000762939453
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "tear",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "tear",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "tear",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 1,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40.00000762939453
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "fragments",
+      "frame": "onset",
+      "time": 1.06,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "fragments",
+      "frame": "breakup",
+      "time": 1.41,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "kind": "fragments",
+      "frame": "settle",
+      "time": 1.68,
+      "pieces": 4,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40.00000762939453
+    },
+    {
+      "width": 390,
+      "defaults": [
+        {
+          "cue": "pop",
+          "duration": "1",
+          "marker": "bandage"
+        },
+        {
+          "cue": "pop",
+          "duration": "1",
+          "marker": "bandage"
+        }
+      ],
+      "interaction": {
+        "injured": 1,
+        "bandages": 1,
+        "paused": true,
+        "independent": true,
+        "played": true,
+        "reset": 0
+      },
+      "reduced": {
+        "first": [
+          [
+            "26%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "75%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "27%",
+            "71%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "74%",
+            "72%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ]
+        ],
+        "last": [
+          [
+            "26%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "75%",
+            "30%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "27%",
+            "71%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ],
+          [
+            "74%",
+            "72%",
+            "translate(-50%, -50%) scale(1, 1)",
+            "1"
+          ]
+        ],
+        "animations": 0
+      },
+      "instances": {
+        "before": {
+          "studies": 2,
+          "runners": 8
+        },
+        "during": {
+          "studies": 3,
+          "runners": 14
+        },
+        "after": {
+          "studies": 2,
+          "runners": 8
+        },
+        "empty": true,
+        "animations": 0
+      }
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:58953/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/index.html",
+    "http://127.0.0.1:58953/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/index.html"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "b511326712ec4571b6ce8edb0bccf9a68a67a324af7fbda3582aaf2d9a5aa2bd",
+    "trackedDescendants": [
+      {
+        "pid": 20640,
+        "ppid": 38996,
+        "created": "639293578679554380",
+        "root": true
+      },
+      {
+        "pid": 36828,
+        "ppid": 20640,
+        "created": "639293578679698380",
+        "root": false
+      },
+      {
+        "pid": 33824,
+        "ppid": 20640,
+        "created": "639293578681248450",
+        "root": false
+      },
+      {
+        "pid": 37488,
+        "ppid": 20640,
+        "created": "639293578681780710",
+        "root": false
+      },
+      {
+        "pid": 38708,
+        "ppid": 20640,
+        "created": "639293578681975960",
+        "root": false
+      },
+      {
+        "pid": 10568,
+        "ppid": 20640,
+        "created": "639293578682421550",
+        "root": false
+      },
+      {
+        "pid": 20916,
+        "ppid": 20640,
+        "created": "639293578682729050",
+        "root": false
+      },
+      {
+        "pid": 30456,
+        "ppid": 20640,
+        "created": "639293578682990410",
+        "root": false
+      },
+      {
+        "pid": 39752,
+        "ppid": 20640,
+        "created": "639293578683007700",
+        "root": false
+      },
+      {
+        "pid": 18616,
+        "ppid": 20640,
+        "created": "639293578683880760",
+        "root": false
+      },
+      {
+        "pid": 32600,
+        "ppid": 20640,
+        "created": "639293578695051150",
+        "root": false
+      },
+      {
+        "pid": 26580,
+        "ppid": 20640,
+        "created": "639293578695215380",
+        "root": false
+      },
+      {
+        "pid": 36232,
+        "ppid": 20640,
+        "created": "639293578707519890",
+        "root": false
+      },
+      {
+        "pid": 33160,
+        "ppid": 20640,
+        "created": "639293578707520310",
+        "root": false
+      },
+      {
+        "pid": 37864,
+        "ppid": 20640,
+        "created": "639293578707552940",
+        "root": false
+      },
+      {
+        "pid": 28932,
+        "ppid": 20640,
+        "created": "639293578708245290",
+        "root": false
+      },
+      {
+        "pid": 38676,
+        "ppid": 20640,
+        "created": "639293578708723020",
+        "root": false
+      },
+      {
+        "pid": 33896,
+        "ppid": 20640,
+        "created": "639293578710361830",
+        "root": false
+      },
+      {
+        "pid": 39804,
+        "ppid": 20640,
+        "created": "639293578711952760",
+        "root": false
+      },
+      {
+        "pid": 35140,
+        "ppid": 20640,
+        "created": "639293578715452090",
+        "root": false
+      },
+      {
+        "pid": 35776,
+        "ppid": 20640,
+        "created": "639293578724282910",
+        "root": false
+      },
+      {
+        "pid": 33296,
+        "ppid": 20640,
+        "created": "639293578724555330",
+        "root": false
+      },
+      {
+        "pid": 36712,
+        "ppid": 20640,
+        "created": "639293578724557090",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverClosed": true,
+  "accepted": true
+}

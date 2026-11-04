@@ -13,6 +13,8 @@ label { display: grid; gap: .2rem; font-size: .9rem; } button,select,input { fon
 .wall-standin { position: absolute; left: 1%; top: 26%; height: 48%; width: .4rem; background: #30495a; color: #fff; z-index: 2; font-size: .65rem; writing-mode: vertical-rl; }
 .collision-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 .collision-art { position: absolute; height: auto; aspect-ratio: 1; pointer-events: none; }
+.motion-cue { position: absolute; aspect-ratio: 1; transform: translate(-50%,-50%); pointer-events: none; }
+.motion-piece { position: absolute; height: auto; aspect-ratio: 1; pointer-events: none; }
 .bandage { position: absolute; width: 32%; height: 32%; left: 41%; top: 39%; pointer-events: none; }
 .tab-icon { width: 1.2em; height: 1.2em; vertical-align: middle; }
 [hidden] { display: none !important; }

@@ -79,3 +79,7 @@ The persistent finish-session button is replaced by a required Decide surface fo
 ## Desk keys continuity, 2026-11-03
 
 Owner found Day 2 Midday transition clear and selected persistent desk keys with interaction only when useful. The bounded UI-only repair and synthetic Morning/Midday observations are in `desk-keys-repair.md`. All 13 previous checkpoint entries are marked source-stale; orchestration directs one final canonical refresh after the current feedback batch. Actual owner review and final packet acceptance remain pending. Advisor disposition: orchestrator-gate-only; root source and visual review is separate. No push or status closure.
+
+## Post-work desk navigation, 2026-11-03
+
+Owner reported Desk navigation failed after work. A genuine shift reproduction found the phone artwork rejected the Early Evening status as longer than eight characters; the earlier keys witness had not covered this route. The five-slot phone status mapping and actual desk-art test were repaired, and the isolated paid-shift browser rerun reached the desk from kitchen and living room without changing cash or log; see `desk-navigation-repair.md` for failure and sampled cleanup limits. Owner verification and final batch checkpoint refresh remain pending. Advisor disposition: orchestrator-gate-only; root visual and source review separate. No status closure or push.

@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {offlinePlan} from './full-offline-plan.mjs';
+test('exact output frames and strictly increasing bounded suspension times',()=>{for(const d of [129.1735,135.96,89.5735]){const p=offlinePlan(d);assert.equal(p.frames,Math.ceil(d*48000));assert.ok(p.suspensions.every((t,i)=>t>0&&t<d&&(!i||t>p.suspensions[i-1])));assert.ok(p.suspensions.length<2250)} });test('reject invalid durations',()=>{for(const d of [0,-1,Infinity,181])assert.throws(()=>offlinePlan(d))});

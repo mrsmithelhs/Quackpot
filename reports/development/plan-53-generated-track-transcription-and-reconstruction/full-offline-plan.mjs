@@ -1,0 +1,1 @@
+export function offlinePlan(duration){if(!Number.isFinite(duration)||duration<=0||duration>180)throw Error('invalid duration');const frames=Math.ceil(duration*48000),suspensions=[];for(let k=1;k*.08<duration;k++)suspensions.push(k*.08);return {frames,suspensions};}

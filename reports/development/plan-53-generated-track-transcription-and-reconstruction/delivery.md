@@ -78,3 +78,10 @@ Large M3 has 11 notes carried into the window and seven cut at the end; Large M5
 ## Owner feedback on M3 and M5
 
 The owner judged Large significantly better than Medium on both excerpts. On M5 they heard the Large result place the closed hi-hat correctly most of the time and found that helpful. This is subjective listening feedback; the model's predicted drums are not independently verified source stems. Large's full-track inference context and desktop environment differ from Medium's standalone-excerpt inference and laptop environment.
+
+
+## Full-track Large listening checkpoint
+
+The owner authorized full M1, M3 and M5 reconstructions from returned Large events. Report-local offline TinySynth renderings are available as ignored WAVs, with the same declared program mappings and velocity 85. They use source-relative raw timing and a two-second tail after the later of the source end or last predicted note; M3 retains a note ending 0.4265 seconds after the source audio. They do not apply the earlier M5 duration/register edits. The offline method uses deterministic synthetic-noise initialization and may sound different from the prior live captures; owner listening is needed.
+
+M1/M3/M5 contain 2398/3338/1712 scheduled note-ons respectively. WAV signal and frame checks passed; they do not establish musical correctness or that each note is audible. Each browser job exited 1 because only sampled process coverage was available: no residual was observed and root/observed processes exited, but full-tree termination is unproven and profiles were retained. The report page's narrow screenshot displayed an inflated viewport and tiny layout; it is not cleared for narrow-device use. Deliver the local WAV files directly. Earlier real-time failures, M1 recovery and short offline study are described in `progress.md`; no source or model inference was rerun.

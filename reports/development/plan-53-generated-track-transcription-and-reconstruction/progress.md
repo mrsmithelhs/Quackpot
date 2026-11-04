@@ -331,3 +331,8 @@ A design-only `flash-audio-control-protocol.md` proposes owner-verified early/mi
 
 
 Owner-verified M1 audio controls completed four authorized CLI sessions: the identical A/A pair was correctly called same, but both A/B and B/A were called same despite the owner-confirmed silent final three seconds in B. The single-file answer only partially and ambiguously matched the owner-described sequence. Operational traces showed the intended reads; they do not establish audio delivery or comprehension. See `flash-audio-control-protocol.md` for scoring, timing and resource limits; no M3/M5 or native-audio calls followed.
+
+
+## Full M5 half-duration softer-low-piano preparation
+
+The owner approved an A/B against the preserved full M5 half-duration WAV. The report-local candidate changes assigned velocity from 85 to 60 for 308 acoustic-piano notes at pitch 55 or below; all other notes, times and durations remain unchanged. Focused tests and direct 1,712-event/scheduled-velocity comparisons passed. Terra-medium review found and prompted correction of inherited stale velocity metadata before rendering. A managed-sandbox browser startup failed with CIM access denied; one cleared host-context attempt then timed out during startup/inspection at the 90-second outer bound. No candidate WAV or owner listening result was produced. Temporary servers exited; browser/profile cleanup remained uncertain, and a later exact-profile check observed no matching current Chrome process without proving historical cleanup. See `m5-piano-soft-render-status.md`.

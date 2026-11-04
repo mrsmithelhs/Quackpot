@@ -780,3 +780,11 @@ Plan55 may prepare a separate pinned report-local implementation and correctness
 Owner reiterates that below-scene buttons are reserved for navigation and metagame actions should be diegetic where possible. Root Terra-medium audit found remaining Ren, quiet completion, overtime start/completion and Finish run controls. Plan52 may consolidate their presentation using existing guarded callbacks and add rendered navigation/state-invariant regression checks; no new mechanics or economy is adopted.
 
 Owner accepts moving the existing Day4+ Finish run control to the global header as End run & view Receipt for now, preserving confirmation and availability. It is a temporary development exit while natural endings and supported duration expand. In-game actions/consequences should eventually lead to ending-specific narrative or animation sequences, including Uninstall; exact sequence content/timing/accessible equivalents remain future work. Preserve immediate unobstructed Uninstall and Receipt access, not forced cinematic delay. No ending engine rewrite is authorized by the current UI repair.
+
+### DECISION-084 — Full Bounce injury protection selected as working direction
+
+**Date:** 2026-11-04
+
+Owner states in QP Impl55: Full Bounce protection is decided for now. Select full injury protection for the Bounce duck during its defined active window, including genuine landing contact; the other participant keeps independent injury risk. Preserve actual collision effects and existing injuries, without retroactive healing or event erasure. This supersedes the unresolved full-versus-reduced choice in DECISION-082 for forward work; historical partial/full results remain evidence.
+
+The matched eight-seed comparison produced three paired protected contacts whose draws all exceeded the reduced thresholds, so identical measured outcomes do not establish equal strength or final balance. Stop further protection-policy probes absent new need. Plan55 production-readiness-handoff.md separates remaining meaningful growth/injury/forecast decisions, correctness/unresolved-case/save/replay/Receipt and visual integration gates, and deferrable broader tuning. No production writes, additional simulations, push or deployment follow automatically.

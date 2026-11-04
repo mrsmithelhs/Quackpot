@@ -1,7 +1,8 @@
 ---
 id: plan-55
 title: Opponent choices, race risk and duck growth study
-status: in-progress
+status: complete
+resolution: "Root accepts the report-only investigation, bounded evidence and owner-selected working growth/injury direction. Diagnostic constants and limitations remain explicit; no production adoption. Integration follows a separate packet after Plan52 stable ownership/checkpoint handoff; Gem boosts/events remain separate future proposals."
 depends_on: [plan-54]
 gate: "Contract-first proposal and owner choice before finite executable experiments; no production writes. Coordinate resources with Plan52 owner review and Plan53."
 summary: >-

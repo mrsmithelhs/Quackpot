@@ -17,3 +17,5 @@
 
 .controls select{max-width:min(100%,24rem)}.controls label{min-width:0;max-width:100%}
 .controls select{min-width:0}
+
+.name.contact-leader::after{content:'';position:absolute;top:100%;left:50%;height:12px;border-left:1px solid #344e59;pointer-events:none}

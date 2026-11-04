@@ -1,0 +1,197 @@
+{
+  "disclaimer": "Synthetic ability concepts; no race or saved outcomes.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "a1e2b84a2311fa865840b606c7bf62429e87e97d294eca8aacf8127c4fb0bfc7",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "a5e89259d3a1b56968caf8281d4ec92ff3bc84734ae71ac7e784ef172a5b7702",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "c29b9b6920218ba003e477b5d4b695f3e85bc274ec007da2e0a486d8bbf18614",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e",
+    "reports/development/plan-58-race-ability-animation-study/gallery/candidate-effects.mjs": "67ea0d6eccec3c4ed9af7b8af8d1d87cd5f0e417f517a7d0570c88e33d96c2ce",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/dive-revision-browser.mjs": "31e8535496f688a9e3a9329b554aea1c49fd44b7301dfe10b710f4a869c3f56f",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:51869/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:51869/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": "Error: stage or label outside viewport guard-control {\"x\":34,\"y\":292.25,\"width\":307,\"height\":260,\"visible\":true,\"labelsInside\":true,\"labelsSeparate\":true,\"labelsAvoidOtherBodies\":false,\"horizontalFits\":true}",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "c1d5ae42c9cdd4cc88151c672248f9a8d98b06d8f1c56861b7bbde8f734b5d23",
+    "trackedDescendants": [
+      {
+        "pid": 38960,
+        "ppid": 39716,
+        "created": "639293607412323630",
+        "root": true
+      },
+      {
+        "pid": 39124,
+        "ppid": 38960,
+        "created": "639293607412511310",
+        "root": false
+      },
+      {
+        "pid": 40532,
+        "ppid": 38960,
+        "created": "639293607414015120",
+        "root": false
+      },
+      {
+        "pid": 40692,
+        "ppid": 38960,
+        "created": "639293607414855710",
+        "root": false
+      },
+      {
+        "pid": 37984,
+        "ppid": 38960,
+        "created": "639293607415056710",
+        "root": false
+      },
+      {
+        "pid": 37456,
+        "ppid": 38960,
+        "created": "639293607415530960",
+        "root": false
+      },
+      {
+        "pid": 39028,
+        "ppid": 38960,
+        "created": "639293607415845430",
+        "root": false
+      },
+      {
+        "pid": 18580,
+        "ppid": 38960,
+        "created": "639293607416118520",
+        "root": false
+      },
+      {
+        "pid": 36376,
+        "ppid": 38960,
+        "created": "639293607416132310",
+        "root": false
+      },
+      {
+        "pid": 31860,
+        "ppid": 38960,
+        "created": "639293607416869820",
+        "root": false
+      },
+      {
+        "pid": 40704,
+        "ppid": 38960,
+        "created": "639293607433285220",
+        "root": false
+      },
+      {
+        "pid": 13284,
+        "ppid": 38960,
+        "created": "639293607433519350",
+        "root": false
+      },
+      {
+        "pid": 1328,
+        "ppid": 38960,
+        "created": "639293607433524480",
+        "root": false
+      },
+      {
+        "pid": 2120,
+        "ppid": 38960,
+        "created": "639293607448711710",
+        "root": false
+      },
+      {
+        "pid": 4424,
+        "ppid": 38960,
+        "created": "639293607448925130",
+        "root": false
+      },
+      {
+        "pid": 40728,
+        "ppid": 38960,
+        "created": "639293607451360230",
+        "root": false
+      },
+      {
+        "pid": 38320,
+        "ppid": 38960,
+        "created": "639293607452638880",
+        "root": false
+      },
+      {
+        "pid": 36708,
+        "ppid": 38960,
+        "created": "639293607453077530",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

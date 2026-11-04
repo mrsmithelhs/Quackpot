@@ -1,0 +1,222 @@
+{
+  "disclaimer": "Synthetic ability concepts; no race or saved outcomes.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "f9f46d3d5f8b94c4a77fe87c9c4b9d21f1496ff1aff0ce4764e1d897a937a9f4",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "a5e89259d3a1b56968caf8281d4ec92ff3bc84734ae71ac7e784ef172a5b7702",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "c29b9b6920218ba003e477b5d4b695f3e85bc274ec007da2e0a486d8bbf18614",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e",
+    "reports/development/plan-58-race-ability-animation-study/gallery/candidate-effects.mjs": "67ea0d6eccec3c4ed9af7b8af8d1d87cd5f0e417f517a7d0570c88e33d96c2ce",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/dive-revision-browser.mjs": "a7019436c2c8006aba65b45126fa12908c05403325f486cef97eca1f66966da9",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:54511/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:54511/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "092d3e33b7985e5ba059392ef9c1b9379cb62c11786af480d1fb247d7bae4a35",
+    "trackedDescendants": [
+      {
+        "pid": 39928,
+        "ppid": 8736,
+        "created": "639293608039972170",
+        "root": true
+      },
+      {
+        "pid": 37020,
+        "ppid": 39928,
+        "created": "639293608040162760",
+        "root": false
+      },
+      {
+        "pid": 40312,
+        "ppid": 39928,
+        "created": "639293608041712810",
+        "root": false
+      },
+      {
+        "pid": 1096,
+        "ppid": 39928,
+        "created": "639293608042296240",
+        "root": false
+      },
+      {
+        "pid": 27200,
+        "ppid": 39928,
+        "created": "639293608042508690",
+        "root": false
+      },
+      {
+        "pid": 8024,
+        "ppid": 39928,
+        "created": "639293608042988290",
+        "root": false
+      },
+      {
+        "pid": 16020,
+        "ppid": 39928,
+        "created": "639293608043340360",
+        "root": false
+      },
+      {
+        "pid": 21024,
+        "ppid": 39928,
+        "created": "639293608043625070",
+        "root": false
+      },
+      {
+        "pid": 17380,
+        "ppid": 39928,
+        "created": "639293608043645850",
+        "root": false
+      },
+      {
+        "pid": 39628,
+        "ppid": 39928,
+        "created": "639293608044462660",
+        "root": false
+      },
+      {
+        "pid": 40240,
+        "ppid": 39928,
+        "created": "639293608060112830",
+        "root": false
+      },
+      {
+        "pid": 13104,
+        "ppid": 39928,
+        "created": "639293608060274840",
+        "root": false
+      },
+      {
+        "pid": 33260,
+        "ppid": 39928,
+        "created": "639293608060275080",
+        "root": false
+      },
+      {
+        "pid": 22856,
+        "ppid": 39928,
+        "created": "639293608080056710",
+        "root": false
+      },
+      {
+        "pid": 20140,
+        "ppid": 39928,
+        "created": "639293608080079440",
+        "root": false
+      },
+      {
+        "pid": 40032,
+        "ppid": 39928,
+        "created": "639293608080768570",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

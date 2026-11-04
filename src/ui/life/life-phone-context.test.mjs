@@ -62,3 +62,14 @@ test('every life phase and real phone context fits the actual apartment art cont
     }
   }
 });
+
+ test('all five phone status labels fit the actual desk artwork',()=>{
+  const e=new GameEngine('five-slot-phone-status',{lifePolicy:'five-slot-v1'});
+  const labels={morning:'Morning',midday:'Midday','early-evening':'Early PM',evening:'Evening','late-evening':'Late Eve'};
+  for(const [slot,expected] of Object.entries(labels)){
+   e.state.life.schedule.slot=slot;
+   const phone=lifePhoneScreen(e.state.life,false,e.log.entries);
+   assert.equal(phone.status,expected);
+   assert.doesNotThrow(()=>renderScene({idPrefix:'five-slot-status',area:'desk-side',phone}));
+  }
+ });

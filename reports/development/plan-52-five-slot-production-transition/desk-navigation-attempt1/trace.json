@@ -1,0 +1,239 @@
+{
+  "source": "2368f41a7e938b1597cafb2d1b75a4299edbbcc3d7bb2d1f9b699d3b382e1094",
+  "recipeSha256": "7fe489c57491ff3cf1e4b2c3e1ee65ac74d5726ca7d471c21bd65675162e5584",
+  "observations": [
+    {
+      "name": "after-work",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEarly Evening\n💵\nCash:\n$188.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDinner\nDay 2 · Early Evening\nThe desk →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "desk-attempt",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEarly Evening\n💵\nCash:\n$188.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDinner\nDay 2 · Early Evening\nThe desk →\nThe living room →\nThe door →"
+    },
+    {
+      "desk": false,
+      "disabled": true,
+      "logBefore": 114,
+      "logAfter": 114,
+      "cashBefore": 188,
+      "cashAfter": 188
+    }
+  ],
+  "errors": [
+    {
+      "exceptionId": 1,
+      "text": "Uncaught",
+      "lineNumber": 8,
+      "columnNumber": 546,
+      "scriptId": "5",
+      "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+      "stackTrace": {
+        "callFrames": [
+          {
+            "functionName": "a",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 8,
+            "columnNumber": 546
+          },
+          {
+            "functionName": "r",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 97,
+            "columnNumber": 1241
+          },
+          {
+            "functionName": "Ke",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 97,
+            "columnNumber": 1275
+          },
+          {
+            "functionName": "Qe",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 97,
+            "columnNumber": 2877
+          },
+          {
+            "functionName": "se",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 1327,
+            "columnNumber": 14940
+          },
+          {
+            "functionName": "",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 1327,
+            "columnNumber": 6736
+          },
+          {
+            "functionName": "",
+            "scriptId": "5",
+            "url": "http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js",
+            "lineNumber": 1327,
+            "columnNumber": 6612
+          },
+          {
+            "functionName": "",
+            "scriptId": "15",
+            "url": "",
+            "lineNumber": 0,
+            "columnNumber": 118
+          },
+          {
+            "functionName": "",
+            "scriptId": "15",
+            "url": "",
+            "lineNumber": 0,
+            "columnNumber": 139
+          }
+        ]
+      },
+      "exception": {
+        "type": "object",
+        "subtype": "error",
+        "className": "RangeError",
+        "description": "RangeError: phone.status is longer than 8 characters\n    at a (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:9:547)\n    at r (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:1242)\n    at Ke (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:1276)\n    at Qe (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:2878)\n    at se (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:14941)\n    at http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:6737\n    at HTMLButtonElement.<anonymous> (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:6613)\n    at <anonymous>:1:119\n    at <anonymous>:1:140",
+        "objectId": "7774738626386955013.2.2",
+        "preview": {
+          "type": "object",
+          "subtype": "error",
+          "description": "RangeError: phone.status is longer than 8 characters\n    at a (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:9:547)\n    at r (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:1242)\n    at Ke (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:1276)\n    at Qe (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:98:2878)\n    at se (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:14941)\n    at http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:6737\n    at HTMLButtonElement.<anonymous> (http://127.0.0.1:4192/Quackpot/assets/index-CuB7zvCL.js:1328:6613)\n    at <anonymous>:1:119\n    at <anonymous>:1:140",
+          "overflow": false,
+          "properties": [
+            {
+              "name": "stack",
+              "type": "string",
+              "value": "RangeError: phone.status is longer than 8 characte…    at <anonymous>:1:119\n    at <anonymous>:1:140"
+            },
+            {
+              "name": "message",
+              "type": "string",
+              "value": "phone.status is longer than 8 characters"
+            }
+          ]
+        }
+      },
+      "executionContextId": 2
+    }
+  ],
+  "error": "Error: Desk navigation failed",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "f7fc36654fad31e8a40c9ce191bb13be04f4a0fd7314e3d79e629cc3a27a2758",
+    "trackedDescendants": [
+      {
+        "pid": 29248,
+        "ppid": 37748,
+        "created": "639293616737160260",
+        "root": true
+      },
+      {
+        "pid": 17076,
+        "ppid": 29248,
+        "created": "639293616737364630",
+        "root": false
+      },
+      {
+        "pid": 23232,
+        "ppid": 29248,
+        "created": "639293616738883760",
+        "root": false
+      },
+      {
+        "pid": 18532,
+        "ppid": 29248,
+        "created": "639293616739691900",
+        "root": false
+      },
+      {
+        "pid": 40524,
+        "ppid": 29248,
+        "created": "639293616739904140",
+        "root": false
+      },
+      {
+        "pid": 39828,
+        "ppid": 29248,
+        "created": "639293616740429970",
+        "root": false
+      },
+      {
+        "pid": 35976,
+        "ppid": 29248,
+        "created": "639293616740762970",
+        "root": false
+      },
+      {
+        "pid": 37268,
+        "ppid": 29248,
+        "created": "639293616741037310",
+        "root": false
+      },
+      {
+        "pid": 38316,
+        "ppid": 29248,
+        "created": "639293616741051650",
+        "root": false
+      },
+      {
+        "pid": 35496,
+        "ppid": 29248,
+        "created": "639293616741841320",
+        "root": false
+      },
+      {
+        "pid": 26540,
+        "ppid": 29248,
+        "created": "639293616753468870",
+        "root": false
+      },
+      {
+        "pid": 37884,
+        "ppid": 29248,
+        "created": "639293616753653060",
+        "root": false
+      },
+      {
+        "pid": 39192,
+        "ppid": 29248,
+        "created": "639293616753653410",
+        "root": false
+      },
+      {
+        "pid": 9652,
+        "ppid": 29248,
+        "created": "639293616775905060",
+        "root": false
+      },
+      {
+        "pid": 25316,
+        "ppid": 29248,
+        "created": "639293616776015170",
+        "root": false
+      },
+      {
+        "pid": 12188,
+        "ppid": 29248,
+        "created": "639293616777917240",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

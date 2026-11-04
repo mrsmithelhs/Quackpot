@@ -22,7 +22,9 @@ export function lifePhoneResolved(life, entries = []) {
 
 export function lifePhoneScreen(life, welcomeClaimed, entries = []) {
   const phase=life.policyVersion==='five-slot-v1'?life.schedule.slot:life.phase;
-  const status = phase === 'lateNight' || phase === 'late-evening' ? 'Late' : phase === 'afternoon' || phase === 'midday' ? 'PM' : phase[0].toUpperCase() + phase.slice(1);
+  const status = life.policyVersion === 'five-slot-v1'
+    ? ({ morning: 'Morning', midday: 'Midday', 'early-evening': 'Early PM', evening: 'Evening', 'late-evening': 'Late Eve' })[phase]
+    : phase === 'lateNight' ? 'Late' : phase === 'afternoon' ? 'PM' : phase[0].toUpperCase() + phase.slice(1);
   const kind = lifePhoneKind(life);
   if (kind === 'work') return { status, brand: 'MESSAGES', heading: ['Work'], body: [(life.work || life.schedule?.active?.kind==='work') ? 'Shift underway' : 'Shift today'], note: '' };
   if (kind === 'invitation') return { status, brand: 'QUACKPOT', heading: ['Tonight!'], body: [lifePhoneResolved(life, entries) ? 'On the list!' : 'Reply LAUNCH'], note: '' };

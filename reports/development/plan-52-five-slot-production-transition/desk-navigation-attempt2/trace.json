@@ -1,0 +1,149 @@
+{
+  "source": "166bfb8da81f062bd56eb26552f0ce61487ff91b8e36079f78c9ce30bdf09adf",
+  "recipeSha256": "fae105423f87790699233dd0d16f1dc29d9d56822cba5641597f3df36053edcd",
+  "observations": [
+    {
+      "name": "after-work",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEarly Evening\n💵\nCash:\n$188.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDinner\nDay 2 · Early Evening\nThe desk →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "desk-attempt",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEarly Evening\n💵\nCash:\n$188.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nEarly PM\nQUACKPOT\nQuackpot\nReturn to app\nOpen Quackpot\nDay 2 · Early Evening\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "desk": true,
+      "disabled": null,
+      "logBefore": 114,
+      "logAfter": 114,
+      "cashBefore": 188,
+      "cashAfter": 188
+    },
+    {
+      "from": "kitchen-breakfast",
+      "desk": true
+    },
+    {
+      "from": "living",
+      "desk": true
+    },
+    {
+      "name": "desk-repaired",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEarly Evening\n💵\nCash:\n$188.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nEarly PM\nQUACKPOT\nQuackpot\nReturn to app\nOpen Quackpot\nDay 2 · Early Evening\nThe kitchen →\nThe living room →\nThe door →"
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "859fd86dd589cf9556e52c4fac3305d26a5fdaa9ab03484eb94a70a5a0e2bdfe",
+    "trackedDescendants": [
+      {
+        "pid": 23380,
+        "ppid": 34712,
+        "created": "639293618018811500",
+        "root": true
+      },
+      {
+        "pid": 39972,
+        "ppid": 23380,
+        "created": "639293618019003260",
+        "root": false
+      },
+      {
+        "pid": 12904,
+        "ppid": 23380,
+        "created": "639293618021030340",
+        "root": false
+      },
+      {
+        "pid": 10176,
+        "ppid": 23380,
+        "created": "639293618021635510",
+        "root": false
+      },
+      {
+        "pid": 22192,
+        "ppid": 23380,
+        "created": "639293618021832360",
+        "root": false
+      },
+      {
+        "pid": 33456,
+        "ppid": 23380,
+        "created": "639293618022347610",
+        "root": false
+      },
+      {
+        "pid": 40024,
+        "ppid": 23380,
+        "created": "639293618022663980",
+        "root": false
+      },
+      {
+        "pid": 39800,
+        "ppid": 23380,
+        "created": "639293618023066350",
+        "root": false
+      },
+      {
+        "pid": 25316,
+        "ppid": 23380,
+        "created": "639293618023168060",
+        "root": false
+      },
+      {
+        "pid": 14744,
+        "ppid": 23380,
+        "created": "639293618024183700",
+        "root": false
+      },
+      {
+        "pid": 38060,
+        "ppid": 23380,
+        "created": "639293618035813310",
+        "root": false
+      },
+      {
+        "pid": 39284,
+        "ppid": 23380,
+        "created": "639293618036009180",
+        "root": false
+      },
+      {
+        "pid": 37100,
+        "ppid": 23380,
+        "created": "639293618036009350",
+        "root": false
+      },
+      {
+        "pid": 41140,
+        "ppid": 23380,
+        "created": "639293618060650410",
+        "root": false
+      },
+      {
+        "pid": 41332,
+        "ppid": 23380,
+        "created": "639293618061480610",
+        "root": false
+      },
+      {
+        "pid": 41440,
+        "ppid": 23380,
+        "created": "639293618062969040",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

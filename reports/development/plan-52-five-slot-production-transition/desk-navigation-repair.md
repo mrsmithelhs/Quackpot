@@ -1,0 +1,7 @@
+# Post-work desk navigation repair — Plan 52
+
+The owner reported that the Desk button became disabled without changing rooms after work. In `desk-navigation-attempt1/trace.json`, a genuine Day 2 shift completed and paid $60; clicking Desk from the kitchen threw `RangeError: phone.status is longer than 8 characters`. Cash and log length were unchanged. The keys continuity witness covered Morning and Midday, not this Early Evening path.
+
+The underlying phone artwork has an eight-character status limit. Its five-slot presentation now maps to Morning, Midday, Early PM, Evening and Late Eve; the HUD retains full slot names and legacy behavior is unchanged. A focused unit test renders the actual desk artwork for all five slots. The 33 phone-context, routing and art tests and a build passed. An initial new test was corrected to supply the required SVG id prefix; it then passed.
+
+At source closure `166bfb8da81f062bd56eb26552f0ce61487ff91b8e36079f78c9ce30bdf09adf`, JS `3218d3a4731420311b43543a5fc4ba99c9d8b7b0e8411e6cba6a9fd2f392a390`, `desk-navigation-attempt2/trace.json` repeats the paid shift and confirms desk navigation from kitchen and living room, with unchanged cash and event-log length during navigation and no browser errors. Root/observed browser processes exited under sampled observation; complete descendant cleanup is unproven and the isolated profile was retained. Owner profile was not used. Root visual review and owner verification are separate. The 13 canonical checkpoints remain source-stale until the final refresh after the feedback batch.

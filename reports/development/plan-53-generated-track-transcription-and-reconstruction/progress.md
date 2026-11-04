@@ -319,3 +319,6 @@ A proposed host-context follow-up was not approved by automatic review pending e
 ## M1 host-context repeat trial
 
 Following explicit owner authorization, all six frozen full-versus-30-second-excerpt calls completed with the requested model reported at initialization and the intended two file reads each. Five of six stated incorrect input durations despite claiming complete coverage; shorter clips were correct in only one of three answers. File reads and confident descriptions do not prove audio comprehension. Sanitized model responses and exact resource/receipt evidence are recorded in `flash-full-track-consultation.md`; suggestions remain hypotheses, and no M3/M5 calls, music changes or production integration occurred.
+
+
+The consultation report now leads with the current six-trial M1 disposition and marks earlier interruptions as historical. The broader M1/M3/M5 consultation objective remains pending; no further provider calls or music changes followed.

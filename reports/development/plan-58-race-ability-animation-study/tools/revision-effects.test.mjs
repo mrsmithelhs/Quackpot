@@ -14,3 +14,11 @@ test('effect markup contains no active or external references',()=>{
   assert.match(art,/^<svg /);assert.doesNotMatch(art,/<script|on\w+\s*=|href\s*=|url\(|https?:/i);
  }
 });
+
+test('air moves along a head-to-tail path with distinct front and back layers',()=>{
+ const back=airCurrents(.25,false,'behind'),front=airCurrents(.25,false,'front');
+ assert.match(back,/class="air air-behind"/); assert.match(front,/class="air air-front"/);
+ assert.match(back,/M62 156.*L231 165/); assert.match(front,/M66 145.*L231 147/);
+ assert.match(back,/stroke-dashoffset="-22\.5"/);
+ assert.notEqual(back,front);
+});

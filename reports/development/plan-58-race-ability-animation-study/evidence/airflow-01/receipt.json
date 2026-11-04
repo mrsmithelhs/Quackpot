@@ -1,0 +1,187 @@
+{
+  "disclaimer": "Synthetic presentation; no owner server or game saves.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "ba823b33a3cd32655d6df5444610e950e154f607b3c3e9fe0a1e97d72e20b5fb",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "bc9a5afa67bdeeebb4a3d71111ba62cbe2e4a72aea912f421ee1e142cabab4ac",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "92dbe915c57d38251e3b36cfd6d0ba80c5a5bb027ec62ff179c428727640b036",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3d6276a27d082ae49b9e2d2328759784e4cbe5525e39f8aecab2371dc3274a32",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/airflow-browser.mjs": "ccf257f32419f2e94ef4ae00e3c4f385c0e619005e94f2e0e38dcf070daf19a0",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "headToTail": true,
+      "advances": true,
+      "separate": true,
+      "z": [
+        1,
+        2,
+        3
+      ],
+      "mirrored": true,
+      "overlap": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "headToTail": true,
+      "advances": true,
+      "separate": true,
+      "z": [
+        1,
+        2,
+        3
+      ],
+      "mirrored": true,
+      "overlap": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:54662/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:54662/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "da6f31cb4d125ed7aa1ff759c2cbc743da8b6c98b61ec01650cad767d52ce56e",
+    "trackedDescendants": [
+      {
+        "pid": 37292,
+        "ppid": 33004,
+        "created": "639293559306617380",
+        "root": true
+      },
+      {
+        "pid": 28144,
+        "ppid": 37292,
+        "created": "639293559306926040",
+        "root": false
+      },
+      {
+        "pid": 29020,
+        "ppid": 37292,
+        "created": "639293559309682320",
+        "root": false
+      },
+      {
+        "pid": 28808,
+        "ppid": 37292,
+        "created": "639293559310638100",
+        "root": false
+      },
+      {
+        "pid": 38420,
+        "ppid": 37292,
+        "created": "639293559311013320",
+        "root": false
+      },
+      {
+        "pid": 39040,
+        "ppid": 37292,
+        "created": "639293559312173830",
+        "root": false
+      },
+      {
+        "pid": 4596,
+        "ppid": 37292,
+        "created": "639293559312303530",
+        "root": false
+      },
+      {
+        "pid": 25972,
+        "ppid": 37292,
+        "created": "639293559312817840",
+        "root": false
+      },
+      {
+        "pid": 32052,
+        "ppid": 37292,
+        "created": "639293559312843320",
+        "root": false
+      },
+      {
+        "pid": 32276,
+        "ppid": 37292,
+        "created": "639293559314205760",
+        "root": false
+      },
+      {
+        "pid": 17736,
+        "ppid": 37292,
+        "created": "639293559339510330",
+        "root": false
+      },
+      {
+        "pid": 25512,
+        "ppid": 37292,
+        "created": "639293559339787320",
+        "root": false
+      },
+      {
+        "pid": 37688,
+        "ppid": 37292,
+        "created": "639293559344762220",
+        "root": false
+      },
+      {
+        "pid": 15480,
+        "ppid": 37292,
+        "created": "639293559344855760",
+        "root": false
+      },
+      {
+        "pid": 29136,
+        "ppid": 37292,
+        "created": "639293559344859220",
+        "root": false
+      },
+      {
+        "pid": 35772,
+        "ppid": 37292,
+        "created": "639293559344920150",
+        "root": false
+      },
+      {
+        "pid": 39596,
+        "ppid": 37292,
+        "created": "639293559344920150",
+        "root": false
+      },
+      {
+        "pid": 16564,
+        "ppid": 37292,
+        "created": "639293559344922260",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

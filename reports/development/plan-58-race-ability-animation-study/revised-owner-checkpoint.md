@@ -1,4 +1,6 @@
-# Revised Bounce and crowd animation — owner review
+# Revised Bounce and crowd animation — historical owner checkpoint
+
+**Later owner feedback:** Bounce/pad/flap is accepted as the visual direction. Airflow was revised afterward; use `airflow-owner-checkpoint.md` for the current review.
 
 [Open the revised report-local gallery](http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/). If you already have it open, refresh the page. In any section select **Predicted threat, then Bounce** with **Revised pad + flap**, or **Crowd acceleration** with **Revised wave + airflow**. Press Play or use Replay; Time can be scrubbed. **Independent overlap** shows both. The Duck-Dex and racer-selection sections demonstrate genuinely enlarged ducks and effects. Facing changes between left, right and turn; labels stay separate. Earlier comparison treatments remain in the selectors.
 

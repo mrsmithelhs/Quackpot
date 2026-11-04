@@ -10,3 +10,5 @@
 
 .water-effects,.air-effects{position:absolute;pointer-events:none;inset:-30%;z-index:1}.water-effects svg,.air-effects svg{width:100%;height:100%;overflow:visible}.air-effects{z-index:3}.air-effects svg{opacity:.9}
 .large .stage{height:400px}.large .runner{top:58% !important}.air-effects{z-index:1}
+
+.air-front-effects{position:absolute;pointer-events:none;inset:-30%;z-index:3}.air-front-effects svg{width:100%;height:100%;overflow:visible;opacity:.9}

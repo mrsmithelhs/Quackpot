@@ -10,8 +10,11 @@ export function bowWave(phase,still=false){
  const ripple=still?0:Math.sin(phase*Math.PI*4)*5;
  return wrap('wave', `<g transform="translate(0 ${ripple})"><path d="M20 213 Q30 166 60 171 Q82 174 103 213 Z" fill="#9fe0d8" stroke="#256f7c" stroke-width="5"/><path d="M28 215 Q46 185 65 192 Q80 196 96 215 Z" fill="#5bbcb8" stroke="#256f7c" stroke-width="4"/><path d="M42 217 Q55 199 69 204 Q80 207 89 217 Z" fill="#2f8f99" stroke="#256f7c" stroke-width="3"/><path d="M28 202 Q50 177 72 188" fill="none" stroke="#f4fbf4" stroke-width="6" stroke-linecap="round"/></g>`);
 }
-export function airCurrents(phase,still=false){
+// Revised from Sonnet iteration-04: path order and arrowhead run head-to-tail
+// for the default left-facing duck. Facing transform mirrors the whole layer.
+export function airCurrents(phase,still=false,layer='behind'){
  const offset=still?0:-phase*90;
- const paths=['M235 120 C216 54 126 23 65 68 C50 78 36 92 24 110','M235 151 C190 92 119 78 65 112 C49 121 37 131 25 145'];
- return wrap('air', paths.map(d=>`<path d="${d}" fill="none" stroke="#1f4a78" stroke-width="12" stroke-linecap="round" stroke-dasharray="100 22" stroke-dashoffset="${offset}"/><path d="${d}" fill="none" stroke="#bfe8ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="100 22" stroke-dashoffset="${offset}"/>`).join('')+'<path d="M35 99 L24 110 L21 95 M37 134 L25 145 L27 130" fill="none" stroke="#bfe8ff" stroke-width="6" stroke-linecap="round"/>');
+ const d=layer==='front'?'M66 145 C100 133 149 132 190 138 L231 147':'M62 156 C106 148 158 147 195 155 L231 165';
+ const tip=layer==='front'?'M218 136 L231 147 L215 150':'M218 154 L231 165 L215 168';
+ return wrap(`air air-${layer}`, `<path d="${d}" fill="none" stroke="#1f4a78" stroke-width="12" stroke-linecap="round" stroke-dasharray="70 16" stroke-dashoffset="${offset}"/><path d="${d}" fill="none" stroke="#bfe8ff" stroke-width="7" stroke-linecap="round" stroke-dasharray="70 16" stroke-dashoffset="${offset}"/><path d="${tip}" fill="none" stroke="#1f4a78" stroke-width="10" stroke-linecap="round"/><path d="${tip}" fill="none" stroke="#bfe8ff" stroke-width="6" stroke-linecap="round"/>`);
 }

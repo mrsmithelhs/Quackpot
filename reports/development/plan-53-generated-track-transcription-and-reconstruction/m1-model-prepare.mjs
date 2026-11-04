@@ -1,8 +1,9 @@
-import {readFile,writeFile,mkdir} from 'node:fs/promises';import {createHash} from 'node:crypto';import {normalize} from './m1-model-comparison.mjs';
+import {readFile,writeFile,mkdir,access} from 'node:fs/promises';import {createHash} from 'node:crypto';import {normalize} from './m1-model-comparison.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const src=[['medium','local/listening/raw-events.json','feaff584adf778277c32437c0ad737480820ae9e58ec2a999d064197541b3a6a'],['large','local/MuScriptor-Large-return/comparison/M1-excerpt/raw-events.jsonl','c33817db518d323baf68e25ab8a6e486a07a9c5096a2219c94435e01876cde16']];
 const output=[];for(const [name,path,expected] of src){const bytes=await readFile(new URL(path,import.meta.url));if(hash(bytes)!==expected)throw Error('source hash mismatch: '+name);const text=bytes.toString('utf8');const events=name==='medium'?JSON.parse(text).events:text.trim().split(/\r?\n/).map(line=>JSON.parse(line));const result=normalize(events);const data=Buffer.from(JSON.stringify(result,null,2)+'\n');output.push({name,path,expected,result,data});}
 const dir=new URL('local/m1-medium-large-comparison/',import.meta.url);await mkdir(dir,{recursive:true});
+for(const name of ['medium-events.json','large-events.json','manifest.json']){try{await access(new URL(name,dir));throw Error('output exists: '+name)}catch(e){if(e.code!=='ENOENT')throw e}}
 for(const x of output)await writeFile(new URL(x.name+'-events.json',dir),x.data,{flag:'wx'});
 const manifest={schema:1,source_crop_sha256:'63f39148c3763e72aaf19cebcbe1036dce939b61617ef74913ffafd50fc874da',variants:output.map(x=>({name:x.name,source_sha256:x.expected,output_sha256:hash(x.data),notes:x.result.notes.length,omitted:x.result.omitted,counts:x.result.counts,programs:x.result.programs})),note:'No MIDI bar offset or recovered velocity; same declared mapping for both.'};
 await writeFile(new URL('manifest.json',dir),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(manifest));

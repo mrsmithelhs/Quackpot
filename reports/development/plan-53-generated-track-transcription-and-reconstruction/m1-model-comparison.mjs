@@ -22,3 +22,11 @@ export function normalize(events){
  const programs=Object.fromEntries(Object.keys(counts).sort().map(k=>[k,PROGRAMS[k]]));
  return {schema:1,notes,omitted,programs,counts,channel_policy:'Drums channel 10; other groups distinct channels.',velocity:'Assigned constant 85/127; dynamics not recovered.',alignment:'Raw seconds relative to 00:20 source crop; no MIDI bar offset.',source_order:'Input read in original order; notes emitted on paired end events.'};
 }
+
+export function buildSchedule(data){
+ if(!data||!Array.isArray(data.notes)||!data.notes.length||!data.programs||!Array.isArray(data.omitted))throw Error('invalid comparison data');
+ const channels={},programs={};let next=0;
+ for(const [part,program] of Object.entries(data.programs)){if(!Object.hasOwn(PROGRAMS,part)||program!==PROGRAMS[part])throw Error('unsupported program');if(part==='drums'){channels[part]=9;continue}if(next===9)next++;if(next>=16)throw Error('too many channels');channels[part]=next;programs[next++]=program;}
+ const events=[];for(const n of data.notes){if(!Object.hasOwn(channels,n.part)||!Number.isInteger(n.pitch)||n.pitch<0||n.pitch>127||!Number.isFinite(n.start)||!Number.isFinite(n.end)||n.start<0||n.start>25||n.end<=n.start||n.end>26||n.velocity!==85)throw Error('invalid scheduled note');const ch=channels[n.part];events.push({time:n.start,on:true,n,ch});if(ch!==9)events.push({time:n.end,on:false,n,ch});}
+ events.sort((a,b)=>a.time-b.time||Number(a.on)-Number(b.on));return {channels,programs,events};
+}

@@ -336,3 +336,6 @@ Owner-verified M1 audio controls completed four authorized CLI sessions: the ide
 ## Full M5 half-duration softer-low-piano preparation
 
 The owner approved an A/B against the preserved full M5 half-duration WAV. The report-local candidate changes assigned velocity from 85 to 60 for 308 acoustic-piano notes at pitch 55 or below; all other notes, times and durations remain unchanged. Focused tests and direct 1,712-event/scheduled-velocity comparisons passed. Terra-medium review found and prompted correction of inherited stale velocity metadata before rendering. A managed-sandbox browser startup failed with CIM access denied; one cleared host-context attempt then timed out during startup/inspection at the 90-second outer bound. No candidate WAV or owner listening result was produced. Temporary servers exited; browser/profile cleanup remained uncertain, and a later exact-profile check observed no matching current Chrome process without proving historical cleanup. See `m5-piano-soft-render-status.md`.
+
+
+One separately cleared non-audio isolated blank-browser probe subsequently started in 1.521s; observed processes exited with no residual or inspection failure, but sampled-only coverage retained cleanup uncertainty and the profile. It exited 1 under existing cleanup policy. No music render followed; the cause of prior startup failures remains unproven.

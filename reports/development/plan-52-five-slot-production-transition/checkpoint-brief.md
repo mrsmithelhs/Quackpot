@@ -1,5 +1,7 @@
 # Plan 52 targeted checkpoint briefs
 
+> **Desk-keys presentation change:** All 13 catalog entries are `source-changed-revalidation-required`. The session-panel checkpoint evidence below is historical for the preceding source; one final refresh is planned after this owner-feedback batch.
+
 > **Session-panel refresh, 2026-11-03:** All 13 starts are current UI resaves and fresh-context continuations of immutable prior parents under source closure `ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21`. Earlier actions, including quiet time, are historical and do not establish full current-route reachability. Browser cleanup evidence uses explicit `sampled-observation-v1`: the root and observed processes exited, but complete descendant coverage remains unproven and the temporary profiles were retained. All 13 loader proofs passed validation and cash, RNG and re-chained-history negative controls; owner acceptance remains pending.
 
 These are synthetic development saves, generated with named seed `c4526757-fcb50b7b` through genuine engine actions or actual isolated browser interactions. They are for local review, not student data. Source closure, exact save, recipe, capture trace, validation loader and fresh-context restore evidence are pinned in `scripts/dev/checkpoints/catalog.json`. Run `checkpoint-proof.mjs fixture <id>` through the required bounded launcher after process preflight; a source, loader, fixture or evidence mismatch fails closed. Never load a fixture into the owner's ordinary browser profile.

@@ -1,0 +1,145 @@
+{
+  "source": "2368f41a7e938b1597cafb2d1b75a4299edbbcc3d7bb2d1f9b699d3b382e1094",
+  "recipeSha256": "deaf83d34d781911bd3ce285f43b996847da893ef4810fe152cf601d67acd58b",
+  "results": [
+    {
+      "name": "morning",
+      "parent": "meal-checkpoint-refresh-v2-first/completed-evening-continued.save.json",
+      "parentSha256": "fb9ed448b152a2957a53366a828a68ae69bf9836914bd7ee15d179c9e9a4a4c0",
+      "decorative": true,
+      "tag": "SPAN",
+      "hidden": "true",
+      "pointer": "none",
+      "tabindex": null,
+      "role": null,
+      "active": false,
+      "svg": true
+    },
+    {
+      "name": "midday",
+      "parent": "session-panel-witness-attempt3/finished-reload.save.json",
+      "parentSha256": "73c2bc7bb0227507b2b49c04aa5a71b8f4b650abf7ecf69cb7badf750b4aeb05",
+      "decorative": false,
+      "pointer": null,
+      "active": true,
+      "disabled": false,
+      "chip": "Work keys",
+      "svg": true
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "9b0ba06eab0964b16a59539377b6d092d22c5b645fdb5ebc9b27b33fd40234ec",
+    "trackedDescendants": [
+      {
+        "pid": 33968,
+        "ppid": 31332,
+        "created": "639293612688317570",
+        "root": true
+      },
+      {
+        "pid": 40756,
+        "ppid": 33968,
+        "created": "639293612688513710",
+        "root": false
+      },
+      {
+        "pid": 39620,
+        "ppid": 33968,
+        "created": "639293612690219350",
+        "root": false
+      },
+      {
+        "pid": 30648,
+        "ppid": 33968,
+        "created": "639293612690938180",
+        "root": false
+      },
+      {
+        "pid": 39016,
+        "ppid": 33968,
+        "created": "639293612691157670",
+        "root": false
+      },
+      {
+        "pid": 34692,
+        "ppid": 33968,
+        "created": "639293612691667520",
+        "root": false
+      },
+      {
+        "pid": 34016,
+        "ppid": 33968,
+        "created": "639293612692031030",
+        "root": false
+      },
+      {
+        "pid": 34368,
+        "ppid": 33968,
+        "created": "639293612692358620",
+        "root": false
+      },
+      {
+        "pid": 40244,
+        "ppid": 33968,
+        "created": "639293612692378780",
+        "root": false
+      },
+      {
+        "pid": 34156,
+        "ppid": 33968,
+        "created": "639293612693205090",
+        "root": false
+      },
+      {
+        "pid": 32468,
+        "ppid": 33968,
+        "created": "639293612715128620",
+        "root": false
+      },
+      {
+        "pid": 37960,
+        "ppid": 33968,
+        "created": "639293612715315120",
+        "root": false
+      },
+      {
+        "pid": 31188,
+        "ppid": 33968,
+        "created": "639293612715315650",
+        "root": false
+      },
+      {
+        "pid": 27908,
+        "ppid": 33968,
+        "created": "639293612729069380",
+        "root": false
+      },
+      {
+        "pid": 13344,
+        "ppid": 33968,
+        "created": "639293612729101940",
+        "root": false
+      },
+      {
+        "pid": 38360,
+        "ppid": 33968,
+        "created": "639293612731311260",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

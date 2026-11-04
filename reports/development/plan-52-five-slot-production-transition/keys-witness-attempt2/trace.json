@@ -1,0 +1,147 @@
+{
+  "source": "2368f41a7e938b1597cafb2d1b75a4299edbbcc3d7bb2d1f9b699d3b382e1094",
+  "recipeSha256": "a6fa5e4df6adfcb2fe4c252b76aa26cb459e3532147e8757e599a37eb0909838",
+  "results": [
+    {
+      "name": "morning",
+      "parent": "meal-checkpoint-refresh-v2-first/completed-evening-continued.save.json",
+      "parentSha256": "fb9ed448b152a2957a53366a828a68ae69bf9836914bd7ee15d179c9e9a4a4c0",
+      "decorative": true,
+      "tag": "SPAN",
+      "hidden": "true",
+      "pointer": "none",
+      "tabindex": null,
+      "role": null,
+      "active": false,
+      "svg": true,
+      "hitTarget": false,
+      "focusedDecoration": false
+    },
+    {
+      "name": "midday",
+      "parent": "session-panel-witness-attempt3/finished-reload.save.json",
+      "parentSha256": "73c2bc7bb0227507b2b49c04aa5a71b8f4b650abf7ecf69cb7badf750b4aeb05",
+      "decorative": false,
+      "pointer": null,
+      "active": true,
+      "disabled": false,
+      "chip": "Work keys",
+      "svg": true
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "431c014ec0e900ef0fca28cef439aa2618aad713bd7c969d2b7e02e151a7023c",
+    "trackedDescendants": [
+      {
+        "pid": 30404,
+        "ppid": 34440,
+        "created": "639293613191948660",
+        "root": true
+      },
+      {
+        "pid": 36748,
+        "ppid": 30404,
+        "created": "639293613192068810",
+        "root": false
+      },
+      {
+        "pid": 40080,
+        "ppid": 30404,
+        "created": "639293613193608420",
+        "root": false
+      },
+      {
+        "pid": 24788,
+        "ppid": 30404,
+        "created": "639293613194183470",
+        "root": false
+      },
+      {
+        "pid": 15448,
+        "ppid": 30404,
+        "created": "639293613194371220",
+        "root": false
+      },
+      {
+        "pid": 37068,
+        "ppid": 30404,
+        "created": "639293613194823250",
+        "root": false
+      },
+      {
+        "pid": 15404,
+        "ppid": 30404,
+        "created": "639293613195162940",
+        "root": false
+      },
+      {
+        "pid": 9176,
+        "ppid": 30404,
+        "created": "639293613195453410",
+        "root": false
+      },
+      {
+        "pid": 36648,
+        "ppid": 30404,
+        "created": "639293613195471950",
+        "root": false
+      },
+      {
+        "pid": 27184,
+        "ppid": 30404,
+        "created": "639293613196285990",
+        "root": false
+      },
+      {
+        "pid": 33228,
+        "ppid": 30404,
+        "created": "639293613216798600",
+        "root": false
+      },
+      {
+        "pid": 38348,
+        "ppid": 30404,
+        "created": "639293613217008570",
+        "root": false
+      },
+      {
+        "pid": 39092,
+        "ppid": 30404,
+        "created": "639293613217038160",
+        "root": false
+      },
+      {
+        "pid": 37192,
+        "ppid": 30404,
+        "created": "639293613232810350",
+        "root": false
+      },
+      {
+        "pid": 20720,
+        "ppid": 30404,
+        "created": "639293613232838050",
+        "root": false
+      },
+      {
+        "pid": 4888,
+        "ppid": 30404,
+        "created": "639293613233138200",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

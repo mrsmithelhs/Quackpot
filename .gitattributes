@@ -386,3 +386,11 @@
 /reports/development/plan-52-five-slot-production-transition/session-panel-witness-v2.mjs -text
 /reports/development/plan-52-five-slot-production-transition/session-panel-witness-v3.mjs -text
 /reports/development/plan-52-five-slot-production-transition/session-panel-witness.mjs -text
+
+# Plan 52 desk keys review evidence.
+/reports/development/plan-52-five-slot-production-transition/keys-preview.mjs -text
+/reports/development/plan-52-five-slot-production-transition/keys-static-server.mjs -text
+/reports/development/plan-52-five-slot-production-transition/keys-witness.mjs -text
+/reports/development/plan-52-five-slot-production-transition/keys-witness-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/keys-witness-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/keys-witness-attempt2/trace.json text eol=lf

@@ -182,9 +182,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
             chip: work ? 'Work' : unlocked ? 'Open Quackpot' : 'Launch invitation',
             done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         }
-        if (keysAvailable(life)) {
+        const workKeysReady = keysAvailable(life);
+        if (workKeysReady || life.policyVersion === 'five-slot-v1') {
           out.push({ id: 'work-keys', svg: workKeysTray(), x: 33.5, y: 70, w: 12.5, h: 9.5,
-            label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } });
+            ...(workKeysReady ? { label: 'Keys: leave for scheduled work', chip: 'Work keys', hold: { mode: 'popover', side: 'right', kind: 'life-depart-keys' } } : { decorative: true, done: true }) });
         }
         if (life.policyVersion==='five-slot-v1' ? engine.prepareFiveSlotActivityStory('sit_duck',`activity-preview:${engine.log.length}`).ok : life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
           const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
@@ -993,6 +994,16 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (ui.fadeIn) { root.classList.add('life-focus-fade-in'); ui.fadeIn = false; }
     const layer = $('.life-objects');
     for (const o of objects) {
+      if (o.decorative) {
+        const decoration = document.createElement('span');
+        decoration.className = 'life-obj life-inactive';
+        decoration.dataset.decoration = o.id;
+        decoration.setAttribute('aria-hidden', 'true');
+        Object.assign(decoration.style, { left: `${o.x}%`, top: `${o.y}%`, width: `${o.w}%`, pointerEvents: 'none' });
+        decoration.innerHTML = o.svg;
+        layer.append(decoration);
+        continue;
+      }
       const b = document.createElement('button');
       b.type = 'button';
       b.className = `life-obj${o.hotspot ? ' life-hotspot' : ''}${o.done ? ' life-done' : ''}${o.disabled ? ' life-inactive' : ''}${o.id === 'notice' && ui.noticeFocus ? ' life-notice-focus' : ''}`;

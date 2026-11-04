@@ -1,0 +1,7 @@
+# Late Evening bed interaction — Plan 52 owner feedback
+
+The owner found the bed inactive in Late Evening while a non-diegetic sleep button appeared below the bedroom scene. The five-slot bedroom now offers the existing bed hotspot and a sleep confirmation in that slot; the below-scene sleep action is removed. The confirmation invokes the existing sleep transaction. Recovery and Evening early bedtime retain their separate bed choices and rules.
+
+At source closure `8ea7e4e99799fd99f35006ef27d9f27a5046d0ddc21ec492177f1f2ba65989f3`, JS `cbd8851e84c65070380a5171cc087f18e9043bfe74c262951e57fecdfdff98b9`, the isolated `bed-witness-attempt1/trace.json` continued a genuine synthetic Day 2 post-work save through dinner and sitting with the duck to Late Evening. The bedroom offered the bed, not the old below-scene sleep button; cancel preserved schedule and log. Double activation produced one sleep intent and commit, advanced to Day 3 Morning, and reload stayed there. Seventy-six scheduler, coordinator and routing tests and the build passed. Browser cleanup observations are sampled only; the profile was retained, and complete descendant lifetime is unproven. The owner's profile was not used. Full assistive-technology, physical-device and owner acceptance are not established.
+
+The 13 canonical checkpoint entries remain source-stale; orchestration has deferred their refresh until the current owner-feedback batch stabilizes. Other below-scene metagame action controls are a separate ongoing audit, not resolved by this repair.

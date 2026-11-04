@@ -154,10 +154,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, chip: available ? 'Call Mom' : null, disabled: !available,
         hold: { mode: 'popover', side: 'right', kind: 'life-call-mom' } });
     }
-    if (place === 'bedroom' && engine.state.life?.policyVersion==='five-slot-v1' && (engine.state.life.schedule.recovery || (engine.state.life.schedule.slot==='evening' && (!engine.state.life.schedule.active || engine.state.life.schedule.active.kind==='early-bed')))) {
-      const recovering=Boolean(engine.state.life.schedule.recovery);
-      out.push({id:'bed',hotspot:true,x:56,y:61,w:37,h:25,label:recovering?'Bed: recover':'Bed: turn in early',chip:recovering?'Rest':'Turn in',done:false,
-        hold:{mode:'popover',side:'left',kind:recovering?'five-slot-recovery':'five-slot-bed'}});
+    if (place === 'bedroom' && engine.state.life?.policyVersion==='five-slot-v1' && (engine.state.life.schedule.recovery || (engine.state.life.schedule.slot==='evening' && (!engine.state.life.schedule.active || engine.state.life.schedule.active.kind==='early-bed')) || (engine.state.life.schedule.slot==='late-evening' && !engine.state.life.schedule.active))) {
+      const recovering=Boolean(engine.state.life.schedule.recovery), sleeping=engine.state.life.schedule.slot==='late-evening' && !recovering;
+      out.push({id:'bed',hotspot:true,x:56,y:61,w:37,h:25,label:recovering?'Bed: recover':sleeping?'Bed: go to sleep':'Bed: turn in early',chip:recovering?'Rest':sleeping?'Sleep':'Turn in',done:false,
+        hold:{mode:'popover',side:'left',kind:recovering?'five-slot-recovery':sleeping?'five-slot-sleep':'five-slot-bed'}});
     } else if (place === 'bedroom' && engine.state.life?.recovery) {
       out.push({ id: 'bed', hotspot: true, x: 56, y: 61, w: 37, h: 25, label: 'Bed', chip: 'Rest', done: false,
         hold: { mode: 'popover', side: 'left', kind: 'life-recovery' } });
@@ -268,6 +268,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   function decisionFor(kind) {
     const expectLog = engine.log.length;
     if(kind==='five-slot-recovery')return {spec:{heading:'Rest and recover?',lines:[`Rest restores up to ${engine.state.life.config.recoveryHealth} HP and takes this time slot.`],confirm:'Rest',back:'Not now'},accept:()=>{const result=callbacks.onFiveSlotRecover(expectLog);return result?.ok?{heading:'Rested',lines:[`Health: ${engine.state.health} HP.`]}:null;}};
+    if(kind==='five-slot-sleep')return {spec:{heading:'Go to sleep?',lines:['Sleep until tomorrow morning.'],confirm:'Go to sleep',back:'Not now'},accept:()=>{callbacks.onFiveSlotSleep(expectLog);return null;}};
     if(kind==='five-slot-bed')return {spec:{heading:'Turn in early?',lines:[`Resting now restores up to ${engine.state.life.config.earlyBedHealth} HP and moves to morning.`],confirm:'Turn in',back:'Not now'},accept:()=>{const result=callbacks.onFiveSlotBed(expectLog);return result?.ok?{heading:'A new morning',lines:[`Health: ${engine.state.health} HP.`]}:null;}};
     if (kind === 'life-depart-keys') {
       return { spec: { heading: 'Head to work?', lines: [`Your scheduled shift pays ${money(engine.state.life.config.scheduledWage)} after completion.`, 'Leaving now begins the shift.'], confirm: 'Take the keys and go', back: 'Not now' },
@@ -786,8 +787,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if(schedule.slot==='evening' && !schedule.active && schedule.overtimeReservation?.status==='reserved' && schedule.overtimeReservation.day===schedule.day)
         control('Start extra shift',()=>{callbacks.onFiveSlotOvertime(expectLog);callbacks.onRefresh();});
       if(schedule.active?.kind==='overtime')control('Complete extra shift',()=>{callbacks.onFiveSlotFinishOvertime(expectLog);callbacks.onRefresh();});
-      if(schedule.slot==='late-evening' && !schedule.active && !schedule.recovery)
-        control('Go to sleep',()=>{callbacks.onFiveSlotSleep(expectLog);ui.held=null;callbacks.onRefresh();});
       if(schedule.day>=4)control('Finish run',()=>{callbacks.onFinishLife(expectLog);ui.held=null;callbacks.onRefresh();});
       return;
     }

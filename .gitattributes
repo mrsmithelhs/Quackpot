@@ -407,3 +407,15 @@
 /reports/development/plan-52-five-slot-production-transition/desk-navigation-static-server.mjs -text
 /reports/development/plan-52-five-slot-production-transition/desk-navigation-witness-v2.mjs -text
 /reports/development/plan-52-five-slot-production-transition/desk-navigation-witness.mjs -text
+
+# Plan 52 late-evening bed review evidence.
+/reports/development/plan-52-five-slot-production-transition/bed-preview.mjs -text
+/reports/development/plan-52-five-slot-production-transition/bed-static-server.mjs -text
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/after-duck.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/bed-decision.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/bed-target.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/cancelled.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/morning-reload.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/morning.save.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/bed-witness.mjs -text

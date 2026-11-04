@@ -1,0 +1,151 @@
+{
+  "source": "8ea7e4e99799fd99f35006ef27d9f27a5046d0ddc21ec492177f1f2ba65989f3",
+  "recipeSha256": "3d55ec9670f40bb9662e0657fb53552ade96c7978ea3a16da87c52e7a63df40a",
+  "observations": [
+    {
+      "name": "after-duck",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nLate Evening\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nLate Eve\nQUACKPOT\nQuackpot\nReturn to app\nOpen Quackpot\nDay 2 · Late Evening\nThe kitchen →\nThe living room →\nThe bedroom →\nThe door →"
+    },
+    {
+      "name": "bed-target",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nLate Evening\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nA\nB\nC\nSleep\nDay 2 · Late Evening\nThe desk →\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "bed-decision",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nLate Evening\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nA\nB\nC\nSleep\nGo to sleep?\n\nSleep until tomorrow morning.\n\nGo to sleep\nNot now\nDay 2 · Late Evening\nThe desk →\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "cancelled",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nLate Evening\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nA\nB\nC\nSleep\nDay 2 · Late Evening\nThe desk →\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "morning",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 3:\nMorning\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 3 · Morning\nThe desk →\nThe living room →\nThe door →"
+    },
+    {
+      "name": "morning-reload",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 3:\nMorning\n💵\nCash:\n$182.00\n💎\nGems:\n50\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nBreakfast\nDay 3 · Morning\nThe desk →\nThe living room →\nThe door →"
+    },
+    {
+      "sleepIntents": 1,
+      "commits": 1,
+      "day": 3,
+      "slot": "morning"
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "9b4fa535885a49d752178705ef962a13729bae514b8223b517077cbab5f70bad",
+    "trackedDescendants": [
+      {
+        "pid": 27168,
+        "ppid": 31196,
+        "created": "639294249354441020",
+        "root": true
+      },
+      {
+        "pid": 4936,
+        "ppid": 27168,
+        "created": "639294249354794830",
+        "root": false
+      },
+      {
+        "pid": 11696,
+        "ppid": 27168,
+        "created": "639294249357528900",
+        "root": false
+      },
+      {
+        "pid": 3848,
+        "ppid": 27168,
+        "created": "639294249358435740",
+        "root": false
+      },
+      {
+        "pid": 38192,
+        "ppid": 27168,
+        "created": "639294249358788090",
+        "root": false
+      },
+      {
+        "pid": 31936,
+        "ppid": 27168,
+        "created": "639294249359553050",
+        "root": false
+      },
+      {
+        "pid": 19252,
+        "ppid": 27168,
+        "created": "639294249360134690",
+        "root": false
+      },
+      {
+        "pid": 43000,
+        "ppid": 27168,
+        "created": "639294249360484260",
+        "root": false
+      },
+      {
+        "pid": 26680,
+        "ppid": 27168,
+        "created": "639294249360508720",
+        "root": false
+      },
+      {
+        "pid": 20712,
+        "ppid": 27168,
+        "created": "639294249361645160",
+        "root": false
+      },
+      {
+        "pid": 10912,
+        "ppid": 27168,
+        "created": "639294249376948840",
+        "root": false
+      },
+      {
+        "pid": 25108,
+        "ppid": 27168,
+        "created": "639294249377317410",
+        "root": false
+      },
+      {
+        "pid": 25236,
+        "ppid": 27168,
+        "created": "639294249377318140",
+        "root": false
+      },
+      {
+        "pid": 25464,
+        "ppid": 27168,
+        "created": "639294249397624960",
+        "root": false
+      },
+      {
+        "pid": 27328,
+        "ppid": 27168,
+        "created": "639294249397702680",
+        "root": false
+      },
+      {
+        "pid": 39944,
+        "ppid": 27168,
+        "created": "639294249400052590",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

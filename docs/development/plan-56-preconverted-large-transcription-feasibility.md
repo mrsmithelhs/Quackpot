@@ -1,7 +1,8 @@
 ---
 id: plan-56
 title: Preconverted MuScriptor Large runtime feasibility
-status: in-progress
+status: complete
+resolution: "Owner closes the feasibility investigation in favor of the successful official Large FP32 desktop roundtrip. Research preserved; no community tooling installation/build/inference or laptop infeasibility claim. Reusable workflow documented in DECISION-081."
 depends_on: []
 gate: "Read-only source/toolchain/provenance investigation first. Root clears exact staged installation/download/build/resource proposal before execution; same-M1 listening gate before expansion."
 summary: >-

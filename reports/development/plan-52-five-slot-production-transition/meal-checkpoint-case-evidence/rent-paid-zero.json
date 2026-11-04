@@ -1,0 +1,286 @@
+{
+  "description": "Case from successful current-source UI resave/fresh-context continuation; sampled process observation, profile retained, no complete cleanup proof.",
+  "originalBatch": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-second/trace.json",
+  "originalBatchSha256": "20d98e1abd096e19fe2f1b2fd1f02b2d697625b9ec249b157f9964478fe4b5a9",
+  "origin": "historical-parent-resave",
+  "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-paid-zero.save.json",
+  "parentSha256": "c1cee12ee3420abb4b7e7c2467c479542c4f30efb9d212f0ffcaf107ce6df2fb",
+  "sourceClosureSha256": "ed85dbadcfae669ac8fa2c66130a004a9892f2008dddbd1dfaa44f0d4cfb47fd",
+  "recipeSha256": "98590a7bdd58c6df44122e4d2dd81829e938eb9c095a2de3ed8e105468847e9b",
+  "captures": [
+    {
+      "name": "rent-paid-zero",
+      "sha256": "92931cf3409e20be536be347f5c54de6eb768282ebb342be24b65cdab315f0da"
+    }
+  ],
+  "results": [
+    {
+      "name": "rent-paid-zero",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-paid-zero.save.json",
+      "parentSha256": "c1cee12ee3420abb4b7e7c2467c479542c4f30efb9d212f0ffcaf107ce6df2fb",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-paid-zero.save.json",
+      "inputSha256": "c1cee12ee3420abb4b7e7c2467c479542c4f30efb9d212f0ffcaf107ce6df2fb",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-second/rent-paid-zero.save.json",
+      "fixtureSha256": "92931cf3409e20be536be347f5c54de6eb768282ebb342be24b65cdab315f0da",
+      "restoredEvents": 83,
+      "afterEvents": 118,
+      "day": 4,
+      "slot": "midday",
+      "cash": 0,
+      "health": 95,
+      "unchangedRng": false,
+      "continuationPolicy": "seeded-gameplay-v1",
+      "continued": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-second/rent-paid-zero-continued.save.json",
+      "continuedSha256": "ec033cdc7631f93885497fed231ac5cfa7b17b5b05de726490808e47abc9e155",
+      "continuationVerified": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "eeb1161f1da0d1db61eba05213a8d1dd0b33e6cd7efb3366375b5f29a9241906",
+    "trackedDescendants": [
+      {
+        "pid": 9104,
+        "ppid": 40764,
+        "created": "639293584180291540",
+        "root": true
+      },
+      {
+        "pid": 21072,
+        "ppid": 9104,
+        "created": "639293584180447140",
+        "root": false
+      },
+      {
+        "pid": 14760,
+        "ppid": 9104,
+        "created": "639293584182562420",
+        "root": false
+      },
+      {
+        "pid": 40936,
+        "ppid": 9104,
+        "created": "639293584183146840",
+        "root": false
+      },
+      {
+        "pid": 23064,
+        "ppid": 9104,
+        "created": "639293584183387230",
+        "root": false
+      },
+      {
+        "pid": 27704,
+        "ppid": 9104,
+        "created": "639293584183892290",
+        "root": false
+      },
+      {
+        "pid": 38424,
+        "ppid": 9104,
+        "created": "639293584184644760",
+        "root": false
+      },
+      {
+        "pid": 20588,
+        "ppid": 9104,
+        "created": "639293584184987750",
+        "root": false
+      },
+      {
+        "pid": 35768,
+        "ppid": 9104,
+        "created": "639293584185005590",
+        "root": false
+      },
+      {
+        "pid": 24868,
+        "ppid": 9104,
+        "created": "639293584185906330",
+        "root": false
+      },
+      {
+        "pid": 39648,
+        "ppid": 9104,
+        "created": "639293584208576260",
+        "root": false
+      },
+      {
+        "pid": 39976,
+        "ppid": 9104,
+        "created": "639293584208749970",
+        "root": false
+      },
+      {
+        "pid": 24792,
+        "ppid": 9104,
+        "created": "639293584208750570",
+        "root": false
+      },
+      {
+        "pid": 9212,
+        "ppid": 9104,
+        "created": "639293584220169890",
+        "root": false
+      },
+      {
+        "pid": 39556,
+        "ppid": 9104,
+        "created": "639293584221554440",
+        "root": false
+      },
+      {
+        "pid": 40228,
+        "ppid": 9104,
+        "created": "639293584223251560",
+        "root": false
+      },
+      {
+        "pid": 17220,
+        "ppid": 9104,
+        "created": "639293584224443330",
+        "root": false
+      },
+      {
+        "pid": 40224,
+        "ppid": 9104,
+        "created": "639293584239792970",
+        "root": false
+      },
+      {
+        "pid": 14896,
+        "ppid": 9104,
+        "created": "639293584239988110",
+        "root": false
+      },
+      {
+        "pid": 40572,
+        "ppid": 9104,
+        "created": "639293584239988900",
+        "root": false
+      },
+      {
+        "pid": 40676,
+        "ppid": 9104,
+        "created": "639293584248410590",
+        "root": false
+      },
+      {
+        "pid": 11152,
+        "ppid": 9104,
+        "created": "639293584248577770",
+        "root": false
+      },
+      {
+        "pid": 40220,
+        "ppid": 9104,
+        "created": "639293584248577800",
+        "root": false
+      },
+      {
+        "pid": 21892,
+        "ppid": 9104,
+        "created": "639293584292036220",
+        "root": false
+      },
+      {
+        "pid": 15924,
+        "ppid": 9104,
+        "created": "639293584292236320",
+        "root": false
+      },
+      {
+        "pid": 14624,
+        "ppid": 9104,
+        "created": "639293584292239500",
+        "root": false
+      },
+      {
+        "pid": 35500,
+        "ppid": 9104,
+        "created": "639293584309006100",
+        "root": false
+      },
+      {
+        "pid": 37196,
+        "ppid": 9104,
+        "created": "639293584309257840",
+        "root": false
+      },
+      {
+        "pid": 40184,
+        "ppid": 9104,
+        "created": "639293584309258160",
+        "root": false
+      },
+      {
+        "pid": 34156,
+        "ppid": 9104,
+        "created": "639293584318438140",
+        "root": false
+      },
+      {
+        "pid": 31436,
+        "ppid": 9104,
+        "created": "639293584318631290",
+        "root": false
+      },
+      {
+        "pid": 38784,
+        "ppid": 9104,
+        "created": "639293584318632680",
+        "root": false
+      },
+      {
+        "pid": 10960,
+        "ppid": 9104,
+        "created": "639293584341238970",
+        "root": false
+      },
+      {
+        "pid": 28064,
+        "ppid": 9104,
+        "created": "639293584341451920",
+        "root": false
+      },
+      {
+        "pid": 35632,
+        "ppid": 9104,
+        "created": "639293584341453400",
+        "root": false
+      },
+      {
+        "pid": 16660,
+        "ppid": 9104,
+        "created": "639293584357661750",
+        "root": false
+      },
+      {
+        "pid": 28580,
+        "ppid": 9104,
+        "created": "639293584357837970",
+        "root": false
+      },
+      {
+        "pid": 40568,
+        "ppid": 9104,
+        "created": "639293584357839270",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

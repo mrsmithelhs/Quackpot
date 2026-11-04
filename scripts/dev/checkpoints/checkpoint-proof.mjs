@@ -1,3 +1,4 @@
+import { validateSeededContinuation, validateContinuationDispatch } from './seeded-continuation.mjs';
 import { acceptsPlan52Cleanup } from './cleanup-evidence.mjs';
 import { appendFile, mkdir, stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -31,7 +32,15 @@ async function plan52Fixture(id) {
   if(entry.status==='current-loadable') {
     for(const [file,pin] of [[entry.restoreRecipe,entry.restoreRecipeSha256],[entry.restoreTrace,entry.restoreTraceSha256]])if(sha256(await readBounded(file,1024*1024))!==pin)fail(`${id} restore evidence changed: ${file}`);
     const restore=JSON.parse((await readBounded(entry.restoreTrace,1024*1024)).toString('utf8')),result=restore.results?.find(item=>item.name===entry.restoreName);
-    if(restore.error || restore.consoleErrors?.length || !acceptsPlan52Cleanup(restore.cleanup,entry.cleanupEvidencePolicy) || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || (result?.continuationVerified!==true && result?.wages!==1) || result?.unchangedRng!==true)fail(`${id} restore evidence does not match`);
+    if(restore.error || restore.consoleErrors?.length || !acceptsPlan52Cleanup(restore.cleanup,entry.cleanupEvidencePolicy) || restore.sourceClosureSha256!==closure.sha256 || restore.recipeSha256!==entry.restoreRecipeSha256 || result?.fixtureSha256!==entry.sha256 || (result?.continuationVerified!==true && result?.wages!==1))fail(`${id} restore evidence does not match`);
+    if(!validateContinuationDispatch({id,recipe:entry.restoreRecipe,policy:entry.continuationEvidencePolicy,result}))fail(`${id} continuation policy dispatch mismatch`);
+    if(entry.continuationEvidencePolicy !== undefined) {
+      if(entry.continuationEvidencePolicy!=='seeded-gameplay-v1' || result.continuationPolicy!==entry.continuationEvidencePolicy || result.parent!==entry.provenance?.parent || result.parentSha256!==entry.provenance?.parentSha256)fail(`${id} continuation policy mismatch`);
+      const parentBytes=await readBounded(result.parent,1024*1024), continuedBytes=await readBounded(result.continued,1024*1024);
+      if(sha256(parentBytes)!==result.parentSha256 || sha256(continuedBytes)!==result.continuedSha256)fail(`${id} continuation pin mismatch`);
+      const errors=validateSeededContinuation({id,policy:entry.continuationEvidencePolicy,recipe:entry.restoreRecipe,parent:JSON.parse(parentBytes),child:envelope,continued:JSON.parse(continuedBytes)});
+      if(errors.length)fail(`${id} seeded continuation invalid: ${errors.join('; ')}`);
+    }
   }
   const trace=JSON.parse((await readBounded(entry.captureTrace,1024*1024)).toString('utf8'));
   if(trace.error || !acceptsPlan52Cleanup(trace.cleanup,entry.cleanupEvidencePolicy) || trace.consoleErrors?.length)fail(`${id} capture did not complete cleanly`);
@@ -62,7 +71,7 @@ async function plan52Fixture(id) {
   else alteredHistory.eventLog[0].payload.lifeConfig.startCash+=1;
   const rebuilt=new EventLog();for(const event of alteredHistory.eventLog)rebuilt.append(event.type,event.payload,event.clock);alteredHistory.eventLog=rebuilt.entries;
   if([alteredCash,alteredRng,alteredHistory].some(value=>validateSave(value,options).valid))fail(`${id} accepted a negative control`);
-  return {id,status:entry.status,fixture:entry.fixture,sha256:fixture.hash,seed:entry.seed,boundary:entry.boundary,sourceClosureSha256:closure.sha256,validation:'valid',negativeControls:['cash','rng',effect?'re-chained transaction effect':'re-chained starting config'],limit:'This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.'};
+  return {id,status:entry.status,fixture:entry.fixture,sha256:fixture.hash,seed:entry.seed,boundary:entry.boundary,sourceClosureSha256:closure.sha256,validation:'valid',negativeControls:['cash','rng',effect?'re-chained transaction effect':'re-chained starting config'],limit:entry.continuationEvidencePolicy==='seeded-gameplay-v1'?'Checkpoint start precedes the draw; the witnessed continuation includes a verified free promotional draw and does not establish whole-run acceptance.':'This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.'};
 }
 
 async function appendResult(record) {

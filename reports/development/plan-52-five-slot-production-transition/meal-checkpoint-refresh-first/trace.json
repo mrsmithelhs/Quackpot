@@ -1,0 +1,278 @@
+{
+  "sourceClosureSha256": "ed85dbadcfae669ac8fa2c66130a004a9892f2008dddbd1dfaa44f0d4cfb47fd",
+  "recipeSha256": "e927de5948ef59677b7f2a1acbfad77674e06999675eb353367a78d8f7ef371d",
+  "results": [
+    {
+      "name": "fresh-tutorial",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/fresh-tutorial.save.json",
+      "parentSha256": "8f164adf8ddbfa52ec055d4121490bc83e5dee3d477bb8ea0cfa9b90c97feb66",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/fresh-tutorial.save.json",
+      "inputSha256": "8f164adf8ddbfa52ec055d4121490bc83e5dee3d477bb8ea0cfa9b90c97feb66",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-first/fresh-tutorial.save.json",
+      "fixtureSha256": "cb287248afc843ff1914825db9ca7e5957a81bfeb463464eb24c91317a4dc1cc",
+      "restoredEvents": 2,
+      "afterEvents": 5,
+      "day": 1,
+      "slot": "midday",
+      "cash": 74,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/midday-work.save.json",
+      "parentSha256": "4ef27c47e166768ed7de135e74e244d15a3a8cf27898d46017ddeee7bb303302",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/midday-work.save.json",
+      "inputSha256": "4ef27c47e166768ed7de135e74e244d15a3a8cf27898d46017ddeee7bb303302",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-first/midday-work.save.json",
+      "fixtureSha256": "5d5f06a1cffbe002aa62b0ce1596509c9125974792e5e5578d876ea725e434c7",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "unresolved-dinner",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/unresolved-dinner.save.json",
+      "parentSha256": "791e6439505fa878af0285ad90cca505f0a3eff1e3a28a6ac6430826143801ce",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/unresolved-dinner.save.json",
+      "inputSha256": "791e6439505fa878af0285ad90cca505f0a3eff1e3a28a6ac6430826143801ce",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-first/unresolved-dinner.save.json",
+      "fixtureSha256": "cb40d906f68136aaa867691caa8e963acb59ad18c0fa140c858b803e4e7e555a",
+      "restoredEvents": 22,
+      "afterEvents": 25,
+      "day": 1,
+      "slot": "evening",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    },
+    {
+      "name": "completed-evening",
+      "parent": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/completed-evening.save.json",
+      "parentSha256": "34cc2e56fd3c127510f3161579649742fd49cb55cc2a6fb5ca559b1a9343c0ff",
+      "input": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/completed-evening.save.json",
+      "inputSha256": "34cc2e56fd3c127510f3161579649742fd49cb55cc2a6fb5ca559b1a9343c0ff",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-first/completed-evening.save.json",
+      "fixtureSha256": "fe11214e7bf1f384eb166e5618fa903dc24fec782abb5a7b51ee8128d1c32a57",
+      "restoredEvents": 37,
+      "afterEvents": 40,
+      "day": 2,
+      "slot": "morning",
+      "cash": 128,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "dialogs": [],
+  "consoleErrors": [],
+  "error": "Error: independent-day: missing [data-life-phone=welcome]",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "6b87941c5273b0a71c9bf8d071e731b708ea6b4b2cfb9e7074996eadc14c4dda",
+    "trackedDescendants": [
+      {
+        "pid": 37860,
+        "ppid": 33216,
+        "created": "639293583220332690",
+        "root": true
+      },
+      {
+        "pid": 16660,
+        "ppid": 37860,
+        "created": "639293583220472890",
+        "root": false
+      },
+      {
+        "pid": 28808,
+        "ppid": 37860,
+        "created": "639293583222473080",
+        "root": false
+      },
+      {
+        "pid": 11024,
+        "ppid": 37860,
+        "created": "639293583223043830",
+        "root": false
+      },
+      {
+        "pid": 17540,
+        "ppid": 37860,
+        "created": "639293583223245650",
+        "root": false
+      },
+      {
+        "pid": 31932,
+        "ppid": 37860,
+        "created": "639293583223715910",
+        "root": false
+      },
+      {
+        "pid": 35388,
+        "ppid": 37860,
+        "created": "639293583224068140",
+        "root": false
+      },
+      {
+        "pid": 17220,
+        "ppid": 37860,
+        "created": "639293583224374010",
+        "root": false
+      },
+      {
+        "pid": 21024,
+        "ppid": 37860,
+        "created": "639293583224399870",
+        "root": false
+      },
+      {
+        "pid": 3104,
+        "ppid": 37860,
+        "created": "639293583225314050",
+        "root": false
+      },
+      {
+        "pid": 39412,
+        "ppid": 37860,
+        "created": "639293583244124980",
+        "root": false
+      },
+      {
+        "pid": 31084,
+        "ppid": 37860,
+        "created": "639293583244383410",
+        "root": false
+      },
+      {
+        "pid": 34532,
+        "ppid": 37860,
+        "created": "639293583244408620",
+        "root": false
+      },
+      {
+        "pid": 17404,
+        "ppid": 37860,
+        "created": "639293583258080430",
+        "root": false
+      },
+      {
+        "pid": 13284,
+        "ppid": 37860,
+        "created": "639293583258336290",
+        "root": false
+      },
+      {
+        "pid": 35184,
+        "ppid": 37860,
+        "created": "639293583260306600",
+        "root": false
+      },
+      {
+        "pid": 1816,
+        "ppid": 37860,
+        "created": "639293583261688730",
+        "root": false
+      },
+      {
+        "pid": 13084,
+        "ppid": 37860,
+        "created": "639293583261883100",
+        "root": false
+      },
+      {
+        "pid": 35616,
+        "ppid": 37860,
+        "created": "639293583273721370",
+        "root": false
+      },
+      {
+        "pid": 22400,
+        "ppid": 37860,
+        "created": "639293583273878360",
+        "root": false
+      },
+      {
+        "pid": 36512,
+        "ppid": 37860,
+        "created": "639293583273879900",
+        "root": false
+      },
+      {
+        "pid": 35560,
+        "ppid": 37860,
+        "created": "639293583293939570",
+        "root": false
+      },
+      {
+        "pid": 19924,
+        "ppid": 37860,
+        "created": "639293583294123600",
+        "root": false
+      },
+      {
+        "pid": 10960,
+        "ppid": 37860,
+        "created": "639293583294129770",
+        "root": false
+      },
+      {
+        "pid": 10720,
+        "ppid": 37860,
+        "created": "639293583310210890",
+        "root": false
+      },
+      {
+        "pid": 25372,
+        "ppid": 37860,
+        "created": "639293583310498300",
+        "root": false
+      },
+      {
+        "pid": 8872,
+        "ppid": 37860,
+        "created": "639293583310513060",
+        "root": false
+      },
+      {
+        "pid": 27728,
+        "ppid": 37860,
+        "created": "639293583320443540",
+        "root": false
+      },
+      {
+        "pid": 37840,
+        "ppid": 37860,
+        "created": "639293583320643910",
+        "root": false
+      },
+      {
+        "pid": 9548,
+        "ppid": 37860,
+        "created": "639293583320650200",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

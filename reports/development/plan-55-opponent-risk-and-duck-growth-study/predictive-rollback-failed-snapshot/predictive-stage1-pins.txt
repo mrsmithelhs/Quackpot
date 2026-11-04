@@ -1,0 +1,16 @@
+7392e6c25ca356fbf253d9dfccd1562052577b2bfaca23720431b123364389a7  src/core/prng.mjs
+6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85  reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+b9ce24920ab0364f4435cc5697837007967f3e0d08ac5961557fa5dd78450ad6  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-susceptibility-adapter.mjs
+e404a516e3894ca2bec82abdd2ab218c2fcce22164aefb1263a46b62235d11af  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-susceptibility-state.mjs
+6076d19fa86e658afc555676639cd8fddc5327cf40be7fd7a93941c2ef5d4cc0  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-state.mjs
+15172802884acfac154a04902c39ae39f8907bc654d2b06faee08b15955f04a7  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-advice-candidate.mjs
+74f82be99b8375f2c10eb0cb451e073f50185678e4aa0f66fad94e7bd734d715  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-advice-candidate.test.mjs
+5fc7e14f3e39defa5c1a373512b4626a45a746518abafb969a0ec4fa05e136bd  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-traffic-adapter.mjs
+74de81d12bf7eeea0431da7fd21baf57adfb3e6b1f9d5f747e988bf6d52abe93  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage-core.mjs
+9849a716ec20241b7703794850e05109bfc9730168575b458259564c553b69c3  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage-core.test.mjs
+fd8e8d329159ce24f21c3c2f3a1433d2e1294d2d8072f377389e5f26e8dc6356  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-adapter-pure.test.mjs
+63305af2929cb33a3b8f288d1e9f77b5e4a246afb4c2f00ca1f76918cb83df8d  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage-io.mjs
+5d9a9b6b09729f253a213b3fa7ff5e0a11c8823a21226fca19dc59cf4bfbfa05  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage-io.test.mjs
+f09b71fab10872d405a13eb81515fb6686dac39f4f1975f3bc9a63d8ce331276  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage1-runner.mjs
+c70f75c6ce109c44f92492c27855f1af9393f96ece9e0a580394fa0bb9bb811d  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage1-analysis.mjs
+55a8e6f98a67b4d54e3d164f2bff2208b8fac5b2e33b039995d0c4826e592091  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-correctness-runner.mjs

@@ -8,7 +8,7 @@ export function selectPredictedThreat(own, neighbors, courseLength) {
     if(Math.min(arc,courseLength-arc)>8) continue;
     const rx=n.x-own.x, ry=n.y-own.y, vx=n.vx-own.vx, vy=n.vy-own.vy;
     if(![rx,ry,vx,vy].every(Number.isFinite)) throw new RangeError('invalid observation');
-    if(Math.hypot(rx,ry)>6) continue;
+    if(Math.hypot(rx,ry)<=1 || Math.hypot(rx,ry)>6) continue;
     const vv=vx*vx+vy*vy, rv=rx*vx+ry*vy;
     if(vv===0 || rv>=0) continue;
     const time=-rv/vv;

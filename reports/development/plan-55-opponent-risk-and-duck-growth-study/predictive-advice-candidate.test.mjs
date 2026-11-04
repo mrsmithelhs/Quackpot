@@ -8,3 +8,5 @@ test('predicts only closing, near-course threats inside horizon',()=>{
 });
 test('picks lowest separation then stable ID',()=>{assert.equal(selectPredictedThreat(own,[neighbor({id:'B'}),neighbor({id:'A'})],100).id,'A')});
 test('risk changes follow threshold without altering draw',()=>{assert.deepEqual(shouldFollowAdvice('steady',.5),{probability:.75,follow:true});assert.deepEqual(shouldFollowAdvice('sprint',.5),{probability:.35,follow:false});assert.throws(()=>shouldFollowAdvice('other',.5));});
+test('overlap and nonclosing pairs do not predict a new threat',()=>{assert.equal(selectPredictedThreat(own,[neighbor({x:.9})],100),null);assert.equal(selectPredictedThreat(own,[neighbor({x:.9,vx:1})],100),null)});
+test('course wrap uses the short arc and ties remain deterministic',()=>{assert.equal(selectPredictedThreat({...own,progress:99},[neighbor({progress:1})],100).id,'A')});

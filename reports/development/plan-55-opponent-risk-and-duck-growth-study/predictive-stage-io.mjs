@@ -1,0 +1,4 @@
+import {readFile,stat} from 'node:fs/promises';import {createHash} from 'node:crypto';
+export const sha=b=>createHash('sha256').update(b).digest('hex');
+export async function boundedRead(path,limit){const s=await stat(path);if(!s.isFile()||s.size>limit||s.size<1)throw Error('invalid bounded file: '+path);const b=await readFile(path);if(b.length!==s.size||b.length>limit)throw Error('file changed or too large: '+path);return b}
+export async function checkPins(expected){if(!/^[a-f0-9]{64}$/.test(expected??''))throw Error('expected pin manifest digest required');const p='reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-stage1-pins.txt',b=await boundedRead(p,32768);if(sha(b)!==expected)throw Error('pin manifest drift');for(const line of b.toString('utf8').trim().split(/\r?\n/)){const [hash,path]=line.split('  ');if(!/^[a-f0-9]{64}$/.test(hash)||!path||sha(await boundedRead(path,2*1024*1024))!==hash)throw Error('source pin mismatch: '+path)}}

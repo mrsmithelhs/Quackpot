@@ -87,3 +87,7 @@ Owner reported Desk navigation failed after work. A genuine shift reproduction f
 ## Late Evening bed interaction, 2026-11-04
 
 The owner selected the bed as the Late Evening sleep target. The existing sleep transaction is now reached through the bed and its confirmation; the old below-scene sleep button is removed. A genuine synthetic Day 2 dinner and sit-with-duck continuation exercised cancel, once-only sleep and reload; see `bed-repair.md` for pins, cleanup limits and the distinct ongoing audit of other below-scene controls. All 13 checkpoint entries remain source-stale until the owner-feedback batch ends. Advisor disposition: orchestrator-gate-only; root visual/source review and owner review remain separate. No push or status closure.
+
+## Navigation-only day bar and action placement, 2026-11-04
+
+The owner selected the phone, companion and keys for existing Ren, quiet-time and overtime actions, and a temporary Day 4+ header exit with its existing confirmation. The five-slot day bar uses a room-navigation-only interface. `navigation-actions-repair.md` records the finite ten-state production matrix, exact shown-door evidence exception, moved-action checks and in-memory synthetic phone/quiet component cases; normal npm test passed 566/566 before the later phone-restoration repair, which has focused browser evidence. Root visual and owner acceptance remain separate; the 13 checkpoint starts remain source-stale until the final owner-feedback batch refresh. Advisor disposition: orchestrator-gate-only. No push or status closure.

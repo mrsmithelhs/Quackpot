@@ -328,3 +328,6 @@ Public audio documentation, model card, controlled music benchmark and a qualifi
 
 
 A design-only `flash-audio-control-protocol.md` proposes owner-verified early/middle/late event coverage and identical/changed/reversed pair controls for the prior CLI route, with staged resource and stop rules. The owner requested notice before the experiment starts. No preparation or experiment was run.
+
+
+Owner-verified M1 audio controls completed four authorized CLI sessions: the identical A/A pair was correctly called same, but both A/B and B/A were called same despite the owner-confirmed silent final three seconds in B. The single-file answer only partially and ambiguously matched the owner-described sequence. Operational traces showed the intended reads; they do not establish audio delivery or comprehension. See `flash-audio-control-protocol.md` for scoring, timing and resource limits; no M3/M5 or native-audio calls followed.

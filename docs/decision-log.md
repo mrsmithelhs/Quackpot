@@ -788,3 +788,15 @@ Owner accepts moving the existing Day4+ Finish run control to the global header 
 Owner states in QP Impl55: Full Bounce protection is decided for now. Select full injury protection for the Bounce duck during its defined active window, including genuine landing contact; the other participant keeps independent injury risk. Preserve actual collision effects and existing injuries, without retroactive healing or event erasure. This supersedes the unresolved full-versus-reduced choice in DECISION-082 for forward work; historical partial/full results remain evidence.
 
 The matched eight-seed comparison produced three paired protected contacts whose draws all exceeded the reduced thresholds, so identical measured outcomes do not establish equal strength or final balance. Stop further protection-policy probes absent new need. Plan55 production-readiness-handoff.md separates remaining meaningful growth/injury/forecast decisions, correctness/unresolved-case/save/replay/Receipt and visual integration gates, and deferrable broader tuning. No production writes, additional simulations, push or deployment follow automatically.
+
+### DECISION-085 — First earned ability and working injury lifecycle
+
+**Date:** 2026-11-04
+
+In QP Impl55 owner selects first duck-earned bankable permanent no-life-slot point as Bounce or crowd acceleration. Each completed entered-duck race gives 2 progress, plus 1 for top three; first point threshold4 knowingly retained over5 although top-three does not accelerate first redemption. Retain overflow; later thresholds/redemptions and rarity starts remain unselected.
+
+Working injury: 10% race-rating reduction starting in the injury race, injured ducks raceable, recovery after2 actual in-game day changes. Each completed race entered already injured has a disclosed25% independent chance of adding1 recovery day; newly injured at entry does not qualify retroactively. Values remain tunable, not production-implemented. Owner accepts validated retained injury on unresolved attempt regardless of watched/skipped/reduced-motion presentation, explained accessibly; guard-discarded events never apply. No finish rewards/progress or completed-race extension draw on unresolved attempts. Preserve full Bounce working direction and independent other-participant risk.
+
+Plan55 growth-injury-slice-design.md owns the coherent report contract and remaining production gate proposals. Atomic attempt/state/log/save/replay, actual scheduler day-boundary semantics, nonfinish fallback and pinned ability/injury odds require technical review and serialized ownership after Plan52 stable baseline. No production writes or new experiments follow automatically.
+
+Separate Gem bonus idea is report-only: owner selects all owned ducks, future earned progress only, expiry at same slot next in-game day, and requests comparison of effective1-point-per2 versus1-point-per1 candidates. Price, later progression, stacking/rebuy and exact expiry semantics remain unselected. Do not expand or block the free first slice or claim usable extra points before later redemption rules exist. See gem-one-day-progression-proposal.md.

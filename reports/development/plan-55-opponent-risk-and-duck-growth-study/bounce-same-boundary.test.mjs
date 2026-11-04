@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {sameBoundaryContact} from './bounce-same-boundary.mjs';
+const e={type:'duck-contact',tick:171,participants:['C','P'],studyContactFraction:1,studyContactPhases:{P:'landing',C:'idle'}},base={event:e,pairState:{tick:171,separated:false},playerId:'P',otherId:'C',boundaryTick:171};
+test('identifies exact previously committed landing contact at same boundary',()=>assert.equal(sameBoundaryContact(base),true));
+test('rejects stale, wrong pair, nonlanding, different fraction and rearmed episode',()=>{for(const changes of [{boundaryTick:172},{otherId:'A'},{event:{...e,studyContactFraction:.9}},{event:{...e,studyContactPhases:{P:'airborne'}}},{pairState:{tick:171,separated:true}},{pairState:{tick:170,separated:false}},{event:{...e,type:'wall-impact'}}])assert.equal(sameBoundaryContact({...base,...changes}),false)});

@@ -1,0 +1,1 @@
+{"traffic":"clearance","arm":"bounce-full","calls":8,"bytes":912826,"sha256":"8a2277088c01a2b26e8644f0a538f628dd3a428b43cddcea687983e8223972a6"}

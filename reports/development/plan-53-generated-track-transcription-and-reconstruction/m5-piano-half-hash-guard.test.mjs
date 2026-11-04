@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {requiredHashes,verifyRequiredHashes} from './m5-piano-half-hash-guard.mjs';
+test('requires each actual variant, baseline event and baseline WAV hash',()=>{assert.equal(verifyRequiredHashes({...requiredHashes}),true);for(const key of Object.keys(requiredHashes)){const bad={...requiredHashes,[key]:'incorrect'};assert.throws(()=>verifyRequiredHashes(bad));const missing={...requiredHashes};delete missing[key];assert.throws(()=>verifyRequiredHashes(missing));}});

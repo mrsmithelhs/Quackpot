@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {facing,worldPosition} from './predictive-view-geometry.mjs';
+test('facing uses heading with hysteresis on vertical turns',()=>{assert.equal(facing(0),'right');assert.equal(facing(Math.PI),'left');assert.equal(facing(Math.PI/2,'right'),'right');assert.equal(facing(Math.PI/2,'left'),'left')});
+test('world coordinates map without clipping at course extremes',()=>{assert.deepEqual(worldPosition(-56,-26),{left:8/128*100,top:6/64*100});assert.deepEqual(worldPosition(56,26),{left:120/128*100,top:58/64*100});assert.throws(()=>worldPosition(NaN,0))});
+test('target marker uses true course normal and lateral offset',async()=>{const {targetPoint}=await import('./predictive-view-geometry.mjs');const x=targetPoint({progress:0,lateral:0,x:0,y:-20},.4);assert.ok(Math.abs(x.x)<1e-9);assert.ok(Math.abs(x.y+19.6)<1e-9)});

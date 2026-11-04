@@ -1,0 +1,4 @@
+export function facing(heading,previous='left') {if(!Number.isFinite(heading))return previous;const x=Math.cos(heading);return x>.15?'right':x<-.15?'left':previous}
+export function worldPosition(x,y){if(!Number.isFinite(x)||!Number.isFinite(y))throw new Error('invalid position');return {left:(x+64)/128*100,top:(y+32)/64*100}}
+export function courseNormal(progress){if(!Number.isFinite(progress))throw Error('invalid progress');const straight=60,radius=20,curve=Math.PI*radius,length=2*straight+2*curve,s=((progress+30)%length+length)%length;let tx,ty;if(s<straight){tx=1;ty=0}else if(s<straight+curve){const a=-Math.PI/2+(s-straight)/radius;tx=-Math.sin(a);ty=Math.cos(a)}else if(s<2*straight+curve){tx=-1;ty=0}else{const a=Math.PI/2+(s-2*straight-curve)/radius;tx=-Math.sin(a);ty=Math.cos(a)}return {nx:-ty,ny:tx}}
+export function targetPoint(duck,target){const n=courseNormal(duck.progress),d=target-duck.lateral;return {x:duck.x+n.nx*d,y:duck.y+n.ny*d}}

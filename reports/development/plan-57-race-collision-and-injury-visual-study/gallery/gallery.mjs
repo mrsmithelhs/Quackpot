@@ -112,7 +112,7 @@ export function mount(host, closeup = false) {
       const frame = ['A','B','C'].includes(cue) ? burstFrameAt(event.age, still) : null;
       if (['A','B','C'].includes(cue) && !frame) continue;
       const art = document.createElement('img'); art.className = 'collision-art'; art.alt = '';
-      art.src = frame ? `../art/burst-continuation/${cue}-${frame}.svg` : `../art/${cue === 'burst' ? 'impact-burst' : 'paper-splash'}.svg`;
+      art.src = frame ? `../art/burst-normalized/${cue}-${frame}.svg` : `../art/${cue === 'burst' ? 'impact-burst' : 'paper-splash'}.svg`;
       art.style.left = `${centers.reduce((sum, item) => sum + item.x, 0) / centers.length}px`;
       art.style.top = `${centers.reduce((sum, item) => sum + item.y, 0) / centers.length}px`;
       art.style.width = `${centers[0].width * .8}px`;

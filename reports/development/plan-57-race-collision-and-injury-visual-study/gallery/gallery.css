@@ -11,7 +11,8 @@ label { display: grid; gap: .2rem; font-size: .9rem; } button,select,input { fon
 .status { display: inline-block; background: #fff2bd; border: 1px solid #533c18; padding: 0 .2rem; }
 .name.offset::after { content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: 5px; background: #102a43; }
 .wall-standin { position: absolute; left: 1%; top: 26%; height: 48%; width: .4rem; background: #30495a; color: #fff; z-index: 2; font-size: .65rem; writing-mode: vertical-rl; }
-.collision-art { position: absolute; height: auto; aspect-ratio: 1; z-index: 2; pointer-events: none; }
+.collision-layer { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.collision-art { position: absolute; height: auto; aspect-ratio: 1; pointer-events: none; }
 .bandage { position: absolute; width: 32%; height: 32%; left: 41%; top: 39%; pointer-events: none; }
 .tab-icon { width: 1.2em; height: 1.2em; vertical-align: middle; }
 [hidden] { display: none !important; }

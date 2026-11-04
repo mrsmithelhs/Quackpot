@@ -1,0 +1,89 @@
+{
+  "method": "union polygon vertices across all four frames; add conservative 6-unit margin for <=3-unit stroke and default miter limit <=4; square about union center",
+  "families": {
+    "A": {
+      "union": [
+        24,
+        36,
+        150,
+        152
+      ],
+      "maxStroke": 3,
+      "viewBox": "18 25 138 138",
+      "frames": {
+        "A-onset.svg": {
+          "original": "79b64ca7a6ca762398353315919377d1b88afaf5dcd8bef29319a5ae4cde0349",
+          "derived": "2ec65052f1810989c356605dc2d6c62c39eccdb8b8138eebe1f37250029dcd25"
+        },
+        "A-expansion.svg": {
+          "original": "d0a65931a281328b3e3412e92fb8fd19fe29dadab2c56f1048ff46cba04abe5a",
+          "derived": "9efad9cc32f99b2f76bbca7a98483767aacffd21b71c6ddbc46bcb5d859c26bb"
+        },
+        "A-breakup.svg": {
+          "original": "58c1c86e2969f92d60242d578a3136a741f8d3d0f62fac00b985bf5453ac4f26",
+          "derived": "ae003f071a224e9a62b3398bf1f74d7cb97079bdece99f499b91b04fdd01c827"
+        },
+        "A-settle.svg": {
+          "original": "acab93a95f27e640bcc0b24666385fbc4638a3bc419c2447024c37fe151c4e92",
+          "derived": "2c393e87358416a1ba1cfcfd2e375b3ac60707eb5a0726522e5529d79a14677c"
+        }
+      }
+    },
+    "B": {
+      "union": [
+        14,
+        144,
+        144,
+        238
+      ],
+      "maxStroke": 3,
+      "viewBox": "8 120 142 142",
+      "frames": {
+        "B-onset.svg": {
+          "original": "b6cd725f0e2c9ef6dac4e1c2d01210dcad761bdd9e395ca3affaaa7f8397773a",
+          "derived": "1195c950f9b1b992f7ba7ddb1326771bd40bdc9a32f318d6a54089d7a97f8574"
+        },
+        "B-expansion.svg": {
+          "original": "6f1da0d6083a0c07c35df3827dd4a9ae5dae7ad83da763227094f60ed49188f6",
+          "derived": "944cd45c64fce07b699bfd92d8e896f776d1c7dbaa46d55504b94095885fa272"
+        },
+        "B-breakup.svg": {
+          "original": "8e54c55c0f60c48e2d31c5e6bc18ee03f3c2c4327978c1c02b9de728bd5f2ee4",
+          "derived": "d782a91630095a9984324fbf212a67ace749c5403f189390a125bc185c767b9d"
+        },
+        "B-settle.svg": {
+          "original": "4bca91fa92f104a2d470d21edb9e5b12341a328086b1c576b7246eb70f64b6a6",
+          "derived": "bcda6f830d6b6a160c0cf7cff9bf04c82c56c00a39b818cbb08f69a71fa223b9"
+        }
+      }
+    },
+    "C": {
+      "union": [
+        92,
+        14,
+        238,
+        144
+      ],
+      "maxStroke": 3,
+      "viewBox": "86 0 158 158",
+      "frames": {
+        "C-onset.svg": {
+          "original": "1e71ce7b28268e5ddff782b98414abe1df3ab87ca6a4ce75dfbd2240b58f493a",
+          "derived": "1076f7a86cd5fc168263d18928135e09c7840f294b330b19a6559a01c818597f"
+        },
+        "C-expansion.svg": {
+          "original": "a320f9df37f1708b4e6b84b8fa54e99c788eb45d5269042716c80534e1706091",
+          "derived": "eb8909dd6c154b032dd7ab8bde91358153f093b37aef5b335fccf3d8573af209"
+        },
+        "C-breakup.svg": {
+          "original": "64e32469071153d1b49885466690925082df4f5ce004a8a12553027ad720dd75",
+          "derived": "83e662e9ae2de3a4f8a0c4e0d6b48b1eda7253b6d732c81948c54207758249ec"
+        },
+        "C-settle.svg": {
+          "original": "68e43f18dcdaecce4e4e07e8743c45b67935eac19f747b74f96ec595db19a242",
+          "derived": "d145f63bc5c92cdf78947a65364e82517453ddceb546371345c0e2b01cb9030c"
+        }
+      }
+    }
+  }
+}

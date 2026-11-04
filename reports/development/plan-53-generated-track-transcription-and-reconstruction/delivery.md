@@ -73,3 +73,8 @@ The browser job captured Medium (541 scheduled) and Large (708 scheduled), each 
 For each piece the original 00:20–00:45 crop is compared with Medium and Large using raw-time events, the same TinySynth settings and velocity 85. Large was inferred with full-track context and its overlapping notes clipped to the excerpt; Medium was inferred from the standalone excerpt. Different hardware and environments are additional confounds. Model instrument labels are predictions, not isolated source stems. No previous M5 duration or quieter-register edits are applied to either model in this comparison.
 
 Large M3 has 11 notes carried into the window and seven cut at the end; Large M5 has no carry-ins and eight cut tails. The M5 Large model predicted drums in this window while Medium did not, but the label does not establish original instrumentation. Captures have unmeasured start latency, and signal checks do not establish musical quality. Both browser jobs exited 1 because cleanup inspection used sampled-only process coverage: no residual was observed and the root/observed processes exited, but full-tree termination was unproven and the profiles were retained. See `progress.md` for evidence and the initial corrected startup failure.
+
+
+## Owner feedback on M3 and M5
+
+The owner judged Large significantly better than Medium on both excerpts. On M5 they heard the Large result place the closed hi-hat correctly most of the time and found that helpful. This is subjective listening feedback; the model's predicted drums are not independently verified source stems. Large's full-track inference context and desktop environment differ from Medium's standalone-excerpt inference and laptop environment.

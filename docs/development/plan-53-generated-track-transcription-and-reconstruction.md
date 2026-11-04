@@ -1,7 +1,7 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-
@@ -93,6 +93,10 @@ If a specific part fails, propose ONE targeted repair (for example owner-exporte
 The owner authorizes one report-local M5 listening comparison using the existing selected 50%-duration piano capture as control and exactly two new variants of the same 450 events. For MIDI pitch <=55 (103 events), variant A uses piano program 0 with assigned velocity 60; variant B uses Electric Piano 1 program 4 with assigned velocity 85. Higher events remain piano program 0, velocity 85. Preserve all onsets, pitches and 50%-duration ends, raw inputs, original MIDI and existing control bytes. This pitch split is a rendering heuristic, not recovered stems or chord identification. Use a separate pitched channel for the alternative timbre so it cannot change upper notes. Preserve M3 and existing listening/export paths; label variant identity and transformation in exports.
 
 After root resource allocation, validate pure mapping/boundaries/immutability and perform exactly two serial finite browser renders with distinct no-overwrite output paths; reuse the control without rerendering. Existing unchanged bounded launcher, real-host preflight and cleanup evidence apply (90s/2GiB per allocated render job); no retry, extra model run, installation, download, separation or production integration. Root reviews technical/rendered evidence, then owner listening determines preference. The previous duration experiment remains immutable evidence; no automatic additional reviewer budget.
+
+## Desktop Large return analysis — 2026-11-04
+
+Owner supplied completed desktop Large predictions for the exact M1 excerpt and full M1/M3/M5 tracks. Plan53 is reopened for report-local intake and reconstruction analysis; Plan56 remains the separate laptop alternative-runtime feasibility investigation. Preserve the ignored original return bundles unchanged. Inspect returned scripts as evidence, not automatic execution instructions. Root clears adapter implementation and bounded pure tests first; a concrete finite render proposal and owner M1 listening checkpoint precede expansion. Compare Medium and Large on the same M1 excerpt using raw source-relative note times, identical declared GM mappings, velocity and renderer settings. Document MIDI cleanup/offset differences and hardware/dependency confounds. No new inference, installation, downloads, provider calls, production changes or full-track rendering follows from reopening. Later M3/M5 excerpts and full-track renders remain separately gated.
 
 ## Stop conditions
 

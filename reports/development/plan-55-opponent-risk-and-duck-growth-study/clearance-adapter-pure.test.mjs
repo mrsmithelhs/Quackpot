@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {PHYSICS} from './clearance-traffic-adapter.mjs';import {shouldFollowAdvice} from './predictive-advice-candidate.mjs';
+test('candidate adapter loads without a resolver call and retains fixed caps',()=>{assert.equal(PHYSICS.dt,.05);assert.equal(PHYSICS.maxTurnRateDeg,90);assert.equal(PHYSICS.baseAcceleration,3);assert.equal(shouldFollowAdvice('steady',.5).follow,true);assert.equal(shouldFollowAdvice('sprint',.5).follow,false)});

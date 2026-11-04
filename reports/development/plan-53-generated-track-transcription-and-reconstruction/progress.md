@@ -322,3 +322,6 @@ Following explicit owner authorization, all six frozen full-versus-30-second-exc
 
 
 The consultation report now leads with the current six-trial M1 disposition and marks earlier interruptions as historical. The broader M1/M3/M5 consultation objective remains pending; no further provider calls or music changes followed.
+
+
+Public audio documentation, model card, controlled music benchmark and a qualified anecdotal timing report are summarized in `flash-full-track-consultation.md`. They support a proposed owner-verified event/order and same-versus-changed control before further audio advice, without resolving what the existing CLI file reads delivered. No new experiments or provider calls were run; M3/M5 remain pending.

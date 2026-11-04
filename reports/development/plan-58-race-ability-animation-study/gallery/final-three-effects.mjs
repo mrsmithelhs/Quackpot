@@ -6,9 +6,15 @@ export function straightCue(p,style){const v=envelope(p),offset=(1-clamp(p))*54;
  if(style==='a')return wrap('straight-a',`<g fill="none" stroke-linecap="round" opacity="${v}"><g stroke="#294d5c" stroke-width="11" stroke-dasharray="42 14" stroke-dashoffset="${offset}"><path d="M11 151 H84"/><path d="M11 178 H84"/></g><g stroke="#f4f8df" stroke-width="5" stroke-dasharray="42 14" stroke-dashoffset="${offset}"><path d="M11 151 H84"/><path d="M11 178 H84"/></g></g>`);
  return wrap('straight-b',`<g opacity="${v}" fill="none" stroke-linecap="round"><path d="M178 157 Q198 ${172-12*p} 186 194" stroke="#31586c" stroke-width="13"/><path d="M178 157 Q198 ${172-12*p} 186 194" stroke="#e5f4eb" stroke-width="6"/><path d="M153 196 Q173 207 190 198" stroke="#31586c" stroke-width="7"/></g>`);
 }
-export function steadyCue(p,style,layer){const v=envelope(p),r=66-17*clamp(p);
- if(style==='a'){const top=layer==='back'?`M${128-r} 184 A${r} 17 0 0 1 ${128+r} 184`:`M${128-r} 184 A${r} 17 0 0 0 ${128+r} 184`;return wrap(`steady-a steady-${layer}`,`<g opacity="${v}" fill="none" stroke-linecap="round"><path d="${top}" stroke="#463f79" stroke-width="11"/><path d="${top}" stroke="#e5d7f7" stroke-width="5"/></g>`);}
- const x=layer==='back'?75:182;return wrap(`steady-b steady-${layer}`,`<g opacity="${v}" fill="none" stroke-linecap="round"><path d="M${x} 104 Q${x+(layer==='back'?-12:12)*(1-p)} 145 ${x} 183" stroke="#564479" stroke-width="12"/><path d="M${x} 104 Q${x+(layer==='back'?-12:12)*(1-p)} 145 ${x} 183" stroke="#eee0fb" stroke-width="5"/></g>`);
+export function steadyCue(p,style,layer){const v=envelope(p),q=clamp(p),x=layer==='back'?75:182;
+ const ring=progress=>{const r=66-17*progress;return layer==='back'?`M${128-r} 184 A${r} 17 0 0 1 ${128+r} 184`:`M${128-r} 184 A${r} 17 0 0 0 ${128+r} 184`;};
+ const brace=progress=>`M${x} 104 Q${x+(layer==='back'?-12:12)*(1-progress)} 145 ${x} 183`;
+ const stroked=(path,outer,inner)=>`<path d="${path}" stroke="${outer}" stroke-width="11"/><path d="${path}" stroke="${inner}" stroke-width="5"/>`;
+ if(style==='a'){
+  const ringWeight=Math.max(0,Math.min(1,(.58-q)/.16)),braceWeight=Math.max(0,Math.min(1,(q-.42)/.16));
+  return wrap(`steady-a steady-${layer}`,`<g fill="none" stroke-linecap="round"><g class="steady-ring-phase" opacity="${v*ringWeight}">${stroked(ring(Math.min(1,q*2)),'#463f79','#e5d7f7')}</g><g class="steady-brace-phase" opacity="${v*braceWeight}">${stroked(brace(Math.max(0,(q-.5)*2)),'#564479','#eee0fb')}</g></g>`);
+ }
+ return wrap(`steady-b steady-${layer}`,`<g opacity="${v}" fill="none" stroke-linecap="round"><path d="${brace(q)}" stroke="#564479" stroke-width="12"/><path d="${brace(q)}" stroke="#eee0fb" stroke-width="5"/></g>`);
 }
 export function wakeCue(p,style,layer){const v=envelope(p),q=clamp(p),drift=15*q;
  if(style==='a'){const cy=layer==='back'?173:195;return wrap(`wake-a wake-${layer}`,`<g opacity="${v}" fill="#e5f8ee" stroke="#235c67" stroke-width="5"><circle cx="${176+drift}" cy="${cy}" r="13"/><circle cx="${198+drift}" cy="${cy-4}" r="10"/><circle cx="${216+drift}" cy="${cy+3}" r="7"/></g>`);}

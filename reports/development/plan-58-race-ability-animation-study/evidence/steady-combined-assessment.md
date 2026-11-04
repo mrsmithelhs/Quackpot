@@ -1,0 +1,9 @@
+# Combined Steady Nerves A — evidence
+
+The owner selected Straight Shooter A and Wake Break B as suitable study directions and requested that Steady Nerves A include the earlier B animation as a second phase. In the revised A, the original contracting water ring transitions into the B side accents around the midpoint, with a smooth overlap; the actual duck's wobble/wing timing and separate B and no-activation control remain. This is a report-local visual proposal, not mechanics or production adoption.
+
+Twenty focused tests passed, including early ring/late brace weights, midpoint continuity and unchanged standalone B. `steady-combined-01` passed browser checks at actual 1024 and 390 viewport widths: early/mid/late phase, neutral end, independent B/control, event truth, previous ability states, pause/replay and reduced-motion emulation. Fourteen full-viewport PNGs were captured. Lead viewed all; the phase change is distinguishable enlarged and small but visible at race scale. Seeked stills and assertions do not establish subjective continuous-motion quality, actual device behavior or AT speech; owner playback judgment remains pending. Root visual review is pending.
+
+The capture exited 0 in 11.655s with sampled peak owned-tree private bytes 555,159,552. Server and observed browser processes exited; browser profile and static snapshot were retained, and sampled-only cleanup does not prove complete descendant termination. Receipt includes exact source pins and results. No provider or production change.
+
+QP Orch independently viewed the actual ring, midpoint, brace and end captures at 1024 and 390 and cleared the owner playback checkpoint. The seeked stills show the requested sequence and no clipping; the owner must judge its continuous playback and race-scale strength. Straight Shooter A and Wake Break B are selected study directions; the revised Steady A awaits owner review.

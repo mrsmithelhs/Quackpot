@@ -18,3 +18,10 @@ test('body returns to neutral and wobble controls share the same initial track',
  assert.equal(wobbleAngle(0,true),0);assert.equal(wobbleAngle(4,true),0);assert.equal(straightAngle(0),0);assert.equal(straightAngle(4),0);
  assert.ok(Math.abs(wobbleAngle(2.05,true))<Math.abs(wobbleAngle(2.05,false)));
 });
+
+test('Steady A moves from ring to brace through a smooth midpoint while B remains separate',()=>{
+ const weight=(p,part)=>Number(steadyCue(p,'a','front').match(new RegExp('class="steady-'+part+'-phase" opacity="([0-9.]+)"'))[1]);
+ assert.equal(weight(.25,'ring'),1);assert.equal(weight(.25,'brace'),0);assert.ok(weight(.5,'ring')>0&&weight(.5,'brace')>0);assert.equal(weight(.75,'ring'),0);assert.equal(weight(.75,'brace'),1);
+ for(const part of ['ring','brace'])assert.ok(Math.abs(weight(.5-1e-6,part)-weight(.5+1e-6,part))<.001);
+ assert.match(steadyCue(.75,'b','front'),/steady-b/);assert.doesNotMatch(steadyCue(.75,'b','front'),/steady-ring-phase/);
+});

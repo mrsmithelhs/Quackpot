@@ -97,3 +97,8 @@ The full M5 variant retains all 1,712 events and original onsets, pitches, progr
 ## Full M5 softer low piano comparison
 
 The owner authorized comparing the full half-duration M5 Large reconstruction with a version in which piano pitches at or below MIDI 55 use assigned velocity 60 rather than 85. The new version changes 308 piano note velocities; all other 1,404 velocities, note onsets, pitches, durations, bass and drum events remain unchanged. This pitch split is a heuristic, not recovered chord or melody labels. The original half-duration WAV is preserved for direct A/B listening. The new offline capture produced a non-silent, unclipped 89.5735-second WAV and passed event scheduling checks; its job exited 1 on sampled-only browser cleanup uncertainty despite no observed residual. These checks do not judge musical quality; owner preference remains pending. See `m5-piano-soft-render-status.md`.
+
+
+## M5 preference and M1 instrument comparison
+
+The owner compared the two full M5 half-duration WAVs and preferred softer low piano: the chords were clearer while melody and ragtime feel remained. This is an owner listening preference for the report-local reconstruction, not production adoption. They then selected a 00:30–00:50 M1 comparison changing only the piano-predicted group's TinySynth program from piano to marimba. Both 20-second WAVs were losslessly cut from full offline renders to retain preceding context; owner listening is pending. See `m1-marimba-comparison.md` for checks and cleanup limits.

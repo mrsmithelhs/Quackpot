@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {marimbaPrograms} from './m1-marimba-program.mjs';
+test('only piano channel is reassigned and source remains unchanged',()=>{const schedule={channels:{acoustic_guitar:0,acoustic_piano:1,electric_bass:2},programs:{0:24,1:0,2:33}};const before=structuredClone(schedule);assert.deepEqual(marimbaPrograms(schedule),{0:24,1:12,2:33});assert.deepEqual(schedule,before)});
+test('reject missing or unexpected piano channel',()=>{assert.throws(()=>marimbaPrograms({channels:{},programs:{}}));assert.throws(()=>marimbaPrograms({channels:{acoustic_piano:1},programs:{1:4}}))});

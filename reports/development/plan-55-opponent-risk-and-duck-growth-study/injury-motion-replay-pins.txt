@@ -1,0 +1,16 @@
+7392e6c25ca356fbf253d9dfccd1562052577b2bfaca23720431b123364389a7  src/core/prng.mjs
+389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793  src/core/duck-rig.mjs
+e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7  src/ui/duck-rig-view.mjs
+6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85  reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+4856561b71a59b43946d5b455209e2e1fd3ffd13d60911b03c05a1c71b0baf10  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-susceptibility-pins.txt
+6b71561d3b6f8fbb367704363840769e52c0f1e8fb7ce7cb7d92baba75e2ef61  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-susceptibility-results/first.json
+0ee9b64069e70999002505e3be9c310f4b10229df999e917ba3325f5b25efe9d  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-susceptibility-results/contact.json
+4cbbae04820186ce1a97f601cf14f34e57223ce3bbf7bce0ee1239b66b37e4ba  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-replay-core.mjs
+ab629850cbecc2d9a76696ce12a07cc3fbf7f5c136766d8595d99c62cc76a36a  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-replay.test.mjs
+7423c59cf0850328439c0d1b7e4a55035520e3542e5d6cc0dfc5fe0c90c3c014  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-replay.mjs
+a74407d3e0f883959786daaf8c7fbb49ab144f7310b0a5289721af165c026053  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-viewer.html
+67697b3bdf1a6a16089dc989e7dfc08cb9f71aa1fce4674627b54e2849b050d5  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-viewer.css
+7f9dff8907ea98e534ff5b69de54b8238e61e0e6867495da44c3366b291c7a75  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-viewer.mjs
+f8df0e86be06dde504b3b88a30c43efe7526db549ae8a141eb38fb2f3c229dbc  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-static-server.py
+31859ab7d40a75391ae0056266beb933b01c8f551e05066ee0feaa3046e237ac  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-implementation-manifest.md
+2569610faf7d75e5967266f60865131d944fd5a31e62ec3c9cb2c5a613f0341d  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-motion-gate.mjs

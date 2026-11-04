@@ -250,3 +250,5 @@ Landing boundary rearm repair and 17-call correctness passed; source and receipt
 2026-11-04: Matched correctness initial test-only schema error preserved; root-cleared repaired correctness passed 6 calls. Matched screen stopped after no-ability 8 and partial 2 calls, seed001 landing guard; full/crowd not run. Audit/source identify likely duplicate detection of the same boundary contact. Evidence and failure saved at 5edb658c. Root cleared source-only same-boundary reconciliation preparation; no resolver calls until review.
 
 2026-11-04: Same-boundary landing reconciliation source prepared at a63f764, pin d30aef5431ed6cc56b8ea8e4dca44bbc8b83e0210f0793bbde70af4d3768bbab. Eight pure tests passed; proposed eight correctness calls require QP Orch review and clearance. No physics, risk or comparison conclusion follows from preparation.
+
+2026-11-04: Root-cleared eight-call same-boundary correctness passed; failed seed001 partial replay preserved the original P/C event, impulse and both injury rolls exactly once, full replay also finished. Evidence f5147d4, see bounce-reconcile-results.md. No natural screen resumed; further finite protocol requires root approval.

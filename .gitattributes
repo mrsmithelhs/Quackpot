@@ -457,3 +457,34 @@
 /reports/development/plan-52-five-slot-production-transition/nav-component-harness-attempt2.html -text
 /reports/development/plan-52-five-slot-production-transition/nav-component-witness-v3.mjs -text
 /reports/development/plan-52-five-slot-production-transition/nav-component-attempt3/trace.json text eol=lf
+
+# Plan 52 sale-tag visibility and browser evidence.
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt2/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt3/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt4/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt5/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v3.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness.mjs -text
+/src/ui/life/sale-visibility.mjs -text
+
+# Plan 52 final anchored sale-tag captures.
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v4.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt4/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/sale-tags-preview-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-static-server-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-v5.mjs -text
+/reports/development/plan-52-five-slot-production-transition/sale-tags-witness-attempt5/trace.json text eol=lf

@@ -1,0 +1,125 @@
+{
+  "source": "946c4ed2b0315e5e07d26546b76af15a1765a16ed7181e921a68e5f7d4b97c61",
+  "recipeSha256": "2024707f4a0db1c7a2776a1fb95dc42d0e1d6c7ee7c189e4456ec19c73a1358f",
+  "results": [
+    {
+      "name": "comfortable",
+      "tags": []
+    }
+  ],
+  "errors": [],
+  "error": "ReferenceError: innerWidth is not defined",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "12da225b3086d446f691e320d9d4693fbdf40078d70920a7788392929bfe62f5",
+    "trackedDescendants": [
+      {
+        "pid": 21892,
+        "ppid": 31552,
+        "created": "639294313163190950",
+        "root": true
+      },
+      {
+        "pid": 33380,
+        "ppid": 21892,
+        "created": "639294313163537860",
+        "root": false
+      },
+      {
+        "pid": 30696,
+        "ppid": 21892,
+        "created": "639294313166086030",
+        "root": false
+      },
+      {
+        "pid": 39404,
+        "ppid": 21892,
+        "created": "639294313166923370",
+        "root": false
+      },
+      {
+        "pid": 19880,
+        "ppid": 21892,
+        "created": "639294313167257380",
+        "root": false
+      },
+      {
+        "pid": 4584,
+        "ppid": 21892,
+        "created": "639294313168012270",
+        "root": false
+      },
+      {
+        "pid": 30672,
+        "ppid": 21892,
+        "created": "639294313168431440",
+        "root": false
+      },
+      {
+        "pid": 37624,
+        "ppid": 21892,
+        "created": "639294313168815390",
+        "root": false
+      },
+      {
+        "pid": 11780,
+        "ppid": 21892,
+        "created": "639294313168815880",
+        "root": false
+      },
+      {
+        "pid": 26632,
+        "ppid": 21892,
+        "created": "639294313169857400",
+        "root": false
+      },
+      {
+        "pid": 8440,
+        "ppid": 21892,
+        "created": "639294313183125380",
+        "root": false
+      },
+      {
+        "pid": 7856,
+        "ppid": 21892,
+        "created": "639294313183593950",
+        "root": false
+      },
+      {
+        "pid": 29208,
+        "ppid": 21892,
+        "created": "639294313183594100",
+        "root": false
+      },
+      {
+        "pid": 8856,
+        "ppid": 21892,
+        "created": "639294313198705940",
+        "root": false
+      },
+      {
+        "pid": 37280,
+        "ppid": 21892,
+        "created": "639294313198940000",
+        "root": false
+      },
+      {
+        "pid": 19292,
+        "ppid": 21892,
+        "created": "639294313198940000",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

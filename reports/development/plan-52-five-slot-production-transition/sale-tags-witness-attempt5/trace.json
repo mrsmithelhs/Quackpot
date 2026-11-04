@@ -1,0 +1,227 @@
+{
+  "source": "bbe64e889afdcb14195f7cb88f153186a5907387fe0e5d4818104f5d83c7a603",
+  "recipeSha256": "7f8743d965ffab11e78d8064ccf369976f7987fec864474026030cd87e62c86d",
+  "results": [
+    {
+      "name": "comfortable",
+      "tags": []
+    },
+    {
+      "name": "shortfall",
+      "tags": [
+        {
+          "name": "Sell the couch",
+          "id": "couch-sale",
+          "opacity": "0.64",
+          "rect": {
+            "x": 808.5,
+            "y": 538.109375,
+            "width": 55,
+            "height": 61.875
+          }
+        },
+        {
+          "name": "Sell the TV",
+          "id": "tv-sale",
+          "opacity": "0.64",
+          "rect": {
+            "x": 275,
+            "y": 522.640625,
+            "width": 55,
+            "height": 61.875
+          }
+        }
+      ],
+      "narrow": [
+        {
+          "x": 240.703125,
+          "y": 401.671875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "x": 63.1875,
+          "y": 396.515625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "desktopGeometry": {
+        "screenOverlap": false,
+        "tagOverlap": false,
+        "otherOverlap": false,
+        "drawn": [
+          {
+            "width": 37.9375,
+            "height": 48.765625
+          },
+          {
+            "width": 37.9375,
+            "height": 48.765625
+          }
+        ]
+      },
+      "narrowGeometry": {
+        "screenOverlap": false,
+        "tagOverlap": false,
+        "otherOverlap": false,
+        "drawn": [
+          {
+            "width": 18,
+            "height": 23.140625
+          },
+          {
+            "width": 18,
+            "height": 23.140625
+          }
+        ]
+      },
+      "couchAfter": {
+        "x": 240.703125,
+        "y": 401.671875,
+        "width": 44,
+        "height": 44
+      },
+      "cancelUnchanged": true,
+      "cashDelta": 40,
+      "soldOnce": true
+    },
+    {
+      "name": "recovery",
+      "tags": []
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "7712e98d3f9bc3f389beec115ffb3f988a15bbd15249100f4f448c65033fc2ab",
+    "trackedDescendants": [
+      {
+        "pid": 10168,
+        "ppid": 30144,
+        "created": "639294317985673450",
+        "root": true
+      },
+      {
+        "pid": 41564,
+        "ppid": 10168,
+        "created": "639294317985992850",
+        "root": false
+      },
+      {
+        "pid": 8132,
+        "ppid": 10168,
+        "created": "639294317988409620",
+        "root": false
+      },
+      {
+        "pid": 29684,
+        "ppid": 10168,
+        "created": "639294317989089440",
+        "root": false
+      },
+      {
+        "pid": 19296,
+        "ppid": 10168,
+        "created": "639294317989590590",
+        "root": false
+      },
+      {
+        "pid": 33220,
+        "ppid": 10168,
+        "created": "639294317990095280",
+        "root": false
+      },
+      {
+        "pid": 6272,
+        "ppid": 10168,
+        "created": "639294317990469550",
+        "root": false
+      },
+      {
+        "pid": 9364,
+        "ppid": 10168,
+        "created": "639294317990751150",
+        "root": false
+      },
+      {
+        "pid": 35024,
+        "ppid": 10168,
+        "created": "639294317990766950",
+        "root": false
+      },
+      {
+        "pid": 39800,
+        "ppid": 10168,
+        "created": "639294317991513210",
+        "root": false
+      },
+      {
+        "pid": 35196,
+        "ppid": 10168,
+        "created": "639294318002402190",
+        "root": false
+      },
+      {
+        "pid": 20076,
+        "ppid": 10168,
+        "created": "639294318002614780",
+        "root": false
+      },
+      {
+        "pid": 33392,
+        "ppid": 10168,
+        "created": "639294318002677390",
+        "root": false
+      },
+      {
+        "pid": 27332,
+        "ppid": 10168,
+        "created": "639294318016203110",
+        "root": false
+      },
+      {
+        "pid": 1336,
+        "ppid": 10168,
+        "created": "639294318016414270",
+        "root": false
+      },
+      {
+        "pid": 32864,
+        "ppid": 10168,
+        "created": "639294318027790040",
+        "root": false
+      },
+      {
+        "pid": 41888,
+        "ppid": 10168,
+        "created": "639294318027818280",
+        "root": false
+      },
+      {
+        "pid": 41644,
+        "ppid": 10168,
+        "created": "639294318029782880",
+        "root": false
+      },
+      {
+        "pid": 36080,
+        "ppid": 10168,
+        "created": "639294318036673350",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

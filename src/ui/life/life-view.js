@@ -1,3 +1,4 @@
+import { saleTagsAvailable } from './sale-visibility.mjs';
 import { renderRoomNavigation } from './room-navigation.mjs';
 // src/ui/life/life-view.js
 // Apartment life view (Plan 38, the Plan 28 selected mix). Three layers:
@@ -228,8 +229,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
         const life = engine.state.life;
         if(life.policyVersion==='five-slot-v1') {
           if(life.schedule.recovery)return out;
-          if(!life.sold.includes('couch'))out.push({id:'couch-sale',hotspot:true,...COUCH_SPOT,w:COUCH_SPOT.w/2,label:'Couch: consider selling',chip:'Couch',tag:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'left',kind:'life-sell-couch'}});
-          if(!life.sold.includes('tv'))out.push({id:'tv-sale',hotspot:true,...TV_SPOT,label:'TV: consider selling',chip:'TV',tag:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'right',kind:'life-sell-tv'}});
+          if (saleTagsAvailable(life,engine.state.cash)) {
+            if(!life.sold.includes('couch'))out.push({id:'couch-sale',saleTag:true,x:68.5,y:66.5,w:5,h:10,label:'Sell the couch',svg:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'left',kind:'life-sell-couch'}});
+            if(!life.sold.includes('tv'))out.push({id:'tv-sale',saleTag:true,x:20,y:64,w:5,h:10,label:'Sell the TV',svg:saleTag({idPrefix:uid('lft')}),done:false,hold:{mode:'popover',side:'right',kind:'life-sell-tv'}});
+          }
           return out;
         }
         if (life.recovery || life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced)) return out;
@@ -1003,6 +1006,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       <p class="life-status life-visually-hidden" role="status" aria-live="polite"></p>`;
     if (ui.fadeIn) { root.classList.add('life-focus-fade-in'); ui.fadeIn = false; }
     const layer = $('.life-objects');
+    if (objects.some(o => o.saleTag)) {
+      const lines = `${objects.some(o => o.id === 'tv-sale' && o.saleTag) ? '<line x1="22" y1="51" x2="20" y2="64" />' : ''}${objects.some(o => o.id === 'couch-sale' && o.saleTag) ? '<line x1="65.5" y1="60" x2="68.5" y2="66.5" />' : ''}`;
+      layer.insertAdjacentHTML('beforeend', `<svg class="life-sale-leaders" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>`);
+    }
     for (const o of objects) {
       if (o.decorative) {
         const decoration = document.createElement('span');
@@ -1016,7 +1023,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       }
       const b = document.createElement('button');
       b.type = 'button';
-      b.className = `life-obj${o.hotspot ? ' life-hotspot' : ''}${o.done ? ' life-done' : ''}${o.disabled ? ' life-inactive' : ''}${o.id === 'notice' && ui.noticeFocus ? ' life-notice-focus' : ''}`;
+      b.className = `life-obj${o.saleTag ? ' life-sale-tag' : ''}${o.hotspot ? ' life-hotspot' : ''}${o.done ? ' life-done' : ''}${o.disabled ? ' life-inactive' : ''}${o.id === 'notice' && ui.noticeFocus ? ' life-notice-focus' : ''}`;
       b.dataset.obj = o.id;
       Object.assign(b.style, { left: `${o.x}%`, top: `${o.y}%`, width: `${o.w}%`, ...(o.h ? { height: `${o.h}%` } : {}) });
       b.setAttribute('aria-label', o.done ? `${o.label} (done)` : o.label);

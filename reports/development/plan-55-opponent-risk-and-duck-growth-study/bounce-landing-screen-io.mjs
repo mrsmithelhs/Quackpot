@@ -1,0 +1,3 @@
+import {boundedRead,sha} from './predictive-stage-io.mjs';import {landingPins} from './bounce-landing-io.mjs';
+const base='reports/development/plan-55-opponent-risk-and-duck-growth-study/';
+export async function landingScreenPins(expected){await landingPins('766ff8f5e2fc32313c238b178e97291774cd638764a0a8c9b82a9a878ed9641c');const b=await boundedRead(base+'bounce-landing-screen-pins.txt',32768);if(!/^[a-f0-9]{64}$/.test(expected??'')||sha(b)!==expected)throw Error('screen pin mismatch');for(const line of b.toString().trim().split(/\r?\n/)){const [h,p]=line.split('  ');if(sha(await boundedRead(p,2*1024*1024))!==h)throw Error('screen pin drift '+p)}}

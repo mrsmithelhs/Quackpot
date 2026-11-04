@@ -1,0 +1,6 @@
+4d6ece719a57efac992af9fe14cc501dc19843067bddbb2b51376f330eb8d65f  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-io.mjs
+f7e50c914607bb60cede9f1a328d147dd57fa139b132ca00bc928be6ae2fa2a9  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-runner.mjs
+6e73b68aecf8dbac2d8082d478adc638603051167c5837b159691e026b46bdf0  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-analysis.mjs
+804aa6d7cfd0e604904f2dae29ce85f1d74fe09475790da7d983c84412570185  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-protocol.md
+d7da1c01a58333b8254123901fc490ee1ca5662002fd7320b65fb42b4fe83804  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-correctness-output/result.json
+76435a61e9333611117745c4b36541e6f267b727284ce74595fbadf5b4a2455e  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-correctness-output/complete.json

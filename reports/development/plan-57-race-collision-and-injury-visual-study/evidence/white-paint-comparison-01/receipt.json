@@ -1,0 +1,1811 @@
+{
+  "disclaimer": "Sequential diagnostic toggles; synthetic scenario.",
+  "pins": {
+    "gallery/index.html": "f5509a06d2f73086054165ff2416ebdbb2b1cef904d4e144a9bd2233ba1ccee8",
+    "gallery/boot.mjs": "d49ee56ba10ba2b9c4e1767e9f4bf9119f4deb2adba85607c1b8a1d6a01a7755",
+    "gallery/gallery.mjs": "faeab52846ddee5a0f617d00f30a9f07e1eb291b5b8facf47553d3a06c83f095",
+    "gallery/gallery.css": "e1b4fbf46f5f1c9d74be137163422c52301df031a7527b188ce2f24d508a222e",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "gallery/burst-timeline.mjs": "d8d77babe6c8ba5dc72323e318ca106a71352481e1ed0b476e70b68a2b125a26",
+    "gallery/white-paint.mjs": "ef0fdbdc358e65adf91692698da9fcd57dc70e70d95400ca00d64a9d58ef01e8",
+    "tools/white-paint-comparison.mjs": "58bbcfbe1c88381eef48e44191744cf48e12bc164b299f4c67f3a086def4e9af",
+    "art/burst-continuation/A-onset.svg": "79b64ca7a6ca762398353315919377d1b88afaf5dcd8bef29319a5ae4cde0349",
+    "art/burst-continuation/A-expansion.svg": "d0a65931a281328b3e3412e92fb8fd19fe29dadab2c56f1048ff46cba04abe5a",
+    "art/burst-continuation/A-breakup.svg": "58c1c86e2969f92d60242d578a3136a741f8d3d0f62fac00b985bf5453ac4f26",
+    "art/burst-continuation/A-settle.svg": "acab93a95f27e640bcc0b24666385fbc4638a3bc419c2447024c37fe151c4e92",
+    "root:src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "root:src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "root:src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191",
+    "root:src/ui/duck-motion-controller.mjs": "29e674e45d2bfb5c9bebf2a5ad8f36a626c907bf91046954022a7255e9538d20"
+  },
+  "cases": [
+    {
+      "name": "rgb",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "onset",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(255, 251, 242)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(255, 251, 242)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.99999, -0.00452237, 0.00452237, 0.99999, 0, 0.69097)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(240, 247, 245)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(240, 247, 245)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.99999, -0.00452237, 0.00452237, 0.99999, 0, 0.69097)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-onset.svg",
+      "time": 1.06
+    },
+    {
+      "name": "rgb",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "expansion",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(254, 242, 211)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.98545, -0.169963, 0.169963, 0.98545, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(254, 242, 211)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.914218, -0.405222, 0.405222, 0.914218, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.995366, -0.0961557, 0.0961557, 0.995366, 0, 14.7142)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(205, 228, 221)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.98545, -0.169963, 0.169963, 0.98545, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(205, 228, 221)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.914218, -0.405222, 0.405222, 0.914218, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.995366, -0.0961557, 0.0961557, 0.995366, 0, 14.7142)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-expansion.svg",
+      "time": 1.2
+    },
+    {
+      "name": "rgb",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "breakup",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(253, 229, 165)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.981116, -0.193422, 0.193422, 0.981116, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(253, 229, 165)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.972548, -0.2327, 0.2327, 0.972548, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.998137, -0.0610046, 0.0610046, 0.998137, 0, 8.49243)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(152, 200, 186)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.981116, -0.193422, 0.193422, 0.981116, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(152, 200, 186)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.972548, -0.2327, 0.2327, 0.972548, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.998137, -0.0610046, 0.0610046, 0.998137, 0, 8.49243)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-breakup.svg",
+      "time": 1.41
+    },
+    {
+      "name": "rgb",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "settle",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(252, 211, 106)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.997638, -0.0686856, 0.0686856, 0.997638, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(252, 211, 106)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.998087, -0.0618262, 0.0618262, 0.998087, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.999852, -0.0171841, 0.0171841, 0.999852, 0, 1.96925)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(84, 163, 141)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.997638, -0.0686856, 0.0686856, 0.997638, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(84, 163, 141)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.998087, -0.0618262, 0.0618262, 0.998087, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.999852, -0.0171841, 0.0171841, 0.999852, 0, 1.96925)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-settle.svg",
+      "time": 1.68
+    },
+    {
+      "name": "reference",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "onset",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.999059 0.984941 0.948471)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.999059 0.984941 0.948471)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.99999, -0.00452237, 0.00452237, 0.99999, 0, 0.69097)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.940941 0.968235 0.960471)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.940941 0.968235 0.960471)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.99999, -0.00452237, 0.00452237, 0.99999, 0, 0.69097)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            },
+            {
+              "time": 60.00000000000006,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-onset.svg",
+      "time": 1.06
+    },
+    {
+      "name": "reference",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "expansion",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.996863 0.949804 0.828235)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.98545, -0.169963, 0.169963, 0.98545, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.996863 0.949804 0.828235)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.914218, -0.405222, 0.405222, 0.914218, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.995366, -0.0961557, 0.0961557, 0.995366, 0, 14.7142)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.803137 0.894118 0.868235)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.98545, -0.169963, 0.169963, 0.98545, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.803137 0.894118 0.868235)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.914218, -0.405222, 0.405222, 0.914218, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.995366, -0.0961557, 0.0961557, 0.995366, 0, 14.7142)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 199.99999999999994,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-expansion.svg",
+      "time": 1.2
+    },
+    {
+      "name": "reference",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "breakup",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.993569 0.897098 0.647882)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.981116, -0.193422, 0.193422, 0.981116, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.993569 0.897098 0.647882)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.972548, -0.2327, 0.2327, 0.972548, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.998137, -0.0610046, 0.0610046, 0.998137, 0, 8.49243)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.596431 0.782941 0.729882)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.981116, -0.193422, 0.193422, 0.981116, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.596431 0.782941 0.729882)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.972548, -0.2327, 0.2327, 0.972548, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.998137, -0.0610046, 0.0610046, 0.998137, 0, 8.49243)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            },
+            {
+              "time": 409.99999999999994,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-breakup.svg",
+      "time": 1.41
+    },
+    {
+      "name": "reference",
+      "white": true,
+      "motion": true,
+      "outer": true,
+      "frame": "settle",
+      "ducks": [
+        {
+          "id": "A",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.989333 0.829333 0.416)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.997638, -0.0686856, 0.0686856, 0.997638, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.989333 0.829333 0.416)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.998087, -0.0618262, 0.0618262, 0.998087, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-A-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.999852, -0.0171841, 0.0171841, 0.999852, 0, 1.96925)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "svg": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "drop-shadow(rgb(51, 65, 85) 1px 0px 0px) drop-shadow(rgb(51, 65, 85) -1px 0px 0px) drop-shadow(rgb(51, 65, 85) 0px 1px 0px)",
+            "visibility": "visible"
+          },
+          "root": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "bodyGroup": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "body": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.330667 0.64 0.552)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "headGroup": {
+            "opacity": "1",
+            "transform": "matrix(0.997638, -0.0686856, 0.0686856, 0.997638, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "head": {
+            "opacity": "1",
+            "transform": "none",
+            "fill": "color(srgb 0.330667 0.64 0.552)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "wing": {
+            "opacity": "1",
+            "transform": "matrix(0.998087, -0.0618262, 0.0618262, 0.998087, 0, 0)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "url(\"#study-2-B-seam-shadow\")",
+            "visibility": "visible"
+          },
+          "shell": {
+            "opacity": "1",
+            "transform": "matrix(0.999852, -0.0171841, 0.0171841, 0.999852, 0, 1.96925)",
+            "fill": "rgb(0, 0, 0)",
+            "filter": "none",
+            "visibility": "visible"
+          },
+          "animations": [
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            },
+            {
+              "time": 679.9999999999999,
+              "state": "paused"
+            }
+          ]
+        }
+      ],
+      "src": "../art/burst-continuation/A-settle.svg",
+      "time": 1.68
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/?white=reference"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "ba9a736647695be7291224ce322154031114dc6daecf72718f427acae17b09d2",
+    "trackedDescendants": [
+      {
+        "pid": 38472,
+        "ppid": 12540,
+        "created": "639293514312361280",
+        "root": true
+      },
+      {
+        "pid": 37880,
+        "ppid": 38472,
+        "created": "639293514312547550",
+        "root": false
+      },
+      {
+        "pid": 38932,
+        "ppid": 38472,
+        "created": "639293514313880920",
+        "root": false
+      },
+      {
+        "pid": 18948,
+        "ppid": 38472,
+        "created": "639293514314382500",
+        "root": false
+      },
+      {
+        "pid": 5400,
+        "ppid": 38472,
+        "created": "639293514314580540",
+        "root": false
+      },
+      {
+        "pid": 36640,
+        "ppid": 38472,
+        "created": "639293514315017890",
+        "root": false
+      },
+      {
+        "pid": 13308,
+        "ppid": 38472,
+        "created": "639293514315311050",
+        "root": false
+      },
+      {
+        "pid": 24596,
+        "ppid": 38472,
+        "created": "639293514315561690",
+        "root": false
+      },
+      {
+        "pid": 39452,
+        "ppid": 38472,
+        "created": "639293514315579480",
+        "root": false
+      },
+      {
+        "pid": 19356,
+        "ppid": 38472,
+        "created": "639293514316314960",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

@@ -1,0 +1,674 @@
+{
+  "disclaimer": "Synthetic gallery scenarios; not race outcomes.",
+  "pins": {
+    "gallery/index.html": "f5509a06d2f73086054165ff2416ebdbb2b1cef904d4e144a9bd2233ba1ccee8",
+    "gallery/gallery.css": "e1b4fbf46f5f1c9d74be137163422c52301df031a7527b188ce2f24d508a222e",
+    "gallery/gallery.mjs": "5500245d1ecbb182992c752d742144a6f5ead7447c0e760b0d639395e69bf2d7",
+    "gallery/boot.mjs": "d49ee56ba10ba2b9c4e1767e9f4bf9119f4deb2adba85607c1b8a1d6a01a7755",
+    "gallery/fixtures.mjs": "1fee5b7bfe1dc5513dcaf6f2d63bdb65685428ed20cc97502aba65fea024eb57",
+    "gallery/burst-timeline.mjs": "d8d77babe6c8ba5dc72323e318ca106a71352481e1ed0b476e70b68a2b125a26",
+    "tools/burst-browser.mjs": "2a00d89ec1465ae1daa55760f51dd82cb7af2b1dee79c5bfe2dbbe5c43b81386",
+    "art/burst-continuation/A-onset.svg": "79b64ca7a6ca762398353315919377d1b88afaf5dcd8bef29319a5ae4cde0349",
+    "art/burst-continuation/A-expansion.svg": "d0a65931a281328b3e3412e92fb8fd19fe29dadab2c56f1048ff46cba04abe5a",
+    "art/burst-continuation/A-breakup.svg": "58c1c86e2969f92d60242d578a3136a741f8d3d0f62fac00b985bf5453ac4f26",
+    "art/burst-continuation/A-settle.svg": "acab93a95f27e640bcc0b24666385fbc4638a3bc419c2447024c37fe151c4e92",
+    "art/burst-continuation/B-onset.svg": "b6cd725f0e2c9ef6dac4e1c2d01210dcad761bdd9e395ca3affaaa7f8397773a",
+    "art/burst-continuation/B-expansion.svg": "6f1da0d6083a0c07c35df3827dd4a9ae5dae7ad83da763227094f60ed49188f6",
+    "art/burst-continuation/B-breakup.svg": "8e54c55c0f60c48e2d31c5e6bc18ee03f3c2c4327978c1c02b9de728bd5f2ee4",
+    "art/burst-continuation/B-settle.svg": "4bca91fa92f104a2d470d21edb9e5b12341a328086b1c576b7246eb70f64b6a6",
+    "art/burst-continuation/C-onset.svg": "1e71ce7b28268e5ddff782b98414abe1df3ab87ca6a4ce75dfbd2240b58f493a",
+    "art/burst-continuation/C-expansion.svg": "a320f9df37f1708b4e6b84b8fa54e99c788eb45d5269042716c80534e1706091",
+    "art/burst-continuation/C-breakup.svg": "64e32469071153d1b49885466690925082df4f5ce004a8a12553027ad720dd75",
+    "art/burst-continuation/C-settle.svg": "68e43f18dcdaecce4e4e07e8743c45b67935eac19f747b74f96ec595db19a242",
+    "root:src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "root:src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "root:src/ui/race-motion-controller.mjs": "1c4aa11ba8ccd81532b519e435898394f2e4ed18c13943fa2610c399efce1191",
+    "root:src/ui/duck-motion-controller.mjs": "29e674e45d2bfb5c9bebf2a5ad8f36a626c907bf91046954022a7255e9538d20"
+  },
+  "captures": [
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "A",
+      "frame": "onset",
+      "src": "../art/burst-continuation/A-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "A",
+      "frame": "onset",
+      "src": "../art/burst-continuation/A-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "A",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/A-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "A",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/A-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "A",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/A-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "A",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/A-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "A",
+      "frame": "settle",
+      "src": "../art/burst-continuation/A-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "A",
+      "frame": "settle",
+      "src": "../art/burst-continuation/A-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "B",
+      "frame": "onset",
+      "src": "../art/burst-continuation/B-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "B",
+      "frame": "onset",
+      "src": "../art/burst-continuation/B-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "B",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/B-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "B",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/B-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "B",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/B-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "B",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/B-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "B",
+      "frame": "settle",
+      "src": "../art/burst-continuation/B-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "B",
+      "frame": "settle",
+      "src": "../art/burst-continuation/B-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "C",
+      "frame": "onset",
+      "src": "../art/burst-continuation/C-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "C",
+      "frame": "onset",
+      "src": "../art/burst-continuation/C-onset.svg",
+      "time": 1.06,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "C",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/C-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "C",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/C-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "C",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/C-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "C",
+      "frame": "breakup",
+      "src": "../art/burst-continuation/C-breakup.svg",
+      "time": 1.41,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "label": "race",
+      "id": "C",
+      "frame": "settle",
+      "src": "../art/burst-continuation/C-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 84
+    },
+    {
+      "width": 1024,
+      "label": "enlarged",
+      "id": "C",
+      "frame": "settle",
+      "src": "../art/burst-continuation/C-settle.svg",
+      "time": 1.68,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 200
+    },
+    {
+      "width": 1024,
+      "defaults": [
+        {
+          "cue": "A",
+          "duration": "1",
+          "marker": "bandage"
+        },
+        {
+          "cue": "A",
+          "duration": "1",
+          "marker": "bandage"
+        }
+      ],
+      "dynamic": {
+        "time": 1.44,
+        "src": "../art/burst-continuation/C-breakup.svg",
+        "stable": true,
+        "reset": 0
+      },
+      "reduced": {
+        "first": {
+          "src": "../art/burst-continuation/C-expansion.svg",
+          "positions": [
+            [
+              "34%",
+              "35%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "48%",
+              "39%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "67%",
+              "29%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "26%",
+              "69%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "54%",
+              "68%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "75%",
+              "65%",
+              "translate(calc(-50% + 0px), -50%)"
+            ]
+          ],
+          "symbols": 2
+        },
+        "second": {
+          "src": "../art/burst-continuation/C-expansion.svg",
+          "positions": [
+            [
+              "34%",
+              "35%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "48%",
+              "39%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "67%",
+              "29%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "26%",
+              "69%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "54%",
+              "68%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "75%",
+              "65%",
+              "translate(calc(-50% + 0px), -50%)"
+            ]
+          ],
+          "symbols": 2
+        },
+        "animations": 0
+      },
+      "teardown": {
+        "before": {
+          "studies": 2,
+          "racers": 8
+        },
+        "during": {
+          "studies": 3,
+          "racers": 14
+        },
+        "empty": true,
+        "animations": 0,
+        "after": {
+          "studies": 2,
+          "racers": 8
+        }
+      }
+    },
+    {
+      "width": 390,
+      "label": "narrow",
+      "id": "A",
+      "frame": "expansion",
+      "src": "../art/burst-continuation/A-expansion.svg",
+      "time": 1.2,
+      "injuries": 0,
+      "inside": true,
+      "overlap": false,
+      "duckWidth": 40
+    },
+    {
+      "width": 390,
+      "defaults": [
+        {
+          "cue": "A",
+          "duration": "1",
+          "marker": "bandage"
+        },
+        {
+          "cue": "A",
+          "duration": "1",
+          "marker": "bandage"
+        }
+      ],
+      "dynamic": {
+        "time": 1.44,
+        "src": "../art/burst-continuation/A-breakup.svg",
+        "stable": true,
+        "reset": 0
+      },
+      "reduced": {
+        "first": {
+          "src": "../art/burst-continuation/A-expansion.svg",
+          "positions": [
+            [
+              "34%",
+              "35%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "48%",
+              "39%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "67%",
+              "29%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "26%",
+              "69%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "54%",
+              "68%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "75%",
+              "65%",
+              "translate(calc(-50% + 0px), -50%)"
+            ]
+          ],
+          "symbols": 2
+        },
+        "second": {
+          "src": "../art/burst-continuation/A-expansion.svg",
+          "positions": [
+            [
+              "34%",
+              "35%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "48%",
+              "39%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "67%",
+              "29%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "26%",
+              "69%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "54%",
+              "68%",
+              "translate(calc(-50% + 0px), -50%)"
+            ],
+            [
+              "75%",
+              "65%",
+              "translate(calc(-50% + 0px), -50%)"
+            ]
+          ],
+          "symbols": 2
+        },
+        "animations": 0
+      },
+      "teardown": {
+        "before": {
+          "studies": 2,
+          "racers": 8
+        },
+        "during": {
+          "studies": 3,
+          "racers": 14
+        },
+        "empty": true,
+        "animations": 0,
+        "after": {
+          "studies": 2,
+          "racers": 8
+        }
+      }
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/",
+    "http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "6e44a6781bd239f1059e15550b0b5011082eaddf3985ec6deefc72da3fd82dc1",
+    "trackedDescendants": [
+      {
+        "pid": 968,
+        "ppid": 5144,
+        "created": "639293506111193680",
+        "root": true
+      },
+      {
+        "pid": 15964,
+        "ppid": 968,
+        "created": "639293506111345060",
+        "root": false
+      },
+      {
+        "pid": 26984,
+        "ppid": 968,
+        "created": "639293506112769200",
+        "root": false
+      },
+      {
+        "pid": 34676,
+        "ppid": 968,
+        "created": "639293506113321270",
+        "root": false
+      },
+      {
+        "pid": 3684,
+        "ppid": 968,
+        "created": "639293506113536870",
+        "root": false
+      },
+      {
+        "pid": 33288,
+        "ppid": 968,
+        "created": "639293506113992730",
+        "root": false
+      },
+      {
+        "pid": 29328,
+        "ppid": 968,
+        "created": "639293506114293810",
+        "root": false
+      },
+      {
+        "pid": 35504,
+        "ppid": 968,
+        "created": "639293506114554770",
+        "root": false
+      },
+      {
+        "pid": 36528,
+        "ppid": 968,
+        "created": "639293506114572260",
+        "root": false
+      },
+      {
+        "pid": 39172,
+        "ppid": 968,
+        "created": "639293506115337320",
+        "root": false
+      },
+      {
+        "pid": 36388,
+        "ppid": 968,
+        "created": "639293506127779870",
+        "root": false
+      },
+      {
+        "pid": 1880,
+        "ppid": 968,
+        "created": "639293506127977770",
+        "root": false
+      },
+      {
+        "pid": 25512,
+        "ppid": 968,
+        "created": "639293506127978550",
+        "root": false
+      },
+      {
+        "pid": 36580,
+        "ppid": 968,
+        "created": "639293506149855000",
+        "root": false
+      },
+      {
+        "pid": 35160,
+        "ppid": 968,
+        "created": "639293506150873640",
+        "root": false
+      },
+      {
+        "pid": 15672,
+        "ppid": 968,
+        "created": "639293506151469550",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "accepted": true
+}

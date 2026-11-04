@@ -2,7 +2,7 @@
 
 ## Selected, context, candidate, deferred
 
-- **Selected:** No collision cue, pulse duration, injury marker, or injury mechanic has been selected by the owner in this study.
+- **Selected:** The owner chose angular burst as the general direction, a one-second white return, and an attached bandage marker. A specific irregular burst and any injury mechanic remain unselected; production integration is not authorized.
 - **Context:** The gallery imports the locally authored digital rig and production contact-motion controller read-only. The stage, timing, movement, approach, lighting and collision/injury histories are presentation stand-ins. Plan55's injury experiments are not a selected production schema. Physical apartment companion art is not involved.
 - **Candidates:** Original Haiku SVGs in `art/` compare one midpoint angular burst or splash, separately selectable participant whitening and a persistent attached bandage or upright status tab. Static mode uses a compact participant symbol and textual narrative. These are study candidates; see `consultation/provenance.md` for limits and exact hashes.
 - **Deferred:** A later bounded integration packet must select actual assets/placement/timing and wire genuine events, lifecycle, saves, replay, Receipt evidence and cancellation. This study does not authorize those changes.
@@ -13,4 +13,4 @@ Consume actual collision event time and participant IDs from the authoritative r
 
 ## Evidence boundaries
 
-Gallery captures and synthetic fixtures test chosen presentation states, not mechanical probabilities, outcomes, student perception, device coverage or accessibility conformance. Root viewed the final touched renders; owner review and selection remain necessary. Any production integration needs its own selected/context/placeholder/deferred record, genuine-event mapping and targeted lifecycle/visual checks under the project's production integration workflow.
+Gallery captures and synthetic fixtures test chosen presentation states, not mechanical probabilities, outcomes, student perception, device coverage or accessibility conformance. Root viewed the original final renders; the subsequent irregular-burst continuation is not owner-ready because of unresolved missing paint in headless sequential captures. Any production integration needs its own selected/context/placeholder/deferred record, genuine-event mapping and targeted lifecycle/visual checks under the project's production integration workflow.

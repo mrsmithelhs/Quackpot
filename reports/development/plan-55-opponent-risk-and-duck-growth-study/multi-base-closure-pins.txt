@@ -1,0 +1,8 @@
+e6b27be361810fd4dfbc00f4e043a6353fb4b75aa17f7acadd03cd606880e129  src/core/race-resolver.mjs
+7392e6c25ca356fbf253d9dfccd1562052577b2bfaca23720431b123364389a7  src/core/prng.mjs
+6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85  reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+8c3e2d698d546eb23e2e3d3c2e6423d697c6faae1e384ba75a6c6c94ea29744c  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-state.mjs
+04ece1e1987411cfd85cda48fdb2a0aa5ac87e695c3ba82ef7ff6a7d111242bd  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-adapter.mjs
+04dd7740aa0545cc5d3f8fabd7beb2f08c65335f749994735a7968767999ab7f  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact.test.mjs
+bb8d7bf91c37869beb6172944055f839fe41c6ff5abc7ae22a99db0296cabfc3  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-correctness.mjs
+4bf1631396085cf61f63fd2d2b30d980c11c2ee9a76a6466668adfbd48b8a15b  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-base-manifest.md

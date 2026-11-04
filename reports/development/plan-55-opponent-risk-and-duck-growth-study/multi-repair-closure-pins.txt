@@ -1,0 +1,11 @@
+e6b27be361810fd4dfbc00f4e043a6353fb4b75aa17f7acadd03cd606880e129  src/core/race-resolver.mjs
+7392e6c25ca356fbf253d9dfccd1562052577b2bfaca23720431b123364389a7  src/core/prng.mjs
+6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85  reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+6076d19fa86e658afc555676639cd8fddc5327cf40be7fd7a93941c2ef5d4cc0  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-state.mjs
+8337aa73bab1c33e195ba0e6194d9577127dadc365dc04afa60fe168e62962e3  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-adapter.mjs
+fab609ae9d45916663588a94c3c23534730385f92b9503b2811377544923d427  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact.test.mjs
+f2da8467b5629c8cf5811e2c81e44331cc81720ce3d200292e9b2fa7542c8f09  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-correctness.mjs
+4d1ceeea157ac3b732e0cd1088f6677a60756b4d35b3972bc12903fb2fb3674f  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-rollback-fixture.mjs
+d5fb41bad7edcfb648034e82993771f2cb5b11fcb11449a3adc68015c7458dc8  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-base-runner.mjs
+32ab73a1e2598e73b6cad3d8b17ba12a186bcdcb76da8e8d050258c4ed03688d  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-base-analysis.mjs
+14e4b3a1a7a585689b73fe2ef80f38810ea15ceb2f8337d58ff2534cadde6024  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-run-manifest.md

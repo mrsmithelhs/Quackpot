@@ -1,0 +1,7 @@
+db24f83f51b89876308f70c83aaa3b984a82612ad6b86bf7165a58b518c62222  reports/development/plan-55-opponent-risk-and-duck-growth-study/follow-on-adapter.mjs
+baf5cc8818a0e82407b2e96b44b8718cd2b429f9a048d81f29a90fd12cf56d75  reports/development/plan-55-opponent-risk-and-duck-growth-study/follow-on-state.mjs
+a8345228886f2974c367d7f4403609065969c4f53aa0d708fdbc931acf1217b8  reports/development/plan-55-opponent-risk-and-duck-growth-study/follow-on.test.mjs
+f036f8f51262076fdf236ab2a30e5149f7076654df02969ce585f979ac63ba25  reports/development/plan-55-opponent-risk-and-duck-growth-study/follow-on-correctness.mjs
+e9f9075b6e4a297e7cbd77fd8b710288ecadcf657987a88b2996a897e8720fe9  reports/development/plan-55-opponent-risk-and-duck-growth-study/follow-on-headroom.mjs
+ec22763de1527ff5408fafe79a9792d631e3d4079be09cbdb56439a7ec044557  reports/development/plan-55-opponent-risk-and-duck-growth-study/candidate.mjs
+3758cd945862dd9abaf34a2780111f56028b9baffae7fba91238906f1bf7a6a1  reports/development/plan-55-opponent-risk-and-duck-growth-study/core-source-pins.txt

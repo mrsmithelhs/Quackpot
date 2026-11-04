@@ -1,0 +1,296 @@
+{
+  "disclaimer": "Synthetic ability concepts; no race or saved outcomes.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "106a55fc1b64da16ac18b3e86a193d8eee0e976526ae9499a198718d077d3996",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "5f8dc4bae5536404014a6b748845996143ba5eadb6a0409036538ecfcf7c344b",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "7178a78859870d0c8c0e253d4b3048a71eed3c1f5c30e061279e28569e2c8e4d",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e",
+    "reports/development/plan-58-race-ability-animation-study/gallery/candidate-effects.mjs": "b3447007eb0f284f52466e9e6b163b75cb51ff4d4c6a90b3ffbcab2b06831972",
+    "reports/development/plan-58-race-ability-animation-study/gallery/alternatives-effects.mjs": "627c2409120f56dd9afad8c302375fb39ac94e748c7416687db7dccdbd03bd93",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "reports/development/plan-58-race-ability-animation-study/art/plan57-adhesive-bandage.svg": "008179e47152fac72ea0496d383e6b3f534e666b34001a38d6920849ee2f69a1",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/refinement-browser.mjs": "8a6c770c0a59f654ce897b0675d06acf910e51ff06ce5e29ec13c6e48cb44f01",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "nextBatch": {
+        "wide": true,
+        "noWide": true,
+        "ahead": true,
+        "grounded": true,
+        "draft": true,
+        "released": true,
+        "rightLeader": true,
+        "bandage": true,
+        "persistent": true,
+        "scoped": true
+      },
+      "alternatives": {
+        "distinct": true,
+        "frontBack": true,
+        "neutral": true,
+        "pose": true,
+        "noFalseEvents": true,
+        "mirror": true
+      },
+      "airGap": true,
+      "refinement": {
+        "arcs": true,
+        "growth": true,
+        "angle": true,
+        "draft": true,
+        "crowd": true,
+        "overlap": true,
+        "reset": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "choreography": {
+        "contactContinuous": true,
+        "matched": true,
+        "mark": true,
+        "noGuard": true,
+        "sub": true,
+        "moves": true,
+        "under": true,
+        "emerge": true,
+        "independent": true,
+        "reset": true
+      },
+      "nextBatch": {
+        "wide": true,
+        "noWide": true,
+        "ahead": true,
+        "grounded": true,
+        "draft": true,
+        "released": true,
+        "rightLeader": true,
+        "bandage": true,
+        "persistent": true,
+        "scoped": true
+      },
+      "alternatives": {
+        "distinct": true,
+        "frontBack": true,
+        "neutral": true,
+        "pose": true,
+        "noFalseEvents": true,
+        "mirror": true
+      },
+      "airGap": true,
+      "refinement": {
+        "arcs": true,
+        "growth": true,
+        "angle": true,
+        "draft": true,
+        "crowd": true,
+        "overlap": true,
+        "reset": true
+      },
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:50897/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:50897/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "68286630a227eea1e552ce0d9bc3bc6f82d931eef2ddd806591c8153a5d2a8c1",
+    "trackedDescendants": [
+      {
+        "pid": 11204,
+        "ppid": 9368,
+        "created": "639294221342676790",
+        "root": true
+      },
+      {
+        "pid": 5852,
+        "ppid": 11204,
+        "created": "639294221342972660",
+        "root": false
+      },
+      {
+        "pid": 42412,
+        "ppid": 11204,
+        "created": "639294221345502450",
+        "root": false
+      },
+      {
+        "pid": 33336,
+        "ppid": 11204,
+        "created": "639294221346182860",
+        "root": false
+      },
+      {
+        "pid": 38340,
+        "ppid": 11204,
+        "created": "639294221346739150",
+        "root": false
+      },
+      {
+        "pid": 24228,
+        "ppid": 11204,
+        "created": "639294221347368630",
+        "root": false
+      },
+      {
+        "pid": 13040,
+        "ppid": 11204,
+        "created": "639294221347794110",
+        "root": false
+      },
+      {
+        "pid": 41052,
+        "ppid": 11204,
+        "created": "639294221348150530",
+        "root": false
+      },
+      {
+        "pid": 15480,
+        "ppid": 11204,
+        "created": "639294221348180170",
+        "root": false
+      },
+      {
+        "pid": 21928,
+        "ppid": 11204,
+        "created": "639294221349392980",
+        "root": false
+      },
+      {
+        "pid": 14356,
+        "ppid": 11204,
+        "created": "639294221361830940",
+        "root": false
+      },
+      {
+        "pid": 41560,
+        "ppid": 11204,
+        "created": "639294221362092210",
+        "root": false
+      },
+      {
+        "pid": 39964,
+        "ppid": 11204,
+        "created": "639294221362092390",
+        "root": false
+      },
+      {
+        "pid": 26988,
+        "ppid": 11204,
+        "created": "639294221381561430",
+        "root": false
+      },
+      {
+        "pid": 26992,
+        "ppid": 11204,
+        "created": "639294221381899080",
+        "root": false
+      },
+      {
+        "pid": 39776,
+        "ppid": 11204,
+        "created": "639294221387539840",
+        "root": false
+      },
+      {
+        "pid": 18588,
+        "ppid": 11204,
+        "created": "639294221388920790",
+        "root": false
+      },
+      {
+        "pid": 22120,
+        "ppid": 11204,
+        "created": "639294221390202150",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

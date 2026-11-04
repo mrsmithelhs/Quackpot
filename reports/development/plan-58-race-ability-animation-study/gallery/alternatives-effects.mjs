@@ -8,7 +8,7 @@ export function wideAlternative(phase,style='a'){
 }
 export function aheadAlternative(phase,style='a'){
  const v=amount(phase);
- return style==='a'?wrap('ahead-alt-a',`<g opacity="${v}" fill="none" stroke="#2d626d" stroke-linecap="round"><path d="M83 185 Q128 197 173 185" stroke-width="9"/><path d="M94 185 Q128 192 162 185" stroke="#e7faf4" stroke-width="4"/></g>`):wrap('ahead-alt-b',`<g opacity="${v}" fill="none" stroke-linecap="round"><g stroke="#285762" stroke-width="12"><path d="M158 110 Q185 119 195 138"/><path d="M171 98 Q201 109 213 130"/></g><g stroke="#e7f8f4" stroke-width="6"><path d="M158 110 Q185 119 195 138"/><path d="M171 98 Q201 109 213 130"/></g></g>`);
+ return style==='a'?wrap('ahead-alt-a',`<ellipse class="ahead-ground-shadow" cx="128" cy="185" rx="${45*(1+.25*phase)}" ry="${9*(1+.25*phase)}" fill="#263d49" opacity="${v*(.32-.16*phase)}"/>`):wrap('ahead-alt-b',`<g opacity="${v}" fill="none" stroke-linecap="round"><g stroke="#285762" stroke-width="12"><path d="M158 110 Q185 119 195 138"/><path d="M171 98 Q201 109 213 130"/></g><g stroke="#e7f8f4" stroke-width="6"><path d="M158 110 Q185 119 195 138"/><path d="M171 98 Q201 109 213 130"/></g></g>`);
 }
 // Stage-coordinate paths explicitly link the leader and follower; no arrowheads.
 export function draftAlternative(phase,style,layer,geometry){
@@ -19,4 +19,4 @@ export function draftAlternative(phase,style,layer,geometry){
  else {const far=followerX-sign*duckWidth*.60;paths=layer==='back'?`<path d="M${from} ${y-10} Q${mid} ${y-28} ${far} ${y-20} Q${far-sign*duckWidth*.12} ${y-11} ${far} ${y-4}"/>`:`<path d="M${from} ${y+12} Q${mid} ${y+26} ${far} ${y+20} Q${far-sign*duckWidth*.12} ${y+12} ${far} ${y+5}"/>`;}
  return `<svg class="draft-alt-${style} draft-${layer}" viewBox="0 0 ${width} ${height}" aria-hidden="true"><g opacity="${v}" fill="none" stroke-linecap="round" stroke-linejoin="round"><g stroke="#315e69" stroke-width="7">${paths}</g><g stroke="#e0f7f1" stroke-width="3.5">${paths}</g></g></svg>`;
 }
-export function aerodynamicPose(phase){const v=amount(phase);return {dx:v?-3*v:0,dy:2*v,angle:v?-9*v:0,bridge:v};}
+export function aerodynamicPose(phase){const v=amount(phase);return {dx:v?-3*v:0,dy:2*v,angle:v?-18*v:0,bridge:v};}

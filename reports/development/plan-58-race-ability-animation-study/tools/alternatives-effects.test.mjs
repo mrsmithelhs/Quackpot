@@ -10,5 +10,9 @@ test('draft links follow the explicit leader, mirror and end without arrowheads'
  const left=draftAlternative(.5,'b','front',geometry),right=draftAlternative(.5,'b','front',{...geometry,leaderX:300,followerX:180});assert.notEqual(left,right);assert.match(left,/opacity="1"/);assert.match(draftAlternative(0,'b','front',geometry),/opacity="0"/);assert.match(draftAlternative(1,'b','back',geometry),/opacity="0"/);assert.doesNotMatch(left,/<polygon|marker-end/);
 });
 test('aerodynamic pose engages and returns to neutral at both boundaries',()=>{
- assert.deepEqual(aerodynamicPose(0),{dx:0,dy:0,angle:0,bridge:0});assert.deepEqual(aerodynamicPose(1),{dx:0,dy:0,angle:0,bridge:0});const p=aerodynamicPose(.5);assert.ok(p.dx<0&&p.dy>0&&p.angle<0&&p.bridge>0);
+ assert.deepEqual(aerodynamicPose(0),{dx:0,dy:0,angle:0,bridge:0});assert.deepEqual(aerodynamicPose(1),{dx:0,dy:0,angle:0,bridge:0});const p=aerodynamicPose(.5);assert.ok(p.dx<0&&p.dy>0&&p.bridge>0);assert.equal(p.angle,-18);
+});
+
+test('flight ground shadow grows and becomes more transparent during its active interval',()=>{
+ const early=aheadAlternative(.25,'a'),late=aheadAlternative(.75,'a');const attr=(s,n)=>Number(s.match(new RegExp(n+'="([0-9.]+)"'))[1]);assert.ok(attr(late,'rx')>attr(early,'rx'));assert.ok(attr(late,'opacity')<attr(early,'opacity'));
 });

@@ -748,3 +748,9 @@ In QP Impl55 the owner explicitly requires more than one collision per race and 
 Owner reviewed ability ideas and requests eventual animations for every ability; this is forward visual intent. Plan57 remains a bounded collision/injury gallery; broader ability motion requires a separate scope. Rarity starting abilities, capacity/ceiling, risk ranges and exact numeric effects remain proposals. Owner experience selections, experimental implementation and production adoption remain distinct; no push/deployment.
 
 Owner later proposes Bounce preparation and automatic activation just before an imminent predicted collision, with possible temporary risk-tolerance change while active. This revises the earlier post-impact-only concept, not the requirement to preserve actual contact/injury evidence. Threat prediction is not proof a collision would have occurred or was prevented. Exact geometry, odds, risk effect and air/landing semantics remain candidate contracts. Completed Plan58 Sonnet/Flash inputs and responses retain their original post-contact assumptions as historical evidence; current visual storyboards must track this revision.
+
+### DECISION-080 — Collision visual selections and asymmetric burst revision
+
+**Date:** 2026-11-03
+
+After reviewing Plan57's gallery, the owner selects the one-second participant white-return and attached bandage injury marker. The angular burst is approved as the general collision-cue direction, while the current regular shape is not final: the owner requests more asymmetric jagged variations with animation frames because it resembles a throwing star or religious symbol. The owner explicitly corrects the initial Plan55 label to Plan57. Reopen the report-local visual revision, retain prior evidence and compare revised sequences at race and enlarged scales with static equivalents. No injury odds, race mechanics, broader ability catalog, production port or deployment is selected here.

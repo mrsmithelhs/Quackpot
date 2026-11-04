@@ -1,7 +1,7 @@
 ---
 id: plan-57
 title: Race collision and injury visual study
-status: delivered
+status: in-progress
 depends_on: []
 gate: "Report-local gallery only. Root clears the bounded mechanism/helper proposal before execution; owner selects rendered effects before any separately scoped production integration."
 summary: >-
@@ -30,7 +30,7 @@ Make a race collision noticeable and identify its participants, then distinguish
 
 Read `AGENTS.md`, `docs/README.md`, `docs/repo-structure.md`, `docs/decision-log.md`, `docs/development/README.md`, `docs/workflows/production-integration-review.md`, Plan55's `follow-on-proposal.md` and current `follow-on-protocol.md`, and the relevant Plan50 helper findings. Inspect the current race view, rig renderer, motion controller and styles before choosing read-only reuse. Record exact paths and source pins in the proposal.
 
-Owner direction, 2026-11-03: investigate an expanding dust/comic impact shape, stronger collision visibility, an easing white-light/whole-sprite-white effect on involved ducks, and a separate injury signifier. Owner selected comparing same-race-plus-later injury with post-race-only injury in Plan55. No collision drawing, timing, injury marker or numeric injury rule has been accepted. Root recommendations below are starting comparisons, not owner selections.
+Owner direction, 2026-11-03: investigate an expanding dust/comic impact shape, stronger collision visibility, an easing white-light/whole-sprite-white effect on involved ducks, and a separate injury signifier. Owner selected comparing same-race-plus-later injury with post-race-only injury in Plan55. After gallery review the owner selects the one-second participant white-return and attached bandage injury marker. The angular burst is approved as a general direction, but its final silhouette/sequence is not selected: prepare more asymmetric jagged variations with animation frames because the current regular shape resembles a throwing star or religious symbol. Keep selected timing/marker stable while comparing the revised bursts at actual race and enlarged scale. No numeric injury rule or production integration is accepted by these visual selections. Other root recommendations below remain starting comparisons.
 
 Preserve static offline student-runtime architecture, original locally authored SVG source, digital-versus-physical duck separation, existing seeded race results, upright/unmirrored labels, and accepted camera/lighting/motion semantics. The physical apartment companion receives none of these effects. A collision may cause no injury, one injured participant, or two; an effect must never manufacture a mechanical injury or reward. No reflex input or gameplay advantage from motion preferences.
 

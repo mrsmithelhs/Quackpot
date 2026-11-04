@@ -1,4 +1,6 @@
-# Airflow revision — owner checkpoint
+# Airflow revision — historical owner checkpoint
+
+**Later feedback:** the owner liked the direction, flatness and depth but requested removal of tail arrowheads. See `arrowhead-owner-checkpoint.md` for the current review.
 
 [Open the updated Plan58 gallery](http://localhost:5173/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/); refresh an already-open tab. Choose **Crowd acceleration**, leave **Revised wave + airflow** selected, and press **Play**. Compare **Facing: Left** and **Right** in the race-scale view and the enlarged Duck-Dex/racer-selection sections. The currents should move from the duck's head toward its tail, follow its heading, and pass in front of and behind the duck. The arcs are flatter than the previous version; the wave remains the same. Choose **Independent overlap** to see the separate air cue while Bounce is active.
 

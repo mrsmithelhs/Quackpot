@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
-const base='reports/development/plan-58-race-ability-animation-study/', out=base+'evidence/airflow-02';
+const base='reports/development/plan-58-race-ability-animation-study/', out=base+'evidence/airflow-03';
 await mkdir(out,{recursive:false});
 const paths=[...['index.html','boot.mjs','gallery.mjs','gallery.css','fixtures.mjs','revision-effects.mjs'].map(x=>base+'gallery/'+x),...['haiku-arc.svg','haiku-disc.svg','haiku-wedge.svg','haiku-folds.svg'].map(x=>base+'art/'+x),'src/ui/duck-rig-view.mjs','src/core/duck-rig.mjs',base+'tools/airflow-browser.mjs',base+'tools/snapshot_server.py'];
 let browser,server,root,serverExit=null,error=null,cleanup=null,origin=null;const pins={},results=[],exceptions=[],navigations=[];

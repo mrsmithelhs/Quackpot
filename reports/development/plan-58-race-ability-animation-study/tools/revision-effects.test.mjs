@@ -21,4 +21,5 @@ test('air moves along a head-to-tail path with distinct front and back layers',(
  assert.match(back,/M62 156.*L231 165/); assert.match(front,/M66 145.*L231 147/);
  assert.match(back,/stroke-dashoffset="-22\.5"/);
  assert.notEqual(back,front);
+ assert.doesNotMatch(back,/M218 154|L215 168/); assert.doesNotMatch(front,/M218 136|L215 150/);
 });

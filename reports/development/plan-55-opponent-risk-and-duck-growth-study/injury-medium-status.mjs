@@ -1,0 +1,2 @@
+export const DUCKS=Object.freeze({P:{palette:'classic-yellow',color:'#fbbf24'},A:{palette:'mallard-green',color:'#047857'},B:{palette:'bubblegum-pink',color:'#f472b6'},C:{palette:'classic-yellow',color:'#fbbf24'},D:{palette:'mallard-green',color:'#047857'},E:{palette:'bubblegum-pink',color:'#f472b6'}});
+export function isInjured(contacts,id,tick){return contacts.some(e=>tick+1e-7>=e.tick&&(e.injuryRolls??[]).some(r=>r.id===id&&r.injured))}

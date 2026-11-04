@@ -83,3 +83,7 @@ Owner found Day 2 Midday transition clear and selected persistent desk keys with
 ## Post-work desk navigation, 2026-11-03
 
 Owner reported Desk navigation failed after work. A genuine shift reproduction found the phone artwork rejected the Early Evening status as longer than eight characters; the earlier keys witness had not covered this route. The five-slot phone status mapping and actual desk-art test were repaired, and the isolated paid-shift browser rerun reached the desk from kitchen and living room without changing cash or log; see `desk-navigation-repair.md` for failure and sampled cleanup limits. Owner verification and final batch checkpoint refresh remain pending. Advisor disposition: orchestrator-gate-only; root visual and source review separate. No status closure or push.
+
+## Late Evening bed interaction, 2026-11-04
+
+The owner selected the bed as the Late Evening sleep target. The existing sleep transaction is now reached through the bed and its confirmation; the old below-scene sleep button is removed. A genuine synthetic Day 2 dinner and sit-with-duck continuation exercised cancel, once-only sleep and reload; see `bed-repair.md` for pins, cleanup limits and the distinct ongoing audit of other below-scene controls. All 13 checkpoint entries remain source-stale until the owner-feedback batch ends. Advisor disposition: orchestrator-gate-only; root visual/source review and owner review remain separate. No push or status closure.

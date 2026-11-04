@@ -1,5 +1,15 @@
 # Plan 57 — gallery technical review and owner selection
 
+## Revised owner checkpoint — 2026-11-03
+
+Root clears the revised A/B/C burst gallery for owner review after inspecting the final enlarged A/B/C expansion, race B expansion and narrow B sample in `evidence/burst-foreground-gpu-01/`. The original angular direction, one-second white return and attached bandage are owner-selected; no specific new A/B/C silhouette or final burst timing is selected. Frame buttons and deliberate playback allow comparison of onset, expansion, breakup and settle.
+
+The raw Haiku SVGs remain unchanged. Derived files use a common union viewport across all four frames in each family with a conservative stroke margin, so visible size and contact centering are comparable without individually recentering animation frames. A short-lived foreground contact layer makes the designs visible while inspected eyes/beaks and name badges remain identifiable. These are report-local composition choices, not new race/injury mechanics.
+
+Root and lead found missing head/body paint in the GPU-disabled headless capture sequence. Added waits, alternate RGB expressions and direct-shape fill mutation did not fix it; those failed attempts are retained and the original whitening method was restored. A task-local browser-helper derivative permits GPU use without changing shared tooling, machine settings, production source or the owner browser. CDP reported ANGLE AMD Radeon 780M/D3D11 with GPU compositing/rasterization enabled, and the inspected sequential captures retained whole ducks. This supports a configuration-specific capture distinction, not proof of universal live-browser behavior. Actual OS reduced-motion/AT/device coverage and continuous perceived animation quality remain outside the evidence.
+
+Relevant current evidence: `evidence/burst-normalized-gpu-01/`, `evidence/burst-foreground-gpu-01/`, `art/burst-normalized/manifest.json`, `gpu-browser-proposal.md` and `progress.md` within the Plan57 report folder. Earlier paragraphs below are the initial checkpoint and its evidence, not the current selection state. Owner should now judge visible silhouette/sequence and race-size usefulness; no further technical-polish round is required solely to claim subjective quality.
+
 2026-11-03. Root clears the report-local collision/injury gallery for owner visual selection. This is not closure, a selected aesthetic treatment, production integration or validation of Plan55 injury physics. Implementer commits: `c2ecc72` gallery/art/evidence and `6577a5a` progress last.
 
 Preview: http://localhost:5173/Quackpot/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/

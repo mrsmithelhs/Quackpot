@@ -53,3 +53,20 @@ test('synthetic rent rescue permits only necessary free fallback advancement; a 
   assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);assert.equal(e.state.cash,cash);assert.equal(e.state.life.finance.rents[0].status,'pending');
   const loan=await load('production-finance-final/day9-loan-due.save.json');assert.equal(startQuiet(loan,'loan-blocked').reason,'financial_obligation_due');
 });
+
+test('later meal slots offer the existing free quiet fallback only when other free activities are unavailable',async()=>{
+ for(const day of [2,6,7]) for(const slot of ['morning','early-evening']) {
+  const e=await load('checkpoint-independent/day7-morning.save.json');
+  // Synthetic eligibility fixture only; do not export as a review save.
+  e.state.life.schedule.day=day;e.state.life.schedule.slot=slot;e.state.life.schedule.recovery=null;
+  e.state.tenPullCommitted=true;e.state.pendingReveals=[];e.state.owned=[];e.state.gems=0;e.state.cash=20;e.state.health=100;
+  const before=structuredClone(e.state),rng=JSON.stringify(e.toEnvelope().prngStreams);
+  let p=startQuiet(e,`meal-fallback-${day}-${slot}`);assert.equal(p.ok,true,JSON.stringify(p));
+  const meal=slot==='morning'?'breakfast':'dinner';assert.ok(p.proposal.schedule.displaced.includes(meal));
+  assert.equal(p.proposal.schedule.disclosures.includes(meal),day<=6);
+  if(day<=6){assert.ok(e.recordFiveSlotScheduleWarningShown(p.proposal));assert.ok(e.recordFiveSlotWarningCancelled(p.proposal));assert.deepEqual(e.state,before);assert.equal(JSON.stringify(e.toEnvelope().prngStreams),rng);p=startQuiet(e,`meal-fallback-confirm-${day}-${slot}`);assert.ok(e.recordFiveSlotScheduleWarningShown(p.proposal));}
+  const started=e.commitFiveSlotAction(p.proposal,{confirmed:true});assert.equal(started.ok,true,JSON.stringify(started));assert.equal(e.state.health,95);assert.equal(e.state.cash,20);
+  const id=e.state.life.schedule.active.id,done=e.prepareFiveSlotAction({domain:'schedule',action:{type:'complete',activityId:id,operationId:`meal-fallback-finish-${day}-${slot}`}});assert.ok(done.ok);assert.ok(e.commitFiveSlotAction(done.proposal,{confirmed:true}).ok);
+  assert.equal(e.state.life.schedule.slot,slot==='morning'?'midday':'evening');assert.equal(e.state.health,95);assert.equal(e.state.cash,20);assert.equal(JSON.stringify(e.toEnvelope().prngStreams),rng);
+ }
+});

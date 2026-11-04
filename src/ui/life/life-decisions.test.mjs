@@ -260,3 +260,12 @@ test('combined shortfall retains useful sale help and honors simultaneous loan p
  const due=fiveSlotDueDecision(e);assert.equal(due.bills.length,2);assert.deepEqual(due.saleOptions,['couch','tv']);assert.equal(due.overtimeAvailable,false);assert.deepEqual(due.loanRentIds,[]);
  e.state.cash=475;const solvent=fiveSlotDueDecision(e);assert.deepEqual(solvent.saleOptions,[]);assert.equal(solvent.overtimeAvailable,false);
 });
+
+test('five-slot meal panels teach explicit skip only on Day 1',()=>{
+ const e=new GameEngine('meal-panel-guidance',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ for(const day of [1,2,6,7]) for(const slot of ['morning','early-evening']) {
+  e.state.life.schedule.day=day;e.state.life.schedule.slot=slot;
+  const d=breakfastDecision(e);assert.ok(d.confirm.includes('$6.00'));
+  assert.equal(Boolean(d.decline),day===1,`day ${day} ${slot}`);
+ }
+});

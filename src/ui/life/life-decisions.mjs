@@ -183,12 +183,16 @@ export function optionalCouchDecision(engine) {
 export function breakfastDecision(engine) {
   const cashBefore = engine.state.cash;
   const loss = Math.min(5, Math.max(0, engine.state.health));
-  const amount = engine.state.life?.config.mealCost ?? BREAKFAST_AMOUNT;
-  if (engine.state.life?.phase === 'evening' || (engine.state.life?.policyVersion === 'five-slot-v1' && engine.state.life.schedule.slot === 'early-evening')) return {
+  const life = engine.state.life;
+  const amount = life?.config.mealCost ?? BREAKFAST_AMOUNT;
+  // Day 1 teaches the explicit choice. Later five-slot days displace the
+  // meal through a chosen activity, with the scheduler's normal warnings.
+  const showSkip = life?.policyVersion !== 'five-slot-v1' || life.schedule.day === 1;
+  if (life?.phase === 'evening' || (life?.policyVersion === 'five-slot-v1' && life.schedule.slot === 'early-evening')) return {
     heading: 'Dinner at home', lines: [`Dinner costs ${money(amount)}.`, `Cash on hand: ${money(cashBefore)} → ${money(round(cashBefore - amount))}.`],
     confirm: `Buy dinner for ${money(amount)}`, back: 'Put it down',
-    decline: { label: `Skip dinner (−${loss} HP)`, endsRun: false },
+    ...(showSkip ? {decline: { label: `Skip dinner (−${loss} HP)`, endsRun: false }} : {}),
   };
   return { ...decide.getBreakfast({ amount, cashBefore, cashAfter: round(cashBefore - amount) }),
-    back: 'Put it down', decline: { label: `Skip breakfast (−${loss} HP)`, endsRun: false } };
+    back: 'Put it down', ...(showSkip ? {decline: { label: `Skip breakfast (−${loss} HP)`, endsRun: false }} : {}) };
 }

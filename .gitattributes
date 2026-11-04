@@ -117,3 +117,11 @@
 /scripts/dev/checkpoints/process-tree.mjs -text
 /scripts/dev/checkpoints/process-tree.ps1 -text
 /scripts/dev/checkpoints/provenance.mjs -text
+
+# Plan 52 meal review: preserve exact capture recipes and traces.
+/reports/development/plan-52-five-slot-production-transition/meal-flow-browser-attempt2.mjs -text
+/reports/development/plan-52-five-slot-production-transition/meal-flow-browser.mjs -text
+/reports/development/plan-52-five-slot-production-transition/meal-flow-browser-attempt1/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/meal-flow-browser-attempt2/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/meal-flow-browser-attempt3/trace.json text eol=lf
+/reports/development/plan-52-five-slot-production-transition/meal-flow-static-server.mjs -text

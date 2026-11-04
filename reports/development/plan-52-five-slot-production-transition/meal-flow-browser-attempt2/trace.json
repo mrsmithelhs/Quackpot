@@ -1,0 +1,151 @@
+{
+  "sourceClosureSha256": "ed85dbadcfae669ac8fa2c66130a004a9892f2008dddbd1dfaa44f0d4cfb47fd",
+  "recipeSha256": "5fd3e03bf9bc96c6409015788d988cc6a42165074dcd0a5cf0b43c6803a8c1a6",
+  "results": [
+    {
+      "name": "day1",
+      "skipShown": true,
+      "parent": "production-day1-final/morning-narrow.save.json",
+      "parentSha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b"
+    },
+    {
+      "name": "day2",
+      "skipShown": false,
+      "parent": "checkpoint-rent-display-sampled-first/completed-evening.save.json",
+      "parentSha256": "34cc2e56fd3c127510f3161579649742fd49cb55cc2a6fb5ca559b1a9343c0ff"
+    }
+  ],
+  "dialogs": [
+    {
+      "message": "This action skips breakfast: no meal charge, and up to 5 HP is lost.\n\nContinue?",
+      "accept": false,
+      "expected": true
+    },
+    {
+      "message": "This action skips breakfast: no meal charge, and up to 5 HP is lost.\n\nContinue?",
+      "accept": true,
+      "expected": true
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "5dec02ae1df479ddb59045e7edfa1ce22a51c7cd79774060a5007ed6209929e0",
+    "trackedDescendants": [
+      {
+        "pid": 38148,
+        "ppid": 8000,
+        "created": "639293573689729500",
+        "root": true
+      },
+      {
+        "pid": 26604,
+        "ppid": 38148,
+        "created": "639293573689870740",
+        "root": false
+      },
+      {
+        "pid": 35992,
+        "ppid": 38148,
+        "created": "639293573691271650",
+        "root": false
+      },
+      {
+        "pid": 11276,
+        "ppid": 38148,
+        "created": "639293573691815970",
+        "root": false
+      },
+      {
+        "pid": 33508,
+        "ppid": 38148,
+        "created": "639293573692017170",
+        "root": false
+      },
+      {
+        "pid": 15588,
+        "ppid": 38148,
+        "created": "639293573692530110",
+        "root": false
+      },
+      {
+        "pid": 28116,
+        "ppid": 38148,
+        "created": "639293573692814580",
+        "root": false
+      },
+      {
+        "pid": 32908,
+        "ppid": 38148,
+        "created": "639293573693073790",
+        "root": false
+      },
+      {
+        "pid": 6748,
+        "ppid": 38148,
+        "created": "639293573693090080",
+        "root": false
+      },
+      {
+        "pid": 30728,
+        "ppid": 38148,
+        "created": "639293573693816480",
+        "root": false
+      },
+      {
+        "pid": 31808,
+        "ppid": 38148,
+        "created": "639293573716763080",
+        "root": false
+      },
+      {
+        "pid": 25236,
+        "ppid": 38148,
+        "created": "639293573716907910",
+        "root": false
+      },
+      {
+        "pid": 35520,
+        "ppid": 38148,
+        "created": "639293573716909730",
+        "root": false
+      },
+      {
+        "pid": 29924,
+        "ppid": 38148,
+        "created": "639293573729367170",
+        "root": false
+      },
+      {
+        "pid": 29144,
+        "ppid": 38148,
+        "created": "639293573729390960",
+        "root": false
+      },
+      {
+        "pid": 14756,
+        "ppid": 38148,
+        "created": "639293573730510610",
+        "root": false
+      },
+      {
+        "pid": 28752,
+        "ppid": 38148,
+        "created": "639293573737185100",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

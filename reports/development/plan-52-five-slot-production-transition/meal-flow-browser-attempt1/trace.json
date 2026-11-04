@@ -1,0 +1,110 @@
+{
+  "sourceClosureSha256": "ed85dbadcfae669ac8fa2c66130a004a9892f2008dddbd1dfaa44f0d4cfb47fd",
+  "recipeSha256": "da10ee212765a006ce588c551c7ad5d82e3b6d99428f08f2576a0b504ca20b23",
+  "results": [
+    {
+      "name": "day1",
+      "skipShown": true,
+      "parent": "production-day1-final/morning-narrow.save.json",
+      "parentSha256": "830b1ed47e21bd24b1fc7a744738b928baba156b41b6c97e07ba01f8ba69074b"
+    }
+  ],
+  "dialogs": [],
+  "errors": [],
+  "error": "Error: day2: missing The kitchen",
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "e7cd7c422fa5dcf5ec073195a1b265b291d5b5048ea2e64c62855f3e99edc4ce",
+    "trackedDescendants": [
+      {
+        "pid": 34904,
+        "ppid": 30344,
+        "created": "639293573383347030",
+        "root": true
+      },
+      {
+        "pid": 8000,
+        "ppid": 34904,
+        "created": "639293573383534070",
+        "root": false
+      },
+      {
+        "pid": 35616,
+        "ppid": 34904,
+        "created": "639293573385011570",
+        "root": false
+      },
+      {
+        "pid": 28996,
+        "ppid": 34904,
+        "created": "639293573385798120",
+        "root": false
+      },
+      {
+        "pid": 33084,
+        "ppid": 34904,
+        "created": "639293573386000060",
+        "root": false
+      },
+      {
+        "pid": 6500,
+        "ppid": 34904,
+        "created": "639293573387032350",
+        "root": false
+      },
+      {
+        "pid": 2412,
+        "ppid": 34904,
+        "created": "639293573387358550",
+        "root": false
+      },
+      {
+        "pid": 19720,
+        "ppid": 34904,
+        "created": "639293573387641130",
+        "root": false
+      },
+      {
+        "pid": 35104,
+        "ppid": 34904,
+        "created": "639293573387662470",
+        "root": false
+      },
+      {
+        "pid": 15856,
+        "ppid": 34904,
+        "created": "639293573388459340",
+        "root": false
+      },
+      {
+        "pid": 33976,
+        "ppid": 34904,
+        "created": "639293573412748480",
+        "root": false
+      },
+      {
+        "pid": 38280,
+        "ppid": 34904,
+        "created": "639293573412931020",
+        "root": false
+      },
+      {
+        "pid": 25980,
+        "ppid": 34904,
+        "created": "639293573412931280",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

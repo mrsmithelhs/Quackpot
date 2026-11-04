@@ -282,7 +282,9 @@ export class GameEngine {
     const available=[];let n=0;
     const probe=(action,extra=context)=>inspect({...action,operationId:`fallback-check:${this.log.length}:${++n}`},extra);
     const add=availableNow=>available.push({available:Boolean(availableNow),free:true});
-    add(probe({type:'meal',choice:'skip'}).ok);
+    // Explicit meal skipping is a tutorial choice only; it is not a free
+    // alternative once later days rely on another activity to displace meals.
+    if(s.day===1)add(probe({type:'meal',choice:'skip'}).ok);
     add(probe({type:'start',kind:'work'}).ok);
     add(probe({type:'start',kind:'early-bed'}).ok);
     add(probe({type:'sleep'}).ok);

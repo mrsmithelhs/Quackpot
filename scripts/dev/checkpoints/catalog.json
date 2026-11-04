@@ -41,7 +41,7 @@
   },
   "checkpoints": {
     "plan52.rent-shortfall.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-shortfall.save.json",
@@ -77,7 +77,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.rent-paid-zero.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/rent-paid-zero.save.json",
@@ -113,7 +113,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.loan-due.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/loan-due.save.json",
@@ -151,7 +151,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.day1-payslip.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/day1-payslip.save.json",
@@ -185,7 +185,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.day1-call-scene.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/day1-call-scene.save.json",
@@ -928,7 +928,7 @@
       }
     },
     "plan52.fresh-tutorial.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/fresh-tutorial.save.json",
@@ -962,7 +962,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.midday-work.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/midday-work.save.json",
@@ -997,7 +997,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.unresolved-dinner.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/unresolved-dinner.save.json",
@@ -1031,7 +1031,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.completed-evening.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/completed-evening.save.json",
@@ -1065,7 +1065,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.independent-day.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/independent-day.save.json",
@@ -1103,7 +1103,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.ren-reserved.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-first/ren-reserved.save.json",
@@ -1138,7 +1138,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.ren-arriving.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/ren-arriving.save.json",
@@ -1174,7 +1174,7 @@
       "cleanupEvidencePolicy": "sampled-observation-v1"
     },
     "plan52.zero-hp-recovery.v1": {
-      "status": "current-loadable",
+      "status": "source-changed-revalidation-required",
       "class": "captured-replayable",
       "policy": "five-slot-v1",
       "fixture": "reports/development/plan-52-five-slot-production-transition/checkpoint-rent-display-sampled-second/zero-hp-recovery.save.json",

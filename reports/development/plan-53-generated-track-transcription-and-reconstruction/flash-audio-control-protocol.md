@@ -1,6 +1,6 @@
 # Proposed Gemini audio control: M1 event coverage and pair discrimination
 
-**Status: design only.** The owner authorized protocol design and requested notice before execution. No preparation, model call, upload, browser job, or audio render is authorized by this document alone. Orchestration will review the concrete staged inputs and notify the owner before any experiment starts. This is a small diagnostic for the previously used Antigravity CLI file-read route, not completion of the pending M1/M3/M5 music consultations.
+**Status: four authorized control sessions completed.** The owner listened to the clips and supplied the perceptual key; orchestration reviewed and cleared the fixed batch. The owner was notified before provider calls. Results and limits appear below. This is a small diagnostic for the previously used Antigravity CLI file-read route, not completion of the pending M1/M3/M5 music consultations.
 
 ## Question and limits
 
@@ -30,3 +30,37 @@ Proposed requested route: the previously used fresh Antigravity CLI Flash sessio
 Proposed bounds per provider call: fresh available RAM at least 8 GiB and free disk at least 30 GiB; 240-second outer wall cap, 210-second inner print timeout, sampled 2 GiB process-tree private memory cap, 1 GiB Node heap and 2 Mi characters per stream; serialize resource use and preserve sampled-process cleanup uncertainty. Preparation/validation would use existing bounded 90-second/2 GiB launcher per invocation, no installation, downloads, credential changes or new model inference. Record time, memory, read traces, reported usage and private receipt hashes without exposing session identifiers. The owner and orchestration receive notice and review the final fixed inputs/key/protocol before execution.
 
 A documented explicit native-audio attachment route is a **separate possible comparison**, requiring separate owner approval of route, account, access, cost and resource plan. The API's documented mono downmix does not establish this CLI route's behavior; do not score stereo panning without route-specific proof. No M3/M5 freeform advice calls, production integration or music changes follow automatically.
+
+
+## Prepared clips and remaining gates
+
+Using the existing FFmpeg 9.0.1 installation and the preserved source PCM, A and B were encoded at 192 kbps, 48 kHz stereo. FFprobe reports both as 30.000 seconds with start time 0.023021; independent decode yields 1,440,000 frames each. At seconds 28–29 decoded A has RMS 5424.63 PCM16 units and decoded B has RMS zero, confirming the encoded tail difference but not an owner-verified musical event. A SHA-256 is `5964ea9ac9e1627d39b7cc65109baa97bc0a90915143e211a252c8a1678ecff2` and B is `787fa8005da4f857e88231994c208499b46d11b5cf1d6761996b2ec0349a5d04`. Four ignored neutral stages contain one A, A/A byte-identical, A/B, and B/A respectively. Codec delay and lossy encoding prevent a sample-perfect alignment claim.
+
+The earlier owner selection established that M1 00:20–00:45 was representative, not the specific early/middle/late event identities or audibility of the final altered three seconds. Those events, distractors and the effect of B require the owner's listening before the final answer key and prompts can be pinned. No Flash session has run for this control.
+
+
+## Completed control results
+
+The owner reported that B had no audio in the last three seconds and described A as opening with a violin-like melody with slides and variation, followed around 18 seconds by a mallet-like response with softer drums, then stronger drums and violin-like tones alongside the mallet-like melody in the final three seconds. These are owner listening impressions, not independently verified instrument stems. The previously chosen representative 00:20–00:45 passage alone had not established these events. The final pre-call private key/rubric SHA-256 was `bac087e01c0f3a7df997afd9304deeac0f8bda9a892e57617cdf5dee0f646c80`; prompts and audio stages were pinned before calls. Instrument synonyms and ambiguous observations were treated cautiously; distractor absence was unscored because the owner did not explicitly verify it.
+
+| Condition | Result against fixed key | Timing separately |
+| --- | --- | --- |
+| Single A | Described an early lead, mallet-like response and later layering, but placed the response and return earlier than the owner described; violin slides were uncertain. Its claimed final cadence/stinger was not established by the key. Partial and ambiguous structural agreement, not verified end coverage. | Claimed 29–30 s, within the predeclared ±2 s duration tolerance. Event times diverged from the owner's approximate observations. |
+| A/A | Reported same, correctly; no false-positive difference. | Claimed ~24 s for each 30 s file, outside tolerance. |
+| A/B | Reported same; missed the owner's plainly audible silence in the second file. | Claimed 30–31 s for each, within tolerance. |
+| B/A | Reported same; missed silence in the first file. | Claimed 30–32 s for each, within tolerance at the stated boundary. |
+
+Both changed-pair trials therefore failed to detect the deliberately obvious late omission in either order, while the identical-pair negative control passed. Four one-shot cases cannot establish a statistical rate or general model hearing capability. Correct duration or file reads alone do not prove native audio delivery, comprehension, or full coverage; the observed result limits confidence specifically in this CLI workflow for this comparison. No new model calls or native-audio API route followed.
+
+All four fresh sessions reported initialization as `gemini-3.8-flash-medium`; effective effort was not independently exposed. Each completed exactly the intended file reads, no other tool call or explicit checkpoint event was observed, exit code was zero and neither stream was reported truncated. These traces do not expose the audio payload. Token counts below are CLI-reported, with thinking included in output; sampled private memory is not a hard process-tree proof.
+
+| Condition | Wall s | Sampled peak bytes | Input / output (thinking) tokens | Private raw receipt SHA-256 |
+| --- | ---: | ---: | --- | --- |
+| Single | 31.134 | 373850112 | 26719 / 2826 (2122) | 5ab6fc019cc5f641420dd625bf0331f170f5f0e0d846d9e52fa96c6aa3cde139 |
+| A/A | 18.651 | 399126528 | 27249 / 1278 (1007) | 12fc3ce0145d99635ef60d440cd5e284cd8b39a2025ab5a0b861a3ea4412a16b |
+| A/B | 19.000 | 410828800 | 27377 / 1626 (1200) | 36fe8c7aaa4c285f13ce66a77312520844581fc2407c3d462c38d2a8dfd67919 |
+| B/A | 22.516 | 430333952 | 41116 / 1639 (1297) | 5f2173fd14411c87557f8ca6698e9cb4518853a9ab3ab6d3e907d5cb91416868 |
+
+Individual sanitized responses are `flash-control-single-response.md`, `flash-control-same-response.md`, `flash-control-forward-response.md` and `flash-control-reverse-response.md`. Raw receipts and audio remain ignored. The broader M1/M3/M5 consultation request is pending a separately chosen reliable method.
+
+The identical-pair pass is compatible with always answering “same”; the two changed-pair misses are therefore the decisive observations in this small test. The single-file choices supplied timbral and structural hints, so echoed terms are not independent listening proof. Do not use further freeform comparisons from this CLI route to make music decisions on this evidence. A documented native-audio route is a separate proposal and owner gate, not automatic setup or evidence that the current route delivered no audio.

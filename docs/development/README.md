@@ -67,6 +67,8 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-56` | Preconverted MuScriptor Large runtime feasibility | complete | Investigate preconverted FP16 GGUF with muscriptor.cpp on Windows/Vulkan, using Crane as a secondary candidate, without modifying the working Plan53 Medium pipeline. |
 | `plan-57` | Race collision and injury visual study | complete | Compare readable layered-paper collision effects and persistent injury markers at close-up and actual race scale, using bounded Haiku drawings and a Codex-built animation gallery without changing race mechanics or production. |
 | `plan-58` | Race ability animation language and gallery | complete | Use Sonnet and Flash creative consultation, Haiku/Sonnet SVG drawing support and a Codex animation gallery to develop distinct, readable cues for candidate duck abilities, including combinations and static equivalents. |
+| `plan-59` | Race growth, injury and selected ability integration | draft | Integrate selected duck growth, collision injury, full-protection Bounce and independent crowd acceleration; extract accepted collision and eleven ability visual treatments into reusable production helpers without inventing mechanics for the remaining abilities. |
+| `plan-60` | Remaining race abilities and progression study | draft | Define and compare the nine remaining ability concepts and later duck progression, using owner dialogue, efficient Sonnet creative consultation and falsifiable report-local experiments while Plan59 integrates the selected first slice. |
 <!-- plan-index:end -->
 
 ## Report Folders

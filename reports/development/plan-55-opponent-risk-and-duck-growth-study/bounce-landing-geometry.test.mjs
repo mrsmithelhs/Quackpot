@@ -5,3 +5,5 @@ test('nonoverlap is not a landing contact',()=>assert.equal(landingGeometry({id:
 test('impulse is only applied for closing velocity',()=>{assert.equal(landingImpulse(0),0);assert.equal(landingImpulse(1),0);assert.equal(landingImpulse(-2),1.25)});
 
 test('previously committed boundary events precede landing and next tick follows',()=>{const a=[{id:'next',tick:5},{id:'landing',tick:4,contactCause:'occupied-landing'},{id:'finish',tick:4,type:'finish-line-crossing'}].sort(compareLandingEvents);assert.deepEqual(a.map(x=>x.id),['finish','landing','next'])});
+
+test('landing rearm counts elapsed ticks from physical boundary', async()=>{const {processCandidatePairs}=await import('./multi-contact-state.mjs');const item={a:'A',b:'P',fraction:0},state={pairs:{'A|P':{tick:1,separated:true}},count:1};const run=boundary=>processCandidatePairs([item],state,boundary,()=>({eligible:true}),()=>true);assert.equal(run(10).rejected[0].reason,'episode-active');assert.equal(run(11).accepted.length,1);assert.equal(run(11).state.pairs['A|P'].tick,11)});

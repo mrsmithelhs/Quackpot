@@ -1,0 +1,45 @@
+// Report-local raw-event normalization; no model or MIDI export.
+export const PROGRAMS=Object.freeze({acoustic_piano:0,electric_piano:4,chromatic_percussion:11,distorted_electric_guitar:30,electric_bass:33,acoustic_guitar:24,clean_electric_guitar:27,string_ensemble:48,drums:null});
+export function normalize(events){
+ if(!Array.isArray(events)||!events.length)throw Error('empty event stream');
+ const open=new Map(),seen=new Set(),notes=[],omitted=[],counts={};
+ for(const e of events){
+  if(!e||typeof e!=='object')throw Error('invalid event');
+  if(e.type==='progress') {if(!Number.isInteger(e.completed)||!Number.isInteger(e.total)||e.total<=0||e.completed<0||e.completed>e.total)throw Error('invalid progress');continue}
+  if(e.type==='start'){
+   if(!Number.isInteger(e.index)||e.index<0||seen.has(e.index)||!Object.hasOwn(PROGRAMS,e.instrument)||!Number.isInteger(e.pitch)||e.pitch<0||e.pitch>127||!Number.isFinite(e.start_time)||e.start_time<0||e.start_time>25||(e.instrument==='drums'&&(e.pitch<35||e.pitch>81)))throw Error('invalid start');
+   seen.add(e.index);open.set(e.index,e);counts[e.instrument]=(counts[e.instrument]??0)+1;
+  } else if(e.type==='end'){
+   if(!Number.isInteger(e.start_event_index)||!open.has(e.start_event_index)||!Number.isFinite(e.end_time))throw Error('invalid end reference');
+   const start=open.get(e.start_event_index);open.delete(e.start_event_index);
+   if(e.end_time<start.start_time||e.end_time>26)throw Error('invalid end time');
+   if(e.end_time===start.start_time)omitted.push({index:start.index,reason:'zero duration; no audible duration inferred'});
+   else notes.push({index:start.index,part:start.instrument,pitch:start.pitch,start:start.start_time,end:e.end_time,velocity:85});
+  } else throw Error('unknown event type');
+ }
+ if(open.size||!notes.length)throw Error('unclosed or empty notes');
+ const latest=new Map();for(const n of [...notes].sort((a,b)=>a.start-b.start)){const k=n.part+':'+n.pitch;if(n.part!=='drums'&&(latest.get(k)??0)>n.start)throw Error('overlapping same-pitch events');latest.set(k,n.end)}
+ const programs=Object.fromEntries(Object.keys(counts).sort().map(k=>[k,PROGRAMS[k]]));
+ return {schema:1,notes,omitted,programs,counts,channel_policy:'Drums channel 10; other groups distinct channels.',velocity:'Assigned constant 85/127; dynamics not recovered.',alignment:'Raw seconds relative to 00:20 source crop; no MIDI bar offset.',source_order:'Input read in original order; notes emitted on paired end events.'};
+}
+
+export function buildSchedule(data){
+ if(!data||!Array.isArray(data.notes)||!data.notes.length||!data.programs||!Array.isArray(data.omitted))throw Error('invalid comparison data');
+ const channels={},programs={};let next=0;
+ for(const [part,program] of Object.entries(data.programs)){if(!Object.hasOwn(PROGRAMS,part)||program!==PROGRAMS[part])throw Error('unsupported program');if(part==='drums'){channels[part]=9;continue}if(next===9)next++;if(next>=16)throw Error('too many channels');channels[part]=next;programs[next++]=program;}
+ const events=[];for(const n of data.notes){if(!Object.hasOwn(channels,n.part)||!Number.isInteger(n.pitch)||n.pitch<0||n.pitch>127||!Number.isFinite(n.start)||!Number.isFinite(n.end)||n.start<0||n.start>25||n.end<=n.start||n.end>26||n.velocity!==85)throw Error('invalid scheduled note');const ch=channels[n.part];events.push({time:n.start,on:true,n,ch});if(ch!==9)events.push({time:n.end,on:false,n,ch});}
+ events.sort((a,b)=>a.time-b.time||Number(a.on)-Number(b.on));return {channels,programs,events};
+}
+
+// Full-track events are paired before overlap selection and shifted to the crop clock.
+export function windowEvents(events,from=20,to=45){
+ if(!Array.isArray(events)||!events.length||!Number.isFinite(from)||!Number.isFinite(to)||to<=from)throw Error('invalid input window');
+ const open=new Map(),seen=new Set(),out=[],stats={carry_in:0,cut_tail:0,zero_duration:0,selected:0};
+ for(const e of events){if(!e||typeof e!=='object')throw Error('invalid event');
+  if(e.type==='progress'){if(!Number.isInteger(e.completed)||!Number.isInteger(e.total)||e.total<=0||e.completed<0||e.completed>e.total)throw Error('invalid progress');continue}
+  if(e.type==='start'){if(!Number.isInteger(e.index)||e.index<0||seen.has(e.index)||typeof e.instrument!=='string'||!e.instrument||!Number.isInteger(e.pitch)||e.pitch<0||e.pitch>127||!Number.isFinite(e.start_time)||e.start_time<0)throw Error('invalid start');seen.add(e.index);open.set(e.index,e)}
+  else if(e.type==='end'){if(!Number.isInteger(e.start_event_index)||!open.has(e.start_event_index)||!Number.isFinite(e.end_time))throw Error('invalid end reference');const a=open.get(e.start_event_index);open.delete(e.start_event_index);if(e.end_time<a.start_time)throw Error('invalid end time');if(e.end_time===a.start_time){if(a.start_time>=from&&a.start_time<to)stats.zero_duration++;continue}if(a.start_time>=to||e.end_time<=from)continue;if(!Object.hasOwn(PROGRAMS,a.instrument))throw Error('unsupported selected group: '+a.instrument);if(a.instrument==='drums'&&(a.pitch<35||a.pitch>81))throw Error('unsupported drum pitch');stats.selected++;if(a.start_time<from)stats.carry_in++;if(e.end_time>to)stats.cut_tail++;out.push({...a,start_time:Math.max(from,a.start_time)-from});out.push({...e,end_time:Math.min(to,e.end_time)-from});}
+  else throw Error('unknown event type');
+ }
+ if(open.size)throw Error('unclosed events');const result=normalize(out);return {...result,window:{start:from,end:to,...stats,note:'Full-source events clipped to overlap then shifted to crop clock.'}};
+}

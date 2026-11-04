@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {PHYSICS} from './injury-stage2-adapter.mjs';import {rollInjury} from './injury-stage2-state.mjs';
+test('stage adapter loads without resolving race and preserves time and caps',()=>{assert.equal(PHYSICS.dt,.05);assert.equal(PHYSICS.maxTurnRateDeg,90);assert.equal(PHYSICS.baseAcceleration,3)});
+test('participant identity participates in independent key and injured duck has no further rolls',()=>{const o={policy:'contact',stance:'steady',seed:'s',raceId:'r',contactId:'c',injuryBand:'low'},a=rollInjury({id:'A'},o),b=rollInjury({id:'B'},o);assert.notEqual(a.key,b.key);assert.equal(rollInjury({id:'A',susceptibilityInjured:true},o),null)});

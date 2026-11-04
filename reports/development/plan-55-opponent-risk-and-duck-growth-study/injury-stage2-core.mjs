@@ -1,0 +1,3 @@
+import {stageInput,IDS} from './predictive-stage-core.mjs';
+export function injuryStageInput(i,traffic,band){if(!['none','clearance'].includes(traffic)||!['low','medium','high'].includes(band))throw RangeError('invalid shard');const x=stageInput(i,traffic==='none'?'multi':'predictive');return {...x,susceptibility:'contact',injuryBand:band}}
+export function exposureSummary(events,risks){return Object.fromEntries(IDS.map(id=>{const own=events.filter(e=>e.participants.includes(id)),rolls=own.flatMap(e=>(e.injuryRolls??[]).filter(r=>r.id===id).map(r=>({...r,contactId:e.id,tick:e.tick,rank:e.studyRanksAtContact?.[id]??null,activeCount:e.studyActiveCountAtContact??null})));return [id,{stance:risks[id],contacts:own.length,rolls,newInjury:rolls.some(r=>r.injured)}]}))}

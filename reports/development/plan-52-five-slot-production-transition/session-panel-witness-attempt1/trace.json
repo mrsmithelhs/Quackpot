@@ -1,0 +1,162 @@
+{
+  "source": "ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21",
+  "recipeSha256": "dceadd3fed176ac1b12b675174ca19b3b86b2700d9f0a46d389777af72123f08",
+  "observations": [
+    {
+      "label": "before-return",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Morning\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      \n        \n          Pond of Destiny\n          Pond of Destiny\n          Your committed pull\n          \n            Common: 80%\n            Rare: 18%\n            Legendary: 2%\n          \n        Duck-Dex\n\n        \n          \n            \n              \n                Cards waiting: 10 unrevealed\n              \n              \n                \n                  \n                    Flip Next Card\n                  \n                  \n                    Reveal All\n                  \n                \n                \n                  Ⅱ\n                \n                \n                Reveal a duck to enable this motion control.\n              \n            \n\n            \n              \n    \n      🦆\n      #1\n      Click to flip #1\n    \n  \n    \n      🦆\n      #2\n      Click to flip #2\n    \n  \n    \n      🦆\n      #3\n      Click to flip #3\n    \n  \n    \n      🦆\n      #4\n      Click to flip #4\n    \n  \n    \n      🦆\n      #5\n      Click to flip #5\n    \n  \n    \n      🦆\n      #6\n      Click to flip #6\n    \n  \n    \n      🦆\n      #7\n      Click to flip #7\n    \n  \n    \n      🦆\n      #8\n      Click to flip #8\n    \n  \n    \n      🦆\n      #9\n      Click to flip #9\n    \n  \n    \n      🦆\n      #10\n      Click to flip #10",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nPOND OF DESTINY\nPond of Destiny\n\nYour committed pull\n\nCommon: 80%\nRare: 18%\nLegendary: 2%\nDuck-Dex\nCards waiting: 10 unrevealed\nFlip Next Card\nReveal All\nⅡ\nReveal a duck to enable this motion control.\n🦆\n#1\nClick to flip #1\n🦆\n#2\nClick to flip #2\n🦆\n#3\nClick to flip #3\n🦆\n#4\nClick to flip #4\n🦆\n#5\nClick to flip #5\n🦆\n#6\nClick to flip #6\n🦆\n#7\nClick to flip #7\n🦆\n#8\nClick to flip #8\n🦆\n#9\nClick to flip #9\n🦆\n#10\nClick to flip #10"
+    },
+    {
+      "label": "pending-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nFinish revealing your ducks before putting the phone away.\n\nBack to Quackpot"
+    },
+    {
+      "label": "pending-reload",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nFinish revealing your ducks before putting the phone away.\n\nBack to Quackpot"
+    },
+    {
+      "label": "resolved-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nPutting the phone away moves to Day 2 · Midday.\n\nBack to Quackpot\nPut the phone away"
+    },
+    {
+      "label": "repeated-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nPutting the phone away moves to Day 2 · Midday.\n\nBack to Quackpot\nPut the phone away"
+    },
+    {
+      "label": "finished",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          \n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Midday\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n        \n          \n            .apt-lfs19{width:100%;height:100%;display:block;overflow:visible}.apt-lfs19 .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-lfs19 .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-lfs19 .cast{opacity:.3}.apt-lfs19 .cast-keep{opacity:.3}.apt-lfs19 .cast-lamp{display:none}.apt-lfs19 .lamp-on{opacity:0}.apt-lfs19 .lamp-pool{mix-blend-mode:screen}.apt-lfs19.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-lfs19.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n      \n      \n      \n      \n      \n      \n      \n      \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n\n      \n        \n      \n      PM\n      \n      MESSAGES\n      Work\n      \n      Shift today\n      \n      \n      \n        \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n        \n        \n        \n\n      \n    \n            \n            WorkWork keys\n          \n          \n        \n        Day 2 · MiddayThe kitchen →The living room →The door →",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMidday\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nPM\nMESSAGES\nWork\nShift today\nWork\nWork keys\nDay 2 · Midday\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "completionCountBefore": 0,
+      "completionCountAfter": 0,
+      "finalSlot": "midday"
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "ea4a152b66e926588af625ff308357f1b27b8b109b5687ff5a909dedfccca4f7",
+    "trackedDescendants": [
+      {
+        "pid": 31952,
+        "ppid": 31268,
+        "created": "639293601659551470",
+        "root": true
+      },
+      {
+        "pid": 7716,
+        "ppid": 31952,
+        "created": "639293601659748300",
+        "root": false
+      },
+      {
+        "pid": 34712,
+        "ppid": 31952,
+        "created": "639293601661677070",
+        "root": false
+      },
+      {
+        "pid": 16724,
+        "ppid": 31952,
+        "created": "639293601662471840",
+        "root": false
+      },
+      {
+        "pid": 26460,
+        "ppid": 31952,
+        "created": "639293601662662370",
+        "root": false
+      },
+      {
+        "pid": 40436,
+        "ppid": 31952,
+        "created": "639293601663116280",
+        "root": false
+      },
+      {
+        "pid": 38328,
+        "ppid": 31952,
+        "created": "639293601663467140",
+        "root": false
+      },
+      {
+        "pid": 6176,
+        "ppid": 31952,
+        "created": "639293601663739680",
+        "root": false
+      },
+      {
+        "pid": 38928,
+        "ppid": 31952,
+        "created": "639293601663757390",
+        "root": false
+      },
+      {
+        "pid": 18740,
+        "ppid": 31952,
+        "created": "639293601664509830",
+        "root": false
+      },
+      {
+        "pid": 34688,
+        "ppid": 31952,
+        "created": "639293601676596290",
+        "root": false
+      },
+      {
+        "pid": 19544,
+        "ppid": 31952,
+        "created": "639293601676779150",
+        "root": false
+      },
+      {
+        "pid": 40840,
+        "ppid": 31952,
+        "created": "639293601676780110",
+        "root": false
+      },
+      {
+        "pid": 28576,
+        "ppid": 31952,
+        "created": "639293601699827410",
+        "root": false
+      },
+      {
+        "pid": 40044,
+        "ppid": 31952,
+        "created": "639293601699928990",
+        "root": false
+      },
+      {
+        "pid": 29884,
+        "ppid": 31952,
+        "created": "639293601701723830",
+        "root": false
+      },
+      {
+        "pid": 32032,
+        "ppid": 31952,
+        "created": "639293601706279450",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

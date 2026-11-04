@@ -1019,7 +1019,10 @@ if (app) {
         if (life.phase === 'evening' && life.anchor && !life.session && !globalThis.confirm('You already chose an evening activity. Opening and browsing Quackpot is free; starting a pull or race will ask before Late Night. Open it?')) return { ok: false };
         if (!engine.openLifeApp()) return { ok: false };
         if (engine.state.life.session?.suspended) engine.applyLifeIntent({ type: 'phone_resume' });
-        engine.state.step = (engine.state.life.session && engine.state.lifePhoneReturnStep) || 'life_phone';
+        const activeFiveSlotSession = life.policyVersion === 'five-slot-v1' && life.schedule.active?.kind === 'session';
+        const pendingReveals = engine.state.pendingReveals.some(draw => !draw.revealed);
+        engine.state.step = pendingReveals && activeFiveSlotSession ? 'life_gacha'
+          : ((life.session || activeFiveSlotSession) && engine.state.lifePhoneReturnStep) || 'life_phone';
         engine.state.lifePhoneReturnStep = null;
         return { ok: true };
       }),

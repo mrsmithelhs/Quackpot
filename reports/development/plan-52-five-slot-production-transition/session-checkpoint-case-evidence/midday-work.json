@@ -1,0 +1,253 @@
+{
+  "description": "Case from current-source historical-parent UI resave and fresh-context continuation; sampled cleanup, profile retained.",
+  "originalBatch": "reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/trace.json",
+  "originalBatchSha256": "a36cf05dde4d3c3465e3ae707753e126cca53c79f3b1fc3968d9159e1268d2d0",
+  "origin": "historical-parent-resave",
+  "parent": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-first/midday-work.save.json",
+  "parentSha256": "fac5e66da6b14975db25ea87a72b37ab9041d88d8a75d210d488b76ff3f8f306",
+  "sourceClosureSha256": "ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21",
+  "recipeSha256": "ed2ad4861ccf115da1e37eeefb8785ee317b88c6b5178787f361a41cdae82ee8",
+  "captures": [
+    {
+      "name": "midday-work",
+      "sha256": "5e7aef9d1ee2d8c2baff093d19855f081767437b2eddae6a700e39b90853d8e1"
+    }
+  ],
+  "results": [
+    {
+      "name": "midday-work",
+      "parent": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-first/midday-work.save.json",
+      "parentSha256": "fac5e66da6b14975db25ea87a72b37ab9041d88d8a75d210d488b76ff3f8f306",
+      "input": "reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh-v2-first/midday-work.save.json",
+      "inputSha256": "fac5e66da6b14975db25ea87a72b37ab9041d88d8a75d210d488b76ff3f8f306",
+      "origin": "historical-parent-resave",
+      "fixture": "reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/midday-work.save.json",
+      "fixtureSha256": "5e7aef9d1ee2d8c2baff093d19855f081767437b2eddae6a700e39b90853d8e1",
+      "restoredEvents": 14,
+      "afterEvents": 19,
+      "day": 1,
+      "slot": "early-evening",
+      "cash": 134,
+      "health": 100,
+      "unchangedRng": true,
+      "continuationVerified": true
+    }
+  ],
+  "consoleErrors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "6972df5b0fe50164e010fe6bbc63f114b4fe5a6c3ac64042186fc0a6f5377b1c",
+    "trackedDescendants": [
+      {
+        "pid": 21836,
+        "ppid": 36940,
+        "created": "639293604902539110",
+        "root": true
+      },
+      {
+        "pid": 17996,
+        "ppid": 21836,
+        "created": "639293604902702060",
+        "root": false
+      },
+      {
+        "pid": 40236,
+        "ppid": 21836,
+        "created": "639293604904616140",
+        "root": false
+      },
+      {
+        "pid": 37576,
+        "ppid": 21836,
+        "created": "639293604905184180",
+        "root": false
+      },
+      {
+        "pid": 37020,
+        "ppid": 21836,
+        "created": "639293604905373710",
+        "root": false
+      },
+      {
+        "pid": 7772,
+        "ppid": 21836,
+        "created": "639293604905827710",
+        "root": false
+      },
+      {
+        "pid": 33256,
+        "ppid": 21836,
+        "created": "639293604906163680",
+        "root": false
+      },
+      {
+        "pid": 6196,
+        "ppid": 21836,
+        "created": "639293604906449580",
+        "root": false
+      },
+      {
+        "pid": 38376,
+        "ppid": 21836,
+        "created": "639293604906466390",
+        "root": false
+      },
+      {
+        "pid": 25188,
+        "ppid": 21836,
+        "created": "639293604907270170",
+        "root": false
+      },
+      {
+        "pid": 37544,
+        "ppid": 21836,
+        "created": "639293604925916760",
+        "root": false
+      },
+      {
+        "pid": 6292,
+        "ppid": 21836,
+        "created": "639293604926102620",
+        "root": false
+      },
+      {
+        "pid": 8084,
+        "ppid": 21836,
+        "created": "639293604926103820",
+        "root": false
+      },
+      {
+        "pid": 756,
+        "ppid": 21836,
+        "created": "639293604941452480",
+        "root": false
+      },
+      {
+        "pid": 15948,
+        "ppid": 21836,
+        "created": "639293604943658150",
+        "root": false
+      },
+      {
+        "pid": 15892,
+        "ppid": 21836,
+        "created": "639293604946243650",
+        "root": false
+      },
+      {
+        "pid": 33572,
+        "ppid": 21836,
+        "created": "639293604946448980",
+        "root": false
+      },
+      {
+        "pid": 35468,
+        "ppid": 21836,
+        "created": "639293604946449400",
+        "root": false
+      },
+      {
+        "pid": 36740,
+        "ppid": 21836,
+        "created": "639293604961539160",
+        "root": false
+      },
+      {
+        "pid": 20900,
+        "ppid": 21836,
+        "created": "639293604961710850",
+        "root": false
+      },
+      {
+        "pid": 39592,
+        "ppid": 21836,
+        "created": "639293604961711770",
+        "root": false
+      },
+      {
+        "pid": 7816,
+        "ppid": 21836,
+        "created": "639293604974185970",
+        "root": false
+      },
+      {
+        "pid": 34200,
+        "ppid": 21836,
+        "created": "639293604974333030",
+        "root": false
+      },
+      {
+        "pid": 7860,
+        "ppid": 21836,
+        "created": "639293604974333050",
+        "root": false
+      },
+      {
+        "pid": 32032,
+        "ppid": 21836,
+        "created": "639293604989808240",
+        "root": false
+      },
+      {
+        "pid": 36216,
+        "ppid": 21836,
+        "created": "639293604989993550",
+        "root": false
+      },
+      {
+        "pid": 26744,
+        "ppid": 21836,
+        "created": "639293604989994070",
+        "root": false
+      },
+      {
+        "pid": 23716,
+        "ppid": 21836,
+        "created": "639293604998538560",
+        "root": false
+      },
+      {
+        "pid": 13976,
+        "ppid": 21836,
+        "created": "639293604998728350",
+        "root": false
+      },
+      {
+        "pid": 14780,
+        "ppid": 21836,
+        "created": "639293604998728840",
+        "root": false
+      },
+      {
+        "pid": 2552,
+        "ppid": 21836,
+        "created": "639293605038291030",
+        "root": false
+      },
+      {
+        "pid": 40460,
+        "ppid": 21836,
+        "created": "639293605038457550",
+        "root": false
+      },
+      {
+        "pid": 25632,
+        "ppid": 21836,
+        "created": "639293605038457840",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

@@ -16,6 +16,16 @@ test('fixture dispatch cannot bypass seeded replay by deleting or forging policy
  assert.equal(validateContinuationDispatch(valid),true);
  for(const mutate of [x=>delete x.policy,x=>x.policy='unknown',x=>x.result.unchangedRng=true,x=>delete x.result.continuationPolicy,x=>x.id='plan52.fresh-tutorial.v1',x=>x.recipe='historical.mjs']){const x=structuredClone(valid);mutate(x);assert.equal(validateContinuationDispatch(x),false);}
  assert.equal(validateContinuationDispatch({id:'plan52.fresh-tutorial.v1',recipe,policy:undefined,result:{unchangedRng:true}}),true);
- assert.equal(validateContinuationDispatch({id:'plan52.independent-day.v1',recipe:'historical.mjs',policy:undefined,result:{unchangedRng:true}}),true);
+ assert.equal(validateContinuationDispatch({id:'plan52.independent-day.v1',recipe:'historical.mjs',policy:undefined,result:{unchangedRng:true}}),false);
  assert.equal(validateContinuationDispatch({id:'plan52.independent-day.v1',recipe,policy:undefined,result:{unchangedRng:true}}),false);
 });
+
+ test('only both explicit refresh recipes dispatch seeded cases',()=>{
+  const base='reports/development/plan-52-five-slot-production-transition/';
+  for(const id of ['plan52.independent-day.v1','plan52.rent-paid-zero.v1']) for(const name of ['meal-checkpoint-refresh.mjs','session-checkpoint-refresh.mjs']) {
+   const recipe=base+name,result={continuationPolicy:'seeded-gameplay-v1',unchangedRng:false};
+   assert.equal(validateContinuationDispatch({id,recipe,policy:'seeded-gameplay-v1',result}),true);
+   assert.equal(validateContinuationDispatch({id,recipe,result:{unchangedRng:true}}),false);
+  }
+  assert.equal(validateContinuationDispatch({id:'plan52.independent-day.v1',recipe:base+'other.mjs',result:{unchangedRng:true}}),false);
+ });

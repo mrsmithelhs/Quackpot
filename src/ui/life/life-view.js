@@ -782,7 +782,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if(place==='desk-phone' && (e.state.life.social46?.revision===1 || e.state.life.social46?.introShown) && !schedule.recovery)
         control('Messages: Ren',()=>{const result=callbacks.onSocialOpen(e.log.length);if(result?.ok){ui.renOpen=true;render();}});
       if(schedule.active?.kind==='quiet')control('Finish quiet time',()=>{callbacks.onFiveSlotFinishQuiet(expectLog);ui.held=null;callbacks.onRefresh();});
-      if(schedule.active?.kind==='session')control('Finish phone session',()=>{callbacks.onFiveSlotFinishSession(expectLog);callbacks.onRefresh();});
       if(schedule.slot==='evening' && !schedule.active && schedule.overtimeReservation?.status==='reserved' && schedule.overtimeReservation.day===schedule.day)
         control('Start extra shift',()=>{callbacks.onFiveSlotOvertime(expectLog);callbacks.onRefresh();});
       if(schedule.active?.kind==='overtime')control('Complete extra shift',()=>{callbacks.onFiveSlotFinishOvertime(expectLog);callbacks.onRefresh();});
@@ -846,6 +845,30 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const expectLog = e.log.length;
       control('Go to work', () => { callbacks.onGoToWork(expectLog); ui.held = null; callbacks.onRefresh(); });
     }
+  }
+
+  // A committed phone session remains active until the player chooses to end it.
+  function showPhoneSessionDecision() {
+    const life = engine.state.life, schedule = life?.schedule;
+    if (life?.policyVersion !== 'five-slot-v1' || schedule?.active?.kind !== 'session'
+        || schedule.recovery || engine.checkDueObligations().bills.length) return false;
+    const pending = engine.state.pendingReveals.some(draw => !draw.revealed);
+    const slots = ['morning', 'midday', 'early-evening', 'evening', 'late-evening'];
+    const nextIndex = (slots.indexOf(schedule.slot) + 1) % slots.length;
+    const nextDay = schedule.day + (nextIndex === 0 ? 1 : 0);
+    const held = $('.life-held');
+    const titleId = uid('phone-session-decision');
+    held.innerHTML = `<section class="life-decide"><div class="life-decide-body"><h3 id="${titleId}">Done with Quackpot?</h3><p>${pending ? 'Finish revealing your ducks before putting the phone away.' : `Putting the phone away moves to Day ${nextDay} · ${esc(fiveSlotLabel(slots[nextIndex]))}.`}</p><div class="life-decide-actions"><button type="button" class="life-btn" data-phone-session="return">Back to Quackpot</button>${pending ? '' : '<button type="button" class="life-btn" data-phone-session="finish">Put the phone away</button>'}</div></div></section>`;
+    held.hidden = false;
+    held.setAttribute('role', 'dialog'); held.setAttribute('aria-modal', 'false'); held.setAttribute('aria-labelledby', titleId);
+    root.classList.add('life-is-held'); $('.life-stage').inert = true;
+    const back = held.querySelector('[data-phone-session="return"]');
+    const finish = held.querySelector('[data-phone-session="finish"]');
+    back.disabled = !active;
+    back.addEventListener('click', () => { if (back.disabled) return; back.disabled = true; const result = callbacks.onOpenPhone(engine.log.length); if (result?.ok) { callbacks.onRefresh(); callbacks.onPhoneTransition(); } else back.disabled = false; });
+    if (finish) { finish.disabled = !active; finish.addEventListener('click', () => { if (finish.disabled) return; finish.disabled = true; callbacks.onFiveSlotFinishSession(engine.log.length); callbacks.onRefresh(); }); }
+    if (active) back.focus();
+    return true;
   }
 
   // ----- render -----
@@ -985,6 +1008,8 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     renderDayBar(place);
     root.inert = !active;
+
+    if (showPhoneSessionDecision()) return;
 
     // Restore a held view (after Uninstall→Stay or Settings close) instantly, without animation.
     if (ui.held && ui.held.place === place) {

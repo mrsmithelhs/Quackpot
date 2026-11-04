@@ -1,0 +1,184 @@
+{
+  "source": "ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21",
+  "recipeSha256": "f67ad712faa79a31dbf19a1eef10442f2d02b23aa385d7f99ce0539336799aa1",
+  "observations": [
+    {
+      "label": "before-return",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Morning\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          0\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      \n        \n          Pond of Destiny\n          Pond of Destiny\n          Your committed pull\n          \n            Common: 80%\n            Rare: 18%\n            Legendary: 2%\n          \n        Duck-Dex\n\n        \n          \n            \n              \n                Cards waiting: 10 unrevealed\n              \n              \n                \n                  \n                    Flip Next Card\n                  \n                  \n                    Reveal All\n                  \n                \n                \n                  Ⅱ\n                \n                \n                Reveal a duck to enable this motion control.\n              \n            \n\n            \n              \n    \n      🦆\n      #1\n      Click to flip #1\n    \n  \n    \n      🦆\n      #2\n      Click to flip #2\n    \n  \n    \n      🦆\n      #3\n      Click to flip #3\n    \n  \n    \n      🦆\n      #4\n      Click to flip #4\n    \n  \n    \n      🦆\n      #5\n      Click to flip #5\n    \n  \n    \n      🦆\n      #6\n      Click to flip #6\n    \n  \n    \n      🦆\n      #7\n      Click to flip #7\n    \n  \n    \n      🦆\n      #8\n      Click to flip #8\n    \n  \n    \n      🦆\n      #9\n      Click to flip #9\n    \n  \n    \n      🦆\n      #10\n      Click to flip #10",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nPOND OF DESTINY\nPond of Destiny\n\nYour committed pull\n\nCommon: 80%\nRare: 18%\nLegendary: 2%\nDuck-Dex\nCards waiting: 10 unrevealed\nFlip Next Card\nReveal All\nⅡ\nReveal a duck to enable this motion control.\n🦆\n#1\nClick to flip #1\n🦆\n#2\nClick to flip #2\n🦆\n#3\nClick to flip #3\n🦆\n#4\nClick to flip #4\n🦆\n#5\nClick to flip #5\n🦆\n#6\nClick to flip #6\n🦆\n#7\nClick to flip #7\n🦆\n#8\nClick to flip #8\n🦆\n#9\nClick to flip #9\n🦆\n#10\nClick to flip #10"
+    },
+    {
+      "label": "pending-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nFinish revealing your ducks before putting the phone away.\n\nBack to Quackpot"
+    },
+    {
+      "label": "pending-reload",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nFinish revealing your ducks before putting the phone away.\n\nBack to Quackpot"
+    },
+    {
+      "label": "resolved-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nPutting the phone away moves to Day 2 · Midday.\n\nBack to Quackpot\nPut the phone away"
+    },
+    {
+      "label": "race-committed",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Morning\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          50\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      \n        Opening Pond Trial\n        Tutorial event\n      \n\n      \n\n      \n        \n          \n            \n            \n            \n            \n          \n          \n            \n            FINISH\n          \n          \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival A\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Bath Cadet\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival B\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival C\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n        \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival D\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n      \n      \n        \n        \n        \n      \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival E\n    \n        \n        \n        \n          \n          FINISH\n        \n        \n          \n          \n          \n        \n      \n\n      Rival E shifted across the course.1.10s\n\n      \n        Pause\n        Replay race\n      \n\n      Race timeline and stills\n        0% checkpoint · 0.00 sRival E shifted across the course. · 0.95sUpcoming race moment · 1.80sUpcoming race moment · 2.00sUpcoming race moment · 2.00sUpcoming race moment · 2.20sUpcoming race moment · 2.20sUpcoming race moment · 2.20sUpcoming race moment · 2.65sUpcoming race moment · 4.20s25% checkpoint · 5.61 sUpcoming race moment · 10.00sUpcoming race moment · 11.00sUpcoming race moment · 11.19sUpcoming race moment · 11.19s50% checkpoint · 11.22 sUpcoming race moment · 11.39sUpcoming race moment · 11.64sUpcoming race moment · 11.69sUpcoming race moment · 12.94sUpcoming race moment · 13.79s75% checkpoint · 16.83 sUpcoming race moment · 19.99sUpcoming race moment · 19.99sUpcoming race moment · 20.19sUpcoming race moment · 20.19sUpcoming race moment · 20.39sUpcoming race moment · 20.59sUpcoming race moment · 20.64sUpcoming race moment · 21.58sUpcoming race moment · 22.11sUpcoming race moment · 22.20sUpcoming race moment · 22.40s100% checkpoint · 22.44 s\n      \n\n      \n      ContinueDuck-Dex",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\nFINISH\nRival A\nBath Cadet\nRival B\nRival C\nRival D\nRival E\nFINISH\n\nRival E shifted across the course.\n\n1.10s\nPause\nReplay race\nRace timeline and stills\nContinue"
+    },
+    {
+      "label": "race-return-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nPutting the phone away moves to Day 2 · Midday.\n\nBack to Quackpot\nPut the phone away"
+    },
+    {
+      "label": "race-reentry",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          Return to apartment\n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Morning\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          50\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n    \n      \n        Opening Pond Trial\n        Tutorial event\n      \n\n      \n\n      \n        \n          \n            \n            \n            \n            \n          \n          \n            \n            FINISH\n          \n          \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival A\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Bath Cadet\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival B\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival C\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n        \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival D\n    \n      \n        \n          \n            \n              \n    \n      \n      \n        \n      \n    \n  \n\n    \n    \n    \n    \n\n      \n      \n        \n        \n      \n      \n      \n\n      \n      \n        \n        \n        \n      \n\n      \n      \n\n      \n      \n\n      \n      \n      \n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n      \n    \n\n    \n    \n    \n    \n    \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n\n      \n      \n        \n        \n\n        \n        \n\n        \n        \n\n        \n        \n      \n\n      \n      \n        \n        \n        \n        \n        \n        \n        \n        \n      \n      \n        \n        \n        \n      \n        \n      \n\n      \n      \n      \n      \n        \n        \n        \n        \n        \n      \n      \n    \n\n  \n\n            \n          \n        \n      \n      Rival E\n    \n        \n        \n        \n          \n          FINISH\n        \n        \n          \n          \n          \n        \n      \n\n      Rival E shifted across the course.1.10s\n\n      \n        Pause\n        Replay race\n      \n\n      Race timeline and stills\n        0% checkpoint · 0.00 sRival E shifted across the course. · 0.95sUpcoming race moment · 1.80sUpcoming race moment · 2.00sUpcoming race moment · 2.00sUpcoming race moment · 2.20sUpcoming race moment · 2.20sUpcoming race moment · 2.20sUpcoming race moment · 2.65sUpcoming race moment · 4.20s25% checkpoint · 5.61 sUpcoming race moment · 10.00sUpcoming race moment · 11.00sUpcoming race moment · 11.19sUpcoming race moment · 11.19s50% checkpoint · 11.22 sUpcoming race moment · 11.39sUpcoming race moment · 11.64sUpcoming race moment · 11.69sUpcoming race moment · 12.94sUpcoming race moment · 13.79s75% checkpoint · 16.83 sUpcoming race moment · 19.99sUpcoming race moment · 19.99sUpcoming race moment · 20.19sUpcoming race moment · 20.19sUpcoming race moment · 20.39sUpcoming race moment · 20.59sUpcoming race moment · 20.64sUpcoming race moment · 21.58sUpcoming race moment · 22.11sUpcoming race moment · 22.20sUpcoming race moment · 22.40s100% checkpoint · 22.44 s\n      \n\n      \n      ContinueDuck-Dex\n    QUACKPOT",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\nReturn to apartment\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nOpening Pond Trial\n\nTUTORIAL EVENT\n\nFINISH\nRival A\nBath Cadet\nRival B\nRival C\nRival D\nRival E\nFINISH\n\nRival E shifted across the course.\n\n1.10s\nPause\nReplay race\nRace timeline and stills\nContinue\nQUACKPOT"
+    },
+    {
+      "label": "repeated-panel",
+      "focus": "Back to Quackpot",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nCall\nMom\nRent notice\nDay 2 · Morning\nThe desk →\nThe living room →\nDone with Quackpot?\n\nPutting the phone away moves to Day 2 · Midday.\n\nBack to Quackpot\nPut the phone away"
+    },
+    {
+      "label": "finished",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          \n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Midday\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          50\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n        \n          \n            .apt-lfs25{width:100%;height:100%;display:block;overflow:visible}.apt-lfs25 .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-lfs25 .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-lfs25 .cast{opacity:.3}.apt-lfs25 .cast-keep{opacity:.3}.apt-lfs25 .cast-lamp{display:none}.apt-lfs25 .lamp-on{opacity:0}.apt-lfs25 .lamp-pool{mix-blend-mode:screen}.apt-lfs25.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-lfs25.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n      \n      \n      \n      \n      \n      \n      \n      \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n\n      \n        \n      \n      PM\n      \n      MESSAGES\n      Work\n      \n      Shift today\n      \n      \n      \n        \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n        \n        \n        \n\n      \n    \n            \n            WorkWork keys\n          \n          \n        \n        Day 2 · MiddayThe kitchen →The living room →The door →",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMidday\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nPM\nMESSAGES\nWork\nShift today\nWork\nWork keys\nDay 2 · Midday\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "label": "finished-reload",
+      "focus": "Quackpot\n            \n              QUACKPOT\n            \n            \n              Companion: Professor Quacks\n              (classic-yellow)\n            \n          \n        \n\n        \n          \n            Save\n          \n          Settings\n          \n          \n          \n            \n              ❌ Uninstall\n            \n          \n        \n      \n\n      \n        \n          📅\n          Day 2:\n          Midday\n        \n        \n          💵\n          Cash:\n          $128.00\n        \n        \n          💎\n          Gems:\n          50\n        \n        \n          ❤️\n          Health:\n          95 HP\n        \n        \n      \n      \n    \n  \n        \n        \n          \n            .apt-lfs1{width:100%;height:100%;display:block;overflow:visible}.apt-lfs1 .cast [fill]:not([fill=\"none\"]){fill:#1a0f0a}.apt-lfs1 .cast [stroke]:not([stroke=\"none\"]){stroke:#1a0f0a}.apt-lfs1 .cast{opacity:.3}.apt-lfs1 .cast-keep{opacity:.3}.apt-lfs1 .cast-lamp{display:none}.apt-lfs1 .lamp-on{opacity:0}.apt-lfs1 .lamp-pool{mix-blend-mode:screen}.apt-lfs1.room-scene .o{stroke:#3a2c26;stroke-width:2;stroke-linejoin:round}.apt-lfs1.room-scene .o *{vector-effect:non-scaling-stroke}\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n  \n      \n      \n      \n      \n      \n      \n      \n      \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n\n      \n        \n      \n      PM\n      \n      MESSAGES\n      Work\n      \n      Shift today\n      \n      \n      \n        \n\n      \n        \n        \n        \n        \n        \n      \n\n      \n        \n        \n        \n\n      \n    \n            \n            WorkWork keys\n          \n          \n        \n        Day 2 · MiddayThe kitchen →The living room →The door →",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nMidday\n💵\nCash:\n$128.00\n💎\nGems:\n50\n❤️\nHealth:\n95 HP\nPM\nMESSAGES\nWork\nShift today\nWork\nWork keys\nDay 2 · Midday\nThe kitchen →\nThe living room →\nThe door →"
+    },
+    {
+      "completionEffects": 1,
+      "completionIntents": 1,
+      "commits": 1,
+      "raceCount": 1,
+      "finalSlot": "midday"
+    }
+  ],
+  "errors": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "3b4147a67c16f65a0bca524d0082f6bd1b67ebd7d6b65ec79c6f274792557dae",
+    "trackedDescendants": [
+      {
+        "pid": 16360,
+        "ppid": 1636,
+        "created": "639293602848828830",
+        "root": true
+      },
+      {
+        "pid": 37268,
+        "ppid": 16360,
+        "created": "639293602848959620",
+        "root": false
+      },
+      {
+        "pid": 33520,
+        "ppid": 16360,
+        "created": "639293602850522380",
+        "root": false
+      },
+      {
+        "pid": 38640,
+        "ppid": 16360,
+        "created": "639293602851087550",
+        "root": false
+      },
+      {
+        "pid": 8084,
+        "ppid": 16360,
+        "created": "639293602851282920",
+        "root": false
+      },
+      {
+        "pid": 40676,
+        "ppid": 16360,
+        "created": "639293602851719840",
+        "root": false
+      },
+      {
+        "pid": 2760,
+        "ppid": 16360,
+        "created": "639293602852027080",
+        "root": false
+      },
+      {
+        "pid": 30648,
+        "ppid": 16360,
+        "created": "639293602852342780",
+        "root": false
+      },
+      {
+        "pid": 40768,
+        "ppid": 16360,
+        "created": "639293602852360320",
+        "root": false
+      },
+      {
+        "pid": 30244,
+        "ppid": 16360,
+        "created": "639293602853079110",
+        "root": false
+      },
+      {
+        "pid": 9352,
+        "ppid": 16360,
+        "created": "639293602864222610",
+        "root": false
+      },
+      {
+        "pid": 25916,
+        "ppid": 16360,
+        "created": "639293602864386740",
+        "root": false
+      },
+      {
+        "pid": 6148,
+        "ppid": 16360,
+        "created": "639293602864411790",
+        "root": false
+      },
+      {
+        "pid": 36828,
+        "ppid": 16360,
+        "created": "639293602888250630",
+        "root": false
+      },
+      {
+        "pid": 21824,
+        "ppid": 16360,
+        "created": "639293602888502190",
+        "root": false
+      },
+      {
+        "pid": 2476,
+        "ppid": 16360,
+        "created": "639293602890208360",
+        "root": false
+      },
+      {
+        "pid": 33076,
+        "ppid": 16360,
+        "created": "639293602893969780",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  }
+}

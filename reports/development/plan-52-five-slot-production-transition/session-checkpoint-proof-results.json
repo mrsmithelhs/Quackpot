@@ -1,0 +1,89 @@
+{
+  "loader": "2989c9fdbe0c8a424f765d9181571aa12db612f6f4ee9cb56482446dc2588900",
+  "closure": "ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21",
+  "unit": {
+    "status": 0,
+    "stdout": "✔ explicit sampled policy accepts only the complete observed vector (0.5535ms)\n✔ unknown policies fail and legacy strict policy remains strict (0.1743ms)\n✔ independent-day: genuine completed UI continuation passes oracle and rejects dispatch bypass (36.505ms)\n✔ rent-paid-zero: genuine completed UI continuation passes oracle and rejects dispatch bypass (7.3248ms)\n✔ real draw-started capture matches arithmetic oracle but is not a completed session (17.5607ms)\n✔ seeded continuation rejects invalid identity, version, prefixes, RNG and draw outcomes (7.5748ms)\n✔ fixture dispatch cannot bypass seeded replay by deleting or forging policy metadata (0.268ms)\n✔ only both explicit refresh recipes dispatch seeded cases (0.1295ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 126.9237\n",
+    "stderr": ""
+  },
+  "results": [
+    {
+      "id": "plan52.rent-shortfall.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.rent-shortfall.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/rent-shortfall.save.json\",\"sha256\":\"95818cb2cb48cf8ddf35af49018678092920968d1e14006de38c695c9cabf140\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":4,\"slot\":\"morning\",\"cash\":104,\"dueId\":\"rent-1\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.rent-paid-zero.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.rent-paid-zero.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/rent-paid-zero.save.json\",\"sha256\":\"6f7e32a9a23a2161c2c26c488ecb8e0fffb960cb95ca3693047a834cba716ce6\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":4,\"slot\":\"morning\",\"cash\":0,\"debt\":99},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"Checkpoint start precedes the draw; the witnessed continuation includes a verified free promotional draw and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.loan-due.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.loan-due.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/loan-due.save.json\",\"sha256\":\"43151b22d7686f660ce266a2c22c05ea452f543a8cbae7b72ff438522c7f5056\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":9,\"slot\":\"midday\",\"cash\":0,\"debt\":99,\"dueId\":\"loan-1\",\"employed\":false},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.day1-payslip.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.day1-payslip.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/day1-payslip.save.json\",\"sha256\":\"d5f5cbda86f377b90ad3a3a30b2f7f45a3ce61330aabddf46664dbebc2178c7d\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"slot\":\"early-evening\",\"storyStage\":\"payslip\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.day1-call-scene.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.day1-call-scene.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/day1-call-scene.save.json\",\"sha256\":\"0dfbd890c32a0f1b3398a22c163ab34bc24467475de05d71bc0ef718a21d3f67\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"slot\":\"evening\",\"storyStage\":\"scene\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.fresh-tutorial.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.fresh-tutorial.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/fresh-tutorial.save.json\",\"sha256\":\"d072ec967b90a31632b12c27540901fe86d3a3a5813a787a70481a81eff53072\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":1,\"slot\":\"morning\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained starting config\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.midday-work.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.midday-work.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/midday-work.save.json\",\"sha256\":\"5e7aef9d1ee2d8c2baff093d19855f081767437b2eddae6a700e39b90853d8e1\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":1,\"slot\":\"midday\",\"storyStage\":\"work\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.unresolved-dinner.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.unresolved-dinner.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/unresolved-dinner.save.json\",\"sha256\":\"0122299dcd8c0f1b6ee9827166a9fb230bb3ef8fded8a26aeafd00e909da94da\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":1,\"slot\":\"early-evening\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.completed-evening.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.completed-evening.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/completed-evening.save.json\",\"sha256\":\"7a10540663a66dfedc45fc860f643d718dede7e2c911953822a09edbcd9efe77\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":1,\"slot\":\"late-evening\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.independent-day.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.independent-day.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/independent-day.save.json\",\"sha256\":\"8a0c70dd49b653e02661ad841d80c8eaf5c7a94275847373f7a82c60e5e12e35\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":7,\"slot\":\"morning\",\"cash\":0,\"health\":75,\"employed\":false,\"guidance\":\"independent\"},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"Checkpoint start precedes the draw; the witnessed continuation includes a verified free promotional draw and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.ren-reserved.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.ren-reserved.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-first/ren-reserved.save.json\",\"sha256\":\"e55fd752775bde94fa026ded2e49ae765bdc9c87c49688a7305cfc04c9232007\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":4,\"slot\":\"evening\",\"renCommitted\":true},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.ren-arriving.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.ren-arriving.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/ren-arriving.save.json\",\"sha256\":\"3ecebf4c642d6a782a8cfa123ff1d4aefd78f243dfe020567d25c0c4b6b9003a\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":4,\"slot\":\"evening\",\"renCommitted\":true,\"renArriving\":true},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    },
+    {
+      "id": "plan52.zero-hp-recovery.v1",
+      "status": 0,
+      "stdout": "{\"id\":\"plan52.zero-hp-recovery.v1\",\"status\":\"current-loadable\",\"fixture\":\"reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/zero-hp-recovery.save.json\",\"sha256\":\"82e3aca5a52745029ba39bab601d844730c722cb5594fa7d3728083c4999fe92\",\"seed\":\"c4526757-fcb50b7b\",\"boundary\":{\"day\":13,\"slot\":\"evening\",\"cash\":4,\"health\":0,\"employed\":false,\"recovery\":true},\"sourceClosureSha256\":\"ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21\",\"validation\":\"valid\",\"negativeControls\":[\"cash\",\"rng\",\"re-chained transaction effect\"],\"limit\":\"This checkpoint contains no gacha draw or race outcome and does not establish whole-run acceptance.\"}\n",
+      "stderr": ""
+    }
+  ]
+}

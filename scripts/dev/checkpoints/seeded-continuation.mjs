@@ -4,14 +4,15 @@ import { validateSeededDrawHistory, validateFiveSlotTransactionHistory } from '.
 import { validateSave } from '../../../src/core/storage.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const allowed=new Set(['plan52.independent-day.v1','plan52.rent-paid-zero.v1']);
-const mealRecipe='reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh.mjs';
+const recipes=new Set(['reports/development/plan-52-five-slot-production-transition/meal-checkpoint-refresh.mjs','reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh.mjs']);
 export function validateContinuationDispatch({id,recipe,policy,result}) {
- const seeded=recipe===mealRecipe && allowed.has(id);
+ const seeded=recipes.has(recipe) && allowed.has(id);
+ if(allowed.has(id) && !recipes.has(recipe))return false;
  if(seeded) return policy==='seeded-gameplay-v1' && result?.continuationPolicy==='seeded-gameplay-v1' && result?.unchangedRng===false;
  return policy===undefined && result?.continuationPolicy===undefined && result?.unchangedRng===true;
 }
 export function validateSeededDrawArithmetic({id,policy,recipe,parent,child,continued}) {
- const errors=[];if(policy!=='seeded-gameplay-v1'||!allowed.has(id)||recipe!==mealRecipe)return ['unsupported continuation policy, case or recipe'];
+ const errors=[];if(policy!=='seeded-gameplay-v1'||!allowed.has(id)||!recipes.has(recipe))return ['unsupported continuation policy, case or recipe'];
  if(!parent?.eventLog||!child?.eventLog||!continued?.eventLog)return ['missing envelope'];
  if(!same(child.eventLog.slice(0,parent.eventLog.length),parent.eventLog))errors.push('parent prefix changed');
  if(!same(parent.prngStreams,child.prngStreams))errors.push('RNG changed before gameplay');

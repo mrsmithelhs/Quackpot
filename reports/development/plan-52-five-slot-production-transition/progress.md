@@ -75,3 +75,7 @@ Root technically accepted the narrow refresh: all 13 historical-parent UI resave
 ## Phone session return decision, 2026-11-03
 
 The persistent finish-session button is replaced by a required Decide surface for an active five-slot session; saved screen re-entry, pending cards, race result, disclosed extension cancellation and once-only completion were exercised in the synthetic browser witness in `session-panel-repair.md`. Thirteen historical-parent review starts were refreshed and passed bounded fixture proofs at source `ca85922f54330420829b4e89fc40cdf7a3ae675e9709f696ec8b864f6350cf21`; this supersedes the earlier meal-source checkpoint status. Sampled-only cleanup, unobserved free-browse/active-plus-due browser cases and owner acceptance limits are recorded there. Advisor disposition: orchestrator-gate-only; root review of production screenshots and source remains separate. No push or packet closure.
+
+## Desk keys continuity, 2026-11-03
+
+Owner found Day 2 Midday transition clear and selected persistent desk keys with interaction only when useful. The bounded UI-only repair and synthetic Morning/Midday observations are in `desk-keys-repair.md`. All 13 previous checkpoint entries are marked source-stale; orchestration directs one final canonical refresh after the current feedback batch. Actual owner review and final packet acceptance remain pending. Advisor disposition: orchestrator-gate-only; root source and visual review is separate. No push or status closure.

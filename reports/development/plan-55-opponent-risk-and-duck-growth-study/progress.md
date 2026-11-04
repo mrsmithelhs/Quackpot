@@ -244,3 +244,5 @@ Steering-episode exclusion includes ordinary weave and collision deflection/reco
 Landing boundary rearm repair and 17-call correctness passed; source and receipt savepoint a2a2432, see bounce-landing-gate-results.md. A separate 16-call natural-exposure proposal is prepared for QP Orch review; no landing-enabled natural screen has run.
 
 2026-11-04: Root-cleared landing screen completed 16/16; two matched seeds activated Bounce in both traffic variants and two actual landing contacts were recorded in one shared seed. This is not a full-vs-partial balance test. Results and report-only matched-stat comparison proposal committed at 8041a5a9; further source and simulations await QP Orch review.
+
+2026-11-04: Matched-stat proposal source and fixed 6-call correctness / 32-call screen package prepared at ebdf62c, pin bc0424a55d223a1bfeb734826eadda4620617ea7ec959ff76d9c82e636f13c62. Five pure checks passed; no matched-stat resolver calls. QP Orch review and explicit correctness clearance pending; screen requires separate clearance.

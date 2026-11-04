@@ -339,3 +339,8 @@ The owner approved an A/B against the preserved full M5 half-duration WAV. The r
 
 
 One separately cleared non-audio isolated blank-browser probe subsequently started in 1.521s; observed processes exited with no residual or inspection failure, but sampled-only coverage retained cleanup uncertainty and the profile. It exited 1 under existing cleanup policy. No music render followed; the cause of prior startup failures remains unproven.
+
+
+## Full M5 soft low-piano capture
+
+Following a successful non-audio startup probe and a serial browser turn, one offline job produced the prepared M5 soft comparison: 1,712 notes scheduled, 0 omitted, 4,299,528 frames at 48 kHz stereo PCM16 (89.5735s), peak 17,845, 8,360,710 nonzero samples, SHA-256 `76b610a56f0617d021f926b2979126ba8687abf06d4287ee07736fbe5ef3460b`. Source and baseline hashes matched before/after; no active pruning or unhandled errors were observed. Elapsed 9.102s, sampled peak 621,039,616 bytes. The job exited 1 on sampled-only process cleanup uncertainty despite no observed residual, root and observed processes exited, and the profile retained; the static server exited. Narrow viewport was 401 rather than requested 390 pixels. The existing and new WAVs are available for owner A/B; musical quality is unverified. Earlier failed startups are retained in `m5-piano-soft-render-status.md`.

@@ -1,10 +1,10 @@
 684dd02916849fd6f55da1ec02f6a410bc593e562ad86affc859b25cbe69daab  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-core.mjs
 42bd0033251f8f4833fa470a975f0f7a1c11cf72aa049afd028cca2efe0c028b  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-core.test.mjs
 91e62f82f5ff8d94b37d79e257c8dc57700184a112ce1668f31208846a292b97  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-io.mjs
-bd3f7734dc27dc9cbfe35056fbfc804e598e92485e342108d37740cce9256cce  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-correctness-runner.mjs
+32ef8e6545b24acceadc5bf437be073c2b0f8db4815cb2c86f68956f4454bbf9  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-correctness-runner.mjs
 989e931cc6e18c76c9329008d09f02a44eaa7b18ac42de3d3569a7de03abc01e  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-screen-runner.mjs
 792751b0d02bb5bbefbfc6294ed95590900e9279dcdab2e8e428c71724fc6cb2  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-screen-analysis.mjs
-d8ed4b206308120ddbd932a074c4703585889c4bb13dd1cb2e5d9a427c099003  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-source-gate.md
+dd733e09eac2e7d26065cdbee0c6fb0552b510e52bd1ff31f73cd3d2e3017a09  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-source-gate.md
 846b0a1a6b6fd18089bcec269d4a886d9c111e8e1eeca12f1128aa310dc1eada  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-stat-comparison-proposal.md
 f055516264b0885afbeda08c56510c0a4dcdc6d14194433a9cba6731556f354c  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-output/analysis.json
 29b29cc014e47322585ac8a5a9701e5dea1b207633039d0f39bf7de673152d6c  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-output/analysis.complete.json
@@ -14,3 +14,4 @@ a074b6d8d92e4ce7127a9f405c42c32598508fc3a7b346374bc0372ddc79f324  reports/develo
 9aa581b3cbcd5c50ec287f24bedda13265875bfd3892381ae1c8107c10bb1469  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-output/clearance-combo-partial.started.json
 6bf0ff621bf5eef85f68c1b9fe294e1c2aad5583eee301f26f0eb45b0f2a5974  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-output/clearance-combo-partial.complete.json
 3c82b2e39aeb3fa92254a65ffe4f9c83fd8a7877a396210e43547e1bd8dda88a  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-screen-output/clearance-combo-partial.json
+4ca1a817d5665d74409461f6fada44a26507d7bca596f7bb8b4fab8367f8c335  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-matched-correctness-output/failure.json

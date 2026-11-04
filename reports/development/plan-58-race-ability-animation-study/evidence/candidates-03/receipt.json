@@ -1,0 +1,210 @@
+{
+  "disclaimer": "Synthetic ability concepts; no race or saved outcomes.",
+  "pins": {
+    "reports/development/plan-58-race-ability-animation-study/gallery/index.html": "0c4b8cffb21299a87b47b9c793e29e4713017468eb1da4b35a9c6a0943ac5d07",
+    "reports/development/plan-58-race-ability-animation-study/gallery/boot.mjs": "79e0b372694a9721a3e880bcacf7e9baceb7636394313aa38088f6f3b94b3805",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.mjs": "65bce7ab548954dc56e6cbe68db0ba2dcc55a74aee44fa88d7030752cd1ffc13",
+    "reports/development/plan-58-race-ability-animation-study/gallery/gallery.css": "13d794d7759bc3e79ad6cbed53f15123d56ae3fd6de820ce90ebd005085c61e1",
+    "reports/development/plan-58-race-ability-animation-study/gallery/fixtures.mjs": "007fbea43c5a9a8ab409cc00100d870812aa79e5045d1db550aa02a96385173a",
+    "reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e",
+    "reports/development/plan-58-race-ability-animation-study/gallery/candidate-effects.mjs": "a3d6af065e571cc33fd9aac1c4e0810fabd9950424445dd195b59940a7f61c38",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-arc.svg": "ca7698a999f2c41c7bf3463c113458545aa73ecac685ce4b7ac9ca624bca50e2",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-disc.svg": "a956be2636b57fc949bd19f5888a1435f6d7ff01d24a5ba7ee39485cffccf72a",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-wedge.svg": "bec3ce962fbe5365b6688283f25d7d772da7e72018c740850663d0781677e1d5",
+    "reports/development/plan-58-race-ability-animation-study/art/haiku-folds.svg": "635f5f7e09e2abb1cf46e2c7cef07a5fda2596efa8f8e90d15fd49cf6b313c03",
+    "src/ui/duck-rig-view.mjs": "e996129c859bb1602e3646c7c3607d37f64e88ef3d611bf16de91021e77fa4a7",
+    "src/core/duck-rig.mjs": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793",
+    "reports/development/plan-58-race-ability-animation-study/tools/candidate-browser.mjs": "9815de17305bc3ee3364003a302d32f872559117c0fdaebbabbe57bbe6f10ecf",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a"
+  },
+  "results": [
+    {
+      "width": 1024,
+      "height": 900,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "guard": true,
+      "noGuard": true,
+      "injury": true,
+      "persistent": true,
+      "noRecovery": true,
+      "noDive": true,
+      "continuous": true,
+      "dive": true,
+      "surfaced": true,
+      "partner": true,
+      "hidden": true,
+      "bounce": true,
+      "crowd": true,
+      "playback": {
+        "advanced": true,
+        "stable": true,
+        "stillStable": true,
+        "replayed": true
+      },
+      "reduced": true,
+      "teardown": true
+    }
+  ],
+  "exceptions": [],
+  "navigations": [
+    "http://127.0.0.1:53253/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/",
+    "http://127.0.0.1:53253/Quackpot/reports/development/plan-58-race-ability-animation-study/gallery/"
+  ],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "ffaa1b04b1b234c20ea61e4f5fd0c1fd852a6c4825b4a89adb53520aadd58b21",
+    "trackedDescendants": [
+      {
+        "pid": 40204,
+        "ppid": 40492,
+        "created": "639293590111127500",
+        "root": true
+      },
+      {
+        "pid": 29936,
+        "ppid": 40204,
+        "created": "639293590111272240",
+        "root": false
+      },
+      {
+        "pid": 13892,
+        "ppid": 40204,
+        "created": "639293590112887040",
+        "root": false
+      },
+      {
+        "pid": 4364,
+        "ppid": 40204,
+        "created": "639293590113579210",
+        "root": false
+      },
+      {
+        "pid": 756,
+        "ppid": 40204,
+        "created": "639293590113783470",
+        "root": false
+      },
+      {
+        "pid": 2812,
+        "ppid": 40204,
+        "created": "639293590114259730",
+        "root": false
+      },
+      {
+        "pid": 33084,
+        "ppid": 40204,
+        "created": "639293590114556910",
+        "root": false
+      },
+      {
+        "pid": 6768,
+        "ppid": 40204,
+        "created": "639293590114831930",
+        "root": false
+      },
+      {
+        "pid": 29404,
+        "ppid": 40204,
+        "created": "639293590114848580",
+        "root": false
+      },
+      {
+        "pid": 37568,
+        "ppid": 40204,
+        "created": "639293590115596200",
+        "root": false
+      },
+      {
+        "pid": 15924,
+        "ppid": 40204,
+        "created": "639293590126528240",
+        "root": false
+      },
+      {
+        "pid": 37316,
+        "ppid": 40204,
+        "created": "639293590126697670",
+        "root": false
+      },
+      {
+        "pid": 8524,
+        "ppid": 40204,
+        "created": "639293590126697920",
+        "root": false
+      },
+      {
+        "pid": 39304,
+        "ppid": 40204,
+        "created": "639293590143510410",
+        "root": false
+      },
+      {
+        "pid": 27600,
+        "ppid": 40204,
+        "created": "639293590143674480",
+        "root": false
+      },
+      {
+        "pid": 27952,
+        "ppid": 40204,
+        "created": "639293590150476390",
+        "root": false
+      },
+      {
+        "pid": 35368,
+        "ppid": 40204,
+        "created": "639293590150501250",
+        "root": false
+      },
+      {
+        "pid": 40096,
+        "ppid": 40204,
+        "created": "639293590151059230",
+        "root": false
+      }
+    ],
+    "remainingDescendants": [],
+    "chromeStderrPresent": true
+  },
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "accepted": true
+}

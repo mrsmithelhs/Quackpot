@@ -1,0 +1,27 @@
+# Next ability-animation batch — proposal
+
+2026-11-03. The owner accepted the Bounce/pad/flap and arrow-free crowd-air visual directions for this report-local study. Keep both as pinned comparison controls; neither selection adopts numerical rules or production wiring. The owner asked to move on to other ability animations. This is a proposed next batch, not a selected catalog or permission to run a provider/browser job.
+
+## Recommended batch: Guard, Quick Recovery, Dive
+
+These three give the owner useful contrasts without expanding every candidate at once: a possible injury-related response after real contact; continuous movement recovery after real deflection; and a visually distinct underwater state. Guard and Quick Recovery need careful separation from Plan57 contact and injury marks. Dive tests a different sustained state and gives a clear start/active/end comparison. Existing independent Sonnet/Flash whole-vocabulary consultation covers all three; use it as input rather than paying for another broad ideation round.
+
+| Candidate | Explicit authored fixture and participants | Visual comparison and unresolved semantics |
+| --- | --- | --- |
+| Guard | Separately authored real contact of A/B; then A may receive a separate candidate response event. No activation control, injury/no-injury separately authored. | Explore a restrained paper brace/tab, distinct from impact and bandage. Start/active/end and still/text must name the actual response only; never imply absolute immunity, an injury, or a guaranteed trigger. Injury and effect ordering remain open. |
+| Quick Recovery | Separately authored contact deflects A; a subsequent candidate recovery event changes the depicted continuous return. B is the contact participant. | Compare a short paper return trace and articulated body realignment without teleportation, erasing the contact or removing a persistent injury. Start/active/end are illustrative, not chosen durations. |
+| Dive | A has an authored opportunity in traffic and may submerge, remain marked below water, and resurface at a deliberately clear fixture location. | Compare a waterline cutout/ring with a persistent underwater locator, distinct from Bounce/Flap Ahead. Collision eligibility, overlap, actual safe resurfacing, speed and duration remain open; do not imply a result or hide A's label. |
+
+Use identical event arrangements for variants and separate no-activation controls. Six-duck race-scale scenes, true enlarged inspection/selection examples, label/facing/light/narrow comparisons and static/text alternatives share the existing report-local renderer intentionally; the two explanation contexts need not invent different mechanics or pretend to be production UI. Show target and event type from authored data, not inferred performance. Retain actual contact/injury as Plan57 context, only reusing any asset after pinning and identifying its current acceptance state. No game storage, resolver, balancing or production change.
+
+## Proposed owned seam and creative support
+
+Own only Plan58's `gallery/`, `art/`, `tools/`, `evidence/` and report docs. Extend the explicit fixture/event state and local compositing interfaces rather than replacing accepted Bounce/crowd controls. Add distinct effects and static status text with unique IDs and instance-local clocks. Maintain pause/seek/replay, teardown and reduced-motion behavior; keep actual event facts distinct from ability accents. The accepted Bounce/crowd behavior is a regression control, not a new design contest.
+
+Recommend **one bounded Sonnet follow-up in the retained conversation** only if a concrete coherent art brief benefits from it: ask for a compact three-family visual treatment and a small number of original inert motifs, reusing current context, without new broad ideation. Existing owner standing approval covers root-reviewed bounded Sonnet/Haiku work, but exact staged inputs, prompt, tools, output, render/iteration and limits require one root review and lane assignment before provider dispatch. If existing rig and local primitives suffice, no additional provider call is required. Avoid a per-SVG approval loop; Codex owns integration, checks and final rendered presentation. No unrequested extra model wave.
+
+## Finite validation and owner checkpoint
+
+First define candidate phases/target events and exact local files. Use focused event/instance/seek/static tests, preserve controls and failures; then a task-owned static-snapshot browser check at desktop and 390px for each family and appropriate normal/drama/facing contexts. Inspect actual motion/visual artifacts before asking owner to select treatments. Report physical-device, actual OS reduced-motion, AT speech and production/runtime evidence separately. Under the temporary resource addendum, root names a lane once for an approved coherent stretch; routine corrected reruns stay within its existing limit. Provider calls and meaningful changes remain separately scoped. One earlier Terra pre-delivery review was used for the early batch; do not infer a second automatic reviewer budget.
+
+Before source work or calls: QP Orch review of this batch and Plan57 boundary, then root-approved exact creative transport if needed. Owner can make visual choices in this chat after the bounded batch is ready; no requirement to reapprove accepted Bounce/crowd and no claim that all twelve candidate abilities will be retained.

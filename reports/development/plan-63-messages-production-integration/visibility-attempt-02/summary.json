@@ -1,0 +1,40 @@
+{
+  "pins": {
+    "reports/development/plan-63-messages-production-integration/visibility-fixture.html": "3fb869c686b8692895573d3f4db9f28eea0fd178786532a6533db3522c3879e1",
+    "reports/development/plan-63-messages-production-integration/visibility-fixture.mjs": "396e9f8b26c6fec4ce7338eb80b665d847efb3fa0eb5b7ce76cbb262414fb76f",
+    "src/core/messages-content.mjs": "db5c1a61520a17ee5dbb2fca85089131cd06a0758323d15be0738ddc0c9cfe8c",
+    "src/core/messages-projection.mjs": "c412f34e4f5b580c5afbf07c3cef9eb37bb89efa96c843f3c3393e173088466d",
+    "src/ui/messages-view.mjs": "1365084fd573aa371c619ab2ad3012605c5b2f440e9766c2cb2ed309e2750434",
+    "src/ui/messages.css": "845d26461575028e7232ed587eabcef9ba3cb8be60b9ee59db80e5b9c289ea79"
+  },
+  "observations": [
+    {
+      "case": "offscreen-newest",
+      "newestUnread": true,
+      "visibleReads": 2
+    },
+    {
+      "case": "stale-callback",
+      "oldRevisionNotRead": true
+    },
+    {
+      "case": "blocked-then-resolved",
+      "noBlockedExposure": true,
+      "freshDisplayAndRead": true
+    },
+    {
+      "case": "destroyed-observer",
+      "noNewReads": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

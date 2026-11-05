@@ -12,7 +12,15 @@ function valid(m) {
     Number.isSafeInteger(m.sequence) && m.sequence >= 0 && typeof m.sender === 'string' && m.sender.length <= 100 &&
     typeof m.text === 'string' && m.text.length <= 4000 && typeof m.historical === 'boolean' &&
     (m.time === undefined || (typeof m.time === 'string' && m.time.length <= 40)) &&
-    (m.actionable === undefined || typeof m.actionable === 'boolean');
+    (m.system === undefined || typeof m.system === 'boolean') &&
+    (m.sourceDisplay === undefined || typeof m.sourceDisplay === 'boolean') &&
+    (m.unreadEligible === undefined || typeof m.unreadEligible === 'boolean') &&
+    (m.status === undefined || (typeof m.status === 'string' && m.status.length<=40)) &&
+    (m.preview === undefined || (typeof m.preview === 'string' && m.preview.length<=120)) &&
+    (m.displayBlocked === undefined || typeof m.displayBlocked === 'boolean') &&
+    (m.actions === undefined || (Array.isArray(m.actions) && m.actions.length<=4 && m.actions.every(a=>a && typeof a.label==='string' && a.label.length<=80 && typeof a.choice==='string' && a.choice.length<=24))) &&
+    (m.actionable === undefined || typeof m.actionable === 'boolean') &&
+    (m.actionLabel === undefined || (typeof m.actionLabel === 'string' && m.actionLabel.length <= 80));
 }
 export function historyMessages() {
   return MESSAGE_HISTORY.map((m, i) => ({ threadId: `history:${m.id}`, messageId: `history:${m.id}`, deliveryId: `history:${m.id}:1`, revision: 1, sequence: i, sender: m.sender, text: m.text, historical: true }));
@@ -32,10 +40,10 @@ export function projectMessages(deliveries, readKeys = []) {
   const reads = new Set(readKeys);
   if ([...reads].some(k => typeof k !== 'string' || k.length > 140)) throw new Error('Invalid read key');
   const messages = [...current.values()].sort((a,b) => Number(a.historical)-Number(b.historical) || (a.historical ? a.sequence-b.sequence : b.sequence-a.sequence) || (a.deliveryId < b.deliveryId ? -1 : a.deliveryId > b.deliveryId ? 1 : 0) || b.revision-a.revision)
-    .map(m => ({...m, unread: !m.historical && !reads.has(identity(m))}));
+    .map(m => ({...m, read:m.historical || reads.has(identity(m)), unread: !m.historical && m.unreadEligible!==false && !reads.has(identity(m))}));
   const threads = new Map();
   for (const m of messages) {
-    const t = threads.get(m.threadId) ?? { id: m.threadId, sender: m.sender, preview: m.text, unread: false, messages: [] };
+    const t = threads.get(m.threadId) ?? { id: m.threadId, sender: m.sender, preview: m.preview ?? m.text, unread: false, messages: [] };
     t.messages.push(m); t.unread ||= m.unread; threads.set(m.threadId, t);
   }
   return { threads: [...threads.values()], unreadThreads: [...threads.values()].filter(t => t.unread).length };

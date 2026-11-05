@@ -1,0 +1,38 @@
+{
+  "pins": {
+    "src/main.js": "525e5b7e3670fe212d8842691407bfb4e9ffa15c2c940e7bcfba328479b4655c",
+    "src/core/game-engine.mjs": "b10904e302255b6503d662fa21678cda76cd62d16b31f28f7dd87be32f785def",
+    "src/core/life-replay.mjs": "d269af9445ab4be73f8c8fb7c01d8caf69f912127053599a1823c1517928312b",
+    "src/core/messages-policy.mjs": "786a9761b45927f2439aefc415da00b34ec38226c8625766376f49e4f46e8f66",
+    "src/core/messages-runtime.mjs": "92b4614ff84d33b3dbedcc44b431dfce2c3f112c31206302b90aba448f93a5b6",
+    "src/ui/messages-view.mjs": "1365084fd573aa371c619ab2ad3012605c5b2f440e9766c2cb2ed309e2750434",
+    "reports/development/plan-63-messages-production-integration/loan-affordable-start-01.json": "ee69fd4d3aa6b15c7e7d328780ed295edbf1504914a9a7fc19d244130fd6b5a0",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-1jr4eD4c.js": "aeaa13a023b435d3707880cbbbc83b2455626a9e2922c3798d5dcf48990884c8",
+    "dist/assets/index-1jr4eD4c.js.map": "9a02f3caa6399be50872f78e080ba7c6d324e673d4b6c72373aa0741d27abfb6",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "ffc29316735887cf1ffbaa6e2f8c18c4648c441e77dcd686a43a65de541e1bc2"
+  },
+  "observations": [
+    {
+      "case": "repay-once",
+      "dialogs": 1,
+      "effects": 1,
+      "cash": 31.06,
+      "resolvedActionRemoved": true,
+      "reload": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

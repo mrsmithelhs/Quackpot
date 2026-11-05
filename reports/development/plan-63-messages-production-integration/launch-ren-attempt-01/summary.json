@@ -1,0 +1,43 @@
+{
+  "pins": {
+    "src/main.js": "a1462df777b3e7e5ea6dea32dab186376bf21f89b2f744736404804ada9f13bb",
+    "src/core/game-engine.mjs": "73ec10b0e9ab2c839dc7dc23f241c6df128f7016229b30afb1af7db942dfeae2",
+    "src/core/life-replay.mjs": "2e91b245bfa1ad8765ecd22ea2ca2fc9242832c7efc508255829aa4c019a276a",
+    "src/core/messages-policy.mjs": "8fec8f2c6f60d594c0f5a827ef6db9c253daa57666625636cd2f189dcc1288f3",
+    "src/core/messages-runtime.mjs": "87329d6ed14dd34d62990fd377b4f3f484a8df9d6880686f93064eee8463b5b2",
+    "src/ui/messages-view.mjs": "6666eea4687d3c82e0b38ae9be699020b81c93da98d00cf74629d344f03c12f8",
+    "reports/development/plan-63-messages-production-integration/launch-start-01.json": "67abb8b1d4036dec649c71ab40b45e99af447024bc47c419ed06ec258e8d8d13",
+    "reports/development/plan-63-messages-production-integration/ren-start-01.json": "2550335b4c04b474f13231d436f1d8926ed7f48f86e7da1231cc291d35a3b815",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-BdVB07W9.js": "af24cafa445cce759a69979c75637266731dc888bed396588eff1b514df378de",
+    "dist/assets/index-BdVB07W9.js.map": "0a4a9b3f56ac8232de5d1ac1b58cbdc995f0274aa07bdccab7494768e744a4e7",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "bac952f42f9455a36eacda89275cb9b5c65ca54404b41dbd4686f1f5a41d0061"
+  },
+  "observations": [
+    {
+      "kind": "launch",
+      "shown": true,
+      "readBeforeReply": true,
+      "ackShown": true
+    },
+    {
+      "kind": "ren",
+      "passiveNoEvent": true,
+      "channelOpened": true,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEvening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nevening ● ● ●\nRen\n\ni could come by this evening for a chat. no pressure.\n\nDecide\nAccept this evening\nNot this time\nAnother evening\nSuggest game night instead\nClose"
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

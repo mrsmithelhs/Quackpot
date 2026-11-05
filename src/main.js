@@ -61,6 +61,7 @@ import { renderSettingsModal } from './ui/settings-modal.js';
 import { createStageTransition } from './ui/stage-transition.js';
 import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalidation.mjs';
 import { messagesForEngine } from './core/messages-runtime.mjs';
+import { renOfferId,renCurrentIds,renMessageShown,earlyRepaymentEligibility } from './core/messages-policy.mjs';
 import { mountMessages } from './ui/messages-view.mjs';
 
 const app = document.querySelector('#app');
@@ -444,13 +445,66 @@ if (app) {
     layer.onclick=e=>{if(e.target===layer)messagesHandle?.close();};
     const data=messagesForEngine(engine);
     messagesHandle=mountMessages(host,{...data,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
+      onDisplay:async ({deliveryId,revision})=>{
+        if(!messagesAvailable())return false;
+        let shown=null;
+        if(deliveryId==='launch:invitation:1')shown=engine.showLifeInvitation() ?? engine.showExpiredLaunchHistory();
+        if(deliveryId==='launch:ack:1')shown=engine.showLifeAcknowledgment();
+        if(deliveryId.startsWith('ren:')) {
+          if(!renCurrentIds(engine.state.life).includes(deliveryId)) {shown=engine.showRenMessageHistory(deliveryId,revision);if(shown)maybeAutosave();return Boolean(shown || engine.log.entries.some(e=>e.type==='message_history_shown' && e.payload?.id===deliveryId));}
+          const social=engine.state.life.social46;
+          if(!renMessageShown(engine.state.life,deliveryId)) {
+            const type=deliveryId.startsWith('ren:offer:')?'social46_offer_shown':deliveryId.startsWith('ren:ack:')?'social46_ack_shown':deliveryId.startsWith('ren:floor:')?'social46_floor_shown':deliveryId.startsWith('ren:response-reply:')?'social46_response_reply_shown':'social46_response_shown';
+            const id=deliveryId.startsWith('ren:response')?social.response?.id:social.pending?.id;
+            const result=engine.applyFiveSlotSocialAction({operationId:`messages-shown:${engine.log.length}`,action:{type,id}},engine.log.length);
+            if(!result.ok)return false;shown=true;
+          }
+        }
+        if(shown)maybeAutosave();return true;
+      },
       onRead:async ({deliveryId,revision})=>{
-        if(!messagesAvailable() || !engine.readMessage(deliveryId,revision))return false;
+        if(!messagesAvailable())return false;
+        if(!engine.readMessage(deliveryId,revision))return false;
         maybeAutosave();syncMessagesAvailability();return true;
       },
-      onAction:({deliveryId,revision})=>{
+      onAction:({deliveryId,revision,choice})=>{
+        if(messagesAvailable() && revision===1 && deliveryId.startsWith('ren:') && !deliveryId.startsWith('ren:offer:') && deliveryId!=='ren:contact:1') {
+          const life=engine.state.life,s=life.social46,p=s?.pending,r=s?.response;
+          if(!renCurrentIds(life).includes(deliveryId) || !renMessageShown(life,deliveryId))return;
+          let action=null;
+          if(choice==='cancel' && p)action={type:'social46_cancel',id:p.id};
+          else if(choice==='plan-reschedule' && p)action={type:'social46_reschedule_plan',id:p.id,day:p.day+1};
+          else if(choice==='floor' && p)action={type:'social46_confirm_floor',id:p.id};
+          else if(choice==='response-dismiss' && r)action={type:'social46_response_dismiss',id:r.id};
+          else if(choice?.startsWith('response-') && r)action={type:'social46_response_reply',id:r.id,choice:choice.slice('response-'.length)};
+          if(!action)return;
+          const result=engine.applyFiveSlotSocialAction({operationId:`messages-ren:${engine.log.length}`,action},engine.log.length);
+          if(result.ok){maybeAutosave();renderApp();if(messagesHandle){const fresh=messagesForEngine(engine);messagesHandle.update(fresh.deliveries,fresh.readKeys);if(document.querySelector('#messages-layer')?.hidden)messagesHandle.suspend();}}
+          return;
+        }
+        if(messagesAvailable() && revision===1 && deliveryId.startsWith('ren:offer:')) {
+          const life=engine.state.life,p=life.social46?.pending;
+          if(!p || renOfferId(life)!==deliveryId || !p.shown || !['accept','decline','reschedule','suggest'].includes(choice))return;
+          const action=choice==='suggest'?{type:'social46_suggest_activity',id:p.id,activity:p.activity==='door'?'game':'door'}:{type:'social46_reply',id:p.id,choice,...(choice==='reschedule'?{day:p.day+1}:{})};
+          const result=engine.applyFiveSlotSocialAction({operationId:`messages-ren:${engine.log.length}`,action},engine.log.length);
+          if(result.ok){maybeAutosave();renderApp();if(messagesHandle){const fresh=messagesForEngine(engine);messagesHandle.update(fresh.deliveries,fresh.readKeys);if(document.querySelector('#messages-layer')?.hidden)messagesHandle.suspend();}}
+          return;
+        }
+        if(messagesAvailable() && revision===1 && deliveryId==='ren:contact:1') {
+          const social=engine.state.life?.social46;
+          if(!social?.introShown || (social.revision===2 && !social.intro?.numberShared))return;
+          const result=lifeCallbacks().onSocialOpen(engine.log.length);
+          if(result?.ok){messagesHandle?.close();lifeUi.renOpen=true;renderApp();}
+          return;
+        }
+        if(messagesAvailable() && revision===1 && deliveryId==='launch:invitation:1') {
+          const life=engine.state.life,windowOpen=life.schedule.day===1 && ['morning','midday','early-evening'].includes(life.schedule.slot);
+          if(windowOpen && engine.replyLifeInvitation()){maybeAutosave();const fresh=messagesForEngine(engine);messagesHandle?.update(fresh.deliveries,fresh.readKeys);syncMessagesAvailability();}
+          return;
+        }
         if(!messagesAvailable() || revision!==1 || !deliveryId.startsWith('loan:statement:'))return;
         const loanId=deliveryId.slice('loan:statement:'.length);
+        if(engine.state.life.schedule.recovery || engine.checkDueObligations().bills.length)return;
         const result=lifeCallbacks().onFiveSlotEarlyRepay(engine.log.length,loanId);
         if(result?.ok){
           maybeAutosave();renderApp();
@@ -1102,9 +1156,17 @@ if (app) {
         if(result.ok)engine.state.step=lifeSurface(engine);return result;
       }),
       onFiveSlotEarlyRepay: commit((loanId) => {
-        const loan=engine.state.life.finance.loans.find(item=>item.id===loanId && item.status==='pending');
-        if(!loan || Math.round(engine.state.cash*100)<loan.totalCents)return {ok:false,reason:'loan_unavailable'};
-        if(!globalThis.confirm(`Repay the full $${(loan.totalCents/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};
+        if(engine.messagesPolicy!=='messages-v1') {
+          const loan=engine.state.life.finance.loans.find(item=>item.id===loanId && item.status==='pending');
+          if(!loan || Math.round(engine.state.cash*100)<loan.totalCents)return {ok:false,reason:'loan_unavailable'};
+          if(!globalThis.confirm(`Repay the full $${(loan.totalCents/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};
+          const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'repay_loan',loanId,id:`repay-ui:${engine.log.length}`}});
+          return p.ok?engine.commitFiveSlotAction(p.proposal):p;
+        }
+        const eligible=earlyRepaymentEligibility(engine,loanId);if(!eligible)return {ok:false,reason:'loan_unavailable'};
+        const shownTotal=eligible.totalCents,confirmationEpoch=engine.log.length;
+        if(!globalThis.confirm(`Repay the full $${(shownTotal/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};
+        if(!earlyRepaymentEligibility(engine,loanId,shownTotal,confirmationEpoch))return {ok:false,reason:'loan_unavailable'};
         const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'repay_loan',loanId,id:`repay-ui:${engine.log.length}`}});
         return p.ok?engine.commitFiveSlotAction(p.proposal):p;
       }),

@@ -1,0 +1,43 @@
+{
+  "pins": {
+    "src/main.js": "c45322172c2f0ec7cfdea3de9e97f39ae947fd14aed1f78185927441dfa17d11",
+    "src/core/game-engine.mjs": "35d7e314e7773a99e31910a877576ac964ddef4dd9de431eef0ad98750024be6",
+    "src/core/life-replay.mjs": "69a412a1e7f68993945062dd14e1616d811d4fe6aa5959fc82084b9ee4246e36",
+    "src/core/messages-policy.mjs": "786a9761b45927f2439aefc415da00b34ec38226c8625766376f49e4f46e8f66",
+    "src/core/messages-runtime.mjs": "dd076610050e3b23345de4e8531ce5d761979300fc12b7f6026273e213c00ea5",
+    "src/ui/messages-view.mjs": "fc9cc533d318efd5d1857480990dd27ccc110959f6fe2d4b6da7373937dfd0ee",
+    "reports/development/plan-63-messages-production-integration/reveal-start-01.json": "cddc42655218c185e17de7f584e4a0597f9498e288acd5c026918c1833d92426",
+    "reports/development/plan-63-messages-production-integration/race-start-01.json": "469a149cafeb441f22e48e553cebc23ee05f243b312e4ed4779e6458a0abd5ea",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-BbStVI9K.js": "233c1006a67cc2764968f2ef3c9244554e9409b808c8e02cba18edcfc62f6c6f",
+    "dist/assets/index-BbStVI9K.js.map": "13652111b5b73697aa0f1532341753806b63083b33de81e46ba8b486cc3420be",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "6c263b34591e194e58a56f0c67cd04bbba206e6702069fa9af7652ae28444c49"
+  },
+  "observations": [
+    {
+      "kind": "reveal",
+      "unavailable": true,
+      "inlineStatus": true,
+      "saveUnchanged": true
+    },
+    {
+      "kind": "race",
+      "unavailable": true,
+      "inlineStatus": true,
+      "saveUnchanged": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

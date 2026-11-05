@@ -1,0 +1,48 @@
+{
+  "pins": {
+    "src/main.js": "21e81841e8d1e168c8f561ccbc06c4e308c02ef709069e3122ae82d172fe9a8c",
+    "src/core/game-engine.mjs": "35d7e314e7773a99e31910a877576ac964ddef4dd9de431eef0ad98750024be6",
+    "src/core/life-replay.mjs": "f5d15f8a94cd9cbe3684cd0988e25b326b0f29269a68fcc2de3f0c7fede26c70",
+    "src/core/messages-policy.mjs": "8a433732390fe54a7cfb6d6ea99d5b0c4505dbf7ad16181dbd6a65ad8c9314a5",
+    "src/core/messages-runtime.mjs": "3e46a78ad6eb55af65f3b8d2b74237c8831e5495f10a298a6ea8df68f4c046cd",
+    "src/ui/messages-view.mjs": "8a3b956993ab155f73ce3d379df09bfe4d071c3aa99dd3550b4dfeabfc0cb568",
+    "reports/development/plan-63-messages-production-integration/launch-start-01.json": "67abb8b1d4036dec649c71ab40b45e99af447024bc47c419ed06ec258e8d8d13",
+    "reports/development/plan-63-messages-production-integration/ren-start-01.json": "2550335b4c04b474f13231d436f1d8926ed7f48f86e7da1231cc291d35a3b815",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/index-poPsE_wo.js": "2a5080c7d552455f64868a0878fed92429ff08a120056d8c041e65f7281290e8",
+    "dist/assets/index-poPsE_wo.js.map": "16614cd493a74532464ee269af212e65d8da08ec313fddc18d1df5c4ac037560",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "02e6b0b41fafca3b659be4648965fd2d991bd3e6a3f2e0f48912717837ae72f3"
+  },
+  "observations": [
+    {
+      "kind": "launch",
+      "shown": true,
+      "readBeforeReply": true,
+      "ackShown": true
+    },
+    {
+      "kind": "ren",
+      "passiveNoEvent": true,
+      "channelOpened": true,
+      "offerProjectedAndRead": true,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\n❌ Uninstall\n📅\nDay 2:\nEvening\n💵\nCash:\n$176.00\n💎\nGems:\n0\n❤️\nHealth:\n100 HP\nCall\nMom\nRent notice\nDay 2 · Evening\nThe desk →\nThe living room →\nThe bedroom →\nThe door →\n\nBack\nRen\nClose\n\ni could come by this evening for a chat. no pressure.\n\nOpen your contact with Ren.\n\nDecide"
+    },
+    {
+      "kind": "ren-decline-response",
+      "shownAndRead": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

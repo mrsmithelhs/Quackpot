@@ -50,6 +50,7 @@ function publicSocial(payload = {}) {
 }
 
 export const TECHNIQUES = [
+  ['launch_invitation', 'Launch invitation', 'Did the launch invitation affect your decisions?'],
   ['currency_obfuscation', 'Currency obfuscation', 'Did the gem prices and leftover balances affect your purchases?'],
   ['fear_of_missing_out', 'Fear of missing out', 'Did the banner timing message affect your decisions?'],
   ['sunk_cost_pity', 'Sunk cost via pity', 'Did the pity counter affect how many pulls you made?'],
@@ -103,6 +104,7 @@ export function projectReceipt(entries) {
 
   const findings = [];
   for (const [id, label, question] of TECHNIQUES) {
+    if(id==='launch_invitation' && entries[0]?.payload?.messagesPolicy!=='messages-v1')continue;
     const cues = shown(id);
     const revealedDup = id === 'secondary_currency' ? ofType('reveal_shown').filter((e) => e.payload.duplicate) : [];
     if (cues.length === 0 && revealedDup.length === 0) continue; // a technique is named only if its cue fired
@@ -111,7 +113,15 @@ export function projectReceipt(entries) {
     const first = cues[0];
     const afterFirst = (e) => !first || e.seq > first.seq;
 
-    if (id === 'currency_obfuscation') {
+    if (id === 'launch_invitation') {
+      for(const c of cues) {
+        if(c.payload.kind==='launch_reply_invitation') displayed.push(line('The launch invitation offered ten free draws for a LAUNCH reply.',c.seq));
+        else if(c.payload.kind==='expired_launch_history') displayed.push(line('The expired launch invitation was displayed in message history.',c.seq));
+      }
+      const replies=ofType('action').filter(e=>e.payload?.kind==='launch_reply');
+      if(replies.length)for(const reply of replies)did.push(line('Replied LAUNCH.',reply.seq));
+      else did.push(line('No LAUNCH reply was recorded.',null));
+    } else if (id === 'currency_obfuscation') {
       for (const c of cues) {
         const b = Array.isArray(c.payload.bundles) ? c.payload.bundles.map((x) => `${x.gems ?? 'unknown'} gems for ${Number.isFinite(x.price) ? money(x.price) : 'an unavailable price'}`).join('; ') : 'bundle details unavailable';
         displayed.push(line(`Bundle shop shown (${c.clock.label}): ${b}; one pull costs ${c.payload.pullCost} gems.`, c.seq));
@@ -295,6 +305,8 @@ export function projectReceipt(entries) {
 
   const accountingLines = [];
   for (const event of ofType('offer_shown').filter((e) => e.payload?.kind === 'fictional_launch_invitation')) accountingLines.push(line('A fictional invitation to the evening launch was shown.', event.seq));
+  for (const event of ofType('cue_shown').filter((e) => e.payload?.kind === 'expired_launch_history')) accountingLines.push(line('An expired launch invitation was displayed in message history.', event.seq));
+  for (const event of ofType('message_history_shown')) accountingLines.push(line('A prior Ren message was displayed in message history.', event.seq));
   for (const event of entries.filter((e) => (e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation') || (e.type === 'action' && e.payload?.kind === 'launch_reply') || (e.type === 'cue_shown' && e.payload?.kind === 'launch_reply_acknowledgment'))) {
     accountingLines.push(line(event.payload.kind === 'launch_reply_invitation' ? 'A launch message invited a LAUNCH reply for ten free draws.' : event.payload.kind === 'launch_reply' ? 'Replied LAUNCH.' : 'A launch reply acknowledgment was shown.', event.seq));
   }
@@ -489,7 +501,7 @@ export function projectReceipt(entries) {
     terminalRoute: terminal?.payload.route ?? null,
     receiptShown: !!receiptShown,
     // Additive, sequence-linked facts; consumers must not treat temporal proximity as a link.
-    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'social46_display', 'social46_action', 'social46_outcome', 'social46_interrupted', 'social46_plan_interrupted', 'life52_loan_terms_shown', 'life52_due_options_shown', 'life52_schedule_warning_shown', 'life52_schedule_warning_cancelled', 'life52_activity_warning_shown', 'life52_activity_warning_cancelled', 'life52_effect', 'life52_commit', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload: type.startsWith('social46_') ? publicSocial(payload) : type === 'life52_effect' && payload?.effect?.type?.startsWith('social46_') ? { effect: { type: payload.effect.type, payload: publicSocial(payload.effect.payload) } } : payload, clock })),
+    evidence: entries.filter((e) => ['purchase', 'draw_committed', 'reveal_shown', 'expense_due', 'expense_paid', 'escalation_result', 'interest_charged', 'run_started', 'income', 'life_health', 'life_rent_held', 'life_rent_shortfall', 'life_work_agreed', 'life_shift_missed', 'life_employment_ended', 'work_interrupted', 'session_interrupted', 'activity47_interrupted', 'story47_shown', 'social46_display', 'social46_action', 'social46_outcome', 'social46_interrupted', 'social46_plan_interrupted', 'life52_loan_terms_shown', 'life52_due_options_shown', 'life52_schedule_warning_shown', 'life52_schedule_warning_cancelled', 'life52_activity_warning_shown', 'life52_activity_warning_cancelled', 'life52_effect', 'life52_commit', 'message_history_shown', 'terminal', 'race_choice_offered', 'race_trial_offer_shown', 'race_cue_displayed', 'race_playback_action', 'race_result', 'race_attempt_unresolved', 'race_rest_policy_activated'].includes(e.type) || (e.type === 'action' && ['race_choice', 'race_trial_purchased', 'race_trial_consumed', 'uninstall_chosen', 'leave_immediately', 'launch_reply', 'fictional_install', 'quackpot_opened'].includes(e.payload?.kind)) || (['offer_shown', 'cue_shown'].includes(e.type) && ['fictional_launch_invitation', 'launch_reply_invitation', 'launch_reply_acknowledgment', 'expired_launch_history', 'free_ten_pull'].includes(e.payload?.kind))).map(({ seq, type, payload, clock }) => ({ seq, type, payload: type.startsWith('social46_') ? publicSocial(payload) : type === 'life52_effect' && payload?.effect?.type?.startsWith('social46_') ? { effect: { type: payload.effect.type, payload: publicSocial(payload.effect.payload) } } : payload, clock })),
     findings,
     pullLedger,
     raceEvidence: {
@@ -529,3 +541,4 @@ export function receiptText(r) {
   }
   return out;
 }
+

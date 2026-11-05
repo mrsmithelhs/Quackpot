@@ -19,7 +19,7 @@ import { GAME_CONSTANTS } from '../../core/game-engine.mjs';
 import { callMomScheduled } from '../../core/life-progression.mjs';
 import { social46DisplayText, social46NeedsSaleDisclosure, social46VisitAtDoor } from '../../core/life-social.mjs';
 import { hasEnteredQuackpot } from '../../core/life-entry.mjs';
-import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
+import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved, messagesDirectPhone } from './life-phone-context.mjs';
 import {
   RENT_STEPS, availablePlaces, breakfastState, currentOffer, isBreakfastStep, optionalOpen, placeFor, rentState, fiveSlotSocialView, fiveSlotLabel,
 } from './life-routing.mjs';
@@ -51,7 +51,7 @@ const SCENES = {
   'kitchen-notice': (e) => ({ area: 'kitchen', framing: 'wide', light: e.state.life?.policyVersion==='five-slot-v1' && warmLife(e) ? 'warm' : 'neutral' }),
   'kitchen-breakfast': (e) => ({ area: 'kitchen', framing: e.state.life ? 'wide' : breakfastFraming(e.state.day), light: warmLife(e) ? 'warm' : 'window' }),
   'desk-phone': (e, offered) => ({ area: 'desk-side', light: e.state.life && !warmLife(e) ? 'window' : 'warm',
-    ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted, e.log.entries) }
+    ...(e.state.life ? { phone: lifePhoneScreen(e.state.life, e.state.tenPullCommitted, e.log.entries, e.messagesPolicy) }
       : offered ? { phone: { status: '6:40 PM', brand: 'MESSAGES', heading: ['Marisol'], body: ['Shift tonight?'], note: '' } } : {}) }),
   'desk-card': () => ({ area: 'desk-side', light: 'warm',
     phone: { status: '6:55 PM', brand: 'HARBOR CARD', heading: ['Cash', 'advance'], body: ['Available now'], note: '' } }),
@@ -173,11 +173,12 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if (engine.state.life) {
         const life = engine.state.life;
         const pendingLoan=life.policyVersion==='five-slot-v1' && life.finance.loans.find(loan=>loan.status==='pending');
-        if(pendingLoan && !life.schedule.recovery) {
+        const context=lifePhoneKind(life);
+        const directApp=messagesDirectPhone(life,engine.messagesPolicy);
+        if(pendingLoan && !life.schedule.recovery && !directApp) {
           out.push({id:'phone',hotspot:true,...PHONE_SPOT,label:'Phone: payday loan statement',chip:'Loan statement',done:false,hold:{mode:'five-payment',variant:'life-loan'}});
         } else {
-          const context = lifePhoneKind(life);
-          const work = context === 'work', unlocked = context === 'app';
+          const work = context === 'work' && !directApp, unlocked = context === 'app' || directApp;
           const kind = work ? 'life-work' : unlocked ? 'life-phone' : 'life-invite';
           out.push({ id: 'phone', hotspot: true, ...PHONE_SPOT,
             label: work ? 'Phone: work messages' : worldLabels.phone,
@@ -185,7 +186,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
             done: lifePhoneResolved(life, engine.log.entries), hold: { mode: kind === 'life-phone' ? 'direct-phone' : 'held', kind, variant: kind } });
         }
         const phone = out.find(item => item.id === 'phone');
-        if (life.policyVersion === 'five-slot-v1' && (life.social46?.revision === 1 || life.social46?.introShown) && !life.schedule.recovery && phone) {
+        if (life.policyVersion === 'five-slot-v1' && !directApp && (life.social46?.revision === 1 || life.social46?.introShown) && !life.schedule.recovery && phone) {
           phone.hold = { mode: 'phone-menu', primary: phone.hold, primaryLabel: phone.chip || 'Open phone', primaryDisabled: Boolean(phone.done) };
           phone.label = 'Phone: choose an action'; phone.chip = 'Phone'; phone.done = false;
         }

@@ -1,0 +1,107 @@
+{
+  "pins": {
+    "src/main.js": "21e81841e8d1e168c8f561ccbc06c4e308c02ef709069e3122ae82d172fe9a8c",
+    "src/core/game-engine.mjs": "35d7e314e7773a99e31910a877576ac964ddef4dd9de431eef0ad98750024be6",
+    "src/core/life-replay.mjs": "f5d15f8a94cd9cbe3684cd0988e25b326b0f29269a68fcc2de3f0c7fede26c70",
+    "src/core/messages-policy.mjs": "8a433732390fe54a7cfb6d6ea99d5b0c4505dbf7ad16181dbd6a65ad8c9314a5",
+    "src/core/messages-runtime.mjs": "3e46a78ad6eb55af65f3b8d2b74237c8831e5495f10a298a6ea8df68f4c046cd",
+    "src/core/storage.mjs": "fccbd26ef73986df2fc1eda561f7997a7fb56ab2ae2a26a3331aa6fc9d33123c",
+    "src/ui/messages-view.mjs": "8a3b956993ab155f73ce3d379df09bfe4d071c3aa99dd3550b4dfeabfc0cb568",
+    "src/ui/messages.css": "845d26461575028e7232ed587eabcef9ba3cb8be60b9ee59db80e5b9c289ea79",
+    "src/ui/hud.js": "801074a3df4a5c11f220844b732496b911e6f39cfdbffb37017c2d627e183e7b",
+    "src/ui/life/life-view.js": "264bfd128d4d33e462c7628d55bbb8740d2d2fa234cb74af2b19e95b90add41b",
+    "reports/development/plan-63-messages-production-integration/loan-start-attempt-02.json": "0f1f87e851a50e5a2f093a51e8cbae1c8622a44acaadd3d1c92deeb79e4a3070",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/index-Dpsb12VR.js": "67d691815c4f4517e6ec82d011877dc31f5340494f3e93ead61134600dfcd2f3",
+    "dist/assets/index-Dpsb12VR.js.map": "c52cfcae701b5e44ed1add5ab4a2c1fd36b1952655132258bd822bc2615cfd48",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "1f68419ae8095f0543020249cb3349d2ed5fee87b7220d58eb6510009dddc92b",
+    "reports/development/plan-63-messages-production-integration/return-start-attempt-01.json": "87fe7fd95e84e2a5a1e1074c473da60f36f08ce8f8a59002867fd14643b0c977",
+    "reports/development/plan-63-messages-production-integration/day2-midday-start-01.json": "b5f98c06eaaf6a51bfc6c39a572b61b278bfc31775f5149fef4af56d7b8b1167"
+  },
+  "observations": [
+    {
+      "width": 1200,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 1200,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    },
+    {
+      "width": 1200,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "width": 390,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 390,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    },
+    {
+      "width": 390,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "case": "settings-uninstall-escape",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true
+    },
+    {
+      "case": "settings-uninstall-escape-return",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true,
+      "appReturn": true
+    },
+    {
+      "case": "day2-direct-work-bridge",
+      "keysAvailable": true,
+      "appOpened": true,
+      "scheduleUnchanged": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

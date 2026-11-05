@@ -1,0 +1,4671 @@
+{
+  "schemaVersion": 6,
+  "messagesPolicy": "messages-v1",
+  "raceRestEvidenceVersion": 1,
+  "savedAt": 1793886979767,
+  "autosaveEnabled": true,
+  "state": {
+    "day": 4,
+    "clock": {
+      "day": 4,
+      "label": "day 4 evening"
+    },
+    "phase": "playing",
+    "step": "life_breakfast",
+    "activeModal": null,
+    "interruptedContext": null,
+    "cash": 132,
+    "gems": 0,
+    "health": 100,
+    "debt": 0,
+    "down": 0,
+    "pityCount": 0,
+    "physicalCompanion": {
+      "name": "Professor Quacks",
+      "style": "classic-yellow",
+      "pawned": false
+    },
+    "owned": [],
+    "seenDexEntries": [],
+    "pendingReveals": [],
+    "lastRacedId": null,
+    "tenPullCommitted": false,
+    "completedRaces": [],
+    "raceResults": {},
+    "raceAttempts": {},
+    "raceResolutions": {},
+    "raceTrialAvailable": false,
+    "lastRaceResult": null,
+    "billsSettled": [],
+    "assetsSold": [
+      "couch"
+    ],
+    "starterOffered": false,
+    "starterBought": false,
+    "retentionOffered": false,
+    "retentionUsed": false,
+    "terminalRoute": null,
+    "activeBill": null,
+    "escalationStepIndex": 0,
+    "life": {
+      "policyVersion": "five-slot-v1",
+      "config": {
+        "id": "five-slot-v1",
+        "startCash": 80,
+        "startHealth": 100,
+        "maxHealth": 100,
+        "mealCost": 6,
+        "mealSkipHealth": 5,
+        "scheduledWage": 60,
+        "overtimeWage": 60,
+        "overtimeHealth": 15,
+        "rentAmount": 170,
+        "rentDueDay": 4,
+        "recoveryHealth": 25,
+        "lateFatigueHealth": 10,
+        "earlyBedHealth": 5,
+        "recoveryConsumesSlot": true,
+        "supportedDays": 5
+      },
+      "schedule": {
+        "schema": 1,
+        "policyId": "five-slot-v1",
+        "config": {
+          "id": "five-slot-v1",
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "overtimeWage": 60,
+          "overtimeHealth": 15,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "earlyBedHealth": 5,
+          "recoveryConsumesSlot": true,
+          "supportedDays": 5
+        },
+        "day": 4,
+        "slot": "evening",
+        "revision": 25,
+        "nextActivityId": 8,
+        "active": null,
+        "completedOperationIds": {
+          "ren-witness:1": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "ren-witness:1"
+            },
+            "resultRef": null
+          },
+          "story:work-story:6": {
+            "intent": {
+              "type": "start",
+              "kind": "work",
+              "operationId": "story:work-story:6"
+            },
+            "resultRef": null
+          },
+          "story:r:3": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-1",
+              "operationId": "story:r:3"
+            },
+            "resultRef": null
+          },
+          "ren-witness:5": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "ren-witness:5"
+            },
+            "resultRef": null
+          },
+          "ren-witness:6": {
+            "intent": {
+              "type": "start",
+              "kind": "early-bed",
+              "operationId": "ren-witness:6"
+            },
+            "resultRef": null
+          },
+          "ren-witness:7": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-2",
+              "operationId": "ren-witness:7"
+            },
+            "resultRef": null
+          },
+          "ren-witness:8": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "ren-witness:8"
+            },
+            "resultRef": null
+          },
+          "story:work-story:36": {
+            "intent": {
+              "type": "start",
+              "kind": "work",
+              "operationId": "story:work-story:36"
+            },
+            "resultRef": null
+          },
+          "story:r:10": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-3",
+              "operationId": "story:r:10"
+            },
+            "resultRef": null
+          },
+          "ren-witness:12": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "ren-witness:12"
+            },
+            "resultRef": null
+          },
+          "social:floor:3": {
+            "intent": {
+              "type": "reserve",
+              "planId": "ren-1",
+              "day": 2,
+              "slot": "evening",
+              "operationId": "social:floor:3"
+            },
+            "resultRef": null
+          },
+          "social:floor:7": {
+            "intent": {
+              "type": "start",
+              "kind": "social",
+              "planId": "ren-1",
+              "operationId": "social:floor:7"
+            },
+            "resultRef": null
+          },
+          "social:floor:21": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-4",
+              "operationId": "social:floor:21"
+            },
+            "resultRef": null
+          },
+          "floor:23": {
+            "intent": {
+              "type": "sleep",
+              "operationId": "floor:23"
+            },
+            "resultRef": null
+          },
+          "floor:24": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "floor:24"
+            },
+            "resultRef": null
+          },
+          "story:work-story:170": {
+            "intent": {
+              "type": "start",
+              "kind": "work",
+              "operationId": "story:work-story:170"
+            },
+            "resultRef": null
+          },
+          "story:floor:26": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-5",
+              "operationId": "story:floor:26"
+            },
+            "resultRef": null
+          },
+          "floor:28": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "floor:28"
+            },
+            "resultRef": null
+          },
+          "floor:29": {
+            "intent": {
+              "type": "start",
+              "kind": "early-bed",
+              "operationId": "floor:29"
+            },
+            "resultRef": null
+          },
+          "floor:30": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-6",
+              "operationId": "floor:30"
+            },
+            "resultRef": null
+          },
+          "floor:31": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "floor:31"
+            },
+            "resultRef": null
+          },
+          "story:work-story:204": {
+            "intent": {
+              "type": "start",
+              "kind": "work",
+              "operationId": "story:work-story:204"
+            },
+            "resultRef": null
+          },
+          "story:floor:33": {
+            "intent": {
+              "type": "complete",
+              "activityId": "activity-7",
+              "operationId": "story:floor:33"
+            },
+            "resultRef": null
+          },
+          "floor:35": {
+            "intent": {
+              "type": "meal",
+              "choice": "buy",
+              "operationId": "floor:35"
+            },
+            "resultRef": null
+          },
+          "social:floor:38": {
+            "intent": {
+              "type": "reserve",
+              "planId": "ren-2",
+              "day": 4,
+              "slot": "evening",
+              "operationId": "social:floor:38"
+            },
+            "resultRef": null
+          }
+        },
+        "obligations": {
+          "1:breakfast": "buy",
+          "1:shift": "completed",
+          "1:dinner": "buy",
+          "2:breakfast": "buy",
+          "2:shift": "completed",
+          "2:dinner": "buy",
+          "3:breakfast": "buy",
+          "3:shift": "completed",
+          "3:dinner": "buy",
+          "4:breakfast": "buy",
+          "4:shift": "completed",
+          "4:dinner": "buy"
+        },
+        "rent": null,
+        "employment": {
+          "employed": true,
+          "missedShifts": 0
+        },
+        "futurePlans": {
+          "ren-1": {
+            "id": "ren-1",
+            "day": 2,
+            "slot": "evening",
+            "status": "completed"
+          },
+          "ren-2": {
+            "id": "ren-2",
+            "day": 4,
+            "slot": "evening",
+            "status": "reserved"
+          }
+        },
+        "overtimeReservation": null,
+        "fatigue": null,
+        "recovery": null,
+        "workCalendar": {
+          "1": true,
+          "2": true,
+          "3": true,
+          "4": true,
+          "5": true,
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true,
+          "11": true,
+          "12": true,
+          "13": true,
+          "14": true,
+          "15": true,
+          "16": true,
+          "17": true,
+          "18": true,
+          "19": true
+        }
+      },
+      "finance": {
+        "policyId": "five-slot-v1",
+        "revision": 2,
+        "nextLoanId": 1,
+        "completed": {
+          "floor-rent": true
+        },
+        "rents": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000,
+            "due": {
+              "day": 4,
+              "slot": "morning"
+            },
+            "status": "paid",
+            "latched": true
+          },
+          {
+            "id": "rent-2",
+            "amountCents": 40000,
+            "due": {
+              "day": 14,
+              "slot": "morning"
+            },
+            "status": "pending",
+            "latched": false
+          }
+        ],
+        "loans": []
+      },
+      "social46": {
+        "version": 1,
+        "revision": 2,
+        "relationship": "connected",
+        "initiativeEpoch": 2,
+        "nextId": 3,
+        "history": [
+          {
+            "id": "ren-1",
+            "outcome": "honored"
+          }
+        ],
+        "unanswered": 0,
+        "lastVisitDay": 2,
+        "lastOfferedDay": 4,
+        "pending": {
+          "id": "ren-2",
+          "day": 4,
+          "initiator": "player",
+          "activity": "game",
+          "shown": true,
+          "replied": true,
+          "committed": true,
+          "rescheduled": false,
+          "seatingConfirmed": false,
+          "lastShownDay": 4,
+          "saleDisclosureDay": 4
+        },
+        "scene": null,
+        "response": null,
+        "introShown": true,
+        "couchContext": true,
+        "intro": {
+          "knockDay": 2,
+          "ignoredDay": null,
+          "node": "thanks",
+          "open": false,
+          "shown": [
+            "hello",
+            "greeting",
+            "glad",
+            "number",
+            "thanks"
+          ],
+          "numberShared": true
+        }
+      },
+      "socialRevision": 39,
+      "socialOperationIds": {
+        "ren:13": true,
+        "ren:14": true,
+        "ren:15": true,
+        "ren:16": true,
+        "ren:17": true,
+        "ren:18": true,
+        "ren:19": true,
+        "ren:20": true,
+        "ren:21": true,
+        "ren:22": true,
+        "ren:23": true,
+        "ren:24": true,
+        "ren:25": true,
+        "floor:1": true,
+        "floor:2": true,
+        "floor:3": true,
+        "floor:4": true,
+        "floor:5": true,
+        "floor:6": true,
+        "floor:7": true,
+        "floor:8": true,
+        "floor:9": true,
+        "floor:10": true,
+        "floor:11": true,
+        "floor:12": true,
+        "floor:13": true,
+        "floor:14": true,
+        "floor:15": true,
+        "floor:16": true,
+        "floor:17": true,
+        "floor:18": true,
+        "floor:19": true,
+        "floor:20": true,
+        "floor:21": true,
+        "floor:22": true,
+        "floor:36": true,
+        "floor:37": true,
+        "floor:38": true,
+        "floor:39": true
+      },
+      "sold": [
+        "couch"
+      ],
+      "story47": null,
+      "storyOperationIds": {
+        "work-story:6": true,
+        "r:2": true,
+        "r:3": true,
+        "r:4": true,
+        "work-story:36": true,
+        "r:9": true,
+        "r:10": true,
+        "r:11": true,
+        "work-story:170": true,
+        "floor:25": true,
+        "floor:26": true,
+        "floor:27": true,
+        "work-story:204": true,
+        "floor:32": true,
+        "floor:33": true,
+        "floor:34": true
+      }
+    },
+    "raceGrowth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {}
+    }
+  },
+  "prngStreams": {
+    "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan63-launch-ren\",\"s\":[2467093171,2535727074,1939319513,2247034065]}",
+    "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan63-launch-ren/draw\",\"s\":[3237105702,3444403726,879447346,2042196193]}",
+    "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan63-launch-ren/race\",\"s\":[2484462866,3873573575,3642591827,2096669479]}",
+    "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan63-launch-ren/event\",\"s\":[1745968538,2871947533,4183290009,1934371487]}"
+  },
+  "eventLog": [
+    {
+      "seq": 0,
+      "type": "run_started",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "seed": "plan63-launch-ren",
+        "messagesPolicy": "messages-v1",
+        "lifePolicyVersion": "five-slot-v1",
+        "lifeConfig": {
+          "id": "five-slot-v1",
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "overtimeWage": 60,
+          "overtimeHealth": 15,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "earlyBedHealth": 5,
+          "recoveryConsumesSlot": true,
+          "supportedDays": 5
+        },
+        "tutorialShiftVersion": 1
+      },
+      "chain": "da7debd1"
+    },
+    {
+      "seq": 1,
+      "type": "message_delivered",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "kind": "work",
+        "id": "work:shift:1",
+        "revision": 1
+      },
+      "chain": "d2649d5c"
+    },
+    {
+      "seq": 2,
+      "type": "companion_styled",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "name": "Professor Quacks",
+        "style": "classic-yellow"
+      },
+      "chain": "49eda062"
+    },
+    {
+      "seq": 3,
+      "type": "life52_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "ren-witness:1"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "b4ca2602"
+    },
+    {
+      "seq": 4,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "1:morning",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "2a35ff34"
+    },
+    {
+      "seq": 5,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:1",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "f8321b8f"
+    },
+    {
+      "seq": 6,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "start",
+          "operationId": "work-story:6",
+          "confirmed": true
+        }
+      },
+      "chain": "415d8ded"
+    },
+    {
+      "seq": 7,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-1",
+          "kind": "work",
+          "slot": "1:midday"
+        }
+      },
+      "chain": "d114a4d4"
+    },
+    {
+      "seq": 8,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_started",
+          "id": "activity-1",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C7",
+            "work": [
+              "015",
+              "014"
+            ]
+          }
+        }
+      },
+      "chain": "a5c2d8bf"
+    },
+    {
+      "seq": 9,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "work-story:6",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "f2b07f7a"
+    },
+    {
+      "seq": 10,
+      "type": "story47_shown",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "id": "activity-1",
+        "stage": "commute",
+        "version": 1,
+        "beats": [
+          "0C7"
+        ]
+      },
+      "chain": "a62308b7"
+    },
+    {
+      "seq": 11,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "advance",
+          "id": "activity-1",
+          "operationId": "r:2"
+        }
+      },
+      "chain": "af99fcd0"
+    },
+    {
+      "seq": 12,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-1",
+          "stage": "work"
+        }
+      },
+      "chain": "88b37b90"
+    },
+    {
+      "seq": 13,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:2",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "62f37cf0"
+    },
+    {
+      "seq": 14,
+      "type": "story47_shown",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "id": "activity-1",
+        "stage": "work",
+        "version": 1,
+        "beats": [
+          "015",
+          "014"
+        ]
+      },
+      "chain": "3df8643d"
+    },
+    {
+      "seq": 15,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "complete",
+          "id": "activity-1",
+          "operationId": "r:3"
+        }
+      },
+      "chain": "94cab011"
+    },
+    {
+      "seq": 16,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-1"
+        }
+      },
+      "chain": "aa27dd14"
+    },
+    {
+      "seq": 17,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-1",
+          "stage": "payslip"
+        }
+      },
+      "chain": "bf21f75c"
+    },
+    {
+      "seq": 18,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:3",
+        "cashDeltaCents": 6000,
+        "healthDelta": 0
+      },
+      "chain": "f2da279d"
+    },
+    {
+      "seq": 19,
+      "type": "income",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "kind": "wage",
+        "amount": 60,
+        "transactionId": "activity-1",
+        "cashAfter": 134,
+        "source": "five-slot-work-story"
+      },
+      "chain": "1ac97a12"
+    },
+    {
+      "seq": 20,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "type": "dismiss",
+          "id": "activity-1",
+          "operationId": "r:4"
+        }
+      },
+      "chain": "5b6d56a2"
+    },
+    {
+      "seq": 21,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_dismissed",
+          "id": "activity-1"
+        }
+      },
+      "chain": "04dd31bf"
+    },
+    {
+      "seq": 22,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:4",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "168fb29f"
+    },
+    {
+      "seq": 23,
+      "type": "life52_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "ren-witness:5"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "0bfa2dc1"
+    },
+    {
+      "seq": 24,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "1:early-evening",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "5ac759af"
+    },
+    {
+      "seq": 25,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 early-evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:5",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "556c25c0"
+    },
+    {
+      "seq": 26,
+      "type": "life52_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "start",
+            "kind": "early-bed",
+            "operationId": "ren-witness:6"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "47f17907"
+    },
+    {
+      "seq": 27,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-2",
+          "kind": "early-bed",
+          "slot": "1:evening"
+        }
+      },
+      "chain": "4e6261f9"
+    },
+    {
+      "seq": 28,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:6",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "051c3053"
+    },
+    {
+      "seq": 29,
+      "type": "life52_intent",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "complete",
+            "activityId": "activity-2",
+            "operationId": "ren-witness:7"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "462fb318"
+    },
+    {
+      "seq": 30,
+      "type": "life52_effect",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-2"
+        }
+      },
+      "chain": "5c3b0e1c"
+    },
+    {
+      "seq": 31,
+      "type": "life52_commit",
+      "clock": {
+        "day": 1,
+        "label": "day 1 evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:7",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "00436691"
+    },
+    {
+      "seq": 32,
+      "type": "message_delivered",
+      "clock": {
+        "day": 2,
+        "label": "day 2 morning"
+      },
+      "payload": {
+        "kind": "work",
+        "id": "work:shift:2",
+        "revision": 1
+      },
+      "chain": "effbd566"
+    },
+    {
+      "seq": 33,
+      "type": "life52_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 morning"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "ren-witness:8"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "73e4308b"
+    },
+    {
+      "seq": 34,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 morning"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "2:morning",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "c500c7c4"
+    },
+    {
+      "seq": 35,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 morning"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:8",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "3222f3fe"
+    },
+    {
+      "seq": 36,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "start",
+          "operationId": "work-story:36",
+          "confirmed": true
+        }
+      },
+      "chain": "41f29096"
+    },
+    {
+      "seq": 37,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-3",
+          "kind": "work",
+          "slot": "2:midday"
+        }
+      },
+      "chain": "7a1eb834"
+    },
+    {
+      "seq": 38,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_started",
+          "id": "activity-3",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C6",
+            "work": [
+              "017",
+              "01A"
+            ]
+          }
+        }
+      },
+      "chain": "209ecf3a"
+    },
+    {
+      "seq": 39,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "work-story:36",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "c3071c8a"
+    },
+    {
+      "seq": 40,
+      "type": "story47_shown",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "id": "activity-3",
+        "stage": "commute",
+        "version": 1,
+        "beats": [
+          "0C6"
+        ]
+      },
+      "chain": "7be139e2"
+    },
+    {
+      "seq": 41,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "advance",
+          "id": "activity-3",
+          "operationId": "r:9"
+        }
+      },
+      "chain": "27769d4f"
+    },
+    {
+      "seq": 42,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-3",
+          "stage": "work"
+        }
+      },
+      "chain": "2dc618ac"
+    },
+    {
+      "seq": 43,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:9",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "18cfe5c7"
+    },
+    {
+      "seq": 44,
+      "type": "story47_shown",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "id": "activity-3",
+        "stage": "work",
+        "version": 1,
+        "beats": [
+          "017",
+          "01A"
+        ]
+      },
+      "chain": "7b586f0e"
+    },
+    {
+      "seq": 45,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "complete",
+          "id": "activity-3",
+          "operationId": "r:10"
+        }
+      },
+      "chain": "37574029"
+    },
+    {
+      "seq": 46,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-3"
+        }
+      },
+      "chain": "dbf1bc9b"
+    },
+    {
+      "seq": 47,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-3",
+          "stage": "payslip"
+        }
+      },
+      "chain": "1b48bb08"
+    },
+    {
+      "seq": 48,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:10",
+        "cashDeltaCents": 6000,
+        "healthDelta": 0
+      },
+      "chain": "40660477"
+    },
+    {
+      "seq": 49,
+      "type": "income",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "kind": "wage",
+        "amount": 60,
+        "transactionId": "activity-3",
+        "cashAfter": 182,
+        "source": "five-slot-work-story"
+      },
+      "chain": "028d6761"
+    },
+    {
+      "seq": 50,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "type": "dismiss",
+          "id": "activity-3",
+          "operationId": "r:11"
+        }
+      },
+      "chain": "9204e4a0"
+    },
+    {
+      "seq": 51,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_dismissed",
+          "id": "activity-3"
+        }
+      },
+      "chain": "33ea2822"
+    },
+    {
+      "seq": 52,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "r:11",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "fb2fd6e2"
+    },
+    {
+      "seq": 53,
+      "type": "life52_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "ren-witness:12"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "5c78f803"
+    },
+    {
+      "seq": 54,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "2:early-evening",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "302ad244"
+    },
+    {
+      "seq": 55,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 early-evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "ren-witness:12",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "1fb4b270"
+    },
+    {
+      "seq": 56,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:13",
+          "action": {
+            "type": "social46_activate",
+            "version": 1,
+            "revision": 2
+          }
+        }
+      },
+      "chain": "36ade5e6"
+    },
+    {
+      "seq": 57,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:13",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "b83d539b"
+    },
+    {
+      "seq": 58,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:14",
+          "action": {
+            "type": "social46_knock_shown"
+          }
+        }
+      },
+      "chain": "c9e9924c"
+    },
+    {
+      "seq": 59,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "knock",
+            "id": "intro",
+            "day": 2
+          }
+        }
+      },
+      "chain": "282fa7b4"
+    },
+    {
+      "seq": 60,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:14",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "be8f3d5d"
+    },
+    {
+      "seq": 61,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:15",
+          "action": {
+            "type": "social46_door_open"
+          }
+        }
+      },
+      "chain": "62d0cd79"
+    },
+    {
+      "seq": 62,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "door_open",
+            "id": "intro",
+            "day": 2
+          }
+        }
+      },
+      "chain": "59d1c17a"
+    },
+    {
+      "seq": 63,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:15",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "0a8cebaa"
+    },
+    {
+      "seq": 64,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:16",
+          "action": {
+            "type": "social46_intro_line_shown"
+          }
+        }
+      },
+      "chain": "1269d54d"
+    },
+    {
+      "seq": 65,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "intro_line",
+            "id": "intro",
+            "node": "hello",
+            "text": "oh. hi. i’m ren, down the hall. we keep passing each other, figured i’d say hi before it got weird."
+          }
+        }
+      },
+      "chain": "a2e014ae"
+    },
+    {
+      "seq": 66,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:16",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "7fcba6c2"
+    },
+    {
+      "seq": 67,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:17",
+          "action": {
+            "type": "social46_intro_choose",
+            "choice": "meet"
+          }
+        }
+      },
+      "chain": "53bea98b"
+    },
+    {
+      "seq": 68,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "intro_reply",
+            "id": "intro",
+            "node": "hello",
+            "choice": "meet"
+          }
+        }
+      },
+      "chain": "c43dede8"
+    },
+    {
+      "seq": 69,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:17",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "87e314a5"
+    },
+    {
+      "seq": 70,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:18",
+          "action": {
+            "type": "social46_intro_line_shown"
+          }
+        }
+      },
+      "chain": "ef35f585"
+    },
+    {
+      "seq": 71,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "intro_line",
+            "id": "intro",
+            "node": "greeting",
+            "text": "you too. i make and fix things. mostly i just wanted to say hello."
+          }
+        }
+      },
+      "chain": "e45b13b9"
+    },
+    {
+      "seq": 72,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:18",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "afc7c06f"
+    },
+    {
+      "seq": 73,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:19",
+          "action": {
+            "type": "social46_intro_choose",
+            "choice": "glad"
+          }
+        }
+      },
+      "chain": "9af76f83"
+    },
+    {
+      "seq": 74,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "intro_reply",
+            "id": "intro",
+            "node": "greeting",
+            "choice": "glad"
+          }
+        }
+      },
+      "chain": "78ffa8a2"
+    },
+    {
+      "seq": 75,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:19",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "a08fdd61"
+    },
+    {
+      "seq": 76,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:20",
+          "action": {
+            "type": "social46_intro_line_shown"
+          }
+        }
+      },
+      "chain": "ee60912a"
+    },
+    {
+      "seq": 77,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "intro_line",
+            "id": "intro",
+            "node": "glad",
+            "text": "me too. hallway introductions are surprisingly difficult to schedule."
+          }
+        }
+      },
+      "chain": "9ddaaa1f"
+    },
+    {
+      "seq": 78,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:20",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "7233cc2c"
+    },
+    {
+      "seq": 79,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:21",
+          "action": {
+            "type": "social46_intro_choose",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "cb3b10af"
+    },
+    {
+      "seq": 80,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "intro_reply",
+            "id": "intro",
+            "node": "glad",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "b09fbe99"
+    },
+    {
+      "seq": 81,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:21",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "b565e3be"
+    },
+    {
+      "seq": 82,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:22",
+          "action": {
+            "type": "social46_intro_line_shown"
+          }
+        }
+      },
+      "chain": "3a5dd19a"
+    },
+    {
+      "seq": 83,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "intro_line",
+            "id": "intro",
+            "node": "number",
+            "text": "here, write down my number. it’s good to know someone in the building. no pressure to use it."
+          }
+        }
+      },
+      "chain": "708a56f7"
+    },
+    {
+      "seq": 84,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:22",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "b528c184"
+    },
+    {
+      "seq": 85,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:23",
+          "action": {
+            "type": "social46_intro_choose",
+            "choice": "thanks"
+          }
+        }
+      },
+      "chain": "8fc927cd"
+    },
+    {
+      "seq": 86,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "intro_reply",
+            "id": "intro",
+            "node": "number",
+            "choice": "thanks"
+          }
+        }
+      },
+      "chain": "f783428c"
+    },
+    {
+      "seq": 87,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:23",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "f4c0e0ff"
+    },
+    {
+      "seq": 88,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:24",
+          "action": {
+            "type": "social46_intro_line_shown"
+          }
+        }
+      },
+      "chain": "196267fb"
+    },
+    {
+      "seq": 89,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "intro_line",
+            "id": "intro",
+            "node": "thanks",
+            "text": "sure. see you around."
+          }
+        }
+      },
+      "chain": "ed7b439b"
+    },
+    {
+      "seq": 90,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:24",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "0cd15bed"
+    },
+    {
+      "seq": 91,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "ren:25",
+          "action": {
+            "type": "social46_intro_choose",
+            "choice": "finish"
+          }
+        }
+      },
+      "chain": "80a12715"
+    },
+    {
+      "seq": 92,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "intro_reply",
+            "id": "intro",
+            "node": "thanks",
+            "choice": "finish"
+          }
+        }
+      },
+      "chain": "97a1e950"
+    },
+    {
+      "seq": 93,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "ren:25",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "421e7e7c"
+    },
+    {
+      "seq": 94,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:1",
+          "action": {
+            "type": "social46_offer",
+            "day": 2,
+            "initiator": "player",
+            "activity": "game"
+          }
+        }
+      },
+      "chain": "934b05fe"
+    },
+    {
+      "seq": 95,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:1",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "68459b6c"
+    },
+    {
+      "seq": 96,
+      "type": "message_delivered",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "kind": "ren",
+        "id": "ren:offer:ren-1:2:game:original",
+        "revision": 1
+      },
+      "chain": "4312589c"
+    },
+    {
+      "seq": 97,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:2",
+          "action": {
+            "type": "social46_offer_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "b739b22c"
+    },
+    {
+      "seq": 98,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "invitation",
+            "id": "ren-1",
+            "day": 2,
+            "atDay": 2,
+            "activity": "game",
+            "text": "Ren: i could come by this evening for a game. no pressure."
+          }
+        }
+      },
+      "chain": "c9ae7364"
+    },
+    {
+      "seq": 99,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:2",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "32aea2b9"
+    },
+    {
+      "seq": 100,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:3",
+          "action": {
+            "type": "social46_reply",
+            "id": "ren-1",
+            "choice": "accept"
+          }
+        }
+      },
+      "chain": "b934e217"
+    },
+    {
+      "seq": 101,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "reply",
+            "id": "ren-1",
+            "choice": "accept",
+            "day": 2
+          }
+        }
+      },
+      "chain": "9851f495"
+    },
+    {
+      "seq": 102,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "plan_reserved",
+          "id": "ren-1"
+        }
+      },
+      "chain": "84c7032f"
+    },
+    {
+      "seq": 103,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:3",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "8be4dcd5"
+    },
+    {
+      "seq": 104,
+      "type": "message_delivered",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "kind": "ren",
+        "id": "ren:ack:ren-1:2",
+        "revision": 1
+      },
+      "chain": "33adcd56"
+    },
+    {
+      "seq": 105,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:4",
+          "action": {
+            "type": "social46_visit_knock_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "78b99004"
+    },
+    {
+      "seq": 106,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "visit_knock",
+            "id": "ren-1",
+            "day": 2
+          }
+        }
+      },
+      "chain": "050d021b"
+    },
+    {
+      "seq": 107,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:4",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "f70f3d21"
+    },
+    {
+      "seq": 108,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:5",
+          "action": {
+            "type": "social46_visit_open",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "ac45f07e"
+    },
+    {
+      "seq": 109,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "visit_open",
+            "id": "ren-1",
+            "day": 2
+          }
+        }
+      },
+      "chain": "a1586f50"
+    },
+    {
+      "seq": 110,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:5",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "ee687290"
+    },
+    {
+      "seq": 111,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:6",
+          "action": {
+            "type": "social46_visit_arrival_shown",
+            "id": "ren-1",
+            "lookVersion": 1
+          }
+        }
+      },
+      "chain": "d1f67129"
+    },
+    {
+      "seq": 112,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "visit_arrival",
+            "id": "ren-1",
+            "day": 2,
+            "lookVersion": 1,
+            "look": "pajamas",
+            "text": "Ren: hey. i’m here."
+          }
+        }
+      },
+      "chain": "44cc0a49"
+    },
+    {
+      "seq": 113,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:6",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "85f6e65c"
+    },
+    {
+      "seq": 114,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:7",
+          "action": {
+            "type": "social46_begin",
+            "id": "ren-1",
+            "dialogueVersion": 1,
+            "arrivalVersion": 1
+          }
+        }
+      },
+      "chain": "b58264a4"
+    },
+    {
+      "seq": 115,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-4",
+          "kind": "social",
+          "slot": "2:evening"
+        }
+      },
+      "chain": "61c8a1c5"
+    },
+    {
+      "seq": 116,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:7",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "fdb4e23a"
+    },
+    {
+      "seq": 117,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:8",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "e1f97ca3"
+    },
+    {
+      "seq": 118,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "door",
+            "node": "s0",
+            "text": "glad we could do this. i brought the game."
+          }
+        }
+      },
+      "chain": "44fa308a"
+    },
+    {
+      "seq": 119,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:8",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "c89022b9"
+    },
+    {
+      "seq": 120,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:9",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "a"
+          }
+        }
+      },
+      "chain": "d7aebaf4"
+    },
+    {
+      "seq": 121,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "s0",
+            "choice": "a"
+          }
+        }
+      },
+      "chain": "f7cbd69d"
+    },
+    {
+      "seq": 122,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:9",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "dec29c9a"
+    },
+    {
+      "seq": 123,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:10",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "c192d94e"
+    },
+    {
+      "seq": 124,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "door",
+            "node": "s1a",
+            "text": "thanks for having me."
+          }
+        }
+      },
+      "chain": "1e05345d"
+    },
+    {
+      "seq": 125,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:10",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "7ffbf53b"
+    },
+    {
+      "seq": 126,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:11",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "eb0dcb11"
+    },
+    {
+      "seq": 127,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "s1a",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "e1430815"
+    },
+    {
+      "seq": 128,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:11",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "603ce707"
+    },
+    {
+      "seq": 129,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:12",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "aa84f275"
+    },
+    {
+      "seq": 130,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "node": "g-cue",
+            "text": "i dressed for a pajama game night. comfort is a competitive advantage."
+          }
+        }
+      },
+      "chain": "836c3b08"
+    },
+    {
+      "seq": 131,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:12",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "ed98528c"
+    },
+    {
+      "seq": 132,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:13",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "3bda960d"
+    },
+    {
+      "seq": 133,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "g-cue",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "79ef3be5"
+    },
+    {
+      "seq": 134,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:13",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "e4d96b61"
+    },
+    {
+      "seq": 135,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:14",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "ea27d1b6"
+    },
+    {
+      "seq": 136,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "node": "g0",
+            "text": "i remember the rules being simpler than this. possibly because i was winning."
+          }
+        }
+      },
+      "chain": "125bf7b5"
+    },
+    {
+      "seq": 137,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:14",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "c57beb99"
+    },
+    {
+      "seq": 138,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:15",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "together"
+          }
+        }
+      },
+      "chain": "788c7e30"
+    },
+    {
+      "seq": 139,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "g0",
+            "choice": "together"
+          }
+        }
+      },
+      "chain": "fc286202"
+    },
+    {
+      "seq": 140,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:15",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "a488519f"
+    },
+    {
+      "seq": 141,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:16",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "a692c754"
+    },
+    {
+      "seq": 142,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "node": "g-together",
+            "text": "yes, please. i was hoping one of us had read them."
+          }
+        }
+      },
+      "chain": "fe16e2f1"
+    },
+    {
+      "seq": 143,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:16",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "f86558a6"
+    },
+    {
+      "seq": 144,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:17",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "learn"
+          }
+        }
+      },
+      "chain": "93febfc2"
+    },
+    {
+      "seq": 145,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "g-together",
+            "choice": "learn"
+          }
+        }
+      },
+      "chain": "4133c67d"
+    },
+    {
+      "seq": 146,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:17",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "fa54f6ff"
+    },
+    {
+      "seq": 147,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:18",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "77122610"
+    },
+    {
+      "seq": 148,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "node": "g-together-a",
+            "text": "excellent. confusion is better with company."
+          }
+        }
+      },
+      "chain": "115981b9"
+    },
+    {
+      "seq": 149,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:18",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "9d632f34"
+    },
+    {
+      "seq": 150,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:19",
+          "action": {
+            "type": "social46_scene_next",
+            "id": "ren-1",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "bcdcd68c"
+    },
+    {
+      "seq": 151,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "g-together-a",
+            "choice": "continue"
+          }
+        }
+      },
+      "chain": "e702a608"
+    },
+    {
+      "seq": 152,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:19",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "a5495bce"
+    },
+    {
+      "seq": 153,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:20",
+          "action": {
+            "type": "social46_scene_shown",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "e39e34b8"
+    },
+    {
+      "seq": 154,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "graph_line",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "node": "g-end",
+            "text": "good game. we should do that again sometime."
+          }
+        }
+      },
+      "chain": "d3364ba6"
+    },
+    {
+      "seq": 155,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:20",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "dea237a7"
+    },
+    {
+      "seq": 156,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:21",
+          "action": {
+            "type": "social46_complete",
+            "id": "ren-1",
+            "choice": "finish"
+          }
+        }
+      },
+      "chain": "e1d247c5"
+    },
+    {
+      "seq": 157,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "graph_choice",
+            "id": "ren-1",
+            "activity": "game",
+            "node": "g-end",
+            "choice": "finish"
+          }
+        }
+      },
+      "chain": "67254893"
+    },
+    {
+      "seq": 158,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_outcome",
+          "payload": {
+            "kind": "completed",
+            "id": "ren-1",
+            "activity": "game",
+            "seating": "couch",
+            "day": 2
+          }
+        }
+      },
+      "chain": "6b4e2764"
+    },
+    {
+      "seq": 159,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-4"
+        }
+      },
+      "chain": "008587c2"
+    },
+    {
+      "seq": 160,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:21",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "8f983bf4"
+    },
+    {
+      "seq": 161,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 late-evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:22",
+          "action": {
+            "type": "social46_dismiss",
+            "id": "ren-1"
+          }
+        }
+      },
+      "chain": "13a8068c"
+    },
+    {
+      "seq": 162,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 late-evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:22",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "c0ccfb45"
+    },
+    {
+      "seq": 163,
+      "type": "life52_intent",
+      "clock": {
+        "day": 2,
+        "label": "day 2 late-evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "sleep",
+            "operationId": "floor:23"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "f3597941"
+    },
+    {
+      "seq": 164,
+      "type": "life52_effect",
+      "clock": {
+        "day": 2,
+        "label": "day 2 late-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "sleep_completed"
+        }
+      },
+      "chain": "711d4a86"
+    },
+    {
+      "seq": 165,
+      "type": "life52_commit",
+      "clock": {
+        "day": 2,
+        "label": "day 2 late-evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:23",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "d63c10d7"
+    },
+    {
+      "seq": 166,
+      "type": "message_delivered",
+      "clock": {
+        "day": 3,
+        "label": "day 3 morning"
+      },
+      "payload": {
+        "kind": "work",
+        "id": "work:shift:3",
+        "revision": 1
+      },
+      "chain": "f22d228a"
+    },
+    {
+      "seq": 167,
+      "type": "life52_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 morning"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "floor:24"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "29db0d5d"
+    },
+    {
+      "seq": 168,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 morning"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "3:morning",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "4101971d"
+    },
+    {
+      "seq": 169,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 morning"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:24",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "6f97270f"
+    },
+    {
+      "seq": 170,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "start",
+          "operationId": "work-story:170",
+          "confirmed": true
+        }
+      },
+      "chain": "bcea4d3a"
+    },
+    {
+      "seq": 171,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-5",
+          "kind": "work",
+          "slot": "3:midday"
+        }
+      },
+      "chain": "9c4f9cea"
+    },
+    {
+      "seq": 172,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_started",
+          "id": "activity-5",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C3",
+            "work": [
+              "012",
+              "013"
+            ]
+          }
+        }
+      },
+      "chain": "503e634e"
+    },
+    {
+      "seq": 173,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "work-story:170",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "53fd5b04"
+    },
+    {
+      "seq": 174,
+      "type": "story47_shown",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "id": "activity-5",
+        "stage": "commute",
+        "version": 1,
+        "beats": [
+          "0C3"
+        ]
+      },
+      "chain": "29fe60b2"
+    },
+    {
+      "seq": 175,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "advance",
+          "id": "activity-5",
+          "operationId": "floor:25"
+        }
+      },
+      "chain": "e2e094e1"
+    },
+    {
+      "seq": 176,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-5",
+          "stage": "work"
+        }
+      },
+      "chain": "90271f20"
+    },
+    {
+      "seq": 177,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:25",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "60b2e7bc"
+    },
+    {
+      "seq": 178,
+      "type": "story47_shown",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "id": "activity-5",
+        "stage": "work",
+        "version": 1,
+        "beats": [
+          "012",
+          "013"
+        ]
+      },
+      "chain": "757b1e7a"
+    },
+    {
+      "seq": 179,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "complete",
+          "id": "activity-5",
+          "operationId": "floor:26"
+        }
+      },
+      "chain": "09a5c06a"
+    },
+    {
+      "seq": 180,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-5"
+        }
+      },
+      "chain": "8dc4e586"
+    },
+    {
+      "seq": 181,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-5",
+          "stage": "payslip"
+        }
+      },
+      "chain": "56f8f4cd"
+    },
+    {
+      "seq": 182,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:26",
+        "cashDeltaCents": 6000,
+        "healthDelta": 0
+      },
+      "chain": "09ab336a"
+    },
+    {
+      "seq": 183,
+      "type": "income",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "kind": "wage",
+        "amount": 60,
+        "transactionId": "activity-5",
+        "cashAfter": 230,
+        "source": "five-slot-work-story"
+      },
+      "chain": "1af417a3"
+    },
+    {
+      "seq": 184,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "type": "dismiss",
+          "id": "activity-5",
+          "operationId": "floor:27"
+        }
+      },
+      "chain": "c50671bf"
+    },
+    {
+      "seq": 185,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_dismissed",
+          "id": "activity-5"
+        }
+      },
+      "chain": "aa2da9b1"
+    },
+    {
+      "seq": 186,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:27",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "9c1eef96"
+    },
+    {
+      "seq": 187,
+      "type": "life52_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "floor:28"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "2fa1df2c"
+    },
+    {
+      "seq": 188,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "3:early-evening",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "1eeed0fa"
+    },
+    {
+      "seq": 189,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 early-evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:28",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "98b0c54f"
+    },
+    {
+      "seq": 190,
+      "type": "life52_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "start",
+            "kind": "early-bed",
+            "operationId": "floor:29"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "4c10e087"
+    },
+    {
+      "seq": 191,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-6",
+          "kind": "early-bed",
+          "slot": "3:evening"
+        }
+      },
+      "chain": "a3d81cb6"
+    },
+    {
+      "seq": 192,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:29",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "4207698a"
+    },
+    {
+      "seq": 193,
+      "type": "life52_intent",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "complete",
+            "activityId": "activity-6",
+            "operationId": "floor:30"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "26c3feee"
+    },
+    {
+      "seq": 194,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-6"
+        }
+      },
+      "chain": "300a9fa6"
+    },
+    {
+      "seq": 195,
+      "type": "life52_effect",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "financial_due",
+          "id": "rent-1",
+          "due": {
+            "day": 4,
+            "slot": "morning"
+          }
+        }
+      },
+      "chain": "6a996af0"
+    },
+    {
+      "seq": 196,
+      "type": "life52_commit",
+      "clock": {
+        "day": 3,
+        "label": "day 3 evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:30",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "b58b3720"
+    },
+    {
+      "seq": 197,
+      "type": "message_delivered",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "kind": "work",
+        "id": "work:shift:4",
+        "revision": 1
+      },
+      "chain": "1ccaa0ce"
+    },
+    {
+      "seq": 198,
+      "type": "life52_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "intent": {
+          "domain": "finance",
+          "action": {
+            "type": "pay_rent",
+            "billId": "rent-1",
+            "id": "floor-rent"
+          }
+        },
+        "operation": {}
+      },
+      "chain": "4a7f73a3"
+    },
+    {
+      "seq": 199,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "effect": {
+          "type": "rent_paid",
+          "billId": "rent-1",
+          "amountCents": 17000
+        }
+      },
+      "chain": "683c883e"
+    },
+    {
+      "seq": 200,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "domain": "finance",
+        "operationId": "floor-rent",
+        "cashDeltaCents": -17000,
+        "healthDelta": 0
+      },
+      "chain": "fb07f76f"
+    },
+    {
+      "seq": 201,
+      "type": "life52_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "floor:31"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "ff4f7ea7"
+    },
+    {
+      "seq": 202,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "4:morning",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "1152ad0b"
+    },
+    {
+      "seq": 203,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 morning"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:31",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "29b2c9f1"
+    },
+    {
+      "seq": 204,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "start",
+          "operationId": "work-story:204",
+          "confirmed": true
+        }
+      },
+      "chain": "1261a8b5"
+    },
+    {
+      "seq": 205,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_started",
+          "id": "activity-7",
+          "kind": "work",
+          "slot": "4:midday"
+        }
+      },
+      "chain": "8189cf32"
+    },
+    {
+      "seq": 206,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_started",
+          "id": "activity-7",
+          "story": {
+            "version": 1,
+            "catalog": "1.1.0",
+            "commute": "0C1",
+            "work": [
+              "015",
+              "017"
+            ]
+          }
+        }
+      },
+      "chain": "36b824d1"
+    },
+    {
+      "seq": 207,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "work-story:204",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "e74eca17"
+    },
+    {
+      "seq": 208,
+      "type": "story47_shown",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "id": "activity-7",
+        "stage": "commute",
+        "version": 1,
+        "beats": [
+          "0C1"
+        ]
+      },
+      "chain": "16581a40"
+    },
+    {
+      "seq": 209,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "advance",
+          "id": "activity-7",
+          "operationId": "floor:32"
+        }
+      },
+      "chain": "3e777b45"
+    },
+    {
+      "seq": 210,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-7",
+          "stage": "work"
+        }
+      },
+      "chain": "53e66830"
+    },
+    {
+      "seq": 211,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:32",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "211c4a1e"
+    },
+    {
+      "seq": 212,
+      "type": "story47_shown",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "id": "activity-7",
+        "stage": "work",
+        "version": 1,
+        "beats": [
+          "015",
+          "017"
+        ]
+      },
+      "chain": "c25c7501"
+    },
+    {
+      "seq": 213,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "intent": {
+          "type": "complete",
+          "id": "activity-7",
+          "operationId": "floor:33"
+        }
+      },
+      "chain": "df6a20b4"
+    },
+    {
+      "seq": 214,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "activity_completed",
+          "id": "activity-7"
+        }
+      },
+      "chain": "650ddb26"
+    },
+    {
+      "seq": 215,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_advanced",
+          "id": "activity-7",
+          "stage": "payslip"
+        }
+      },
+      "chain": "de9d5c05"
+    },
+    {
+      "seq": 216,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 midday"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:33",
+        "cashDeltaCents": 6000,
+        "healthDelta": 0
+      },
+      "chain": "be498357"
+    },
+    {
+      "seq": 217,
+      "type": "income",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "kind": "wage",
+        "amount": 60,
+        "transactionId": "activity-7",
+        "cashAfter": 108,
+        "source": "five-slot-work-story"
+      },
+      "chain": "b5e9436d"
+    },
+    {
+      "seq": 218,
+      "type": "life52_work_story_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "type": "dismiss",
+          "id": "activity-7",
+          "operationId": "floor:34"
+        }
+      },
+      "chain": "3b5c0d2b"
+    },
+    {
+      "seq": 219,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "story47_dismissed",
+          "id": "activity-7"
+        }
+      },
+      "chain": "2a87f582"
+    },
+    {
+      "seq": 220,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "domain": "work_story",
+        "operationId": "floor:34",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "2761c87d"
+    },
+    {
+      "seq": 221,
+      "type": "life52_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "intent": {
+          "domain": "schedule",
+          "action": {
+            "type": "meal",
+            "choice": "buy",
+            "operationId": "floor:35"
+          }
+        },
+        "operation": {
+          "confirmed": true
+        }
+      },
+      "chain": "3b652c23"
+    },
+    {
+      "seq": 222,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "meal_completed",
+          "choice": "buy",
+          "slot": "4:early-evening",
+          "cashDelta": -6,
+          "healthDelta": 0
+        }
+      },
+      "chain": "844c9493"
+    },
+    {
+      "seq": 223,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 early-evening"
+      },
+      "payload": {
+        "domain": "schedule",
+        "operationId": "floor:35",
+        "cashDeltaCents": -600,
+        "healthDelta": 0
+      },
+      "chain": "a9791567"
+    },
+    {
+      "seq": 224,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:36",
+          "action": {
+            "type": "social46_offer",
+            "day": 4,
+            "initiator": "player",
+            "activity": "game"
+          }
+        }
+      },
+      "chain": "8e91e57c"
+    },
+    {
+      "seq": 225,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:36",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "1ffec5e4"
+    },
+    {
+      "seq": 226,
+      "type": "message_delivered",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "kind": "ren",
+        "id": "ren:offer:ren-2:4:game:original",
+        "revision": 1
+      },
+      "chain": "5d296c80"
+    },
+    {
+      "seq": 227,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:37",
+          "action": {
+            "type": "social46_offer_shown",
+            "id": "ren-2"
+          }
+        }
+      },
+      "chain": "211bdfee"
+    },
+    {
+      "seq": 228,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "invitation",
+            "id": "ren-2",
+            "day": 4,
+            "atDay": 4,
+            "activity": "game",
+            "text": "Ren: i could come by this evening for a game. no pressure."
+          }
+        }
+      },
+      "chain": "a5d9d828"
+    },
+    {
+      "seq": 229,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:37",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "03c409bb"
+    },
+    {
+      "seq": 230,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:38",
+          "action": {
+            "type": "social46_reply",
+            "id": "ren-2",
+            "choice": "accept"
+          }
+        }
+      },
+      "chain": "7548e364"
+    },
+    {
+      "seq": 231,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_action",
+          "payload": {
+            "kind": "reply",
+            "id": "ren-2",
+            "choice": "accept",
+            "day": 4
+          }
+        }
+      },
+      "chain": "69f348ef"
+    },
+    {
+      "seq": 232,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "plan_reserved",
+          "id": "ren-2"
+        }
+      },
+      "chain": "42f4e4a0"
+    },
+    {
+      "seq": 233,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:38",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "6b83d478"
+    },
+    {
+      "seq": 234,
+      "type": "message_delivered",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "kind": "ren",
+        "id": "ren:ack:ren-2:4",
+        "revision": 1
+      },
+      "chain": "cef833a0"
+    },
+    {
+      "seq": 235,
+      "type": "life52_social_intent",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "intent": {
+          "operationId": "floor:39",
+          "action": {
+            "type": "social46_sale_shown",
+            "id": "ren-2"
+          }
+        }
+      },
+      "chain": "250ce266"
+    },
+    {
+      "seq": 236,
+      "type": "life52_effect",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "effect": {
+          "type": "social46_display",
+          "payload": {
+            "kind": "sale_disclosure",
+            "id": "ren-2",
+            "day": 4,
+            "atDay": 4,
+            "text": "Game night with Ren this evening was planned for the couch. Selling it changes the seating."
+          }
+        }
+      },
+      "chain": "96baa60b"
+    },
+    {
+      "seq": 237,
+      "type": "life52_commit",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "domain": "social",
+        "operationId": "floor:39",
+        "cashDeltaCents": 0,
+        "healthDelta": 0
+      },
+      "chain": "9cad270e"
+    },
+    {
+      "seq": 238,
+      "type": "income",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "kind": "asset_sale",
+        "asset": "couch",
+        "amount": 30,
+        "cashAfter": 132
+      },
+      "chain": "c1a64e1c"
+    },
+    {
+      "seq": 239,
+      "type": "message_delivered",
+      "clock": {
+        "day": 4,
+        "label": "day 4 evening"
+      },
+      "payload": {
+        "kind": "ren",
+        "id": "ren:floor:ren-2:4",
+        "revision": 1
+      },
+      "chain": "27b564c2"
+    }
+  ]
+}

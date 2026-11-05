@@ -26,7 +26,7 @@ import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mj
 import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility, raceCandidateFacts, RACE_CANDIDATE_EVIDENCE_VERSION } from './race-progression.mjs';
 import { decodeResult } from './race-v2/codec.mjs';
 import { createRaceWorkerClient } from './race-v2/worker-client.mjs';
-import { deliveryPayloads } from './messages-policy.mjs';
+import { deliveryPayloads,renCurrentIds,renMessageShown } from './messages-policy.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
@@ -624,6 +624,7 @@ export class GameEngine {
   }
 
   #publishTransaction(draft) {
+    const oldRenIds=new Set(renCurrentIds(this.state.life));
     if(this.#v2Enabled && draft.state.life?.schedule && draft.state.raceGrowth){
       const from=draft.#v2RecoveryDay??this.state.life.schedule.day,elapsed=draft.state.life.schedule.day-from;
       draft.state.raceGrowth=recoverRaceDays(draft.state.raceGrowth,elapsed);
@@ -631,6 +632,9 @@ export class GameEngine {
     this.state = draft.state; this.log = draft.log;
     this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
     this.#deliverMessages();
+    if(this.messagesPolicy==='messages-v1' && !this.isTerminal())for(const id of renCurrentIds(this.state.life)) {
+      if(!oldRenIds.has(id) && !this.log.entries.some(e=>e.type==='message_delivered' && e.payload?.id===id))this.log.append('message_delivered',{kind:'ren',id,revision:1},this.state.clock);
+    }
   }
 
   #deliverMessages() {
@@ -643,9 +647,21 @@ export class GameEngine {
 
   readMessage(id, revision) {
     if (this.messagesPolicy !== 'messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision !== 1 || typeof id !== 'string' || id.length > 80) return false;
-    if (!this.log.entries.some(e => e.type === 'message_delivered' && e.payload?.id === id && e.payload.revision === revision)) return false;
+    const events=this.log.entries;
+    const launchInvite=id==='launch:invitation:1';
+    const launchAck=id==='launch:ack:1' && events.some(e=>e.type==='action' && e.payload?.kind==='launch_reply');
+    if(id.startsWith('ren:') && !renMessageShown(this.state.life,id))return false;
+    if (!launchInvite && !launchAck && !events.some(e => e.type === 'message_delivered' && e.payload?.id === id && e.payload.revision === revision)) return false;
+    if(launchInvite && !events.some(e=>e.type==='offer_shown' && e.payload?.kind==='launch_reply_invitation'))return false;
+    if(launchAck && !events.some(e=>e.type==='cue_shown' && e.payload?.kind==='launch_reply_acknowledgment'))return false;
     if (this.log.entries.some(e => e.type === 'message_read' && e.payload?.id === id && e.payload.revision === revision)) return false;
     this.log.append('message_read', {id, revision}, this.state.clock); return true;
+  }
+
+  showRenMessageHistory(id,revision) {
+    if(this.messagesPolicy!=='messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision!==1 || typeof id!=='string' || !id.startsWith('ren:') || id.length>80 || renCurrentIds(this.state.life).includes(id))return null;
+    if(!this.log.entries.some(e=>e.type==='message_delivered' && e.payload?.kind==='ren' && e.payload.id===id && e.payload.revision===revision) || this.log.entries.some(e=>e.type==='message_history_shown' && e.payload?.id===id))return null;
+    return this.log.append('message_history_shown',{id,revision},this.state.clock);
   }
 
   // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
@@ -694,9 +710,17 @@ export class GameEngine {
     return this.log.append('offer_shown', { kind: 'launch_reply_invitation', technique: 'launch_invitation', launch: 'day_1_evening' }, this.state.clock);
   }
 
+  showExpiredLaunchHistory() {
+    if(this.messagesPolicy!=='messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext)return null;
+    const s=this.state.life.schedule,windowOpen=s.day===1 && ['morning','midday','early-evening'].includes(s.slot);
+    if(windowOpen || this.log.entries.some(e=>(e.type==='offer_shown' && e.payload?.kind==='launch_reply_invitation') || (e.type==='cue_shown' && e.payload?.kind==='expired_launch_history')))return null;
+    return this.log.append('cue_shown',{kind:'expired_launch_history',technique:'launch_invitation',launch:'day_1_evening',id:'launch:invitation:1',revision:1},this.state.clock);
+  }
+
   replyLifeInvitation() {
     if (this.isTerminal() || !this.state.life || !this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation')) return false;
     if (this.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply')) return true;
+    if(this.messagesPolicy==='messages-v1') {const s=this.state.life.schedule;if(s.day!==1 || !['morning','midday','early-evening'].includes(s.slot))return false;}
     this.log.append('action', { kind: 'launch_reply', text: 'LAUNCH' }, this.state.clock);
     return true;
   }

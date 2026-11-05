@@ -1,0 +1,110 @@
+{
+  "pins": {
+    "src/main.js": "525e5b7e3670fe212d8842691407bfb4e9ffa15c2c940e7bcfba328479b4655c",
+    "src/core/game-engine.mjs": "b49122d26d070a8e887611db76b8216506df27abcf31f69c8469338af1313f19",
+    "src/core/life-replay.mjs": "50e32cd20c9cd12df3c83bf0f5b06c32a927107b202c5e2e5b256089cb1b9e91",
+    "src/core/messages-policy.mjs": "ea9ef7e4795e9b75882bff61f71796128490e2c83e4e9631228e0679d8215659",
+    "src/core/messages-runtime.mjs": "92b4614ff84d33b3dbedcc44b431dfce2c3f112c31206302b90aba448f93a5b6",
+    "src/core/messages-projection.mjs": "c412f34e4f5b580c5afbf07c3cef9eb37bb89efa96c843f3c3393e173088466d",
+    "src/core/receipt.mjs": "0cd8281bfd769c983d25ee5d52285846cb902c4ebc1e43baa46da14efb7f9fcb",
+    "src/core/storage.mjs": "fccbd26ef73986df2fc1eda561f7997a7fb56ab2ae2a26a3331aa6fc9d33123c",
+    "src/ui/messages-view.mjs": "2262976f7ec8351a253d6e8975cbab4b2df8c2a87740c21dc58da9996a7051de",
+    "src/ui/messages.css": "845d26461575028e7232ed587eabcef9ba3cb8be60b9ee59db80e5b9c289ea79",
+    "src/ui/hud.js": "801074a3df4a5c11f220844b732496b911e6f39cfdbffb37017c2d627e183e7b",
+    "src/ui/life/life-view.js": "264bfd128d4d33e462c7628d55bbb8740d2d2fa234cb74af2b19e95b90add41b",
+    "src/ui/life/life-phone-context.mjs": "ec702f875cd68dccf17ed1b0851f4c9b0fc04751405ed49ddefeaafa68fad9c9",
+    "reports/development/plan-63-messages-production-integration/loan-start-attempt-02.json": "0f1f87e851a50e5a2f093a51e8cbae1c8622a44acaadd3d1c92deeb79e4a3070",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/index-C_4FMmFT.js": "092c1e8a41fa87053d3e18b8b1f11e596e8764c2899693ddb1d391f4e1de4a87",
+    "dist/assets/index-C_4FMmFT.js.map": "773e0c31031ce0e45eb6f02eeccb0724448410389a7baefd4d030631b474e710",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "cc4fd8e15c3ad5fbafd3e179f73db82e4804b3e3357cd51d7596ac54f3299880",
+    "reports/development/plan-63-messages-production-integration/return-start-attempt-01.json": "87fe7fd95e84e2a5a1e1074c473da60f36f08ce8f8a59002867fd14643b0c977",
+    "reports/development/plan-63-messages-production-integration/day2-midday-start-01.json": "b5f98c06eaaf6a51bfc6c39a572b61b278bfc31775f5149fef4af56d7b8b1167"
+  },
+  "observations": [
+    {
+      "width": 1200,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 1200,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nOutstanding"
+    },
+    {
+      "width": 1200,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "width": 390,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 390,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nOutstanding"
+    },
+    {
+      "width": 390,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "case": "settings-uninstall-escape",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true
+    },
+    {
+      "case": "settings-uninstall-escape-return",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true,
+      "appReturn": true
+    },
+    {
+      "case": "day2-direct-work-bridge",
+      "keysAvailable": true,
+      "appOpened": true,
+      "scheduleUnchanged": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

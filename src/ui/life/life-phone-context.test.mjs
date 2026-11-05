@@ -1,9 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderScene } from '../../assets/apartment/index.mjs';
-import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
+import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved, messagesDirectPhone } from './life-phone-context.mjs';
 import { GameEngine } from '../../core/game-engine.mjs';
 import {createSchedule,PRODUCTION,inspect} from '../../core/life-schedule/index.mjs';
+
+test('Messages policy reserves only an available unlocked phone for Quackpot',()=>{
+ const e=new GameEngine('messages-phone',{lifePolicy:'five-slot-v1'}),life=e.state.life;
+ assert.equal(messagesDirectPhone(life,'messages-v1'),false);
+ life.schedule.day=2;life.schedule.slot='morning';life.finance.loans.push({id:'loan-1',totalCents:150,due:{day:7,slot:'midday'},status:'pending',latched:false});
+ assert.equal(messagesDirectPhone(life,'messages-v1'),true);assert.equal(messagesDirectPhone(life,null),false);
+ life.schedule.slot='midday';assert.equal(messagesDirectPhone(life,'messages-v1'),true);assert.deepEqual(lifePhoneScreen(life,false,[],'messages-v1').heading,['Invitation']);
+ life.schedule.active={kind:'work'};assert.equal(messagesDirectPhone(life,'messages-v1'),false);life.schedule.active=null;
+ life.schedule.slot='morning';life.finance.loans[0].due={day:2,slot:'morning'};assert.equal(messagesDirectPhone(life,'messages-v1'),false);
+ life.finance.loans=[];life.schedule.recovery={};assert.equal(messagesDirectPhone(life,'messages-v1'),false);
+});
 
 test('a Midday play action discloses a missed shift through Day 6 but not Day 7',()=>{
  for(const day of [6,7]) {

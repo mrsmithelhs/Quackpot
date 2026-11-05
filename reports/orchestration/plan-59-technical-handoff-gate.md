@@ -22,6 +22,8 @@ QP Impl52 reported source closure `bbe64e889afdcb14195f7cb88f153186a5907387fe0e5
 
 ## Early reusable race milestone
 
+**Verified study-to-selected-policy mismatch:** Root source inspection on 2026-11-04 confirmed Plan55's pinned `bounce-reconcile-adapter.mjs` diagnostic susceptibility path multiplies the already corner/leader-limited `targetSpeed` by 0.95, with a matching slowdown-reference factor. This is not DECISION-085's selected 10% rating reduction before affine conversion. Preserve the historical adapter and evidence. The production port must deliberately replace that diagnostic with selected rating composition, including entry injury, same-race onset, downstream caps, counterfactual witnesses and reported effective rating/top speed, without double application or forced velocity. No-injury legacy parity and selected-injury correctness are separate controls; never claim injured-path byte parity or substitute a 0.9 world-speed multiplier.
+
 Prefer establishing the versioned pure multi-contact/injury/Bounce/crowd kernel and matched reference/correctness evidence early. Later ability research can target that stable seam under a separate approved report-local protocol, without depending on completion of every Plan59 presentation/progression or apartment review item. No Guard/Quick Recovery implementation, new experiment or balance adoption follows automatically from this milestone.
 
 Final root source/rendered/lifecycle review and owner integrated-race acceptance remain necessary for Plan59 closure. Plan52 status/experience acceptance remains separate. No push/deployment.

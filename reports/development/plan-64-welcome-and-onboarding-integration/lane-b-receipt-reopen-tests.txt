@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5269689,
+  "PeakSampledPrivateBytes": 1859584,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ actual five-slot loan-default Receipt displays event-derived totals and rejects missing commit data (10.3775ms)\n✔ actual engine draws and races remain chronological and separate from purchases (290.6068ms)\n✔ immediate uninstall records offered retention and leave separately (0.2797ms)\n✔ legacy missing odds and balances remain unavailable; no transaction link is asserted (0.1678ms)\n✔ synthetic exact-zero expense records distinguish paid from unpaid (0.2966ms)\n✔ actual engine records rent shortfall without inferring debt from cash (1.2968ms)\n✔ missing bill identifiers suppress inferred accounting without hiding recorded work outcomes (0.332ms)\n✔ finding evidence is presented by sequence instead of construction order (0.3021ms)\n✔ race and draw source evidence preserves distinctive fields and classifies automatic consumption (0.3843ms)\n✔ schema5 saves first Receipt presentation only; schema6 keeps existing behavior (0.1396ms)\n✔ welcome rejects changed, cleared, or unreadable primary and ignores unrelated storage events (0.2037ms)\n✔ confirmation permits retry after refusal or failure and suppresses concurrent activation (0.25ms)\n✔ phone screen counter-rotation eases at quarter turns (0.0764ms)\n✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (0.4618ms)\n✔ audio is gesture activated, honors pause blockers and disposes (2.0926ms)\n✔ late media play cannot restart playback after mute (0.3068ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 385.878\n",
+  "StandardError": "(node:28632) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/AI/Quackpot/src/ui/welcome/stage.js is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to \\\\?\\C:\\AI\\Quackpot\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

@@ -15,6 +15,7 @@ import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import { mountWelcome } from './ui/welcome-view.js';
 import { readWelcomeSnapshot, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
+import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -1082,8 +1083,8 @@ if (app) {
       }, { active: !settingsOpen && !activeModal && !engine.isTerminal(), initialSnapshot: racePlaybackSnapshot });
     } else if (currentStep === 'receipt') {
       renderReceiptView(mainContainer, engine, {
-        onPresented: () => {
-          maybeAutosave();
+        onPresented: previousPhase => {
+          if (shouldSaveReceiptPresentation(previousPhase, raceV2Development)) maybeAutosave();
         },
         onFreshRun: () => {
           if (!raceV2Development) { showWelcome(); return; }

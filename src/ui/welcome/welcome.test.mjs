@@ -5,6 +5,13 @@ import { createCosmeticTimeline } from './cosmetic-timeline.mjs';
 import { screenCounterAngle } from './stage.js';
 import { createConfirmationGate } from './confirmation.mjs';
 import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './storage-snapshot.mjs';
+import { shouldSaveReceiptPresentation } from './receipt-lifecycle.mjs';
+
+test('schema5 saves first Receipt presentation only; schema6 keeps existing behavior', () => {
+  assert.equal(shouldSaveReceiptPresentation('terminal', false), true);
+  assert.equal(shouldSaveReceiptPresentation('receipt_presented', false), false);
+  assert.equal(shouldSaveReceiptPresentation('receipt_presented', true), true);
+});
 
 test('welcome rejects changed, cleared, or unreadable primary and ignores unrelated storage events', () => {
   let raw = 'saved'; const storage = { getItem: () => raw }, other = {};

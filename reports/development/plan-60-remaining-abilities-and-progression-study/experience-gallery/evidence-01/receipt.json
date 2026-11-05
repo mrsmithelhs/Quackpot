@@ -1,0 +1,33 @@
+{
+  "scope": "Authored qualitative illustration; no resolver replay or balance evidence",
+  "pins": {
+    "reports/development/plan-60-remaining-abilities-and-progression-study/experience-gallery/index.html": "9f32256d7ce790e7e5311e8f5fb7366da0a9612c9cca0c9e2f19904a33f9111c",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/experience-gallery/gallery.css": "080a22f9c617835e0cb7c762a4de3fb0394fa583db2eaf42a6b56df3962a5e98",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/experience-gallery/model.mjs": "ca2b3b3ef9718021dcf203538000393981c1b47eed9ca9d699c35b0b11162b59",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/experience-gallery/gallery.mjs": "4d994216b6a73ab33c6830f966f742aaf2218eb9346539a967837a4177568633",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1",
+    "scripts/dev/checkpoints/provenance.mjs": "14e93deb52e01337f249673d53c339dd26e99baf7483967a0e7b81177e0885bd",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/experience-gallery/capture.mjs": "0cd7f89a274e253ccf1603ccc0559ed74968daee137996eb1557a809dd0a14e0"
+  },
+  "checks": [],
+  "error": "capture-error; see private diagnostic hash",
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "residual": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "privateDiagnosticSha256": "ac6d6294b2b51e90da9da681c67a59821b6836ea415bff017f9523c81c3d3bf4",
+  "artifactChecksPassed": false,
+  "cleanupFullyVerified": false,
+  "accepted": false
+}

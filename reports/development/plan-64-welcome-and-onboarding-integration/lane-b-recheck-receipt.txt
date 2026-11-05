@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5232813,
+  "PeakSampledPrivateBytes": 2228224,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ phone screen counter-rotation eases at quarter turns (0.5872ms)\n✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (0.8325ms)\n✔ audio is gesture activated, honors pause blockers and disposes (1.7147ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 40.3452\n",
+  "StandardError": "(node:22168) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/AI/Quackpot/src/ui/welcome/stage.js is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to \\\\?\\C:\\AI\\Quackpot\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

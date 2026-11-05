@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5192149,
+  "PeakSampledPrivateBytes": 1335296,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (1.6495ms)\n✔ audio is gesture activated, honors pause blockers and disposes (1.5118ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14.722\n",
+  "StandardError": "",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 0,
+  "CleanupDescendantsExited": 0
+}

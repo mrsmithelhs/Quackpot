@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 190" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="qa-w" fill="none" d="M11 70a34 42 0 1 0 68 0a34 42 0 1 0 -68 0M60 96L86 124M104 62V100C104 114 114 120 126 120C140 120 148 112 148 100M148 62V120M159 90a29 29 0 1 0 58 0a29 29 0 1 0 -58 0M217 62V120M280 72A29 29 0 1 0 280 108M306 20V120M334 62L306 94M318 80L338 120M358 62V150M358 91a29 29 0 1 0 58 0a29 29 0 1 0 -58 0M433 90a29 29 0 1 0 58 0a29 29 0 1 0 -58 0M524 32V102Q524 120 540 120H548M508 62H548"/>
+  </defs>
+  <g transform="translate(20 10)" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#qa-w" stroke="#4a2b18" stroke-width="32" transform="translate(0 6)"/>
+    <use href="#qa-w" stroke="#e27a2f" stroke-width="22" transform="translate(0 6)"/>
+    <use href="#qa-w" stroke="#f4be2e" stroke-width="16"/>
+    <use href="#qa-w" stroke="#fde9a0" stroke-width="3" stroke-opacity=".8" transform="translate(-3 -3)"/>
+  </g>
+</svg>

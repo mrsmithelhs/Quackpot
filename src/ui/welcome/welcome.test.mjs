@@ -1,0 +1,30 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createWelcomeAudio } from '../welcome-audio.mjs';
+import { createCosmeticTimeline } from './cosmetic-timeline.mjs';
+import { screenCounterAngle } from './stage.js';
+
+test('phone screen counter-rotation eases at quarter turns', () => {
+  assert.ok(screenCounterAngle(0) === 0); assert.ok(screenCounterAngle(70) === 0);
+  assert.equal(screenCounterAngle(80), -45); assert.equal(screenCounterAngle(90), -90);
+});
+
+test('cosmetic timeline pauses when not advanced and emits bounded illustrative groups', () => {
+  const timeline = createCosmeticTimeline(() => .5);
+  const initial = timeline.snapshot(); assert.deepEqual(timeline.snapshot(), initial);
+  let frame; for (let i = 0; i < 40; i++) frame = timeline.step(.1);
+  assert.equal(frame.group.ducks.length, 3); assert.ok(frame.group.ducks.every(d => Number.isFinite(d.x) && Number.isFinite(d.y)));
+});
+
+test('audio is gesture activated, honors pause blockers and disposes', async () => {
+  let creations = 0, plays = 0, closes = 0;
+  const param = () => ({ value: 0, setValueAtTime(v) { this.value = v; }, cancelScheduledValues() {}, linearRampToValueAtTime(v) { this.value = v; } });
+  const ctx = { currentTime: 0, state: 'running', destination: {}, createGain: () => ({ gain: param(), connect() {}, disconnect() {} }), createMediaElementSource: () => ({ connect() {}, disconnect() {} }), async resume() {}, async suspend() {}, async close() { closes++; } };
+  const media = { currentTime: 0, paused: true, async play() { plays++; this.paused = false; }, pause() { this.paused = true; }, removeAttribute() {}, load() {} };
+  const audio = createWelcomeAudio({ source: 'local.wav', audioContext: () => { creations++; return ctx; }, createMedia: () => media });
+  audio.transition('naming'); assert.equal(creations, 0);
+  await audio.setEnabled(true); assert.equal(plays, 1); assert.equal(creations, 1);
+  audio.pause('hidden'); audio.pause('modal'); audio.resume('hidden'); assert.equal(plays, 1);
+  audio.resume('modal'); await new Promise(resolve => setImmediate(resolve)); assert.equal(plays, 2);
+  audio.dispose(); audio.dispose(); assert.equal(closes, 1); assert.equal(media.paused, true);
+});

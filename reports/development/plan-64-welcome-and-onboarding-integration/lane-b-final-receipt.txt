@@ -1,0 +1,21 @@
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 0.5209147,
+  "PeakSampledPrivateBytes": 2080768,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✖ phone screen counter-rotation eases at quarter turns (0.9654ms)\n✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (0.8323ms)\n✔ audio is gesture activated, honors pause blockers and disposes (1.5827ms)\nℹ tests 3\nℹ suites 0\nℹ pass 2\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 47.5239\n\n✖ failing tests:\n\ntest at src\\ui\\welcome\\welcome.test.mjs:7:1\n✖ phone screen counter-rotation eases at quarter turns (0.9654ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + -0\n  - 0\n  \n      at TestContext.<anonymous> (file:///C:/AI/Quackpot/src/ui/welcome/welcome.test.mjs:8:10)\n      at Test.runInAsyncScope (node:async_hooks:226:14)\n      at Test.run (node:internal/test_runner/test:1397:25)\n      at Test.start (node:internal/test_runner/test:1257:17)\n      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: -0,\n    expected: 0,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "StandardError": "(node:35412) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/AI/Quackpot/src/ui/welcome/stage.js is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to \\\\?\\C:\\AI\\Quackpot\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

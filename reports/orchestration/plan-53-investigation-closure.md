@@ -1,0 +1,13 @@
+# Plan53 investigation closure
+
+Date: 2026-11-04. Owner asks whether the investigation can close after the final M1 listening disposition. Root accepts closure of the bounded authoring-pipeline investigation, not soundtrack production or publication.
+
+The work demonstrated a useful generated-track -> official MuScriptor transcription -> editable note events/MIDI -> pinned local TinySynth reconstruction route. The owner heard Medium excerpts and desktop Large full M1/M3/M5 outputs and found the latter substantially improved and listenable. Official Large FP32 on the RTX3090 desktop and the reusable transfer/return workflow are the selected future transcription route; Plan56's alternate laptop tooling branch is closed separately.
+
+Root inspected source/event transforms, manifests, actual audio headers/hashes, rendered page evidence and bounded-job receipts during supervision. M5's half piano-note durations and softer low piano are owner-preferred listening candidates, not recovered ground-truth stems/dynamics. M1 retains its prior piano mapping: full-piano and response-line marimba experiments did not yield a selected improvement. The final response-line selector was mechanically audited, rendered and cropped, then rejected by owner listening; correct execution did not establish musical benefit. Preserve rejected candidates and prior controls.
+
+Gemini CLI audio trials did not provide a sufficiently reliable validation signal, and the owner stopped further audio-analysis calls. Future quality assessment remains human-led. Sampled-only browser cleanup uncertainty, invalid narrow viewport claims and unproven live/offline perceptual equivalence remain documented limitations; valid qualified audio artifacts were reviewed separately from job success. No full historical process-tree cleanup, musical fidelity or production-readiness claim is made.
+
+Final M1 response disposition is committed in `13abf023`, progress last `9a16f132`; the preceding selector/render preparation is `49ff27d6` and `2c48db5f`. Canonical future workflow: `docs/workflows/generated-music-desktop-roundtrip.md`. Detailed evidence remains under `reports/development/plan-53-generated-track-transcription-and-reconstruction/`, with protected generated inputs, MIDI and rendered audio in ignored local storage.
+
+No investigation work remains required before this closure. Further melody/voice separation, new transcription runs, instrumentation/composition changes, track selection, rights/publication checks, deployment and production music integration require separate scope/authorization. No generated soundtrack is adopted or licensed for public distribution by closing this study. No new execution, push or deployment follows.

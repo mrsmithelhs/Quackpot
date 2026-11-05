@@ -1,7 +1,8 @@
 ---
 id: plan-53
 title: Generated-track transcription and editable reconstruction
-status: in-progress
+status: complete
+resolution: "Bounded transcription/reconstruction investigation accepted after owner listening to Medium and desktop Large M1/M3/M5, selected M5 refinements and final rejection of M1 marimba heuristic. Reusable official Large FP32 desktop roundtrip retained; audio-model analysis stopped. Evidence/cleanup/viewport limits preserved. No soundtrack adoption, publication or production integration; future experiments separately gated."
 depends_on: []
 gate: "Draft requested 2026-11-02. Root clears pinned installation, credentials/access handling and explicit CPU/RAM/VRAM/disk/time bounds before downloads or inference; owner hears one excerpt reconstruction before full tracks or targeted repair expansion. No soundtrack adoption."
 summary: >-

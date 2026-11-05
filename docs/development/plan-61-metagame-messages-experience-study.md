@@ -1,7 +1,7 @@
 ---
 id: plan-61
 title: Metagame Messages experience and gallery
-status: in-progress
+status: delivered
 depends_on: []
 gate: "Root clears report-local mechanism, consultancy transport and bounded validation; owner reviews early header/thread experience and final selections before a separately scoped production integration."
 summary: >-

@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderScene } from '../../assets/apartment/index.mjs';
 import { breakfastFraming, breakfastObjectBox } from './life-framing.mjs';
+import { ROOM_SPECS } from '../../assets/apartment/rooms/specs.mjs';
+import { F, CX } from '../../assets/apartment/core/constants.mjs';
 
 test('Day 1 establishes the kitchen wide; later breakfasts use medium, keeping objects at the same scene coordinates', () => {
   assert.equal(breakfastFraming(1), 'wide');
@@ -17,4 +19,20 @@ test('Day 1 establishes the kitchen wide; later breakfasts use medium, keeping o
     assert.ok(Math.abs(projected.w * wide[2] - box.w * medium[2]) < 1e-8);
     assert.deepEqual(breakfastObjectBox(2, box), box);
   }
+});
+
+test('bedroom shelf, toys and companion share the selected leftward scene offset', () => {
+  const bedroom=ROOM_SPECS.bedroom, offset=160;
+  const sceneX=(x,z)=>CX+F*x/z;
+  const shelf=bedroom.items({couch:'present',tv:'present'}).find(item=>item.z===1500);
+  assert.ok(shelf);
+  assert.ok(Math.abs(sceneX(shelf.X,shelf.z)-(sceneX(-250,1500)-offset))<1e-9);
+  assert.ok(Math.abs(sceneX(bedroom.anchor.X,bedroom.anchor.z)-(sceneX(-250,1700)-offset))<1e-9);
+  const original=[-440,-180,-90,-135,-480,-50,-480,-270,-60];
+  bedroom.onTable.forEach((item,i)=>assert.ok(Math.abs(sceneX(item.X,item.z)-(sceneX(original[i],item.z)-offset))<1e-9));
+  bedroom.surfaces.forEach(surface=>assert.ok(Math.abs(sceneX(surface.X,1700)-(sceneX(-250,1700)-offset))<1e-9));
+  // The foreground shelf's projected right edge ends just before the bed's
+  // 40%-wide-scene interaction boundary, keeping the two targets separate.
+  assert.ok(sceneX(shelf.X+350,shelf.z)/960<=0.4);
+  assert.ok(sceneX(shelf.X-350,shelf.z)<0);
 });

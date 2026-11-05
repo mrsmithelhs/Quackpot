@@ -3,6 +3,11 @@ import {
   upperCabs, kettle, toaster, jars, bar, stool, fruit, bed, bedside, bedLamp, clockSmall, toyShelf, teddy, block,
   robot, truck, rings, ball, bunny, sc_
 } from '../props/index.mjs';
+import { F } from '../core/constants.mjs';
+
+// The selected bedroom composition moves the foreground shelf and everything
+// it supports by the same 160 units in the wide scene's projected view.
+const bedroomShelfX = (x, depth) => x - 160 * depth / F;
 
 // --- scene specs: items are far-to-near sorted by z automatically ---
 export const ROOM_SPECS = {
@@ -47,7 +52,7 @@ export const ROOM_SPECS = {
   },
   bedroom: {
     label: 'Bedroom and toy shelf', hy: 250, camH: 933, zw: 3700, wall: '#cfc8d0', floor: '#a8927c',
-    anchor: { X: -250, z: 1700, Y: 540 }, lampAt: { X: 1650, z: 3400, Y: 880, r: 480 }, poolRx: '42%', poolRy: '82%', poolDy: 8,
+    anchor: { X: bedroomShelfX(-250, 1700), z: 1700, Y: 540 }, lampAt: { X: 1650, z: 3400, Y: 880, r: 480 }, poolRx: '42%', poolRy: '82%', poolDy: 8,
     cones: [{ X: 1650, z: 3400, Y: 815, dir: 'down', w0: 190, w1: 800, len: 815 }, { X: 1650, z: 3400, Y: 955, dir: 'up', w0: 140, w1: 460, len: 520, op: .6 }],
     items: () => [
       { X: 500, z: 3700, Y: 1000, mm: windowMm(800, 800, '#9b8fb0') },
@@ -55,14 +60,14 @@ export const ROOM_SPECS = {
       { X: 500, z: 3450, Y: 0, mm: sc_(bed(), .9), shadow: 1950 },
       { X: 1650, z: 3400, Y: 0, mm: bedside(), shadow: 560 },
       { X: 1650, z: 3400, Y: 625, mm: bedLamp() }, { X: 1480, z: 3400, Y: 625, mm: clockSmall() },
-      { X: -250, z: 1500, Y: 0, mm: toyShelf(), shadow: 760 }
+      { X: bedroomShelfX(-250, 1500), z: 1500, Y: 0, mm: toyShelf(), shadow: 760 }
     ],
     onTable: [
       { X: -440, z: 1700, Y: 780, mm: sc_(teddy(), .72) }, { X: -180, z: 1700, Y: 780, mm: block('#d96c5a', 'A') }, { X: -90, z: 1700, Y: 780, mm: block('#4f8fc0', 'B') }, { X: -135, z: 1700, Y: 870, mm: block('#e9a43d', 'C') },
       { X: -480, z: 1700, Y: 540, mm: sc_(robot(), .72) }, { X: -50, z: 1700, Y: 540, mm: truck() },
       { X: -480, z: 1700, Y: 300, mm: sc_(rings(), .7) }, { X: -270, z: 1700, Y: 300, mm: ball() }, { X: -60, z: 1700, Y: 300, mm: sc_(bunny(), .55) }
-    ],
-    surfaces: [780, 540, 300].map(Y => ({ X: -250, w: 628, zf: 1500, zb: 1900, Y, fill: '#d7bd90' })),
+    ].map(item => ({ ...item, X: bedroomShelfX(item.X, item.z) })),
+    surfaces: [780, 540, 300].map(Y => ({ X: bedroomShelfX(-250, 1700), w: 628, zf: 1500, zb: 1900, Y, fill: '#d7bd90' })),
     rug: [[-1400, 700], [900, 700], [1300, 3000], [-1800, 3000]], rugFill: '#8a9ab0', rugTrim: '#6e7e96'
   }
 };

@@ -158,10 +158,10 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     }
     if (place === 'bedroom' && engine.state.life?.policyVersion==='five-slot-v1' && (engine.state.life.schedule.recovery || (engine.state.life.schedule.slot==='evening' && (!engine.state.life.schedule.active || engine.state.life.schedule.active.kind==='early-bed')) || (engine.state.life.schedule.slot==='late-evening' && !engine.state.life.schedule.active))) {
       const recovering=Boolean(engine.state.life.schedule.recovery), sleeping=engine.state.life.schedule.slot==='late-evening' && !recovering;
-      out.push({id:'bed',hotspot:true,x:56,y:61,w:37,h:25,label:recovering?'Bed: recover':sleeping?'Bed: go to sleep':'Bed: turn in early',chip:recovering?'Rest':sleeping?'Sleep':'Turn in',done:false,
+      out.push({id:'bed',hotspot:true,x:40,y:61,w:53,h:25,label:recovering?'Bed: recover':sleeping?'Bed: go to sleep':'Bed: turn in early',chip:recovering?'Rest':sleeping?'Sleep':'Turn in',done:false,
         hold:{mode:'popover',side:'left',kind:recovering?'five-slot-recovery':sleeping?'five-slot-sleep':'five-slot-bed'}});
     } else if (place === 'bedroom' && engine.state.life?.recovery) {
-      out.push({ id: 'bed', hotspot: true, x: 56, y: 61, w: 37, h: 25, label: 'Bed', chip: 'Rest', done: false,
+      out.push({ id: 'bed', hotspot: true, x: 40, y: 61, w: 53, h: 25, label: 'Bed', chip: 'Rest', done: false,
         hold: { mode: 'popover', side: 'left', kind: 'life-recovery' } });
     } else if (place === 'kitchen-notice') {
       const inactive=noticeBeforeBreakfast(engine.state.life);

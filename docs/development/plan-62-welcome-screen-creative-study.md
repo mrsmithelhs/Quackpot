@@ -1,11 +1,9 @@
 ---
 id: plan-62
 title: Welcome Screen Creative Study
-status: draft
+status: in-progress
 depends_on: []
 gate: "Owner selects a creative direction and auditioned passage; root reviews the report-local interaction mechanism before prototype construction. Production integration requires a separate packet."
-superseded_by: null
-resolution: null
 summary: >-
   Explore an animated whole-experience welcome and naming transition using Sonnet
   and Flash consultation, both Codex and Gemini image-generation concepts, existing

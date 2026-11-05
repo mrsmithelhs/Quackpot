@@ -70,7 +70,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-59` | Race growth, injury and selected ability integration | in-progress | Integrate selected duck growth, collision injury, full-protection Bounce and independent crowd acceleration; extract accepted collision and eleven ability visual treatments into reusable production helpers without inventing mechanics for the remaining abilities. |
 | `plan-60` | Remaining race abilities and progression study | complete | Define and compare the nine remaining ability concepts and later duck progression, using owner dialogue, efficient Sonnet creative consultation and falsifiable report-local experiments while Plan59 integrates the selected first slice. |
 | `plan-61` | Metagame Messages experience and gallery | delivered | Explore a header Messages entry, unread-thread badge, bounded urgency cues, portrait phone inbox and conversations, optional Decide panels and authored historical threads; deliver an owner-selected gallery and production handoff without changing live message/save behavior. |
-| `plan-62` | Welcome Screen Creative Study | draft | Explore an animated whole-experience welcome and naming transition using Sonnet and Flash consultation, both Codex and Gemini image-generation concepts, existing SVG art and local music; deliver a focused interactive study and production handoff. |
+| `plan-62` | Welcome Screen Creative Study | in-progress | Explore an animated whole-experience welcome and naming transition using Sonnet and Flash consultation, both Codex and Gemini image-generation concepts, existing SVG art and local music; deliver a focused interactive study and production handoff. |
 <!-- plan-index:end -->
 
 ## Report Folders

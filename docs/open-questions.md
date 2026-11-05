@@ -4,6 +4,8 @@ Current unresolved questions only, scheduling reconciled2026-11-02. Selected int
 
 ## Life progression and economy
 
+- Plan61 Messages study: which exact header icon/badge and bounded ordinary/urgent attention treatments, portrait list/conversation layouts and fictional historical exchanges best support the selected direction? Delivery/revision/expiry identities, persistent read-state/replay representation and safe interruption of active reveals/races remain integration questions. Unread threads versus due/action status, free reading, loan Decide panel and backdrop/back/close behavior are selected; do not reopen them as undecided defaults.
+
 - How should each reachable ending, including Uninstall, receive its own narrative/animation sequence with text/static and immediate skip/Receipt access? The Day4+ global End run & view Receipt control remains a temporary development exit, not the final narrative model (DECISION-083). Content, sequence scope and production integration need a future bounded proposal; preserve existing ending reasons and immediate exit.
 
 - Plan52 financial terms, Midday-before-work deadline, reason-specific endings, recovery-first latch, player-selected simultaneous payment order and repayment-time furniture sales are selected working rules (five-slot-life-schedule.md, DECISION-075). How do actual integrated low-cash/job-loss/conflict routes feel? Final balance and rendered/narrative acceptance remain open; don't reopen settled terms because old Morning-deadline studies differ. Old-save migration is waived, not new-policy replay/checkpoint regeneration. Additional rent schedules, weekends, gigs and larger housing/ending branches remain unselected.

@@ -1,0 +1,27 @@
+preflight UTC 2026-11-05T08:47:56.0762814Z; freeGiB 12.18; process >=1GiB: Memory Compression 1.28GiB
+command: bounded-node-run.ps1 node.exe --test --test-concurrency=1 src/core/race-v2/integer-kernel.test.mjs src/core/race-v2/promotion-golden.test.mjs
+abilities.mjs E8A8D3BA3FC6D9B925359ED4EC09D88BC9E51508C2AF79DB417EBCF547191681
+codec.mjs 0C7DFF15A0D9B7E946A7BE51A277ADC4D9BA4589DF532F8D345907C7D837E211
+contact.mjs 49D11BCF20C69807AA46D4CF8E3E151BFDA3BAF78F975D89251034B5187632FC
+course-probe.mjs F05FD331BD6F9EF23E251DC5E154A6CBC31443AE0D009AF863CEFD9684489970
+course.mjs 8328B903B850161242038FBBAFF64DF8FF8AEE1586134023BC40EA09CF1F83BC
+fixtures.mjs 66BCA360DABE35B430C99D1F60CB7C339153766C6C9DA93097932B1D4663FA06
+index.mjs A3541458BD61A11BB58AA157D4E9494D3583D51101CFF3AD4671690221052E40
+integer-kernel.mjs 7B5011B4C75FA9CA958C6B68BA6DCA6CAE5286F1D04A60F2AEE6BC9426ABD81C
+integer-kernel.test.mjs DB5EC7D18605246775E16EAA1C1C01607F9F2F157A65B45DFA09AA967E1C4A27
+integer-math.mjs 844C84E26F045DFF97B8BC88D835FD279165C6613CD6AE027B71883CF96CE291
+promotion-golden.test.mjs A3474848FD852273D5B904CB0D1C98774951B031079DB7D7B5A1ED33C72F5ECB
+reference-policy.mjs 183A35300544325BC7122202728695216B6586B6A146F26F7CC1B0299A0FDE4A
+reference-v1.json 81C4D1BA542C28506EB8932F5FB81441C4E554CCE2DC489139B9EA2891C3D73C
+sha256.mjs 9A28EFAAA710D4E683A0B7E71C8C8CEFD8B8B367E7D126F0D83CB9CE1FB11D50
+map 21FE537A2AD7F0976C48420B8885BFCD7DFE9E0084F3E41029DE63AB33194D44
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 7.6072332,
+  "PeakSampledPrivateBytes": 160206848,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ fixed math, joins, ceil microseconds and integer controller caps (2.2426ms)\n✔ integer contact correction and impulse preserve caller and reject unsafe depth (0.6142ms)\n✔ integer wall reflection, crowd and landing protection are participant-specific (0.7955ms)\n✔ continuing wall confinement has no second impact and resets inside the corridor (0.2387ms)\n✔ canonical envelope rejects tamper, extra fields, malformed input and size overflow (10.2303ms)\n✔ integer endpoint failure discards pending interior crossing and preserves earlier committed facts (1.7592ms)\n✔ checkpoint phase uses the retained integer time rather than the pending tick (0.1295ms)\n✔ integer real crossing evidence stays inside committed microsecond step (0.2321ms)\n✔ integer invalid input rejects before race draws (0.7305ms)\n✔ rehashed finished-result contradictions are rejected without claiming replay validation (7.4411ms)\n✔ previously recorded mixed landing outputs satisfy stricter structural checks (45.2681ms)\n✔ occupied nonclosing landing commits protected contact at the starting boundary (0.7581ms)\n✔ full event capacity rejects a crossing atomically (0.9091ms)\n✔ exact endpoint contact occurs before an endpoint-tied genuine crossing (0.6832ms)\n✔ reserved final event permits ability closeout with the crossing (0.7815ms)\n✔ direct controller accelerates within cap and wall sends both sides inward (0.3304ms)\n✔ landing-only body budget separates deep occupied pairs symmetrically, including mirrored walls and reversed IDs (1.0067ms)\n✔ landing correction refuses third-party overlap and finish credit (0.1729ms)\n✔ fresh occupied landing commits one protected episode; event failure rolls it back (2.026ms)\n✔ landing boundary recomputes a positive bounded microstep after speed changes (0.2852ms)\n✔ promoted pair-0/control matches frozen canonical bytes (1584.5492ms)\n✔ promoted pair-0/mixed matches frozen canonical bytes (1510.5905ms)\n✔ promoted pair-0/half matches frozen canonical bytes (2424.4316ms)\n✔ promoted pair-1/diagnostic matches frozen canonical bytes (1320.403ms)\n✔ reference accessor supplies independent copies without mutating the pinned policy (0.94ms)\nℹ tests 25\nℹ suites 0\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 7077.7186\n",
+  "StandardError": ""
+}
+launcher-returned-success

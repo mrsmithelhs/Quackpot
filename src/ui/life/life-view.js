@@ -333,7 +333,9 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       const life = engine.state.life;
       if(life.policyVersion==='five-slot-v1') {
         const active=life.schedule.active?.kind==='work';
-        return {spec:{heading:'Scheduled shift',lines:[active?'Your shift is underway. Continue the work story to finish it.':`Your scheduled Midday shift pays ${money(life.config.scheduledWage)} after completion. Take the keys to leave for work.`],confirm:null,back:'Put it down'}};
+        const canOpen=life.schedule.day>=2 && life.schedule.slot==='midday' && !life.schedule.active && !life.story47 && !life.schedule.recovery && !engine.checkDueObligations().bills.length;
+        return {spec:{heading:'Scheduled shift',lines:[active?'Your shift is underway. Continue the work story to finish it.':`Your scheduled Midday shift pays ${money(life.config.scheduledWage)} after completion. Take the keys to leave for work.`],confirm:canOpen?'Open Quackpot':null,back:'Put it down'},
+          ...(canOpen?{accept:()=>{const result=callbacks.onOpenPhone(expectLog);if(result?.ok)queueMicrotask(()=>callbacks.onPhoneTransition());return null;}}:{})};
       }
       const doing = Boolean(life.work);
       const overtime = doing ? life.work.kind === 'overtime' : life.phase === 'evening';

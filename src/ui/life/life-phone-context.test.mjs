@@ -3,6 +3,16 @@ import assert from 'node:assert/strict';
 import { renderScene } from '../../assets/apartment/index.mjs';
 import { lifePhoneKind, lifePhoneScreen, lifePhoneResolved } from './life-phone-context.mjs';
 import { GameEngine } from '../../core/game-engine.mjs';
+import {createSchedule,PRODUCTION,inspect} from '../../core/life-schedule/index.mjs';
+
+test('a Midday play action discloses a missed shift through Day 6 but not Day 7',()=>{
+ for(const day of [6,7]) {
+  const schedule=createSchedule(PRODUCTION,{6:true,7:true});schedule.day=day;schedule.slot='midday';
+  const result=inspect(schedule,{cash:80,health:100},{type:'play',kind:'pull',operationId:`day-${day}`},{operationAvailable:true});
+  assert.equal(result.ok,true);assert.equal(result.proposal.displaced.includes('shift'),true);
+  assert.equal(result.proposal.disclosures.includes('shift'),day===6);
+ }
+});
 
 test('five-slot phone shows the scheduled shift but not work blocked by a due loan',()=>{
  const e=new GameEngine('five-slot-phone',{lifePolicy:'five-slot-v1'});const life=e.state.life;

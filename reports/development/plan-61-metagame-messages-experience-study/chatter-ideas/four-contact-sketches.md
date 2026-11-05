@@ -88,3 +88,7 @@ Quackpot already has an existing Call Mom activity and a visible reminder; a mes
 - **Continuity:** the current game already has Call Mom; decide whether Mom is the desired family contact before making the connection canon. No social rule, scheduling or production change follows from a writing preference.
 
 Owner review: Does Kit as a light neighborhood acquaintance fit, and should the family thread be Mom or a different relative? Are the Copy Counter's brighter humor and Lantern Laundry's quieter tone sufficiently distinct? All example names and exchanges remain editable.
+
+## Owner review — working direction
+
+The owner selected Kit as a casual neighborhood acquaintance and Mom as the family contact, and said the sketches are good enough to work with. Both Copy Counter and Lantern Laundry remain selected contact candidates. The examples above are a working writing direction, not an approved message schedule or a change to call, social, finance, save or gameplay rules. Kit is distinct from the existing introduced Ren relationship. Mom's informational text does not start Call Mom, grant health or create a penalty for silence. A production integration must recheck the then-current Call Mom lifecycle and review exact copy, eligibility, seed/replay and actual message-display evidence. No pronouns, occupation or further biography for Kit are selected by this answer.

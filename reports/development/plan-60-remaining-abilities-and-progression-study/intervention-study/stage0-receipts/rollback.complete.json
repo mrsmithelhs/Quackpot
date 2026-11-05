@@ -1,0 +1,13 @@
+{
+  "case": "rollback",
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 3.8093657,
+    "PeakSampledPrivateBytes": 146853888,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "✔ injected guard after actual P intervention restores committed state and draws (3299.7588ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3396.8074\n",
+    "StandardError": ""
+  },
+  "availableKiB": 14025228
+}

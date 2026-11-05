@@ -1,0 +1,15 @@
+5205bf00f04e116d1d02bdcf61cf68a9688685a4cf85f13edf7500fbb24870dd  reports/development/plan-55-opponent-risk-and-duck-growth-study/ability-detection.mjs
+7e9fa7d5ad635a1fd8d496c0968de098ee9467abd57847237fb4af0e826c67ce  reports/development/plan-55-opponent-risk-and-duck-growth-study/ability-opportunity-candidate.mjs
+28c92eabb7ab2efda4f843c1b7406f0256d3b6776768771795fa44c787d0a975  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-contact-kernel.mjs
+60b17c20e67a14abe79e2bcd4cab5da056c40ad54e571e869025879d59804df0  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-geometry.mjs
+61fccc9a3e06e797edf0715fbdf203787924ea32e72a4c27cb346b6b896e2fd1  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-landing-guard.mjs
+cd00a28092e088fe8eb56f88b680d0fc72c410055c03ad02f6d7e814048b3344  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-reconcile-adapter.mjs
+56867f9c2391877861194511e5728e705d0e97ebf71c67092911341cf165e8db  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-same-boundary.mjs
+a187c20853e3f43519623f0c5aaa7325b21cded30718b4b9d9346769af8e0ef8  reports/development/plan-55-opponent-risk-and-duck-growth-study/bounce-study-risk.mjs
+310885084521e9ef715fb71826dcb4cb101e5255484d6189c61a8c8218dec23a  reports/development/plan-55-opponent-risk-and-duck-growth-study/clearance-target-candidate.mjs
+f38d13928913c2435c6d4a3e05971f9d4e9c684c66a8ed6783d4bbe23577a17f  reports/development/plan-55-opponent-risk-and-duck-growth-study/crowd-acceleration.mjs
+7b139bd3727069e67de7c6361dcfd3095ff929c68254c1604949e5f91c263d06  reports/development/plan-55-opponent-risk-and-duck-growth-study/injury-stage2-state.mjs
+6076d19fa86e658afc555676639cd8fddc5327cf40be7fd7a93941c2ef5d4cc0  reports/development/plan-55-opponent-risk-and-duck-growth-study/multi-contact-state.mjs
+15172802884acfac154a04902c39ae39f8907bc654d2b06faee08b15955f04a7  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-advice-candidate.mjs
+3391cb0a3e45e569fa85ed84d2d6ae6aadb115b83804f6a6384c77bc848db423  reports/development/plan-55-opponent-risk-and-duck-growth-study/predictive-rollback.mjs
+7392e6c25ca356fbf253d9dfccd1562052577b2bfaca23720431b123364389a7  src/core/prng.mjs

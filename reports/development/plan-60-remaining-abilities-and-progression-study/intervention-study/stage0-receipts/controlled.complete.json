@@ -1,0 +1,13 @@
+{
+  "availableKiB": 14014656,
+  "case": "controlled",
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 0.5455158,
+    "PeakSampledPrivateBytes": 3682304,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "{\"case\":\"controlled-numeric-divergence\",\"bothActivated\":2,\"distinct\":2,\"tolerance\":1e-9,\"witness\":{\"seedIndex\":2,\"maximum\":0.8599271255736497,\"atTick\":27,\"field\":\"lateral\"}}\n✔ fixed controlled contact preserves impulse/injury and can expose different controller paths (5.8014ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 93.3883\n",
+    "StandardError": ""
+  }
+}

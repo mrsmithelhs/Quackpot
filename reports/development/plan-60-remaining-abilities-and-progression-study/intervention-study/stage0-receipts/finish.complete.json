@@ -1,0 +1,13 @@
+{
+  "availableKiB": 14003372,
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 1.1042054,
+    "PeakSampledPrivateBytes": 68595712,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "✔ endpoint excludes a supplied crossed entrant before resolving contacts (1.2352ms)\n✔ fixed full-race witness uses individual crossings and does not activate after P crosses (521.8428ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 623.335\n",
+    "StandardError": ""
+  },
+  "case": "finish"
+}

@@ -1,0 +1,13 @@
+{
+  "case": "unit",
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 0.5463811,
+    "PeakSampledPrivateBytes": 3702784,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "✔ injury is a single rating factor before affine conversion (0.6673ms)\n✔ Guard requires an earlier activation and excludes exact end (0.1631ms)\n✔ expiry starts cooldown and does not repeat (0.0952ms)\n✔ interrupt and finish can close an active interval without healing anything (0.0665ms)\n✔ fractional finish terminates Guard without restoring the active window (0.0914ms)\n✔ absence rearms Guard without fabricating contact (0.1047ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 86.9803\n",
+    "StandardError": ""
+  },
+  "availableKiB": 13913476
+}

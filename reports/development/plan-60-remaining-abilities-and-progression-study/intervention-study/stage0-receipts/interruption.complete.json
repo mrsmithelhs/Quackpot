@@ -1,0 +1,13 @@
+{
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 0.5463511,
+    "PeakSampledPrivateBytes": 3678208,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "✔ a second contact interrupts the window and reactivation is blocked by cooldown (4.2791ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 90.803\n",
+    "StandardError": ""
+  },
+  "availableKiB": 13532272,
+  "case": "interruption"
+}

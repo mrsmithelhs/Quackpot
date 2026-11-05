@@ -1,0 +1,193 @@
+{
+  "status": "complete",
+  "protocol": "geometry-witness-v1",
+  "dt": 0.05,
+  "observations": [
+    {
+      "name": "proposed",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.8999999999999773
+        },
+        {
+          "id": "B",
+          "fraction": 0.9166666666666509
+        }
+      ],
+      "candidate": {
+        "fraction": 0.8344827586206882,
+        "distance": 0.01660909597075195
+      },
+      "closing": 1.148886024221159e-13,
+      "rawStrictClosing": false,
+      "robustClosing": false,
+      "beforeFirstCrossing": true,
+      "kinematics": {
+        "pSpeed": 15.620499351813331,
+        "bSpeed": 16.97056274847748,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "no-contact",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.5
+        }
+      ],
+      "candidate": null,
+      "closing": null,
+      "rawStrictClosing": false,
+      "robustClosing": false,
+      "beforeFirstCrossing": false,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 10,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "opening-overlap",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.6000000000000227
+        }
+      ],
+      "candidate": {
+        "fraction": 0,
+        "distance": 0.7999999999999545
+      },
+      "closing": 1.0000000000002274,
+      "rawStrictClosing": false,
+      "robustClosing": false,
+      "beforeFirstCrossing": true,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 8.999999999999773,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "p-only",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.5
+        }
+      ],
+      "candidate": {
+        "fraction": 0,
+        "distance": 0.8200609733428632
+      },
+      "closing": 0,
+      "rawStrictClosing": false,
+      "robustClosing": false,
+      "beforeFirstCrossing": true,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 10,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "both-cross",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.5
+        },
+        {
+          "id": "B",
+          "fraction": 0.6000000000000227
+        }
+      ],
+      "candidate": null,
+      "closing": null,
+      "rawStrictClosing": false,
+      "robustClosing": false,
+      "beforeFirstCrossing": false,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 10,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "closing-after",
+      "crossings": [
+        {
+          "id": "P",
+          "fraction": 0.5
+        }
+      ],
+      "candidate": {
+        "fraction": 1,
+        "distance": 0.9900000000000091
+      },
+      "closing": -2.200000000000273,
+      "rawStrictClosing": true,
+      "robustClosing": true,
+      "beforeFirstCrossing": false,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 12.200000000000273,
+        "zeroTurn": true,
+        "pDisplacementError": 0,
+        "bDisplacementError": 0,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": true,
+        "controllerReachability": "unestablished"
+      }
+    },
+    {
+      "name": "corner-control",
+      "crossings": [],
+      "candidate": {
+        "fraction": 1,
+        "distance": 0.8369900987604741
+      },
+      "closing": -2.9118606584495104,
+      "rawStrictClosing": true,
+      "robustClosing": true,
+      "beforeFirstCrossing": false,
+      "kinematics": {
+        "pSpeed": 10,
+        "bSpeed": 11,
+        "zeroTurn": true,
+        "pDisplacementError": null,
+        "bDisplacementError": null,
+        "withinDiagnosticSpeedBound": true,
+        "cornerWorldDisplacementChecked": false,
+        "controllerReachability": "unestablished"
+      }
+    }
+  ]
+}

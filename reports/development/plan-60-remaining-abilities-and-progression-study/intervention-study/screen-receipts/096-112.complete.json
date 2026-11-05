@@ -1,0 +1,16 @@
+{
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 3.7338357,
+    "PeakSampledPrivateBytes": 128090112,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "",
+    "StandardError": ""
+  },
+  "availableKiB": 13525460,
+  "end": 112,
+  "manifest": "e000356ec235c127ad117d4f44010f4a44ab1ee1405fa055323c99eb526e4d70",
+  "dataSha256": "7cca46cdcdc152e93d4802137e566dfb88a7e32b51d63d4936824911ad564689",
+  "start": 96
+}

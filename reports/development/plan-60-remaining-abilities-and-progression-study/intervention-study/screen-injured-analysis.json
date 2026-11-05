@@ -1,0 +1,630 @@
+{
+  "phase": "injured",
+  "total": 64,
+  "summaries": {
+    "injured/equal/steady/none": {
+      "races": 8,
+      "pWithContact": {
+        "count": 7,
+        "denominator": 8,
+        "wilson95": [
+          0.5291051942301386,
+          0.9775830911367038
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 0,
+        "q1": 1,
+        "median": 2.5,
+        "q3": 5,
+        "max": 5
+      },
+      "activationCount": 0,
+      "opportunityCount": 0,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 0,
+      "recoveryCompleted": 7,
+      "recoveryObservations": 22,
+      "recoverySeconds": {
+        "n": 7,
+        "min": 1.8500000000000005,
+        "q1": 5.199999999999999,
+        "median": 5.850000000000001,
+        "q3": 6.75,
+        "max": 9.200000000000001
+      },
+      "place": {
+        "n": 8,
+        "min": 2,
+        "q1": 2,
+        "median": 4.5,
+        "q3": 5,
+        "max": 6
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.202109,
+        "q1": 21.231327,
+        "median": 21.4892935,
+        "q3": 21.733112,
+        "max": 22.085644
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.44043,
+        "q3": 22.548111,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": true,
+      "belowEightRelevantFlag": null
+    },
+    "injured/equal/steady/guard": {
+      "races": 8,
+      "pWithContact": {
+        "count": 7,
+        "denominator": 8,
+        "wilson95": [
+          0.5291051942301386,
+          0.9775830911367038
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 0,
+        "q1": 1,
+        "median": 2.5,
+        "q3": 5,
+        "max": 5
+      },
+      "activationCount": 12,
+      "opportunityCount": 15,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 0,
+      "recoveryCompleted": 7,
+      "recoveryObservations": 22,
+      "recoverySeconds": {
+        "n": 7,
+        "min": 1.8500000000000005,
+        "q1": 5.199999999999999,
+        "median": 5.850000000000001,
+        "q3": 6.75,
+        "max": 9.200000000000001
+      },
+      "place": {
+        "n": 8,
+        "min": 2,
+        "q1": 2,
+        "median": 4.5,
+        "q3": 5,
+        "max": 6
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.202109,
+        "q1": 21.231327,
+        "median": 21.4892935,
+        "q3": 21.733112,
+        "max": 22.085644
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.44043,
+        "q3": 22.548111,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": true
+    },
+    "injured/equal/steady/quick-recovery": {
+      "races": 8,
+      "pWithContact": {
+        "count": 7,
+        "denominator": 8,
+        "wilson95": [
+          0.5291051942301386,
+          0.9775830911367038
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 0,
+        "q1": 1,
+        "median": 3,
+        "q3": 3,
+        "max": 4
+      },
+      "activationCount": 11,
+      "opportunityCount": 19,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 11,
+      "recoveryCompleted": 12,
+      "recoveryObservations": 20,
+      "recoverySeconds": {
+        "n": 12,
+        "min": 0.15000000000000036,
+        "q1": 1.25,
+        "median": 2.2250000000000014,
+        "q3": 5.199999999999999,
+        "max": 7.85
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 1.5,
+        "q3": 2,
+        "max": 5
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.231327,
+        "q1": 21.323188,
+        "median": 21.4539345,
+        "q3": 21.554035,
+        "max": 21.806981
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.404042,
+        "q3": 22.548111,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": false
+    },
+    "injured/equal/steady/straight-shooter": {
+      "races": 8,
+      "pWithContact": {
+        "count": 7,
+        "denominator": 8,
+        "wilson95": [
+          0.5291051942301386,
+          0.9775830911367038
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 0,
+        "q1": 2,
+        "median": 3.5,
+        "q3": 6,
+        "max": 6
+      },
+      "activationCount": 17,
+      "opportunityCount": 23,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 17,
+      "recoveryCompleted": 11,
+      "recoveryObservations": 30,
+      "recoverySeconds": {
+        "n": 11,
+        "min": 0.9000000000000004,
+        "q1": 2,
+        "median": 5.199999999999999,
+        "q3": 5.500000000000002,
+        "max": 6.699999999999999
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 2,
+        "median": 3.5,
+        "q3": 4,
+        "max": 5
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.231327,
+        "q1": 21.388524,
+        "median": 21.510686,
+        "q3": 21.780704,
+        "max": 22.093785
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.3952005,
+        "q3": 22.548111,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": false
+    },
+    "injured/equal/sprint/none": {
+      "races": 8,
+      "pWithContact": {
+        "count": 8,
+        "denominator": 8,
+        "wilson95": [
+          0.6755843804891231,
+          1
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2.5,
+        "q3": 3,
+        "max": 5
+      },
+      "activationCount": 0,
+      "opportunityCount": 0,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 0,
+      "recoveryCompleted": 11,
+      "recoveryObservations": 22,
+      "recoverySeconds": {
+        "n": 11,
+        "min": 1.6000000000000014,
+        "q1": 3.1500000000000004,
+        "median": 5.25,
+        "q3": 6.050000000000001,
+        "max": 9.850000000000001
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2,
+        "q3": 2,
+        "max": 5
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.028485,
+        "q1": 21.388524,
+        "median": 21.521317500000002,
+        "q3": 21.598704,
+        "max": 21.654238
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.4475745,
+        "q3": 22.565779,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": true,
+      "belowEightRelevantFlag": null
+    },
+    "injured/equal/sprint/guard": {
+      "races": 8,
+      "pWithContact": {
+        "count": 8,
+        "denominator": 8,
+        "wilson95": [
+          0.6755843804891231,
+          1
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2.5,
+        "q3": 3,
+        "max": 5
+      },
+      "activationCount": 8,
+      "opportunityCount": 13,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 0,
+      "recoveryCompleted": 11,
+      "recoveryObservations": 22,
+      "recoverySeconds": {
+        "n": 11,
+        "min": 1.6000000000000014,
+        "q1": 3.1500000000000004,
+        "median": 5.25,
+        "q3": 6.050000000000001,
+        "max": 9.850000000000001
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2,
+        "q3": 2,
+        "max": 5
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.028485,
+        "q1": 21.388524,
+        "median": 21.521317500000002,
+        "q3": 21.598704,
+        "max": 21.654238
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.271776,
+        "median": 22.4475745,
+        "q3": 22.565779,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": true
+    },
+    "injured/equal/sprint/quick-recovery": {
+      "races": 8,
+      "pWithContact": {
+        "count": 8,
+        "denominator": 8,
+        "wilson95": [
+          0.6755843804891231,
+          1
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 3,
+        "q3": 4,
+        "max": 7
+      },
+      "activationCount": 12,
+      "opportunityCount": 21,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 12,
+      "recoveryCompleted": 10,
+      "recoveryObservations": 25,
+      "recoverySeconds": {
+        "n": 10,
+        "min": 0.25,
+        "q1": 0.6999999999999993,
+        "median": 2.9250000000000007,
+        "q3": 5.25,
+        "max": 7.4
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2,
+        "q3": 2,
+        "max": 4
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.028485,
+        "q1": 21.289369,
+        "median": 21.428808500000002,
+        "q3": 21.579383,
+        "max": 21.726433
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.073377,
+        "q1": 22.271776,
+        "median": 22.404042,
+        "q3": 22.46982,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": false
+    },
+    "injured/equal/sprint/straight-shooter": {
+      "races": 8,
+      "pWithContact": {
+        "count": 8,
+        "denominator": 8,
+        "wilson95": [
+          0.6755843804891231,
+          1
+        ]
+      },
+      "pNewInjury": null,
+      "entryInjuredNoPRoll": {
+        "count": 8,
+        "denominator": 8
+      },
+      "pContactDistribution": {
+        "n": 8,
+        "min": 1,
+        "q1": 2,
+        "median": 3,
+        "q3": 3,
+        "max": 5
+      },
+      "activationCount": 13,
+      "opportunityCount": 21,
+      "protectedEligibleRolls": 0,
+      "activatedContactEpisodes": 13,
+      "recoveryCompleted": 12,
+      "recoveryObservations": 24,
+      "recoverySeconds": {
+        "n": 12,
+        "min": 0.9000000000000004,
+        "q1": 2.3499999999999996,
+        "median": 4.625,
+        "q3": 5.25,
+        "max": 9.850000000000001
+      },
+      "place": {
+        "n": 8,
+        "min": 1,
+        "q1": 1,
+        "median": 2,
+        "q3": 2,
+        "max": 5
+      },
+      "firstCrossingSeconds": {
+        "n": 8,
+        "min": 21.028485,
+        "q1": 21.37758,
+        "median": 21.489645000000003,
+        "q3": 21.532438,
+        "max": 21.619697
+      },
+      "lastCrossingSeconds": {
+        "n": 8,
+        "min": 22.07202,
+        "q1": 22.318819,
+        "median": 22.501765,
+        "q3": 22.565779,
+        "max": 22.884141
+      },
+      "belowEightActivationFlag": false,
+      "belowEightRelevantFlag": false
+    }
+  },
+  "comparisons": {
+    "injured/equal/steady/none vs guard": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": 0,
+        "q1": 0,
+        "median": 0,
+        "q3": 0,
+        "max": 0
+      },
+      "lower": 0,
+      "same": 8,
+      "higher": 0,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    },
+    "injured/equal/steady/none vs quick-recovery": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": -5,
+        "q1": -5,
+        "median": -2,
+        "q3": -1,
+        "max": 2
+      },
+      "lower": 6,
+      "same": 1,
+      "higher": 1,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    },
+    "injured/equal/steady/none vs straight-shooter": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": -3,
+        "q1": -1,
+        "median": -1,
+        "q3": 0,
+        "max": 0
+      },
+      "lower": 5,
+      "same": 3,
+      "higher": 0,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    },
+    "injured/equal/sprint/none vs guard": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": 0,
+        "q1": 0,
+        "median": 0,
+        "q3": 0,
+        "max": 0
+      },
+      "lower": 0,
+      "same": 8,
+      "higher": 0,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    },
+    "injured/equal/sprint/none vs quick-recovery": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": -3,
+        "q1": -2,
+        "median": 0,
+        "q3": 0,
+        "max": 3
+      },
+      "lower": 2,
+      "same": 5,
+      "higher": 1,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    },
+    "injured/equal/sprint/none vs straight-shooter": {
+      "pairedSeeds": 8,
+      "placeDifference": {
+        "n": 8,
+        "min": -1,
+        "q1": 0,
+        "median": 0,
+        "q3": 0,
+        "max": 1
+      },
+      "lower": 1,
+      "same": 6,
+      "higher": 1,
+      "matchedPInjuryDraws": 0,
+      "matchedControlOnlyInjuryOutcomes": 0,
+      "matchedCandidateOnlyInjuryOutcomes": 0
+    }
+  },
+  "limitations": [
+    "Seed pairing does not match divergent trajectories or contacts.",
+    "Matched injury outcomes require identical actual contact ID, entrant key and draw; they are descriptive conditional comparisons, not a population injury-prevention estimate.",
+    "False Guard predictions and within-window contact fractions cannot be determined from the currently retained audit.",
+    "Contact-endpoint finish ordering and continuous interruption remain inherited/untested limitations.",
+    "Recovery times exclude unrecentered/censored episodes; denominator is reported.",
+    "Wilson intervals assume independent cases and do not account for paired/shared seed structure across arms."
+  ]
+}

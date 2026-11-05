@@ -1,0 +1,20 @@
+# Proposed Stage 0 execution — pending root clearance
+
+Run from `C:/AI/Quackpot`, only after source review and assignment of a modest compute lane. `run-stage0.ps1` SHA-256 `deed2d48bbc8e468c724f666725b49e0a2c2f5a15c60709b698bec8e80649b6c` must be checked before each invocation; its own hash is not self-verified. It verifies owned pin manifest SHA-256 `43771117c7e27c4c7c0f04020ef272321b4226c6552806ddd97dedeb14d490c4`, its contents, the complete `source-pins.txt` closure and Plan25 launcher SHA-256 `6616bf693e48b2db3661ca6c848ce9336dc2484965cc576bb56d02bbff580a85`. A mismatch stops before Node. Recompute and root-review pins after any source change; never update them silently after results.
+
+The earlier reviewed manifest hash was `370094212c5ce4c2741cc5ab6496def56cfd5b9fc3df13d4eb3d8c0891a30c06` and runner hash `f9415483d75d083315bcb387b5a1ec3ffee3813be184796ca73e2680a421ef16`. Before any execution, root required exactly two test changes: compare numeric heading/lateral/progress at matched ticks rather than JSON labels, and emit both statuses/reasons for every parity pair while treating matching unresolved outcomes as inadequate finish coverage. The fixture description, manifest and runner's embedded manifest hash were updated accordingly; no intervention code or numerical tuning changed.
+
+Immediately before **each** invocation, inspect actual host memory and largest processes and verify >=8 GiB physical memory available with no known competing heavy job or unexplained runaway. Then invoke, serially, the exact form `& reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/run-stage0.ps1 -Case <case>` for each case below, using a host-visible environment. Each call uses the unchanged bounded launcher with `node --test` on the exact file named below; 90-second wall, 1-GiB Node heap and 2-GiB sampled owned process tree remain unchanged. No watcher, GPU, browser, new dependency, parallel shard or owner server access. Each started/completed/failed case gets a fresh `stage0-receipts/<case>.*.json` using exclusive create; prior successful cases are required in order. The runner records host free memory, raw bounded output and exit/stop/cleanup in the completion or failure receipt. A missing completion is not success.
+
+| Order | Case | Literal test file | Intended scope |
+|---|---|---|---|
+| 1 | `unit` | `stage0-unit.test.mjs` | Arithmetic and helper boundaries only. |
+| 2 | `contact` | `stage0-contact.test.mjs` | Supplied sweeps and injected fractions; independent participant risks. |
+| 3 | `controlled` | `stage0-controlled.test.mjs` | Four fixed controlled contacts and 20-step P controller paths. |
+| 4 | `interruption` | `stage0-interruption.test.mjs` | Four fixed two-contact reset fixtures per Q/S arm. |
+| 5 | `entry-injury` | `stage0-entry-injury.test.mjs` | Four full entry-injured arm cases plus one historical onset witness. |
+| 6 | `rollback` | `stage0-rollback.test.mjs` | Four fixed injected-guard cases per Q/S arm. |
+| 7 | `finish` | `stage0-finish.test.mjs` | Supplied endpoint exclusion and two fixed complete-race witnesses. |
+| 8 | `parity` | `stage0-parity.test.mjs` | Sixteen original/study no-injury pairs; full deep result equality except listed metadata. |
+
+Fixed natural full-race tests within Stage0 are correctness fixtures, not the Stage1 screen; the historical onset seed is explicitly drawn from Plan55 evidence, not a randomized sample. A case that cannot demonstrate claimed coverage fails or is reported uncovered; never replace its seed or omit the failure. Stop on first failed case, guard/unexpected unresolved result, source drift, insufficient memory, launcher stop or cleanup uncertainty. Preserve raw failure and seek root disposition; bounded corrective reruns require materially changed code and root-approved pin/protocol handling, never overwrite original receipts. The inherited endpoint policy does not establish same-interval pre-finish contact correctness; an explicit report limitation is required regardless of green tests. The separate Stage1 numerical screen is not cleared by this request.

@@ -1,0 +1,13 @@
+{
+  "result": {
+    "ExitCode": 0,
+    "ElapsedSeconds": 1.6242176,
+    "PeakSampledPrivateBytes": 87801856,
+    "StopReason": null,
+    "CleanupNotes": "",
+    "StandardOutput": "✔ entry injury applies once none (234.4729ms)\n✔ entry injury applies once guard (212.9191ms)\n✔ entry injury applies once quick-recovery (196.9806ms)\n✔ entry injury applies once straight-shooter (225.6756ms)\n✔ historical onset witness applies target on next tick and retains contact impulse (216.5444ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1193.5\n",
+    "StandardError": ""
+  },
+  "case": "entry-injury",
+  "availableKiB": 13620956
+}

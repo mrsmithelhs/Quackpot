@@ -1,0 +1,9 @@
+# Stage 1 source-review disposition
+
+QP Orch reviewed the limited screen and authorized only the healthy-entry cases and their analysis; the injured-entry continuation remains separately gated. Its clearance is exploratory evidence, not production or complete correctness approval. The owner-selected model, constants and fixed cases were not changed following results.
+
+The per-shard 2 MiB cap is checked **before the current row is appended**. If the cap is exceeded, or resolution/compaction throws before a row is written, the failure marker retains the current case index/input and the partial JSONL but may not retain that case's computed result. That is an incomplete stopped batch, not preservation of every computed case. Do not analyze it as complete, weaken the cap, silently rerun, select replacement seeds or omit the failure.
+
+Before interpreting completed cohorts, independently verify each row's index, arm, seed, field, stance and entry-injury configuration against `screen-protocol.md`; the analysis script's contiguous-index checks alone are not that cross-check. Completion receipts and hashes bind local files under this procedure, not tamper-proof attestation. Manually check the actual host process list, >=8 GiB available RAM and current pin/runner hash before every job; the wrappers enforce some but not all of these operating checks. Retain all statuses/guards and censored observations.
+
+The source review also confirms that no exact false-Guard-prediction, natural within-window contact fraction, or R2/advice overlap outcome may be claimed from these data. Eight activations or relevant events do not establish reliability or equivalence. The inherited finish-first interval, real cap/slowdown witness and continuous multi-contact interruption remain limitations. Contact-level injury outcome comparisons require the same actual contact ID, entrant key and draw; unmatched contacts cannot establish prevented injury.

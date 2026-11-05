@@ -1,0 +1,22 @@
+{
+  "command": "git archive --format=tar --output=source-commit.tar 8a4816f0 -- src index.html package.json package-lock.json vite.config.mjs",
+  "commit": "8a4816f0da95af0b17d815f25cfed2e3918ff82a",
+  "utc": "2026-11-05T12:41:01.3962792Z",
+  "freeGiB": 12.04,
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5774108,
+  "PeakSampledPrivateBytes": 2871296,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": ""
+}
+launcher-returned-success

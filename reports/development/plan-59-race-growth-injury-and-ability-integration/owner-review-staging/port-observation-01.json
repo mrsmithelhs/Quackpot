@@ -1,0 +1,6 @@
+{
+  "note": "Read-only TCP inventory; no bind was attempted, so later availability is not guaranteed.",
+  "port": 5189,
+  "utc": "2026-11-05T12:47:35.7515391Z",
+  "observedTcpBindings": 0
+}

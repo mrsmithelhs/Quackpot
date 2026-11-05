@@ -1,0 +1,21 @@
+{
+  "command": "node <snapshot>/verify-source.mjs",
+  "freeGiB": 12.0,
+  "utc": "2026-11-05T12:46:07.8131673Z",
+  "heavy": [],
+  "checkerSha256": "A570A643CC0F2E1A8744637BB18856C6A0F53273080146EE307D3E2B9E277AA3"
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 0.5804167,
+  "PeakSampledPrivateBytes": 4034560,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": "[workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-02/verify-source.mjs:15\r\nconst sourceSha256={};for(const p of sourcePaths){const b=await readFile(`${source}/${p}`),blob=createHash('sha1').update(`blob ${b.length}\\0`).update(b).digest('hex');if(blob!==committed.get(p))throw Error(`committed source mismatch: ${p}`);sourceSha256[p]=digest('sha256',b);}\r\n                                                                                                                                                                                                         ^\r\n\r\nError: committed source mismatch: index.html\r\n    at [workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-02/verify-source.mjs:15:202\r\n\r\nNode.js v26.7.0\r\n"
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

@@ -1,0 +1,22 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.03
+    }
+  ],
+  "archiveSha256": "BB18B78FE1D275C0A0B83DE1B9968134C28D09B3066575592AC70374C3663951",
+  "utc": "2026-11-05T12:41:27.9245143Z",
+  "freeGiB": 12.07,
+  "command": "tar -xf source-commit.tar -C source"
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5638398,
+  "PeakSampledPrivateBytes": 2375680,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": ""
+}
+launcher-returned-success

@@ -1,0 +1,17 @@
+{
+  "utc": "2026-11-05T12:44:46.2002208Z",
+  "heavy": [],
+  "command": "git -c core.autocrlf=false archive --format=tar --output=source-commit.tar 8a4816f0 -- src index.html package.json package-lock.json vite.config.mjs",
+  "commit": "8a4816f0da95af0b17d815f25cfed2e3918ff82a",
+  "freeGiB": 12.06
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5756473,
+  "PeakSampledPrivateBytes": 2879488,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": ""
+}
+launcher-returned-success

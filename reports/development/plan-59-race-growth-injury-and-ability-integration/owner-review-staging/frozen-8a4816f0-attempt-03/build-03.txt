@@ -1,0 +1,22 @@
+{
+  "nodeProductVersion": "26.7.0",
+  "snapshotLockSha256": "01A8B51E41288737F888C3F24332ACA03792513C4D9B0A93F269AA10D8803DFB",
+  "command": "node node_modules/vite/bin/vite.js build <snapshot>/source --base=/app/ --outDir=../web/app",
+  "heavy": [],
+  "installedViteEntrypointSha256": "DE5833362E640673962F16E255BF8738D4380A68601B9AF26217EEE4E1BAC36D",
+  "freeGiB": 11.98,
+  "utc": "2026-11-05T12:51:14.7686028Z",
+  "prebuildManifestSha256": "D945A1A22852163D5912BB53E9A557BBAC81E5B5216914D82B741C835CCC4552",
+  "viteVersion": "8.3.5",
+  "installedVitePackageSha256": "C9586AC07B42763A8A7F6AAC6B4A805D70F057BD8C67C43DA81C0CC4E5DA8293"
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.0993311,
+  "PeakSampledPrivateBytes": 566476800,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "vite v8.3.5 building client environment for production...\ntransforming...\n✓ 124 modules transformed.\nrendering chunks...\ncomputing gzip size...\nreports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-03/web/app/index.html                              0.51 kB │ gzip:   0.33 kB\nreports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-03/web/app/assets/duck-placeholder-Mhd15Sdp.svg    1.01 kB │ gzip:   0.51 kB\nreports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-03/web/app/assets/race-worker-DvjzYeym.js         35.95 kB\nreports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-03/web/app/assets/index-KR5jGdBp.css              67.66 kB │ gzip:  14.53 kB\nreports/development/plan-59-race-growth-injury-and-ability-integration/owner-review-staging/frozen-8a4816f0-attempt-03/web/app/assets/index-DE3mhiAz.js              727.05 kB │ gzip: 201.02 kB │ map: 1,838.51 kB\n\n✓ built in 336ms\n",
+  "StandardError": "[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+}
+launcher-returned-success

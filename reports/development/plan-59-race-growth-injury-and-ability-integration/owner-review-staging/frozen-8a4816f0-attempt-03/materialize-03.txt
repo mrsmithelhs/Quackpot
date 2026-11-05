@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-05T12:50:22.7074435Z",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "Python stdlib materialize-frozen.py",
+  "scriptSha256": "D2F42CF06B5C9C1BDA5560CAE49BD6C2C3B65DA895F3F53CFBE5ECDF3ACC260F",
+  "freeGiB": 12.1
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.0907139,
+  "PeakSampledPrivateBytes": 14528512,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"commit\": \"8a4816f0da95af0b17d815f25cfed2e3918ff82a\", \"sourceCount\": 220, \"allRawBlobsVerified\": true}\r\n",
+  "StandardError": ""
+}
+launcher-returned-success

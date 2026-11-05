@@ -1,0 +1,35 @@
+{
+  "commit": "8a4816f0da95af0b17d815f25cfed2e3918ff82a",
+  "sourceCount": 220,
+  "prebuildManifestSha256": "d945a1a22852163d5912bb53e9a557bbac81e5b5216914d82b741c835ccc4552",
+  "sourceUnchangedAfterBuild": true,
+  "nodeVersion": "26.7.0",
+  "viteVersion": "8.3.5",
+  "lockSha256": "01a8b51e41288737f888c3f24332aca03792513c4d9b0a93f269aa10d8803dfb",
+  "fixtures": {
+    "presentation-crowd-witness-after.json": "9dd6e4ccb5d8bdf6f810137429ae2fb67255a33c146df50044ddb012c98c5cd8",
+    "schema6-six-race-witness-02.json": "6991bab5d008d831a8826152b13a3bb7ba970182427b63ab59faa0ddc1f9b8da",
+    "presentation-crowd-witness-banked.json": "bf54ef1d8a21de0b4e28ba15772791bae9ec7031ed7960f5f219fd57d5326048"
+  },
+  "assetReferences": [
+    "/app/assets/duck-placeholder-Mhd15Sdp.svg",
+    "/app/assets/index-DE3mhiAz.js",
+    "/app/assets/index-KR5jGdBp.css"
+  ],
+  "outputSha256": {
+    "app/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "app/assets/index-DE3mhiAz.js": "9d8ad78abb48f115a8f21213828a6ea03709f546640c3dff5fdc7cc06268251a",
+    "app/assets/index-DE3mhiAz.js.map": "8b89c95e47405aed3d445f11889b2feaf3f29fda3b6ae7bc58d7195a3e93c590",
+    "app/assets/index-KR5jGdBp.css": "680bcf213532b547353038d860913e69a082ac862157654517dbb22b6e806915",
+    "app/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "app/assets/race-worker-DvjzYeym.js.map": "aa3fdb3500e7680ff752a06590fa10590574b31aad019afd0363d8390b99d5b2",
+    "app/index.html": "db26d9a796cb2f741da184f8713587dddfae7502520fa0e9557f30a63922acb4",
+    "selector/fixtures/presentation-crowd-witness-after.json": "9dd6e4ccb5d8bdf6f810137429ae2fb67255a33c146df50044ddb012c98c5cd8",
+    "selector/fixtures/presentation-crowd-witness-banked.json": "bf54ef1d8a21de0b4e28ba15772791bae9ec7031ed7960f5f219fd57d5326048",
+    "selector/fixtures/schema6-six-race-witness-02.json": "6991bab5d008d831a8826152b13a3bb7ba970182427b63ab59faa0ddc1f9b8da",
+    "selector/index.html": "ffc612eb028a759341574c5d3914a302845924693f69c3c0000bacd769f5ded7",
+    "selector/selector.css": "d85f37c5c78ab8d474b2bccf9e9aabfb43b39ccd1591fb2e3d2ca36c6a127d4b",
+    "selector/selector.mjs": "758ec13c887b3ea5406a8167e7817dd801d20e93ba2730028dd5972b327b3db9"
+  },
+  "limitations": "Static byte and asset checks only; no browser, server, runtime restore or cleanup validation."
+}

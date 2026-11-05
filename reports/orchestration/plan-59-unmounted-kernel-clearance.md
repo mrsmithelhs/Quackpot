@@ -1,0 +1,13 @@
+# Plan59 initial unmounted kernel clearance
+
+2026-11-05. Root reviewed `integration-proposal.md` and `pure-kernel-contract-proposal.md` with one requested Terra-medium read-only proposal review (actual identity/effort independently unobservable). Clear only new `src/core/race-kernel-v2.mjs` and its direct test, existing PRNG read-only, no runtime mounting or existing production imports/writes. Plan52 retains shared repair ownership. Pin actual dependencies and contract before code; helper paths require a scoped amendment.
+
+The documented Plan55 medium parameters are temporary diagnostic starting values, not owner balance. Native floating-point evolution may be explicitly versioned as experimental and runtime-scoped; no cross-runtime certification, fixed-point rewrite, blanket rounding/tolerance or v1 replay-policy change is cleared. The observed Chromium/Node witness establishes a real numerical serialization difference for that case, not general outcome equivalence. Production needs a separately reviewed numerical/decision/tie/serialization/tamper contract and boundary evidence.
+
+Length-prefixed UTF-8 domain/version keys are acceptable; pin seed-hash construction and use deterministic explicit ID ordering, not locale-dependent comparison. Candidate equal-fraction contact/landing-before-crossing, landing protection, real non-closing contact without invented closing impulse, stable-ID tie break and finished-participant ineligibility are cleared for investigation, with any conflict against selected v1 continuation reported before porting.
+
+After contact changes motion, recompute remaining interval/crossings; stale precomputed crossings must not commit. Advance the rollback checkpoint after every fully validated committed boundary. A later failure preserves earlier committed injuries/crossing facts but discards candidate events, counters and effects. Unresolved crossings have no final place or reward. The 800-tick watchdog returns unresolved, not a forced finish. Input, collection and numeric bounds must be explicit and finite.
+
+Injury is 0.9 of rating before affine conversion, composed with rest/Down, applied once with same-race subsequent-target and cap evidence. No healing or other abilities. V1 remains untouched; common-control invariants do not imply byte parity with intentionally changed multi-contact dynamics.
+
+LaneB covers coherent pure implementation, focused tests and small fixed paired shards under existing ordinary bounds and fresh host preflight. No browser/provider/full-suite/broad simulation yet. Preserve failures and commit explicit paths/progress last. Root reviews source and results before any mounting. This is not permission to change schema, transaction/day-change, graphics or checkpoint contracts.

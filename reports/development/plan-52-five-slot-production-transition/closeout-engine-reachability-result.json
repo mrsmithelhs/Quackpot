@@ -1,0 +1,93 @@
+{
+  "kind": "engine-only-named-route",
+  "source": "dd32f612945bd11196ddf3a16dcfc2c8f33c1b8288c88fa7d169dbd163ca040c",
+  "parent": "reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/rent-shortfall.save.json",
+  "parentSha256": "95818cb2cb48cf8ddf35af49018678092920968d1e14006de38c695c9cabf140",
+  "limitations": [
+    "One fixed candidate route, not exhaustive reachability.",
+    "Cue transcript is a synthetic engine-test presentation, not evidence of a rendered UI or owner experience.",
+    "No saved state, balance, health, schedule or log was manually edited."
+  ],
+  "searchLimit": "Day 4 through Day 9 Morning; one reserved-shift route",
+  "steps": [
+    {
+      "action": "reserve-overtime",
+      "kind": null,
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "health": 100
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 4,
+      "slot": "midday",
+      "cash": 104,
+      "health": 95
+    }
+  ],
+  "cues": [
+    {
+      "kind": "simulated-schedule-disclosure",
+      "value": [
+        "The reserved shift pays $60.00 and costs up to 15 HP when completed."
+      ]
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    }
+  ],
+  "stopped": "route-blocked: Error: show payslip",
+  "node": "v26.7.0",
+  "v8": "14.6.202.34-node.28",
+  "validation": {
+    "valid": true,
+    "errors": []
+  }
+}

@@ -71,7 +71,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-60` | Remaining race abilities and progression study | complete | Define and compare the nine remaining ability concepts and later duck progression, using owner dialogue, efficient Sonnet creative consultation and falsifiable report-local experiments while Plan59 integrates the selected first slice. |
 | `plan-61` | Metagame Messages experience and gallery | complete | Explore a header Messages entry, unread-thread badge, bounded urgency cues, portrait phone inbox and conversations, optional Decide panels and authored historical threads; deliver an owner-selected gallery and production handoff without changing live message/save behavior. |
 | `plan-62` | Welcome Screen Creative Study | in-progress | Explore an animated whole-experience welcome and naming transition using Sonnet and Flash consultation, both Codex and Gemini image-generation concepts, existing SVG art and local music; deliver a focused interactive study and production handoff. |
-| `plan-63` | Messages production integration | draft | Integrate the selected Messages header, portrait inbox/conversations and separate decisions with authoritative communications, saved read state and actual display evidence; atomically preserve message access while reserving the desk phone for Quackpot. |
+| `plan-63` | Messages production integration | in-progress | Integrate the selected Messages header, portrait inbox/conversations and separate decisions with authoritative communications, saved read state and actual display evidence; atomically preserve message access while reserving the desk phone for Quackpot. |
 <!-- plan-index:end -->
 
 ## Report Folders

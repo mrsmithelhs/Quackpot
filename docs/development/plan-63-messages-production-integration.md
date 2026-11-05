@@ -1,11 +1,9 @@
 ---
 id: plan-63
 title: Messages production integration
-status: draft
+status: in-progress
 depends_on: [plan-61]
 gate: "Root approves current source ownership and delivery/read/save/replay contract before production writes; owner reviews an early real integrated route and final experience."
-superseded_by: null
-resolution: null
 summary: >-
   Integrate the selected Messages header, portrait inbox/conversations and separate
   decisions with authoritative communications, saved read state and actual display

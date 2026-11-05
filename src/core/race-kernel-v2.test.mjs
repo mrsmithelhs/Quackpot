@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { applyContactInjuries, compareIds, contactInjuries, DIAGNOSTIC_RULES, effectiveRaceRating, encodeKey, keyedDraw, resolveRaceV2, validateRaceInput } from './race-kernel-v2.mjs';
 import { advanceOvalInterval, advancePositions, commitBoundary, constrainUnrearmed, correctNewContactAtWall, findOvalContact, nextBoundary, nextOvalBoundary, observeSeparation, safeNormalCorrection, contactImpulse } from './race-kernel-v2-boundaries.mjs';
-import { acceleratedSpeed, advanceAbility, bouncePhase, bounceThreat, crowdNeighbors, injuryChance, sampleOpportunity } from './race-kernel-v2-abilities.mjs';
+import { acceleratedSpeed, advanceAbility, bouncePhase, bounceThreat, crowdEligible, crowdNeighbors, endActiveAbilities, injuryChance, sampleOpportunity } from './race-kernel-v2-abilities.mjs';
 import { advanceCourse, advanceSteeringEpisode, applyWorldVelocity, courseFrame, curveTargetSpeed, linearizeEntrant, recenterCorrectionDeg, resolveWallEndpoint, steerEntrant, targetSpeed, turnCap } from './race-kernel-v2-physics.mjs';
 import * as v1 from './race-resolver.mjs';
 
@@ -114,6 +114,23 @@ test('fixed paired no-ability and mixed-ability inputs remain bounded', (t) => {
       t.diagnostic(JSON.stringify({ arm: `${seed}/${mixed ? 'mixed' : 'control'}`, unresolved: result.unresolved,
         crossings: result.crossings, counts }));
     }
+  }
+});
+
+test('targeted pair-1 mixed and control record current ability lifecycle', (t) => {
+  for (const mixed of [false, true]) {
+    const input = { schema: 'quackpot.race-input/v2', rules: 'plan59-working/v1', numericPolicy: 'native-float-experimental/v1',
+      course: 'plan23-oval/v1', seed: 'pair-1', raceId: 'paired', choice: 'steady',
+      entrants: Array.from({ length: 6 }, (_, i) => ({ id: `E${i}`, player: i === 0, lane: i % 2 + 1, row: Math.floor(i / 2),
+        baseRating: 10, restFactor: 1, downFactor: 1, entryInjury: false,
+        ability: mixed && i === 0 ? 'bounce' : mixed && i === 1 ? 'crowd' : null, stance: 'steady' })) };
+    const result = resolveRaceV2(input);
+    assertPhysicalOutcome(result);
+    const abilityEvents = result.events.filter((e) => ['opportunity', 'activation', 'termination'].includes(e.kind));
+    const counts = Object.fromEntries([...new Set(result.events.map((e) => e.kind))].sort().map((kind) => [kind, result.events.filter((e) => e.kind === kind).length]));
+    assert.equal(new Set(result.events.map((e) => e.id)).size, result.events.length);
+    t.diagnostic(JSON.stringify({ arm: mixed ? 'mixed' : 'control', status: result.status, unresolved: result.unresolved,
+      crossings: result.crossings, counts, abilityEvents }));
   }
 });
 
@@ -299,6 +316,65 @@ test('crowd neighbors use wrapped course distance and acceleration respects targ
   const others = [e, { id: 'B', x: 1, y: 0, progress: 1 }, { id: 'C', x: 2, y: 0, progress: 1001 }, { id: 'D', x: 2, y: 0, progress: 1, finished: true }];
   assert.deepEqual(crowdNeighbors(e, others, 100), ['B', 'C']);
   assert.equal(acceleratedSpeed(9, 10, 3, 0.5, true), 10);
+});
+
+test('crowd is equally eligible during weave and recovery without repeat activation', () => {
+  const self = { id: 'A', x: 0, y: 0, progress: 0 };
+  const others = [{ id: 'B', x: 1, y: 0, progress: 1 }, { id: 'C', x: 2, y: 0, progress: 2 }];
+  const initial = { latched: false, absentChecks: 0, cooldownUntil: 0, activeUntil: 0, opportunity: 0, startTick: null };
+  for (const phase of ['acquire', 'recover']) {
+    const e = { ...self, steeringEpisode: { kind: 'weave', phase } };
+    assert.equal(crowdEligible(e, [e, ...others], 100), true);
+    let draws = 0;
+    const draw = () => { draws++; return { value: 0.1, key: 'fixed' }; };
+    const first = advanceAbility(initial, { kind: 'crowd', tick: 0, eligible: true, draw });
+    const repeated = advanceAbility(first.state, { kind: 'crowd', tick: 5, eligible: true, draw });
+    assert.equal(first.events.filter((event) => event.kind === 'activation').length, 1);
+    assert.equal(repeated.events.length, 0);
+    assert.equal(draws, 1);
+  }
+  assert.equal(crowdEligible({ ...self, airborne: true }, [self, ...others], 100), false);
+});
+
+test('ability active at finish terminates once at crossing with reserved capacity', () => {
+  const abilityState = { latched: true, absentChecks: 0, cooldownUntil: 0, activeUntil: 20, opportunity: 1, startTick: 2 };
+  const initial = { time: 0.2, tick: 5, tickStart: 0.2, events: [], pairs: {}, entrants: [
+    { id: 'A', progress: 1, lateral: 0, speed: 0, heading: 0, finished: false, ability: 'crowd', abilityState },
+  ] };
+  const result = advanceOvalInterval(initial, 0, 1);
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.state.events.map((e) => e.kind), ['crossing', 'termination']);
+  assert.equal(result.state.events[1].reason, 'finish');
+  assert.equal(result.state.events[1].time, result.state.events[0].time);
+  assert.equal(result.state.entrants[0].abilityState.startTick, null);
+  const full = { ...initial, events: Array.from({ length: 511 }, (_, i) => ({ kind: 'prior', id: `p${i}` })) };
+  const stopped = advanceOvalInterval(full, 0, 1);
+  assert.equal(stopped.reason, 'event-cap');
+  assert.deepEqual(stopped.state, full);
+  assert.equal(endActiveAbilities(stopped.state, { reason: 'unresolved', ids: ['A'], tick: 5, time: 0.2, tickStart: 0.2 }), true);
+  assert.equal(stopped.state.events.length, 512);
+  assert.equal(stopped.state.events.at(-1).reason, 'unresolved');
+});
+
+test('ability unresolved closeout excludes rolled-back activation and is idempotent', () => {
+  const active = { latched: true, absentChecks: 0, cooldownUntil: 0, activeUntil: 20, opportunity: 1, startTick: 0 };
+  const idle = { latched: false, absentChecks: 0, cooldownUntil: 0, activeUntil: 0, opportunity: 0, startTick: null };
+  const initial = { time: 0.1, tick: 3, tickStart: 0.1, events: [], pairs: {}, entrants: [
+    { id: 'A', progress: 0, lateral: 0, speed: 0, heading: 0, finished: false, landing: true, ability: 'bounce', abilityState: active },
+    { id: 'B', progress: 1, lateral: 0, speed: 0, heading: 0, finished: false, ability: 'crowd', abilityState: idle },
+  ] };
+  const rejected = advanceOvalInterval(initial, 0, 245, (draft) => {
+    draft.entrants[1].abilityState.startTick = 3;
+    return false;
+  });
+  assert.equal(rejected.reason, 'contact-rejected');
+  assert.deepEqual(rejected.state, initial);
+  assert.equal(endActiveAbilities(rejected.state, { reason: 'unresolved', ids: ['A', 'B'], tick: 3, time: 0.1, tickStart: 0.1 }), true);
+  assert.equal(rejected.state.events.length, 1);
+  assert.equal(rejected.state.events[0].participantId, 'A');
+  assert.equal(rejected.state.events[0].time, 0.1);
+  assert.equal(endActiveAbilities(rejected.state, { reason: 'unresolved', ids: ['A', 'B'], tick: 3, time: 0.1, tickStart: 0.1 }), true);
+  assert.equal(rejected.state.events.length, 1);
 });
 
 test('isolated controller primitives agree with the pinned v1 reference', () => {

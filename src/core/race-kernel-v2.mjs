@@ -1,7 +1,7 @@
 // Plan 59 unmounted kernel candidate. Experimental native-float policy only;
 // Physical completion does not imply controller or production readiness.
 import { createRng } from './prng.mjs';
-import { acceleratedSpeed, advanceAbility, bouncePhase, bounceThreat, crowdNeighbors, injuryChance, isProtected } from './race-kernel-v2-abilities.mjs';
+import { acceleratedSpeed, activeAbilityCount, advanceAbility, bouncePhase, bounceThreat, crowdEligible, endActiveAbilities, injuryChance, isProtected } from './race-kernel-v2-abilities.mjs';
 import { advanceOvalInterval, CONTACT_POLICY } from './race-kernel-v2-boundaries.mjs';
 import { COURSE_LENGTH, advanceSteeringEpisode, courseFrame, linearizeEntrant, steerEntrant, targetSpeed } from './race-kernel-v2-physics.mjs';
 
@@ -176,7 +176,7 @@ export function resolveRaceV2(input, { substepScale = 1 } = {}) {
       if (e.ability) {
         const here = world.find((item) => item.id === e.id);
         const eligible = e.ability === 'bounce' ? Boolean(bounceThreat(here, world, COURSE_LENGTH))
-          : !e.steeringEpisode && !here.airborne && crowdNeighbors(here, world, COURSE_LENGTH).length >= 2;
+          : crowdEligible(here, world, COURSE_LENGTH);
         const update = advanceAbility(e.abilityState, { kind: e.ability, tick, eligible,
           draw: (n) => keyedDraw(snapshot.seed, snapshot.raceId, 'ability-activation/v1', [e.ability, e.id, String(n)]) });
         e.abilityState = update.state;
@@ -213,7 +213,7 @@ export function resolveRaceV2(input, { substepScale = 1 } = {}) {
         : acceleratedSpeed(e.speed, target, assisted ? 5 : 3, 0.05, crowd);
       Object.assign(e, steerEntrant(e, tick, rank, assisted));
     }
-    if (candidate.events.length > 512) { reason = 'event-cap'; break; }
+    if (candidate.events.length + activeAbilityCount(candidate.entrants) > 512) { reason = 'event-cap'; break; }
     const boundaryCount = candidate.events.filter((event) => event.kind === 'contact' || event.kind === 'crossing').length;
     const advanced = advanceOvalInterval(candidate, 0.05, COURSE_LENGTH,
       (draft, boundary) => applyContactInjuries(draft, boundary, { seed: snapshot.seed, raceId: snapshot.raceId, tick,
@@ -232,6 +232,8 @@ export function resolveRaceV2(input, { substepScale = 1 } = {}) {
   }
   const crossingEvents = state.events.filter((event) => event.kind === 'crossing');
   const finished = reason === null;
+  if (!finished) endActiveAbilities(state, { reason: 'unresolved', ids: state.entrants.map((e) => e.id),
+    tick: state.tick ?? lastCommittedTick, time: state.time, tickStart: state.tickStart });
   const events = state.events.map((event, index) => {
     const tick = event.tick ?? Math.max(1, Math.ceil(event.time / 0.05));
     const time = event.time ?? (tick - 1) * 0.05;

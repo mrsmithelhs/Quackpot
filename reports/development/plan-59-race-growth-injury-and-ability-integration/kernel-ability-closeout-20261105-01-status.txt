@@ -1,0 +1,13 @@
+paths=repository-relative (sanitized for repository)
+started=2026-11-05T01:50:38.6198799-05:00
+finished=2026-11-05T01:50:45.8071430-05:00
+preflight_available_gib=12.86
+wrapper_exit=0
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('--test','--test-name-pattern=targeted pair-1|crowd|ability active at finish|ability unresolved closeout|ability transition|capacity|contact identity|joint new-contact|landing|rollback|injur','src/core/race-kernel-v2.test.mjs')
+35C56A055D503BFF108073CB3CC1A4678BE0857AD16205DFF05C40727EC6034D src\core\race-kernel-v2.mjs
+B14692AF9DD49169869AF2DB6476408A675C7805ABF245FFBF62BB17AD90D09E src\core\race-kernel-v2-boundaries.mjs
+6F54D7F0169A196C7476AB9177708D443C6D028540F0E17E71EA46F9F15C9579 src\core\race-kernel-v2-abilities.mjs
+313C7A99C9B2B81A848B1ED25FB785C8E5484EE4ED9FE75AB13387FC581979F7 src\core\race-kernel-v2-physics.mjs
+D23BAE6D4446AB76F31C3724FFC4E299F3375B3E53F466AFA610C80AD1C51927 src\core\race-kernel-v2.test.mjs
+E6B27BE361810FD4DFBC00F4E043A6353FB4B75AA17F7ACADD03CD606880E129 src\core\race-resolver.mjs
+7392E6C25CA356FBF253D9DFCCD1562052577B2BFACA23720431B123364389A7 src\core\prng.mjs

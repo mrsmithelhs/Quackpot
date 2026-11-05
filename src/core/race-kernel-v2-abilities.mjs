@@ -35,6 +35,33 @@ export function crowdNeighbors(entrant, entrants, courseLength) {
   }).map((e) => e.id).sort();
 }
 
+/** Crowd eligibility depends on grounded neighbors, not steering episodes. */
+export function crowdEligible(entrant, entrants, courseLength) {
+  return !entrant.finished && !entrant.airborne && crowdNeighbors(entrant, entrants, courseLength).length >= 2;
+}
+
+/** Reserve one closing record for each committed active ability. */
+export function activeAbilityCount(entrants) {
+  return entrants.filter((e) => e.ability && e.abilityState && e.abilityState.startTick !== null).length;
+}
+
+/** End only committed active effects at a validated finish or unresolved boundary. */
+export function endActiveAbilities(state, { reason, ids, tick, time, tickStart }) {
+  if (!state || !Array.isArray(state.entrants) || !Array.isArray(state.events)
+      || !['finish', 'unresolved'].includes(reason) || !Array.isArray(ids)
+      || !Number.isSafeInteger(tick) || tick < 0 || !Number.isFinite(time)) throw new RangeError('invalid ability closeout');
+  const selected = state.entrants.filter((e) => ids.includes(e.id) && e.ability && e.abilityState && e.abilityState.startTick !== null)
+    .sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+  if (state.events.length + selected.length > 512) return false;
+  for (const entrant of selected) {
+    state.events.push({ kind: 'termination', ability: entrant.ability, participantId: entrant.id,
+      opportunity: entrant.abilityState.opportunity, reason, tick, time, phase: 'boundary',
+      ...(Number.isFinite(tickStart) ? { tickStart } : {}) });
+    entrant.abilityState.startTick = null;
+  }
+  return true;
+}
+
 /** Acceleration changes approach to the current target, never the target itself. */
 export function acceleratedSpeed(speed, target, acceleration, dt, crowdActive) {
   if (![speed, target, acceleration, dt].every(Number.isFinite) || speed < 0 || target < 0 || acceleration < 0 || dt < 0 || typeof crowdActive !== 'boolean') throw new RangeError('invalid acceleration');

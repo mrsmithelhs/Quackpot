@@ -1,6 +1,7 @@
 // Unmounted Plan 59 candidate: swept circle boundaries in course coordinates.
 // Experimental native-float arithmetic; no replay portability is implied.
 import { advanceCourse, applyWorldVelocity, courseFrame, linearizeEntrant, resolveWallEndpoint } from './race-kernel-v2-physics.mjs';
+import { activeAbilityCount, endActiveAbilities } from './race-kernel-v2-abilities.mjs';
 const order = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 
 // Diagnostic limits, not a production precision or cross-runtime contract.
@@ -378,6 +379,7 @@ export function advanceOvalInterval(initial, duration, finish, onContact = null,
   let state = structuredClone(initial), checkpoint = structuredClone(initial), remaining = duration;
   const trace = [];
   const limit = 0.25 * substepScale;
+  const hasCapacity = (candidate, extra = 0) => candidate.events.length + extra + activeAbilityCount(candidate.entrants) <= 512;
   const eventAtBoundary = (working, event) => ({ ...event, time: working.time, phase: 'boundary',
     ...(Number.isSafeInteger(working.tick) ? { tick: working.tick } : {}),
     ...(Number.isFinite(working.tickStart) ? { tickStart: working.tickStart } : {}) });
@@ -412,11 +414,11 @@ export function advanceOvalInterval(initial, duration, finish, onContact = null,
     }
     if (candidates.length) {
       const hit = candidates[0], a = active.find((e) => e.id === hit.ids[0]), b = active.find((e) => e.id === hit.ids[1]);
-      if (working.events.length >= 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+      if (!hasCapacity(working, 1)) return { ok: false, reason: 'event-cap', state: checkpoint };
       if (hit.kind === 'constraint') {
         const constrained = constrainUnrearmed(working, finish, limit);
         if (!constrained.ok) return { ok: false, reason: constrained.reason, state: checkpoint, guardEvidence: constrained.guardEvidence ?? null };
-        if (constrained.state.events.length >= 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+        if (!hasCapacity(constrained.state, 1)) return { ok: false, reason: 'event-cap', state: checkpoint };
         constrained.state.events.push(eventAtBoundary(working, { kind: 'contact-constraint', ids: hit.ids, ...constrained.evidence }));
         state = constrained.state; checkpoint = structuredClone(state);
         continue;
@@ -468,7 +470,7 @@ export function advanceOvalInterval(initial, duration, finish, onContact = null,
       const boundary = { kind: 'contact', ids: hit.ids, pair: hit.pair };
       working.events.push(eventAtBoundary(working, { ...boundary, impulse: impulse.impulse, correction: evidence }));
       if (onContact && onContact(working, boundary) !== true) return { ok: false, reason: 'contact-rejected', state: checkpoint };
-      if (working.events.length > 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+      if (!hasCapacity(working)) return { ok: false, reason: 'event-cap', state: checkpoint };
       state = working; checkpoint = structuredClone(working);
       continue;
     }
@@ -476,11 +478,11 @@ export function advanceOvalInterval(initial, duration, finish, onContact = null,
     // boundary precedes any crossing at that instant.
     const wall = linear.find((e) => Math.abs(e.lateral) === 6 && Math.sign(e.lateral) * e.lateralVelocity > 0);
     if (wall) {
-      if (working.events.length >= 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+      if (!hasCapacity(working, 1)) return { ok: false, reason: 'event-cap', state: checkpoint };
       const entrant = active.find((e) => e.id === wall.id);
       if (entrant.wallEpisode) {
         entrant.wallConstrained = true;
-        if (working.events.length >= 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+        if (!hasCapacity(working, 1)) return { ok: false, reason: 'event-cap', state: checkpoint };
         working.events.push(eventAtBoundary(working, { kind: 'wall-constraint', ids: [entrant.id] }));
         state = working; checkpoint = structuredClone(working);
         continue;
@@ -496,10 +498,12 @@ export function advanceOvalInterval(initial, duration, finish, onContact = null,
     // exactly at this endpoint is reconciled before the crossing on the next pass.
     const atFinish = linear.filter((e) => e.progress - (e.finishCorrection ?? 0) >= finish);
     if (atFinish.length) {
-      if (working.events.length >= 512) return { ok: false, reason: 'event-cap', state: checkpoint };
+      if (!hasCapacity(working, 1)) return { ok: false, reason: 'event-cap', state: checkpoint };
       const entrant = active.find((e) => e.id === atFinish[0].id);
       entrant.finished = true;
       working.events.push(eventAtBoundary(working, { kind: 'crossing', ids: [entrant.id] }));
+      endActiveAbilities(working, { reason: 'finish', ids: [entrant.id], tick: working.tick ?? 0,
+        time: working.time, tickStart: working.tickStart });
       state = working; checkpoint = structuredClone(working);
       continue;
     }

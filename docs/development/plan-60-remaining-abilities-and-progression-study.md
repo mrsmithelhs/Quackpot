@@ -1,11 +1,9 @@
 ---
 id: plan-60
 title: Remaining race abilities and progression study
-status: draft
+status: in-progress
 depends_on: [plan-55, plan-58]
 gate: "Root clears the study mechanism, consultant transport and finite experiment protocol; owner selects contextual ability/progression directions before a separate production amendment or packet."
-superseded_by: null
-resolution: null
 summary: >-
   Define and compare the nine remaining ability concepts and later duck progression, using owner dialogue, efficient Sonnet creative consultation and falsifiable report-local experiments while Plan59 integrates the selected first slice.
 ---

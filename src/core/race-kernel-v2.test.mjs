@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { compareIds, effectiveRaceRating, encodeKey, keyedDraw } from './race-kernel-v2.mjs';
-import { advanceOvalInterval, advancePositions, commitBoundary, findOvalContact, nextBoundary, nextOvalBoundary, observeSeparation, contactImpulse } from './race-kernel-v2-boundaries.mjs';
+import { compareIds, contactInjuries, effectiveRaceRating, encodeKey, keyedDraw } from './race-kernel-v2.mjs';
+import { advanceOvalInterval, advancePositions, commitBoundary, findOvalContact, nextBoundary, nextOvalBoundary, observeSeparation, safeNormalCorrection, contactImpulse } from './race-kernel-v2-boundaries.mjs';
 import { acceleratedSpeed, bouncePhase, bounceThreat, crowdNeighbors, injuryChance, sampleOpportunity } from './race-kernel-v2-abilities.mjs';
 import { advanceCourse, applyWorldVelocity, courseFrame, curveTargetSpeed, linearizeEntrant, recenterCorrectionDeg, targetSpeed, turnCap } from './race-kernel-v2-physics.mjs';
 import * as v1 from './race-resolver.mjs';
@@ -69,6 +69,18 @@ test('landing protection blocks injury probability and non-closing contact creat
   const b = { id: 'B', x: 0.5, y: 0, vx: 1, vy: 0 };
   assert.equal(contactImpulse(a, b).impulse, 0);
   assert.equal(a.vx, -1);
+});
+
+test('contact injuries preserve an existing injury and independently key the other participant', () => {
+  const a = { id: 'A', stance: 'steady', injured: true, ability: 'bounce', bounceState: { startTick: 0 } };
+  const b = { id: 'B', stance: 'sprint', injured: false, ability: null };
+  const result = contactInjuries({ seed: 'seed', raceId: 'R', contactId: 'R-A-B-1', tick: 12, participants: [a, b] });
+  assert.equal(result[0].injured, true);
+  assert.equal(result[0].protected, true);
+  assert.equal(result[1].chance, 0.1);
+  const reversed = contactInjuries({ seed: 'seed', raceId: 'R', contactId: 'R-A-B-1', tick: 12, participants: [b, a] });
+  assert.deepEqual(result[1], reversed[0]);
+  assert.equal(result[0].draw, null);
 });
 
 test('opportunity latches after a declined roll and rearms after two absent checks', () => {
@@ -154,6 +166,46 @@ test('curved search brackets a straight closing contact without treating a near 
   assert.ok(hit.inside - hit.outside <= 1e-6);
   const clear = findOvalContact(a, { ...a, progress: 1.1, lateral: 2, speed: 0 }, 0.05);
   assert.equal(clear.status, 'clear');
+});
+
+test('bounded normal correction rejects deep, finish-adjacent and third-party overlap', () => {
+  const a = { id: 'A', progress: 0, lateral: 0, speed: 10, heading: 0 };
+  const b = { id: 'B', progress: 0.999999, lateral: 0, speed: 0, heading: 0 };
+  const bracket = { outside: 0, inside: 1e-6 };
+  const corrected = safeNormalCorrection([a, b], ['A', 'B'], bracket, 245);
+  assert.equal(corrected.ok, true);
+  assert.equal(a.progress, 0);
+  for (const e of corrected.entrants) {
+    const original = [a, b].find((item) => item.id === e.id);
+    assert.ok(Math.abs(e.progress - e.finishCorrection - original.progress) < 1e-14);
+  }
+  assert.equal(safeNormalCorrection([a, { ...b, progress: 0.5 }], ['A', 'B'], bracket, 245).reason, 'correction-exceeds-bracket');
+  assert.equal(safeNormalCorrection([a, b], ['A', 'B'], bracket, 0.9999994).reason, 'correction-crosses-boundary');
+  assert.equal(safeNormalCorrection([a, b, { ...a, id: 'C', progress: -0.9 }], ['A', 'B'], bracket, 245).reason, 'correction-third-party-overlap');
+});
+
+test('oval interval commits a bracketed straight contact and recomputes remaining movement', () => {
+  const initial = { time: 0, events: [], pairs: {}, entrants: [
+    { id: 'A', progress: 0, lateral: 0, speed: 10, heading: 0, finished: false },
+    { id: 'B', progress: 1.1, lateral: 0, speed: 0, heading: 0, finished: false },
+  ] };
+  const result = advanceOvalInterval(initial, 0.05, 245);
+  assert.equal(result.ok, true);
+  assert.equal(result.state.events[0].kind, 'contact');
+  assert.ok(result.state.events[0].correction.bracket.inside >= 0.01);
+  assert.ok(result.state.entrants[1].progress > 1.1);
+  assert.equal(initial.entrants[1].progress, 1.1);
+});
+
+test('oval interval guards a finish inside a contact time bracket', () => {
+  const initial = { time: 0, events: [], pairs: {}, entrants: [
+    { id: 'A', progress: 0, lateral: 0, speed: 10, heading: 0, finished: false },
+    { id: 'B', progress: 1.1, lateral: 0, speed: 0, heading: 0, finished: false },
+  ] };
+  const result = advanceOvalInterval(initial, 0.05, 0.1);
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, 'ambiguous-boundary-order');
+  assert.deepEqual(result.state, initial);
 });
 
 test('injury reduces rating before the affine mapping and composes with rest and upgrade', () => {

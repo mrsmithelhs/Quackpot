@@ -1,6 +1,7 @@
 // Plan 59 unmounted kernel foundation. Experimental native-float policy only;
 // this module does not yet resolve a race and must not be mounted in the game.
 import { createRng } from './prng.mjs';
+import { injuryChance, isProtected } from './race-kernel-v2-abilities.mjs';
 
 export const NUMERIC_POLICY = 'native-float-experimental/v1';
 export const KEY_POLICY = 'utf8-length-cyrb128-sfc32/v1';
@@ -38,4 +39,21 @@ export function effectiveRaceRating({ baseRating, restFactor, downFactor, injure
     || downFactor <= 0 || downFactor > 2 || typeof injured !== 'boolean') throw new RangeError('invalid rating inputs');
   const rating = baseRating * restFactor * downFactor * (injured ? 0.9 : 1);
   return { rating, affineSpeed: 8.25 + 0.5 * rating };
+}
+
+/** Pure, participant-keyed injury consequences for one committed real contact. */
+export function contactInjuries({ seed, raceId, contactId, tick, participants }) {
+  if (!Number.isSafeInteger(tick) || tick < 0 || !Array.isArray(participants) || participants.length !== 2
+      || participants[0].id === participants[1].id) throw new RangeError('invalid contact injury input');
+  return participants.map((participant) => {
+    if (typeof participant.id !== 'string' || !participant.id || typeof participant.injured !== 'boolean'
+        || !['steady', 'sprint'].includes(participant.stance)
+        || ![null, 'bounce', 'crowd'].includes(participant.ability)) throw new RangeError('invalid participant');
+    const protectedNow = participant.ability === 'bounce' && isProtected(participant.bounceState, tick);
+    const chance = injuryChance(participant.stance, participant.injured, protectedNow);
+    const draw = chance ? keyedDraw(seed, raceId, 'contact-injury/v1', [contactId, participant.id]) : null;
+    return { id: participant.id, entryInjured: participant.injured, protected: protectedNow,
+      chance, draw: draw?.value ?? null, key: draw?.key ?? null,
+      injured: participant.injured || Boolean(draw && draw.value < chance) };
+  });
 }

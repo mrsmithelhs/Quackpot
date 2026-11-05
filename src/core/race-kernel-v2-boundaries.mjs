@@ -1,6 +1,6 @@
 // Unmounted Plan 59 candidate: swept circle boundaries in course coordinates.
 // Experimental native-float arithmetic; no replay portability is implied.
-import { advanceCourse, applyWorldVelocity, linearizeEntrant } from './race-kernel-v2-physics.mjs';
+import { advanceCourse, applyWorldVelocity, courseFrame, linearizeEntrant } from './race-kernel-v2-physics.mjs';
 const order = (a, b) => a < b ? -1 : a > b ? 1 : 0;
 
 // Diagnostic limits, not a production precision or cross-runtime contract.
@@ -93,8 +93,9 @@ export function nextOvalBoundary(entrants, pairs, now, remaining, finish) {
   const active = entrants.filter((e) => !e.finished).sort((a, b) => order(a.id, b.id));
   const candidates = [];
   for (const e of active) {
-    if (e.progressVelocity > 0 && e.progress <= finish) {
-      const time = (finish - e.progress) / e.progressVelocity;
+    const creditedProgress = e.progress - (e.finishCorrection ?? 0);
+    if (e.progressVelocity > 0 && creditedProgress <= finish) {
+      const time = (finish - creditedProgress) / e.progressVelocity;
       if (time >= 0 && time <= remaining) candidates.push({ kind: 'crossing', time, ids: [e.id] });
     }
   }
@@ -120,6 +121,43 @@ export function observeSeparation(entrants, pairs) {
     const ids = JSON.parse(key), a = byId.get(ids[0]), b = byId.get(ids[1]);
     if (a && b && Math.hypot(a.x - b.x, a.y - b.y) >= 1.2) prior.separated = true;
   }
+}
+
+/** Candidate-only correction. A failure leaves the caller's checkpoint untouched. */
+export function safeNormalCorrection(entrants, ids, bracket, finish) {
+  const copies = structuredClone(entrants), a = copies.find((e) => e.id === ids[0]), b = copies.find((e) => e.id === ids[1]);
+  if (!a || !b || a === b || a.finished || b.finished || !Number.isFinite(finish)
+      || [a, b].some((e) => ![e.progress, e.lateral, e.speed, e.heading].every(Number.isFinite) || e.speed < 0 || e.speed > 100 || Math.abs(e.lateral) > 6)
+      || !Number.isFinite(bracket.outside) || !Number.isFinite(bracket.inside)
+      || bracket.inside < bracket.outside || bracket.inside - bracket.outside > MAX_FIRST_CONTACT_BRACKET) return { ok: false, reason: 'invalid-bracket' };
+  const al = linearizeEntrant(a), bl = linearizeEntrant(b), dx = bl.x - al.x, dy = bl.y - al.y, distance = Math.hypot(dx, dy);
+  if (distance === 0 || distance > 1) return { ok: false, reason: 'not-inside-witness' };
+  // At most twice each speed bounds course-map travel inside |lateral| <= 6.
+  // The arithmetic allowance scales with coordinates and covers rounding in the
+  // few native operations here; it is not a general collision tolerance.
+  const arithmetic = 64 * Number.EPSILON * Math.max(1, Math.abs(al.x), Math.abs(al.y), Math.abs(bl.x), Math.abs(bl.y));
+  const limit = 2 * (a.speed + b.speed) * (bracket.inside - bracket.outside) + arithmetic;
+  const penetration = 1 - distance;
+  if (penetration > limit) return { ok: false, reason: 'correction-exceeds-bracket' };
+  const nx = dx / distance, ny = dy / distance, correction = (penetration + arithmetic) / 2;
+  const before = [a, b].map((e) => ({ id: e.id, progress: e.progress, lateral: e.lateral }));
+  for (const [e, sign] of [[a, -1], [b, 1]]) {
+    const f = courseFrame(e.progress, e.lateral), wx = sign * correction * nx, wy = sign * correction * ny;
+    const progress = e.progress + wx * f.tx + wy * f.ty;
+    const lateral = e.lateral - wx * f.ty + wy * f.tx;
+    if (progress >= finish || Math.abs(lateral) > 6) return { ok: false, reason: 'correction-crosses-boundary' };
+    e.finishCorrection = (e.finishCorrection ?? 0) + progress - e.progress;
+    e.progress = progress; e.lateral = lateral;
+  }
+  const aa = linearizeEntrant(a), bb = linearizeEntrant(b);
+  if (Math.hypot(aa.x - bb.x, aa.y - bb.y) < 1) return { ok: false, reason: 'correction-incomplete' };
+  for (const e of copies) if (!e.finished && e.id !== a.id && e.id !== b.id) {
+    const p = linearizeEntrant(e);
+    if (Math.hypot(p.x - aa.x, p.y - aa.y) < 1 || Math.hypot(p.x - bb.x, p.y - bb.y) < 1)
+      return { ok: false, reason: 'correction-third-party-overlap' };
+  }
+  return { ok: true, entrants: copies, evidence: { bracket: { ...bracket }, before,
+    after: [a, b].map((e) => ({ id: e.id, progress: e.progress, lateral: e.lateral })), penetration, correction, limit, arithmetic } };
 }
 
 /** Equal-mass impulse; non-closing contacts intentionally do not gain impulse. */
@@ -163,7 +201,35 @@ export function advanceOvalInterval(initial, duration, finish) {
         return { ok: false, reason: 'unsafe-overlap', state };
     }
     observeSeparation(linear, state.pairs);
-    const next = nextOvalBoundary(linear, state.pairs, state.time, remaining, finish);
+    const candidates = [];
+    for (const e of linear) if (!e.finished && e.progressVelocity > 0 && e.progress - (e.finishCorrection ?? 0) <= finish) {
+      const time = (finish - (e.progress - (e.finishCorrection ?? 0))) / e.progressVelocity;
+      if (time <= remaining) candidates.push({ kind: 'crossing', time, ids: [e.id] });
+    }
+    const ordered = linear.filter((e) => !e.finished).sort((a, b) => order(a.id, b.id));
+    for (let i = 0; i < ordered.length; i++) for (let j = i + 1; j < ordered.length; j++) {
+      const a = ordered[i], b = ordered[j], pair = JSON.stringify([a.id, b.id]), prior = state.pairs[pair];
+      if (prior && !(prior.separated && state.time - prior.time >= 0.5)) continue;
+      const found = findOvalContact(a, b, remaining);
+      if (found.status === 'unresolved' || found.status === 'initial-overlap') return { ok: false, reason: found.reason ?? found.status, state };
+      if (found.status === 'contact') candidates.push({ kind: 'contact', time: found.inside, ids: [a.id, b.id], pair, bracket: found });
+      if (found.status === 'initial-contact') {
+        const closing = (b.x - a.x) * (b.vx - a.vx) + (b.y - a.y) * (b.vy - a.vy);
+        if (closing < 0) candidates.push({ kind: 'contact', time: 0, ids: [a.id, b.id], pair, bracket: null });
+      }
+    }
+    // A finish or another contact inside an unresolved contact time bracket
+    // cannot safely be ordered by the bracket's inside endpoint.
+    for (const c of candidates.filter((item) => item.kind === 'contact' && item.bracket)) {
+      for (const other of candidates) {
+        if (other === c) continue;
+        const lower = other.bracket?.outside ?? other.time, upper = other.bracket?.inside ?? other.time;
+        if (lower <= c.bracket.inside && upper >= c.bracket.outside)
+          return { ok: false, reason: 'ambiguous-boundary-order', state };
+      }
+    }
+    candidates.sort((a, b) => a.time - b.time || (a.kind === b.kind ? 0 : a.kind === 'contact' ? -1 : 1) || order(a.ids.join('\0'), b.ids.join('\0')));
+    const next = candidates[0] ?? null;
     const dt = next?.time ?? remaining;
     const candidate = structuredClone(state);
     candidate.entrants = candidate.entrants.map((e) => e.finished ? e : advanceCourse(e, dt));
@@ -181,16 +247,19 @@ export function advanceOvalInterval(initial, duration, finish) {
       byId.get(next.ids[0]).finished = true;
       candidate.events.push({ kind: 'crossing', ids: next.ids, time: candidate.time });
     } else {
-      const a = linearizeEntrant(byId.get(next.ids[0])), b = linearizeEntrant(byId.get(next.ids[1]));
-      // Local linear sweep is approximate on a bend. Do not create a contact
-      // if course-frame advancement does not reach the physical boundary.
-      if (Math.hypot(a.x - b.x, a.y - b.y) !== 1)
-        return { ok: false, reason: 'sweep-frame-disagreement', state };
+      let evidence = null;
+      if (next.bracket) {
+        const corrected = safeNormalCorrection(candidate.entrants, next.ids, next.bracket, finish);
+        if (!corrected.ok) return { ok: false, reason: corrected.reason, state };
+        candidate.entrants = corrected.entrants; evidence = corrected.evidence;
+      }
+      const a = linearizeEntrant(candidate.entrants.find((e) => e.id === next.ids[0]));
+      const b = linearizeEntrant(candidate.entrants.find((e) => e.id === next.ids[1]));
       const impulse = contactImpulse(a, b);
       candidate.entrants = candidate.entrants.map((e) => e.id === a.id ? applyWorldVelocity(e, a.vx, a.vy)
         : e.id === b.id ? applyWorldVelocity(e, b.vx, b.vy) : e);
       candidate.pairs[next.pair] = { time: candidate.time, separated: false };
-      candidate.events.push({ kind: 'contact', ids: next.ids, time: candidate.time, impulse: impulse.impulse });
+      candidate.events.push({ kind: 'contact', ids: next.ids, time: candidate.time, impulse: impulse.impulse, correction: evidence });
     }
     state = candidate; // The next loop recomputes from this committed boundary.
     remaining -= dt;

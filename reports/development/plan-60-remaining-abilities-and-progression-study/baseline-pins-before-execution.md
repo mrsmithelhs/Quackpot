@@ -1,0 +1,5 @@
+# Baseline pre-execution pins
+
+Before any baseline test or measurement, after QP Orch's protocol corrections: preregistration SHA-256 `6f02da9b3355fa99b749537a4e5a33b2038008ace0ba9fff8f1f0ae7d06f8c25`; runner `5aff919281c54785f3cbbfa0567e93164b3c26aef73b3ca758b4ae74e60c9874`; test `aa6321908c60023d76caa570b4e5ff4ec4f82f426f726e15fc53f0a8f9c0d6de`. See preregistration for production imports and fixed cases. Earlier draft was revised before measurements following root review: observed dt and clipped intervals, target switches, honest rating mapping and censored denominator treatment replaced frame-count approximations and ambiguous wording. Any later correction must preserve its failure evidence and be separately identified.
+
+The first two focused tests passed. Before any measurement, a third authored test was added to check fractional finish clipping and a target switch; revised test hash `1bc5e0bbb1deb6022b33986d3d08fe62b513c700ad14d3685e3f87df012415f3`. Protocol and runner remain at the original pins above.

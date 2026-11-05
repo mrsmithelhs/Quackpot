@@ -1,0 +1,9 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5222888,
+  "PeakSampledPrivateBytes": 1851392,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ capture rejects uncertain cleanup independently of passing artifact checks (1.1266ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 73.1379\n",
+  "StandardError": ""
+}

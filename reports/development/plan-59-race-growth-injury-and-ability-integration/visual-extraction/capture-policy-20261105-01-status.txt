@@ -1,0 +1,7 @@
+started=2026-11-05T02:25:33.0353967-05:00
+finished=2026-11-05T02:25:34.1061151-05:00
+preflight_available_gib=12.83
+wrapper_exit=0
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('--test','reports/development/plan-59-race-growth-injury-and-ability-integration/visual-extraction/capture-policy.test.mjs')
+361FE0FF4B9E4BF4599841B7E75330EE666B1B4B5968E1C272EC81E340AEC61B reports\development\plan-59-race-growth-injury-and-ability-integration\visual-extraction\capture-policy.mjs
+40F59AAF3F47BBF5F63D0201CD7F971AD864DF1890B4B08D0D89D5CD6B4C5A6A reports\development\plan-59-race-growth-injury-and-ability-integration\visual-extraction\capture-policy.test.mjs

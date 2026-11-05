@@ -1,0 +1,5 @@
+started=2026-11-05T02:10:00.7943824-05:00
+finished=2026-11-05T02:10:09.1742849-05:00
+preflight_available_gib=12.94
+wrapper_exit=1
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('reports/development/plan-59-race-growth-injury-and-ability-integration/visual-extraction/capture-01.mjs')

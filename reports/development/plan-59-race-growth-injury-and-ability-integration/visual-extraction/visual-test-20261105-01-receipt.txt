@@ -1,0 +1,9 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5232967,
+  "PeakSampledPrivateBytes": 2043904,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ selected 11 ability treatments reproduce their source geometry and layers (3.2638ms)\n✔ ability pose layers remain explicit, unique, inert and clearable (1.9834ms)\n✔ selected collision frames and independent injury preserve exact source assets (3.2643ms)\n✔ externally clocked timeline freezes, seeks, replays and disposes independently (0.2577ms)\n✔ runtime modules do not import reports or read ambient randomness (0.5707ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 93.9762\n",
+  "StandardError": ""
+}

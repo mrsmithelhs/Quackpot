@@ -1,0 +1,11 @@
+started=2026-11-05T02:01:50.4231390-05:00
+finished=2026-11-05T02:01:51.5029132-05:00
+preflight_available_gib=12.99
+wrapper_exit=0
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('--test','src/ui/race-effects/visual-effects.test.mjs')
+294C84CA69BEA2E46EFD37FDD7CAB82EB7790CFEB6AB13564410F154F3F65897 src\ui\race-effects\ability-effects.mjs
+48688E5C6ACFC0C91F4148BC3D3C011221C3AF0F218443A7F74D56B0F4555B49 src\ui\race-effects\collision-effects.mjs
+F243C258ADEA70961DE9DD0646DD74D7EBA6EAD41E22382083BE8648FA3601E5 src\ui\race-effects\visual-effects.test.mjs
+5A2EB0A825393C4CDD4CDEC6136BED51508DBE56DF032D6222BB601D6A57027E reports\development\plan-59-race-growth-injury-and-ability-integration\visual-extraction\timeline-fixture.mjs
+D126BDE49F09934C07F7C5AA2FE96788DB025ABCD266AFCEBAE9DDCAA3A8EF8F reports\development\plan-59-race-growth-injury-and-ability-integration\visual-extraction\visual-fixture.mjs
+D4FB35C219A289414AB1259B9742ACDD21CAEB4307F4830DDBA782AADBFAEC96 reports\development\plan-59-race-growth-injury-and-ability-integration\visual-extraction-map.md

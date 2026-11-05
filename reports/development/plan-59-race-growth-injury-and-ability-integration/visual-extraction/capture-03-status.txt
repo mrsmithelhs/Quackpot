@@ -1,0 +1,9 @@
+started=2026-11-05T02:18:00.3851624-05:00
+finished=2026-11-05T02:18:15.5136783-05:00
+execution_context=normal-host
+preflight_available_gib=12.71
+preflight_observed_at=2026-11-05T02:17:40.7975470-05:00
+capture01_cleanup=unconfirmed
+capture02_cleanup=sampled-observed-no-residual
+wrapper_exit=0
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('reports/development/plan-59-race-growth-injury-and-ability-integration/visual-extraction/capture-03.mjs')

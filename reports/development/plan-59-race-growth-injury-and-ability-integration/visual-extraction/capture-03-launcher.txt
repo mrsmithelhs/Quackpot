@@ -1,0 +1,7 @@
+{
+  "historicalExitCode": 0,
+  "elapsedSeconds": 14.5557741,
+  "peakSampledPrivateBytes": 562241536,
+  "receipt": "capture-03/receipt.json",
+  "note": "Sanitized historical launcher summary; exact original retained locally in ignored .log."
+}

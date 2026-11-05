@@ -1,7 +1,8 @@
 ---
 id: plan-60
 title: Remaining race abilities and progression study
-status: in-progress
+status: complete
+resolution: "Owner accepted the distinct ability directions and closed the report-local investigation; limited experiments and illustrative gallery inform a separate replay-correct-kernel mechanics study, not numerical balance or production adoption."
 depends_on: [plan-55, plan-58]
 gate: "Root clears the study mechanism, consultant transport and finite experiment protocol; owner selects contextual ability/progression directions before a separate production amendment or packet."
 summary: >-

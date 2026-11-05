@@ -44,3 +44,7 @@ The separate production integration gate and delivered-but-not-complete status r
 ## Four contact voice sketches
 
 Owner selected both Copy Counter and Lantern Laundry as candidates and requested both an acquaintance and a family contact. `chatter-ideas/four-contact-sketches.md` (local commit `11cb4d49`) develops distinct voices, completed historical exchanges, optional singles/pairs and continuity boundaries. “Kit” and a Mom message thread are proposals for owner review, not selected canon; the existing Call Mom activity and its rules are not changed. The sketches do not adopt a message schedule, gameplay effect or production implementation. This prose-only follow-up did not warrant a behavioral advisor consultation; no provider calls, runtime tests or captures were run. Owner review remains open.
+
+## Owner contact selection
+
+The owner chose Kit as a casual neighborhood acquaintance and Mom as the family contact, and said the four sketches are good enough to work with. Selection is recorded in `chatter-ideas/four-contact-sketches.md` at `6e153fa3`. This is working content direction, not a schedule, new social/financial rule, production integration or final Plan61 acceptance. No provider call, runtime test or behavioral advisor consultation was warranted for this prose-only update. The existing Call Mom lifecycle is unchanged.

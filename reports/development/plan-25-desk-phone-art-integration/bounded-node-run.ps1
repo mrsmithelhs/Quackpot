@@ -21,6 +21,18 @@ public sealed class BoundedRunResult {
   public string CleanupNotes { get; set; }
   public string StandardOutput { get; set; }
   public string StandardError { get; set; }
+  public string FailurePhase { get; set; }
+  public string FailureOperation { get; set; }
+  public string FailureType { get; set; }
+  public int? NativeErrorCode { get; set; }
+  public bool OutputDrainComplete { get; set; }
+  public bool RootExited { get; set; }
+  public bool UnobservedDescendantsPossible { get; set; }
+  public bool CleanupResidualObserved { get; set; }
+  public bool CleanupInspectionFailed { get; set; }
+  public bool CleanupIdentityUnverified { get; set; }
+  public int VerifiedDescendantsCaptured { get; set; }
+  public int CleanupDescendantsExited { get; set; }
 }
 
 public static class Plan25ProcessTree {
@@ -79,29 +91,30 @@ public static class Plan25ProcessTree {
     } finally { CloseHandle(snapshot); }
   }
 
-  private static HashSet<int> Descendants(int rootId, Dictionary<int, int> parents) {
-    var ids = new HashSet<int> { rootId };
-    bool changed;
-    do {
-      changed = false;
-      foreach (var item in parents) if (ids.Contains(item.Value) && ids.Add(item.Key)) changed = true;
-    } while (changed);
-    return ids;
-  }
-
-  private static List<string> CleanupCaptured(Dictionary<int, CapturedProcess> captured) {
+  private static List<string> CleanupCaptured(Dictionary<int, CapturedProcess> captured, Stopwatch deadline,
+      out bool residual, out bool inspectionFailed, out bool identityUnverified, out int exited) {
     var notes = new List<string>();
+    residual = false; inspectionFailed = false; identityUnverified = false; exited = 0;
     foreach (var item in captured.Values) {
       try {
-        if (!item.Handle.HasExited && item.Handle.StartTime.ToUniversalTime().Ticks == item.StartTicks) item.Handle.Kill();
-      } catch (Exception error) { notes.Add("survivor termination: " + error.Message); }
+        if (!item.Handle.HasExited) {
+          if (item.Handle.StartTime.ToUniversalTime().Ticks != item.StartTicks) {
+            identityUnverified = true; notes.Add("captured descendant identity changed; not terminated");
+          } else {
+            item.Handle.Kill();
+            int remaining = Math.Max(0, 5000 - (int)deadline.ElapsedMilliseconds);
+            if (!item.Handle.WaitForExit(remaining) && !item.Handle.HasExited) { residual = true; notes.Add("captured descendant did not exit within cleanup deadline"); }
+          }
+        }
+        if (item.Handle.HasExited) exited++;
+      } catch (Exception error) { inspectionFailed = true; notes.Add("descendant cleanup: " + error.GetType().Name); }
       try { item.Handle.Dispose(); } catch (Exception error) { notes.Add("process handle cleanup: " + error.Message); }
     }
     captured.Clear();
     return notes;
   }
 
-  public static BoundedRunResult Run(string workingDirectory, string executable, string[] argumentVector) {
+  public static BoundedRunResult Run(string workingDirectory, string executable, string[] argumentVector, string diagnosticFault) {
     var start = new ProcessStartInfo();
     start.FileName = executable; start.WorkingDirectory = workingDirectory;
     start.UseShellExecute = false; start.CreateNoWindow = true;
@@ -113,56 +126,107 @@ public static class Plan25ProcessTree {
     var clock = Stopwatch.StartNew(); var captured = new Dictionary<int, CapturedProcess>();
     long peak = 0; string stopReason = null; bool started = false;
     var cleanupNotes = new List<string>();
+    string phase = "start", operation = "process-start"; Exception primaryError = null;
+    Task outTask = null, errTask = null; bool rootExited = false, drained = false;
+    int exitCode = -1, verifiedCount = 0, exitedCount = 0; long rootStartTicks = 0; bool cleanupResidual = false, cleanupInspection = false, cleanupIdentity = false, diagnosticNodeChild = false;
     try {
       if (!process.Start()) throw new InvalidOperationException("The owned validation process did not start.");
       started = true;
-      Task outTask = stdout.Drain(process.StandardOutput); Task errTask = stderr.Drain(process.StandardError);
-      while (!process.HasExited) {
+      operation = "capture-root-identity"; rootStartTicks = process.StartTime.ToUniversalTime().Ticks;
+      operation = "begin-output-drain";
+      outTask = stdout.Drain(process.StandardOutput); errTask = stderr.Drain(process.StandardError);
+      phase = "monitor";
+      while (true) {
+        operation = "check-owned-root"; if (process.HasExited) break;
+        operation = "snapshot-process-tree";
+        if (diagnosticFault == "inspection") throw new System.ComponentModel.Win32Exception(5, "Controlled inspection failure");
+        if (diagnosticFault == "timeout") { stopReason = "controlled timeout-path diagnostic"; break; }
+        long snapshotStarted = DateTime.UtcNow.Ticks;
         var parents = SnapshotParents();
-        var current = Descendants(process.Id, parents);
+        var verified = new Dictionary<int,long> { [process.Id] = rootStartTicks };
+        bool changed;
         long totalPrivate = 0;
-        foreach (int id in current) {
-          CapturedProcess item;
-          if (!captured.TryGetValue(id, out item)) {
+        operation = "sample-owned-root"; process.Refresh();
+        if (!process.HasExited && process.StartTime.ToUniversalTime().Ticks == rootStartTicks) totalPrivate += process.PrivateMemorySize64;
+        do {
+          changed = false;
+          foreach (var edge in parents) {
+            int id = edge.Key, parentId = edge.Value;
+            if (verified.ContainsKey(id) || !verified.ContainsKey(parentId)) continue;
+            operation = "capture-verified-descendant"; Process child = null;
             try {
-              var child = Process.GetProcessById(id);
-              item = new CapturedProcess { Handle = child, StartTicks = child.StartTime.ToUniversalTime().Ticks };
-              captured[id] = item;
-            } catch (ArgumentException) { continue; }
+              child = Process.GetProcessById(id); long created = child.StartTime.ToUniversalTime().Ticks;
+              if (created <= verified[parentId] || created > snapshotStarted) throw new InvalidOperationException("Ambiguous descendant creation order");
+              var confirmation = SnapshotParents();
+              if (!confirmation.TryGetValue(id, out int confirmedParent) || confirmedParent != parentId) throw new InvalidOperationException("Descendant ancestry changed during inspection");
+              if (parentId == process.Id) { if (process.HasExited || process.StartTime.ToUniversalTime().Ticks != rootStartTicks) throw new InvalidOperationException("Root identity changed during inspection"); }
+              else { var parent = captured[parentId]; if (parent.Handle.HasExited || parent.Handle.StartTime.ToUniversalTime().Ticks != verified[parentId]) throw new InvalidOperationException("Parent identity changed during inspection"); }
+              if (child.HasExited || child.StartTime.ToUniversalTime().Ticks != created) throw new InvalidOperationException("Descendant identity changed during inspection");
+              if (captured.TryGetValue(id,out CapturedProcess prior)) {
+                if (prior.StartTicks != created) throw new InvalidOperationException("Descendant PID was reused");
+                child.Dispose(); child = null;
+              } else { captured[id] = new CapturedProcess { Handle = child, StartTicks = created }; child = null; verifiedCount++; }
+              verified[id] = created; changed = true;
+              operation = "sample-process-memory"; var item=captured[id]; item.Handle.Refresh();
+              if (!item.Handle.HasExited && item.Handle.StartTime.ToUniversalTime().Ticks == created) {
+                totalPrivate += item.Handle.PrivateMemorySize64;
+                if (diagnosticFault == "timeout-after-sample" && item.Handle.ProcessName.Equals("node",StringComparison.OrdinalIgnoreCase)) diagnosticNodeChild = true;
+              }
+            } catch (ArgumentException) { /* Process vanished before its identity could be opened. */ }
+            finally { if (child != null) { try { child.Dispose(); } catch (Exception error) { cleanupInspection=true; cleanupNotes.Add("unregistered handle disposal: " + error.GetType().Name); } } }
           }
-          try {
-            item.Handle.Refresh();
-            if (!item.Handle.HasExited && item.Handle.StartTime.ToUniversalTime().Ticks == item.StartTicks)
-              totalPrivate += item.Handle.PrivateMemorySize64;
-          } catch (InvalidOperationException) { }
-        }
+        } while (changed);
+        if (diagnosticFault == "timeout-after-sample" && diagnosticNodeChild) { stopReason = "controlled sampled-child timeout diagnostic"; break; }
         if (totalPrivate > peak) peak = totalPrivate;
         if (totalPrivate > 2L * 1024 * 1024 * 1024) { stopReason = "sampled owned-tree private bytes exceeded 2 GiB"; break; }
         if (clock.Elapsed.TotalSeconds >= 90) { stopReason = "90-second wall limit exceeded"; break; }
         Thread.Sleep(500);
-        process.Refresh();
+        operation = "refresh-owned-root"; process.Refresh();
       }
-      if (stopReason != null && !process.HasExited) process.Kill(true);
-      if (!process.WaitForExit(5000) && !process.HasExited) throw new TimeoutException("Owned root process did not exit within 5 seconds after termination.");
-      cleanupNotes.AddRange(CleanupCaptured(captured));
-      Task.WaitAll(new[] { outTask, errTask }, 5000);
-      if (!outTask.IsCompleted || !errTask.IsCompleted) throw new TimeoutException("Output drain did not finish within 5 seconds.");
-      return new BoundedRunResult { ExitCode = process.ExitCode, ElapsedSeconds = clock.Elapsed.TotalSeconds,
-        PeakSampledPrivateBytes = peak, StopReason = stopReason, CleanupNotes = String.Join("; ", cleanupNotes),
-        StandardOutput = stdout.Value, StandardError = stderr.Value };
+      phase = "wait"; operation = "wait-for-owned-root";
+      if (stopReason == null && !process.WaitForExit(5000) && !process.HasExited) throw new TimeoutException("Owned root did not exit within 5 seconds.");
+      if (stopReason == null) { rootExited = process.HasExited; if (rootExited) exitCode = process.ExitCode; }
+    } catch (Exception error) {
+      primaryError = error;
     } finally {
-      if (started && !process.HasExited) {
-        try { process.Kill(true); process.WaitForExit(5000); } catch (InvalidOperationException) { }
+      // Kill only verified captured identities and the root Process handle we
+      // started. Do not recursively terminate unidentified descendants.
+      var cleanupDeadline = Stopwatch.StartNew();
+      if (started) {
+        try {
+          if (!process.HasExited) { process.Kill(); process.WaitForExit(Math.Max(0,5000-(int)cleanupDeadline.ElapsedMilliseconds)); }
+          rootExited = process.HasExited;
+          if (!rootExited) { cleanupResidual = true; cleanupNotes.Add("owned root did not exit"); }
+          if (rootExited && exitCode == -1) exitCode = process.ExitCode;
+        } catch (Exception error) { cleanupInspection = true; cleanupNotes.Add("owned root cleanup: " + error.GetType().Name); }
       }
-      cleanupNotes.AddRange(CleanupCaptured(captured));
-      process.Dispose();
+      cleanupNotes.AddRange(CleanupCaptured(captured,cleanupDeadline,out bool childResidual,out bool childInspection,out bool childIdentity,out exitedCount));
+      cleanupResidual |= childResidual; cleanupInspection |= childInspection; cleanupIdentity |= childIdentity;
+      if (outTask != null && errTask != null) {
+        try { Task.WaitAll(new[] { outTask, errTask }, 5000); drained = outTask.IsCompletedSuccessfully && errTask.IsCompletedSuccessfully; }
+        catch (Exception error) { cleanupNotes.Add("output drain: " + error.GetType().Name + ": " + error.Message); }
+        if (!drained) cleanupNotes.Add("output drain incomplete");
+      }
+      try { process.Dispose(); } catch (Exception error) { cleanupNotes.Add("root handle cleanup: " + error.GetType().Name + ": " + error.Message); }
     }
+    if (primaryError != null || stopReason != null || cleanupNotes.Count != 0 || (started && !rootExited)) exitCode = -1;
+    var native = primaryError as System.ComponentModel.Win32Exception;
+    return new BoundedRunResult { ExitCode=exitCode, ElapsedSeconds=clock.Elapsed.TotalSeconds,
+      PeakSampledPrivateBytes=peak, StopReason=stopReason, CleanupNotes=String.Join("; ",cleanupNotes),
+      StandardOutput=stdout.Value, StandardError=stderr.Value,
+      FailurePhase=primaryError == null ? null : phase, FailureOperation=primaryError == null ? null : operation,
+      FailureType=primaryError?.GetType().Name, NativeErrorCode=native?.NativeErrorCode,
+      OutputDrainComplete=drained, RootExited=rootExited, UnobservedDescendantsPossible=started,
+      CleanupResidualObserved=cleanupResidual, CleanupInspectionFailed=cleanupInspection, CleanupIdentityUnverified=cleanupIdentity,
+      VerifiedDescendantsCaptured=verifiedCount, CleanupDescendantsExited=exitedCount };
   }
 }
 '@
 
-$resolvedExecutable = (Get-Command -Name $Executable -ErrorAction Stop).Source
-$result = [Plan25ProcessTree]::Run((Get-Location).Path, $resolvedExecutable, $ArgumentVector)
+$resolvedExecutable = try { (Get-Command -Name $Executable -ErrorAction Stop).Source } catch { $Executable }
+$diagnosticFault = [Environment]::GetEnvironmentVariable('QP_BOUNDED_TEST_FAULT')
+if ($diagnosticFault -and $diagnosticFault -notin @('inspection','timeout','timeout-after-sample')) { throw 'Unsupported bounded launcher diagnostic fault.' }
+$result = [Plan25ProcessTree]::Run((Get-Location).Path, $resolvedExecutable, $ArgumentVector, $diagnosticFault)
 $result | ConvertTo-Json -Depth 3
 if ($result.StopReason) { throw $result.StopReason }
 if ($result.ExitCode -ne 0) { throw "Validation process exited with code $($result.ExitCode)." }

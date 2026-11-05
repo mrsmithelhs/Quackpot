@@ -1,5 +1,5 @@
 // Course geometry and speed limits derived from the pinned Plan 23 resolver.
-// Unmounted candidate; the weave, R2 controller and full race loop are not here.
+// Unmounted candidate; the full race loop is not here.
 export const COURSE_LENGTH = 120 + 40 * Math.PI;
 const wrap = (n, period) => ((n % period) + period) % period;
 
@@ -62,10 +62,18 @@ export function targetSpeed(topSpeed, progress, lateral, speed, leaderSlowdown =
 /** Rebuild a linearized world velocity from the current course frame and heading. */
 export function linearizeEntrant(entrant) {
   const frame = courseFrame(entrant.progress, entrant.lateral);
-  const vx = entrant.speed * Math.cos(entrant.heading), vy = entrant.speed * Math.sin(entrant.heading);
+  let vx = entrant.speed * Math.cos(entrant.heading), vy = entrant.speed * Math.sin(entrant.heading);
+  const normal = -vx * frame.ty + vy * frame.tx;
+  // A continuing wall constraint suppresses only outward local normal motion.
+  // Store this as a local physical constraint, not an angle-roundtrip equality.
+  const constrained = entrant.wallConstrained && Math.abs(entrant.lateral) === 6 && normal * Math.sign(entrant.lateral) > 0;
+  if (constrained) {
+    const tangent = vx * frame.tx + vy * frame.ty;
+    vx = tangent * frame.tx; vy = tangent * frame.ty;
+  }
   return { ...entrant, x: frame.x, y: frame.y, vx, vy,
     progressVelocity: vx * frame.tx + vy * frame.ty,
-    lateralVelocity: -vx * frame.ty + vy * frame.tx };
+    lateralVelocity: constrained ? 0 : -vx * frame.ty + vy * frame.tx };
 }
 
 /** Project impulse back to heading/speed; retain steering/recovery state unchanged. */
@@ -79,4 +87,83 @@ export function advanceCourse(entrant, dt) {
   const linear = linearizeEntrant(entrant);
   return { ...entrant, progress: entrant.progress + linear.progressVelocity * dt,
     lateral: entrant.lateral + linear.lateralVelocity * dt };
+}
+
+/** Apply the selected steering turn before physical movement. */
+export function steerEntrant(entrant, tick, rank, assisted) {
+  if (!entrant || !Number.isSafeInteger(tick) || tick < 0 || !Number.isSafeInteger(rank) || rank < 1
+      || typeof assisted !== 'boolean' || !Number.isFinite(entrant.assignedLaneOffset)) throw new RangeError('invalid steering context');
+  const e = structuredClone(entrant), frame = courseFrame(e.progress, e.lateral);
+  const tangent = Math.atan2(frame.ty, frame.tx);
+  const delta = (to, from) => Math.atan2(Math.sin(to - from), Math.cos(to - from));
+  const error = e.lateral - e.assignedLaneOffset;
+  const episode = e.steeringEpisode;
+  let target = tangent + recenterCorrectionDeg(error) * Math.PI / 180;
+  let cap = turnCap(e.speed);
+  if (assisted && (!episode || episode.phase === 'recover')) {
+    target = tangent + Math.max(-20, Math.min(20, Math.atan2(-error, 6) * 180 / Math.PI)) * Math.PI / 180;
+    cap = Math.min(90, cap * 1.5);
+  }
+  if (episode && ['acquire', 'hold'].includes(episode.phase)) target = tangent + episode.sign * episode.targetOffsetDeg * Math.PI / 180;
+  const turn = delta(target, e.heading);
+  e.heading += Math.sign(turn) * Math.min(Math.abs(turn), cap * Math.PI / 180 * 0.05);
+  return e;
+}
+
+/** Advance acquisition, hold and recovery after movement, as in Plan 23. */
+export function advanceSteeringEpisode(entrant, tick, rank) {
+  if (!entrant || !Number.isSafeInteger(tick) || tick < 0 || !Number.isSafeInteger(rank) || rank < 1
+      || !Number.isFinite(entrant.assignedLaneOffset)) throw new RangeError('invalid steering context');
+  const e = structuredClone(entrant), frame = courseFrame(e.progress, e.lateral);
+  const tangent = Math.atan2(frame.ty, frame.tx);
+  const delta = (to, from) => Math.atan2(Math.sin(to - from), Math.cos(to - from));
+  const error = e.lateral - e.assignedLaneOffset;
+  const episode = e.steeringEpisode;
+  if (!episode) return e;
+  const offset = Math.abs(delta(e.heading, tangent)) * 180 / Math.PI;
+  const target = ['acquire', 'hold'].includes(episode.phase)
+    ? tangent + episode.sign * episode.targetOffsetDeg * Math.PI / 180
+    : tangent + recenterCorrectionDeg(error) * Math.PI / 180;
+  const atTarget = Math.abs(delta(target, e.heading)) * 180 / Math.PI <= 1;
+  if (episode.phase === 'acquire') {
+    if (atTarget && offset >= 10) {
+      episode.phase = 'hold'; episode.heldTicks = 0;
+      if (episode.kind === 'weave' && rank <= 2 && e.leaderSlowdownCount < 2 && e.leaderSlowdownUntil <= tick) {
+        e.leaderSlowdownCount++; e.leaderSlowdownUntil = tick + 21;
+      }
+    } else if (tick - episode.startTick >= 20) episode.phase = 'recover';
+  } else if (episode.phase === 'hold') {
+    if (!atTarget || offset < 10) episode.phase = 'recover';
+    else if (++episode.heldTicks >= 10) episode.phase = 'recover';
+  } else if (episode.phase === 'recover') {
+    const aligned = Math.abs(delta(target, e.heading)) * 180 / Math.PI <= 1;
+    episode.centeredTicks = Math.abs(error) <= 0.25 && aligned ? (episode.centeredTicks ?? 0) + 1 : 0;
+    if (episode.centeredTicks >= 3) e.steeringEpisode = null;
+  } else throw new RangeError('invalid steering phase');
+  return e;
+}
+
+/** Plan 23 endpoint wall response, independent of boundary ordering. */
+export function resolveWallEndpoint(entrant, tick, atBoundary = false) {
+  if (!entrant || !Number.isSafeInteger(tick) || tick < 0
+      || ![entrant.progress, entrant.lateral, entrant.speed, entrant.heading].every(Number.isFinite)
+      || entrant.speed < 0 || typeof entrant.wallEpisode !== 'boolean' || typeof atBoundary !== 'boolean') throw new RangeError('invalid wall context');
+  let e = structuredClone(entrant);
+  if (Math.abs(e.lateral) < 6 || (Math.abs(e.lateral) === 6 && !atBoundary) || e.wallEpisode) {
+    if (Math.abs(e.lateral) < 5.95) e.wallEpisode = false;
+    return { entrant: e, event: null };
+  }
+  const side = Math.sign(e.lateral), frame = courseFrame(e.progress, e.lateral);
+  const vx = e.speed * Math.cos(e.heading), vy = e.speed * Math.sin(e.heading);
+  const normalV = -vx * frame.ty + vy * frame.tx, tangentV = vx * frame.tx + vy * frame.ty;
+  const closing = normalV * side, speedBefore = e.speed;
+  e.lateral = side * 6;
+  if (closing > 0) {
+    const normal = -normalV * 0.25, tangent = tangentV * 0.9;
+    e = applyWorldVelocity(e, frame.tx * tangent - frame.ty * normal,
+      frame.ty * tangent + frame.tx * normal);
+  }
+  e.wallEpisode = true;
+  return { entrant: e, event: { kind: closing > 0 ? 'wall-impact' : 'wall-overlap',
+    participantId: e.id, tick, closingSpeed: closing, speedBefore, speedAfter: e.speed } };
 }

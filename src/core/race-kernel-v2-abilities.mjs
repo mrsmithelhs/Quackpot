@@ -81,3 +81,32 @@ export function sampleOpportunity(previous, { tick, eligible, roll }) {
   next.latched = true; next.opportunity += 1;
   return { state: next, attempted: true, activated: roll < 0.75 };
 }
+
+/** Advance a single participant's diagnostic ability state at a tick boundary. */
+export function advanceAbility(previous, { kind, tick, eligible, draw }) {
+  if (!['bounce', 'crowd'].includes(kind) || !Number.isSafeInteger(tick) || tick < 0
+      || typeof eligible !== 'boolean' || typeof draw !== 'function' || !previous
+      || !Number.isSafeInteger(previous.activeUntil) || !Number.isSafeInteger(previous.cooldownUntil)
+      || !(previous.startTick === null || Number.isSafeInteger(previous.startTick))) throw new RangeError('invalid ability transition');
+  let state = { ...previous };
+  const events = [];
+  if (state.startTick !== null && tick >= state.activeUntil) {
+    events.push({ kind: 'termination', ability: kind, tick });
+    state.startTick = null;
+    state.cooldownUntil = tick + ABILITY_PARAMETERS.cooldownTicks;
+  }
+  const probe = sampleOpportunity(state, { tick, eligible, roll: 0 });
+  if (!probe.attempted) return { state: probe.state, events };
+  const evidence = draw(probe.state.opportunity);
+  if (!evidence || !Number.isFinite(evidence.value) || evidence.value < 0 || evidence.value >= 1 || typeof evidence.key !== 'string') throw new RangeError('invalid ability draw');
+  const decision = sampleOpportunity(state, { tick, eligible, roll: evidence.value });
+  state = decision.state;
+  events.push({ kind: 'opportunity', ability: kind, tick, opportunity: state.opportunity,
+    activated: decision.activated, draw: evidence.value, key: evidence.key });
+  if (decision.activated) {
+    state.startTick = tick;
+    state.activeUntil = tick + (kind === 'bounce' ? 14 : ABILITY_PARAMETERS.crowdTicks);
+    events.push({ kind: 'activation', ability: kind, tick, opportunity: state.opportunity });
+  }
+  return { state, events };
+}

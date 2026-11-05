@@ -26,6 +26,7 @@ import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mj
 import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility, raceCandidateFacts, RACE_CANDIDATE_EVIDENCE_VERSION } from './race-progression.mjs';
 import { decodeResult } from './race-v2/codec.mjs';
 import { createRaceWorkerClient } from './race-v2/worker-client.mjs';
+import { deliveryPayloads } from './messages-policy.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
@@ -108,8 +109,10 @@ export class GameEngine {
   #v2SessionResults = new Map();
   #v2VerifiedCandidates = new Map();
   #v2Worker = null;
-  constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false, raceV2 = false } = {}) {
+  constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false, raceV2 = false, messagesPolicy = false } = {}) {
     this.#v2Enabled = raceV2 === true;
+    if (messagesPolicy && (!this.#v2Enabled || lifePolicy !== 'five-slot-v1')) throw new Error('Messages policy requires a new five-slot schema-6 run');
+    this.messagesPolicy = messagesPolicy ? 'messages-v1' : null;
     this.tutorialShiftVersion = lifePolicy && tutorialShift ? TUTORIAL_SHIFT_VERSION : null;
     this.seed = String(seed);
     this.log = new EventLog();
@@ -537,10 +540,11 @@ export class GameEngine {
   start() {
     if (this.isTerminal()) throw new Error('Cannot start run: game is in terminal phase');
     if (this.log.entries.some((e) => e.type === 'run_started')) return;
-    this.log.append('run_started', { seed: this.seed, ...(this.state.life ? {
+    this.log.append('run_started', { seed: this.seed, ...(this.messagesPolicy ? { messagesPolicy: this.messagesPolicy } : {}), ...(this.state.life ? {
       lifePolicyVersion: this.state.life.policyVersion, lifeConfig: structuredClone(this.state.life.config),
       ...(this.tutorialShiftVersion ? { tutorialShiftVersion: this.tutorialShiftVersion } : {}),
     } : {}) }, this.state.clock);
+    this.#deliverMessages();
     this.state.step = 'desk';
   }
 
@@ -604,6 +608,7 @@ export class GameEngine {
   // A failed operation must never publish any part of its draft.
   #transactionDraft() {
     const draft = new GameEngine(this.seed,{raceV2:this.#v2Enabled});
+    draft.messagesPolicy = this.messagesPolicy;
     draft.tutorialShiftVersion = this.tutorialShiftVersion;
     draft.autosaveEnabled = this.autosaveEnabled;
     draft.state = structuredClone(this.state);
@@ -625,6 +630,22 @@ export class GameEngine {
     }
     this.state = draft.state; this.log = draft.log;
     this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
+    this.#deliverMessages();
+  }
+
+  #deliverMessages() {
+    if (this.messagesPolicy !== 'messages-v1' || this.isTerminal()) return;
+    for (const payload of deliveryPayloads(this.state.life)) {
+      if (!this.log.entries.some(e => e.type === 'message_delivered' && e.payload?.id === payload.id))
+        this.log.append('message_delivered', payload, this.state.clock);
+    }
+  }
+
+  readMessage(id, revision) {
+    if (this.messagesPolicy !== 'messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision !== 1 || typeof id !== 'string' || id.length > 80) return false;
+    if (!this.log.entries.some(e => e.type === 'message_delivered' && e.payload?.id === id && e.payload.revision === revision)) return false;
+    if (this.log.entries.some(e => e.type === 'message_read' && e.payload?.id === id && e.payload.revision === revision)) return false;
+    this.log.append('message_read', {id, revision}, this.state.clock); return true;
   }
 
   // Only confirmed next-phase actions use this owned draft. No storage, render, or live mutation before publication.
@@ -1920,6 +1941,7 @@ export class GameEngine {
   toEnvelope() {
     return {
       schemaVersion: this.#v2Enabled ? 6 : this.state.life?.policyVersion === 'five-slot-v1' ? 5 : this.state.life ? 4 : 3,
+      ...(this.messagesPolicy ? { messagesPolicy: this.messagesPolicy } : {}),
       raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,
@@ -1947,6 +1969,7 @@ export class GameEngine {
     engine.rngEvent = restoreRng(envelope.prngStreams.event);
 
     engine.log = EventLog.hydrate(envelope.eventLog);
+    engine.messagesPolicy = engine.log.entries[0]?.payload?.messagesPolicy ?? null;
     engine.tutorialShiftVersion = engine.log.entries.find(e => e.type === 'run_started')?.payload?.tutorialShiftVersion ?? null;
 
     // Reconstruct / validate authoritative progression from event log (Repair 02, P1)

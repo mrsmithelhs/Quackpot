@@ -1090,6 +1090,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   // ----- events -----
 
   root.addEventListener('click', (ev) => {
+    queueMicrotask(() => callbacks.onMessagesAvailabilityChange?.());
     if (!active) return;
     const held = $('.life-held');
     if (held && ev.target === held && !busy) { putDown(); return; } // clicking the dimmed backdrop puts it down
@@ -1116,6 +1117,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   });
 
   const onKeydown = (ev) => {
+    if (ev.key === 'Escape') queueMicrotask(() => callbacks.onMessagesAvailabilityChange?.());
     if (ev.key !== 'Escape' || !active || destroyed || busy) return;
     if (ui.renOpen) {
       ev.preventDefault(); ui.renOpen = false; ui.returnFocus = { place: 'desk-phone', id: 'phone' }; callbacks.onRefresh();
@@ -1130,6 +1132,16 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   render();
 
   return {
+    canSuspendForMessages() {
+      return Boolean(active && !destroyed && !busy && !closing && !committed && !ui.held && !popEl && !ui.renOpen && ui.place !== 'door' && !engine.state.life?.story47 && !engine.state.life?.social46?.scene && $('.life-day-bar'));
+    },
+    suspendForMessages() { root.inert=true; },
+    resumeAfterMessages() {
+      if (destroyed) return;
+      // Renew only day-bar callbacks; a full render can emit social/story facts.
+      if ($('.life-day-bar')) renderDayBar(ui.place);
+      root.inert=!active;
+    },
     destroy() {
       destroyed = true;
       document.removeEventListener('keydown', onKeydown);

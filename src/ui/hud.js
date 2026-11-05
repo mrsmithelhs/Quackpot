@@ -3,7 +3,7 @@
 import { fiveSlotLabel } from './life/life-routing.mjs';
 
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
-  const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false, showEndRun = false, onEndRun } = callbacks;
+  const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false, showEndRun = false, onEndRun, onMessages, messageCount = 0, messagesAvailable = true } = callbacks;
   const state = engine.state;
   const isTerminal = engine.isTerminal();
   const fiveSlot=state.life?.policyVersion==='five-slot-v1';
@@ -28,6 +28,8 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
         </div>
 
         <div class="hud-controls">
+          ${onMessages && !isTerminal ? `<button id="btn-messages" class="btn btn-secondary btn-sm" aria-label="Messages, ${messageCount} unread ${messageCount === 1 ? 'thread' : 'threads'}${messagesAvailable ? '' : ', temporarily unavailable'}" title="${messagesAvailable ? 'Messages' : 'Messages will be available after this scene'}"><svg class="messages-icon" aria-hidden="true" viewBox="0 0 28 22"><path d="M3 3h14a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H9l-4 3v-3a5 5 0 0 1-3-5V8a5 5 0 0 1 1-5Z"/><path d="M15 7h6a5 5 0 0 1 5 5v1a5 5 0 0 1-3 4v3l-4-3h-4"/></svg> Messages<span data-message-count>${messageCount ? ` (${messageCount})` : ''}</span></button>` : ''}
+          ${onMessages && !isTerminal ? '<span id="messages-status" role="status" aria-live="polite"></span>' : ''}
           <button id="btn-manual-save" class="btn btn-secondary btn-sm" title="${isTerminal ? 'Run record locked' : 'Save current run state locally'}" ${isTerminal ? 'disabled' : ''}>
             ${isTerminal ? 'Locked' : 'Save'}
           </button>
@@ -86,6 +88,7 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   const btnReturn = container.querySelector('#btn-return-apartment');
   const btnEndRun = container.querySelector('#btn-end-run');
   const btnUninstall = container.querySelector('#btn-uninstall');
+  const btnMessages = container.querySelector('#btn-messages');
   const saveToast = container.querySelector('#save-notification');
 
   if (btnDex && onOpenDex && !isTerminal) {
@@ -109,6 +112,7 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   }
 
   if (btnSettings && onSettings) btnSettings.addEventListener('click', onSettings);
+  if (btnMessages && onMessages) btnMessages.addEventListener('click', onMessages);
   if (btnReturn && onReturnToApartment) btnReturn.addEventListener('click', onReturnToApartment);
 
   if (btnEndRun && onEndRun && !isTerminal) btnEndRun.addEventListener('click', onEndRun);

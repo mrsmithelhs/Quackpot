@@ -37,7 +37,15 @@ export function mountMessages(host, { deliveries, readKeys = [], onRead, onActio
     const title=doc.createElement('h2'); title.textContent=current ? view().threads.find(t=>t.id===current)?.sender ?? 'Messages' : 'Messages'; header.append(title,button('Close',close)); frame.append(header);
     const list=doc.createElement('div'); list.className='messages-scroll'; frame.append(list); host.append(frame);
     if (!current) {
-      for (const t of view().threads) { const b=button(`${t.sender}${t.unread ? ' — unread' : ''}: ${t.preview}`,()=>{current=t.id;render();}); b.className='messages-thread'; list.append(b); }
+      for (const t of view().threads) {
+        const b=button('',()=>{current=t.id;render();});b.className='messages-thread';
+        const avatar=doc.createElement('span');avatar.className='messages-avatar';avatar.textContent=t.sender.slice(0,1).toUpperCase();avatar.setAttribute('aria-hidden','true');
+        const content=doc.createElement('span');content.className='messages-thread-content';
+        const name=doc.createElement('strong');name.textContent=t.sender;
+        const meta=doc.createElement('span');meta.className='messages-thread-meta';meta.textContent=[t.messages[0].time ?? 'Earlier',t.unread?'Unread':'',t.messages.some(m=>m.actionable)?'Decision available':''].filter(Boolean).join(' · ');
+        const preview=doc.createElement('span');preview.className='messages-preview';preview.textContent=t.preview;
+        content.append(name,meta,preview);b.append(avatar,content);list.append(b);
+      }
     } else {
       const thread=view().threads.find(t=>t.id===current);
       const epoch=generation;
@@ -62,7 +70,7 @@ export function mountMessages(host, { deliveries, readKeys = [], onRead, onActio
   function keydown(e) { if(e.key==='Escape') { e.preventDefault(); close(); } }
   host.addEventListener('keydown',keydown);
   render();
-  return { close, destroy(){ if(closed)return;closed=true;stop();host.removeEventListener('keydown',keydown);host.replaceChildren(); }, update(nextDeliveries, nextReadKeys){ if(closed)return; deliveries=nextDeliveries; reads=new Set(nextReadKeys); render(); }, refresh(){ if(!closed)render(); } };
+  return { close, destroy(){ if(closed)return;closed=true;stop();host.removeEventListener('keydown',keydown);host.replaceChildren(); }, suspend(){ if(!closed)stop(); }, update(nextDeliveries, nextReadKeys){ if(closed)return; deliveries=nextDeliveries; reads=new Set(nextReadKeys); render(); }, refresh(){ if(!closed)render(); } };
 }
 
 

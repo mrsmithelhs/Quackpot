@@ -13,7 +13,17 @@ import {createRaceHistoryPlan} from './race-v2/history-plan.mjs';
 import {createRestoreQueue} from './race-v2/restore-queue.mjs';
 import {isVerifiedWorkerCandidate} from './race-v2/worker-client.mjs';
 import {stableStringify} from './race-v2/codec.mjs';
+import {deliveryCandidate,deliveryPayloads,isDeliveryPayload} from './messages-policy.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+function validateMessagesHeader(envelope) {
+  const start=envelope?.eventLog?.[0]?.payload?.messagesPolicy;
+  const metadata=envelope?.messagesPolicy;
+  if (start === undefined && metadata === undefined) return [];
+  if (envelope?.schemaVersion !== 6 || start !== 'messages-v1' || metadata !== start) return ['Invalid Messages policy metadata'];
+  const facts=envelope.eventLog.filter(e=>typeof e.type==='string' && e.type.startsWith('message_'));
+  if(facts.length>512 || facts.some(e=>JSON.stringify(e.payload ?? null).length>256)) return ['Messages facts exceed limits'];
+  return [];
+}
 const exitInterruptions=(life,entries)=>{
   const active=life.schedule.active,day=life.schedule.day,social=life.social46,story=life.story47,out=[];
   const unseen=(type,id)=>!entries.some(event=>event.type===type && event.payload?.id===id);
@@ -31,11 +41,13 @@ const exitInterruptions=(life,entries)=>{
 function validateTransactions(envelope, verifiedV2 = false) {
   const entries=envelope?.eventLog;
   if(!Array.isArray(entries))return ['Missing transaction history'];
+  const messagesHeaderErrors=validateMessagesHeader(envelope);if(messagesHeaderErrors.length)return messagesHeaderErrors;
   if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
   let life={policyVersion:PRODUCTION.id,config:{...PRODUCTION},schedule:createSchedule(PRODUCTION,PLAYTEST_WORK_CALENDAR),
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
   let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null,appOpened=false;
   const shownStages=[];let expectedInterruptions=[],completionInterruptions=null;
+  const deliveries=new Map(),reads=new Set();
   const errors=[...validateSeededDrawHistory(envelope),...(envelope.schemaVersion===6?(verifiedV2?[]:['Schema-6 race history requires async verification']):validateSeededRaceHistory(envelope))];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
@@ -56,6 +68,10 @@ function validateTransactions(envelope, verifiedV2 = false) {
       expectedTerminal=null;if(errors.length)break;terminalRoute='running_on_empty';
       continue;
     }
+    if(i>0 && envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
+      const expected=deliveryPayloads(life).filter(p=>!deliveries.has(p.id));
+      if(expected.length && (entry.type!=='message_delivered' || !same(entry.payload,expected[0]))) {errors.push(`Missing Messages delivery before ${entry.seq}`);break;}
+    }
     if(terminalRoute) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
       receiptSeen=true;continue;
@@ -74,6 +90,19 @@ function validateTransactions(envelope, verifiedV2 = false) {
       continue;
     }
     if(leaveRequested && entry.type!=='terminal') {errors.push(`Unexpected event after uninstall choice at ${entry.seq}`);break;}
+    if(typeof entry.type === 'string' && entry.type.startsWith('message_')) {
+      const p=entry.payload;
+      if(envelope.messagesPolicy!=='messages-v1' || retentionOpen) {errors.push(`Messages policy unavailable at ${entry.seq}`);break;}
+      if(entry.type==='message_delivered') {
+        if(!isDeliveryPayload(p) || deliveries.has(p.id) || !deliveryCandidate(life,p.kind,p.id)) {errors.push(`Invalid Messages delivery at ${entry.seq}`);break;}
+        deliveries.set(p.id,p.revision);continue;
+      }
+      if(entry.type==='message_read') {
+        if(!p || Object.keys(p).sort().join(',')!=='id,revision' || typeof p.id!=='string' || p.id.length>80 || deliveries.get(p.id)!==p.revision || reads.has(p.id)) {errors.push(`Invalid Messages read at ${entry.seq}`);break;}
+        reads.add(p.id);continue;
+      }
+      errors.push(`Unsupported Messages event at ${entry.seq}`);break;
+    }
     if(entry.type==='action' && entry.payload?.kind==='quackpot_opened') {
       if(appOpened || entry.payload.app!=='Quackpot' || (life.schedule.day===1 && !['evening','late-evening'].includes(life.schedule.slot))) {errors.push(`Invalid app entry at ${entry.seq}`);break;}
       appOpened=true;continue;
@@ -234,6 +263,7 @@ function validateTransactions(envelope, verifiedV2 = false) {
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
+  if(!terminalRoute && envelope.messagesPolicy==='messages-v1' && deliveryPayloads(life).some(p=>!deliveries.has(p.id)))errors.push('Missing Messages delivery at end of history');
   if(expectedStoryIncome)errors.push('Missing work income evidence');
   if(expectedInterruptions.length)errors.push('Missing interruption evidence after uninstall choice');
   if(completionInterruptions!==null)errors.push('Missing terminal after run interruption');
@@ -254,6 +284,7 @@ export function validateFiveSlotTransactionHistory(envelope){return validateTran
 
 export function validateSchema6WithCandidates(envelope,candidates){
   try{
+    const headerErrors=validateMessagesHeader(envelope);if(headerErrors.length)return headerErrors;
     const plan=createRaceHistoryPlan(envelope,{roster:BANNER_1_ROSTER,constants:GAME_CONSTANTS});
     if(!Array.isArray(candidates)||candidates.length!==plan.records.length)throw new RangeError('missing verified candidates');
     for(let i=0;i<candidates.length;i++){
@@ -267,6 +298,7 @@ export function validateSchema6WithCandidates(envelope,candidates){
 /** Full schema-6 replay; no caller-provided token can substitute for reconstruction. */
 export async function validateFiveSlotTransactionHistoryAsync(envelope,{signal,onProgress=()=>{},onValidated=()=>{}}={}){
   if(envelope?.schemaVersion!==6)return validateTransactions(envelope,false);
+  const headerErrors=validateMessagesHeader(envelope);if(headerErrors.length)return headerErrors;
   const queue=createRestoreQueue();const abort=()=>queue.cancel();signal?.addEventListener('abort',abort,{once:true});
   try{
     if(signal?.aborted)throw new Error('restore canceled');

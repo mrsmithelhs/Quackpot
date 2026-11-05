@@ -1,0 +1,100 @@
+{
+  "pins": {
+    "src/main.js": "97d9d7c7c5fc8dfb98024084fd3ad79e68600bd2b8724cfc02c6c84b8435b3fc",
+    "src/core/game-engine.mjs": "2bba1e92aeb5447e2103f48fe02cf9865fc7f6458a4f0e55bcc7052c8bca32c4",
+    "src/core/life-replay.mjs": "caa8a3187c7c552eecfca9c0372855fa3b3f78c0d087c60463dc97e4f312fb61",
+    "src/core/messages-policy.mjs": "8fec8f2c6f60d594c0f5a827ef6db9c253daa57666625636cd2f189dcc1288f3",
+    "src/core/messages-runtime.mjs": "925234e74660e867891a20a41c563d5420c09ed9cf50878d4c4b5dfef90cc2a2",
+    "src/core/storage.mjs": "fccbd26ef73986df2fc1eda561f7997a7fb56ab2ae2a26a3331aa6fc9d33123c",
+    "src/ui/messages-view.mjs": "6f1e1433aab1dd8dc58a1994a08b861d4988d3d3ec8d5c8f4b3028c86d1a1fea",
+    "src/ui/messages.css": "845d26461575028e7232ed587eabcef9ba3cb8be60b9ee59db80e5b9c289ea79",
+    "src/ui/hud.js": "801074a3df4a5c11f220844b732496b911e6f39cfdbffb37017c2d627e183e7b",
+    "src/ui/life/life-view.js": "55448d7eb00572e94a015a98d5fd89f40e7bf6e24285757186c53215f7b6138a",
+    "reports/development/plan-63-messages-production-integration/loan-start-attempt-02.json": "0f1f87e851a50e5a2f093a51e8cbae1c8622a44acaadd3d1c92deeb79e4a3070",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-CmPpHyTz.css": "fdfa571a3c2e3f87660e3b22123f2fb2b76837637d4282b02222e5bf78834051",
+    "dist/assets/index-w_u09148.js": "20af4fc5623579188fc466bb8e9ad2d77acdb485cbbf9bf6aec528ab9ac518c6",
+    "dist/assets/index-w_u09148.js.map": "b2b6e7708f3282ae7c8607b655190b7d00d4169e0192c991090d1849c160423e",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "7ccac49c5f5a455a254a25874bd28e8d71f3262ed266500fbbf412cc7543ade7",
+    "reports/development/plan-63-messages-production-integration/settled-return-start-01.json": "2f64865aa767f833a0fcde01f3ce4d9a800f21a7c6107dd7d5ffddfb1b2e1177"
+  },
+  "observations": [
+    {
+      "width": 1200,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 1200,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    },
+    {
+      "width": 1200,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "width": 390,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 390,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nMessages\n(1)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    },
+    {
+      "width": 390,
+      "case": "work-history-reload",
+      "focus": true,
+      "navigationNoLog": true,
+      "readRetained": true,
+      "loanPending": true
+    },
+    {
+      "case": "settings-uninstall-escape",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true
+    },
+    {
+      "case": "settings-uninstall-escape-return",
+      "settingsCovered": true,
+      "stayResumed": true,
+      "escapeFocus": true,
+      "appReturn": true
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

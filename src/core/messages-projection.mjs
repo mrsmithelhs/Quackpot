@@ -10,7 +10,9 @@ function valid(m) {
   return m && THREADS.has(m.threadId) && [m.messageId, m.deliveryId].every(x => typeof x === 'string' && TOKEN.test(x)) &&
     Number.isSafeInteger(m.revision) && m.revision > 0 && m.revision <= 1000000 &&
     Number.isSafeInteger(m.sequence) && m.sequence >= 0 && typeof m.sender === 'string' && m.sender.length <= 100 &&
-    typeof m.text === 'string' && m.text.length <= 4000 && typeof m.historical === 'boolean';
+    typeof m.text === 'string' && m.text.length <= 4000 && typeof m.historical === 'boolean' &&
+    (m.time === undefined || (typeof m.time === 'string' && m.time.length <= 40)) &&
+    (m.actionable === undefined || typeof m.actionable === 'boolean');
 }
 export function historyMessages() {
   return MESSAGE_HISTORY.map((m, i) => ({ threadId: `history:${m.id}`, messageId: `history:${m.id}`, deliveryId: `history:${m.id}:1`, revision: 1, sequence: i, sender: m.sender, text: m.text, historical: true }));

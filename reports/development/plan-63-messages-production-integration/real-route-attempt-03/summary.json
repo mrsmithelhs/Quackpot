@@ -1,0 +1,70 @@
+{
+  "pins": {
+    "src/main.js": "5186ad2243ab54471099a0e5a441d7bc8c424eb00ac155362eab8371efc50f02",
+    "src/core/game-engine.mjs": "2bba1e92aeb5447e2103f48fe02cf9865fc7f6458a4f0e55bcc7052c8bca32c4",
+    "src/core/life-replay.mjs": "39f6d4ec50d3fcab31a8fe31058d901a2e9b2677b7161e62b6f2ec95bfc16e62",
+    "src/core/messages-policy.mjs": "8fec8f2c6f60d594c0f5a827ef6db9c253daa57666625636cd2f189dcc1288f3",
+    "src/core/messages-runtime.mjs": "729c904a3f94425db17b18e2c813c5ce96641363fb21fac4ec2a8f4f0ef10f36",
+    "src/core/storage.mjs": "fccbd26ef73986df2fc1eda561f7997a7fb56ab2ae2a26a3331aa6fc9d33123c",
+    "src/ui/messages-view.mjs": "fef8f003f57869065c6e4b7fc04d637c8cdffea5cd2acef35906b4e742114dfa",
+    "src/ui/messages.css": "7a0f13125a1a94ad8bcad3642fc12648e13d6cc2ef32a8d94e41c63e08c3c68d",
+    "src/ui/hud.js": "fbc05dbd9617cab199b7b6623022e92292c3e36490b32b2b95eb86b30b43e420",
+    "src/ui/life/life-view.js": "55448d7eb00572e94a015a98d5fd89f40e7bf6e24285757186c53215f7b6138a",
+    "reports/development/plan-63-messages-production-integration/loan-start-attempt-02.json": "0f1f87e851a50e5a2f093a51e8cbae1c8622a44acaadd3d1c92deeb79e4a3070",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-DY0KqJFJ.js": "8f3928b20c7fe35831f21cc6ad8a78d33dd80a23f01edb61c1c5b6fe0de9375e",
+    "dist/assets/index-DY0KqJFJ.js.map": "556ca67c6953dca771c87c482034b7e76c285a9256401dbf0077bb34edcb14a8",
+    "dist/assets/index-VcQIKh8g.css": "ef7128b2aeecdd25687b9400befb22155dab280ba0325f7487f37976258591a4",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "89a61b6056d4e8c1ff322aff68fbbc8145af499a272a64e9e5573e093c19e96a"
+  },
+  "observations": [
+    {
+      "width": 1200,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\n◌◌ Messages (2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 1200,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\n◌◌ Messages (2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    },
+    {
+      "width": 390,
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\n◌◌ Messages (2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nHARBOR COURT PROPERTY OFFICE\n\nRemaining rent balance · Unit 4B\n\nMost of the rent for Unit 4B has already been paid. The remaining balance is $170.00; it is due in \nOriginal three crossed out. Handwritten changes: 2, 1, TODAY!.\nthree days. 2 1 TODAY!\n\nYou can pay in person at the property office, or through the office's online payment page.\n\nOnce the full $170.00 is received, the rent for this unit will be recorded as paid.\n\nIf you have any questions about this notice, please contact the property office. Thank you for living at Harbor Court.\n\nHarbor Court Property Office · Unit 4B\nPayment due\n\nRemaining rent: $170.00.\n\nCash on hand: $170.00.\n\nPay Remaining rent · $170.00\nPut it down",
+      "held": true,
+      "aria": "Messages, 2 unread threads, temporarily unavailable"
+    },
+    {
+      "width": 390,
+      "case": "loan-read",
+      "reads": [
+        {
+          "id": "loan:statement:loan-1",
+          "revision": 1
+        }
+      ],
+      "loanStatus": "pending",
+      "body": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\n◌◌ Messages (2)\nSave\nSettings\nEnd run & view Receipt\n❌ Uninstall\n📅\nDay 4:\nMorning\n💵\nCash:\n$170.00\n💎\nGems:\n4360\n❤️\nHealth:\n100 HP\n⚠️\nDebt:\n$8.94\nCall\nMom\nRent notice\nBreakfast\nDay 4 · Morning\nRent due · $170.00 unpaid\nThe desk →\nThe living room →\n\nBack\nLender\nClose\n\nYour loan statement totals $8.94. You may repay the full amount early.\n\nDecide"
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

@@ -11,6 +11,7 @@ import './ui/life/life-story.css';
 import './ui/life/ren46.css';
 import './ui/apartment-view.css';
 import './ui/life/life.css';
+import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
@@ -59,6 +60,8 @@ import { renderReceiptView } from './ui/receipt-view.js';
 import { renderSettingsModal } from './ui/settings-modal.js';
 import { createStageTransition } from './ui/stage-transition.js';
 import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalidation.mjs';
+import { messagesForEngine } from './core/messages-runtime.mjs';
+import { mountMessages } from './ui/messages-view.mjs';
 
 const app = document.querySelector('#app');
 
@@ -90,6 +93,8 @@ if (app) {
   let pendingDefault = null;
   let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
+  let messagesHandle = null;
+  let knownMessageDeliveries = null;
   if(raceV2Development)window.addEventListener('storage',event=>{
     if(!invalidateForSchema6StorageEvent(event,schema6Session,engine))return;
     storageWarningText='The development save changed in another tab. This session will not overwrite it.';updateWarningBanner();
@@ -142,6 +147,7 @@ if (app) {
         <div id="storage-warning-banner" class="storage-warning-banner" style="display: none;"></div>
         <div id="hud-container"></div>
         <main id="main-content" class="main-content"></main>
+        <div id="messages-layer" class="messages-layer" hidden></div>
         <div id="modal-container"></div>
       </div>
     `;
@@ -267,13 +273,13 @@ if (app) {
       const replace=main.querySelector('[data-v2-replace]');replace.disabled=!(result.isCorrupt||result.unsupportedDevelopment);
       replace.onclick=async()=>{
         if(!globalThis.confirm('Replace the separate development save? An existing backup will be preserved.'))return;
-        replace.disabled=true;const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+        replace.disabled=true;const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
         const replaced=await schema6Session.replacePreserved(fresh);if(replaced.success)startFreshRun(true,fresh);
         else{main.querySelector('[data-v2-status]').textContent='The saved data was preserved; replacement could not complete.';replace.disabled=false;}
       };return;
     }
     if(result.engine){engine=result.engine;currentStep=engine.state.step||'desk';phoneOpen=engine.isTerminal()||(engine.state.life&&currentStep.startsWith('life_')&&!isLifeStep(currentStep));activeModal=engine.state.activeModal||null;renderApp();return;}
-    const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+    const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
     const bound=await schema6Session.bindNew(fresh);if(canceled)return;
     if(!bound.success){main.innerHTML='<p>Saved data was preserved. A new development session could not start.</p>';return;}
     startFreshRun(true,fresh);
@@ -281,10 +287,11 @@ if (app) {
 
   function startFreshRun(enableStorageSave = true, preparedEngine = null) {
     if(raceV2Development&&!preparedEngine){
-      const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+      const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
       void schema6Session.bindNew(fresh).then(result=>{if(result.success)startFreshRun(enableStorageSave,fresh);else{storageWarningText='The development save was preserved; a new run could not start.';updateWarningBanner();}});return;
     }
     engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2:raceV2Development });
+    knownMessageDeliveries=null;
     if(!preparedEngine)engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode() || unsupportedRenPreservation) {
@@ -407,11 +414,59 @@ if (app) {
     return globalThis.confirm(`${warning} Continue?`) ? { ok: true, confirmNext: true } : { ok: false };
   }
 
+  function messagesAvailable() {
+    return Boolean(engine?.messagesPolicy === 'messages-v1' && !engine.isTerminal() && !settingsOpen && !activeModal && !pendingDefault &&
+      !lifeUi.held && !lifeUi.renOpen && !engine.state.life?.story47 && !engine.state.life?.social46?.scene &&
+      (!lifeViewHandle || lifeViewHandle.canSuspendForMessages?.()) &&
+      !engine.state.pendingReveals.some(x=>!x.revealed) && !document.querySelector('.stage-transition') &&
+      !['life_race','life_race_result','life_gacha','duck_dex'].includes(currentStep) &&
+      (isLifeStep(currentStep) || (currentStep==='life_phone' && phoneOpen)));
+  }
+
+  function syncMessagesAvailability() {
+    const button=document.querySelector('#btn-messages');if(!button || !engine)return;
+    const available=messagesAvailable(),count=messagesForEngine(engine).projection.unreadThreads;
+    button.setAttribute('aria-label',`Messages, ${count} unread ${count===1?'thread':'threads'}${available?'':', temporarily unavailable'}`);
+    const badge=button.querySelector('[data-message-count]');if(badge)badge.textContent=count?` (${count})`:'';
+    button.title=available?'Messages':'Messages will be available after this scene';
+    const layer=document.querySelector('#messages-layer');
+    if(messagesHandle && layer && layer.hidden && available) {layer.hidden=false;lifeViewHandle?.suspendForMessages?.();messagesHandle.refresh();}
+  }
+
+  function openMessages() {
+    if (!messagesAvailable()) { const status=document.querySelector('#messages-status');if(status)status.textContent='Messages will be available after this scene.';return; }
+    if(messagesHandle)return;
+    const layer=document.querySelector('#messages-layer'), host=document.createElement('div');
+    layer.style.top=`${Math.ceil(document.querySelector('#hud-container').getBoundingClientRect().bottom)}px`;
+    layer.hidden=false;layer.replaceChildren(host);host.className='messages-host';
+    lifeViewHandle?.suspendForMessages?.();
+    const close=()=>{messagesHandle=null;layer.hidden=true;layer.replaceChildren();lifeViewHandle?.resumeAfterMessages?.();updateHud();document.querySelector('#btn-messages')?.focus();};
+    layer.onclick=e=>{if(e.target===layer)messagesHandle?.close();};
+    const data=messagesForEngine(engine);
+    messagesHandle=mountMessages(host,{...data,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
+      onRead:async ({deliveryId,revision})=>{
+        if(!messagesAvailable() || !engine.readMessage(deliveryId,revision))return false;
+        maybeAutosave();syncMessagesAvailability();return true;
+      },
+      onAction:({deliveryId,revision})=>{
+        if(!messagesAvailable() || revision!==1 || !deliveryId.startsWith('loan:statement:'))return;
+        const loanId=deliveryId.slice('loan:statement:'.length);
+        const result=lifeCallbacks().onFiveSlotEarlyRepay(engine.log.length,loanId);
+        if(result?.ok){
+          maybeAutosave();renderApp();
+          if(messagesHandle){const fresh=messagesForEngine(engine);messagesHandle.update(fresh.deliveries,fresh.readKeys);if(document.querySelector('#messages-layer')?.hidden)messagesHandle.suspend();}
+        }
+      }});
+  }
+
   function updateHud() {
     const hudContainer = document.querySelector('#hud-container');
     if (!hudContainer || !engine) return;
 
     renderHud(hudContainer, engine, duckSvgUrl, {
+      onMessages:engine.messagesPolicy==='messages-v1'?openMessages:null,
+      messageCount:engine.messagesPolicy==='messages-v1'?messagesForEngine(engine).projection.unreadThreads:0,
+      messagesAvailable:messagesAvailable(),
       onSave: saveNow,
       onSettings: () => {
         pendingDefault = null;
@@ -452,6 +507,14 @@ if (app) {
         renderApp();
       },
     });
+    if(engine.messagesPolicy==='messages-v1') {
+      const ids=engine.log.entries.filter(e=>e.type==='message_delivered').map(e=>e.payload.id);
+      const arrived=knownMessageDeliveries && ids.some(id=>!knownMessageDeliveries.has(id));
+      knownMessageDeliveries=new Set(ids);
+      if(arrived && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        hudContainer.querySelector('#btn-messages')?.animate?.([{transform:'scale(1)'},{transform:'scale(1.13)'},{transform:'scale(1)'}],{duration:650,iterations:2});
+      }
+    }
   }
 
   function saveNow() {
@@ -927,6 +990,12 @@ if (app) {
         },
       });
     }
+    if(messagesHandle) {
+      const layer=document.querySelector('#messages-layer');
+      if(engine.isTerminal()) { messagesHandle.destroy();messagesHandle=null;layer.hidden=true; }
+      else {const covered=!messagesAvailable();layer.hidden=covered;if(covered)messagesHandle.suspend();else {lifeViewHandle?.suspendForMessages?.();messagesHandle.refresh();}}
+    }
+    syncMessagesAvailability();
   }
 
   function focusCurrentStageIfNeeded() {
@@ -994,6 +1063,7 @@ if (app) {
       return result;
     };
     return {
+      onMessagesAvailabilityChange:syncMessagesAvailability,
       onDoorActivate: commit(() => engine.state.life?.policyVersion==='five-slot-v1'
         ? engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:{type:'social46_activate',version:1,revision:2}},engine.log.length)
         : engine.applyLifeIntent({ type: 'social46_activate', version: 1, revision: 2 })),

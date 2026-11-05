@@ -1,0 +1,7 @@
+started=2026-11-05T02:37:03.6187866-05:00
+finished=2026-11-05T02:37:04.7019129-05:00
+context=normal-host
+preflight_gib=12.8
+preflight_at=2026-11-05T02:36:42.8214845-05:00
+wrapper_exit=0
+command=bounded-node-run.ps1 -Executable node -ArgumentVector @('reports/development/plan-59-race-growth-injury-and-ability-integration/numeric-feasibility/cross-runtime/runner.mjs','node')

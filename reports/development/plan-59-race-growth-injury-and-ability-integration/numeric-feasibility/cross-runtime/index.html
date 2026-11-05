@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Plan 59 fixed numeric probes</title></head><body><p>Report-local fixed numeric probes.</p><script type="module">
+import { runFixedProbes } from './probe-runner.mjs';
+window.runNumericProbes = async () => {
+  const response = await fetch('../reference-v1.json');
+  if (!response.ok) throw new Error('reference unavailable');
+  return JSON.stringify(runFixedProbes(await response.json()));
+};
+</script></body></html>

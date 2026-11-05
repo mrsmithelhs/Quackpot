@@ -1,0 +1,10 @@
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 7.2423763,
+  "PeakSampledPrivateBytes": 376377344,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"artifactChecksPassed\":true,\"cleanupFullyVerified\":false,\"accepted\":false,\"exactBytes\":true,\"firstDifference\":null,\"nodeVersion\":\"v26.7.0\",\"browserVersion\":{\"product\":\"Chrome/157.0.8103.38\",\"revision\":\"@a733b5afbb3ba618844ff8876b89ad1a774b2f18\",\"protocolVersion\":\"1.3\",\"jsVersion\":\"15.7.112.23\"},\"recordCount\":77,\"canonicalSha256\":\"38fc8cb0d6e3ae7ebe9993275eccf3f813a501ff45c40ae8e9546cb0e6841272\",\"cleanup\":{\"residual\":false,\"rootExited\":true,\"observedProcessesExited\":true,\"inspectionFailed\":false,\"coverage\":\"sampled-only\",\"uncertainty\":true,\"profileRetained\":true,\"treeTerminationConfirmed\":false,\"childExitCode\":0,\"profileRemoved\":false,\"profileIdSha256\":\"fcb37a3e8c6b380eecdbc3fed90400fc7f8ef06090df9a8f5871bac2c83b32a3\",\"trackedDescendantCount\":11,\"remainingDescendantCount\":0},\"serverObservedExited\":true,\"error\":null}\n",
+  "StandardError": ""
+}
+Validation process exited with code 1.

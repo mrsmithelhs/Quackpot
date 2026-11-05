@@ -1,0 +1,9 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5578594,
+  "PeakSampledPrivateBytes": 2617344,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"nodeVersion\":\"v26.7.0\",\"canonicalSha256\":\"38fc8cb0d6e3ae7ebe9993275eccf3f813a501ff45c40ae8e9546cb0e6841272\",\"bytes\":7108,\"recordCount\":77}\n",
+  "StandardError": ""
+}

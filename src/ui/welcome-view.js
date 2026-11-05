@@ -17,8 +17,8 @@ export function mountWelcome(container, options = {}) {
   const confirmName = createConfirmationGate(onConfirm);
   const blockers = new Set();
   const audio = createWelcomeAudio({ source: audioSource, onState(value) { if (value === 'unavailable') { enabled = false; status.textContent = 'Sound is unavailable.'; updateSound(); } } });
-  function updateSound() { sound.setAttribute('aria-pressed', String(enabled)); sound.setAttribute('aria-label', enabled ? 'Mute sound' : 'Turn sound on'); sound.innerHTML = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 12h6l7-6v20l-7-6H3z" fill="currentColor"/>${enabled ? '<path d="M20 10c3 3 3 9 0 12M24 6c5 5 5 15 0 20" fill="none" stroke="currentColor" stroke-width="2.5"/>' : '<path d="M20 11l8 10m0-10l-8 10" fill="none" stroke="currentColor" stroke-width="2.5"/>'}</svg>`; }
-  sound.disabled = !audioSource; updateSound();
+  function updateSound() { sound.setAttribute('aria-pressed', String(enabled)); sound.setAttribute('aria-label', !audioSource ? 'Sound unavailable' : enabled ? 'Mute sound' : 'Turn sound on'); sound.innerHTML = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 12h6l7-6v20l-7-6H3z" fill="currentColor"/>${enabled ? '<path d="M20 10c3 3 3 9 0 12M24 6c5 5 5 15 0 20" fill="none" stroke="currentColor" stroke-width="2.5"/>' : '<path d="M20 11l8 10m0-10l-8 10" fill="none" stroke="currentColor" stroke-width="2.5"/>'}</svg>`; }
+  sound.disabled = !audioSource; if (!audioSource) { sound.setAttribute('aria-label', 'Sound unavailable'); status.textContent = 'Sound unavailable'; } updateSound();
   sound.addEventListener('click', async () => { enabled = !enabled; updateSound(); await audio.setEnabled(enabled); });
   function action(label, fn, primary = false) { const button = document.createElement('button'); button.type = 'button'; button.textContent = label; if (primary) button.className = 'primary'; button.addEventListener('click', fn); return button; }
   function sync() { stage.setNaming(state === 'naming'); stage.setPaused(state === 'naming' || blockers.size > 0); }
@@ -26,14 +26,14 @@ export function mountWelcome(container, options = {}) {
     if (disposed) return; sync(); card.replaceChildren();
     const heading = document.createElement(state === 'opening' ? 'h1' : 'h2'); heading.textContent = state === 'opening' ? 'Quackpot' : 'Meet your rubber duck'; heading.tabIndex = -1; if (state === 'opening') heading.className = 'visually-hidden'; card.append(heading);
     const p = document.createElement('p'); p.textContent = state === 'opening' ? 'A little room, a quiet moment, and a new day.' : 'Give your duck a name, or keep the one already here.'; card.append(p);
-    if (options.preservedSave) { const note = document.createElement('p'); note.textContent = 'Any saved run stays in this browser. A new run will be temporary and will not survive a reload. An unsaved Receipt is available only until a new run starts or this page closes.'; card.append(note); }
+    if (state === 'opening' && options.preservedSave) { const note = document.createElement('p'); note.textContent = options.finished ? 'Your Receipt remains available during this session. A new run will be temporary.' : 'Your saved run stays here. A new run will be temporary.'; card.append(note); }
     const buttons = document.createElement('div'); buttons.className = 'buttons';
     if (state === 'opening') {
-      buttons.append(action(options.finished ? 'Start another run' : 'Start', () => { suggestion = COMPANION_SUGGESTIONS[Math.min(29, Math.max(0, Math.floor(random() * 30)))]; state = 'naming'; audio.transition('naming'); render(); card.querySelector('input')?.focus(); }, true));
-      if (onContinue) buttons.append(action('Continue', onContinue));
+      buttons.append(action(options.finished ? 'Start another run' : 'Start', () => { suggestion = COMPANION_SUGGESTIONS[Math.min(29, Math.max(0, Math.floor(random() * 30)))]; state = 'naming'; audio.transition('naming'); render(); card.querySelector('input')?.focus(); }, !onContinue));
+      if (onContinue) buttons.append(action('Continue', onContinue, true));
       if (onReceipt) buttons.append(action('View Receipt', onReceipt));
       if (onDownload) buttons.append(action('Download usage file', onDownload));
-      else { const unavailable = action('Download usage file', () => {}); unavailable.disabled = true; unavailable.title = 'Usage download is not available yet.'; buttons.append(unavailable); }
+      else { const unavailable = action('Download usage file (unavailable)', () => {}); unavailable.disabled = true; buttons.append(unavailable); }
       card.append(buttons); const utilities = document.createElement('div'); utilities.className = 'utilities'; if (onSettings) utilities.append(action('Settings', onSettings)); if (onCredits) utilities.append(action('Credits', onCredits)); card.append(utilities);
     } else {
       const label = document.createElement('label'); label.textContent = 'Duck name'; const input = document.createElement('input'); input.maxLength = 30; input.value = suggestion; label.append(input); card.append(label, buttons);

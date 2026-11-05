@@ -95,3 +95,7 @@ The owner selected the phone, companion and keys for existing Ren, quiet-time an
 ## Sale-tag presentation, 2026-11-04
 
 Owner selected translucent, tag-sized couch/TV sale interactions when low on funds or near an outstanding major expense, and clarified any shortfall or up to $50 surplus. `sale-tag-repair.md` records the exact root-approved aggregate/slot rule, unchanged financial authority, threshold tests and genuine desktop/narrow UI witness. Root and owner visual review remain separate; 13 checkpoint entries are still source-stale until the owner-feedback batch ends. Advisor disposition: orchestrator-gate-only. No push or status closure.
+
+## Header messages investigation, 2026-11-04
+
+During Day 3 review the owner selected an available Quackpot-only desk phone and a global message entry for work, Ren and the payday-loan statement, with an unread pulse. The loan statement should include a Decide panel; the owner separated unread from outstanding payment. `header-messages-investigation.md` maps current work-primary/loan-primary behavior, prior provenance and a bounded proposed follow-on covering actual display, read identity, replay/save, due/recovery and accessibility. This is selected intent and investigation only: no message center or phone reroute was implemented, and existing paths remain in place pending a separately cleared replacement. Owner review continues; 13 checkpoint entries remain source-stale. Advisor consultation: not warranted for this read-only investigation. No push or status closure.

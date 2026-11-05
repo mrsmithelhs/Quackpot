@@ -1,0 +1,30 @@
+# Plan 62 — proposed report-local mechanism for root review
+
+Status: **proposal; not cleared or built.** Owner selects the paper-room's layered depth, quieter desk composition and existing physical duck. The generated images are references, not a runtime background or authority to redesign the duck, furnishings or controls. The selected direction does not select a soundtrack or change save/export rules.
+
+## Ownership and dependencies
+
+All new files confined to this report folder: `index.html`, `study.css`, `study.js`, `audio.js`, `validation/` and `local/` (ignored captures, snapshot, logs and concept bitmaps). Existing art and music are read-only. Candidate transitive source files and hashes are listed in `dependency-pins.md`; re-hash the full actual import closure before and after preparation, stop on drift, and use a finite allowlisted static snapshot for evidence. Use `src/assets/apartment/index.mjs` and its actual imported kit for the still duck and existing desk/rooms; create any paper-layer staging locally around accepted art, not by copying generated bitmaps or inventing a new duck. Existing Plan39 `scores.js`, `patches.js`, `synth-engine.js` and notices are candidate audio inputs; confirm exact APIs and closure before construction. The lab's local synthesizer is worker-authored and schema-inspired; origin and production redistribution questions remain as documented in its provenance clarification.
+
+No live `src/main.js`, storage module, production boot, browser storage, real saves, real export, remote resources or provider calls in the gallery. Browser evidence uses an isolated profile and loopback-only finite server, not port 5173 or the owner's profile. Reference/comparison display can link to the ignored local concept images within the snapshot; those remain illustrative.
+
+## Synthetic states and transitions
+
+| State | Controls and transition | Boundary |
+|---|---|---|
+| Fresh welcome | Start immediately enters naming; Settings/Credits open overlays; Download shows a no-data explanation; example-state selector switches among mock states. | No engine construction, save mutation or false download. Start never waits for motion. |
+| Saved welcome | Continue immediately shows a labelled synthetic saved-location destination; Settings/Credits interrupt and return; Start is an illustrative fresh-run path only if clearly labelled and does not delete data. | No actual restore, overwrite or migration. Unsupported-save example explains preservation without implementing it. |
+| Naming transition | Editable `Professor Quacks` default, accept unchanged or edited name, then enter labelled mock apartment. Static path shows same controls immediately. | Duck is a still existing SVG; no new living motion or second onboarding. |
+| Finished welcome | Start another run → naming; Download usage file and View Receipt → labelled no-data/example views, respectively. | No claim of retained actual Receipt, usage package or production history. |
+| Mock apartment / Receipt / no-data / unsupported | Back to appropriate example welcome. | Neighbors are placeholders, not replacement UI or production semantics. |
+| Settings / Credits overlay | Open from welcome; pause motion and audio presentation, return to the same state and invoking control on dismissal. | Placeholder content; autosave placement is a proposal, with existing default preserved in production. |
+
+Use semantic HTML controls and an explicit single current state plus a modal return state. Save the actual invoking element for focus return, guard against detached nodes on rerender, restore a sensible welcome control if necessary, and keep modal keyboard operation and visible focus. Directly show non-animated information and respect `prefers-reduced-motion`; pause/cancel animation on modal open, navigation and cleanup. Small camera/layer motion may be auditioned; duck itself stays static. No forced waiting or motion-dependent meaning.
+
+## Audio lifecycle proposal
+
+One gallery-level owner creates audio only on user gesture, with explicit mute. Pre-render or schedule selected short Plan39 passages through the pinned lab API after verifying it; audition a few identifiable candidates and label the apartment track a mock. Keep at most one active opening source and one destination source during a bounded crossfade, with separate gain nodes and a shared master mute. Before a transition, cancel scheduled gain automation at the current value; stop/disconnect superseded sources after the fade, and use a generation token to ignore late async renders or stale callbacks. Settings/Credits pause presentation and resume the same intended state without restarting on each render. Rapid Start/Back/mute and visibility changes must not accumulate audio sources. If the existing lab cannot support this lifecycle under the bounded method, stop and return a revised proposal rather than inventing another music engine. Durations and passage remain owner audition choices, not adopted soundtrack policy.
+
+## Validation and resource stretch requested
+
+Request one modest serial implementation/preview stretch with fresh host preflight, ordinary existing Node launcher bounds, no watchers/install, and a finite owned loopback server. First verify stable input hashes and fixture-only controls. Capture source-bound desktop and narrow fresh/saved/finished/no-data states and relevant original art; inspect actual SVG layering and text. Exercise keyboard traversal, modal focus return, direct/reduced-motion path, repeated Start/Back, both overlays, mute, fade cancellation and cleanup, including interrupted async audio. Verify no storage calls or live boot imports and no runtime network dependency. Report what was observed separately from production lifecycle, assistive-technology or device claims. Independent Terra-medium review, root inspection of actual renders/lifecycle evidence and owner experience review remain required before owner-ready delivery. This proposal does not authorize construction until root confirms it.

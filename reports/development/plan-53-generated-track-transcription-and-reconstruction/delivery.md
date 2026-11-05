@@ -107,3 +107,6 @@ The owner compared the two full M5 half-duration WAVs and preferred softer low p
 ## M1 tentative response-line split
 
 The owner requested marimba for the response melody with other notes remaining piano. A report-local comparison routes 37 heuristically selected high notes in source-relative 00:38–00:50 to marimba; other piano notes remain piano. This is not verified melody separation and can select chord tones. Both 00:30–00:50 PCM clips derive from full-context offline renders; owner listening remains pending. See `m1-response-comparison.md` for selection, testing and sampled-only cleanup limitations.
+
+
+The owner heard the tentative M1 response-line marimba split and found no improvement. They prefer the existing piano assignment for M1; the heuristic split is not selected.

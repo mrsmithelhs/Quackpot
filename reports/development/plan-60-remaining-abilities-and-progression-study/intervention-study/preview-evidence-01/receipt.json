@@ -1,0 +1,125 @@
+{
+  "scope": "P-only sampled research path, no production race or opponent reconstruction",
+  "pins": {
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/preview/index.html": "900f18df8acd4fb5b07704fbfab391c4967c410f1f9b9893cfc335db2d9ab69a",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/preview/preview.css": "46019a5c55cdb70747cac5e2dff99a214ef09655fa049452033ba47aac5587f4",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/preview/preview-data.mjs": "35e77356ef33d1275d54393ac236c7f352608a950d1415753c9cf5a70a499487",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/preview/preview.mjs": "5600b63598fb0f0c9de78bba1c8337f88a10f99d5d3f3007376923240023d73a",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/screen-000-004.jsonl": "26cefdc875b8cff52cee0d37c7e990d9baf54f46b9ec5b76afdb676dde5a11ab",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1",
+    "scripts/dev/checkpoints/provenance.mjs": "14e93deb52e01337f249673d53c339dd26e99baf7483967a0e7b81177e0885bd",
+    "reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py": "6fa2812d1fcd8a308856f19d7aac524f3d9860a180c434132ba170a623aae88a",
+    "reports/development/plan-60-remaining-abilities-and-progression-study/intervention-study/preview/capture.mjs": "9cea8f2751dde37fa2233b6743d4934507e386fc72bf089735be5c88014bb555"
+  },
+  "checks": [
+    {
+      "width": 1024,
+      "height": 900,
+      "state": {
+        "width": 1024,
+        "fit": true,
+        "panels": 3,
+        "contact": true,
+        "activation": [
+          false,
+          true,
+          true
+        ],
+        "noAbility": true,
+        "injury": true,
+        "canvasSizes": [
+          [
+            600,
+            400
+          ],
+          [
+            600,
+            400
+          ],
+          [
+            600,
+            400
+          ]
+        ],
+        "nonempty": true
+      },
+      "zoom": {
+        "checked": true,
+        "time": "259",
+        "status": "Recorded contact processing tick; exact impact time is unavailable."
+      },
+      "keyboard": {
+        "focused": true,
+        "value": "260"
+      },
+      "ticks": [
+        259,
+        268
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "state": {
+        "width": 390,
+        "fit": true,
+        "panels": 3,
+        "contact": true,
+        "activation": [
+          false,
+          true,
+          true
+        ],
+        "noAbility": true,
+        "injury": true,
+        "canvasSizes": [
+          [
+            600,
+            400
+          ],
+          [
+            600,
+            400
+          ],
+          [
+            600,
+            400
+          ]
+        ],
+        "nonempty": true
+      },
+      "zoom": {
+        "checked": true,
+        "time": "259",
+        "status": "Recorded contact processing tick; exact impact time is unavailable."
+      },
+      "keyboard": {
+        "focused": true,
+        "value": "260"
+      },
+      "ticks": [
+        259,
+        268
+      ]
+    }
+  ],
+  "error": null,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "residual": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "serverObservedExited": true,
+  "snapshotRetained": true,
+  "privateDiagnosticSha256": "e5a1a6bd5ac259f8a1e420f62caf194bdf4e8b1972c0d5f42b3a51676ad140d4",
+  "artifactChecksPassed": true,
+  "cleanupFullyVerified": false,
+  "accepted": false
+}

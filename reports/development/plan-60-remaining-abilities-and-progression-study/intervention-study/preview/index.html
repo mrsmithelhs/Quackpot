@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One race: recovery and heading</title><link rel="stylesheet" href="./preview.css"></head>
+<body>
+<main>
+  <p class="eyebrow">Quackpot · research comparison</p>
+  <h1>One contact, three paths</h1>
+  <p>Compare the entered duck's recorded path with no ability, Quick Recovery, and Straight Shooter. This is one research example—not a replay of the production race.</p>
+  <p class="notice">Only the entered duck's path was saved. Other ducks and the exact collision point are not shown. Contact is recorded at a processing tick, not an exact impact time.</p>
+  <section class="controls" aria-label="Playback controls">
+    <button id="play" type="button">Play</button>
+    <label for="time">Race time <output id="time-value"></output></label>
+    <input id="time" type="range" min="0" max="448" value="259" step="1">
+    <fieldset><legend>View</legend><label><input type="radio" name="view" value="whole" checked> Whole path</label><label><input type="radio" name="view" value="contact"> Around contact</label></fieldset>
+  </section>
+  <p id="status" role="status">Loading recorded example…</p>
+  <section id="panels" class="panels" aria-label="Recorded player paths"></section>
+  <p class="method">Each panel uses the same world scale and view. The pale line is the complete recorded P path; the colored line and dot show progress at the chosen time. “Around contact” uses the same fixed window and camera in every panel.</p>
+</main>
+<script type="module" src="./preview.mjs"></script>
+</body></html>

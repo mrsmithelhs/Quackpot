@@ -1,0 +1,10 @@
+# Read-only reviewer disposition
+
+Requested gpt-6.1-terra at medium; the child reported that exact model identifier and effort were not independently observable. The brief was instruction-only read-only, not a structurally enforced sandbox. No second review was requested. Concurrent workspace changes preclude claiming a whole-tree freeze; checked state/index/CSS hashes matched prior selected-v2 pins, and subsequent app edits were made by the lead.
+
+1. **Focus after simulated repayment:** reviewer suspected the removed action could leave focus on the body. Rejected as stated after source inspection: the callback rerenders `thread(t)`, which focuses Back. The focused synthetic browser check in `evidence/read-v1.json` observed Back active and the resolved side hidden. This does not prove every real keyboard or AT path.
+2. **Layout alone insufficient for read:** accepted. The earlier check only required a laid-out conversation, which could leave the newest bubble offscreen. The mock now waits for intersection with the content and viewport while the document is visible, and removes watchers on navigation. The browser's injected spacer test observed unread offscreen, read on scroll into view, new delivery unread after inbox return, and no stale acknowledgment after switching/dismissing. This checks synthetic geometry, not human perception or complete occlusion.
+3. **Delivery while open:** verified in the mock: the reviewer-only delivery action returns to list, preserving the new revision unread until its newest bubble is shown. This is a study behavior, not a selected production arrival policy.
+4. **Evidence limits:** accepted. 200% computed CSS font scaling is not browser zoom or OS/AT testing; the focused action can be visible while the panel heading is scrolled above. The simulated global header control is not actual production Uninstall. Sampled cleanup remains uncertain. These limits are retained in selection/evidence and the integration brief.
+
+The review is critique, not owner acceptance or production authorization. Costs: one child turn; exact token/cost accounting unavailable.

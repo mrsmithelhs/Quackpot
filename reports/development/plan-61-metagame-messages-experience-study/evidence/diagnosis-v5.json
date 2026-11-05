@@ -1,0 +1,244 @@
+{
+  "pins": {
+    "index.html": "f8a6d49eb59412fbc661f7711ff77bbf80f06149f696c1395d713c4c3c686c36",
+    "gallery.css": "5853adf86b7c5fa5b5b75d162e9e59b1a0d1c022b317d9ef041f554366434cfb",
+    "state.mjs": "14c7a175828620714ea32305d10911f1c105e76ca6a869ceb8c9cf392997f12b",
+    "app.mjs": "1aa9b61a8bbfbc102a35ae94fa944e564ff0e8272f07a72b8231c17798d89e79",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-cdp.mjs": "de6643ec6fed0407125d736cce780455f1b3434ae92c7f73e7a0687eb7594eb6",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "name": "wide",
+      "label": "header-bubble",
+      "hash": "82865336ac7c3413167fa45e4ba10f5ba7261060d313e7023bc37de2cdc0911d"
+    },
+    {
+      "name": "wide",
+      "label": "header-overlap",
+      "hash": "3ccd5257333149672e3f0b10b4e51db958a3260bdf39a5dadfe7cb17e06dc934"
+    },
+    {
+      "name": "wide",
+      "label": "header-envelope",
+      "hash": "393d00211ea9c0d1c03704c4183394d23e8553d0931a069697fc37275874762f"
+    },
+    {
+      "name": "wide",
+      "keyboardPrecondition": {
+        "active": "messages",
+        "focus": true
+      },
+      "actual": {
+        "width": 1280,
+        "height": 800,
+        "scroll": 1280,
+        "visibility": "visible",
+        "hasFocus": true
+      }
+    },
+    {
+      "name": "wide",
+      "keyboardOpen": true,
+      "trace": [
+        {
+          "type": "keydown",
+          "key": "Enter",
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "keypress",
+          "key": "Enter",
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "click",
+          "key": null,
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "keyup",
+          "key": "Enter",
+          "trusted": true,
+          "target": "close",
+          "active": "close"
+        }
+      ]
+    },
+    {
+      "name": "wide",
+      "label": "inbox",
+      "hash": "a93a564f8d1a9f04ad978c735655d1a4513c2d761a2e44945945ce93245faeab"
+    },
+    {
+      "name": "wide",
+      "label": "loan",
+      "hash": "7973374ed8a2c4a2fb1eb253993c35301f4c2069db2b8e13e39dedf6751991f3"
+    },
+    {
+      "name": "wide",
+      "label": "decision",
+      "hash": "75271f38e8cb6b1a25ac4f3b3df133a5871cb4264c48d398b9bc15054dd14937"
+    },
+    {
+      "name": "wide",
+      "label": "ordinary",
+      "hash": "2aa24584ee037da940a47970f0f45e22b8ff92d10d7432066c301f86f5d0176a"
+    },
+    {
+      "name": "wide",
+      "label": "history",
+      "hash": "701b83a5a90ec3ddc7f63dceafb6828894545e00141571c993b6625c473fcc7a"
+    },
+    {
+      "name": "wide",
+      "label": "arrival-static",
+      "hash": "8360169d1eb470cd622c01aacd84cef63c6880fbfbd9affcfd75c82dbee5c531"
+    },
+    {
+      "name": "wide",
+      "due": true,
+      "escapeFocus": true,
+      "backdropFocus": true,
+      "decisionCancel": true,
+      "decisionEscape": true,
+      "decisionBackdrop": true,
+      "cue": {
+        "animation": "arrival",
+        "iterations": "2",
+        "label": "Messages, 1 unread thread"
+      },
+      "reducedMotionEmulated": "none",
+      "visualThreadNavigation": "pointer"
+    },
+    {
+      "name": "narrow",
+      "label": "header-bubble",
+      "hash": "e616cd6edd86016f81d39d3ed1537e53d9985553b000c4b6ae4271a6844b2921"
+    },
+    {
+      "name": "narrow",
+      "label": "header-overlap",
+      "hash": "7fc2e500213d6b390e30f978f4e1487f0192787733e13311d6bc05b28c608be6"
+    },
+    {
+      "name": "narrow",
+      "label": "header-envelope",
+      "hash": "8314866e5db645f3ef5fa2414a7b3760821dc6273ea482b2110059ab7d10e25b"
+    },
+    {
+      "name": "narrow",
+      "keyboardPrecondition": {
+        "active": "messages",
+        "focus": true
+      },
+      "actual": {
+        "width": 390,
+        "height": 844,
+        "scroll": 390,
+        "visibility": "visible",
+        "hasFocus": true
+      }
+    },
+    {
+      "name": "narrow",
+      "keyboardOpen": true,
+      "trace": [
+        {
+          "type": "keydown",
+          "key": "Enter",
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "keypress",
+          "key": "Enter",
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "click",
+          "key": null,
+          "trusted": true,
+          "target": "messages",
+          "active": "messages"
+        },
+        {
+          "type": "keyup",
+          "key": "Enter",
+          "trusted": true,
+          "target": "close",
+          "active": "close"
+        }
+      ]
+    },
+    {
+      "name": "narrow",
+      "label": "inbox",
+      "hash": "5535d829a5f80a9a9635ed00928abb74f3cef87166a7d92b5f99815298d85591"
+    },
+    {
+      "name": "narrow",
+      "label": "loan",
+      "hash": "788d09f37529b1e57a6bae51f8c59f9d3805d756b73f34e92513fc0ef60d5637"
+    },
+    {
+      "name": "narrow",
+      "label": "decision",
+      "hash": "8b7e3ed2a735f75166b0558d64029e0d8d16fd8839bc5eff3fa1aaad1d6c95a9"
+    },
+    {
+      "name": "narrow",
+      "label": "ordinary",
+      "hash": "617b08dc9eda770a51ac5b2463210598487e1ee6d6b631e98246164427bae697"
+    },
+    {
+      "name": "narrow",
+      "label": "history",
+      "hash": "3be5c1dba0a1891383bcdbedea4c437ac7e45769245d166b13d0bc130cfd788b"
+    },
+    {
+      "name": "narrow",
+      "label": "arrival-static",
+      "hash": "2acbc7550dbaa442b2a1bd47b85a381d8f60328b5eeef78c635374ef0f28de8f"
+    },
+    {
+      "name": "narrow",
+      "due": true,
+      "escapeFocus": true,
+      "backdropFocus": true,
+      "decisionCancel": true,
+      "decisionEscape": true,
+      "decisionBackdrop": true,
+      "cue": {
+        "animation": "arrival",
+        "iterations": "2",
+        "label": "Messages, 1 unread thread"
+      },
+      "reducedMotionEmulated": "none",
+      "visualThreadNavigation": "pointer"
+    }
+  ],
+  "events": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "786697c3f5c1df47d6dc6350d7b7c208442f48406ff32629b46a64e4bc34b1b8",
+    "chromeStderrPresent": true
+  }
+}

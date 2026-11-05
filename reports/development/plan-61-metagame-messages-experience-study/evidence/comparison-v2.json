@@ -1,0 +1,465 @@
+{
+  "pins": {
+    "index.html": "1443ab500e8fd55a2ced3bfa6912cb1826f0a1c0b3d4f20e3cad1f5927c93f73",
+    "gallery.css": "9b90898ff6733953794ed52fe379f468f1a4fed37fceae36aebe66d4b401b257",
+    "state.mjs": "14c7a175828620714ea32305d10911f1c105e76ca6a869ceb8c9cf392997f12b",
+    "app.mjs": "6c320a422ac0557d8a8ff635399e20abb410c9a3279019c8b5bdf3cc27b530f1",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-comparison.mjs": "f08e2c9b38d40eebf47eb7b6f1d73fe4aad0c8168116aa9840626e69f47f9e16",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "name": "wide",
+      "layout": "collapsed",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "false",
+        "phone": {
+          "left": 255,
+          "right": 685,
+          "top": 125,
+          "bottom": 792
+        },
+        "side": {
+          "left": 705,
+          "right": 1025,
+          "top": 419,
+          "bottom": 498
+        },
+        "toggle": {
+          "top": 435,
+          "bottom": 482
+        },
+        "action": {
+          "top": 0,
+          "bottom": 0
+        },
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 1280,
+            "client": 1280,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 860,
+            "client": 860,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 414,
+            "client": 414,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 320,
+            "client": 320,
+            "hidden": false
+          }
+        ]
+      },
+      "hash": "11f36c98087e7f7e6d05f2247816daef730f19d79080f78e43e44aef7043b0d8"
+    },
+    {
+      "name": "wide",
+      "layout": "expanded",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "true",
+        "phone": {
+          "left": 255,
+          "right": 685,
+          "top": 125,
+          "bottom": 792
+        },
+        "side": {
+          "left": 705,
+          "right": 1025,
+          "top": 333.28125,
+          "bottom": 583.71875
+        },
+        "toggle": {
+          "top": 349.28125,
+          "bottom": 396.28125
+        },
+        "action": {
+          "top": 522.71875,
+          "bottom": 567.71875
+        },
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 1280,
+            "client": 1280,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 860,
+            "client": 860,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 414,
+            "client": 414,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 320,
+            "client": 320,
+            "hidden": false
+          }
+        ]
+      },
+      "hash": "5b7cc14bd1ffbf7419ecb244512b34d080474cf57beba804564e99ad2c333616"
+    },
+    {
+      "name": "wide",
+      "layout": "transition",
+      "view": {
+        "outside": true,
+        "shown": false,
+        "expanded": null,
+        "phone": {
+          "left": 425,
+          "right": 855,
+          "top": 125,
+          "bottom": 792
+        },
+        "side": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        },
+        "toggle": null,
+        "action": null,
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 1280,
+            "client": 1280,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 860,
+            "client": 860,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 414,
+            "client": 414,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 0,
+            "client": 0,
+            "hidden": true
+          }
+        ]
+      },
+      "hash": "d619f01cc008e0603016a5e5190fa67f1756097a5ca5d699a53830c337f596a7"
+    },
+    {
+      "name": "wide",
+      "actual": {
+        "width": 1280,
+        "height": 800,
+        "scroll": 1280,
+        "visible": "visible",
+        "focus": true
+      },
+      "due": true,
+      "global": {
+        "count": 1,
+        "inside": false,
+        "hit": true,
+        "x": 1200.28125,
+        "y": 77
+      },
+      "tabFound": true,
+      "tabTrace": [
+        {
+          "tag": "BODY",
+          "text": "Plan 61 · review controls (mock)All contexts and state are mock. Choose a header treatment: Outline bubbleOverlapping bubblesEnvelope Decision layout: A · Collapsed alongsideB · Expanded alongsideC · Separate transition  Stronger bounded arrival Reset mock Simulate Ren arrival\nQUACKPOTCompanion: Professor QuacksSaveSettings0❌ Uninstall\nMOCK APARTMENT CONTEXTA quiet eveningOpen Messages in the header to review the phone experience.Header neighbors are study scaffolding, not the mounted production HUD. The $120 balance and deadline wording are mock placeholders; repayment is simulated.\n←Harbor Card×Outstanding balance: $120.00.Your full payment is due before work. You may pay early.Repay the loan?Outstanding balance: $120.00. This review is a mock; no payment will be made.Back to messageSimulate repayment0 unread threads",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Plan 61 · review controls (mock)",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Save",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "0",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "❌ Uninstall",
+          "class": "danger"
+        }
+      ],
+      "afterScroll": {
+        "hit": true,
+        "focusable": true
+      },
+      "tabAfterScroll": true,
+      "informationalNoPanel": true,
+      "resolvedNoPanel": true
+    },
+    {
+      "name": "narrow",
+      "layout": "collapsed",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "false",
+        "phone": {
+          "left": 8,
+          "right": 382,
+          "top": 161,
+          "bottom": 749
+        },
+        "side": {
+          "left": 8,
+          "right": 382,
+          "top": 757,
+          "bottom": 836
+        },
+        "toggle": {
+          "top": 773,
+          "bottom": 820
+        },
+        "action": {
+          "top": 0,
+          "bottom": 0
+        },
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 358,
+            "client": 358,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 374,
+            "client": 374,
+            "hidden": false
+          }
+        ]
+      },
+      "hash": "7d308771c1ba4170c5913fb326873e26b39f1b97b11910c913c5923dc0a1031e"
+    },
+    {
+      "name": "narrow",
+      "layout": "expanded",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "true",
+        "phone": {
+          "left": 8,
+          "right": 382,
+          "top": 161,
+          "bottom": 577.5625
+        },
+        "side": {
+          "left": 8,
+          "right": 382,
+          "top": 585.5625,
+          "bottom": 836
+        },
+        "toggle": {
+          "top": 601.5625,
+          "bottom": 648.5625
+        },
+        "action": {
+          "top": 775,
+          "bottom": 820
+        },
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 358,
+            "client": 358,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 374,
+            "client": 374,
+            "hidden": false
+          }
+        ]
+      },
+      "hash": "322bc9d594255dc58eb8cc3d617251f700de48429568d95583a4491a3bf8b56c"
+    },
+    {
+      "name": "narrow",
+      "layout": "transition",
+      "view": {
+        "outside": true,
+        "shown": false,
+        "expanded": null,
+        "phone": {
+          "left": 8,
+          "right": 382,
+          "top": 161,
+          "bottom": 836
+        },
+        "side": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        },
+        "toggle": null,
+        "action": null,
+        "overflows": [
+          {
+            "selector": "#overlay",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone-and-decision",
+            "scroll": 390,
+            "client": 390,
+            "hidden": false
+          },
+          {
+            "selector": ".phone",
+            "scroll": 358,
+            "client": 358,
+            "hidden": false
+          },
+          {
+            "selector": "#side-decision",
+            "scroll": 0,
+            "client": 0,
+            "hidden": true
+          }
+        ]
+      },
+      "hash": "6d43e1d9e213a8457ceecc8a8a14b0224b801069d3e2135771ae30ec79a7a021"
+    },
+    {
+      "name": "narrow",
+      "actual": {
+        "width": 390,
+        "height": 844,
+        "scroll": 390,
+        "visible": "visible",
+        "focus": true
+      },
+      "due": true,
+      "global": {
+        "count": 1,
+        "inside": false,
+        "hit": true,
+        "x": 266.25,
+        "y": 121.5
+      },
+      "tabFound": true,
+      "tabTrace": [
+        {
+          "tag": "BODY",
+          "text": "Plan 61 · review controls (mock)All contexts and state are mock. Choose a header treatment: Outline bubbleOverlapping bubblesEnvelope Decision layout: A · Collapsed alongsideB · Expanded alongsideC · Separate transition  Stronger bounded arrival Reset mock Simulate Ren arrival\nQUACKPOTCompanion: Professor QuacksSaveSettings0❌ Uninstall\nMOCK APARTMENT CONTEXTA quiet eveningOpen Messages in the header to review the phone experience.Header neighbors are study scaffolding, not the mounted production HUD. The $120 balance and deadline wording are mock placeholders; repayment is simulated.\n←Harbor Card×Outstanding balance: $120.00.Your full payment is due before work. You may pay early.Repay the loan?Outstanding balance: $120.00. This review is a mock; no payment will be made.Back to messageSimulate repayment0 unread threads",
+          "class": ""
+        },
+        {
+          "tag": "SUMMARY",
+          "text": "Plan 61 · review controls (mock)",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Save",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "0",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "❌ Uninstall",
+          "class": "danger"
+        }
+      ],
+      "afterScroll": {
+        "hit": true,
+        "focusable": true
+      },
+      "tabAfterScroll": true,
+      "informationalNoPanel": true,
+      "resolvedNoPanel": true
+    }
+  ],
+  "events": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "6681ed401a64b351c7d40ecf6abc076523ac9b3285a1bed79f1fb4740eb1e624"
+  }
+}

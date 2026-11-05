@@ -1,0 +1,41 @@
+{
+  "pins": {
+    "index.html": "582553b522d167fa9805e4f4bf8973009f406dff967488b3f225c8802e64060f",
+    "gallery.css": "424a744fcdcd189a821103754a4fbbc4955d20cb46a475e48fe17c9d62f31117",
+    "state.mjs": "fa0a86db21644b17fa7376831cc05deb3049f724cf4bffb3c9d4d3c142f9fb59",
+    "app.mjs": "fa8f4a10ae5920a3c09d62f228c0e3ba2df607faf5fa9e3a06639b3c30a17b9b",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-cdp.mjs": "820319011e4dec7af787d5ab8ea238659607a512ecab431309c6ca28325790e3",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "name": "wide",
+      "label": "header-bubble",
+      "hash": "ee98ef9e6d532a834d3458f87a4c87e6c42e9d6a987d731a684f32424d45236c"
+    },
+    {
+      "name": "wide",
+      "label": "header-overlap",
+      "hash": "4a84d221ae628fe251827f7071b794da174cd0fa0957da04da70e0ed0b976cce"
+    },
+    {
+      "name": "wide",
+      "label": "header-envelope",
+      "hash": "0d1432f92399bdbcd3a4f1ef8fcb683a1305e70df62775ae485613720892ef0e"
+    }
+  ],
+  "events": [],
+  "error": "Error: Timed out waiting for keyboard-open inbox.",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "c9afe90869453c9ac0a574c9380159e0a4c05894dd195829f157ebce2f0f27eb",
+    "chromeStderrPresent": true
+  }
+}

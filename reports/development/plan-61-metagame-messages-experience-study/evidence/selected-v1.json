@@ -1,0 +1,61 @@
+{
+  "pins": {
+    "index.html": "1443ab500e8fd55a2ced3bfa6912cb1826f0a1c0b3d4f20e3cad1f5927c93f73",
+    "gallery.css": "9b90898ff6733953794ed52fe379f468f1a4fed37fceae36aebe66d4b401b257",
+    "state.mjs": "01e8bdfca99f4fa3f367bcadc1419d4b30efa63b7e4c0acd0cf8133ddbd42a88",
+    "app.mjs": "e2c4b8c9ff755236c671d7ddf4037f1a461bed20b08822a3d2a07d6ed77f3ebb",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-selected.mjs": "a0830dfa716d71b7a71ea999e23530dd76bec049d22226ac3cb5524edbd6a1c6",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "name": "wide",
+      "actual": {
+        "width": 1280,
+        "height": 800,
+        "visible": "visible",
+        "focus": true
+      },
+      "state": {
+        "panel": true,
+        "expanded": "false",
+        "outside": true,
+        "label": "Messages, 1 unread thread"
+      },
+      "normal": {
+        "file": "selected-v1-wide-default.png",
+        "hash": "578c6be09bf8b98f4755fbb2222e5807e716aeab12b6590bcc97fe21e18b7bc1"
+      },
+      "focus": {
+        "id": "mock-side-repay",
+        "top": 635.9375,
+        "bottom": 745.9375,
+        "left": 713.5,
+        "right": 1001.5,
+        "viewportH": 800,
+        "viewportW": 1280
+      },
+      "method": "200% computed CSS font sizes"
+    },
+    {
+      "name": "wide",
+      "large": {
+        "file": "selected-v1-wide-large.png",
+        "hash": "5e2307f6295aab4aebd2e6dd0803334a6b2ca6f08a6562046fe1ac5d0174eb0f"
+      }
+    }
+  ],
+  "events": [],
+  "error": "Error: global header exit clipped {\"id\":\"danger\",\"top\":91,\"bottom\":152,\"hit\":false}",
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "5683ff21326723a358fbdb6cb73baf604e39c518632dcb015a8898c37a832935"
+  }
+}

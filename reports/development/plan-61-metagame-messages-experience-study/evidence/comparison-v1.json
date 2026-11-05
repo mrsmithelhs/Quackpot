@@ -1,0 +1,313 @@
+{
+  "pins": {
+    "index.html": "4545c431080d81685a51b8b87f440749f79feee9e6fffab67a16cbf201d4f251",
+    "gallery.css": "1ae633b943c37962e56a14ffe3eb55fd60c06fc872d6d1385b958a647f6dc402",
+    "state.mjs": "14c7a175828620714ea32305d10911f1c105e76ca6a869ceb8c9cf392997f12b",
+    "app.mjs": "12eb1e1a644151b379caa13500c6fcc61f83863bce80ce47c02982ecb0836f55",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-comparison.mjs": "4cc33a9c96c99a6af04799ab33b217b519e73d9a6d566184bf190aa5abb094be",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "name": "wide",
+      "layout": "collapsed",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "false",
+        "phone": {
+          "left": 247.5,
+          "right": 677.5,
+          "top": 156,
+          "bottom": 816
+        },
+        "side": {
+          "left": 697.5,
+          "right": 1017.5,
+          "top": 446.5,
+          "bottom": 525.5
+        }
+      },
+      "hash": "f2e3af6664dbe3274d223412b2d6a6568e632fae50b669252d09614ed79fcc52"
+    },
+    {
+      "name": "wide",
+      "layout": "expanded",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "true",
+        "phone": {
+          "left": 247.5,
+          "right": 677.5,
+          "top": 156,
+          "bottom": 816
+        },
+        "side": {
+          "left": 697.5,
+          "right": 1017.5,
+          "top": 360.78125,
+          "bottom": 611.21875
+        }
+      },
+      "hash": "eea1cf5896cc8396f104d92bf3651cbaae15d0e7287963a53d7c9e642d7b9e9b"
+    },
+    {
+      "name": "wide",
+      "layout": "transition",
+      "view": {
+        "outside": true,
+        "shown": false,
+        "expanded": null,
+        "phone": {
+          "left": 417.5,
+          "right": 847.5,
+          "top": 156,
+          "bottom": 816
+        },
+        "side": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "hash": "142d3f3feead963cd226f69c6fafbc511527b6dd891d822091a8931e4439c8bb"
+    },
+    {
+      "name": "wide",
+      "actual": {
+        "width": 1280,
+        "height": 800,
+        "scroll": 1280,
+        "visible": "visible",
+        "focus": true
+      },
+      "due": true,
+      "global": {
+        "count": 1,
+        "inside": false,
+        "hit": true,
+        "x": 1200.28125,
+        "y": 116
+      },
+      "tabFound": true,
+      "tabTrace": [
+        {
+          "tag": "BODY",
+          "text": "Plan 61 · review study All contexts and state are mock. Choose a header treatment: Outline bubbleOverlapping bubblesEnvelope Decision layout: A · Collapsed alongsideB · Expanded alongsideC · Separate transition  Stronger bounded arrival Reset mock Simulate Ren arrival\nQUACKPOTCompanion: Professor QuacksSaveSettings0❌ Uninstall\nMOCK APARTMENT CONTEXTA quiet eveningOpen Messages in the header to review the phone experience.Header neighbors are study scaffolding, not the mounted production HUD. The $120 balance and deadline wording are mock placeholders; repayment is simulated.\n←Harbor Card×Outstanding balance: $120.00.Your full payment is due before work. You may pay early.Repay the loan?Outstanding balance: $120.00. This review is a mock; no payment will be made.Back to messageSimulate repayment0 unread threads",
+          "class": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "Outline bubbleOverlapping bubblesEnvelope",
+          "class": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "A · Collapsed alongsideB · Expanded alongsideC · Separate transition",
+          "class": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Reset mock",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Simulate Ren arrival",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Save",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "0",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "❌ Uninstall",
+          "class": "danger"
+        }
+      ],
+      "afterScroll": {
+        "hit": true,
+        "focusable": true
+      },
+      "tabAfterScroll": true,
+      "informationalNoPanel": true,
+      "resolvedNoPanel": true
+    },
+    {
+      "name": "narrow",
+      "layout": "collapsed",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "false",
+        "phone": {
+          "left": 0.3125,
+          "right": 374.703125,
+          "top": 316,
+          "bottom": 780.1875
+        },
+        "side": {
+          "left": 0.3125,
+          "right": 374.703125,
+          "top": 800.1875,
+          "bottom": 879.1875
+        }
+      },
+      "hash": "742a8622623e254ce1457bd8090518da2f9c4645db1ccdf71f522560cf77e4d4"
+    },
+    {
+      "name": "narrow",
+      "layout": "expanded",
+      "view": {
+        "outside": true,
+        "shown": true,
+        "expanded": "true",
+        "phone": {
+          "left": 0.3125,
+          "right": 374.703125,
+          "top": 316,
+          "bottom": 780.1875
+        },
+        "side": {
+          "left": 0.3125,
+          "right": 374.703125,
+          "top": 800.1875,
+          "bottom": 1050.625
+        }
+      },
+      "hash": "ee3f1d3b16606b74e62cedf8c86e993f1cb69d259732cdb74efed259de18ff6f"
+    },
+    {
+      "name": "narrow",
+      "layout": "transition",
+      "view": {
+        "outside": true,
+        "shown": false,
+        "expanded": null,
+        "phone": {
+          "left": 7.8125,
+          "right": 382.203125,
+          "top": 336.40625,
+          "bottom": 800.59375
+        },
+        "side": {
+          "left": 0,
+          "right": 0,
+          "top": 0,
+          "bottom": 0
+        }
+      },
+      "hash": "09f3206cf3901c437ff1b858d695bb8d8b429f5b8eae7c11297e5af426a5ae50"
+    },
+    {
+      "name": "narrow",
+      "actual": {
+        "width": 390,
+        "height": 844,
+        "scroll": 390,
+        "visible": "visible",
+        "focus": true
+      },
+      "due": true,
+      "global": {
+        "count": 1,
+        "inside": false,
+        "hit": true,
+        "x": 266.25,
+        "y": 276.5
+      },
+      "tabFound": true,
+      "tabTrace": [
+        {
+          "tag": "BODY",
+          "text": "Plan 61 · review study All contexts and state are mock. Choose a header treatment: Outline bubbleOverlapping bubblesEnvelope Decision layout: A · Collapsed alongsideB · Expanded alongsideC · Separate transition  Stronger bounded arrival Reset mock Simulate Ren arrival\nQUACKPOTCompanion: Professor QuacksSaveSettings0❌ Uninstall\nMOCK APARTMENT CONTEXTA quiet eveningOpen Messages in the header to review the phone experience.Header neighbors are study scaffolding, not the mounted production HUD. The $120 balance and deadline wording are mock placeholders; repayment is simulated.\n←Harbor Card×Outstanding balance: $120.00.Your full payment is due before work. You may pay early.Repay the loan?Outstanding balance: $120.00. This review is a mock; no payment will be made.Back to messageSimulate repayment0 unread threads",
+          "class": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "Outline bubbleOverlapping bubblesEnvelope",
+          "class": ""
+        },
+        {
+          "tag": "SELECT",
+          "text": "A · Collapsed alongsideB · Expanded alongsideC · Separate transition",
+          "class": ""
+        },
+        {
+          "tag": "INPUT",
+          "text": "",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Reset mock",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Simulate Ren arrival",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Save",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "0",
+          "class": ""
+        },
+        {
+          "tag": "BUTTON",
+          "text": "❌ Uninstall",
+          "class": "danger"
+        }
+      ],
+      "afterScroll": {
+        "hit": true,
+        "focusable": true
+      },
+      "tabAfterScroll": true,
+      "informationalNoPanel": true,
+      "resolvedNoPanel": true
+    }
+  ],
+  "events": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "7301c2a743e2783f837b3560290bbbdf16a953e750387beac2a4c2ad8378f09c"
+  }
+}

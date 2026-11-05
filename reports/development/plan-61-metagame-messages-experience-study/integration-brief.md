@@ -1,0 +1,23 @@
+# Plan 61 — draft production integration brief
+
+This brief is a proposal for a separately scoped integration, not permission to copy gallery code into production. Root and owner review remain open. Source pins below are those inspected for this study and must be refreshed before integration; the working tree may change. Selected intent, implemented behavior and mock proposals are distinct.
+
+## Selected and current surfaces
+
+Owner's early direction: global Messages with overlapping-bubble icon, stronger finite arrival followed by static status; sender-authored conversation; separate game decision outside the phone for consequential actions. Badge counts unread threads, sorted by most recent delivery, while due/unresolved persists independently. Historical exchanges are initially read and informational. Owner selected a separate Decide sibling that starts collapsed; deadline language, precise production mounting and final acceptance remain under review.
+
+At study baseline `src/ui/hud.js` SHA-256 077d0bf3e2045ea21c565e8d4323cb3ad5467215efc85de37f3b72e53d03e23e mounted via `src/main.js` a9443624f444f270ec76e04cee4c213701c74a08c3049cb2c36ce0425c060998 had no Messages entry. `src/ui/life/life-phone-context.mjs` 47c6c7d777cf11b273a77514388f58f38b7ee120c296ed964fad02208de63 chooses existing work, invitation and app phone contexts; `src/ui/life/life-view.js` 64528f901f386aa7f3031d338b67cbf0e64c2a34afedfbd5dbb5c8b939d18d76 renders phone routes including loan. The separate work keys remain the departure action. No source was changed by this study.
+
+## Atomic future seam
+
+Mount the replacement header communication routes for work/Marisol, Ren, loan and launch invitation/reply/ack, then switch the available desk phone to Quackpot as one reviewed transition. Do not remove the only route to a communication or interpret Ren shown/response flags as a read ledger. Preserve the actual invitation/reply/ack and Ren shown evidence, work-key departure, due-before-work, simultaneous obligations and recovery-first precedence. Reading/navigation consumes no slot or RNG. Uninstall must remain immediately accessible even with a message or separate decision open; the present mock overlays obscure it and therefore do not demonstrate this requirement.
+
+## Deferred state and lifecycle contracts
+
+Before production select and review stable message/thread/revision identity; deterministic delivery, read-after-successful-mount and idempotent duplicate handling; canceled/expired action and notification handling; whether read facts are append-only events or another validated representation; actual cue display evidence and Receipt mapping; save validation, replay and checkpoint refresh. A balance update is not automatically a new delivery. Older fixed exchanges need no hidden rewards or action flags. Do not promise migration or infer save compatibility from mock state.
+
+Explicitly decide safe opening boundaries during Settings/Stay, active Quackpot session, committed reveal and race; preserve pending outcomes and focus/context, never duplicate a reward, advance time, settle debt or answer on dismissal. Authoritative finance/social state, not an inbox marker, controls whether an action is currently available. No new loan terms, schedules, promotional deadlines or automatic reminder cadence are selected.
+
+## Provisional gallery and evidence limits
+
+Gallery compares a collapsed separate Decide sibling, expanded sibling and separate-transition reference. The owner selected the collapsed sibling direction; exact production mounting and lifecycle remain unapproved. Its illustrative lender wording omits an immutable fixed in-world deadline and is not production-ready. Actual calendar/copy mapping remains open; do not reinterpret the engine's selected deadline. The mock does not provide real production settings/race/save integration or screen-reader/physical-device proof. Consult `selection-and-evidence.md` and `evidence/diagnosis-v5.json` for observed checks, source hashes and cleanup uncertainty. Root must inspect actual current evidence and owner must select final experience before a future integration packet is considered.

@@ -1,0 +1,42 @@
+{
+  "pins": {
+    "index.html": "1443ab500e8fd55a2ced3bfa6912cb1826f0a1c0b3d4f20e3cad1f5927c93f73",
+    "gallery.css": "9b90898ff6733953794ed52fe379f468f1a4fed37fceae36aebe66d4b401b257",
+    "state.mjs": "01e8bdfca99f4fa3f367bcadc1419d4b30efa63b7e4c0acd0cf8133ddbd42a88",
+    "app.mjs": "b8dc7178d4a5efcfbc73c8571a43a98b3ef1936a134ad5d6aa84b2e3f9b21d2e",
+    "ren-avatar.svg": "cecd9141eda00534927ed11e6c6a1705fa167c45d2f43dbee054f7437da30bc4",
+    "capture-read.mjs": "4314538c1f1aea7a81890056fbf008b9b267fd9494e49037b59dfa816373b406",
+    "scripts/dev/checkpoints/cdp.mjs": "fccfefc7a9429cb382429b514014f0a7e820dc58349030ee60b57bf4af0b7462",
+    "scripts/dev/checkpoints/process-tree.mjs": "11969caeedf70f24a77fd00a78254ad54abf08107ce908b19a59d57e8eedc4c0",
+    "scripts/dev/checkpoints/process-cleanup-policy.mjs": "514c4e3adbf4759dc84dde9d825d5a3872972efa1d2c15b62e9c5416ab9f1de1"
+  },
+  "checks": [
+    {
+      "offscreenLabel": "Messages, 1 unread thread"
+    },
+    {
+      "visibleLabel": "Messages, 0 unread threads"
+    },
+    {
+      "deliveryUnread": true,
+      "switchDismissPreserved": true,
+      "newVisibleRead": true
+    },
+    {
+      "repayFocus": {
+        "id": "back",
+        "sideHidden": true
+      }
+    }
+  ],
+  "events": [],
+  "error": null,
+  "cleanup": {
+    "residual": false,
+    "uncertainty": true,
+    "childExitCode": 0,
+    "treeTerminationConfirmed": false,
+    "profileRemoved": false,
+    "profileIdSha256": "71a27e8261e09a57e67d2a4680472b7346ccc4e53ddc2435020961c7cbfd27d0"
+  }
+}

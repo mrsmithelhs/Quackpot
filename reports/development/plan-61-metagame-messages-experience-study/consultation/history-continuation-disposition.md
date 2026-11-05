@@ -1,0 +1,12 @@
+# History continuation — draft and disposition
+
+One same-session text-only Sonnet continuation requested `claude-sonnet-5-5` medium; the response self-reported Sonnet 5.5. Effective effort is not independently observable. Restricted/safe, strict MCP, dontAsk, Read-only tool list, no Chrome/slash commands and instruction not to use tools were requested; these are not proof of OS confinement. No screenshots were supplied. Bounded wrapper: exit 0, 32.60 s, sampled peak 494,735,360 bytes, no stop, cleanup note, permission denial or output truncation; stdout 7,267 characters. Private receipt and session remain private. Host preflight showed 11.34 GiB; a separate Claude process was visible among the largest processes, without identifying a competing heavy validation. No retry or new session.
+
+The owner's direction is to retain roughly the amount of older history but add character. Suggested drafts below are alternatives for owner review, not adopted story, delivered run events or a schedule:
+
+- Ren: “Squeaky hinge: oil or ignore?” / You: “Oil.” / Ren: “Boring. Correct.” Risk: this establishes a past exchange with Ren; only show it after the existing relationship permits it.
+- Marisol: “Two versions of the sheet open. Which is current?” / You: “The longer filename.” / Marisol: “Not a system, but it matches mine.” Risk: introduces a workplace artifact; review against established work context.
+- Harbor Court: “The stairwell light has been replaced.” Risk: asserts an earlier building event; use only if consistent with the run's actual Ren light copy.
+- Generic print shop: “Test page printed fine. Colors may look different on paper.” / You: “Noted.” Risk: even a tiny past errand characterizes the player; owner may discard.
+
+Disposition: accept as useful draft leads, not owner-approved content. Do not use the suggested Quackpot past notice before actual launch: it could contradict the selected invitation lifecycle. Do not use the suggested Harbor Card preference notice as evidence of an account-preferences feature. Do not infer a preexisting Ren relationship, visit to the player's home, or a talking physical duck. Avoid the proposed relative “Yesterday” as a durable timestamp contract. A fixed lender deadline remains a separately unresolved in-world clock/design question; owner chose to leave wording open for later design. The consultant's claim that a due status belongs only in the panel is not adopted: the selected thread-level due marker remains distinct from unread.

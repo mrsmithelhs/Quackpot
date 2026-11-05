@@ -1,0 +1,21 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "freeGiB": 11.34,
+  "utc": "2026-11-05T11:25:40.2931266Z",
+  "command": "node --test src/core/race-v2/engine-integration.test.mjs"
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 33.0016222,
+  "PeakSampledPrivateBytes": 186478592,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ schema-6 owned draft commits genuine worker candidate once (1511.515ms)\n✔ cancel and stale epoch publish no race draft (1226.5532ms)\n✔ cancel after claim blocks late decode and old cleanup cannot clear a newer operation (1208.5365ms)\n✔ cross-tab invalidation after claim cancels the late result and preserves both storage keys (1201.5461ms)\n✔ actual engine day transitions decrement a synthetic preexisting injury once per day (3.9482ms)\n✔ schema-6 private prefix validates fresh race and isolated full restore (4992.6521ms)\n✔ unsupported schema-6 namespace data remains untouched (6.0387ms)\n✔ coherently re-chained assignment day must match replayed schedule (7326.1874ms)\n✔ six races follow real five-slot transitions and serial semantic restore (15018.6297ms)\nℹ {\"bytes\":98090,\"restoreMs\":7225.288400000001,\"days\":3,\"outcomes\":[{\"number\":1,\"status\":\"finished\",\"reason\":null},{\"number\":2,\"status\":\"finished\",\"reason\":null},{\"number\":3,\"status\":\"finished\",\"reason\":null},{\"number\":4,\"status\":\"finished\",\"reason\":null},{\"number\":5,\"status\":\"unresolved\",\"reason\":\"correction-third-party\"},{\"number\":6,\"status\":\"finished\",\"reason\":null}]}\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 32596.0043\n",
+  "StandardError": ""
+}
+launcher-returned-success

@@ -4,13 +4,16 @@
 import { verifyChain } from './event-log.mjs';
 import { restoreRaceResolution, MAX_SERIALIZED_RACE_RESOLUTION_BYTES } from './race-resolver.mjs';
 import { RACE_REST_POLICY_VERSION, isKnownRaceDuckId, makeRaceRestEvidence } from './race-rest.mjs';
-import { BANNER_1_ROSTER } from './game-engine.mjs';
+import { BANNER_1_ROSTER, GameEngine } from './game-engine.mjs';
 import { validateLifeHistory, UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION } from './life-validation.mjs';
-import { validateFiveSlotTransactionHistory } from './life-replay.mjs';
+import { validateFiveSlotTransactionHistory, validateFiveSlotTransactionHistoryAsync, validateSchema6WithCandidates } from './life-replay.mjs';
+import { parseSchema6Raw, MAX_SCHEMA6_BYTES } from './race-v2/restore-queue.mjs';
 
 export const STORAGE_KEY = 'quackpot_save_v1';
 export const BACKUP_KEY = 'quackpot_save_backup';
 export const CURRENT_SCHEMA_VERSION = 4;
+export const SCHEMA6_STORAGE_KEY='quackpot_save_v2_development';
+export const SCHEMA6_BACKUP_KEY='quackpot_save_v2_development_backup';
 
 function isRecognizedDevelopmentSave(envelope) {
   try { return [1,2,3,4].includes(envelope?.schemaVersion) && Number.isFinite(envelope.savedAt) && envelope.savedAt>0
@@ -70,17 +73,20 @@ export function isTemporaryPreservationMode() {
  * Validates a save envelope semantically.
  * Returns { valid: boolean, errors: string[] }
  */
-export function validateSave(envelope, { experimentalFiveSlot = false, requireFiveSlotTutorial = false } = {}) {
+const SCHEMA6_VERIFIED=Symbol('internal verified schema-6 history');
+export function validateSave(envelope, options = {}) {
+  const {experimentalFiveSlot=false,requireFiveSlotTutorial=false}=options;
+  const verifiedV2=options[SCHEMA6_VERIFIED]===true;
   const errors = [];
   try {
     if (!envelope || typeof envelope !== 'object') {
       return { valid: false, errors: ['Save payload is not an object'] };
     }
 
-    if (![1, 2, 3, 4].includes(envelope.schemaVersion) && !(experimentalFiveSlot && envelope.schemaVersion===5)) {
+    if (![1, 2, 3, 4].includes(envelope.schemaVersion) && !(experimentalFiveSlot && envelope.schemaVersion===5) && !(verifiedV2&&envelope.schemaVersion===6)) {
       errors.push(`Incompatible schema version: ${envelope.schemaVersion}`);
     }
-    if(requireFiveSlotTutorial && envelope.schemaVersion===5 && envelope.eventLog?.[0]?.payload?.tutorialShiftVersion!==1)errors.push('Five-slot production save requires the current tutorial policy');
+    if(requireFiveSlotTutorial && [5,6].includes(envelope.schemaVersion) && envelope.eventLog?.[0]?.payload?.tutorialShiftVersion!==1)errors.push('Five-slot production save requires the current tutorial policy');
     if (envelope.schemaVersion >= 3 && envelope.raceRestEvidenceVersion !== 1) {
       errors.push('Current save schema requires raceRestEvidenceVersion 1');
     }
@@ -244,6 +250,7 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
             }
             const encoded = state.raceResolutions?.[payload.raceId];
             try {
+              if(verifiedV2&&envelope.schemaVersion===6){if(!encoded||encoded.schema!=='race-v2-compact/v1')throw new Error('invalid compact record');continue;}
               const restored = encoded ? restoreRaceResolution(encoded) : null;
             if (!restored || restored.inputs.restFactor !== expected.restFactor
                 || restored.inputs.authoredPlayerRating !== expected.authoredRating
@@ -261,9 +268,10 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
         }
         // Reconcile state against event log
         if (envelope.schemaVersion === 5 && experimentalFiveSlot) errors.push(...validateFiveSlotTransactionHistory(envelope));
+        else if(envelope.schemaVersion===6&&verifiedV2) { /* already independently verified asynchronously */ }
         else if (envelope.schemaVersion === 4) errors.push(...validateLifeHistory(entries, state));
         else if (state.life || entries.some(e => e.type === 'life_intent' || (e.type === 'run_started' && Object.hasOwn(e.payload ?? {}, 'tutorialShiftVersion')))) errors.push('Life policy requires schema 4');
-        let calcCash = [4,5].includes(envelope.schemaVersion) ? 80 : 15.00;
+        let calcCash = [4,5,6].includes(envelope.schemaVersion) ? 80 : 15.00;
         let calcGems = 0;
         let calcHealth = 100;
         let calcDebt = 0;
@@ -275,8 +283,8 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
 
         for (const e of entries) {
           if (e.type === 'income' && e.payload?.amount && e.payload.source!=='five-slot-work-story') calcCash += e.payload.amount;
-          if (envelope.schemaVersion===5 && e.type==='life52_commit') {calcCash+=(e.payload?.cashDeltaCents??0)/100;calcHealth+=e.payload?.healthDelta??0;}
-          if (envelope.schemaVersion===5 && e.type==='life52_effect') {
+          if ([5,6].includes(envelope.schemaVersion) && e.type==='life52_commit') {calcCash+=(e.payload?.cashDeltaCents??0)/100;calcHealth+=e.payload?.healthDelta??0;}
+          if ([5,6].includes(envelope.schemaVersion) && e.type==='life52_effect') {
             const effect=e.payload?.effect;
             if(effect?.type==='loan_accepted' && effect.loan?.id)fiveSlotLoans.set(effect.loan.id,effect.loan.totalCents);
             if(effect?.type==='loan_repaid')fiveSlotLoans.delete(effect.loanId);
@@ -330,7 +338,7 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
           }
         }
 
-        if(envelope.schemaVersion===5)calcDebt=[...fiveSlotLoans.values()].reduce((sum,value)=>sum+value,0)/100;
+        if([5,6].includes(envelope.schemaVersion))calcDebt=[...fiveSlotLoans.values()].reduce((sum,value)=>sum+value,0)/100;
         calcCash = Math.round(calcCash * 100) / 100;
         if (Math.abs(calcCash - state.cash) > 0.01) {
           errors.push(`State cash mismatch: log implies $${calcCash}, state reports $${state.cash}`);
@@ -362,9 +370,9 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
           entries.filter((e) => e.type === 'reveal_shown').map((e) => e.payload?.commitSeq)
         );
         const lastBatchSize = allCommitEvents.at(-1)?.payload?.of ?? 0;
-        const commitEvents = [4,5].includes(envelope.schemaVersion) && Number.isInteger(lastBatchSize) && lastBatchSize > 0
+        const commitEvents = [4,5,6].includes(envelope.schemaVersion) && Number.isInteger(lastBatchSize) && lastBatchSize > 0
           ? allCommitEvents.slice(-lastBatchSize) : allCommitEvents;
-        if ([4,5].includes(envelope.schemaVersion) && allCommitEvents.slice(0, allCommitEvents.length - commitEvents.length).some(e => !revealedSeqs.has(e.seq))) {
+        if ([4,5,6].includes(envelope.schemaVersion) && allCommitEvents.slice(0, allCommitEvents.length - commitEvents.length).some(e => !revealedSeqs.has(e.seq))) {
           errors.push('An earlier draw batch contains unrevealed outcomes');
         }
 
@@ -503,6 +511,7 @@ export function validateSave(envelope, { experimentalFiveSlot = false, requireFi
             try {
               const bytes = new TextEncoder().encode(JSON.stringify(encoded)).byteLength;
               totalRaceResolutionBytes += bytes;
+              if(verifiedV2&&envelope.schemaVersion===6){if(encoded.schema!=='race-v2-compact/v1'||bytes>128*1024||encoded.digest!==attempt.resolutionDigest)throw new Error('invalid compact race');continue;}
               if (bytes > MAX_SERIALIZED_RACE_RESOLUTION_BYTES) errors.push(`Race resolution ${raceId} exceeds the provisional ${MAX_SERIALIZED_RACE_RESOLUTION_BYTES}-byte budget`);
               const restored = restoreRaceResolution(encoded);
               if (restored.status !== (attempt.resolutionStatus ?? entryStatus(attempt)) || encoded.digest !== attempt.resolutionDigest) {
@@ -778,6 +787,78 @@ export function loadGame(storage, { experimentalFiveSlot = false, requireFiveSlo
   const { valid, errors } = validateSave(migrated,{experimentalFiveSlot,requireFiveSlotTutorial});
   const unsupportedDevelopment = !valid && errors.length === 1 && [UNSUPPORTED_REN_DEVELOPMENT_SAVE, UNSUPPORTED_REN_REVISION].includes(errors[0]);
   return { envelope: migrated, valid, errors, isCorrupt: !valid && !unsupportedDevelopment, unsupportedDevelopment, migrated: migrated.schemaVersion !== envelope.schemaVersion };
+}
+
+/** Isolated development namespace with a private immutable validated-history prefix. */
+export function createSchema6Session(storage=globalThis.localStorage){
+  let bound=null,storedRaw=null,preservedRaw=null,prefix=null,candidates=[],generation=0;
+  const entriesFor=env=>env.eventLog.filter(e=>e.type==='action'&&e.payload?.kind==='race_choice');
+  const verifyStructure=env=>validateSave(env,{experimentalFiveSlot:true,requireFiveSlotTutorial:true,[SCHEMA6_VERIFIED]:true});
+  const reject=message=>({success:false,error:message});
+  function reset(){generation++;bound=null;prefix=null;preservedRaw=null;candidates=[];}
+  function remember(engine,env,raw,proofs){bound=engine;storedRaw=raw;prefix=JSON.stringify(env.eventLog);candidates=proofs.slice();}
+  async function load({signal,onProgress=()=>{}}={}){
+    reset();const epoch=generation;let raw;
+    try{raw=storage.getItem(SCHEMA6_STORAGE_KEY);}catch{return {valid:false,readFailed:true,errors:['Schema-6 storage read failed']};}
+    if(raw===null){storedRaw=null;return {valid:true,envelope:null,engine:null};}
+    preservedRaw=raw;
+    let envelope;try{
+      if(new TextEncoder().encode(raw).byteLength>MAX_SCHEMA6_BYTES)throw new RangeError('schema-6 envelope limit');
+      const header=JSON.parse(raw);if(header?.schemaVersion!==6)return {valid:false,isCorrupt:false,unsupportedDevelopment:true,errors:['Unsupported development save']};
+      envelope=parseSchema6Raw(raw);
+    }catch(e){return {valid:false,isCorrupt:true,errors:[e.message]};}
+    let proofs=[];const errors=await validateFiveSlotTransactionHistoryAsync(envelope,{signal,onProgress,onValidated:value=>{proofs=value;}});
+    if(epoch!==generation||signal?.aborted)return {valid:false,canceled:true,errors:['Restore canceled']};
+    try{if(storage.getItem(SCHEMA6_STORAGE_KEY)!==raw){reset();return {valid:false,stale:true,errors:['Saved data changed during restore']};}}catch{return {valid:false,readFailed:true,errors:['Schema-6 storage read failed']};}
+    if(errors.length){const unavailable=errors.some(e=>/worker (?:startup|error|message error|dispatch failed|unavailable)|WebCrypto|restore canceled/i.test(e));
+      return {valid:false,isCorrupt:!unavailable,unavailable,errors};}
+    const structure=verifyStructure(envelope);if(!structure.valid)return {valid:false,isCorrupt:true,errors:structure.errors};
+    const engine=GameEngine.fromEnvelope(envelope);remember(engine,envelope,raw,proofs);return {valid:true,envelope,engine};
+  }
+  async function bindNew(engine){
+    reset();const epoch=generation;
+    if(!(engine instanceof GameEngine))return reject('invalid engine');
+    let env;try{env=parseSchema6Raw(JSON.stringify(engine.toEnvelope()));}catch(e){return reject(e.message);}
+    if(entriesFor(env).length!==0)return reject('new session has race history');
+    const errors=await validateFiveSlotTransactionHistoryAsync(env);if(epoch!==generation)return reject('session canceled');
+    if(errors.length)return reject(errors.join('; '));const structure=verifyStructure(env);if(!structure.valid)return reject(structure.errors.join('; '));
+    let raw;try{raw=storage.getItem(SCHEMA6_STORAGE_KEY);}catch{return reject('storage read failed');}
+    if(raw!==null)return reject('existing schema-6 data preserved');remember(engine,env,null,[]);return {success:true};
+  }
+  async function replacePreserved(engine){
+    const expectedRaw=preservedRaw,epoch=generation;if(!(engine instanceof GameEngine)||typeof expectedRaw!=='string')return reject('invalid replacement');
+    let env,serialized;try{serialized=JSON.stringify(engine.toEnvelope());env=parseSchema6Raw(serialized);}catch(e){return reject(e.message);}
+    if(entriesFor(env).length!==0)return reject('replacement has race history');
+    const errors=await validateFiveSlotTransactionHistoryAsync(env);if(epoch!==generation)return reject('session canceled');if(errors.length)return reject(errors.join('; '));
+    const structure=verifyStructure(env);if(!structure.valid)return reject(structure.errors.join('; '));
+    let attempted=false;try{
+      if(storage.getItem(SCHEMA6_STORAGE_KEY)!==expectedRaw)return reject('saved data changed externally');
+      if(storage.getItem(SCHEMA6_BACKUP_KEY)===null){storage.setItem(SCHEMA6_BACKUP_KEY,expectedRaw);if(storage.getItem(SCHEMA6_BACKUP_KEY)!==expectedRaw)throw Error('backup verification failed');}
+      if(storage.getItem(SCHEMA6_STORAGE_KEY)!==expectedRaw)return reject('saved data changed externally');
+      attempted=true;storage.setItem(SCHEMA6_STORAGE_KEY,serialized);if(storage.getItem(SCHEMA6_STORAGE_KEY)!==serialized)throw Error('replacement verification failed');
+    }catch(e){try{if(attempted&&storage.getItem(SCHEMA6_STORAGE_KEY)===serialized)storage.setItem(SCHEMA6_STORAGE_KEY,expectedRaw);}catch{}return reject(e.message);}
+    reset();remember(engine,env,serialized,[]);return {success:true};
+  }
+  function save(engine){
+    if(!bound||bound!==engine||!prefix)return reject('unbound schema-6 session');
+    let actual;try{actual=storage.getItem(SCHEMA6_STORAGE_KEY);}catch{return reject('storage read failed');}
+    if(actual!==storedRaw){reset();return reject('saved data changed externally');}
+    let env,serialized,proofs;
+    try{
+      serialized=JSON.stringify(engine.toEnvelope());if(new TextEncoder().encode(serialized).byteLength>MAX_SCHEMA6_BYTES)throw new RangeError('schema-6 envelope limit');
+      env=parseSchema6Raw(serialized);const old=JSON.parse(prefix);
+      if(env.eventLog.length<old.length||JSON.stringify(env.eventLog.slice(0,old.length))!==prefix)throw new RangeError('validated history changed');
+      const races=entriesFor(env);proofs=races.map((choice,i)=>i<candidates.length?candidates[i]:GameEngine.prototype.getRaceV2VerifiedCandidate.call(engine,choice.payload.raceId));
+      const replay=validateSchema6WithCandidates(env,proofs);if(replay.length)throw new RangeError(replay.join('; '));
+      const structure=verifyStructure(env);if(!structure.valid)throw new RangeError(structure.errors.join('; '));
+    }catch(e){return reject(e.message);}
+    try{storage.setItem(SCHEMA6_STORAGE_KEY,serialized);if(storage.getItem(SCHEMA6_STORAGE_KEY)!==serialized)throw new Error('write verification failed');}
+    catch(e){try{if(storage.getItem(SCHEMA6_STORAGE_KEY)===serialized){if(storedRaw===null)storage.removeItem(SCHEMA6_STORAGE_KEY);else storage.setItem(SCHEMA6_STORAGE_KEY,storedRaw);}}catch{}return reject(e.message);}
+    remember(engine,env,serialized,proofs);return {success:true};
+  }
+  function clear(){try{if(storage.getItem(SCHEMA6_STORAGE_KEY)!==storedRaw){reset();return reject('saved data changed externally');}
+    storage.removeItem(SCHEMA6_STORAGE_KEY);storage.removeItem(SCHEMA6_BACKUP_KEY);reset();storedRaw=null;return {success:true};}catch(e){reset();return reject(e.message);}}
+  return {load,bindNew,replacePreserved,save,clear,invalidate:reset};
 }
 
 function entryStatus(entry) {

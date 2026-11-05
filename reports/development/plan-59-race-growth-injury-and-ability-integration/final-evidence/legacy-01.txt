@@ -1,0 +1,21 @@
+{
+  "command": "node --test --test-name-pattern=Plan52 staged engine commits actual pull src/core/game-engine.test.mjs",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "utc": "2026-11-05T11:27:01.7915620Z",
+  "freeGiB": 11.54
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.6437027,
+  "PeakSampledPrivateBytes": 92942336,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ Plan52 staged engine commits actual pull with schedule, RNG and prior results atomically (1401.7709ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1510.8125\n",
+  "StandardError": ""
+}
+launcher-returned-success

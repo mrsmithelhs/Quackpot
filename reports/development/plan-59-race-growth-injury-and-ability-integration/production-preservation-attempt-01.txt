@@ -1,0 +1,16 @@
+preflight UTC 2026-11-05T10:15:27.9299338Z; freeGiB 12.57; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 node.exe --test --test-name-pattern=unsupported schema-6 namespace data remains untouched src/core/race-v2/engine-integration.test.mjs
+src/core/storage.mjs FCCBD26EF73986DF2FC1EDA561F7997A7FB56AB2AE2A26A3331AA6FC9D33123C
+src/core/life-replay.mjs EEEB5577D4DE608E8D857D464059EBA39B07C94190D6B59FC06C325C54EFC5AD
+src/core/game-engine.mjs E61AD4239DE370D6B8E46E8AED0C9118BB160C01F1F4AB670A216D0D344F44F7
+src/core/race-v2/engine-integration.test.mjs BDC92803BC85CFF416BBC54F22692EA838120C2713CD959417DAB06B15D30CF1
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5483248,
+  "PeakSampledPrivateBytes": 3756032,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ unsupported schema-6 namespace data remains untouched (11.9087ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 98.6857\n",
+  "StandardError": ""
+}
+launcher-returned-success

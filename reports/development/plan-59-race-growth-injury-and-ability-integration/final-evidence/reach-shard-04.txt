@@ -1,0 +1,25 @@
+{
+  "freeGiB": 11.38,
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "node final-evidence/injury-reach.mjs 4",
+  "utc": "2026-11-05T11:28:49.5540560Z"
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 4.8226049,
+  "PeakSampledPrivateBytes": 137940992,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"seed\":\"plan59-injury-reach-10\",\"duck\":\"duck-0\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":0,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":false}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n{\"seed\":\"plan59-injury-reach-11\",\"duck\":\"duck-3\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":2,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":true}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n",
+  "StandardError": "[workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/injury-reach.mjs:29\r\n      act({type:'complete',activityId:engine.state.life.schedule.active.id});\r\n                                                                        ^\r\n\r\nTypeError: Cannot read properties of null (reading 'id')\r\n    at [workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/injury-reach.mjs:29:73\r\n\r\nNode.js v26.7.0\r\n"
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

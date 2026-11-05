@@ -1,0 +1,15 @@
+preflight UTC 2026-11-05T11:10:35.2362172Z; freeGiB 11.91; process >=1GiB ChatGPT 1.10GiB, Memory Compression 1.20GiB
+command: bounded-node-run.ps1 node.exe --test src/core/race-v2/restore-queue.test.mjs
+src/core/race-v2/restore-queue.mjs E237F97559EF2D911C6F6EF1982E8532172FA86F0F98EB5126A046A5694A49AB
+src/core/race-v2/restore-queue.test.mjs 365688663B405675D03C7D8D0E6174D23DA32C1CAABDADA3B8AC1AE2F2668909
+src/core/race-v2/persistence.mjs 30B249D3BDCB02271522B2CD06D3C1E23E8329E4460BFB22EC0A6955C916E5A3
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5451338,
+  "PeakSampledPrivateBytes": 3489792,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ raw admission rejects one oversized compact record before reconstruction (1.914ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 83.8752\n",
+  "StandardError": ""
+}
+launcher-returned-success

@@ -1,0 +1,25 @@
+{
+  "command": "node final-evidence/injury-reach.mjs retry-11",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.02
+    }
+  ],
+  "freeGiB": 11.57,
+  "utc": "2026-11-05T11:29:41.2543061Z"
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 3.2190827,
+  "PeakSampledPrivateBytes": 125431808,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"seed\":\"plan59-injury-reach-11\",\"duck\":\"duck-3\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":2,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":true}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n",
+  "StandardError": "node:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: {\"ok\":false,\"reason\":\"meal_unavailable\"}\r\n\r\nfalse !== true\r\n\r\n    at act ([workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/injury-reach.mjs:19:135)\r\n    at [workspace]/reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/injury-reach.mjs:30:13 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: false,\r\n  expected: true,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v26.7.0\r\n"
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

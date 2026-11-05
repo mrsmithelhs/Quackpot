@@ -1,0 +1,51 @@
+import {createHash} from 'node:crypto';
+import {mkdtemp,mkdir,readFile,readdir,writeFile,copyFile} from 'node:fs/promises';
+import {spawn} from 'node:child_process';
+import {tmpdir} from 'node:os';
+import {join,dirname} from 'node:path';
+import {launchIsolatedChrome,closeIsolatedChrome,createPage,evaluate,waitFor,clickPointer} from '../../../scripts/dev/checkpoints/cdp.mjs';
+const report='reports/development/plan-59-race-growth-injury-and-ability-integration/',out=process.argv[2];if(!out)throw Error('output required');
+const sixPath=report+'schema6-six-race-witness-02.json',beforePath='reports/development/plan-52-five-slot-production-transition/session-panel-witness-attempt3/resolved-panel.save.json';
+const hash=b=>createHash('sha256').update(b).digest('hex'),pins={},observations=[],exceptions=[];let snapshot,server,browser,cleanup,error,serverExit,version,sourceStable=false;
+const summary=c=>c?Object.fromEntries(['residual','rootExited','observedProcessesExited','inspectionFailed','coverage','uncertainty','profileRetained','treeTerminationConfirmed','childExitCode','profileRemoved','profileIdSha256'].filter(k=>Object.hasOwn(c,k)).map(k=>[k,c[k]])):null;
+async function files(dir){const result=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=`${dir}/${e.name}`;if(e.isDirectory())result.push(...await files(p));else result.push(p);}return result;}
+async function screenshot(page,name){const image=await browser.cdp.send('Page.captureScreenshot',{format:'png'},page.sessionId);await writeFile(`${out}/${name}.png`,Buffer.from(image.data,'base64'),{flag:'wx'});}
+async function makePage(url,raw){const page=await createPage(browser.cdp,'about:blank',{viewport:{width:1200,height:800}});const setup=`if(location.origin!=='null'&&!sessionStorage.getItem('qp59-test-seeded')){sessionStorage.setItem('qp59-test-seeded','1');localStorage.setItem('quackpot_save_v1','owner-schema-five-sentinel');localStorage.setItem('quackpot_save_v2_development',${JSON.stringify(raw)});}`;
+  await browser.cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:setup},page.sessionId);await browser.cdp.send('Page.navigate',{url},page.sessionId);return page;}
+async function state(page){return evaluate(browser.cdp,page.sessionId,`({v1:localStorage.getItem('quackpot_save_v1'),v2:localStorage.getItem('quackpot_save_v2_development'),text:document.body.innerText})`);}
+async function verify(){for(const [p,d] of Object.entries(pins))if(hash(await readFile(p))!==d)throw Error(`source drift ${p}`);}
+try{
+  const dist=await files('dist');const sources=['src/main.js','src/core/game-engine.mjs','src/core/storage.mjs','src/core/life-replay.mjs','src/core/race-progression.mjs',
+    ...['worker-client.mjs','race-worker.mjs','restore-queue.mjs','history-plan.mjs','persistence.mjs','integer-kernel.mjs','codec.mjs'].map(x=>'src/core/race-v2/'+x),sixPath,beforePath,report+'production-browser-study.mjs',...dist];
+  for(const p of sources)pins[p]=hash(await readFile(p));await writeFile(`${out}/source-pins.json`,JSON.stringify(pins,null,2),{flag:'wx'});
+  const six=await readFile(sixPath,'utf8'),zero=JSON.parse(await readFile(beforePath,'utf8'));zero.schemaVersion=6;zero.state.raceGrowth={schema:'race-growth-injury/v1',ducks:{}};zero.state.step='life_race';const zeroRaw=JSON.stringify(zero);
+  snapshot=await mkdtemp(join(tmpdir(),'qp59-app-snapshot-'));for(const p of dist){const target=join(snapshot,p.slice(5));await mkdir(dirname(target),{recursive:true});await copyFile(p,target);}await writeFile(`${out}/snapshot.private.log`,JSON.stringify({snapshot}),{flag:'wx'});
+  server=spawn('C:/Program Files/Python314/python.exe',['reports/development/plan-58-race-ability-animation-study/tools/snapshot_server.py',snapshot],{stdio:['ignore','pipe','pipe'],windowsHide:true});
+  const origin=await new Promise((resolve,reject)=>{let text='';const timer=setTimeout(()=>reject(Error('server timeout')),5000);server.stdout.on('data',chunk=>{text+=chunk;if(text.includes('\n')){clearTimeout(timer);resolve(text.trim());}});server.once('error',reject);server.once('exit',code=>reject(Error(`server exited ${code}`)));});
+  if(!/^http:\/\/127\.0\.0\.1:\d+\/Quackpot\/$/.test(origin))throw Error('invalid origin');
+  browser=await launchIsolatedChrome();browser.cdp.socket.addEventListener('message',event=>{const m=JSON.parse(String(event.data));if(m.method==='Runtime.exceptionThrown')exceptions.push(m.params.exceptionDetails?.text??'exception');});version=await browser.cdp.send('Browser.getVersion');
+  const url=origin+'?race-v2=1';
+  let page=await makePage(url,six);await waitFor(browser.cdp,page.sessionId,"document.querySelector('[data-restore-settings]')",'restore settings');
+  await screenshot(page,'restore-progress');await clickPointer(browser.cdp,page.sessionId,'[data-restore-settings]');await waitFor(browser.cdp,page.sessionId,"document.querySelector('#settings-title')",'settings');await screenshot(page,'restore-settings');
+  await clickPointer(browser.cdp,page.sessionId,'[data-settings-done]');await clickPointer(browser.cdp,page.sessionId,'[data-restore-leave]');await new Promise(r=>setTimeout(r,400));
+  let s=await state(page);if(s.v1!=='owner-schema-five-sentinel'||s.v2!==six||!s.text.includes('left unchanged'))throw Error('restore cancel changed data');observations.push({case:'restore-cancel',schema5Preserved:true,schema6Preserved:true});await browser.cdp.send('Target.disposeBrowserContext',{browserContextId:page.contextId});
+  page=await makePage(url,six);const start=Date.now();await waitFor(browser.cdp,page.sessionId,"document.body.innerText.includes('Development race outcome')",'six-race restore',30000);s=await state(page);
+  if(s.v1!=='owner-schema-five-sentinel'||JSON.parse(s.v2).state.completedRaces.length!==5)throw Error('six-race restore mismatch');await screenshot(page,'six-race-restored');observations.push({case:'six-race-restore',elapsedMs:Date.now()-start,schema5Preserved:true,sixAttempts:Object.keys(JSON.parse(s.v2).state.raceAttempts).length});await browser.cdp.send('Target.disposeBrowserContext',{browserContextId:page.contextId});
+  page=await makePage(url,zeroRaw);await waitFor(browser.cdp,page.sessionId,"document.querySelector('[data-race-form]')",'race form');await clickPointer(browser.cdp,page.sessionId,'[data-race-form] button[type=submit]');
+  await clickPointer(browser.cdp,page.sessionId,'#btn-open-settings');await waitFor(browser.cdp,page.sessionId,"document.querySelector('#settings-title')",'race settings');await screenshot(page,'preparation-settings');await clickPointer(browser.cdp,page.sessionId,'[data-settings-done]');
+  await clickPointer(browser.cdp,page.sessionId,'#btn-uninstall');await waitFor(browser.cdp,page.sessionId,"document.querySelector('.modal-backdrop')",'uninstall dialog');await screenshot(page,'preparation-uninstall');await new Promise(r=>setTimeout(r,1800));s=await state(page);
+  if(s.v1!=='owner-schema-five-sentinel'||Object.keys(JSON.parse(s.v2).state.raceAttempts).length!==0)throw Error('race cancellation published attempt');observations.push({case:'race-cancel-uninstall',schema5Preserved:true,noRaceAttempt:true});await browser.cdp.send('Target.disposeBrowserContext',{browserContextId:page.contextId});
+  page=await makePage(url,zeroRaw);await waitFor(browser.cdp,page.sessionId,"document.querySelector('[data-race-form]')",'race form');await clickPointer(browser.cdp,page.sessionId,'[data-race-form] button[type=submit]');
+  await waitFor(browser.cdp,page.sessionId,"document.body.innerText.includes('Development race outcome')",'real race result',20000);await screenshot(page,'real-race-result');s=await state(page);
+  if(s.v1!=='owner-schema-five-sentinel'||Object.keys(JSON.parse(s.v2).state.raceAttempts).length!==1)throw Error('race save missing');observations.push({case:'real-race-commit',schema5Preserved:true,status:JSON.parse(s.v2).state.raceAttempts['1'].status});
+  await browser.cdp.send('Page.reload',{},page.sessionId);await waitFor(browser.cdp,page.sessionId,"document.body.innerText.includes('Development race outcome')",'race reload',20000);s=await state(page);if(s.v1!=='owner-schema-five-sentinel')throw Error('schema-5 changed on reload');observations.push({case:'real-race-reload',schema5Preserved:true});
+  await browser.cdp.send('Target.disposeBrowserContext',{browserContextId:page.contextId});await verify();sourceStable=true;
+}catch(e){error=String(e);}finally{
+  if(browser)cleanup=await closeIsolatedChrome(browser);if(server){if(server.exitCode===null&&server.signalCode===null){server.kill();await Promise.race([new Promise(r=>server.once('exit',r)),new Promise(r=>setTimeout(r,3000))]);}serverExit={code:server.exitCode,signal:server.signalCode};}
+  const serverObservedExited=Boolean(server)&&(server.exitCode!==null||server.signalCode!==null);
+  const cleanupFullyVerified=serverObservedExited&&cleanup?.rootExited===true&&cleanup?.observedProcessesExited===true&&cleanup?.inspectionFailed===false&&cleanup?.residual===false&&cleanup?.treeTerminationConfirmed===true&&cleanup?.uncertainty===false;
+  const artifactChecksPassed=!error&&sourceStable&&observations.length===5&&exceptions.length===0;
+  await writeFile(`${out}/browser.private.log`,JSON.stringify({snapshot,cleanup,error,exceptions,serverExit},null,2),{flag:'wx'});
+  const result={nodeVersion:process.version,browserVersion:version?{product:version.product,jsVersion:version.jsVersion}:null,sourceStable,observations,artifactChecksPassed,cleanupFullyVerified,accepted:artifactChecksPassed&&cleanupFullyVerified,cleanup:summary(cleanup),serverObservedExited,serverExit,exceptionCount:exceptions.length,error:error?'See ignored private diagnostic.':null};
+  await writeFile(`${out}/browser-summary.json`,JSON.stringify(result,null,2),{flag:'wx'});console.log(JSON.stringify(result));if(!result.accepted)process.exitCode=1;
+}

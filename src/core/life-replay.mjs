@@ -9,6 +9,10 @@ import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
 import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
+import {createRaceHistoryPlan} from './race-v2/history-plan.mjs';
+import {createRestoreQueue} from './race-v2/restore-queue.mjs';
+import {isVerifiedWorkerCandidate} from './race-v2/worker-client.mjs';
+import {stableStringify} from './race-v2/codec.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const exitInterruptions=(life,entries)=>{
   const active=life.schedule.active,day=life.schedule.day,social=life.social46,story=life.story47,out=[];
@@ -24,7 +28,7 @@ const exitInterruptions=(life,entries)=>{
 // Rebuild the coordinated portion from its original policy and recorded inputs.
 // Fail closed on cases this first replay slice does not yet cover; this function
 // is deliberately not connected to storage until every supported path is covered.
-export function validateFiveSlotTransactionHistory(envelope) {
+function validateTransactions(envelope, verifiedV2 = false) {
   const entries=envelope?.eventLog;
   if(!Array.isArray(entries))return ['Missing transaction history'];
   if(entries[0]?.type!=='run_started' || entries[0].payload?.lifePolicyVersion!==PRODUCTION.id || !same(entries[0].payload?.lifeConfig,PRODUCTION))return ['Missing or mismatched five-slot policy start'];
@@ -32,10 +36,13 @@ export function validateFiveSlotTransactionHistory(envelope) {
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
   let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null,appOpened=false;
   const shownStages=[];let expectedInterruptions=[],completionInterruptions=null;
-  const errors=[...validateSeededDrawHistory(envelope),...validateSeededRaceHistory(envelope)];
+  const errors=[...validateSeededDrawHistory(envelope),...(envelope.schemaVersion===6?(verifiedV2?[]:['Schema-6 race history requires async verification']):validateSeededRaceHistory(envelope))];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
+    if(envelope.schemaVersion===6&&entry.type==='action'&&entry.payload?.kind==='race_ability_assigned'&&entry.clock?.day!==life.schedule.day){
+      errors.push(`Ability assignment day mismatch at ${entry.seq}`);break;
+    }
     if(expectedStoryIncome) {
       if(entry.type!=='income' || !same(entry.payload,expectedStoryIncome)){errors.push(`Work income evidence mismatch at ${entry.seq}`);break;}
       expectedStoryIncome=null;continue;
@@ -211,6 +218,10 @@ export function validateFiveSlotTransactionHistory(envelope) {
     if(!result?.ok || !same(result.events,actualEvents) || commit?.domain!==(entry.type==='life52_social_intent'?'social':entry.type==='life52_work_story_intent'?'work_story':entry.type==='life52_activity_story_intent'?'activity_story':intent?.domain) || commit?.cashDeltaCents!==result.cashDeltaCents || commit?.healthDelta!==result.healthDelta || commit?.operationId!==(intent?.operationId??intent?.action?.operationId??intent?.action?.id)) {
       errors.push(`Transaction mismatch at ${entry.seq}`);break;
     }
+    if(envelope.schemaVersion===6&&gameplay&&intent.action.kind==='race'){
+      const race=inside.find(event=>['race_result','race_attempt_unresolved'].includes(event.type));
+      if(race?.payload?.entryDay!==result.state.schedule.day){errors.push(`Race entry day mismatch at ${entry.seq}`);break;}
+    }
     life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
     if(entry.type==='life52_work_story_intent' && intent.type==='complete')expectedStoryIncome={kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:balances.cashCents/100,source:'five-slot-work-story'};
     const terminal=result.events.find(event=>event.type==='financial_default');
@@ -233,6 +244,34 @@ export function validateFiveSlotTransactionHistory(envelope) {
   if(!errors.length && (envelope.state?.day!==life.schedule.day || envelope.state?.clock?.day!==life.schedule.day || envelope.state?.clock?.label!==`day ${life.schedule.day} ${life.schedule.slot}`))errors.push('Reconstructed schedule clock does not match saved state');
   if(!errors.length && (!same(life,envelope.state?.life) || balances.cashCents!==Math.round(envelope.state?.cash*100) || balances.health!==envelope.state?.health))errors.push('Reconstructed life or balances do not match saved state');
   return errors;
+}
+
+export function validateFiveSlotTransactionHistory(envelope){return validateTransactions(envelope,false);}
+
+export function validateSchema6WithCandidates(envelope,candidates){
+  try{
+    const plan=createRaceHistoryPlan(envelope,{roster:BANNER_1_ROSTER,constants:GAME_CONSTANTS});
+    if(!Array.isArray(candidates)||candidates.length!==plan.records.length)throw new RangeError('missing verified candidates');
+    for(let i=0;i<candidates.length;i++){
+      const candidate=candidates[i];if(!isVerifiedWorkerCandidate(candidate)||!same(candidate.compact,plan.records[i])||stableStringify(plan.deriveInput(i,plan.records[i]))!==stableStringify(plan.records[i].input))throw new RangeError('unverified race candidate');
+      plan.onResult(i,candidate);
+    }
+    plan.finish();return validateTransactions(envelope,true);
+  }catch(error){return [`Schema-6 replay failed: ${error.message}`];}
+}
+
+/** Full schema-6 replay; no caller-provided token can substitute for reconstruction. */
+export async function validateFiveSlotTransactionHistoryAsync(envelope,{signal,onProgress=()=>{},onValidated=()=>{}}={}){
+  if(envelope?.schemaVersion!==6)return validateTransactions(envelope,false);
+  const queue=createRestoreQueue();const abort=()=>queue.cancel();signal?.addEventListener('abort',abort,{once:true});
+  try{
+    if(signal?.aborted)throw new Error('restore canceled');
+    const plan=createRaceHistoryPlan(envelope,{roster:BANNER_1_ROSTER,constants:GAME_CONSTANTS});
+    const candidates=await queue.reconstruct(plan.records,{context:{runId:envelope.eventLog[0].payload.seed,operationId:'restore',revision:String(envelope.state.life.schedule.revision),logLength:String(envelope.eventLog.length),stateIdentity:'full-history'},
+      deriveInput:plan.deriveInput,onResult:plan.onResult,onProgress});
+    plan.finish();const errors=validateSchema6WithCandidates(envelope,candidates);if(!errors.length)onValidated(candidates);return errors;
+  }catch(error){return [`Schema-6 replay failed: ${error.message}`];}
+  finally{signal?.removeEventListener('abort',abort);queue.cancel();}
 }
 export function validateSeededDrawHistory(envelope) {
   const entries=envelope?.eventLog, starts=Array.isArray(entries)?entries.filter(e=>e.type==='run_started'):[];

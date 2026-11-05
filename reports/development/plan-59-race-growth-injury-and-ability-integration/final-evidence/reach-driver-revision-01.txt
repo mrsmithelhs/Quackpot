@@ -1,0 +1,3 @@
+Harness-only correction after seed 11 failed: first activity completion already advanced to the next morning; retry only seed 11 and compare its original recorded result before recovery. No source or input changes.
+new SHA256
+42F0BC6C0BFA887C928D55DB2AC417F3B1DE4471BDC2AF5CB589B85E31726A98

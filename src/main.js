@@ -25,6 +25,7 @@ import {
   getInMemoryStatus,
   setTemporaryPreservationMode,
   isTemporaryPreservationMode,
+  createSchema6Session,
 } from './core/storage.mjs';
 
 import { renderHud } from './ui/hud.js';
@@ -55,10 +56,13 @@ import {
 import { renderReceiptView } from './ui/receipt-view.js';
 import { renderSettingsModal } from './ui/settings-modal.js';
 import { createStageTransition } from './ui/stage-transition.js';
+import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalidation.mjs';
 
 const app = document.querySelector('#app');
 
 if (app) {
+  const raceV2Development=new URLSearchParams(window.location.search).get('race-v2')==='1';
+  const schema6Session=raceV2Development?createSchema6Session():null;
   window.GameEngine = GameEngine;
   let engine = null;
   let currentStep = 'desk';
@@ -84,6 +88,10 @@ if (app) {
   let pendingDefault = null;
   let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
+  if(raceV2Development)window.addEventListener('storage',event=>{
+    if(!invalidateForSchema6StorageEvent(event,schema6Session,engine))return;
+    storageWarningText='The development save changed in another tab. This session will not overwrite it.';updateWarningBanner();
+  });
 
   function generateRandomSeed() {
     if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
@@ -108,7 +116,7 @@ if (app) {
 
   function maybeAutosave() {
     if (engine && engine.autosaveEnabled && !unsupportedRenPreservation) {
-      const res = saveGame(engine.toEnvelope());
+      const res = raceV2Development?schema6Session.save(engine):saveGame(engine.toEnvelope());
       checkStorageResult(res);
       updateWarningBanner();
     }
@@ -135,6 +143,8 @@ if (app) {
         <div id="modal-container"></div>
       </div>
     `;
+
+    if(raceV2Development){void initSchema6();return;}
 
     // Attempt to load existing game
     const loadResult = loadGame(undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true});
@@ -243,8 +253,36 @@ if (app) {
     startFreshRun(true);
   }
 
+  async function initSchema6(){
+    const main=document.querySelector('#main-content'),modal=document.querySelector('#modal-container'),abort=new AbortController();
+    let canceled=false;main.innerHTML='<section><h1>Checking saved race history</h1><p role="status" data-restore-status>Preparing…</p><button type="button" data-restore-settings>Settings</button><button type="button" data-restore-leave>Leave without changing saved data</button></section>';
+    main.querySelector('[data-restore-settings]').onclick=()=>{let closeSettings;closeSettings=renderSettingsModal(modal,{autosaveEnabled:false,autosaveLocked:true,saveDisabled:true,onClose:()=>{closeSettings?.();modal.replaceChildren();}});};
+    main.querySelector('[data-restore-leave]').onclick=()=>{canceled=true;abort.abort();schema6Session.invalidate();main.innerHTML='<p>Saved data was left unchanged. Reload to try again.</p>';};
+    const result=await schema6Session.load({signal:abort.signal,onProgress:({completed,total})=>{const status=main.querySelector('[data-restore-status]');if(status)status.textContent=`Checking race ${completed} of ${total}…`;}});
+    if(canceled)return;
+    if(!result.valid){
+      main.innerHTML='<section><h1>Saved data was not changed</h1><p>The development save could not be validated. Reload or leave it preserved for review.</p><button type="button" data-v2-replace>Replace this development save</button><p role="status" data-v2-status></p></section>';
+      const replace=main.querySelector('[data-v2-replace]');replace.disabled=!(result.isCorrupt||result.unsupportedDevelopment);
+      replace.onclick=async()=>{
+        if(!globalThis.confirm('Replace the separate development save? An existing backup will be preserved.'))return;
+        replace.disabled=true;const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+        const replaced=await schema6Session.replacePreserved(fresh);if(replaced.success)startFreshRun(true,fresh);
+        else{main.querySelector('[data-v2-status]').textContent='The saved data was preserved; replacement could not complete.';replace.disabled=false;}
+      };return;
+    }
+    if(result.engine){engine=result.engine;currentStep=engine.state.step||'desk';phoneOpen=engine.isTerminal()||(engine.state.life&&currentStep.startsWith('life_')&&!isLifeStep(currentStep));activeModal=engine.state.activeModal||null;renderApp();return;}
+    const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+    const bound=await schema6Session.bindNew(fresh);if(canceled)return;
+    if(!bound.success){main.innerHTML='<p>Saved data was preserved. A new development session could not start.</p>';return;}
+    startFreshRun(true,fresh);
+  }
+
   function startFreshRun(enableStorageSave = true, preparedEngine = null) {
-    engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true });
+    if(raceV2Development&&!preparedEngine){
+      const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});fresh.start();
+      void schema6Session.bindNew(fresh).then(result=>{if(result.success)startFreshRun(enableStorageSave,fresh);else{storageWarningText='The development save was preserved; a new run could not start.';updateWarningBanner();}});return;
+    }
+    engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2:raceV2Development });
     if(!preparedEngine)engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode() || unsupportedRenPreservation) {
@@ -399,6 +437,7 @@ if (app) {
         pendingDefault = null;
         stageTransition?.cancel();
         if (engine.isTerminal()) return;
+        if(raceV2Development)engine.cancelRaceV2();
         engine.clickUninstall();
         activeModal = 'retention';
         maybeAutosave(); // Keep the displayed retention prompt and original interrupted context across reload.
@@ -408,6 +447,7 @@ if (app) {
   }
 
   function saveNow() {
+    if(raceV2Development){const result=schema6Session.save(engine);checkStorageResult(result);updateWarningBanner();return result;}
     let res;
     if (unsupportedRenPreservation) {
       globalThis.alert('This temporary session cannot overwrite the preserved Ren save.');
@@ -574,6 +614,13 @@ if (app) {
         active: !settingsOpen && !activeModal, duckMotionPaused, duckMotionActive: !settingsOpen && !activeModal,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
       });
+    } else if (!engine.isTerminal() && raceV2Development && currentStep==='life_race_result' && engine.state.life && phoneOpen) {
+      const raceNumber=Math.max(...Object.keys(engine.state.raceAttempts).map(Number)),attempt=engine.getRaceAttempt(raceNumber);
+      const section=document.createElement('section'),heading=document.createElement('h2'),summary=document.createElement('p'),list=document.createElement('ol'),proceed=document.createElement('button');
+      heading.textContent='Development race outcome';summary.textContent=attempt.status==='finished'?`Place ${attempt.place}; ${attempt.payoutGems} Gems. Race presentation is pending.`:'Race did not finish; no finish reward was awarded.';
+      for(const item of attempt.finishOrder??[]){const li=document.createElement('li');li.textContent=`${item.id}: place ${item.place}, ${item.payout} Gems`;list.append(li);}
+      proceed.type='button';proceed.textContent='Continue';proceed.onclick=()=>{currentStep='life_phone';engine.state.step=currentStep;maybeAutosave();renderApp();};
+      section.append(heading,summary,list,proceed);mainContainer.replaceChildren(section);
     } else if (!engine.isTerminal() && ['life_race', 'life_race_result'].includes(currentStep) && engine.state.life && phoneOpen) {
       const existing = Object.keys(engine.state.raceAttempts).map(Number);
       const raceNumber = currentStep === 'life_race_result' ? Math.max(...existing) : Math.max(0, ...existing) + 1;
@@ -586,6 +633,13 @@ if (app) {
             && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
           const decision = confirmNextPlay('race',{raceNumber,duckId,stance,useTrial}); if (!decision.ok) return null;
           const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return null;
+          if(raceV2Development){
+            const owner=engine;appNotice('Preparing this race… Settings and exit remain available.');
+            void owner.runRaceV2(raceNumber,duckId,stance,{useTrial,...decision,confirmSocial:conflict.confirmSocial}).then(attempt=>{
+              if(owner!==engine||!attempt||engine.isTerminal())return;
+              currentStep='life_race_result';engine.state.step=currentStep;maybeAutosave();updateHud();renderApp();
+            }).catch(()=>{if(owner===engine&&!engine.isTerminal())appNotice('Race preparation stopped; time and resources were not changed.');});return null;
+          }
           let attempt;
           try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, ...decision, confirmSocial: conflict.confirmSocial }); }
           catch { appNotice(decision.confirmNext ? 'The race could not start. Your time and resources are unchanged; try again or return to the apartment.' : 'The race could not start. Return to the apartment or try again.'); return null; }
@@ -799,7 +853,7 @@ if (app) {
         },
         onFreshRun: () => {
           if (unsupportedRenPreservation) { startFreshRun(false); return; }
-          clearGame();
+          if(raceV2Development){if(!schema6Session.clear().success)return;}else clearGame();
           startFreshRun(true);
         },
       });

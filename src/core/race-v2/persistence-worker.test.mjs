@@ -27,20 +27,21 @@ test('compact and compressed records reconstruct the exact original, reject mean
 
 test('worker lifecycle invalidates stale, canceled, duplicate, startup and error paths',async()=>{
   const original=globalThis.Worker,instances=[];
+  const compact=await compactFromEnvelope(envelope);
   class FakeWorker {constructor(){this.terminated=false;instances.push(this);}postMessage(data){this.sent=data;}terminate(){this.terminated=true;}}
   globalThis.Worker=FakeWorker;
   try{
     const client=createRaceWorkerClient();let pending=client.prepare({mode:'resolve',input:fixedInput('pair-0',{mixed:true}),context});
-    let w=instances.at(-1);w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope}}});
-    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope}}});
+    let w=instances.at(-1);w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope,compact}}});
+    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope,compact}}});
     assert.deepEqual(await pending,{ready:true});assert.equal(w.terminated,true);assert.equal(client.claim({...context,revision:'2'}),null);assert.equal(client.claim(context),null);
     pending=client.prepare({mode:'resolve',input:fixedInput('pair-0',{mixed:true}),context});w=instances.at(-1);
-    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope}}});await pending;
+    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope,compact}}});await pending;
     assert.equal(client.claim(context).envelope,envelope);assert.equal(client.claim(context),null);
     pending=client.prepare({mode:'resolve',input:fixedInput('pair-0',{mixed:true}),context});w=instances.at(-1);client.cancel();await assert.rejects(pending,/canceled/);
-    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope}}});assert.equal(client.claim(context),null);
+    w.onmessage({data:{kind:'complete',requestId:w.sent.requestId,context,candidate:{envelope,compact}}});assert.equal(client.claim(context),null);
     pending=client.prepare({mode:'resolve',input:fixedInput('pair-0'),context});w=instances.at(-1);
-    w.onmessage({data:{kind:'complete',requestId:'stale',context,candidate:{envelope}}});await assert.rejects(pending,/stale/);
+    w.onmessage({data:{kind:'complete',requestId:'stale',context,candidate:{envelope,compact}}});await assert.rejects(pending,/stale/);
     pending=client.prepare({mode:'resolve',input:fixedInput('pair-0'),context});w=instances.at(-1);w.onerror();await assert.rejects(pending,/worker error/);
     pending=client.prepare({mode:'resolve',input:fixedInput('pair-0'),context});w=instances.at(-1);w.onmessageerror();await assert.rejects(pending,/message error/);
     assert.throws(()=>client.prepare({mode:'resolve',input:fixedInput('pair-0',{diagnostic:true}),context}),RangeError);

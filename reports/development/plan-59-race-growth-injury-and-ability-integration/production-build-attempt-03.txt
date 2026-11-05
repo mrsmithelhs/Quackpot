@@ -1,0 +1,18 @@
+preflight UTC 2026-11-05T10:10:56.3871336Z; freeGiB 12.41; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 cmd.exe /d /s /c npm run build
+src/main.js 170C0570413C4C79F8047A417E72D356E3CFEF86F889553A83CF0BF92FD02395
+src/core/game-engine.mjs E61AD4239DE370D6B8E46E8AED0C9118BB160C01F1F4AB670A216D0D344F44F7
+src/core/storage.mjs 60C6D7A4356D0B9BD7AE80B9CCD8AE9F8B344DC5E606CB832A7817B49833E2B1
+src/core/life-replay.mjs EEEB5577D4DE608E8D857D464059EBA39B07C94190D6B59FC06C325C54EFC5AD
+src/core/race-progression.mjs 6CFFEA0A56D275F1555746A9FD9D048ECDE9B388BCE99B2E8B47497303ACD86F
+src/core/race-v2/history-plan.mjs 064528B2068024BB88973AA147D42D589493EE9B2ECBEBC35B1E51DD8C5C0AA8
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.0915464,
+  "PeakSampledPrivateBytes": 154062848,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "vite v8.3.5 building client environment for production...\ntransforming...\n✓ 119 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                              0.52 kB │ gzip:   0.33 kB\ndist/assets/duck-placeholder-Mhd15Sdp.svg    1.01 kB │ gzip:   0.51 kB\ndist/assets/race-worker-DvjzYeym.js         35.95 kB\ndist/assets/index-BIir61Mp.css              66.62 kB │ gzip:  14.33 kB\ndist/assets/index-BwWD7mf7.js              692.83 kB │ gzip: 189.50 kB │ map: 1,774.18 kB\n\n✓ built in 227ms\n",
+  "StandardError": "npm notice run quackpot@0.1.0 build\nnpm notice run vite build\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+}
+launcher-returned-success

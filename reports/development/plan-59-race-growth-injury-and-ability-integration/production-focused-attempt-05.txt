@@ -1,0 +1,23 @@
+preflight UTC 2026-11-05T10:01:41.5759822Z; freeGiB 12.68; process >=1GiB Memory Compression 1.23GiB
+command: QP59_WRITE_SIX_WITNESS=1 bounded-node-run.ps1 node.exe --test --test-concurrency=1 src/core/race-progression.test.mjs src/core/race-v2/engine-integration.test.mjs src/core/race-v2/persistence-worker.test.mjs
+src/core/game-engine.mjs 3382D3004C1F6A5650988ABC83E33DA41CFF72C6E3323282DC6F5CB3D4EC24CE
+src/core/life-replay.mjs EEEB5577D4DE608E8D857D464059EBA39B07C94190D6B59FC06C325C54EFC5AD
+src/core/storage.mjs 60C6D7A4356D0B9BD7AE80B9CCD8AE9F8B344DC5E606CB832A7817B49833E2B1
+src/main.js 170C0570413C4C79F8047A417E72D356E3CFEF86F889553A83CF0BF92FD02395
+src/core/race-progression.mjs 3C4313BE50024C79F8B326C15CCB3165BDA24414BEF0C8D9CE053A4DDE0C1380
+src/core/race-v2/worker-client.mjs 4720F405BFB8B652B82BDBFF5445040AC57ED76E69E17D1F1DB58B0964919CEE
+src/core/race-v2/race-worker.mjs F7E3E0D1F20E1311764E1908A803F708E9F2222BAE4137916249ACCD5ED37208
+src/core/race-v2/restore-queue.mjs 127B8A776EF0EBE5CD7CFC4B6C736DB18EB30148FFB8DCDA5D757CBB0A354B63
+src/core/race-v2/history-plan.mjs 9C961A2128006DE4FBCBE43648ED818015478B7C3ECF619A4190ECFD8EAAC499
+src/core/race-v2/engine-integration.test.mjs E16C42F639EB0E6AF897FE8D497E95E171A284D0FE4591FEF3A5D4079C135978
+src/core/race-v2/persistence-worker.test.mjs 76B9D47831A0C7B27596869E3C914E439CBFF70E4865E3576E5A72B9505320D6
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 24.5884926,
+  "PeakSampledPrivateBytes": 180752384,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (1.256ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1089ms)\n✔ schema-6 owned draft commits genuine worker candidate once (1274.6116ms)\n✔ schema-6 private prefix validates fresh race and isolated full restore (4296.626ms)\n✔ unsupported schema-6 namespace data remains untouched (0.2857ms)\n✔ six races follow real five-slot transitions and serial semantic restore (12504.2658ms)\nℹ {\"bytes\":100416,\"restoreMs\":6219.479800000001,\"days\":3,\"outcomes\":[{\"number\":1,\"status\":\"finished\",\"reason\":null},{\"number\":2,\"status\":\"finished\",\"reason\":null},{\"number\":3,\"status\":\"finished\",\"reason\":null},{\"number\":4,\"status\":\"finished\",\"reason\":null},{\"number\":5,\"status\":\"unresolved\",\"reason\":\"correction-third-party\"},{\"number\":6,\"status\":\"finished\",\"reason\":null}]}\n✔ compact and compressed records reconstruct the exact original, reject meaningful tampering (5926.3878ms)\n✔ worker lifecycle invalidates stale, canceled, duplicate, startup and error paths (48.874ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 24257.3821\n",
+  "StandardError": ""
+}
+launcher-returned-success

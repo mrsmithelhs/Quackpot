@@ -1,0 +1,15 @@
+preflight UTC 2026-11-05T10:22:22.8890918Z; freeGiB 12.67; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 node.exe --test --test-name-pattern=coherently re-chained assignment day src/core/race-v2/engine-integration.test.mjs
+src/core/life-replay.mjs F40785B30559B07893692F861109BC181D0269DE50CB71CDDE51A616873882E6
+src/core/race-v2/history-plan.mjs 064528B2068024BB88973AA147D42D589493EE9B2ECBEBC35B1E51DD8C5C0AA8
+src/core/race-v2/engine-integration.test.mjs A4A3699F47717AA51F47C381A95CBAF6F649E8554FB9E09F980EED589EA0EF52
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 7.0170241,
+  "PeakSampledPrivateBytes": 166891520,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ coherently re-chained assignment day must match replayed schedule (6361.1803ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6446.7589\n",
+  "StandardError": ""
+}
+launcher-returned-success

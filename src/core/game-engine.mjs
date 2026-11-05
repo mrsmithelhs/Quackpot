@@ -23,6 +23,9 @@ import { quietFallbackEligibility } from './life-schedule/quiet-fallback.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
 import { inspectLifeTransaction, classifyDueScheduleCommitment, classifyDueSocialCommitment, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
+import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility } from './race-progression.mjs';
+import { decodeResult } from './race-v2/codec.mjs';
+import { createRaceWorkerClient } from './race-v2/worker-client.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
@@ -98,7 +101,15 @@ export function calculatePreDrawOdds(pityCount, softPityStart = 35, hardPity = 5
 }
 
 export class GameEngine {
-  constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false } = {}) {
+  #v2Enabled = false;
+  #v2RecoveryDay = null;
+  #v2Pending = false;
+  #v2Generation = 0;
+  #v2SessionResults = new Map();
+  #v2VerifiedCandidates = new Map();
+  #v2Worker = null;
+  constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false, raceV2 = false } = {}) {
+    this.#v2Enabled = raceV2 === true;
     this.tutorialShiftVersion = lifePolicy && tutorialShift ? TUTORIAL_SHIFT_VERSION : null;
     this.seed = String(seed);
     this.log = new EventLog();
@@ -153,6 +164,7 @@ export class GameEngine {
       this.state.cash = this.state.life.config.startCash;
       this.state.health = this.state.life.config.startHealth;
     }
+    if (this.#v2Enabled) this.state.raceGrowth=initialRaceProgress();
   }
 
   isTerminal() {
@@ -591,7 +603,7 @@ export class GameEngine {
   // Transaction drafts keep game state, evidence and each RNG stream together.
   // A failed operation must never publish any part of its draft.
   #transactionDraft() {
-    const draft = new GameEngine(this.seed);
+    const draft = new GameEngine(this.seed,{raceV2:this.#v2Enabled});
     draft.tutorialShiftVersion = this.tutorialShiftVersion;
     draft.autosaveEnabled = this.autosaveEnabled;
     draft.state = structuredClone(this.state);
@@ -607,6 +619,10 @@ export class GameEngine {
   }
 
   #publishTransaction(draft) {
+    if(this.#v2Enabled && draft.state.life?.schedule && draft.state.raceGrowth){
+      const from=draft.#v2RecoveryDay??this.state.life.schedule.day,elapsed=draft.state.life.schedule.day-from;
+      draft.state.raceGrowth=recoverRaceDays(draft.state.raceGrowth,elapsed);
+    }
     this.state = draft.state; this.log = draft.log;
     this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
   }
@@ -1205,8 +1221,82 @@ export class GameEngine {
 
   serializeRaceCandidate(resolution) { return serializeRaceResolution(resolution); }
 
+  /** Prepare on an owned worker and publish only after the exact draft epoch remains current. */
+  async runRaceV2(raceNumber,duckId,stance='safe',options={}){
+    if(!this.#v2Enabled||this.#v2Pending||this.isTerminal()||this.state.life?.policyVersion!=='five-slot-v1')return null;
+    const prior=this.getRaceAttempt(raceNumber);if(prior)return prior;
+    if(!Number.isSafeInteger(raceNumber)||raceNumber!==Math.max(0,...Object.keys(this.state.raceAttempts).map(Number))+1)return null;
+    const duck=BANNER_1_ROSTER.find(e=>e.id===duckId),useTrial=options.useTrial??false;
+    if(!duck||!this.state.owned.includes(duckId)||!['safe','sprint'].includes(stance)||typeof useTrial!=='boolean'||(useTrial&&!this.state.raceTrialAvailable)
+      ||!fiveSlotAppOpened(this.log.entries)||this.state.pendingReveals.some(e=>!e.revealed))return null;
+    const capture=()=>JSON.stringify({state:this.state,events:this.log.entries,root:this.rng.serialize(),draw:this.rngDraw.serialize(),race:this.rngRace.serialize(),event:this.rngEvent.serialize()});
+    const epoch=capture(),draft=this.#transactionDraft(),raceId=this.raceIdFor(raceNumber);
+    const balances={cashCents:Math.round(draft.state.cash*100),health:draft.state.health},context=draft.#fiveSlotContext();context.schedule.operationAvailable=true;
+    const operationId=options.operationId??`race:${raceNumber}:${draft.log.length}`;
+    const intent={domain:'schedule',action:{type:'play',kind:'race',operationId,...(options.confirmNext===true?{extend:true}:{})}};
+    const prepared=inspectLifeTransaction(draft.state.life,balances,intent,context);if(!prepared.ok||prepared.proposal.schedule.recoveryInstead)return null;
+    if(draft.tutorialShiftVersion&&prepared.proposal.schedule.disclosures.length&&!draft.#fiveSlotWarningWasShown(prepared.proposal))return null;
+    if(prepared.proposal.schedule.disclosures.length&&options.confirmConsequences!==true)return null;
+    const conflictChoice=options.conflictChoice??(options.confirmSocial===true?'break':null);
+    if(prepared.proposal.schedule.conflicts.length&&!['notice','break'].includes(conflictChoice))return null;
+    const common={confirmed:true,success:true,operationId,...(conflictChoice?{conflictChoice}:{}),...(options.overtimeChoice?{overtimeChoice:options.overtimeChoice}:{})};
+    const admitted=commitLifeTransaction(draft.state.life,balances,prepared.proposal,{...common,resultRef:'race:pending'},context);if(!admitted.ok)return null;
+    const entryDay=admitted.state.schedule.day,oldDay=draft.state.life.schedule.day;
+    draft.state.raceGrowth=recoverRaceDays(draft.state.raceGrowth,entryDay-oldDay);draft.#v2RecoveryDay=entryDay;
+    draft.log.append('life52_intent',{intent:structuredClone(intent),operation:{confirmed:true,...(conflictChoice?{conflictChoice}:{}),...(options.overtimeChoice?{overtimeChoice:options.overtimeChoice}:{})}},draft.state.clock);
+    draft.activateRaceRestPolicy();
+    const restEvidence=makeRaceRestEvidence(draft.log.entries,duckId,duck.speed),trialCommitted=Boolean(useTrial&&draft.state.raceTrialAvailable);
+    const evidence={...restEvidence,trialCommitted,trialMultiplier:GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER};
+    const input=buildRaceV2Input({seed:draft.seed,raceId,duckId,baseRating:duck.speed,fieldRating:raceNumber===1?GAME_CONSTANTS.TUTORIAL_FIELD_SPEED:GAME_CONSTANTS.FINALE_FIELD_SPEED,
+      restFactor:restEvidence.restFactor,trialCommitted,stance,progress:draft.state.raceGrowth});
+    const workerContext={runId:this.seed,operationId,revision:String(this.state.life.schedule.revision),logLength:String(this.log.length),stateIdentity:raceId};
+    const generation=++this.#v2Generation;this.#v2Pending=true;const client=createRaceWorkerClient();this.#v2Worker=client;
+    try{
+      await client.prepare({mode:'resolve',input,context:workerContext});
+      if(this.#v2Generation!==generation||this.isTerminal()||capture()!==epoch)return null;
+      const candidate=client.claim(workerContext);if(!candidate)return null;
+      const result=await decodeResult(candidate.envelope);if(this.#v2Generation!==generation||capture()!==epoch)return null;
+      const effects=applyRaceV2Facts(draft.state.raceGrowth,{seed:draft.seed,raceId,duckId},result);
+      const records=Object.values(draft.state.raceResolutions),size=new TextEncoder().encode(JSON.stringify(candidate.compact)).byteLength;
+      if(records.length>=128||size>128*1024||records.reduce((n,r)=>n+new TextEncoder().encode(JSON.stringify(r)).byteLength,0)+size>1024*1024)return null;
+      const finished=result.status==='finished',crossings=result.crossings,order=finished?crossings.map((e,i)=>({id:e.id,place:i+1,payout:[50,20,10,0,0,0][i]})):null;
+      const commonAttempt={raceNumber,raceId,duckId,status:finished?'finished':'unresolved',resolutionStatus:result.status,resolutionDigest:candidate.compact.digest,restEvidence:evidence,
+        entryDay,entryInjury:effects.enteredInjured,raceGrowthAfter:effects.progress,extensionRoll:effects.extensionRoll,extension:effects.extension};
+      const attempt=finished?{...commonAttempt,place:effects.place,payoutGems:effects.payoutGems,rivalPlace:raceNumber===2?order.find(e=>e.id==='A').place:null,
+        playerPerf:null,winner:crossings[0].id,finishTimeSeconds:Number(crossings[0].time)/1000000,lastFinishTimeSeconds:Number(crossings.at(-1).time)/1000000,
+        finishOrder:order,trialConsumed:trialCommitted}
+        :{...commonAttempt,unresolvedReason:result.unresolved.reason,guardEvidence:result.unresolved.guardEvidence,knownCrossings:crossings.map(e=>({id:e.id,crossingTimeSeconds:Number(e.time)/1000000})),trialAvailable:Boolean(draft.state.raceTrialAvailable),trialCommitted};
+      draft.log.append('action',{kind:'race_choice',stance,duckId,raceId,trialCommitted,restEvidence:evidence},draft.state.clock);
+      draft.state.raceResolutions[raceId]=candidate.compact;draft.state.raceGrowth=effects.progress;
+      if(finished){const gemsAfter=draft.state.gems+effects.payoutGems;draft.log.append('race_result',{...attempt,stance,gemsAfter},draft.state.clock);
+        if(trialCommitted)draft.log.append('action',{kind:'race_trial_consumed',raceId,multiplier:GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER},draft.state.clock);
+        if(effects.payoutGems>0)draft.log.append('reward',{kind:'race_gems',gems:effects.payoutGems,gemsAfter,raceId},draft.state.clock);
+        draft.state.gems=gemsAfter;draft.state.lastRacedId=duckId;draft.state.completedRaces.push(raceNumber);draft.state.raceResults[raceNumber]=deepFreeze(attempt);
+        draft.state.lastRaceResult=draft.state.raceResults[raceNumber];if(trialCommitted)draft.state.raceTrialAvailable=false;
+      }else draft.log.append('race_attempt_unresolved',attempt,draft.state.clock);
+      draft.state.raceAttempts[raceNumber]=deepFreeze(attempt);draft.state.step='life_race_result';
+      const committed=commitLifeTransaction(draft.state.life,balances,prepared.proposal,{...common,resultRef:`race:${candidate.compact.digest}`},context);
+      if(!committed.ok||committed.state.schedule.day!==entryDay||this.#v2Generation!==generation||capture()!==epoch)return null;
+      draft.state.life=committed.state;draft.state.cash=(balances.cashCents+committed.cashDeltaCents)/100;draft.state.health=balances.health+committed.healthDelta;
+      for(const event of committed.events)draft.log.append('life52_effect',{effect:event},draft.state.clock);
+      draft.log.append('life52_commit',{domain:'schedule',operationId,cashDeltaCents:committed.cashDeltaCents,healthDelta:committed.healthDelta},draft.state.clock);
+      draft.state.day=entryDay;draft.state.clock={day:entryDay,label:`day ${entryDay} ${committed.state.schedule.slot}`};
+      if(this.#v2Generation!==generation||this.isTerminal()||capture()!==epoch)return null;
+      this.#publishTransaction(draft);this.#v2SessionResults.set(raceId,candidate.envelope);this.#v2VerifiedCandidates.set(raceId,candidate);return this.state.raceAttempts[raceNumber];
+    }finally{client.close();if(this.#v2Generation===generation&&this.#v2Worker===client){this.#v2Worker=null;this.#v2Pending=false;}}
+  }
+  cancelRaceV2(){this.#v2Generation++;const worker=this.#v2Worker;this.#v2Worker=null;this.#v2Pending=false;worker?.cancel();}
+  assignRaceV2Ability(duckId,ability){
+    if(!this.#v2Enabled||this.#v2Pending||this.isTerminal()||!this.state.owned.includes(duckId))return false;
+    const draft=this.#transactionDraft();try{draft.state.raceGrowth=assignRaceAbility(draft.state.raceGrowth,duckId,ability);}catch{return false;}
+    draft.log.append('action',{kind:'race_ability_assigned',duckId,ability},draft.state.clock);this.#publishTransaction(draft);return true;
+  }
+  getRaceV2SessionEnvelope(raceId){return this.#v2SessionResults.get(raceId)??null;}
+  getRaceV2VerifiedCandidate(raceId){return this.#v2VerifiedCandidates.get(raceId)??null;}
+
   /** Resolve and commit one deterministic race attempt. Re-entry returns its stored attempt. */
   runRace(raceNumber, duckId, stance = 'safe', options = {}) {
+    if(this.#v2Enabled)throw new Error('Schema-6 races require asynchronous preparation');
     const { useTrial = false } = options;
     if (this.state.life?.policyVersion === 'five-slot-v1' && !options[FIVE_SLOT_RACE]) {
       return this.#stageFiveSlotRace(raceNumber, duckId, stance, options);
@@ -1815,7 +1905,7 @@ export class GameEngine {
   /** Serializes complete game snapshot into storage envelope */
   toEnvelope() {
     return {
-      schemaVersion: this.state.life?.policyVersion === 'five-slot-v1' ? 5 : this.state.life ? 4 : 3,
+      schemaVersion: this.#v2Enabled ? 6 : this.state.life?.policyVersion === 'five-slot-v1' ? 5 : this.state.life ? 4 : 3,
       raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
       autosaveEnabled: this.autosaveEnabled,
@@ -1833,7 +1923,7 @@ export class GameEngine {
   /** Hydrates engine state from a validated storage envelope */
   static fromEnvelope(envelope) {
     const rootStreamObj = JSON.parse(envelope.prngStreams.root);
-    const engine = new GameEngine(rootStreamObj.key);
+    const engine = new GameEngine(rootStreamObj.key,{raceV2:envelope.schemaVersion===6});
     engine.autosaveEnabled = envelope.autosaveEnabled ?? true;
     engine.state = structuredClone(envelope.state);
 

@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T11:28:29.2942058Z",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "node final-evidence/injury-reach.mjs 3",
+  "freeGiB": 11.62
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 4.7982344,
+  "PeakSampledPrivateBytes": 159330304,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"seed\":\"plan59-injury-reach-07\",\"duck\":\"duck-2\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":0,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":false}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n{\"seed\":\"plan59-injury-reach-08\",\"duck\":\"duck-3\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":0,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":true},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":true},{\"id\":\"P\",\"entryInjury\":false,\"injured\":false}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n{\"seed\":\"plan59-injury-reach-09\",\"duck\":\"duck-1\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":0,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":false}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n",
+  "StandardError": ""
+}
+launcher-returned-success

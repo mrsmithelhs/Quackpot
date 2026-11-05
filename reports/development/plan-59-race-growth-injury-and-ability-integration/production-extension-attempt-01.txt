@@ -1,0 +1,14 @@
+preflight UTC 2026-11-05T10:24:46.7764716Z; freeGiB 12.80; process >=1GiB Memory Compression 1.21GiB
+command: bounded-node-run.ps1 node.exe --test src/core/race-progression.test.mjs
+src/core/race-progression.mjs 6CFFEA0A56D275F1555746A9FD9D048ECDE9B388BCE99B2E8B47497303ACD86F
+src/core/race-progression.test.mjs 4566F11D02AF4BE91CE7ADDD42F251DFD109F37C605DCC4EE1897817A21DB229
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5417335,
+  "PeakSampledPrivateBytes": 3833856,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (0.7282ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1063ms)\n✔ only a completed race entered injured evaluates the keyed extension once (0.4423ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 59.8012\n",
+  "StandardError": ""
+}
+launcher-returned-success

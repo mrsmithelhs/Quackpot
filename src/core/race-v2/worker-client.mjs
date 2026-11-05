@@ -1,7 +1,10 @@
 // Owned worker lifecycle; the eventual engine must revalidate its real state before claiming.
 import { validateInput, decodeResult, stableStringify, deepFreeze } from './codec.mjs';
+import { compactFromEnvelope } from './persistence.mjs';
 
 const keys=['runId','operationId','revision','logLength','stateIdentity'];
+const verifiedCandidates=new WeakSet();
+export const isVerifiedWorkerCandidate=value=>Boolean(value&&verifiedCandidates.has(value));
 function validContext(context){return context&&typeof context==='object'&&!Array.isArray(context)&&Object.keys(context).sort().join(',')===[...keys].sort().join(',')
   &&keys.every(k=>typeof context[k]==='string'&&context[k].length>0&&context[k].length<=128)
   &&/^(?:0|[1-9]\d*)$/.test(context.revision)&&/^(?:0|[1-9]\d*)$/.test(context.logLength);}
@@ -21,13 +24,18 @@ export function createRaceWorkerClient(){
         worker.onmessage=async({data})=>{
           if(active!==operation||operation.settled||operation.decoding)return;
           if(!data||data.requestId!==requestId||!validContext(data.context)||stableStringify(data.context)!==stableStringify(frozenContext)){stop('stale worker reply');return;}
-          if(data.kind!=='complete'||!data.candidate||typeof data.candidate.envelope!=='string'){stop('worker failure');return;}
+          if(data.kind==='failure'){stop(data.error?.name==='RangeError'?'invalid race record':'worker unavailable');return;}
+          if(data.kind!=='complete'||!data.candidate||Object.keys(data.candidate).sort().join(',')!=='compact,envelope'||typeof data.candidate.envelope!=='string'){stop('worker unavailable');return;}
           operation.decoding=true;
           try{const decoded=await decodeResult(data.candidate.envelope);
             if(active!==operation||operation.settled)return;
             if(decoded.rules!=='integer-working/v1')throw new RangeError('unsupported rules');
             if(mode==='resolve'&&stableStringify(decoded.inputIdentity)!==stableStringify(snapshot))throw new RangeError('input mismatch');
-            operation.candidate=deepFreeze(structuredClone(data.candidate));operation.settled=true;worker.terminate();resolve({ready:true});
+            const compact=await compactFromEnvelope(data.candidate.envelope);
+            if(active!==operation||operation.settled)return;
+            if(stableStringify(compact)!==stableStringify(data.candidate.compact)
+              || (mode==='restore'&&stableStringify(compact)!==stableStringify(snapshot)))throw new RangeError('compact mismatch');
+            operation.candidate=deepFreeze(structuredClone(data.candidate));verifiedCandidates.add(operation.candidate);operation.settled=true;worker.terminate();resolve({ready:true});
           }catch{stop('invalid worker result');}
         };
         worker.onerror=()=>stop('worker error');worker.onmessageerror=()=>stop('worker message error');

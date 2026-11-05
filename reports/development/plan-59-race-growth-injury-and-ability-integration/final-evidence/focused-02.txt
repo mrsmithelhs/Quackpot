@@ -1,0 +1,21 @@
+{
+  "freeGiB": 11.36,
+  "command": "node --test --test-concurrency=1 race-progression restore-queue persistence-worker",
+  "utc": "2026-11-05T11:25:17.2667611Z",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 7.1014429,
+  "PeakSampledPrivateBytes": 162758656,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (0.8788ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1301ms)\n✔ only a completed race entered injured evaluates the keyed extension once (0.5212ms)\n✔ compact and compressed records reconstruct the exact original, reject meaningful tampering (6656.625ms)\n✔ worker lifecycle invalidates stale, canceled, duplicate, startup and error paths (63.2318ms)\n✔ raw admission rejects one oversized compact record before reconstruction (1.7016ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6936.4997\n",
+  "StandardError": ""
+}
+launcher-returned-success

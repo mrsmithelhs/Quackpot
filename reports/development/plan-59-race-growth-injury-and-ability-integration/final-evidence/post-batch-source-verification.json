@@ -1,0 +1,7 @@
+{
+  "runtimeSourceDrift": false,
+  "changedReportHarnessOnly": {
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/browser-runner.mjs": "06ade32bbb7bf256617d7ab26240b09446fca3a3c093cf13a66a9288f645d7a1",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/injury-reach.mjs": "e479e845d0353bed824149faed564100a771d553967620813378cfd849bfe0e6"
+  }
+}

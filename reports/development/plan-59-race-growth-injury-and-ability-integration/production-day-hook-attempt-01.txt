@@ -1,0 +1,15 @@
+preflight UTC 2026-11-05T10:20:12.2036656Z; freeGiB 12.65; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 node.exe --test --test-name-pattern=actual engine day transitions decrement src/core/race-v2/engine-integration.test.mjs
+src/core/game-engine.mjs E61AD4239DE370D6B8E46E8AED0C9118BB160C01F1F4AB670A216D0D344F44F7
+src/core/race-progression.mjs 6CFFEA0A56D275F1555746A9FD9D048ECDE9B388BCE99B2E8B47497303ACD86F
+src/core/race-v2/engine-integration.test.mjs D8EB46CC4FDB15CA27A8D9914DAF8BCF9519DDB0CACF4AFC9844370F735A4917
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5402262,
+  "PeakSampledPrivateBytes": 3780608,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ actual engine day transitions decrement a synthetic preexisting injury once per day (8.0645ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 87.3278\n",
+  "StandardError": ""
+}
+launcher-returned-success

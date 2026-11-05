@@ -1,0 +1,46 @@
+{
+  "seed": "plan59-injury-reach-02",
+  "duck": "duck-0",
+  "status": "finished",
+  "unresolvedReason": null,
+  "growth": {
+    "progress": 3,
+    "banked": 0,
+    "assigned": null,
+    "recoveryDays": 0,
+    "firstPointEarned": false
+  },
+  "injuries": [
+    {
+      "id": "A",
+      "entryInjury": false,
+      "injured": false
+    },
+    {
+      "id": "B",
+      "entryInjury": false,
+      "injured": false
+    },
+    {
+      "id": "C",
+      "entryInjury": false,
+      "injured": false
+    },
+    {
+      "id": "D",
+      "entryInjury": false,
+      "injured": false
+    },
+    {
+      "id": "E",
+      "entryInjury": false,
+      "injured": true
+    },
+    {
+      "id": "P",
+      "entryInjury": false,
+      "injured": false
+    }
+  ],
+  "actions": "breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race"
+}

@@ -1,0 +1,22 @@
+preflight UTC 2026-11-05T10:13:50.6316094Z; freeGiB 12.58; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 node.exe --test --test-concurrency=1 src/core/race-progression.test.mjs src/core/race-v2/engine-integration.test.mjs src/core/race-v2/persistence-worker.test.mjs
+src/core/game-engine.mjs E61AD4239DE370D6B8E46E8AED0C9118BB160C01F1F4AB670A216D0D344F44F7
+src/core/life-replay.mjs EEEB5577D4DE608E8D857D464059EBA39B07C94190D6B59FC06C325C54EFC5AD
+src/core/storage.mjs FCCBD26EF73986DF2FC1EDA561F7997A7FB56AB2AE2A26A3331AA6FC9D33123C
+src/main.js 170C0570413C4C79F8047A417E72D356E3CFEF86F889553A83CF0BF92FD02395
+src/core/race-progression.mjs 6CFFEA0A56D275F1555746A9FD9D048ECDE9B388BCE99B2E8B47497303ACD86F
+src/core/race-v2/worker-client.mjs 2094BA317FB59B13C8D91B481C4DA19F7EA7EF58430EF8363CF349642B14ADBE
+src/core/race-v2/race-worker.mjs F7E3E0D1F20E1311764E1908A803F708E9F2222BAE4137916249ACCD5ED37208
+src/core/race-v2/restore-queue.mjs 127B8A776EF0EBE5CD7CFC4B6C736DB18EB30148FFB8DCDA5D757CBB0A354B63
+src/core/race-v2/history-plan.mjs 064528B2068024BB88973AA147D42D589493EE9B2ECBEBC35B1E51DD8C5C0AA8
+src/core/race-v2/engine-integration.test.mjs 95114748CAD8B595643ECB6EB2EF48F1AACC07381681DC9E0EC625A4B0E37C24
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 25.7338936,
+  "PeakSampledPrivateBytes": 183058432,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (1.3127ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1161ms)\n✔ schema-6 owned draft commits genuine worker candidate once (1347.1396ms)\n✔ schema-6 private prefix validates fresh race and isolated full restore (4643.2914ms)\n✔ unsupported schema-6 namespace data remains untouched (0.2918ms)\n✔ six races follow real five-slot transitions and serial semantic restore (13191.3555ms)\nℹ {\"bytes\":98090,\"restoreMs\":6620.7436,\"days\":3,\"outcomes\":[{\"number\":1,\"status\":\"finished\",\"reason\":null},{\"number\":2,\"status\":\"finished\",\"reason\":null},{\"number\":3,\"status\":\"finished\",\"reason\":null},{\"number\":4,\"status\":\"finished\",\"reason\":null},{\"number\":5,\"status\":\"unresolved\",\"reason\":\"correction-third-party\"},{\"number\":6,\"status\":\"finished\",\"reason\":null}]}\n✔ compact and compressed records reconstruct the exact original, reject meaningful tampering (5965.6917ms)\n✔ worker lifecycle invalidates stale, canceled, duplicate, startup and error paths (49.4672ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 25406.2647\n",
+  "StandardError": ""
+}
+launcher-returned-success

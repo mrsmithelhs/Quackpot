@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T11:30:33.6412037Z",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "node final-evidence/injury-reach.mjs retry-11",
+  "freeGiB": 11.58
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 4.8043492,
+  "PeakSampledPrivateBytes": 136654848,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"seed\":\"plan59-injury-reach-11\",\"duck\":\"duck-3\",\"status\":\"finished\",\"unresolvedReason\":null,\"growth\":{\"progress\":3,\"banked\":0,\"assigned\":null,\"recoveryDays\":2,\"firstPointEarned\":false},\"injuries\":[{\"id\":\"A\",\"entryInjury\":false,\"injured\":false},{\"id\":\"B\",\"entryInjury\":false,\"injured\":false},{\"id\":\"C\",\"entryInjury\":false,\"injured\":false},{\"id\":\"D\",\"entryInjury\":false,\"injured\":false},{\"id\":\"E\",\"entryInjury\":false,\"injured\":false},{\"id\":\"P\",\"entryInjury\":false,\"injured\":true}],\"actions\":\"breakfast, tutorial work, dinner, promotional pull, first owned duck, safe stance, race\"}\n{\"recovery\":[{\"day\":1,\"days\":2},{\"day\":2,\"days\":1},{\"day\":3,\"days\":0}]}\n",
+  "StandardError": ""
+}
+launcher-returned-success

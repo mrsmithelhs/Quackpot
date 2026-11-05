@@ -1,0 +1,19 @@
+{
+  "seed": "plan59-injury-reach-11",
+  "duck": "duck-3",
+  "recovery": [
+    {
+      "day": 1,
+      "days": 2
+    },
+    {
+      "day": 2,
+      "days": 1
+    },
+    {
+      "day": 3,
+      "days": 0
+    }
+  ],
+  "schema5Preserved": true
+}

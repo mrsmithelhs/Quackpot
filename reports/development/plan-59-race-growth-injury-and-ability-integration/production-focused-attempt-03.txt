@@ -1,0 +1,23 @@
+preflight UTC 2026-11-05T09:57:49.4232508Z; freeGiB 12.50; process >=1GiB Memory Compression 1.23GiB
+command: bounded-node-run.ps1 node.exe --test src/core/race-v2/engine-integration.test.mjs
+src/core/game-engine.mjs 3382D3004C1F6A5650988ABC83E33DA41CFF72C6E3323282DC6F5CB3D4EC24CE
+src/core/life-replay.mjs EEEB5577D4DE608E8D857D464059EBA39B07C94190D6B59FC06C325C54EFC5AD
+src/core/storage.mjs 60C6D7A4356D0B9BD7AE80B9CCD8AE9F8B344DC5E606CB832A7817B49833E2B1
+src/main.js AA7E4338A703F0F11970FCD1BE562E08479B047212AE1534585D4BE7464EA4EC
+src/core/race-progression.mjs 3C4313BE50024C79F8B326C15CCB3165BDA24414BEF0C8D9CE053A4DDE0C1380
+src/core/race-v2/worker-client.mjs 4720F405BFB8B652B82BDBFF5445040AC57ED76E69E17D1F1DB58B0964919CEE
+src/core/race-v2/race-worker.mjs F7E3E0D1F20E1311764E1908A803F708E9F2222BAE4137916249ACCD5ED37208
+src/core/race-v2/restore-queue.mjs 127B8A776EF0EBE5CD7CFC4B6C736DB18EB30148FFB8DCDA5D757CBB0A354B63
+src/core/race-v2/history-plan.mjs 9C961A2128006DE4FBCBE43648ED818015478B7C3ECF619A4190ECFD8EAAC499
+src/core/race-v2/engine-integration.test.mjs B515DA2DD0DB3596A201BDC3069FF06E3E2CE1D5C30446BC40E1335A3DFBF7FF
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 9.0527372,
+  "PeakSampledPrivateBytes": 171925504,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ schema-6 owned draft commits genuine worker candidate once (1271.743ms)\n✔ schema-6 private prefix validates fresh race and isolated full restore (2249.8285ms)\n✔ unsupported schema-6 namespace data remains untouched (0.2794ms)\n✖ six races follow real five-slot transitions and serial semantic restore (5127.8497ms)\nℹ tests 4\nℹ suites 0\nℹ pass 3\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8733.3407\n\n✖ failing tests:\n\ntest at src\\core\\race-v2\\engine-integration.test.mjs:47:1\n✖ six races follow real five-slot transitions and serial semantic restore (5127.8497ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  + actual - expected\n  \n  + 'unresolved'\n  - 'finished'\n  \n      at TestContext.<anonymous> ([workspace]/src/core/race-v2/engine-integration.test.mjs:67:128)\n      at async Test.run (node:internal/test_runner/test:1404:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:969:7) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 'unresolved',\n    expected: 'finished',\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+  "StandardError": ""
+}
+Validation process exited with code 1.
+launcher-threw

@@ -1,0 +1,21 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "node --test --test-concurrency=1 integer-kernel.test.mjs promotion-golden.test.mjs",
+  "utc": "2026-11-05T11:26:38.4190387Z",
+  "freeGiB": 11.38
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 7.5740279,
+  "PeakSampledPrivateBytes": 160985088,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ fixed math, joins, ceil microseconds and integer controller caps (2.7812ms)\n✔ integer contact correction and impulse preserve caller and reject unsafe depth (0.8823ms)\n✔ integer wall reflection, crowd and landing protection are participant-specific (1.1554ms)\n✔ continuing wall confinement has no second impact and resets inside the corridor (0.5526ms)\n✔ canonical envelope rejects tamper, extra fields, malformed input and size overflow (10.9435ms)\n✔ integer endpoint failure discards pending interior crossing and preserves earlier committed facts (1.1484ms)\n✔ checkpoint phase uses the retained integer time rather than the pending tick (0.1038ms)\n✔ integer real crossing evidence stays inside committed microsecond step (0.1721ms)\n✔ integer invalid input rejects before race draws (0.5833ms)\n✔ rehashed finished-result contradictions are rejected without claiming replay validation (5.6692ms)\n✔ previously recorded mixed landing outputs satisfy stricter structural checks (44.895ms)\n✔ occupied nonclosing landing commits protected contact at the starting boundary (0.8265ms)\n✔ full event capacity rejects a crossing atomically (1.3382ms)\n✔ exact endpoint contact occurs before an endpoint-tied genuine crossing (0.7627ms)\n✔ reserved final event permits ability closeout with the crossing (0.8247ms)\n✔ direct controller accelerates within cap and wall sends both sides inward (0.3525ms)\n✔ landing-only body budget separates deep occupied pairs symmetrically, including mirrored walls and reversed IDs (1.0557ms)\n✔ landing correction refuses third-party overlap and finish credit (0.1672ms)\n✔ fresh occupied landing commits one protected episode; event failure rolls it back (1.4665ms)\n✔ landing boundary recomputes a positive bounded microstep after speed changes (0.1839ms)\n✔ promoted pair-0/control matches frozen canonical bytes (1531.9846ms)\n✔ promoted pair-0/mixed matches frozen canonical bytes (1499.6267ms)\n✔ promoted pair-0/half matches frozen canonical bytes (2449.9641ms)\n✔ promoted pair-1/diagnostic matches frozen canonical bytes (1354.8628ms)\n✔ reference accessor supplies independent copies without mutating the pinned policy (0.6628ms)\nℹ tests 25\nℹ suites 0\nℹ pass 25\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 7066.4442\n",
+  "StandardError": ""
+}
+launcher-returned-success

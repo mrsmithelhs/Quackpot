@@ -1,0 +1,15 @@
+preflight UTC 2026-11-05T10:19:08.2322780Z; freeGiB 12.59; process >=1GiB Memory Compression 1.19GiB
+command: bounded-node-run.ps1 node.exe --test --test-name-pattern=cancel and stale epoch publish no race draft src/core/race-v2/engine-integration.test.mjs
+src/core/game-engine.mjs E61AD4239DE370D6B8E46E8AED0C9118BB160C01F1F4AB670A216D0D344F44F7
+src/core/race-v2/worker-client.mjs 2094BA317FB59B13C8D91B481C4DA19F7EA7EF58430EF8363CF349642B14ADBE
+src/core/race-v2/engine-integration.test.mjs 8A89F1C76CBABB6E62B04E4E8FD1B95F8C71B547E522EF3977FBDD1AAC9052DA
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.6253577,
+  "PeakSampledPrivateBytes": 83832832,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ cancel and stale epoch publish no race draft (1268.0443ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1349.4352\n",
+  "StandardError": ""
+}
+launcher-returned-success

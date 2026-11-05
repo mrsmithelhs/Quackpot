@@ -1,0 +1,58 @@
+{
+  "nodeVersion": "v26.7.0",
+  "browserVersion": {
+    "product": "Chrome/157.0.8103.38",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourceStable": true,
+  "observations": [
+    {
+      "case": "restore-cancel",
+      "schema5Preserved": true,
+      "schema6Preserved": true
+    },
+    {
+      "case": "six-race-restore",
+      "elapsedMs": 6710,
+      "schema5Preserved": true,
+      "sixAttempts": 6
+    },
+    {
+      "case": "race-cancel-uninstall",
+      "schema5Preserved": true,
+      "noRaceAttempt": true
+    },
+    {
+      "case": "real-race-commit",
+      "schema5Preserved": true,
+      "status": "finished"
+    },
+    {
+      "case": "real-race-reload",
+      "schema5Preserved": true
+    }
+  ],
+  "artifactChecksPassed": true,
+  "cleanupFullyVerified": false,
+  "accepted": false,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "e5ea170df4d792e7e688b581471474317b6833fd67a9359c8f56569d3c2fb05c"
+  },
+  "serverObservedExited": true,
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "exceptionCount": 0,
+  "error": null
+}

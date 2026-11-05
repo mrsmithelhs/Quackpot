@@ -1,0 +1,16 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "command": "node --test --test-concurrency=1 src/core/race-progression.test.mjs src/core/race-v2/restore-queue.test.mjs src/core/race-v2/persistence-worker.test.mjs",
+  "freeGiB": 11.26,
+  "utc": "2026-11-05T11:24:59.3369173Z"
+}
+bounded-node-run.ps1:
+Line |
+   2 |  … iB'}; try { & ./reports/development/plan-25-desk-phone-art-integratio …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | A positional parameter cannot be found that accepts argument '--test-concurrency=1'.

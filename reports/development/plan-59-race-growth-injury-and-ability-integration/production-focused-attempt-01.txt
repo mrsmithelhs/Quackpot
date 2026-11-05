@@ -1,0 +1,23 @@
+preflight UTC 2026-11-05T09:47:44.5177510Z; freeGiB 12.64; process >=1GiB Memory Compression 1.23GiB
+command: bounded-node-run.ps1 node.exe --test --test-concurrency=1 src/core/race-progression.test.mjs src/core/race-v2/engine-integration.test.mjs src/core/race-v2/persistence-worker.test.mjs
+src/core/game-engine.mjs 48904ADDF06384BB4CAD5FA323E56A58D00B08979231B43226FD2282D59D401B
+src/core/life-replay.mjs F84EB4E5DF776FF9ACD6FD248746088A5D0BD3357128BC03BA37963A072BF241
+src/core/storage.mjs AE0D2FEC52F1DBC966FF36A240EAA1683F81FDC5F36C7B08CA5A601E53B71579
+src/core/race-progression.mjs 3C4313BE50024C79F8B326C15CCB3165BDA24414BEF0C8D9CE053A4DDE0C1380
+src/core/race-progression.test.mjs B1E4D3B29D51067ECB2BB9E7F9519159AE4430350E442E9A0A1F5BE2E769DE7B
+src/core/race-v2/worker-client.mjs 4720F405BFB8B652B82BDBFF5445040AC57ED76E69E17D1F1DB58B0964919CEE
+src/core/race-v2/race-worker.mjs F7E3E0D1F20E1311764E1908A803F708E9F2222BAE4137916249ACCD5ED37208
+src/core/race-v2/restore-queue.mjs 127B8A776EF0EBE5CD7CFC4B6C736DB18EB30148FFB8DCDA5D757CBB0A354B63
+src/core/race-v2/history-plan.mjs 9C961A2128006DE4FBCBE43648ED818015478B7C3ECF619A4190ECFD8EAAC499
+src/core/race-v2/engine-integration.test.mjs 35C653563602CC2536D308A53D2BB9EA694B57AF3E60C94E076291833276EC76
+src/core/race-v2/persistence-worker.test.mjs 76B9D47831A0C7B27596869E3C914E439CBFF70E4865E3576E5A72B9505320D6
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 8.6203764,
+  "PeakSampledPrivateBytes": 163045376,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (1.3025ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1076ms)\n✔ schema-6 owned draft commits genuine worker candidate once (1481.9857ms)\n✔ compact and compressed records reconstruct the exact original, reject meaningful tampering (6690.1425ms)\n✔ worker lifecycle invalidates stale, canceled, duplicate, startup and error paths (56.6402ms)\nℹ tests 5\nℹ suites 0\nℹ pass 5\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8473.1749\n",
+  "StandardError": ""
+}
+launcher-returned-success

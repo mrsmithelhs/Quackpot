@@ -1,0 +1,16 @@
+preflight UTC 2026-11-05T11:17:27.3214464Z; freeGiB 11.14; process >=1GiB Memory Compression 1.17GiB
+command: bounded-node-run.ps1 node.exe --test --test-name-pattern=cancel after claim|cross-tab invalidation after claim src/core/race-v2/engine-integration.test.mjs
+src/core/game-engine.mjs 1F5E1EBE889273FB77237D8903E5E2732820DD3516B61972CF95B8198391D9C5
+src/main.js 14F694F5B3D1F589E7050599AD25060022CD7B70FED68795D49A7622203E209F
+src/core/race-v2/storage-invalidation.mjs E7C5743F7C98F14B6961E13828B2B9E6909A159AC7EAD4E652F718DFD2A911DD
+src/core/race-v2/engine-integration.test.mjs 7E5022AB9E2D6585A33370DCB3579362F93D5CAFFE6C7DD4FCF2E50DE74A6E05
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 3.2447985,
+  "PeakSampledPrivateBytes": 160288768,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ cancel after claim blocks late decode and old cleanup cannot clear a newer operation (1578.7905ms)\n✔ cross-tab invalidation after claim cancels the late result and preserves both storage keys (1377.7849ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 3055.686\n",
+  "StandardError": ""
+}
+launcher-returned-success

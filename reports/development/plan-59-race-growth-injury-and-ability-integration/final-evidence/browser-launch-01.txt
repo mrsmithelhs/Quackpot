@@ -1,0 +1,26 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.01
+    }
+  ],
+  "recoverySaveSha256": "669D349AAF97FA0BBFEE971F33A7ACAC5F3C82C5E38CF9909085CA1DCF17A8A8",
+  "utc": "2026-11-05T11:31:16.8430795Z",
+  "freeGiB": 11.56,
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/browser-runner.mjs reports/development/plan-59-race-growth-injury-and-ability-integration/final-evidence/browser-attempt-01"
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 0.5407243,
+  "PeakSampledPrivateBytes": 4001792,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": "node:internal/modules/esm/resolve:272\r\n    throw new ERR_MODULE_NOT_FOUND(\r\n          ^\r\n\r\nError [ERR_MODULE_NOT_FOUND]: Cannot find module '[workspace]\\reports\\scripts\\dev\\checkpoints\\cdp.mjs' imported from [workspace]\\reports\\development\\plan-59-race-growth-injury-and-ability-integration\\final-evidence\\browser-runner.mjs\r\n    at finalizeResolution (node:internal/modules/esm/resolve:272:11)\r\n    at moduleResolve (node:internal/modules/esm/resolve:879:10)\r\n    at defaultResolve (node:internal/modules/esm/resolve:1006:11)\r\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:708:20)\r\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:728:38)\r\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:766:56)\r\n    at #resolve (node:internal/modules/esm/loader:690:17)\r\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:610:35)\r\n    at ModuleJob.syncLink (node:internal/modules/esm/module_job:277:33)\r\n    at ModuleJob.link (node:internal/modules/esm/module_job:389:17) {\r\n  code: 'ERR_MODULE_NOT_FOUND',\r\n  url: '[workspace]/reports/scripts/dev/checkpoints/cdp.mjs'\r\n}\r\n\r\nNode.js v26.7.0\r\n"
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

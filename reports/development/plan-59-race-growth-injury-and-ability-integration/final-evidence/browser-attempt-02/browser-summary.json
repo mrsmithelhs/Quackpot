@@ -1,0 +1,112 @@
+{
+  "nodeVersion": "v26.7.0",
+  "browserVersion": {
+    "product": "Chrome/157.0.8103.38",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourceStable": true,
+  "observations": [
+    {
+      "layout": "wide",
+      "case": "restore-cancel",
+      "schema5Preserved": true,
+      "schema6Preserved": true
+    },
+    {
+      "layout": "wide",
+      "case": "six-race-restore",
+      "elapsedMs": 7269,
+      "schema5Preserved": true,
+      "sixAttempts": 6
+    },
+    {
+      "layout": "wide",
+      "case": "race-cancel-uninstall",
+      "schema5Preserved": true,
+      "noRaceAttempt": true
+    },
+    {
+      "layout": "wide",
+      "case": "final-leave-receipt",
+      "schema5Preserved": true,
+      "noRaceAttempt": true,
+      "receiptText": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n95 HP\nDebt\n$0.00\nDigital ducks\n2\nDown\n8\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#41] Bundle shop shown (day 2 morning): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nSecondary-currency obfuscation\nWe displayed\n[#62] 8 reveal(s) showed a duplicate converted to Down, 8 Down in total.\nYou did / game recorded\nRecorded: No Down spending recorded.\nDid this affect you?\n\nDid Down affect how you valued duplicate ducks?\n\nAll supporting records\nExit friction\nWe displayed\n[#79] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#80] Recorded: Chose to leave immediately.\n[#82] Game recorded: Run then en"
+    },
+    {
+      "layout": "wide",
+      "case": "real-race-commit",
+      "schema5Preserved": true,
+      "status": "finished"
+    },
+    {
+      "layout": "wide",
+      "case": "real-race-reload",
+      "schema5Preserved": true
+    },
+    {
+      "layout": "narrow",
+      "case": "restore-cancel",
+      "schema5Preserved": true,
+      "schema6Preserved": true
+    },
+    {
+      "layout": "narrow",
+      "case": "six-race-restore",
+      "elapsedMs": 7216,
+      "schema5Preserved": true,
+      "sixAttempts": 6
+    },
+    {
+      "layout": "narrow",
+      "case": "race-cancel-uninstall",
+      "schema5Preserved": true,
+      "noRaceAttempt": true
+    },
+    {
+      "layout": "narrow",
+      "case": "final-leave-receipt",
+      "schema5Preserved": true,
+      "noRaceAttempt": true,
+      "receiptText": "Quackpot\nQUACK\nPOT\nCompanion: Professor Quacks (classic-yellow)\nLocked\nSettings\n🏁 Run Locked\n📅\nDay 2:\nMorning\n💵\nCash:\n$128.00\n💎\nGems:\n0\n❤️\nHealth:\n95 HP\n\nQuackpot · Your time in the pond\n\nYour Receipt\n\nLook back at what appeared, what happened, and what you think about it.\n\nEnding: Uninstalled early\n\nYour run at a glance\nCash\n$128.00\nHealth\n95 HP\nDebt\n$0.00\nDigital ducks\n2\nDown\n8\nThings to reflect on\n\nThese questions are yours to answer.\n\nCurrency obfuscation\nWe displayed\n[#41] Bundle shop shown (day 2 morning): 330 gems for $4.99; one pull costs 160 gems.\nYou did / game recorded\nRecorded: No bundle purchase recorded.\nDid this affect you?\n\nDid the gem prices and leftover balances affect your purchases?\n\nAll supporting records\nSecondary-currency obfuscation\nWe displayed\n[#62] 8 reveal(s) showed a duplicate converted to Down, 8 Down in total.\nYou did / game recorded\nRecorded: No Down spending recorded.\nDid this affect you?\n\nDid Down affect how you valued duplicate ducks?\n\nAll supporting records\nExit friction\nWe displayed\n[#80] Retention offer shown: 80 gems or \"play out the trap\".\nYou did / game recorded\n[#81] Recorded: Chose to leave immediately.\n[#83] Game recorded: Run then en"
+    },
+    {
+      "layout": "narrow",
+      "case": "real-race-commit",
+      "schema5Preserved": true,
+      "status": "finished"
+    },
+    {
+      "layout": "narrow",
+      "case": "real-race-reload",
+      "schema5Preserved": true
+    },
+    {
+      "case": "injury-recovery-restore",
+      "schema5Preserved": true,
+      "saveSha256": "669d349aaf97fa0bbfee971f33a7acac5f3c82c5e38cf9909085ca1dcf17a8a8"
+    }
+  ],
+  "artifactChecksPassed": true,
+  "cleanupFullyVerified": false,
+  "accepted": false,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "485e65313c5e8b18d54422fafbf46960307d7af3527cce86271c2e9d002dda2e"
+  },
+  "serverObservedExited": true,
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "exceptionCount": 0,
+  "error": null
+}

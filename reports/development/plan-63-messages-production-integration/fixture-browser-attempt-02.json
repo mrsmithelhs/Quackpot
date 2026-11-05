@@ -1,0 +1,42 @@
+{
+  "pins": {
+    "reports/development/plan-63-messages-production-integration/fixture.html": "ad11ac6374b4279e9133d33f39e7e818f2194521a98475000ec8c437f440da9c",
+    "reports/development/plan-63-messages-production-integration/fixture.mjs": "155bf39be94db7aff6e0fdb654e606fe7a161cd9b53370fa8bc6da0362867701",
+    "src/core/messages-content.mjs": "db5c1a61520a17ee5dbb2fca85089131cd06a0758323d15be0738ddc0c9cfe8c",
+    "src/core/messages-projection.mjs": "0843d1b4ffcb96d28f14fb7371c982111d2ad60ad534f5c522a77f91773d4ed0",
+    "src/ui/messages-view.mjs": "00403198a566d4634f127426cb697a81fc23bcebb686d355dae14567a4f54871",
+    "src/ui/messages.css": "663ae88bdb767abb96b2552fa0bba0e8610c33fc0febe36cf25f95c02a0b5f33"
+  },
+  "results": [
+    {
+      "width": 1200,
+      "covered": true,
+      "revision": true,
+      "keyboardBack": true,
+      "escapeFocus": true,
+      "destroy": true
+    },
+    {
+      "width": 390,
+      "covered": true,
+      "revision": true,
+      "keyboardBack": true,
+      "escapeFocus": true,
+      "destroy": true
+    }
+  ],
+  "stable": true,
+  "serverExited": true,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0
+  },
+  "clean": false
+}

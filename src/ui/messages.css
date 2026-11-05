@@ -1,0 +1,7 @@
+.messages-panel,.messages-decide { background:#fff; color:#202431; border:2px solid #333b53; border-radius:1rem; padding:1rem; max-width:32rem; }
+.messages-panel header { display:flex; align-items:center; gap:.75rem; }
+.messages-panel h2 { flex:1; }
+.messages-scroll { max-height:min(60vh,35rem); overflow:auto; display:grid; gap:.75rem; }
+.messages-thread { text-align:left; padding:.8rem; }
+.messages-bubble { margin:0; padding:.8rem; border-radius:1rem; background:#e6edf7; overflow-wrap:anywhere; }
+.messages-decide { margin-top:.75rem; }

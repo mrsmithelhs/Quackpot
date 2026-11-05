@@ -1,0 +1,21 @@
+# Plan 63 identity table and mount specification
+
+2026-11-05; root disposition 01 governs. These keys are proposed adapter contracts, not evidence that a delivery already exists. All identifiers are bounded ASCII tokens, never arbitrary message text. A source occurrence must be established before its message is projected.
+
+| Thread | Message ID | Delivery ID | Revision | Source / transition |
+|---|---|---|---|---|
+| `launch` | `launch:invitation` | `launch:invitation:1` | `1` | Existing invitation availability; exact event prefix/start transition must be wired by controller; shown uses existing offer method. |
+| `launch` | `launch:ack` | `launch:ack:1` | `1` | Existing successful reply; shown uses existing acknowledgment method. |
+| `work` | `work:shift` | `work:shift:<day>` | `1` | Scheduled current shift only on a real, adapter-established communication occurrence; no overtime inferred. |
+| `ren` | `ren:<kind>:<source-id>` | `ren:<kind>:<source-id>:<occurrence>` | source revision | Existing pending/response/commitment identity and shown lifecycle; no pre-introduction Ren delivery. Adapter supplies vetted bounded tokens. |
+| `loan` | `loan:statement:<loan-id>` | `loan:statement:<loan-id>` | source revision | Existing pending loan statement; actionable state and cash revalidated independently. Revision changes only with a source communication revision, not balance. |
+| `history:<contact>` | `history:<contact>` | `history:<contact>:1` | `1` | Fixed authored exchanges for copy-counter, lantern-laundry, kit, mom; initially read, no attention or action. |
+
+Ordering: source supplies monotonic delivery sequence derived from actual history (never a render counter); descending sequence then lexical delivery ID; history follows actual records in authored order. Same delivery/revision is deduplicated; conflicting duplicate payload is an error. No date/time is invented. The adapters must declare occurrence keys and revision semantics for each live source against frozen shared code before mounting; this table does not authorize synthetic events or an implicit current-state delivery.
+
+Prefix replay: policy start is an explicit recognized versioned fact plus matching save envelope policy metadata, agreed with root on shared transfer. Absence dispatches unchanged old behavior; mismatch/unknown rejects while preserving the save. Prefix projection has an explicit delivery registry derived only from prior source facts; each read must reference exactly one existing unread delivery revision. Reject unknown, future, duplicate, stale revision, oversize and reads in transactions or at/after terminal. Historical entries require no read events. Bound event count, registry and strings before traversal. The independent helper validates a caller-provided prefix registry; it does not claim to implement engine replay or validate source facts.
+
+Mount interface: root/controller supplies `{messages, readKeys}` projected from validated state, a fresh `onRead(identity)` callback that commits source-specific shown evidence where required and then the read at a legal boundary, and `onAction(identity)` which reprojects and calls existing transactions with freshly prepared guards. UI never owns finance, source shown events, save or RNG. `onRead` must return success only after accepted engine mutation; failure leaves unread. Main must refresh guards after log mutations. Controller owns stable host, modal priority, availability, destruction and focus restoration, and routes read observation only while the overlay is current and uncovered. Storage and replay validate policy, bounds and prefix; Receipt retains existing source-specific shown records. No owner-profile or imported report fixtures.
+
+Focused validation request: one bounded sequential compute lane for `node --test src/core/messages-projection.test.mjs src/ui/messages-view.test.mjs` through Plan25 launcher after fresh preflight; then one finite isolated browser lane, if granted, serving only the report-local fixture and static source files with no owner storage, checking narrow/wide geometry, visible versus offscreen read, keyboard Back/Close/Escape, and observer teardown. Fixture is not the early real owner checkpoint. No provider calls or full suite requested.
+

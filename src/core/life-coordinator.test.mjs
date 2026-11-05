@@ -3,10 +3,20 @@ import assert from 'node:assert/strict';
 import {createSchedule,PRODUCTION} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,prepareFinance,commitFinance} from './life-finance.mjs';
 import {renGraphNode} from './life-social-dialogue.mjs';
-import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
+import {inspectLifeTransaction,classifyDueScheduleCommitment,classifyDueSocialCommitment,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
 const setup=()=>({schedule:createSchedule(PRODUCTION,{2:true,3:true,4:true}),finance:initialFinance()});
 const prep=(s,b,i,c={})=>inspectLifeTransaction(s,b,i,c);
 const commit=(s,b,p,o={},c={})=>commitLifeTransaction(s,b,p,o,c);
+test('due commitment classification checks schedule validity without a committable bypass',()=>{
+ const s=setup();s.schedule.day=4;const b={cashCents:17000,health:100};
+ const meal={domain:'schedule',action:{type:'meal',choice:'buy',operationId:'meal'}};
+ assert.deepEqual(classifyDueScheduleCommitment(s,b,meal),{ok:true,blockedBy:'financial_obligation_due',hasConflicts:false,rentWorkConflict:false});
+ assert.equal(prep(s,b,meal).reason,'financial_obligation_due');
+ assert.equal(classifyDueScheduleCommitment(s,b,{domain:'schedule',action:{type:'sleep',operationId:'sleep'}}).reason,'sleep_unavailable');
+ assert.equal(classifyDueScheduleCommitment(s,b,{domain:'schedule',action:{type:'reserve',operationId:'plan'}}).reason,'not_slot_commitment');
+ s.schedule.recovery={id:'zero',resolved:false};
+ assert.equal(classifyDueScheduleCommitment(s,{cashCents:17000,health:0},meal).reason,'recovery_pending');
+});
 test('staged work story requires displayed scenes and pays only on completion',()=>{
  let s=setup(),b={cashCents:8000,health:100};const meal=prep(s,b,{domain:'schedule',action:{type:'meal',choice:'buy',operationId:'breakfast'}});
  let result=commit(s,b,meal.proposal,{confirmed:true});assert.equal(result.ok,true);s=result.state;b.cashCents+=result.cashDeltaCents;
@@ -107,6 +117,7 @@ test('Ren offer reserves no slot and Welcome stages social scene with scheduler 
  social({type:'social46_offer',day:2,initiator:'ren',activity:'door'});const id=s.social46.pending.id;social({type:'social46_offer_shown',id});
  const dueBranch=structuredClone(s);dueBranch.finance.rents[0].latched=true;const dueBefore=structuredClone(dueBranch);
  assert.equal(stageSocialTransition(dueBranch,b,{operationId:'due-social',action:{type:'social46_reply',id,choice:'accept'}}).reason,'financial_obligation_due');assert.deepEqual(dueBranch,dueBefore);
+ assert.equal(classifyDueSocialCommitment(dueBranch,b,{operationId:'due-social',action:{type:'social46_reply',id,choice:'accept'}}).reason,'not_slot_commitment');
  social({type:'social46_reply',id,choice:'accept'});
  assert.equal(s.schedule.slot,'evening');assert.equal(s.schedule.active,null);assert.equal(s.schedule.futurePlans[id].status,'reserved');
  const activity={type:'start',choice:'sit_duck',operationId:'duck-conflict',confirmed:true,conflictChoice:'notice'},activityContext={schedule:{}};
@@ -130,7 +141,13 @@ test('Ren offer reserves no slot and Welcome stages social scene with scheduler 
  for(let step=0;step<12;step++){
   const scene=s.social46.scene; const graph=renGraphNode(scene.activity,scene.node,scene.seating,scene.hasUncommunicatedBreak);assert.ok(graph);
   social({type:'social46_scene_shown',id});const choice=graph.choices[0];
-  if(choice.next===null){completed=social({type:'social46_complete',id,choice:choice.id});break;}
+  if(choice.next===null){
+   const dueScene=structuredClone(s);dueScene.finance.rents[0].latched=true;const snapshot=structuredClone(dueScene);
+   const request={operationId:'due-complete',action:{type:'social46_complete',id,choice:choice.id}};
+   assert.equal(classifyDueSocialCommitment(dueScene,b,request).ok,true);assert.deepEqual(dueScene,snapshot);
+   assert.equal(stageSocialTransition(dueScene,b,request).reason,'financial_obligation_due');
+   completed=social({type:'social46_complete',id,choice:choice.id});break;
+  }
   social({type:'social46_scene_next',id,choice:choice.id});
  }
  assert.ok(completed);assert.equal(completed.healthDelta,5);assert.equal(s.schedule.slot,'late-evening');assert.equal(s.schedule.futurePlans[id].status,'completed');assert.equal(s.social46.scene.stage,'ack');

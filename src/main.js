@@ -39,7 +39,8 @@ import {
 } from './ui/modals.js';
 import { renderLifeView } from './ui/life/life-view.js';
 import { renderLifePhoneView } from './ui/life/life-phone-view.js';
-import { fiveSlotWarningLines, fiveSlotLoanDecision } from './ui/life/life-decisions.mjs';
+import { fiveSlotWarningLines, fiveSlotLoanDecision, fiveSlotDueDecision } from './ui/life/life-decisions.mjs';
+import { snapshotDefaultIntent, defaultIntentIsCurrent, selectedDefaultBill } from './ui/life/life-default-intent.mjs';
 import { social46Conflict, social46DisplayText } from './core/life-social.mjs';
 import {
   BREAKFAST_STEP_BY_DAY,
@@ -80,6 +81,7 @@ if (app) {
   let animatePhoneGlow = true;
   // Apartment life UI state (place chosen, object held, Decide expanded). Survives re-renders; never saved.
   const lifeUi = { place: null, held: null, decideOpen: false, renOpen: false };
+  let pendingDefault = null;
   let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
 
@@ -318,11 +320,11 @@ if (app) {
     return engine.applyLifeIntent(conflict.confirmSocial ? { ...intent, socialConflict: 'continue' } : intent);
   }
 
-  function confirmNextPlay(kind) {
+  function confirmNextPlay(kind, details = {}) {
     if(engine.state.life?.policyVersion==='five-slot-v1') {
       const active=engine.state.life.schedule.active,extend=Boolean(active?.kind==='session' && active[`${kind}Used`]);
       const operationId=`play-ui:${engine.log.length}`,prepared=engine.prepareFiveSlotPlay(kind,{operationId,extend});
-      if(!prepared.ok){appNotice('Resolve the current commitment before playing.');return {ok:false};}
+      if(!prepared.ok){if(prepared.reason==='financial_obligation_due' && beginDueDefault({kind:'play',play:kind,...details},kind==='pull'?'make this pull':'start this race'))return {ok:false,reason:'pending_default'};appNotice('Resolve the current commitment before playing.');return {ok:false};}
       const proposal=prepared.proposal;let conflictChoice=null,overtimeChoice=null;
       if(proposal.schedule.conflicts.length) {
         const view=fiveSlotSocialView(engine),plan=view.social46?.pending;
@@ -366,6 +368,7 @@ if (app) {
     renderHud(hudContainer, engine, duckSvgUrl, {
       onSave: saveNow,
       onSettings: () => {
+        pendingDefault = null;
         stageTransition?.cancel();
         settingsTriggerId = 'btn-open-settings';
         settingsOpen = true;
@@ -393,6 +396,7 @@ if (app) {
         });
       },
       onUninstall: () => {
+        pendingDefault = null;
         stageTransition?.cancel();
         if (engine.isTerminal()) return;
         engine.clickUninstall();
@@ -425,6 +429,72 @@ if (app) {
     checkStorageResult(res);
     updateWarningBanner();
     return res;
+  }
+
+  function beginDueDefault(request, label) {
+    if (!engine.classifyFiveSlotDueCommitment(request).ok) return false;
+    if(!engine.fiveSlotDueOptionsWereShown()) {
+      // Financial evidence is recorded only by the real payment panel, whose
+      // controls let the player inspect and resolve the current obligations.
+      currentStep=lifeSurface(engine);engine.state.step=currentStep;phoneOpen=false;
+      lifeUi.fiveDueKey=null;lifeUi.held=null;
+      queueMicrotask(()=>renderApp());
+      return true;
+    }
+    pendingDefault={request:structuredClone(request),label,selected:null,snapshot:null,returnFocus:document.activeElement};
+    queueMicrotask(() => { if(pendingDefault && !pendingDefault.snapshot) renderApp(); });
+    return true;
+  }
+
+  function renderDueDefault(container) {
+    const pending=pendingDefault, due=fiveSlotDueDecision(engine);
+    if(!pending || !due || !engine.classifyFiveSlotDueCommitment(pending.request).ok) { pendingDefault=null; return; }
+    const backdrop=document.createElement('div');backdrop.className='modal-backdrop';
+    const headerBottom=Math.max(0,document.querySelector('#hud-container')?.getBoundingClientRect().bottom??0);
+    backdrop.style.top=`${headerBottom}px`;
+    const panel=document.createElement('section');panel.className='modal-card life-decide life-default-card';panel.style.maxHeight=`calc(100vh - ${headerBottom+32}px)`;panel.style.overflow='auto';panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','false');panel.setAttribute('aria-labelledby','due-default-heading');
+    const body=document.createElement('div');body.className='life-decide-body';panel.append(body);backdrop.append(panel);container.append(backdrop);
+    const heading=document.createElement('h2');heading.id='due-default-heading';heading.tabIndex=-1;heading.textContent='Decide';body.append(heading);
+    let actions=null;
+    const paragraph=text=>{const p=document.createElement('p');p.textContent=text;if(actions)body.insertBefore(p,actions);else body.append(p);};
+    paragraph(`You chose to ${pending.label}.`);
+    paragraph(`Cash on hand: $${(engine.state.cash).toFixed(2)}.`);
+    for(const bill of due.bills) {
+      const raw=engine.checkDueObligations().bills.find(item=>item.id===bill.id);
+      paragraph(`${bill.label}: $${(bill.amountCents/100).toFixed(2)}, due Day ${raw.due.day} (${raw.due.slot.replaceAll('-',' ')}).`);
+    }
+    actions=document.createElement('div');actions.className='life-decide-actions';body.append(actions);
+    const button=(label,handler)=>{const b=document.createElement('button');b.type='button';b.className='life-btn';b.textContent=label;b.addEventListener('click',handler);actions.append(b);return b;};
+    const cancel=()=>{const focus=pending.returnFocus, id=focus?.id, object=focus?.dataset?.obj;pendingDefault=null;renderApp();const restored=(id && document.getElementById(id)) || (object && document.querySelector(`.life-obj[data-obj="${CSS.escape(object)}"]`));(restored ?? document.querySelector('#main-content button:not(:disabled)'))?.focus();};
+    backdrop.addEventListener('click',event=>{if(event.target===backdrop)cancel();});
+    backdrop.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();cancel();}});
+    if(!pending.snapshot) {
+      // Evidence must come from the actionable payment panel, not this summary.
+      if(!engine.fiveSlotDueOptionsWereShown()){pendingDefault=null;backdrop.remove();return;}
+      pending.snapshot=snapshotDefaultIntent(engine,pending.request);
+    }
+    if(!pending.snapshot || !defaultIntentIsCurrent(engine,pending.snapshot)){cancel();return;}
+    const selected=due.bills.length===1?due.bills[0]:due.bills.find(bill=>bill.id===pending.selected);
+    if(!selected) {
+      paragraph('Choose a payment to inspect. No payment or other action will happen yet.');
+      for(const bill of due.bills)button(`Inspect ${bill.label}`,()=>{pending.selected=bill.id;container.innerHTML='';renderDueDefault(container);});
+      button('Reconsider',cancel);heading.focus({preventScroll:true});return;
+    }
+    paragraph(selected.id.startsWith('loan-')?'The payday loan is still unpaid. Continuing without paying will end the game.':'Rent is still unpaid. Continuing without paying will end the game.');
+    if(selected.id==='rent-2')paragraph('You will lose the apartment.');
+    if(due.bills.length>1)button('Back to payments',()=>{pending.selected=null;container.innerHTML='';renderDueDefault(container);});
+    button('Reconsider',cancel);
+    button('Continue without paying',event=>{
+      event.currentTarget.disabled=true;
+      if(!defaultIntentIsCurrent(engine,pending.snapshot) || !selectedDefaultBill(pending.snapshot,selected.id) || !engine.classifyFiveSlotDueCommitment(pending.request).ok){cancel();return;}
+      const action=selected.id.startsWith('loan-')?{type:'leave_unpaid',loanId:selected.id}:{type:'leave_unpaid',billId:selected.id};
+      const prepared=engine.prepareFiveSlotAction({domain:'finance',action:{...action,id:`default-ui:${engine.log.length}`,confirmed:true,optionsDisclosed:true}});
+      const result=prepared.ok?engine.commitFiveSlotAction(prepared.proposal):prepared;
+      pendingDefault=null;
+      if(result.ok){currentStep='receipt';engine.state.step='receipt';phoneOpen=true;maybeAutosave();}
+      renderApp();
+    });
+    heading.focus({preventScroll:true});
   }
 
   function renderApp() {
@@ -463,7 +533,7 @@ if (app) {
         if (['welcome', 'single', 'ten'].includes(action) && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day] && !life.anchor && !engine.needsNextLifePlay('pull')
           && !globalThis.confirm('This pull uses the afternoon anchor and misses your scheduled shift. Continue?')) return;
         if (action === 'welcome') {
-          const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          const decision = confirmNextPlay('pull',{promotion:true}); if (!decision.ok) return;
           const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
           try { draws = engine.commitPromotionalTenPull({ ...decision, confirmSocial: conflict.confirmSocial }); }
@@ -474,7 +544,7 @@ if (app) {
           const count = action === 'single' ? 1 : 10;
           const cost = count === 1 ? GAME_CONSTANTS.PULL_SINGLE_COST : GAME_CONSTANTS.PULL_TEN_COST;
           if (engine.state.gems < cost || engine.state.pendingReveals.some(draw => !draw.revealed)) { appNotice('You need enough Gems and all previous cards revealed before this pull.'); return; }
-          const decision = confirmNextPlay('pull'); if (!decision.ok) return;
+          const decision = confirmNextPlay('pull',{promotion:false,count}); if (!decision.ok) return;
           const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return;
           let draws;
           try { draws = engine.commitPaidPull(count, { ...decision, confirmSocial: conflict.confirmSocial }); }
@@ -514,7 +584,7 @@ if (app) {
           const next = engine.needsNextLifePlay('race');
           if (!next && life.phase === 'afternoon' && life.employed && !life.shiftDays[life.day]
             && !globalThis.confirm('This race uses the afternoon anchor and misses your scheduled shift. Continue?')) return null;
-          const decision = confirmNextPlay('race'); if (!decision.ok) return null;
+          const decision = confirmNextPlay('race',{raceNumber,duckId,stance,useTrial}); if (!decision.ok) return null;
           const conflict = life.policyVersion==='five-slot-v1'?{ok:true,confirmSocial:false}:resolveSocialConflict({ type: decision.confirmNext ? 'phone_commit_next' : 'phone_commit' }); if (!conflict.ok) return null;
           let attempt;
           try { attempt = engine.runRace(raceNumber, duckId, stance, { useTrial, ...decision, confirmSocial: conflict.confirmSocial }); }
@@ -776,6 +846,7 @@ if (app) {
       });
     }
 
+    if (pendingDefault && !settingsOpen && !activeModal) renderDueDefault(modalContainer);
     if (settingsOpen) {
       settingsCleanup = renderSettingsModal(modalContainer, {
         autosaveEnabled: engine.autosaveEnabled,
@@ -838,7 +909,10 @@ if (app) {
 
   function commitFiveSlotSchedule(action, {conflictChoice=null}={}) {
     const intent={domain:'schedule',action:{...action,operationId:`life-ui:${engine.log.length}`}};
-    const prepared=engine.prepareFiveSlotAction(intent);if(!prepared.ok)return prepared;
+    const prepared=engine.prepareFiveSlotAction(intent);if(!prepared.ok){
+      if(prepared.reason==='financial_obligation_due' && beginDueDefault({kind:'schedule',action},action.type==='sleep'?'go to sleep':action.type==='meal'?'buy a meal':action.kind==='early-bed'?'turn in early':action.type==='complete'?'finish this activity':'continue'))return {ok:false,reason:'pending_default'};
+      return prepared;
+    }
     const proposal=prepared.proposal,disclosures=proposal.schedule.disclosures;
     if((proposal.schedule.conflicts.length && !['notice','break'].includes(conflictChoice)) || proposal.schedule.rentWorkConflict)return {ok:false,reason:'specific_conflict_choice_required'};
     if(disclosures.length) {
@@ -880,6 +954,7 @@ if (app) {
       onSocialAction: commit(intent => {
         if(engine.state.life?.policyVersion!=='five-slot-v1')return engine.applyLifeIntent(intent);
         const result=engine.applyFiveSlotSocialAction({operationId:`social-ui:${engine.log.length}`,action:intent},engine.log.length);
+        if(result.reason==='financial_obligation_due')beginDueDefault({kind:'social',action:intent},'continue your time with Ren');
         if(result.ok)engine.state.step=lifeSurface(engine);
         return result;
       }),
@@ -933,13 +1008,6 @@ if (app) {
         }
         return commitFiveSlotSchedule(action,{conflictChoice});
       }),
-      onFiveSlotLeaveUnpaid: commit((billId) => {
-        const loan=billId.startsWith('loan-'),consequence=billId==='rent-2'?'Losing housing ends the run.':'Running on Empty ends the run.';
-        if(!globalThis.confirm(`Leave this payment unpaid? ${consequence}`))return {ok:false,reason:'cancelled'};
-        const action=loan?{type:'leave_unpaid',loanId:billId}:{type:'leave_unpaid',billId};
-        const p=engine.prepareFiveSlotAction({domain:'finance',action:{...action,id:`default-ui:${engine.log.length}`,confirmed:true,optionsDisclosed:true}});
-        return p.ok?engine.commitFiveSlotAction(p.proposal):p;
-      }),
       onHoldRent: commit(() => engine.applyLifeIntent({ type: 'rent', choice: 'hold' })),
       onRentContinue: commit(() => {
         if (!engine.state.life || engine.state.life.rent.status === 'due') return null;
@@ -952,6 +1020,7 @@ if (app) {
       onDepartWork: commit(() => {
         if (engine.state.life.session && !globalThis.confirm('Leaving for work ends this phone session. Continue?')) return null;
         const result = engine.beginStoryWork('depart', Boolean(engine.state.life.session));
+        if(result?.reason==='financial_obligation_due')beginDueDefault({kind:'work'},'leave for work');
         if (result.ok) { engine.state.step = lifeSurface(engine); resetLifeUi(); }
         return result;
       }),
@@ -960,7 +1029,7 @@ if (app) {
       onBeginStoryActivity: commit((choice) => {
         if(engine.state.life?.policyVersion!=='five-slot-v1')return commitLifeWithSocial({ type: 'begin_activity47', version: choice === 'call_mom' ? 3 : 2, choice });
         const operationId=`activity-ui:${engine.log.length}`;let preview=engine.prepareFiveSlotActivityStory(choice,operationId),conflictChoice=null;
-        if(!preview.ok)return preview;
+        if(!preview.ok){if(preview.reason==='financial_obligation_due')beginDueDefault({kind:'activity',choice},choice==='call_mom'?'call Mom':'sit with your duck');return preview;}
         if(preview.proposal.schedule.conflicts.length) {
           const view=fiveSlotSocialView(engine),plan=view.social46?.pending;
           if(!plan || !plan.seatingConfirmed || !preview.proposal.schedule.conflicts.includes(plan.id))return {ok:false,reason:'social_conflict_unavailable'};
@@ -986,11 +1055,13 @@ if (app) {
         if(engine.state.life?.policyVersion==='five-slot-v1' && story.kind==='activity') {
           const type=story.stage==='scene'?'complete':'dismiss';
           const result=engine.applyFiveSlotActivityStory({type,id:story.id,operationId:`activity-story-ui:${engine.log.length}`,confirmed:true},engine.log.length);
+          if(result.reason==='financial_obligation_due' && type==='complete')beginDueDefault({kind:'story',storyKind:'activity',id:story.id},'finish this activity');
           if(result.ok && type==='dismiss'){engine.state.step=lifeSurface(engine);resetLifeUi();}return result;
         }
         if (engine.state.life?.policyVersion === 'five-slot-v1' && story.kind === 'work') {
           const type = story.stage === 'commute' ? 'advance' : story.stage === 'work' ? 'complete' : 'dismiss';
           const result = engine.applyFiveSlotWorkStory({ type, id: story.id, operationId: `work-story-ui:${engine.log.length}`, confirmed: true }, engine.log.length);
+          if(result.reason==='financial_obligation_due' && type==='complete')beginDueDefault({kind:'story',storyKind:'work',id:story.id},'finish your shift');
           if (result.ok && type === 'dismiss') { engine.state.step = lifeSurface(engine); resetLifeUi(); }
           return result;
         }
@@ -1072,6 +1143,7 @@ if (app) {
       onBreakfast: commit(() => {
         if (engine.state.life?.policyVersion === 'five-slot-v1') {
           const result=commitFiveSlotSchedule({type:'meal',choice:'buy'});
+          if(result.reason==='pending_default')return null;
           if(result.ok)engine.state.step=lifeSurface(engine);
           return {paid:result.ok};
         }

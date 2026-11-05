@@ -21,7 +21,7 @@ import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
 import { quietFallbackEligibility } from './life-schedule/quiet-fallback.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
-import { inspectLifeTransaction, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
+import { inspectLifeTransaction, classifyDueScheduleCommitment, classifyDueSocialCommitment, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
@@ -204,6 +204,10 @@ export class GameEngine {
       && (JSON.stringify(event.payload) === JSON.stringify(options) || JSON.stringify(event.payload) === JSON.stringify(legacy))));
   }
 
+  fiveSlotDueOptionsWereShown() {
+    return this.#fiveSlotDueOptionsWereShown();
+  }
+
   sellFiveSlotAsset(asset, expectedLogLength) {
     const life = this.state.life;
     if (this.isTerminal() || life?.policyVersion !== 'five-slot-v1' || life.schedule.recovery
@@ -270,13 +274,62 @@ export class GameEngine {
     return inspectLifeTransaction(life, { cashCents: Math.round(this.state.cash * 100), health: this.state.health }, intent, this.#fiveSlotContext());
   }
 
+  // UI-only inspection: does not create a schedulable proposal or bypass the
+  // finance gate. Special operations retain their engine-owned prerequisites.
+  classifyFiveSlotDueCommitment(request) {
+    const life=this.state.life;
+    if(this.isTerminal() || life?.policyVersion!=='five-slot-v1' || this.state.activeModal || this.state.interruptedContext || !request)return {ok:false,reason:'unavailable'};
+    const context=this.#fiveSlotContext(), operationId=`default-preview:${this.log.length}`;
+    let action;
+    if(request.kind==='social')return classifyDueSocialCommitment(life,{cashCents:Math.round(this.state.cash*100),health:this.state.health},{operationId,action:request.action},context);
+    if(request.kind==='schedule') {
+      action={...request.action,operationId};
+      // Quiet has an engine-owned fallback rule, and work has a story wrapper.
+      if(action.kind==='work' || action.type==='play')return {ok:false,reason:'special_operation_required'};
+      if(action.kind==='quiet') {
+        const quiet=this.#fiveSlotQuietFallback(operationId,true);
+        if(!quiet.ok)return quiet;
+      }
+    } else if(request.kind==='work') {
+      if(life.story47 || life.social46?.scene)return {ok:false,reason:'story_pending'};
+      action={type:'start',kind:'work',operationId};
+    } else if(request.kind==='activity') {
+      if(!['call_mom','sit_duck'].includes(request.choice) || life.story47 || (request.choice==='call_mom' && (life.schedule.day-1)%5!==0))return {ok:false,reason:'activity_unavailable'};
+      action={type:'start',kind:'activity47',operationId};context.allowActivityStory=true;
+    } else if(request.kind==='story') {
+      const story=life.story47;
+      if(!story || story.id!==request.id || story.kind!==request.storyKind || !((story.kind==='work' && story.stage==='work') || (story.kind==='activity' && story.stage==='scene')) || !this.log.entries.some(event=>event.type==='story47_shown' && event.payload?.id===story.id && event.payload?.stage===story.stage))return {ok:false,reason:'story_unavailable'};
+      action={type:'complete',activityId:story.id,operationId};context.allowWorkStory=true;context.allowActivityStory=true;
+    } else if(request.kind==='play') {
+      if(!fiveSlotAppOpened(this.log.entries) || this.state.pendingReveals.some(draw=>!draw.revealed))return {ok:false,reason:'unavailable'};
+      if(request.play==='pull') {
+        if(request.promotion ? this.state.tenPullCommitted : ![1,10].includes(request.count) || this.state.gems<(request.count===1?GAME_CONSTANTS.PULL_SINGLE_COST:GAME_CONSTANTS.PULL_TEN_COST))return {ok:false,reason:'pull_unavailable'};
+      } else if(request.play==='race') {
+        const next=Math.max(0,...Object.keys(this.state.raceAttempts).map(Number))+1;
+        if(request.raceNumber!==next || !['safe','sprint'].includes(request.stance) || !BANNER_1_ROSTER.some(duck=>duck.id===request.duckId) || !this.state.owned.includes(request.duckId) || typeof request.useTrial!=='boolean' || (request.useTrial && !this.state.raceTrialAvailable))return {ok:false,reason:'race_unavailable'};
+      } else return {ok:false,reason:'invalid_play'};
+      const active=life.schedule.active,extend=Boolean(active?.kind==='session' && active[`${request.play}Used`]);
+      action={type:'play',kind:request.play,operationId,...(extend?{extend:true}:{})};context.schedule.operationAvailable=true;
+    } else return {ok:false,reason:'invalid_request'};
+    return classifyDueScheduleCommitment(life,{cashCents:Math.round(this.state.cash*100),health:this.state.health},{domain:'schedule',action},context);
+  }
+
   // Live eligibility is rechecked at the transaction boundary. Historical
   // replay deliberately uses the original coordinator contract for old logs.
   fiveSlotQuietFallback(operationId = `quiet-preview:${this.log.length}`) {
+    return this.#fiveSlotQuietFallback(operationId,false);
+  }
+
+  #fiveSlotQuietFallback(operationId,duePreview) {
     const life=this.state.life;
     if(this.isTerminal() || life?.policyVersion!=='five-slot-v1' || this.state.activeModal || this.state.interruptedContext)return {ok:false,reason:'unavailable'};
     const balances={cashCents:Math.round(this.state.cash*100),health:this.state.health}, context=this.#fiveSlotContext(),s=life.schedule;
-    const inspect=(action,extra=context)=>inspectLifeTransaction(life,balances,{domain:'schedule',action},extra);
+    const inspect=(action,extra=context)=>{
+      const intent={domain:'schedule',action}, normal=inspectLifeTransaction(life,balances,intent,extra);
+      if(!duePreview || normal.reason!=='financial_obligation_due')return normal;
+      const classified=classifyDueScheduleCommitment(life,balances,intent,extra);
+      return classified.ok?{ok:true,proposal:{schedule:{conflicts:classified.hasConflicts?['conflict']:[],rentWorkConflict:classified.rentWorkConflict}}}:classified;
+    };
     const quiet=inspect({type:'start',kind:'quiet',operationId});
     if(!quiet.ok)return quiet;
     const available=[];let n=0;
@@ -288,8 +341,10 @@ export class GameEngine {
     add(probe({type:'start',kind:'work'}).ok);
     add(probe({type:'start',kind:'early-bed'}).ok);
     add(probe({type:'sleep'}).ok);
-    add(prepareActivityStory(life,balances,{choice:'sit_duck',operationId:`fallback-check:${this.log.length}:sit`},context).ok);
-    add(prepareActivityStory(life,balances,{choice:'call_mom',operationId:`fallback-check:${this.log.length}:call`},context).ok);
+    for(const choice of ['sit_duck','call_mom']) {
+      const p=prepareActivityStory(life,balances,{choice,operationId:`fallback-check:${this.log.length}:${choice}`},context);
+      add(p.ok || (duePreview && p.reason==='financial_obligation_due' && this.classifyFiveSlotDueCommitment({kind:'activity',choice}).ok));
+    }
     const reservation=s.overtimeReservation;
     if(reservation?.status==='reserved')add(probe({type:'start',kind:'overtime',reservationId:reservation.id}).ok);
     const ren=life.social46?.pending;

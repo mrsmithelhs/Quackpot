@@ -138,7 +138,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if(life?.policyVersion==='five-slot-v1') {
       const s=life.schedule,due=engine.checkDueObligations().bills;
       const rescue=s.overtimeReservation?.status==='reserved' && s.day<=s.overtimeReservation.day && due.some(bill=>bill.id===s.overtimeReservation.rentId) && !due.some(bill=>bill.id.startsWith('loan-'));
-      return Boolean(s.slot==='midday' && s.employment.employed && s.workCalendar[String(s.day)] && !s.active && !s.recovery && !life.story47 && (!due.length || rescue));
+      return Boolean(s.slot==='midday' && s.employment.employed && s.workCalendar[String(s.day)] && !s.active && !s.recovery && !life.story47 && (!due.length || rescue || engine.classifyFiveSlotDueCommitment({kind:'work'}).ok));
     }
     return Boolean(life && life.phase === 'morning' && life.employed && life.meals[`d${life.day}-breakfast`] && !life.work && !life.recovery && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced));
   };
@@ -150,7 +150,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     if (engine.state.life && ['kitchen-notice', 'kitchen-breakfast'].includes(place)) {
       const life = engine.state.life;
       const five=life.policyVersion==='five-slot-v1';
-      const available = five ? engine.prepareFiveSlotActivityStory('call_mom',`activity-preview:${engine.log.length}`).ok : callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
+      const available = five ? engine.prepareFiveSlotActivityStory('call_mom',`activity-preview:${engine.log.length}`).ok || engine.classifyFiveSlotDueCommitment({kind:'activity',choice:'call_mom'}).ok : callMomScheduled(life.day) && life.phase === 'evening' && !life.anchor && !life.work && !life.story47 && !life.recovery && life.meals[`d${life.day}-dinner`] && life.rent.status !== 'due' && (life.rent.status !== 'overdue' || life.rentSurfaced);
       const noteReason = five?'not available now':life.phase !== 'evening' || !callMomScheduled(life.day) ? 'not available now' : life.anchor ? 'evening activity already chosen' : life.recovery ? 'resolve recovery first' : life.rent.status === 'due' || (life.rent.status === 'overdue' && !life.rentSurfaced) ? 'resolve rent first' : !life.meals[`d${life.day}-dinner`] ? 'available after dinner' : 'not available now';
       out.push({ id: 'mom-note', x: 7, y: 50, w: 7, svg: `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M5 8 L94 5 L96 91 L10 96 Z" fill="#f7de83" stroke="#685629" stroke-width="3"/><path d="M12 10 L89 8" stroke="#d8bb62" stroke-width="8"/><text x="50" y="48" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Call</text><text x="50" y="70" text-anchor="middle" font-family="sans-serif" font-size="19" fill="#392f20">Mom</text></svg>`,
         label: available ? 'Call Mom, available this evening, up to 5 health' : `Call Mom note, ${noteReason}`, chip: available ? 'Call Mom' : null, disabled: !available,
@@ -203,13 +203,13 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           const kit=kitBox(scene.svg);
           out.push({id:'active-quiet-duck',hotspot:true,x:Math.max(0,kit.x-kit.w/2),y:Math.max(0,kit.y-kit.w*1.5),w:kit.w,h:kit.w*1.5,label:'Duck: finish quiet time',chip:'Finish quiet time',hold:{mode:'popover',side:'left',kind:'five-quiet-finish'}});
         }
-        if (life.policyVersion==='five-slot-v1' ? engine.prepareFiveSlotActivityStory('sit_duck',`activity-preview:${engine.log.length}`).ok : life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
+        if (life.policyVersion==='five-slot-v1' ? engine.prepareFiveSlotActivityStory('sit_duck',`activity-preview:${engine.log.length}`).ok || engine.classifyFiveSlotDueCommitment({kind:'activity',choice:'sit_duck'}).ok : life.phase === 'evening' && !life.anchor && !life.recovery && life.meals[`d${life.day}-dinner`]) {
           const scene = renderScene({ idPrefix: uid('lfquiet'), ...SCENES['desk-phone'](engine, false), duckView: 'side', duck: true });
           const kit = kitBox(scene.svg);
           out.push({ id: 'quiet-duck', hotspot: true, x: Math.max(0, kit.x - kit.w / 2), y: Math.max(0, kit.y - kit.w * 1.5), w: kit.w, h: kit.w * 1.5,
             label: 'Sit with your duck, up to 5 health', chip: 'Sit with Duck · +5 HP', hold: { mode: 'popover', side: 'left', kind: 'life-quiet' } });
         }
-        if (life.policyVersion==='five-slot-v1' && engine.fiveSlotQuietFallback().ok) {
+        if (life.policyVersion==='five-slot-v1' && (engine.fiveSlotQuietFallback().ok || engine.classifyFiveSlotDueCommitment({kind:'schedule',action:{type:'start',kind:'quiet'}}).ok)) {
           const scene=renderScene({idPrefix:uid('lffallback'),...SCENES['desk-phone'](engine,false),duckView:'side',duck:true});
           const kit=kitBox(scene.svg);
           out.push({id:'fallback-duck',hotspot:true,x:Math.max(0,kit.x-kit.w/2),y:Math.max(0,kit.y-kit.w*1.5),w:kit.w,h:kit.w*1.5,
@@ -265,7 +265,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       if (!mealAvailable) return out;
       const settled = breakfastState(engine).settled;
       const mealName = (five?schedule.slot==='early-evening':engine.state.life?.phase === 'evening') ? 'Dinner' : 'Breakfast';
-      const mealBlocked = five?!engine.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'skip',operationId:`meal-preview:${engine.log.length}`}}).ok
+      const mealBlocked = five?!(engine.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'skip',operationId:`meal-preview:${engine.log.length}`}}).ok || engine.classifyFiveSlotDueCommitment({kind:'schedule',action:{type:'meal',choice:'buy'}}).ok)
         :engine.state.life && (engine.state.life.rent.status === 'due' || (engine.state.life.rent.status === 'overdue' && !engine.state.life.rentSurfaced));
       const skipped = five?schedule.obligations[breakfastState(engine).billId]==='skip' : engine.state.life ? engine.state.life.meals[breakfastState(engine).billId] === 'skip'
         : engine.log.entries.some((entry) => entry.type === 'action' && entry.payload?.kind === 'breakfast_skipped'
@@ -672,7 +672,6 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
       for(const bill of due.bills) {
         button(`Pay ${bill.label} · ${money(bill.amountCents/100)}`,()=>{ui.returnFocus={place:ui.place,id:obj.id};callbacks.onFiveSlotPay(engine.log.length,bill.id);callbacks.onRefresh();},!bill.canPay);
         if(due.loanRentIds.includes(bill.id))button(`See loan terms for ${bill.label}`,()=>{callbacks.onFiveSlotLoan(engine.log.length,bill.id);callbacks.onRefresh();});
-        button(`Leave ${bill.label} unpaid`,()=>{callbacks.onFiveSlotLeaveUnpaid(engine.log.length,bill.id);callbacks.onRefresh();});
       }
       if(due.overtimeAvailable) {
         const rent=due.bills.find(bill=>bill.id.startsWith('rent-')),label=document.createElement('label');label.textContent='Extra shift evening: ';
@@ -865,8 +864,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
   // A committed phone session remains active until the player chooses to end it.
   function showPhoneSessionDecision() {
     const life = engine.state.life, schedule = life?.schedule;
-    if (life?.policyVersion !== 'five-slot-v1' || schedule?.active?.kind !== 'session'
-        || schedule.recovery || engine.checkDueObligations().bills.length) return false;
+    if (life?.policyVersion !== 'five-slot-v1' || schedule?.active?.kind !== 'session' || schedule.recovery || (engine.checkDueObligations().bills.length && !ui.fiveDueHidden)) return false;
     const pending = engine.state.pendingReveals.some(draw => !draw.revealed);
     const slots = ['morning', 'midday', 'early-evening', 'evening', 'late-evening'];
     const nextIndex = (slots.indexOf(schedule.slot) + 1) % slots.length;

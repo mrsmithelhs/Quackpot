@@ -144,6 +144,23 @@
 .life-decide p, .life-popover p { margin: .3rem 0; line-height: 1.4; }
 .life-fact { font-variant-numeric: tabular-nums; }
 .life-decide-actions { display: grid; gap: .5rem; margin-top: .9rem; }
+
+/* The payment warning also appears over Quackpot, outside the apartment view. */
+.life-default-card {
+  --life-slate: #24313a;
+  --life-slate-ink: #f3efe6;
+  --life-slate-line: #3c4d58;
+  --life-accent: var(--accent, #f0b429);
+  --life-ui: var(--font-family, system-ui, -apple-system, "Segoe UI", sans-serif);
+  width: min(36rem, 100%);
+  max-width: 36rem;
+  padding: 1.2rem;
+  text-align: left;
+}
+.life-default-card .life-decide-body { padding: 0; }
+.life-default-card h2 { margin: 0 0 .7rem; }
+.life-default-card h2:focus { outline: none; }
+.life-default-card h2:focus-visible { outline: 3px solid var(--life-accent); outline-offset: 3px; }
 .life-result { border-left: 4px solid var(--life-accent); }
 .life-result .life-decide-body { padding-top: .8rem; }
 

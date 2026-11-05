@@ -18,6 +18,7 @@ test('five-slot routing puts recovery before a latched loan or rent',()=>{
  e.state.life.schedule.recovery=null;
  assert.deepEqual(fiveSlotPriority(e),{kind:'payment',billIds:['rent-1','rent-2','loan-1'],rescueReservation:null});
  assert.equal(lifeSurface(e),'life_rent');
+ e.state.step='life_rent';e.state.life.schedule.slot='late-evening';assert.ok(availablePlaces(e).includes('bedroom'));assert.equal(placeFor(e,'bedroom'),'bedroom');
  assert.equal(rentState(e).owing,true);assert.equal(rentState(e).short,90);
 });
 test('five-slot apartment routing uses the actual slot and keeps free navigation available',()=>{

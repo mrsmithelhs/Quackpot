@@ -104,7 +104,11 @@ export function availablePlaces(engine) {
   if(engine.state.life?.policyVersion==='five-slot-v1') {
     const life=engine.state.life,s=life.schedule;
     if(step==='life_recovery')return ['bedroom','desk-phone','kitchen-breakfast','living'];
-    if(step==='life_rent')return ['kitchen-breakfast','desk-phone','living'];
+    if(step==='life_rent') {
+      const places=['kitchen-breakfast','desk-phone','living'];
+      if(['evening','late-evening'].includes(s.slot))places.push('bedroom');
+      return places;
+    }
     const places=step==='life_breakfast'?['kitchen-breakfast','desk-phone','living']:['desk-phone','kitchen-breakfast','living'];
     if(['evening','late-evening'].includes(s.slot))places.push('bedroom');
     if(s.day>=2 && !s.recovery && !s.active && !life.story47 && !engine.checkDueObligations().bills.length)places.push('door');

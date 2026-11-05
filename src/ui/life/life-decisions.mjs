@@ -24,8 +24,7 @@ export function fiveSlotDueDecision(engine) {
       ...(due.overtimeAvailable?['If the completed shift brings you to 0 HP, you keep the pay and enter recovery.']:[]),
       ...(due.saleOptions.length?[`In the apartment you can inspect ${due.saleOptions.map(asset=>asset==='couch'?'the couch ($30.00)':'the TV ($40.00)').join(' and ')} for sale.`]:[]),
       ...(due.loanRentIds.length?['A payday loan may cover a rent shortfall; see its full terms before deciding.']:[])],
-    bills:due.bills.map(bill=>({...bill,label:label(bill.id),canPay:due.cashCents>=bill.amountCents,
-      unpaidOutcome:bill.id==='rent-2'?'Losing housing ends the run.':'Running on Empty ends the run.'})),
+    bills:due.bills.map(bill=>({...bill,label:label(bill.id),canPay:due.cashCents>=bill.amountCents})),
     saleOptions:due.saleOptions,loanRentIds:due.loanRentIds,overtimeAvailable:due.overtimeAvailable,
   };
 }

@@ -57,6 +57,20 @@ export function inspectLifeTransaction(state,balances,intent,context={}) {
   return bad('unknown_domain');
 }
 
+// Read-only classification for an attempted commitment. It never returns a
+// scheduler proposal: only the normal finance gate may authorize a default,
+// and the original schedule transaction remains subject to that gate.
+export function classifyDueScheduleCommitment(state,balances,intent,context={}) {
+  const normal=inspectLifeTransaction(state,balances,intent,context);
+  if(normal.reason!=='financial_obligation_due')return {ok:false,reason:normal.ok?'not_blocked':normal.reason};
+  const action=intent?.action;
+  if(!action || !['meal','sleep','start','play','complete'].includes(action.type))return bad('not_slot_commitment');
+  const inspected=inspectSchedule(state.schedule,{cash:balances.cashCents/100,health:balances.health},action,context.schedule??{});
+  if(!inspected.ok)return inspected;
+  if(inspected.proposal.recoveryInstead)return bad('recovery_required');
+  return {ok:true,blockedBy:'financial_obligation_due',hasConflicts:Boolean(inspected.proposal.conflicts.length),rentWorkConflict:Boolean(inspected.proposal.rentWorkConflict)};
+}
+
 // Context and balances must be freshly supplied by the engine, not the UI.
 export function commitLifeTransaction(state,balances,proposal,operation={},currentContext=null) {
   if(!proposal?.intent || !currentContext)return bad('fresh_context_required');
@@ -134,6 +148,23 @@ export function stageSocialTransition(state,balances,intent,context={}) {
   const nextFinance=latchDue(finance,pos(nextSchedule));
   const socialOperationIds={...(state.socialOperationIds??{}),[intent.operationId]:true};
   return {ok:true,state:{...copy(state),schedule:nextSchedule,finance:nextFinance,social46:view.social46,socialOperationIds,socialRevision:(state.socialRevision??0)+1},cashDeltaCents,healthDelta,events:[...newDue(state.finance,finance),...socialEvents,...scheduleEvents,...newDue(finance,nextFinance)]};
+}
+
+// Social presentation can be advanced without spending a slot. Only begin or
+// complete may be classified here, and the actual social guards run on a
+// throwaway copy before the scheduler validates the corresponding commitment.
+export function classifyDueSocialCommitment(state,balances,intent,context={}) {
+  if(!['social46_begin','social46_complete'].includes(intent?.action?.type))return bad('not_slot_commitment');
+  const staged=stageSocialTransition(copy(state),copy(balances),copy(intent),copy(context));
+  if(staged.reason!=='financial_obligation_due')return bad(staged.ok?'not_blocked':staged.reason);
+  const action=intent.action.type==='social46_begin'
+    ? {type:'start',kind:'social',planId:state.social46?.pending?.id}
+    : {type:'complete',activityId:state.schedule.active?.id};
+  action.operationId=`social:${intent.operationId}`;
+  const inspected=inspectSchedule(state.schedule,{cash:balances.cashCents/100,health:balances.health},action,context.schedule??{});
+  if(!inspected.ok)return inspected;
+  if(inspected.proposal.recoveryInstead)return bad('recovery_required');
+  return {ok:true,blockedBy:'financial_obligation_due'};
 }
 
 // Unmounted Plan47 work-story adapter. The caller supplies shown-stage facts

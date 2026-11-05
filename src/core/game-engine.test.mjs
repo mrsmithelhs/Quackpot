@@ -8,6 +8,35 @@ import { validateSave } from './storage.mjs';
 import { resolveSeededRace } from './race-resolver.mjs';
 import { validateSeededDrawHistory, validateSeededRaceHistory, validateFiveSlotTransactionHistory } from './life-replay.mjs';
 
+test('due warning classifier rejects invalid commitments and leaves state untouched',()=>{
+ const e=new GameEngine('default-classifier',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();
+ e.state.life.schedule.day=4;e.state.life.schedule.slot='morning';e.state.cash=180;
+ const before=JSON.stringify(e.state),length=e.log.length;
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'schedule',action:{type:'meal',choice:'buy'}}).ok,true);
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'schedule',action:{type:'sleep'}}).reason,'sleep_unavailable');
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'work'}).reason,'work_unavailable');
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'play',play:'pull',promotion:false,count:1}).ok,false);
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'play',play:'race',raceNumber:1,duckId:'not-owned',stance:'safe',useTrial:false}).ok,false);
+ assert.equal(JSON.stringify(e.state),before);assert.equal(e.log.length,length);
+ assert.equal(e.prepareFiveSlotAction({domain:'schedule',action:{type:'meal',choice:'buy',operationId:'blocked'}}).reason,'financial_obligation_due');
+ e.state.life.schedule.recovery={id:'zero',resolved:false};e.state.health=0;
+ assert.equal(e.classifyFiveSlotDueCommitment({kind:'schedule',action:{type:'meal',choice:'buy'}}).ok,false);
+});
+
+test('due play warning validates real pull and race prerequisites before offering a decision',()=>{
+ const e=new GameEngine('default-play',{lifePolicy:'five-slot-v1'});e.start();e.setupCompanion();e.state.life.schedule.day=4;e.state.life.schedule.slot='morning';
+ assert.equal(e.openLifeApp(),true);e.state.gems=160;e.state.owned=[BANNER_1_ROSTER[0].id];
+ const pull={kind:'play',play:'pull',promotion:false,count:1};
+ assert.equal(e.classifyFiveSlotDueCommitment(pull).ok,true);
+ assert.equal(e.classifyFiveSlotDueCommitment({...pull,count:10}).reason,'pull_unavailable');
+ e.state.pendingReveals=[{revealed:false}];assert.equal(e.classifyFiveSlotDueCommitment(pull).ok,false);e.state.pendingReveals=[];
+ const race={kind:'play',play:'race',raceNumber:1,duckId:e.state.owned[0],stance:'safe',useTrial:false};
+ assert.equal(e.classifyFiveSlotDueCommitment(race).ok,true);
+ assert.equal(e.classifyFiveSlotDueCommitment({...race,raceNumber:2}).reason,'race_unavailable');
+ assert.equal(e.classifyFiveSlotDueCommitment({...race,stance:'invented'}).reason,'race_unavailable');
+ assert.equal(e.classifyFiveSlotDueCommitment({...race,useTrial:true}).reason,'race_unavailable');
+});
+
 test('skipBreakfast records an idempotent unpaid meal resolution and capped actual health loss', () => {
   const engine = new GameEngine('skip-breakfast');
   engine.state.step = 'd1_morning_breakfast';

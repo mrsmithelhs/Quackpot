@@ -1,0 +1,47 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.04
+    }
+  ],
+  "utc": "2026-11-05T12:29:16.0365626Z",
+  "freeGiB": 12.13,
+  "command": "node --test src/ui/race-ability-choice.test.mjs",
+  "pins": [
+    {
+      "path": "src\\ui\\race-ability-choice.mjs",
+      "Hash": "3DE197858C7B71EB60DD5A82625C5D6B6E027DB2AA9BE8E22A8732AF6D18F6C7"
+    },
+    {
+      "path": "src\\ui\\race-ability-choice.test.mjs",
+      "Hash": "29CF2BFD9A84100B4C23DC66657EF4079C918B68431F92D682E4AE65556F56F5"
+    },
+    {
+      "path": "src\\ui\\race-view.js",
+      "Hash": "C0FE910312EFA8156929C98770C432C2EFF45F027DA6B4BA05152276922809AC"
+    },
+    {
+      "path": "src\\ui\\duck-dex-view.mjs",
+      "Hash": "98CF71FB5675EFC77E2F6C6ADC26AFFCE1C0962D1D3F6D4655880AA08556D795"
+    },
+    {
+      "path": "src\\ui\\race-entry.css",
+      "Hash": "A16525D34AEF6DAB06C9093DCEA8159C8144A2EF4E9DB80BBEA8B9C49768A440"
+    },
+    {
+      "path": "src\\ui\\duck-dex.css",
+      "Hash": "53BC512B5898BF1F3F3FD4CE01F1A0ACFA64FA518C1A76042366A25AF4931ECF"
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5752639,
+  "PeakSampledPrivateBytes": 4120576,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ both assignment surfaces explain the selected abilities without invented guarantees (1.4032ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 96.7897\n",
+  "StandardError": ""
+}
+launcher-returned-success

@@ -1,0 +1,26 @@
+{
+  "utc": "2026-11-05T12:03:08.3415383Z",
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-browser.mjs reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-browser-attempt-01",
+  "freeGiB": 12.02,
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.08
+    }
+  ],
+  "manifestSha256": "9670D9F81C44ECAE9F356134BB2A664CEFF4E72F781D7ECB742C9E6223E648A5"
+}
+{
+  "ExitCode": -1,
+  "ElapsedSeconds": 90.6293058,
+  "PeakSampledPrivateBytes": 768380928,
+  "StopReason": "90-second wall limit exceeded",
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": ""
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:167
+Line |
+ 167 |  if ($result.StopReason) { throw $result.StopReason }
+     |                            ~~~~~~~~~~~~~~~~~~~~~~~~
+     | 90-second wall limit exceeded

@@ -1,0 +1,15 @@
+{
+  "freeGiB": 12.27,
+  "utc": "2026-11-05T12:29:45.2100884Z",
+  "command": "cmd /d /s /c node --check race-view.js && node --check duck-dex-view.mjs"
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5782373,
+  "PeakSampledPrivateBytes": 7081984,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": ""
+}
+launcher-returned-success

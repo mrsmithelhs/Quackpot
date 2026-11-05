@@ -2,6 +2,9 @@
 // Voluntary Duck-Dex collection shelf and factual inspector view.
 
 import { createDigitalDuckSvg } from './duck-rig-view.mjs';
+import { deriveRaceRest, formatRaceRating } from '../core/race-rest.mjs';
+import { raceV2DuckPresentation } from './race-v2-presentation.mjs';
+import { raceAbilityChoiceMarkup } from './race-ability-choice.mjs';
 
 const TIER_POOL_INFO = {
   common: {
@@ -19,7 +22,7 @@ const TIER_POOL_INFO = {
 };
 
 export function renderDuckDexView(container, engine, callbacks = {}) {
-  const { onReturn } = callbacks;
+  const { onReturn, onAssignAbility = () => false } = callbacks;
   const dexState = engine.getDexCollectionState();
   const set = dexState.sets[0] || { name: 'Pond of Destiny', owned: 0, total: 6, complete: false };
   const percentage = Math.round((dexState.ownedCount / dexState.totalDucks) * 100);
@@ -67,6 +70,7 @@ export function renderDuckDexView(container, engine, callbacks = {}) {
     });
 
     const pool = TIER_POOL_INFO[duck.tier] || { poolShare: duck.tier, identityOdds: duck.tier };
+    const progress = isOwned && engine.state.raceGrowth ? raceV2DuckPresentation(engine.state.raceGrowth.ducks[duck.id],duck.speed,deriveRaceRest(engine.log?.entries??[],duck.id).restFactor) : null;
 
     return `
       <div class="duck-dex-inspector-backdrop" id="dex-inspector-backdrop" role="dialog" aria-modal="true" aria-labelledby="inspector-duck-title" tabindex="-1">
@@ -103,8 +107,11 @@ export function renderDuckDexView(container, engine, callbacks = {}) {
             </div>
             <div class="inspector-data-row">
               <span class="inspector-data-label">Race Availability:</span>
-              <span class="inspector-data-value">${isOwned ? 'Rested and ready to race' : 'Unavailable'}</span>
+              <span class="inspector-data-value">${isOwned ? (progress?(progress.recoveryDays?`Available · injury recovery ${progress.recoveryDays} day${progress.recoveryDays===1?'':'s'}`:'Available to race'):'Rested and ready to race') : 'Unavailable'}</span>
             </div>
+            ${progress?`<div class="inspector-data-row"><span class="inspector-data-label">Current race rating:</span><span class="inspector-data-value">${formatRaceRating(progress.injuredRating)}${progress.recoveryDays?' (includes 10% injury reduction)':''}</span></div>
+            <div class="inspector-data-row"><span class="inspector-data-label">Race progress:</span><span class="inspector-data-value">${progress.firstPointEarned?`${progress.progress} after first point`:`${progress.progress} / 4`} · ${progress.assigned?`Ability: ${progress.assigned}`:progress.banked?'Ability point available':'No ability assigned'}</span></div>
+            ${progress.banked&&!progress.assigned?`<p>This ability point can be saved for later.</p>${raceAbilityChoiceMarkup('dex')}`:''}`:''}
           </div>
         </div>
       </div>
@@ -193,6 +200,9 @@ export function renderDuckDexView(container, engine, callbacks = {}) {
     // Attach inspector dismissals and focus trap
     const btnCloseInspect = container.querySelector('#btn-close-inspector');
     const backdrop = container.querySelector('#dex-inspector-backdrop');
+    backdrop?.querySelectorAll('[data-dex-assign]').forEach(button=>button.addEventListener('click',()=>{
+      if(onAssignAbility(activeInspectorDuck.id,button.dataset.dexAssign)){renderView();container.querySelector('#btn-close-inspector')?.focus();}
+    }));
 
     const closeInspector = () => {
       activeInspectorDuck = null;

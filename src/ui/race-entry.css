@@ -71,6 +71,11 @@
   line-height: 1.4;
 }
 
+.race-ability-choice:not(:empty) { margin: .8rem 0; padding: .85rem; border: 1px solid #b8b2a7; border-radius: .75rem; background: #fffdf8; }
+.race-ability-choice p { margin: 0 0 .65rem; line-height: 1.4; }
+.race-ability-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .8rem; }
+.race-ability-actions p { margin: .45rem 0 0; font-size: .92rem; }
+
 .race-candidate-list:disabled .race-candidate-card {
   cursor: default;
 }

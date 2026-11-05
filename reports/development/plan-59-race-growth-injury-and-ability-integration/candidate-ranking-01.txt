@@ -1,0 +1,21 @@
+{
+  "freeGiB": 11.53,
+  "utc": "2026-11-05T11:58:54.1759337Z",
+  "command": "node --test --test-name-pattern=candidate exposure sorts actual current ratings engine-integration.test.mjs",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.07
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5479872,
+  "PeakSampledPrivateBytes": 4059136,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ candidate exposure sorts actual current ratings and clamps an unavailable upgrade (5.3164ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 95.1445\n",
+  "StandardError": ""
+}
+launcher-returned-success

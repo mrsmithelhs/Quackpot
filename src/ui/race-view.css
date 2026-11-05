@@ -66,6 +66,15 @@
 }
 .race-runner-orientation { width: 100%; height: 100%; transform-style: preserve-3d; }
 .race-runner-scope,.race-contact-layer { width: 100%; height: 100%; }
+.race-contact-layer { position: relative; isolation: isolate; }
+.race-v2-effect { position: absolute; inset: 0; pointer-events: none; }
+.race-v2-effect-back { z-index: -1; }
+.race-v2-effect-front { z-index: 2; }
+.race-v2-effect svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.race-v2-effect img { position: absolute; max-width: none; }
+.race-duck-shell { position: relative; }
+.race-v2-bandage { position: absolute; left: 48%; top: 41%; width: 32%; height: auto; transform: translate(-50%, -50%); pointer-events: none; }
+.race-v2-bandage[hidden] { display: none; }
 .race-duck-shell,.podium-duck-shell { display: block; width: 100%; height: 100%; }
 .race-duck-shell svg,.podium-duck-shell svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .race-runner-label {

@@ -1,0 +1,9 @@
+{
+  "focused": true,
+  "focusVisible": true,
+  "outline": "solid",
+  "buttonClass": "race-control-button",
+  "inViewport": true,
+  "overflow": false,
+  "activeTag": "BUTTON"
+}

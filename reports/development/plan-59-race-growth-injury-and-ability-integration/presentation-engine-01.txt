@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T11:56:11.0769457Z",
+  "command": "node --test --test-concurrency=1 engine-integration receipt",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.07
+    }
+  ],
+  "freeGiB": 11.55
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 40.0082123,
+  "PeakSampledPrivateBytes": 200474624,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ schema-6 owned draft commits genuine worker candidate once (1541.0781ms)\n✔ cancel and stale epoch publish no race draft (1193.0268ms)\n✔ cancel after claim blocks late decode and old cleanup cannot clear a newer operation (1183.3296ms)\n✔ cross-tab invalidation after claim cancels the late result and preserves both storage keys (1210.8171ms)\n✔ actual engine day transitions decrement a synthetic preexisting injury once per day (6.4453ms)\n✔ candidate exposure uses actual injured prefix and rejects re-chained tampering (8328.1102ms)\n✔ schema-6 private prefix validates fresh race and isolated full restore (4808.3248ms)\n✔ unsupported schema-6 namespace data remains untouched (4.8024ms)\n✔ coherently re-chained assignment day must match replayed schedule (7038.5627ms)\n✔ six races follow real five-slot transitions and serial semantic restore (14036.3627ms)\nℹ {\"bytes\":98090,\"restoreMs\":6965.235000000001,\"days\":3,\"outcomes\":[{\"number\":1,\"status\":\"finished\",\"reason\":null},{\"number\":2,\"status\":\"finished\",\"reason\":null},{\"number\":3,\"status\":\"finished\",\"reason\":null},{\"number\":4,\"status\":\"finished\",\"reason\":null},{\"number\":5,\"status\":\"unresolved\",\"reason\":\"correction-third-party\"},{\"number\":6,\"status\":\"finished\",\"reason\":null}]}\n✔ Receipt records skipped breakfast as $0 spent with only the actual health effect (2.2342ms)\n✔ Plan 23 Receipt separates race material shown, player actions, and committed crossing facts (2.1545ms)\n✔ Plan 23 Receipt reports unresolved attempts without invented place or reward (0.7482ms)\n✔ Plan 22 Receipt separates candidate exposure from applied rest and history-limited baseline (0.5081ms)\n✔ Plan 22 Receipt does not invent candidate ordering or trial availability for incomplete legacy exposures (0.2041ms)\n✔ social Receipt fields expose only recognized public facts, never hidden sentinels (0.5968ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 39514.7838\n",
+  "StandardError": ""
+}
+launcher-returned-success

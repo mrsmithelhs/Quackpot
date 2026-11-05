@@ -1,0 +1,10 @@
+{
+  "initialFocus": {
+    "focused": true,
+    "checked": true
+  },
+  "afterViewport": {
+    "focused": true,
+    "checked": true
+  }
+}

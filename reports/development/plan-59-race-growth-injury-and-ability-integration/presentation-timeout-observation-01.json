@@ -1,0 +1,9 @@
+{
+  "inspection": "normal-host CIM",
+  "utc": "2026-11-05T12:05:09.8326657Z",
+  "note": "A zero server match does not prove browser cleanup.",
+  "browserCleanup": "unconfirmed",
+  "browserProfileIdentity": "not retained before timeout",
+  "freeGiB": 12.0,
+  "identifiedSnapshotServers": 0
+}

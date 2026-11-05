@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {initialRaceProgress,recoverRaceDays,buildRaceV2Input,applyRaceV2Facts} from './race-progression.mjs';
+import {initialRaceProgress,recoverRaceDays,buildRaceV2Input,applyRaceV2Facts,raceCandidateFacts} from './race-progression.mjs';
 import {draw} from './race-v2/codec.mjs';
 
 test('day admission recovers before entry and new injury is not decremented',()=>{
@@ -26,4 +26,11 @@ test('only a completed race entered injured evaluates the keyed extension once',
   assert.equal(value.extensionRoll,roll.toString());assert.equal(value.extension,roll*4n<4294967296n);
   assert.equal(value.progress.ducks.duck.recoveryDays,value.extension?2:1);assert.equal(p.ducks.duck.recoveryDays,1);
   const unresolved=applyRaceV2Facts(p,event,{...result,status:'unresolved',crossings:[]});assert.equal(unresolved.extensionRoll,null);assert.equal(unresolved.progress.ducks.duck.recoveryDays,1);
+});
+
+test('candidate preview composes rest, available upgrade and injury in fixed-point order',()=>{
+  const base={duckId:'duck-0',baseRating:10,restFactor:.75,recoveryDays:2,referenceDay:3,upgradeAvailable:true,upgradeSelected:true};
+  const fact=raceCandidateFacts(base);assert.equal(fact.restRatingMicros,'7500000');assert.equal(fact.effectiveRatingMicros,'7087500');assert.equal(fact.injuryFactor,.9);assert.equal(fact.upgradeFactor,1.05);
+  const unavailable=raceCandidateFacts({...base,upgradeAvailable:false});assert.equal(unavailable.upgradeSelected,false);assert.equal(unavailable.effectiveRatingMicros,'6750000');
+  const recovered=raceCandidateFacts({...base,recoveryDays:0});assert.equal(recovered.effectiveRatingMicros,'7875000');assert.equal(recovered.injured,false);
 });

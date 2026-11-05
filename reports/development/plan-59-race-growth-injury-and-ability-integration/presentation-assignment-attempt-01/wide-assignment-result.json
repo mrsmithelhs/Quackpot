@@ -1,0 +1,56 @@
+{
+  "assigned": null,
+  "banked": 1,
+  "confirmation": null,
+  "focusReturned": false,
+  "keys": [
+    {
+      "key": "Tab",
+      "trusted": true
+    },
+    {
+      "key": "Enter",
+      "trusted": true
+    }
+  ],
+  "before": {
+    "v1": "schema-five-sentinel",
+    "attempts": 2,
+    "rewards": 1,
+    "assignments": 0,
+    "gems": 50,
+    "trial": false,
+    "growth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {
+        "duck-3": {
+          "progress": 1,
+          "banked": 1,
+          "assigned": null,
+          "recoveryDays": 0,
+          "firstPointEarned": true
+        }
+      }
+    }
+  },
+  "after": {
+    "v1": "schema-five-sentinel",
+    "attempts": 2,
+    "rewards": 1,
+    "assignments": 0,
+    "gems": 50,
+    "trial": false,
+    "growth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {
+        "duck-3": {
+          "progress": 1,
+          "banked": 1,
+          "assigned": null,
+          "recoveryDays": 0,
+          "firstPointEarned": true
+        }
+      }
+    }
+  }
+}

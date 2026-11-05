@@ -1,0 +1,95 @@
+{
+  "nodeVersion": "v26.7.0",
+  "browserVersion": {
+    "product": "Chrome/157.0.8103.38",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourceStable": false,
+  "observations": [
+    {
+      "layout": "wide",
+      "case": "bounce",
+      "active": {
+        "time": "2.60s",
+        "back": 891,
+        "front": 0,
+        "pose": "0px -23.6835%"
+      },
+      "pausedStable": true,
+      "settledPodium": true,
+      "countersBeforeAfterReload": {
+        "v1": "schema-five-sentinel",
+        "attempts": 6,
+        "rewards": 1,
+        "gems": 50,
+        "trial": false,
+        "growth": {
+          "schema": "race-growth-injury/v1",
+          "ducks": {
+            "duck-3": {
+              "progress": 7,
+              "banked": 0,
+              "assigned": "bounce",
+              "recoveryDays": 0,
+              "firstPointEarned": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "layout": "wide",
+      "case": "crowd",
+      "active": {
+        "time": "1.83s",
+        "back": 1006,
+        "front": 3066,
+        "pose": ""
+      },
+      "pausedStable": true,
+      "settledPodium": true,
+      "countersBeforeAfterReload": {
+        "v1": "schema-five-sentinel",
+        "attempts": 3,
+        "rewards": 1,
+        "gems": 50,
+        "trial": false,
+        "growth": {
+          "schema": "race-growth-injury/v1",
+          "ducks": {
+            "duck-3": {
+              "progress": 3,
+              "banked": 0,
+              "assigned": "crowd",
+              "recoveryDays": 0,
+              "firstPointEarned": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "artifactChecksPassed": false,
+  "cleanupFullyVerified": false,
+  "accepted": false,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "2f4c657053b2637762ccd2b4fc478b385a83f44dbb57dc797c9a151855ac3ed8"
+  },
+  "serverObservedExited": true,
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "exceptionCount": 0,
+  "error": "See ignored private diagnostic."
+}

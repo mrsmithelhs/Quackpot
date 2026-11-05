@@ -1,5 +1,15 @@
 // Schema-6 race facts; all calls operate on detached transaction drafts.
 import { draw } from './race-v2/codec.mjs';
+import {roundEven} from './race-v2/integer-math.mjs';
+
+export const RACE_CANDIDATE_EVIDENCE_VERSION='race-candidate-rating/v1';
+export function raceCandidateFacts({duckId,baseRating,restFactor,historyLimited=false,recoveryDays=0,referenceDay,upgradeAvailable=false,upgradeSelected=false}){
+  if(typeof duckId!=='string'||!Number.isFinite(baseRating)||baseRating<=0||![.5,.75,1].includes(restFactor)||!Number.isSafeInteger(recoveryDays)||recoveryDays<0||!Number.isSafeInteger(referenceDay)||referenceDay<1||typeof upgradeAvailable!=='boolean'||typeof upgradeSelected!=='boolean')throw new RangeError('invalid candidate facts');
+  const base=BigInt(Math.round(baseRating*1e6)),rest=BigInt(Math.round(restFactor*1e6)),injury=recoveryDays>0?900000n:1000000n,selected=upgradeAvailable&&upgradeSelected;
+  const restRating=roundEven(base*rest,1000000n),withUpgrade=roundEven(restRating*(selected?1050000n:1000000n),1000000n),effective=roundEven(withUpgrade*injury,1000000n);
+  return {duckId,authoredRating:baseRating,restFactor,historyLimited:Boolean(historyLimited),recoveryDays,referenceDay,injured:recoveryDays>0,injuryFactor:Number(injury)/1e6,
+    upgradeAvailable,upgradeSelected:selected,upgradeFactor:selected?1.05:1,restRatingMicros:restRating.toString(),effectiveRatingMicros:effective.toString(),rendered:true};
+}
 
 const payout=[50,20,10,0,0,0];
 export function initialRaceProgress(){return {schema:'race-growth-injury/v1',ducks:{}};}

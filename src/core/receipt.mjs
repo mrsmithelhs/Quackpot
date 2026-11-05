@@ -442,9 +442,11 @@ export function projectReceipt(entries) {
       raceDisplayed.push(line(`Race ${payload.raceNumber} choice offered; older record has no candidate details.${optionText}`, event.seq));
       continue;
     }
-    const candidates = payload.candidates.map((candidate) => `${candidate.duckId}: race rating ${formatRaceRating(candidate.effectiveWithTrialInput ?? candidate.effectiveBaseInput)}${candidate.restFactor < 1 ? ` (${Math.round((1 - candidate.restFactor) * 100)}% rest penalty)` : (candidate.historyLimited ? ' (rest history limited by an older unknown identity)' : ' (rested)')}`).join('; ');
+    const candidates = payload.candidateEvidenceVersion==='race-candidate-rating/v1'
+      ? payload.candidates.map(candidate=>`${candidate.duckId}: pre-affine rating ${formatRaceRating(Number(candidate.effectiveRatingMicros)/1000000)}; rest factor ${candidate.restFactor}; injury factor ${candidate.injuryFactor} (${candidate.recoveryDays} recovery days); upgrade factor ${candidate.upgradeFactor}`).join('; ')
+      : payload.candidates.map((candidate) => `${candidate.duckId}: race rating ${formatRaceRating(candidate.effectiveWithTrialInput ?? candidate.effectiveBaseInput)}${candidate.restFactor < 1 ? ` (${Math.round((1 - candidate.restFactor) * 100)}% rest penalty)` : (candidate.historyLimited ? ' (rest history limited by an older unknown identity)' : ' (rested)')}`).join('; ');
     const upgrade = payload.trialState.available
-      ? ` Purchased one-race speed upgrade ${payload.trialState.selected ? 'selected' : 'available'} (+5% base speed this race).`
+      ? ` Purchased one-race speed upgrade ${payload.trialState.selected ? 'selected' : 'available'} (${payload.candidateEvidenceVersion==='race-candidate-rating/v1'?'+5% pre-affine rating before injury':'+5% base speed this race'}).`
       : '';
     const foregrounded = payload.foregroundedDuckId ? ` ${payload.foregroundedDuckId} was foregrounded by race rating.` : '';
     const paceOptions = Object.values(payload.options ?? {}).map((option) => option?.label).filter((label) => typeof label === 'string');

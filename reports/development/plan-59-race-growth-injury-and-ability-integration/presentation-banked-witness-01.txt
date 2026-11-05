@@ -1,0 +1,22 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.07
+    }
+  ],
+  "utc": "2026-11-05T11:59:53.6287155Z",
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-crowd-witness.mjs banked",
+  "driverSha256": "489BB0235E3892141DF9FA094F797E079124301EBC26161AAFBD101B17D6AD5D",
+  "freeGiB": 11.36
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 3.7350323,
+  "PeakSampledPrivateBytes": 134299648,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"bankedDuck\":\"duck-3\",\"bytes\":41439}\n",
+  "StandardError": ""
+}
+launcher-returned-success

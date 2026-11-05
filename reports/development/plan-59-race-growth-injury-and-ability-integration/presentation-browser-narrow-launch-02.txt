@@ -1,0 +1,29 @@
+{
+  "freeGiB": 12.05,
+  "matchedPriorOwnedIdentities": 0,
+  "firstBrowserCleanup": "unconfirmed",
+  "utc": "2026-11-05T12:15:34.1255930Z",
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-browser.mjs reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-browser-narrow-02 narrow",
+  "driverPinSha256": "1115DD5520176CD685D088341FB32317CD4DD6ABC43B882E667579E4A545A4E4",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.17
+    }
+  ],
+  "identifiedFirstSnapshotServers": 0
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 53.6418212,
+  "PeakSampledPrivateBytes": 746074112,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"nodeVersion\":\"v26.7.0\",\"browserVersion\":{\"product\":\"Chrome/157.0.8103.38\",\"jsVersion\":\"15.7.112.23\"},\"sourceStable\":false,\"observations\":[{\"layout\":\"narrow\",\"case\":\"bounce\",\"active\":{\"time\":\"2.60s\",\"back\":892,\"front\":0,\"pose\":\"0px -23.6659%\"},\"pausedStable\":true,\"settledPodium\":true,\"countersBeforeAfterReload\":{\"v1\":\"schema-five-sentinel\",\"attempts\":6,\"rewards\":1,\"gems\":50,\"trial\":false,\"growth\":{\"schema\":\"race-growth-injury/v1\",\"ducks\":{\"duck-3\":{\"progress\":7,\"banked\":0,\"assigned\":\"bounce\",\"recoveryDays\":0,\"firstPointEarned\":true}}}}},{\"layout\":\"narrow\",\"case\":\"crowd\",\"active\":{\"time\":\"1.82s\",\"back\":1005,\"front\":3066,\"pose\":\"\"},\"pausedStable\":true,\"settledPodium\":true,\"countersBeforeAfterReload\":{\"v1\":\"schema-five-sentinel\",\"attempts\":3,\"rewards\":1,\"gems\":50,\"trial\":false,\"growth\":{\"schema\":\"race-growth-injury/v1\",\"ducks\":{\"duck-3\":{\"progress\":3,\"banked\":0,\"assigned\":\"crowd\",\"recoveryDays\":0,\"firstPointEarned\":true}}}}}],\"artifactChecksPassed\":false,\"cleanupFullyVerified\":false,\"accepted\":false,\"cleanup\":{\"residual\":false,\"rootExited\":true,\"observedProcessesExited\":true,\"inspectionFailed\":false,\"coverage\":\"sampled-only\",\"uncertainty\":true,\"profileRetained\":true,\"treeTerminationConfirmed\":false,\"childExitCode\":0,\"profileRemoved\":false,\"profileIdSha256\":\"129198ffd9e8ab23178e5ea2385dda8f7d8563082c68c3b65ff5bbbca3dc33f7\"},\"serverObservedExited\":true,\"serverExit\":{\"code\":null,\"signal\":\"SIGTERM\"},\"exceptionCount\":0,\"error\":\"See ignored private diagnostic.\"}\n",
+  "StandardError": ""
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

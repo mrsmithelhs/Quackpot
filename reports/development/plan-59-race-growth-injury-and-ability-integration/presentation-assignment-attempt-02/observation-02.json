@@ -1,0 +1,20 @@
+{
+  "layout": "narrow",
+  "case": "banked-assignment",
+  "confirmation": "Permanently assign Bounce to this duck? This choice cannot be changed.",
+  "assigned": "bounce",
+  "persisted": true,
+  "settings": true,
+  "uninstallDialog": true,
+  "controls": {
+    "focused": true,
+    "focusVisible": true,
+    "outline": "solid",
+    "buttonClass": "race-control-button",
+    "inViewport": true,
+    "overflow": false,
+    "activeTag": "BUTTON"
+  },
+  "focusReturned": true,
+  "settingsFocus": true
+}

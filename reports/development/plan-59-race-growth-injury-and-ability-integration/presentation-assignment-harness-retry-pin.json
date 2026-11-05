@@ -1,0 +1,8 @@
+{
+  "baseManifestSha256": "82542ae14d57682963af88473d9bf2b83bc57a0f510c813fbd1f8a15bbdd7743",
+  "materialCorrection": "Dispatch Enter with text and native key code, and record trusted key/click events",
+  "onlyChangedHarness": {
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-assignment-browser.mjs": "e7c0e05cbc00494d60f01945d2c87a549f8a282c1c2bb8e85f760d0fff2aca4a"
+  },
+  "runtimeAndBuildUnchanged": true
+}

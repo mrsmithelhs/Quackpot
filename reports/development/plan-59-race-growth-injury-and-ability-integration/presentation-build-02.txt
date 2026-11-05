@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T12:11:03.2639638Z",
+  "freeGiB": 12.14,
+  "command": "cmd.exe /d /s /c npm run build",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.16
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 3.3234867,
+  "PeakSampledPrivateBytes": 681394176,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "vite v8.3.5 building client environment for production...\ntransforming...\n✓ 123 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                              0.52 kB │ gzip:   0.33 kB\ndist/assets/duck-placeholder-Mhd15Sdp.svg    1.01 kB │ gzip:   0.51 kB\ndist/assets/race-worker-DvjzYeym.js         35.95 kB\ndist/assets/index-CvpHEDe0.css              67.45 kB │ gzip:  14.49 kB\ndist/assets/index-0afegg58.js              726.15 kB │ gzip: 200.59 kB │ map: 1,846.87 kB\n\n✓ built in 504ms\n",
+  "StandardError": "npm notice run quackpot@0.1.0 build\nnpm notice run vite build\n[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n"
+}
+launcher-returned-success

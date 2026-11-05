@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T11:54:51.0433378Z",
+  "freeGiB": 11.4,
+  "command": "node --test --test-concurrency=1 race-progression race-v2-presentation visual-effects playback-controller",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.03
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 2.7060827,
+  "PeakSampledPrivateBytes": 98291712,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (0.9901ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1077ms)\n✔ only a completed race entered injured evaluates the keyed extension once (0.4715ms)\n✔ candidate preview composes rest, available upgrade and injury in fixed-point order (0.2035ms)\n✔ selected 11 ability treatments reproduce their source geometry and layers (1.8072ms)\n✔ ability pose layers remain explicit, unique, inert and clearable (2.1576ms)\n✔ selected collision frames and independent injury preserve exact source assets (1.9575ms)\n✔ externally clocked timeline freezes, seeks, replays and disposes independently (0.2521ms)\n✔ runtime modules do not import reports or read ambient randomness (0.3898ms)\n✔ Plan 23 presentation reserves the accepted two-second highlight after actual race time (149.0461ms)\n✔ timeline event and checkpoint labels use the same course-time domain as the seek clock (132.2936ms)\n✔ timeline high-water stays sticky through rewind and replay, and full seek reveals every event (130.0098ms)\n✔ timeline high-water does not advance while the race view is inactive (127.6602ms)\n✔ reload restores timeline reveal only from matching stored timeline cue evidence (126.7829ms)\n✔ highlight glow follows recorded participant events and has eased two-second presentation duration (123.6247ms)\n✔ stored reveal evidence can restore the entire timeline high-water (126.5479ms)\n✔ Plan 23 playback pauses, seeks by event identity, and releases listeners and frames (120.1788ms)\n✔ Plan 23 reduced motion settles to a static result without scheduling animation frames (119.8326ms)\n✔ the shared Pause control pauses podium loops after completion without resuming race playback (273.5361ms)\n✔ highlight and reveal lighting envelopes ease while reduced motion remains static (125.6522ms)\n✔ Plan 23 commentary matches recorded wall-impact and leader-wobble event types (160.7178ms)\n✔ Plan 23 hidden or inactive presentation does not claim that cues were displayed (127.4553ms)\n✔ v2 projection preserves real crossings and gates cues to actual committed events (38.3548ms)\n✔ race and Dex preview use the shared injury and upgrade rating (0.4083ms)\nℹ tests 24\nℹ suites 0\nℹ pass 24\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 2162.2906\n",
+  "StandardError": ""
+}
+launcher-returned-success

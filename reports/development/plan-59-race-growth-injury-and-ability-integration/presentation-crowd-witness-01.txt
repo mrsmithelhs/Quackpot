@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-05T11:58:12.7999994Z",
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-crowd-witness.mjs",
+  "freeGiB": 11.48,
+  "driverSha256": "A835D4C6B58378AC714AF9776680B0B3600165A978B65F83FC2118E42BFDC9D4",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.07
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 13.2996818,
+  "PeakSampledPrivateBytes": 171200512,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"results\":[{\"number\":1,\"status\":\"finished\",\"events\":[]},{\"number\":2,\"status\":\"finished\",\"events\":[]},{\"number\":3,\"status\":\"finished\",\"events\":[{\"details\":[\"crowd\",\"0\",\"3556283025\",\"no\"],\"id\":\"event-0\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"200000\"},{\"details\":[\"crowd\",\"1\",\"1638745551\",\"yes\"],\"id\":\"event-10\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"1700000\"},{\"details\":[\"crowd\",\"1\"],\"id\":\"event-11\",\"kind\":\"ability-start\",\"participants\":[\"P\"],\"time\":\"1700000\"},{\"details\":[\"crowd\"],\"id\":\"event-14\",\"kind\":\"ability-end\",\"participants\":[\"P\"],\"time\":\"2200000\"},{\"details\":[\"crowd\",\"2\",\"3239023376\",\"no\"],\"id\":\"event-25\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"4200000\"},{\"details\":[\"crowd\",\"3\",\"1840870546\",\"yes\"],\"id\":\"event-47\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"7200000\"},{\"details\":[\"crowd\",\"3\"],\"id\":\"event-48\",\"kind\":\"ability-start\",\"participants\":[\"P\"],\"time\":\"7200000\"},{\"details\":[\"crowd\"],\"id\":\"event-49\",\"kind\":\"ability-end\",\"participants\":[\"P\"],\"time\":\"7700000\"},{\"details\":[\"crowd\",\"4\",\"1626607082\",\"yes\"],\"id\":\"event-56\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"9700000\"},{\"details\":[\"crowd\",\"4\"],\"id\":\"event-57\",\"kind\":\"ability-start\",\"participants\":[\"P\"],\"time\":\"9700000\"},{\"details\":[\"crowd\"],\"id\":\"event-60\",\"kind\":\"ability-end\",\"participants\":[\"P\"],\"time\":\"10200000\"},{\"details\":[\"crowd\",\"5\",\"3666815766\",\"no\"],\"id\":\"event-62\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"12200000\"}]},{\"number\":4,\"status\":\"finished\",\"events\":[{\"details\":[\"crowd\",\"0\",\"3971632128\",\"no\"],\"id\":\"event-1\",\"kind\":\"ability-opportunity\",\"participants\":[\"P\"],\"time\":\"200000\"}]}],\"bytes\":76065}\n",
+  "StandardError": ""
+}
+launcher-returned-success

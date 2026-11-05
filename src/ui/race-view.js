@@ -6,6 +6,12 @@ import { createRaceMotionController } from './race-motion-controller.mjs';
 import { deriveRaceRest, formatRaceRating, stableExposureSignature } from '../core/race-rest.mjs';
 import './race-entry.css';
 import { createRacePlaybackController, describeRaceEvent, individualPresentationTiming, participantGlowEnvelope, raceCourseTimeAtFraction, raceHighlightParticipantEvents, restoreRaceTimelineState, RACE_TIMELINE_EVENT_TYPES, wallClockAtRaceFraction } from './race-playback-controller.mjs';
+import { createRaceWorkerClient } from '../core/race-v2/worker-client.mjs';
+import { decodeResult } from '../core/race-v2/codec.mjs';
+import { projectRaceV2, raceV2VisualState, raceV2DuckPresentation, unresolvedRaceMarkup, reorderRaceCandidates } from './race-v2-presentation.mjs';
+import { abilityVisual } from './race-effects/ability-effects.mjs';
+import { collisionVisual } from './race-effects/collision-effects.mjs';
+import { raceAbilityChoiceMarkup } from './race-ability-choice.mjs';
 
 const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
@@ -54,9 +60,12 @@ function sceneMarkup(resolution, raceNumber, attempt) {
       <div class="race-runner-orientation" data-race-orientation>
         <div class="race-runner-scope" data-race-runner-scope>
           <div class="race-contact-layer" data-race-contact-layer>
+            <div class="race-v2-effect race-v2-effect-back" data-v2-back aria-hidden="true"></div>
             <div class="race-duck-shell" data-duck-motion="paddle" data-duck-prefix="${prefix}" data-race-id="${esc(id)}">
               ${duckSvg(duckId, labels[id], prefix)}
+              <img class="race-v2-bandage" data-v2-bandage alt="" hidden>
             </div>
+            <div class="race-v2-effect race-v2-effect-front" data-v2-front aria-hidden="true"></div>
           </div>
         </div>
       </div>
@@ -240,6 +249,20 @@ function mountPlayback(container, attempt, resolution, raceNumber, callbacks, op
       const glow = Math.max(contactGlow, highlightGlow);
       position?.style.setProperty('--participant-glow-opacity', glow.toFixed(3));
       position?.classList.toggle('participant-glow', glow > 0);
+      if (position && resolution.mechanicalVersion === 'integer-working/v1') {
+        const visual=raceV2VisualState(resolution,entrantState.id,state.seconds),prefix=`fx-${raceNumber}-${entrantState.id}`;
+        const ability=visual.ability?abilityVisual({kind:visual.ability.kind,progress:visual.ability.progress,idPrefix:prefix,pose:{still:state.reduced}}):null;
+        const elapsed=visual.contactAge,activeContact=elapsed!==null&&elapsed>=0&&elapsed<.85;
+        const burst=activeContact?collisionVisual({kind:'burst',progress:Math.min(1,elapsed/.85),idPrefix:prefix}):null;
+        const chips=activeContact?collisionVisual({kind:'fragments',progress:Math.min(1,elapsed/.85),idPrefix:prefix}):null;
+        const image=frame=>`<img alt="" src="${esc(frame.asset)}" style="left:${50+frame.x*100}%;top:${50+frame.y*100}%;width:${frame.width*100}%;opacity:${frame.opacity};transform:translate(-50%,-50%) scale(${frame.scaleX},${frame.scaleY})">`;
+        const back=position.querySelector('[data-v2-back]'),front=position.querySelector('[data-v2-front]'),shell=position.querySelector('.race-duck-shell');
+        if(back)back.innerHTML=(ability?.layers.water??'')+(ability?.layers.back??'');
+        if(front)front.innerHTML=(ability?.layers.front??'')+[...(burst?.frames??[]),...(chips?.frames??[])].map(image).join('');
+        const bandage=position.querySelector('[data-v2-bandage]');if(bandage){bandage.hidden=!visual.injury;if(visual.injury)bandage.src=collisionVisual({kind:'injury',progress:0,idPrefix:prefix}).frames[0].asset;}
+        const white=elapsed!==null&&elapsed>=0&&elapsed<1&&!state.reduced?collisionVisual({kind:'white-return',progress:elapsed,idPrefix:prefix}).whiteMix:0;
+        if(shell){shell.style.filter=white?`brightness(${1+white*3}) saturate(${1-white})`:'';shell.style.translate=ability?.pose.bodyY?`0 ${ability.pose.bodyY}%`:'';}
+      }
       if (runner && entrantState.crossedAtFinish) position?.classList.add('is-crossed');
     }
 
@@ -403,21 +426,44 @@ function closeZoom(fraction) {
   return 1.16 - smooth((fraction - 0.66) / 0.1) * 0.16;
 }
 
+function mountV2Result(container,engine,attempt,raceNumber,callbacks,options){
+  let disposed=false,child=null,client=null,active=options.active!==false;
+  container.innerHTML='<section class="race-view"><h2>Preparing the race</h2><p role="status">Loading the recorded race…</p></section>';
+  void (async()=>{
+    let envelope=engine.getRaceV2SessionEnvelope(attempt.raceId);
+    if(!envelope){
+      const record=engine.state.raceResolutions[attempt.raceId];client=createRaceWorkerClient();
+      const context={runId:engine.seed,operationId:`present:${raceNumber}`,revision:String(engine.state.life.schedule.revision),logLength:String(engine.log.length),stateIdentity:attempt.raceId};
+      await client.prepare({mode:'restore',record,context});if(disposed)return;
+      const candidate=client.claim(context);if(!candidate)throw new Error('record unavailable');envelope=candidate.envelope;
+    }
+    const result=await decodeResult(envelope);if(disposed)return;
+    if(JSON.parse(envelope).digest!==attempt.resolutionDigest||result.inputIdentity.raceId!==attempt.raceId)throw new Error('race identity mismatch');
+    const projected=projectRaceV2(result,attempt);
+    child=mountPlayback(container,attempt,projected,raceNumber,callbacks,{...options,active});
+  })().catch(()=>{if(disposed)return;container.innerHTML='<section class="race-view"><h2>Race playback unavailable</h2><p>Your recorded outcome is unchanged.</p><button type="button" data-race-proceed>Continue</button></section>';container.querySelector('[data-race-proceed]')?.addEventListener('click',callbacks.onProceed);}).finally(()=>client?.close());
+  return {snapshot:()=>child?.snapshot?.()??null,setActive(value){active=Boolean(value);child?.setActive(active);},destroy(){disposed=true;client?.cancel();client?.close();child?.destroy();}};
+}
+
 export function renderRaceView(container, engine, raceNumber, callbacks = {}, options = {}) {
-  const { onStartRace, onProceed, onChoiceShown = () => {}, onTrialOfferShown = () => {}, onAction = () => {}, onCueDisplayed = () => {}, onBuyTrial = () => {} } = callbacks;
+  const { onStartRace, onProceed, onChoiceShown = () => {}, onTrialOfferShown = () => {}, onAction = () => {}, onCueDisplayed = () => {}, onBuyTrial = () => {}, onAssignAbility = () => false } = callbacks;
   const isTutorial = raceNumber === 1;
   const fieldBaseSpeed = isTutorial ? GAME_CONSTANTS.TUTORIAL_FIELD_SPEED : GAME_CONSTANTS.FINALE_FIELD_SPEED;
   const existingAttempt = engine.getRaceAttempt?.(raceNumber) ?? engine.state.raceAttempts?.[raceNumber] ?? null;
-  const existingResolution = engine.getRaceResolution?.(raceNumber) ?? null;
+  const existingResolution = options.version2 ? null : engine.getRaceResolution?.(raceNumber) ?? null;
   const ownedDucks = engine.state.owned.map((id) => BANNER_1_ROSTER.find((duck) => duck.id === id)).filter(Boolean);
   const restCandidates = ownedDucks.map((duck, index) => {
     const evidence = deriveRaceRest(engine.log?.entries ?? [], duck.id);
     return { ...duck, originalIndex: index, restEvidence: evidence, restFactor: evidence.restFactor, effectiveBaseInput: duck.speed * evidence.restFactor };
-  }).sort((a, b) => b.effectiveBaseInput - a.effectiveBaseInput || b.speed - a.speed || a.originalIndex - b.originalIndex || a.id.localeCompare(b.id));
+  }).sort((a, b) => {
+    const rank=duck=>options.version2?raceV2DuckPresentation(engine.state.raceGrowth.ducks[duck.id],duck.speed,duck.restFactor,engine.state.life.schedule.day,Boolean(engine.state.raceTrialAvailable),Boolean(options.initialSelection?.useTrial)).injuredRating:duck.effectiveBaseInput;
+    return rank(b)-rank(a) || b.speed - a.speed || a.originalIndex - b.originalIndex || (options.version2?(a.id<b.id?-1:a.id>b.id?1:0):a.id.localeCompare(b.id));
+  });
   const defaultDuck = restCandidates[0];
   const initialDuck = restCandidates.find(duck => duck.id === options.initialSelection?.duckId) ?? defaultDuck;
   const initialStance = options.initialSelection?.stance === 'sprint' ? 'sprint' : 'safe';
 
+  if (options.version2 && existingAttempt?.status === 'finished') return mountV2Result(container,engine,existingAttempt,raceNumber,callbacks,options);
   if (existingAttempt?.status === 'finished' && existingResolution) {
     const timelineState = restoreRaceTimelineState(existingResolution, {
       raceNumber,
@@ -432,7 +478,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   }
 
   if (existingAttempt?.status === 'unresolved') {
-    container.innerHTML = `<section class="race-view race-unresolved"><p class="race-eyebrow">${isTutorial ? 'Tutorial event' : 'Championship finale'}</p><h2>Race attempt unresolved</h2><p>${esc(statusText(existingAttempt))}</p><p>The attempt is recorded once. The story may continue, but this is not a finished race and does not count toward future rest.</p><button type="button" data-race-proceed class="race-control-button">Continue</button></section>`;
+    container.innerHTML = unresolvedRaceMarkup(isTutorial);
     mountAppDexNav(container.querySelector('.race-view'), callbacks.onOpenDex);
     const proceed = container.querySelector('[data-race-proceed]');
     const handler = () => onProceed?.();
@@ -463,20 +509,22 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
             <span class="race-candidate-art">${duckSvg(duck.id, `${duck.name}, ${duck.restFactor < 1 ? 'needs rest' : 'rested'}`, `qp-race-${raceNumber}-${duck.id}`)}</span>
             <span class="race-candidate-name">${esc(duck.name)}</span>
             <span class="race-candidate-meta">${duck.tier} · speed rating ${duck.speed}</span>
-            <span class="race-candidate-effective" data-candidate-effective>Race rating ${formatRaceRating(duck.effectiveBaseInput)}</span>
+            <span class="race-candidate-effective" data-candidate-effective>${options.version2?'Rest-adjusted':'Race'} rating ${formatRaceRating(duck.effectiveBaseInput)}</span>
+            ${options.version2 ? (()=>{const d=raceV2DuckPresentation(engine.state.raceGrowth.ducks[duck.id],duck.speed,duck.restFactor);return `<span class="race-candidate-reason" data-v2-growth>${d.firstPointEarned?`Progress after first point: ${d.progress}`:`Progress: ${d.progress} / 4`} · ${d.assigned?`Ability: ${esc(d.assigned)}`:d.banked?'Ability point available':'No ability assigned'}</span><span class="race-candidate-reason">${d.recoveryDays?`Injured · ${d.recoveryDays} day${d.recoveryDays===1?'':'s'} of recovery · 10% injury rating reduction`:'No injury recovery pending'}</span>`;})():''}
             <span class="race-candidate-reason">${duck.restFactor === 1 ? (duck.restEvidence.historyLimited ? 'Rested under tracked history.' : (duck.restEvidence.lastRaceSeq === null ? 'Rested. No prior finished race.' : 'Rested. Two other races have finished since its last race.')) : `Needs rest · ${Math.round((1 - duck.restFactor) * 100)}% lower race rating.`}</span>
           </label>`).join('')}
           <p class="race-rest-note">A duck's race rating is 50% lower immediately after racing, 25% lower after one other race finishes, and fully rested after two other races finish.</p>
           ${ownedDucks.length ? '' : '<p>No owned digital ducks are available to enter.</p>'}
         </fieldset>
+        ${options.version2?'<div class="race-ability-choice" data-race-ability-choice></div>':''}
         <fieldset class="race-stance-options"><legend>Choose a stance</legend>
           <label><input type="radio" name="stance" value="safe" ${initialStance === 'safe' ? 'checked' : ''}> Steady pace <span>More consistent pacing</span></label>
           <label><input type="radio" name="stance" value="sprint" ${initialStance === 'sprint' ? 'checked' : ''}> Variable pace <span>Wider swings in pacing</span></label>
         </fieldset>
         <div class="race-trial-offer" data-race-trial>
           ${engine.state.raceTrialAvailable
-            ? `<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true" ${options.initialSelection?.useTrial ? 'checked' : ''}> Use purchased one-race speed upgrade: +5% base speed on this race.</label>`
-            : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for a +5% one-race speed upgrade</button><p>Available Down: ${engine.state.down}</p>`}
+            ? `<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true" ${options.initialSelection?.useTrial ? 'checked' : ''}> Use purchased one-race upgrade: ${options.version2?'+5% pre-affine race rating before injury':'+5% base speed on this race'}.</label>`
+            : `<button type="button" class="race-control-button" data-buy-race-trial ${engine.state.down < GAME_CONSTANTS.RACE_TRIAL_COST ? 'disabled' : ''}>Exchange 3 Down for a +5% one-race ${options.version2?'rating':'speed'} upgrade</button><p>Available Down: ${engine.state.down}</p>`}
         </div>
         <button type="submit" class="race-control-button race-start-button" ${ownedDucks.length ? '' : 'disabled'}>Start race</button>
       </form>
@@ -490,7 +538,8 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const choicePayload = () => {
     const visibleIds = new Set([...container.querySelectorAll('.race-candidate-card')]
       .filter(isFullyVisibleInViewport).map((card) => card.dataset.candidateId));
-    const candidates = restCandidates.filter((duck) => visibleIds.has(duck.id)).map((duck) => ({
+    const orderedIds=[...container.querySelectorAll('.race-candidate-card')].map(card=>card.dataset.candidateId);
+    const candidates = orderedIds.map(id=>restCandidates.find(duck=>duck.id===id)).filter((duck) => duck && visibleIds.has(duck.id)).map((duck) => ({
       duckId: duck.id,
       authoredRating: duck.speed,
       restFactor: duck.restFactor,
@@ -504,13 +553,20 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
     return { raceNumber, ...payload, exposureId: `race-choice-${raceNumber}-${stableExposureSignature(payload)}` };
   };
   const recordEntryShown = () => {
+    if(options.version2){
+      const list=container.querySelector('.race-candidate-list'),cards=[...container.querySelectorAll('.race-candidate-card')],trial=trialState();
+      const rating=id=>{const duck=restCandidates.find(item=>item.id===id);return raceV2DuckPresentation(engine.state.raceGrowth.ducks[id],duck.speed,duck.restFactor,engine.state.life.schedule.day,trial.available,trial.selected).injuredRating;};
+      cards.sort((a,b)=>{const x=restCandidates.find(d=>d.id===a.dataset.candidateId),y=restCandidates.find(d=>d.id===b.dataset.candidateId);return rating(y.id)-rating(x.id)||y.speed-x.speed||x.originalIndex-y.originalIndex||(x.id<y.id?-1:x.id>y.id?1:0);});
+      const after=list.querySelector('p.race-rest-note:last-of-type');reorderRaceCandidates(list,cards,after);
+    }
     const payload = choicePayload();
     container.querySelectorAll('.race-candidate-card').forEach((card) => {
       const candidate = payload.candidates.find((item) => item.duckId === card.dataset.candidateId);
       const value = card.querySelector('[data-candidate-effective]');
-      if (candidate && value) value.textContent = payload.trialState.selected
-        ? `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}; with upgrade ${formatRaceRating(candidate.effectiveWithTrialInput)}`
-        : `Race rating ${formatRaceRating(candidate.effectiveBaseInput)}`;
+      if(candidate&&value&&options.version2){const duck=restCandidates.find(d=>d.id===candidate.duckId),d=raceV2DuckPresentation(engine.state.raceGrowth.ducks[duck.id],duck.speed,duck.restFactor,engine.state.life.schedule.day,payload.trialState.available,payload.trialState.selected);value.textContent=`Current race rating ${formatRaceRating(d.injuredRating)}${payload.trialState.selected&&payload.trialState.available?' (upgrade selected)':''}`;}
+      else if (candidate && value) value.textContent = payload.trialState.selected
+        ? `${options.version2?'Rest-adjusted':'Race'} rating ${formatRaceRating(candidate.effectiveBaseInput)}; with upgrade ${formatRaceRating(candidate.effectiveWithTrialInput)}`
+        : `${options.version2?'Rest-adjusted':'Race'} rating ${formatRaceRating(candidate.effectiveBaseInput)}`;
     });
     if (entryActive && payload.candidates.length) onChoiceShown(payload);
     const trialPanel = container.querySelector('[data-race-trial]');
@@ -527,7 +583,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const onTrialClick = () => {
     if (!onBuyTrial()) return;
     const trialPanel = container.querySelector('[data-race-trial]');
-    if (trialPanel) trialPanel.innerHTML = '<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased one-race speed upgrade: +5% base speed on this race.</label>';
+    if (trialPanel) trialPanel.innerHTML = `<label class="race-trial-ready"><input type="checkbox" name="useTrial" value="true"> Use purchased one-race upgrade: ${options.version2?'+5% pre-affine race rating before injury':'+5% base speed on this race'}.</label>`;
     bindTrialInput();
     recordEntryShown();
   };
@@ -536,8 +592,20 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
   const onCandidateChange = (event) => {
     if (!event.target?.matches?.('input[name="duckId"]')) return;
     container.querySelectorAll('.race-candidate-card').forEach((card) => card.classList.toggle('selected', card.querySelector('input')?.checked));
+    renderAbilityChoice();
     recordEntryShown();
   };
+  function renderAbilityChoice(){
+    const panel=container.querySelector('[data-race-ability-choice]');if(!panel)return;
+    const duck=restCandidates.find(d=>d.id===selectedDuck());if(!duck){panel.innerHTML='';return;}
+    const progress=raceV2DuckPresentation(engine.state.raceGrowth.ducks[duck.id],duck.speed,duck.restFactor);
+    panel.innerHTML=progress.banked&&!progress.assigned?`<p>${esc(duck.name)} has one ability point. You can keep it for later.</p>${raceAbilityChoiceMarkup('race')}`:'';
+  }
+  const onAbilityChoice=event=>{const button=event.target.closest('[data-assign-ability]');if(!button)return;if(onAssignAbility(selectedDuck(),button.dataset.assignAbility)){
+    const id=selectedDuck(),d=engine.state.raceGrowth.ducks[id],card=[...container.querySelectorAll('[data-candidate-id]')].find(item=>item.dataset.candidateId===id);
+    const label=card?.querySelector('[data-v2-growth]');if(label)label.textContent=`Progress after first point: ${d.progress} · Ability: ${d.assigned}`;renderAbilityChoice();card?.querySelector('input')?.focus({preventScroll:true});
+  }};
+  container.querySelector('[data-race-ability-choice]')?.addEventListener('click',onAbilityChoice);renderAbilityChoice();
   form?.addEventListener('change', onCandidateChange);
   bindTrialInput();
   trialButton?.addEventListener('click', onTrialClick);
@@ -577,6 +645,7 @@ export function renderRaceView(container, engine, raceNumber, callbacks = {}, op
       childHandle?.destroy?.();
       form?.removeEventListener('submit', onSubmit);
       form?.removeEventListener('change', onCandidateChange);
+      container.querySelector('[data-race-ability-choice]')?.removeEventListener('click',onAbilityChoice);
       container.querySelector('input[name="useTrial"]')?.removeEventListener('change', onTrialChange);
       trialButton?.removeEventListener('click', onTrialClick);
       window.removeEventListener('scroll', onViewportChange, true);

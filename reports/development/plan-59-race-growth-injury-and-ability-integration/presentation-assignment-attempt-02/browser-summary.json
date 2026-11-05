@@ -1,0 +1,73 @@
+{
+  "nodeVersion": "v26.7.0",
+  "browserVersion": {
+    "product": "Chrome/157.0.8103.38",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourceStable": true,
+  "observations": [
+    {
+      "layout": "wide",
+      "case": "banked-assignment",
+      "confirmation": "Permanently assign Bounce to this duck? This choice cannot be changed.",
+      "assigned": "bounce",
+      "persisted": true,
+      "settings": true,
+      "uninstallDialog": true,
+      "controls": {
+        "focused": true,
+        "focusVisible": true,
+        "outline": "solid",
+        "buttonClass": "race-control-button",
+        "inViewport": true,
+        "overflow": false,
+        "activeTag": "BUTTON"
+      },
+      "focusReturned": true,
+      "settingsFocus": true
+    },
+    {
+      "layout": "narrow",
+      "case": "banked-assignment",
+      "confirmation": "Permanently assign Bounce to this duck? This choice cannot be changed.",
+      "assigned": "bounce",
+      "persisted": true,
+      "settings": true,
+      "uninstallDialog": true,
+      "controls": {
+        "focused": true,
+        "focusVisible": true,
+        "outline": "solid",
+        "buttonClass": "race-control-button",
+        "inViewport": true,
+        "overflow": false,
+        "activeTag": "BUTTON"
+      },
+      "focusReturned": true,
+      "settingsFocus": true
+    }
+  ],
+  "artifactChecksPassed": true,
+  "cleanupFullyVerified": false,
+  "accepted": false,
+  "cleanup": {
+    "residual": false,
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "inspectionFailed": false,
+    "coverage": "sampled-only",
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false,
+    "childExitCode": 0,
+    "profileRemoved": false,
+    "profileIdSha256": "db04252eb484a6b70c6545e1c0680c9f3512c02c1c7288655ee09aca60b3c519"
+  },
+  "serverObservedExited": true,
+  "serverExit": {
+    "code": null,
+    "signal": "SIGTERM"
+  },
+  "exceptionCount": 0,
+  "error": null
+}

@@ -1,0 +1,31 @@
+{
+  "layout": "wide",
+  "case": "crowd",
+  "active": {
+    "time": "1.83s",
+    "back": 1006,
+    "front": 3066,
+    "pose": ""
+  },
+  "pausedStable": true,
+  "settledPodium": true,
+  "countersBeforeAfterReload": {
+    "v1": "schema-five-sentinel",
+    "attempts": 3,
+    "rewards": 1,
+    "gems": 50,
+    "trial": false,
+    "growth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {
+        "duck-3": {
+          "progress": 3,
+          "banked": 0,
+          "assigned": "crowd",
+          "recoveryDays": 0,
+          "firstPointEarned": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "freeGiB": 12.03,
+  "utc": "2026-11-05T12:20:44.2896063Z",
+  "command": "node --test --test-name-pattern=candidate exposure engine-integration.test.mjs",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.05
+    }
+  ]
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 14.9619181,
+  "PeakSampledPrivateBytes": 165044224,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ candidate exposure uses actual injured prefix and rejects re-chained tampering (14557.1885ms)\n✔ candidate exposure sorts actual current ratings and clamps an unavailable upgrade (6.796ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 14698.786\n",
+  "StandardError": ""
+}
+launcher-returned-success

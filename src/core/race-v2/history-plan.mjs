@@ -1,10 +1,10 @@
 // Rebuild schema-6 race inputs/effects from ordered, independently checked history.
-import {makeRaceRestEvidence} from '../race-rest.mjs';
-import {initialRaceProgress,recoverRaceDays,buildRaceV2Input,applyRaceV2Facts,assignRaceAbility} from '../race-progression.mjs';
+import {makeRaceRestEvidence,stableExposureSignature} from '../race-rest.mjs';
+import {initialRaceProgress,recoverRaceDays,buildRaceV2Input,applyRaceV2Facts,assignRaceAbility,raceCandidateFacts,RACE_CANDIDATE_EVIDENCE_VERSION} from '../race-progression.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 export function createRaceHistoryPlan(envelope,{roster,constants}){
   const entries=envelope.eventLog,seed=entries[0]?.payload?.seed;if(typeof seed!=='string')throw new RangeError('missing run seed');
-  const races=[],owned=new Set();let trial=false,down=0,next=1,pendingAssignments=[];
+  const races=[],owned=new Set();let trial=false,down=0,next=1,pending=[];
   for(let i=0;i<entries.length;i++){
     const e=entries[i],p=e.payload??{};
     if(e.type==='draw_committed'){if(p.duplicate)down+=p.downGained??0;else owned.add(p.identity);}
@@ -13,7 +13,11 @@ export function createRaceHistoryPlan(envelope,{roster,constants}){
     if(e.type==='action'&&p.kind==='race_trial_consumed'){if(!trial||entries[i-1]?.type!=='race_result'||entries[i-2]?.payload?.raceId!==p.raceId)throw new RangeError('invalid trial consumption');trial=false;}
     if(e.type==='action'&&p.kind==='race_ability_assigned'){
       if(!owned.has(p.duckId)||!['bounce','crowd'].includes(p.ability)||!Number.isSafeInteger(e.clock?.day))throw new RangeError('invalid ability assignment');
-      pendingAssignments.push({id:p.duckId,ability:p.ability,day:e.clock.day});
+      pending.push({kind:'assignment',id:p.duckId,ability:p.ability,day:e.clock.day});
+    }
+    if(e.type==='race_choice_offered'&&Object.hasOwn(p,'candidateEvidenceVersion')){
+      if(p.candidateEvidenceVersion!==RACE_CANDIDATE_EVIDENCE_VERSION||!Number.isSafeInteger(e.clock?.day))throw new RangeError('unknown candidate evidence');
+      pending.push({kind:'exposure',payload:p,day:e.clock.day,owned:[...owned],trial,next,history:entries.slice(0,i)});
     }
     if(e.type!=='action'||p.kind!=='race_choice')continue;
     const outcome=entries[i+1],n=outcome?.payload?.raceNumber,duck=roster.find(x=>x.id===p.duckId);
@@ -23,13 +27,24 @@ export function createRaceHistoryPlan(envelope,{roster,constants}){
     const rest=makeRaceRestEvidence(entries.slice(0,i),p.duckId,duck.speed),evidence={...rest,trialCommitted:p.trialCommitted,trialMultiplier:constants.RACE_TRIAL_SPEED_MULTIPLIER};
     if(!same(p.restEvidence,evidence)||!same(outcome.payload.restEvidence,evidence))throw new RangeError('race rest mismatch');
     const record=envelope.state.raceResolutions[p.raceId];if(!record||record.digest!==outcome.payload.resolutionDigest)throw new RangeError('race record mismatch');
-    races.push({choice:p,outcome:outcome.payload,type:outcome.type,duck,rest,record,trialAvailable:trial,assignments:pendingAssignments});pendingAssignments=[];
+    races.push({choice:p,outcome:outcome.payload,type:outcome.type,duck,rest,record,trialAvailable:trial,pending});pending=[];
   }
   if(Object.keys(envelope.state.raceResolutions).length!==races.length)throw new RangeError('race record count mismatch');
   let progress=initialRaceProgress(),day=1;
-  const applyAssignments=items=>{for(const a of items){if(a.day<day)throw new RangeError('assignment day order');progress=recoverRaceDays(progress,a.day-day);day=a.day;progress=assignRaceAbility(progress,a.id,a.ability);}};
+  const applyPending=items=>{for(const a of items){if(a.day<day)throw new RangeError('candidate day order');progress=recoverRaceDays(progress,a.day-day);day=a.day;
+    if(a.kind==='assignment'){progress=assignRaceAbility(progress,a.id,a.ability);continue;}
+    const p=a.payload,selected=p.trialState?.selected,available=a.trial,ids=Array.isArray(p.candidates)?p.candidates.map(c=>c.duckId):[];
+    if(p.referenceDay!==day||p.raceNumber!==a.next||new Set(ids).size!==ids.length||!ids.length||ids.some(id=>!a.owned.includes(id))||!ids.includes(p.selectedDuckId)
+      ||typeof selected!=='boolean'||(selected&&!available)||p.trialAvailable!==available||!same(p.trialState,{available,selected,multiplier:constants.RACE_TRIAL_SPEED_MULTIPLIER})
+      ||p.fieldBaseSpeed!==(p.raceNumber===1?constants.TUTORIAL_FIELD_SPEED:constants.FINALE_FIELD_SPEED))throw new RangeError('candidate exposure context mismatch');
+    const expected=ids.map(id=>{const duck=roster.find(d=>d.id===id);if(!duck)throw new RangeError('unknown candidate');const rest=makeRaceRestEvidence(a.history,id,duck.speed);
+      return raceCandidateFacts({duckId:id,baseRating:duck.speed,restFactor:rest.restFactor,historyLimited:rest.historyLimited,recoveryDays:progress.ducks[id]?.recoveryDays??0,referenceDay:day,upgradeAvailable:available,upgradeSelected:selected});});
+    expected.sort((x,y)=>Number(y.effectiveRatingMicros)-Number(x.effectiveRatingMicros)||y.authoredRating-x.authoredRating||a.owned.indexOf(x.duckId)-a.owned.indexOf(y.duckId)||(x.duckId<y.duckId?-1:x.duckId>y.duckId?1:0));
+    const signature=stableExposureSignature({candidateEvidenceVersion:RACE_CANDIDATE_EVIDENCE_VERSION,candidates:expected,fieldBaseSpeed:p.fieldBaseSpeed,trialState:p.trialState,duckId:p.selectedDuckId});
+    if(!same(expected,p.candidates)||p.foregroundedDuckId!==expected[0].duckId||p.signature!==signature||p.exposureId!==`race-choice-${p.raceNumber}-${signature}`)throw new RangeError('candidate evidence mismatch');
+  }};
   return {records:races.map(x=>x.record),
-    deriveInput(index){const r=races[index];applyAssignments(r.assignments);const entryDay=r.outcome.entryDay;
+    deriveInput(index){const r=races[index];applyPending(r.pending);const entryDay=r.outcome.entryDay;
       if(!Number.isSafeInteger(entryDay)||entryDay<day||entryDay>envelope.state.life.schedule.day)throw new RangeError('invalid race entry day');
       progress=recoverRaceDays(progress,entryDay-day);day=entryDay;
       return buildRaceV2Input({seed,raceId:r.choice.raceId,duckId:r.choice.duckId,baseRating:r.duck.speed,
@@ -48,7 +63,7 @@ export function createRaceHistoryPlan(envelope,{roster,constants}){
         knownCrossings:cross.map(e=>({id:e.id,crossingTimeSeconds:Number(e.time)/1000000})),trialAvailable:r.trialAvailable,trialCommitted:r.choice.trialCommitted});
       if((finished?r.type!=='race_result':r.type!=='race_attempt_unresolved')||Object.entries(expected).some(([k,v])=>!same(p[k],v)))throw new RangeError('race effects mismatch');
       progress=effects.progress;},
-    finish(){applyAssignments(pendingAssignments);const finalDay=envelope.state.life.schedule.day;if(!Number.isSafeInteger(finalDay)||finalDay<day)throw new RangeError('invalid final day');
+    finish(){applyPending(pending);const finalDay=envelope.state.life.schedule.day;if(!Number.isSafeInteger(finalDay)||finalDay<day)throw new RangeError('invalid final day');
       progress=recoverRaceDays(progress,finalDay-day);if(!same(progress,envelope.state.raceGrowth))throw new RangeError('race progression mismatch');}
   };
 }

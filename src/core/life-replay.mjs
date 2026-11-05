@@ -43,6 +43,10 @@ function validateTransactions(envelope, verifiedV2 = false) {
     if(envelope.schemaVersion===6&&entry.type==='action'&&entry.payload?.kind==='race_ability_assigned'&&entry.clock?.day!==life.schedule.day){
       errors.push(`Ability assignment day mismatch at ${entry.seq}`);break;
     }
+    if(envelope.schemaVersion===6&&entry.type==='race_choice_offered'&&Object.hasOwn(entry.payload??{},'candidateEvidenceVersion')
+      &&(entry.clock?.day!==life.schedule.day||entry.payload.referenceDay!==life.schedule.day)){
+      errors.push(`Candidate exposure day mismatch at ${entry.seq}`);break;
+    }
     if(expectedStoryIncome) {
       if(entry.type!=='income' || !same(entry.payload,expectedStoryIncome)){errors.push(`Work income evidence mismatch at ${entry.seq}`);break;}
       expectedStoryIncome=null;continue;

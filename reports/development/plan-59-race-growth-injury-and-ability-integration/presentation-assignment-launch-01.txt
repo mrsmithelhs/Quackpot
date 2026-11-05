@@ -1,0 +1,29 @@
+{
+  "freeGiB": 12.13,
+  "command": "node reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-assignment-browser.mjs reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-assignment-attempt-01 assignment",
+  "identifiedFirstSnapshotServers": 0,
+  "utc": "2026-11-05T12:22:07.8119134Z",
+  "firstBrowserCleanup": "unconfirmed",
+  "manifestSha256": "82542AE14D57682963AF88473D9BF2B83BC57A0F510C813FBD1F8A15BBDD7743",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.04
+    }
+  ],
+  "matchedPriorOwnedIdentities": 0
+}
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 16.0712355,
+  "PeakSampledPrivateBytes": 660709376,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"nodeVersion\":\"v26.7.0\",\"browserVersion\":{\"product\":\"Chrome/157.0.8103.38\",\"jsVersion\":\"15.7.112.23\"},\"sourceStable\":false,\"observations\":[],\"artifactChecksPassed\":false,\"cleanupFullyVerified\":false,\"accepted\":false,\"cleanup\":{\"residual\":false,\"rootExited\":true,\"observedProcessesExited\":true,\"inspectionFailed\":false,\"coverage\":\"sampled-only\",\"uncertainty\":true,\"profileRetained\":true,\"treeTerminationConfirmed\":false,\"childExitCode\":0,\"profileRemoved\":false,\"profileIdSha256\":\"c802faa65e5f77f3f12e5b23a64f06fd2added98f622be0aa41e502c003d773d\"},\"serverObservedExited\":true,\"serverExit\":{\"code\":null,\"signal\":\"SIGTERM\"},\"exceptionCount\":0,\"error\":\"See ignored private diagnostic.\"}\n",
+  "StandardError": ""
+}
+Exception: [workspace]/reports\development\plan-25-desk-phone-art-integration\bounded-node-run.ps1:168
+Line |
+ 168 |  … de -ne 0) { throw "Validation process exited with code $($result.Exit …
+     |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Validation process exited with code 1.

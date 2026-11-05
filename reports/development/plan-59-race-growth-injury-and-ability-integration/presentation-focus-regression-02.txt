@@ -1,0 +1,21 @@
+{
+  "utc": "2026-11-05T12:20:21.6491265Z",
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.19
+    }
+  ],
+  "freeGiB": 11.68,
+  "command": "node --test --test-concurrency=1 race-v2-presentation race-progression"
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5565701,
+  "PeakSampledPrivateBytes": 3608576,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ day admission recovers before entry and new injury is not decremented (0.974ms)\n✔ unresolved attempts retain injury but do not award progress or extension (0.1319ms)\n✔ only a completed race entered injured evaluates the keyed extension once (0.5955ms)\n✔ candidate preview composes rest, available upgrade and injury in fixed-point order (0.2665ms)\n✔ v2 projection preserves real crossings and gates cues to actual committed events (46.5745ms)\n✔ race and Dex preview use the shared injury and upgrade rating (0.3795ms)\n✔ unresolved copy does not invent a finish or podium (0.1854ms)\n✔ repeated visibility updates do not detach focus and a real reorder restores it (0.3259ms)\nℹ tests 8\nℹ suites 0\nℹ pass 8\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 201.5785\n",
+  "StandardError": ""
+}
+launcher-returned-success

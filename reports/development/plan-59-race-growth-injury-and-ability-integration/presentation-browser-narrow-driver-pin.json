@@ -1,0 +1,7 @@
+{
+  "baseManifestSha256": "8364bbf9b5e0e91f80f03b272be7d1405f934870846a52b449f6ca440d315f28",
+  "onlyChangedHarness": {
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/presentation-browser.mjs": "ba85243536204fae5f84e60ba735c4c7af405c9fbeafb543174c5a1db1ecd382"
+  },
+  "runtimeAndBuildUnchanged": true
+}

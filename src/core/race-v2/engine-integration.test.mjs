@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
-import {GameEngine} from '../game-engine.mjs';
+import {GameEngine,BANNER_1_ROSTER} from '../game-engine.mjs';
 import {initialRaceProgress} from '../race-progression.mjs';
 import {resolveIntegerRace} from './integer-kernel.mjs';
 import {getReferenceTable} from './reference-policy.mjs';
@@ -10,6 +10,7 @@ import {compactFromEnvelope,reconstruct} from './persistence.mjs';
 import {createSchema6Session,SCHEMA6_STORAGE_KEY,STORAGE_KEY} from '../storage.mjs';
 import {EventLog,verifyChain} from '../event-log.mjs';
 import {invalidateForSchema6StorageEvent} from './storage-invalidation.mjs';
+import {stableExposureSignature} from '../race-rest.mjs';
 const witness=new URL('../../../reports/development/plan-52-five-slot-production-transition/session-panel-witness-attempt3/resolved-panel.save.json',import.meta.url);
 class TestWorker{postMessage(data){queueMicrotask(async()=>{try{let candidate;if(data.mode==='restore')candidate=await reconstruct(data.record);else{const envelope=await encodeResult(resolveIntegerRace(data.input,getReferenceTable()));candidate={envelope,compact:await compactFromEnvelope(envelope)};}
   this.onmessage({data:{kind:'complete',requestId:data.requestId,context:data.context,candidate}});}catch(error){this.onmessage({data:{kind:'failure',requestId:data.requestId,context:data.context,error:{name:error.name}}});}});}terminate(){}}
@@ -82,6 +83,42 @@ test('actual engine day transitions decrement a synthetic preexisting injury onc
     act({type:'start',kind:'early-bed'});act({type:'complete',activityId:engine.state.life.schedule.active.id});
     assert.equal(engine.state.life.schedule.day,day+1);assert.equal(engine.state.raceGrowth.ducks['duck-0'].recoveryDays,2-day);
   }
+});
+
+test('candidate exposure uses actual injured prefix and rejects re-chained tampering',async()=>{
+  const original=globalThis.Worker;globalThis.Worker=TestWorker;
+  try{
+    const engine=new GameEngine('plan59-injury-reach-11',{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true});engine.start();engine.setupCompanion();
+    const data=new Map([[STORAGE_KEY,'sentinel']]),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v),removeItem:k=>data.delete(k)};
+    const session=createSchema6Session(storage);assert.equal((await session.bindNew(engine)).success,true);let n=0;
+    const act=action=>{const p=engine.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`candidate-${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));assert.equal(engine.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+    act({type:'meal',choice:'buy'});assert.equal(engine.beginStoryWork('agree').ok,true);const id=engine.state.life.story47.id;
+    assert.ok(engine.showLifeStory47(id,'commute'));assert.equal(engine.applyFiveSlotWorkStory({type:'advance',id,operationId:`candidate-${++n}`},engine.log.length).ok,true);
+    assert.ok(engine.showLifeStory47(id,'work'));assert.equal(engine.applyFiveSlotWorkStory({type:'complete',id,operationId:`candidate-${++n}`,confirmed:true},engine.log.length).ok,true);
+    assert.equal(engine.applyFiveSlotWorkStory({type:'dismiss',id,operationId:`candidate-${++n}`},engine.log.length).ok,true);act({type:'meal',choice:'buy'});
+    assert.equal(engine.openLifeApp(),true);assert.ok(engine.commitPromotionalTenPull());engine.revealAllPending();const duck=engine.state.owned[0];
+    assert.ok(await engine.runRaceV2(1,duck,'safe',{operationId:'reach-race-11'}));assert.equal(engine.state.raceGrowth.ducks[duck].recoveryDays,2);
+    const choice=()=>engine.recordRaceChoicesShown(2,{candidates:[{duckId:duck}],duckId:duck,fieldBaseSpeed:11.2,trialState:{selected:true}});
+    const first=choice();assert.ok(first);assert.equal(first.payload.candidates[0].recoveryDays,2);assert.equal(first.payload.candidates[0].injuryFactor,.9);assert.equal(first.payload.trialState.selected,false);assert.equal(choice(),null);
+    act({type:'complete',activityId:engine.state.life.schedule.active.id});act({type:'sleep'});const second=choice();assert.ok(second);assert.equal(second.payload.referenceDay,2);assert.equal(second.payload.candidates[0].recoveryDays,1);assert.notEqual(first.payload.signature,second.payload.signature);
+    assert.equal(session.save(engine).success,true);const raw=data.get(SCHEMA6_STORAGE_KEY),loaded=await createSchema6Session(storage).load();assert.equal(loaded.valid,true,JSON.stringify(loaded.errors));
+    for(const field of ['injured','injuryFactor','recoveryDays','effectiveRatingMicros','candidateEvidenceVersion','day']){
+      const forged=JSON.parse(raw),event=forged.eventLog.find(e=>e.type==='race_choice_offered'&&e.payload.candidateEvidenceVersion),c=event.payload.candidates[0];
+      if(field==='injured')c.injured=false;else if(field==='injuryFactor')c.injuryFactor=1;else if(field==='recoveryDays')c.recoveryDays=0;else if(field==='effectiveRatingMicros')c.effectiveRatingMicros='1';else if(field==='candidateEvidenceVersion')event.payload.candidateEvidenceVersion='unknown';else event.clock.day++;
+      const p=event.payload;p.signature=stableExposureSignature({candidateEvidenceVersion:p.candidateEvidenceVersion,candidates:p.candidates,fieldBaseSpeed:p.fieldBaseSpeed,trialState:p.trialState,duckId:p.selectedDuckId});p.exposureId=`race-choice-${p.raceNumber}-${p.signature}`;
+      const log=new EventLog();for(const e of forged.eventLog)log.append(e.type,e.payload,e.clock);forged.eventLog=log.entries;assert.equal(verifyChain(forged.eventLog),true);
+      data.set(SCHEMA6_STORAGE_KEY,JSON.stringify(forged));const rejected=await createSchema6Session(storage).load();assert.equal(rejected.valid,false,field);
+    }
+  }finally{globalThis.Worker=original;}
+});
+
+test('candidate exposure sorts actual current ratings and clamps an unavailable upgrade',()=>{
+  const env=JSON.parse(readFileSync(witness,'utf8'));env.schemaVersion=6;env.state.raceGrowth=initialRaceProgress();const engine=GameEngine.fromEnvelope(env),ids=engine.state.owned.slice(0,2);
+  engine.state.raceGrowth.ducks[ids[0]]={progress:0,banked:0,assigned:null,recoveryDays:2,firstPointEarned:false};
+  const facts=ids.map(id=>{const duck=BANNER_1_ROSTER.find(d=>d.id===id),injury=engine.state.raceGrowth.ducks[id]?.recoveryDays?0.9:1;return {id,rating:duck.speed*injury,base:duck.speed};}).sort((a,b)=>b.rating-a.rating||b.base-a.base||ids.indexOf(a.id)-ids.indexOf(b.id));
+  const exposure=engine.recordRaceChoicesShown(1,{candidates:facts.map(x=>({duckId:x.id})),duckId:facts[0].id,fieldBaseSpeed:8,trialState:{selected:true}});
+  assert.ok(exposure);assert.deepEqual(exposure.payload.candidates.map(c=>c.duckId),facts.map(f=>f.id));assert.equal(exposure.payload.trialState.selected,false);assert.equal(exposure.payload.candidates.find(c=>c.duckId===ids[0]).injuryFactor,.9);
+  assert.equal(engine.recordRaceChoicesShown(1,{candidates:facts.map(x=>({duckId:x.id})),duckId:facts[0].id,fieldBaseSpeed:8,trialState:{selected:true}}),null);
 });
 
 test('schema-6 private prefix validates fresh race and isolated full restore',async()=>{

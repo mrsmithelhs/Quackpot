@@ -14,7 +14,9 @@ import './ui/life/life.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
-import { GameEngine, GAME_CONSTANTS } from './core/game-engine.mjs';
+import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
+import { makeRaceRestEvidence, formatRaceRating } from './core/race-rest.mjs';
+import { raceCandidateFacts } from './core/race-progression.mjs';
 import {
   saveGame,
   loadGame,
@@ -385,6 +387,12 @@ if (app) {
         if(!engine.recordFiveSlotPlayWarningShown(proposal))return {ok:false};
         if(!accepted){engine.recordFiveSlotWarningCancelled(proposal);return {ok:false};}
       } else if(extend && !globalThis.confirm('This starts another time slot. Continue?'))return {ok:false};
+      if(raceV2Development&&kind==='race'&&proposal.schedule.destination.day>engine.state.life.schedule.day){
+        const duck=BANNER_1_ROSTER.find(d=>d.id===details.duckId),day=proposal.schedule.destination.day,elapsed=day-engine.state.life.schedule.day;
+        if(!duck)return {ok:false};const rest=makeRaceRestEvidence(engine.log.entries,duck.id,duck.speed),recoveryDays=Math.max(0,(engine.state.raceGrowth.ducks[duck.id]?.recoveryDays??0)-elapsed);
+        const facts=raceCandidateFacts({duckId:duck.id,baseRating:duck.speed,restFactor:rest.restFactor,historyLimited:rest.historyLimited,recoveryDays,referenceDay:day,upgradeAvailable:Boolean(engine.state.raceTrialAvailable),upgradeSelected:details.useTrial===true});
+        if(!globalThis.confirm(`On day ${day}, ${duck.name} will have ${recoveryDays} recovery day${recoveryDays===1?'':'s'} remaining and a pre-affine race rating of ${formatRaceRating(Number(facts.effectiveRatingMicros)/1000000)}. Continue?`))return {ok:false};
+      }
       return {ok:true,confirmNext:extend,confirmSocial:false,confirmConsequences:true,conflictChoice,overtimeChoice,operationId};
     }
     if (!engine.needsNextLifePlay(kind)) return { ok: true, confirmNext: false };
@@ -614,13 +622,6 @@ if (app) {
         active: !settingsOpen && !activeModal, duckMotionPaused, duckMotionActive: !settingsOpen && !activeModal,
         onDuckMotionPauseChange: (paused) => { duckMotionPaused = paused; },
       });
-    } else if (!engine.isTerminal() && raceV2Development && currentStep==='life_race_result' && engine.state.life && phoneOpen) {
-      const raceNumber=Math.max(...Object.keys(engine.state.raceAttempts).map(Number)),attempt=engine.getRaceAttempt(raceNumber);
-      const section=document.createElement('section'),heading=document.createElement('h2'),summary=document.createElement('p'),list=document.createElement('ol'),proceed=document.createElement('button');
-      heading.textContent='Development race outcome';summary.textContent=attempt.status==='finished'?`Place ${attempt.place}; ${attempt.payoutGems} Gems. Race presentation is pending.`:'Race did not finish; no finish reward was awarded.';
-      for(const item of attempt.finishOrder??[]){const li=document.createElement('li');li.textContent=`${item.id}: place ${item.place}, ${item.payout} Gems`;list.append(li);}
-      proceed.type='button';proceed.textContent='Continue';proceed.onclick=()=>{currentStep='life_phone';engine.state.step=currentStep;maybeAutosave();renderApp();};
-      section.append(heading,summary,list,proceed);mainContainer.replaceChildren(section);
     } else if (!engine.isTerminal() && ['life_race', 'life_race_result'].includes(currentStep) && engine.state.life && phoneOpen) {
       const existing = Object.keys(engine.state.raceAttempts).map(Number);
       const raceNumber = currentStep === 'life_race_result' ? Math.max(...existing) : Math.max(0, ...existing) + 1;
@@ -650,10 +651,11 @@ if (app) {
         onChoiceShown: (info) => { if (engine.recordRaceChoicesShown(raceNumber, info)) maybeAutosave(); },
         onTrialOfferShown: (info) => { if (engine.recordRaceTrialOfferShown(raceNumber, info.costDown, info.exposureId)) maybeAutosave(); },
         onBuyTrial: () => { const result = engine.purchaseRaceTrial(); if (result) maybeAutosave(); return result; },
+        onAssignAbility: (duckId,ability) => { if(!raceV2Development||!globalThis.confirm(`Permanently assign ${ability==='bounce'?'Bounce':'Crowd Surge'} to this duck? This choice cannot be changed.`))return false;const assigned=engine.assignRaceV2Ability(duckId,ability);if(assigned)maybeAutosave();return assigned; },
         onAction: (action, details) => { engine.recordRacePlaybackAction(raceNumber, action, details); maybeAutosave(); },
         onCueDisplayed: (cue) => { engine.recordRaceCueDisplayed(raceNumber, cue); maybeAutosave(); },
         onProceed: () => { currentStep = 'life_phone'; engine.state.step = currentStep; maybeAutosave(); renderApp(); },
-      }, { active: !settingsOpen && !activeModal, initialSnapshot: racePlaybackSnapshot, initialSelection: dexReturnRaceSelection });
+      }, { active: !settingsOpen && !activeModal, initialSnapshot: racePlaybackSnapshot, initialSelection: dexReturnRaceSelection, version2:raceV2Development });
       dexReturnRaceSelection = null;
       dexReturnRaceSnapshot = null;
     } else if (!engine.isTerminal() && isLifeStep(currentStep)) {
@@ -756,6 +758,7 @@ if (app) {
           renderApp();
           document.querySelector('#main-content .app-dex-nav')?.focus({ preventScroll: true });
         },
+        onAssignAbility: (duckId,ability) => { if(!raceV2Development||!globalThis.confirm(`Permanently assign ${ability==='bounce'?'Bounce':'Crowd Surge'} to this duck? This choice cannot be changed.`))return false;const assigned=engine.assignRaceV2Ability(duckId,ability);if(assigned)maybeAutosave();return assigned; },
       });
     } else if (currentStep === 'd1_midday_race' || currentStep === 'd1_midday_race_result') {
       raceViewHandle = renderRaceView(mainContainer, engine, 1, {

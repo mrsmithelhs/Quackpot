@@ -1,0 +1,84 @@
+{
+  "assigned": "bounce",
+  "banked": 0,
+  "confirmation": "Permanently assign Bounce to this duck? This choice cannot be changed.",
+  "focusReturned": true,
+  "keys": [
+    {
+      "kind": "keydown",
+      "key": "Tab",
+      "trusted": true,
+      "target": "INPUT"
+    },
+    {
+      "kind": "keyup",
+      "key": "Tab",
+      "trusted": true,
+      "target": "bounce"
+    },
+    {
+      "kind": "keydown",
+      "key": "Enter",
+      "trusted": true,
+      "target": "bounce"
+    },
+    {
+      "kind": "keypress",
+      "key": "Enter",
+      "trusted": true,
+      "target": "bounce"
+    },
+    {
+      "kind": "click",
+      "key": null,
+      "trusted": true,
+      "target": "bounce"
+    },
+    {
+      "kind": "keyup",
+      "key": "Enter",
+      "trusted": true,
+      "target": "INPUT"
+    }
+  ],
+  "before": {
+    "v1": "schema-five-sentinel",
+    "attempts": 2,
+    "rewards": 1,
+    "assignments": 0,
+    "gems": 50,
+    "trial": false,
+    "growth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {
+        "duck-3": {
+          "progress": 1,
+          "banked": 1,
+          "assigned": null,
+          "recoveryDays": 0,
+          "firstPointEarned": true
+        }
+      }
+    }
+  },
+  "after": {
+    "v1": "schema-five-sentinel",
+    "attempts": 2,
+    "rewards": 1,
+    "assignments": 1,
+    "gems": 50,
+    "trial": false,
+    "growth": {
+      "schema": "race-growth-injury/v1",
+      "ducks": {
+        "duck-3": {
+          "progress": 1,
+          "banked": 0,
+          "assigned": "bounce",
+          "recoveryDays": 0,
+          "firstPointEarned": true
+        }
+      }
+    }
+  }
+}

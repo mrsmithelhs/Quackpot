@@ -269,6 +269,9 @@
   outline: 2px solid #3b82f6;
 }
 
+.dex-ability-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: .8rem; }
+.dex-ability-actions p { margin: .45rem 0 0; line-height: 1.4; }
+
 .inspector-header {
   text-align: center;
   margin-bottom: 1.25rem;

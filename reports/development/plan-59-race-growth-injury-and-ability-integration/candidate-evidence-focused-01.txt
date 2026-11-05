@@ -1,0 +1,21 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.08
+    }
+  ],
+  "utc": "2026-11-05T11:55:18.4636558Z",
+  "command": "node --test --test-name-pattern=candidate exposure uses actual injured prefix engine-integration.test.mjs",
+  "freeGiB": 11.23
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 8.6228546,
+  "PeakSampledPrivateBytes": 166703104,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ candidate exposure uses actual injured prefix and rejects re-chained tampering (8276.5441ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 8377.9491\n",
+  "StandardError": ""
+}
+launcher-returned-success

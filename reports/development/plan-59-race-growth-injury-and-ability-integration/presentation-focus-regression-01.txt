@@ -1,0 +1,21 @@
+{
+  "heavy": [
+    {
+      "ProcessName": "ChatGPT",
+      "GiB": 1.17
+    }
+  ],
+  "utc": "2026-11-05T12:18:10.3624173Z",
+  "command": "node --test src/ui/race-v2-presentation.test.mjs",
+  "freeGiB": 12.19
+}
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.571954,
+  "PeakSampledPrivateBytes": 4120576,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ v2 projection preserves real crossings and gates cues to actual committed events (52.2773ms)\n✔ race and Dex preview use the shared injury and upgrade rating (0.3776ms)\n✔ unresolved copy does not invent a finish or podium (0.1916ms)\n✔ repeated visibility updates do not detach focus and a real reorder restores it (0.3189ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 138.8247\n",
+  "StandardError": ""
+}
+launcher-returned-success

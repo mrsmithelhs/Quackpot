@@ -23,7 +23,7 @@ import { quietFallbackEligibility } from './life-schedule/quiet-fallback.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
 import { inspectLifeTransaction, classifyDueScheduleCommitment, classifyDueSocialCommitment, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
-import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility } from './race-progression.mjs';
+import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility, raceCandidateFacts, RACE_CANDIDATE_EVIDENCE_VERSION } from './race-progression.mjs';
 import { decodeResult } from './race-v2/codec.mjs';
 import { createRaceWorkerClient } from './race-v2/worker-client.mjs';
 
@@ -1115,6 +1115,20 @@ export class GameEngine {
   recordRaceChoicesShown(raceNumber, { candidates, duckId, fieldBaseSpeed, trialState = {}, exposureId } = {}) {
     this.activateRaceRestPolicy();
     const renderedIds = Array.isArray(candidates) ? candidates.map((item) => item.duckId) : [];
+    if(this.#v2Enabled){
+      if(!renderedIds.length||new Set(renderedIds).size!==renderedIds.length||!renderedIds.every(id=>this.state.owned.includes(id)))return null;
+      const day=this.state.life.schedule.day,available=Boolean(this.state.raceTrialAvailable),selected=available&&trialState.selected===true;
+      const shown=renderedIds.map(id=>{const duck=BANNER_1_ROSTER.find(d=>d.id===id),rest=makeRaceRestEvidence(this.log.entries,id,duck.speed);
+        return raceCandidateFacts({duckId:id,baseRating:duck.speed,restFactor:rest.restFactor,historyLimited:rest.historyLimited,recoveryDays:this.state.raceGrowth.ducks[id]?.recoveryDays??0,referenceDay:day,upgradeAvailable:available,upgradeSelected:selected});});
+      shown.sort((a,b)=>Number(b.effectiveRatingMicros)-Number(a.effectiveRatingMicros)||b.authoredRating-a.authoredRating||this.state.owned.indexOf(a.duckId)-this.state.owned.indexOf(b.duckId)||(a.duckId<b.duckId?-1:a.duckId>b.duckId?1:0));
+      if(renderedIds.some((id,i)=>id!==shown[i].duckId)||(duckId&&!renderedIds.includes(duckId)))return null;
+      const verifiedTrialState={available,selected,multiplier:GAME_CONSTANTS.RACE_TRIAL_SPEED_MULTIPLIER};
+      const selectedDuckId=duckId??shown[0].duckId;
+      const signature=stableExposureSignature({candidateEvidenceVersion:RACE_CANDIDATE_EVIDENCE_VERSION,candidates:shown,fieldBaseSpeed,trialState:verifiedTrialState,duckId:selectedDuckId});
+      const stableExposureId=`race-choice-${raceNumber}-${signature}`;if(this.log.entries.some(e=>e.type==='race_choice_offered'&&e.payload?.exposureId===stableExposureId))return null;
+      return this.log.append('race_choice_offered',{raceNumber,candidateEvidenceVersion:RACE_CANDIDATE_EVIDENCE_VERSION,referenceDay:day,exposureId:stableExposureId,signature,
+        options:{safe:{label:'Steady pace',detail:'More consistent pacing'},sprint:{label:'Variable pace',detail:'Wider swings in pacing'}},selectedDuckId,foregroundedDuckId:shown[0].duckId,candidates:shown,fieldBaseSpeed,trialAvailable:available,trialState:verifiedTrialState},this.state.clock);
+    }
     const inputCandidates = Array.isArray(candidates) ? candidates : [];
     const renderedCandidates = inputCandidates.map((item) => {
       const duck = BANNER_1_ROSTER.find((definition) => definition.id === item.duckId);

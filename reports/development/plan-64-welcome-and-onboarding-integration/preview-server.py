@@ -36,7 +36,8 @@ class Handler(BaseHTTPRequestHandler):
             if route not in allowed: self.send_error(404); return
             try: data = content(route)
             except (OSError, ValueError): self.send_error(503); threading.Thread(target=self.server.shutdown, daemon=True).start(); return
-            kind = mimetypes.guess_type(route)[0] or 'application/octet-stream'
+            suffix = pathlib.PurePosixPath(route).suffix.lower()
+            kind = {'.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.html': 'text/html', '.json': 'application/json', '.svg': 'image/svg+xml'}.get(suffix) or mimetypes.guess_type(route)[0] or 'application/octet-stream'
         self.send_response(200); self.send_header('Content-Type', kind); self.send_header('Content-Length', str(len(data))); self.send_header('Cache-Control', 'no-store'); self.end_headers(); self.wfile.write(data)
 
 server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)

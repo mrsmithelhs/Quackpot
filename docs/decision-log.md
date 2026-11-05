@@ -824,3 +824,11 @@ Draft Plan61 explores exact icon/badge/motion/layout, fictional copy and lifecyc
 Owner authorizes amending and starting Plan59 without requiring all Plan52 owner review or packet closure first. Replace the coarse packet dependency with root-approved technical handoff of the actual relevant source pins, sole-writer allocation, race transaction/save/replay versions, day-change recovery seam and checkpoint refresh ownership. Plan52 final experience acceptance remains separate. Shared production writes are not automatically cleared by activation; pending overlapping repairs are serialized and stale synthetic parents remain labelled stale until valid affected evidence is regenerated.
 
 Prioritize a reusable versioned pure multi-contact/injury/Bounce/crowd kernel milestone before the full presentation/progression port. Separately scoped ability research can use a pinned study adapter or stable kernel under its own protocol/resource review without waiting for every apartment or Plan59 presentation item. This does not implement the remaining nine abilities, adopt new balance, waive final integration review or permit runtime report imports. See `reports/orchestration/plan-59-technical-handoff-gate.md`. No push/deployment.
+
+### DECISION-089 — Messages early selection and outside-phone decisions
+
+**Date:** 2026-11-04
+
+In Plan61's early gallery review, owner selects overlapping message bubbles and the stronger bounded attention treatment. Owner finds the list/portrait/due presentation mostly clear but rejects game decisions embedded inside the conversation: consequential actions such as loan repayment use a separate game decision outside the phone, not simulated suggested text replies. Message content should remain immersive sender-authored communication without commentary or in-game calendar vocabulary presented as company knowledge. This refines DECISION-087's high-level optional Decide direction; the exact transition control, narrow composition, copy and lifecycle remain study choices.
+
+Unread remains separate from unpaid/due; reading never pays, and cancel/back preserves the obligation. Continue report-local exploration before separate production integration, with source-bound root/owner review and explicit mock financial values. No save/finance/social policy change, runtime messaging or production route follows from this selection.

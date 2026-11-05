@@ -1,11 +1,9 @@
 ---
 id: plan-64
 title: Welcome and onboarding integration
-status: draft
+status: in-progress
 depends_on: [plan-62]
 gate: "Root approves the pinned visual reference, source ownership, save and Receipt lifecycle, and audio delivery before production writes. Owner reviews the integrated experience before closure."
-superseded_by: null
-resolution: null
 summary: >-
   Make the accepted Plan 62 welcome and duck naming the entry to Quackpot.
   Connect real saved runs, Settings, Credits and post-run Receipt and usage

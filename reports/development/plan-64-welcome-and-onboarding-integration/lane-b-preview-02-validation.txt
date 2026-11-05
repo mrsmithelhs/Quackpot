@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5205672,
+  "PeakSampledPrivateBytes": 917504,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "manifest_sha256 bbd8c5a9d623510639243d61664d6192fa4ae66a34101e5625736c369ae41237 routes 45\r\nreference /reference/reports/development/plan-62-welcome-screen-creative-study/index.html\r\n",
+  "StandardError": "",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

@@ -1,0 +1,27 @@
+{
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "noOverflow": true
+  },
+  "resolveMs": 1372.0999999940395,
+  "compactRestoreMs": 1373,
+  "compressedRestoreMs": 1355.5,
+  "canonicalBytes": 286790,
+  "compactRecordBytes": 9327,
+  "compressedRecordBytes": 74663,
+  "compressedBase64Bytes": 74596,
+  "settingsClicks": 3,
+  "exitClicks": 3,
+  "timerTicks": 206,
+  "maxTimerGapMs": 32.19999998807907,
+  "realWorkerTerminates": 4,
+  "exactGolden": true,
+  "compactExact": true,
+  "compressedExact": true,
+  "realCancel": true,
+  "fakeStale": true,
+  "fakeDuplicate": true,
+  "fakeError": true,
+  "fakeStartup": true
+}

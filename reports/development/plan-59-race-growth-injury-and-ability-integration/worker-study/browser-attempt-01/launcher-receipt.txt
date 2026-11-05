@@ -1,0 +1,13 @@
+preflight UTC 2026-11-05T09:25:03.3503910Z; freeGiB 12.81; process >=1GiB: Memory Compression 1.28GiB
+command: bounded-node-run.ps1 node.exe worker-study/browser-runner.mjs worker-study/browser-attempt-01
+{
+  "ExitCode": 1,
+  "ElapsedSeconds": 15.685248,
+  "PeakSampledPrivateBytes": 703574016,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "{\"nodeVersion\":\"v26.7.0\",\"browserVersion\":{\"product\":\"Chrome/157.0.8103.38\",\"jsVersion\":\"15.7.112.23\"},\"sourceStable\":true,\"results\":[{\"viewport\":{\"width\":1024,\"height\":768,\"noOverflow\":true},\"resolveMs\":1353.6000000238419,\"compactRestoreMs\":1446.300000011921,\"compressedRestoreMs\":1329.699999988079,\"canonicalBytes\":286790,\"compactRecordBytes\":9327,\"compressedRecordBytes\":74663,\"compressedBase64Bytes\":74596,\"settingsClicks\":3,\"exitClicks\":3,\"timerTicks\":208,\"maxTimerGapMs\":28.799999982118607,\"realWorkerTerminates\":4,\"exactGolden\":true,\"compactExact\":true,\"compressedExact\":true,\"realCancel\":true,\"fakeStale\":true,\"fakeDuplicate\":true,\"fakeError\":true,\"fakeStartup\":true},{\"viewport\":{\"width\":390,\"height\":844,\"noOverflow\":true},\"resolveMs\":1372.0999999940395,\"compactRestoreMs\":1373,\"compressedRestoreMs\":1355.5,\"canonicalBytes\":286790,\"compactRecordBytes\":9327,\"compressedRecordBytes\":74663,\"compressedBase64Bytes\":74596,\"settingsClicks\":3,\"exitClicks\":3,\"timerTicks\":206,\"maxTimerGapMs\":32.19999998807907,\"realWorkerTerminates\":4,\"exactGolden\":true,\"compactExact\":true,\"compressedExact\":true,\"realCancel\":true,\"fakeStale\":true,\"fakeDuplicate\":true,\"fakeError\":true,\"fakeStartup\":true}],\"artifactChecksPassed\":true,\"cleanupFullyVerified\":false,\"accepted\":false,\"cleanup\":{\"residual\":false,\"rootExited\":true,\"observedProcessesExited\":true,\"inspectionFailed\":false,\"coverage\":\"sampled-only\",\"uncertainty\":true,\"profileRetained\":true,\"treeTerminationConfirmed\":false,\"childExitCode\":0,\"profileRemoved\":false,\"profileIdSha256\":\"46d4f7adcd204f08937595294d8e1a52f507f94d0063775ecb2e4711e2c591bf\"},\"serverObservedExited\":true,\"serverExit\":{\"code\":null,\"signal\":\"SIGTERM\"},\"exceptionCount\":0,\"error\":null}\n",
+  "StandardError": ""
+}
+Validation process exited with code 1.
+launcher-threw

@@ -1,0 +1,17 @@
+preflight UTC 2026-11-05T09:27:36.4030412Z; freeGiB 12.69; process >=1GiB: Memory Compression 1.28GiB
+command: bounded-node-run.ps1 node.exe --test --test-concurrency=1 src/core/race-v2/persistence-worker.test.mjs worker-study/day-order.test.mjs
+src/core/race-v2/persistence.mjs 30B249D3BDCB02271522B2CD06D3C1E23E8329E4460BFB22EC0A6955C916E5A3
+src/core/race-v2/worker-client.mjs CF1439F719E611E164528469F09B99458902C4CEAE8CBFF26C33E577E3CA08BF
+src/core/race-v2/race-worker.mjs 220F24EB4049F55FBB46C6C98FF94DCA85DB2B78D65A2024740BCEE3A7F8D802
+src/core/race-v2/persistence-worker.test.mjs FDD11A8DA198C000875095D63FE3ADAC40560613C8C3DADF971580D08D1E94B8
+reports/development/plan-59-race-growth-injury-and-ability-integration/worker-study/day-order.test.mjs 5B257A8EDA6B3381A840F2A87AB6F5B75813FA03E67E1E5B2004080AF633B1F3
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 8.0705871,
+  "PeakSampledPrivateBytes": 172933120,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ cross-day recovery precedes frozen entry; new injury is not immediately decremented (1.0596ms)\n✔ cancellation publishes no draft and elapsed recovery applies once per day (0.1596ms)\n✔ compact and compressed records reconstruct the exact original, reject meaningful tampering (7372.9931ms)\n✔ worker lifecycle invalidates stale, canceled, duplicate, startup and error paths (22.9141ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 7553.0745\n",
+  "StandardError": ""
+}
+launcher-returned-success

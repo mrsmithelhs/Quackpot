@@ -1,11 +1,9 @@
 ---
 id: plan-59
 title: Race growth, injury and selected ability integration
-status: draft
-depends_on: [plan-52, plan-55, plan-57, plan-58]
-gate: "Plan52 stable shared-state/checkpoint handoff and root approval of exact ownership, transactions and working constants before production writes; root technical/rendered review and owner integrated experience review before closure."
-superseded_by: null
-resolution: null
+status: in-progress
+depends_on: [plan-55, plan-57, plan-58]
+gate: "Stable technical handoff from Plan52, not its closure: root pins and assigns the relevant source/transaction/save/day-change/checkpoint seams before overlapping production writes; working constants and integration proposal require root clearance; root technical/rendered and owner integrated review remain."
 summary: >-
   Integrate selected duck growth, collision injury, full-protection Bounce and independent crowd acceleration; extract accepted collision and eleven ability visual treatments into reusable production helpers without inventing mechanics for the remaining abilities.
 ---
@@ -20,7 +18,7 @@ summary: >-
 - Date: 2026-11-04
 - Packet type: feature / production integration
 - Mutation level: source, schemas, tests, synthetic checkpoints and affected documentation
-- Approval gate: stable Plan52 handoff, root mechanism clearance, owner integrated review
+- Approval gate: stable technical seam handoff independent of Plan52 closure, root mechanism/ownership clearance, owner integrated review
 - Expected artifacts: integration proposal, focused production modules and tests, updated current-format synthetic fixtures, source-bound before/after evidence, integration brief and progress report
 
 ## Goal and why this packet exists
@@ -29,7 +27,7 @@ Turn the selected Plan55 mechanics and Plan57/58 visual directions into a cohere
 
 ## Non-goals and dependencies
 
-Plan52 must deliver a stable engine, five-slot scheduler, save and checkpoint ownership handoff before shared production writes. Plans55,57,58 are closed studies; their reports establish selected direction and evidence limits, not drop-in source. Plan60 is parallel investigation, not a dependency or permission to retune this port mid-flight.
+Plan52 closure and final owner experience acceptance are not dependencies. Read-only mapping and the proposal may begin immediately. Before overlapping production writes, root must approve a stable technical handoff of the relevant engine, scheduler, save/replay and checkpoint seams, with explicit ownership and sequencing of remaining Plan52 repairs. Disjoint pure-module/art work can be separately cleared without freezing the whole game. See `reports/orchestration/plan-59-technical-handoff-gate.md`. Plans55,57,58 are closed studies; their reports establish selected direction and evidence limits, not drop-in source. Plan60 supplies reviewed candidate contracts and the owner-selected next research priority, not a dependency or permission to add those abilities to this port.
 
 No implementation of the other nine abilities, later progression thresholds, rarity starting abilities, Gem progression item, limited-time events, new audio, paid healing, scheduler redesign, runtime report imports, push or deployment. No old development-save migration layer. Preserve explicit unsupported-save handling and supported replay contracts at the pinned production revision.
 
@@ -48,6 +46,8 @@ Preserve seeded outcomes, genuine individual crossings, resolve-once rewards, ap
 ## Scope and ownership gate
 
 First submit one compact proposal pinning current sources, selected study assets, replacement seams and every edited/added/bypassed surface. Identify exact ownership in focused resolver, progression/injury, engine transaction, storage/replay/log/Receipt, race playback, Duck-Dex/selection and local style modules. Touch the life coordinator only at its actual day-change recovery seam. Specify schema versions, idempotency, cancellation/partial-result policy and checkpoint regeneration. Root clears this before production writes; do not assume ownership of all files named in a study brief.
+
+The technical handoff records: (1) immutable source/input/result pins for the approved slice; (2) sole-writer path/turn allocation with Plan52, including any pending financial-warning repair; (3) atomic race resolve/commit, state/log/replay/version policy; (4) recovery on actual before/after day change for every committed scheduler route; and (5) current versus source-stale synthetic evidence and who regenerates/proves which final fixtures. The reported 13 stale Plan52 catalog entries are not current validation. They do not block read-only work or isolated rule tests, but affected integration claims require newly proved final-source evidence. A bounded shared technical handoff is not acceptance of Plan52's whole experience.
 
 The integration record distinguishes selected additions, preserved context, placeholders/omissions and deferred choices. Preserve the current HUD, gacha, apartment, work, Ren, Receipt and neighboring race screens. Gallery controls, synthetic event generators, demonstration trajectories and simplified layouts are not production specifications. Reissue the record when scope meaningfully changes.
 
@@ -80,6 +80,8 @@ Use real duck rig coordinates, heading and layer ownership, unique instance IDs,
 ### 5. Review sequence and autonomy
 
 After mechanism clearance, work in scoped commits through pure rules, engine/schema transactions, asset extraction and live UI wiring. Routine fixes and bounded checks do not require a new permission round. Bring meaningful experience choices to the owner in the implementer chat; route shared contracts or scope changes to root. Provide an early playable Bounce/crowd checkpoint before final polish. Do not wait for Plan60 to finish.
+
+Prioritize a reusable versioned pure race-kernel milestone for the selected multi-contact/injury/Bounce/crowd behavior before the complete progression/presentation port. Its controlled API and test evidence may support separately authorized future Guard/Quick Recovery/Straight Shooter research without waiting for all apartment review or all Plan59 visuals. Preserve the accepted production resolver as an explicit reference. Do not expose ad hoc study hooks in the live game, import report adapters at runtime, or add the remaining abilities here. Root separately reviews any downstream intervention experiment; a stable kernel milestone is not packet completion.
 
 Use the existing bounded launcher and temporary resource policy: fresh process/memory preflight, no watcher, exact finite commands, default 90-second/1-GiB heap/2-GiB sampled process-tree limits unless separately cleared. Coordinate shared source writes and browser capture ownership; do not stop the owner's server or relax cleanup guards. No new provider calls or tool installation is implied by SVG extraction.
 

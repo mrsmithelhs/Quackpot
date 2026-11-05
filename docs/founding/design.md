@@ -220,6 +220,8 @@ Content, rates, bonuses, and economy effects remain simulation inputs. Cues and 
 
 ## Immersion
 
+**Race integration sequencing, 2026-11-04 (DECISION-088):** Plan59's selected growth/injury/Bounce/crowd integration requires a stable technical source/transaction/save/day-change/checkpoint handoff, not closure of the whole Plan52 experience review. Shared writes remain serialized and affected final-source evidence must be current. A reusable pure race kernel can precede the full UI/progression port and support separately reviewed later-ability research; activation is not implementation or owner acceptance of that kernel.
+
 Quackpot uses one fixed diegetic stage. Offers appear as objects or messages in that world. The apartment empties as items are sold. The Receipt arrives as a printed slip. Presentation may favor atmosphere over explanatory text while conveying core gameplay information and choices.
 
 Reduced-motion presentation preserves information, choices, and outcomes while reducing motion and spectacle. Photo-finish presentation, screen effects, and musical layering remain in the design; the owner will test them on a teacher computer considered similar to student desktops in the target lab.

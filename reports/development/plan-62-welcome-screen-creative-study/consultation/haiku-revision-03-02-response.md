@@ -1,0 +1,34 @@
+Here is one SVG with a small whole duck sitting inside the counter of the Q, so the letter's bowl becomes the duck's pond.
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="ic-word">
+      <path d="M92 72 a34 39 0 1 0 0 78 a34 39 0 1 0 0 -78 M116 139 L134 164"/>
+      <path d="M146 92 V128 Q146 150 168 150 Q190 150 190 128 V92 M190 92 V150"/>
+      <path d="M202 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0 M250 92 V150"/>
+      <path d="M318 106 Q306 92 290 92 Q270 92 270 121 Q270 150 290 150 Q306 150 318 136"/>
+      <path d="M336 46 V150 M336 122 L384 92 M350 108 L390 150"/>
+      <path d="M412 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0 M412 92 V196"/>
+      <path d="M473 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0"/>
+      <path d="M552 60 V142 Q552 150 562 150 H580 M536 96 H578"/>
+    </g>
+  </defs>
+  <g transform="translate(0 12)">
+    <use href="#ic-word" y="8" fill="none" stroke="#4a2a14" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ic-word" fill="none" stroke="#4a2a14" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ic-word" y="5" fill="none" stroke="#e0701a" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ic-word" fill="none" stroke="#f6b932" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ic-word" x="-2" y="-3" fill="none" stroke="#ffe48a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <g stroke="#4a2a14" stroke-width="2.5" stroke-linejoin="round">
+      <ellipse cx="120" cy="118" rx="15" ry="9" fill="#f6b932"/>
+      <path d="M108 116 Q116 106 128 112 Q120 124 108 116 Z" fill="#e8ad28" stroke-width="1.8"/>
+      <circle cx="133" cy="106" r="6.5" fill="#f6b932"/>
+      <path d="M138 105 L146 108 L138 111 Z" fill="#e0701a" stroke-width="1.8"/>
+      <circle cx="134.5" cy="104" r="1.6" fill="#3a2212" stroke="none"/>
+    </g>
+  </g>
+</svg>
+```
+
+**Readability risk:** The duck fills most of the Q's counter, so at small sizes the counter can read as a filled blob and the Q may look like a "O" or "G" with a tail. Shrinking the duck or moving it lower in the bowl would reduce that risk.

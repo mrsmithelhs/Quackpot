@@ -49,14 +49,11 @@ function validateTransactions(envelope, verifiedV2 = false) {
   const shownStages=[];let expectedInterruptions=[],completionInterruptions=null;
   const deliveries=new Map(envelope.messagesPolicy==='messages-v1'?[['launch:invitation:1',1]]:[]),reads=new Set(),historyShown=new Set();
   let launchShown=false,launchReplied=false,launchAckShown=false,expiredLaunchShown=false;
-  let possibleRenDeliveries=new Set();
+  let pendingRenDeliveries=[];
   const errors=[...validateSeededDrawHistory(envelope),...(envelope.schemaVersion===6?(verifiedV2?[]:['Schema-6 race history requires async verification']):validateSeededRaceHistory(envelope))];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
     const entry=entries[i];
-    const isRenDelivery=entry.type==='message_delivered' && entry.payload?.kind==='ren';
-    if(isRenDelivery && !possibleRenDeliveries.has(entry.payload?.id)) {errors.push(`Unbound Ren delivery at ${entry.seq}`);break;}
-    if(isRenDelivery)possibleRenDeliveries.delete(entry.payload.id);else if(!(expectedStoryIncome && entry.type==='income') && !(entry.type==='message_delivered' && ['work','loan'].includes(entry.payload?.kind)))possibleRenDeliveries.clear();
     if(envelope.schemaVersion===6&&entry.type==='action'&&entry.payload?.kind==='race_ability_assigned'&&entry.clock?.day!==life.schedule.day){
       errors.push(`Ability assignment day mismatch at ${entry.seq}`);break;
     }
@@ -76,6 +73,13 @@ function validateTransactions(envelope, verifiedV2 = false) {
     if(i>0 && envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
       const expected=deliveryPayloads(life).filter(p=>!deliveries.has(p.id));
       if(expected.length && (entry.type!=='message_delivered' || !same(entry.payload,expected[0]))) {errors.push(`Missing Messages delivery before ${entry.seq}`);break;}
+    }
+    if(envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
+      const isRenDelivery=entry.type==='message_delivered' && entry.payload?.kind==='ren';
+      if(pendingRenDeliveries.length) {
+        if(!isRenDelivery || !same(entry.payload,{kind:'ren',id:pendingRenDeliveries[0],revision:1})) {errors.push(`Missing Ren delivery before ${entry.seq}`);break;}
+        pendingRenDeliveries.shift();
+      } else if(isRenDelivery) {errors.push(`Unbound Ren delivery at ${entry.seq}`);break;}
     }
     if(terminalRoute) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
@@ -190,7 +194,7 @@ function validateTransactions(envelope, verifiedV2 = false) {
       if(p?.kind!=='asset_sale' || !amount || p.amount!==amount || life.sold.includes(p.asset) || life.schedule.recovery
         || (p.asset==='couch' && social46NeedsSaleDisclosure(view)) || p.cashAfter!==(balances.cashCents+amount*100)/100) {errors.push(`Invalid asset sale at ${entry.seq}`);break;}
       const beforeRen=new Set(renCurrentIds(life));life.sold.push(p.asset);if(p.asset==='couch')social46CouchSold({social46:life.social46});balances.cashCents+=amount*100;
-      possibleRenDeliveries=new Set(renCurrentIds(life).filter(id=>!beforeRen.has(id) && !deliveries.has(id)));continue;
+      pendingRenDeliveries=envelope.messagesPolicy==='messages-v1'?renCurrentIds(life).filter(id=>!beforeRen.has(id) && !deliveries.has(id)):[];continue;
     }
     if(entry.type==='action' && entry.payload?.kind==='race_trial_purchased') {
       const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
@@ -287,15 +291,17 @@ function validateTransactions(envelope, verifiedV2 = false) {
       if(race?.payload?.entryDay!==result.state.schedule.day){errors.push(`Race entry day mismatch at ${entry.seq}`);break;}
     }
     const oldRenIds=new Set(renCurrentIds(life));life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
-    possibleRenDeliveries=new Set(renCurrentIds(life).filter(id=>!oldRenIds.has(id) && !deliveries.has(id)));
+    pendingRenDeliveries=envelope.messagesPolicy==='messages-v1'?renCurrentIds(life).filter(id=>!oldRenIds.has(id) && !deliveries.has(id)):[];
     if(entry.type==='life52_work_story_intent' && intent.type==='complete')expectedStoryIncome={kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:balances.cashCents/100,source:'five-slot-work-story'};
     const terminal=result.events.find(event=>event.type==='financial_default');
+    if(terminal)pendingRenDeliveries=[];
     if(terminal)expectedTerminal={route:'running_on_empty',reason:terminal.reason,obligationId:terminal.obligationId,
       outstandingCents:terminal.outstandingCents,housingLost:terminal.route==='housing_loss'};
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
   if(!terminalRoute && envelope.messagesPolicy==='messages-v1' && deliveryPayloads(life).some(p=>!deliveries.has(p.id)))errors.push('Missing Messages delivery at end of history');
+  if(!terminalRoute && pendingRenDeliveries.length)errors.push('Missing Ren delivery at end of history');
   if(expectedStoryIncome)errors.push('Missing work income evidence');
   if(expectedInterruptions.length)errors.push('Missing interruption evidence after uninstall choice');
   if(completionInterruptions!==null)errors.push('Missing terminal after run interruption');

@@ -22,3 +22,6 @@
 .messages-preview { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.35; }
 .messages-bubble { max-width:90%; }
 .messages-decide { border-radius:1rem; background:#fff; box-shadow:0 .4rem 1.2rem #0003; }
+
+.messages-avatar { overflow:hidden; }
+.messages-avatar svg { width:100%; height:100%; display:block; }

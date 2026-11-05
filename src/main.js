@@ -95,7 +95,7 @@ if (app) {
   let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
   let messagesHandle = null;
-  let knownMessageDeliveries = null;
+  let knownMessageDeliveries = null, messageAttentionStarted = null;
   if(raceV2Development)window.addEventListener('storage',event=>{
     if(!invalidateForSchema6StorageEvent(event,schema6Session,engine))return;
     storageWarningText='The development save changed in another tab. This session will not overwrite it.';updateWarningBanner();
@@ -292,7 +292,7 @@ if (app) {
       void schema6Session.bindNew(fresh).then(result=>{if(result.success)startFreshRun(enableStorageSave,fresh);else{storageWarningText='The development save was preserved; a new run could not start.';updateWarningBanner();}});return;
     }
     engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2:raceV2Development });
-    knownMessageDeliveries=null;
+    knownMessageDeliveries=null; messageAttentionStarted=null;
     if(!preparedEngine)engine.start();
 
     if (!enableStorageSave || isTemporaryPreservationMode() || unsupportedRenPreservation) {
@@ -565,9 +565,17 @@ if (app) {
       const ids=engine.log.entries.filter(e=>e.type==='message_delivered').map(e=>e.payload.id);
       const arrived=knownMessageDeliveries && ids.some(id=>!knownMessageDeliveries.has(id));
       knownMessageDeliveries=new Set(ids);
-      if(arrived && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-        hudContainer.querySelector('#btn-messages')?.animate?.([{transform:'scale(1)'},{transform:'scale(1.13)'},{transform:'scale(1)'}],{duration:650,iterations:2});
+      if(arrived) messageAttentionStarted=performance.now();
+      const elapsed=messageAttentionStarted===null?Infinity:performance.now()-messageAttentionStarted;
+      if(elapsed<2400 && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        const animation=hudContainer.querySelector('#btn-messages')?.animate?.([
+          {transform:'scale(1)',boxShadow:'0 0 0 0 transparent'},
+          {transform:'scale(1.12)',boxShadow:'0 0 0 5px #e9a75288'},
+          {transform:'scale(1)',boxShadow:'0 0 0 0 transparent'}
+        ],{duration:1200,iterations:2,easing:'ease-out'});
+        if(animation) animation.currentTime=elapsed;
       }
+
     }
   }
 

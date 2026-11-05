@@ -1,3 +1,4 @@
+import { renderRen } from '../assets/ren/index.mjs';
 import { messageKey, projectMessages } from '../core/messages-projection.mjs';
 
 export function isMessageVisible({connected, visibleDocument, uncovered, content:a, scroll:b, viewport:v}) {
@@ -9,6 +10,7 @@ export function isMessageVisible({connected, visibleDocument, uncovered, content
 export function mountMessages(host, { deliveries, readKeys = [], onDisplay = () => true, onRead, onAction, onClose, isUncovered = () => true }) {
   let closed = false, current = null, observer = null, extraObservers = [], reads = new Set(readKeys), pending = new Set(), displayed = new Set(), generation = 0;
   const doc = host.ownerDocument;
+  const avatarFor = thread => { const avatar=doc.createElement('span'); avatar.className='messages-avatar'; avatar.setAttribute('aria-hidden','true'); if(thread.id==='ren') avatar.innerHTML=renderRen({idPrefix:'messages-ren',framing:'avatar',decorative:true}).svg; else avatar.textContent=thread.sender.slice(0,1).toUpperCase(); return avatar; };
   const button = (label, action) => { const b=doc.createElement('button'); b.type='button'; b.textContent=label; b.addEventListener('click', action); return b; };
   const stop = () => { generation++; observer?.disconnect(); observer=null;for(const item of extraObservers)item.disconnect();extraObservers=[]; };
   const view = () => projectMessages(deliveries, [...reads]);
@@ -41,12 +43,13 @@ export function mountMessages(host, { deliveries, readKeys = [], onDisplay = () 
     const frame=doc.createElement('section'); frame.className='messages-panel'; frame.setAttribute('role','dialog'); frame.setAttribute('aria-label','Messages');
     const header=doc.createElement('header');
     if (current) header.append(button('Back',()=>{current=null;render();}));
+    if(current==='ren') header.append(avatarFor({id:'ren',sender:'Ren'}));
     const title=doc.createElement('h2'); title.textContent=current ? view().threads.find(t=>t.id===current)?.sender ?? 'Messages' : 'Messages'; header.append(title,button('Close',close)); frame.append(header);
     const list=doc.createElement('div'); list.className='messages-scroll'; frame.append(list); host.append(frame);
     if (!current) {
       for (const t of view().threads) {
         const b=button('',()=>{current=t.id;render();});b.className='messages-thread';
-        const avatar=doc.createElement('span');avatar.className='messages-avatar';avatar.textContent=t.sender.slice(0,1).toUpperCase();avatar.setAttribute('aria-hidden','true');
+        const avatar=avatarFor(t);
         const content=doc.createElement('span');content.className='messages-thread-content';
         const name=doc.createElement('strong');name.textContent=t.sender;
         const meta=doc.createElement('span');meta.className='messages-thread-meta';meta.textContent=[t.messages[0].time ?? 'Earlier',t.unread?'Unread':'',t.messages[0].status ?? '',t.messages.some(m=>m.actionable)?'Decision available':''].filter(Boolean).join(' · ');

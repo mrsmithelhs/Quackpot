@@ -1,0 +1,21 @@
+# Plan59 schema6 candidate-rating evidence amendment
+
+2026-11-05. Root confirmed `recordRaceChoicesShown` derives `effectiveBaseInput` solely from rest evidence and records no schema6 injury/recovery, while new races apply the selected injury factor. Clear a narrow amendment under the existing exclusive Plan59 turn. This is truthful presentation/evidence alignment, not a numerical balance or save-version change.
+
+## Owned change
+
+Permit focused schema6-only changes to `src/core/game-engine.mjs`, `race-progression.mjs`, the schema6 history/replay validators (`race-v2/history-plan.mjs`, `life-replay.mjs`, `storage.mjs` only where required), `receipt.mjs` for narrowly rendering the new recorded facts, and their direct focused tests. Reuse one pure candidate-facts projection between entry/Dex, engine exposure recording and replay expectation; UI must not supply authoritative injury or recompute a different formula. Existing schema5/v1 control, validators and historical data stay unchanged. Record fresh pins before and after; prior final-source technical evidence remains historical for these touched paths.
+
+Record explicit versioned candidate-evidence payload for new schema6 exposures, including authored rating, separate rest factor, actual injury status/factor, recovery-day count/reference day, pre-affine effective rating and available/selected one-race upgrade effect. Use the same checked representation/rounding as the selected race-entry calculation; rounded display labels are separate from exact evidence. Verify upgrade availability before computing its effective rating; an unavailable selected flag may not inflate recorded/displayed rating. Sort actual rendered candidates using that rating and deterministic ID/order tie breaks. Never call a 10% rating reduction a 10% post-affine speed reduction.
+
+Replay validates these facts against ownership/rest/progression/schedule at the actual shown history prefix, not final state or arbitrary UI input. Preserve old policy-absent schema6 exposure records as their recorded historical format, not retroactively corrected injury displays; a new explicit candidate-evidence version dispatch must be validated exactly and unknown versions rejected. Existing committed race/input facts remain unchanged. Do not backfill or rewrite old events. Dedup signatures must include the actual versioned facts, so genuine injury/recovery/selection changes can produce a truthful new exposure but plain rerenders cannot.
+
+Define the preview's time reference. Normally show current-day facts. If a confirmed session extension crosses a day boundary and changes recovery before race entry, its final confirmation must reflect the actual proposed entry facts or require refresh; do not silently carry a stale injured/uninjured rating into the committed race. Mere inspection does not advance recovery. Keep the shared admission/recovery-before-entry order.
+
+Receipt may explain the separate recorded rest/injury/upgrade factors for this new evidence version, without inferring intent or changing earlier Receipt wording. No new helper panel in live gacha, policy default change, other ability mechanics or generic Receipt redesign. Concise factual entry copy is permitted; owner reviews integrated usability later.
+
+## Checks and continuation
+
+Within lane B, run focused tests for healthy/injured/current recovery, rest+injury+upgrade composition, unavailable upgrade, ranking/dedup, elapsed-day preview/commit, and coherently re-chained tampered injury/factor/recovery/rating/version evidence. Include schema5 and policy-absent schema6 controls. Preserve before/after exact event examples. Ordinary bounded jobs and existing presentation-stretch rerun allowance apply; no extra broad simulation/provider job. Final presentation build/browser must use the resulting latest source, including injury labels and actual shown evidence; do not call earlier captures current proof.
+
+Proceed with this owned repair and selected presentation work. Report a narrow issue if replay cannot derive the shown-day facts from supported historical sources; do not invent them or weaken validation. Commit explicit owned paths and progress last. No default cutover, owner acceptance, push or packet-status change.

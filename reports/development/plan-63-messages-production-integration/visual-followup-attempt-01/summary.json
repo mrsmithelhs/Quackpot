@@ -1,0 +1,62 @@
+{
+  "pins": {
+    "src/main.js": "e9116518226bb229640f49f04f5d6d6bd86ca692571687cb375e9d7d98dd4779",
+    "src/core/life-replay.mjs": "a5452a1bb9fc651a818b09c748f66c4a2906e001dc4bdaff4bb620a58eb59ac2",
+    "src/core/messages-policy.mjs": "ea9ef7e4795e9b75882bff61f71796128490e2c83e4e9631228e0679d8215659",
+    "src/ui/messages-view.mjs": "6e605fbbe9013317dfaa5a94d3c781edc77d2340c89771ae24c657015019a642",
+    "src/ui/messages.css": "267bdf9c5f0d658d41679b3cef196cf6fd6c6a7a0b5b9ec459e9e5dfd5d20ccc",
+    "src/assets/ren/index.mjs": "ae18fbe8103d4b4fd40b621f63c5c46e2ef6da3883da77f56e63f42ef95eb2af",
+    "reports/development/plan-63-messages-production-integration/ren-start-01.json": "2550335b4c04b474f13231d436f1d8926ed7f48f86e7da1231cc291d35a3b815",
+    "dist/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+    "dist/assets/index-BcY87wjQ.js": "e968d0aea28a63801d09e2d57ada091bd6653a8868c14d3cad65e7599dcf5671",
+    "dist/assets/index-BcY87wjQ.js.map": "0bbaa6815cf4603a0fb991ca6ed1d7f4bc4d92a930247775967d545e3d5499ee",
+    "dist/assets/index-gQUcu8Cf.css": "ccd8b7e57eefaa41f34ad077886057753d141cfcebdae1ac47c143e7392f57dd",
+    "dist/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+    "dist/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726",
+    "dist/index.html": "925e41464a007d4bc297e76218de3259d19ff4e14d59f4bf6f3d5ffe8fc4f755"
+  },
+  "observations": [
+    {
+      "tag": "1200-normal",
+      "listAvatar": true,
+      "threadAvatar": true,
+      "before": [
+        455.5710000063291
+      ],
+      "after": [
+        484.09999999403954
+      ],
+      "settled": 0
+    },
+    {
+      "tag": "390-normal",
+      "listAvatar": true,
+      "threadAvatar": true,
+      "before": [
+        473.0240000085905
+      ],
+      "after": [
+        485.09999999403954
+      ],
+      "settled": 0
+    },
+    {
+      "tag": "390-reduced",
+      "listAvatar": true,
+      "threadAvatar": true,
+      "before": [],
+      "after": [],
+      "settled": 0
+    }
+  ],
+  "serverExited": true,
+  "cleanup": {
+    "rootExited": true,
+    "observedProcessesExited": true,
+    "residual": false,
+    "uncertainty": true,
+    "profileRetained": true,
+    "treeTerminationConfirmed": false
+  },
+  "clean": false
+}

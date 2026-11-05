@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {GameEngine} from './game-engine.mjs';
 import {EventLog,verifyChain} from './event-log.mjs';
-import {validateSchema6WithCandidates} from './life-replay.mjs';
+import {validateSchema6WithCandidates,requiredMessagesDelivery} from './life-replay.mjs';
 test('Messages start policy is isolated and replay checks delivery/read prefix',()=>{
  const e=new GameEngine('messages-policy',{lifePolicy:'five-slot-v1',raceV2:true,messagesPolicy:true});e.start();
  const env=e.toEnvelope();assert.equal(env.messagesPolicy,'messages-v1');assert.equal(env.eventLog[0].payload.messagesPolicy,'messages-v1');
@@ -114,4 +114,12 @@ test('floor reconfirmation is a distinct current decision with its own shown pre
  const {renCurrentIds,renMessageShown,deliveryCandidate}=await import('./messages-policy.mjs');
  const life={schedule:{day:4},social46:{revision:2,introShown:true,intro:{numberShared:true},pending:{id:'ren-2',day:4,activity:'game',committed:true,seatingConfirmed:false,floorPromptShown:false}}};
  const id='ren:floor:ren-2:4';assert.ok(renCurrentIds(life).includes(id));assert.equal(deliveryCandidate(life,'ren',id),true);assert.equal(renMessageShown(life,id),false);life.social46.pending.floorPromptShown=true;assert.equal(renMessageShown(life,id),true);life.social46.pending.seatingConfirmed=true;assert.equal(renCurrentIds(life).includes(id),false);assert.equal(renMessageShown(life,id),false);
+});
+
+test('competing work and loan deliveries precede pending Ren in publication order',()=>{
+ const life={schedule:{day:2,employment:{employed:true},workCalendar:{'2':true}},finance:{loans:[{id:'loan-1'}]}};
+ const delivered=new Map(),pending=['ren:ack:ren-1:2','ren:floor:ren-1:2'];
+ const expected=[{kind:'work',id:'work:shift:2',revision:1},{kind:'loan',id:'loan:statement:loan-1',revision:1},{kind:'ren',id:pending[0],revision:1},{kind:'ren',id:pending[1],revision:1}];
+ for(const item of expected){assert.deepEqual(requiredMessagesDelivery(life,delivered,pending),item);delivered.set(item.id,item.revision);if(item.kind==='ren')pending.shift();}
+ assert.equal(requiredMessagesDelivery(life,delivered,pending),null);
 });

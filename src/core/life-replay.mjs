@@ -15,6 +15,11 @@ import {isVerifiedWorkerCandidate} from './race-v2/worker-client.mjs';
 import {stableStringify} from './race-v2/codec.mjs';
 import {deliveryCandidate,deliveryPayloads,isDeliveryPayload,renCurrentIds,renMessageShown} from './messages-policy.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+// Engine publication emits work/loan before newly eligible Ren revisions.
+export function requiredMessagesDelivery(life,deliveries,pendingRenDeliveries) {
+  return deliveryPayloads(life).find(p=>!deliveries.has(p.id)) ??
+    (pendingRenDeliveries.length ? {kind:'ren',id:pendingRenDeliveries[0],revision:1} : null);
+}
 function validateMessagesHeader(envelope) {
   const start=envelope?.eventLog?.[0]?.payload?.messagesPolicy;
   const metadata=envelope?.messagesPolicy;
@@ -71,15 +76,15 @@ function validateTransactions(envelope, verifiedV2 = false) {
       continue;
     }
     if(i>0 && envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
-      const expected=deliveryPayloads(life).filter(p=>!deliveries.has(p.id));
-      if(expected.length && (entry.type!=='message_delivered' || !same(entry.payload,expected[0]))) {errors.push(`Missing Messages delivery before ${entry.seq}`);break;}
-    }
-    if(envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
+      const expected=requiredMessagesDelivery(life,deliveries,pendingRenDeliveries);
       const isRenDelivery=entry.type==='message_delivered' && entry.payload?.kind==='ren';
-      if(pendingRenDeliveries.length) {
-        if(!isRenDelivery || !same(entry.payload,{kind:'ren',id:pendingRenDeliveries[0],revision:1})) {errors.push(`Missing Ren delivery before ${entry.seq}`);break;}
+      if(expected && (entry.type!=='message_delivered' || !same(entry.payload,expected))) {
+        errors.push(`Missing ${expected.kind==='ren'?'Ren':'Messages'} delivery before ${entry.seq}`);break;
+      }
+      if(isRenDelivery) {
+        if(!expected || expected.kind!=='ren') {errors.push(`Unbound Ren delivery at ${entry.seq}`);break;}
         pendingRenDeliveries.shift();
-      } else if(isRenDelivery) {errors.push(`Unbound Ren delivery at ${entry.seq}`);break;}
+      }
     }
     if(terminalRoute) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}

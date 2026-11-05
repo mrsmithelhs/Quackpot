@@ -1,0 +1,127 @@
+diff --git a/reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1 b/reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+index ca90e72b..7553593c 100644
+--- a/reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
++++ b/reports/development/plan-25-desk-phone-art-integration/bounded-node-run.ps1
+@@ -33,9 +33,15 @@ public sealed class BoundedRunResult {
+   public bool CleanupIdentityUnverified { get; set; }
+   public int VerifiedDescendantsCaptured { get; set; }
+   public int CleanupDescendantsExited { get; set; }
++  public string FailureReasonCode { get; set; }
++  public int VerifiedLeafExits { get; set; }
+ }
+ 
+ public static class Plan25ProcessTree {
++  private sealed class OwnershipException : Exception {
++    public string Code { get; }
++    public OwnershipException(string code) : base(code) { Code = code; }
++  }
+   [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+   private struct ProcessEntry {
+     public uint Size, Usage, ProcessId;
+@@ -56,6 +62,14 @@ public static class Plan25ProcessTree {
+     public long StartTicks;
+   }
+ 
++  private static bool ObservedCapturedLeafExit(int id, Dictionary<int,int> parents, Dictionary<int,CapturedProcess> captured) {
++    if (!captured.TryGetValue(id, out CapturedProcess item)) return false;
++    foreach (var edge in parents) if (edge.Key != id && edge.Value == id) return false;
++    // The Process handle is the same identity that was verified and retained
++    // at capture; never reopen a numeric PID to establish an exit.
++    return item.Handle.HasExited;
++  }
++
+   private sealed class BoundedCapture {
+     private readonly object gate = new object();
+     private readonly StringBuilder text = new StringBuilder();
+@@ -128,7 +142,7 @@ public static class Plan25ProcessTree {
+     var cleanupNotes = new List<string>();
+     string phase = "start", operation = "process-start"; Exception primaryError = null;
+     Task outTask = null, errTask = null; bool rootExited = false, drained = false;
+-    int exitCode = -1, verifiedCount = 0, exitedCount = 0; long rootStartTicks = 0; bool cleanupResidual = false, cleanupInspection = false, cleanupIdentity = false, diagnosticNodeChild = false;
++    int exitCode = -1, verifiedCount = 0, exitedCount = 0, verifiedLeafExits = 0; long rootStartTicks = 0; bool cleanupResidual = false, cleanupInspection = false, cleanupIdentity = false, diagnosticNodeChild = false;
+     try {
+       if (!process.Start()) throw new InvalidOperationException("The owned validation process did not start.");
+       started = true;
+@@ -140,10 +154,12 @@ public static class Plan25ProcessTree {
+         operation = "check-owned-root"; if (process.HasExited) break;
+         operation = "snapshot-process-tree";
+         if (diagnosticFault == "inspection") throw new System.ComponentModel.Win32Exception(5, "Controlled inspection failure");
++        if (diagnosticFault == "ambiguous") throw new OwnershipException("creation_order");
+         if (diagnosticFault == "timeout") { stopReason = "controlled timeout-path diagnostic"; break; }
+         long snapshotStarted = DateTime.UtcNow.Ticks;
+         var parents = SnapshotParents();
+         var verified = new Dictionary<int,long> { [process.Id] = rootStartTicks };
++        var excluded = new HashSet<int>();
+         bool changed;
+         long totalPrivate = 0;
+         operation = "sample-owned-root"; process.Refresh();
+@@ -152,18 +168,23 @@ public static class Plan25ProcessTree {
+           changed = false;
+           foreach (var edge in parents) {
+             int id = edge.Key, parentId = edge.Value;
+-            if (verified.ContainsKey(id) || !verified.ContainsKey(parentId)) continue;
++            if (verified.ContainsKey(id) || excluded.Contains(id) || !verified.ContainsKey(parentId)) continue;
+             operation = "capture-verified-descendant"; Process child = null;
+             try {
+               child = Process.GetProcessById(id); long created = child.StartTime.ToUniversalTime().Ticks;
+-              if (created <= verified[parentId] || created > snapshotStarted) throw new InvalidOperationException("Ambiguous descendant creation order");
++              if (created <= verified[parentId]) throw new OwnershipException("creation_order");
++              if (created > snapshotStarted) throw new OwnershipException("post_snapshot_creation");
+               var confirmation = SnapshotParents();
+-              if (!confirmation.TryGetValue(id, out int confirmedParent) || confirmedParent != parentId) throw new InvalidOperationException("Descendant ancestry changed during inspection");
+-              if (parentId == process.Id) { if (process.HasExited || process.StartTime.ToUniversalTime().Ticks != rootStartTicks) throw new InvalidOperationException("Root identity changed during inspection"); }
+-              else { var parent = captured[parentId]; if (parent.Handle.HasExited || parent.Handle.StartTime.ToUniversalTime().Ticks != verified[parentId]) throw new InvalidOperationException("Parent identity changed during inspection"); }
+-              if (child.HasExited || child.StartTime.ToUniversalTime().Ticks != created) throw new InvalidOperationException("Descendant identity changed during inspection");
++              if (!confirmation.TryGetValue(id, out int confirmedParent) || confirmedParent != parentId) throw new OwnershipException("parent_edge_changed");
++              if (parentId == process.Id) { if (process.HasExited || process.StartTime.ToUniversalTime().Ticks != rootStartTicks) throw new OwnershipException("root_identity_changed"); }
++              else { var parent = captured[parentId]; if (parent.Handle.HasExited || parent.Handle.StartTime.ToUniversalTime().Ticks != verified[parentId]) throw new OwnershipException("parent_identity_changed"); }
++              if (child.HasExited) {
++                if (ObservedCapturedLeafExit(id,parents,captured)) { excluded.Add(id); verifiedLeafExits++; continue; }
++                throw new OwnershipException("child_exit_unverified");
++              }
++              if (child.StartTime.ToUniversalTime().Ticks != created) throw new OwnershipException("child_identity_changed");
+               if (captured.TryGetValue(id,out CapturedProcess prior)) {
+-                if (prior.StartTicks != created) throw new InvalidOperationException("Descendant PID was reused");
++                if (prior.StartTicks != created) throw new OwnershipException("captured_pid_reused");
+                 child.Dispose(); child = null;
+               } else { captured[id] = new CapturedProcess { Handle = child, StartTicks = created }; child = null; verifiedCount++; }
+               verified[id] = created; changed = true;
+@@ -171,8 +192,19 @@ public static class Plan25ProcessTree {
+               if (!item.Handle.HasExited && item.Handle.StartTime.ToUniversalTime().Ticks == created) {
+                 totalPrivate += item.Handle.PrivateMemorySize64;
+                 if (diagnosticFault == "timeout-after-sample" && item.Handle.ProcessName.Equals("node",StringComparison.OrdinalIgnoreCase)) diagnosticNodeChild = true;
++                if (diagnosticFault == "verified-leaf-exit" && verifiedLeafExits == 0 && item.Handle.ProcessName.Equals("node",StringComparison.OrdinalIgnoreCase)) {
++                  operation = "diagnostic-observe-captured-exit";
++                  if (!item.Handle.WaitForExit(3000) || !ObservedCapturedLeafExit(id,SnapshotParents(),captured)) throw new OwnershipException("diagnostic_exit_not_proven");
++                  verifiedLeafExits++;
++                }
+               }
+-            } catch (ArgumentException) { /* Process vanished before its identity could be opened. */ }
++            } catch (ArgumentException) {
++              if (ObservedCapturedLeafExit(id,parents,captured)) { excluded.Add(id); verifiedLeafExits++; }
++              else throw new OwnershipException("uncaptured_or_inconclusive_exit");
++            } catch (InvalidOperationException) {
++              if (ObservedCapturedLeafExit(id,parents,captured)) { excluded.Add(id); verifiedLeafExits++; }
++              else throw;
++            }
+             finally { if (child != null) { try { child.Dispose(); } catch (Exception error) { cleanupInspection=true; cleanupNotes.Add("unregistered handle disposal: " + error.GetType().Name); } } }
+           }
+         } while (changed);
+@@ -218,14 +250,15 @@ public static class Plan25ProcessTree {
+       FailureType=primaryError?.GetType().Name, NativeErrorCode=native?.NativeErrorCode,
+       OutputDrainComplete=drained, RootExited=rootExited, UnobservedDescendantsPossible=started,
+       CleanupResidualObserved=cleanupResidual, CleanupInspectionFailed=cleanupInspection, CleanupIdentityUnverified=cleanupIdentity,
+-      VerifiedDescendantsCaptured=verifiedCount, CleanupDescendantsExited=exitedCount };
++      VerifiedDescendantsCaptured=verifiedCount, CleanupDescendantsExited=exitedCount,
++      FailureReasonCode=(primaryError as OwnershipException)?.Code, VerifiedLeafExits=verifiedLeafExits };
+   }
+ }
+ '@
+ 
+ $resolvedExecutable = try { (Get-Command -Name $Executable -ErrorAction Stop).Source } catch { $Executable }
+ $diagnosticFault = [Environment]::GetEnvironmentVariable('QP_BOUNDED_TEST_FAULT')
+-if ($diagnosticFault -and $diagnosticFault -notin @('inspection','timeout','timeout-after-sample')) { throw 'Unsupported bounded launcher diagnostic fault.' }
++if ($diagnosticFault -and $diagnosticFault -notin @('inspection','ambiguous','timeout','timeout-after-sample','verified-leaf-exit')) { throw 'Unsupported bounded launcher diagnostic fault.' }
+ $result = [Plan25ProcessTree]::Run((Get-Location).Path, $resolvedExecutable, $ArgumentVector, $diagnosticFault)
+ $result | ConvertTo-Json -Depth 3
+ if ($result.StopReason) { throw $result.StopReason }

@@ -69,7 +69,7 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-58` | Race ability animation language and gallery | complete | Use Sonnet and Flash creative consultation, Haiku/Sonnet SVG drawing support and a Codex animation gallery to develop distinct, readable cues for candidate duck abilities, including combinations and static equivalents. |
 | `plan-59` | Race growth, injury and selected ability integration | draft | Integrate selected duck growth, collision injury, full-protection Bounce and independent crowd acceleration; extract accepted collision and eleven ability visual treatments into reusable production helpers without inventing mechanics for the remaining abilities. |
 | `plan-60` | Remaining race abilities and progression study | in-progress | Define and compare the nine remaining ability concepts and later duck progression, using owner dialogue, efficient Sonnet creative consultation and falsifiable report-local experiments while Plan59 integrates the selected first slice. |
-| `plan-61` | Metagame Messages experience and gallery | draft | Explore a header Messages entry, unread-thread badge, bounded urgency cues, portrait phone inbox and conversations, optional Decide panels and authored historical threads; deliver an owner-selected gallery and production handoff without changing live message/save behavior. |
+| `plan-61` | Metagame Messages experience and gallery | in-progress | Explore a header Messages entry, unread-thread badge, bounded urgency cues, portrait phone inbox and conversations, optional Decide panels and authored historical threads; deliver an owner-selected gallery and production handoff without changing live message/save behavior. |
 <!-- plan-index:end -->
 
 ## Report Folders

@@ -1,11 +1,9 @@
 ---
 id: plan-61
 title: Metagame Messages experience and gallery
-status: draft
+status: in-progress
 depends_on: []
 gate: "Root clears report-local mechanism, consultancy transport and bounded validation; owner reviews early header/thread experience and final selections before a separately scoped production integration."
-superseded_by: null
-resolution: null
 summary: >-
   Explore a header Messages entry, unread-thread badge, bounded urgency cues, portrait phone inbox and conversations, optional Decide panels and authored historical threads; deliver an owner-selected gallery and production handoff without changing live message/save behavior.
 ---

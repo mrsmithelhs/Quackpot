@@ -14,6 +14,7 @@ import './ui/life/life.css';
 import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import { mountWelcome } from './ui/welcome-view.js';
+import { readWelcomeSnapshot, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -73,7 +74,7 @@ if (app) {
   const schema6Session=raceV2Development?createSchema6Session():null;
   window.GameEngine = GameEngine;
   let engine = null;
-  let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false;
+  let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false, welcomeSnapshot = null;
   let currentStep = 'desk';
   let activeModal = null;
   let storageWarningText = null;
@@ -105,7 +106,10 @@ if (app) {
     storageWarningText='The development save changed in another tab. This session will not overwrite it.';updateWarningBanner();
   });
   if (!raceV2Development) window.addEventListener('storage', event => {
-    if (event.key !== STORAGE_KEY || !engine || engine.isTerminal()) return;
+    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
+    if (!isRelevantStorageEvent(event, storage, STORAGE_KEY)) return;
+    if (welcomeHandle) welcomeSnapshot = { readable: false };
+    if (!engine) return;
     welcomePreservation = true; setTemporaryPreservationMode(true); engine.autosaveEnabled = false;
     storageWarningText = 'The saved data changed in another tab. This session is temporary and will not overwrite it.';
     updateWarningBanner();
@@ -255,6 +259,7 @@ if (app) {
         }
 
         renderApp();
+        requestAnimationFrame(focusCurrentStageIfNeeded);
         return;
       } catch (err) {
         console.warn('[Quackpot] Failed to hydrate from saved envelope:', err);
@@ -285,6 +290,8 @@ if (app) {
     document.querySelector('#hud-container').replaceChildren();
     document.querySelector('#modal-container').replaceChildren();
     const terminal = Boolean(engine?.isTerminal());
+    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
+    welcomeSnapshot = readWelcomeSnapshot(storage, STORAGE_KEY);
     const savedTerminal = ['terminal', 'receipt_presented'].includes(pendingEnvelope?.state?.phase);
     const preserved = Boolean(pendingEnvelope || terminal || primaryPresent() === true || welcomePreservation);
     const utility = credits => {
@@ -301,8 +308,8 @@ if (app) {
     welcomeHandle = mountWelcome(document.querySelector('#main-content'), {
       finished: terminal || savedTerminal, preservedSave: preserved,
       onSettings: () => utility(false), onCredits: () => utility(true),
-      onContinue: pendingEnvelope && !savedTerminal ? () => { const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose(); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
-      onReceipt: terminal || savedTerminal ? () => { welcomeHandle?.dispose(); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); } } : undefined,
+      onContinue: pendingEnvelope && !savedTerminal ? () => { if (!welcomeCanResume(true)) return; const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose(); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
+      onReceipt: terminal || savedTerminal ? () => { if (!welcomeCanResume(savedTerminal)) return; welcomeHandle?.dispose(); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded); } } : undefined,
       onConfirm: name => {
         const present = primaryPresent();
         const temporary = preserved || present !== false;
@@ -317,9 +324,31 @@ if (app) {
         knownMessageDeliveries = null; messageAttentionStarted = null; activeModal = null; phoneOpen = false;
         welcomeHandle?.dispose(); welcomeHandle = null;
         enterLife(engine.state.life ? lifeSurface(engine) : BREAKFAST_STEP_BY_DAY[1]);
+        requestAnimationFrame(focusCurrentStageIfNeeded);
         return true;
       },
     });
+  }
+
+  function welcomeCanResume(revalidate) {
+    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
+    const current = readWelcomeSnapshot(storage, STORAGE_KEY);
+    const disposition = welcomeResumeDisposition(welcomeSnapshot, current, !revalidate && engine?.state.phase === 'receipt_presented');
+    if (disposition === 'temporary-receipt') {
+      welcomePreservation = true; preserveLiveReceipt(engine, setTemporaryPreservationMode);
+      storageWarningText = 'Saved data changed or could not be read. This Receipt is available for this session only; no save will be written.';
+      return true;
+    }
+    if (disposition === 'refuse') {
+      globalThis.alert('Saved data changed or could not be read. Reload to inspect the current saved run; nothing was replaced.'); return false;
+    }
+    if (revalidate) {
+      const result = loadGame(storage, { experimentalFiveSlot: true, requireFiveSlotTutorial: true });
+      if (!result.valid || !result.envelope || JSON.stringify(result.envelope) !== JSON.stringify(pendingEnvelope)) {
+        globalThis.alert('The saved run could not be safely revalidated. Reload to inspect it; nothing was replaced.'); return false;
+      }
+    }
+    return true;
   }
 
   async function initSchema6(){

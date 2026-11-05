@@ -24,7 +24,7 @@ export function mountWelcome(container, options = {}) {
   function sync() { stage.setNaming(state === 'naming'); stage.setPaused(state === 'naming' || blockers.size > 0); }
   function render() {
     if (disposed) return; sync(); card.replaceChildren();
-    const heading = document.createElement(state === 'opening' ? 'h1' : 'h2'); heading.textContent = state === 'opening' ? 'Quackpot' : 'Meet your rubber duck'; if (state === 'opening') heading.className = 'visually-hidden'; card.append(heading);
+    const heading = document.createElement(state === 'opening' ? 'h1' : 'h2'); heading.textContent = state === 'opening' ? 'Quackpot' : 'Meet your rubber duck'; heading.tabIndex = -1; if (state === 'opening') heading.className = 'visually-hidden'; card.append(heading);
     const p = document.createElement('p'); p.textContent = state === 'opening' ? 'A little room, a quiet moment, and a new day.' : 'Give your duck a name, or keep the one already here.'; card.append(p);
     if (options.preservedSave) { const note = document.createElement('p'); note.textContent = 'Any saved run stays in this browser. A new run will be temporary and will not survive a reload. An unsaved Receipt is available only until a new run starts or this page closes.'; card.append(note); }
     const buttons = document.createElement('div'); buttons.className = 'buttons';
@@ -48,5 +48,6 @@ export function mountWelcome(container, options = {}) {
   function resume(reason) { blockers.delete(reason); audio.resume(reason); sync(); }
   function dispose() { if (disposed) return; disposed = true; document.removeEventListener('visibilitychange', visibility); window.removeEventListener('pagehide', pagehide); window.removeEventListener('pageshow', pageshow); audio.dispose(); stage.dispose(); container.replaceChildren(); }
   document.addEventListener('visibilitychange', visibility); window.addEventListener('pagehide', pagehide); window.addEventListener('pageshow', pageshow); visibility(); render();
+  card.querySelector('h1')?.focus();
   return { pause, resume, transition: place => audio.transition(place), dispose };
 }

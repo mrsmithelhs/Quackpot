@@ -4,6 +4,25 @@ import { createWelcomeAudio } from '../welcome-audio.mjs';
 import { createCosmeticTimeline } from './cosmetic-timeline.mjs';
 import { screenCounterAngle } from './stage.js';
 import { createConfirmationGate } from './confirmation.mjs';
+import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './storage-snapshot.mjs';
+
+test('welcome rejects changed, cleared, or unreadable primary and ignores unrelated storage events', () => {
+  let raw = 'saved'; const storage = { getItem: () => raw }, other = {};
+  const previous = readWelcomeSnapshot(storage, 'key');
+  assert.ok(welcomeSnapshotMatches(previous, readWelcomeSnapshot(storage, 'key')));
+  raw = 'different'; assert.equal(welcomeSnapshotMatches(previous, readWelcomeSnapshot(storage, 'key')), false);
+  assert.equal(welcomeResumeDisposition(previous, readWelcomeSnapshot(storage, 'key'), false), 'refuse');
+  assert.equal(welcomeResumeDisposition(previous, readWelcomeSnapshot(storage, 'key'), true), 'temporary-receipt');
+  raw = null; assert.equal(welcomeSnapshotMatches(previous, readWelcomeSnapshot(storage, 'key')), false);
+  assert.equal(welcomeSnapshotMatches(previous, readWelcomeSnapshot({ getItem() { throw Error('unavailable'); } }, 'key')), false);
+  assert.equal(welcomeResumeDisposition(previous, { readable: false }, true), 'temporary-receipt');
+  assert.equal(welcomeResumeDisposition(previous, { readable: false }, false), 'refuse');
+  assert.equal(isRelevantStorageEvent({ key: null, storageArea: storage }, storage, 'key'), true);
+  assert.equal(isRelevantStorageEvent({ key: 'key', storageArea: other }, storage, 'key'), false);
+  let writes = 0, preserves = 0; const live = { state: { phase: 'receipt_presented' }, autosaveEnabled: true, save() { writes++; } };
+  assert.equal(preserveLiveReceipt(live, value => { if (value) preserves++; }), true);
+  assert.equal(live.autosaveEnabled, false); assert.equal(preserves, 1); assert.equal(writes, 0);
+});
 
 test('confirmation permits retry after refusal or failure and suppresses concurrent activation', async () => {
   let calls = 0, resolve;
@@ -35,4 +54,13 @@ test('audio is gesture activated, honors pause blockers and disposes', async () 
   audio.pause('hidden'); audio.pause('modal'); audio.resume('hidden'); assert.equal(plays, 1);
   audio.resume('modal'); await new Promise(resolve => setImmediate(resolve)); assert.equal(plays, 2);
   audio.dispose(); audio.dispose(); assert.equal(closes, 1); assert.equal(media.paused, true);
+});
+
+test('late media play cannot restart playback after mute', async () => {
+  let complete; const param = () => ({ value: 0, setValueAtTime() {}, cancelScheduledValues() {}, linearRampToValueAtTime() {} });
+  const ctx = { currentTime: 0, state: 'running', destination: {}, createGain: () => ({ gain: param(), connect() {}, disconnect() {} }), createMediaElementSource: () => ({ connect() {}, disconnect() {} }), async resume() {}, async suspend() {}, async close() {} };
+  const media = { currentTime: 0, paused: true, play() { return new Promise(resolve => { complete = () => { this.paused = false; resolve(); }; }); }, pause() { this.paused = true; }, removeAttribute() {}, load() {} };
+  const audio = createWelcomeAudio({ source: 'local.wav', audioContext: () => ctx, createMedia: () => media });
+  const started = audio.setEnabled(true); await new Promise(resolve => setImmediate(resolve)); await audio.setEnabled(false); complete(); await started;
+  assert.equal(media.paused, true); audio.dispose();
 });

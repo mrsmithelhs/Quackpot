@@ -33,7 +33,7 @@ export function createWelcomeAudio({ source, onState = () => {}, audioContext = 
       init(); await context.resume();
       if (token !== generation || !enabled || pauses.size || disposed) return;
       await media.play();
-      if (token !== generation || !enabled || pauses.size || disposed) return;
+      if (token !== generation || !enabled || pauses.size || disposed) { media.pause(); return; }
       stopTimer(); tick(); timer = setInterval(tick, 100); onState('playing');
     } catch (error) { if (token === generation && !disposed) { enabled = false; onState('unavailable', error); } } };
     playQueue = playQueue.catch(() => {}).then(run); return playQueue;

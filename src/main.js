@@ -95,6 +95,7 @@ if (app) {
   let unsupportedRenPreservation = false;
   let lifeViewHandle = null;
   let messagesHandle = null;
+  let messagesGeometryCleanup = null;
   let knownMessageDeliveries = null, messageAttentionStarted = null;
   if(raceV2Development)window.addEventListener('storage',event=>{
     if(!invalidateForSchema6StorageEvent(event,schema6Session,engine))return;
@@ -428,23 +429,36 @@ if (app) {
     const button=document.querySelector('#btn-messages');if(!button || !engine)return;
     const available=messagesAvailable(),count=messagesForEngine(engine).projection.unreadThreads;
     button.setAttribute('aria-label',`Messages, ${count} unread ${count===1?'thread':'threads'}${available?'':', temporarily unavailable'}`);
-    const badge=button.querySelector('[data-message-count]');if(badge)badge.textContent=count?` (${count})`:'';
+    const badge=button.querySelector('[data-message-count]');if(badge){badge.textContent=count?String(count):'';badge.hidden=!count;}
     button.title=available?'Messages':'Messages will be available after this scene';
     const layer=document.querySelector('#messages-layer');
     if(messagesHandle && layer && layer.hidden && available) {layer.hidden=false;lifeViewHandle?.suspendForMessages?.();messagesHandle.refresh();}
+  }
+
+  function positionMessagesLayer() {
+    const layer=document.querySelector('#messages-layer'),hud=document.querySelector('#hud-container');
+    if(!layer || !hud)return;
+    // Include actual controls as well as the HUD box if responsive layout overflows it.
+    const edges=[hud,...hud.querySelectorAll('.hud-header, .hud-controls, .hud-controls button')].map(el=>el.getBoundingClientRect().bottom);
+    const bottom=Math.ceil(Math.max(0,...edges));
+    layer.style.top=`${bottom}px`;layer.style.setProperty('--messages-top',`${bottom}px`);
   }
 
   function openMessages() {
     if (!messagesAvailable()) { const status=document.querySelector('#messages-status');if(status)status.textContent='Messages will be available after this scene.';return; }
     if(messagesHandle)return;
     const layer=document.querySelector('#messages-layer'), host=document.createElement('div');
-    layer.style.top=`${Math.ceil(document.querySelector('#hud-container').getBoundingClientRect().bottom)}px`;
+    positionMessagesLayer();
+    const hud=document.querySelector('#hud-container');
+    const observer=window.ResizeObserver?new ResizeObserver(positionMessagesLayer):null;observer?.observe(hud);
+    window.addEventListener('resize',positionMessagesLayer);window.addEventListener('scroll',positionMessagesLayer,{passive:true});
+    messagesGeometryCleanup=()=>{observer?.disconnect();window.removeEventListener('resize',positionMessagesLayer);window.removeEventListener('scroll',positionMessagesLayer);messagesGeometryCleanup=null;};
     layer.hidden=false;layer.replaceChildren(host);host.className='messages-host';
     lifeViewHandle?.suspendForMessages?.();
-    const close=()=>{messagesHandle=null;layer.hidden=true;layer.replaceChildren();lifeViewHandle?.resumeAfterMessages?.();updateHud();document.querySelector('#btn-messages')?.focus();};
+    const close=()=>{messagesGeometryCleanup?.();messagesHandle=null;layer.hidden=true;layer.replaceChildren();lifeViewHandle?.resumeAfterMessages?.();updateHud();document.querySelector('#btn-messages')?.focus();};
     layer.onclick=e=>{if(e.target===layer)messagesHandle?.close();};
     const data=messagesForEngine(engine);
-    messagesHandle=mountMessages(host,{...data,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
+    messagesHandle=mountMessages(host,{...data,getCurrentDay:()=>engine.state.life?.schedule?.day,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
       onDisplay:async ({deliveryId,revision})=>{
         if(!messagesAvailable())return false;
         let shown=null;
@@ -1054,10 +1068,11 @@ if (app) {
     }
     if(messagesHandle) {
       const layer=document.querySelector('#messages-layer');
-      if(engine.isTerminal()) { messagesHandle.destroy();messagesHandle=null;layer.hidden=true; }
+      if(engine.isTerminal()) { messagesHandle.destroy();messagesGeometryCleanup?.();messagesHandle=null;layer.hidden=true; }
       else {const covered=!messagesAvailable();layer.hidden=covered;if(covered)messagesHandle.suspend();else {lifeViewHandle?.suspendForMessages?.();messagesHandle.refresh();}}
     }
     syncMessagesAvailability();
+    if(messagesHandle)positionMessagesLayer();
   }
 
   function focusCurrentStageIfNeeded() {

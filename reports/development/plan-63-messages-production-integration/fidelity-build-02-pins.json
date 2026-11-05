@@ -1,0 +1,16 @@
+{
+  "src/main.js": "82521da16b39aeb33628ce8e6fbd37df6fcc51a27e5789a1567e966dd77687da",
+  "src/ui/hud.js": "17c41aa4e5477c90243bbda365f12f2119c98907c1c8ef520a38471636af60ea",
+  "src/ui/messages-view.mjs": "5d992571b0935a3f1bdaef6dae7ac43de77bfc719c6502d8e42e65a4eddf9930",
+  "src/ui/messages-view.test.mjs": "c1549fe13cc8f56fb925cfb13ae81ceaa50e1772be48c8202e034aca046dae2e",
+  "src/ui/messages.css": "57b882e7cbf03ab3c4ed2381ba09286a782b0205ffa32f82bd83198ab46f423a",
+  "src/core/messages-runtime.mjs": "92b4614ff84d33b3dbedcc44b431dfce2c3f112c31206302b90aba448f93a5b6",
+  "src/core/messages-projection.mjs": "c412f34e4f5b580c5afbf07c3cef9eb37bb89efa96c843f3c3393e173088466d",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/index.html": "7f0647faa688a32394ac2c8f4291ab344a3fa2193ca504ef1be518b833db3213",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/index-DdohncZH.js": "aa2674dfef4a8134ef246abadd2fba8bc248343a437e220b0c7fc676fcc691b7",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/index-DdohncZH.js.map": "95fda664c3d510c79945280ad7e896a8361716308cff1cf3cb1867b33e9b989c",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/index-vDml6Yay.css": "c602138cf41aec73dc2af92d23af5d6b56eafa3de977ba4bf2121c6f0a9be269",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+  "reports/development/plan-63-messages-production-integration/fidelity-build-02/assets/race-worker-DvjzYeym.js.map": "e0e0be73b4feffe2075c14f3305883c7b2ef62183439059a4bab01c27a091726"
+}

@@ -1,0 +1,520 @@
+{
+  "kind": "engine-only-named-route",
+  "source": "dd32f612945bd11196ddf3a16dcfc2c8f33c1b8288c88fa7d169dbd163ca040c",
+  "parent": "reports/development/plan-52-five-slot-production-transition/session-checkpoint-refresh-second/rent-shortfall.save.json",
+  "parentSha256": "95818cb2cb48cf8ddf35af49018678092920968d1e14006de38c695c9cabf140",
+  "limitations": [
+    "One fixed candidate route, not exhaustive reachability.",
+    "Cue transcript is a synthetic engine-test presentation, not evidence of a rendered UI or owner experience.",
+    "No saved state, balance, health, schedule or log was manually edited."
+  ],
+  "searchLimit": "Day 4 through Day 9 Morning; one reserved-shift route",
+  "steps": [
+    {
+      "action": "reserve-overtime",
+      "kind": null,
+      "day": 4,
+      "slot": "morning",
+      "cash": 104,
+      "health": 100
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 4,
+      "slot": "midday",
+      "cash": 104,
+      "health": 95
+    },
+    {
+      "action": "work-story",
+      "day": 4,
+      "slot": "early-evening",
+      "cash": 164,
+      "health": 95
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 4,
+      "slot": "evening",
+      "cash": 164,
+      "health": 90
+    },
+    {
+      "action": "start",
+      "kind": "quiet",
+      "day": 4,
+      "slot": "evening",
+      "cash": 164,
+      "health": 90
+    },
+    {
+      "action": "complete",
+      "kind": null,
+      "day": 4,
+      "slot": "late-evening",
+      "cash": 164,
+      "health": 90
+    },
+    {
+      "action": "sleep",
+      "kind": null,
+      "day": 5,
+      "slot": "morning",
+      "cash": 164,
+      "health": 90
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 5,
+      "slot": "midday",
+      "cash": 164,
+      "health": 85
+    },
+    {
+      "action": "work-story",
+      "day": 5,
+      "slot": "early-evening",
+      "cash": 224,
+      "health": 85
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 5,
+      "slot": "evening",
+      "cash": 224,
+      "health": 80
+    },
+    {
+      "action": "start",
+      "kind": "quiet",
+      "day": 5,
+      "slot": "evening",
+      "cash": 224,
+      "health": 80
+    },
+    {
+      "action": "complete",
+      "kind": null,
+      "day": 5,
+      "slot": "late-evening",
+      "cash": 224,
+      "health": 80
+    },
+    {
+      "action": "sleep",
+      "kind": null,
+      "day": 6,
+      "slot": "morning",
+      "cash": 224,
+      "health": 80
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 6,
+      "slot": "midday",
+      "cash": 224,
+      "health": 75
+    },
+    {
+      "action": "work-story",
+      "day": 6,
+      "slot": "early-evening",
+      "cash": 284,
+      "health": 75
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 6,
+      "slot": "evening",
+      "cash": 284,
+      "health": 70
+    },
+    {
+      "action": "start",
+      "kind": "quiet",
+      "day": 6,
+      "slot": "evening",
+      "cash": 284,
+      "health": 70
+    },
+    {
+      "action": "complete",
+      "kind": null,
+      "day": 6,
+      "slot": "late-evening",
+      "cash": 284,
+      "health": 70
+    },
+    {
+      "action": "sleep",
+      "kind": null,
+      "day": 7,
+      "slot": "morning",
+      "cash": 284,
+      "health": 70
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 7,
+      "slot": "midday",
+      "cash": 284,
+      "health": 65
+    },
+    {
+      "action": "work-story",
+      "day": 7,
+      "slot": "early-evening",
+      "cash": 344,
+      "health": 65
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 7,
+      "slot": "evening",
+      "cash": 344,
+      "health": 60
+    },
+    {
+      "action": "start",
+      "kind": "quiet",
+      "day": 7,
+      "slot": "evening",
+      "cash": 344,
+      "health": 60
+    },
+    {
+      "action": "complete",
+      "kind": null,
+      "day": 7,
+      "slot": "late-evening",
+      "cash": 344,
+      "health": 60
+    },
+    {
+      "action": "sleep",
+      "kind": null,
+      "day": 8,
+      "slot": "morning",
+      "cash": 344,
+      "health": 60
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 8,
+      "slot": "midday",
+      "cash": 344,
+      "health": 55
+    },
+    {
+      "action": "work-story",
+      "day": 8,
+      "slot": "early-evening",
+      "cash": 404,
+      "health": 55
+    },
+    {
+      "action": "meal",
+      "kind": null,
+      "day": 8,
+      "slot": "evening",
+      "cash": 404,
+      "health": 50
+    },
+    {
+      "action": "start",
+      "kind": "quiet",
+      "day": 8,
+      "slot": "evening",
+      "cash": 404,
+      "health": 50
+    },
+    {
+      "action": "complete",
+      "kind": null,
+      "day": 8,
+      "slot": "late-evening",
+      "cash": 404,
+      "health": 50
+    },
+    {
+      "action": "sleep",
+      "kind": null,
+      "day": 9,
+      "slot": "morning",
+      "cash": 404,
+      "health": 50
+    },
+    {
+      "action": "probe-loan",
+      "day": 9,
+      "slot": "morning",
+      "cash": 404,
+      "health": 50,
+      "terms": null
+    }
+  ],
+  "cues": [
+    {
+      "kind": "simulated-schedule-disclosure",
+      "value": [
+        "The reserved shift pays $60.00 and costs up to 15 HP when completed."
+      ]
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-7",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "013",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-9",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "016",
+            "01C"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-9",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "016",
+            "01C"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-9",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "016",
+            "01C"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-11",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "01B",
+            "018"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-11",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "01B",
+            "018"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-11",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C8",
+          "work": [
+            "01B",
+            "018"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-13",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-13",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-13",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "01B"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-15",
+        "stage": "commute",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "012"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-15",
+        "stage": "work",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "012"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "simulated-story-mounted",
+      "value": {
+        "id": "activity-15",
+        "stage": "payslip",
+        "story": {
+          "version": 1,
+          "catalog": "1.1.0",
+          "commute": "0C7",
+          "work": [
+            "01A",
+            "012"
+          ]
+        }
+      }
+    }
+  ],
+  "stopped": "loan-unavailable-at-day9",
+  "node": "v26.7.0",
+  "v8": "14.6.202.34-node.28",
+  "validation": {
+    "valid": true,
+    "errors": []
+  }
+}

@@ -1,7 +1,8 @@
 ---
 id: plan-61
 title: Metagame Messages experience and gallery
-status: delivered
+status: complete
+resolution: "Owner accepted and closed the Messages design study; selected gallery and working contacts guide draft Plan63 core integration, while production lifecycle/persistence and optional chatter remain separately gated."
 depends_on: []
 gate: "Root clears report-local mechanism, consultancy transport and bounded validation; owner reviews early header/thread experience and final selections before a separately scoped production integration."
 summary: >-

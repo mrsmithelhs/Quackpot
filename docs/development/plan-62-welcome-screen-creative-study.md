@@ -26,6 +26,10 @@ summary: >-
 
 ## Goal
 
+### Owner revision checkpoint — 2026-11-05
+
+The owner rejected closure of the initial flat desk/primitive-hook checkpoint and requested further report-local experiments: custom SVG title in the upper space, occasional digital-duck groups, a slowly rotating phone with eased quarter-turn screen counter-rotation, TV/couch background fades, dimmed naming with steady emphasis on the still companion, full Plan53 M1/M3/M5 reconstructed-track auditions plus 30-second 3/24/3 faded repetitions, and a reusable accessible sound icon. These are authorized study directions, not accepted final assets, soundtrack or production behavior. The concrete scope, provider/resource allowance, source audio paths, mock boundaries and validation stretch are in `reports/orchestration/plan-62-owner-revision-02.md`; it supersedes conflicting initial checkpoint scope. Plan62 remains in progress and production integration remains separately packeted.
+
 Find a distinctive, inviting opening for Quackpot as a whole experience: an animated welcome with game motifs and local MIDI-derived music, followed by a brief duck-naming transition into apartment life. Compare genuinely different compositions before expensive drawing or coding. Deliver enough interaction evidence to choose a production target without replacing production with a mockup.
 
 ## Non-goals

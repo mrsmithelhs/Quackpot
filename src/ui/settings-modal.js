@@ -1,5 +1,5 @@
 export function renderSettingsModal(container, options = {}) {
-  const { autosaveEnabled, autosaveLocked, animatePhoneGlow = true, saveDisabled = false, onAutosaveChange, onAnimatePhoneGlowChange, onSave, onClose } = options;
+  const { autosaveEnabled, autosaveLocked, animatePhoneGlow = true, saveDisabled = false, openCredits = false, onAutosaveChange, onAnimatePhoneGlowChange, onSave, onClose } = options;
   container.innerHTML = `
     <div class="modal-backdrop settings-backdrop" data-settings-backdrop>
       <section class="modal-card settings-card" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
@@ -19,7 +19,7 @@ export function renderSettingsModal(container, options = {}) {
           <button type="button" class="btn btn-primary" data-settings-done>Done</button>
         </div>
         <p class="settings-save-status" data-settings-status role="status" aria-live="polite"></p>
-        <details class="settings-credits">
+        <details class="settings-credits" ${openCredits ? 'open' : ''}>
           <summary>Credits and asset notices</summary>
           <p>No third-party audio recordings are bundled in this build. Credits for selected assets will appear here when they are added.</p>
         </details>
@@ -94,7 +94,7 @@ export function renderSettingsModal(container, options = {}) {
   }
 
   document.addEventListener('keydown', onKeydown);
-  (closeButton || dialog).focus();
+  (openCredits ? container.querySelector('.settings-credits summary') : closeButton || dialog).focus();
 
   return () => {
     document.removeEventListener('keydown', onKeydown);

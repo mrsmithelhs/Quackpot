@@ -3,6 +3,14 @@ import assert from 'node:assert/strict';
 import { createWelcomeAudio } from '../welcome-audio.mjs';
 import { createCosmeticTimeline } from './cosmetic-timeline.mjs';
 import { screenCounterAngle } from './stage.js';
+import { createConfirmationGate } from './confirmation.mjs';
+
+test('confirmation permits retry after refusal or failure and suppresses concurrent activation', async () => {
+  let calls = 0, resolve;
+  const attempt = createConfirmationGate(() => { calls++; if (calls === 1) return false; if (calls === 2) throw Error('failed'); return new Promise(done => { resolve = done; }); });
+  assert.equal(await attempt('one'), false); await assert.rejects(attempt('two'));
+  const pending = attempt('three'); assert.equal(await attempt('duplicate'), false); assert.equal(calls, 3); resolve(true); assert.equal(await pending, true);
+});
 
 test('phone screen counter-rotation eases at quarter turns', () => {
   assert.ok(screenCounterAngle(0) === 0); assert.ok(screenCounterAngle(70) === 0);

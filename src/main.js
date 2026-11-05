@@ -13,12 +13,14 @@ import './ui/apartment-view.css';
 import './ui/life/life.css';
 import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
+import { mountWelcome } from './ui/welcome-view.js';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
 import { makeRaceRestEvidence, formatRaceRating } from './core/race-rest.mjs';
 import { raceCandidateFacts } from './core/race-progression.mjs';
 import {
+  STORAGE_KEY,
   saveGame,
   loadGame,
   clearGame,
@@ -71,6 +73,7 @@ if (app) {
   const schema6Session=raceV2Development?createSchema6Session():null;
   window.GameEngine = GameEngine;
   let engine = null;
+  let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false;
   let currentStep = 'desk';
   let activeModal = null;
   let storageWarningText = null;
@@ -100,6 +103,12 @@ if (app) {
   if(raceV2Development)window.addEventListener('storage',event=>{
     if(!invalidateForSchema6StorageEvent(event,schema6Session,engine))return;
     storageWarningText='The development save changed in another tab. This session will not overwrite it.';updateWarningBanner();
+  });
+  if (!raceV2Development) window.addEventListener('storage', event => {
+    if (event.key !== STORAGE_KEY || !engine || engine.isTerminal()) return;
+    welcomePreservation = true; setTemporaryPreservationMode(true); engine.autosaveEnabled = false;
+    storageWarningText = 'The saved data changed in another tab. This session is temporary and will not overwrite it.';
+    updateWarningBanner();
   });
 
   function generateRandomSeed() {
@@ -214,9 +223,14 @@ if (app) {
       return;
     }
 
-    if (loadResult.envelope) {
+    if (loadResult.envelope) { pendingEnvelope = loadResult.envelope; showWelcome(); return; }
+    showWelcome();
+  }
+
+  function resumeEnvelope(envelope) {
+    if (envelope) {
       try {
-        engine = GameEngine.fromEnvelope(loadResult.envelope);
+        engine = GameEngine.fromEnvelope(envelope);
         console.info('[Quackpot] Restored valid run from storage:', engine.state);
 
         // Authoritative restore of learner progression step and active modal (P1 repair)
@@ -259,8 +273,53 @@ if (app) {
       }
     }
 
-    // Start fresh game on desk
-    startFreshRun(true);
+  }
+
+  function primaryPresent() {
+    try { if (!globalThis.localStorage) return null; return globalThis.localStorage.getItem(STORAGE_KEY) !== null; }
+    catch { return null; }
+  }
+
+  function showWelcome() {
+    welcomeHandle?.dispose();
+    document.querySelector('#hud-container').replaceChildren();
+    document.querySelector('#modal-container').replaceChildren();
+    const terminal = Boolean(engine?.isTerminal());
+    const savedTerminal = ['terminal', 'receipt_presented'].includes(pendingEnvelope?.state?.phase);
+    const preserved = Boolean(pendingEnvelope || terminal || primaryPresent() === true || welcomePreservation);
+    const utility = credits => {
+      const trigger = document.activeElement, modal = document.querySelector('#modal-container');
+      welcomeHandle?.pause('modal');
+      let cleanup;
+      cleanup = renderSettingsModal(modal, {
+        autosaveEnabled: welcomeAutosave, autosaveLocked: preserved, saveDisabled: true, openCredits: credits, animatePhoneGlow,
+        onAutosaveChange: value => { welcomeAutosave = value; },
+        onAnimatePhoneGlowChange: value => { animatePhoneGlow = value; },
+        onClose: () => { cleanup?.(); modal.replaceChildren(); welcomeHandle?.resume('modal'); if (trigger?.isConnected) trigger.focus(); },
+      });
+    };
+    welcomeHandle = mountWelcome(document.querySelector('#main-content'), {
+      finished: terminal || savedTerminal, preservedSave: preserved,
+      onSettings: () => utility(false), onCredits: () => utility(true),
+      onContinue: pendingEnvelope && !savedTerminal ? () => { const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose(); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
+      onReceipt: terminal || savedTerminal ? () => { welcomeHandle?.dispose(); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); } } : undefined,
+      onConfirm: name => {
+        const present = primaryPresent();
+        const temporary = preserved || present !== false;
+        if (temporary && !globalThis.confirm('Any existing saved data will be kept. This new run is temporary and will not survive a reload. An unsaved Receipt will no longer be available. Continue?')) return false;
+        welcomePreservation = temporary;
+        setTemporaryPreservationMode(temporary);
+        if (temporary) storageWarningText = 'Temporary Session: Existing or unavailable storage is protected. This run will not survive a reload.';
+        else storageWarningText = null;
+        engine = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
+        engine.start(); engine.autosaveEnabled = !temporary && welcomeAutosave;
+        engine.setupCompanion(name, 'classic-yellow'); pendingEnvelope = null;
+        knownMessageDeliveries = null; messageAttentionStarted = null; activeModal = null; phoneOpen = false;
+        welcomeHandle?.dispose(); welcomeHandle = null;
+        enterLife(engine.state.life ? lifeSurface(engine) : BREAKFAST_STEP_BY_DAY[1]);
+        return true;
+      },
+    });
   }
 
   async function initSchema6(){
@@ -596,6 +655,10 @@ if (app) {
   function saveNow() {
     if(raceV2Development){const result=schema6Session.save(engine);checkStorageResult(result);updateWarningBanner();return result;}
     let res;
+    if (welcomePreservation) {
+      globalThis.alert('This temporary session cannot overwrite the preserved saved data.');
+      return { success: false, inMemory: true, preservedSnapshot: true };
+    }
     if (unsupportedRenPreservation) {
       globalThis.alert('This temporary session cannot overwrite the preserved Ren save.');
       return { success: false, inMemory: true, preservedSnapshot: true };
@@ -994,11 +1057,12 @@ if (app) {
           maybeAutosave();
         },
         onFreshRun: () => {
+          if (!raceV2Development) { showWelcome(); return; }
           if (unsupportedRenPreservation) { startFreshRun(false); return; }
           if(raceV2Development){if(!schema6Session.clear().success)return;}else clearGame();
           startFreshRun(true);
         },
-      });
+      }, { returnToWelcome: !raceV2Development });
     }
 
     // Render active modal (if any)

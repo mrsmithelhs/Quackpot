@@ -1,6 +1,7 @@
 import titleUrl from '../assets/welcome/title-a.svg';
 import { createStage } from './welcome/stage.js';
 import { createWelcomeAudio } from './welcome-audio.mjs';
+import { createConfirmationGate } from './welcome/confirmation.mjs';
 import './welcome-view.css';
 
 export const COMPANION_SUGGESTIONS = Object.freeze(['Professor Quacks','Mabel','Pickles','Biscuit','Waffles','Dottie','Noodle','Mochi','Peaches','Clover','Pip','Button','Marigold','Otis','Juniper','Poppy','Alfie','Tilly','Winston','Hazel','Bean','Maple','Rufus','Olive','Muffin','Percy','Clementine','Sunny','Penny','Walter']);
@@ -12,7 +13,8 @@ export function mountWelcome(container, options = {}) {
   const root = container.querySelector('.qp-welcome'), card = root.querySelector('.card'), sound = root.querySelector('.sound-button'), status = root.querySelector('.sound-status');
   root.querySelector('.title-art').src = titleUrl;
   const stage = createStage(root, root.querySelector('.art'), root.querySelector('.furnishings'), root.querySelector('.digital-ducks'));
-  let state = 'opening', suggestion = '', enabled = false, disposed = false, committed = false;
+  let state = 'opening', suggestion = '', enabled = false, disposed = false;
+  const confirmName = createConfirmationGate(onConfirm);
   const blockers = new Set();
   const audio = createWelcomeAudio({ source: audioSource, onState(value) { if (value === 'unavailable') { enabled = false; status.textContent = 'Sound is unavailable.'; updateSound(); } } });
   function updateSound() { sound.setAttribute('aria-pressed', String(enabled)); sound.setAttribute('aria-label', enabled ? 'Mute sound' : 'Turn sound on'); sound.innerHTML = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 12h6l7-6v20l-7-6H3z" fill="currentColor"/>${enabled ? '<path d="M20 10c3 3 3 9 0 12M24 6c5 5 5 15 0 20" fill="none" stroke="currentColor" stroke-width="2.5"/>' : '<path d="M20 11l8 10m0-10l-8 10" fill="none" stroke="currentColor" stroke-width="2.5"/>'}</svg>`; }
@@ -24,16 +26,18 @@ export function mountWelcome(container, options = {}) {
     if (disposed) return; sync(); card.replaceChildren();
     const heading = document.createElement(state === 'opening' ? 'h1' : 'h2'); heading.textContent = state === 'opening' ? 'Quackpot' : 'Meet your rubber duck'; if (state === 'opening') heading.className = 'visually-hidden'; card.append(heading);
     const p = document.createElement('p'); p.textContent = state === 'opening' ? 'A little room, a quiet moment, and a new day.' : 'Give your duck a name, or keep the one already here.'; card.append(p);
+    if (options.preservedSave) { const note = document.createElement('p'); note.textContent = 'Any saved run stays in this browser. A new run will be temporary and will not survive a reload. An unsaved Receipt is available only until a new run starts or this page closes.'; card.append(note); }
     const buttons = document.createElement('div'); buttons.className = 'buttons';
     if (state === 'opening') {
       buttons.append(action(options.finished ? 'Start another run' : 'Start', () => { suggestion = COMPANION_SUGGESTIONS[Math.min(29, Math.max(0, Math.floor(random() * 30)))]; state = 'naming'; audio.transition('naming'); render(); card.querySelector('input')?.focus(); }, true));
       if (onContinue) buttons.append(action('Continue', onContinue));
       if (onReceipt) buttons.append(action('View Receipt', onReceipt));
       if (onDownload) buttons.append(action('Download usage file', onDownload));
+      else { const unavailable = action('Download usage file', () => {}); unavailable.disabled = true; unavailable.title = 'Usage download is not available yet.'; buttons.append(unavailable); }
       card.append(buttons); const utilities = document.createElement('div'); utilities.className = 'utilities'; if (onSettings) utilities.append(action('Settings', onSettings)); if (onCredits) utilities.append(action('Credits', onCredits)); card.append(utilities);
     } else {
       const label = document.createElement('label'); label.textContent = 'Duck name'; const input = document.createElement('input'); input.maxLength = 30; input.value = suggestion; label.append(input); card.append(label, buttons);
-      const accept = () => { if (committed) return; committed = true; onConfirm(input.value.trim() || suggestion); };
+      const accept = () => { void confirmName(input.value.trim() || suggestion).catch(() => { status.textContent = 'Could not start. Please try again.'; }); };
       buttons.append(action('Continue', accept, true), action('Back', () => { state = 'opening'; audio.transition('opening'); render(); card.querySelector('button')?.focus(); })); input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); accept(); } });
     }
   }

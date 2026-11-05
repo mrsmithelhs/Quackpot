@@ -46,6 +46,10 @@ For the initial overlapping-job pilot, check actual host memory/process state be
 
 Keep work modest and finite: targeted test paths, bounded seed shards, one isolated capture, no watcher or unbounded fan-out. Measure combined behavior during paired batches where practical: job types, overlap interval, sampled peaks/minimum available memory, wall time, exit/stop and observed cleanup. Reuse useful runner receipts; do not build a new telemetry framework or publish unrelated host/process data. Report uncertainty honestly. A successful parallel run does not establish all future workloads fit.
 
+## Flash provider response budget — owner update 2026-11-05
+
+Owner authorizes at least160seconds for Flash calls. Use a160-second CLI response timeout and a180-second local watchdog allowance for result collection and cleanup, retaining the approved memory, output, process-tree and preflight controls. Use the existing parameterized provider wrapper or an explicitly bounded report-local invocation; do not change the shared Plan25 test launcher. This is a provider-time allowance, not a higher simulation/test limit, extra retries, additional image quota or proof that remote work stops when the local parent exits. Do not restart an already running or completed paid call merely to apply the larger budget. Larger time limits remain possible with an explicit scoped decision.
+
 ## Routine fixes and reduced traffic
 
 Within a root-approved method and named lane, an implementer may make routine owned-code/harness fixes and rerun the affected validation without another allocation message. For an initial pilot repair batch, allow the initial validation plus **up to two materially corrected reruns** under unchanged bounds. Preserve each failure and explain the correction in the final batch report. Do not repeat an unchanged failing command, filter seeds/results, overwrite a failed receipt or rerun an outcome-changing experiment just to obtain a better answer.

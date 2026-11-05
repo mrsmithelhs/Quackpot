@@ -1,7 +1,8 @@
 ---
 id: plan-43
 title: Apartment music styles and motif-intrusion study
-status: in-progress
+status: complete
+resolution: "Owner closed the partial investigation. Preserve renderer, instrument and listening evidence and the rejected M1/M5 pilots. Longer apartment style tracks and motif intrusion are unmet and deferred."
 depends_on: []
 gate: "Owner finds extended M1/M5 arrangements unsatisfactory 2026-11-02; hold further composition/renders/inference. Finish a report-only technical renderer/MIDI handoff for Plan53, preserving selected instrument sounds and controls. Remaining long/style-loop goals are deferred, not satisfied or soundtrack-approved. No production adoption."
 summary: >-

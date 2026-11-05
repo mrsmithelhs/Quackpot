@@ -1,7 +1,8 @@
 ---
 id: plan-50
 title: Cross-harness visual and audio helper calibration
-status: in-progress
+status: complete
+resolution: "Owner accepted Sonnet findings and their limitations and closed calibration. Helpers remain experimental and task-scoped under existing review, owner and audio gates."
 depends_on: []
 gate: "Owner accepts visual/UI pilot as experimental evidence 2026-11-01 and opens controlled Flash musical-comprehension stage plus two bounded Haiku SVG draw/revise trials. Root reviews media/control and same-session method before calls; owner reviews results before further expansion or standing adoption."
 summary: >-

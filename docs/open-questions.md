@@ -34,7 +34,7 @@ Current unresolved questions only, scheduling reconciled2026-11-02. Selected int
 ## Audio, weather and later narrative
 
 - How should Plan18's owner-selected sound pools be prepared/trimmed/levelled, attributed and integrated? Selection is complete; production preparation/integration is separate. More apartment looping music remains wanted.
-- Which bounded extensions to the accepted Plan39 custom renderer will support the apartment styles in Plan43? Original lead reports schema-inspired reconstructed recipes, not upstream TinySynth integration; compare actual instrument viability before longer tracks. Plan43 permits owner-led genre pivots; no finished soundtrack is adopted.
+- Deferred after Plan43 closure: which instruments and genres can support longer apartment loops, and how should gacha motifs enter shorter variations? Retain the Plan39 custom renderer as reference and the Plan43 upstream comparison and instrument auditions as evidence. The rejected M1/M5 arrangement pilots leave these questions open.
 - How should Plan30's TV source, track changes, room acoustics and silence-after-sale work? Weather34 helpers remain deliberately unmounted pending a separate evidence/scene-selection gate.
 - Which inexpensive high-impact Plan36 disorientation ideas merit a prototype once ordinary life progression is coherent? Preserve irregular fictional disruptions, text/static equivalents and truthful outcomes; no late-game integration plan is yet selected.
 - Which assets show a measured benefit from PNG delivery? SVG source remains the default; concept references are not shipping assets.

@@ -1,0 +1,23 @@
+preflight UTC 2026-11-05T08:13:53.4792613Z; freeGiB 12.66; process >=1GiB: Memory Compression 1.34GiB
+command: bounded-node-run.ps1 node.exe --test integrated/integer-kernel.test.mjs
+abilities.mjs 67778BB7F65A5076C0B7E6A00C6E46550FCC8ADF3EB4897D7E9438D832B6E410
+codec.mjs 5B96CF16865756B5A2F5B2C91DFD4CF245853A62797DD8893187C7A52C836227
+compare.mjs 475E9A7CFB1F6ACE0594AEC552CD0FCEABAB51534BBB4A4D8D7C4447EA7B26D4
+contact.mjs C47F8ED493918F870A20A6A6853F733F61560BCD0C5D59400C675A2FB806FD36
+contract.md 93FAF9716693A48C27BAB6AC04B987204DC6A25E6EC526881E23614B364459AA
+course.mjs E1A37F085CC18940D02AB663C9396DEF6658E7CEFCEA79DEFD1570B67412B01A
+fixtures.mjs 66BCA360DABE35B430C99D1F60CB7C339153766C6C9DA93097932B1D4663FA06
+integer-kernel.mjs D319DE9B8BCCCA9B9EC72594E91713508A54371AA4267735EC1166AF73B70177
+integer-kernel.test.mjs 58AFBB73732A9D93F294779BE6E5AC4CBF511F82CA68D34C556DC20AF7646B68
+reproduce.mjs EDED41343346C4BF85FB3F59D4AFD79B8A4D56BB0FBCF59A36FBF6E87BFF52F7
+sha256.mjs 9A28EFAAA710D4E683A0B7E71C8C8CEFD8B8B367E7D126F0D83CB9CE1FB11D50
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5289021,
+  "PeakSampledPrivateBytes": 2039808,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ fixed math, joins, ceil microseconds and integer controller caps (2.5347ms)\n✔ integer contact correction and impulse preserve caller and reject unsafe depth (0.5951ms)\n✔ integer wall reflection, crowd and landing protection are participant-specific (0.8158ms)\n✔ continuing wall confinement has no second impact and resets inside the corridor (0.2398ms)\n✔ canonical envelope rejects tamper, extra fields, malformed input and size overflow (8.8993ms)\n✔ integer endpoint failure discards pending interior crossing and preserves earlier committed facts (1.5151ms)\n✔ integer real crossing evidence stays inside committed microsecond step (0.2628ms)\n✔ integer invalid input rejects before race draws (0.502ms)\n✔ occupied nonclosing landing commits protected contact at the starting boundary (0.9371ms)\n✔ full event capacity rejects a crossing atomically (1.076ms)\n✔ exact endpoint contact occurs before an endpoint-tied genuine crossing (1.0434ms)\n✔ reserved final event permits ability closeout with the crossing (1.7588ms)\n✔ direct controller accelerates within cap and wall sends both sides inward (0.4691ms)\nℹ tests 13\nℹ suites 0\nℹ pass 13\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 113.383\n",
+  "StandardError": ""
+}
+launcher-returned-success

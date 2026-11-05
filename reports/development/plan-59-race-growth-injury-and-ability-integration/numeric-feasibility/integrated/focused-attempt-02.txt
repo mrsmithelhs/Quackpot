@@ -1,0 +1,21 @@
+preflight UTC 2026-11-05T08:02:40.4430112Z; freeGiB 12.6; process >=1GiB: Memory Compression 1.34GiB
+command: bounded-node-run.ps1 node.exe --test integrated/integer-kernel.test.mjs
+abilities.mjs 67778BB7F65A5076C0B7E6A00C6E46550FCC8ADF3EB4897D7E9438D832B6E410
+codec.mjs B536E25D6D31F25F8E3FDCC9C3FE1C65519F1BD154AC15F2D2CA7C5E005DF301
+compare.mjs 2635CAB9D7BD94443039A116291568CA4229AD23B5EFFE4FDC3253C2FC78841C
+contact.mjs C47F8ED493918F870A20A6A6853F733F61560BCD0C5D59400C675A2FB806FD36
+contract.md 309B7AA24E26ED5871BFA01776A606D19C2C17E212D8819B9905AB7F06B8BB89
+course.mjs E1A37F085CC18940D02AB663C9396DEF6658E7CEFCEA79DEFD1570B67412B01A
+fixtures.mjs 66BCA360DABE35B430C99D1F60CB7C339153766C6C9DA93097932B1D4663FA06
+integer-kernel.mjs CABD6F9D0566C4A100237D3791B64D86B0B6F05A78B2DD4FFB39D4B59F159FFF
+integer-kernel.test.mjs 4E926C29CDE4D9E9E4EBD54B84D7554EDC5CBAAE4698C8EFAB9012F129063E19
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5191623,
+  "PeakSampledPrivateBytes": 1859584,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ fixed math, joins, ceil microseconds and integer controller caps (1.4606ms)\n✔ integer contact correction and impulse preserve caller and reject unsafe depth (0.6287ms)\n✔ integer wall reflection, crowd and landing protection are participant-specific (0.7205ms)\n✔ continuing wall confinement has no second impact and resets inside the corridor (0.2523ms)\n✔ canonical envelope rejects tamper, extra fields, malformed input and size overflow (2.0952ms)\n✔ integer endpoint failure discards pending interior crossing and preserves earlier committed facts (0.9968ms)\n✔ integer real crossing evidence stays inside committed microsecond step (0.1711ms)\n✔ integer invalid input rejects before race draws (0.4019ms)\n✔ occupied nonclosing landing commits protected contact at the starting boundary (0.5621ms)\n✔ full event capacity rejects a crossing atomically (1.2964ms)\nℹ tests 10\nℹ suites 0\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 98.1522\n",
+  "StandardError": ""
+}
+launcher-returned-success

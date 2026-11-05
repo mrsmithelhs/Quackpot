@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><title>Frozen integer race comparison</title><p>Report-local fixed comparison.</p><script type="module">
+import {cases,runCase} from './suite.mjs';
+const table=await (await fetch('../../reference-v1.json')).json();
+window.comparison={cases,done:false,result:null,error:null};
+window.beginComparison=(id)=>{window.comparison.done=false;window.comparison.result=null;window.comparison.error=null;
+  setTimeout(async()=>{try{window.comparison.result=await runCase(id,table);}catch(e){window.comparison.error={name:e.name,message:e.message};}finally{window.comparison.done=true;}},0);return true;};
+</script>

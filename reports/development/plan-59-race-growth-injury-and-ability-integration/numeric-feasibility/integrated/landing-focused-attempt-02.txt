@@ -1,0 +1,23 @@
+preflight UTC 2026-11-05T08:22:10.4960828Z; freeGiB 12.63; process >=1GiB: Memory Compression 1.34GiB
+command: bounded-node-run.ps1 node.exe --test integrated/integer-kernel.test.mjs
+abilities.mjs 67778BB7F65A5076C0B7E6A00C6E46550FCC8ADF3EB4897D7E9438D832B6E410
+codec.mjs 5B96CF16865756B5A2F5B2C91DFD4CF245853A62797DD8893187C7A52C836227
+compare.mjs 475E9A7CFB1F6ACE0594AEC552CD0FCEABAB51534BBB4A4D8D7C4447EA7B26D4
+contact.mjs 74AF8B4C8754CE07A0ECEEF205D70CDD33046EC89DDA8AA635DDE4F7F385522E
+contract.md 3EC352D08D3899AC7B6C61A41A6DF807FA7E015DB4ABE34F8C46BC3FD065B000
+course.mjs E1A37F085CC18940D02AB663C9396DEF6658E7CEFCEA79DEFD1570B67412B01A
+fixtures.mjs 66BCA360DABE35B430C99D1F60CB7C339153766C6C9DA93097932B1D4663FA06
+integer-kernel.mjs 16386A3276114FFFED1DEEB74154756D3490C2801A6F45F2D5C537CE08D8D509
+integer-kernel.test.mjs 6D0947E8A1FFFDF99FB05308A467002885E66D9C9F6FD724FB559256A60A54CB
+reproduce.mjs EDED41343346C4BF85FB3F59D4AFD79B8A4D56BB0FBCF59A36FBF6E87BFF52F7
+sha256.mjs 9A28EFAAA710D4E683A0B7E71C8C8CEFD8B8B367E7D126F0D83CB9CE1FB11D50
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5190115,
+  "PeakSampledPrivateBytes": 1867776,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ fixed math, joins, ceil microseconds and integer controller caps (2.2758ms)\n✔ integer contact correction and impulse preserve caller and reject unsafe depth (0.6168ms)\n✔ integer wall reflection, crowd and landing protection are participant-specific (0.7829ms)\n✔ continuing wall confinement has no second impact and resets inside the corridor (0.257ms)\n✔ canonical envelope rejects tamper, extra fields, malformed input and size overflow (8.1501ms)\n✔ integer endpoint failure discards pending interior crossing and preserves earlier committed facts (1.1488ms)\n✔ checkpoint phase uses the retained integer time rather than the pending tick (0.1055ms)\n✔ integer real crossing evidence stays inside committed microsecond step (0.1629ms)\n✔ integer invalid input rejects before race draws (0.4243ms)\n✔ occupied nonclosing landing commits protected contact at the starting boundary (0.5724ms)\n✔ full event capacity rejects a crossing atomically (0.9297ms)\n✔ exact endpoint contact occurs before an endpoint-tied genuine crossing (0.5987ms)\n✔ reserved final event permits ability closeout with the crossing (1.049ms)\n✔ direct controller accelerates within cap and wall sends both sides inward (0.4872ms)\n✔ landing-only body budget separates deep occupied pairs symmetrically, including mirrored walls and reversed IDs (1.3109ms)\n✔ landing correction refuses third-party overlap and finish credit (0.1491ms)\n✔ fresh occupied landing commits one protected episode; event failure rolls it back (1.615ms)\n✔ landing boundary recomputes a positive bounded microstep after speed changes (0.1581ms)\nℹ tests 18\nℹ suites 0\nℹ pass 18\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 107.8689\n",
+  "StandardError": ""
+}
+launcher-returned-success

@@ -1,0 +1,30 @@
+# Plan 62 — owner revision 02 mechanism and source pins
+
+Root clearance: `reports/orchestration/plan-62-owner-revision-02.md`. Report-local work only; no new production behavior, generated bitmap art, music adoption, save/export rule or packet closure. The owner-selected welcome/fresh/Continue/naming/modal/finished-run flow remains intact.
+
+## Scene and interaction contract
+
+- Place a decorative, custom SVG title in the upper negative space, with a real HTML heading for the accessible name. Compare a few treatments in context. The title is decorative to assistive technology. Sparse groups use the accepted **digital** duck rig as a visual stand-in, never race outcomes; schedule independent of gameplay RNG. Physical duck remains still. Static/reduced motion shows title without traversal.
+- The phone uses nested transforms: a slow continuous report-only rotation with a separately eased screen counter-rotation near each next 90° threshold; use angle derived from elapsed time, not repeated transform accumulation. Publish the provisional period, threshold, easing and full-cycle evidence. Pause under modal, hidden and naming states; stable readable phone in reduced motion.
+- Existing TV and couch are explicitly identified kit artwork, staged behind desk and menu respectively, with staggered, independently varied 3–7-second gentle opacity cycles. No explanatory in-world UI or new game event. Static mode retains both. Use checked anchors/options, fail on source drift and do not remove arbitrary SVG groups.
+- Naming dims surroundings while the **desk lamp turns on** and casts a warm lamp-origin pool/spill toward the independently rendered duplicate of the same existing static duck and nearby desk. The lamp, spill and duck are above the dimmer; the duck does not glow or animate itself. The input and controls stay readable. On Back, Continue, interruption and static paths restore the prior lighting correctly. No bobbing or animate-as-living behavior. This owner refinement supersedes the earlier source-less glow.
+
+## Audio contract
+
+Use only Plan53 full-track rendered Large reconstructions listed below; source stays read-only, media remains ignored/private, and music/rights remain unselected. A single report-local owner handles one track at a time, explicit user-gesture sound control, pause blockers, cancellation and cleanup. Full-track and 30-second selection are separate modes; initial 30-second excerpt starts at 0:00 as a provisional audition, with 3 seconds fade-in, 24 seconds at level, 3 seconds fade-out, then repeats. It is a faded repetition, not a seamless loop claim. A reusable inline speaker/mute icon exposes accessible label and state matching actual behavior. Lazy media loading prevents eager decode of all full tracks. Fades use audio-context time; late load/play completion after mute, state change or dispose must not produce stale sound. Mock apartment audio and all synthetic states remain labelled; no assertion of real two-track integration.
+
+| Source, relative to repository | Actual WAV SHA-256 |
+|---|---|
+| `reports/development/plan-53-generated-track-transcription-and-reconstruction/local/full-track-m1/offline-full-large.wav` | `e7220960943d13222e03d4ee9a2a83821cbe734c2870d77800849382fc559f5d` |
+| `reports/development/plan-53-generated-track-transcription-and-reconstruction/local/full-track-m3/offline-full-large.wav` | `7ba7d6f545a2cf4a20b28fd11b1ebc8657cc0290e246091a15e63b1152ff1bb1` |
+| `reports/development/plan-53-generated-track-transcription-and-reconstruction/local/full-track-m5/offline-full-large.wav` | `74b37978b5d4a193441a4f1efd4f2090d100947fa95bccecf63b308f1d52f78a` |
+
+These actual WAV hashes are distinct from the Plan53 manifest's event-data hash. Source mapping is `full-offline-listening.mjs` → `full-track-events.mjs` and `full-offline-plan.mjs`, rendered with the pinned Plan43 WebAudioTinySynth vendor as documented by Plan53. Do not relabel original generated tracks as the reconstructions or treat local listening as rights clearance. Direct lazy WAV playback is the initial plan; no conversion, new render or composition is required unless a concrete playback limitation appears.
+
+Relevant art source pins: `src/assets/apartment/index.mjs` SHA-256 `64992928c525d5c5ad6bd10dbbb741e7ae519c16acf25c17813be049b09de63b`; `src/core/duck-rig.mjs` SHA-256 `389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793`. The full apartment closure remains in `dependency-pins.md`; refresh actual transitive inputs and audio hashes for each final snapshot.
+
+Current provisional animation: 32 seconds per phone rotation. The logo/screen follows the phone through the first 70° of each quarter turn, then smoothsteps its counter-rotation across the remaining 20°. The clipping frame remains attached to the phone; screen content is clipped to its face. The 360°/0° numerical wrap is visually equivalent but still requires temporal inspection. Furniture uses repeating, staggered non-random keyframe sequences: TV peak intervals of approximately 3.0, 3.6, 4.0, 4.4 and 5.0 seconds; couch approximately 3.7, 4.3, 5.1, 4.1 and 3.3 seconds. Each interval contains a gentle fade to zero and back. This is cosmetic variation, not mechanics RNG or a claim of unpredictable timing. Digital stand-ins cross for a bounded interval of a 28-second cycle and are absent between crossings.
+
+## Evidence boundaries
+
+Root cleared two finite isolated browser batches, one early art/animation/audition and one final-source lifecycle batch, each with at most one materially corrected rerun. Capture title/menu/naming desktop and narrow, a group crossing, one complete phone turn and repeated eased quarter-turns, furniture cycles, reduced-motion/static, interruptions and focus. Sample envelope at 0/3/27/30 seconds and repeated boundary, stale-start cancellation, mute/pause/track selection and source cleanup. Real owner listening is necessary for music choice; no claim of true bfcache, AT, real devices, production save behavior or complete cleanup from sampled evidence. If a selected technique or provenance cannot be established, stop and report the actual gap.

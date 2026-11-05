@@ -1,0 +1,3 @@
+# Semantic protocol pre-execution pins
+
+After QP Orch's corrections and before any semantic execution: `semantic-protocol-draft.md` SHA-256 `80e7301199e272f055680d1c9a965f8ef480ca095365e1e439cec5be6c7885f4`; `semantic-fixtures-draft.md` `b6837c39231fb5f9be07432ba5e58414ad7c06ae6d9db96a70ca30bfebe7329a`; `progression-traces-draft.md` `8c65f73e07ac8db29bb6665196908934281688adeb9015577d1a7eafc2532b22`. The original 30-case outline was expanded before execution to 32, then to 36 with four root-requested adversarial cases. Protocol assumptions, not output, determine these pins. No semantic outcome-bearing model has run at this point.

@@ -21,7 +21,7 @@ This table refines `semantic-protocol-draft.md`. All inputs below are synthetic 
 | S3 | S1 plus scripted obstacle off original heading. | Recovery path marked blocked; do not invent actual collision. |
 | D1 | Dive begins .1, grounded B occupies same horizontal position .2; no surface event. | No grounded contact while submerged; locator/state is a semantic label, not proof of visual behavior. |
 | D2 | Dive .1; surface .4 at B's occupied position. | A real surface contact and independent injury draws; no teleport, no inferred protection on contact. |
-| D3 | Dive .1; authored eligible crossing .3. | Record genuine crossing at .3 and end active effect; chosen synthetic crossing eligibility is not production approval. |
+| D3 | Dive .1; authored finite crossing witness .3 accepted under explicitly assumed eligibility. | Record the supplied crossing witness and end active effect; it does not establish a physically genuine crossing or approve production eligibility. |
 | F1 | Flight begins .1; grounded B shares horizontal position .2. | No air-to-ground contact; candidate slowdown on separate later landing is a declared value, not measured path. |
 | F2 | Flight .1; airborne B and A meet .2. | Real air-to-air contact, independent injury draws; no Bounce protection. |
 | F3 | Flight .1; occupied landing .4. | Real landing contact and independent injury; A injury remains possible. |
@@ -36,5 +36,9 @@ This table refines `semantic-protocol-draft.md`. All inputs below are synthetic 
 | N2 | Actual contact .2 creates 16° deflection. | Nerves does not modify contact deflection or injury eligibility. |
 | X1 | Bounce active .1–.6, occupied landing .4, A draw .075/B .05. | Contact real; Bounce A fully protected; B independently injured. |
 | X2 | Crowd and Draft independently eligible .1. | Distinct opportunities/activations; simultaneous speed-composition stays unspecified, so no claimed speed or placement. |
+| B1 | Eligible prediction .1, activation draw fails, actual contact .2 with standard injury draws. | No Guard active window; ordinary A injury remains. |
+| B2 | Guard prediction .1 succeeds, A finishes .3, scripted contact .4. | End Guard at A's supplied finish; reject later contact involving A; no post-finish injury. |
+| B3 | Guard prediction .1 succeeds, A finish and contact both .3. | Under this draft's finish-first tie convention, accept the supplied finish and reject same-time contact; no injury. This is not selected production ordering. |
+| B4 | Guard prediction .1 succeeds, attempts to reactivate at 1.599 and 1.6, no contact. | Active ends .6, cooldown ends 1.6; reject 1.599, allow 1.6. Case uses integer milliseconds to avoid decimal rounding ambiguity. |
 
-This table contains **32** rows, including two explicit Guard boundary/false-prediction cases added before any run. It is below the original 60-case ceiling, but expands the earlier 30-case draft and therefore requires root's express protocol clearance before execution. G8's tie rule, synthetic submerged crossing eligibility, recovery milestones, hazard labels, timing and thresholds are illustrative comparison assumptions, not owner-approved physics. If the eventual implementation cannot output an expected distinction without inventing a physical solver, label that comparison unobserved rather than force a pass.
+This table contains **36** rows: the initial 30, two pre-review Guard boundary/false-prediction cases, and four root-requested adversarial boundary cases, all added before execution. G8/B3 tie rules, synthetic submerged crossing eligibility, recovery milestones, hazard labels, timing and thresholds are illustrative comparison assumptions, not owner-approved physics. If the implementation cannot output an expected distinction without inventing a physical solver, label that comparison unobserved rather than force a pass. Scripted outcomes verify supplied semantics only and do not establish real physical paths or useful ability strength.

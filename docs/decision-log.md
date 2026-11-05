@@ -848,3 +848,9 @@ Owner requests staged Sonnet/Flash creative consultations and possible bitmap co
 Owner closes Plan61 and requests a Messages integration packet. Adopt its selected overlapping-bubble header, stronger finite/static arrival cue, recent-first portrait threads, unread distinct from outstanding actions, separate initially collapsed Decide and global-only Uninstall. Working historical contacts are Copy Counter, Lantern Laundry, Kit as casual neighborhood acquaintance and Mom. Sample copy remains editable; no new social rules or delivery schedules follow.
 
 Plan63 is drafted for authoritative existing communication routes, persistent delivery/read state, actual display/Receipt evidence and atomic desk-phone replacement. Optional randomized ambient chatter, paired curiosity payoffs and further Quackpot campaigns are separate follow-on rules. Fixed in-world lender deadline wording remains deferred without changing financial terms. Production ownership/save/replay/lifecycle and owner integrated review remain gates. Plan61 closure is not production mounting, new quota or deployment authority.
+
+### DECISION-092 — Welcome study accepted
+
+**Date:** 2026-11-05
+
+Owner accepts the rendered Plan62 welcome study and requests production integration. Revision 04 source freeze b739fb33 and handoff e7f3f447 preserve the accepted reference, including Title A, the lamp-lit naming transition and the M5 audition defaults. Plan64 owns the real startup, save, Settings, Credits and post-Receipt connections, paired rendered review and local audio delivery clearance. The study does not establish production soundtrack rights or a save-policy change.

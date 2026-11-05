@@ -1,7 +1,8 @@
 ---
 id: plan-62
 title: Welcome Screen Creative Study
-status: in-progress
+status: complete
+resolution: "Owner accepted revision 04. Frozen creative reference b739fb33 and handoff e7f3f447. Production integration and audio delivery are gated in Plan 64."
 depends_on: []
 gate: "Owner selects a creative direction and auditioned passage; root reviews the report-local interaction mechanism before prototype construction. Production integration requires a separate packet."
 summary: >-

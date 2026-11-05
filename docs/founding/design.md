@@ -220,6 +220,8 @@ Content, rates, bonuses, and economy effects remain simulation inputs. Cues and 
 
 ## Immersion
 
+**Selected opening direction, 2026-11-04 (DECISION-090):** An animated welcome screen precedes apartment life, with game motifs and a separately auditioned local MIDI-derived soundtrack. A new run transitions through physical-duck introduction/naming into the apartment, replacing the current kitchen naming/start surface while preserving autosave preference/save safeguards. Continue resumes saved location without the introduction. Settings/Credits pause and return cleanly; music uses fade out/in. After Receipt review, welcome offers another run, usage download and Receipt access. Existing export rules remain authoritative. Exact composition, motion, soundtrack selection and lifecycle are future packet work, not implemented behavior or permission for mandatory waits.
+
 **Race integration sequencing, 2026-11-04 (DECISION-088):** Plan59's selected growth/injury/Bounce/crowd integration requires a stable technical source/transaction/save/day-change/checkpoint handoff, not closure of the whole Plan52 experience review. Shared writes remain serialized and affected final-source evidence must be current. A reusable pure race kernel can precede the full UI/progression port and support separately reviewed later-ability research; activation is not implementation or owner acceptance of that kernel.
 
 Quackpot uses one fixed diegetic stage. Offers appear as objects or messages in that world. The apartment empties as items are sold. The Receipt arrives as a printed slip. Presentation may favor atmosphere over explanatory text while conveying core gameplay information and choices.

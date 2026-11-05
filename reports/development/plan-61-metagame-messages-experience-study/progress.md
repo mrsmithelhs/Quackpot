@@ -32,3 +32,11 @@ Root must review this package and actual current artifacts; owner must review th
 Ready for root technical review: **yes, with the above open owner and integration gates**. Implementer has not set packet completion status or claimed shipping readiness.
 
 Root's final documentation pass corrected stale summaries in local commit 88160e74; current mock visibility/focus evidence and global-header limits are distinguished from historical captures. No new tests or runtime were performed for that prose-only correction.
+
+## Owner-requested chatter ideation addendum
+
+After technical delivery, the owner requested new contact ideas and one Sonnet-medium plus one Flash-medium consultation about historical, gameplay-role and occasional nondecision messages, quasi-random variation, occasional curiosity payoffs and a more persistent fictional Quackpot voice. The report-local addendum is in `chatter-ideas/`, committed as `961089b5`; no gallery or production source changed. Candidate voices and sample pair/single messages are in `synthesis.md`, with lead concepts and a shared brief alongside. The owner has not selected the first-wave cast, story, cadence, probabilities, event or implementation.
+
+One text-only Sonnet call and one independent text-only Flash call received the same brief; requested model/effort versus observable self-reports, tool/permission limits, resource results, rejected invented rules and Receipt correction are in `chatter-ideas/consultation-disposition.md`. No additional calls, images, audio or installs were used. Flash's plan-mode warning and lack of init/tool trace are disclosed. These are advisory inputs, not factual canon. Text-only checks were privacy/claim inspection and `git diff --check`; no runtime validation applies to prose suggestions.
+
+The separate production integration gate and delivered-but-not-complete status remain unchanged. Owner review of the manageable first-wave cast, personal/family relationships, community voice and promotional tone remains open. No new schedule or automatic repetition has been selected.

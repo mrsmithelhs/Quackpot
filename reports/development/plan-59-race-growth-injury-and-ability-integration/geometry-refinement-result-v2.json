@@ -1,0 +1,391 @@
+{
+  "runtime": "v26.7.0",
+  "hashes": {
+    "src/core/race-kernel-v2-physics.mjs": "693b63d4f85a7e8bce2e47b200cbfa31b8eda490db7881120c87e6fa60a66ddd",
+    "src/core/race-kernel-v2-boundaries.mjs": "c2bf28e98dbafdf73334d9e746b25054a5e3a2088153bd01bdf2f3993ee9e0ac",
+    "src/core/race-kernel-v2.test.mjs": "7602326264b79d9135b30be3a3548ea45dc0404bfe4df0ce58d957bf414b8775",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-refinement-comparison-v2.mjs": "d2fc8617932d053fdabc75059a91f02d7e6c0d7b7084d29727ddfd20b418383f",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-diagnostic-result.json": "9027b057ba44e5034074a8cd31c3998b555a8c7921b01f062a72be70a633258b"
+  },
+  "cases": [
+    {
+      "id": "straight/-5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "straight/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "straight/0/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "straight/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "straight/5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "straight/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/-5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.02726621627807617,
+        "inside": 0.027266407012939448,
+        "outsideDistance": 1.0000024157858276,
+        "insideDistance": 0.9999997934952941,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "bend/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 3
+      }
+    },
+    {
+      "id": "bend/0/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009081172943115235,
+        "inside": 0.009081363677978517,
+        "outsideDistance": 1.0000017779360606,
+        "insideDistance": 0.9999996804614233,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "bend/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "bend/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/5/closing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8248960195568198
+      }
+    },
+    {
+      "id": "bend/5/grazing",
+      "result": {
+        "status": "contact",
+        "outside": 0.04486865997314453,
+        "inside": 0.04486913681030274,
+        "outsideDistance": 1.0000015403737306,
+        "insideDistance": 0.9999998350401466,
+        "evaluations": 81
+      }
+    },
+    {
+      "id": "bend/5/nonclosing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8248960195568198
+      }
+    },
+    {
+      "id": "entry/-5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.02726650238037109,
+        "inside": 0.027266693115234372,
+        "outsideDistance": 1.000001598294244,
+        "insideDistance": 0.999998976028137,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "entry/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "entry/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 3
+      }
+    },
+    {
+      "id": "entry/0/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009081268310546876,
+        "inside": 0.009081459045410158,
+        "outsideDistance": 1.0000013707333433,
+        "insideDistance": 0.9999992732731247,
+        "evaluations": 38
+      }
+    },
+    {
+      "id": "entry/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "entry/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "entry/5/closing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8373933664362306
+      }
+    },
+    {
+      "id": "entry/5/grazing",
+      "result": {
+        "status": "contact",
+        "outside": 0.044897174835205084,
+        "inside": 0.04489755630493165,
+        "outsideDistance": 1.0000013498825662,
+        "insideDistance": 0.999999987169801,
+        "evaluations": 85
+      }
+    },
+    {
+      "id": "entry/5/nonclosing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8373933664362306
+      }
+    },
+    {
+      "id": "exit/-5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.0000021653007263,
+        "insideDistance": 0.9999990181745784,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "exit/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "exit/0/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.0000021653007263,
+        "insideDistance": 0.9999990181745784,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "exit/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "exit/5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.0000021653007263,
+        "insideDistance": 0.9999990181745784,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "exit/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/-5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 38
+      }
+    },
+    {
+      "id": "finish/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/0/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 38
+      }
+    },
+    {
+      "id": "finish/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/5/closing",
+      "result": {
+        "status": "contact",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090995788574217,
+        "outsideDistance": 1.000002193450939,
+        "insideDistance": 0.9999990463256836,
+        "evaluations": 38
+      }
+    },
+    {
+      "id": "finish/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    }
+  ]
+}

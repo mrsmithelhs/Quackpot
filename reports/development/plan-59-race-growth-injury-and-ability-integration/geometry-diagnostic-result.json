@@ -1,0 +1,462 @@
+{
+  "protocol": "plan59-geometry-diagnostic/v1",
+  "runtime": "v26.7.0",
+  "hashes": {
+    "src/core/race-kernel-v2-physics.mjs": "693b63d4f85a7e8bce2e47b200cbfa31b8eda490db7881120c87e6fa60a66ddd",
+    "src/core/race-kernel-v2-boundaries.mjs": "2b0bd6e88afafa7260d823beab8a062238c55f78c2f28ef860da218dd612c467",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-diagnostic.mjs": "6945ef5f750e297f45d5cef13f3b55359bf70e24b22ec3019808ded19dfe4813",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-protocol.md": "df9bb60f916f12b2d7079c65ef5a758429fb25f8c69e3fe9eb7981b209783630"
+  },
+  "cases": [
+    {
+      "id": "straight/-5/closing",
+      "predicted": 0.00909090909090599,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090909401076,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/-5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864542,
+      "initialSeparation": 1.4212670403551624,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/-5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.099999999999966,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/0/closing",
+      "predicted": 0.00909090909090599,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090909401076,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/0/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864542,
+      "initialSeparation": 1.4212670403551624,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/0/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.099999999999966,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/5/closing",
+      "predicted": 0.00909090909090599,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090909401076,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864555,
+      "initialSeparation": 1.4212670403551633,
+      "crossesFinish": false
+    },
+    {
+      "id": "straight/5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.099999999999966,
+      "initialSeparation": 1.099999999999966,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/-5/closing",
+      "predicted": 0.03409287848838713,
+      "predictedResidual": -0.09385522208750519,
+      "firstSampledPenetration": 0.0275,
+      "sampledDelay": -0.006592878488387129,
+      "minimumSampledSeparation": 0.6874271193789204,
+      "initialSeparation": 1.3748266992613603,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/-5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1227638506041155,
+      "initialSeparation": 1.6223757606343272,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/-5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.3748266992613603,
+      "initialSeparation": 1.3748266992613603,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/0/closing",
+      "predicted": 0.009082082343765917,
+      "predictedResidual": -0.00000822256818633349,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.0001679176562340845,
+      "minimumSampledSeparation": 0.5499517251140528,
+      "initialSeparation": 1.09986135940909,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/0/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.045892678441748,
+      "initialSeparation": 1.4018768613807522,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/0/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.09986135940909,
+      "initialSeparation": 1.09986135940909,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/5/closing",
+      "predicted": 0,
+      "predictedResidual": -0.1751039804431802,
+      "firstSampledPenetration": 0,
+      "sampledDelay": 0,
+      "minimumSampledSeparation": 0.41247724633860977,
+      "initialSeparation": 0.8248960195568198,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/5/grazing",
+      "predicted": 0.03511872578231948,
+      "predictedResidual": 0.0372177179601334,
+      "firstSampledPenetration": 0.045,
+      "sampledDelay": 0.009881274217680515,
+      "minimumSampledSeparation": 0.9823360161907788,
+      "initialSeparation": 1.2040042510289712,
+      "crossesFinish": false
+    },
+    {
+      "id": "bend/5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": 0,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 0.8248960195568198,
+      "initialSeparation": 0.8248960195568198,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/-5/closing",
+      "predicted": 0.03295368779924739,
+      "predictedResidual": -0.0781886825340049,
+      "firstSampledPenetration": 0.0275,
+      "sampledDelay": -0.005453687799247393,
+      "minimumSampledSeparation": 0.6874333097370967,
+      "initialSeparation": 1.362332679297878,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/-5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1228675054015145,
+      "initialSeparation": 1.612211560942284,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/-5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.362332679297878,
+      "initialSeparation": 1.362332679297878,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/0/closing",
+      "predicted": 0.009081587824425388,
+      "predictedResidual": -0.0000021428752460250777,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.0001684121755746136,
+      "minimumSampledSeparation": 0.5499561148414862,
+      "initialSeparation": 1.0998629755871607,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/0/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0460022302947134,
+      "initialSeparation": 1.4019181964863028,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/0/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0998629755871607,
+      "initialSeparation": 1.0998629755871607,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/5/closing",
+      "predicted": 0,
+      "predictedResidual": -0.16260663356376936,
+      "firstSampledPenetration": 0,
+      "sampledDelay": 0,
+      "minimumSampledSeparation": 0.41247975417625876,
+      "initialSeparation": 0.8373933664362306,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/5/grazing",
+      "predicted": 0.036059046408405286,
+      "predictedResidual": 0.03350974552837083,
+      "firstSampledPenetration": 0.045,
+      "sampledDelay": 0.008940953591594712,
+      "minimumSampledSeparation": 0.9824512931004405,
+      "initialSeparation": 1.2121485020996066,
+      "crossesFinish": false
+    },
+    {
+      "id": "entry/5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": 0,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 0.8373933664362306,
+      "initialSeparation": 0.8373933664362306,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/-5/closing",
+      "predicted": 0.010227300644467944,
+      "predictedResidual": -0.012500338718433812,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": -0.000977300644467943,
+      "minimumSampledSeparation": 0.5499998579545918,
+      "initialSeparation": 1.1124999376390332,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/-5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0546444158978165,
+      "initialSeparation": 1.4309142134733637,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/-5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1124999376390332,
+      "initialSeparation": 1.1124999376390332,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/0/closing",
+      "predicted": 0.009090934363238741,
+      "predictedResidual": -3.0614652068994275e-7,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015906563676125994,
+      "minimumSampledSeparation": 0.5499998579545918,
+      "initialSeparation": 1.0999999496922737,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/0/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0546444158978165,
+      "initialSeparation": 1.4212274235257336,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/0/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0999999496922737,
+      "initialSeparation": 1.0999999496922737,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/5/closing",
+      "predicted": 0.00795456810420434,
+      "predictedResidual": 0.012499726191017357,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.0012954318957956613,
+      "minimumSampledSeparation": 0.5499998579545918,
+      "initialSeparation": 1.0874999619477677,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0546444158978165,
+      "initialSeparation": 1.4115848512506577,
+      "crossesFinish": false
+    },
+    {
+      "id": "exit/5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0874999619477677,
+      "initialSeparation": 1.0874999619477677,
+      "crossesFinish": false
+    },
+    {
+      "id": "finish/-5/closing",
+      "predicted": 0.009090909090911158,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090908884302,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/-5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864542,
+      "initialSeparation": 1.4212670403552061,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/-5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1000000000000227,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/0/closing",
+      "predicted": 0.009090909090911158,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090908884302,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/0/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864542,
+      "initialSeparation": 1.4212670403552061,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/0/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1000000000000227,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/5/closing",
+      "predicted": 0.009090909090911158,
+      "predictedResidual": 0,
+      "firstSampledPenetration": 0.009250000000000001,
+      "sampledDelay": 0.00015909090908884302,
+      "minimumSampledSeparation": 0.5500000000000114,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/5/grazing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.0547511554864555,
+      "initialSeparation": 1.4212670403552075,
+      "crossesFinish": true
+    },
+    {
+      "id": "finish/5/nonclosing",
+      "predicted": null,
+      "predictedResidual": null,
+      "firstSampledPenetration": null,
+      "sampledDelay": null,
+      "minimumSampledSeparation": 1.1000000000000227,
+      "initialSeparation": 1.1000000000000227,
+      "crossesFinish": true
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "runtime": "v26.7.0",
+  "hashes": {
+    "src/core/race-kernel-v2-physics.mjs": "693b63d4f85a7e8bce2e47b200cbfa31b8eda490db7881120c87e6fa60a66ddd",
+    "src/core/race-kernel-v2-boundaries.mjs": "ae8a114c649e62b6a820193ad81b34dc07ec8ba7a51983a90ee0546eba99cdfb",
+    "src/core/race-kernel-v2.test.mjs": "87c1749225477f09c789e6eacc3878e25c1f475d480b992fd5c22053c2df3bae",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-refinement-comparison.mjs": "71fea7ce2581cf4bdf8c438c9d503cdd9872d5e497592d2bd2eb0b36922516e8",
+    "reports/development/plan-59-race-growth-injury-and-ability-integration/geometry-diagnostic-result.json": "9027b057ba44e5034074a8cd31c3998b555a8c7921b01f062a72be70a633258b"
+  },
+  "cases": [
+    {
+      "id": "straight/-5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "straight/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "straight/0/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "straight/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "straight/5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "straight/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "straight/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/-5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.02726621627807617,
+        "inside": 0.02726631164550781,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "bend/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 3
+      }
+    },
+    {
+      "id": "bend/0/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009081172943115235,
+        "inside": 0.009081268310546876,
+        "evaluations": 36
+      }
+    },
+    {
+      "id": "bend/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "bend/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "bend/5/closing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8248960195568198
+      }
+    },
+    {
+      "id": "bend/5/grazing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.04486865997314453,
+        "inside": 0.044868755340576175,
+        "evaluations": 78
+      }
+    },
+    {
+      "id": "bend/5/nonclosing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8248960195568198
+      }
+    },
+    {
+      "id": "entry/-5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.02726650238037109,
+        "inside": 0.027266597747802733,
+        "evaluations": 39
+      }
+    },
+    {
+      "id": "entry/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "entry/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 3
+      }
+    },
+    {
+      "id": "entry/0/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009081268310546876,
+        "inside": 0.009081363677978517,
+        "evaluations": 38
+      }
+    },
+    {
+      "id": "entry/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "entry/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "entry/5/closing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8373933664362306
+      }
+    },
+    {
+      "id": "entry/5/grazing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.044897174835205084,
+        "inside": 0.04489727020263673,
+        "evaluations": 76
+      }
+    },
+    {
+      "id": "entry/5/nonclosing",
+      "result": {
+        "status": "initial-overlap",
+        "evaluations": 2,
+        "separation": 0.8373933664362306
+      }
+    },
+    {
+      "id": "exit/-5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "exit/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "exit/0/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "exit/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "exit/5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 37
+      }
+    },
+    {
+      "id": "exit/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "exit/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/-5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 36
+      }
+    },
+    {
+      "id": "finish/-5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/-5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/0/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 36
+      }
+    },
+    {
+      "id": "finish/0/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/0/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    },
+    {
+      "id": "finish/5/closing",
+      "result": {
+        "status": "unresolved",
+        "reason": "possible-grazing",
+        "outside": 0.009090709686279296,
+        "inside": 0.009090805053710937,
+        "evaluations": 36
+      }
+    },
+    {
+      "id": "finish/5/grazing",
+      "result": {
+        "status": "clear",
+        "evaluations": 8
+      }
+    },
+    {
+      "id": "finish/5/nonclosing",
+      "result": {
+        "status": "clear",
+        "evaluations": 5
+      }
+    }
+  ]
+}

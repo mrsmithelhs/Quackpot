@@ -1,0 +1,21 @@
+{
+  "ExitCode": -1,
+  "ElapsedSeconds": 0.524499,
+  "PeakSampledPrivateBytes": 1339392,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ actual five-slot loan-default Receipt displays event-derived totals and rejects missing commit data (10.1223ms)\n✔ actual engine draws and races remain chronological and separate from purchases (301.4367ms)\n✔ immediate uninstall records offered retention and leave separately (0.2757ms)\n✔ legacy missing odds and balances remain unavailable; no transaction link is asserted (0.179ms)\n✔ synthetic exact-zero expense records distinguish paid from unpaid (0.3034ms)\n✔ actual engine records rent shortfall without inferring debt from cash (1.2659ms)\n✔ missing bill identifiers suppress inferred accounting without hiding recorded work outcomes (0.302ms)\n✔ finding evidence is presented by sequence instead of construction order (0.2355ms)\n✔ race and draw source evidence preserves distinctive fields and classifies automatic consumption (0.312ms)\n✔ restart replacement accepts a valid new run and refuses stale or failed writes without rollback (4.249ms)\n✔ restart copy distinguishes empty, terminal and separate active saves (0.1778ms)\n✔ schema5 saves first Receipt presentation only; schema6 keeps existing behavior (0.0629ms)\n✔ welcome rejects changed, cleared, or unreadable primary and ignores unrelated storage events (0.1668ms)\n✔ confirmation permits retry after refusal or failure and suppresses concurrent activation (0.2392ms)\n✔ phone screen counter-rotation eases at quarter turns (0.0676ms)\n✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (0.4599ms)\n✔ audio is gesture activated, honors pause blockers and disposes (2.3545ms)\n✔ late media play cannot restart playback after mute (0.4068ms)\n✔ naming and apartment handoff use separate one-second scene gain ramps (0.3892ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 448.6101\n",
+  "StandardError": "(node:46800) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/AI/Quackpot/src/ui/welcome/stage.js is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to \\\\?\\C:\\AI\\Quackpot\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "FailurePhase": "monitor",
+  "FailureOperation": "capture-verified-descendant",
+  "FailureType": "InvalidOperationException",
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 0,
+  "CleanupDescendantsExited": 0
+}

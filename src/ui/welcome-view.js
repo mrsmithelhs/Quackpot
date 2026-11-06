@@ -13,7 +13,7 @@ export function mountWelcome(container, options = {}) {
   const root = container.querySelector('.qp-welcome'), card = root.querySelector('.card'), sound = root.querySelector('.sound-button'), status = root.querySelector('.sound-status');
   root.querySelector('.title-art').src = titleUrl;
   const stage = createStage(root, root.querySelector('.art'), root.querySelector('.furnishings'), root.querySelector('.digital-ducks'));
-  let state = 'opening', suggestion = '', enabled = false, disposed = false;
+  let state = 'opening', suggestion = '', enabled = false, disposed = false, cancelConfirm = null;
   const confirmName = createConfirmationGate(onConfirm);
   const blockers = new Set();
   const audio = createWelcomeAudio({ source: audioSource, onState(value) { if (value === 'unavailable') { enabled = false; status.textContent = 'Sound is unavailable.'; updateSound(); } } });
@@ -46,8 +46,24 @@ export function mountWelcome(container, options = {}) {
   function pageshow(event) { if (event.persisted) resume('pagehide'); }
   function pause(reason) { blockers.add(reason); audio.pause(reason); sync(); }
   function resume(reason) { blockers.delete(reason); audio.resume(reason); sync(); }
-  function dispose({ fadeAudio = false } = {}) { if (disposed) return; disposed = true; document.removeEventListener('visibilitychange', visibility); window.removeEventListener('pagehide', pagehide); window.removeEventListener('pageshow', pageshow); if (fadeAudio) { audio.transition('apartment'); setTimeout(() => audio.dispose(), 1000); } else audio.dispose(); stage.dispose(); container.replaceChildren(); }
+  function confirmRestart(message) {
+    if (disposed || cancelConfirm) return Promise.resolve(false);
+    const trigger = document.activeElement, dialog = document.createElement('dialog');
+    dialog.className = 'restart-confirm'; dialog.setAttribute('aria-labelledby', 'restart-confirm-title'); dialog.setAttribute('aria-describedby', 'restart-confirm-description');
+    const heading = document.createElement('h2'); heading.id = 'restart-confirm-title'; heading.textContent = 'Start another run?';
+    const description = document.createElement('p'); description.id = 'restart-confirm-description'; description.textContent = message; let finish;
+    const cancel = action('Cancel', () => finish(false)); const accept = action('Start another run', () => finish(true), true);
+    dialog.append(heading, description, cancel, accept); root.append(dialog); pause('modal');
+    return new Promise(resolve => {
+      let settled = false;
+      finish = value => { if (settled) return; settled = true; cancelConfirm = null; if (dialog.open) dialog.close(); dialog.remove(); if (!disposed) { resume('modal'); if (trigger?.isConnected) trigger.focus(); } resolve(value); };
+      cancelConfirm = () => finish(false);
+      dialog.addEventListener('cancel', event => { event.preventDefault(); finish(false); });
+      try { dialog.showModal(); cancel.focus(); } catch { finish(false); }
+    });
+  }
+  function dispose({ fadeAudio = false } = {}) { if (disposed) return; disposed = true; cancelConfirm?.(); document.removeEventListener('visibilitychange', visibility); window.removeEventListener('pagehide', pagehide); window.removeEventListener('pageshow', pageshow); if (fadeAudio) { audio.transition('apartment'); setTimeout(() => audio.dispose(), 1000); } else audio.dispose(); stage.dispose(); container.replaceChildren(); }
   document.addEventListener('visibilitychange', visibility); window.addEventListener('pagehide', pagehide); window.addEventListener('pageshow', pageshow); visibility(); render();
   card.querySelector('h1')?.focus();
-  return { pause, resume, transition: place => audio.transition(place), dispose };
+  return { pause, resume, confirmRestart, transition: place => audio.transition(place), dispose };
 }

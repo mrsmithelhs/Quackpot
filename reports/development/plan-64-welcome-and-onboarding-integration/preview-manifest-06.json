@@ -1,0 +1,198 @@
+{
+  "reference": "b739fb33",
+  "files": {
+    "/reference/src/assets/apartment/desk/phone.mjs": {
+      "file": "reference/src/assets/apartment/desk/phone.mjs",
+      "sha256": "a384c7843a40081c2baadad9674378f62333bb34ec920b574a600335c28ce73c"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/cosmetic-timeline.mjs": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/cosmetic-timeline.mjs",
+      "sha256": "07b4f22d217cbe3b235c3771fbe98e73343c5b516524e30a8975281e44704c12"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/audio.js": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/audio.js",
+      "sha256": "e23f80e2c82b1154c60b6f36f2863eaa44c85651d2dac239fc15c1f919c76845"
+    },
+    "/Quackpot/assets/duck-placeholder-Mhd15Sdp.svg": {
+      "sha256": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+      "file": "production/assets/duck-placeholder-Mhd15Sdp.svg"
+    },
+    "/reference/src/assets/apartment/duck/views.mjs": {
+      "file": "reference/src/assets/apartment/duck/views.mjs",
+      "sha256": "ef51fb6ca894e8fa144aae7a157692170350d12812495878c2d3581a1c230425"
+    },
+    "/Quackpot/assets/index-Cu7p4rE5.js": {
+      "sha256": "e5f4c49a948d5a9cc521e69574b01faeff68936e718a69bb442ef1436cc256b5",
+      "file": "production/assets/index-Cu7p4rE5.js"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-c.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-c.svg",
+      "sha256": "9914be64d5aa9316eb68c965d81e93d25c94d173fb074c537dc766a502d9d9c3"
+    },
+    "/Quackpot/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt": {
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "file": "production/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt"
+    },
+    "/reference/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/distinct-motion.mjs": {
+      "file": "reference/reports/development/plan-57-race-collision-and-injury-visual-study/gallery/distinct-motion.mjs",
+      "sha256": "446be5191357e9c2c27624827a1e4c2a38fd8c18b17c3eee8c19391878323b94"
+    },
+    "/reference/src/assets/apartment/desk/top.mjs": {
+      "file": "reference/src/assets/apartment/desk/top.mjs",
+      "sha256": "70a41a7358842418cbc3fe1f768d73dedaa77820996fbfae59addc3a24bb41b2"
+    },
+    "/starts/terminal": {
+      "file": "starts/terminal.json",
+      "sha256": "223a8b71adb1e63afb4ecf77a0b32199d430e17dd573672bc5d8f06ba04ee558"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-a.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-a.svg",
+      "sha256": "4b0b1a75555678d579749f7572a7e1e099e5a9c96a9b3d959d6ddc789e44374d"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/sound-icon.js": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/sound-icon.js",
+      "sha256": "c3b3580771bfc14d2ed8b7df6e6690aedfcb577ea143552c129942c2be419d34"
+    },
+    "/reference/src/assets/apartment/rooms/specs.mjs": {
+      "file": "reference/src/assets/apartment/rooms/specs.mjs",
+      "sha256": "ede59c4336b2306eff571139d92ea34b86ca35a5b09eded22d4a72fc3dd748fb"
+    },
+    "/reference/src/assets/apartment/rooms/camera.mjs": {
+      "file": "reference/src/assets/apartment/rooms/camera.mjs",
+      "sha256": "a1ef6d912ba0c358812cf6a98698250eadca91eef77daeb5526ddcee18ca0e57"
+    },
+    "/Quackpot/assets/index-CUXCR51k.css": {
+      "sha256": "14c770329c31072052245a02bbeaa41b7c7ca9c1ffe8c38dbb9fcd1c46718716",
+      "file": "production/assets/index-CUXCR51k.css"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-2.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-2.svg",
+      "sha256": "adc8fccc8716a81758e91d4d1a6146a4bf081c9fa6a5814084fbd5d33d45fd09"
+    },
+    "/reference/src/assets/apartment/index.mjs": {
+      "file": "reference/src/assets/apartment/index.mjs",
+      "sha256": "64992928c525d5c5ad6bd10dbbb741e7ae519c16acf25c17813be049b09de63b"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/study.css": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/study.css",
+      "sha256": "3071a607b2c58e9ca28004fd0d8747f81a1c1d04780c954dbbc1bd6701e53838"
+    },
+    "/reference/src/assets/apartment/core/ids.mjs": {
+      "file": "reference/src/assets/apartment/core/ids.mjs",
+      "sha256": "f732cedfd026d036a2e604555575088c3c29662e72ab5174c9e16b9806fd49eb"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/index.html": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/index.html",
+      "sha256": "0fb48a8ac41172dc5721e9405b969106d8020206e1604e0dacde3f334b4a71a5"
+    },
+    "/reference/src/assets/apartment/props/kitchen.mjs": {
+      "file": "reference/src/assets/apartment/props/kitchen.mjs",
+      "sha256": "9243a7066d0da7b5d38e2180a0fb608060b6d43700eb30e0d91d068e3011a21d"
+    },
+    "/reference/reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs": {
+      "file": "reference/reports/development/plan-58-race-ability-animation-study/gallery/revision-effects.mjs",
+      "sha256": "3ee89813f8d127452cf89f1f0d7b5430abbd9ba7c408ca59cec034033ac73a6e"
+    },
+    "/reference/src/assets/apartment/duck/index.mjs": {
+      "file": "reference/src/assets/apartment/duck/index.mjs",
+      "sha256": "b4b68c7fc9ab72a6c2df7771fd1f47bb2951167cfd72d6f6c224172ec84e32f3"
+    },
+    "/reference/src/assets/apartment/props/prims.mjs": {
+      "file": "reference/src/assets/apartment/props/prims.mjs",
+      "sha256": "40d44d1465f145b0c466c4be9fc9607d6e0361559154ecef571ca667bd80e26d"
+    },
+    "/starts/saved": {
+      "file": "starts/saved.json",
+      "sha256": "5d2fdeed376bcff93e1fde0ad8fb7c84b4341963b31ab54c99ee0e0059634e27"
+    },
+    "/reference/src/assets/apartment/lighting/modes.mjs": {
+      "file": "reference/src/assets/apartment/lighting/modes.mjs",
+      "sha256": "e51600f96b7e95626727e8e5e4fb94218eda200ec5e5320f1b58fc4754cfe376"
+    },
+    "/reference/src/core/duck-rig.mjs": {
+      "file": "reference/src/core/duck-rig.mjs",
+      "sha256": "389f18ae5b391e0b3922a183c8ffe2c8d776bd35b8feefa47b72c067d774f793"
+    },
+    "/reference/src/assets/apartment/core/constants.mjs": {
+      "file": "reference/src/assets/apartment/core/constants.mjs",
+      "sha256": "96c99a2018302fae728410aa2ed635cbb680f621e57d6486ec09683d828239d7"
+    },
+    "/Quackpot/index.html": {
+      "sha256": "75c9768721835cb5886f4edcf1ab3585bd045f3c8fda68980be2026fff5f664c",
+      "file": "production/index.html"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/stage.js": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/stage.js",
+      "sha256": "09b76135140da51f3bce89972790c7f82e4d2193c7f0ada5645e2e5e5951124b"
+    },
+    "/reference/src/assets/apartment/props/toys.mjs": {
+      "file": "reference/src/assets/apartment/props/toys.mjs",
+      "sha256": "d5b3ba199e7f37526164510fc36a2833a005470357f6ab89c117d5a04aec308c"
+    },
+    "/reference/src/assets/apartment/rooms/scene.mjs": {
+      "file": "reference/src/assets/apartment/rooms/scene.mjs",
+      "sha256": "7e5821d378fd87225d36a7440480a5a8670ad56530b2336b6252a58f62ce997d"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-3.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-3.svg",
+      "sha256": "c870a78bcc5f098faeed241c1c0efdba8cf87ae4ffbfdef915901489d17705c7"
+    },
+    "/reference/src/assets/apartment/props/bedroom.mjs": {
+      "file": "reference/src/assets/apartment/props/bedroom.mjs",
+      "sha256": "61f489706f58aee6763eedf615bf7e7f4c2ae5b0f2f180fd844f0a24fe0b85af"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-1.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-duck-1.svg",
+      "sha256": "685b4177463ed8ddb9250de96387f22311f50ce63d5158347bd32dc3fd6938dc"
+    },
+    "/reference/src/assets/apartment/core/svg.mjs": {
+      "file": "reference/src/assets/apartment/core/svg.mjs",
+      "sha256": "7db71d015f3efc1886ea0f2c21f4a39a6a0af663cf864eaac187f64392787fc8"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/title/title-b.svg": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/title/title-b.svg",
+      "sha256": "83490f623d398454bc797feae49f4e42efdc5a3f099bf1e585cfa42f514f920c"
+    },
+    "/reference/src/assets/apartment/props/index.mjs": {
+      "file": "reference/src/assets/apartment/props/index.mjs",
+      "sha256": "be9d0d63781d8917024e7946675e688cc7877a366e5a5f9e7eb12a79c0c2a7f8"
+    },
+    "/inspect": {
+      "file": "inspect.html",
+      "sha256": "32f4f3a5a671724f211483021142080f79fcb8f2c74a1da1ecc2cadab1b49256"
+    },
+    "/reference/src/assets/apartment/desk/side.mjs": {
+      "file": "reference/src/assets/apartment/desk/side.mjs",
+      "sha256": "d77341a0410a4eae1d01238b95c73f0f00f3c49edcbf8582491a6cc7161095ff"
+    },
+    "/reference/src/assets/apartment/props/decor.mjs": {
+      "file": "reference/src/assets/apartment/props/decor.mjs",
+      "sha256": "d369298bb9274cfa9c74374c6f86a4a91ea33f11969701716ef5ab51d8078a76"
+    },
+    "/Quackpot/assets/race-worker-DvjzYeym.js": {
+      "sha256": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+      "file": "production/assets/race-worker-DvjzYeym.js"
+    },
+    "/reference/src/assets/apartment/lighting/defs.mjs": {
+      "file": "reference/src/assets/apartment/lighting/defs.mjs",
+      "sha256": "deae013aac40157cb3134fed92b03d0ba65799804b2f79ed03d18983fe45377f"
+    },
+    "/reference/src/assets/apartment/props/living.mjs": {
+      "file": "reference/src/assets/apartment/props/living.mjs",
+      "sha256": "b8d2673254c49e6251e8cf495dafd4518bc5b81a34ae3e5d265c8813968074e4"
+    },
+    "/reference/src/assets/apartment/duck/overhead.mjs": {
+      "file": "reference/src/assets/apartment/duck/overhead.mjs",
+      "sha256": "9b4eaef3dfa477b9623d16a97d954ca0420607d95fe2b172fac74d8a8f9ede04"
+    },
+    "/Quackpot/assets/welcome-m5-bFjlemf3.wav": {
+      "sha256": "7377b5f65df3be645a292b3f2e6b37034773984c366d0347d848c467e949f0be",
+      "file": "production/assets/welcome-m5-bFjlemf3.wav"
+    },
+    "/reference/reports/development/plan-62-welcome-screen-creative-study/study.js": {
+      "file": "reference/reports/development/plan-62-welcome-screen-creative-study/study.js",
+      "sha256": "efed9d5ba41569101f291f347ecf0b27ba3b66002994fd01331d13fcfb93172d"
+    }
+  },
+  "production": "f96f4cb016a2c004fcf4f38a0761677e0f15e294"
+}

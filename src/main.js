@@ -350,7 +350,7 @@ if (app) {
     return { success: false, preservedSnapshot: true, error: result.reason };
   }
 
-  function startAfterReceipt(name) {
+  async function startAfterReceipt(name) {
     if (unsupportedRenPreservation) { globalThis.alert('The existing unsupported save is protected. The current Receipt remains available.'); return false; }
     let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
     const snapshot = readWelcomeSnapshot(storage, STORAGE_KEY);
@@ -364,13 +364,22 @@ if (app) {
         globalThis.alert('The existing save cannot be safely replaced. The Receipt is still available.'); return false;
       }
     }
-    if (!globalThis.confirm(restartConfirmationText(prior?.state?.phase, snapshot.raw !== null, welcomeAutosave))) return false;
+    if (!await welcomeHandle.confirmRestart(restartConfirmationText(prior?.state?.phase, snapshot.raw !== null, welcomeAutosave))) return false;
+    if (!welcomeSnapshotMatches(welcomeSnapshot, snapshot)) { globalThis.alert('Saved data changed. The current Receipt remains available; reload before trying again.'); return false; }
     const candidate = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
     candidate.start(); candidate.autosaveEnabled = welcomeAutosave; candidate.setupCompanion(name, 'classic-yellow');
     const next = candidate.state.life ? lifeSurface(candidate) : BREAKFAST_STEP_BY_DAY[1]; candidate.state.step = next;
     if (welcomeAutosave) {
       const result = restartSave(storage, snapshot.raw, candidate);
-      if (!result.success) { globalThis.alert('The new run could not be saved safely. The current Receipt remains available; check saved data before trying again.'); return false; }
+      if (!result.success) {
+        if (!engine && pendingEnvelope) {
+          try { engine = GameEngine.fromEnvelope(pendingEnvelope); pendingEnvelope = null; engine.autosaveEnabled = false; welcomePreservation = true; setTemporaryPreservationMode(true); }
+          catch { /* Keep the original cached envelope for the existing recovery path. */ }
+        }
+        globalThis.alert('The new run could not be saved safely. The current Receipt remains available; check saved data before trying again.');
+        if (engine?.isTerminal()) showWelcome();
+        return false;
+      }
       resetInMemoryStore(); setTemporaryPreservationMode(false); pendingRestartSave = null;
     } else {
       const current = readWelcomeSnapshot(storage, STORAGE_KEY);

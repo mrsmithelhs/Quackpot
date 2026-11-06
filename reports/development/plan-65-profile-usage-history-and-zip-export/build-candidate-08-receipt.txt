@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.1872824,
+  "PeakSampledPrivateBytes": 711315456,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "vite v8.3.5 building client environment for production...\ntransforming...\n✓ 190 modules transformed.\nrendering chunks...\ncomputing gzip size...\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/index.html                                    0.52 kB │ gzip:   0.33 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/duck-placeholder-Mhd15Sdp.svg          1.01 kB │ gzip:   0.51 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt     11.35 kB │ gzip:   3.95 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/race-worker-DvjzYeym.js               35.95 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/welcome-m5-bFjlemf3.wav            5,760.07 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/index-DlGmi8UI.css                    76.97 kB │ gzip:  16.54 kB\nreports/development/plan-65-profile-usage-history-and-zip-export/build-candidate-08/assets/index-BA-eyYmg.js                    947.11 kB │ gzip: 276.55 kB │ map: 2,722.23 kB\n\n✓ built in 551ms\n",
+  "StandardError": "[plugin builtin:vite-reporter] \n(!) Some chunks are larger than 500 kB after minification. Consider:\n- Using dynamic import() to code-split the application\n- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting\n- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

@@ -1,0 +1,1 @@
+{"reason": "root exited", "error": null, "root_exit_code": 0, "elapsed_seconds": 0.297, "sample_count": 1, "max_sample_gap_seconds": 0.296, "sampled_peak_workspace_bytes": 729, "vanished_descendants": 0, "host_memory_limit_bytes": 2147483648, "cleanup": "root exited; job reports zero active processes", "resource_guard": null}

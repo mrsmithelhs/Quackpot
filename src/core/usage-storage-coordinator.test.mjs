@@ -75,3 +75,31 @@ test('replacement archives distinct live and saved runs before changing primary'
   await coordinator.replace({ prior:{ id, entries:events }, additionalRuns:[{ id:liveId, entries:events }], replacement:{} });
   assert.deepEqual(Object.keys(JSON.parse(storage.getItem(USAGE_HISTORY_KEY)).records).sort(), [id, liveId].sort());
 });
+
+test('shorter save cannot change archived history or primary during export preparation', async () => {
+  const { storage, coordinator, initial } = fixture();
+  await coordinator.archive({ id, entries:[...events, { seq:1, type:'action' }] });
+  const history = storage.getItem(USAGE_HISTORY_KEY);
+  await assert.rejects(coordinator.archive({ id, entries:events }), /shorter run evidence unverified/);
+  assert.equal(storage.getItem('save'), initial);
+  assert.equal(storage.getItem(USAGE_HISTORY_KEY), history);
+  assert.equal(await coordinator.snapshot(), history);
+});
+
+test('same-run Save can preserve unreadable history, while archive and replacement remain blocked', async () => {
+  const { storage, locks, initial } = fixture();
+  const invalid = '{"version":999}';
+  storage.setItem(USAGE_HISTORY_KEY, invalid);
+  const coordinator = createUsageCoordinator({ storage, locks, primaryKey:'save', expectedPrimary:initial, generation:null, protectedHistoryRaw:invalid });
+  const newer = { usageRunId:id, eventLog:[...events, { seq:1, type:'action' }] };
+  await coordinator.save(newer);
+  assert.equal(storage.getItem('save'), JSON.stringify(newer));
+  assert.equal(storage.getItem(USAGE_HISTORY_KEY), invalid);
+  await assert.rejects(coordinator.archive({ id, entries:newer.eventLog }), /history is unavailable/);
+  await assert.rejects(coordinator.clearHistory(), /history is unavailable/);
+  await assert.rejects(coordinator.replace({ prior:{ id, entries:newer.eventLog }, replacement:{} }), /history is unavailable/);
+  await assert.rejects(coordinator.save({ usageRunId:'fedcba9876543210fedcba9876543210', eventLog:newer.eventLog }), /different run/);
+  await assert.rejects(coordinator.save({ usageRunId:id, eventLog:[{ seq:0, type:'terminal' }] }), /evidence changed/);
+  assert.equal(storage.getItem('save'), JSON.stringify(newer));
+  assert.equal(storage.getItem(USAGE_HISTORY_KEY), invalid);
+});

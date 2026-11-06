@@ -4,21 +4,28 @@ import { USAGE_HISTORY_KEY, parseHistory, mergeRun, clearHistory } from './usage
 // backup and history mutation must use this same lock before mounting this module.
 export const USAGE_LOCK_NAME = 'quackpot-schema5-storage-v1';
 
-export function createUsageCoordinator({ storage, locks, primaryKey, expectedPrimary, generation }) {
+export function createUsageCoordinator({ storage, locks, primaryKey, expectedPrimary, generation, protectedHistoryRaw = null }) {
   let expected = expectedPrimary;
   let expectedGeneration = generation;
   let queue = Promise.resolve();
   let session = 0;
 
-  const enqueue = operation => {
+  const enqueue = (operation, { allowProtectedHistory = false } = {}) => {
     const queuedSession = session;
     const result = queue.then(async () => {
       if (!locks?.request) throw new Error('storage locking unavailable');
       return locks.request(USAGE_LOCK_NAME, { mode: 'exclusive', ifAvailable: true }, async lock => {
         if (!lock) throw new Error('storage is busy; try again');
         if (queuedSession !== session) throw new Error('session changed');
-        const history = parseHistory(storage.getItem(USAGE_HISTORY_KEY));
-        if (history.generation !== expectedGeneration) throw new Error('history changed in another tab');
+        const rawHistory = storage.getItem(USAGE_HISTORY_KEY);
+        let history;
+        if (expectedGeneration === null) {
+          if (rawHistory !== protectedHistoryRaw) throw new Error('history changed in another tab');
+          if (!allowProtectedHistory) throw new Error('usage history is unavailable or unsupported');
+        } else {
+          history = parseHistory(rawHistory);
+          if (history.generation !== expectedGeneration) throw new Error('history changed in another tab');
+        }
         if (storage.getItem(primaryKey) !== expected) throw new Error('save changed in another tab');
         return operation(history);
       });
@@ -39,6 +46,7 @@ export function createUsageCoordinator({ storage, locks, primaryKey, expectedPri
   };
 
   return {
+    snapshot() { return enqueue(history => JSON.stringify(history)); },
     recovery(operation) {
       return enqueue(() => {
         const result = operation();
@@ -62,8 +70,8 @@ export function createUsageCoordinator({ storage, locks, primaryKey, expectedPri
             throw new Error('saved run evidence changed');
           }
         }
-        write(primaryKey, bytes); expected = bytes; return { success: true };
-      });
+        write(primaryKey, bytes); expected = bytes; return { success: true, historyUnavailable:expectedGeneration === null };
+      }, { allowProtectedHistory:true });
     },
     archive(run) {
       const snapshot = structuredClone(run);

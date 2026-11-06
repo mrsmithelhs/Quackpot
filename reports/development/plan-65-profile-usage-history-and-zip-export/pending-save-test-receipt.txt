@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5766426,
+  "PeakSampledPrivateBytes": 3080192,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ history contains only allowlisted categories and no private event payload (5.2334ms)\n✔ full-prefix digest distinguishes an extension, a branch and a shorter snapshot (1.0113ms)\n✔ clear leaves a versioned empty generation and preserves its input (0.2707ms)\n✔ queued same-tab saves chain and a competing primary is refused (0.5684ms)\n✔ replacement archives first and rejects a stale saved prefix (0.6759ms)\n✔ history clear invalidates another coordinator and lack of locks blocks writes (0.3762ms)\n✔ ordinary save cannot overwrite a different run or a divergent prefix (0.3647ms)\n✔ binding a legacy identity persists before an archive failure (0.4117ms)\n✔ replacement archives distinct live and saved runs before changing primary (0.6227ms)\n✔ later Save waits for replacement and persists its own newer snapshot (0.3391ms)\n✔ failed first replacement or changed run never reports newer snapshot saved (0.1911ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 32.0343\n",
+  "StandardError": "",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

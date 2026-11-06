@@ -93,8 +93,8 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   }
 
   if (btnSave && onSave && !isTerminal) {
-    btnSave.addEventListener('click', () => {
-      const result = onSave();
+    btnSave.addEventListener('click', async () => {
+      const result = await onSave();
       if (saveToast) {
         saveToast.textContent = result?.success
           ? (result.inMemory ? 'Temporary session only; browser storage is unavailable.' : 'Saved in this browser.')

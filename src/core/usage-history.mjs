@@ -13,6 +13,26 @@ const eventKinds = new Map([
   ['draw_committed', 'committed'], ['reveal_shown', 'revealed'],
   ['terminal', 'terminal'], ['receipt_shown', 'receipt'],
 ]);
+const allowedActions = new Set(['uninstall_chosen','leave_immediately','play_out_the_trap','stay_without_reward','race_choice','race_trial_consumed','starter_declined','fictional_install','quackpot_opened']);
+const allowedTechniques = new Set(['launch_invitation','currency_obfuscation','fear_of_missing_out','sunk_cost_pity','power_creep','anchoring','exit_friction','completion_pressure','social_comparison','secondary_currency','pressure_on_possession']);
+const allowedRoutes = new Set(['uninstall','running_on_empty','run_complete']);
+
+function projectEvent(entry) {
+  const category = eventKinds.get(entry.type);
+  if (!category) return null;
+  const result = { seq:entry.seq, category };
+  const payload = entry.payload && typeof entry.payload === 'object' ? entry.payload : {};
+  if (allowedActions.has(payload.kind)) result.action = payload.kind;
+  if (allowedTechniques.has(payload.technique)) result.technique = payload.technique;
+  if (allowedRoutes.has(payload.route)) result.route = payload.route;
+  if (entry.type === 'reveal_shown' && Number.isSafeInteger(payload.commitSeq) && payload.commitSeq >= 0 && payload.commitSeq < entry.seq) result.commitSeq = payload.commitSeq;
+  if (entry.type === 'draw_committed' && payload.odds && typeof payload.odds === 'object') {
+    const odds = {};
+    for (const key of ['common','rare','legendary']) if (typeof payload.odds[key] === 'number' && Number.isFinite(payload.odds[key]) && payload.odds[key] >= 0 && payload.odds[key] <= 1) odds[key] = payload.odds[key];
+    if (Object.keys(odds).length) result.odds = odds;
+  }
+  return result;
+}
 
 export function emptyHistory(generation = 0) {
   return { version: USAGE_HISTORY_VERSION, generation, records: {}, achievements: { availability: 'unavailable' } };
@@ -57,8 +77,7 @@ export async function mergeRun(history, id, entries) {
     if (entries.length < prior.sourceCount) throw new Error('shorter run evidence unverified');
     if (await digestPrefix(entries.slice(0, prior.sourceCount)) !== prior.sourceDigest) throw new Error('conflicting run evidence');
   }
-  const events = entries.flatMap(entry => eventKinds.has(entry.type)
-    ? [{ seq: entry.seq, category: eventKinds.get(entry.type) }] : []);
+  const events = entries.map(projectEvent).filter(Boolean);
   const record = {
     sourceCount: entries.length, sourceDigest: await digestPrefix(entries),
     timeline: events.slice(0, MAX_PROJECTED_EVENTS), omitted: Math.max(0, events.length - MAX_PROJECTED_EVENTS),

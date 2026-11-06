@@ -1,0 +1,21 @@
+{
+  "ExitCode": -1,
+  "ElapsedSeconds": 0.0716777,
+  "PeakSampledPrivateBytes": 0,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "",
+  "StandardError": "",
+  "FailurePhase": "monitor",
+  "FailureOperation": "capture-verified-descendant",
+  "FailureType": "InvalidOperationException",
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 0,
+  "CleanupDescendantsExited": 0
+}

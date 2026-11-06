@@ -20,6 +20,9 @@ import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mj
 import { restartConfirmationText } from './ui/welcome/restart-storage.mjs';
 import { createUsageCoordinator } from './core/usage-storage-coordinator.mjs';
 import { parseHistory, USAGE_HISTORY_KEY } from './core/usage-history.mjs';
+import { saveAfterPendingRestart } from './ui/welcome/pending-restart-save.mjs';
+import { createUsageZip } from './core/usage-export.mjs';
+import { bindExportIdentity } from './ui/welcome/export-binding.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -143,13 +146,48 @@ if (app) {
     return { id: assignUsageId(target), entries: target.log.entries };
   }
 
+  async function downloadUsage() {
+    try {
+      if (!usageCoordinator) throw new Error('Usage storage is unavailable');
+      let currentSaveUnverified = false;
+      let saved = welcomeSnapshot?.raw ? JSON.parse(welcomeSnapshot.raw) : null;
+      if (saved) {
+        if (!validateSave(saved, { experimentalFiveSlot:true, requireFiveSlotTutorial:true }).valid) throw new Error('Saved run is unavailable');
+        if (!saved.usageRunId) {
+          const id = engineOriginPrimary && engine ? assignUsageId(engine) : assignUsageId({});
+          await bindExportIdentity(saved, id,
+            value => usageCoordinator.bindLegacyId(value, envelope => validateSave(envelope, { experimentalFiveSlot:true, requireFiveSlotTutorial:true }).valid),
+            value => { if (pendingEnvelope) pendingEnvelope = value; welcomeSnapshot = readWelcomeSnapshot(globalThis.localStorage, STORAGE_KEY); });
+        }
+        const liveSupersedes = engineOriginPrimary && engine?.usageRunId === saved.usageRunId &&
+          engine.log.entries.length >= saved.eventLog.length &&
+          JSON.stringify(engine.log.entries.slice(0, saved.eventLog.length)) === JSON.stringify(saved.eventLog);
+        if (!liveSupersedes) {
+          try { await usageCoordinator.archive({ id:saved.usageRunId, entries:saved.eventLog }); }
+          catch (error) {
+            if (error.message !== 'shorter run evidence unverified') throw error;
+            currentSaveUnverified = true;
+          }
+        }
+      }
+      if (engine) await usageCoordinator.archive(usageRun(engine));
+      const blob = await createUsageZip(await usageCoordinator.snapshot(), { currentSaveUnverified });
+      const url = URL.createObjectURL(blob), anchor = document.createElement('a');
+      anchor.href = url; anchor.download = 'quackpot-usage.zip'; anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      welcomeSnapshot = readWelcomeSnapshot(globalThis.localStorage, STORAGE_KEY);
+    } catch (error) { globalThis.alert(`The usage file could not be downloaded (${error.message}). Your saved data was not intentionally cleared.`); }
+  }
+
   function storageFailure(error) {
     const result = { success:false, error:error?.message || 'storage unavailable' };
     checkStorageResult(result); updateWarningBanner(); return result;
   }
 
   function checkStorageResult(res) {
-    if (res && res.preservedSnapshot) {
+    if (res?.success && res.historyUnavailable) {
+      storageWarningText = 'Run saved. Usage history is unavailable or from a newer version and remains protected.';
+    } else if (res && res.preservedSnapshot) {
       storageWarningText = 'Temporary Session: An existing save is preserved. Storage saving is paused to protect it.';
     } else if (res && res.inMemory) {
       storageWarningText = 'Storage Warning: Browser storage quota exceeded or restricted. Your previous save remains stored, but new progress this session is held in temporary memory and will be lost on reload.';
@@ -194,9 +232,12 @@ if (app) {
 
     try {
       const storage = globalThis.localStorage;
-      const history = parseHistory(storage.getItem(USAGE_HISTORY_KEY));
+      const historyRaw = storage.getItem(USAGE_HISTORY_KEY);
+      let generation;
+      try { generation = parseHistory(historyRaw).generation; }
+      catch { generation = null; storageWarningText = 'Usage history is unavailable or from a newer version. It remains protected; the current run can still be saved.'; }
       usageCoordinator = createUsageCoordinator({ storage, locks:globalThis.navigator?.locks, primaryKey:STORAGE_KEY,
-        expectedPrimary:storage.getItem(STORAGE_KEY), generation:history.generation });
+        expectedPrimary:storage.getItem(STORAGE_KEY), generation, protectedHistoryRaw:historyRaw });
     } catch { usageCoordinator = null; }
 
     // Attempt to load existing game
@@ -337,6 +378,7 @@ if (app) {
       let cleanup;
       cleanup = renderSettingsModal(modal, {
         autosaveEnabled: welcomeAutosave, autosaveLocked: preserved && !restarting, saveDisabled: true, openCredits: credits, animatePhoneGlow,
+        onClearHistory: () => usageCoordinator.clearHistory(),
         onAutosaveChange: value => { welcomeAutosave = value; },
         onAnimatePhoneGlowChange: value => { animatePhoneGlow = value; },
         onClose: () => { cleanup?.(); modal.replaceChildren(); welcomeHandle?.resume('modal'); if (trigger?.isConnected) trigger.focus(); },
@@ -345,6 +387,7 @@ if (app) {
     welcomeHandle = mountWelcome(document.querySelector('#main-content'), {
       finished: restarting, preservedSave: preserved && !restarting, audioSource: welcomeMusic,
       onSettings: () => utility(false), onCredits: () => utility(true),
+      onDownload: downloadUsage,
       onContinue: pendingEnvelope && !savedTerminal ? () => { if (!welcomeCanResume(true)) return; const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
       onReceipt: terminal || savedTerminal ? () => { if (!welcomeCanResume(savedTerminal)) return; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded); } } : undefined,
       onConfirm: name => {
@@ -371,7 +414,10 @@ if (app) {
   }
 
   async function savePendingRestart() {
-    if (pendingRestartPromise) return pendingRestartPromise;
+    if (pendingRestartPromise) {
+      const target = engine, snapshot = engine.toEnvelope();
+      return saveAfterPendingRestart(pendingRestartPromise, target, snapshot, () => engine, value => usageCoordinator.save(value));
+    }
     const pendingEngine = engine;
     pendingRestartPromise = (async () => {
     try {
@@ -1210,7 +1256,8 @@ if (app) {
         onPresented: previousPhase => {
           if (shouldSaveReceiptPresentation(previousPhase, raceV2Development)) maybeAutosave();
           if (!raceV2Development && usageCoordinator && !unsupportedRenPreservation) {
-            try { void usageCoordinator.archive(usageRun(engine)).catch(storageFailure); } catch (error) { storageFailure(error); }
+            const historyFailure = error => { storageWarningText = `Usage history could not be recorded (${error.message}). Keep this page open and try downloading again.`; updateWarningBanner(); };
+            try { void usageCoordinator.archive(usageRun(engine)).catch(historyFailure); } catch (error) { historyFailure(error); }
           }
         },
         onFreshRun: () => {
@@ -1267,6 +1314,7 @@ if (app) {
     if (settingsOpen) {
       settingsCleanup = renderSettingsModal(modalContainer, {
         autosaveEnabled: engine.autosaveEnabled,
+        onClearHistory: !raceV2Development ? () => usageCoordinator.clearHistory() : undefined,
         animatePhoneGlow,
         autosaveLocked: isTemporaryPreservationMode() || engine.isTerminal(),
         saveDisabled: engine.isTerminal(),

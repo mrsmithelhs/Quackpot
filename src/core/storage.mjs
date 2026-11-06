@@ -86,6 +86,10 @@ export function validateSave(envelope, options = {}) {
     if (![1, 2, 3, 4].includes(envelope.schemaVersion) && !(experimentalFiveSlot && envelope.schemaVersion===5) && !(verifiedV2&&envelope.schemaVersion===6)) {
       errors.push(`Incompatible schema version: ${envelope.schemaVersion}`);
     }
+    if (envelope.usageRunId !== undefined && (envelope.schemaVersion !== 5 ||
+        typeof envelope.usageRunId !== 'string' || !/^[0-9a-f]{32}$/.test(envelope.usageRunId))) {
+      errors.push('Invalid usage run identity');
+    }
     if(requireFiveSlotTutorial && [5,6].includes(envelope.schemaVersion) && envelope.eventLog?.[0]?.payload?.tutorialShiftVersion!==1)errors.push('Five-slot production save requires the current tutorial policy');
     if (envelope.schemaVersion >= 3 && envelope.raceRestEvidenceVersion !== 1) {
       errors.push('Current save schema requires raceRestEvidenceVersion 1');

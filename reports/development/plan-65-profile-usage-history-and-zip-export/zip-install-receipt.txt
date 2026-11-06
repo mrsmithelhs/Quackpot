@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 7.1856143,
+  "PeakSampledPrivateBytes": 97824768,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "\nadded 1 package in 5s\n",
+  "StandardError": "npm notice\nnpm notice New major version of npm available! 11.19.0 -> 12.2.2\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2\nnpm notice To update run: npm install -g npm@12.2.2\nnpm notice\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

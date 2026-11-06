@@ -41,25 +41,60 @@ export function createUsageCoordinator({ storage, locks, primaryKey, expectedPri
   return {
     save(envelope) {
       const bytes = JSON.stringify(envelope);
-      return enqueue(() => { write(primaryKey, bytes); expected = bytes; return { success: true }; });
+      return enqueue(() => {
+        if (expected !== null) {
+          const previous = JSON.parse(expected);
+          if (previous.usageRunId && previous.usageRunId !== envelope.usageRunId) {
+            throw new Error('a different run requires archival before replacement');
+          }
+          if (!Array.isArray(previous.eventLog) || !Array.isArray(envelope.eventLog) ||
+              envelope.eventLog.length < previous.eventLog.length ||
+              JSON.stringify(envelope.eventLog.slice(0, previous.eventLog.length)) !== JSON.stringify(previous.eventLog)) {
+            throw new Error('saved run evidence changed');
+          }
+        }
+        write(primaryKey, bytes); expected = bytes; return { success: true };
+      });
     },
-    archive(run) { return enqueue(history => archive(history, run)); },
-    replace({ prior, replacement }) {
+    archive(run) {
+      const snapshot = structuredClone(run);
+      return enqueue(history => archive(history, snapshot));
+    },
+    // Only call after the user has confirmed replacement. This preserves the
+    // new identity if a later archive or replacement fails.
+    bindLegacyId(id, validate) {
+      return enqueue(() => {
+        if (expected === null) throw new Error('saved run unavailable');
+        const envelope = JSON.parse(expected);
+        if (envelope.usageRunId) return envelope.usageRunId;
+        if (!/^[0-9a-f]{32}$/.test(id)) throw new Error('invalid run identity');
+        envelope.usageRunId = id;
+        if (!validate(envelope)) throw new Error('bound save is invalid');
+        const bytes = JSON.stringify(envelope);
+        write(primaryKey, bytes);
+        expected = bytes;
+        return id;
+      });
+    },
+    replace({ prior, replacement, additionalRuns = [] }) {
       const bytes = JSON.stringify(replacement);
+      const priorSnapshot = prior && structuredClone(prior);
+      const otherSnapshots = structuredClone(additionalRuns);
       return enqueue(async history => {
         if (expected !== null) {
           const saved = JSON.parse(expected);
-          if (!prior || !saved.usageRunId || prior.id !== saved.usageRunId || !Array.isArray(saved.eventLog)) {
+          if (!priorSnapshot || !saved.usageRunId || priorSnapshot.id !== saved.usageRunId || !Array.isArray(saved.eventLog)) {
             throw new Error('saved run identity unavailable');
           }
           // Verify the archived candidate extends the actual primary, not just a
           // possibly older history record with the same ID.
-          if (prior.entries.length < saved.eventLog.length ||
-              JSON.stringify(prior.entries.slice(0, saved.eventLog.length)) !== JSON.stringify(saved.eventLog)) {
+          if (priorSnapshot.entries.length < saved.eventLog.length ||
+              JSON.stringify(priorSnapshot.entries.slice(0, saved.eventLog.length)) !== JSON.stringify(saved.eventLog)) {
             throw new Error('saved run evidence changed');
           }
-          history = await archive(history, prior);
+          history = await archive(history, priorSnapshot);
         }
+        for (const run of otherSnapshots) history = await archive(history, run);
         if (storage.getItem(primaryKey) !== expected) throw new Error('save changed before replacement');
         write(primaryKey, bytes); expected = bytes; session++;
         return { success: true };

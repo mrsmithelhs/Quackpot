@@ -47,3 +47,31 @@ test('history clear invalidates another coordinator and lack of locks blocks wri
   await assert.rejects(noLock.save({}), /locking unavailable/);
   assert.equal(storage.getItem('save'), initial);
 });
+
+test('ordinary save cannot overwrite a different run or a divergent prefix', async () => {
+  const { storage, coordinator, initial } = fixture();
+  await assert.rejects(coordinator.save({ usageRunId:'fedcba9876543210fedcba9876543210', eventLog:events }), /different run/);
+  await assert.rejects(coordinator.save({ usageRunId:id, eventLog:[{ seq:0, type:'terminal' }] }), /evidence changed/);
+  assert.equal(storage.getItem('save'), initial);
+});
+
+test('binding a legacy identity persists before an archive failure', async () => {
+  const { storage, locks } = fixture();
+  const legacy = JSON.stringify({ eventLog:events });
+  storage.setItem('save', legacy);
+  const coordinator = createUsageCoordinator({ storage, locks, primaryKey:'save', expectedPrimary:legacy, generation:0 });
+  await coordinator.bindLegacyId(id, () => true);
+  const bound = storage.getItem('save');
+  assert.equal(JSON.parse(bound).usageRunId, id);
+  const set = storage.setItem;
+  storage.setItem = (key, value) => { if (key === USAGE_HISTORY_KEY) throw new Error('quota'); set(key, value); };
+  await assert.rejects(coordinator.replace({ prior:{ id, entries:events }, replacement:{} }), /quota/);
+  assert.equal(storage.getItem('save'), bound);
+});
+
+test('replacement archives distinct live and saved runs before changing primary', async () => {
+  const { storage, coordinator } = fixture();
+  const liveId = 'fedcba9876543210fedcba9876543210';
+  await coordinator.replace({ prior:{ id, entries:events }, additionalRuns:[{ id:liveId, entries:events }], replacement:{} });
+  assert.deepEqual(Object.keys(JSON.parse(storage.getItem(USAGE_HISTORY_KEY)).records).sort(), [id, liveId].sort());
+});

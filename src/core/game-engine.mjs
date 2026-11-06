@@ -1982,6 +1982,7 @@ export class GameEngine {
   toEnvelope() {
     return {
       schemaVersion: this.#v2Enabled ? 6 : this.state.life?.policyVersion === 'five-slot-v1' ? 5 : this.state.life ? 4 : 3,
+      ...(!this.#v2Enabled && this.usageRunId ? { usageRunId: this.usageRunId } : {}),
       ...(this.messagesPolicy ? { messagesPolicy: this.messagesPolicy } : {}),
       raceRestEvidenceVersion: 1,
       savedAt: Date.now(),
@@ -2001,6 +2002,7 @@ export class GameEngine {
   static fromEnvelope(envelope) {
     const rootStreamObj = JSON.parse(envelope.prngStreams.root);
     const engine = new GameEngine(rootStreamObj.key,{raceV2:envelope.schemaVersion===6});
+    if (envelope.schemaVersion === 5 && envelope.usageRunId) engine.usageRunId = envelope.usageRunId;
     engine.autosaveEnabled = envelope.autosaveEnabled ?? true;
     engine.state = structuredClone(envelope.state);
 

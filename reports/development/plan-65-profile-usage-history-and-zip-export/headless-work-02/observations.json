@@ -1,0 +1,26 @@
+{
+  "origin": "http://127.0.0.1:53119",
+  "assertions": [
+    "cancel retains accessible Receipt",
+    "confirmed restart reloads and continues",
+    "first actual Welcome download completed",
+    "second actual Welcome download completed",
+    "cancel retains history",
+    "clear leaves primary bytes unchanged",
+    "saved terminal Receipt remains accessible after clear",
+    "stale tab reports changed saved data",
+    "stale tab does not change newer primary"
+  ],
+  "screenshots": [
+    "clear-confirmed",
+    "receipt-after-clear"
+  ],
+  "dialogs": [
+    "Saved data changed or could not be read. Reload to inspect the current saved run; nothing was replaced."
+  ],
+  "requests": "server CSP blocks connect and workers; DNS blocked except loopback; not a complete network trace",
+  "downloads": [
+    "0306df9f-0548-42da-8075-c44c1cc223cd",
+    "13ef7432-32a8-40e1-9f40-4ac28cc92907"
+  ]
+}

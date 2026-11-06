@@ -1,0 +1,10 @@
+{
+  "origin": "http://127.0.0.1:49685",
+  "assertions": [
+    "cancel retains accessible Receipt",
+    "confirmed restart reloads and continues"
+  ],
+  "screenshots": [],
+  "requests": "server CSP blocks connect and workers; not a complete network trace",
+  "error": "Error: two actual Welcome downloads completed\n    at assert (file:///C:/AI/Quackpot/reports/development/plan-65-profile-usage-history-and-zip-export/headless-validation.mjs:34:64)\n    at file:///C:/AI/Quackpot/reports/development/plan-65-profile-usage-history-and-zip-export/headless-validation.mjs:63:73"
+}

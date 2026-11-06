@@ -123,3 +123,45 @@ test('competing work and loan deliveries precede pending Ren in publication orde
  for(const item of expected){assert.deepEqual(requiredMessagesDelivery(life,delivered,pending),item);delivered.set(item.id,item.revision);if(item.kind==='ren')pending.shift();}
  assert.equal(requiredMessagesDelivery(life,delivered,pending),null);
 });
+
+
+test('v2 creates a real Ren offer on introduction, requires its full prefix, and persists it',async()=>{
+ const {messagesForEngine}=await import('./messages-runtime.mjs');const {createSchema6Session,SCHEMA6_STORAGE_KEY}=await import('./storage.mjs');
+ const e=new GameEngine('messages-v2-ren',{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:'messages-v2'});e.start();e.setupCompanion();let n=0;
+ const map=new Map(),store={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k)};const session=createSchema6Session(store);const bound=await session.bindNew(e);assert.equal(bound.success,true,JSON.stringify(bound));
+ const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`v2-setup:${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ const work=()=>{assert.equal(e.beginStoryWork('agree').ok,true);const id=e.state.life.story47.id;assert.ok(e.showLifeStory47(id,'commute'));assert.equal(e.applyFiveSlotWorkStory({type:'advance',id,operationId:`v2-arrive:${++n}`},e.log.length).ok,true);assert.ok(e.showLifeStory47(id,'work'));assert.equal(e.applyFiveSlotWorkStory({type:'complete',id,operationId:`v2-finish:${++n}`,confirmed:true},e.log.length).ok,true);assert.equal(e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:`v2-dismiss:${++n}`},e.log.length).ok,true);};
+ for(let day=1;day<=2;day++){act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});if(day===1){act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});}}
+ const social=action=>{const r=e.applyFiveSlotSocialAction({operationId:`v2-social:${++n}`,action},e.log.length);assert.equal(r.ok,true,JSON.stringify(r));};
+ social({type:'social46_activate',version:1,revision:2});social({type:'social46_knock_shown'});social({type:'social46_door_open'});for(const choice of ['meet','glad','continue','thanks','finish']){social({type:'social46_intro_line_shown'});social({type:'social46_intro_choose',choice});}
+ const env=e.toEnvelope(),auto=env.eventLog.findIndex(x=>x.type==='life52_social_intent'&&x.payload.intent.operationId.startsWith('ren-auto:'));assert.ok(auto>0);const delivery=env.eventLog.findIndex(x=>x.type==='message_delivered'&&x.payload.kind==='ren');assert.ok(delivery>auto);assert.deepEqual(validateSchema6WithCandidates(env,[]),[]);
+ const projected=messagesForEngine(e);assert.ok(projected.deliveries.some(m=>m.deliveryId.startsWith('ren:offer:')&&m.actionable));assert.ok(!projected.deliveries.some(m=>m.deliveryId==='ren:contact:1'));
+ const rechain=events=>{const l=new EventLog();for(const x of events)l.append(x.type,x.payload,x.clock);const copy=structuredClone(env);copy.eventLog=l.entries;assert.equal(verifyChain(copy.eventLog),true);return copy;};
+ assert.ok(validateSchema6WithCandidates(rechain(env.eventLog.slice(0,auto)),[]).some(x=>x.includes('automatic Ren offer')));
+ assert.ok(validateSchema6WithCandidates(rechain(env.eventLog.filter((_,i)=>i!==delivery)),[]).some(x=>x.includes('Ren delivery')));
+ const moved=[...env.eventLog];const [earlyDelivery]=moved.splice(delivery,1);moved.splice(auto,0,earlyDelivery);assert.ok(validateSchema6WithCandidates(rechain(moved),[]).length);
+ const {stageAutomaticRenOffer}=await import('./life-coordinator.mjs');const candidate=structuredClone(e.state.life);candidate.social46.pending=null;candidate.social46.lastOfferedDay=null;const balances={cashCents:Math.round(e.state.cash*100),health:e.state.health};assert.ok(stageAutomaticRenOffer(candidate,balances,999).intent);candidate.social46.relationship='strained';assert.equal(stageAutomaticRenOffer(candidate,balances,999).intent,null);candidate.social46.relationship='connected';candidate.schedule.recovery={};assert.equal(stageAutomaticRenOffer(candidate,balances,999).intent,null);
+ assert.equal(session.save(e).success,true);const result=await session.load();assert.equal(result.valid,true);assert.equal(result.engine.messagesPolicy,'messages-v2');assert.equal(result.engine.log.length,e.log.length);map.set(SCHEMA6_STORAGE_KEY,'external-sentinel');assert.equal(session.save(result.engine).success,false);assert.equal(map.get(SCHEMA6_STORAGE_KEY),'external-sentinel');
+ assert.doesNotThrow(()=>e.applyFiveSlotSocialAction({operationId:17,action:{type:'social46_offer'}},e.log.length));
+ const plan=e.state.life.social46.pending;assert.equal(e.applyFiveSlotSocialAction({operationId:'ren-auto:999',action:{type:'social46_offer_shown',id:plan.id}},e.log.length).reason,'reserved_operation');social({type:'social46_offer_shown',id:plan.id});const omitted=env.eventLog.slice(0,auto).concat(e.log.entries.slice(delivery+1));assert.ok(validateSchema6WithCandidates(rechain(omitted),[]).some(x=>x.includes('automatic Ren offer before')));social({type:'social46_reply',id:plan.id,choice:'accept'});social({type:'social46_visit_knock_shown',id:plan.id});social({type:'social46_visit_open',id:plan.id});social({type:'social46_visit_arrival_shown',id:plan.id,lookVersion:1});social({type:'social46_begin',id:plan.id,dialogueVersion:1,arrivalVersion:1});assert.equal(e.state.life.social46.scene.id,plan.id);assert.deepEqual(validateSchema6WithCandidates(e.toEnvelope(),[]),[]);
+});
+
+
+test('v2 launch Receipt and phone routing preserve v1 and unknown-policy boundaries',async()=>{
+ const {messagesDirectPhone}=await import('../ui/life/life-phone-context.mjs');
+ for(const policy of ['messages-v1','messages-v2']){
+  const e=new GameEngine(`policy-${policy}`,{lifePolicy:'five-slot-v1',raceV2:true,messagesPolicy:policy});e.start();assert.ok(e.showLifeInvitation());e.finishRunComplete();const receipt=e.presentReceipt();assert.ok(receipt.findings.find(f=>f.technique==='launch_invitation')?.displayed.length);assert.deepEqual(validateSchema6WithCandidates(e.toEnvelope(),[]),[]);
+ }
+ const e=new GameEngine('phone-v2',{lifePolicy:'five-slot-v1',raceV2:true,messagesPolicy:'messages-v2'});e.start();e.state.life.schedule.day=2;e.state.life.schedule.slot='evening';assert.equal(messagesDirectPhone(e.state.life,'messages-v1'),true);assert.equal(messagesDirectPhone(e.state.life,'messages-v2'),true);assert.equal(messagesDirectPhone(e.state.life,'unknown'),false);assert.throws(()=>new GameEngine('bad',{lifePolicy:'five-slot-v1',raceV2:true,messagesPolicy:'messages-v3'}));
+});
+
+
+test('v2 evening transition creates revision-one Ren offer only after the real trigger',()=>{
+ const e=new GameEngine('v2-evening',{lifePolicy:'five-slot-v1',raceV2:true,messagesPolicy:'messages-v2'});e.start();e.setupCompanion();let n=0;
+ const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`v2-evening-action:${++n}`}});assert.equal(p.ok,true,JSON.stringify(p));assert.equal(e.commitFiveSlotAction(p.proposal,{confirmed:true}).ok,true);};
+ act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});act({type:'meal',choice:'buy'});act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});
+ const social=action=>{const r=e.applyFiveSlotSocialAction({operationId:`v2-evening-social:${++n}`,action},e.log.length);assert.equal(r.ok,true,JSON.stringify(r));};
+ social({type:'social46_activate',version:1,revision:1});social({type:'social46_intro_shown'});assert.equal(e.state.life.social46.pending,null);
+ act({type:'meal',choice:'buy'});act({type:'start',kind:'work'});act({type:'complete',activityId:e.state.life.schedule.active.id});assert.equal(e.state.life.social46.pending,null);act({type:'meal',choice:'buy'});
+ assert.equal(e.state.life.schedule.slot,'evening');assert.ok(e.state.life.social46.pending);assert.equal(e.log.entries.filter(x=>x.type==='life52_social_intent'&&x.payload.intent.operationId.startsWith('ren-auto:')).length,1);assert.deepEqual(validateSchema6WithCandidates(e.toEnvelope(),[]),[]);
+});

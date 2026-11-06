@@ -21,12 +21,12 @@ import { hasEnteredQuackpot, hasInstalledQuackpot } from './life-entry.mjs';
 import { PRODUCTION, PLAYTEST_WORK_CALENDAR, createSchedule } from './life-schedule/index.mjs';
 import { quietFallbackEligibility } from './life-schedule/quiet-fallback.mjs';
 import { initialFinance, latchDue, dueObligations } from './life-finance.mjs';
-import { inspectLifeTransaction, classifyDueScheduleCommitment, classifyDueSocialCommitment, commitLifeTransaction, stageSocialTransition, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
+import { inspectLifeTransaction, classifyDueScheduleCommitment, classifyDueSocialCommitment, commitLifeTransaction, stageSocialTransition, stageAutomaticRenOffer, isAutomaticRenTrigger, stageWorkStory, prepareActivityStory, stageActivityStory } from './life-coordinator.mjs';
 import { social46NeedsSaleDisclosure, social46CouchSold } from './life-social.mjs';
 import { initialRaceProgress, recoverRaceDays, buildRaceV2Input, applyRaceV2Facts, assignRaceAbility, raceCandidateFacts, RACE_CANDIDATE_EVIDENCE_VERSION } from './race-progression.mjs';
 import { decodeResult } from './race-v2/codec.mjs';
 import { createRaceWorkerClient } from './race-v2/worker-client.mjs';
-import { deliveryPayloads,renCurrentIds,renMessageShown } from './messages-policy.mjs';
+import { isMessagesPolicy,deliveryPayloads,renCurrentIds,renMessageShown } from './messages-policy.mjs';
 
 const NEXT_RESERVATION = Symbol('private-next-reservation');
 const SOCIAL_RESERVATION = Symbol('private-social-reservation');
@@ -112,7 +112,8 @@ export class GameEngine {
   constructor(seed = String(Date.now()), { lifePolicy = false, tutorialShift = false, raceV2 = false, messagesPolicy = false } = {}) {
     this.#v2Enabled = raceV2 === true;
     if (messagesPolicy && (!this.#v2Enabled || lifePolicy !== 'five-slot-v1')) throw new Error('Messages policy requires a new five-slot schema-6 run');
-    this.messagesPolicy = messagesPolicy ? 'messages-v1' : null;
+    if(messagesPolicy && messagesPolicy!==true && !isMessagesPolicy(messagesPolicy))throw new Error('Unknown Messages policy');
+    this.messagesPolicy = messagesPolicy===true?'messages-v1':messagesPolicy || null;
     this.tutorialShiftVersion = lifePolicy && tutorialShift ? TUTORIAL_SHIFT_VERSION : null;
     this.seed = String(seed);
     this.log = new EventLog();
@@ -456,6 +457,7 @@ export class GameEngine {
   }
 
   applyFiveSlotSocialAction(intent, expectedLogLength) {
+    if(this.messagesPolicy==='messages-v2' && typeof intent?.operationId==='string' && intent.operationId.startsWith('ren-auto:'))return {ok:false,reason:'reserved_operation'};
     if (this.isTerminal() || this.state.life?.policyVersion !== 'five-slot-v1') return { ok: false, reason: 'unavailable' };
     if (!Number.isSafeInteger(expectedLogLength) || expectedLogLength !== this.log.length) return { ok: false, reason: 'stale_callback' };
     const draft = this.#transactionDraft();
@@ -625,6 +627,21 @@ export class GameEngine {
 
   #publishTransaction(draft) {
     const oldRenIds=new Set(renCurrentIds(this.state.life));
+    if(this.messagesPolicy==='messages-v2' && !draft.isTerminal() && isAutomaticRenTrigger(this.state.life,draft.state.life)) {
+      const trigger=draft.log.entries.findLast(e=>e.type==='life52_commit');
+      if(!trigger)throw new Error('Missing automatic Ren trigger');
+      const balances={cashCents:Math.round(draft.state.cash*100),health:draft.state.health};
+      const auto=stageAutomaticRenOffer(draft.state.life,balances,trigger.seq,draft.#fiveSlotContext());
+      if(!auto.ok)throw new Error(`Automatic Ren staging failed: ${auto.reason}`);
+      if(auto.intent) {
+        draft.#deliverMessages();
+        draft.log.append('life52_social_intent',{intent:structuredClone(auto.intent)},draft.state.clock);
+        for(const effect of auto.result.events)draft.log.append('life52_effect',{effect},draft.state.clock);
+        draft.log.append('life52_commit',{domain:'social',operationId:auto.intent.operationId,cashDeltaCents:auto.result.cashDeltaCents,healthDelta:auto.result.healthDelta},draft.state.clock);
+        draft.state.life=auto.result.state;
+        for(const id of renCurrentIds(draft.state.life))if(!oldRenIds.has(id) && !draft.log.entries.some(e=>e.type==='message_delivered' && e.payload?.id===id))draft.log.append('message_delivered',{kind:'ren',id,revision:1},draft.state.clock);
+      }
+    }
     if(this.#v2Enabled && draft.state.life?.schedule && draft.state.raceGrowth){
       const from=draft.#v2RecoveryDay??this.state.life.schedule.day,elapsed=draft.state.life.schedule.day-from;
       draft.state.raceGrowth=recoverRaceDays(draft.state.raceGrowth,elapsed);
@@ -632,13 +649,13 @@ export class GameEngine {
     this.state = draft.state; this.log = draft.log;
     this.rng = draft.rng; this.rngDraw = draft.rngDraw; this.rngRace = draft.rngRace; this.rngEvent = draft.rngEvent;
     this.#deliverMessages();
-    if(this.messagesPolicy==='messages-v1' && !this.isTerminal())for(const id of renCurrentIds(this.state.life)) {
+    if(isMessagesPolicy(this.messagesPolicy) && !this.isTerminal())for(const id of renCurrentIds(this.state.life)) {
       if(!oldRenIds.has(id) && !this.log.entries.some(e=>e.type==='message_delivered' && e.payload?.id===id))this.log.append('message_delivered',{kind:'ren',id,revision:1},this.state.clock);
     }
   }
 
   #deliverMessages() {
-    if (this.messagesPolicy !== 'messages-v1' || this.isTerminal()) return;
+    if (!isMessagesPolicy(this.messagesPolicy) || this.isTerminal()) return;
     for (const payload of deliveryPayloads(this.state.life)) {
       if (!this.log.entries.some(e => e.type === 'message_delivered' && e.payload?.id === payload.id))
         this.log.append('message_delivered', payload, this.state.clock);
@@ -646,7 +663,7 @@ export class GameEngine {
   }
 
   readMessage(id, revision) {
-    if (this.messagesPolicy !== 'messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision !== 1 || typeof id !== 'string' || id.length > 80) return false;
+    if (!isMessagesPolicy(this.messagesPolicy) || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision !== 1 || typeof id !== 'string' || id.length > 80) return false;
     const events=this.log.entries;
     const launchInvite=id==='launch:invitation:1';
     const launchAck=id==='launch:ack:1' && events.some(e=>e.type==='action' && e.payload?.kind==='launch_reply');
@@ -659,7 +676,7 @@ export class GameEngine {
   }
 
   showRenMessageHistory(id,revision) {
-    if(this.messagesPolicy!=='messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision!==1 || typeof id!=='string' || !id.startsWith('ren:') || id.length>80 || renCurrentIds(this.state.life).includes(id))return null;
+    if(!isMessagesPolicy(this.messagesPolicy) || this.isTerminal() || this.state.activeModal || this.state.interruptedContext || revision!==1 || typeof id!=='string' || !id.startsWith('ren:') || id.length>80 || renCurrentIds(this.state.life).includes(id))return null;
     if(!this.log.entries.some(e=>e.type==='message_delivered' && e.payload?.kind==='ren' && e.payload.id===id && e.payload.revision===revision) || this.log.entries.some(e=>e.type==='message_history_shown' && e.payload?.id===id))return null;
     return this.log.append('message_history_shown',{id,revision},this.state.clock);
   }
@@ -711,7 +728,7 @@ export class GameEngine {
   }
 
   showExpiredLaunchHistory() {
-    if(this.messagesPolicy!=='messages-v1' || this.isTerminal() || this.state.activeModal || this.state.interruptedContext)return null;
+    if(!isMessagesPolicy(this.messagesPolicy) || this.isTerminal() || this.state.activeModal || this.state.interruptedContext)return null;
     const s=this.state.life.schedule,windowOpen=s.day===1 && ['morning','midday','early-evening'].includes(s.slot);
     if(windowOpen || this.log.entries.some(e=>(e.type==='offer_shown' && e.payload?.kind==='launch_reply_invitation') || (e.type==='cue_shown' && e.payload?.kind==='expired_launch_history')))return null;
     return this.log.append('cue_shown',{kind:'expired_launch_history',technique:'launch_invitation',launch:'day_1_evening',id:'launch:invitation:1',revision:1},this.state.clock);
@@ -720,7 +737,7 @@ export class GameEngine {
   replyLifeInvitation() {
     if (this.isTerminal() || !this.state.life || !this.log.entries.some(e => e.type === 'offer_shown' && e.payload?.kind === 'launch_reply_invitation')) return false;
     if (this.log.entries.some(e => e.type === 'action' && e.payload?.kind === 'launch_reply')) return true;
-    if(this.messagesPolicy==='messages-v1') {const s=this.state.life.schedule;if(s.day!==1 || !['morning','midday','early-evening'].includes(s.slot))return false;}
+    if(isMessagesPolicy(this.messagesPolicy)) {const s=this.state.life.schedule;if(s.day!==1 || !['morning','midday','early-evening'].includes(s.slot))return false;}
     this.log.append('action', { kind: 'launch_reply', text: 'LAUNCH' }, this.state.clock);
     return true;
   }

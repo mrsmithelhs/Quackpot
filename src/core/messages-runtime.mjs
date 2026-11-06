@@ -1,10 +1,10 @@
 import {historyMessages,projectMessages} from './messages-projection.mjs';
-import {renOfferId,renCurrentIds} from './messages-policy.mjs';
+import {isMessagesPolicy,renOfferId,renCurrentIds} from './messages-policy.mjs';
 import {social46DisplayText,social46When} from './life-social.mjs';
 import {REN_RESPONSE_CHOICES,REN_RESPONSE_LINES} from './life-social-dialogue.mjs';
 // Called on the live engine only; replay is the authority for restored histories.
 export function messagesForEngine(engine) {
-  if(engine.messagesPolicy!=='messages-v1')return {deliveries:[],readKeys:[],projection:projectMessages([])};
+  if(!isMessagesPolicy(engine.messagesPolicy))return {deliveries:[],readKeys:[],projection:projectMessages([])};
   const life=engine.state.life, deliveries=[];
   const events=engine.log.entries, started=events[0];
   const replied=events.find(e=>e.type==='action' && e.payload?.kind==='launch_reply');
@@ -13,7 +13,7 @@ export function messagesForEngine(engine) {
   deliveries.push({threadId:'launch',messageId:'launch:invitation',deliveryId:'launch:invitation:1',revision:1,sequence:started.seq,sender:'Quackpot',time:'Day 1',preview:'Launch invitation',text:'Quackpot launches tonight! Reply LAUNCH to get 10 free ducks when the pond opens.',historical:false,sourceDisplay:true,unreadEligible:windowOpen || shown,status:replied?'Answered':windowOpen?'':'Expired',actionable:windowOpen && !replied,actionLabel:'Reply LAUNCH'});
   if(replied) deliveries.push({threadId:'launch',messageId:'launch:ack',deliveryId:'launch:ack:1',revision:1,sequence:replied.seq,sender:'Quackpot',time:`Day ${replied.clock.day}`,preview:'Open message',text:'You’re on the list! Come back tonight for your free 10-pull.',historical:false,sourceDisplay:true});
   const social=life.social46,renId=renOfferId(life),renCurrent=new Set(renCurrentIds(life)),renEvent=events.find(e=>e.type==='message_delivered'&&e.payload?.kind==='ren'&&renCurrent.has(e.payload.id));
-  if(social?.introShown && (social.revision!==2 || social.intro?.numberShared))
+  if(engine.messagesPolicy==='messages-v1' && social?.introShown && (social.revision!==2 || social.intro?.numberShared))
     deliveries.push({threadId:'ren',messageId:'ren:contact',deliveryId:'ren:contact:1',revision:1,sequence:4,sender:'Ren',time:'Contact',text:'Open your contact with Ren.',historical:true,system:true,actionable:(!renEvent || Boolean(social.pending?.committed)) && !social.scene,actionLabel:'Open contact'});
   for(const event of events.filter(e=>e.type==='message_delivered'&&e.payload?.kind==='ren')) {
     const match=/^ren:offer:(ren-[1-9]\d*):([1-9]\d*):(door|game|repair):(suggested|original)$/.exec(event.payload.id);if(!match)continue;

@@ -1,0 +1,22 @@
+{
+  "src/main.js": "fecc4408d13c261d5765a929980025d505cf3dcd7175536b3ebc5abf72f1698a",
+  "src/core/game-engine.mjs": "f86bb36512b24951dc83c50799a63dbb906081aded80f6ed9b900c0888f42812",
+  "src/core/life-coordinator.mjs": "cc1f0cc43ab2139e8e0ef2cce2e99fe09b1b60db78d18af44ce6b6008275d803",
+  "src/core/life-replay.mjs": "6160267c488373f120c7a682eac13f8949b2cc1709ce3479c88282fb69dbcfde",
+  "src/core/messages-policy.mjs": "177aedee095241fdb92f1be32aa8a55bfcd4d94e895140bf1520f8adfc8b9f38",
+  "src/core/messages-policy.test.mjs": "3e34417487cefb7c95563128ff6d7ee27138fcd280d9ceb3925e7ca69c166190",
+  "src/core/messages-runtime.mjs": "6573a963607c4a05259cadbf5463a6cb5011dc2600386d542f34cb96108d18bd",
+  "src/core/receipt.mjs": "c6b047e1b7042c1803b8c2743fa40b6543d51a1b2bf7b6ed993b3f90423bb651",
+  "src/ui/life/life-phone-context.mjs": "13b1754d4d91b3252b176061958b55b7cd6db69d30a597269d8bd3bcd9e37291",
+  "reports/development/plan-63-messages-production-integration/ren-v2-owner-start.mjs": "d7e0d39c878c1ba4f86aef3307382d1aad769698629d4983fa56275bbee8755c",
+  "reports/development/plan-63-messages-production-integration/ren-v2-owner-start-02.json": "57e61d8b558ad263b6e38ed4737a11efc23ddd4ea99b2ff050312029bc1c3e82",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/index.html": "426507dfd9ed96157f283e42a25d81927a1a5bbb81a19cae82f4c6b3bd0c330b",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/index-BQcwevYQ.js": "8fb6a47766230477a5c54aa25f8ea23ba3c2b478e148c1986aab2f0d95342a8d",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/index-BQcwevYQ.js.map": "9708c5055ca5a9ddafdc32471b37c538b977d51e192caf580c8fb60f883c4391",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/index-DlGmi8UI.css": "f408ddf76e60f111d14bac368e818908764af042700c97b5caf3ecfd5284aadf",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/race-worker-DvjzYeym.js.map": "d87c7d192aad78b8317348d8d3b28f134a6823dda3df1d12461b63d64d978030",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+  "reports/development/plan-63-messages-production-integration/local/ren-v2-build-output-02/assets/welcome-m5-bFjlemf3.wav": "7377b5f65df3be645a292b3f2e6b37034773984c366d0347d848c467e949f0be"
+}

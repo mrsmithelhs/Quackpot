@@ -1,3 +1,4 @@
+export const isMessagesPolicy = value => value === 'messages-v1' || value === 'messages-v2';
 // Source policy for Messages v1. Called with verified reconstructed state on
 // replay; callers must not treat unvalidated final snapshots as history proof.
 export function deliveryCandidate(life, kind, id) {

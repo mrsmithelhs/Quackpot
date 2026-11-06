@@ -247,3 +247,17 @@ export function stageActivityStory(state,balances,intent,context={}) {
   next.storyOperationIds={...(next.storyOperationIds??{}),[intent.operationId]:true};
   return {ok:true,state:next,cashDeltaCents,healthDelta,events};
 }
+
+// V2 auto-offer is derived from authoritative post-transition state, never from a view.
+export function stageAutomaticRenOffer(state,balances,triggerSeq,context={}) {
+  const schedule=state?.schedule,s=state?.social46;
+  if(!schedule || schedule.slot!=='evening' || !s?.introShown || (s.revision===2 && !s.intro?.numberShared) || s.pending || s.scene || s.lastOfferedDay===schedule.day)return {ok:true,intent:null};
+  const day=Math.max(schedule.day+(schedule.active?1:0),(s.lastVisitDay??-1)+2);
+  const intent={operationId:`ren-auto:${triggerSeq}`,action:{type:'social46_offer',day,initiator:'ren',activity:schedule.day%2?'game':'door'}};
+  const result=stageSocialTransition(state,balances,intent,context);
+  if(!result.ok && ['story_pending','social_scene_pending','social_offer_unavailable','social_initiative_unavailable'].includes(result.reason))return {ok:true,intent:null};
+  return result.ok?{ok:true,intent,result}:result;
+}
+export function isAutomaticRenTrigger(before,after) {
+  return Boolean(after?.schedule?.slot==='evening' && (before?.schedule?.slot!=='evening' || (!before?.social46?.introShown && after?.social46?.introShown)));
+}

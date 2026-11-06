@@ -70,7 +70,7 @@ import { createStageTransition } from './ui/stage-transition.js';
 import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalidation.mjs';
 import { messagesForEngine } from './core/messages-runtime.mjs';
 import { payMessageLoan, confirmApartmentLoan } from './core/messages-payment.mjs';
-import { renOfferId,renCurrentIds,renMessageShown } from './core/messages-policy.mjs';
+import { isMessagesPolicy,renOfferId,renCurrentIds,renMessageShown } from './core/messages-policy.mjs';
 import { mountMessages } from './ui/messages-view.mjs';
 
 const app = document.querySelector('#app');
@@ -428,13 +428,13 @@ if (app) {
       const replace=main.querySelector('[data-v2-replace]');replace.disabled=!(result.isCorrupt||result.unsupportedDevelopment);
       replace.onclick=async()=>{
         if(!globalThis.confirm('Replace the separate development save? An existing backup will be preserved.'))return;
-        replace.disabled=true;const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
+        replace.disabled=true;const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:'messages-v2'});fresh.start();
         const replaced=await schema6Session.replacePreserved(fresh);if(replaced.success)startFreshRun(true,fresh);
         else{main.querySelector('[data-v2-status]').textContent='The saved data was preserved; replacement could not complete.';replace.disabled=false;}
       };return;
     }
     if(result.engine){engine=result.engine;currentStep=engine.state.step||'desk';phoneOpen=engine.isTerminal()||(engine.state.life&&currentStep.startsWith('life_')&&!isLifeStep(currentStep));activeModal=engine.state.activeModal||null;renderApp();return;}
-    const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
+    const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:'messages-v2'});fresh.start();
     const bound=await schema6Session.bindNew(fresh);if(canceled)return;
     if(!bound.success){main.innerHTML='<p>Saved data was preserved. A new development session could not start.</p>';return;}
     startFreshRun(true,fresh);
@@ -442,7 +442,7 @@ if (app) {
 
   function startFreshRun(enableStorageSave = true, preparedEngine = null) {
     if(raceV2Development&&!preparedEngine){
-      const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:true});fresh.start();
+      const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:'messages-v2'});fresh.start();
       void schema6Session.bindNew(fresh).then(result=>{if(result.success)startFreshRun(enableStorageSave,fresh);else{storageWarningText='The development save was preserved; a new run could not start.';updateWarningBanner();}});return;
     }
     engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2:raceV2Development });
@@ -570,7 +570,7 @@ if (app) {
   }
 
   function messagesAvailable() {
-    return Boolean(engine?.messagesPolicy === 'messages-v1' && !engine.isTerminal() && !settingsOpen && !activeModal && !pendingDefault &&
+    return Boolean(isMessagesPolicy(engine?.messagesPolicy) && !engine.isTerminal() && !settingsOpen && !activeModal && !pendingDefault &&
       !lifeUi.held && !lifeUi.renOpen && !engine.state.life?.story47 && !engine.state.life?.social46?.scene &&
       (!lifeViewHandle || lifeViewHandle.canSuspendForMessages?.()) &&
       !engine.state.pendingReveals.some(x=>!x.revealed) && !document.querySelector('.stage-transition') &&
@@ -686,8 +686,8 @@ if (app) {
     if (!hudContainer || !engine) return;
 
     renderHud(hudContainer, engine, duckSvgUrl, {
-      onMessages:engine.messagesPolicy==='messages-v1'?openMessages:null,
-      messageCount:engine.messagesPolicy==='messages-v1'?messagesForEngine(engine).projection.unreadThreads:0,
+      onMessages:isMessagesPolicy(engine.messagesPolicy)?openMessages:null,
+      messageCount:isMessagesPolicy(engine.messagesPolicy)?messagesForEngine(engine).projection.unreadThreads:0,
       messagesAvailable:messagesAvailable(),
       onSave: saveNow,
       onSettings: () => {
@@ -729,7 +729,7 @@ if (app) {
         renderApp();
       },
     });
-    if(engine.messagesPolicy==='messages-v1') {
+    if(isMessagesPolicy(engine.messagesPolicy)) {
       const ids=engine.log.entries.filter(e=>e.type==='message_delivered').map(e=>e.payload.id);
       const arrived=knownMessageDeliveries && ids.some(id=>!knownMessageDeliveries.has(id));
       knownMessageDeliveries=new Set(ids);
@@ -1341,7 +1341,7 @@ if (app) {
       }),
       onMessagesEarlyRepay: commit((loanId,expectedTotal) => payMessageLoan(engine,loanId,expectedTotal,engine.log.length)),
       onFiveSlotEarlyRepay: commit((loanId) => {
-        if(engine.messagesPolicy!=='messages-v1') {
+        if(!isMessagesPolicy(engine.messagesPolicy)) {
           const loan=engine.state.life.finance.loans.find(item=>item.id===loanId && item.status==='pending');
           if(!loan || Math.round(engine.state.cash*100)<loan.totalCents)return {ok:false,reason:'loan_unavailable'};
           if(!globalThis.confirm(`Repay the full $${(loan.totalCents/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};

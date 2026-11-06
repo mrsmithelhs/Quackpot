@@ -1,0 +1,15 @@
+// Synthetic review fixture: all social and schedule events come from engine actions.
+import {writeFile} from 'node:fs/promises';
+import {GameEngine} from '../../../src/core/game-engine.mjs';
+import {createSchema6Session} from '../../../src/core/storage.mjs';
+import {validateSchema6WithCandidates} from '../../../src/core/life-replay.mjs';
+import {lifeSurface} from '../../../src/ui/life/life-routing.mjs';
+const e=new GameEngine('plan63-ren-v2-owner',{lifePolicy:'five-slot-v1',tutorialShift:true,raceV2:true,messagesPolicy:'messages-v2'});e.start();e.setupCompanion();let n=0;
+const map=new Map(),storage={getItem:k=>map.get(k)??null,setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k)},session=createSchema6Session(storage);
+const bound=await session.bindNew(e);if(!bound.success)throw Error(JSON.stringify(bound));
+const act=action=>{const p=e.prepareFiveSlotAction({domain:'schedule',action:{...action,operationId:`owner-v2:${++n}`}});if(!p.ok)throw Error(JSON.stringify(p));const r=e.commitFiveSlotAction(p.proposal,{confirmed:true});if(!r.ok)throw Error(JSON.stringify(r));};
+const work=()=>{if(!e.beginStoryWork('agree').ok)throw Error('work start');const id=e.state.life.story47.id;if(!e.showLifeStory47(id,'commute'))throw Error('commute');if(!e.applyFiveSlotWorkStory({type:'advance',id,operationId:`arrive:${++n}`},e.log.length).ok)throw Error('arrive');if(!e.showLifeStory47(id,'work'))throw Error('work shown');if(!e.applyFiveSlotWorkStory({type:'complete',id,operationId:`finish:${++n}`,confirmed:true},e.log.length).ok)throw Error('finish');if(!e.applyFiveSlotWorkStory({type:'dismiss',id,operationId:`dismiss:${++n}`},e.log.length).ok)throw Error('dismiss');};
+for(let day=1;day<=2;day++){act({type:'meal',choice:'buy'});work();act({type:'meal',choice:'buy'});if(day===1){act({type:'start',kind:'early-bed'});act({type:'complete',activityId:e.state.life.schedule.active.id});}}
+const social=action=>{const r=e.applyFiveSlotSocialAction({operationId:`owner-social:${++n}`,action},e.log.length);if(!r.ok)throw Error(JSON.stringify(r));};
+social({type:'social46_activate',version:1,revision:2});social({type:'social46_knock_shown'});social({type:'social46_door_open'});for(const choice of ['meet','glad','continue','thanks','finish']){social({type:'social46_intro_line_shown'});social({type:'social46_intro_choose',choice});}
+e.state.step=lifeSurface(e);const env=e.toEnvelope(),errors=validateSchema6WithCandidates(env,[]);if(errors.length)throw Error(JSON.stringify(errors));if(!env.eventLog.some(x=>x.type==='message_delivered'&&x.payload.kind==='ren'))throw Error('missing real Ren delivery');const saved=session.save(e);if(!saved.success)throw Error(JSON.stringify(saved));const restored=await session.load();if(!restored.valid||restored.engine.log.length!==e.log.length)throw Error('restore failed');await writeFile(process.argv[2],JSON.stringify(env,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({policy:env.messagesPolicy,day:e.state.life.schedule.day,slot:e.state.life.schedule.slot,step:e.state.step,events:env.eventLog.length,renDelivery:true,replay:true,sessionReload:true}));

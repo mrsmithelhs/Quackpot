@@ -1,7 +1,8 @@
+import {isMessagesPolicy} from '../../core/messages-policy.mjs';
 // Presentation only: artwork and interaction must describe the same phone content.
 import {latchDue,dueObligations} from '../../core/life-finance.mjs';
 export function messagesDirectPhone(life,policy) {
-  if(policy!=='messages-v1' || life?.policyVersion!=='five-slot-v1' || life.schedule.recovery)return false;
+  if(!isMessagesPolicy(policy) || life?.policyVersion!=='five-slot-v1' || life.schedule.recovery)return false;
   const context=lifePhoneKind(life),s=life.schedule;
   const workBridge=context==='work' && s.day>=2 && s.slot==='midday' && !s.active && !life.story47;
   if(context!=='app' && !workBridge)return false;

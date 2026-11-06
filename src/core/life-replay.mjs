@@ -7,13 +7,13 @@ import {makeRaceRestEvidence} from './race-rest.mjs';
 import {resolveSeededRace,serializeRaceResolution} from './race-resolver.mjs';
 import {PRODUCTION,PLAYTEST_WORK_CALENDAR,createSchedule} from './life-schedule/index.mjs';
 import {initialFinance,latchDue,dueObligations} from './life-finance.mjs';
-import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
+import {inspectLifeTransaction,commitLifeTransaction,stageSocialTransition,stageAutomaticRenOffer,isAutomaticRenTrigger,stageWorkStory,prepareActivityStory,stageActivityStory} from './life-coordinator.mjs';
 import {social46NeedsSaleDisclosure,social46CouchSold} from './life-social.mjs';
 import {createRaceHistoryPlan} from './race-v2/history-plan.mjs';
 import {createRestoreQueue} from './race-v2/restore-queue.mjs';
 import {isVerifiedWorkerCandidate} from './race-v2/worker-client.mjs';
 import {stableStringify} from './race-v2/codec.mjs';
-import {deliveryCandidate,deliveryPayloads,isDeliveryPayload,renCurrentIds,renMessageShown} from './messages-policy.mjs';
+import {isMessagesPolicy,deliveryCandidate,deliveryPayloads,isDeliveryPayload,renCurrentIds,renMessageShown} from './messages-policy.mjs';
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 // Engine publication emits work/loan before newly eligible Ren revisions.
 export function requiredMessagesDelivery(life,deliveries,pendingRenDeliveries) {
@@ -24,7 +24,7 @@ function validateMessagesHeader(envelope) {
   const start=envelope?.eventLog?.[0]?.payload?.messagesPolicy;
   const metadata=envelope?.messagesPolicy;
   if (start === undefined && metadata === undefined) return [];
-  if (envelope?.schemaVersion !== 6 || start !== 'messages-v1' || metadata !== start) return ['Invalid Messages policy metadata'];
+  if (envelope?.schemaVersion !== 6 || !isMessagesPolicy(start) || metadata !== start) return ['Invalid Messages policy metadata'];
   const facts=envelope.eventLog.filter(e=>typeof e?.type==='string' && e.type.startsWith('message_'));
   if(facts.length>512 || facts.some(e=>JSON.stringify(e.payload ?? null).length>256)) return ['Messages facts exceed limits'];
   return [];
@@ -52,9 +52,9 @@ function validateTransactions(envelope, verifiedV2 = false) {
     finance:initialFinance(),social46:null,socialRevision:0,socialOperationIds:{},sold:[],story47:null};
   let balances={cashCents:Math.round(PRODUCTION.startCash*100),health:PRODUCTION.startHealth},gems=0,expectedTerminal=null,terminalRoute=null,retentionOpen=false,retentionUsed=false,leaveRequested=false,receiptSeen=false,expectedStoryIncome=null,appOpened=false;
   const shownStages=[];let expectedInterruptions=[],completionInterruptions=null;
-  const deliveries=new Map(envelope.messagesPolicy==='messages-v1'?[['launch:invitation:1',1]]:[]),reads=new Set(),historyShown=new Set();
+  const deliveries=new Map(isMessagesPolicy(envelope.messagesPolicy)?[['launch:invitation:1',1]]:[]),reads=new Set(),historyShown=new Set();
   let launchShown=false,launchReplied=false,launchAckShown=false,expiredLaunchShown=false;
-  let pendingRenDeliveries=[];
+  let pendingRenDeliveries=[],pendingAutoRen=null;
   const errors=[...validateSeededDrawHistory(envelope),...(envelope.schemaVersion===6?(verifiedV2?[]:['Schema-6 race history requires async verification']):validateSeededRaceHistory(envelope))];
   if(errors.length)return errors;
   for(let i=0;i<entries.length;i++) {
@@ -75,8 +75,9 @@ function validateTransactions(envelope, verifiedV2 = false) {
       expectedTerminal=null;if(errors.length)break;terminalRoute='running_on_empty';
       continue;
     }
-    if(i>0 && envelope.messagesPolicy==='messages-v1' && !terminalRoute && !leaveRequested) {
-      const expected=requiredMessagesDelivery(life,deliveries,pendingRenDeliveries);
+    let requiredMessage=null;
+    if(i>0 && isMessagesPolicy(envelope.messagesPolicy) && !terminalRoute && !leaveRequested) {
+      const expected=requiredMessagesDelivery(life,deliveries,pendingRenDeliveries);requiredMessage=expected;
       const isRenDelivery=entry.type==='message_delivered' && entry.payload?.kind==='ren';
       if(expected && (entry.type!=='message_delivered' || !same(entry.payload,expected))) {
         errors.push(`Missing ${expected.kind==='ren'?'Ren':'Messages'} delivery before ${entry.seq}`);break;
@@ -85,6 +86,12 @@ function validateTransactions(envelope, verifiedV2 = false) {
         if(!expected || expected.kind!=='ren') {errors.push(`Unbound Ren delivery at ${entry.seq}`);break;}
         pendingRenDeliveries.shift();
       }
+    }
+    if(envelope.messagesPolicy==='messages-v2' && pendingAutoRen && !requiredMessage) {
+      if(entry.type!=='life52_social_intent' || !same(entry.payload,{intent:pendingAutoRen})) {errors.push(`Missing automatic Ren offer before ${entry.seq}`);break;}
+      pendingAutoRen=null;
+    } else if(envelope.messagesPolicy==='messages-v2' && entry.type==='life52_social_intent' && typeof entry.payload?.intent?.operationId==='string' && entry.payload.intent.operationId.startsWith('ren-auto:') && !pendingAutoRen) {
+      errors.push(`Unbound automatic Ren offer at ${entry.seq}`);break;
     }
     if(terminalRoute) {
       if(entry.type!=='receipt_shown' || receiptSeen || entry.payload?.route!==terminalRoute){errors.push(`Unexpected event after terminal at ${entry.seq}`);break;}
@@ -104,26 +111,26 @@ function validateTransactions(envelope, verifiedV2 = false) {
       continue;
     }
     if(leaveRequested && entry.type!=='terminal') {errors.push(`Unexpected event after uninstall choice at ${entry.seq}`);break;}
-    if(envelope.messagesPolicy==='messages-v1' && entry.type==='offer_shown' && entry.payload?.kind==='launch_reply_invitation') {
+    if(isMessagesPolicy(envelope.messagesPolicy) && entry.type==='offer_shown' && entry.payload?.kind==='launch_reply_invitation') {
       if(launchShown || life.schedule.day!==1 || !['morning','midday','early-evening'].includes(life.schedule.slot) || !same(entry.payload,{kind:'launch_reply_invitation',technique:'launch_invitation',launch:'day_1_evening'})) {errors.push(`Invalid launch invitation display at ${entry.seq}`);break;}
       launchShown=true;continue;
     }
-    if(envelope.messagesPolicy==='messages-v1' && entry.type==='cue_shown' && entry.payload?.kind==='expired_launch_history') {
+    if(isMessagesPolicy(envelope.messagesPolicy) && entry.type==='cue_shown' && entry.payload?.kind==='expired_launch_history') {
       const windowOpen=life.schedule.day===1 && ['morning','midday','early-evening'].includes(life.schedule.slot);
       if(windowOpen || launchShown || expiredLaunchShown || !same(entry.payload,{kind:'expired_launch_history',technique:'launch_invitation',launch:'day_1_evening',id:'launch:invitation:1',revision:1})) {errors.push(`Invalid expired launch display at ${entry.seq}`);break;}
       expiredLaunchShown=true;continue;
     }
-    if(envelope.messagesPolicy==='messages-v1' && entry.type==='action' && entry.payload?.kind==='launch_reply') {
+    if(isMessagesPolicy(envelope.messagesPolicy) && entry.type==='action' && entry.payload?.kind==='launch_reply') {
       if(!launchShown || launchReplied || life.schedule.day!==1 || !['morning','midday','early-evening'].includes(life.schedule.slot) || !same(entry.payload,{kind:'launch_reply',text:'LAUNCH'})) {errors.push(`Invalid launch reply at ${entry.seq}`);break;}
       launchReplied=true;continue;
     }
-    if(envelope.messagesPolicy==='messages-v1' && entry.type==='cue_shown' && entry.payload?.kind==='launch_reply_acknowledgment') {
+    if(isMessagesPolicy(envelope.messagesPolicy) && entry.type==='cue_shown' && entry.payload?.kind==='launch_reply_acknowledgment') {
       if(!launchReplied || launchAckShown || !same(entry.payload,{kind:'launch_reply_acknowledgment'})) {errors.push(`Invalid launch acknowledgment at ${entry.seq}`);break;}
       launchAckShown=true;continue;
     }
     if(typeof entry.type === 'string' && entry.type.startsWith('message_')) {
       const p=entry.payload;
-      if(envelope.messagesPolicy!=='messages-v1' || retentionOpen) {errors.push(`Messages policy unavailable at ${entry.seq}`);break;}
+      if(!isMessagesPolicy(envelope.messagesPolicy) || retentionOpen) {errors.push(`Messages policy unavailable at ${entry.seq}`);break;}
       if(entry.clock?.day!==life.schedule.day || entry.clock?.label!==`day ${life.schedule.day} ${life.schedule.slot}`) {errors.push(`Invalid Messages clock at ${entry.seq}`);break;}
       if(entry.type==='message_delivered') {
         if(!isDeliveryPayload(p) || deliveries.has(p.id) || !deliveryCandidate(life,p.kind,p.id)) {errors.push(`Invalid Messages delivery at ${entry.seq}`);break;}
@@ -199,7 +206,7 @@ function validateTransactions(envelope, verifiedV2 = false) {
       if(p?.kind!=='asset_sale' || !amount || p.amount!==amount || life.sold.includes(p.asset) || life.schedule.recovery
         || (p.asset==='couch' && social46NeedsSaleDisclosure(view)) || p.cashAfter!==(balances.cashCents+amount*100)/100) {errors.push(`Invalid asset sale at ${entry.seq}`);break;}
       const beforeRen=new Set(renCurrentIds(life));life.sold.push(p.asset);if(p.asset==='couch')social46CouchSold({social46:life.social46});balances.cashCents+=amount*100;
-      pendingRenDeliveries=envelope.messagesPolicy==='messages-v1'?renCurrentIds(life).filter(id=>!beforeRen.has(id) && !deliveries.has(id)):[];continue;
+      pendingRenDeliveries=isMessagesPolicy(envelope.messagesPolicy)?renCurrentIds(life).filter(id=>!beforeRen.has(id) && !deliveries.has(id)):[];continue;
     }
     if(entry.type==='action' && entry.payload?.kind==='race_trial_purchased') {
       const due=dueObligations(latchDue(life.finance,{day:life.schedule.day,slot:life.schedule.slot}),balances.cashCents);
@@ -295,17 +302,23 @@ function validateTransactions(envelope, verifiedV2 = false) {
       const race=inside.find(event=>['race_result','race_attempt_unresolved'].includes(event.type));
       if(race?.payload?.entryDay!==result.state.schedule.day){errors.push(`Race entry day mismatch at ${entry.seq}`);break;}
     }
-    const oldRenIds=new Set(renCurrentIds(life));life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
-    pendingRenDeliveries=envelope.messagesPolicy==='messages-v1'?renCurrentIds(life).filter(id=>!oldRenIds.has(id) && !deliveries.has(id)):[];
+    const beforeLife=life,oldRenIds=new Set(renCurrentIds(life));life=result.state;balances={cashCents:balances.cashCents+result.cashDeltaCents,health:balances.health+result.healthDelta};
+    pendingRenDeliveries=isMessagesPolicy(envelope.messagesPolicy)?renCurrentIds(life).filter(id=>!oldRenIds.has(id) && !deliveries.has(id)):[];
     if(entry.type==='life52_work_story_intent' && intent.type==='complete')expectedStoryIncome={kind:'wage',amount:result.cashDeltaCents/100,transactionId:intent.id,cashAfter:balances.cashCents/100,source:'five-slot-work-story'};
     const terminal=result.events.find(event=>event.type==='financial_default');
+    if(!terminal && envelope.messagesPolicy==='messages-v2' && isAutomaticRenTrigger(beforeLife,life)) {
+      const auto=stageAutomaticRenOffer(life,balances,entries[end].seq,context);
+      if(!auto.ok){errors.push(`Invalid automatic Ren staging at ${entry.seq}`);break;}
+      pendingAutoRen=auto.intent;
+    }
     if(terminal)pendingRenDeliveries=[];
     if(terminal)expectedTerminal={route:'running_on_empty',reason:terminal.reason,obligationId:terminal.obligationId,
       outstandingCents:terminal.outstandingCents,housingLost:terminal.route==='housing_loss'};
     i=end;
   }
   if(expectedTerminal)errors.push('Missing financial terminal event');
-  if(!terminalRoute && envelope.messagesPolicy==='messages-v1' && deliveryPayloads(life).some(p=>!deliveries.has(p.id)))errors.push('Missing Messages delivery at end of history');
+  if(pendingAutoRen)errors.push('Missing automatic Ren offer at end of history');
+  if(!terminalRoute && isMessagesPolicy(envelope.messagesPolicy) && deliveryPayloads(life).some(p=>!deliveries.has(p.id)))errors.push('Missing Messages delivery at end of history');
   if(!terminalRoute && pendingRenDeliveries.length)errors.push('Missing Ren delivery at end of history');
   if(expectedStoryIncome)errors.push('Missing work income evidence');
   if(expectedInterruptions.length)errors.push('Missing interruption evidence after uninstall choice');

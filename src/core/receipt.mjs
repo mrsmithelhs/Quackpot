@@ -1,3 +1,4 @@
+import {isMessagesPolicy} from './messages-policy.mjs';
 // src/core/receipt.mjs
 // Receipt projection: a pure function of the append-only event record.
 // It never reads run state. Each finding has three registers (O1 honesty rule):
@@ -104,7 +105,7 @@ export function projectReceipt(entries) {
 
   const findings = [];
   for (const [id, label, question] of TECHNIQUES) {
-    if(id==='launch_invitation' && entries[0]?.payload?.messagesPolicy!=='messages-v1')continue;
+    if(id==='launch_invitation' && !isMessagesPolicy(entries[0]?.payload?.messagesPolicy))continue;
     const cues = shown(id);
     const revealedDup = id === 'secondary_currency' ? ofType('reveal_shown').filter((e) => e.payload.duplicate) : [];
     if (cues.length === 0 && revealedDup.length === 0) continue; // a technique is named only if its cue fired

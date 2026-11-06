@@ -3,7 +3,7 @@
 import { fiveSlotLabel } from './life/life-routing.mjs';
 
 export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
-  const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false, showEndRun = false, onEndRun, onMessages, messageCount = 0, messagesAvailable = true } = callbacks;
+  const { onSave, onSettings, onReturnToApartment, onUninstall, onOpenDex, showReturn = false, showDex = false, onMessages, messageCount = 0, messagesAvailable = true } = callbacks;
   const state = engine.state;
   const isTerminal = engine.isTerminal();
   const fiveSlot=state.life?.policyVersion==='five-slot-v1';
@@ -33,7 +33,6 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
             ${isTerminal ? 'Locked' : 'Save'}
           </button>
           <button id="btn-open-settings" class="btn btn-secondary btn-sm">Settings</button>
-          ${showEndRun && !isTerminal ? `<button id="btn-end-run" class="btn btn-secondary btn-sm">End run &amp; view Receipt</button>` : ''}
           ${showDex && !isTerminal ? `<button id="btn-open-duck-dex" class="btn btn-secondary btn-sm" title="View Duck-Dex Collection">🦆 Duck-Dex</button>` : ''}
           ${showReturn && !isTerminal ? `<button id="btn-return-apartment" class="btn btn-secondary btn-sm">Return to apartment</button>` : ''}
           ${!isTerminal ? `
@@ -85,7 +84,6 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   const btnSettings = container.querySelector('#btn-open-settings');
   const btnDex = container.querySelector('#btn-open-duck-dex');
   const btnReturn = container.querySelector('#btn-return-apartment');
-  const btnEndRun = container.querySelector('#btn-end-run');
   const btnUninstall = container.querySelector('#btn-uninstall');
   const btnMessages = container.querySelector('#btn-messages');
   const saveToast = container.querySelector('#save-notification');
@@ -113,8 +111,6 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
   if (btnSettings && onSettings) btnSettings.addEventListener('click', onSettings);
   if (btnMessages && onMessages) btnMessages.addEventListener('click', onMessages);
   if (btnReturn && onReturnToApartment) btnReturn.addEventListener('click', onReturnToApartment);
-
-  if (btnEndRun && onEndRun && !isTerminal) btnEndRun.addEventListener('click', onEndRun);
 
   if (btnUninstall && onUninstall && !isTerminal) {
     btnUninstall.addEventListener('click', onUninstall);

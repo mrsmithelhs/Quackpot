@@ -1,7 +1,8 @@
 ---
 id: plan-64
 title: Welcome and onboarding integration
-status: in-progress
+status: complete
+resolution: "Closed after owner approval of the M5 loop and fades and root review of the confirmed post-Receipt restart repair. Verified cancellation and save preservation, confirmed restart and reload, manual Save with autosave off, and preservation of a detected competing write. Post-refusal Receipt access was not browser-verified and the localStorage check and write are non-atomic. Profile-wide history and ZIP download are deferred to Plan65."
 depends_on: [plan-62]
 gate: "Root approves the pinned visual reference, source ownership, save and Receipt lifecycle, and audio delivery before production writes. Owner reviews the integrated experience before closure."
 summary: >-

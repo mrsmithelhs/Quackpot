@@ -854,3 +854,9 @@ Plan63 is drafted for authoritative existing communication routes, persistent de
 **Date:** 2026-11-05
 
 Owner accepts the rendered Plan62 welcome study and requests production integration. Revision 04 source freeze b739fb33 and handoff e7f3f447 preserve the accepted reference, including Title A, the lamp-lit naming transition and the M5 audition defaults. Plan64 owns the real startup, save, Settings, Credits and post-Receipt connections, paired rendered review and local audio delivery clearance. The study does not establish production soundtrack rights or a save-policy change.
+
+### DECISION-093 — Saveable restart after the Receipt
+
+**Date:** 2026-11-05
+
+The owner accepts the M5 welcome loop and its fades and selects a normally saveable run after confirming Start another run from the Receipt flow. Confirmation describes what the new run replaces. Cancel leaves View Receipt available. Plan64 closes on the bounded restart evidence, including preservation on Cancel and successful resume after reload. Plan65 carries forward DECISION-076 for a local ZIP covering recorded runs and unlocked achievements in the browser profile.

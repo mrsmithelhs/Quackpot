@@ -1,0 +1,9 @@
+# Plan 65 progress — mechanism gate
+
+2026-11-06: Report-only proposal prepared in `mechanism-proposal.md`; production implementation has not started. Ready for root and owner mechanism review, not delivery or acceptance. Plan63 retains its shared source turn. Existing unrelated working-tree changes, including shared source, packet and Plan25 launcher, were present and left untouched.
+
+The proposal traces Welcome, save, Receipt, restart and clear paths, identifies the non-atomic Plan64 localStorage seam, proposes a separate history and cooperative lock protocol, distinguishes live/unsaved and persisted evidence, and documents ZIP privacy and limits. It explicitly requires root and owner disposition and a re-pin of the moving source. No real student data, browser, generated archive, dependency acquisition or production source changes were used.
+
+Preflight: `node scripts/dev/plan-status.js check 65` returned exit 0, RUNNABLE, but was inadvertently invoked directly, not through the bounded launcher; this is not a compliant bounded execution receipt. A subsequent process preflight using `Get-CimInstance Win32_Process` failed with access denied, so no bounded rerun was attempted. This execution limitation must be resolved before the requested bounded check can be claimed. Read-only repository inspection was otherwise used. No functional tests are claimed for a prose-only proposal. Advisor consultation is not warranted for this report-only stage; the packet's explicitly required one Terra-medium implementation review remains outstanding after approval and implementation.
+
+Open risks: the proposal's Web Locks protocol protects only cooperating writers; save metadata compatibility, history record bounds and an explicit clearing route require root review. No claim is made that current source implements history, production export, achievement unlocks or cross-tab atomicity. The proposal is not an owner decision. No packet status changes or push.

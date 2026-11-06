@@ -84,6 +84,11 @@ export class Coordinator {
       }
       if (current && !priorRun) throw Error('missing prior evidence');
       if (priorRun && current && priorRun.id !== current.id) throw Error('identity mismatch');
+      if (current && (!Array.isArray(current.log) || !Array.isArray(priorRun.log) ||
+          priorRun.log.length < current.log.length ||
+          digest(priorRun.log.slice(0, current.log.length)) !== digest(current.log))) {
+        throw Error('saved prefix mismatch');
+      }
       if (priorRun) this.#archive(history.value, copy(priorRun));
       const candidate = JSON.stringify(copy(replacement));
       writeVerified(this.storage, 'primary', candidate);

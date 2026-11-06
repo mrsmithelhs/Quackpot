@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 0.5740116,
+  "PeakSampledPrivateBytes": 3694592,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ rapid queued saves follow own verified bytes and refuse an external change (1.9397ms)\n✔ restart archives before replace; cancel is byte-preserving (0.6702ms)\n✔ same-ID stale or divergent evidence cannot replace a newer saved primary (0.2583ms)\n✔ failed archive prevents replacement, while failed replacement leaves verified history (0.4237ms)\n✔ terminal archive with autosave off does not replace an older saved run (0.7785ms)\n✔ full-source commitment identifies conflicting extension despite truncated timeline (0.3013ms)\n✔ clear writes empty history and a new generation in one write, rejecting stale tab (0.536ms)\n✔ legacy ID binding happens only after confirmation and can persist after later failure (0.31ms)\n✔ readback failure after a primary write reports uncertainty, not preservation (0.2969ms)\nℹ tests 9\nℹ suites 0\nℹ pass 9\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 23.1022\n",
+  "StandardError": "",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

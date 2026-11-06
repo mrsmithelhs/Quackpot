@@ -29,6 +29,16 @@ test('restart archives before replace; cancel is byte-preserving', async () => {
   assert.equal(storage.get('primary'), bytes({ id:'new', log:[] }));
 });
 
+test('same-ID stale or divergent evidence cannot replace a newer saved primary', async () => {
+  for (const log of [['a'], ['a','different']]) {
+    const { storage, c } = setup({ id:'old', log:['a','b'] });
+    const before = storage.get('primary');
+    await assert.rejects(c.restart({ confirmed:true, priorRun:{ id:'old', log }, replacement:{ id:'new', log:[] } }), /saved prefix mismatch/);
+    assert.equal(storage.get('primary'), before);
+    assert.equal(storage.get('history'), null);
+  }
+});
+
 test('failed archive prevents replacement, while failed replacement leaves verified history', async () => {
   for (const target of ['history', 'primary']) {
     const { storage, c } = setup(), before = storage.get('primary');

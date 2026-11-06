@@ -17,7 +17,9 @@ import { mountWelcome } from './ui/welcome-view.js';
 import welcomeMusic from './assets/audio/welcome-m5.wav';
 import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mjs';
-import { replaceRestartSnapshot, restartConfirmationText } from './ui/welcome/restart-storage.mjs';
+import { restartConfirmationText } from './ui/welcome/restart-storage.mjs';
+import { createUsageCoordinator } from './core/usage-storage-coordinator.mjs';
+import { parseHistory, USAGE_HISTORY_KEY } from './core/usage-history.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -25,7 +27,6 @@ import { makeRaceRestEvidence, formatRaceRating } from './core/race-rest.mjs';
 import { raceCandidateFacts } from './core/race-progression.mjs';
 import {
   STORAGE_KEY,
-  saveGame,
   validateSave,
   resetInMemoryStore,
   loadGame,
@@ -79,8 +80,9 @@ if (app) {
   const raceV2Development=new URLSearchParams(window.location.search).get('race-v2')==='1';
   const schema6Session=raceV2Development?createSchema6Session():null;
   window.GameEngine = GameEngine;
-  let engine = null;
+  let engine = null, engineOriginPrimary = false;
   let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false, welcomeSnapshot = null, pendingRestartSave = null;
+  let usageCoordinator = null, pendingRestartPromise = null;
   let currentStep = 'desk';
   let activeModal = null;
   let storageWarningText = null;
@@ -130,6 +132,22 @@ if (app) {
     return `${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
   }
 
+  function assignUsageId(target) {
+    if (target.usageRunId) return target.usageRunId;
+    if (!globalThis.crypto?.getRandomValues) throw new Error('Secure run identity is unavailable');
+    target.usageRunId = Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('');
+    return target.usageRunId;
+  }
+
+  function usageRun(target) {
+    return { id: assignUsageId(target), entries: target.log.entries };
+  }
+
+  function storageFailure(error) {
+    const result = { success:false, error:error?.message || 'storage unavailable' };
+    checkStorageResult(result); updateWarningBanner(); return result;
+  }
+
   function checkStorageResult(res) {
     if (res && res.preservedSnapshot) {
       storageWarningText = 'Temporary Session: An existing save is preserved. Storage saving is paused to protect it.';
@@ -144,9 +162,8 @@ if (app) {
 
   function maybeAutosave() {
     if (engine && engine.autosaveEnabled && !unsupportedRenPreservation) {
-      const res = raceV2Development?schema6Session.save(engine):pendingRestartSave ? savePendingRestart() : saveGame(engine.toEnvelope());
-      checkStorageResult(res);
-      updateWarningBanner();
+      if (raceV2Development) { const res = schema6Session.save(engine); checkStorageResult(res); updateWarningBanner(); return; }
+      void saveNow();
     }
   }
 
@@ -175,6 +192,13 @@ if (app) {
 
     if(raceV2Development){void initSchema6();return;}
 
+    try {
+      const storage = globalThis.localStorage;
+      const history = parseHistory(storage.getItem(USAGE_HISTORY_KEY));
+      usageCoordinator = createUsageCoordinator({ storage, locks:globalThis.navigator?.locks, primaryKey:STORAGE_KEY,
+        expectedPrimary:storage.getItem(STORAGE_KEY), generation:history.generation });
+    } catch { usageCoordinator = null; }
+
     // Attempt to load existing game
     const loadResult = loadGame(undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true});
 
@@ -188,8 +212,9 @@ if (app) {
       const status=document.createElement('p');status.setAttribute('role','status');
       const temporary=document.createElement('button');temporary.type='button';temporary.className='btn btn-primary btn-lg';temporary.textContent='Play a temporary session';
       const replace=document.createElement('button');replace.type='button';replace.className='btn btn-secondary btn-lg';replace.textContent='Replace with a new run';
-      temporary.addEventListener('click', () => {
-        const backup = backupUnsupportedRenSave();
+      temporary.addEventListener('click', async () => {
+        let backup = 'unavailable';
+        try { backup = await usageCoordinator?.recovery(() => backupUnsupportedRenSave()) ?? 'unavailable'; } catch { /* Preserve original in temporary mode. */ }
         unsupportedRenPreservation = true;
         setTemporaryPreservationMode(true);
         storageWarningText = backup === 'created'
@@ -199,10 +224,12 @@ if (app) {
             : 'Unsupported Ren save is preserved; a backup could not be written. This session is temporary and cannot overwrite the saved run.';
         startFreshRun(false);
       });
-      replace.addEventListener('click',()=>{
+      replace.addEventListener('click',async()=>{
         if(!globalThis.confirm('Replace the saved run with a new run? The original will be copied to an empty backup slot if possible.'))return;
         const fresh=new GameEngine(generateRandomSeed(),{lifePolicy:'five-slot-v1',tutorialShift:true});fresh.start();
-        const result=replaceUnsupportedSave(fresh.toEnvelope(),undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true});
+        let result;
+        try { assignUsageId(fresh); result=await usageCoordinator.recovery(() => replaceUnsupportedSave(fresh.toEnvelope(),undefined,{experimentalFiveSlot:true,requireFiveSlotTutorial:true})); }
+        catch (error) { status.textContent=`The replacement did not complete (${error.message}). The saved data needs reinspection.`; return; }
         if(!result.success){const restoration={restored:'The original was restored.',not_needed:'The original was not replaced.',failed:'The original could not be verified as restored.',not_attempted_primary_changed:'The saved data changed during the attempt; it was not overwritten again.'}[result.restoration]??'The saved data could not be verified.';status.textContent=`The replacement did not complete (${result.error}). ${restoration} The browser may have kept a backup; check the saved data before trying again.`;return;}
         unsupportedRenPreservation=false;startFreshRun(true,fresh);
       });
@@ -213,14 +240,15 @@ if (app) {
 
     if (loadResult.isCorrupt) {
       renderCorruptSaveModal(document.querySelector('#modal-container'), loadResult.errors, {
-        onFresh: () => {
-          clearGame();
+        onFresh: async () => {
+          try { await usageCoordinator.recovery(() => { clearGame(); if (localStorage.getItem(STORAGE_KEY) !== null) throw new Error('clear failed'); }); }
+          catch (error) { storageFailure(error); return; }
           setTemporaryPreservationMode(false);
           startFreshRun(true);
         },
-        onKeepBackup: () => {
+        onKeepBackup: async () => {
           // Backup corrupted save without destroying or overwriting it (Repair 02, P2)
-          const backupOk = backupCorruptSave();
+          let backupOk = false; try { backupOk = await usageCoordinator.recovery(() => backupCorruptSave()); } catch { /* Preserve original. */ }
           setTemporaryPreservationMode(true);
           if (!backupOk) {
             storageWarningText = 'Notice: Could not write backup copy to backup storage key. The original corrupt save remains preserved in primary storage. Playing in temporary memory mode.';
@@ -241,6 +269,8 @@ if (app) {
     if (envelope) {
       try {
         engine = GameEngine.fromEnvelope(envelope);
+        engineOriginPrimary = true;
+        if (!raceV2Development) assignUsageId(engine);
         console.info('[Quackpot] Restored valid run from storage:', engine.state);
 
         // Authoritative restore of learner progression step and active modal (P1 repair)
@@ -270,9 +300,9 @@ if (app) {
       } catch (err) {
         console.warn('[Quackpot] Failed to hydrate from saved envelope:', err);
         renderCorruptSaveModal(document.querySelector('#modal-container'), [`Saved run could not be restored: ${err.message}`], {
-          onFresh: () => { clearGame(); setTemporaryPreservationMode(false); startFreshRun(true); },
-          onKeepBackup: () => {
-            const backupOk = backupCorruptSave();
+          onFresh: () => { globalThis.alert('This saved run passed storage validation but could not be restored. It remains protected; reload or keep it for recovery.'); },
+          onKeepBackup: async () => {
+            let backupOk = false; try { backupOk = await usageCoordinator.recovery(() => backupCorruptSave()); } catch { /* Preserve original. */ }
             setTemporaryPreservationMode(true);
             storageWarningText = backupOk
               ? 'The existing save and a backup are preserved. This session is temporary.'
@@ -327,6 +357,8 @@ if (app) {
         if (temporary) storageWarningText = 'Temporary Session: Existing or unavailable storage is protected. This run will not survive a reload.';
         else storageWarningText = null;
         engine = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
+        engineOriginPrimary = false;
+        assignUsageId(engine);
         engine.start(); engine.autosaveEnabled = !temporary && welcomeAutosave;
         engine.setupCompanion(name, 'classic-yellow'); pendingEnvelope = null;
         knownMessageDeliveries = null; messageAttentionStarted = null; activeModal = null; phoneOpen = false;
@@ -338,17 +370,24 @@ if (app) {
     });
   }
 
-  function restartSave(storage, expected, candidate) {
-    return replaceRestartSnapshot(storage, STORAGE_KEY, expected, candidate.toEnvelope(), envelope =>
-      validateSave(envelope, { experimentalFiveSlot: true, requireFiveSlotTutorial: true }).valid);
-  }
-
-  function savePendingRestart() {
-    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
-    const result = restartSave(storage, pendingRestartSave.raw, engine);
-    if (result.success) { pendingRestartSave = null; resetInMemoryStore(); setTemporaryPreservationMode(false); welcomePreservation = false; return { success: true, inMemory: false }; }
-    welcomePreservation = true; setTemporaryPreservationMode(true); engine.autosaveEnabled = false;
-    return { success: false, preservedSnapshot: true, error: result.reason };
+  async function savePendingRestart() {
+    if (pendingRestartPromise) return pendingRestartPromise;
+    const pendingEngine = engine;
+    pendingRestartPromise = (async () => {
+    try {
+      await usageCoordinator.replace({ prior:pendingRestartSave.prior, replacement:engine.toEnvelope() });
+      pendingRestartSave = null; resetInMemoryStore(); setTemporaryPreservationMode(false); welcomePreservation = false;
+      return { success:true, inMemory:false };
+    } catch (error) {
+      welcomePreservation = true; setTemporaryPreservationMode(true); engine.autosaveEnabled = false;
+      return { success:false, preservedSnapshot:true, error:error.message };
+    }
+    })();
+    try {
+      const result = await pendingRestartPromise;
+      if (result.success && engine === pendingEngine && engine.autosaveEnabled) queueMicrotask(() => { void saveNow(); });
+      return result;
+    } finally { pendingRestartPromise = null; }
   }
 
   async function startAfterReceipt(name) {
@@ -368,28 +407,43 @@ if (app) {
     if (!await welcomeHandle.confirmRestart(restartConfirmationText(prior?.state?.phase, snapshot.raw !== null, welcomeAutosave))) return false;
     if (!welcomeSnapshotMatches(welcomeSnapshot, snapshot)) { globalThis.alert('Saved data changed. The current Receipt remains available; reload before trying again.'); return false; }
     const candidate = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
+    assignUsageId(candidate);
     candidate.start(); candidate.autosaveEnabled = welcomeAutosave; candidate.setupCompanion(name, 'classic-yellow');
     const next = candidate.state.life ? lifeSurface(candidate) : BREAKFAST_STEP_BY_DAY[1]; candidate.state.step = next;
-    if (welcomeAutosave) {
-      const result = restartSave(storage, snapshot.raw, candidate);
-      if (!result.success) {
+    try {
+      let savedRun = null;
+      const liveRun = engine?.isTerminal() ? usageRun(engine) : null;
+      if (prior) {
+        if (!prior.usageRunId) {
+          const sameLive = engineOriginPrimary && liveRun && liveRun.entries.length >= prior.eventLog.length &&
+            JSON.stringify(liveRun.entries.slice(0, prior.eventLog.length)) === JSON.stringify(prior.eventLog);
+          const proposedId = sameLive ? liveRun.id : assignUsageId({});
+          prior.usageRunId = await usageCoordinator.bindLegacyId(proposedId, envelope => validateSave(envelope, { experimentalFiveSlot:true, requireFiveSlotTutorial:true }).valid);
+        }
+        savedRun = { id:prior.usageRunId, entries:prior.eventLog };
+        if (liveRun?.id === savedRun.id) savedRun = liveRun;
+      }
+      const additionalRuns = liveRun && liveRun.id !== savedRun?.id ? [liveRun] : [];
+      if (welcomeAutosave) {
+        await usageCoordinator.replace({ prior:savedRun, replacement:candidate.toEnvelope(), additionalRuns });
+        resetInMemoryStore(); setTemporaryPreservationMode(false); pendingRestartSave = null;
+      } else {
+        if (savedRun) await usageCoordinator.archive(savedRun);
+        for (const run of additionalRuns) await usageCoordinator.archive(run);
+        pendingRestartSave = { prior:savedRun };
+        setTemporaryPreservationMode(false);
+      }
+    } catch (error) {
         if (!engine && pendingEnvelope) {
-          try { engine = GameEngine.fromEnvelope(pendingEnvelope); pendingEnvelope = null; engine.autosaveEnabled = false; welcomePreservation = true; setTemporaryPreservationMode(true); }
+          try { engine = GameEngine.fromEnvelope(pendingEnvelope); engineOriginPrimary = true; pendingEnvelope = null; engine.autosaveEnabled = false; welcomePreservation = true; setTemporaryPreservationMode(true); }
           catch { /* Keep the original cached envelope for the existing recovery path. */ }
         }
-        globalThis.alert('The new run could not be saved safely. The current Receipt remains available; check saved data before trying again.');
+        globalThis.alert(`The new run could not be saved safely (${error.message}). The current Receipt remains available; check saved data before trying again.`);
         if (engine?.isTerminal()) showWelcome();
         return false;
-      }
-      resetInMemoryStore(); setTemporaryPreservationMode(false); pendingRestartSave = null;
-    } else {
-      const current = readWelcomeSnapshot(storage, STORAGE_KEY);
-      if (!welcomeSnapshotMatches(snapshot, current)) { globalThis.alert('Saved data changed. The current Receipt remains available; reload before trying again.'); return false; }
-      pendingRestartSave = snapshot;
-      setTemporaryPreservationMode(false);
     }
     welcomePreservation = false; unsupportedRenPreservation = false; storageWarningText = null;
-    engine = candidate; pendingEnvelope = null; knownMessageDeliveries = null; messageAttentionStarted = null;
+    engine = candidate; engineOriginPrimary = false; pendingEnvelope = null; knownMessageDeliveries = null; messageAttentionStarted = null;
     currentStep = next; activeModal = null; phoneOpen = false; resetLifeUi();
     welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded);
     return true;
@@ -446,6 +500,8 @@ if (app) {
       void schema6Session.bindNew(fresh).then(result=>{if(result.success)startFreshRun(enableStorageSave,fresh);else{storageWarningText='The development save was preserved; a new run could not start.';updateWarningBanner();}});return;
     }
     engine = preparedEngine ?? new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2:raceV2Development });
+    engineOriginPrimary = false;
+    if (!raceV2Development) assignUsageId(engine);
     knownMessageDeliveries=null; messageAttentionStarted=null;
     if(!preparedEngine)engine.start();
 
@@ -749,7 +805,7 @@ if (app) {
     }
   }
 
-  function saveNow() {
+  async function saveNow() {
     if(raceV2Development){const result=schema6Session.save(engine);checkStorageResult(result);updateWarningBanner();return result;}
     let res;
     if (welcomePreservation) {
@@ -760,19 +816,19 @@ if (app) {
       globalThis.alert('This temporary session cannot overwrite the preserved Ren save.');
       return { success: false, inMemory: true, preservedSnapshot: true };
     }
-    if (pendingRestartSave) { const result = savePendingRestart(); checkStorageResult(result); updateWarningBanner(); return result; }
+    if (pendingRestartSave) { const result = await savePendingRestart(); checkStorageResult(result); updateWarningBanner(); return result; }
     if (isTemporaryPreservationMode()) {
       const confirmed = typeof globalThis.confirm === 'function'
         ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
         : false;
       if (confirmed) {
         setTemporaryPreservationMode(false);
-        res = saveGame(engine.toEnvelope(), undefined, true);
+        try { res = await usageCoordinator.save(engine.toEnvelope()); } catch (error) { res = storageFailure(error); }
       } else {
-        res = saveGame(engine.toEnvelope(), undefined, false);
+        return { success:false, preservedSnapshot:true };
       }
     } else {
-      res = saveGame(engine.toEnvelope());
+      try { assignUsageId(engine); res = await usageCoordinator.save(engine.toEnvelope()); } catch (error) { res = storageFailure(error); }
     }
     checkStorageResult(res);
     updateWarningBanner();
@@ -1153,11 +1209,14 @@ if (app) {
       renderReceiptView(mainContainer, engine, {
         onPresented: previousPhase => {
           if (shouldSaveReceiptPresentation(previousPhase, raceV2Development)) maybeAutosave();
+          if (!raceV2Development && usageCoordinator && !unsupportedRenPreservation) {
+            try { void usageCoordinator.archive(usageRun(engine)).catch(storageFailure); } catch (error) { storageFailure(error); }
+          }
         },
         onFreshRun: () => {
           if (!raceV2Development) { showWelcome(); return; }
           if (unsupportedRenPreservation) { startFreshRun(false); return; }
-          if(raceV2Development){if(!schema6Session.clear().success)return;}else clearGame();
+          if(raceV2Development){if(!schema6Session.clear().success)return;}
           startFreshRun(true);
         },
       }, { returnToWelcome: !raceV2Development });

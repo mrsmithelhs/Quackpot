@@ -39,6 +39,15 @@ export function createUsageCoordinator({ storage, locks, primaryKey, expectedPri
   };
 
   return {
+    recovery(operation) {
+      return enqueue(() => {
+        const result = operation();
+        if (result?.success === false) throw new Error(result.error || 'recovery failed');
+        expected = storage.getItem(primaryKey);
+        session++;
+        return result;
+      });
+    },
     save(envelope) {
       const bytes = JSON.stringify(envelope);
       return enqueue(() => {

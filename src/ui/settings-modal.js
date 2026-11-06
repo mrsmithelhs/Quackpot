@@ -54,9 +54,9 @@ export function renderSettingsModal(container, options = {}) {
   });
   autosaveInput.addEventListener('change', (event) => onAutosaveChange?.(event.target.checked));
   phoneGlowInput.addEventListener('change', (event) => onAnimatePhoneGlowChange?.(event.target.checked));
-  saveButton.addEventListener('click', () => {
+  saveButton.addEventListener('click', async () => {
     if (saveDisabled) return;
-    const result = onSave?.();
+    const result = await onSave?.();
     const status = container.querySelector('[data-settings-status]');
     if (!status) return;
     status.textContent = result?.success

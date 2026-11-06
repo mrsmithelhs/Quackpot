@@ -6,7 +6,7 @@ import { screenCounterAngle } from './stage.js';
 import { createConfirmationGate } from './confirmation.mjs';
 import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './receipt-lifecycle.mjs';
-import { replaceRestartSnapshot } from './restart-storage.mjs';
+import { replaceRestartSnapshot, restartConfirmationText } from './restart-storage.mjs';
 import { GameEngine } from '../../core/game-engine.mjs';
 import { validateSave } from '../../core/storage.mjs';
 
@@ -24,6 +24,14 @@ test('restart replacement accepts a valid new run and refuses stale or failed wr
   assert.equal(replaceRestartSnapshot(failed, 'key', 'old', candidate, valid).reason, 'write-or-readback-failed'); assert.equal(raw, 'old');
   raw = 'old'; const competing = { getItem: () => raw, setItem() { raw = 'other-tab'; } };
   assert.equal(replaceRestartSnapshot(competing, 'key', 'old', candidate, valid).reason, 'changed-after-write'); assert.equal(raw, 'other-tab');
+});
+
+test('restart copy distinguishes empty, terminal and separate active saves', () => {
+  assert.match(restartConfirmationText(null, false, false), /new run will be saved only/);
+  assert.doesNotMatch(restartConfirmationText(null, false, false), /existing saved record/);
+  assert.match(restartConfirmationText('receipt_presented', true, true), /the saved record/);
+  assert.doesNotMatch(restartConfirmationText('receipt_presented', true, true), /its saved record/);
+  assert.match(restartConfirmationText('playing', true, false), /separate saved run/);
 });
 
 test('schema5 saves first Receipt presentation only; schema6 keeps existing behavior', () => {

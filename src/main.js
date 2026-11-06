@@ -17,7 +17,7 @@ import { mountWelcome } from './ui/welcome-view.js';
 import welcomeMusic from './assets/audio/welcome-m5.wav';
 import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mjs';
-import { replaceRestartSnapshot } from './ui/welcome/restart-storage.mjs';
+import { replaceRestartSnapshot, restartConfirmationText } from './ui/welcome/restart-storage.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -364,10 +364,7 @@ if (app) {
         globalThis.alert('The existing save cannot be safely replaced. The Receipt is still available.'); return false;
       }
     }
-    const priorIsLive = prior && !['terminal', 'receipt_presented'].includes(prior.state?.phase);
-    const replaced = priorIsLive ? 'The finished Receipt and a separate saved run will be replaced.' : snapshot.raw !== null ? 'The finished Receipt and its saved record will be replaced.' : 'The finished Receipt will be replaced.';
-    const timing = welcomeAutosave ? ' The new run will be saved now.' : ' The existing saved record will remain until you choose Save or enable automatic saving.';
-    if (!globalThis.confirm(`${replaced}${timing} Continue?`)) return false;
+    if (!globalThis.confirm(restartConfirmationText(prior?.state?.phase, snapshot.raw !== null, welcomeAutosave))) return false;
     const candidate = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
     candidate.start(); candidate.autosaveEnabled = welcomeAutosave; candidate.setupCompanion(name, 'classic-yellow');
     const next = candidate.state.life ? lifeSurface(candidate) : BREAKFAST_STEP_BY_DAY[1]; candidate.state.step = next;

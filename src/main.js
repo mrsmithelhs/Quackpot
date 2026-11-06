@@ -15,8 +15,9 @@ import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import { mountWelcome } from './ui/welcome-view.js';
 import welcomeMusic from './assets/audio/welcome-m5.wav';
-import { readWelcomeSnapshot, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
+import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mjs';
+import { replaceRestartSnapshot } from './ui/welcome/restart-storage.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
 
 import { GameEngine, GAME_CONSTANTS, BANNER_1_ROSTER } from './core/game-engine.mjs';
@@ -25,6 +26,8 @@ import { raceCandidateFacts } from './core/race-progression.mjs';
 import {
   STORAGE_KEY,
   saveGame,
+  validateSave,
+  resetInMemoryStore,
   loadGame,
   clearGame,
   backupCorruptSave,
@@ -76,7 +79,7 @@ if (app) {
   const schema6Session=raceV2Development?createSchema6Session():null;
   window.GameEngine = GameEngine;
   let engine = null;
-  let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false, welcomeSnapshot = null;
+  let welcomeHandle = null, pendingEnvelope = null, welcomeAutosave = true, welcomePreservation = false, welcomeSnapshot = null, pendingRestartSave = null;
   let currentStep = 'desk';
   let activeModal = null;
   let storageWarningText = null;
@@ -140,7 +143,7 @@ if (app) {
 
   function maybeAutosave() {
     if (engine && engine.autosaveEnabled && !unsupportedRenPreservation) {
-      const res = raceV2Development?schema6Session.save(engine):saveGame(engine.toEnvelope());
+      const res = raceV2Development?schema6Session.save(engine):pendingRestartSave ? savePendingRestart() : saveGame(engine.toEnvelope());
       checkStorageResult(res);
       updateWarningBanner();
     }
@@ -229,7 +232,7 @@ if (app) {
       return;
     }
 
-    if (loadResult.envelope) { pendingEnvelope = loadResult.envelope; showWelcome(); return; }
+    if (loadResult.envelope) { pendingEnvelope = loadResult.envelope; welcomeAutosave = loadResult.envelope.autosaveEnabled ?? true; showWelcome(); return; }
     showWelcome();
   }
 
@@ -295,24 +298,26 @@ if (app) {
     let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
     welcomeSnapshot = readWelcomeSnapshot(storage, STORAGE_KEY);
     const savedTerminal = ['terminal', 'receipt_presented'].includes(pendingEnvelope?.state?.phase);
+    const restarting = terminal || savedTerminal;
     const preserved = Boolean(pendingEnvelope || terminal || primaryPresent() === true || welcomePreservation);
     const utility = credits => {
       const trigger = document.activeElement, modal = document.querySelector('#modal-container');
       welcomeHandle?.pause('modal');
       let cleanup;
       cleanup = renderSettingsModal(modal, {
-        autosaveEnabled: welcomeAutosave, autosaveLocked: preserved, saveDisabled: true, openCredits: credits, animatePhoneGlow,
+        autosaveEnabled: welcomeAutosave, autosaveLocked: preserved && !restarting, saveDisabled: true, openCredits: credits, animatePhoneGlow,
         onAutosaveChange: value => { welcomeAutosave = value; },
         onAnimatePhoneGlowChange: value => { animatePhoneGlow = value; },
         onClose: () => { cleanup?.(); modal.replaceChildren(); welcomeHandle?.resume('modal'); if (trigger?.isConnected) trigger.focus(); },
       });
     };
     welcomeHandle = mountWelcome(document.querySelector('#main-content'), {
-      finished: terminal || savedTerminal, preservedSave: preserved, audioSource: welcomeMusic,
+      finished: restarting, preservedSave: preserved && !restarting, audioSource: welcomeMusic,
       onSettings: () => utility(false), onCredits: () => utility(true),
       onContinue: pendingEnvelope && !savedTerminal ? () => { if (!welcomeCanResume(true)) return; const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
       onReceipt: terminal || savedTerminal ? () => { if (!welcomeCanResume(savedTerminal)) return; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded); } } : undefined,
       onConfirm: name => {
+        if (restarting) return startAfterReceipt(name);
         const present = primaryPresent();
         const temporary = preserved || present !== false;
         if (temporary && !globalThis.confirm('Any existing saved data will be kept. This new run is temporary and will not survive a reload. An unsaved Receipt will no longer be available. Continue?')) return false;
@@ -330,6 +335,57 @@ if (app) {
         return true;
       },
     });
+  }
+
+  function restartSave(storage, expected, candidate) {
+    return replaceRestartSnapshot(storage, STORAGE_KEY, expected, candidate.toEnvelope(), envelope =>
+      validateSave(envelope, { experimentalFiveSlot: true, requireFiveSlotTutorial: true }).valid);
+  }
+
+  function savePendingRestart() {
+    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
+    const result = restartSave(storage, pendingRestartSave.raw, engine);
+    if (result.success) { pendingRestartSave = null; resetInMemoryStore(); setTemporaryPreservationMode(false); welcomePreservation = false; return { success: true, inMemory: false }; }
+    welcomePreservation = true; setTemporaryPreservationMode(true); engine.autosaveEnabled = false;
+    return { success: false, preservedSnapshot: true, error: result.reason };
+  }
+
+  function startAfterReceipt(name) {
+    if (unsupportedRenPreservation) { globalThis.alert('The existing unsupported save is protected. The current Receipt remains available.'); return false; }
+    let storage; try { storage = globalThis.localStorage; } catch { storage = null; }
+    const snapshot = readWelcomeSnapshot(storage, STORAGE_KEY);
+    if (!welcomeSnapshotMatches(welcomeSnapshot, snapshot)) {
+      globalThis.alert('Saved data changed or could not be read. Reload to inspect it; the Receipt is still available here.'); return false;
+    }
+    let prior = null;
+    if (snapshot.raw !== null) {
+      try { prior = JSON.parse(snapshot.raw); } catch { globalThis.alert('The existing save cannot be safely replaced. The Receipt is still available.'); return false; }
+      if (!validateSave(prior, { experimentalFiveSlot: true, requireFiveSlotTutorial: true }).valid) {
+        globalThis.alert('The existing save cannot be safely replaced. The Receipt is still available.'); return false;
+      }
+    }
+    const priorIsLive = prior && !['terminal', 'receipt_presented'].includes(prior.state?.phase);
+    const replaced = priorIsLive ? 'The finished Receipt and a separate saved run will be replaced.' : snapshot.raw !== null ? 'The finished Receipt and its saved record will be replaced.' : 'The finished Receipt will be replaced.';
+    const timing = welcomeAutosave ? ' The new run will be saved now.' : ' The existing saved record will remain until you choose Save or enable automatic saving.';
+    if (!globalThis.confirm(`${replaced}${timing} Continue?`)) return false;
+    const candidate = new GameEngine(generateRandomSeed(), { lifePolicy: 'five-slot-v1', tutorialShift: true, raceV2: false });
+    candidate.start(); candidate.autosaveEnabled = welcomeAutosave; candidate.setupCompanion(name, 'classic-yellow');
+    const next = candidate.state.life ? lifeSurface(candidate) : BREAKFAST_STEP_BY_DAY[1]; candidate.state.step = next;
+    if (welcomeAutosave) {
+      const result = restartSave(storage, snapshot.raw, candidate);
+      if (!result.success) { globalThis.alert('The new run could not be saved safely. The current Receipt remains available; check saved data before trying again.'); return false; }
+      resetInMemoryStore(); setTemporaryPreservationMode(false); pendingRestartSave = null;
+    } else {
+      const current = readWelcomeSnapshot(storage, STORAGE_KEY);
+      if (!welcomeSnapshotMatches(snapshot, current)) { globalThis.alert('Saved data changed. The current Receipt remains available; reload before trying again.'); return false; }
+      pendingRestartSave = snapshot;
+      setTemporaryPreservationMode(false);
+    }
+    welcomePreservation = false; unsupportedRenPreservation = false; storageWarningText = null;
+    engine = candidate; pendingEnvelope = null; knownMessageDeliveries = null; messageAttentionStarted = null;
+    currentStep = next; activeModal = null; phoneOpen = false; resetLifeUi();
+    welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded);
+    return true;
   }
 
   function welcomeCanResume(revalidate) {
@@ -694,6 +750,7 @@ if (app) {
       globalThis.alert('This temporary session cannot overwrite the preserved Ren save.');
       return { success: false, inMemory: true, preservedSnapshot: true };
     }
+    if (pendingRestartSave) { const result = savePendingRestart(); checkStorageResult(result); updateWarningBanner(); return result; }
     if (isTemporaryPreservationMode()) {
       const confirmed = typeof globalThis.confirm === 'function'
         ? globalThis.confirm('An existing save snapshot is currently preserved. Overwrite it with this session?')
@@ -1146,6 +1203,7 @@ if (app) {
         saveDisabled: engine.isTerminal(),
         onAutosaveChange: (checked) => {
           if (engine.isTerminal()) return;
+          if (!isTemporaryPreservationMode()) welcomeAutosave = checked;
           engine.autosaveEnabled = isTemporaryPreservationMode() ? false : checked;
           if (engine.autosaveEnabled) maybeAutosave();
           else saveNow();

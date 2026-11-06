@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.5642874,
+  "PeakSampledPrivateBytes": 588087296,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "vite v8.3.5 building client environment for production...\ntransforming...\n✓ 145 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                                    0.52 kB │ gzip:   0.33 kB\ndist/assets/duck-placeholder-Mhd15Sdp.svg          1.01 kB │ gzip:   0.51 kB\ndist/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt     11.35 kB │ gzip:   3.95 kB\ndist/assets/race-worker-DvjzYeym.js               35.95 kB\ndist/assets/welcome-m5-bFjlemf3.wav            5,760.07 kB\ndist/assets/index-CUXCR51k.css                    76.69 kB │ gzip:  16.48 kB\ndist/assets/index-CzWdR70f.js                    797.69 kB │ gzip: 223.10 kB │ map: 2,017.10 kB\n\n✓ built in 635ms\n",
+  "StandardError": "",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

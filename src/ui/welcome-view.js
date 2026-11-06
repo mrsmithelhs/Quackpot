@@ -26,7 +26,7 @@ export function mountWelcome(container, options = {}) {
     if (disposed) return; sync(); card.replaceChildren();
     const heading = document.createElement(state === 'opening' ? 'h1' : 'h2'); heading.textContent = state === 'opening' ? 'Quackpot' : 'Meet your rubber duck'; heading.tabIndex = -1; if (state === 'opening') heading.className = 'visually-hidden'; card.append(heading);
     const p = document.createElement('p'); p.textContent = state === 'opening' ? 'A little room, a quiet moment, and a new day.' : 'Give your duck a name, or keep the one already here.'; card.append(p);
-    if (state === 'opening' && options.preservedSave) { const note = document.createElement('p'); note.textContent = options.finished ? 'Your Receipt remains available during this session. A new run will be temporary.' : 'Your saved run stays here. A new run will be temporary.'; card.append(note); }
+    if (state === 'opening' && options.preservedSave) { const note = document.createElement('p'); note.textContent = 'Your saved run stays here. A new run will be temporary.'; card.append(note); }
     const buttons = document.createElement('div'); buttons.className = 'buttons';
     if (state === 'opening') {
       buttons.append(action(options.finished ? 'Start another run' : 'Start', () => { suggestion = COMPANION_SUGGESTIONS[Math.min(29, Math.max(0, Math.floor(random() * 30)))]; state = 'naming'; audio.transition('naming'); render(); card.querySelector('input')?.focus(); }, !onContinue));
@@ -38,7 +38,7 @@ export function mountWelcome(container, options = {}) {
     } else {
       const label = document.createElement('label'); label.textContent = 'Duck name'; const input = document.createElement('input'); input.maxLength = 30; input.value = suggestion; label.append(input); card.append(label, buttons);
       const accept = () => { void confirmName(input.value.trim() || suggestion).catch(() => { status.textContent = 'Could not start. Please try again.'; }); };
-      buttons.append(action('Continue', accept, true), action('Back', () => { state = 'opening'; audio.transition('opening'); render(); card.querySelector('button')?.focus(); })); input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); accept(); } });
+      buttons.append(action('Continue', accept, true), action('Back', () => { state = 'opening'; audio.transition('opening'); render(); card.querySelector('button')?.focus(); })); if (onReceipt) buttons.append(action('View Receipt', onReceipt)); input.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); accept(); } });
     }
   }
   function visibility() { if (document.hidden) pause('hidden'); else resume('hidden'); }

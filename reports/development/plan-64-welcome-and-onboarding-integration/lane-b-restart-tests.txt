@@ -1,0 +1,21 @@
+{
+  "ExitCode": 0,
+  "ElapsedSeconds": 1.0384477,
+  "PeakSampledPrivateBytes": 40931328,
+  "StopReason": null,
+  "CleanupNotes": "",
+  "StandardOutput": "✔ actual five-slot loan-default Receipt displays event-derived totals and rejects missing commit data (14.5619ms)\n✔ actual engine draws and races remain chronological and separate from purchases (362.8341ms)\n✔ immediate uninstall records offered retention and leave separately (0.3833ms)\n✔ legacy missing odds and balances remain unavailable; no transaction link is asserted (0.2174ms)\n✔ synthetic exact-zero expense records distinguish paid from unpaid (0.393ms)\n✔ actual engine records rent shortfall without inferring debt from cash (2.2147ms)\n✔ missing bill identifiers suppress inferred accounting without hiding recorded work outcomes (0.3844ms)\n✔ finding evidence is presented by sequence instead of construction order (0.3818ms)\n✔ race and draw source evidence preserves distinctive fields and classifies automatic consumption (0.4888ms)\n✔ restart replacement accepts a valid new run and refuses stale or failed writes without rollback (4.982ms)\n✔ schema5 saves first Receipt presentation only; schema6 keeps existing behavior (0.1569ms)\n✔ welcome rejects changed, cleared, or unreadable primary and ignores unrelated storage events (0.3324ms)\n✔ confirmation permits retry after refusal or failure and suppresses concurrent activation (0.366ms)\n✔ phone screen counter-rotation eases at quarter turns (0.0877ms)\n✔ cosmetic timeline pauses when not advanced and emits bounded illustrative groups (0.6399ms)\n✔ audio is gesture activated, honors pause blockers and disposes (3.0719ms)\n✔ late media play cannot restart playback after mute (0.4494ms)\n✔ naming and apartment handoff use separate one-second scene gain ramps (0.4672ms)\nℹ tests 18\nℹ suites 0\nℹ pass 18\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 622.7342\n",
+  "StandardError": "(node:30636) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/AI/Quackpot/src/ui/welcome/stage.js is not specified and it doesn't parse as CommonJS.\nReparsing as ES module because module syntax was detected. This incurs a performance overhead.\nTo eliminate this warning, add \"type\": \"module\" to \\\\?\\C:\\AI\\Quackpot\\package.json.\n(Use `node --trace-warnings ...` to show where the warning was created)\n",
+  "FailurePhase": null,
+  "FailureOperation": null,
+  "FailureType": null,
+  "NativeErrorCode": null,
+  "OutputDrainComplete": true,
+  "RootExited": true,
+  "UnobservedDescendantsPossible": true,
+  "CleanupResidualObserved": false,
+  "CleanupInspectionFailed": false,
+  "CleanupIdentityUnverified": false,
+  "VerifiedDescendantsCaptured": 1,
+  "CleanupDescendantsExited": 1
+}

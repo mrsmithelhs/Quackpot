@@ -6,6 +6,25 @@ import { screenCounterAngle } from './stage.js';
 import { createConfirmationGate } from './confirmation.mjs';
 import { readWelcomeSnapshot, welcomeSnapshotMatches, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './receipt-lifecycle.mjs';
+import { replaceRestartSnapshot } from './restart-storage.mjs';
+import { GameEngine } from '../../core/game-engine.mjs';
+import { validateSave } from '../../core/storage.mjs';
+
+test('restart replacement accepts a valid new run and refuses stale or failed writes without rollback', () => {
+  const engine = new GameEngine('restart-test', { lifePolicy: 'five-slot-v1', tutorialShift: true });
+  engine.start(); engine.setupCompanion('Pip', 'classic-yellow'); engine.state.step = 'life_home';
+  const candidate = engine.toEnvelope(); const valid = value => validateSave(value, { experimentalFiveSlot: true, requireFiveSlotTutorial: true }).valid;
+  let raw = 'old', writes = 0;
+  const storage = { getItem() { return raw; }, setItem(_key, value) { writes++; raw = value; } };
+  assert.equal(replaceRestartSnapshot(storage, 'key', 'old', candidate, () => false).reason, 'invalid-candidate'); assert.equal(raw, 'old');
+  assert.equal(replaceRestartSnapshot({ getItem() { throw Error('blocked'); } }, 'key', 'old', candidate, valid).reason, 'unavailable');
+  assert.equal(replaceRestartSnapshot(storage, 'key', 'older', candidate, valid).reason, 'changed'); assert.equal(raw, 'old'); assert.equal(writes, 0);
+  assert.equal(replaceRestartSnapshot(storage, 'key', 'old', candidate, valid).success, true); assert.equal(JSON.parse(raw).state.physicalCompanion.name, 'Pip');
+  raw = 'old'; const failed = { getItem: () => raw, setItem() { throw Error('quota'); } };
+  assert.equal(replaceRestartSnapshot(failed, 'key', 'old', candidate, valid).reason, 'write-or-readback-failed'); assert.equal(raw, 'old');
+  raw = 'old'; const competing = { getItem: () => raw, setItem() { raw = 'other-tab'; } };
+  assert.equal(replaceRestartSnapshot(competing, 'key', 'old', candidate, valid).reason, 'changed-after-write'); assert.equal(raw, 'other-tab');
+});
 
 test('schema5 saves first Receipt presentation only; schema6 keeps existing behavior', () => {
   assert.equal(shouldSaveReceiptPresentation('terminal', false), true);

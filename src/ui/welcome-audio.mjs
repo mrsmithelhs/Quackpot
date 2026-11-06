@@ -15,7 +15,7 @@ export function createWelcomeAudio({ source, onState = () => {}, audioContext = 
   function init() {
     if (context) return;
     if (!source) throw new Error('No welcome audio source is available');
-    context = audioContext(); media = createMedia(); media.preload = 'none'; media.src = source;
+    context = audioContext(); media = createMedia(); media.preload = 'none'; media.loop = true; media.src = source;
     envelopeGain = context.createGain(); sceneGain = context.createGain();
     envelopeGain.gain.value = 0; sceneGain.gain.value = place === 'naming' ? .25 : place === 'opening' ? 1 : 0;
     node = context.createMediaElementSource(media); node.connect(envelopeGain); envelopeGain.connect(sceneGain); sceneGain.connect(context.destination);

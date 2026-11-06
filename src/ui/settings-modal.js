@@ -1,3 +1,6 @@
+import musicProvenance from '../assets/audio/PROVENANCE.md?url';
+import tinySynthLicense from '../assets/audio/TINYSYNTH-APACHE-2.0.txt?url';
+
 export function renderSettingsModal(container, options = {}) {
   const { autosaveEnabled, autosaveLocked, animatePhoneGlow = true, saveDisabled = false, openCredits = false, onAutosaveChange, onAnimatePhoneGlowChange, onSave, onClose } = options;
   container.innerHTML = `
@@ -21,7 +24,8 @@ export function renderSettingsModal(container, options = {}) {
         <p class="settings-save-status" data-settings-status role="status" aria-live="polite"></p>
         <details class="settings-credits" ${openCredits ? 'open' : ''}>
           <summary>Credits and asset notices</summary>
-          <p>No third-party audio recordings are bundled in this build. Credits for selected assets will appear here when they are added.</p>
+          <p>Welcome music: a reconstruction of a Suno-generated Quackpot reference, transcribed with MuScriptor Large by Mirelo and Kyutai and rendered with WebAudio TinySynth by Tatsuya Shinyagaito (g200kg). Piano durations and low-register dynamics were adjusted; the first 30 seconds are used.</p>
+          <p>MuScriptor: CC BY-NC 4.0 with additional use conditions. WebAudio TinySynth: Apache License 2.0. <a href="${musicProvenance}" target="_blank" rel="noopener">Music provenance</a> · <a href="${tinySynthLicense}" target="_blank" rel="noopener">TinySynth license</a></p>
         </details>
       </section>
     </div>

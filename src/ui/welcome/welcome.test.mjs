@@ -57,7 +57,7 @@ test('audio is gesture activated, honors pause blockers and disposes', async () 
   const media = { currentTime: 0, paused: true, async play() { plays++; this.paused = false; }, pause() { this.paused = true; }, removeAttribute() {}, load() {} };
   const audio = createWelcomeAudio({ source: 'local.wav', audioContext: () => { creations++; return ctx; }, createMedia: () => media });
   audio.transition('naming'); assert.equal(creations, 0);
-  await audio.setEnabled(true); assert.equal(plays, 1); assert.equal(creations, 1);
+  await audio.setEnabled(true); assert.equal(plays, 1); assert.equal(creations, 1); assert.equal(media.loop, true);
   audio.pause('hidden'); audio.pause('modal'); audio.resume('hidden'); assert.equal(plays, 1);
   audio.resume('modal'); await new Promise(resolve => setImmediate(resolve)); assert.equal(plays, 2);
   audio.dispose(); audio.dispose(); assert.equal(closes, 1); assert.equal(media.paused, true);
@@ -70,4 +70,14 @@ test('late media play cannot restart playback after mute', async () => {
   const audio = createWelcomeAudio({ source: 'local.wav', audioContext: () => ctx, createMedia: () => media });
   const started = audio.setEnabled(true); await new Promise(resolve => setImmediate(resolve)); await audio.setEnabled(false); complete(); await started;
   assert.equal(media.paused, true); audio.dispose();
+});
+
+test('naming and apartment handoff use separate one-second scene gain ramps', async () => {
+  const gains = [];
+  const ctx = { currentTime: 4, state: 'running', destination: {}, createGain() { const gain = { value: 0, ramps: [], setValueAtTime(v) { this.value = v; }, cancelScheduledValues() {}, linearRampToValueAtTime(v, t) { this.ramps.push([v, t]); } }; gains.push(gain); return { gain, connect() {}, disconnect() {} }; }, createMediaElementSource: () => ({ connect() {}, disconnect() {} }), async resume() {}, async suspend() {}, async close() {} };
+  const media = { currentTime: 0, paused: true, async play() { this.paused = false; }, pause() { this.paused = true; }, removeAttribute() {}, load() {} };
+  const audio = createWelcomeAudio({ source: 'local.wav', audioContext: () => ctx, createMedia: () => media });
+  await audio.setEnabled(true); assert.equal(gains[1].value, 1);
+  audio.transition('naming'); audio.transition('opening'); audio.transition('apartment');
+  assert.deepEqual(gains[1].ramps, [[.25, 5], [1, 5], [0, 5]]); audio.dispose();
 });

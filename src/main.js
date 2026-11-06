@@ -14,6 +14,7 @@ import './ui/life/life.css';
 import './ui/messages.css';
 import { renderKitchenSetupView } from './ui/kitchen-setup-view.js';
 import { mountWelcome } from './ui/welcome-view.js';
+import welcomeMusic from './assets/audio/welcome-m5.wav';
 import { readWelcomeSnapshot, welcomeResumeDisposition, preserveLiveReceipt, isRelevantStorageEvent } from './ui/welcome/storage-snapshot.mjs';
 import { shouldSaveReceiptPresentation } from './ui/welcome/receipt-lifecycle.mjs';
 import duckSvgUrl from './assets/duck-placeholder.svg';
@@ -307,10 +308,10 @@ if (app) {
       });
     };
     welcomeHandle = mountWelcome(document.querySelector('#main-content'), {
-      finished: terminal || savedTerminal, preservedSave: preserved,
+      finished: terminal || savedTerminal, preservedSave: preserved, audioSource: welcomeMusic,
       onSettings: () => utility(false), onCredits: () => utility(true),
-      onContinue: pendingEnvelope && !savedTerminal ? () => { if (!welcomeCanResume(true)) return; const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose(); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
-      onReceipt: terminal || savedTerminal ? () => { if (!welcomeCanResume(savedTerminal)) return; welcomeHandle?.dispose(); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded); } } : undefined,
+      onContinue: pendingEnvelope && !savedTerminal ? () => { if (!welcomeCanResume(true)) return; const saved = pendingEnvelope; pendingEnvelope = null; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; resumeEnvelope(saved); } : undefined,
+      onReceipt: terminal || savedTerminal ? () => { if (!welcomeCanResume(savedTerminal)) return; welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null; if (savedTerminal) { const saved = pendingEnvelope; pendingEnvelope = null; resumeEnvelope(saved); } else { currentStep = 'receipt'; phoneOpen = true; renderApp(); requestAnimationFrame(focusCurrentStageIfNeeded); } } : undefined,
       onConfirm: name => {
         const present = primaryPresent();
         const temporary = preserved || present !== false;
@@ -323,7 +324,7 @@ if (app) {
         engine.start(); engine.autosaveEnabled = !temporary && welcomeAutosave;
         engine.setupCompanion(name, 'classic-yellow'); pendingEnvelope = null;
         knownMessageDeliveries = null; messageAttentionStarted = null; activeModal = null; phoneOpen = false;
-        welcomeHandle?.dispose(); welcomeHandle = null;
+        welcomeHandle?.dispose({ fadeAudio: true }); welcomeHandle = null;
         enterLife(engine.state.life ? lifeSurface(engine) : BREAKFAST_STEP_BY_DAY[1]);
         requestAnimationFrame(focusCurrentStageIfNeeded);
         return true;

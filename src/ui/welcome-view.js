@@ -46,7 +46,7 @@ export function mountWelcome(container, options = {}) {
   function pageshow(event) { if (event.persisted) resume('pagehide'); }
   function pause(reason) { blockers.add(reason); audio.pause(reason); sync(); }
   function resume(reason) { blockers.delete(reason); audio.resume(reason); sync(); }
-  function dispose() { if (disposed) return; disposed = true; document.removeEventListener('visibilitychange', visibility); window.removeEventListener('pagehide', pagehide); window.removeEventListener('pageshow', pageshow); audio.dispose(); stage.dispose(); container.replaceChildren(); }
+  function dispose({ fadeAudio = false } = {}) { if (disposed) return; disposed = true; document.removeEventListener('visibilitychange', visibility); window.removeEventListener('pagehide', pagehide); window.removeEventListener('pageshow', pageshow); if (fadeAudio) { audio.transition('apartment'); setTimeout(() => audio.dispose(), 1000); } else audio.dispose(); stage.dispose(); container.replaceChildren(); }
   document.addEventListener('visibilitychange', visibility); window.addEventListener('pagehide', pagehide); window.addEventListener('pageshow', pageshow); visibility(); render();
   card.querySelector('h1')?.focus();
   return { pause, resume, transition: place => audio.transition(place), dispose };

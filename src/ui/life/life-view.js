@@ -710,6 +710,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
     current = null;
     closing = false;
     if (active) (el && root.contains(el) ? el : $('.life-obj'))?.focus();
+    callbacks.onMessagesAvailabilityChange?.();
   }
 
   // ----- layer 3 (anchored): confirm at the object -----

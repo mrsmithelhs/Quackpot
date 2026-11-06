@@ -28,8 +28,7 @@ export function renderHud(container, engine, duckSvgUrl, callbacks = {}) {
         </div>
 
         <div class="hud-controls">
-          ${onMessages && !isTerminal ? `<button id="btn-messages" class="btn btn-secondary btn-sm" aria-label="Messages, ${messageCount} unread ${messageCount === 1 ? 'thread' : 'threads'}${messagesAvailable ? '' : ', temporarily unavailable'}" title="${messagesAvailable ? 'Messages' : 'Messages will be available after this scene'}"><svg class="messages-icon" aria-hidden="true" viewBox="0 0 28 22"><path d="M3 3h14a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H9l-4 3v-3a5 5 0 0 1-3-5V8a5 5 0 0 1 1-5Z"/><path d="M15 7h6a5 5 0 0 1 5 5v1a5 5 0 0 1-3 4v3l-4-3h-4"/></svg><span class="messages-badge" data-message-count ${messageCount ? '' : 'hidden'} aria-hidden="true">${messageCount || ''}</span></button>` : ''}
-          ${onMessages && !isTerminal ? '<span id="messages-status" role="status" aria-live="polite"></span>' : ''}
+          ${onMessages && !isTerminal ? `<button id="btn-messages" class="btn btn-secondary btn-sm" aria-label="Messages, ${messageCount} unread ${messageCount === 1 ? 'thread' : 'threads'}${messagesAvailable ? '' : ', temporarily unavailable'}" title="${messagesAvailable ? 'Messages' : 'Messages temporarily unavailable'}" ${messagesAvailable ? '' : 'disabled'}><svg class="messages-icon" aria-hidden="true" viewBox="0 0 28 22"><path d="M3 3h14a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H9l-4 3v-3a5 5 0 0 1-3-5V8a5 5 0 0 1 1-5Z"/><path d="M15 7h6a5 5 0 0 1 5 5v1a5 5 0 0 1-3 4v3l-4-3h-4"/></svg><span class="messages-badge" data-message-count ${messageCount ? '' : 'hidden'} aria-hidden="true">${messageCount || ''}</span></button>` : ''}
           <button id="btn-manual-save" class="btn btn-secondary btn-sm" title="${isTerminal ? 'Run record locked' : 'Save current run state locally'}" ${isTerminal ? 'disabled' : ''}>
             ${isTerminal ? 'Locked' : 'Save'}
           </button>

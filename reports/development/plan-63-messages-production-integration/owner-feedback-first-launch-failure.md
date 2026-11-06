@@ -1,0 +1,5 @@
+# Owner-feedback slice: first Job Object launch
+
+Normal-host preflight reported 11,461,372 KiB free. QP Orch authorized Lane B, `bootstrap_supervisor.py`, 90 seconds, 2 GiB job cap, Node 1 GiB heap and an 8 GiB host floor. First invocation used the isolated `local/feedback-tests-work` workspace and explicit in-process test shim but supplied a fresh log path without first creating the directory. The supervisor returned `reason: monitor or launch failure`, `FileNotFoundError: [WinError 2]` for `local/feedback-tests-log-01`, `root_exit_code: null`, 0.001s, `cleanup: no process launched`; no tests ran. The validation batch stopped and QP Orch was notified. This is a setup failure, not a test result or cleanup proof for another process.
+
+Corrected attempt 02 precreated both paths but placed the fresh log directory beside, rather than inside, the workspace. Normal-host preflight reported 11,232,584 KiB free. Supervisor rejected the request with `ValueError: log directory outside workspace`, `root_exit_code: null`, elapsed .001 s, `cleanup: no process launched`. No tests or build ran. The batch stopped and QP Orch was notified; no unchanged retry.

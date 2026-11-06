@@ -1,0 +1,21 @@
+{
+  "src/main.js": "d9d0ff9961e9eefdf457da21e07623374d3ecdf558f2ba78a8b68b3d7d241660",
+  "src/ui/hud.js": "89a444c2e97e89aba9ce5858ac8977345e2f84c01f175ff1f7b10ee6a7cb534e",
+  "src/ui/life/life-view.js": "73b5f54513b6ca674c15c02f0ca4b8c0cb18ac713badf62109675636bf3fb109",
+  "src/ui/messages-view.mjs": "a86750f24955f5339be41f747b922c70ed27163fe19d57f4105502f099694fdd",
+  "src/ui/messages-view.test.mjs": "6431a42b47766246dcf34e1f0ef33f2b51e80a3a5ca94aef02dcbabd1609785e",
+  "src/core/messages-runtime.mjs": "7563b3de9c3af9c16946b2b0ce78618623050839b3195923812c664473976d5e",
+  "src/core/messages-runtime.test.mjs": "a71e5ce048a4097885e06c978207d97c9fe039e74e857bb4fef4ae3f54df470d",
+  "src/core/messages-projection.mjs": "dada38e2f43b0d6b444429b36d2f984b0c600b636f65de87929a09f50405baae",
+  "src/core/messages-payment.mjs": "669bbba54dcd7d09480c5bd9a7c06e0f53c537862b017cb403d5eb45622e3db1",
+  "src/core/messages-payment.test.mjs": "e478b1560e0fbebde59d80207f12a1a8cfde9c79efa03d2b04454910a962de8c",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/index.html": "0f6a2f9848dd6a6cb6fc306a7b29417d6d00abad4b42edd15bf318fa7c445840",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/index-DLfDjpHO.js": "ed7191b7ac6dbf07e1ad2663ead089f9bf0370a8e8accc4c403bf1826a4bb098",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/index-DLfDjpHO.js.map": "de92af27a1a8a0281e5bae6d206620d6f80dc414f4129717f3e97a69ed44cf99",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/index-DlGmi8UI.css": "f408ddf76e60f111d14bac368e818908764af042700c97b5caf3ecfd5284aadf",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/race-worker-DvjzYeym.js.map": "d87c7d192aad78b8317348d8d3b28f134a6823dda3df1d12461b63d64d978030",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+  "reports/development/plan-63-messages-production-integration/local/feedback-build-output-03/assets/welcome-m5-bFjlemf3.wav": "7377b5f65df3be645a292b3f2e6b37034773984c366d0347d848c467e949f0be"
+}

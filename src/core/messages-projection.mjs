@@ -20,6 +20,8 @@ function valid(m) {
     (m.displayBlocked === undefined || typeof m.displayBlocked === 'boolean') &&
     (m.actions === undefined || (Array.isArray(m.actions) && m.actions.length<=4 && m.actions.every(a=>a && typeof a.label==='string' && a.label.length<=80 && typeof a.choice==='string' && a.choice.length<=24))) &&
     (m.actionable === undefined || typeof m.actionable === 'boolean') &&
+    (m.actionLogLength === undefined || (Number.isSafeInteger(m.actionLogLength) && m.actionLogLength >= 0)) &&
+    (m.actionAmountCents === undefined || (Number.isSafeInteger(m.actionAmountCents) && m.actionAmountCents >= 0)) &&
     (m.actionLabel === undefined || (typeof m.actionLabel === 'string' && m.actionLabel.length <= 80));
 }
 export function historyMessages() {

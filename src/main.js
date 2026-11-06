@@ -69,7 +69,8 @@ import { renderSettingsModal } from './ui/settings-modal.js';
 import { createStageTransition } from './ui/stage-transition.js';
 import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalidation.mjs';
 import { messagesForEngine } from './core/messages-runtime.mjs';
-import { renOfferId,renCurrentIds,renMessageShown,earlyRepaymentEligibility } from './core/messages-policy.mjs';
+import { payMessageLoan, confirmApartmentLoan } from './core/messages-payment.mjs';
+import { renOfferId,renCurrentIds,renMessageShown } from './core/messages-policy.mjs';
 import { mountMessages } from './ui/messages-view.mjs';
 
 const app = document.querySelector('#app');
@@ -582,7 +583,8 @@ if (app) {
     const available=messagesAvailable(),count=messagesForEngine(engine).projection.unreadThreads;
     button.setAttribute('aria-label',`Messages, ${count} unread ${count===1?'thread':'threads'}${available?'':', temporarily unavailable'}`);
     const badge=button.querySelector('[data-message-count]');if(badge){badge.textContent=count?String(count):'';badge.hidden=!count;}
-    button.title=available?'Messages':'Messages will be available after this scene';
+    if(!available && document.activeElement===button)document.querySelector('#btn-open-settings')?.focus();
+    button.disabled=!available;button.title=available?'Messages':'Messages temporarily unavailable';
     const layer=document.querySelector('#messages-layer');
     if(messagesHandle && layer && layer.hidden && available) {layer.hidden=false;lifeViewHandle?.suspendForMessages?.();messagesHandle.refresh();}
   }
@@ -597,7 +599,7 @@ if (app) {
   }
 
   function openMessages() {
-    if (!messagesAvailable()) { const status=document.querySelector('#messages-status');if(status)status.textContent='Messages will be available after this scene.';return; }
+    if (!messagesAvailable()) return;
     if(messagesHandle)return;
     const layer=document.querySelector('#messages-layer'), host=document.createElement('div');
     positionMessagesLayer();
@@ -610,7 +612,7 @@ if (app) {
     const close=()=>{messagesGeometryCleanup?.();messagesHandle=null;layer.hidden=true;layer.replaceChildren();lifeViewHandle?.resumeAfterMessages?.();updateHud();document.querySelector('#btn-messages')?.focus();};
     layer.onclick=e=>{if(e.target===layer)messagesHandle?.close();};
     const data=messagesForEngine(engine);
-    messagesHandle=mountMessages(host,{...data,getCurrentDay:()=>engine.state.life?.schedule?.day,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
+    messagesHandle=mountMessages(host,{...data,getCurrentDay:()=>engine.state.life?.schedule?.day,getCurrentLogLength:()=>engine.log.length,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
       onDisplay:async ({deliveryId,revision})=>{
         if(!messagesAvailable())return false;
         let shown=null;
@@ -633,7 +635,7 @@ if (app) {
         if(!engine.readMessage(deliveryId,revision))return false;
         maybeAutosave();syncMessagesAvailability();return true;
       },
-      onAction:({deliveryId,revision,choice})=>{
+      onAction:({deliveryId,revision,choice,amountCents,actionLogLength})=>{
         if(messagesAvailable() && revision===1 && deliveryId.startsWith('ren:') && !deliveryId.startsWith('ren:offer:') && deliveryId!=='ren:contact:1') {
           const life=engine.state.life,s=life.social46,p=s?.pending,r=s?.response;
           if(!renCurrentIds(life).includes(deliveryId) || !renMessageShown(life,deliveryId))return;
@@ -671,7 +673,7 @@ if (app) {
         if(!messagesAvailable() || revision!==1 || !deliveryId.startsWith('loan:statement:'))return;
         const loanId=deliveryId.slice('loan:statement:'.length);
         if(engine.state.life.schedule.recovery || engine.checkDueObligations().bills.length)return;
-        const result=lifeCallbacks().onFiveSlotEarlyRepay(engine.log.length,loanId);
+        const result=lifeCallbacks().onMessagesEarlyRepay(actionLogLength,loanId,amountCents);
         if(result?.ok){
           maybeAutosave();renderApp();
           if(messagesHandle){const fresh=messagesForEngine(engine);messagesHandle.update(fresh.deliveries,fresh.readKeys);if(document.querySelector('#messages-layer')?.hidden)messagesHandle.suspend();}
@@ -1337,6 +1339,7 @@ if (app) {
         if(!p.ok)return p;const result=engine.commitFiveSlotAction(p.proposal);
         if(result.ok)engine.state.step=lifeSurface(engine);return result;
       }),
+      onMessagesEarlyRepay: commit((loanId,expectedTotal) => payMessageLoan(engine,loanId,expectedTotal,engine.log.length)),
       onFiveSlotEarlyRepay: commit((loanId) => {
         if(engine.messagesPolicy!=='messages-v1') {
           const loan=engine.state.life.finance.loans.find(item=>item.id===loanId && item.status==='pending');
@@ -1345,12 +1348,7 @@ if (app) {
           const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'repay_loan',loanId,id:`repay-ui:${engine.log.length}`}});
           return p.ok?engine.commitFiveSlotAction(p.proposal):p;
         }
-        const eligible=earlyRepaymentEligibility(engine,loanId);if(!eligible)return {ok:false,reason:'loan_unavailable'};
-        const shownTotal=eligible.totalCents,confirmationEpoch=engine.log.length;
-        if(!globalThis.confirm(`Repay the full $${(shownTotal/100).toFixed(2)} payday loan now?`))return {ok:false,reason:'cancelled'};
-        if(!earlyRepaymentEligibility(engine,loanId,shownTotal,confirmationEpoch))return {ok:false,reason:'loan_unavailable'};
-        const p=engine.prepareFiveSlotAction({domain:'finance',action:{type:'repay_loan',loanId,id:`repay-ui:${engine.log.length}`}});
-        return p.ok?engine.commitFiveSlotAction(p.proposal):p;
+        return confirmApartmentLoan(engine,loanId,amount=>globalThis.confirm(`Repay the full $${(amount/100).toFixed(2)} payday loan now?`));
       }),
       onFiveSlotLoan: commit((billId) => {
         const choice=fiveSlotLoanDecision(engine,billId);if(!choice)return {ok:false,reason:'loan_unavailable'};

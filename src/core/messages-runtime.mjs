@@ -42,10 +42,10 @@ export function messagesForEngine(engine) {
   for(const e of engine.log.entries) {
     if(e.type!=='message_delivered')continue;
     const p=e.payload;
-    if(p.kind==='work') deliveries.push({threadId:'work',messageId:'work:shift',deliveryId:p.id,revision:p.revision,sequence:e.seq,sender:'Work',time:`Day ${e.clock.day}`,text:`Your scheduled Midday shift pays $${life.config.scheduledWage} after completion. Take the keys to leave for work.`,historical:false});
+    if(p.kind==='work') deliveries.push({threadId:'work',messageId:'work:shift',deliveryId:p.id,revision:p.revision,sequence:e.seq,sender:'Work',time:`Day ${e.clock.day}`,text:'Hi! You are on the schedule for the midday shift.',historical:false});
     if(p.kind==='loan') {
       const loan=life.finance.loans.find(x=>p.id===`loan:statement:${x.id}`);if(!loan)continue;
-      deliveries.push({threadId:'loan',messageId:p.id,deliveryId:p.id,revision:p.revision,sequence:e.seq,sender:'Lender',time:`Day ${e.clock.day}`,text:`Your loan statement totals $${(loan.totalCents/100).toFixed(2)}. You may repay the full amount early.`,historical:false,status:loan.status==='pending'?'Outstanding':'Resolved',actionable:loan.status==='pending' && !life.schedule.recovery && engine.checkDueObligations().bills.length===0 && Math.round(engine.state.cash*100)>=loan.totalCents,actionLabel:'Review repayment'});
+      deliveries.push({threadId:'loan',messageId:p.id,deliveryId:p.id,revision:p.revision,sequence:e.seq,sender:'Lender',time:`Day ${e.clock.day}`,text:`Your loan statement totals $${(loan.totalCents/100).toFixed(2)}. You may repay the full amount early.`,historical:false,status:loan.status==='pending'?'Outstanding':'Resolved',actionable:loan.status==='pending' && !life.schedule.recovery && engine.checkDueObligations().bills.length===0 && Math.round(engine.state.cash*100)>=loan.totalCents,actionLabel:`Pay $${(loan.totalCents/100).toFixed(2)}`,actionAmountCents:loan.totalCents,actionLogLength:engine.log.length});
     }
   }
   deliveries.push(...historyMessages());

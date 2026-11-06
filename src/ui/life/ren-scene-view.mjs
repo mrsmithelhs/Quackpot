@@ -29,9 +29,8 @@ export function renderRenScene46(root, scene, callbacks, active) {
 function renderGraphScene(root, scene, callbacks, active) {
   const node = renGraphNode(scene.activity, scene.node, scene.seating, scene.hasUncommunicatedBreak);
   if (!node) throw new Error('Unknown Ren dialogue node');
-  const frame = document.createElement('div'); frame.className = 'life-story47-stage';
-  const card = document.createElement('section'); card.className = 'life-story47 ren46-scene ren46-graph-scene';
-  const room = document.createElement('div'); room.className = 'ren46-door-room';
+  const frame = document.createElement('div'); frame.className = 'life-stage ren46-door-stage';
+  const room = document.createElement('div'); room.className = 'life-room ren46-door-room';
   const box = document.createElement('div'); box.className = 'life-box ren46-door-box';
   const art = document.createElement('div'); art.className = 'life-scene';
   const options = {idPrefix:'ren46graph',decorative:true};
@@ -45,7 +44,7 @@ function renderGraphScene(root, scene, callbacks, active) {
   box.append(art,bubble); const panel = document.createElement('section'); panel.className = 'ren46-door-decide'; panel.setAttribute('aria-label','Decide');
   const heading = document.createElement('strong'); heading.textContent = 'Decide'; panel.append(heading);
   for (const item of node.choices) { const b=document.createElement('button');b.type='button';b.className='life-btn';b.textContent=item.label;b.disabled=!active;b.addEventListener('click',()=>{b.disabled=true;callbacks.advance(scene,item.id);});panel.append(b); }
-  room.append(box,panel); card.append(room);frame.append(card);root.replaceChildren(frame);
+  room.append(box,panel);frame.append(room);const bar=document.createElement('div');bar.className='life-day-bar';frame.append(bar);root.replaceChildren(frame);
   if(active && !scene.shown)callbacks.shown(scene);
   if(active)panel.querySelector('button')?.focus({preventScroll:true});
 }

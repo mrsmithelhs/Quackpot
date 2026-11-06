@@ -19,6 +19,9 @@ const senderMarks=Object.freeze({
 export function actionPrefixAfterRead(actionPrefix,beforeRead,afterRead) {
   return Number.isSafeInteger(actionPrefix) && actionPrefix===beforeRead && afterRead===beforeRead+1 ? afterRead : actionPrefix;
 }
+export function isMessagesBackdrop(target,layer,host) {
+  return Boolean(target && (target===layer || target===host));
+}
 export function isMessageVisible({connected, visibleDocument, uncovered, content:a, scroll:b, viewport:v}) {
   return Boolean(connected && visibleDocument && uncovered && a.width > 0 && a.height > 0 &&
     a.right > Math.max(b.left,v.left) && a.left < Math.min(b.right,v.right) &&

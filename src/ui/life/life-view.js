@@ -932,6 +932,7 @@ export function renderLifeView(container, engine, ui, callbacks, { active = true
           ui.renOpen = false; callbacks.onRefresh();
         },
       }, active);
+      if ($('.life-day-bar')) renderDayBar(place, {statusOnly:true});
       root.inert = !active;
       return;
     }

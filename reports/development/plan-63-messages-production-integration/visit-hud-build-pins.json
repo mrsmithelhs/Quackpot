@@ -1,0 +1,19 @@
+{
+  "src/main.js": "2879bac3f782f09b706b2f22eed65a09d8046d2f6fcd522ca34f6574eda6461a",
+  "src/ui/messages-view.mjs": "08ed177c12c97b4c23cc5c53279865a9b0a30d9b2148466977348014d74ed5b6",
+  "src/ui/messages-view.test.mjs": "746fffa29272e0e52a46892757cef9ba56ca53c39092bb89fd4ce425dd93dc3f",
+  "src/ui/life/life-view.js": "91b92eb5134cb3ae70145c7a28eb80ce33fe88c9c3176e28a4810ba650a5aea4",
+  "src/ui/life/ren-scene-view.mjs": "1b7d2e166f6a67c88420ef7498e4e47c344442e095bc8ca2041785748a7da8ac",
+  "reports/development/plan-63-messages-production-integration/ren-visit-fixtures.mjs": "0c7321da2601dc6078377128f822911d98432eb37ddd51d8baedf1b88a07241e",
+  "reports/development/plan-63-messages-production-integration/ren-visit-arrival-start-01.json": "58c5718cf2d251cbfe7fd0b4f45a3e547f4ca8e0430b7da9fd70c273c534ff34",
+  "reports/development/plan-63-messages-production-integration/ren-visit-active-start-01.json": "05d244d0d90a02456fe31fb5cad63c6ba11703aaa7dc6693b8ab03095fbf6684",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/index.html": "88909fddb585cfeebd64ab19590a6dec8cbfd2a87a30b1ee56569e4a82ca89dd",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/duck-placeholder-Mhd15Sdp.svg": "f117c22731e770221e8cfd8652b0acbcbe27a7d00a5f36832a7a5132cee0e12f",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/index-B25LTGi-.js": "399e9fb5fbf87097280517effdadcaf07ed1e7fcbe24e842211853de294e75c2",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/index-B25LTGi-.js.map": "c101d226bab1c939ec1f8ab9b10d68a9495555f451ac37567a0ce4686f8f29f5",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/index-DlGmi8UI.css": "f408ddf76e60f111d14bac368e818908764af042700c97b5caf3ecfd5284aadf",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/race-worker-DvjzYeym.js": "06eba4540e985cf90a220355e298a5c3cfe869118bf98807ca0bceb00b9ed166",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/race-worker-DvjzYeym.js.map": "d87c7d192aad78b8317348d8d3b28f134a6823dda3df1d12461b63d64d978030",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/TINYSYNTH-APACHE-2.0-C8cwZRUI.txt": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+  "reports/development/plan-63-messages-production-integration/local/visit-hud-build-output-01/assets/welcome-m5-bFjlemf3.wav": "7377b5f65df3be645a292b3f2e6b37034773984c366d0347d848c467e949f0be"
+}

@@ -71,7 +71,7 @@ import { invalidateForSchema6StorageEvent } from './core/race-v2/storage-invalid
 import { messagesForEngine } from './core/messages-runtime.mjs';
 import { payMessageLoan, confirmApartmentLoan } from './core/messages-payment.mjs';
 import { isMessagesPolicy,renOfferId,renCurrentIds,renMessageShown } from './core/messages-policy.mjs';
-import { mountMessages } from './ui/messages-view.mjs';
+import { mountMessages,isMessagesBackdrop } from './ui/messages-view.mjs';
 
 const app = document.querySelector('#app');
 
@@ -610,7 +610,11 @@ if (app) {
     layer.hidden=false;layer.replaceChildren(host);host.className='messages-host';
     lifeViewHandle?.suspendForMessages?.();
     const close=()=>{messagesGeometryCleanup?.();messagesHandle=null;layer.hidden=true;layer.replaceChildren();lifeViewHandle?.resumeAfterMessages?.();updateHud();document.querySelector('#btn-messages')?.focus();};
-    layer.onclick=e=>{if(e.target===layer)messagesHandle?.close();};
+    layer.onclick=e=>{if(isMessagesBackdrop(e.target,layer,host)){e.preventDefault();e.stopPropagation();messagesHandle?.close();}};
+    const dismissFromHud=e=>{if(messagesHandle && !layer.hidden){e.preventDefault();e.stopImmediatePropagation();messagesHandle.close();}};
+    hud.addEventListener('click',dismissFromHud,true);
+    const geometryCleanup=messagesGeometryCleanup;
+    messagesGeometryCleanup=()=>{hud.removeEventListener('click',dismissFromHud,true);geometryCleanup?.();};
     const data=messagesForEngine(engine);
     messagesHandle=mountMessages(host,{...data,getCurrentDay:()=>engine.state.life?.schedule?.day,getCurrentLogLength:()=>engine.log.length,isUncovered:()=>!layer.hidden && !settingsOpen && !activeModal && !pendingDefault && messagesAvailable(),onClose:close,
       onDisplay:async ({deliveryId,revision})=>{

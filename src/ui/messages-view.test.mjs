@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { isMessageVisible, messageRelativeTime, actionPrefixAfterRead } from './messages-view.mjs';
+import { isMessageVisible, messageRelativeTime, actionPrefixAfterRead, isMessagesBackdrop } from './messages-view.mjs';
 const rect=(left,top,right,bottom)=>({left,top,right,bottom,width:right-left,height:bottom-top});
 test('visibility requires connected uncovered content in both scroll and visual viewport',()=>{
  const base={connected:true,visibleDocument:true,uncovered:true,content:rect(5,5,20,20),scroll:rect(0,0,100,100),viewport:rect(0,0,100,100)};
@@ -25,4 +25,10 @@ test('own read advances only an otherwise current action prefix',()=>{
  assert.equal(actionPrefixAfterRead(5,6,7),5);
  assert.equal(actionPrefixAfterRead(5,5,7),5);
  assert.equal(actionPrefixAfterRead(undefined,5,6),undefined);
+});
+
+test('only the outside layer or empty host dismisses Messages',()=>{
+ const layer={},host={},phone={},decide={},phoneChild={},decideChild={};
+ assert.equal(isMessagesBackdrop(layer,layer,host),true);assert.equal(isMessagesBackdrop(host,layer,host),true);
+ for(const target of [phone,decide,phoneChild,decideChild,null])assert.equal(isMessagesBackdrop(target,layer,host),false);
 });

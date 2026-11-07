@@ -15,6 +15,20 @@ Thumbs.db
 npm-debug.log*
 
 # Local review builds and browser state. Keep reports and selected evidence tracked.
+/reports/development/plan-52-*/action-warning-lane-a-attempt*/
+/reports/development/plan-52-*/bedroom-port-*-attempt*/
+/reports/development/plan-52-*/closeout-day1-batch-attempt*/
+/reports/development/plan-52-*/closeout-fresh-tutorial-attempt*/
+/reports/development/plan-52-*/midday-phone-bridge-attempt*/
+/reports/development/plan-52-*/race-cross-runtime-*-attempt*/
+/reports/development/plan-52-*/recovery-diagnostic-attempt*/
+/reports/development/plan-52-*/action-warning-browser-lane-a*.mjs
+/reports/development/plan-52-*/bedroom-port-after.mjs
+/reports/development/plan-52-*/bedroom-port-before.mjs
+/reports/development/plan-52-*/midday-phone-bridge-capture.mjs
+/reports/development/plan-52-*/midday-phone-bridge-capture-v2.mjs
+/reports/development/plan-52-*/midday-phone-parent-audit.mjs
+/reports/development/plan-52-*/recovery-diagnostic-v[12].mjs
 /reports/development/plan-59-*/owner-review-staging/*/source/
 /reports/development/plan-59-*/owner-review-staging/*/web/
 /reports/development/plan-59-*/owner-review-staging/*/source-commit.tar

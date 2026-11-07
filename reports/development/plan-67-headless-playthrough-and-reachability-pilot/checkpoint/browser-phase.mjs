@@ -1,6 +1,8 @@
 import {preview} from 'vite';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+process.chdir(fileURLToPath(new URL('../../../../', import.meta.url)));
 import {launchIsolatedChrome,closeIsolatedChrome,createPage,evaluate,waitFor,mounted,clickPointer} from '../../../../scripts/dev/checkpoints/cdp.mjs';
 const out='reports/development/plan-67-headless-playthrough-and-reachability-pilot/checkpoint/browser';
 const file='reports/development/plan-67-headless-playthrough-and-reachability-pilot/checkpoint/pre-setup.save.json';
@@ -29,4 +31,5 @@ try {
 } catch(e){err=String(e.stack??e);record.error=err;if(browser&&page)try{await shot('failure');record.observations.failureText=await evaluate(browser.cdp,page.sessionId,'document.body.innerText');}catch{}}
 finally {if(browser)cleanup=await closeIsolatedChrome(browser);record.cleanup=cleanup??null;if(server)await new Promise(resolve=>server.httpServer.close(resolve));await writeFile(`${out}/result.json`,JSON.stringify(record,null,2));}
 process.stdout.write(JSON.stringify({error:record.error??null,actions:record.actions,comparison:record.comparison??null,cleanup:record.cleanup})+'\n');if(err||cleanup?.residual||cleanup?.uncertainty)process.exitCode=1;
+
 

@@ -1,0 +1,138 @@
+{
+  "first": {
+    "path": "$.metadata.finishCrossings[0].lateral",
+    "node": -1.1483666708383695,
+    "browser": -1.1483666708383693,
+    "nodeType": "number",
+    "browserType": "number"
+  },
+  "samples": [
+    {
+      "path": "$.metadata.finishCrossings[0].lateral",
+      "node": -1.1483666708383695,
+      "browser": -1.1483666708383693,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finishCrossings[1].lateral",
+      "node": 3.819548657075931,
+      "browser": 3.8195486570759316,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finishCrossings[2].lateral",
+      "node": -3.2101829532520294,
+      "browser": -3.2101829532520303,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finishCrossings[4].lateral",
+      "node": 0.5753492753867638,
+      "browser": 0.5753492753867635,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finishCrossings[5].lateral",
+      "node": -0.6106373232524369,
+      "browser": -0.610637323252437,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.eventRecords[0].recovery.E.maxDeviationDeg",
+      "node": 12.737765313126143,
+      "browser": 12.737765313126145,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.eventRecords[5].recovery.A.maxDeviationDeg",
+      "node": 1.4999999999999998,
+      "browser": 1.5,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.eventRecords[7].recovery.C.maxDeviationDeg",
+      "node": 13.440688427537678,
+      "browser": 13.440688427537676,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.eventRecords[17].recovery.D.maxDeviationDeg",
+      "node": 15.24448674143448,
+      "browser": 15.244486741434482,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.eventRecords[20].recovery.A.maxDeviationDeg",
+      "node": 15.719705387949949,
+      "browser": 15.719705387949944,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finish[0].lateral",
+      "node": -1.1483666708383695,
+      "browser": -1.1483666708383693,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finish[1].lateral",
+      "node": 3.819548657075931,
+      "browser": 3.8195486570759316,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finish[2].lateral",
+      "node": -3.2101829532520294,
+      "browser": -3.2101829532520303,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finish[4].lateral",
+      "node": 0.5753492753867638,
+      "browser": 0.5753492753867635,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.metadata.finish[5].lateral",
+      "node": -0.6106373232524369,
+      "browser": -0.610637323252437,
+      "nodeType": "number",
+      "browserType": "number"
+    },
+    {
+      "path": "$.digest",
+      "node": "b1d1a843",
+      "browser": "0998364b",
+      "nodeType": "string",
+      "browserType": "string"
+    }
+  ],
+  "total": 16,
+  "groups": {
+    "$.metadata.finishCrossings[].lateral": 5,
+    "$.metadata.eventRecords[].recovery.E.maxDeviationDeg": 1,
+    "$.metadata.eventRecords[].recovery.A.maxDeviationDeg": 2,
+    "$.metadata.eventRecords[].recovery.C.maxDeviationDeg": 1,
+    "$.metadata.eventRecords[].recovery.D.maxDeviationDeg": 1,
+    "$.metadata.finish[].lateral": 5,
+    "$.digest": 1
+  },
+  "nodeDigest": "b1d1a843",
+  "browserDigest": "0998364b",
+  "storedDigest": "0998364b",
+  "browserEqualsStored": true,
+  "nodeEqualsStored": false
+}

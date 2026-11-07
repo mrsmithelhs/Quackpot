@@ -29,6 +29,11 @@ npm-debug.log*
 /reports/development/plan-63-*/*-ready.json
 /reports/development/plan-63-*/*-stopped.json
 /reports/development/plan-63-*/*-private-pins.txt
+/reports/development/plan-63-*/fidelity-build-01-pins.json
+/reports/development/plan-63-*/owner-feedback-first-slice-pins.json
+/reports/development/plan-63-*/owner-feedback-first-slice-v2-pins.json
+/reports/development/plan-63-*/visit-fix-build-pins.json
+/reports/development/plan-63-*/ren-v2-owner-start-01.json
 /reports/development/plan-65-*/build-candidate/
 /reports/development/plan-65-*/build-candidate-*/
 /reports/development/plan-65-*/headless-work-*/profile/

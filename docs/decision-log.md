@@ -860,3 +860,15 @@ Owner accepts the rendered Plan62 welcome study and requests production integrat
 **Date:** 2026-11-05
 
 The owner accepts the M5 welcome loop and its fades and selects a normally saveable run after confirming Start another run from the Receipt flow. Confirmation describes what the new run replaces. Cancel leaves View Receipt available. Plan64 closes on the bounded restart evidence, including preservation on Cancel and successful resume after reload. Plan65 carries forward DECISION-076 for a local ZIP covering recorded runs and unlocked achievements in the browser profile.
+
+### DECISION-094 — Duck 1 welcome title
+
+**Date:** 2026-11-06
+
+The owner selects the Plan 62 Duck 1 SVG, with a duck head inside the Q, for the production welcome screen. This supersedes the Title A selection for that screen in DECISION-092. The study retains all title variants for comparison.
+
+### DECISION-095 — Uninstall belongs inside Quackpot
+
+**Date:** 2026-11-06
+
+The owner selects in-gacha Uninstall only. Tutorial, recovery and financial obligations use their own progression and ending routes. Uninstall is one ending and is no longer the universal best ending. A balanced run may avoid the app, avoid spending, or play and move on. These are valid directions for ending design, with actual routes still to be audited. Plan 66 owns the narrow presentation and routing change after review. It does not authorize new endings, debt forgiveness, or a replacement global finish control.

@@ -1,4 +1,4 @@
-import titleUrl from '../assets/welcome/title-a.svg';
+import titleUrl from '../assets/welcome/title-duck-1.svg';
 import { createStage } from './welcome/stage.js';
 import { createWelcomeAudio } from './welcome-audio.mjs';
 import { createConfirmationGate } from './welcome/confirmation.mjs';

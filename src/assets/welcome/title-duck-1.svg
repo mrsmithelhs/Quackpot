@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="ia-word">
+      <path d="M92 72 a34 39 0 1 0 0 78 a34 39 0 1 0 0 -78 M116 139 L134 164"/>
+      <path d="M64 100 L42 111 L64 122"/>
+      <path d="M146 92 V128 Q146 150 168 150 Q190 150 190 128 V92 M190 92 V150"/>
+      <path d="M202 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0 M250 92 V150"/>
+      <path d="M318 106 Q306 92 290 92 Q270 92 270 121 Q270 150 290 150 Q306 150 318 136"/>
+      <path d="M336 46 V150 M336 122 L384 92 M350 108 L390 150"/>
+      <path d="M412 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0 M412 92 V196"/>
+      <path d="M473 121 a24 29 0 1 0 48 0 a24 29 0 1 0 -48 0"/>
+      <path d="M552 60 V142 Q552 150 562 150 H580 M536 96 H578"/>
+    </g>
+  </defs>
+  <g transform="translate(0 12)">
+    <use href="#ia-word" y="8" fill="none" stroke="#4a2a14" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ia-word" fill="none" stroke="#4a2a14" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ia-word" y="5" fill="none" stroke="#e0701a" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ia-word" fill="none" stroke="#f6b932" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#ia-word" x="-2" y="-3" fill="none" stroke="#ffe48a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="100" cy="102" r="4.5" fill="#3a2212"/>
+  </g>
+</svg>

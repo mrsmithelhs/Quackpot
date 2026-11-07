@@ -13,3 +13,24 @@ __pycache__/
 Thumbs.db
 *.log
 npm-debug.log*
+
+# Local review builds and browser state. Keep reports and selected evidence tracked.
+/reports/development/plan-59-*/owner-review-staging/*/source/
+/reports/development/plan-59-*/owner-review-staging/*/web/
+/reports/development/plan-59-*/owner-review-staging/*/source-commit.tar
+/reports/development/plan-59-*/owner-review-staging/*/check-snapshot.mjs
+/reports/development/plan-59-*/owner-review-staging/*/verify-source.mjs
+/reports/development/plan-59-*/owner-review-staging/*/server-*-ready.json
+/reports/development/plan-63-*/local/
+/reports/development/plan-63-*/fidelity-build-*/
+/reports/development/plan-63-*/owner-review-*-snapshot/
+/reports/development/plan-63-*/owner-review-snapshot/
+/reports/development/plan-63-*/*-server.py
+/reports/development/plan-63-*/*-ready.json
+/reports/development/plan-63-*/*-stopped.json
+/reports/development/plan-63-*/*-private-pins.txt
+/reports/development/plan-65-*/build-candidate/
+/reports/development/plan-65-*/build-candidate-*/
+/reports/development/plan-65-*/headless-work-*/profile/
+/reports/development/plan-65-*/headless-work-*/downloads/
+/reports/development/plan-65-*/zip-fixture-work-*/

@@ -73,7 +73,9 @@ Packets are assigned to implementer agents. Each packet defines scope, required 
 | `plan-62` | Welcome Screen Creative Study | complete | Explore an animated whole-experience welcome and naming transition using Sonnet and Flash consultation, both Codex and Gemini image-generation concepts, existing SVG art and local music; deliver a focused interactive study and production handoff. |
 | `plan-63` | Messages production integration | in-progress | Integrate the selected Messages header, portrait inbox/conversations and separate decisions with authoritative communications, saved read state and actual display evidence; atomically preserve message access while reserving the desk phone for Quackpot. |
 | `plan-64` | Welcome and onboarding integration | complete | Make the accepted Plan 62 welcome and duck naming the entry to Quackpot. Connect real saved runs, Settings, Credits and post-run Receipt and usage actions while preserving the apartment and its existing game rules. |
-| `plan-65` | Profile-wide usage history and ZIP export | draft | Preserve usage evidence and recorded achievement unlocks across runs in one browser profile, keep Continue tied to the current playable save, and enable an explicit local ZIP download from Welcome. |
+| `plan-65` | Profile-wide usage history and ZIP export | in-progress | Preserve usage evidence and recorded achievement unlocks across runs in one browser profile, keep Continue tied to the current playable save, and enable an explicit local ZIP download from Welcome. |
+| `plan-66` | Gacha Uninstall route and retention copy | draft | Move the fictional Uninstall and retention experience into Quackpot's gacha UI. Compare in-character copy and verify that tutorial, financial and ordinary-life progression still offer coherent routes to endings. |
+| `plan-67` | Headless playthrough and reachability pilot | in-progress | Audit player choices and gameplay randomness, then prove three reproducible routes through the production engine, run a bounded reachability scan and verify one generated checkpoint through the browser loader. |
 <!-- plan-index:end -->
 
 ## Report Folders

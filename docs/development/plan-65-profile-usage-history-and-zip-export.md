@@ -1,7 +1,7 @@
 ---
 id: plan-65
 title: Profile-wide usage history and ZIP export
-status: draft
+status: in-progress
 depends_on: [plan-42, plan-44, plan-64]
 gate: "Root and owner approve the storage, recording, privacy and export contract before production writes. Root verifies the integration and owner reviews the actual download before closure."
 summary: >-

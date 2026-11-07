@@ -1,0 +1,1281 @@
+{
+  "seeds": [
+    "plan67-pilot-001",
+    "plan67-pilot-002",
+    "plan67-pilot-003"
+  ],
+  "budgets": {
+    "maxDay": 15,
+    "maxDepth": 120,
+    "capStates": 2000,
+    "capEdges": 10000,
+    "wallMs": 60000
+  },
+  "expanded": 2000,
+  "edges": 3650,
+  "queued": 3334,
+  "remaining": 1334,
+  "stop": "state work budget exhausted",
+  "elapsedMs": 1087,
+  "counts": {
+    "rejected": 319,
+    "terminal": 369
+  },
+  "witness": {
+    "morning/idle/meal-buy/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 2
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      }
+    },
+    "morning/idle/meal-skip/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-skip"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 2
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 80,
+        "health": 95,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      }
+    },
+    "morning/idle/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 2
+      },
+      "after": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 4
+      }
+    },
+    "midday/idle/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 7
+      }
+    },
+    "midday/idle/work-start/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      }
+    },
+    "morning/idle/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 4
+      },
+      "after": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 6
+      }
+    },
+    "morning/idle/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 4
+      },
+      "after": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 6
+      }
+    },
+    "midday/idle/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 7
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 9
+      }
+    },
+    "midday/idle/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 7
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      }
+    },
+    "midday/commute/show-commute/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 10
+      }
+    },
+    "midday/commute/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 11
+      }
+    },
+    "midday/commute/work-advance/story_not_shown": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "work-advance"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      }
+    },
+    "midday/commute/work-advance/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 10
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      }
+    },
+    "midday/commute/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 11
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 14
+      }
+    },
+    "midday/commute/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 11
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      }
+    },
+    "midday/work/show-work/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 14
+      }
+    },
+    "midday/work/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 15
+      }
+    },
+    "midday/work/work-complete/story_not_shown": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "work-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      }
+    },
+    "midday/work/work-complete/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 14
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 19
+      }
+    },
+    "midday/work/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 15
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 18
+      }
+    },
+    "midday/work/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 15
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 17
+      }
+    },
+    "early-evening/payslip/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 19
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 21
+      }
+    },
+    "early-evening/payslip/work-dismiss/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 19
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      }
+    },
+    "early-evening/payslip/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 21
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 23
+      }
+    },
+    "early-evening/payslip/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 21
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 23
+      }
+    },
+    "early-evening/idle/meal-buy/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      }
+    },
+    "early-evening/idle/meal-skip/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-skip"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 134,
+        "health": 95,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      }
+    },
+    "early-evening/idle/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 24
+      }
+    },
+    "evening/idle/bed-start/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "bed-start"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 28
+      }
+    },
+    "evening/idle/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 27
+      }
+    },
+    "early-evening/idle/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 24
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 26
+      }
+    },
+    "early-evening/idle/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 24
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 26
+      }
+    },
+    "evening/early-bed/bed-complete/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "bed-start",
+        "bed-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 28
+      },
+      "after": {
+        "day": 2,
+        "slot": "morning",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 31
+      }
+    },
+    "evening/early-bed/uninstall/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "bed-start",
+        "uninstall"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 28
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 30
+      }
+    },
+    "evening/idle/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 27
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 29
+      }
+    },
+    "evening/idle/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 27
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 29
+      }
+    },
+    "evening/early-bed/leave/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "bed-start",
+        "uninstall",
+        "leave"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 30
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 32
+      }
+    },
+    "evening/early-bed/stay/ok": {
+      "seed": "plan67-pilot-001",
+      "path": [
+        "meal-buy",
+        "work-start",
+        "show-commute",
+        "work-advance",
+        "show-work",
+        "work-complete",
+        "work-dismiss",
+        "meal-buy",
+        "bed-start",
+        "uninstall",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 30
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 32
+      }
+    }
+  },
+  "limitations": [
+    "No grouping; repeated paths retained.",
+    "Only the pilot action subset; modeled browser availability is not observed UI.",
+    "No witness within bounds is not unreachability.",
+    "Presentation events are simulated."
+  ]
+}

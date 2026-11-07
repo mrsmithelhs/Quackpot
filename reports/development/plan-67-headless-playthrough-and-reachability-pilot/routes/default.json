@@ -1,0 +1,2800 @@
+{
+  "seed": "plan67-pilot-001",
+  "mode": "default",
+  "category": "terminal",
+  "final": {
+    "day": 4,
+    "slot": "morning",
+    "cash": 224,
+    "health": 100,
+    "active": null,
+    "story": null,
+    "due": [],
+    "terminal": "running_on_empty",
+    "logLength": 95
+  },
+  "repeatEqual": true,
+  "resumeEqual": true,
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "rows": [
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy",
+        "meal-skip"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 2
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 2,
+          "type": "life52_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:1"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "990ec324"
+        },
+        {
+          "seq": 3,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "1:morning",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "5252e924"
+        },
+        {
+          "seq": 4,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:1",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "7787233d"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-start",
+      "available": [
+        "uninstall",
+        "work-start"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 5
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 5,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "start",
+              "operationId": "work-story:5",
+              "confirmed": true
+            }
+          },
+          "chain": "9452008c"
+        },
+        {
+          "seq": 6,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-1",
+              "kind": "work",
+              "slot": "1:midday"
+            }
+          },
+          "chain": "5e7ecfdb"
+        },
+        {
+          "seq": 7,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_started",
+              "id": "activity-1",
+              "story": {
+                "version": 1,
+                "catalog": "1.1.0",
+                "commute": "0C3",
+                "work": [
+                  "01F",
+                  "01E"
+                ]
+              }
+            }
+          },
+          "chain": "882069b6"
+        },
+        {
+          "seq": 8,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "work-story:5",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "878565d0"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-commute",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 9
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 10
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 9,
+          "type": "story47_shown",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "id": "activity-1",
+            "stage": "commute",
+            "version": 1,
+            "beats": [
+              "0C3"
+            ]
+          },
+          "chain": "9e0be97d"
+        }
+      ],
+      "simulated": [
+        "story commute shown"
+      ]
+    },
+    {
+      "action": "work-advance",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 10
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 10,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "advance",
+              "id": "activity-1",
+              "operationId": "plan67:2",
+              "confirmed": true
+            }
+          },
+          "chain": "56433a18"
+        },
+        {
+          "seq": 11,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-1",
+              "stage": "work"
+            }
+          },
+          "chain": "7a87888e"
+        },
+        {
+          "seq": 12,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:2",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "29eefb30"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-work",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 13
+      },
+      "after": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 14
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 13,
+          "type": "story47_shown",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "id": "activity-1",
+            "stage": "work",
+            "version": 1,
+            "beats": [
+              "01F",
+              "01E"
+            ]
+          },
+          "chain": "a96cbf47"
+        }
+      ],
+      "simulated": [
+        "story work shown"
+      ]
+    },
+    {
+      "action": "work-complete",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "midday",
+        "cash": 74,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 14
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 19
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 14,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "complete",
+              "id": "activity-1",
+              "operationId": "plan67:3",
+              "confirmed": true
+            }
+          },
+          "chain": "60ea5f43"
+        },
+        {
+          "seq": 15,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-1"
+            }
+          },
+          "chain": "f49d08f0"
+        },
+        {
+          "seq": 16,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-1",
+              "stage": "payslip"
+            }
+          },
+          "chain": "09bb1e10"
+        },
+        {
+          "seq": 17,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:3",
+            "cashDeltaCents": 6000,
+            "healthDelta": 0
+          },
+          "chain": "209825ba"
+        },
+        {
+          "seq": 18,
+          "type": "income",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "kind": "wage",
+            "amount": 60,
+            "transactionId": "activity-1",
+            "cashAfter": 134,
+            "source": "five-slot-work-story"
+          },
+          "chain": "2ac30557"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-dismiss",
+      "available": [
+        "uninstall",
+        "work-dismiss"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 19
+      },
+      "after": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 19,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "type": "dismiss",
+              "id": "activity-1",
+              "operationId": "plan67:4",
+              "confirmed": true
+            }
+          },
+          "chain": "37078836"
+        },
+        {
+          "seq": 20,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_dismissed",
+              "id": "activity-1"
+            }
+          },
+          "chain": "4e58e809"
+        },
+        {
+          "seq": 21,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:4",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "6f55e294"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy",
+        "meal-skip"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "early-evening",
+        "cash": 134,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 22
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 22,
+          "type": "life52_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:5"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "8c39e707"
+        },
+        {
+          "seq": 23,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "1:early-evening",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "526f5c91"
+        },
+        {
+          "seq": 24,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 early-evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:5",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "6f43e766"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-start",
+      "available": [
+        "uninstall",
+        "bed-start"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 25
+      },
+      "after": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 28
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 25,
+          "type": "life52_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "start",
+                "kind": "early-bed",
+                "operationId": "plan67:6"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "b467c8a7"
+        },
+        {
+          "seq": 26,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-2",
+              "kind": "early-bed",
+              "slot": "1:evening"
+            }
+          },
+          "chain": "93261f7b"
+        },
+        {
+          "seq": 27,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:6",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "daf875d2"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-complete",
+      "available": [
+        "uninstall",
+        "bed-complete"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "evening",
+        "cash": 128,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 28
+      },
+      "after": {
+        "day": 2,
+        "slot": "morning",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 31
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 28,
+          "type": "life52_intent",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "complete",
+                "activityId": "activity-2",
+                "operationId": "plan67:7"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "46409aa5"
+        },
+        {
+          "seq": 29,
+          "type": "life52_effect",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-2"
+            }
+          },
+          "chain": "48cb8154"
+        },
+        {
+          "seq": 30,
+          "type": "life52_commit",
+          "clock": {
+            "day": 1,
+            "label": "day 1 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:7",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "388e30dc"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "morning",
+        "cash": 128,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 31
+      },
+      "after": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 34
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 31,
+          "type": "life52_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 morning"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:8"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "eb0e00a4"
+        },
+        {
+          "seq": 32,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 morning"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "2:morning",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "35ece053"
+        },
+        {
+          "seq": 33,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 morning"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:8",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "b91bc44d"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-start",
+      "available": [
+        "uninstall",
+        "work-start"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 34
+      },
+      "after": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 38
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 34,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "start",
+              "operationId": "work-story:34",
+              "confirmed": true
+            }
+          },
+          "chain": "a27f078c"
+        },
+        {
+          "seq": 35,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-3",
+              "kind": "work",
+              "slot": "2:midday"
+            }
+          },
+          "chain": "8a384c0b"
+        },
+        {
+          "seq": 36,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_started",
+              "id": "activity-3",
+              "story": {
+                "version": 1,
+                "catalog": "1.1.0",
+                "commute": "0C8",
+                "work": [
+                  "01D",
+                  "01A"
+                ]
+              }
+            }
+          },
+          "chain": "69fa6829"
+        },
+        {
+          "seq": 37,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "work-story:34",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "a8a2b388"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-commute",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 38
+      },
+      "after": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 39
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 38,
+          "type": "story47_shown",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "id": "activity-3",
+            "stage": "commute",
+            "version": 1,
+            "beats": [
+              "0C8"
+            ]
+          },
+          "chain": "1107d1e0"
+        }
+      ],
+      "simulated": [
+        "story commute shown"
+      ]
+    },
+    {
+      "action": "work-advance",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 39
+      },
+      "after": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 42
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 39,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "advance",
+              "id": "activity-3",
+              "operationId": "plan67:9",
+              "confirmed": true
+            }
+          },
+          "chain": "c78796b0"
+        },
+        {
+          "seq": 40,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-3",
+              "stage": "work"
+            }
+          },
+          "chain": "56781655"
+        },
+        {
+          "seq": 41,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:9",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "48a1da6e"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-work",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 42
+      },
+      "after": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 43
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 42,
+          "type": "story47_shown",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "id": "activity-3",
+            "stage": "work",
+            "version": 1,
+            "beats": [
+              "01D",
+              "01A"
+            ]
+          },
+          "chain": "2f047c13"
+        }
+      ],
+      "simulated": [
+        "story work shown"
+      ]
+    },
+    {
+      "action": "work-complete",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "midday",
+        "cash": 122,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 43
+      },
+      "after": {
+        "day": 2,
+        "slot": "early-evening",
+        "cash": 182,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 48
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 43,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "complete",
+              "id": "activity-3",
+              "operationId": "plan67:10",
+              "confirmed": true
+            }
+          },
+          "chain": "72a7356b"
+        },
+        {
+          "seq": 44,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-3"
+            }
+          },
+          "chain": "bbec0a17"
+        },
+        {
+          "seq": 45,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-3",
+              "stage": "payslip"
+            }
+          },
+          "chain": "f9eca3e2"
+        },
+        {
+          "seq": 46,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:10",
+            "cashDeltaCents": 6000,
+            "healthDelta": 0
+          },
+          "chain": "75b5c90c"
+        },
+        {
+          "seq": 47,
+          "type": "income",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "kind": "wage",
+            "amount": 60,
+            "transactionId": "activity-3",
+            "cashAfter": 182,
+            "source": "five-slot-work-story"
+          },
+          "chain": "275806a9"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-dismiss",
+      "available": [
+        "uninstall",
+        "work-dismiss"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "early-evening",
+        "cash": 182,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 48
+      },
+      "after": {
+        "day": 2,
+        "slot": "early-evening",
+        "cash": 182,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 51
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 48,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "type": "dismiss",
+              "id": "activity-3",
+              "operationId": "plan67:11",
+              "confirmed": true
+            }
+          },
+          "chain": "06ce0342"
+        },
+        {
+          "seq": 49,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_dismissed",
+              "id": "activity-3"
+            }
+          },
+          "chain": "b2b114e5"
+        },
+        {
+          "seq": 50,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:11",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "d0f8b134"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "early-evening",
+        "cash": 182,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 51
+      },
+      "after": {
+        "day": 2,
+        "slot": "evening",
+        "cash": 176,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 54
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 51,
+          "type": "life52_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:12"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "a1a806e5"
+        },
+        {
+          "seq": 52,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "2:early-evening",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "55dcf743"
+        },
+        {
+          "seq": 53,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 early-evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:12",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "5fee58f0"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-start",
+      "available": [
+        "uninstall",
+        "bed-start"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "evening",
+        "cash": 176,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 54
+      },
+      "after": {
+        "day": 2,
+        "slot": "evening",
+        "cash": 176,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 57
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 54,
+          "type": "life52_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "start",
+                "kind": "early-bed",
+                "operationId": "plan67:13"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "9c565bb8"
+        },
+        {
+          "seq": 55,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-4",
+              "kind": "early-bed",
+              "slot": "2:evening"
+            }
+          },
+          "chain": "f0eaedae"
+        },
+        {
+          "seq": 56,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:13",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "ee634185"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-complete",
+      "available": [
+        "uninstall",
+        "bed-complete"
+      ],
+      "before": {
+        "day": 2,
+        "slot": "evening",
+        "cash": 176,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 57
+      },
+      "after": {
+        "day": 3,
+        "slot": "morning",
+        "cash": 176,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 60
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 57,
+          "type": "life52_intent",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "complete",
+                "activityId": "activity-4",
+                "operationId": "plan67:14"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "a67d735b"
+        },
+        {
+          "seq": 58,
+          "type": "life52_effect",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-4"
+            }
+          },
+          "chain": "dacfb403"
+        },
+        {
+          "seq": 59,
+          "type": "life52_commit",
+          "clock": {
+            "day": 2,
+            "label": "day 2 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:14",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "a33df6df"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "morning",
+        "cash": 176,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 60
+      },
+      "after": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 63
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 60,
+          "type": "life52_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 morning"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:15"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "6c3ae4b9"
+        },
+        {
+          "seq": 61,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 morning"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "3:morning",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "eb0ac778"
+        },
+        {
+          "seq": 62,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 morning"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:15",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "669f8305"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-start",
+      "available": [
+        "uninstall",
+        "work-start"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 63
+      },
+      "after": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 67
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 63,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "start",
+              "operationId": "work-story:63",
+              "confirmed": true
+            }
+          },
+          "chain": "d1787eaa"
+        },
+        {
+          "seq": 64,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-5",
+              "kind": "work",
+              "slot": "3:midday"
+            }
+          },
+          "chain": "f77373ae"
+        },
+        {
+          "seq": 65,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_started",
+              "id": "activity-5",
+              "story": {
+                "version": 1,
+                "catalog": "1.1.0",
+                "commute": "0C6",
+                "work": [
+                  "016",
+                  "015"
+                ]
+              }
+            }
+          },
+          "chain": "c17762c7"
+        },
+        {
+          "seq": 66,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "work-story:63",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "53723671"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-commute",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 67
+      },
+      "after": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 68
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 67,
+          "type": "story47_shown",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "id": "activity-5",
+            "stage": "commute",
+            "version": 1,
+            "beats": [
+              "0C6"
+            ]
+          },
+          "chain": "51615f97"
+        }
+      ],
+      "simulated": [
+        "story commute shown"
+      ]
+    },
+    {
+      "action": "work-advance",
+      "available": [
+        "uninstall",
+        "show-commute",
+        "work-advance"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "commute",
+        "due": [],
+        "terminal": null,
+        "logLength": 68
+      },
+      "after": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 71
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 68,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "advance",
+              "id": "activity-5",
+              "operationId": "plan67:16",
+              "confirmed": true
+            }
+          },
+          "chain": "db7bff0f"
+        },
+        {
+          "seq": 69,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-5",
+              "stage": "work"
+            }
+          },
+          "chain": "d7a198c9"
+        },
+        {
+          "seq": 70,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:16",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "d6682465"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "show-work",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 71
+      },
+      "after": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 72
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 71,
+          "type": "story47_shown",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "id": "activity-5",
+            "stage": "work",
+            "version": 1,
+            "beats": [
+              "016",
+              "015"
+            ]
+          },
+          "chain": "3c937ffe"
+        }
+      ],
+      "simulated": [
+        "story work shown"
+      ]
+    },
+    {
+      "action": "work-complete",
+      "available": [
+        "uninstall",
+        "show-work",
+        "work-complete"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "midday",
+        "cash": 170,
+        "health": 100,
+        "active": "work",
+        "story": "work",
+        "due": [],
+        "terminal": null,
+        "logLength": 72
+      },
+      "after": {
+        "day": 3,
+        "slot": "early-evening",
+        "cash": 230,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 77
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 72,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "intent": {
+              "type": "complete",
+              "id": "activity-5",
+              "operationId": "plan67:17",
+              "confirmed": true
+            }
+          },
+          "chain": "894aef66"
+        },
+        {
+          "seq": 73,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-5"
+            }
+          },
+          "chain": "93cb3aa7"
+        },
+        {
+          "seq": 74,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_advanced",
+              "id": "activity-5",
+              "stage": "payslip"
+            }
+          },
+          "chain": "ee23f7c0"
+        },
+        {
+          "seq": 75,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 midday"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:17",
+            "cashDeltaCents": 6000,
+            "healthDelta": 0
+          },
+          "chain": "b2025eaa"
+        },
+        {
+          "seq": 76,
+          "type": "income",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "kind": "wage",
+            "amount": 60,
+            "transactionId": "activity-5",
+            "cashAfter": 230,
+            "source": "five-slot-work-story"
+          },
+          "chain": "a846357f"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "work-dismiss",
+      "available": [
+        "uninstall",
+        "work-dismiss"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "early-evening",
+        "cash": 230,
+        "health": 100,
+        "active": null,
+        "story": "payslip",
+        "due": [],
+        "terminal": null,
+        "logLength": 77
+      },
+      "after": {
+        "day": 3,
+        "slot": "early-evening",
+        "cash": 230,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 80
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 77,
+          "type": "life52_work_story_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "type": "dismiss",
+              "id": "activity-5",
+              "operationId": "plan67:18",
+              "confirmed": true
+            }
+          },
+          "chain": "401298cf"
+        },
+        {
+          "seq": 78,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "story47_dismissed",
+              "id": "activity-5"
+            }
+          },
+          "chain": "a8a19913"
+        },
+        {
+          "seq": 79,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "domain": "work_story",
+            "operationId": "plan67:18",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "53588ae7"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "meal-buy",
+      "available": [
+        "uninstall",
+        "meal-buy"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "early-evening",
+        "cash": 230,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 80
+      },
+      "after": {
+        "day": 3,
+        "slot": "evening",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 83
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 80,
+          "type": "life52_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "meal",
+                "choice": "buy",
+                "operationId": "plan67:19"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "26111b74"
+        },
+        {
+          "seq": 81,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "meal_completed",
+              "choice": "buy",
+              "slot": "3:early-evening",
+              "cashDelta": -6,
+              "healthDelta": 0
+            }
+          },
+          "chain": "4ce20d65"
+        },
+        {
+          "seq": 82,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 early-evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:19",
+            "cashDeltaCents": -600,
+            "healthDelta": 0
+          },
+          "chain": "eeabd007"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-start",
+      "available": [
+        "uninstall",
+        "bed-start"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "evening",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 83
+      },
+      "after": {
+        "day": 3,
+        "slot": "evening",
+        "cash": 224,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 86
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 83,
+          "type": "life52_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "start",
+                "kind": "early-bed",
+                "operationId": "plan67:20"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "6d48fe66"
+        },
+        {
+          "seq": 84,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_started",
+              "id": "activity-6",
+              "kind": "early-bed",
+              "slot": "3:evening"
+            }
+          },
+          "chain": "fabcb138"
+        },
+        {
+          "seq": 85,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:20",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "604d8d8e"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "bed-complete",
+      "available": [
+        "uninstall",
+        "bed-complete"
+      ],
+      "before": {
+        "day": 3,
+        "slot": "evening",
+        "cash": 224,
+        "health": 100,
+        "active": "early-bed",
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 86
+      },
+      "after": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 90
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 86,
+          "type": "life52_intent",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "intent": {
+              "domain": "schedule",
+              "action": {
+                "type": "complete",
+                "activityId": "activity-6",
+                "operationId": "plan67:21"
+              }
+            },
+            "operation": {
+              "confirmed": true
+            }
+          },
+          "chain": "f11f1891"
+        },
+        {
+          "seq": 87,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "activity_completed",
+              "id": "activity-6"
+            }
+          },
+          "chain": "6a5452af"
+        },
+        {
+          "seq": 88,
+          "type": "life52_effect",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "effect": {
+              "type": "financial_due",
+              "id": "rent-1",
+              "due": {
+                "day": 4,
+                "slot": "morning"
+              }
+            }
+          },
+          "chain": "3fe6de61"
+        },
+        {
+          "seq": 89,
+          "type": "life52_commit",
+          "clock": {
+            "day": 3,
+            "label": "day 3 evening"
+          },
+          "payload": {
+            "domain": "schedule",
+            "operationId": "plan67:21",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "bd46a257"
+        }
+      ],
+      "simulated": []
+    },
+    {
+      "action": "due-show",
+      "available": [
+        "uninstall",
+        "due-show",
+        "due-pay",
+        "due-attempt"
+      ],
+      "before": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 90
+      },
+      "after": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 91
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 90,
+          "type": "life52_due_options_shown",
+          "clock": {
+            "day": 4,
+            "label": "day 4 morning"
+          },
+          "payload": {
+            "bills": [
+              {
+                "id": "rent-1",
+                "amountCents": 17000
+              }
+            ],
+            "cashCents": 22400,
+            "totalCents": 17000,
+            "shortfallCents": 0,
+            "saleOptions": [],
+            "loanRentIds": [],
+            "overtimeAvailable": false,
+            "scheduleRevision": 18,
+            "financeRevision": 1,
+            "displayVersion": 2
+          },
+          "chain": "d149d90c"
+        }
+      ],
+      "simulated": [
+        "due options shown"
+      ]
+    },
+    {
+      "action": "due-attempt",
+      "available": [
+        "uninstall",
+        "due-show",
+        "due-pay",
+        "due-attempt"
+      ],
+      "before": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 91
+      },
+      "after": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 91
+      },
+      "ok": true,
+      "reason": null,
+      "events": [],
+      "simulated": [
+        "default consequence warning shown"
+      ]
+    },
+    {
+      "action": "default-confirm",
+      "available": [
+        "default-confirm",
+        "default-reconsider"
+      ],
+      "before": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [
+          "rent-1"
+        ],
+        "terminal": null,
+        "logLength": 91
+      },
+      "after": {
+        "day": 4,
+        "slot": "morning",
+        "cash": 224,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "running_on_empty",
+        "logLength": 95
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 91,
+          "type": "life52_intent",
+          "clock": {
+            "day": 4,
+            "label": "day 4 morning"
+          },
+          "payload": {
+            "intent": {
+              "domain": "finance",
+              "action": {
+                "type": "leave_unpaid",
+                "billId": "rent-1",
+                "id": "plan67:22",
+                "confirmed": true,
+                "optionsDisclosed": true
+              }
+            },
+            "operation": {}
+          },
+          "chain": "be186fe2"
+        },
+        {
+          "seq": 92,
+          "type": "life52_effect",
+          "clock": {
+            "day": 4,
+            "label": "day 4 morning"
+          },
+          "payload": {
+            "effect": {
+              "type": "financial_default",
+              "obligationId": "rent-1",
+              "reason": "first_rent_withheld",
+              "route": "running_on_empty",
+              "outstandingCents": 17000
+            }
+          },
+          "chain": "12295bd5"
+        },
+        {
+          "seq": 93,
+          "type": "life52_commit",
+          "clock": {
+            "day": 4,
+            "label": "day 4 morning"
+          },
+          "payload": {
+            "domain": "finance",
+            "operationId": "plan67:22",
+            "cashDeltaCents": 0,
+            "healthDelta": 0
+          },
+          "chain": "a45bb60e"
+        },
+        {
+          "seq": 94,
+          "type": "terminal",
+          "clock": {
+            "day": 4,
+            "label": "day 4 morning"
+          },
+          "payload": {
+            "route": "running_on_empty",
+            "reason": "first_rent_withheld",
+            "obligationId": "rent-1",
+            "outstandingCents": 17000,
+            "housingLost": false
+          },
+          "chain": "5a091af4"
+        }
+      ],
+      "simulated": [
+        "default confirmed"
+      ]
+    }
+  ]
+}

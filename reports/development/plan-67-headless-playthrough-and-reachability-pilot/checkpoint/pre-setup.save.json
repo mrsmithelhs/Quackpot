@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 5,
+  "raceRestEvidenceVersion": 1,
+  "savedAt": 1794010138974,
+  "autosaveEnabled": true,
+  "state": {
+    "day": 1,
+    "clock": {
+      "day": 1,
+      "label": "day 1 morning"
+    },
+    "phase": "setup",
+    "step": "desk",
+    "activeModal": null,
+    "interruptedContext": null,
+    "cash": 80,
+    "gems": 0,
+    "health": 100,
+    "debt": 0,
+    "down": 0,
+    "pityCount": 0,
+    "physicalCompanion": {
+      "name": "Professor Quacks",
+      "style": "classic-yellow",
+      "pawned": false
+    },
+    "owned": [],
+    "seenDexEntries": [],
+    "pendingReveals": [],
+    "lastRacedId": null,
+    "tenPullCommitted": false,
+    "completedRaces": [],
+    "raceResults": {},
+    "raceAttempts": {},
+    "raceResolutions": {},
+    "raceTrialAvailable": false,
+    "lastRaceResult": null,
+    "billsSettled": [],
+    "assetsSold": [],
+    "starterOffered": false,
+    "starterBought": false,
+    "retentionOffered": false,
+    "retentionUsed": false,
+    "terminalRoute": null,
+    "activeBill": null,
+    "escalationStepIndex": 0,
+    "life": {
+      "policyVersion": "five-slot-v1",
+      "config": {
+        "id": "five-slot-v1",
+        "startCash": 80,
+        "startHealth": 100,
+        "maxHealth": 100,
+        "mealCost": 6,
+        "mealSkipHealth": 5,
+        "scheduledWage": 60,
+        "overtimeWage": 60,
+        "overtimeHealth": 15,
+        "rentAmount": 170,
+        "rentDueDay": 4,
+        "recoveryHealth": 25,
+        "lateFatigueHealth": 10,
+        "earlyBedHealth": 5,
+        "recoveryConsumesSlot": true,
+        "supportedDays": 5
+      },
+      "schedule": {
+        "schema": 1,
+        "policyId": "five-slot-v1",
+        "config": {
+          "id": "five-slot-v1",
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "overtimeWage": 60,
+          "overtimeHealth": 15,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "earlyBedHealth": 5,
+          "recoveryConsumesSlot": true,
+          "supportedDays": 5
+        },
+        "day": 1,
+        "slot": "morning",
+        "revision": 0,
+        "nextActivityId": 1,
+        "active": null,
+        "completedOperationIds": {},
+        "obligations": {},
+        "rent": null,
+        "employment": {
+          "employed": true,
+          "missedShifts": 0
+        },
+        "futurePlans": {},
+        "overtimeReservation": null,
+        "fatigue": null,
+        "recovery": null,
+        "workCalendar": {
+          "1": true,
+          "2": true,
+          "3": true,
+          "4": true,
+          "5": true,
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true,
+          "11": true,
+          "12": true,
+          "13": true,
+          "14": true,
+          "15": true,
+          "16": true,
+          "17": true,
+          "18": true,
+          "19": true
+        }
+      },
+      "finance": {
+        "policyId": "five-slot-v1",
+        "revision": 0,
+        "nextLoanId": 1,
+        "completed": {},
+        "rents": [
+          {
+            "id": "rent-1",
+            "amountCents": 17000,
+            "due": {
+              "day": 4,
+              "slot": "morning"
+            },
+            "status": "pending",
+            "latched": false
+          },
+          {
+            "id": "rent-2",
+            "amountCents": 40000,
+            "due": {
+              "day": 14,
+              "slot": "morning"
+            },
+            "status": "pending",
+            "latched": false
+          }
+        ],
+        "loans": []
+      },
+      "social46": null,
+      "socialRevision": 0,
+      "socialOperationIds": {},
+      "sold": [],
+      "story47": null
+    }
+  },
+  "prngStreams": {
+    "root": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan67-pilot-001\",\"s\":[2806548272,2390833593,1808495984,3169951566]}",
+    "draw": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan67-pilot-001/draw\",\"s\":[2244448137,1707791097,773947642,1278961734]}",
+    "race": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan67-pilot-001/race\",\"s\":[3569262719,1887436826,3597729193,1036411361]}",
+    "event": "{\"v\":1,\"alg\":\"sfc32\",\"key\":\"plan67-pilot-001/event\",\"s\":[3657386470,4027551187,2680585544,511129719]}"
+  },
+  "eventLog": [
+    {
+      "seq": 0,
+      "type": "run_started",
+      "clock": {
+        "day": 1,
+        "label": "day 1 morning"
+      },
+      "payload": {
+        "seed": "plan67-pilot-001",
+        "lifePolicyVersion": "five-slot-v1",
+        "lifeConfig": {
+          "id": "five-slot-v1",
+          "startCash": 80,
+          "startHealth": 100,
+          "maxHealth": 100,
+          "mealCost": 6,
+          "mealSkipHealth": 5,
+          "scheduledWage": 60,
+          "overtimeWage": 60,
+          "overtimeHealth": 15,
+          "rentAmount": 170,
+          "rentDueDay": 4,
+          "recoveryHealth": 25,
+          "lateFatigueHealth": 10,
+          "earlyBedHealth": 5,
+          "recoveryConsumesSlot": true,
+          "supportedDays": 5
+        },
+        "tutorialShiftVersion": 1
+      },
+      "chain": "1a9cb2f0"
+    }
+  ]
+}

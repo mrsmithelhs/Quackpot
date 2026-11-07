@@ -1,0 +1,20 @@
+{
+  "seed": "plan67-pilot-001",
+  "policy": "five-slot-v1",
+  "schema": 5,
+  "boundary": {
+    "step": "desk",
+    "day": 1,
+    "slot": "morning",
+    "logLength": 1
+  },
+  "recipe": "construct default five-slot engine and start; before companion setup and any simulated displays",
+  "sha256": "b3b6f6a9aa736aa43a05db7b8cc257d626a52083218165ea95dac82ca07a677e",
+  "valid": {
+    "valid": true,
+    "errors": []
+  },
+  "roundtrip": true,
+  "sourceRevision": "7945bb26ee1a0570d3ac455d5639488447f578a2",
+  "browserObserved": false
+}

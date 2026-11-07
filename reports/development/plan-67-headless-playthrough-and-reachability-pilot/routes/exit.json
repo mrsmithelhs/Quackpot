@@ -1,0 +1,145 @@
+{
+  "seed": "plan67-pilot-001",
+  "mode": "exit",
+  "category": "terminal",
+  "final": {
+    "day": 1,
+    "slot": "morning",
+    "cash": 80,
+    "health": 100,
+    "active": null,
+    "story": null,
+    "due": [],
+    "terminal": "uninstall",
+    "logLength": 6
+  },
+  "repeatEqual": true,
+  "resumeEqual": true,
+  "validation": {
+    "valid": true,
+    "errors": []
+  },
+  "rows": [
+    {
+      "action": "uninstall",
+      "available": [
+        "uninstall",
+        "meal-buy",
+        "meal-skip"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 2
+      },
+      "after": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 4
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 2,
+          "type": "action",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "kind": "uninstall_chosen"
+          },
+          "chain": "a20f57ff"
+        },
+        {
+          "seq": 3,
+          "type": "retention_modal_shown",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "technique": "exit_friction",
+            "gemsOffered": 80,
+            "stayLabel": "play out the trap"
+          },
+          "chain": "13c8c612"
+        }
+      ],
+      "simulated": [
+        "retention shown"
+      ]
+    },
+    {
+      "action": "leave",
+      "available": [
+        "leave",
+        "stay"
+      ],
+      "before": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": null,
+        "logLength": 4
+      },
+      "after": {
+        "day": 1,
+        "slot": "morning",
+        "cash": 80,
+        "health": 100,
+        "active": null,
+        "story": null,
+        "due": [],
+        "terminal": "uninstall",
+        "logLength": 6
+      },
+      "ok": true,
+      "reason": null,
+      "events": [
+        {
+          "seq": 4,
+          "type": "action",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "kind": "leave_immediately"
+          },
+          "chain": "8c4c9356"
+        },
+        {
+          "seq": 5,
+          "type": "terminal",
+          "clock": {
+            "day": 1,
+            "label": "day 1 morning"
+          },
+          "payload": {
+            "route": "uninstall"
+          },
+          "chain": "0588bfda"
+        }
+      ],
+      "simulated": []
+    }
+  ]
+}

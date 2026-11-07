@@ -1,7 +1,8 @@
 ---
 id: plan-63
 title: Messages production integration
-status: in-progress
+status: complete
+resolution: "Owner accepted the pinned opt-in schema6 Messages and Ren completion preview on 2026-11-06. Default rollout, ambient chatter, and Plan 66 Uninstall relocation are separate."
 depends_on: [plan-61]
 gate: "Root approves current source ownership and delivery/read/save/replay contract before production writes; owner reviews an early real integrated route and final experience."
 summary: >-

@@ -872,3 +872,9 @@ The owner selects the Plan 62 Duck 1 SVG, with a duck head inside the Q, for the
 **Date:** 2026-11-06
 
 The owner selects in-gacha Uninstall only. Tutorial, recovery and financial obligations use their own progression and ending routes. Uninstall is one ending and is no longer the universal best ending. A balanced run may avoid the app, avoid spending, or play and move on. These are valid directions for ending design, with actual routes still to be audited. Plan 66 owns the narrow presentation and routing change after review. It does not authorize new endings, debt forgiveness, or a replacement global finish control.
+
+### DECISION-096 — Messages integration accepted for opt-in review path
+
+**Date:** 2026-11-06
+
+The owner reviewed the updated Plan63 Messages preview and signed off. Close Plan63 on the pinned schema6 `messages-v2` build with the Ren completion repair (`711a53c6`). Ren's visit and completion use the apartment scene and Decide panel. Messages dismisses from outside the phone and Decide. The global End Run shortcut is removed while existing Receipt routes remain. This acceptance covers the opt-in path. Default rollout, ambient chatter and the separately scoped Plan66 Uninstall move remain outside this closure.
